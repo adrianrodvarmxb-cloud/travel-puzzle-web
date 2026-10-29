@@ -43,8 +43,8 @@ next-env.d.ts
 
 /src/generated/prisma
 
-# data cache
-/data
+# data: countries.json se versiona; tours.json es caché local
+/data/tours.json
 
 # respaldos de base de datos: nunca en el repo
 /backups

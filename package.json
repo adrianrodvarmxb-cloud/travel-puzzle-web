@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "sync:tours": "tsx src/scripts/sync-tours.ts",
-    "fix:country-names": "tsx src/scripts/fix-country-names.ts"
+    "fix:country-names": "tsx src/scripts/fix-country-names.ts",
+    "countries:generate": "tsx src/scripts/generate-countries.ts"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
@@ -38,6 +39,7 @@
     "prisma": "^6.18.0",
     "tailwindcss": "^4",
     "tsx": "^4.19.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
   }
 }
