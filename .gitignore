@@ -1,0 +1,4 @@
+
+# respaldos de base de datos: nunca en el repo
+/backups
+/tmp
