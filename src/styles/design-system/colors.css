@@ -1,0 +1,92 @@
+/* Travel Puzzle Design System - Color Tokens */
+
+:root {
+  /* Primary Blue - Main brand color */
+  --tp-blue-primary: #2563eb;
+  --tp-blue-primary-hover: #1d4ed8;
+  --tp-blue-primary-active: #1e40af;
+  --tp-blue-light: #3b82f6;
+  --tp-blue-dark: #1e3a8a;
+  
+  /* Orange/Coral - CTAs and highlights */
+  --tp-orange-primary: #ff6b3d;
+  --tp-orange-hover: #ff5722;
+  --tp-orange-light: #ff8a65;
+  
+  /* Red - Admin and alerts */
+  --tp-red-primary: #ef4444;
+  --tp-red-hover: #dc2626;
+  
+  /* Purple - Special features */
+  --tp-purple-primary: #a855f7;
+  --tp-purple-hover: #9333ea;
+  
+  /* Green - Success and rewards */
+  --tp-green-primary: #10b981;
+  --tp-green-hover: #059669;
+  
+  /* Gray Scale */
+  --tp-gray-50: #f9fafb;
+  --tp-gray-100: #f3f4f6;
+  --tp-gray-200: #e5e7eb;
+  --tp-gray-300: #d1d5db;
+  --tp-gray-400: #9ca3af;
+  --tp-gray-500: #6b7280;
+  --tp-gray-600: #4b5563;
+  --tp-gray-700: #374151;
+  --tp-gray-800: #1f2937;
+  --tp-gray-900: #111827;
+  
+  /* Background */
+  --tp-bg-primary: #ffffff;
+  --tp-bg-secondary: #f9fafb;
+  --tp-bg-overlay: rgba(255, 255, 255, 0.9);
+  
+  /* Text */
+  --tp-text-primary: #111827;
+  --tp-text-secondary: #6b7280;
+  --tp-text-inverse: #ffffff;
+  
+  /* Buttons */
+  --tp-btn-primary: var(--tp-blue-primary);
+  --tp-btn-primary-hover: var(--tp-blue-primary-hover);
+  --tp-btn-accent: var(--tp-orange-primary);
+  --tp-btn-accent-hover: var(--tp-orange-hover);
+  --tp-btn-danger: var(--tp-red-primary);
+  --tp-btn-danger-hover: var(--tp-red-hover);
+  
+  /* Status */
+  --tp-status-success: var(--tp-green-primary);
+  --tp-status-warning: var(--tp-orange-primary);
+  --tp-status-error: var(--tp-red-primary);
+  --tp-status-info: var(--tp-blue-primary);
+  
+  /* Borders */
+  --tp-border-light: var(--tp-gray-200);
+  --tp-border-medium: var(--tp-gray-300);
+  --tp-border-focus: var(--tp-blue-primary);
+  
+  /* Text Gradients */
+  --tp-gradient-primary: linear-gradient(135deg, #ff6b3d 0%, #a855f7 100%);
+  --tp-gradient-hero: linear-gradient(135deg, #ff8a65 0%, #a855f7 50%, #3b82f6 100%);
+  
+  /* Background Gradients */
+  --tp-gradient-header: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  --tp-gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+}
+
+/* Gradient Text Classes */
+.tp-gradient-text {
+  background: var(--tp-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tp-gradient-hero-text {
+  background: var(--tp-gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+

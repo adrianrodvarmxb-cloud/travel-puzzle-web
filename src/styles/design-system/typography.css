@@ -1,0 +1,135 @@
+/* Travel Puzzle Design System - Typography */
+
+/* Note: Poppins font is imported in globals.css (all @import rules must be at the top) */
+
+:root {
+  /* Font Families */
+  --tp-font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tp-font-fallback: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  
+  /* Font Sizes */
+  --tp-text-xs: 0.75rem;      /* 12px */
+  --tp-text-sm: 0.875rem;     /* 14px */
+  --tp-text-base: 1rem;       /* 16px */
+  --tp-text-lg: 1.125rem;     /* 18px */
+  --tp-text-xl: 1.25rem;      /* 20px */
+  --tp-text-2xl: 1.5rem;      /* 24px */
+  --tp-text-3xl: 1.875rem;    /* 30px */
+  --tp-text-4xl: 2.25rem;     /* 36px */
+  --tp-text-5xl: 3rem;        /* 48px */
+  --tp-text-6xl: 3.75rem;     /* 60px */
+  
+  /* Font Weights */
+  --tp-weight-light: 300;
+  --tp-weight-regular: 400;
+  --tp-weight-medium: 500;
+  --tp-weight-semibold: 600;
+  --tp-weight-bold: 700;
+  
+  /* Line Heights */
+  --tp-leading-tight: 1.25;
+  --tp-leading-normal: 1.5;
+  --tp-leading-relaxed: 1.75;
+}
+
+/* Apply Poppins to body */
+body {
+  font-family: var(--tp-font-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Heading Styles */
+.tp-h1 {
+  font-size: var(--tp-text-5xl);
+  font-weight: var(--tp-weight-bold);
+  line-height: var(--tp-leading-tight);
+  color: var(--tp-text-primary);
+}
+
+.tp-h2 {
+  font-size: var(--tp-text-4xl);
+  font-weight: var(--tp-weight-semibold);
+  line-height: var(--tp-leading-tight);
+  color: var(--tp-text-primary);
+}
+
+.tp-h3 {
+  font-size: var(--tp-text-3xl);
+  font-weight: var(--tp-weight-semibold);
+  line-height: var(--tp-leading-tight);
+  color: var(--tp-text-primary);
+}
+
+.tp-h4 {
+  font-size: var(--tp-text-2xl);
+  font-weight: var(--tp-weight-medium);
+  line-height: var(--tp-leading-tight);
+  color: var(--tp-text-primary);
+}
+
+.tp-h5 {
+  font-size: var(--tp-text-xl);
+  font-weight: var(--tp-weight-medium);
+  line-height: var(--tp-leading-tight);
+  color: var(--tp-text-primary);
+}
+
+.tp-h6 {
+  font-size: var(--tp-text-lg);
+  font-weight: var(--tp-weight-medium);
+  line-height: var(--tp-leading-tight);
+  color: var(--tp-text-primary);
+}
+
+/* Body Text */
+.tp-body {
+  font-size: var(--tp-text-base);
+  font-weight: var(--tp-weight-regular);
+  line-height: var(--tp-leading-normal);
+  color: var(--tp-text-primary);
+}
+
+.tp-body-lg {
+  font-size: var(--tp-text-lg);
+  font-weight: var(--tp-weight-regular);
+  line-height: var(--tp-leading-normal);
+  color: var(--tp-text-primary);
+}
+
+.tp-body-sm {
+  font-size: var(--tp-text-sm);
+  font-weight: var(--tp-weight-regular);
+  line-height: var(--tp-leading-normal);
+  color: var(--tp-text-secondary);
+}
+
+/* Caption */
+.tp-caption {
+  font-size: var(--tp-text-xs);
+  font-weight: var(--tp-weight-regular);
+  line-height: var(--tp-leading-normal);
+  color: var(--tp-text-secondary);
+}
+
+/* Lead Text */
+.tp-lead {
+  font-size: var(--tp-text-xl);
+  font-weight: var(--tp-weight-regular);
+  line-height: var(--tp-leading-relaxed);
+  color: var(--tp-text-primary);
+}
+
+/* Responsive Typography */
+@media (max-width: 640px) {
+  .tp-h1 { font-size: var(--tp-text-3xl); }
+  .tp-h2 { font-size: var(--tp-text-2xl); }
+  .tp-h3 { font-size: var(--tp-text-xl); }
+  .tp-h4 { font-size: var(--tp-text-lg); }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tp-h1 { font-size: var(--tp-text-4xl); }
+  .tp-h2 { font-size: var(--tp-text-3xl); }
+}
+

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Tour por París",
+    "description": "Descubre los monumentos más famosos de París",
+    "location": "París, Francia",
+    "price": 89,
+    "image": "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Safari en Kenia",
+    "description": "Aventura increíble en la sabana africana",
+    "location": "Nairobi, Kenia",
+    "price": 450,
+    "image": "https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg"
+  },
+  {
+    "id": 3,
+    "name": "Tour gastronómico en Tokio",
+    "description": "Explora la mejor comida japonesa",
+    "location": "Tokio, Japón",
+    "price": 120,
+    "image": "https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg"
+  },
+  {
+    "id": 4,
+    "name": "Tour por París",
+    "description": "Descubre los monumentos más famosos de París",
+    "location": "París, Francia",
+    "price": 89,
+    "image": "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg"
+  },
+  {
+    "id": 5,
+    "name": "Safari en Kenia",
+    "description": "Aventura increíble en la sabana africana",
+    "location": "Nairobi, Kenia",
+    "price": 450,
+    "image": "https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg"
+  },
+  {
+    "id": 6,
+    "name": "Tour gastronómico en Tokio",
+    "description": "Explora la mejor comida japonesa",
+    "location": "Tokio, Japón",
+    "price": 120,
+    "image": "https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg"
+  }
+]

@@ -1,0 +1,56 @@
+/* Travel Puzzle Design System - Shadows */
+
+:root {
+  /* Elevation Shadows */
+  --tp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --tp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --tp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --tp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --tp-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Colored Shadows (for floating buttons) */
+  --tp-shadow-blue: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+  --tp-shadow-orange: 0 4px 14px 0 rgba(255, 107, 61, 0.39);
+  --tp-shadow-purple: 0 4px 14px 0 rgba(168, 85, 247, 0.39);
+  --tp-shadow-green: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+  --tp-shadow-red: 0 4px 14px 0 rgba(239, 68, 68, 0.39);
+  
+  /* Inner Shadows */
+  --tp-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Glassmorphism Effect (from mockup cards) */
+  --tp-glass-bg: rgba(255, 255, 255, 0.15);
+  --tp-glass-border: rgba(255, 255, 255, 0.25);
+  --tp-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Glass Card Component */
+.tp-glass-card {
+  background: var(--tp-glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--tp-glass-border);
+  box-shadow: var(--tp-glass-shadow);
+}
+
+/* Utility Classes for Shadows */
+.tp-shadow-blue {
+  box-shadow: var(--tp-shadow-blue);
+}
+
+.tp-shadow-orange {
+  box-shadow: var(--tp-shadow-orange);
+}
+
+.tp-shadow-purple {
+  box-shadow: var(--tp-shadow-purple);
+}
+
+.tp-shadow-green {
+  box-shadow: var(--tp-shadow-green);
+}
+
+.tp-shadow-red {
+  box-shadow: var(--tp-shadow-red);
+}
+

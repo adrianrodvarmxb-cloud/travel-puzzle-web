@@ -1,0 +1,200 @@
+/* Travel Puzzle Design System - Animations */
+
+:root {
+  /* Transition Durations */
+  --tp-duration-fast: 150ms;
+  --tp-duration-normal: 300ms;
+  --tp-duration-slow: 500ms;
+  --tp-duration-slower: 700ms;
+  
+  /* Easing Functions */
+  --tp-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --tp-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --tp-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --tp-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --tp-ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* Smooth Transitions */
+.tp-transition {
+  transition: all var(--tp-duration-normal) var(--tp-ease-in-out);
+}
+
+.tp-transition-fast {
+  transition: all var(--tp-duration-fast) var(--tp-ease-in-out);
+}
+
+.tp-transition-slow {
+  transition: all var(--tp-duration-slow) var(--tp-ease-in-out);
+}
+
+.tp-transition-colors {
+  transition: color var(--tp-duration-normal) var(--tp-ease-in-out),
+              background-color var(--tp-duration-normal) var(--tp-ease-in-out),
+              border-color var(--tp-duration-normal) var(--tp-ease-in-out);
+}
+
+.tp-transition-transform {
+  transition: transform var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+/* Hover Effects */
+.tp-hover-scale {
+  transition: transform var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+.tp-hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.tp-hover-scale-sm:hover {
+  transform: scale(1.02);
+}
+
+.tp-hover-scale-lg:hover {
+  transform: scale(1.1);
+}
+
+.tp-hover-lift {
+  transition: transform var(--tp-duration-normal) var(--tp-ease-out),
+              box-shadow var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+.tp-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--tp-shadow-lg);
+}
+
+/* Float Animation (for floating buttons) */
+@keyframes tp-float {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
+}
+
+.tp-float {
+  animation: tp-float 3s ease-in-out infinite;
+}
+
+/* Fade In Animation */
+@keyframes tp-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tp-fade-in {
+  animation: tp-fade-in var(--tp-duration-normal) var(--tp-ease-in-out);
+}
+
+/* Slide In Animations */
+@keyframes tp-slide-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.tp-slide-in-up {
+  animation: tp-slide-in-up var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+@keyframes tp-slide-in-down {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.tp-slide-in-down {
+  animation: tp-slide-in-down var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+@keyframes tp-slide-in-left {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.tp-slide-in-left {
+  animation: tp-slide-in-left var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+@keyframes tp-slide-in-right {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.tp-slide-in-right {
+  animation: tp-slide-in-right var(--tp-duration-normal) var(--tp-ease-out);
+}
+
+/* Pulse Animation */
+@keyframes tp-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.tp-pulse {
+  animation: tp-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Spin Animation */
+@keyframes tp-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tp-spin {
+  animation: tp-spin 1s linear infinite;
+}
+
+/* Bounce Animation */
+@keyframes tp-bounce {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.tp-bounce {
+  animation: tp-bounce 1s infinite;
+}
+

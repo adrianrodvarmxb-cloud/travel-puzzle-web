@@ -1,0 +1,12 @@
+/* Travel Puzzle Design System - Main Entry Point */
+
+/* Import all design system tokens and utilities */
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './shadows.css';
+@import './borders.css';
+@import './animations.css';
+
+/* Design System is now loaded and ready to use! */
+

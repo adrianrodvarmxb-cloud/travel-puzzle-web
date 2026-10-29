@@ -1,0 +1,43 @@
+{
+  "name": "travel-puzzle",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "sync:tours": "tsx src/scripts/sync-tours.ts",
+    "fix:country-names": "tsx src/scripts/fix-country-names.ts"
+  },
+  "dependencies": {
+    "@heroui/react": "^2.8.5",
+    "@heroui/system": "^2.4.23",
+    "@prisma/client": "^6.18.0",
+    "@tanstack/react-query": "^5.90.5",
+    "bcryptjs": "^3.0.2",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "dotenv": "^17.2.3",
+    "framer-motion": "^12.23.24",
+    "next": "^15.5.6",
+    "next-auth": "^5.0.0-beta.29",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.12",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "lodash": "^4.17.21",
+    "prisma": "^6.18.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.19.0",
+    "typescript": "^5"
+  }
+}

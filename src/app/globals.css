@@ -1,0 +1,210 @@
+/* All @import rules must come first in CSS */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "../styles/design-system/index.css";
+
+/* Box-sizing reset - Applied after imports */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Compatibility with existing code - map to design system tokens */
+  --background: var(--tp-bg-primary);
+  --foreground: var(--tp-text-primary);
+
+  /* Custom Brand Colors - using Travel Puzzle tokens */
+  --primary: var(--tp-blue-primary);
+  --primary-foreground: var(--tp-text-inverse);
+  --secondary: var(--tp-gray-500);
+  --secondary-foreground: var(--tp-text-inverse);
+  --accent: var(--tp-orange-primary);
+  --accent-foreground: var(--tp-text-inverse);
+
+  /* UI Colors */
+  --muted: var(--tp-gray-100);
+  --muted-foreground: var(--tp-gray-500);
+  --border: var(--tp-border-light);
+  --input: var(--tp-border-light);
+  --ring: var(--tp-blue-primary);
+
+  /* Status Colors */
+  --success: var(--tp-green-primary);
+  --warning: var(--tp-orange-primary);
+  --error: var(--tp-red-primary);
+  --info: var(--tp-blue-primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Travel Puzzle Custom Colors */
+  --color-tp-blue-primary: var(--tp-blue-primary);
+  --color-tp-blue-light: var(--tp-blue-light);
+  --color-tp-blue-dark: var(--tp-blue-dark);
+  --color-tp-orange-primary: var(--tp-orange-primary);
+  --color-tp-orange-light: var(--tp-orange-light);
+  --color-tp-purple: var(--tp-purple-primary);
+  --color-tp-green: var(--tp-green-primary);
+  --color-tp-red: var(--tp-red-primary);
+
+  /* Font Family */
+  --font-poppins: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Container customization */
+  --container-padding: 1rem;
+  --container-max-width-sm: 640px;
+  --container-max-width-md: 768px;
+  --container-max-width-lg: 1024px;
+  --container-max-width-xl: 1280px;
+  --container-max-width-2xl: 1536px;
+}
+
+/* Dark mode disabled for now - uncomment to re-enable in the future */
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--tp-gray-900);
+    --foreground: var(--tp-gray-50);
+    --primary: var(--tp-blue-light);
+    --secondary: var(--tp-gray-600);
+    --accent: var(--tp-orange-primary);
+    --muted: var(--tp-gray-800);
+    --muted-foreground: var(--tp-gray-400);
+    --border: var(--tp-gray-700);
+    --input: var(--tp-gray-700);
+  }
+} */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* Use Poppins (Travel Puzzle brand font) with fallback to system fonts */
+  font-family: var(--tp-font-primary);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Vertical Center Utilities */
+  .v-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .v-center-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .v-center-normal {
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+  }
+
+  .v-center-evenly {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .v-center-end {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+
+  /* Field wrapper style - reusable styling for form field components */
+  .field-wrapper-style {
+    display: flex;
+    height: 2.75rem; /* h-11 */
+    width: 100%;
+    border-radius: var(--tp-radius-lg);
+    border: 1px solid var(--tp-border-light);
+    background-color: var(--tp-bg-primary);
+    padding-left: var(--tp-space-4);
+    padding-right: var(--tp-space-4);
+    padding-top: var(--tp-space-2);
+    padding-bottom: var(--tp-space-2);
+    font-size: 1rem; /* text-base */
+    color: var(--tp-text-primary);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .field-wrapper-style:focus-within,
+  .field-wrapper-style:focus-visible {
+    outline: none;
+  }
+
+  .field-wrapper-style:hover {
+    border-color: var(--tp-border-light);
+  }
+
+  .field-wrapper-style::placeholder {
+    color: var(--tp-gray-400);
+  }
+}
+
+/* Custom container styles - removes default padding and increases max-width */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}

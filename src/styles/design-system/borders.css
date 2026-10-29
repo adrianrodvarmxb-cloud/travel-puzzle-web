@@ -1,0 +1,21 @@
+/* Travel Puzzle Design System - Borders */
+
+:root {
+  /* Border Radius */
+  --tp-radius-none: 0;
+  --tp-radius-sm: 0.25rem;   /* 4px */
+  --tp-radius-md: 0.5rem;    /* 8px */
+  --tp-radius-lg: 0.75rem;   /* 12px */
+  --tp-radius-xl: 1rem;      /* 16px */
+  --tp-radius-2xl: 1.5rem;   /* 24px */
+  --tp-radius-3xl: 2rem;     /* 32px */
+  --tp-radius-full: 9999px;  /* Pill shape */
+  
+  /* Border Widths */
+  --tp-border-0: 0;
+  --tp-border-1: 1px;
+  --tp-border-2: 2px;
+  --tp-border-4: 4px;
+  --tp-border-8: 8px;
+}
+
