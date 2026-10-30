@@ -1,0 +1,40 @@
+name: Generar países
+
+# Regenera data/countries.json desde la API de Freetour y abre un PR con el cambio.
+# Requiere los secretos del repo FREETOUR_EMAIL y FREETOUR_PASSWORD.
+on:
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: "Ambiente de Freetour"
+        type: choice
+        options: [production, stage]
+        default: production
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run src/freetour
+      - run: npm run countries:generate
+        env:
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+          FREETOUR_ENV: ${{ inputs.ambiente }}
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/datos-paises
+          commit-message: "chore(datos): regenerar data/countries.json desde Freetour"
+          title: "chore(datos): regenerar lista de países desde Freetour"
+          body: "Generado automáticamente por el workflow **Generar países** (${{ inputs.ambiente }})."
+          add-paths: data/countries.json

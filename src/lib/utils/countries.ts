@@ -1,4 +1,5 @@
-import countriesData from '../../../data/countires.json';
+// Generado con `npm run countries:generate` (src/scripts/generate-countries.ts)
+import countriesData from '../../../data/countries.json';
 import { SupportedLanguage } from '@/types';
 
 interface Country {
