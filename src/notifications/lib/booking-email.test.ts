@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor } from "./booking-email";
+import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, daysUntil, calendarLinks } from "./booking-email";
 
 const data = {
   lang: "es" as const,
@@ -14,7 +14,9 @@ const data = {
   children: 1,
   meetingPoint: "Zócalo, frente a la Catedral",
   manageUrl: "https://travelpuzzle.com.mx/reserva/abc",
-  logoUrl: "https://travelpuzzle.com.mx/brand/logo-animado-tp.gif",
+  logoUrl: "https://travelpuzzle.com.mx/brand/logo-tp-320.png",
+  animatedLogoUrl: "https://travelpuzzle.com.mx/brand/logo-animado-tp.gif",
+  iconsBaseUrl: "https://travelpuzzle.com.mx/brand/social",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=19.43,-99.13",
   heroImageUrl: "https://www.freetour.com/images/tours/6782/hero.jpg",
   galleryUrls: ["https://www.freetour.com/images/tours/6782/a.jpg", "https://www.freetour.com/images/tours/6782/b.jpg"],
@@ -64,10 +66,39 @@ describe("correo de confirmación", () => {
 });
 
 describe("logo y cómo llegar", () => {
-  it("muestra el logo animado en el encabezado con texto alternativo", () => {
+  it("logo fijo arriba y logo animado en el pie", () => {
     const { html } = buildBookingConfirmationEmail(data);
-    expect(html).toContain('src="https://travelpuzzle.com.mx/brand/logo-animado-tp.gif"');
+    const fixed = html.indexOf("logo-tp-320.png"), animated = html.indexOf("logo-animado-tp.gif");
+    expect(fixed).toBeGreaterThan(-1);
+    expect(animated).toBeGreaterThan(fixed);
     expect(html).toContain('alt="Travel Puzzle"');
+  });
+  it("redes con sus íconos oficiales, WhatsApp incluido", () => {
+    const { html } = buildBookingConfirmationEmail(data);
+    expect(html).toContain('src="https://travelpuzzle.com.mx/brand/social/instagram.png"');
+    expect(html).toContain('src="https://travelpuzzle.com.mx/brand/social/facebook.png"');
+    expect(html).toContain('src="https://travelpuzzle.com.mx/brand/social/whatsapp.png"');
+    expect(html).not.toContain("tiktok.png");
+  });
+  it("cuenta regresiva, calificación y agregar al calendario", () => {
+    const { html, text } = buildBookingConfirmationEmail({ ...data, now: new Date("2026-10-28T18:00:00Z"), rating: { value: 4.83, count: 120 } });
+    expect(html).toContain("Faltan 3 días");
+    expect(text).toContain("Faltan 3 días");
+    expect(html).toContain("4.8");
+    expect(html).toContain("120 reseñas");
+    expect(html).toContain("calendar.google.com");
+    expect(html).toContain("outlook.live.com");
+  });
+  it("más planes en la ciudad, solo con foto segura", () => {
+    const moreTours = [
+      { title: "Tour de Coyoacán", url: "https://travelpuzzle.com.mx/tours/a", imageUrl: "https://www.freetour.com/x.jpg", rating: 4.9, isFree: true },
+      { title: "Sin foto segura", url: "https://travelpuzzle.com.mx/tours/b", imageUrl: "http://inseguro.jpg" },
+    ];
+    const { html } = buildBookingConfirmationEmail({ ...data, cityName: "Ciudad de México", moreTours });
+    expect(html).toContain("Más planes en Ciudad de México");
+    expect(html).toContain("Tour de Coyoacán");
+    expect(html).not.toContain("Sin foto segura");
+    expect(buildBookingConfirmationEmail(data).html).not.toContain("Más planes");
   });
   it("incluye el botón Cómo llegar cuando hay mapa, y lo omite si no", () => {
     expect(buildBookingConfirmationEmail(data).html).toContain("Cómo llegar");
@@ -119,6 +150,25 @@ describe("contacto: WhatsApp, redes y asistente", () => {
     const none = buildBookingConfirmationEmail({ ...data, contact: { socials: [] } }).html;
     expect(none).not.toContain("wa.me");
     expect(none).not.toMatch(/asistente/i);
+  });
+});
+
+describe("daysUntil", () => {
+  it("cuenta días de calendario y omite fechas pasadas", () => {
+    const now = new Date("2026-10-30T23:00:00Z");
+    expect(daysUntil("2026-10-30 08:00:00", now)).toBe(0);
+    expect(daysUntil("2026-10-31 08:00:00", now)).toBe(1);
+    expect(daysUntil("2026-10-29 08:00:00", now)).toBeNull();
+    expect(daysUntil(null, now)).toBeNull();
+  });
+});
+
+describe("calendarLinks", () => {
+  it("usa la hora local del tour y la duración", () => {
+    const c = calendarLinks({ title: "Tour", eventDate: "2026-11-02 10:00:00", duration: "2:30", location: "Zócalo", details: "ref" })!;
+    expect(decodeURIComponent(c.google)).toContain("dates=20261102T100000/20261102T123000");
+    expect(decodeURIComponent(c.outlook)).toContain("startdt=2026-11-02T10:00:00");
+    expect(calendarLinks({ title: "x", eventDate: null, duration: null, location: null, details: "" })).toBeNull();
   });
 });
 

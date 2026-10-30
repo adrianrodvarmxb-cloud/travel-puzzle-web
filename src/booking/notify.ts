@@ -9,7 +9,11 @@ export interface TourSummary {
   imageUrl?: string | null;
   galleryUrls?: string[];
   isFree?: boolean;
+  rating?: { value: number; count: number } | null;
+  cityName?: string | null;
 }
+
+export interface MoreTour { title: string; url: string; imageUrl: string; rating?: number | null; isFree?: boolean }
 
 export interface ContactConfig {
   whatsapp?: string;
@@ -25,7 +29,11 @@ interface Deps {
   getTour(tourExternalId: number, lang: EmailLang): Promise<TourSummary | null>;
   /** Reseñas reales (4–5 estrellas) de este tour, ya filtradas. */
   getReviews?(tourExternalId: number, lang: EmailLang): Promise<{ name: string; rate: number; text: string }[]>;
+  /** Hasta 3 tours más en la misma ciudad (con URL completa). */
+  getMoreTours?(tourExternalId: number, lang: EmailLang, siteUrl: string): Promise<MoreTour[]>;
   contact?: ContactConfig;
+  /** Reloj (pruebas). */
+  now?: () => Date;
   send(email: { to: string; subject: string; html: string; text: string }): Promise<string>;
 }
 
@@ -36,6 +44,7 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const reviews = record.tourExternalId && deps.getReviews ? await deps.getReviews(record.tourExternalId, deps.lang).catch(() => []) : [];
+    const moreTours = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
     const email = buildBookingConfirmationEmail({
       lang: deps.lang,
       refNumber: record.refNumber,
@@ -49,7 +58,13 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
       children: record.children,
       meetingPoint: meetingPointText(tour?.meetingPoint, deps.lang),
       manageUrl: `${site}/reserva/${record.manageToken}`,
-      logoUrl: `${site}/brand/logo-animado-tp.gif`,
+      logoUrl: `${site}/brand/logo-tp-320.png`,
+      animatedLogoUrl: `${site}/brand/logo-animado-tp.gif`,
+      iconsBaseUrl: `${site}/brand/social`,
+      now: deps.now?.() ?? new Date(),
+      rating: tour?.rating ?? null,
+      cityName: tour?.cityName ?? null,
+      moreTours,
       mapsUrl: mapsUrlFor(tour?.meetingPoint),
       heroImageUrl: tour?.imageUrl ?? null,
       galleryUrls: tour?.galleryUrls ?? [],

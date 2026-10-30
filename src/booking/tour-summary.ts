@@ -1,6 +1,6 @@
 import type { PrismaClient } from "@prisma/client";
 import type { EmailLang } from "@/notifications/lib/booking-email";
-import type { TourSummary } from "./notify";
+import type { MoreTour, TourSummary } from "./notify";
 
 /** Título, proveedor, duración y punto de encuentro del tour (de nuestro catálogo en D1). */
 export async function getTourSummary(prisma: PrismaClient, tourExternalId: number, lang: EmailLang): Promise<TourSummary | null> {
@@ -8,6 +8,7 @@ export async function getTourSummary(prisma: PrismaClient, tourExternalId: numbe
     where: { externalId: tourExternalId },
     select: {
       providerTitle: true, duration: true, meetingPoint: true, titleImageURL: true, images: true, priceValue: true,
+      rating: true, reviewsNumber: true, city: { select: { translations: true } },
       translations: { select: { language: true, title: true } },
     },
   });
@@ -24,7 +25,34 @@ export async function getTourSummary(prisma: PrismaClient, tourExternalId: numbe
     imageUrl: hero,
     galleryUrls: imgs.filter((u) => u !== hero).slice(0, 2),
     isFree: Number(tour.priceValue) === 0,
+    rating: tour.rating && tour.reviewsNumber > 0 ? { value: Number(tour.rating), count: tour.reviewsNumber } : null,
+    cityName: cityName(tour.city?.translations, lang),
   };
+}
+
+/** Nombre de la ciudad en el idioma pedido (las traducciones vienen como JSON { es, en, … }). */
+export function cityName(translations: unknown, lang: EmailLang): string | null {
+  const o = (translations ?? {}) as Record<string, unknown>;
+  const v = o[lang] ?? o.en;
+  return typeof v === "string" && v.trim() ? v : null;
+}
+
+/** Hasta 3 tours activos más en la misma ciudad, los más reseñados primero. */
+export async function getMoreTours(prisma: PrismaClient, tourExternalId: number, lang: EmailLang, siteUrl: string): Promise<MoreTour[]> {
+  const tour = await prisma.tour.findUnique({ where: { externalId: tourExternalId }, select: { cityId: true } });
+  if (!tour) return [];
+  const others = await prisma.tour.findMany({
+    where: { cityId: tour.cityId, isActive: true, externalId: { not: tourExternalId }, titleImageURL: { startsWith: "https://" } },
+    orderBy: [{ reviewsNumber: "desc" }],
+    take: 3,
+    select: { id: true, titleImageURL: true, rating: true, priceValue: true, translations: { select: { language: true, title: true } } },
+  });
+  const site = siteUrl.replace(/\/+$/, "");
+  return others.flatMap((o) => {
+    const title = o.translations.find((t) => t.language === lang)?.title ?? o.translations.find((t) => t.language === "en")?.title;
+    if (!title || !o.titleImageURL) return [];
+    return [{ title, url: `${site}/tours/${o.id}`, imageUrl: o.titleImageURL, rating: o.rating ? Number(o.rating) : null, isFree: Number(o.priceValue) === 0 }];
+  });
 }
 
 /** Canales de contacto desde la configuración (cada uno es opcional). */

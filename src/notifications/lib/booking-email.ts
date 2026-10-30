@@ -18,8 +18,20 @@ export interface BookingEmailData {
   children: number;
   meetingPoint: string | null;
   manageUrl: string;
-  /** Logo animado (URL pública del sitio). */
+  /** Logo fijo del encabezado (URL pública del sitio). */
   logoUrl: string;
+  /** Logo animado del pie (GIF). */
+  animatedLogoUrl?: string;
+  /** Carpeta pública con los íconos oficiales de redes (instagram.png, …). */
+  iconsBaseUrl?: string;
+  /** Momento de envío, para la cuenta regresiva ("Faltan 3 días"). */
+  now?: Date;
+  /** Calificación del tour en el catálogo. */
+  rating?: { value: number; count: number } | null;
+  /** Ciudad del tour, para "Más planes en …". */
+  cityName?: string | null;
+  /** Hasta 3 tours más en la misma ciudad. */
+  moreTours?: { title: string; url: string; imageUrl: string; rating?: number | null; isFree?: boolean }[];
   /** Google Maps al punto de encuentro, si hay coordenadas. */
   mapsUrl: string | null;
   /** Foto principal del tour (catálogo de Freetour). */
@@ -76,6 +88,12 @@ const T = {
     waText: (ref: string) => `Hola Travel Puzzle, tengo la reserva ${ref} y tengo una duda.`,
     assistant: "Pregúntale a nuestro asistente",
     follow: "Síguenos",
+    countdown: (n: number) => (n === 0 ? "¡Es hoy!" : n === 1 ? "¡Es mañana!" : `Faltan ${n} días`),
+    calendar: "Agrégalo a tu calendario",
+    reviewsCount: (n: number) => `${n} ${n === 1 ? "reseña" : "reseñas"}`,
+    more: (c: string | null) => (c ? `Más planes en ${c}` : "Más planes para tu viaje"),
+    free: "Gratis",
+    see: "Ver tour",
   },
   en: {
     subject: (t: string) => `Your booking is confirmed – ${t}`,
@@ -101,6 +119,12 @@ const T = {
     waText: (ref: string) => `Hi Travel Puzzle, I have booking ${ref} and a question.`,
     assistant: "Ask our assistant",
     follow: "Follow us",
+    countdown: (n: number) => (n === 0 ? "It's today!" : n === 1 ? "It's tomorrow!" : `${n} days to go`),
+    calendar: "Add it to your calendar",
+    reviewsCount: (n: number) => `${n} ${n === 1 ? "review" : "reviews"}`,
+    more: (c: string | null) => (c ? `More things to do in ${c}` : "More ideas for your trip"),
+    free: "Free",
+    see: "See tour",
   },
 };
 
@@ -121,6 +145,39 @@ export function mapsUrlFor(mp: unknown): string | null {
   const q = new URLSearchParams({ api: "1", query: o.coordinates.replace(/\s/g, "") });
   if (typeof o.googlePlaceId === "string" && o.googlePlaceId) q.set("query_place_id", o.googlePlaceId);
   return `https://www.google.com/maps/search/?${q.toString()}`;
+}
+
+/** Días que faltan del día de envío al día del tour (por fecha de calendario). null si ya pasó o no hay fecha. */
+export function daysUntil(eventDate: string | null, now: Date | undefined): number | null {
+  const m = eventDate && now ? /^(\d{4})-(\d{2})-(\d{2})/.exec(eventDate) : null;
+  if (!m || !now) return null;
+  const event = Date.UTC(+m[1], +m[2] - 1, +m[3]);
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const n = Math.round((event - today) / 86_400_000);
+  return n >= 0 ? n : null;
+}
+
+/** "2:00" / "1:30" → minutos (2 h si no se entiende). */
+function durationMinutes(duration: string | null): number {
+  const m = duration ? /^(\d{1,2}):(\d{2})/.exec(duration.trim()) : null;
+  const min = m ? +m[1] * 60 + +m[2] : 0;
+  return min > 0 ? min : 120;
+}
+
+/** Enlaces para agregar el tour a Google Calendar y Outlook (hora local del tour). */
+export function calendarLinks(o: { title: string; eventDate: string | null; duration: string | null; location: string | null; details: string }) {
+  const m = o.eventDate ? /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(o.eventDate) : null;
+  if (!m) return null;
+  const start = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]));
+  const end = new Date(start.getTime() + durationMinutes(o.duration) * 60_000);
+  const iso = (d: Date) => d.toISOString().slice(0, 19); // 2026-11-02T10:00:00 (sin zona: hora local)
+  const compact = (d: Date) => iso(d).replace(/[-:]/g, "");
+  const google = new URLSearchParams({ action: "TEMPLATE", text: o.title, dates: `${compact(start)}/${compact(end)}`, details: o.details, ...(o.location ? { location: o.location } : {}) });
+  const outlook = new URLSearchParams({ path: "/calendar/action/compose", rru: "addevent", subject: o.title, startdt: iso(start), enddt: iso(end), body: o.details, ...(o.location ? { location: o.location } : {}) });
+  return {
+    google: `https://calendar.google.com/calendar/render?${google.toString()}`,
+    outlook: `https://outlook.live.com/calendar/0/deeplink/compose?${outlook.toString()}`,
+  };
 }
 
 /** El punto de encuentro de Freetour llega como texto o por idioma. */
@@ -149,6 +206,16 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const waUrl = wa ? `https://wa.me/${wa}?text=${encodeURIComponent(t.waText(d.refNumber))}` : null;
   const socials = (d.contact?.socials ?? []).filter((x) => /^https:\/\//.test(x.url));
   const assistantUrl = d.contact?.assistantUrl && /^https:\/\//.test(d.contact.assistantUrl) ? d.contact.assistantUrl : null;
+  const days = daysUntil(d.eventDate, d.now);
+  const cal = calendarLinks({ title: d.tourTitle, eventDate: d.eventDate, duration: d.duration, location: d.meetingPoint, details: `${t.ref}: ${d.refNumber}\n${d.manageUrl}` });
+  const rating = d.rating && d.rating.value > 0 && d.rating.count > 0 ? d.rating : null;
+  const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
+  const icons = d.iconsBaseUrl?.replace(/\/+$/, "");
+  const iconLink = (name: string, url: string) =>
+    icons
+      ? `<a href="${esc(url)}" style="display:inline-block;margin:0 6px;text-decoration:none"><img src="${esc(`${icons}/${name.toLowerCase()}.png`)}" width="36" height="36" alt="${esc(name)}" style="display:block;width:36px;height:36px;border:0"></a>`
+      : `<a href="${esc(url)}" style="display:inline-block;color:${B.darkBlue};background:${B.yellow};text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;margin:3px">${esc(name)}</a>`;
+  const footerLinks = [...socials.map((x) => iconLink(x.name, x.url)), ...(waUrl ? [iconLink("WhatsApp", waUrl)] : [])];
 
   const rows: [string, string][] = [
     [t.ref, d.refNumber],
@@ -178,9 +245,10 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
 ${d.heroImageUrl ? `<tr><td><img src="${esc(d.heroImageUrl)}" width="600" alt="${esc(d.tourTitle)}" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : ""}
 
 <tr><td style="background:${B.darkBlue};padding:26px 28px">
-<span style="display:inline-block;background:${B.yellow};color:${B.darkBlue};font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:999px">✓ ${esc(t.badge)}</span>
+<span style="display:inline-block;background:${B.yellow};color:${B.darkBlue};font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:999px">✓ ${esc(t.badge)}</span>${days !== null ? ` <span style="display:inline-block;background:${B.lightBlue};color:#ffffff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:999px">⏳ ${esc(t.countdown(days))}</span>` : ""}
 <h1 style="margin:14px 0 6px;font-size:28px;line-height:1.2;color:#ffffff;font-weight:700">${esc(t.hero)}</h1>
 <p style="margin:0;font-size:16px;color:#DCE6FF">${esc(t.hello(d.firstName))} ${esc(d.tourTitle)}</p>
+${rating ? `<p style="margin:8px 0 0;font-size:14px;color:#ffffff"><span style="color:${B.yellow};letter-spacing:1px">★★★★★</span> <b>${rating.value.toFixed(1)}</b> · ${esc(t.reviewsCount(rating.count))}</p>` : ""}
 </td></tr>
 
 <tr><td style="padding:24px 24px 8px">
@@ -200,6 +268,7 @@ ${rows.filter(([k]) => k !== t.ref).map(([k, v]) => `<tr><td style="color:${B.mu
 <tr><td align="center" style="padding:16px 24px 8px">
 <a href="${esc(d.manageUrl)}" style="display:inline-block;background:${B.yellow};color:${B.darkBlue};text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px">${esc(t.manage)}</a>
 ${d.mapsUrl ? `<div style="margin-top:12px"><a href="${esc(d.mapsUrl)}" style="display:inline-block;border:2px solid ${B.lightBlue};color:${B.lightBlue};text-decoration:none;font-weight:600;font-size:15px;padding:10px 22px;border-radius:999px">📍 ${esc(t.maps)}</a></div>` : ""}
+${cal ? `<div style="margin-top:14px;font-size:13px;color:${B.muted}">📅 ${esc(t.calendar)}:&nbsp; <a href="${esc(cal.google)}" style="color:${B.lightBlue};font-weight:600;text-decoration:none">Google</a> &nbsp;·&nbsp; <a href="${esc(cal.outlook)}" style="color:${B.lightBlue};font-weight:600;text-decoration:none">Outlook</a></div>` : ""}
 <p style="margin:12px 0 0;font-size:12px;color:${B.muted}">${esc(t.manageNote)}</p>
 </td></tr>
 
@@ -225,23 +294,36 @@ ${waUrl ? `<a href="${esc(waUrl)}" style="display:inline-block;background:#25D36
 ${assistantUrl ? `<a href="${esc(assistantUrl)}" style="display:inline-block;background:${B.lightBlue};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;margin:4px">✨ ${esc(t.assistant)}</a>` : ""}
 </div></td></tr>` : ""}
 
+${more.length ? `<tr><td style="padding:0 24px 28px">
+<h2 style="margin:0 0 12px;font-size:18px;color:${B.darkBlue}">${esc(t.more(d.cityName ?? null))}</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${more.map((x) => `<td valign="top" width="${Math.floor(100 / more.length)}%" style="padding:0 5px">
+<a href="${esc(x.url)}" style="text-decoration:none;color:${B.ink}"><img src="${esc(x.imageUrl)}" alt="${esc(x.title)}" width="170" style="display:block;width:100%;height:auto;border-radius:12px;border:0">
+<div style="font-size:13px;font-weight:600;line-height:1.3;margin-top:8px;color:${B.ink}">${esc(x.title)}</div>
+<div style="font-size:12px;margin-top:4px">${x.rating ? `<span style="color:#F5A524">★</span> ${x.rating.toFixed(1)} ` : ""}${x.isFree ? `<span style="background:${B.yellow};color:${B.darkBlue};font-weight:700;padding:2px 8px;border-radius:999px">${esc(t.free)}</span>` : ""}</div>
+<div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:6px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
+</td></tr>` : ""}
+
+<tr><td align="center" style="padding:26px 24px 18px;border-top:1px solid #E5ECFA">
+${d.animatedLogoUrl ? `<img src="${esc(d.animatedLogoUrl)}" width="180" alt="Travel Puzzle · ${esc(t.slogan)}" style="display:block;width:180px;max-width:60%;height:auto;border:0;margin:0 auto">` : `<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:28px;color:${B.lightBlue}">${esc(t.slogan)}</div>`}
+</td></tr>
+
 <tr><td align="center" style="background:${B.darkBlue};padding:22px 24px">
-${socials.length ? `<div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#DCE6FF;margin-bottom:8px">${esc(t.follow)}</div>
-<div style="margin-bottom:14px">${socials.map((x) => `<a href="${esc(x.url)}" style="display:inline-block;color:${B.darkBlue};background:${B.yellow};text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;margin:3px">${esc(x.name)}</a>`).join("")}</div>` : ""}
-<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:26px;color:${B.yellow}">${esc(t.slogan)}</div>
-<div style="font-size:12px;color:#DCE6FF;margin-top:6px">${esc(t.footer)}</div>
+${footerLinks.length ? `<div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#DCE6FF;margin-bottom:12px">${esc(t.follow)}</div>
+<div style="margin-bottom:14px">${footerLinks.join("")}</div>` : ""}
+<div style="font-size:12px;color:#DCE6FF">${esc(t.footer)}</div>
 </td></tr>
 
 </table></td></tr></table></body></html>`;
 
   const text = [
-    t.hero,
+    t.hero + (days !== null ? ` (${t.countdown(days)})` : ""),
     "",
     t.hello(d.firstName),
     t.intro,
     "",
     ...rows.map(([k, v]) => `${k}: ${v}`),
     ...(d.mapsUrl ? [`${t.maps}: ${d.mapsUrl}`] : []),
+    ...(cal ? [`${t.calendar} (Google): ${cal.google}`] : []),
     "",
     `${t.manage}: ${d.manageUrl}`,
     t.manageNote,
@@ -251,6 +333,7 @@ ${socials.length ? `<div style="font-size:12px;letter-spacing:1px;text-transform
     ...t.tips(!!d.isFree).map((x) => `- ${x}`),
     ...(waUrl ? ["", `${t.whatsapp}: ${waUrl}`] : []),
     ...(assistantUrl ? [`${t.assistant}: ${assistantUrl}`] : []),
+    ...(more.length ? ["", t.more(d.cityName ?? null), ...more.map((x) => `- ${x.title}: ${x.url}`)] : []),
     ...(socials.length ? ["", `${t.follow}: ${socials.map((x) => `${x.name} ${x.url}`).join(" · ")}`] : []),
     "",
     `${t.slogan} · ${t.footer}`,
