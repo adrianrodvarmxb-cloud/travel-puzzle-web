@@ -14,8 +14,8 @@ const data = {
   children: 1,
   meetingPoint: "Zócalo, frente a la Catedral",
   manageUrl: "https://travelpuzzle.com.mx/reserva/abc",
-  logoUrl: "https://travelpuzzle.com.mx/brand/logo-tp-320.png",
-  animatedLogoUrl: "https://travelpuzzle.com.mx/brand/logo-animado-tp.gif",
+  logoUrl: "https://travelpuzzle.com.mx/brand/logo-tp-oscuro.png",
+  animatedLogoUrl: "https://travelpuzzle.com.mx/brand/logo-animado-tp-oscuro.gif",
   iconsBaseUrl: "https://travelpuzzle.com.mx/brand/social",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=19.43,-99.13",
   heroImageUrl: "https://www.freetour.com/images/tours/6782/hero.jpg",
@@ -68,7 +68,7 @@ describe("correo de confirmación", () => {
 describe("logo y cómo llegar", () => {
   it("logo fijo arriba y logo animado en el pie", () => {
     const { html } = buildBookingConfirmationEmail(data);
-    const fixed = html.indexOf("logo-tp-320.png"), animated = html.indexOf("logo-animado-tp.gif");
+    const fixed = html.indexOf("logo-tp-oscuro.png"), animated = html.indexOf("logo-animado-tp-oscuro.gif");
     expect(fixed).toBeGreaterThan(-1);
     expect(animated).toBeGreaterThan(fixed);
     expect(html).toContain('alt="Travel Puzzle"');
@@ -88,6 +88,22 @@ describe("logo y cómo llegar", () => {
     expect(html).toContain("120 reseñas");
     expect(html).toContain("calendar.google.com");
     expect(html).toContain("outlook.live.com");
+  });
+  it("encabezado con logo, Mi reserva y Ayuda", () => {
+    const { html } = buildBookingConfirmationEmail(data);
+    expect(html).toContain(">Mi reserva</a>");
+    expect(html).toContain(">Ayuda</a>");
+  });
+  it("pronóstico del clima con consejo y crédito, solo si hay datos", () => {
+    const weather = { kind: "rain" as const, temp: 18, min: 14, max: 21, rainChance: 70 };
+    const { html, text } = buildBookingConfirmationEmail({ ...data, weather });
+    expect(html).toContain("18 °C");
+    expect(html).toContain("· Lluvia");
+    expect(html).toContain("Lluvia 70%");
+    expect(html).toContain("Lleva paraguas o impermeable.");
+    expect(html).toContain("MET Norway");
+    expect(text).toContain("Pronóstico para tu tour");
+    expect(buildBookingConfirmationEmail(data).html).not.toContain("MET Norway");
   });
   it("más planes en la ciudad, solo con foto segura", () => {
     const moreTours = [

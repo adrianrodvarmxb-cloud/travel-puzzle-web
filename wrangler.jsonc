@@ -37,7 +37,9 @@
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
-    "SITE_URL": "https://travel-puzzle-web.adrianrodvarmxb.workers.dev"
+    "SITE_URL": "https://travel-puzzle-web.adrianrodvarmxb.workers.dev",
+    // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)
+    "WHATSAPP_NUMBER": "525536490320"
   },
   "triggers": {
     // Cada minuto. El catálogo arranca a diario a las 3:00 a. m. (CDMX); el resto del tiempo actualiza reseñas.

@@ -8,6 +8,7 @@ import { newManageToken } from '@/booking/lib/token';
 import { getPrisma, getD1 } from '@/lib/prisma';
 import { sendBookingConfirmation } from '@/booking/notify';
 import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
+import { getWeather, coordsOf } from '@/notifications/weather';
 import { createReviewRepo } from '@/reviews/repository';
 import { pickReviews } from '@/reviews/lib/reviews';
 import { sendEmail } from '@/notifications/resend';
@@ -66,6 +67,10 @@ export async function POST(request: NextRequest) {
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
                 getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site),
+                getWeather: async (mp, eventDate) => {
+                    const c = coordsOf(mp);
+                    return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;
+                },
                 getReviews: async (id, l) =>
                     pickReviews(await createReviewRepo(getPrisma(), getD1()).listByTour(id), { lang: l, limit: 2 })
                         .filter((r) => r.content && r.content.length <= 280)

@@ -3,6 +3,8 @@
  * fecha, duración, idioma, personas, número de reserva, punto de encuentro y
  * enlace para cancelar o cambiar. Función pura.
  */
+import type { Weather, WeatherKind } from "@/notifications/weather";
+
 export type EmailLang = "es" | "en";
 
 export interface BookingEmailData {
@@ -20,8 +22,10 @@ export interface BookingEmailData {
   manageUrl: string;
   /** Logo fijo del encabezado (URL pública del sitio). */
   logoUrl: string;
-  /** Logo animado del pie (GIF). */
+  /** Logo animado del pie (GIF sobre azul oscuro). */
   animatedLogoUrl?: string;
+  /** Pronóstico del clima para la hora del tour (MET Norway). */
+  weather?: Weather | null;
   /** Carpeta pública con los íconos oficiales de redes (instagram.png, …). */
   iconsBaseUrl?: string;
   /** Momento de envío, para la cuenta regresiva ("Faltan 3 días"). */
@@ -94,6 +98,15 @@ const T = {
     more: (c: string | null) => (c ? `Más planes en ${c}` : "Más planes para tu viaje"),
     free: "Gratis",
     see: "Ver tour",
+    myBooking: "Mi reserva", helpShort: "Ayuda",
+    statusOk: "Confirmada", detailsTitle: "Detalles de tu reserva",
+    secDetails: "Tu reserva", secReviews: "Reseñas", secTips: "Checklist", secHelp: "Soporte", secMore: "Explora",
+    weatherTitle: "Pronóstico para tu tour",
+    weatherRange: (min: number, max: number) => `Mín ${min}° · Máx ${max}°`,
+    rainChance: (n: number) => `Lluvia ${n}%`,
+    weatherCredit: "Pronóstico: MET Norway",
+    sky: { sun: "Soleado", partly: "Parcialmente nublado", cloud: "Nublado", rain: "Lluvia", storm: "Tormenta", snow: "Nieve", fog: "Niebla" } as Record<WeatherKind, string>,
+    skyTip: { sun: "Lleva bloqueador, lentes de sol y agua.", partly: "Lleva bloqueador y agua.", cloud: "Lleva un suéter ligero por si refresca.", rain: "Lleva paraguas o impermeable.", storm: "Lleva impermeable y revisa el clima antes de salir.", snow: "Abrígate bien y usa calzado cómodo.", fog: "Abrígate: por la mañana puede refrescar." } as Record<WeatherKind, string>,
   },
   en: {
     subject: (t: string) => `Your booking is confirmed – ${t}`,
@@ -125,6 +138,15 @@ const T = {
     more: (c: string | null) => (c ? `More things to do in ${c}` : "More ideas for your trip"),
     free: "Free",
     see: "See tour",
+    myBooking: "My booking", helpShort: "Help",
+    statusOk: "Confirmed", detailsTitle: "Your booking details",
+    secDetails: "Your booking", secReviews: "Reviews", secTips: "Checklist", secHelp: "Support", secMore: "Explore",
+    weatherTitle: "Forecast for your tour",
+    weatherRange: (min: number, max: number) => `Low ${min}° · High ${max}°`,
+    rainChance: (n: number) => `Rain ${n}%`,
+    weatherCredit: "Forecast: MET Norway",
+    sky: { sun: "Sunny", partly: "Partly cloudy", cloud: "Cloudy", rain: "Rain", storm: "Thunderstorm", snow: "Snow", fog: "Fog" } as Record<WeatherKind, string>,
+    skyTip: { sun: "Bring sunscreen, sunglasses and water.", partly: "Bring sunscreen and water.", cloud: "Bring a light sweater in case it gets cool.", rain: "Bring an umbrella or raincoat.", storm: "Bring a raincoat and check the weather before you go.", snow: "Dress warmly and wear comfy shoes.", fog: "Dress warmly: mornings can be chilly." } as Record<WeatherKind, string>,
   },
 };
 
@@ -213,8 +235,10 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const icons = d.iconsBaseUrl?.replace(/\/+$/, "");
   const iconLink = (name: string, url: string) =>
     icons
-      ? `<a href="${esc(url)}" style="display:inline-block;margin:0 6px;text-decoration:none"><img src="${esc(`${icons}/${name.toLowerCase()}.png`)}" width="36" height="36" alt="${esc(name)}" style="display:block;width:36px;height:36px;border:0"></a>`
+      ? `<a href="${esc(url)}" style="display:inline-block;margin:0 0 0 8px;text-decoration:none"><img src="${esc(`${icons}/${name.toLowerCase()}.png`)}" width="36" height="36" alt="${esc(name)}" style="display:block;width:36px;height:36px;border:0"></a>`
       : `<a href="${esc(url)}" style="display:inline-block;color:${B.darkBlue};background:${B.yellow};text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;margin:3px">${esc(name)}</a>`;
+  const SKY: Record<WeatherKind, string> = { sun: "☀️", partly: "⛅", cloud: "☁️", rain: "🌧️", storm: "⛈️", snow: "❄️", fog: "🌫️" };
+  const w = d.weather ?? null;
   const footerLinks = [...socials.map((x) => iconLink(x.name, x.url)), ...(waUrl ? [iconLink("WhatsApp", waUrl)] : [])];
 
   const rows: [string, string][] = [
@@ -229,88 +253,124 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   ];
   const subject = t.subject(d.tourTitle);
 
-  const cell = (label: string, value: string) =>
-    `<td valign="top" style="padding:10px 12px;width:33%"><div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:${B.muted}">${esc(label)}</div><div style="font-size:15px;font-weight:600;color:${B.darkBlue};margin-top:2px">${esc(value)}</div></td>`;
+  const N9 = "#0A1330", N8 = "#14214D", LINE = "#E6EBF5", SOFT = "#F4F7FD", DIM = "#9AAEE0";
+  const mono = "'JetBrains Mono','SFMono-Regular',Menlo,Consolas,'Courier New',monospace";
+  let sec = 0;
+  const eyebrow = (label: string, color: string = B.lightBlue) =>
+    `<div style="font-family:${mono};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${color};margin:0 0 6px">${String(++sec).padStart(2, "0")} — ${esc(label)}</div>`;
+  const h2 = (x: string, color: string = N9) => `<h2 style="margin:0 0 16px;font-size:21px;line-height:1.25;font-weight:700;color:${color};letter-spacing:-0.3px">${esc(x)}</h2>`;
+  const ghost = (href: string, label: string) =>
+    `<a href="${esc(href)}" style="display:inline-block;border:1px solid ${LINE};background:#ffffff;color:${N9};text-decoration:none;font-weight:600;font-size:13px;padding:10px 16px;border-radius:10px;margin:4px">${label}</a>`;
+  const passCell = (label: string, value: string) =>
+    `<td valign="top" style="padding:14px 16px 16px;width:33%"><div style="font-family:${mono};font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${DIM}">${esc(label)}</div><div style="font-size:14px;font-weight:600;color:#ffffff;margin-top:4px;line-height:1.35">${esc(value)}</div></td>`;
 
   const html = `<!doctype html><html lang="${d.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <title>${esc(subject)}</title></head>
-<body style="margin:0;padding:0;background:${B.bg};font-family:${font};color:${B.ink}">
+<body style="margin:0;padding:0;background:${N9};font-family:${font};color:${N9};-webkit-font-smoothing:antialiased">
 <div style="display:none;max-height:0;overflow:hidden">${esc(t.badge)} · ${esc(d.tourTitle)} · ${esc(d.refNumber)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${B.bg}"><tr><td align="center" style="padding:24px 12px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9}"><tr><td align="center" style="padding:20px 10px 28px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:20px;overflow:hidden">
 
-<tr><td align="center" style="padding:20px 24px 12px"><img src="${esc(d.logoUrl)}" width="150" alt="Travel Puzzle" style="display:block;width:150px;max-width:50%;height:auto;border:0"></td></tr>
-
-${d.heroImageUrl ? `<tr><td><img src="${esc(d.heroImageUrl)}" width="600" alt="${esc(d.tourTitle)}" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : ""}
-
-<tr><td style="background:${B.darkBlue};padding:26px 28px">
-<span style="display:inline-block;background:${B.yellow};color:${B.darkBlue};font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:999px">✓ ${esc(t.badge)}</span>${days !== null ? ` <span style="display:inline-block;background:${B.lightBlue};color:#ffffff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:999px">⏳ ${esc(t.countdown(days))}</span>` : ""}
-<h1 style="margin:14px 0 6px;font-size:28px;line-height:1.2;color:#ffffff;font-weight:700">${esc(t.hero)}</h1>
-<p style="margin:0;font-size:16px;color:#DCE6FF">${esc(t.hello(d.firstName))} ${esc(d.tourTitle)}</p>
-${rating ? `<p style="margin:8px 0 0;font-size:14px;color:#ffffff"><span style="color:${B.yellow};letter-spacing:1px">★★★★★</span> <b>${rating.value.toFixed(1)}</b> · ${esc(t.reviewsCount(rating.count))}</p>` : ""}
+<tr><td style="font-size:0;line-height:0;height:3px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td height="3" width="60%" style="background:${B.lightBlue}"></td><td height="3" width="25%" style="background:${B.yellow}"></td><td height="3" width="15%" style="background:${B.red}"></td></tr></table></td></tr>
+<tr><td style="background:${N9};padding:14px 22px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+<td align="left" valign="middle"><img src="${esc(d.logoUrl)}" width="104" alt="Travel Puzzle" style="display:block;width:104px;height:auto;border:0"></td>
+<td align="right" valign="middle" style="font-family:${mono};font-size:11px;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap"><a href="${esc(d.manageUrl)}" style="color:#ffffff;text-decoration:none">${esc(t.myBooking)}</a>${waUrl ? `<span style="color:#34467F">&nbsp;&nbsp;/&nbsp;&nbsp;</span><a href="${esc(waUrl)}" style="color:#ffffff;text-decoration:none">${esc(t.helpShort)}</a>` : ""}</td>
+</tr></table>
 </td></tr>
 
-<tr><td style="padding:24px 24px 8px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:2px dashed ${B.lightBlue};border-radius:14px">
-<tr><td colspan="3" style="padding:14px 12px 4px"><div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:${B.muted}">${esc(t.ref)}</div>
-<div style="font-size:22px;font-weight:700;color:${B.darkBlue};font-family:'Courier New',monospace;letter-spacing:1px">${esc(d.refNumber)}</div></td></tr>
-<tr>${cell(t.when, when ?? "—")}${cell(t.who, people)}${cell(t.lang, tourLang ?? "—")}</tr>
+${d.heroImageUrl ? `<tr><td style="background:${N9}"><img src="${esc(d.heroImageUrl)}" width="600" alt="${esc(d.tourTitle)}" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : ""}
+
+<tr><td style="background:${N9};background-image:linear-gradient(160deg,${N9} 0%,${N8} 55%,${B.darkBlue} 100%);padding:26px 26px 30px">
+<div style="font-family:${mono};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7CE3A1"><span style="color:#3DDC84">●</span>&nbsp; ${esc(t.badge)}${days !== null ? `<span style="color:#34467F">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span style="color:${B.yellow}">${esc(t.countdown(days))}</span>` : ""}</div>
+<h1 style="margin:14px 0 8px;font-size:32px;line-height:1.15;color:#ffffff;font-weight:700;letter-spacing:-0.6px">${esc(t.hero)}</h1>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#C9D6F5">${esc(t.hello(d.firstName))} <span style="color:#ffffff;font-weight:600">${esc(d.tourTitle)}</span></p>
+${rating ? `<p style="margin:12px 0 0;font-size:13px;color:#C9D6F5"><span style="color:${B.yellow};letter-spacing:2px">★★★★★</span>&nbsp; <span style="font-family:${mono};color:#ffffff;font-weight:700">${rating.value.toFixed(1)}</span> · ${esc(t.reviewsCount(rating.count))}</p>` : ""}
+</td></tr>
+
+<tr><td style="padding:24px 22px 6px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px;border:1px solid #22336B">
+<tr><td colspan="3" style="padding:16px 16px 14px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+<td style="font-family:${mono};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${DIM}">${esc(t.ref)}</td>
+<td align="right" style="font-family:${mono};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7CE3A1">● ${esc(t.statusOk)}</td>
+</tr></table>
+<div style="font-family:${mono};font-size:22px;font-weight:700;color:#ffffff;letter-spacing:1.5px;margin-top:6px;word-break:break-all">${esc(d.refNumber)}</div>
+</td></tr>
+<tr><td colspan="3" style="padding:0 16px"><div style="border-top:1px dashed #34467F;height:0;line-height:0;font-size:0">&nbsp;</div></td></tr>
+<tr>${passCell(t.when, when ?? "—")}${passCell(t.who, people)}${passCell(t.lang, tourLang ?? "—")}</tr>
 </table>
 </td></tr>
 
-<tr><td style="padding:8px 24px">
-<table role="presentation" width="100%" cellpadding="6" cellspacing="0" style="font-size:14px">
-${rows.filter(([k]) => k !== t.ref).map(([k, v]) => `<tr><td style="color:${B.muted};width:38%;vertical-align:top">${esc(k)}</td><td style="font-weight:600;color:${B.ink}">${esc(v)}</td></tr>`).join("\n")}
-</table>
-</td></tr>
-
-<tr><td align="center" style="padding:16px 24px 8px">
-<a href="${esc(d.manageUrl)}" style="display:inline-block;background:${B.yellow};color:${B.darkBlue};text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px">${esc(t.manage)}</a>
-${d.mapsUrl ? `<div style="margin-top:12px"><a href="${esc(d.mapsUrl)}" style="display:inline-block;border:2px solid ${B.lightBlue};color:${B.lightBlue};text-decoration:none;font-weight:600;font-size:15px;padding:10px 22px;border-radius:999px">📍 ${esc(t.maps)}</a></div>` : ""}
-${cal ? `<div style="margin-top:14px;font-size:13px;color:${B.muted}">📅 ${esc(t.calendar)}:&nbsp; <a href="${esc(cal.google)}" style="color:${B.lightBlue};font-weight:600;text-decoration:none">Google</a> &nbsp;·&nbsp; <a href="${esc(cal.outlook)}" style="color:${B.lightBlue};font-weight:600;text-decoration:none">Outlook</a></div>` : ""}
-<p style="margin:12px 0 0;font-size:12px;color:${B.muted}">${esc(t.manageNote)}</p>
-</td></tr>
-
-${gallery.length ? `<tr><td style="padding:16px 18px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${gallery.map((u) => `<td style="padding:0 6px" width="${Math.floor(100 / gallery.length)}%"><img src="${esc(u)}" alt="${esc(d.tourTitle)}" width="270" style="display:block;width:100%;height:auto;border-radius:12px;border:0"></td>`).join("")}</tr></table></td></tr>` : ""}
-
-${reviews.length ? `<tr><td style="padding:24px 24px 0">
-<h2 style="margin:0 0 12px;font-size:18px;color:${B.darkBlue}">${esc(t.reviewsTitle)}</h2>
-${reviews.map((r) => `<div style="background:${B.bg};border-left:4px solid ${B.lightBlue};border-radius:10px;padding:12px 14px;margin-bottom:10px">
-<div style="color:#F5A524;font-size:15px;letter-spacing:1px">${stars(r.rate)}</div>
-<div style="font-size:14px;color:${B.ink};margin:4px 0">“${esc(r.text)}”</div>
-<div style="font-size:12px;color:${B.muted}">— ${esc(r.name)}</div></div>`).join("\n")}
+${w ? `<tr><td style="padding:12px 22px 6px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${SOFT};border:1px solid ${LINE};border-radius:16px"><tr>
+<td width="64" align="center" valign="middle" style="padding:16px 0 16px 16px;font-size:38px;line-height:1">${SKY[w.kind]}</td>
+<td valign="middle" style="padding:16px">
+<div style="font-family:${mono};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${B.lightBlue}">${esc(t.weatherTitle)}</div>
+<div style="margin-top:4px;color:${N9}"><span style="font-size:30px;font-weight:300;letter-spacing:-1px">${w.temp} °C</span> <span style="font-size:15px;font-weight:600">· ${esc(t.sky[w.kind])}</span></div>
+<div style="font-family:${mono};font-size:11px;color:${B.muted};margin-top:2px">${esc(t.weatherRange(w.min, w.max))}${w.rainChance !== null ? ` · ${esc(t.rainChance(w.rainChance))}` : ""}</div>
+<div style="font-size:13px;margin-top:8px;color:${B.darkBlue};font-weight:600">→ ${esc(t.skyTip[w.kind])}</div>
+</td></tr></table>
 </td></tr>` : ""}
 
-<tr><td style="padding:20px 24px 28px">
-<h2 style="margin:0 0 8px;font-size:18px;color:${B.darkBlue}">${esc(t.tipsTitle)}</h2>
-<ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.6;color:${B.ink}">${t.tips(!!d.isFree).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+<tr><td style="padding:26px 26px 4px">
+${eyebrow(t.secDetails)}${h2(t.detailsTitle)}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px">
+${rows.filter(([k]) => k !== t.ref).map(([k, v]) => `<tr><td style="padding:11px 0;border-bottom:1px solid ${LINE};font-family:${mono};font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${B.muted};width:38%;vertical-align:top">${esc(k)}</td><td style="padding:11px 0;border-bottom:1px solid ${LINE};font-weight:600;color:${N9}">${esc(v)}</td></tr>`).join("\n")}
+</table>
 </td></tr>
 
-${waUrl || assistantUrl ? `<tr><td align="center" style="padding:0 24px 28px">
-<div style="background:${B.bg};border-radius:14px;padding:18px 16px">
-<div style="font-size:16px;font-weight:700;color:${B.darkBlue};margin-bottom:12px">${esc(t.help)}</div>
-${waUrl ? `<a href="${esc(waUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;margin:4px">💬 ${esc(t.whatsapp)}</a>` : ""}
-${assistantUrl ? `<a href="${esc(assistantUrl)}" style="display:inline-block;background:${B.lightBlue};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;margin:4px">✨ ${esc(t.assistant)}</a>` : ""}
-</div></td></tr>` : ""}
+<tr><td align="center" style="padding:24px 26px 6px">
+<a href="${esc(d.manageUrl)}" style="display:block;background:${B.yellow};color:${N9};text-decoration:none;font-weight:700;font-size:16px;padding:16px 20px;border-radius:12px;text-align:center">${esc(t.manage)} &nbsp;→</a>
+<div style="margin-top:10px">${d.mapsUrl ? ghost(d.mapsUrl, `${esc(t.maps)} ↗`) : ""}${cal ? ghost(cal.google, "Google Calendar +") + ghost(cal.outlook, "Outlook +") : ""}</div>
+${cal ? `<div style="font-family:${mono};font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${B.muted};margin-top:6px">${esc(t.calendar)}</div>` : ""}
+<p style="margin:14px 0 0;font-size:12px;line-height:1.5;color:${B.muted}">${esc(t.manageNote)}</p>
+</td></tr>
 
-${more.length ? `<tr><td style="padding:0 24px 28px">
-<h2 style="margin:0 0 12px;font-size:18px;color:${B.darkBlue}">${esc(t.more(d.cityName ?? null))}</h2>
+${gallery.length ? `<tr><td style="padding:22px 20px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${gallery.map((u) => `<td style="padding:0 6px" width="${Math.floor(100 / gallery.length)}%"><img src="${esc(u)}" alt="${esc(d.tourTitle)}" width="270" style="display:block;width:100%;height:auto;border-radius:14px;border:0"></td>`).join("")}</tr></table></td></tr>` : ""}
+
+${reviews.length ? `<tr><td style="padding:30px 26px 0">
+${eyebrow(t.secReviews)}${h2(t.reviewsTitle)}
+${reviews.map((r) => `<div style="border:1px solid ${LINE};border-radius:14px;padding:16px 18px;margin-bottom:10px">
+<div style="color:#F5B301;font-size:14px;letter-spacing:2px">${stars(r.rate)}</div>
+<div style="font-size:15px;line-height:1.5;color:${N9};margin:6px 0 8px">“${esc(r.text)}”</div>
+<div style="font-family:${mono};font-size:11px;letter-spacing:1px;color:${B.muted}">— ${esc(r.name)}</div></div>`).join("\n")}
+</td></tr>` : ""}
+
+<tr><td style="padding:30px 26px 0">
+${eyebrow(t.secTips)}${h2(t.tipsTitle)}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${t.tips(!!d.isFree).map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
+</td></tr>
+
+${waUrl || assistantUrl ? `<tr><td style="padding:22px 22px 0">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px"><tr><td align="center" style="padding:24px 18px">
+${eyebrow(t.secHelp, DIM)}${h2(t.help, "#ffffff")}
+${waUrl ? `<a href="${esc(waUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 20px;border-radius:10px;margin:4px">${esc(t.whatsapp)}</a>` : ""}
+${assistantUrl ? `<a href="${esc(assistantUrl)}" style="display:inline-block;border:1px solid ${B.lightBlue};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:10px;margin:4px">✦ ${esc(t.assistant)}</a>` : ""}
+</td></tr></table>
+</td></tr>` : ""}
+
+${more.length ? `<tr><td style="padding:30px 26px 0">
+${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${more.map((x) => `<td valign="top" width="${Math.floor(100 / more.length)}%" style="padding:0 5px">
-<a href="${esc(x.url)}" style="text-decoration:none;color:${B.ink}"><img src="${esc(x.imageUrl)}" alt="${esc(x.title)}" width="170" style="display:block;width:100%;height:auto;border-radius:12px;border:0">
-<div style="font-size:13px;font-weight:600;line-height:1.3;margin-top:8px;color:${B.ink}">${esc(x.title)}</div>
-<div style="font-size:12px;margin-top:4px">${x.rating ? `<span style="color:#F5A524">★</span> ${x.rating.toFixed(1)} ` : ""}${x.isFree ? `<span style="background:${B.yellow};color:${B.darkBlue};font-weight:700;padding:2px 8px;border-radius:999px">${esc(t.free)}</span>` : ""}</div>
-<div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:6px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
+<a href="${esc(x.url)}" style="text-decoration:none;color:${N9}"><img src="${esc(x.imageUrl)}" alt="${esc(x.title)}" width="170" style="display:block;width:100%;height:auto;border-radius:12px;border:0">
+<div style="font-size:13px;font-weight:600;line-height:1.3;margin-top:10px;color:${N9}">${esc(x.title)}</div>
+<div style="font-family:${mono};font-size:11px;margin-top:6px;color:${B.muted}">${x.rating ? `<span style="color:#F5B301">★</span> ${x.rating.toFixed(1)}&nbsp; ` : ""}${x.isFree ? `<span style="border:1px solid ${B.lightBlue};color:${B.lightBlue};font-weight:700;padding:1px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:1px;font-size:10px">${esc(t.free)}</span>` : ""}</div>
+<div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:8px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
 </td></tr>` : ""}
 
-<tr><td align="center" style="padding:26px 24px 18px;border-top:1px solid #E5ECFA">
-${d.animatedLogoUrl ? `<img src="${esc(d.animatedLogoUrl)}" width="180" alt="Travel Puzzle · ${esc(t.slogan)}" style="display:block;width:180px;max-width:60%;height:auto;border:0;margin:0 auto">` : `<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:28px;color:${B.lightBlue}">${esc(t.slogan)}</div>`}
-</td></tr>
-
-<tr><td align="center" style="background:${B.darkBlue};padding:22px 24px">
-${footerLinks.length ? `<div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#DCE6FF;margin-bottom:12px">${esc(t.follow)}</div>
-<div style="margin-bottom:14px">${footerLinks.join("")}</div>` : ""}
-<div style="font-size:12px;color:#DCE6FF">${esc(t.footer)}</div>
+<tr><td style="padding:30px 0 0;font-size:0;line-height:0">&nbsp;</td></tr>
+<tr><td style="background:${N9};padding:20px 22px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+<td align="left" valign="middle" width="120">${d.animatedLogoUrl ? `<img src="${esc(d.animatedLogoUrl)}" width="110" alt="Travel Puzzle · ${esc(t.slogan)}" style="display:block;width:110px;height:auto;border:0">` : `<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:24px;color:${B.yellow}">${esc(t.slogan)}</div>`}</td>
+<td align="right" valign="middle">
+${footerLinks.length ? `<div style="font-family:${mono};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${DIM};margin-bottom:10px">${esc(t.follow)}</div>
+<div style="margin-bottom:12px">${footerLinks.join("")}</div>` : ""}
+<div style="font-size:12px;color:#C9D6F5">${esc(t.footer)}</div>
+${w ? `<div style="font-family:${mono};font-size:10px;color:#5F73AD;margin-top:4px">${esc(t.weatherCredit)}</div>` : ""}
+</td></tr></table>
 </td></tr>
 
 </table></td></tr></table></body></html>`;
@@ -324,6 +384,7 @@ ${footerLinks.length ? `<div style="font-size:12px;letter-spacing:1px;text-trans
     ...rows.map(([k, v]) => `${k}: ${v}`),
     ...(d.mapsUrl ? [`${t.maps}: ${d.mapsUrl}`] : []),
     ...(cal ? [`${t.calendar} (Google): ${cal.google}`] : []),
+    ...(w ? [`${t.weatherTitle}: ${w.temp} °C, ${t.sky[w.kind]} (${t.weatherRange(w.min, w.max)}). ${t.skyTip[w.kind]}`] : []),
     "",
     `${t.manage}: ${d.manageUrl}`,
     t.manageNote,
