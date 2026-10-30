@@ -13,6 +13,8 @@ interface EventDetailClientProps {
     language: string;
     date: string;
     time: string;
+    /** Interruptor BOOKINGS_ENABLED (lo decide el servidor). */
+    bookingsEnabled: boolean;
 }
 
 export function EventDetailClient({
@@ -21,6 +23,7 @@ export function EventDetailClient({
     language: eventLanguage,
     date: eventDate,
     time: eventTime,
+    bookingsEnabled,
 }: EventDetailClientProps) {
     // Get current language from context
     const { t } = useLanguage();
@@ -51,6 +54,7 @@ export function EventDetailClient({
                         languageFlag={languageFlag}
                         date={eventDate}
                         time={eventTime}
+                        bookingsEnabled={bookingsEnabled}
                     />
                 )}
             </div>

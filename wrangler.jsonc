@@ -29,7 +29,9 @@
     // Auth.js fuera de Vercel necesita confiar en el host del Worker
     "AUTH_TRUST_HOST": "true",
     // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
-    "GATEWAY_URL": "https://pasarela.travelpuzzle.com.mx"
+    "GATEWAY_URL": "https://pasarela.travelpuzzle.com.mx",
+    // Interruptor de reservas reales. "true" solo con OK, después de probar en producción.
+    "BOOKINGS_ENABLED": "false"
   },
   "triggers": {
     // Cada minuto. El catálogo arranca a diario a las 3:00 a. m. (CDMX); el resto del tiempo actualiza reseñas.
