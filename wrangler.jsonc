@@ -27,7 +27,9 @@
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
     "FREETOUR_ENV": "production",
     // Auth.js fuera de Vercel necesita confiar en el host del Worker
-    "AUTH_TRUST_HOST": "true"
+    "AUTH_TRUST_HOST": "true",
+    // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
+    "GATEWAY_URL": "https://pasarela.travelpuzzle.com.mx"
   },
   "triggers": {
     // Cada minuto. El catálogo arranca a diario a las 3:00 a. m. (CDMX); el resto del tiempo actualiza reseñas.
