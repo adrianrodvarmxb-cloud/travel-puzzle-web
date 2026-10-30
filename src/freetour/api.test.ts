@@ -29,7 +29,7 @@ describe("createFreetourApi", () => {
     await api.get("/countries");
     const logins = fetchImpl.mock.calls.filter((c) => String(c[0]).endsWith("/login"));
     expect(logins).toHaveLength(1);
-    const headers = (fetchImpl.mock.calls[1][1] as RequestInit).headers as Record<string, string>;
+    const headers = ((fetchImpl.mock.calls[1] as unknown[])[1] as RequestInit).headers as Record<string, string>;
     expect(headers.Authorization).toBe("Bearer tok");
   });
 
