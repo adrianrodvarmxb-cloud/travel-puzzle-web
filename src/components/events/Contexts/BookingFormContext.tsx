@@ -6,6 +6,7 @@ import { buildFTBookingDTO, FTBookingErrorsMap, FTBookingHandlers } from '@/lib/
 import { useFormBuilder } from '@/lib/utils/forms';
 import { IzFTBookingDTO } from '@/lib/api/schemas/FTBooking.Schema';
 import { StateAction } from '@/globals';
+import type { Booking } from '@/booking/gateway-client';
 
 interface BookingFormContextValue {
     form: IzFTBookingDTO;
@@ -20,6 +21,10 @@ interface BookingFormContextValue {
     isSubmitting: boolean;
     submitError: string | null;
     isReady: boolean;
+    /** Interruptor BOOKINGS_ENABLED. */
+    bookingsEnabled: boolean;
+    /** Reserva confirmada por Freetour (cuando ya se reservó). */
+    booking: Booking | null;
 }
 
 const BookingFormContext = createContext<BookingFormContextValue | undefined>(undefined);
@@ -27,9 +32,10 @@ const BookingFormContext = createContext<BookingFormContextValue | undefined>(un
 interface BookingFormProviderProps {
     children: ReactNode;
     eventId: string;
+    bookingsEnabled: boolean;
 }
 
-export function BookingFormProvider({ children, eventId }: BookingFormProviderProps) {
+export function BookingFormProvider({ children, eventId, bookingsEnabled }: BookingFormProviderProps) {
     const { data: session } = useSession();
     const builderService = buildFTBookingDTO();
     const {
@@ -46,6 +52,7 @@ export function BookingFormProvider({ children, eventId }: BookingFormProviderPr
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [booking, setBooking] = useState<Booking | null>(null);
 
     // Auto-fill form with authenticated user's data
     useEffect(() => {
@@ -76,7 +83,7 @@ export function BookingFormProvider({ children, eventId }: BookingFormProviderPr
 
         // Validate form
         if (!isFormValid()) {
-            setSubmitError('Please fix the form errors before submitting');
+            setSubmitError('Revisa los datos del formulario antes de confirmar.');
             return;
         }
 
@@ -94,14 +101,12 @@ export function BookingFormProvider({ children, eventId }: BookingFormProviderPr
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.error || 'Failed to submit booking');
+                throw new Error(result.message || 'No pudimos confirmar tu reserva. Intenta de nuevo.');
             }
 
-            // Booking successful - you can handle success here
-            console.log('Booking submitted successfully:', result);
+            setBooking(result.booking);
         } catch (error) {
-            console.error('Booking submission error:', error);
-            setSubmitError(error instanceof Error ? error.message : 'Failed to submit booking');
+            setSubmitError(error instanceof Error ? error.message : 'No pudimos confirmar tu reserva. Intenta de nuevo.');
         } finally {
             setIsSubmitting(false);
         }
@@ -120,6 +125,8 @@ export function BookingFormProvider({ children, eventId }: BookingFormProviderPr
         isSubmitting,
         submitError,
         isReady,
+        bookingsEnabled,
+        booking,
     };
 
     return (

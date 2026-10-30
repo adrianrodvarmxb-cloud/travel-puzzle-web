@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Accordion, AccordionItem } from '@heroui/react';
 import { useEventDetailFTData } from '@/lib/api/hooks';
 import { EventBookingForm } from './EventBookingForm';
-import { EventBookingPayment } from './EventBookingPayment';
+import { EventBookingConfirm } from './EventBookingConfirm';
 import { BookingFormProvider } from './Contexts';
 
 interface EventDetailData {
@@ -24,6 +24,7 @@ interface EventBookingFormClientProps {
     languageFlag: string;
     date: string;
     time: string;
+    bookingsEnabled: boolean;
 }
 
 export function EventBookingFormClient({
@@ -33,6 +34,7 @@ export function EventBookingFormClient({
     languageFlag,
     date,
     time,
+    bookingsEnabled,
 }: EventBookingFormClientProps) {
     const { data: eventDetailFTData, isLoading, error } = useEventDetailFTData(eventId);
     const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(['1']));
@@ -56,7 +58,7 @@ export function EventBookingFormClient({
     )
 
     return (
-        <BookingFormProvider eventId={eventId}>
+        <BookingFormProvider eventId={eventId} bookingsEnabled={bookingsEnabled}>
             <Accordion
                 selectedKeys={selectedKeys}
                 onSelectionChange={(keys) => setSelectedKeys(keys as Set<string>)}
@@ -82,10 +84,10 @@ export function EventBookingFormClient({
                 </AccordionItem>
                 <AccordionItem
                     key="2"
-                    title={titleElement('2. Pago')}
-                    aria-label="Step 2: Payment"
+                    title={titleElement('2. Confirmar')}
+                    aria-label="Step 2: Confirm"
                 >
-                    <EventBookingPayment onBack={handleBack} />
+                    <EventBookingConfirm onBack={handleBack} />
                 </AccordionItem>
             </Accordion>
         </BookingFormProvider>

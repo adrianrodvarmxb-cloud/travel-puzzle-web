@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { EventDetailClient } from '@/components/events/EventDetailClient';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { isBookingsEnabled } from '@/booking/lib/flags';
 
 interface EventDetailPageProps {
     params: Promise<{ id: string }>;
@@ -10,6 +11,8 @@ interface EventDetailPageProps {
         time?: string;
     }>;
 }
+
+export const dynamic = 'force-dynamic';
 
 export default async function EventDetailPage({ params, searchParams }: EventDetailPageProps) {
     // Get language from cookies, default to 'en'
@@ -36,6 +39,7 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
             language={eventLanguage}
             date={eventDate}
             time={eventTime}
+            bookingsEnabled={isBookingsEnabled(process.env.BOOKINGS_ENABLED)}
         />
     );
 }

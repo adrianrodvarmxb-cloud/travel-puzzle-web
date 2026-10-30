@@ -1,46 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { zFTBookingDTO } from '@/lib/api/schemas/FTBooking.Schema';
+import { createGatewayClient } from '@/booking/gateway-client';
+import { placeBooking, BookingRejected, type BookingRejectionCode } from '@/booking/service';
+import { createFreetourApi } from '@/freetour/api';
+import { resolveFreetourConfig } from '@/freetour/lib/hosts';
+import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
+import { isBookingsEnabled } from '@/booking/lib/flags';
 
+export const dynamic = 'force-dynamic';
+
+const STATUS: Record<BookingRejectionCode, number> = {
+    bookings_disabled: 503,
+    paid_not_available: 400,
+    invalid_phone: 400,
+    phone_required: 400,
+    no_availability: 409,
+    provider_error: 502,
+};
+
+/**
+ * Reserva real en Freetour a través de la pasarela de Namecheap.
+ * Detrás del interruptor BOOKINGS_ENABLED ("true" para activar).
+ */
 export async function POST(request: NextRequest) {
+    const parsed = zFTBookingDTO.safeParse(await request.json().catch(() => null));
+    if (!parsed.success) {
+        return NextResponse.json({ error: 'invalid_booking', details: parsed.error.flatten() }, { status: 400 });
+    }
+
     try {
-        const body = await request.json();
-        
-        // Validate the request body with Zod schema
-        const parsed = zFTBookingDTO.safeParse(body);
-        
-        if (!parsed.success) {
-            return NextResponse.json(
-                {
-                    error: 'Invalid booking data',
-                    details: parsed.error.flatten(),
-                },
-                { status: 400 }
-            );
-        }
-
-        const bookingData = parsed.data;
-
-        // TODO: Implement actual booking submission to FreeTour API
-        // For now, just return success
-        // You can integrate with FreeTourClient here when the booking endpoint is available
-
-        return NextResponse.json(
-            {
-                success: true,
-                message: 'Booking submitted successfully',
-                data: bookingData,
-            },
-            { status: 200 }
-        );
+        const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
+        const booking = await placeBooking(parsed.data, {
+            enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
+            getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(`/event/${id}`)) as { data: unknown }).data),
+            gateway: createGatewayClient({
+                url: process.env.GATEWAY_URL ?? '',
+                secret: process.env.GATEWAY_SECRET ?? '',
+                fetch,
+            }),
+        });
+        return NextResponse.json({ success: true, booking });
     } catch (error) {
-        console.error('Booking submission error:', error);
-        return NextResponse.json(
-            {
-                error: 'Failed to process booking',
-                message: error instanceof Error ? error.message : 'Unknown error',
-            },
-            { status: 500 }
-        );
+        if (error instanceof BookingRejected) {
+            return NextResponse.json({ error: error.code, message: error.message }, { status: STATUS[error.code] });
+        }
+        console.error('[reservas] error inesperado:', error instanceof Error ? error.message : error);
+        return NextResponse.json({ error: 'provider_error', message: 'No pudimos confirmar tu reserva en este momento.' }, { status: 502 });
     }
 }
-
