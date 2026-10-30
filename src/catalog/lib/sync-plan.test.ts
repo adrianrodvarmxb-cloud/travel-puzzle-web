@@ -42,4 +42,20 @@ describe("planSyncStep", () => {
     const state = { status: "failed", nextPage: 12, totalPages: 81, runStartedAt: at("2026-10-30T09:00:00Z") };
     expect(planSyncStep(state, at("2026-10-30T09:20:00Z"))).toEqual({ action: "page", page: 12 });
   });
+
+  it("antes de las 3:00 a. m. no arranca la corrida del día nuevo", () => {
+    const state = { status: "completed", nextPage: 82, totalPages: 81, runStartedAt: at("2026-10-29T09:00:00Z") };
+    // 30 oct 1:30 a. m. CDMX
+    expect(planSyncStep(state, at("2026-10-30T07:30:00Z"))).toEqual({ action: "idle" });
+  });
+
+  it("antes de las 3:00 a. m. termina una corrida de ayer que quedó a medias", () => {
+    const state = { status: "in_progress", nextPage: 40, totalPages: 81, runStartedAt: at("2026-10-29T09:00:00Z") };
+    expect(planSyncStep(state, at("2026-10-30T07:30:00Z"))).toEqual({ action: "page", page: 40 });
+  });
+
+  it("sin corrida previa arranca a cualquier hora", () => {
+    expect(planSyncStep(null, at("2026-10-30T07:30:00Z"))).toEqual({ action: "start", page: 1 });
+  });
 });
+

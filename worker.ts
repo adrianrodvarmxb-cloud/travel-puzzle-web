@@ -2,9 +2,9 @@
  * Punto de entrada del Worker en Cloudflare.
  *
  * - fetch: el sitio Next.js que genera OpenNext.
- * - scheduled: el cron de sincronización del catálogo (cada minuto de 3:00 a
- *   4:59 a. m. hora de México). Llama a la ruta interna con el secreto del cron;
- *   cada llamada procesa una página.
+ * - scheduled: cron cada minuto. Llama a la ruta interna con el secreto del cron;
+ *   cada llamada procesa una página del catálogo (corrida diaria desde las 3:00 a. m.
+ *   hora de México) o, si ya terminó, actualiza reseñas.
  */
 // @ts-ignore: lo genera `opennextjs-cloudflare build` (puede no existir aún)
 import { default as handler } from "./.open-next/worker.js";
