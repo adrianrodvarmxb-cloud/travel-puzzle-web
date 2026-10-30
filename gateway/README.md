@@ -14,11 +14,11 @@ cambiar reserva, ver el evento para un cambio, crear pago y ver estado del pago.
 ## Activar en cPanel (una sola vez)
 1. Subir la carpeta `gateway/` a `~/pasarela` en el servidor.
 2. cPanel → **Setup Node.js App** → **Create Application**:
-   - Node.js: 18 o más · Application root: `pasarela` · Application URL: `<dominio>/pasarela` · Startup file: `server.js`
+   - Node.js: 18 o más · Application root: `pasarela` · Application URL: `pasarela.travelpuzzle.com.mx` (subdominio que apunta al servidor; travelpuzzle.com.mx apunta a Vercel) · Startup file: `server.js`
 3. Variables de entorno de la app: `GATEWAY_SECRET`, `FREETOUR_EMAIL`, `FREETOUR_PASSWORD`
    (opcional `FREETOUR_LOCAL_ADDRESS=66.29.153.81` y `FREETOUR_BASE_URL`).
-4. **Start**. Probar: `https://<dominio>/pasarela/health` → `{"ok":true}`.
-5. En el sitio: `GATEWAY_URL=https://<dominio>/pasarela` y el mismo `GATEWAY_SECRET`.
+4. **Start**. Probar: `https://pasarela.travelpuzzle.com.mx/health` → `{"ok":true}`.
+5. En el sitio: `GATEWAY_URL=https://pasarela.travelpuzzle.com.mx` (en wrangler.jsonc) y el mismo `GATEWAY_SECRET`.
 
 ## Pruebas
 `npx vitest run gateway` (desde la raíz del repo).
