@@ -1,0 +1,37 @@
+{
+  // Configuración del Worker de Travel Puzzle en Cloudflare.
+  // Secretos (no van aquí): FREETOUR_EMAIL, FREETOUR_PASSWORD, CRON_SECRET, AUTH_SECRET,
+  // GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET → `wrangler secret put <NOMBRE>`.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "travel-puzzle-web",
+  "main": "worker.ts",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    { "binding": "WORKER_SELF_REFERENCE", "service": "travel-puzzle-web" }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "travel-puzzle",
+      // Base creada en el panel de Cloudflare (30 oct 2026)
+      "database_id": "31470fbd-6df6-4f4d-9f45-0f696395d27b",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
+    "FREETOUR_ENV": "production",
+    // Auth.js fuera de Vercel necesita confiar en el host del Worker
+    "AUTH_TRUST_HOST": "true"
+  },
+  "triggers": {
+    // Cada minuto de 09:00 a 10:59 UTC = 3:00 a 4:59 a. m. en Ciudad de México.
+    "crons": ["* 9-10 * * *"]
+  },
+  "observability": { "enabled": true }
+}

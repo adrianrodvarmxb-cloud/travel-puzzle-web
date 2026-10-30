@@ -15,6 +15,13 @@ interface Deps {
   now?: () => number;
 }
 
+export type ApiVersion = "2.0" | "2.1";
+
+/** Cambia .../partnersAPI/v.2.0 por la versión pedida, en el mismo host. */
+export function withVersion(baseUrl: string, version: ApiVersion): string {
+  return baseUrl.replace(/\/v\.2\.\d+$/, `/v.${version}`);
+}
+
 // El token dura 1 hora; se renueva a los 50 minutos.
 const TOKEN_TTL_MS = 50 * 60 * 1000;
 
@@ -48,9 +55,9 @@ export function createFreetourApi({ config, fetch: fetchImpl, now = Date.now }: 
     return token;
   }
 
-  async function request(method: "GET" | "POST", path: string, payload?: unknown) {
+  async function request(method: "GET" | "POST", path: string, payload?: unknown, version: ApiVersion = "2.0") {
     const accessToken = await login();
-    const res = await fetchImpl(`${config.baseUrl}${path}`, {
+    const res = await fetchImpl(`${withVersion(config.baseUrl, version)}${path}`, {
       method,
       headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
       body: payload === undefined ? undefined : JSON.stringify(payload),
@@ -60,7 +67,8 @@ export function createFreetourApi({ config, fetch: fetchImpl, now = Date.now }: 
 
   return {
     environment: config.environment,
-    get: (path: string) => request("GET", path),
+    /** version "2.1" solo para lo que existe ahí con más datos (p. ej. reseñas paginadas). */
+    get: (path: string, opts: { version?: ApiVersion } = {}) => request("GET", path, undefined, opts.version),
     post: (path: string, payload: unknown) => request("POST", path, payload),
   };
 }

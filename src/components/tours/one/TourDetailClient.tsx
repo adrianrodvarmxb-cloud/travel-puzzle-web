@@ -1,5 +1,7 @@
 'use client';
 
+import { TourReviews } from '@/components/reviews';
+import type { ReviewView } from '@/reviews/load';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { Navbar } from '@/components/layout/Navbar';
@@ -24,6 +26,8 @@ interface TourDetailClientProps {
     initialTour: Tour | null;
     initialTourData: TourWithRelations | null;
     initialLanguage: SupportedLanguage;
+    reviews?: ReviewView[];
+    reviewsTotal?: number;
 }
 
 export function TourDetailClient({
@@ -31,6 +35,8 @@ export function TourDetailClient({
     initialTour,
     initialTourData,
     initialLanguage,
+    reviews = [],
+    reviewsTotal = 0,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -118,6 +124,9 @@ export function TourDetailClient({
 
                         {/* Meeting Point */}
                         {tour.meetingPoint && <TourMeetingPoint meetingPoint={tour.meetingPoint} />}
+
+                        {/* Reseñas reales */}
+                        <TourReviews reviews={reviews} total={reviewsTotal} />
                     </div>
 
                     {/* Sidebar */}

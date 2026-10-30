@@ -1,23 +1,26 @@
-// This is your Prisma schema file for MySQL
+// Esquema de Prisma para Cloudflare D1 (SQLite).
+// Las migraciones viejas de MySQL quedan en prisma/migrations-mysql-legacy como referencia.
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  // Sin motor nativo: corre en Cloudflare Workers con el adaptador de D1
+  engineType = "client"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 // User Model
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique @db.VarChar(255)
-  password  String?  @db.VarChar(255) // Optional for OAuth users
-  name      String?  @db.VarChar(255)
-  role      Role     @default(CLIENT)
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String? // Optional for OAuth users
+  name      String?
+  role      Role      @default(CLIENT)
   bookings  Booking[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 // ============================================
@@ -26,19 +29,19 @@ model User {
 
 // Country Model
 model Country {
-  id           Int      @id
-  code         String   @unique @db.VarChar(10)
-  translations Json?    // Store translations as JSON: { "en": "Hungary", "es": "Hungría", ... }
+  id           Int    @id
+  code         String @unique
+  translations Json? // Store translations as JSON: { "en": "Hungary", "es": "Hungría", ... }
   cities       City[]
   tours        Tour[]
 }
 
 // City Model
 model City {
-  id           Int      @id
+  id           Int     @id
   countryId    Int
-  country      Country  @relation(fields: [countryId], references: [id])
-  translations Json?   // Store translations as JSON: { "en": "Paris", "es": "París", ... }
+  country      Country @relation(fields: [countryId], references: [id])
+  translations Json? // Store translations as JSON: { "en": "Paris", "es": "París", ... }
   tours        Tour[]
 
   @@index([countryId])
@@ -46,31 +49,32 @@ model City {
 
 // Tour Model (Refactored for FreeTour API)
 model Tour {
-  id              String            @id @default(cuid())
-  externalId      Int               @unique
-  providerTitle   String            @db.VarChar(255)
-  providerPhone   String?           @db.VarChar(50)
-  priceValue      Decimal           @db.Decimal(10, 2)
-  priceCurrency   String            @db.VarChar(3)
-  duration        String            @db.VarChar(20)
-  titleImageURL   String?           @db.Text
-  categoryId      Int
-  rating          Decimal?          @db.Decimal(3, 2)
-  reviewsNumber   Int               @default(0)
-  cityId          Int
-  city            City              @relation(fields: [cityId], references: [id])
-  countryId       Int
-  country         Country           @relation(fields: [countryId], references: [id])
-  meetingPoint    Json              // Store MeetingPoint as JSON
-  includes        Json              // Store includes array as JSON
-  POIs            Json?             // Store POIs as JSON
-  images          Json              // Store images array as JSON
-  videoURL        String?           @db.Text
-  translations    TourTranslation[]
-  bookings        Booking[]
-  isActive        Boolean           @default(true)
-  updatedAt       DateTime          @updatedAt
-  createdAt       DateTime          @default(now())
+  id            String            @id @default(cuid())
+  externalId    Int               @unique
+  providerTitle String
+  providerPhone String?
+  priceValue    Decimal
+  priceCurrency String
+  duration      String
+  titleImageURL String?
+  categoryId    Int
+  rating        Decimal?
+  reviewsNumber Int               @default(0)
+  cityId        Int
+  city          City              @relation(fields: [cityId], references: [id])
+  countryId     Int
+  country       Country           @relation(fields: [countryId], references: [id])
+  meetingPoint  Json // Store MeetingPoint as JSON
+  includes      Json // Store includes array as JSON
+  POIs          Json? // Store POIs as JSON
+  images        Json // Store images array as JSON
+  videoURL      String?
+  translations  TourTranslation[]
+  bookings      Booking[]
+  isActive      Boolean           @default(true)
+  lastSeenAt    DateTime? // última corrida diaria en la que apareció en la API
+  updatedAt     DateTime          @updatedAt
+  createdAt     DateTime          @default(now())
 
   @@index([cityId])
   @@index([countryId])
@@ -82,11 +86,11 @@ model Tour {
 model TourTranslation {
   id          String  @id @default(cuid())
   tourId      String
-  language    String  @db.VarChar(2)
-  title       String  @db.VarChar(500)
-  brief       String? @db.Text
-  description String? @db.Text
-  url         String  @db.Text
+  language    String
+  title       String
+  brief       String?
+  description String?
+  url         String
   tour        Tour    @relation(fields: [tourId], references: [id], onDelete: Cascade)
 
   @@unique([tourId, language])
@@ -96,11 +100,14 @@ model TourTranslation {
 
 // Sync Metadata for tracking API syncs
 model SyncMetadata {
-  id         String   @id @default(cuid())
-  provider   String   @unique @db.VarChar(100)
-  lastSyncAt DateTime
-  toursCount Int
-  status     String   @db.VarChar(50)
+  id           String    @id @default(cuid())
+  provider     String    @unique
+  lastSyncAt   DateTime
+  toursCount   Int
+  status       String
+  nextPage     Int       @default(1) // siguiente página a sincronizar
+  totalPages   Int       @default(0)
+  runStartedAt DateTime? // inicio de la corrida del día
 }
 
 // Booking Model
@@ -112,8 +119,8 @@ model Booking {
   tour          Tour          @relation(fields: [tourId], references: [id], onDelete: Cascade)
   status        BookingStatus @default(PENDING)
   paymentStatus PaymentStatus @default(PENDING)
-  totalAmount   Decimal       @db.Decimal(10, 2)
-  externalUrl   String?       @db.VarChar(500)
+  totalAmount   Decimal
+  externalUrl   String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
@@ -124,14 +131,14 @@ model Booking {
 
 // API Provider Model
 model ApiProvider {
-  id          String   @id @default(cuid())
-  name        String   @unique @db.VarChar(100)
-  apiKey      String   @db.Text
-  apiSecret   String?  @db.Text
-  endpoint    String   @db.VarChar(500)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String   @unique
+  apiKey    String
+  apiSecret String?
+  endpoint  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Enums
@@ -150,4 +157,27 @@ enum PaymentStatus {
   PENDING
   PAID
   REFUNDED
+}
+
+// Reseñas reales de Freetour (GET /tours/{id}/reviews), en caché por tour.
+model Review {
+  id             Int      @id // id de la reseña en Freetour
+  tourExternalId Int // Tour.externalId
+  reviewerName   String
+  language       String
+  title          String?
+  content        String?
+  rate           Float
+  addedAt        DateTime
+  fetchedAt      DateTime @default(now())
+
+  @@index([tourExternalId, addedAt])
+  @@index([rate])
+}
+
+// Control de la caché de reseñas por tour.
+model ReviewCache {
+  tourExternalId Int      @id
+  totalObjects   Int
+  fetchedAt      DateTime
 }

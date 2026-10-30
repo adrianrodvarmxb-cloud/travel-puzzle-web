@@ -212,5 +212,10 @@ export const es = {
   // Pagination
   'pagination.previous': 'Anterior',
   'pagination.next': 'Siguiente',
-};
 
+  // Reviews
+  'reviews.tourTitle': 'Reseñas de viajeros',
+  'reviews.total': '{count} reseñas en total',
+  'reviews.source': 'Reseñas reales de viajeros de FREETOUR.com',
+  'home.recentReviews.title': 'Lo que dicen los viajeros',
+};

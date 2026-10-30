@@ -7,8 +7,15 @@ import {
   RewardsBanner
 } from "@/components/home";
 import { QuickSignUp } from "@/components/auth";
+import { loadHomeReviews } from "@/reviews/load";
+import { getPreferredLanguage } from "@/lib/utils/cookies";
 
-export default function Home() {
+// Lee reseñas reales de la base en cada visita.
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const reviews = await loadHomeReviews(await getPreferredLanguage());
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar Component */}
@@ -22,6 +29,7 @@ export default function Home() {
       <WhyChooseTravelPuzzle />
       <RewardsBanner />
       <TopDestinations />
+      <RecentReviews reviews={reviews} />
       {/* Footer */}
       <Footer />
     </div>

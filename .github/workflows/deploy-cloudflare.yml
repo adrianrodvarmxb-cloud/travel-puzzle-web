@@ -1,0 +1,74 @@
+# Publica el sitio en Cloudflare Workers. Solo se corre a mano (Actions → Publicar en Cloudflare → Run workflow):
+# correrlo es el OK de publicación.
+name: Publicar en Cloudflare
+
+on:
+  workflow_dispatch:
+    inputs:
+      migraciones:
+        description: "Aplicar migraciones de la base D1 antes de publicar"
+        type: boolean
+        default: true
+
+concurrency:
+  group: deploy-cloudflare
+  cancel-in-progress: false
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Pruebas
+        run: npx vitest run
+
+      - name: Lista de países (desde Freetour)
+        if: hashFiles('data/countries.json') == ''
+        env:
+          FREETOUR_ENV: production
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+        run: npm run countries:generate
+
+      - name: Cliente de Prisma
+        run: npx prisma generate
+        env:
+          DATABASE_URL: file:./dev.db
+
+      - name: Migraciones D1
+        if: inputs.migraciones
+        run: npx wrangler d1 migrations apply travel-puzzle --remote
+
+      - name: Construir
+        run: npx opennextjs-cloudflare build
+
+      - name: Publicar
+        run: npx opennextjs-cloudflare deploy
+
+      - name: Secretos del Worker
+        env:
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+        run: |
+          existentes=$(npx wrangler secret list --format json 2>/dev/null || echo "[]")
+          tiene() { echo "$existentes" | grep -q "\"name\": *\"$1\""; }
+          # Credenciales de Freetour: siempre las de GitHub (por si cambian)
+          printf '%s' "$FREETOUR_EMAIL" | npx wrangler secret put FREETOUR_EMAIL
+          printf '%s' "$FREETOUR_PASSWORD" | npx wrangler secret put FREETOUR_PASSWORD
+          # Claves internas: se generan una sola vez y se conservan
+          for n in CRON_SECRET AUTH_SECRET; do
+            if ! tiene "$n"; then openssl rand -base64 32 | tr -d '\n' | npx wrangler secret put "$n"; fi
+          done

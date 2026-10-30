@@ -8,19 +8,26 @@
     "start": "next start",
     "sync:tours": "tsx src/scripts/sync-tours.ts",
     "fix:country-names": "tsx src/scripts/fix-country-names.ts",
-    "countries:generate": "tsx src/scripts/generate-countries.ts"
+    "countries:generate": "tsx src/scripts/generate-countries.ts",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv --include-runtime=false cloudflare-env.d.ts",
+    "db:migrate:local": "wrangler d1 migrations apply travel-puzzle --local",
+    "db:migrate:remote": "wrangler d1 migrations apply travel-puzzle --remote"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
     "@heroui/system": "^2.4.23",
-    "@prisma/client": "^6.18.0",
+    "@opennextjs/cloudflare": "^1.20.14",
+    "@prisma/adapter-d1": "^6.19.3",
+    "@prisma/client": "^6.19.3",
     "@tanstack/react-query": "^5.90.5",
     "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.24",
-    "next": "^15.5.6",
+    "next": "^15.5.28",
     "next-auth": "^5.0.0-beta.29",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -36,10 +43,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "lodash": "^4.17.21",
-    "prisma": "^6.18.0",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "tsx": "^4.19.0",
     "typescript": "^5",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "wrangler": "^4.155.0"
   }
 }

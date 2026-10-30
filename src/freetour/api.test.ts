@@ -22,6 +22,13 @@ describe("createFreetourApi", () => {
     expect(urls).toEqual([`${FREETOUR_HOSTS.stage}/login`, `${FREETOUR_HOSTS.stage}/countries`]);
   });
 
+  it("puede llamar a v.2.1 en el mismo host", async () => {
+    const fetchImpl = fakeFetch();
+    const api = createFreetourApi({ config, fetch: fetchImpl as unknown as typeof fetch });
+    await api.get("/tours/1/reviews", { version: "2.1" });
+    expect(fetchImpl.mock.calls[1][0]).toBe("https://stage.freetour.dev/partnersAPI/v.2.1/tours/1/reviews");
+  });
+
   it("manda el token como Bearer y lo reutiliza", async () => {
     const fetchImpl = fakeFetch();
     const api = createFreetourApi({ config, fetch: fetchImpl as unknown as typeof fetch });
@@ -29,7 +36,7 @@ describe("createFreetourApi", () => {
     await api.get("/countries");
     const logins = fetchImpl.mock.calls.filter((c) => String(c[0]).endsWith("/login"));
     expect(logins).toHaveLength(1);
-    const headers = (fetchImpl.mock.calls[1][1] as RequestInit).headers as Record<string, string>;
+    const headers = ((fetchImpl.mock.calls[1] as unknown[])[1] as RequestInit).headers as Record<string, string>;
     expect(headers.Authorization).toBe("Bearer tok");
   });
 
