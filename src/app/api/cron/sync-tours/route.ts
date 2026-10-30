@@ -1,39 +1,33 @@
 import { NextResponse } from 'next/server';
-import { freeTourClient } from '@/lib/api/freetour-client';
-import fs from 'fs/promises';
-import path from 'path';
+import { getPrisma } from '@/lib/prisma';
+import { createFreetourApi } from '@/freetour/api';
+import { resolveFreetourConfig } from '@/freetour/lib/hosts';
+import { runSyncStep } from '@/catalog/sync';
+import { createCatalogRepo } from '@/catalog/repository';
+import countries from '../../../../../data/countries.json';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 300; // 5 minutes
 
+/**
+ * Un paso de la sincronización diaria del catálogo (una página por llamada).
+ * La llama el cron del Worker (worker.ts) con CRON_SECRET.
+ * Antes escribía data/tours.json, que en Cloudflare no persiste; ahora guarda en D1.
+ */
 export async function GET(request: Request) {
-  // Verify cron secret
   const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const tours = await freeTourClient.fetchAllTours();
-
-    const DATA_DIR = path.join(process.cwd(), 'data');
-    const TOURS_FILE = path.join(DATA_DIR, 'tours.json');
-
-    await fs.mkdir(DATA_DIR, { recursive: true });
-
-    const data = {
-      lastUpdated: new Date().toISOString(),
-      totalTours: tours.length,
-      tours,
-    };
-
-    await fs.writeFile(TOURS_FILE, JSON.stringify(data, null, 2));
-
-    return NextResponse.json({
-      success: true,
-      toursCount: tours.length,
-      lastUpdated: data.lastUpdated,
+    const api = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
+    const result = await runSyncStep({
+      api,
+      repo: createCatalogRepo(getPrisma()),
+      countries: countries as never,
+      now: new Date(),
     });
+    return NextResponse.json({ success: true, ...result });
   } catch (error) {
     console.error('Cron sync failed:', error);
     return NextResponse.json(
@@ -42,4 +36,3 @@ export async function GET(request: Request) {
     );
   }
 }
-

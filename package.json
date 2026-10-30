@@ -8,7 +8,12 @@
     "start": "next start",
     "sync:tours": "tsx src/scripts/sync-tours.ts",
     "fix:country-names": "tsx src/scripts/fix-country-names.ts",
-    "countries:generate": "tsx src/scripts/generate-countries.ts"
+    "countries:generate": "tsx src/scripts/generate-countries.ts",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv --include-runtime=false cloudflare-env.d.ts",
+    "db:migrate:local": "wrangler d1 migrations apply travel-puzzle --local",
+    "db:migrate:remote": "wrangler d1 migrations apply travel-puzzle --remote"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
