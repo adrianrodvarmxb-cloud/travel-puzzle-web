@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { getTourReviews, getHomeReviews, type ReviewRepo } from "./service";
+import { getTourReviews, getHomeReviews, refreshStaleReviews, type ReviewRepo } from "./service";
 
 const now = new Date("2026-10-30T12:00:00Z");
 const review = (id: number, language = "Spanish") => ({ id, reviewerName: "Ana", language, title: null, content: "Excelente", rate: 5, addedAt: new Date(`2026-10-${10 + id}T00:00:00Z`) });
@@ -10,6 +10,7 @@ function fakeRepo(cache: { fetchedAt: Date; totalObjects: number } | null, store
     listByTour: vi.fn(async () => stored),
     listRecent: vi.fn(async () => stored),
     saveTourReviews: vi.fn(async () => {}),
+    listStaleTours: vi.fn(async () => [6782, 42065]),
   } satisfies ReviewRepo;
 }
 
@@ -49,5 +50,24 @@ describe("getHomeReviews", () => {
     const repo = fakeRepo(null, [review(1, "English"), review(2)]);
     const out = await getHomeReviews({ lang: "es", limit: 2 }, { repo });
     expect(out.map((r) => r.id)).toEqual([2, 1]);
+  });
+});
+
+describe("refreshStaleReviews", () => {
+  it("pide a la base los tours con reseñas vencidas (7 días) y los actualiza uno por uno", async () => {
+    const repo = fakeRepo(null);
+    const api = apiWith();
+    const out = await refreshStaleReviews({ batch: 2 }, { api, repo, now });
+    expect(repo.listStaleTours).toHaveBeenCalledWith(2, new Date("2026-10-23T12:00:00Z"));
+    expect(api.get).toHaveBeenCalledTimes(2);
+    expect(repo.saveTourReviews).toHaveBeenCalledTimes(2);
+    expect(out).toEqual({ refreshed: 2, failed: 0 });
+  });
+
+  it("si un tour falla, sigue con los demás y lo cuenta", async () => {
+    const repo = fakeRepo(null);
+    const api = { get: vi.fn().mockRejectedValueOnce(new Error("caído")).mockResolvedValue({ data: [], status: 200 }) };
+    const out = await refreshStaleReviews({ batch: 2 }, { api, repo, now });
+    expect(out).toEqual({ refreshed: 1, failed: 1 });
   });
 });

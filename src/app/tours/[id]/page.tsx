@@ -4,6 +4,7 @@ import { fetchTourById } from '@/actions/tours';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
+import { loadTourReviews } from '@/reviews/load';
 
 interface TourDetailPageProps {
     params: Promise<{ id: string }>;
@@ -35,12 +36,20 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
             language
         );
 
+        // Reseñas reales de Freetour (caché de 7 días en D1)
+        const { reviews, total } = await loadTourReviews(
+            (tourData as { externalId: number }).externalId,
+            language
+        );
+
         return (
             <TourDetailClient
                 tourId={tourId}
                 initialTour={initialTour}
                 initialTourData={tourData as unknown as TourWithRelations}
                 initialLanguage={language}
+                reviews={reviews}
+                reviewsTotal={total}
             />
         );
     } catch (error) {

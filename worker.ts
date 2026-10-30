@@ -6,7 +6,7 @@
  *   4:59 a. m. hora de México). Llama a la ruta interna con el secreto del cron;
  *   cada llamada procesa una página.
  */
-// @ts-expect-error: lo genera `opennextjs-cloudflare build`
+// @ts-ignore: lo genera `opennextjs-cloudflare build` (puede no existir aún)
 import { default as handler } from "./.open-next/worker.js";
 
 interface Env {

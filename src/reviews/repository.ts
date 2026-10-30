@@ -27,6 +27,23 @@ export function createReviewRepo(prisma: PrismaClient): ReviewRepo {
       return rows.map(toReview);
     },
 
+    async listStaleTours(limit, staleBefore) {
+      // Candidatos: los tours activos con más reseñas; se descartan los que tienen caché vigente.
+      const tours = await prisma.tour.findMany({
+        where: { isActive: true, reviewsNumber: { gt: 0 } },
+        orderBy: { reviewsNumber: "desc" },
+        select: { externalId: true },
+        take: 300,
+      });
+      const ids = tours.map((t) => t.externalId);
+      const fresh = await prisma.reviewCache.findMany({
+        where: { tourExternalId: { in: ids }, fetchedAt: { gte: staleBefore } },
+        select: { tourExternalId: true },
+      });
+      const freshIds = new Set(fresh.map((c) => c.tourExternalId));
+      return ids.filter((id) => !freshIds.has(id)).slice(0, limit);
+    },
+
     async saveTourReviews(tourExternalId, reviews, totalObjects, fetchedAt) {
       await prisma.$transaction([
         ...reviews.map((r) =>
