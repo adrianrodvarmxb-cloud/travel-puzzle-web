@@ -18,8 +18,8 @@
     {
       "binding": "DB",
       "database_name": "travel-puzzle",
-      // Se llena al crear la base: `wrangler d1 create travel-puzzle`
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      // Base creada en el panel de Cloudflare (30 oct 2026)
+      "database_id": "31470fbd-6df6-4f4d-9f45-0f696395d27b",
       "migrations_dir": "migrations"
     }
   ],
