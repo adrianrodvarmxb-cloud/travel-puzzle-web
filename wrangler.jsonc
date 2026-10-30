@@ -25,7 +25,9 @@
   ],
   "vars": {
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
-    "FREETOUR_ENV": "production"
+    "FREETOUR_ENV": "production",
+    // Auth.js fuera de Vercel necesita confiar en el host del Worker
+    "AUTH_TRUST_HOST": "true"
   },
   "triggers": {
     // Cada minuto de 09:00 a 10:59 UTC = 3:00 a 4:59 a. m. en Ciudad de México.
