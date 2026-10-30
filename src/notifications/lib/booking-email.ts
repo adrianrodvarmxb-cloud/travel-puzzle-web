@@ -276,7 +276,7 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
 <tr><td style="font-size:0;line-height:0;height:3px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td height="3" width="60%" style="background:${B.lightBlue}"></td><td height="3" width="25%" style="background:${B.yellow}"></td><td height="3" width="15%" style="background:${B.red}"></td></tr></table></td></tr>
 <tr><td style="background:${N9};padding:14px 22px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td align="left" valign="middle"><img src="${esc(d.logoUrl)}" width="104" alt="Travel Puzzle" style="display:block;width:104px;height:auto;border:0"></td>
+<td align="left" valign="middle"><img src="${esc(d.logoUrl)}" width="150" alt="Travel Puzzle" style="display:block;width:150px;height:auto;border:0"></td>
 <td align="right" valign="middle" style="font-family:${mono};font-size:11px;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap"><a href="${esc(d.manageUrl)}" style="color:#ffffff;text-decoration:none">${esc(t.myBooking)}</a>${waUrl ? `<span style="color:#34467F">&nbsp;&nbsp;/&nbsp;&nbsp;</span><a href="${esc(waUrl)}" style="color:#ffffff;text-decoration:none">${esc(t.helpShort)}</a>` : ""}</td>
 </tr></table>
 </td></tr>
@@ -364,7 +364,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
 <tr><td style="padding:30px 0 0;font-size:0;line-height:0">&nbsp;</td></tr>
 <tr><td style="background:${N9};padding:20px 22px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td align="left" valign="middle" width="120">${d.animatedLogoUrl ? `<img src="${esc(d.animatedLogoUrl)}" width="110" alt="Travel Puzzle · ${esc(t.slogan)}" style="display:block;width:110px;height:auto;border:0">` : `<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:24px;color:${B.yellow}">${esc(t.slogan)}</div>`}</td>
+<td align="left" valign="middle" width="160">${d.animatedLogoUrl ? `<img src="${esc(d.animatedLogoUrl)}" width="150" alt="Travel Puzzle · ${esc(t.slogan)}" style="display:block;width:150px;height:auto;border:0">` : `<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:24px;color:${B.yellow}">${esc(t.slogan)}</div>`}</td>
 <td align="right" valign="middle">
 ${footerLinks.length ? `<div style="font-family:${mono};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${DIM};margin-bottom:10px">${esc(t.follow)}</div>
 <div style="margin-bottom:12px">${footerLinks.join("")}</div>` : ""}
