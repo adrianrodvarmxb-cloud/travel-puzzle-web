@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getPrisma } from '@/lib/prisma';
+import { getPrisma, getD1 } from '@/lib/prisma';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { runSyncStep } from '@/catalog/sync';
@@ -30,12 +30,12 @@ export async function GET(request: Request) {
     const now = new Date();
     const result = await runSyncStep({
       api,
-      repo: createCatalogRepo(prisma),
+      repo: createCatalogRepo(prisma, getD1()),
       countries: countries as never,
       now,
     });
     if (result.action === 'idle') {
-      const reviews = await refreshStaleReviews({ batch: REVIEWS_PER_TICK }, { api, repo: createReviewRepo(prisma), now });
+      const reviews = await refreshStaleReviews({ batch: REVIEWS_PER_TICK }, { api, repo: createReviewRepo(prisma, getD1()), now });
       return NextResponse.json({ success: true, ...result, reviews });
     }
     return NextResponse.json({ success: true, ...result });

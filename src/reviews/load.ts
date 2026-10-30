@@ -1,4 +1,4 @@
-import { getPrisma } from "@/lib/prisma";
+import { getPrisma, getD1 } from "@/lib/prisma";
 import { createFreetourApi } from "@/freetour/api";
 import { resolveFreetourConfig } from "@/freetour/lib/hosts";
 import { getTourReviews, getHomeReviews } from "./service";
@@ -32,7 +32,7 @@ export async function loadTourReviews(tourExternalId: number, lang: string, limi
       { tourExternalId, lang, limit },
       {
         api: createFreetourApi({ config: resolveFreetourConfig(process.env), fetch }),
-        repo: createReviewRepo(prisma),
+        repo: createReviewRepo(prisma, getD1()),
         now: new Date(),
       }
     );
@@ -46,7 +46,7 @@ export async function loadTourReviews(tourExternalId: number, lang: string, limi
 /** Reseñas recientes para el inicio (solo de la base; no llama a Freetour). */
 export async function loadHomeReviews(lang: string, limit = 6): Promise<ReviewView[]> {
   try {
-    const reviews = await getHomeReviews({ lang, limit }, { repo: createReviewRepo(getPrisma()) });
+    const reviews = await getHomeReviews({ lang, limit }, { repo: createReviewRepo(getPrisma(), getD1()) });
     return reviews.map(toView);
   } catch (error) {
     console.warn("[reviews] sin reseñas para el inicio:", (error as Error).message);

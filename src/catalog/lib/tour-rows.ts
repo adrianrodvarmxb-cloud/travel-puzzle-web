@@ -106,3 +106,12 @@ export function placeholderCountry(id: number) {
     translations: Object.fromEntries(LANGUAGES.map((l) => [l, `País ${id}`])) as Record<string, string>,
   };
 }
+
+/** Si un código ya lo usa otro país en la base, se le agrega el id (el código es único). */
+export function avoidCodeClashes<T extends { id: number; code: string }>(rows: T[], existing: { id: number; code: string }[]): T[] {
+  const owner = new Map(existing.map((e) => [e.code, e.id]));
+  return rows.map((r) => {
+    const id = owner.get(r.code);
+    return id !== undefined && id !== r.id ? { ...r, code: `${r.code}-${r.id}` } : r;
+  });
+}

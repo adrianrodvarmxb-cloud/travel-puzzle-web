@@ -1,8 +1,11 @@
 import type { PrismaClient } from "@prisma/client";
 import type { ReviewRepo } from "./service";
+import { upsertRows, runBatch, type D1Like } from "@/lib/d1/batch";
 
-/** Implementación de ReviewRepo con Prisma sobre D1. */
-export function createReviewRepo(prisma: PrismaClient): ReviewRepo {
+const REVIEW_COLUMNS = ["id", "tourExternalId", "reviewerName", "language", "title", "content", "rate", "addedAt", "fetchedAt"];
+
+/** Implementación de ReviewRepo sobre D1 (lecturas con Prisma; escrituras en un solo batch). */
+export function createReviewRepo(prisma: PrismaClient, db: D1Like): ReviewRepo {
   const toReview = (r: { id: number; reviewerName: string; language: string; title: string | null; content: string | null; rate: number; addedAt: Date }) => ({
     id: r.id, reviewerName: r.reviewerName, language: r.language, title: r.title, content: r.content, rate: r.rate, addedAt: r.addedAt,
   });
@@ -45,19 +48,10 @@ export function createReviewRepo(prisma: PrismaClient): ReviewRepo {
     },
 
     async saveTourReviews(tourExternalId, reviews, totalObjects, fetchedAt) {
-      await prisma.$transaction([
-        ...reviews.map((r) =>
-          prisma.review.upsert({
-            where: { id: r.id },
-            update: { ...r, tourExternalId, fetchedAt },
-            create: { ...r, tourExternalId, fetchedAt },
-          })
-        ),
-        prisma.reviewCache.upsert({
-          where: { tourExternalId },
-          update: { totalObjects, fetchedAt },
-          create: { tourExternalId, totalObjects, fetchedAt },
-        }),
+      const rows = reviews.map((r) => [r.id, tourExternalId, r.reviewerName, r.language, r.title, r.content, r.rate, r.addedAt, fetchedAt]);
+      await runBatch(db, [
+        ...upsertRows("Review", REVIEW_COLUMNS, rows, ["id"], REVIEW_COLUMNS.slice(1)),
+        ...upsertRows("ReviewCache", ["tourExternalId", "totalObjects", "fetchedAt"], [[tourExternalId, totalObjects, fetchedAt]], ["tourExternalId"], ["totalObjects", "fetchedAt"]),
       ]);
     },
   };
