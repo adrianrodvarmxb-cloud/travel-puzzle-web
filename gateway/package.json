@@ -1,0 +1,10 @@
+{
+  "name": "travel-puzzle-pasarela",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pasarela de reservas Freetour (sale por la IP registrada del servidor de Namecheap)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
