@@ -86,3 +86,23 @@ interface CountryLike {
 export function countryRow(c: CountryLike) {
   return { id: c.id, code: c.shortTitle.toUpperCase(), translations: c.title };
 }
+
+/** Filas de países sin códigos repetidos (en la base el código es único). */
+export function countryRows(countries: CountryLike[]) {
+  const seen = new Set<string>();
+  return countries.map((c) => {
+    const row = countryRow(c);
+    const code = seen.has(row.code) ? `${row.code}-${c.id}` : row.code;
+    seen.add(code);
+    return { ...row, code };
+  });
+}
+
+/** País que Freetour usa pero no vino en la lista: se guarda provisional para no perder sus tours. */
+export function placeholderCountry(id: number) {
+  return {
+    id,
+    code: `C${id}`,
+    translations: Object.fromEntries(LANGUAGES.map((l) => [l, `País ${id}`])) as Record<string, string>,
+  };
+}

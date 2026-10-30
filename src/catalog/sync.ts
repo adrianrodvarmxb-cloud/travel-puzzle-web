@@ -1,13 +1,14 @@
 import type { TourAPI } from "@/types";
 import { planSyncStep, type SyncState } from "./lib/sync-plan";
-import { toTourRows, cityIdsOf, countryRow, LANGUAGES, type TourRow, type TranslationRow } from "./lib/tour-rows";
+import { toTourRows, cityIdsOf, countryRows, placeholderCountry, LANGUAGES, type TourRow, type TranslationRow } from "./lib/tour-rows";
 
 /** Lo que la sincronización necesita de la base de datos (implementado con Prisma en repository.ts). */
 export interface CatalogRepo {
   getState(): Promise<SyncState | null>;
   saveState(state: Partial<SyncState> & { lastSyncAt?: Date; toursCount?: number }): Promise<void>;
   existingCityIds(ids: number[]): Promise<number[]>;
-  upsertCountries(rows: ReturnType<typeof countryRow>[]): Promise<void>;
+  existingCountryIds(ids: number[]): Promise<number[]>;
+  upsertCountries(rows: { id: number; code: string; translations: Record<string, string> }[]): Promise<void>;
   upsertCities(rows: { id: number; countryId: number; translations: Record<string, string> }[]): Promise<void>;
   upsertTours(rows: { tour: TourRow; translations: TranslationRow[] }[]): Promise<void>;
   deactivateNotSeenSince(date: Date): Promise<number>;
@@ -17,7 +18,7 @@ interface Deps {
   api: { get(path: string): Promise<any> };
   repo: CatalogRepo;
   /** Lista de data/countries.json (no hace falta pedirla a la API). */
-  countries: Parameters<typeof countryRow>[0][];
+  countries: Parameters<typeof countryRows>[0];
   now: Date;
 }
 
@@ -43,12 +44,22 @@ export async function runSyncStep({ api, repo, countries, now }: Deps) {
     const tours: TourAPI[] = body.data.tours;
     const totalPages: number = body.data.totalPages;
 
+    const allCountries = countryRows(countries);
     if (step.action === "start") {
-      await repo.upsertCountries(countries.map(countryRow));
+      await repo.upsertCountries(allCountries);
     }
 
     // Ciudades: solo se piden a la API las que aún no existen.
     const byCountry = cityIdsOf(tours);
+
+    // Antes de las ciudades, cada país de esta página debe existir (la ciudad apunta a su país).
+    const neededCountries = [...byCountry.keys()];
+    const savedCountries = new Set(await repo.existingCountryIds(neededCountries));
+    const missingCountries = neededCountries.filter((id) => !savedCountries.has(id));
+    if (missingCountries.length > 0) {
+      const known = new Map(allCountries.map((c) => [c.id, c]));
+      await repo.upsertCountries(missingCountries.map((id) => known.get(id) ?? placeholderCountry(id)));
+    }
     const existing = new Set(await repo.existingCityIds([...byCountry.values()].flat()));
     for (const [countryId, cityIds] of byCountry) {
       const missing = cityIds.filter((id) => !existing.has(id));
