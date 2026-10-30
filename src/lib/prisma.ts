@@ -23,6 +23,12 @@ export function getPrisma(): PrismaClient {
   return client
 }
 
+/** Binding de D1 de la petición en curso (para guardados en lote). */
+export function getD1() {
+  const { env } = getCloudflareContext()
+  return (env as unknown as { DB: import('@/lib/d1/batch').D1Like }).DB
+}
+
 export const prisma = new Proxy({} as PrismaClient, {
   get(_target, prop) {
     const client = getPrisma()
