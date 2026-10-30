@@ -181,3 +181,28 @@ model ReviewCache {
   totalObjects   Int
   fetchedAt      DateTime
 }
+
+// Reservas confirmadas por Freetour (Modo 2), con o sin cuenta.
+// manageToken = enlace privado del cliente para ver, cancelar o cambiar su reserva.
+model FreetourBooking {
+  refNumber      String   @id
+  tourExternalId Int?
+  eventId        Int
+  adults         Int
+  children       Int
+  price          Float
+  email          String
+  firstName      String
+  lastName       String
+  phone          String?
+  eventDate      String?
+  eventUtcDate   String?
+  language       String?
+  status         String
+  manageToken    String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([email])
+  @@index([eventId])
+}

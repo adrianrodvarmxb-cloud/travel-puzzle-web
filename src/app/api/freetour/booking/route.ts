@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { zFTBookingDTO } from '@/lib/api/schemas/FTBooking.Schema';
 import { createGatewayClient } from '@/booking/gateway-client';
-import { placeBooking, BookingRejected, type BookingRejectionCode } from '@/booking/service';
+import { placeBooking, recordBooking, BookingRejected, type BookingRejectionCode } from '@/booking/service';
+import { createBookingRepo } from '@/booking/repository';
+import { findEventInfo } from '@/booking/lib/event-info';
+import { newManageToken } from '@/booking/lib/token';
+import { getPrisma } from '@/lib/prisma';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
@@ -30,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
-        const booking = await placeBooking(parsed.data, {
+        const { booking, price } = await placeBooking(parsed.data, {
             enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
             getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(`/event/${id}`)) as { data: unknown }).data),
             gateway: createGatewayClient({
@@ -39,7 +43,16 @@ export async function POST(request: NextRequest) {
                 fetch,
             }),
         });
-        return NextResponse.json({ success: true, booking });
+        const record = await recordBooking(
+            { booking, request: parsed.data, price },
+            {
+                getEventInfo: async (tourId, eventId) => findEventInfo(await freetour.get(`/tours/${tourId}/events`), eventId),
+                save: (r) => createBookingRepo(getPrisma()).save(r),
+                newToken: newManageToken,
+                now: new Date(),
+            }
+        );
+        return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null });
     } catch (error) {
         if (error instanceof BookingRejected) {
             return NextResponse.json({ error: error.code, message: error.message }, { status: STATUS[error.code] });
