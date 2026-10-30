@@ -39,7 +39,12 @@
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
     "SITE_URL": "https://travel-puzzle-web.adrianrodvarmxb.workers.dev",
     // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)
-    "WHATSAPP_NUMBER": "525536490320"
+    "WHATSAPP_NUMBER": "525536490320",
+    // Redes sociales de Travel Puzzle (aparecen en el pie de los correos)
+    "SOCIAL_INSTAGRAM": "https://www.instagram.com/travelpuzzle/",
+    "SOCIAL_FACEBOOK": "https://www.facebook.com/travelpuzzle",
+    "SOCIAL_TIKTOK": "https://www.tiktok.com/@travelpuzzle",
+    "SOCIAL_YOUTUBE": "https://www.youtube.com/@travelpuzzle"
   },
   "triggers": {
     // Cada minuto. El catálogo arranca a diario a las 3:00 a. m. (CDMX); el resto del tiempo actualiza reseñas.
