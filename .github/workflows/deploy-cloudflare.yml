@@ -63,6 +63,7 @@ jobs:
           FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
           FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           existentes=$(npx wrangler secret list --format json 2>/dev/null || echo "[]")
           tiene() { echo "$existentes" | grep -q "\"name\": *\"$1\""; }
@@ -71,6 +72,8 @@ jobs:
           printf '%s' "$FREETOUR_PASSWORD" | npx wrangler secret put FREETOUR_PASSWORD
           # Pasarela de reservas: el mismo secreto que en cPanel (si ya está en GitHub)
           if [ -n "$GATEWAY_SECRET" ]; then printf '%s' "$GATEWAY_SECRET" | npx wrangler secret put GATEWAY_SECRET; fi
+          # Correos (Resend), si ya está en GitHub
+          if [ -n "$RESEND_API_KEY" ]; then printf '%s' "$RESEND_API_KEY" | npx wrangler secret put RESEND_API_KEY; fi
           # Claves internas: se generan una sola vez y se conservan
           for n in CRON_SECRET AUTH_SECRET; do
             if ! tiene "$n"; then openssl rand -base64 32 | tr -d '\n' | npx wrangler secret put "$n"; fi

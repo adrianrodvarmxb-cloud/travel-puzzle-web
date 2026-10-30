@@ -6,6 +6,10 @@ import { createBookingRepo } from '@/booking/repository';
 import { findEventInfo } from '@/booking/lib/event-info';
 import { newManageToken } from '@/booking/lib/token';
 import { getPrisma } from '@/lib/prisma';
+import { sendBookingConfirmation } from '@/booking/notify';
+import { getTourSummary } from '@/booking/tour-summary';
+import { sendEmail } from '@/notifications/resend';
+import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
@@ -52,6 +56,20 @@ export async function POST(request: NextRequest) {
                 now: new Date(),
             }
         );
+        if (record) {
+            const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
+            await sendBookingConfirmation(record, {
+                enabled: isBookingsEnabled(process.env.EMAILS_ENABLED),
+                lang,
+                siteUrl: process.env.SITE_URL ?? '',
+                getTour: (id, l) => getTourSummary(getPrisma(), id, l),
+                send: (email) =>
+                    sendEmail(
+                        { apiKey: process.env.RESEND_API_KEY ?? '', fetch },
+                        { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }
+                    ),
+            });
+        }
         return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null });
     } catch (error) {
         if (error instanceof BookingRejected) {
