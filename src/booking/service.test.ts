@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { placeBooking, BookingRejected } from "./service";
+import { placeBooking, recordBooking, BookingRejected } from "./service";
 import { GatewayError } from "./gateway-client";
 
 const dto = { eventId: 631716694, adults: 2, children: 0, price: 0, customer: { email: "ana@example.com", firstName: "Ana", lastName: "Pérez", phone: "55 1234 5678" } };
@@ -25,7 +25,7 @@ describe("placeBooking", () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
     const out = await placeBooking(dto, { gateway, getEvent, enabled: true });
     expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { ...dto.customer, phone: "+525512345678" } });
-    expect(out).toEqual(booking);
+    expect(out).toEqual({ booking, price: 0 });
   });
 
   it("teléfono inválido: error claro sin llamar a la pasarela", async () => {
@@ -61,3 +61,31 @@ describe("placeBooking", () => {
     expect(gateway.createBooking).not.toHaveBeenCalled();
   });
 });
+
+describe("recordBooking", () => {
+  const now = new Date("2026-10-30T14:27:46Z");
+  const b = { ...booking, refNumber: "6782-20261030162746-244" };
+  const info = { date: "2026-10-31 08:00:00", utcDate: "2026-10-31 06:00:00", language: "French" };
+
+  it("busca la fecha real del evento en el tour del número de reserva y guarda", async () => {
+    const getEventInfo = vi.fn(async () => info);
+    const save = vi.fn(async () => {});
+    const rec = await recordBooking({ booking: b, request: dto, price: 0 }, { getEventInfo, save, newToken: () => "tok", now });
+    expect(getEventInfo).toHaveBeenCalledWith(6782, 631716694);
+    expect(save).toHaveBeenCalledWith(expect.objectContaining({ refNumber: b.refNumber, tourExternalId: 6782, eventDate: info.date, manageToken: "tok" }));
+    expect(rec?.manageToken).toBe("tok");
+  });
+
+  it("si falla el guardado no lanza (el cliente igual ve su reserva)", async () => {
+    const save = vi.fn(async () => { throw new Error("D1 caído"); });
+    const rec = await recordBooking({ booking: b, request: dto, price: 0 }, { getEventInfo: async () => info, save, newToken: () => "t", now });
+    expect(rec).toBeNull();
+  });
+
+  it("si no se encuentra la fecha, guarda igual sin fecha", async () => {
+    const save = vi.fn(async () => {});
+    await recordBooking({ booking: b, request: dto, price: 0 }, { getEventInfo: async () => { throw new Error("x"); }, save, newToken: () => "t", now });
+    expect(save).toHaveBeenCalledWith(expect.objectContaining({ eventDate: null }));
+  });
+});
+
