@@ -16,6 +16,18 @@ const data = {
   manageUrl: "https://travelpuzzle.com.mx/reserva/abc",
   logoUrl: "https://travelpuzzle.com.mx/brand/logo-animado-tp.gif",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=19.43,-99.13",
+  heroImageUrl: "https://www.freetour.com/images/tours/6782/hero.jpg",
+  galleryUrls: ["https://www.freetour.com/images/tours/6782/a.jpg", "https://www.freetour.com/images/tours/6782/b.jpg"],
+  reviews: [
+    { name: "Lucía", rate: 5, text: "El guía fue increíble, aprendimos muchísimo." },
+    { name: "Mark", rate: 4, text: "Great tour, very fun." },
+  ],
+  isFree: true,
+  contact: {
+    whatsapp: "525512345678",
+    socials: [{ name: "Instagram", url: "https://instagram.com/travelpuzzle" }, { name: "Facebook", url: "https://facebook.com/travelpuzzle" }],
+    assistantUrl: "https://travelpuzzle.com.mx/asistente",
+  },
 };
 
 describe("correo de confirmación", () => {
@@ -61,6 +73,52 @@ describe("logo y cómo llegar", () => {
     expect(buildBookingConfirmationEmail(data).html).toContain("Cómo llegar");
     expect(buildBookingConfirmationEmail({ ...data, mapsUrl: null }).html).not.toContain("Cómo llegar");
     expect(buildBookingConfirmationEmail(data).text).toContain("Cómo llegar: https://www.google.com/maps/search/?api=1&amp;query=19.43,-99.13".replace("&amp;", "&"));
+  });
+});
+
+describe("diseño de alto impacto (manual de marca)", () => {
+  it("usa los colores de la marca y la foto del tour", () => {
+    const { html } = buildBookingConfirmationEmail(data);
+    for (const c of ["#304A9F", "#008DFF", "#EAF54F"]) expect(html.toUpperCase()).toContain(c.toUpperCase());
+    expect(html).toContain('src="https://www.freetour.com/images/tours/6782/hero.jpg"');
+    expect(html).toContain("Poppins");
+    expect(html).toContain("Armamos tu viaje");
+  });
+
+  it("muestra galería y reseñas reales con estrellas", () => {
+    const { html, text } = buildBookingConfirmationEmail(data);
+    expect(html).toContain("tours/6782/a.jpg");
+    expect(html).toContain("Lucía");
+    expect(html).toContain("★★★★★");
+    expect(html).toContain("★★★★☆");
+    expect(text).toContain("El guía fue increíble");
+  });
+
+  it("sin fotos ni reseñas no deja huecos", () => {
+    const { html } = buildBookingConfirmationEmail({ ...data, heroImageUrl: null, galleryUrls: [], reviews: [] });
+    expect(html).not.toContain("tours/6782/hero.jpg");
+    expect(html).not.toMatch(/otros viajeros/i);
+  });
+
+  it("en free tour recuerda la propina; en tour de pago no", () => {
+    expect(buildBookingConfirmationEmail(data).html).toMatch(/propina/i);
+    expect(buildBookingConfirmationEmail({ ...data, isFree: false }).html).not.toMatch(/propina/i);
+  });
+});
+
+describe("contacto: WhatsApp, redes y asistente", () => {
+  it("botón de WhatsApp directo con el número de reserva ya escrito", () => {
+    const { html } = buildBookingConfirmationEmail(data);
+    expect(html).toContain("https://wa.me/525512345678?text=");
+    expect(html).toContain(encodeURIComponent("6782-20261030162746-244"));
+  });
+  it("redes sociales y asistente solo si están configurados", () => {
+    const full = buildBookingConfirmationEmail(data).html;
+    expect(full).toContain("https://instagram.com/travelpuzzle");
+    expect(full).toContain("https://travelpuzzle.com.mx/asistente");
+    const none = buildBookingConfirmationEmail({ ...data, contact: { socials: [] } }).html;
+    expect(none).not.toContain("wa.me");
+    expect(none).not.toMatch(/asistente/i);
   });
 });
 

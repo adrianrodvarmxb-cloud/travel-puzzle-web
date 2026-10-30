@@ -5,9 +5,11 @@ import { placeBooking, recordBooking, BookingRejected, type BookingRejectionCode
 import { createBookingRepo } from '@/booking/repository';
 import { findEventInfo } from '@/booking/lib/event-info';
 import { newManageToken } from '@/booking/lib/token';
-import { getPrisma } from '@/lib/prisma';
+import { getPrisma, getD1 } from '@/lib/prisma';
 import { sendBookingConfirmation } from '@/booking/notify';
-import { getTourSummary } from '@/booking/tour-summary';
+import { getTourSummary, contactFromEnv } from '@/booking/tour-summary';
+import { createReviewRepo } from '@/reviews/repository';
+import { pickReviews } from '@/reviews/lib/reviews';
 import { sendEmail } from '@/notifications/resend';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { createFreetourApi } from '@/freetour/api';
@@ -63,6 +65,11 @@ export async function POST(request: NextRequest) {
                 lang,
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
+                getReviews: async (id, l) =>
+                    pickReviews(await createReviewRepo(getPrisma(), getD1()).listByTour(id), { lang: l, limit: 2 })
+                        .filter((r) => r.content && r.content.length <= 280)
+                        .map((r) => ({ name: r.reviewerName, rate: r.rate, text: r.content as string })),
+                contact: contactFromEnv(process.env as Record<string, string | undefined>),
                 send: (email) =>
                     sendEmail(
                         { apiKey: process.env.RESEND_API_KEY ?? '', fetch },

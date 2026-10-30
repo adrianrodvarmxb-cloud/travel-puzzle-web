@@ -6,6 +6,15 @@ export interface TourSummary {
   provider: string | null;
   duration: string | null;
   meetingPoint: unknown;
+  imageUrl?: string | null;
+  galleryUrls?: string[];
+  isFree?: boolean;
+}
+
+export interface ContactConfig {
+  whatsapp?: string;
+  socials?: { name: string; url: string }[];
+  assistantUrl?: string;
 }
 
 interface Deps {
@@ -14,6 +23,9 @@ interface Deps {
   lang: EmailLang;
   siteUrl: string;
   getTour(tourExternalId: number, lang: EmailLang): Promise<TourSummary | null>;
+  /** Reseñas reales (4–5 estrellas) de este tour, ya filtradas. */
+  getReviews?(tourExternalId: number, lang: EmailLang): Promise<{ name: string; rate: number; text: string }[]>;
+  contact?: ContactConfig;
   send(email: { to: string; subject: string; html: string; text: string }): Promise<string>;
 }
 
@@ -23,6 +35,7 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
   try {
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
+    const reviews = record.tourExternalId && deps.getReviews ? await deps.getReviews(record.tourExternalId, deps.lang).catch(() => []) : [];
     const email = buildBookingConfirmationEmail({
       lang: deps.lang,
       refNumber: record.refNumber,
@@ -38,6 +51,11 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
       manageUrl: `${site}/reserva/${record.manageToken}`,
       logoUrl: `${site}/brand/logo-animado-tp.gif`,
       mapsUrl: mapsUrlFor(tour?.meetingPoint),
+      heroImageUrl: tour?.imageUrl ?? null,
+      galleryUrls: tour?.galleryUrls ?? [],
+      reviews,
+      isFree: tour?.isFree ?? record.price === 0,
+      contact: deps.contact,
     });
     await deps.send({ to: record.email, ...email });
     return "sent";
