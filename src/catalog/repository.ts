@@ -28,6 +28,12 @@ export function createCatalogRepo(prisma: PrismaClient): CatalogRepo {
       });
     },
 
+    async existingCountryIds(ids) {
+      if (ids.length === 0) return [];
+      const rows = await prisma.country.findMany({ where: { id: { in: ids } }, select: { id: true } });
+      return rows.map((r) => r.id);
+    },
+
     async existingCityIds(ids) {
       if (ids.length === 0) return [];
       const rows = await prisma.city.findMany({ where: { id: { in: ids } }, select: { id: true } });

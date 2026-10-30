@@ -11,6 +11,7 @@ function fakeRepo(initial: Awaited<ReturnType<CatalogRepo["getState"]>> = null) 
     getState: vi.fn(async () => state),
     saveState: vi.fn(async (s) => { state = { ...(state ?? { status: "", nextPage: 1, totalPages: 0, runStartedAt: null }), ...s }; }),
     existingCityIds: vi.fn(async () => [] as number[]),
+    existingCountryIds: vi.fn(async (ids: number[]) => ids.filter((id) => repo.countries.includes(id))),
     upsertCountries: vi.fn(async (rows: { id: number }[]) => { repo.countries.push(...rows.map((r) => r.id)); }),
     upsertCities: vi.fn(async (rows: { id: number }[]) => { repo.cities.push(...rows.map((r) => r.id)); }),
     upsertTours: vi.fn(async (rows: { tour: { externalId: number } }[]) => { repo.tours.push(...rows.map((r) => r.tour.externalId)); }),
@@ -81,5 +82,21 @@ describe("runSyncStep", () => {
     const api = fakeApi();
     expect(await runSyncStep({ api, repo, countries: countries as never, now })).toEqual({ action: "idle" });
     expect(api.get).not.toHaveBeenCalled();
+  });
+
+  it("si la corrida retoma sin países guardados, primero guarda el país y luego sus ciudades", async () => {
+    const repo = fakeRepo({ status: "failed", nextPage: 2, totalPages: 2, runStartedAt: now });
+    const order: string[] = [];
+    repo.upsertCountries.mockImplementation(async (rows) => { order.push("países"); repo.countries.push(...rows.map((r) => r.id)); });
+    repo.upsertCities.mockImplementation(async () => { order.push("ciudades"); });
+    await runSyncStep({ api: fakeApi(), repo, countries: countries as never, now });
+    expect(repo.countries).toEqual([99]);
+    expect(order).toEqual(["países", "ciudades"]);
+  });
+
+  it("si Freetour manda un país que no está en la lista, lo guarda con nombre provisional", async () => {
+    const repo = fakeRepo({ status: "in_progress", nextPage: 2, totalPages: 2, runStartedAt: now });
+    await runSyncStep({ api: fakeApi(), repo, countries: [] as never, now });
+    expect(repo.upsertCountries).toHaveBeenCalledWith([expect.objectContaining({ id: 99, code: "C99" })]);
   });
 });

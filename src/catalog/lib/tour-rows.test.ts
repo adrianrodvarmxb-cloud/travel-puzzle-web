@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { toTourRows, cityIdsOf, countryRow } from "./tour-rows";
+import { toTourRows, cityIdsOf, countryRow, countryRows, placeholderCountry } from "./tour-rows";
 
 const t = (s: string) => ({ en: `${s} en`, es: `${s} es`, pt: "", de: "", fr: "", it: "" });
 const apiTour = {
@@ -51,5 +51,15 @@ describe("helpers", () => {
   it("countryRow usa el nombre en cada idioma y el código corto", () => {
     const c = { id: 99, shortTitle: "mx", title: { en: "Mexico", es: "México", pt: "México", de: "Mexiko", fr: "Mexique", it: "Messico" } };
     expect(countryRow(c as never)).toEqual({ id: 99, code: "MX", translations: c.title });
+  });
+
+  it("countryRows evita códigos repetidos (el código es único en la base)", () => {
+    const a = { id: 1, shortTitle: "gb", title: t("A") };
+    const b = { id: 2, shortTitle: "GB", title: t("B") };
+    expect(countryRows([a, b] as never).map((r) => r.code)).toEqual(["GB", "GB-2"]);
+  });
+
+  it("placeholderCountry crea un país provisional con código único", () => {
+    expect(placeholderCountry(77)).toEqual({ id: 77, code: "C77", translations: expect.objectContaining({ es: "País 77" }) });
   });
 });
