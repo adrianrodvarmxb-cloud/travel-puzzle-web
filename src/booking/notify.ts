@@ -1,4 +1,4 @@
-import { buildBookingConfirmationEmail, meetingPointText, type EmailLang } from "@/notifications/lib/booking-email";
+import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type EmailLang } from "@/notifications/lib/booking-email";
 import type { BookingRecord } from "./lib/booking-record";
 
 export interface TourSummary {
@@ -21,6 +21,7 @@ interface Deps {
 export async function sendBookingConfirmation(record: BookingRecord, deps: Deps): Promise<"disabled" | "sent" | "failed"> {
   if (!deps.enabled) return "disabled";
   try {
+    const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const email = buildBookingConfirmationEmail({
       lang: deps.lang,
@@ -34,7 +35,9 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
       adults: record.adults,
       children: record.children,
       meetingPoint: meetingPointText(tour?.meetingPoint, deps.lang),
-      manageUrl: `${deps.siteUrl.replace(/\/+$/, "")}/reserva/${record.manageToken}`,
+      manageUrl: `${site}/reserva/${record.manageToken}`,
+      logoUrl: `${site}/brand/logo-animado-tp.gif`,
+      mapsUrl: mapsUrlFor(tour?.meetingPoint),
     });
     await deps.send({ to: record.email, ...email });
     return "sent";

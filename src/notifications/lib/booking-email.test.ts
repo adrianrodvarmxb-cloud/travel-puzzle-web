@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildBookingConfirmationEmail, meetingPointText } from "./booking-email";
+import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor } from "./booking-email";
 
 const data = {
   lang: "es" as const,
@@ -14,6 +14,8 @@ const data = {
   children: 1,
   meetingPoint: "Zócalo, frente a la Catedral",
   manageUrl: "https://travelpuzzle.com.mx/reserva/abc",
+  logoUrl: "https://travelpuzzle.com.mx/brand/logo-animado-tp.gif",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=19.43,-99.13",
 };
 
 describe("correo de confirmación", () => {
@@ -46,6 +48,28 @@ describe("correo de confirmación", () => {
     const { html } = buildBookingConfirmationEmail({ ...data, meetingPoint: null, eventDate: null, provider: null });
     expect(html).not.toContain("null");
     expect(html).toContain("6782-20261030162746-244");
+  });
+});
+
+describe("logo y cómo llegar", () => {
+  it("muestra el logo animado en el encabezado con texto alternativo", () => {
+    const { html } = buildBookingConfirmationEmail(data);
+    expect(html).toContain('src="https://travelpuzzle.com.mx/brand/logo-animado-tp.gif"');
+    expect(html).toContain('alt="Travel Puzzle"');
+  });
+  it("incluye el botón Cómo llegar cuando hay mapa, y lo omite si no", () => {
+    expect(buildBookingConfirmationEmail(data).html).toContain("Cómo llegar");
+    expect(buildBookingConfirmationEmail({ ...data, mapsUrl: null }).html).not.toContain("Cómo llegar");
+    expect(buildBookingConfirmationEmail(data).text).toContain("Cómo llegar: https://www.google.com/maps/search/?api=1&amp;query=19.43,-99.13".replace("&amp;", "&"));
+  });
+});
+
+describe("mapsUrlFor", () => {
+  it("arma el enlace de Google Maps con coordenadas y lugar", () => {
+    expect(mapsUrlFor({ coordinates: "19.4326,-99.1332", googlePlaceId: "ChIJ1" })).toBe("https://www.google.com/maps/search/?api=1&query=19.4326%2C-99.1332&query_place_id=ChIJ1");
+    expect(mapsUrlFor({ coordinates: "19.4,-99.1" })).toBe("https://www.google.com/maps/search/?api=1&query=19.4%2C-99.1");
+    expect(mapsUrlFor({ title: "x" })).toBeNull();
+    expect(mapsUrlFor(null)).toBeNull();
   });
 });
 

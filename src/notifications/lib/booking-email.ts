@@ -18,6 +18,10 @@ export interface BookingEmailData {
   children: number;
   meetingPoint: string | null;
   manageUrl: string;
+  /** Logo animado (URL pública del sitio). */
+  logoUrl: string;
+  /** Google Maps al punto de encuentro, si hay coordenadas. */
+  mapsUrl: string | null;
 }
 
 const esc = (s: string) =>
@@ -36,6 +40,7 @@ const T = {
     ref: "Número de reserva", tour: "Tour", provider: "Organiza", date: "Fecha y hora", duration: "Duración",
     language: "Idioma del tour", people: "Personas", meeting: "Punto de encuentro",
     manage: "Ver, cambiar o cancelar mi reserva",
+    maps: "Cómo llegar",
     manageNote: "Si no puedes asistir, cancela desde este enlace para liberar el lugar. Guárdalo: es privado.",
     people_: (a: number, c: number) => [`${a} ${a === 1 ? "adulto" : "adultos"}`, c ? `${c} ${c === 1 ? "niño" : "niños"}` : ""].filter(Boolean).join(", "),
     locale: "es-MX",
@@ -48,6 +53,7 @@ const T = {
     ref: "Booking number", tour: "Tour", provider: "Organized by", date: "Date and time", duration: "Duration",
     language: "Tour language", people: "People", meeting: "Meeting point",
     manage: "View, change or cancel my booking",
+    maps: "Get directions",
     manageNote: "If you can't make it, please cancel from this link to free up the spot. Keep it safe: it's private.",
     people_: (a: number, c: number) => [`${a} ${a === 1 ? "adult" : "adults"}`, c ? `${c} ${c === 1 ? "child" : "children"}` : ""].filter(Boolean).join(", "),
     locale: "en-US",
@@ -63,6 +69,15 @@ function formatEventDate(value: string, lang: EmailLang): string {
   const date = new Date(Date.UTC(+y, +mo - 1, +d));
   const day = date.toLocaleDateString(T[lang].locale, { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
   return `${day}, ${h}:${mi}`;
+}
+
+/** Enlace de Google Maps al punto de encuentro (coordenadas "lat,lng" y, si hay, el lugar de Google). */
+export function mapsUrlFor(mp: unknown): string | null {
+  const o = (mp ?? {}) as { coordinates?: unknown; googlePlaceId?: unknown };
+  if (typeof o.coordinates !== "string" || !/^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(o.coordinates.trim())) return null;
+  const q = new URLSearchParams({ api: "1", query: o.coordinates.replace(/\s/g, "") });
+  if (typeof o.googlePlaceId === "string" && o.googlePlaceId) q.set("query_place_id", o.googlePlaceId);
+  return `https://www.google.com/maps/search/?${q.toString()}`;
 }
 
 /** El punto de encuentro de Freetour llega como texto o por idioma. */
@@ -95,13 +110,14 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const html = `<!doctype html><html><body style="margin:0;background:#f4f6fb;font-family:Arial,Helvetica,sans-serif;color:#1f2937">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="100%" style="max-width:560px;background:#ffffff;border-radius:12px;overflow:hidden">
-<tr><td style="background:#2563eb;color:#ffffff;padding:20px 24px;font-size:20px;font-weight:bold">Travel Puzzle</td></tr>
+<tr><td align="center" style="background:#ffffff;padding:20px 24px 8px;border-bottom:4px solid #2563eb"><img src="${esc(d.logoUrl)}" width="160" alt="Travel Puzzle" style="display:block;width:160px;max-width:60%;height:auto;border:0"></td></tr>
 <tr><td style="padding:24px">
 <p style="margin:0 0 8px">${esc(t.hello(d.firstName))}</p>
 <p style="margin:0 0 16px">${esc(t.intro)}</p>
 <table role="presentation" width="100%" cellpadding="6" cellspacing="0" style="border-collapse:collapse;font-size:14px">
 ${rows.map(([k, v]) => `<tr><td style="color:#6b7280;width:40%;vertical-align:top">${esc(k)}</td><td style="font-weight:bold">${esc(v)}</td></tr>`).join("\n")}
 </table>
+${d.mapsUrl ? `<p style="margin:16px 0 0"><a href="${esc(d.mapsUrl)}" style="color:#2563eb;font-weight:bold">📍 ${esc(t.maps)}</a></p>` : ""}
 <p style="margin:24px 0 8px"><a href="${esc(d.manageUrl)}" style="display:inline-block;background:#f97316;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold">${esc(t.manage)}</a></p>
 <p style="margin:0;font-size:13px;color:#6b7280">${esc(t.manageNote)}</p>
 </td></tr>
@@ -114,6 +130,7 @@ ${rows.map(([k, v]) => `<tr><td style="color:#6b7280;width:40%;vertical-align:to
     t.intro,
     "",
     ...rows.map(([k, v]) => `${k}: ${v}`),
+    ...(d.mapsUrl ? [`${t.maps}: ${d.mapsUrl}`] : []),
     "",
     `${t.manage}: ${d.manageUrl}`,
     t.manageNote,
