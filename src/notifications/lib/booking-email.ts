@@ -59,7 +59,7 @@ export interface BookingEmailData {
 }
 
 import { BRAND } from "./brand";
-import { esc, renderShell, kit, UI, MONO } from "./email-layout";
+import { esc, renderShell, kit, supportCard, UI, MONO } from "./email-layout";
 export { BRAND };
 
 
@@ -90,6 +90,7 @@ const T = {
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
     help: "¿Dudas? Estamos para ayudarte",
     whatsapp: "Escríbenos por WhatsApp",
+    waSub: "Toca el botón y escríbenos por WhatsApp; ya lleva tu número de reserva.",
     waText: (ref: string) => `Hola Travel Puzzle, tengo la reserva ${ref} y tengo una duda.`,
     assistant: "Pregúntale a nuestro asistente",
     follow: "Síguenos",
@@ -134,6 +135,7 @@ const T = {
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
     help: "Questions? We're here to help",
     whatsapp: "Message us on WhatsApp",
+    waSub: "Tap the button to message us on WhatsApp; your booking number is already in it.",
     waText: (ref: string) => `Hi Travel Puzzle, I have booking ${ref} and a question.`,
     assistant: "Ask our assistant",
     follow: "Follow us",
@@ -334,13 +336,7 @@ ${eyebrow(t.secTips)}${h2(t.tipsTitle)}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${t.tips(!!d.isFree).map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
 </td></tr>
 
-${waUrl || assistantUrl ? `<tr><td style="padding:22px 22px 0">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px"><tr><td align="center" style="padding:24px 18px">
-${eyebrow(t.secHelp, DIM)}${h2(t.help, "#ffffff")}
-${waUrl ? `<a href="${esc(waUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 20px;border-radius:10px;margin:4px">${esc(t.whatsapp)}</a>` : ""}
-${assistantUrl ? `<a href="${esc(assistantUrl)}" style="display:inline-block;border:1px solid ${B.lightBlue};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:10px;margin:4px">✦ ${esc(t.assistant)}</a>` : ""}
-</td></tr></table>
-</td></tr>` : ""}
+${waUrl || assistantUrl ? supportCard({ eyebrow: eyebrow(t.secHelp, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl, assistant: assistantUrl ? { url: assistantUrl, label: t.assistant } : null }) : ""}
 
 ${more.length ? `<tr><td style="padding:30px 26px 0">
 ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}

@@ -44,6 +44,41 @@ export function kit() {
   };
 }
 
+/**
+ * Tarjeta de soporte con el botón redondo de WhatsApp (como el flotante de los sitios):
+ * texto a la izquierda, burbuja verde a la derecha. `eyebrow` ya viene armado (numerado).
+ */
+export function supportCard(o: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  waUrl: string | null;
+  waLabel: string;
+  iconsBaseUrl?: string;
+  assistant?: { url: string; label: string } | null;
+}): string {
+  const { N9, N8, DIM } = UI;
+  if (!o.waUrl && !o.assistant) return "";
+  const icons = o.iconsBaseUrl?.replace(/\/+$/, "");
+  const bubble = o.waUrl
+    ? `<a href="${esc(o.waUrl)}" title="${esc(o.waLabel)}" style="display:inline-block;text-decoration:none">${
+        icons
+          ? `<img src="${esc(`${icons}/whatsapp.png`)}" width="60" height="60" alt="${esc(o.waLabel)}" style="display:block;width:60px;height:60px;border:0;border-radius:50%;box-shadow:0 6px 18px rgba(37,211,102,0.45)">`
+          : `<span style="display:block;width:60px;height:60px;line-height:60px;border-radius:50%;background:#25D366;color:#ffffff;text-align:center;font-weight:700;font-size:13px">WA</span>`
+      }</a>`
+    : "";
+  return `<tr><td style="padding:26px 22px 0">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px"><tr>
+<td valign="middle" style="padding:22px 8px 22px 22px">
+${o.eyebrow}<div style="font-size:19px;line-height:1.25;font-weight:700;color:#ffffff;letter-spacing:-0.3px">${esc(o.title)}</div>
+<div style="font-size:13px;line-height:1.5;color:${DIM};margin-top:6px">${esc(o.subtitle)}</div>
+${o.assistant ? `<a href="${esc(o.assistant.url)}" style="display:inline-block;margin-top:12px;color:#ffffff;text-decoration:none;font-weight:600;font-size:13px;border-bottom:1px solid ${B.lightBlue}">✦ ${esc(o.assistant.label)} →</a>` : ""}
+</td>
+${bubble ? `<td width="92" align="center" valign="middle" style="padding:22px 22px 22px 8px">${bubble}</td>` : ""}
+</tr></table>
+</td></tr>`;
+}
+
 export interface ShellOptions {
   lang: "es" | "en";
   subject: string;

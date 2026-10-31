@@ -17,6 +17,8 @@ describe("correo post-tour", () => {
     expect(subject).toBe("¿Qué tal estuvo tu tour? – Free Tour Centro");
     for (const n of [1, 2, 3, 4, 5]) expect(html).toContain(`/reserva/abc/resena?rate=${n}`);
     expect(text).toContain("Excelente: https://travelpuzzle.com.mx/reserva/abc/resena?rate=5");
+    expect(html).toContain("Escribe tu reseña");
+    expect(html).toContain("/reserva/abc/resena?write=1");
   });
   it("siguiente plan solo con foto segura y WhatsApp para quejas", () => {
     const { html } = buildReviewRequestEmail({ ...base, cityName: "CDMX", moreTours: [{ title: "Coyoacán", url: "https://x/a", imageUrl: "https://x/a.jpg" }] });

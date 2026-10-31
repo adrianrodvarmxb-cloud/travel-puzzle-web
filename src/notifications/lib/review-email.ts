@@ -3,7 +3,7 @@
  * Función pura, mismo marco visual que los demás correos.
  */
 import { BRAND as B } from "./brand";
-import { esc, kit, renderShell, whatsappUrl, UI, MONO, type ContactInfo } from "./email-layout";
+import { esc, kit, renderShell, supportCard, whatsappUrl, UI, MONO, type ContactInfo } from "./email-layout";
 import type { EmailLang } from "./booking-email";
 
 export interface ReviewEmailData {
@@ -27,12 +27,15 @@ const T = {
     status: "Tour completado",
     hero: "¿Qué tal estuvo tu tour?",
     intro: (n: string, t: string) => `Hola ${n}: esperamos que hayas disfrutado ${t}. Califícalo con un clic; tu opinión ayuda a otros viajeros y al guía.`,
-    rateLabel: "Toca las estrellas",
+    rateLabel: "1. Toca las estrellas",
+    writeLabel: "2. Escribe tu reseña",
+    writePlaceholder: "¿Qué te gustó del guía, del recorrido, de la ciudad? ¿Qué le recomendarías a otro viajero?",
+    writeCta: "Escribir mi reseña",
     stars: ["Malo", "Regular", "Bueno", "Muy bueno", "Excelente"],
     tip: "Si te gustó, recuerda que en un free tour la propina es la forma de agradecer al guía.",
     next: "Tu siguiente plan", nextTitle: (c: string | null) => (c ? `Sigue explorando ${c}` : "Tu siguiente aventura"),
     free: "Gratis", see: "Ver tour",
-    help: "¿Algo salió mal? Cuéntanos", whatsapp: "Escríbenos por WhatsApp", support: "Soporte",
+    help: "¿Algo salió mal? Cuéntanos", whatsapp: "Escríbenos por WhatsApp", waSub: "Toca el botón y cuéntanos por WhatsApp; lo resolvemos contigo.", support: "Soporte",
     waText: (ref: string) => `Hola Travel Puzzle, tengo un comentario sobre mi tour (reserva ${ref}).`,
     myBooking: "Mi reserva", helpShort: "Ayuda", follow: "Síguenos", slogan: "Armamos tu viaje",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
@@ -42,12 +45,15 @@ const T = {
     status: "Tour completed",
     hero: "How was your tour?",
     intro: (n: string, t: string) => `Hi ${n}, we hope you enjoyed ${t}. Rate it in one click; your review helps other travelers and your guide.`,
-    rateLabel: "Tap the stars",
+    rateLabel: "1. Tap the stars",
+    writeLabel: "2. Write your review",
+    writePlaceholder: "What did you like about the guide, the route, the city? What would you tell another traveler?",
+    writeCta: "Write my review",
     stars: ["Poor", "Fair", "Good", "Very good", "Excellent"],
     tip: "If you liked it, remember that on a free tour the tip is how you thank your guide.",
     next: "Your next plan", nextTitle: (c: string | null) => (c ? `Keep exploring ${c}` : "Your next adventure"),
     free: "Free", see: "See tour",
-    help: "Something went wrong? Tell us", whatsapp: "Message us on WhatsApp", support: "Support",
+    help: "Something went wrong? Tell us", whatsapp: "Message us on WhatsApp", waSub: "Tap the button and tell us on WhatsApp; we'll sort it out with you.", support: "Support",
     waText: (ref: string) => `Hi Travel Puzzle, I have feedback about my tour (booking ${ref}).`,
     myBooking: "My booking", helpShort: "Help", follow: "Follow us", slogan: "Armamos tu viaje",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
@@ -57,7 +63,8 @@ const T = {
 export function buildReviewRequestEmail(d: ReviewEmailData) {
   const t = T[d.lang];
   const { N9, N8, LINE, SOFT, DIM } = UI;
-  const { eyebrow, h2, status } = kit();
+  const { eyebrow, h2, status, primary } = kit();
+  const writeUrl = `${d.reviewUrl}${d.reviewUrl.includes("?") ? "&" : "?"}write=1`;
   const waUrl = whatsappUrl(d.contact?.whatsapp, t.waText(d.refNumber));
   const sep = d.reviewUrl.includes("?") ? "&" : "?";
   const rateUrl = (n: number) => `${d.reviewUrl}${sep}rate=${n}`;
@@ -79,6 +86,10 @@ ${status(t.status, "#3DDC84", "#7CE3A1")}
 <tr><td style="padding:26px 20px 0">
 <div style="font-family:${MONO};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${B.lightBlue};text-align:center;margin-bottom:10px">${esc(t.rateLabel)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${stars}</tr></table>
+<div style="font-family:${MONO};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${B.lightBlue};text-align:center;margin:24px 0 10px">${esc(t.writeLabel)}</div>
+<a href="${esc(writeUrl)}" style="display:block;text-decoration:none;border:1px solid ${LINE};border-radius:12px;background:#ffffff;padding:14px 16px;min-height:96px;height:96px">
+<div style="font-size:14px;line-height:1.55;color:#9AA3B5">${esc(t.writePlaceholder)}</div></a>
+<div style="margin-top:14px">${primary(writeUrl, t.writeCta)}</div>
 <p style="margin:14px 6px 0;font-size:13px;line-height:1.5;color:${B.muted};text-align:center">${esc(t.tip)}</p>
 </td></tr>
 
@@ -91,12 +102,7 @@ ${eyebrow(t.next)}${h2(t.nextTitle(d.cityName ?? null))}
 <div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:8px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
 </td></tr>` : ""}
 
-${waUrl ? `<tr><td style="padding:26px 22px 0">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px"><tr><td align="center" style="padding:24px 18px">
-${eyebrow(t.support, DIM)}${h2(t.help, "#ffffff")}
-<a href="${esc(waUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 20px;border-radius:10px;margin:4px">${esc(t.whatsapp)}</a>
-</td></tr></table>
-</td></tr>` : ""}`;
+${supportCard({ eyebrow: eyebrow(t.support, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl })}`;
 
   const html = renderShell({
     lang: d.lang,
@@ -117,6 +123,8 @@ ${eyebrow(t.support, DIM)}${h2(t.help, "#ffffff")}
     t.intro(d.firstName, d.tourTitle),
     "",
     ...[5, 4, 3, 2, 1].map((n) => `${"★".repeat(n)} ${t.stars[n - 1]}: ${rateUrl(n)}`),
+    "",
+    `${t.writeCta}: ${writeUrl}`,
     "",
     t.tip,
     ...(more.length ? ["", t.nextTitle(d.cityName ?? null), ...more.map((x) => `- ${x.title}: ${x.url}`)] : []),
