@@ -44,6 +44,8 @@ export interface BookingEmailData {
   galleryUrls?: string[];
   /** Hasta 2 reseñas reales (4–5 estrellas) de este tour. */
   reviews?: { name: string; rate: number; text: string }[];
+  /** Confirmación (por defecto) o recordatorio: mismo contenido, otro encabezado. */
+  variant?: "confirmation" | "reminder48" | "dayOf";
   /** Free tour (recordar la propina). */
   isFree?: boolean;
   /** Canales de Travel Puzzle; cada uno aparece solo si está configurado. */
@@ -57,7 +59,7 @@ export interface BookingEmailData {
 }
 
 import { BRAND } from "./brand";
-import { esc, renderShell, kit, UI, MONO } from "./email-layout";
+import { esc, renderShell, kit, supportCard, UI, MONO } from "./email-layout";
 export { BRAND };
 
 
@@ -88,9 +90,14 @@ const T = {
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
     help: "¿Dudas? Estamos para ayudarte",
     whatsapp: "Escríbenos por WhatsApp",
+    waSub: "Toca el botón y escríbenos por WhatsApp; ya lleva tu número de reserva.",
     waText: (ref: string) => `Hola Travel Puzzle, tengo la reserva ${ref} y tengo una duda.`,
     assistant: "Pregúntale a nuestro asistente",
     follow: "Síguenos",
+    variants: {
+      reminder48: { subject: (t: string) => `Tu tour es en 2 días – ${t}`, badge: "Recordatorio", hero: "¡Ya casi es tu tour!" },
+      dayOf: { subject: (t: string) => `Tu tour está por empezar – ${t}`, badge: "Último recordatorio", hero: "¡Tu tour está por empezar!" },
+    },
     countdown: (n: number) => (n === 0 ? "¡Es hoy!" : n === 1 ? "¡Es mañana!" : `Faltan ${n} días`),
     calendar: "Agrégalo a tu calendario",
     reviewsCount: (n: number) => `${n} ${n === 1 ? "reseña" : "reseñas"}`,
@@ -128,9 +135,14 @@ const T = {
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
     help: "Questions? We're here to help",
     whatsapp: "Message us on WhatsApp",
+    waSub: "Tap the button to message us on WhatsApp; your booking number is already in it.",
     waText: (ref: string) => `Hi Travel Puzzle, I have booking ${ref} and a question.`,
     assistant: "Ask our assistant",
     follow: "Follow us",
+    variants: {
+      reminder48: { subject: (t: string) => `Your tour is in 2 days – ${t}`, badge: "Reminder", hero: "Your tour is almost here!" },
+      dayOf: { subject: (t: string) => `Your tour is about to start – ${t}`, badge: "Final reminder", hero: "Your tour is about to start!" },
+    },
     countdown: (n: number) => (n === 0 ? "It's today!" : n === 1 ? "It's tomorrow!" : `${n} days to go`),
     calendar: "Add it to your calendar",
     reviewsCount: (n: number) => `${n} ${n === 1 ? "review" : "reviews"}`,
@@ -253,17 +265,19 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
     [t.people, people],
     ...(d.meetingPoint ? [[t.meeting, d.meetingPoint] as [string, string]] : []),
   ];
-  const subject = t.subject(d.tourTitle);
+  const v = d.variant && d.variant !== "confirmation" ? t.variants[d.variant] : null;
+  const badge = v?.badge ?? t.badge, hero = v?.hero ?? t.hero;
+  const subject = v ? v.subject(d.tourTitle) : t.subject(d.tourTitle);
 
   const { N9, N8, LINE, SOFT, DIM } = UI;
   const mono = MONO;
-  const { eyebrow, h2, ghost, passCell } = kit();
+  const { eyebrow, h2, ghost, passCell, primary } = kit();
 
   const body = `${d.heroImageUrl ? `<tr><td style="background:${N9}"><img src="${esc(d.heroImageUrl)}" width="600" alt="${esc(d.tourTitle)}" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : ""}
 
 <tr><td style="background:${N9};background-image:linear-gradient(160deg,${N9} 0%,${N8} 55%,${B.darkBlue} 100%);padding:26px 26px 30px">
-<div style="font-family:${mono};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7CE3A1"><span style="color:#3DDC84">●</span>&nbsp; ${esc(t.badge)}${days !== null ? `<span style="color:#34467F">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span style="color:${B.yellow}">${esc(t.countdown(days))}</span>` : ""}</div>
-<h1 style="margin:14px 0 8px;font-size:32px;line-height:1.15;color:#ffffff;font-weight:700;letter-spacing:-0.6px">${esc(t.hero)}</h1>
+<div style="font-family:${mono};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7CE3A1"><span style="color:#3DDC84">●</span>&nbsp; ${esc(badge)}${days !== null ? `<span style="color:#34467F">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span style="color:${B.yellow}">${esc(t.countdown(days))}</span>` : ""}</div>
+<h1 style="margin:14px 0 8px;font-size:32px;line-height:1.15;color:#ffffff;font-weight:700;letter-spacing:-0.6px">${esc(hero)}</h1>
 <p style="margin:0;font-size:15px;line-height:1.5;color:#C9D6F5">${esc(t.hello(d.firstName))} <span style="color:#ffffff;font-weight:600">${esc(d.tourTitle)}</span></p>
 ${rating ? `<p style="margin:12px 0 0;font-size:13px;color:#C9D6F5"><span style="color:${B.yellow};letter-spacing:2px">★★★★★</span>&nbsp; <span style="font-family:${mono};color:#ffffff;font-weight:700">${rating.value.toFixed(1)}</span> · ${esc(t.reviewsCount(rating.count))}</p>` : ""}
 </td></tr>
@@ -301,7 +315,7 @@ ${rows.filter(([k]) => k !== t.ref).map(([k, v]) => `<tr><td style="padding:11px
 </td></tr>
 
 <tr><td align="center" style="padding:24px 26px 6px">
-<a href="${esc(d.manageUrl)}" style="display:block;background:${B.yellow};color:${N9};text-decoration:none;font-weight:700;font-size:16px;padding:16px 20px;border-radius:12px;text-align:center">${esc(t.manage)} &nbsp;→</a>
+${primary(d.manageUrl, t.manage)}
 <div style="margin-top:10px">${d.mapsUrl ? ghost(d.mapsUrl, `${esc(t.maps)} ↗`) : ""}${cal ? ghost(cal.google, "Google Calendar +") + ghost(cal.outlook, "Outlook +") : ""}</div>
 ${cal ? `<div style="font-family:${mono};font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${B.muted};margin-top:6px">${esc(t.calendar)}</div>` : ""}
 <p style="margin:14px 0 0;font-size:12px;line-height:1.5;color:${B.muted}">${esc(t.manageNote)}</p>
@@ -322,13 +336,7 @@ ${eyebrow(t.secTips)}${h2(t.tipsTitle)}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${t.tips(!!d.isFree).map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
 </td></tr>
 
-${waUrl || assistantUrl ? `<tr><td style="padding:22px 22px 0">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px"><tr><td align="center" style="padding:24px 18px">
-${eyebrow(t.secHelp, DIM)}${h2(t.help, "#ffffff")}
-${waUrl ? `<a href="${esc(waUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 20px;border-radius:10px;margin:4px">${esc(t.whatsapp)}</a>` : ""}
-${assistantUrl ? `<a href="${esc(assistantUrl)}" style="display:inline-block;border:1px solid ${B.lightBlue};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:10px;margin:4px">✦ ${esc(t.assistant)}</a>` : ""}
-</td></tr></table>
-</td></tr>` : ""}
+${waUrl || assistantUrl ? supportCard({ eyebrow: eyebrow(t.secHelp, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl, assistant: assistantUrl ? { url: assistantUrl, label: t.assistant } : null }) : ""}
 
 ${more.length ? `<tr><td style="padding:30px 26px 0">
 ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
@@ -342,7 +350,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
   const html = renderShell({
     lang: d.lang,
     subject,
-    preheader: `${t.badge} · ${d.tourTitle} · ${d.refNumber}`,
+    preheader: `${badge} · ${d.tourTitle} · ${d.refNumber}`,
     logoUrl: d.logoUrl,
     animatedLogoUrl: d.animatedLogoUrl,
     iconsBaseUrl: d.iconsBaseUrl,
@@ -355,7 +363,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
   });
 
   const text = [
-    t.hero + (days !== null ? ` (${t.countdown(days)})` : ""),
+    hero + (days !== null ? ` (${t.countdown(days)})` : ""),
     "",
     t.hello(d.firstName),
     t.intro,

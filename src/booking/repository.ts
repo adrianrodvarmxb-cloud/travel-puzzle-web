@@ -16,5 +16,22 @@ export function createBookingRepo(prisma: PrismaClient) {
     async setStatus(refNumber: string, status: string) {
       await prisma.freetourBooking.update({ where: { refNumber }, data: { status } });
     },
+    /** Reservas activas con el tour entre dos instantes ("YYYY-MM-DD HH:MM:SS" UTC). */
+    async listActiveBetween(fromUtc: string, toUtc: string) {
+      return prisma.freetourBooking.findMany({
+        where: { status: "active", eventUtcDate: { gte: fromUtc, lte: toUtc } },
+        orderBy: { eventUtcDate: "asc" },
+        take: 200,
+      });
+    },
+    /** "ref|kind" de los correos automáticos ya enviados. */
+    async sentKinds(refNumbers: string[]) {
+      if (!refNumbers.length) return new Set<string>();
+      const rows = await prisma.freetourBookingEmail.findMany({ where: { refNumber: { in: refNumbers } }, select: { refNumber: true, kind: true } });
+      return new Set(rows.map((r) => `${r.refNumber}|${r.kind}`));
+    },
+    async markSent(refNumber: string, kind: string) {
+      await prisma.freetourBookingEmail.upsert({ where: { refNumber_kind: { refNumber, kind } }, create: { refNumber, kind }, update: {} });
+    },
   };
 }

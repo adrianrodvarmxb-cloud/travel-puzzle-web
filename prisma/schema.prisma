@@ -205,4 +205,14 @@ model FreetourBooking {
 
   @@index([email])
   @@index([eventId])
+  @@index([status, eventUtcDate])
+}
+
+/// Correos automáticos ya enviados por reserva (recordatorios y reseña).
+model FreetourBookingEmail {
+  refNumber String
+  kind      String
+  sentAt    DateTime @default(now())
+
+  @@id([refNumber, kind])
 }

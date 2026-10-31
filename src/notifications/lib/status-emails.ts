@@ -6,7 +6,7 @@
  * Funciones puras, con el mismo marco visual que la confirmación.
  */
 import { BRAND as B } from "./brand";
-import { esc, kit, renderShell, whatsappUrl, UI, MONO, type ContactInfo } from "./email-layout";
+import { esc, kit, renderShell, supportCard, whatsappUrl, UI, MONO, type ContactInfo } from "./email-layout";
 import { describeBooking, calendarLinks, type EmailLang } from "./booking-email";
 
 export type StatusKind = "rejected" | "canceled" | "modified";
@@ -71,6 +71,7 @@ const T = {
     calendar: "Actualiza tu calendario",
     help: "¿Dudas? Estamos para ayudarte",
     whatsapp: "Escríbenos por WhatsApp",
+    waSub: "Toca el botón y escríbenos por WhatsApp; ya lleva tu número de reserva.",
     waText: (ref: string) => `Hola Travel Puzzle, tengo la reserva ${ref} y tengo una duda.`,
     explore: "Explora", support: "Soporte",
     free: "Gratis", see: "Ver tour",
@@ -109,6 +110,7 @@ const T = {
     calendar: "Update your calendar",
     help: "Questions? We're here to help",
     whatsapp: "Message us on WhatsApp",
+    waSub: "Tap the button to message us on WhatsApp; your booking number is already in it.",
     waText: (ref: string) => `Hi Travel Puzzle, I have booking ${ref} and a question.`,
     explore: "Explore", support: "Support",
     free: "Free", see: "See tour",
@@ -180,12 +182,7 @@ ${eyebrow(t.explore)}${h2(k.moreTitle(d.cityName ?? null))}
 <div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:8px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
 </td></tr>` : ""}
 
-${waUrl ? `<tr><td style="padding:26px 22px 0">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9};background-image:linear-gradient(135deg,${N9},${N8});border-radius:16px"><tr><td align="center" style="padding:24px 18px">
-${eyebrow(t.support, DIM)}${h2(t.help, "#ffffff")}
-<a href="${esc(waUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 20px;border-radius:10px;margin:4px">${esc(t.whatsapp)}</a>
-</td></tr></table>
-</td></tr>` : ""}`;
+${supportCard({ eyebrow: eyebrow(t.support, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl })}`;
 
   const html = renderShell({
     lang: d.lang,
