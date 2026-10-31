@@ -25,7 +25,7 @@ export function whatsappUrl(number: string | undefined, text: string): string | 
 
 /** Piezas de diseño reutilizables; el contador numera las secciones (01, 02…). */
 export function kit() {
-  const { N9, LINE, DIM } = UI;
+  const { N9, LINE, DIM } = UI; // botón principal en rojo de marca (el avión del logo)
   let sec = 0;
   return {
     eyebrow: (label: string, color: string = B.lightBlue) =>
@@ -35,7 +35,7 @@ export function kit() {
     ghost: (href: string, label: string) =>
       `<a href="${esc(href)}" style="display:inline-block;border:1px solid ${LINE};background:#ffffff;color:${N9};text-decoration:none;font-weight:600;font-size:13px;padding:10px 16px;border-radius:10px;margin:4px">${label}</a>`,
     primary: (href: string, label: string) =>
-      `<a href="${esc(href)}" style="display:block;background:${B.yellow};color:${N9};text-decoration:none;font-weight:700;font-size:16px;padding:16px 20px;border-radius:12px;text-align:center">${esc(label)} &nbsp;→</a>`,
+      `<a href="${esc(href)}" style="display:block;background:${B.red};color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;padding:16px 20px;border-radius:12px;text-align:center">${esc(label)} &nbsp;→</a>`,
     passCell: (label: string, value: string) =>
       `<td valign="top" style="padding:14px 16px 16px;width:33%"><div style="font-family:${MONO};font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${DIM}">${esc(label)}</div><div style="font-size:14px;font-weight:600;color:#ffffff;margin-top:4px;line-height:1.35">${esc(value)}</div></td>`,
     /** Línea de estado: "● RESERVA CONFIRMADA". */

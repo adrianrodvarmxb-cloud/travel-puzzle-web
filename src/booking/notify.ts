@@ -1,4 +1,5 @@
 import { buildStatusEmail, type StatusKind } from "@/notifications/lib/status-emails";
+import { buildReviewRequestEmail } from "@/notifications/lib/review-email";
 import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type EmailLang } from "@/notifications/lib/booking-email";
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
@@ -44,7 +45,11 @@ interface Deps {
 }
 
 /** Correo de confirmación de una reserva guardada. Nunca lanza: la reserva ya está hecha. */
-export async function sendBookingConfirmation(record: BookingRecord, deps: Deps): Promise<"disabled" | "sent" | "failed"> {
+export async function sendBookingConfirmation(
+  record: BookingRecord,
+  deps: Deps,
+  opts: { variant?: "confirmation" | "reminder48" | "dayOf" } = {}
+): Promise<"disabled" | "sent" | "failed"> {
   if (!deps.enabled) return "disabled";
   try {
     const site = deps.siteUrl.replace(/\/+$/, "");
@@ -79,6 +84,7 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
       reviews,
       isFree: tour?.isFree ?? record.price === 0,
       contact: deps.contact,
+      variant: opts.variant,
     });
     await deps.send({ to: record.email, ...email });
     return "sent";
@@ -128,6 +134,34 @@ export async function sendStatusEmail(
     return "sent";
   } catch (error) {
     console.error(`[correo] no se envió el aviso (${kind}) de ${record.refNumber}:`, (error as Error).message);
+    return "failed";
+  }
+}
+
+/** Correo post-tour: reseña en un clic y siguiente plan. Nunca lanza. */
+export async function sendReviewRequest(record: BookingRecord, deps: StatusDeps): Promise<"disabled" | "sent" | "failed"> {
+  if (!deps.enabled) return "disabled";
+  try {
+    const site = deps.siteUrl.replace(/\/+$/, "");
+    const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
+    const moreTours = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+    const email = buildReviewRequestEmail({
+      lang: deps.lang,
+      refNumber: record.refNumber,
+      firstName: record.firstName,
+      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      reviewUrl: `${site}/reserva/${record.manageToken}/resena`,
+      cityName: tour?.cityName ?? null,
+      moreTours,
+      logoUrl: `${site}/brand/logo-tp-oscuro.png`,
+      animatedLogoUrl: `${site}/brand/logo-animado-tp-oscuro.gif`,
+      iconsBaseUrl: `${site}/brand/social`,
+      contact: deps.contact,
+    });
+    await deps.send({ to: record.email, ...email });
+    return "sent";
+  } catch (error) {
+    console.error(`[correo] no se envió la petición de reseña de ${record.refNumber}:`, (error as Error).message);
     return "failed";
   }
 }

@@ -89,6 +89,17 @@ describe("logo y cómo llegar", () => {
     expect(html).toContain("calendar.google.com");
     expect(html).toContain("outlook.live.com");
   });
+  it("recordatorios: mismo contenido con otro asunto y encabezado", () => {
+    const r = buildBookingConfirmationEmail({ ...data, variant: "reminder48" });
+    expect(r.subject).toBe("Tu tour es en 2 días – Free Tour Centro Histórico");
+    expect(r.html).toContain("¡Ya casi es tu tour!");
+    expect(r.html).toContain("6782-20261030162746-244");
+    expect(r.html).toContain("https://travelpuzzle.com.mx/reserva/abc");
+    expect(buildBookingConfirmationEmail({ ...data, variant: "dayOf" }).subject).toBe("Tu tour está por empezar – Free Tour Centro Histórico");
+  });
+  it("botón principal en rojo de marca", () => {
+    expect(buildBookingConfirmationEmail(data).html).toContain("background:#C12909;color:#ffffff");
+  });
   it("encabezado con logo, Mi reserva y Ayuda", () => {
     const { html } = buildBookingConfirmationEmail(data);
     expect(html).toContain(">Mi reserva</a>");
