@@ -56,11 +56,10 @@ export interface BookingEmailData {
   };
 }
 
-/** Colores del Manual de Marca Travel Puzzle. */
-export const BRAND = { lightBlue: "#008DFF", darkBlue: "#304A9F", yellow: "#EAF54F", red: "#C12909", ink: "#1F2A44", muted: "#6B7280", bg: "#EEF4FF" };
+import { BRAND } from "./brand";
+import { esc, renderShell, kit, UI, MONO } from "./email-layout";
+export { BRAND };
 
-const esc = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 const LANG_NAMES: Record<EmailLang, Record<string, string>> = {
   es: { Spanish: "Español", English: "Inglés", French: "Francés", German: "Alemán", Italian: "Italiano", Portuguese: "Portugués" },
@@ -160,6 +159,15 @@ function formatEventDate(value: string, lang: EmailLang): string {
   return `${day}, ${h}:${mi}`;
 }
 
+/** Fecha, personas e idioma del tour en el idioma del correo (compartido con los demás correos). */
+export function describeBooking(lang: EmailLang, b: { eventDate: string | null; adults: number; children: number; tourLanguage: string | null }) {
+  return {
+    when: b.eventDate ? formatEventDate(b.eventDate, lang) : null,
+    people: T[lang].people_(b.adults, b.children),
+    tourLang: b.tourLanguage ? (LANG_NAMES[lang][b.tourLanguage] ?? b.tourLanguage) : null,
+  };
+}
+
 /** Enlace de Google Maps al punto de encuentro (coordenadas "lat,lng" y, si hay, el lugar de Google). */
 export function mapsUrlFor(mp: unknown): string | null {
   const o = (mp ?? {}) as { coordinates?: unknown; googlePlaceId?: unknown };
@@ -232,14 +240,8 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const cal = calendarLinks({ title: d.tourTitle, eventDate: d.eventDate, duration: d.duration, location: d.meetingPoint, details: `${t.ref}: ${d.refNumber}\n${d.manageUrl}` });
   const rating = d.rating && d.rating.value > 0 && d.rating.count > 0 ? d.rating : null;
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
-  const icons = d.iconsBaseUrl?.replace(/\/+$/, "");
-  const iconLink = (name: string, url: string) =>
-    icons
-      ? `<a href="${esc(url)}" style="display:inline-block;margin:0 0 0 8px;text-decoration:none"><img src="${esc(`${icons}/${name.toLowerCase()}.png`)}" width="36" height="36" alt="${esc(name)}" style="display:block;width:36px;height:36px;border:0"></a>`
-      : `<a href="${esc(url)}" style="display:inline-block;color:${B.darkBlue};background:${B.yellow};text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;margin:3px">${esc(name)}</a>`;
   const SKY: Record<WeatherKind, string> = { sun: "☀️", partly: "⛅", cloud: "☁️", rain: "🌧️", storm: "⛈️", snow: "❄️", fog: "🌫️" };
   const w = d.weather ?? null;
-  const footerLinks = [...socials.map((x) => iconLink(x.name, x.url)), ...(waUrl ? [iconLink("WhatsApp", waUrl)] : [])];
 
   const rows: [string, string][] = [
     [t.ref, d.refNumber],
@@ -253,35 +255,11 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   ];
   const subject = t.subject(d.tourTitle);
 
-  const N9 = "#0A1330", N8 = "#14214D", LINE = "#E6EBF5", SOFT = "#F4F7FD", DIM = "#9AAEE0";
-  const mono = "'JetBrains Mono','SFMono-Regular',Menlo,Consolas,'Courier New',monospace";
-  let sec = 0;
-  const eyebrow = (label: string, color: string = B.lightBlue) =>
-    `<div style="font-family:${mono};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${color};margin:0 0 6px">${String(++sec).padStart(2, "0")} — ${esc(label)}</div>`;
-  const h2 = (x: string, color: string = N9) => `<h2 style="margin:0 0 16px;font-size:21px;line-height:1.25;font-weight:700;color:${color};letter-spacing:-0.3px">${esc(x)}</h2>`;
-  const ghost = (href: string, label: string) =>
-    `<a href="${esc(href)}" style="display:inline-block;border:1px solid ${LINE};background:#ffffff;color:${N9};text-decoration:none;font-weight:600;font-size:13px;padding:10px 16px;border-radius:10px;margin:4px">${label}</a>`;
-  const passCell = (label: string, value: string) =>
-    `<td valign="top" style="padding:14px 16px 16px;width:33%"><div style="font-family:${mono};font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:${DIM}">${esc(label)}</div><div style="font-size:14px;font-weight:600;color:#ffffff;margin-top:4px;line-height:1.35">${esc(value)}</div></td>`;
+  const { N9, N8, LINE, SOFT, DIM } = UI;
+  const mono = MONO;
+  const { eyebrow, h2, ghost, passCell } = kit();
 
-  const html = `<!doctype html><html lang="${d.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<title>${esc(subject)}</title></head>
-<body style="margin:0;padding:0;background:${N9};font-family:${font};color:${N9};-webkit-font-smoothing:antialiased">
-<div style="display:none;max-height:0;overflow:hidden">${esc(t.badge)} · ${esc(d.tourTitle)} · ${esc(d.refNumber)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${N9}"><tr><td align="center" style="padding:20px 10px 28px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:20px;overflow:hidden">
-
-<tr><td style="font-size:0;line-height:0;height:3px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td height="3" width="60%" style="background:${B.lightBlue}"></td><td height="3" width="25%" style="background:${B.yellow}"></td><td height="3" width="15%" style="background:${B.red}"></td></tr></table></td></tr>
-<tr><td style="background:${N9};padding:14px 22px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td align="left" valign="middle"><img src="${esc(d.logoUrl)}" width="150" alt="Travel Puzzle" style="display:block;width:150px;height:auto;border:0"></td>
-<td align="right" valign="middle" style="font-family:${mono};font-size:11px;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap"><a href="${esc(d.manageUrl)}" style="color:#ffffff;text-decoration:none">${esc(t.myBooking)}</a>${waUrl ? `<span style="color:#34467F">&nbsp;&nbsp;/&nbsp;&nbsp;</span><a href="${esc(waUrl)}" style="color:#ffffff;text-decoration:none">${esc(t.helpShort)}</a>` : ""}</td>
-</tr></table>
-</td></tr>
-
-${d.heroImageUrl ? `<tr><td style="background:${N9}"><img src="${esc(d.heroImageUrl)}" width="600" alt="${esc(d.tourTitle)}" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : ""}
+  const body = `${d.heroImageUrl ? `<tr><td style="background:${N9}"><img src="${esc(d.heroImageUrl)}" width="600" alt="${esc(d.tourTitle)}" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : ""}
 
 <tr><td style="background:${N9};background-image:linear-gradient(160deg,${N9} 0%,${N8} 55%,${B.darkBlue} 100%);padding:26px 26px 30px">
 <div style="font-family:${mono};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7CE3A1"><span style="color:#3DDC84">●</span>&nbsp; ${esc(t.badge)}${days !== null ? `<span style="color:#34467F">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span style="color:${B.yellow}">${esc(t.countdown(days))}</span>` : ""}</div>
@@ -359,21 +337,22 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
 <div style="font-size:13px;font-weight:600;line-height:1.3;margin-top:10px;color:${N9}">${esc(x.title)}</div>
 <div style="font-family:${mono};font-size:11px;margin-top:6px;color:${B.muted}">${x.rating ? `<span style="color:#F5B301">★</span> ${x.rating.toFixed(1)}&nbsp; ` : ""}${x.isFree ? `<span style="border:1px solid ${B.lightBlue};color:${B.lightBlue};font-weight:700;padding:1px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:1px;font-size:10px">${esc(t.free)}</span>` : ""}</div>
 <div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:8px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
-</td></tr>` : ""}
+</td></tr>` : ""}`;
 
-<tr><td style="padding:30px 0 0;font-size:0;line-height:0">&nbsp;</td></tr>
-<tr><td style="background:${N9};padding:20px 22px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td align="left" valign="middle" width="160">${d.animatedLogoUrl ? `<img src="${esc(d.animatedLogoUrl)}" width="150" alt="Travel Puzzle · ${esc(t.slogan)}" style="display:block;width:150px;height:auto;border:0">` : `<div style="font-family:Caveat,'Comic Sans MS',cursive;font-size:24px;color:${B.yellow}">${esc(t.slogan)}</div>`}</td>
-<td align="right" valign="middle">
-${footerLinks.length ? `<div style="font-family:${mono};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${DIM};margin-bottom:10px">${esc(t.follow)}</div>
-<div style="margin-bottom:12px">${footerLinks.join("")}</div>` : ""}
-<div style="font-size:12px;color:#C9D6F5">${esc(t.footer)}</div>
-${w ? `<div style="font-family:${mono};font-size:10px;color:#5F73AD;margin-top:4px">${esc(t.weatherCredit)}</div>` : ""}
-</td></tr></table>
-</td></tr>
-
-</table></td></tr></table></body></html>`;
+  const html = renderShell({
+    lang: d.lang,
+    subject,
+    preheader: `${t.badge} · ${d.tourTitle} · ${d.refNumber}`,
+    logoUrl: d.logoUrl,
+    animatedLogoUrl: d.animatedLogoUrl,
+    iconsBaseUrl: d.iconsBaseUrl,
+    manageUrl: d.manageUrl,
+    waUrl,
+    socials,
+    labels: { myBooking: t.myBooking, help: t.helpShort, follow: t.follow, footer: t.footer, slogan: t.slogan },
+    credit: w ? t.weatherCredit : null,
+    body,
+  });
 
   const text = [
     t.hero + (days !== null ? ` (${t.countdown(days)})` : ""),

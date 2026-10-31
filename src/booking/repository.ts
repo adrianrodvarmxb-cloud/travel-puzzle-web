@@ -10,5 +10,11 @@ export function createBookingRepo(prisma: PrismaClient) {
     async findByToken(manageToken: string) {
       return prisma.freetourBooking.findUnique({ where: { manageToken } });
     },
+    async findByRef(refNumber: string) {
+      return prisma.freetourBooking.findUnique({ where: { refNumber } });
+    },
+    async setStatus(refNumber: string, status: string) {
+      await prisma.freetourBooking.update({ where: { refNumber }, data: { status } });
+    },
   };
 }

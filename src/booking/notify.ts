@@ -1,3 +1,4 @@
+import { buildStatusEmail, type StatusKind } from "@/notifications/lib/status-emails";
 import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type EmailLang } from "@/notifications/lib/booking-email";
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
@@ -12,6 +13,8 @@ export interface TourSummary {
   isFree?: boolean;
   rating?: { value: number; count: number } | null;
   cityName?: string | null;
+  /** Id de la página del tour en el sitio (/tours/{pageId}). */
+  pageId?: string;
 }
 
 export interface MoreTour { title: string; url: string; imageUrl: string; rating?: number | null; isFree?: boolean }
@@ -81,6 +84,50 @@ export async function sendBookingConfirmation(record: BookingRecord, deps: Deps)
     return "sent";
   } catch (error) {
     console.error(`[correo] no se envió la confirmación de ${record.refNumber}:`, (error as Error).message);
+    return "failed";
+  }
+}
+
+type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send">;
+
+/** Correo de rechazo, cancelación o cambio de una reserva guardada. Nunca lanza. */
+export async function sendStatusEmail(
+  kind: StatusKind,
+  record: BookingRecord,
+  deps: StatusDeps,
+  extra: { reason?: string | null } = {}
+): Promise<"disabled" | "sent" | "failed"> {
+  if (!deps.enabled) return "disabled";
+  try {
+    const site = deps.siteUrl.replace(/\/+$/, "");
+    const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
+    const moreTours = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+    const email = buildStatusEmail({
+      kind,
+      lang: deps.lang,
+      refNumber: record.refNumber,
+      firstName: record.firstName,
+      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      eventDate: record.eventDate,
+      duration: tour?.duration ?? null,
+      tourLanguage: record.language,
+      adults: record.adults,
+      children: record.children,
+      meetingPoint: meetingPointText(tour?.meetingPoint, deps.lang),
+      reason: extra.reason ?? null,
+      manageUrl: `${site}/reserva/${record.manageToken}`,
+      tourUrl: tour?.pageId ? `${site}/tours/${tour.pageId}` : `${site}/tours`,
+      cityName: tour?.cityName ?? null,
+      moreTours,
+      logoUrl: `${site}/brand/logo-tp-oscuro.png`,
+      animatedLogoUrl: `${site}/brand/logo-animado-tp-oscuro.gif`,
+      iconsBaseUrl: `${site}/brand/social`,
+      contact: deps.contact,
+    });
+    await deps.send({ to: record.email, ...email });
+    return "sent";
+  } catch (error) {
+    console.error(`[correo] no se envió el aviso (${kind}) de ${record.refNumber}:`, (error as Error).message);
     return "failed";
   }
 }
