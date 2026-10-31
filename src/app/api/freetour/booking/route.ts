@@ -5,7 +5,14 @@ import { placeBooking, recordBooking, BookingRejected, type BookingRejectionCode
 import { createBookingRepo } from '@/booking/repository';
 import { findEventInfo } from '@/booking/lib/event-info';
 import { newManageToken } from '@/booking/lib/token';
-import { getPrisma } from '@/lib/prisma';
+import { getPrisma, getD1 } from '@/lib/prisma';
+import { sendBookingConfirmation } from '@/booking/notify';
+import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
+import { getWeather, coordsOf } from '@/notifications/weather';
+import { createReviewRepo } from '@/reviews/repository';
+import { pickReviews } from '@/reviews/lib/reviews';
+import { sendEmail } from '@/notifications/resend';
+import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
@@ -52,6 +59,30 @@ export async function POST(request: NextRequest) {
                 now: new Date(),
             }
         );
+        if (record) {
+            const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
+            await sendBookingConfirmation(record, {
+                enabled: isBookingsEnabled(process.env.EMAILS_ENABLED),
+                lang,
+                siteUrl: process.env.SITE_URL ?? '',
+                getTour: (id, l) => getTourSummary(getPrisma(), id, l),
+                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site),
+                getWeather: async (mp, eventDate) => {
+                    const c = coordsOf(mp);
+                    return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;
+                },
+                getReviews: async (id, l) =>
+                    pickReviews(await createReviewRepo(getPrisma(), getD1()).listByTour(id), { lang: l, limit: 2 })
+                        .filter((r) => r.content && r.content.length <= 280)
+                        .map((r) => ({ name: r.reviewerName, rate: r.rate, text: r.content as string })),
+                contact: contactFromEnv(process.env as Record<string, string | undefined>),
+                send: (email) =>
+                    sendEmail(
+                        { apiKey: process.env.RESEND_API_KEY ?? '', fetch },
+                        { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }
+                    ),
+            });
+        }
         return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null });
     } catch (error) {
         if (error instanceof BookingRejected) {
