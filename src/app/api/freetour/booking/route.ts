@@ -7,7 +7,7 @@ import { findEventInfo } from '@/booking/lib/event-info';
 import { newManageToken } from '@/booking/lib/token';
 import { getPrisma, getD1 } from '@/lib/prisma';
 import { sendBookingConfirmation } from '@/booking/notify';
-import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
+import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { createReviewRepo } from '@/reviews/repository';
 import { pickReviews } from '@/reviews/lib/reviews';
@@ -76,6 +76,7 @@ export async function POST(request: NextRequest) {
                         .filter((r) => r.content && r.content.length <= 280)
                         .map((r) => ({ name: r.reviewerName, rate: r.rate, text: r.content as string })),
                 contact: contactFromEnv(process.env as Record<string, string | undefined>),
+                calendar: calendarFromEnv(process.env as Record<string, string | undefined>),
                 send: (email) =>
                     sendEmail(
                         { apiKey: process.env.RESEND_API_KEY ?? '', fetch },

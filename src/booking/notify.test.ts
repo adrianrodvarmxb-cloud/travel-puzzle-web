@@ -56,3 +56,22 @@ describe("sendStatusEmail", () => {
     expect(await sendStatusEmail("canceled", record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send })).toBe("failed");
   });
 });
+
+describe("invitación de calendario", () => {
+  const withUtc = { ...record, eventUtcDate: "2026-10-31 14:00:00" };
+  it("la confirmación lleva la invitación; los recordatorios no", async () => {
+    const send = vi.fn(async (_e: { attachments?: { filename: string; content: string }[] }) => "id");
+    const deps = { enabled: true, lang: "es" as const, siteUrl: "https://x", getTour: async () => tour, send, calendar: { organizerEmail: "reservas@travelpuzzle.com.mx" } };
+    await sendBookingConfirmation(withUtc, deps);
+    const a = send.mock.calls[0][0].attachments!;
+    expect(a[0].filename).toBe("invitacion.ics");
+    expect(atob(a[0].content)).toContain("METHOD:REQUEST");
+    await sendBookingConfirmation(withUtc, deps, { variant: "reminder48" });
+    expect(send.mock.calls[1][0].attachments).toBeUndefined();
+  });
+  it("cancelación borra el evento del calendario", async () => {
+    const send = vi.fn(async (_e: { attachments?: { filename: string; content: string }[] }) => "id");
+    await sendStatusEmail("canceled", withUtc, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send, calendar: { organizerEmail: "reservas@travelpuzzle.com.mx" } });
+    expect(atob(send.mock.calls[0][0].attachments![0].content)).toContain("METHOD:CANCEL");
+  });
+});

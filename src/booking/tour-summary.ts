@@ -70,3 +70,9 @@ export function contactFromEnv(env: Record<string, string | undefined>) {
     .map(([name, url]) => ({ name, url: url as string }));
   return { whatsapp: env.WHATSAPP_NUMBER || undefined, socials, assistantUrl: env.ASSISTANT_URL || undefined };
 }
+
+/** Organizador de la invitación de calendario: el correo de EMAIL_FROM ("Travel Puzzle <reservas@…>"). */
+export function calendarFromEnv(env: Record<string, string | undefined>) {
+  const m = /<([^>]+@[^>]+)>/.exec(env.EMAIL_FROM ?? "") ?? /^\s*([^\s<>]+@[^\s<>]+)\s*$/.exec(env.EMAIL_FROM ?? "");
+  return m ? { organizerEmail: m[1] } : undefined;
+}

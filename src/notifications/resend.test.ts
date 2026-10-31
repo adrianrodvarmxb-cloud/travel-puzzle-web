@@ -17,3 +17,12 @@ describe("sendEmail (Resend)", () => {
     await expect(sendEmail({ apiKey: "re_x", fetch }, { from: "a", to: "b", subject: "s", html: "h", text: "t" })).rejects.toThrow(/domain not verified/);
   });
 });
+
+describe("adjuntos", () => {
+  it("manda la invitación .ics con su tipo", async () => {
+    const fetch = vi.fn(async (_u: string, _i: RequestInit) => new Response(JSON.stringify({ id: "em_1" }), { status: 200 }));
+    await sendEmail({ apiKey: "k", fetch }, { from: "a@b.c", to: "d@e.f", subject: "s", html: "h", text: "t", attachments: [{ filename: "invitacion.ics", content: "QQ==", contentType: "text/calendar; method=REQUEST" }] });
+    const body = JSON.parse(fetch.mock.calls[0][1].body as string);
+    expect(body.attachments).toEqual([{ filename: "invitacion.ics", content: "QQ==", content_type: "text/calendar; method=REQUEST" }]);
+  });
+});
