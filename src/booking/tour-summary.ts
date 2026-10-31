@@ -8,7 +8,7 @@ export async function getTourSummary(prisma: PrismaClient, tourExternalId: numbe
     where: { externalId: tourExternalId },
     select: {
       providerTitle: true, duration: true, meetingPoint: true, titleImageURL: true, images: true, priceValue: true,
-      rating: true, reviewsNumber: true, city: { select: { translations: true } },
+      id: true, rating: true, reviewsNumber: true, city: { select: { translations: true } },
       translations: { select: { language: true, title: true } },
     },
   });
@@ -27,6 +27,7 @@ export async function getTourSummary(prisma: PrismaClient, tourExternalId: numbe
     isFree: Number(tour.priceValue) === 0,
     rating: tour.rating && tour.reviewsNumber > 0 ? { value: Number(tour.rating), count: tour.reviewsNumber } : null,
     cityName: cityName(tour.city?.translations, lang),
+    pageId: tour.id,
   };
 }
 

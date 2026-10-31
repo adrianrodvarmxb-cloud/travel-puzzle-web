@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { sendBookingConfirmation } from "./notify";
+import { sendBookingConfirmation, sendStatusEmail } from "./notify";
 
 const record = {
   refNumber: "6782-1-244", tourExternalId: 6782, eventId: 1, adults: 2, children: 0, price: 0,
@@ -36,5 +36,23 @@ describe("sendBookingConfirmation", () => {
     const send = vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em_1");
     await sendBookingConfirmation(record, { enabled: true, lang: "en", siteUrl: "https://x", getTour: async () => null, send });
     expect(send.mock.calls[0][0].subject).toContain("Free tour 6782");
+  });
+});
+
+describe("sendStatusEmail", () => {
+  it("rechazo: al cliente, con el motivo y enlace a la página del tour", async () => {
+    const send = vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em_2");
+    const out = await sendStatusEmail("rejected", record, { enabled: true, lang: "es", siteUrl: "https://travelpuzzle.com.mx", getTour: async () => ({ ...tour, pageId: "abc" }), send }, { reason: "Grupo completo" });
+    expect(out).toBe("sent");
+    const email = send.mock.calls[0][0];
+    expect(email.to).toBe("ana@example.com");
+    expect(email.subject).toContain("no pudo confirmarse");
+    expect(email.html).toContain("Grupo completo");
+    expect(email.html).toContain("https://travelpuzzle.com.mx/tours/abc");
+  });
+  it("apagado no envía; si falla no lanza", async () => {
+    const send = vi.fn(async () => { throw new Error("x"); });
+    expect(await sendStatusEmail("canceled", record, { enabled: false, lang: "es", siteUrl: "https://x", getTour: async () => tour, send })).toBe("disabled");
+    expect(await sendStatusEmail("canceled", record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send })).toBe("failed");
   });
 });
