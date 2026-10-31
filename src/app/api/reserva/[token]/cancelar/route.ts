@@ -14,8 +14,17 @@ const STATUS = { canceled: 200, already: 200, not_found: 404, not_allowed: 409, 
 /** Cancela la reserva del enlace privado. El token es la prueba de que es del cliente. */
 export async function POST(_request: Request, { params }: { params: Promise<{ token: string }> }) {
     const { token } = await params;
+    const deps = manageDeps();
+    let detail: { message: string; code: number | null; status: number } | null = null;
     const result = await cancelByToken(token, {
-        ...manageDeps(),
+        ...deps,
+        // Guarda el motivo que da Freetour para mostrarlo y diagnosticar (no contiene datos del cliente).
+        cancel: (r) =>
+            deps.cancel(r).catch((e: unknown) => {
+                const g = e as { message?: string; errorCode?: number | null; status?: number };
+                detail = { message: g.message ?? 'error', code: g.errorCode ?? null, status: g.status ?? 0 };
+                throw e;
+            }),
         notify: (record) =>
             sendStatusEmail('canceled', record, {
                 enabled: isBookingsEnabled(process.env.EMAILS_ENABLED),
@@ -29,6 +38,6 @@ export async function POST(_request: Request, { params }: { params: Promise<{ to
                     sendEmail({ apiKey: process.env.RESEND_API_KEY ?? '', fetch }, { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }),
             }),
     });
-    console.log(`[reserva] cancelar → ${result}`);
-    return NextResponse.json({ result }, { status: STATUS[result] });
+    console.log(`[reserva] cancelar → ${result}`, detail ? JSON.stringify(detail) : '');
+    return NextResponse.json(detail ? { result, detail } : { result }, { status: STATUS[result] });
 }
