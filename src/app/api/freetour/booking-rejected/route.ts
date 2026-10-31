@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
                 lang: 'es',
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
-                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site),
+                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
                 contact: contactFromEnv(process.env as Record<string, string | undefined>),
                 calendar: calendarFromEnv(process.env as Record<string, string | undefined>),
                 send: (email) =>
