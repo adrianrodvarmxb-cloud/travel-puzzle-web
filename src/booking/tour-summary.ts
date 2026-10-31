@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@prisma/client";
 import type { EmailLang } from "@/notifications/lib/booking-email";
 import type { MoreTour, TourSummary } from "./notify";
+import { mixRecommendations } from "./lib/recommendations";
 
 /** Título, proveedor, duración y punto de encuentro del tour (de nuestro catálogo en D1). */
 export async function getTourSummary(prisma: PrismaClient, tourExternalId: number, lang: EmailLang): Promise<TourSummary | null> {
@@ -38,18 +39,28 @@ export function cityName(translations: unknown, lang: EmailLang): string | null 
   return typeof v === "string" && v.trim() ? v : null;
 }
 
-/** Hasta 3 tours activos más en la misma ciudad, los más reseñados primero. */
-export async function getMoreTours(prisma: PrismaClient, tourExternalId: number, lang: EmailLang, siteUrl: string): Promise<MoreTour[]> {
+/**
+ * Hasta 3 tours más en la misma ciudad, los más reseñados de cada tipo,
+ * mezclados 60 % de pago / 40 % free tour (ver lib/recommendations).
+ */
+export async function getMoreTours(
+  prisma: PrismaClient,
+  tourExternalId: number,
+  lang: EmailLang,
+  siteUrl: string,
+  opts: { includePaid?: boolean } = {}
+): Promise<MoreTour[]> {
   const tour = await prisma.tour.findUnique({ where: { externalId: tourExternalId }, select: { cityId: true } });
   if (!tour) return [];
-  const others = await prisma.tour.findMany({
-    where: { cityId: tour.cityId, isActive: true, externalId: { not: tourExternalId }, titleImageURL: { startsWith: "https://" } },
-    orderBy: [{ reviewsNumber: "desc" }],
-    take: 3,
-    select: { id: true, titleImageURL: true, rating: true, priceValue: true, translations: { select: { language: true, title: true } } },
-  });
+  const includePaid = opts.includePaid ?? false;
+  const base = { cityId: tour.cityId, isActive: true, externalId: { not: tourExternalId }, titleImageURL: { startsWith: "https://" } };
+  const select = { id: true, titleImageURL: true, rating: true, priceValue: true, translations: { select: { language: true, title: true } } } as const;
+  const [paid, free] = await Promise.all([
+    includePaid ? prisma.tour.findMany({ where: { ...base, priceValue: { gt: 0 } }, orderBy: [{ reviewsNumber: "desc" }], take: 3, select }) : Promise.resolve([]),
+    prisma.tour.findMany({ where: { ...base, priceValue: 0 }, orderBy: [{ reviewsNumber: "desc" }], take: 3, select }),
+  ]);
   const site = siteUrl.replace(/\/+$/, "");
-  return others.flatMap((o) => {
+  return mixRecommendations(paid, free, 3, includePaid).flatMap((o) => {
     const title = o.translations.find((t) => t.language === lang)?.title ?? o.translations.find((t) => t.language === "en")?.title;
     if (!title || !o.titleImageURL) return [];
     return [{ title, url: `${site}/tours/${o.id}`, imageUrl: o.titleImageURL, rating: o.rating ? Number(o.rating) : null, isFree: Number(o.priceValue) === 0 }];

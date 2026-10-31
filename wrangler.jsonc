@@ -36,6 +36,8 @@
     "EMAILS_ENABLED": "false",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "false",
+    // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
+    "PAID_TOURS_ENABLED": "false",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
