@@ -1,5 +1,7 @@
 import { buildStatusEmail, type StatusKind } from "@/notifications/lib/status-emails";
 import { buildReviewRequestEmail } from "@/notifications/lib/review-email";
+import { buildIcs, icsAttachment } from "@/notifications/lib/ics";
+import { durationMinutes } from "./lib/schedule";
 import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type EmailLang } from "@/notifications/lib/booking-email";
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
@@ -41,7 +43,35 @@ interface Deps {
   getWeather?(meetingPoint: unknown, eventDate: string): Promise<Weather | null>;
   /** Reloj (pruebas). */
   now?: () => Date;
-  send(email: { to: string; subject: string; html: string; text: string }): Promise<string>;
+  /** Invitación de calendario (.ics); sin esto no se adjunta. */
+  calendar?: { organizerEmail: string };
+  send(email: { to: string; subject: string; html: string; text: string; attachments?: { filename: string; content: string; contentType?: string }[] }): Promise<string>;
+}
+
+/** Adjunto .ics de la reserva (REQUEST crea o mueve el evento; CANCEL lo borra). */
+function calendarAttachment(
+  method: "REQUEST" | "CANCEL",
+  record: BookingRecord,
+  tour: TourSummary | null,
+  site: string,
+  calendar: { organizerEmail: string } | undefined
+) {
+  if (!calendar || !record.eventUtcDate) return [];
+  const ics = buildIcs({
+    method,
+    refNumber: record.refNumber,
+    startUtc: record.eventUtcDate,
+    durationMinutes: durationMinutes(tour?.duration),
+    title: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+    location: meetingPointText(tour?.meetingPoint, "es"),
+    description: `Reserva ${record.refNumber}\nVer, cambiar o cancelar: ${site}/reserva/${record.manageToken}`,
+    url: `${site}/reserva/${record.manageToken}`,
+    organizerEmail: calendar.organizerEmail,
+    attendeeEmail: record.email,
+    attendeeName: `${record.firstName} ${record.lastName}`.trim(),
+    now: Date.now(),
+  });
+  return ics ? [icsAttachment(ics, method)] : [];
 }
 
 /** Correo de confirmación de una reserva guardada. Nunca lanza: la reserva ya está hecha. */
@@ -86,7 +116,8 @@ export async function sendBookingConfirmation(
       contact: deps.contact,
       variant: opts.variant,
     });
-    await deps.send({ to: record.email, ...email });
+    const attachments = !opts.variant || opts.variant === "confirmation" ? calendarAttachment("REQUEST", record, tour, site, deps.calendar) : [];
+    await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
     return "sent";
   } catch (error) {
     console.error(`[correo] no se envió la confirmación de ${record.refNumber}:`, (error as Error).message);
@@ -94,7 +125,7 @@ export async function sendBookingConfirmation(
   }
 }
 
-type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send">;
+type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar">;
 
 /** Correo de rechazo, cancelación o cambio de una reserva guardada. Nunca lanza. */
 export async function sendStatusEmail(
@@ -130,7 +161,8 @@ export async function sendStatusEmail(
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
     });
-    await deps.send({ to: record.email, ...email });
+    const attachments = calendarAttachment(kind === "modified" ? "REQUEST" : "CANCEL", record, tour, site, deps.calendar);
+    await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
     return "sent";
   } catch (error) {
     console.error(`[correo] no se envió el aviso (${kind}) de ${record.refNumber}:`, (error as Error).message);

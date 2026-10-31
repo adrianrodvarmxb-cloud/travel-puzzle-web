@@ -3,7 +3,7 @@ import { createGatewayClient } from '@/booking/gateway-client';
 import { createBookingRepo } from '@/booking/repository';
 import { handleRejection } from '@/booking/rejection';
 import { sendStatusEmail } from '@/booking/notify';
-import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
+import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
 import { sendEmail } from '@/notifications/resend';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { getPrisma } from '@/lib/prisma';
@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
                 getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site),
                 contact: contactFromEnv(process.env as Record<string, string | undefined>),
+                calendar: calendarFromEnv(process.env as Record<string, string | undefined>),
                 send: (email) =>
                     sendEmail(
                         { apiKey: process.env.RESEND_API_KEY ?? '', fetch },

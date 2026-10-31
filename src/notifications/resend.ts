@@ -6,6 +6,8 @@ export interface OutgoingEmail {
   html: string;
   text: string;
   replyTo?: string;
+  /** Adjuntos en base64 (p. ej. la invitación de calendario). */
+  attachments?: { filename: string; content: string; contentType?: string }[];
 }
 
 export async function sendEmail(
@@ -22,6 +24,9 @@ export async function sendEmail(
       html: email.html,
       text: email.text,
       ...(email.replyTo && { reply_to: email.replyTo }),
+      ...(email.attachments?.length && {
+        attachments: email.attachments.map((a) => ({ filename: a.filename, content: a.content, ...(a.contentType && { content_type: a.contentType }) })),
+      }),
     }),
   });
   const json = (await res.json().catch(() => null)) as { id?: string; message?: string } | null;
