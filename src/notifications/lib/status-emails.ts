@@ -18,6 +18,7 @@ export interface StatusEmailData {
   firstName: string;
   tourTitle: string;
   eventDate: string | null;
+  eventUtcDate?: string | null;
   duration?: string | null;
   tourLanguage: string | null;
   adults: number;
@@ -135,7 +136,7 @@ export function buildStatusEmail(d: StatusEmailData) {
   const isActive = d.kind === "modified";
   const ctaUrl = isActive ? d.manageUrl : d.tourUrl;
   const cal = isActive && d.manageUrl
-    ? calendarLinks({ title: d.tourTitle, eventDate: d.eventDate, duration: d.duration ?? null, location: d.meetingPoint ?? null, details: `${t.ref}: ${d.refNumber}\n${d.manageUrl}` })
+    ? calendarLinks({ title: d.tourTitle, eventDate: d.eventDate, eventUtcDate: d.eventUtcDate, duration: d.duration ?? null, location: d.meetingPoint ?? null, details: `${t.ref}: ${d.refNumber}\n${d.manageUrl}` })
     : null;
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
   const reason = d.kind === "rejected" && d.reason?.trim() ? d.reason.trim().slice(0, 400) : null;
