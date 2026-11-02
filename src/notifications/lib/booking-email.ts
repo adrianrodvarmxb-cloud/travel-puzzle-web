@@ -14,6 +14,8 @@ export interface BookingEmailData {
   tourTitle: string;
   provider: string | null;
   eventDate: string | null; // "2026-10-31 08:00:00", hora local del tour
+  /** Inicio en UTC ("2026-10-31 06:00:00"), para los enlaces de calendario. */
+  eventUtcDate?: string | null;
   duration: string | null;
   tourLanguage: string | null;
   adults: number;
@@ -206,13 +208,19 @@ function durationMinutes(duration: string | null): number {
   return min > 0 ? min : 120;
 }
 
-/** Enlaces para agregar el tour a Google Calendar y Outlook (hora local del tour). */
-export function calendarLinks(o: { title: string; eventDate: string | null; duration: string | null; location: string | null; details: string }) {
-  const m = o.eventDate ? /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(o.eventDate) : null;
+/**
+ * Enlaces para agregar el tour a Google Calendar y Outlook.
+ * Con la hora UTC (eventUtcDate) el evento queda a la hora correcta en cualquier zona;
+ * sin ella se usa la hora local tal cual (el calendario la toma en la zona del cliente).
+ */
+export function calendarLinks(o: { title: string; eventDate: string | null; eventUtcDate?: string | null; duration: string | null; location: string | null; details: string }) {
+  const utc = !!o.eventUtcDate;
+  const src = o.eventUtcDate || o.eventDate;
+  const m = src ? /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(src) : null;
   if (!m) return null;
   const start = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]));
   const end = new Date(start.getTime() + durationMinutes(o.duration) * 60_000);
-  const iso = (d: Date) => d.toISOString().slice(0, 19); // 2026-11-02T10:00:00 (sin zona: hora local)
+  const iso = (d: Date) => d.toISOString().slice(0, 19) + (utc ? "Z" : "");
   const compact = (d: Date) => iso(d).replace(/[-:]/g, "");
   const google = new URLSearchParams({ action: "TEMPLATE", text: o.title, dates: `${compact(start)}/${compact(end)}`, details: o.details, ...(o.location ? { location: o.location } : {}) });
   const outlook = new URLSearchParams({ path: "/calendar/action/compose", rru: "addevent", subject: o.title, startdt: iso(start), enddt: iso(end), body: o.details, ...(o.location ? { location: o.location } : {}) });
@@ -249,7 +257,7 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const socials = (d.contact?.socials ?? []).filter((x) => /^https:\/\//.test(x.url));
   const assistantUrl = d.contact?.assistantUrl && /^https:\/\//.test(d.contact.assistantUrl) ? d.contact.assistantUrl : null;
   const days = daysUntil(d.eventDate, d.now);
-  const cal = calendarLinks({ title: d.tourTitle, eventDate: d.eventDate, duration: d.duration, location: d.meetingPoint, details: `${t.ref}: ${d.refNumber}\n${d.manageUrl}` });
+  const cal = calendarLinks({ title: d.tourTitle, eventDate: d.eventDate, eventUtcDate: d.eventUtcDate, duration: d.duration, location: d.meetingPoint, details: `${t.ref}: ${d.refNumber}\n${d.manageUrl}` });
   const rating = d.rating && d.rating.value > 0 && d.rating.count > 0 ? d.rating : null;
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
   const SKY: Record<WeatherKind, string> = { sun: "☀️", partly: "⛅", cloud: "☁️", rain: "🌧️", storm: "⛈️", snow: "❄️", fog: "🌫️" };

@@ -31,7 +31,7 @@ export default async function ManageBookingPage({ params }: { params: Promise<{ 
     const active = status === 'active';
     const days = active ? daysUntil(record.eventDate, new Date()) : null;
     const pageUrl = `${(process.env.SITE_URL ?? '').replace(/\/+$/, '')}/reserva/${token}`;
-    const cal = active ? calendarLinks({ title, eventDate: record.eventDate, duration: tour?.duration ?? null, location: meeting, details: `Número de reserva: ${record.refNumber}\n${pageUrl}` }) : null;
+    const cal = active ? calendarLinks({ title, eventDate: record.eventDate, eventUtcDate: record.eventUtcDate, duration: tour?.duration ?? null, location: meeting, details: `Número de reserva: ${record.refNumber}\n${pageUrl}` }) : null;
     const rows: [string, string | null][] = [
         ['Tour', title],
         ['Organiza', tour?.provider ?? null],

@@ -199,6 +199,14 @@ describe("calendarLinks", () => {
   });
 });
 
+describe("calendarLinks con hora UTC", () => {
+  it("usa la hora UTC con Z para que el evento caiga a la hora correcta en cualquier zona", () => {
+    const c = calendarLinks({ title: "Tour", eventDate: "2026-11-04 11:30:00", eventUtcDate: "2026-11-04 09:30:00", duration: "0:30", location: null, details: "x" })!;
+    expect(decodeURIComponent(c.google)).toContain("dates=20261104T093000Z/20261104T100000Z");
+    expect(decodeURIComponent(c.outlook)).toContain("startdt=2026-11-04T09:30:00Z");
+  });
+});
+
 describe("mapsUrlFor", () => {
   it("arma el enlace de Google Maps con coordenadas y lugar", () => {
     expect(mapsUrlFor({ coordinates: "19.4326,-99.1332", googlePlaceId: "ChIJ1" })).toBe("https://www.google.com/maps/search/?api=1&query=19.4326%2C-99.1332&query_place_id=ChIJ1");
