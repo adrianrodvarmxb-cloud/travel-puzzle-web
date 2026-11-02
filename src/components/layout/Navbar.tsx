@@ -10,6 +10,7 @@ import { Logo } from '@/components/layout/Logo';
 import { PlatformTextLogo } from '@/components/layout/PlatformTextLogo';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
+import { ACCOUNTS_ENABLED } from '@/lib/features';
 import {
   MenuIcon,
   CloseIcon,
@@ -91,8 +92,8 @@ export const Navbar = () => {
             </div>
 
             {!user ? (
-              // Public: Login + Sign Up
-              <>
+              // Public: Login + Sign Up (solo con cuentas activas)
+              ACCOUNTS_ENABLED && <>
                 <Link href="/login" className="hidden md:block">
                   <Button variant="ghost" size="sm" className='text-white'>
                     {t('nav.login')}
@@ -201,7 +202,7 @@ export const Navbar = () => {
 
             {/* Mobile Auth Buttons or User Menu */}
             {!user ? (
-              <div className="flex flex-col gap-2 px-4">
+              ACCOUNTS_ENABLED && <div className="flex flex-col gap-2 px-4">
                 <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" size="sm" className="w-full">
                     {t('nav.login')}

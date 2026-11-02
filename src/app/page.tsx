@@ -7,6 +7,7 @@ import {
   RewardsBanner
 } from "@/components/home";
 import { QuickSignUp } from "@/components/auth";
+import { ACCOUNTS_ENABLED } from "@/lib/features";
 import { loadHomeReviews } from "@/reviews/load";
 import { getPreferredLanguage } from "@/lib/utils/cookies";
 
@@ -22,12 +23,12 @@ export default async function Home() {
       <Navbar />
 
       {/* Quick Sign-Up Component */}
-      <QuickSignUp />
+      {ACCOUNTS_ENABLED && <QuickSignUp />}
 
       {/* Home Page Sections */}
       <SearchBooking />
       <WhyChooseTravelPuzzle />
-      <RewardsBanner />
+      {ACCOUNTS_ENABLED && <RewardsBanner />}
       <TopDestinations />
       <RecentReviews reviews={reviews} />
       {/* Footer */}
