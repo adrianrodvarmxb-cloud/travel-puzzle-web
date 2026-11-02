@@ -1,14 +1,18 @@
-# Publica el sitio en Cloudflare Workers. Solo se corre a mano (Actions → Publicar en Cloudflare → Run workflow):
-# correrlo es el OK de publicación.
+# Publica el sitio en Cloudflare Workers.
+# - Automático al fusionar a main (cada PR se fusiona con el OK del PO). No aplica migraciones.
+# - A mano (Actions → Publicar en Cloudflare → Run workflow) cuando hay migraciones de D1:
+#   marcar la casilla es el OK de la migración.
 name: Publicar en Cloudflare
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       migraciones:
         description: "Aplicar migraciones de la base D1 antes de publicar"
         type: boolean
-        default: true
+        default: false
 
 concurrency:
   group: deploy-cloudflare
@@ -23,9 +27,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -49,7 +53,7 @@ jobs:
           DATABASE_URL: file:./dev.db
 
       - name: Migraciones D1
-        if: inputs.migraciones
+        if: github.event_name == 'workflow_dispatch' && inputs.migraciones
         run: npx wrangler d1 migrations apply travel-puzzle --remote
 
       - name: Construir
