@@ -6,6 +6,8 @@ Actualizado: 3 nov 2026.
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).
 - Home con secciones rescatadas del sitio anterior, datos reales y prueba social (ver `docs/gates-home-2026-11.md`).
 - /tours y página de cada tour con reseñas, etiqueta "Favorito de los viajeros" y frase destacada.
+- Diseño tecnológico en home y página del tour (header y footer sin cambios); mapa del mundo (OpenFreeMap + MapLibre) y mapa del punto de encuentro.
+- Regla 60/40 (pago/gratis) en todas las recomendaciones; activa al encender `PAID_TOURS_ENABLED`.
 - Correos de acompañamiento (confirmación, recordatorios, cancelación, rechazo, post-tour) listos; **apagados** por bandera.
 - Página privada de la reserva (/reserva/[token]).
 
@@ -18,5 +20,7 @@ Actualizado: 3 nov 2026.
 - Página de reseña `/reserva/[token]/resena` (antes de encender los correos post-tour).
 - Paso de reserva y página de modificar reserva con el estilo de los correos.
 - Respaldar el sitio viejo de Vercel antes de darlo de baja.
-- Fuera de alcance por ahora: mapa interactivo, Puzzle Rewards, ofertas, boletín, administrador de tours propios.
+- Mapa en /tours ("Ver en mapa") para una fase siguiente.
+- Al subir la versión de `maplibre-gl`, copiar su worker a `public/maplibre/` (lo vigila `src/components/map/maplibre.test.ts`).
+- Fuera de alcance por ahora: Puzzle Rewards, ofertas, boletín, administrador de tours propios.
 - Seguridad: rotar la contraseña de la API de Freetour; repo privado y límite de gasto en GitHub.
