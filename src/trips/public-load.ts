@@ -73,3 +73,26 @@ export async function loadTripBySlug(slug: string) {
   return { trip, translations: (row.translations ?? {}) as Translations, agencyName: agency?.name ?? null, fx: await loadFx() };
 }
 
+
+/** Dependencias reales de las solicitudes (D1 + Resend). */
+export async function requestDeps(): Promise<import("./requests").RequestDeps> {
+  const { sendEmail } = await import("@/notifications/resend");
+  const prisma = getPrisma();
+  const repo = createTripRepo(prisma);
+  const env = process.env as Record<string, string | undefined>;
+  const send = (m: { to: string; subject: string; html: string; text: string }) =>
+    sendEmail({ apiKey: env.RESEND_API_KEY ?? "", fetch }, { ...m, from: env.EMAIL_FROM ?? "", replyTo: env.EMAIL_REPLY_TO });
+  return {
+    now: new Date(),
+    random: () => crypto.randomUUID().replace(/-/g, ""),
+    siteUrl: env.SITE_URL ?? "",
+    whatsapp: env.WHATSAPP_NUMBER,
+    async findTrip(id) {
+      const t = await repo.findById(id);
+      return t && t.status === "published" ? { ...t, path: tripPath(t) } : null;
+    },
+    async save(row) { await prisma.tripRequest.create({ data: row as unknown as import("@prisma/client").Prisma.TripRequestUncheckedCreateInput }); },
+    sendCustomer: send,
+    sendTeam: (m) => send({ ...m, to: env.EMAIL_REPLY_TO ?? "info@travelpuzzle.com.mx" }),
+  };
+}

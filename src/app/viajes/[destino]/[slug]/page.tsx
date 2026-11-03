@@ -7,6 +7,7 @@ import { TripSection, TripList } from '@/components/trips/TripSection';
 import { TripPriceBox } from '@/components/trips/TripPriceBox';
 import { TripGuarantees } from '@/components/trips/TripGuarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
+import { TripRequestForm } from '@/components/trips/TripRequestForm';
 import { loadTripBySlug, toCard } from '@/trips/public-load';
 import { tripCopy } from '@/trips/lib/copy';
 import { tripPath } from '@/trips/lib/public';
@@ -130,6 +131,9 @@ export default async function TripPage({ params }: Props) {
                         </div>
                         <aside className="space-y-5">
                             <TripPriceBox price={card.price} c={c} whatsappUrl={wa} />
+                            <TripRequestForm tripId={trip.id} custom={trip.kind === 'personalizado'} currency={trip.currency} lang={lang} returnPath={path}
+                                options={trip.options.map((o) => ({ ...o, name: L(`options.${o.id}.name`, o.name) }))} availability={trip.availability}
+                                minNoticeHours={trip.minNoticeHours} hotelPickup={trip.hotelPickup} />
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5 text-sm text-[#D5DCEE]">
                                 <ul className="space-y-2">
                                     {trip.languages.length > 0 && <li>🗣️ {c.languages}: {trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
