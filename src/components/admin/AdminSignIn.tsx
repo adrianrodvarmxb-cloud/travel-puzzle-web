@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { inputCls } from './trips/fields';
+import { PasswordInput } from './PasswordInput';
 
 /** Entrada del equipo: correo y contraseña (principal), pedir enlace de contraseña y Google. */
 export function AdminSignIn({ callbackUrl }: { callbackUrl: string }) {
@@ -55,7 +56,7 @@ export function AdminSignIn({ callbackUrl }: { callbackUrl: string }) {
         <div className="mt-8 space-y-6">
             <form onSubmit={onSignIn} className="space-y-3">
                 <input name="email" type="email" required autoComplete="username" placeholder="Correo" className={inputCls} />
-                <input name="password" type="password" required autoComplete="current-password" placeholder="Contraseña" className={inputCls} />
+                <PasswordInput name="password" required autoComplete="current-password" placeholder="Contraseña" />
                 <button type="submit" disabled={busy} className="w-full rounded-full bg-[#008DFF] px-5 py-3 text-sm font-bold text-white disabled:opacity-50">{busy ? 'Entrando…' : 'Entrar'}</button>
                 {error && <p className="text-sm text-[#FF8A73]">{error}</p>}
             </form>

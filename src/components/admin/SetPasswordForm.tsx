@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { inputCls } from './trips/fields';
+import { PasswordInput } from './PasswordInput';
 
 /** Formulario de contraseña nueva (dos veces). */
 export function SetPasswordForm({ email, exp, sig }: { email: string; exp: number; sig: string }) {
@@ -31,8 +31,8 @@ export function SetPasswordForm({ email, exp, sig }: { email: string; exp: numbe
     return (
         <form onSubmit={onSubmit} className="mt-6 space-y-3">
             <p className="text-sm text-[#A9B6D6]">{email}</p>
-            <input name="password" type="password" required minLength={10} autoComplete="new-password" placeholder="Contraseña nueva (mínimo 10 caracteres)" className={inputCls} />
-            <input name="confirm" type="password" required minLength={10} autoComplete="new-password" placeholder="Repítela" className={inputCls} />
+            <PasswordInput name="password" required minLength={10} autoComplete="new-password" placeholder="Contraseña nueva (mínimo 10 caracteres)" />
+            <PasswordInput name="confirm" required minLength={10} autoComplete="new-password" placeholder="Repítela" />
             <button type="submit" disabled={state.busy} className="w-full rounded-full bg-[#008DFF] px-5 py-3 text-sm font-bold text-white disabled:opacity-50">{state.busy ? 'Guardando…' : 'Guardar contraseña'}</button>
             {state.error && <p className="text-sm text-[#FF8A73]">{state.error}</p>}
         </form>
