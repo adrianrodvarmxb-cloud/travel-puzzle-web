@@ -7,6 +7,7 @@ import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import { loadTourReviews } from '@/reviews/load';
 import type { Metadata } from 'next';
 import { tourMeta } from '@/seo/lib/meta';
+import { contactFromEnv } from '@/booking/tour-summary';
 
 interface TourDetailPageProps {
     params: Promise<{ id: string }>;
@@ -66,6 +67,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
             30
         );
 
+        const env = process.env as Record<string, string | undefined>;
         return (
             <TourDetailClient
                 tourId={tourId}
@@ -74,6 +76,8 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 initialLanguage={language}
                 reviews={reviews}
                 reviewsTotal={total}
+                bookingsEnabled={env.BOOKINGS_ENABLED === 'true'}
+                whatsapp={contactFromEnv(env).whatsapp}
             />
         );
     } catch (error) {
