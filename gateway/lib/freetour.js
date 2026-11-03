@@ -3,6 +3,8 @@
 import https from "node:https";
 
 const TOKEN_TTL_MS = 50 * 60 * 1000;
+// Tras un login fallido no se reintenta enseguida (evita que bloqueen la cuenta).
+const LOGIN_BACKOFF_MS = 60 * 1000;
 
 /** Petición HTTPS con JSON. Devuelve { status, json }. */
 export function httpsJson(method, url, { headers = {}, body, localAddress, timeoutMs = 30_000 } = {}) {
@@ -41,15 +43,21 @@ export function httpsJson(method, url, { headers = {}, body, localAddress, timeo
 export function createFreetourClient({ baseUrl, email, password, localAddress, request = httpsJson, now = Date.now }) {
   let token = null;
   let tokenAt = 0;
+  let failedAt = null;
 
   async function login() {
+    if (failedAt !== null && now() - failedAt < LOGIN_BACKOFF_MS) {
+      throw new Error("Freetour login en espera tras un intento fallido");
+    }
     const res = await request("POST", `${baseUrl}/login`, { body: { email, password }, localAddress });
     const accessToken = res.json?.data?.token?.accessToken;
     if (res.status !== 200 || !accessToken) {
+      failedAt = now();
       throw new Error(`Freetour login falló (HTTP ${res.status}): ${res.json?.data?.errorMessage ?? "sin detalle"}`);
     }
     token = accessToken;
     tokenAt = now();
+    failedAt = null;
   }
 
   async function send(method, path, body) {

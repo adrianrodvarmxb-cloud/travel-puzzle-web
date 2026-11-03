@@ -5,6 +5,12 @@
   "description": "Pasarela de reservas Freetour (sale por la IP registrada del servidor de Namecheap)",
   "type": "module",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" }
+  "scripts": {
+    "start": "node server.js",
+    "prueba": "node scripts/prueba-reservas.js",
+    "prueba-completa": "node scripts/prueba-reservas.js --completa"
+  },
+  "engines": {
+    "node": ">=18"
+  }
 }

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { handleRequest } from "./handler.js";
 import { sign } from "./signature.js";
+import { createDedupe } from "./dedupe.js";
 
 const secret = "s3cr3t";
 const now = 1_800_000_000_000;
@@ -10,7 +11,7 @@ const signed = (obj) => {
 };
 
 function deps(res = { status: 200, json: { data: { refNumber: "R1" }, status: 200 } }) {
-  return { secret, now: () => now, freetour: { call: vi.fn(async () => res) }, log: vi.fn() };
+  return { secret, now: () => now, freetour: { call: vi.fn(async () => res) }, log: vi.fn(), dedupe: createDedupe({ now: () => now }) };
 }
 
 describe("handleRequest", () => {
@@ -57,5 +58,24 @@ describe("handleRequest", () => {
 
   it("ruta desconocida: 404", async () => {
     expect((await handleRequest({ method: "GET", path: "/x", headers: {}, body: "" }, deps())).status).toBe(404);
+  });
+
+  it("la misma reserva con el mismo token se manda a Freetour una sola vez", async () => {
+    const d = deps();
+    const customer = { email: "ana@example.com", firstName: "Ana", lastName: "Pérez" };
+    const msg = { op: "createBooking", payload: { eventId: 1, adults: 1, children: 0, price: 0, customer, idempotencyKey: "abcdefghijklmnop1234" } };
+    const a = await handleRequest(signed(msg), d);
+    const b = await handleRequest(signed(msg), d);
+    expect(b).toEqual(a);
+    expect(d.freetour.call).toHaveBeenCalledTimes(1);
+    expect(d.log).toHaveBeenCalledWith("repetida", expect.objectContaining({ op: "createBooking" }));
+  });
+
+  it("guarda el errorMessage de Freetour en el registro, sin correos ni teléfonos", async () => {
+    const d = deps({ status: 403, json: { data: { errorCode: 7, errorMessage: "Bookings are not allowed for ana@example.com +525512345678" } } });
+    await handleRequest(signed({ op: "getBooking", payload: { refNumber: "R1" } }), d);
+    const line = JSON.stringify(d.log.mock.calls);
+    expect(line).toContain("Bookings are not allowed");
+    expect(line).not.toMatch(/ana@example|5512345678/);
   });
 });
