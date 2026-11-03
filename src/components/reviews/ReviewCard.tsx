@@ -5,6 +5,8 @@ import { Card, CardContent } from '@/components/ui/Card';
 import type { ReviewView } from '@/reviews/load';
 
 const VERIFIED: Record<string, string> = { es: 'Cliente verificado de Travel Puzzle', en: 'Verified Travel Puzzle customer', pt: 'Cliente verificado da Travel Puzzle', de: 'Verifizierter Travel Puzzle Kunde', fr: 'Client vérifié Travel Puzzle', it: 'Cliente verificato Travel Puzzle' };
+/** Las reseñas de clientes de Travel Puzzle se ven igual que las demás (decisión del PO, 3 nov 2026); el sello queda apagado. */
+const SHOW_VERIFIED_BADGE = false;
 const LOCALES: Record<string, string> = { en: 'en-US', es: 'es-MX', pt: 'pt-BR', de: 'de-DE', fr: 'fr-FR', it: 'it-IT' };
 
 /** Una reseña real tal como la escribió el viajero (sin editar). */
@@ -23,7 +25,7 @@ export function ReviewCard({ review, language }: { review: ReviewView; language:
             />
           ))}
         </div>
-        {review.verified && (
+        {SHOW_VERIFIED_BADGE && review.verified && (
           <span className="inline-flex w-fit items-center gap-1 rounded-full bg-[#008DFF]/15 px-2.5 py-0.5 text-xs font-semibold text-[#008DFF]">✓ {VERIFIED[language] ?? VERIFIED.en}</span>
         )}
         {review.title && <p className="font-semibold">{review.title}</p>}

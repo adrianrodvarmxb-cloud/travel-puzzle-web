@@ -2,7 +2,7 @@
 
 Firmados por el PO (Adri) en el chat, uno por uno.
 
-1. **Destino:** se guardan en nuestra base (la API de Freetour solo lee reseñas). Las aprobadas se publican en la ficha del tour como "Cliente verificado de Travel Puzzle"; las de 1–3 ★ llegan como aviso "Dar seguimiento".
+1. **Destino:** se guardan en nuestra base (la API de Freetour solo lee reseñas). Las aprobadas se publican en la ficha del tour **igual que las demás reseñas** (mismo diseño, ordenadas por fecha, suman al total); internamente quedan marcadas como de Travel Puzzle (tabla `CustomerReview`, campo `verified` en la vista; sello visible apagado con `SHOW_VERIFIED_BADGE=false`). Las de 1–3 ★ llegan como aviso "Dar seguimiento". *(Ajuste del PO, 3 nov 2026.)*
 2. **Moderación:** ambos — botones Publicar/Ocultar en el aviso a info@ (abren una página de confirmación) y panel `/admin/resenas`. Sin cuentas: enlaces firmados con `CRON_SECRET` que vencen en 7 días.
 3. **Autor:** nombre e inicial ("Ana G.") + fecha; el cliente acepta con una casilla que se publique así. Sin permiso no se puede publicar.
 

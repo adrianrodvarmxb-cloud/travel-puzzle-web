@@ -40,7 +40,9 @@ export async function loadTourReviews(tourExternalId: number, lang: string, limi
       }
     );
     const ours = await loadVerifiedReviews(tourExternalId);
-    return { reviews: [...ours, ...reviews.map(toView)], total: total + ours.length };
+    // Una reseña más entre las demás, por fecha (el sello interno `verified` no se muestra).
+    const merged = [...ours, ...reviews.map(toView)].sort((a, b) => b.addedAt.localeCompare(a.addedAt));
+    return { reviews: merged, total: total + ours.length };
   } catch (error) {
     console.warn(`[reviews] sin reseñas para el tour ${tourExternalId}:`, (error as Error).message);
     // Si Freetour falla, al menos las de nuestros clientes.
@@ -71,7 +73,7 @@ export async function loadTourHighlights(tourExternalIds: number[], lang: string
   }
 }
 
-/** Reseñas aprobadas de clientes de Travel Puzzle; van primero en la ficha. Si la tabla no existe aún, ninguna. */
+/** Reseñas aprobadas de clientes de Travel Puzzle (marcadas internamente con `verified`). Si la tabla no existe aún, ninguna. */
 async function loadVerifiedReviews(tourExternalId: number): Promise<ReviewView[]> {
   try {
     const { listPublishedReviews } = await import("./customer-deps");
