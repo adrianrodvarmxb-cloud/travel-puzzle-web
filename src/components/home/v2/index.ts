@@ -1,0 +1,8 @@
+export { HeroSearch } from './HeroSearch';
+export { PopularDestinations } from './PopularDestinations';
+export { FeaturedTours } from './FeaturedTours';
+export { WhyTravelPuzzle } from './WhyTravelPuzzle';
+export { ContinentExplorer } from './ContinentExplorer';
+export { ExpertCta } from './ExpertCta';
+export { SiteFooter } from './SiteFooter';
+export { WhatsAppBubble } from './WhatsAppBubble';

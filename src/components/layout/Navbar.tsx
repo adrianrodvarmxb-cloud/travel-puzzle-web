@@ -36,7 +36,7 @@ export const Navbar = () => {
   const publicLinks = [
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
-    { href: '/how-it-works', label: t('nav.howItWorks') },
+    { href: '/#por-que', label: t('nav.howItWorks') },
   ];
 
   const clientLinks = [
