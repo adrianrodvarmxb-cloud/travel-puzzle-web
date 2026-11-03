@@ -21,7 +21,7 @@ Actualizado: 3 nov 2026.
 
 ## Pendientes
 - Freetour (Elias): habilitar cancelación; dejar de mandar sus correos en modo 2; cancelar 2 reservas de prueba; nuevo webhook `https://travelpuzzle.com.mx/api/freetour/booking-rejected` (borrador listo).
-- Página de reseña `/reserva/[token]/resena` (antes de encender los correos post-tour).
+- Reseñas de clientes listas (`/reserva/[token]/resena`, aviso a info@, `/resenas/moderar`, `/admin/resenas`); requiere la migración 0005 — docs/gates-resenas-2026-11.md. Falta encender `REVIEW_EMAILS_ENABLED`.
 - Paso de reserva y página de modificar reserva con el estilo de los correos.
 - Respaldar el sitio viejo de Vercel antes de darlo de baja.
 - Centro de ayuda `/ayuda` listo tras `BOOKINGS_ENABLED` (docs/gates-ayuda-2026-11.md).
