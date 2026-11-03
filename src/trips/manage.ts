@@ -1,54 +1,67 @@
 /**
- * Gestor de viajes: crear, editar y cambiar estado. Nunca se borra (se oculta).
- * Recibe el almacenamiento por parámetro.
+ * Gestor de viajes: crear, editar y cambiar estado (nunca se borra, se oculta).
+ * Código automático (gate H) que se congela al publicar; "Desde" calculado (gate G);
+ * checklist GYG para publicar (gate J). Recibe el almacenamiento por parámetro.
  */
-import { slugify, normalizeDates, missingToPublish, type TripStatus } from "./lib/trip";
+import { slugify, type TripStatus } from "./lib/trip";
+import { tripCode } from "./lib/code";
+import { priceFrom } from "./lib/pricing";
+import { publishChecklist } from "./lib/publish";
 import type { TripInput } from "./schemas/trip";
 
-export type StoredTrip = TripInput & { id: string; slug: string; status: TripStatus | string };
-type TripData = TripInput & { slug: string };
+type Base = Omit<TripInput, "code" | "priceFrom">;
+export type TripData = Base & { code: string; seq: number; codeLocked: boolean; priceFrom: number | null; slug: string };
+export type StoredTrip = TripData & { id: string; status: TripStatus | string };
 
 export interface TripsDeps {
   findById(id: string): Promise<StoredTrip | null>;
-  findByCode(code: string): Promise<StoredTrip | null>;
+  /** Siglas de la agencia (null = Travel Puzzle → "TP"). */
+  agencyInitials(agencyId: string | null): Promise<string>;
+  /** Siguiente consecutivo para esas siglas. */
+  nextSeq(initials: string): Promise<number>;
   create(data: TripData & { status: TripStatus }): Promise<StoredTrip>;
   update(id: string, data: TripData): Promise<StoredTrip>;
-  setStatus(id: string, status: TripStatus): Promise<void>;
+  /** lockCode = true al publicar: el código ya no cambia. */
+  setStatus(id: string, status: TripStatus, lockCode: boolean): Promise<void>;
 }
 
 export type TripResult = { ok: true; trip: StoredTrip } | { ok: false; error: string };
-
 const publishError = (missing: string[]) => `Para publicar falta: ${missing.join(", ")}`;
 
-/** Crea (id null, queda en borrador) o edita un viaje. */
 export async function saveTrip(id: string | null, input: TripInput, d: TripsDeps): Promise<TripResult> {
-  const dates = normalizeDates(input.dates);
-  if (!dates.ok) return { ok: false, error: dates.error };
+  const { code: _ignored, priceFrom: _calc, ...base } = input;
+  const current = id ? await d.findById(id) : null;
+  if (id && !current) return { ok: false, error: "No encontramos ese viaje" };
 
-  const sameCode = await d.findByCode(input.code);
-  if (sameCode && sameCode.id !== id) return { ok: false, error: `Ya existe un viaje con el código ${input.code}` };
+  let code: string;
+  let seq: number;
+  if (current?.codeLocked) {
+    ({ code, seq } = current);
+  } else {
+    const initials = await d.agencyInitials(base.agencyId);
+    // Mismo consecutivo mientras no cambie la agencia.
+    const sameAgency = current && current.agencyId === base.agencyId;
+    seq = sameAgency ? current.seq : await d.nextSeq(initials);
+    code = tripCode({ initials, countries: base.countries, kind: base.kind, durationDays: base.durationDays, seq });
+  }
 
-  const data: TripData = { ...input, dates: dates.dates, slug: slugify(input.titleEs, input.code) };
-  if (!id) return { ok: true, trip: await d.create({ ...data, status: "draft" }) };
+  const data: TripData = { ...base, code, seq, codeLocked: current?.codeLocked ?? false, priceFrom: priceFrom(base.options), slug: slugify(base.titleEs, code) };
+  if (!current) return { ok: true, trip: await d.create({ ...data, status: "draft" }) };
 
-  const current = await d.findById(id);
-  if (!current) return { ok: false, error: "No encontramos ese viaje" };
-  // Un viaje publicado no puede quedar incompleto en el sitio.
   if (current.status === "published") {
-    const missing = missingToPublish(data);
+    const missing = publishChecklist(data);
     if (missing.length) return { ok: false, error: publishError(missing) };
   }
-  return { ok: true, trip: await d.update(id, data) };
+  return { ok: true, trip: await d.update(current.id, data) };
 }
 
-/** Publicar exige lo mínimo; ocultar o regresar a borrador siempre se puede. */
 export async function setTripStatus(id: string, status: TripStatus, d: TripsDeps): Promise<{ ok: true } | { ok: false; error: string }> {
   const trip = await d.findById(id);
   if (!trip) return { ok: false, error: "No encontramos ese viaje" };
   if (status === "published") {
-    const missing = missingToPublish(trip);
+    const missing = publishChecklist(trip);
     if (missing.length) return { ok: false, error: publishError(missing) };
   }
-  await d.setStatus(id, status);
+  await d.setStatus(id, status, status === "published");
   return { ok: true };
 }

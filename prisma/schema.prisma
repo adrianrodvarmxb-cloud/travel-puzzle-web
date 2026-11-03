@@ -247,6 +247,7 @@ model CustomerReview {
 model Agency {
   id          String   @id @default(cuid())
   name        String   @unique
+  initials    String?  @unique // siglas para el código de sus viajes (gate H)
   contactName String   @default("")
   email       String   @default("")
   phone       String   @default("")
@@ -287,6 +288,28 @@ model Trip {
   excludes      Json // string[]
   visaInfo      String   @default("")
   images        Json // [{ key, alt }]
+  // Ola 1b (gates G-J): código automático, contenido GYG, opciones y disponibilidad
+  seq             Int      @default(0)
+  codeLocked      Boolean  @default(false)
+  category        String?
+  highlights      Json // string[]
+  importantInfo   String   @default("")
+  whatToBring     String   @default("")
+  accessibility   String   @default("")
+  difficulty      String?
+  flightsIncluded Boolean  @default(false)
+  languages       Json // string[]
+  minPax          Int?
+  maxPax          Int?
+  options         Json // [{ id, name, mode, adult, child, infant, childAgeMin, childAgeMax }]
+  extras          Json // [{ name, price, perPerson }]
+  availability    Json // { weekdays, slots, closedDates, seasons }
+  minNoticeHours  Int      @default(24)
+  cancellation    Json // { type, tiers }
+  endPoint        String   @default("")
+  videoUrl        String   @default("")
+  videoCaption    String   @default("")
+  translations    Json // { lang: { campo: { text, src, manual } } }
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

@@ -1,4 +1,5 @@
 'use client';
+/** Versión 1 (sin uso desde la ola 1b; se conserva de forma reversible). */
 import { MAX_MEETING_POINTS } from '@/trips/lib/trip';
 import { Section, Input, smallBtn } from './fields';
 import type { TripFormState, Patch } from './types';
@@ -15,7 +16,7 @@ export function MeetingSection({ v, patch }: { v: TripFormState; patch: Patch })
                     <button type="button" className={smallBtn} onClick={() => patch({ meetingPoints: v.meetingPoints.filter((_, j) => j !== i) })}>Quitar</button>
                 </div>
             ))}
-            <button type="button" className={smallBtn} disabled={v.meetingPoints.length >= MAX_MEETING_POINTS} onClick={() => patch({ meetingPoints: [...v.meetingPoints, { name: '', address: '' }] })}>
+            <button type="button" className={smallBtn} disabled={v.meetingPoints.length >= MAX_MEETING_POINTS} onClick={() => patch({ meetingPoints: [...v.meetingPoints, { name: '', address: '', lat: null, lng: null, instructions: '', photoKey: null }] })}>
                 + Punto de encuentro ({v.meetingPoints.length}/{MAX_MEETING_POINTS})
             </button>
             <label className="flex items-center gap-2 text-sm text-white">

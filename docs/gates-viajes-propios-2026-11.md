@@ -15,3 +15,15 @@ Firmados por Adri (PO). Fuente: documentos "Página Web Travel Puzzle" (Next Ste
 1. **Gestor** (este PR): `/admin/viajes` crear, editar, publicar, ocultar (nunca borrar); agencias; fechas con máx. 4 horarios por día; máx. 4 puntos de encuentro + opción hotel; itinerario; incluye / no incluye; visa; fotos.
 2. **Sitio**: ficha pública, /tours, carrusel, 3 formularios (circuitos/tours, experiencias únicas, personalizados), thank you page y correos, precio en pesos (Banxico). Tras `OWN_TOURS_ENABLED`.
 3. **Pago y pasaportes**: pasarela (candado) y enlace privado de pasaportes.
+
+## Ola 1b (3 nov 2026) — investigación de referentes y gates G–J
+Referentes leídos: GetYourGuide (supply), Viator (bandas de edad, cancelación), TourRadar, Rezdy, Bókun, FareHarbor, TourCMS, Civitatis (proveedores y condiciones), Mega Travel (MT-12397), Intrepid. Solo tours y experiencias; sin hospedaje.
+
+| Gate | Decisión |
+|---|---|
+| G — Precios y fechas | Modelo Civitatis + Mega: 1–4 opciones (grupo/privado, niveles) con precio adulto/niño (rango de edad)/infante; días de la semana con hasta 8 horarios y cupo; fechas cerradas; temporadas con suplemento; aviso mínimo; extras opcionales; "Desde" calculado y con impuestos (art. 7 Bis). |
+| H — Código | Automático `AGENCIA-REGIÓN-TIPO+DÍAS-NÚM` (ej. TP-MX-E01-007, EMV-EUR-C15-042); siglas de agencia sugeridas del nombre; se congela al publicar. |
+| I — Traducción | Se captura en español; el sitio traduce a en/pt/de/fr/it con Workers AI y glosario; cada traducción editable y con candado. (PR B) |
+| J — Publicar | Estándar GYG con 5 fotos: título ≤60, resumen, 3–5 destacados, descripción, incluye/no incluye, país, duración, opción con precio, punto con mapa, idiomas. |
+
+También del documento 2024: horarios y puntos de encuentro "mínimo 4" → se permiten hasta 8; categoría temática; continente automático; vuelos incluidos; video.

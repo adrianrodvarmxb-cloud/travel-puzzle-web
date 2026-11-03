@@ -9,6 +9,7 @@ const agencySchema = z.object({
     contactName: z.string().trim().max(120).default(''),
     email: z.union([z.literal(''), z.string().trim().email()]).default(''),
     phone: z.string().trim().max(40).default(''),
+    initials: z.string().trim().toUpperCase().regex(/^[A-Z][A-Z0-9]{1,4}$/).optional(),
 });
 
 /** Da de alta una agencia externa. Solo ADMIN. */
