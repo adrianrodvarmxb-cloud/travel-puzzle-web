@@ -92,3 +92,20 @@ describe("keyLabel", () => {
     expect(keyLabel("options.g1.name")).toBe("Nombre de la opción");
   });
 });
+
+import { protectTerms, restoreTerms } from "./translation";
+describe("glosario protegido", () => {
+  it("cambia los términos por marcadores y los repone tal cual", () => {
+    const p = protectTerms("Free tour por Oaxaca con Travel Puzzle y otro free tour");
+    expect(p.text).not.toMatch(/Travel Puzzle|free tour/i);
+    expect(restoreTerms(p.text.replace("por Oaxaca con", "through Oaxaca with").replace("y otro", "and another"), p.terms)).toBe("Free tour through Oaxaca with Travel Puzzle and another free tour");
+  });
+  it("si la IA perdió un marcador, se rechaza", () => {
+    const p = protectTerms("Free tour con Travel Puzzle");
+    expect(restoreTerms("tour with a guide", p.terms)).toBeNull();
+  });
+  it("sin términos, pasa igual", () => {
+    expect(protectTerms("Hola").text).toBe("Hola");
+    expect(restoreTerms("Hello", [])).toBe("Hello");
+  });
+});
