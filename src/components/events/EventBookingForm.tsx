@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/language-context';
 import { CalendarAvailabilityService } from '@/lib/services/calendar/CalendarAvailabilityService';
 import { PeopleSelector } from './PeopleSelector';
 import { useBookingForm } from './Contexts';
+import { PrivacyFormNotice } from '@/components/legal/PrivacyFormNotice';
 
 interface EventDetailData {
   id: number;
@@ -178,6 +179,9 @@ export function EventBookingForm({
             </div>
           </div>
         </div>
+
+        {/* Aviso legal (el formulario solo existe con BOOKINGS_ENABLED encendido) */}
+        <PrivacyFormNotice lang={language} />
 
         {/* Submit Button */}
         <div className="flex justify-end">

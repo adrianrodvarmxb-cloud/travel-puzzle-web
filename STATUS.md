@@ -13,6 +13,7 @@ Actualizado: 3 nov 2026.
 - Regla 60/40 (pago/gratis) en todas las recomendaciones; activa al encender `PAID_TOURS_ENABLED`.
 - Correos de acompañamiento (confirmación, recordatorios, cancelación, rechazo, post-tour) listos; **apagados** por bandera.
 - Página privada de la reserva (/reserva/[token]).
+- Sección legal: /terminos y /privacidad (textos revisados por el abogado + ajustes firmados en `docs/gates-legal-2026-11.md`), enlaces en el footer y aviso simplificado en el formulario de reserva.
 
 ## Banderas (wrangler.jsonc)
 - `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403).
@@ -27,4 +28,6 @@ Actualizado: 3 nov 2026.
 - Mapa en /tours ("Ver en mapa") para una fase siguiente.
 - Al subir la versión de `maplibre-gl`, copiar su worker a `public/maplibre/` (lo vigila `src/components/map/maplibre.test.ts`).
 - Fuera de alcance por ahora: Puzzle Rewards, ofertas, boletín, administrador de tours propios.
+- Legal: cuando se encienda `PAID_TOURS_ENABLED` con pago al llegar y tarjeta de garantía, revisar con el abogado la cláusula de cargo por no presentarse. Validar con el abogado el aviso contra la nueva ley de datos (mar 2025) y el plazo ARCO de 15 días.
+- Operación: no mandar correos masivos promocionando tours de Freetour (sus términos, 7.2); la publicidad por correo solo de tours propios.
 - Seguridad: rotar la contraseña de la API de Freetour; repo privado y límite de gasto en GitHub.
