@@ -43,6 +43,7 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
             time={eventTime}
             bookingsEnabled={isBookingsEnabled(process.env.BOOKINGS_ENABLED)}
             contact={contactFor()}
+            paidEnabled={isBookingsEnabled(process.env.PAID_TOURS_ENABLED)}
         />
     );
 }

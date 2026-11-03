@@ -17,6 +17,8 @@ interface EventDetailClientProps {
     bookingsEnabled: boolean;
     /** WhatsApp y redes para el marco (los arma el servidor). */
     contact: { wa: string | null; socials: { name: string; url: string }[] };
+    /** PAID_TOURS_ENABLED: muestra pago, cancelación y no presentarse en tours con costo. */
+    paidEnabled?: boolean;
 }
 
 /** Paso de reserva con el mismo lenguaje visual que los correos y "Mi reserva". */
@@ -27,6 +29,7 @@ export function EventDetailClient({
     time: eventTime,
     bookingsEnabled,
     contact,
+    paidEnabled = false,
 }: EventDetailClientProps) {
     const { t } = useLanguage();
     const languageDisplayName = CalendarAvailabilityService.LANGUAGE_NAMES[eventLanguage] || eventLanguage;
@@ -54,6 +57,7 @@ export function EventDetailClient({
                     time={eventTime}
                     bookingsEnabled={bookingsEnabled}
                     wa={contact.wa}
+                    paidEnabled={paidEnabled}
                 />
             ) : (
                 <p className="px-6 py-8 text-sm text-gray-600">Elige primero la fecha y el horario en la ficha del tour.</p>

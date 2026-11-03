@@ -2,13 +2,17 @@
 
 import { Eyebrow, mono } from '@/components/booking/email-ui';
 import { useBookingForm } from './Contexts';
+import { PaidPolicyNotice } from '@/components/tours/PaidPolicyNotice';
+import type { PaidPolicy } from '@/tours/lib/paid-policy';
 
 interface EventBookingConfirmProps {
   onBack: () => void;
+  /** Pago, cancelación y no presentarse (tours con costo, con PAID_TOURS_ENABLED). */
+  policy?: PaidPolicy | null;
 }
 
 /** Paso 2: 03 Confirmar (resumen y reserva real de free tours). */
-export function EventBookingConfirm({ onBack }: EventBookingConfirmProps) {
+export function EventBookingConfirm({ onBack, policy }: EventBookingConfirmProps) {
   const { form, submitBooking, isSubmitting, submitError, bookingsEnabled, booking } = useBookingForm();
 
   if (booking) return <BookingConfirmed refNumber={booking.refNumber} canBeCanceled={!!booking.canBeCanceled} />;
@@ -34,6 +38,7 @@ export function EventBookingConfirm({ onBack }: EventBookingConfirmProps) {
         ))}
       </dl>
 
+      {isPaid && policy && <PaidPolicyNotice policy={policy} className="mt-5 text-[#0A1330]" />}
       <div className="mt-5">
         {!bookingsEnabled ? (
           <Notice>Las reservas en línea abren muy pronto.</Notice>
