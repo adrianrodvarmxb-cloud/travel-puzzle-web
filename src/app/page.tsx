@@ -15,6 +15,8 @@ import {
 import { loadHomeData } from "@/home/load";
 import { createHighlightRepo } from "@/reviews/repository";
 import { HashScroll } from "@/components/home/v2/HashScroll";
+import { OwnTripsCarousel } from "@/components/home/v2/OwnTripsCarousel";
+import { loadTripCards } from "@/trips/public-load";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
@@ -26,11 +28,13 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const env = process.env as Record<string, string | undefined>;
   const prisma = getPrisma();
+  const lang = await getPreferredLanguage();
+  const ownTrips = await loadTripCards(lang);
   const data = await loadHomeData({
     prisma,
     highlights: createHighlightRepo(prisma),
     includePaid: env.PAID_TOURS_ENABLED === "true",
-    lang: await getPreferredLanguage(),
+    lang,
   });
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
@@ -44,6 +48,7 @@ export default async function Home() {
         <ProofStrip stats={data.stats} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
         <FeaturedTours tours={data.featured} />
+        <OwnTripsCarousel trips={ownTrips} />
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />
         <MapSection />

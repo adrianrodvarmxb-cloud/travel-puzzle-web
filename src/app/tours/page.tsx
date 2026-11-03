@@ -5,6 +5,8 @@ import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
 import { parseSort, sortToPagination } from '@/tours/lib/sort';
 import { parseDurationRange } from '@/tours/lib/duration';
+import { loadTripCards } from '@/trips/public-load';
+import { getPrisma } from '@/lib/prisma';
 
 interface ToursPageProps {
   searchParams: Promise<{
@@ -48,14 +50,19 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   };
 
   // Fetch initial data in parallel
-  const [toursData, countriesData, metadata] = await Promise.all([
+  const [toursData, countriesData, metadata, ownTrips] = await Promise.all([
     // Fetch tours with filters from URL params (or defaults)
     fetchTours(filters, pagination),
     // Fetch countries for filters
     fetchCountries(language),
     // Fetch metadata
     fetchToursMetadata(),
+    // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado)
+    loadTripCards(language),
   ]);
+  const countryCodeById: Record<number, string> = ownTrips.length
+    ? Object.fromEntries((await getPrisma().country.findMany({ select: { id: true, code: true } })).map((c) => [c.id, c.code.toUpperCase()]))
+    : {};
 
   // Format lastUpdated date on server to avoid hydration mismatch
   const localeMap: Record<string, string> = {
@@ -83,6 +90,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
         lastUpdatedFormatted: formattedLastUpdated,
       }}
       initialLanguage={language}
+      ownTrips={ownTrips}
+      countryCodeById={countryCodeById}
     />
   );
 }
