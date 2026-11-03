@@ -38,9 +38,8 @@ export function PeopleSelector({
     );
 
     // Calculate price per person
-    const pricePerPerson = eventDetailData?.fullPricePerGroup?.[value.toString()]
-        ? eventDetailData.fullPricePerGroup[value.toString()] / value
-        : 65; // Default fallback
+    const groupPrice = eventDetailData?.fullPricePerGroup?.[value.toString()];
+    const priceLabel = groupPrice === undefined ? '' : groupPrice === 0 ? ' · Gratis' : ` · €${(groupPrice / value).toFixed(0)}/persona`;
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -66,15 +65,15 @@ export function PeopleSelector({
 
     return (
         <div>
-            <label className="block text-sm font-medium mb-2">Numero de personas</label>
+            <label className="sr-only">Número de personas</label>
             <div className="relative" ref={peopleDropdownRef}>
                 <button
                     type="button"
                     onClick={() => !isDisabled && setIsPeopleDropdownOpen(!isPeopleDropdownOpen)}
                     disabled={isDisabled}
-                    className={`w-full flex items-center justify-between px-4 py-2 bg-white border border-gray-300 rounded-md ${isDisabled
+                    className={`w-full flex items-center justify-between rounded-xl border border-[#E6EBF5] bg-white px-4 py-3.5 font-semibold text-[#0A1330] ${isDisabled
                         ? 'opacity-50 cursor-not-allowed'
-                        : 'hover:bg-gray-50'
+                        : 'hover:bg-[#F4F7FD]'
                         }`}
                 >
                     <span>
@@ -89,7 +88,7 @@ export function PeopleSelector({
                 {isPeopleDropdownOpen && !isDisabled && (
                     <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
                         <div className="px-4 py-2 text-sm text-gray-500 border-b">
-                            {minPeople} to {maxPeople} - €{pricePerPerson.toFixed(0)}/persona
+                            De {minPeople} a {maxPeople} personas{priceLabel}
                         </div>
                         {peopleOptions.map((num) => (
                             <button

@@ -1,9 +1,9 @@
 'use client';
 
-import { Navbar } from '@/components/layout/Navbar';
 import { SupportedLanguage } from '@/types';
 import { CalendarAvailabilityService } from '@/lib/services/calendar/CalendarAvailabilityService';
 import { useLanguage } from '@/lib/language-context';
+import { EmailFrame, Hero } from '@/components/booking/email-ui';
 import { EventBackButton } from './EventBackButton';
 import { EventBookingFormClient } from './EventBookingFormClient';
 
@@ -15,50 +15,49 @@ interface EventDetailClientProps {
     time: string;
     /** Interruptor BOOKINGS_ENABLED (lo decide el servidor). */
     bookingsEnabled: boolean;
+    /** WhatsApp y redes para el marco (los arma el servidor). */
+    contact: { wa: string | null; socials: { name: string; url: string }[] };
 }
 
+/** Paso de reserva con el mismo lenguaje visual que los correos y "Mi reserva". */
 export function EventDetailClient({
     eventId,
-    initialLanguage,
     language: eventLanguage,
     date: eventDate,
     time: eventTime,
     bookingsEnabled,
+    contact,
 }: EventDetailClientProps) {
-    // Get current language from context
     const { t } = useLanguage();
-
-    // Get language display name and flag
-    const languageDisplayName =
-        CalendarAvailabilityService.LANGUAGE_NAMES[eventLanguage] || eventLanguage;
-    const languageFlag =
-        CalendarAvailabilityService.LANGUAGE_FLAGS[eventLanguage] || '🌐';
-
-    // Get translation for back button using current language
-    const backText = t('common.back', 'Back');
+    const languageDisplayName = CalendarAvailabilityService.LANGUAGE_NAMES[eventLanguage] || eventLanguage;
+    const languageFlag = CalendarAvailabilityService.LANGUAGE_FLAGS[eventLanguage] || '🌐';
 
     return (
-        <div className="min-h-screen bg-background">
-            <Navbar />
-
-            <div className="container mx-auto px-4 py-8">
-                {/* Back Button */}
-                <EventBackButton backText={backText} />
-
-                {/* Booking Form */}
-                {eventDate && eventTime && (
-                    <EventBookingFormClient
-                        eventId={eventId}
-                        language={eventLanguage}
-                        languageDisplayName={languageDisplayName}
-                        languageFlag={languageFlag}
-                        date={eventDate}
-                        time={eventTime}
-                        bookingsEnabled={bookingsEnabled}
-                    />
-                )}
+        <EmailFrame wa={contact.wa} socials={contact.socials}>
+            <Hero
+                status={bookingsEnabled ? 'Estás por reservar' : 'Reservas en línea muy pronto'}
+                dot={bookingsEnabled ? 'bg-[#EAF54F]' : 'bg-[#9AAEE0]'}
+                statusText="text-[#F3F8B0]"
+                title="Aparta tu lugar"
+                subtitle="Confirma las personas y tus datos; te mandamos todo por correo."
+            />
+            <div className="px-5 pt-4">
+                <EventBackButton backText={t('common.back', 'Back')} />
             </div>
-        </div>
+            {eventDate && eventTime ? (
+                <EventBookingFormClient
+                    eventId={eventId}
+                    language={eventLanguage}
+                    languageDisplayName={languageDisplayName}
+                    languageFlag={languageFlag}
+                    date={eventDate}
+                    time={eventTime}
+                    bookingsEnabled={bookingsEnabled}
+                    wa={contact.wa}
+                />
+            ) : (
+                <p className="px-6 py-8 text-sm text-gray-600">Elige primero la fecha y el horario en la ficha del tour.</p>
+            )}
+        </EmailFrame>
     );
 }
-

@@ -1,14 +1,13 @@
 'use client';
 
-import { ChevronLeftIcon } from "@/assets/svg";
-import { Button } from "../ui";
-import { useBookingForm } from "./Contexts";
+import { Eyebrow, mono } from '@/components/booking/email-ui';
+import { useBookingForm } from './Contexts';
 
 interface EventBookingConfirmProps {
   onBack: () => void;
 }
 
-/** Paso 2: resumen y confirmación real de la reserva (free tours). */
+/** Paso 2: 03 Confirmar (resumen y reserva real de free tours). */
 export function EventBookingConfirm({ onBack }: EventBookingConfirmProps) {
   const { form, submitBooking, isSubmitting, submitError, bookingsEnabled, booking } = useBookingForm();
 
@@ -16,51 +15,55 @@ export function EventBookingConfirm({ onBack }: EventBookingConfirmProps) {
 
   const isPaid = form.price > 0;
   const people = form.adults + form.children;
+  const rows: [string, string][] = [
+    ['Personas', `${people} (${form.adults} adultos${form.children ? `, ${form.children} niños` : ''})`],
+    ['A nombre de', `${form.customer.firstName} ${form.customer.lastName}`],
+    ['Correo', form.customer.email],
+  ];
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg border-2 border-orange-500 space-y-4">
-      <div className="v-center-normal gap-2">
-        <Button variant="outline" size="sm" onClick={onBack}>
-          <ChevronLeftIcon className="w-4 h-4" />
-          Anterior
-        </Button>
-        <h2 className="text-lg font-semibold">Confirmar reserva</h2>
-      </div>
-
-      <ul className="text-sm space-y-1">
-        <li><strong>Personas:</strong> {people} ({form.adults} adultos{form.children ? `, ${form.children} niños` : ""})</li>
-        <li><strong>A nombre de:</strong> {form.customer.firstName} {form.customer.lastName}</li>
-        <li><strong>Correo:</strong> {form.customer.email}</li>
-      </ul>
-
-      {!bookingsEnabled ? (
-        <Notice>Las reservas en línea abren muy pronto.</Notice>
-      ) : isPaid ? (
-        <Notice>Este tour es de pago. El pago en línea estará disponible muy pronto.</Notice>
-      ) : (
-        <>
-          {submitError && <p className="text-sm text-red-600" role="alert">{submitError}</p>}
-          <div className="flex justify-end">
-            <Button variant="accent" onClick={submitBooking} disabled={isSubmitting}>
-              {isSubmitting ? "Confirmando…" : "Confirmar reserva"}
-            </Button>
+    <section className="px-6 pt-7">
+      <Eyebrow n={3}>Confirmar</Eyebrow>
+      <h2 className="mb-3 text-[21px] font-bold tracking-tight text-[#0A1330]">Revisa y confirma</h2>
+      <dl>
+        {rows.map(([k, v]) => (
+          <div key={k} className="grid grid-cols-[38%_1fr] border-b border-[#E6EBF5] py-3 text-sm">
+            <dt className={`${mono} text-[10px] text-gray-500`}>{k}</dt>
+            <dd className="break-all font-semibold text-[#0A1330]">{v}</dd>
           </div>
-        </>
-      )}
-    </div>
+        ))}
+      </dl>
+
+      <div className="mt-5">
+        {!bookingsEnabled ? (
+          <Notice>Las reservas en línea abren muy pronto.</Notice>
+        ) : isPaid ? (
+          <Notice>Este tour es de pago. El pago en línea estará disponible muy pronto.</Notice>
+        ) : (
+          <>
+            {submitError && <p role="alert" className="mb-3 rounded-xl border border-[#C12909]/30 bg-[#C12909]/5 px-4 py-3 text-sm text-[#0A1330]">{submitError}</p>}
+            <button type="button" onClick={submitBooking} disabled={isSubmitting} className="block w-full rounded-xl bg-[#C12909] px-5 py-4 text-center text-base font-bold text-white hover:opacity-90 disabled:opacity-50">
+              {isSubmitting ? 'Confirmando…' : 'Confirmar reserva  →'}
+            </button>
+          </>
+        )}
+        <button type="button" onClick={onBack} className="mt-3 block w-full text-center text-sm font-semibold text-[#008DFF] hover:underline">← Cambiar mis datos</button>
+      </div>
+    </section>
   );
 }
 
 function Notice({ children }: { children: React.ReactNode }) {
-  return <p className="text-sm bg-white border rounded-md p-3">{children}</p>;
+  return <p className="rounded-xl border border-[#E6EBF5] bg-[#F4F7FD] px-4 py-3 text-sm text-[#0A1330]">{children}</p>;
 }
 
 function BookingConfirmed({ refNumber, canBeCanceled }: { refNumber: string; canBeCanceled: boolean }) {
   return (
-    <div className="bg-green-50 p-6 rounded-lg border-2 border-green-600 space-y-2" role="status">
-      <h2 className="text-lg font-semibold">¡Reserva confirmada!</h2>
-      <p>Tu número de reserva es <strong className="font-mono">{refNumber}</strong>. Guárdalo: lo necesitarás para cualquier cambio.</p>
-      {canBeCanceled && <p className="text-sm text-gray-600">Si no puedes asistir, por favor cancela para liberar el lugar.</p>}
-    </div>
+    <section className="px-6 pt-7" role="status">
+      <p className={`${mono} text-[#2E9E5B]`}><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#3DDC84] align-middle" />Reserva confirmada</p>
+      <h2 className="mt-2 text-[24px] font-bold tracking-tight text-[#0A1330]">¡Tu lugar está apartado!</h2>
+      <p className="mt-2 text-sm text-gray-600">Tu número de reserva es <strong className="font-mono text-[#0A1330]">{refNumber}</strong>. Te lo mandamos por correo con el enlace para ver, cambiar o cancelar tu reserva.</p>
+      {canBeCanceled && <p className="mt-2 text-sm text-gray-600">Si no puedes asistir, cancela para liberar el lugar.</p>}
+    </section>
   );
 }

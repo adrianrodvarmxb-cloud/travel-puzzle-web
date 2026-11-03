@@ -13,6 +13,10 @@ export function createBookingRepo(prisma: PrismaClient) {
     async findByRef(refNumber: string) {
       return prisma.freetourBooking.findUnique({ where: { refNumber } });
     },
+    /** Nueva fecha/personas tras modificar la reserva. */
+    async update(refNumber: string, data: Pick<BookingRecord, "eventId" | "adults" | "children" | "eventDate" | "eventUtcDate" | "language">) {
+      await prisma.freetourBooking.update({ where: { refNumber }, data });
+    },
     async setStatus(refNumber: string, status: string) {
       await prisma.freetourBooking.update({ where: { refNumber }, data: { status } });
     },

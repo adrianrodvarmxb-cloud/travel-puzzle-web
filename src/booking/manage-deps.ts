@@ -7,7 +7,12 @@ import type { ManageDeps } from './manage';
 export function manageDeps() {
     const repo = createBookingRepo(getPrisma());
     const gateway = createGatewayClient({ url: process.env.GATEWAY_URL ?? '', secret: process.env.GATEWAY_SECRET ?? '', fetch });
-    const deps: ManageDeps & { cancel: typeof gateway.cancelBooking } = {
+    const deps: ManageDeps & {
+        cancel: typeof gateway.cancelBooking;
+        edit: typeof gateway.editBooking;
+        getEventForEdit: typeof gateway.getEventForEdit;
+        update: typeof repo.update;
+    } = {
         findByToken: (t) => repo.findByToken(t),
         getRemote: async (ref) => {
             const b = await gateway.getBooking(ref);
@@ -15,6 +20,9 @@ export function manageDeps() {
         },
         setStatus: (ref, status) => repo.setStatus(ref, status),
         cancel: (r) => gateway.cancelBooking(r),
+        edit: (r) => gateway.editBooking(r),
+        getEventForEdit: (eventId, ref) => gateway.getEventForEdit(eventId, ref),
+        update: (ref, data) => repo.update(ref, data),
     };
     return deps;
 }

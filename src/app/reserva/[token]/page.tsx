@@ -15,12 +15,14 @@ export const metadata: Metadata = { title: 'Mi reserva', robots: { index: false,
  * Página privada de la reserva. Mismo lenguaje visual que los correos:
  * marco azul marino, pase tipo boarding pass, secciones numeradas, rojo de marca y burbuja de WhatsApp.
  */
-export default async function ManageBookingPage({ params }: { params: Promise<{ token: string }> }) {
+export default async function ManageBookingPage({ params, searchParams }: { params: Promise<{ token: string }>; searchParams: Promise<{ cambio?: string }> }) {
     const { token } = await params;
+    const changed = (await searchParams).cambio === 'ok';
     const view = await loadManageView(token, manageDeps());
     if (!view) notFound();
 
     const { record, status, canCancel, offline } = view;
+    const canEdit = view.canEdit && process.env.EDIT_ENABLED === 'true';
     const tour = record.tourExternalId ? await getTourSummary(getPrisma(), record.tourExternalId, 'es').catch(() => null) : null;
     const { when, people, tourLang } = describeBooking('es', { ...record, tourLanguage: record.language });
     const title = tour?.title ?? `Free tour ${record.tourExternalId ?? ''}`;
@@ -44,7 +46,7 @@ export default async function ManageBookingPage({ params }: { params: Promise<{ 
     return (
         <BookingPageView
             token={token} title={title} firstName={record.firstName} refNumber={record.refNumber}
-            status={status} canCancel={canCancel} offline={offline} days={days}
+            status={status} canCancel={canCancel} canEdit={canEdit} changed={changed} offline={offline} days={days}
             imageUrl={tour?.imageUrl ?? null} rows={rows} when={when} people={people} tourLang={tourLang}
             maps={maps} cal={cal} wa={wa} socials={contact.socials}
         />

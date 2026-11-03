@@ -1,25 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { CancelBooking } from './CancelBooking';
+import { mono, Eyebrow, Ghost, EmailFrame, Hero, BookingPass, SupportCard } from '@/components/booking/email-ui';
 
 const STATUS: Record<string, { label: string; dot: string; text: string }> = {
     active: { label: 'Reserva confirmada', dot: 'bg-[#3DDC84]', text: 'text-[#7CE3A1]' },
     canceled: { label: 'Reserva cancelada', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
     rejected: { label: 'Reserva rechazada', dot: 'bg-[#FF6B5A]', text: 'text-[#FFB3A8]' },
 };
-
-const mono = 'font-mono text-[11px] uppercase tracking-[0.15em]';
-
-function Eyebrow({ n, children, dim }: { n: number; children: React.ReactNode; dim?: boolean }) {
-    return <p className={`${mono} mb-1.5 ${dim ? 'text-[#9AAEE0]' : 'text-[#008DFF]'}`}>{String(n).padStart(2, '0')} — {children}</p>;
-}
-
-function Ghost({ href, children }: { href: string; children: React.ReactNode }) {
-    return (
-        <a href={href} target="_blank" rel="noopener" className="inline-block rounded-[10px] border border-[#E6EBF5] bg-white px-4 py-2.5 text-[13px] font-semibold text-[#0A1330] hover:bg-[#F4F7FD]">
-            {children}
-        </a>
-    );
-}
 
 export interface BookingPageViewProps {
     token: string;
@@ -28,6 +15,10 @@ export interface BookingPageViewProps {
     refNumber: string;
     status: string;
     canCancel: boolean;
+    /** Freetour permite modificar y EDIT_ENABLED está encendido. */
+    canEdit: boolean;
+    /** Viene de guardar un cambio (?cambio=ok). */
+    changed?: boolean;
     offline: boolean;
     days: number | null;
     imageUrl: string | null;
@@ -42,53 +33,36 @@ export interface BookingPageViewProps {
 }
 
 /** Vista de la página (solo presentación). */
-export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials }: BookingPageViewProps) {
+export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials }: BookingPageViewProps) {
     const active = status === 'active';
     const st = STATUS[status] ?? { label: status, dot: 'bg-gray-300', text: 'text-gray-200' };
     let sec = 0;
 
     return (
-        <main className="min-h-screen bg-[#0A1330] px-3 py-6 sm:py-10">
-            <div className="mx-auto max-w-[600px] overflow-hidden rounded-[20px] bg-white">
-                <div className="flex h-[3px]"><span className="w-[60%] bg-[#008DFF]" /><span className="w-1/4 bg-[#EAF54F]" /><span className="w-[15%] bg-[#C12909]" /></div>
-                <header className="flex items-center justify-between bg-[#0A1330] px-5 py-3.5">
-                    <a href="/"><img src="/brand/logo-tp-oscuro.png" alt="Travel Puzzle" width={150} className="h-auto w-[130px] sm:w-[150px]" /></a>
-                    {wa && <a href={wa} className={`${mono} text-white`}>Ayuda</a>}
-                </header>
-
+        <EmailFrame wa={wa} socials={socials} note="Este enlace es privado. No lo compartas.">
                 {imageUrl && <img src={imageUrl} alt={title} className="block max-h-[320px] w-full object-cover" />}
 
-                <section className="bg-gradient-to-br from-[#0A1330] via-[#14214D] to-[#304A9F] px-6 pb-8 pt-6 text-white">
-                    <p className={`${mono} ${st.text}`}>
-                        <span className={`mr-2 inline-block h-2 w-2 rounded-full align-middle ${st.dot}`} />
-                        {st.label}
-                        {days !== null && <><span className="mx-2 text-[#34467F]">|</span><span className="text-[#EAF54F]">{days === 0 ? '¡Es hoy!' : days === 1 ? '¡Es mañana!' : `Faltan ${days} días`}</span></>}
-                    </p>
-                    <h1 className="mt-3.5 text-[30px] font-bold leading-[1.15] tracking-tight">
-                        {active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : 'Tu reserva no pudo confirmarse'}
-                    </h1>
-                    <p className="mt-2 text-[15px] text-[#C9D6F5]">Hola {firstName}: <span className="font-semibold text-white">{title}</span></p>
-                </section>
+                <Hero
+                    status={st.label}
+                    dot={st.dot}
+                    statusText={st.text}
+                    extra={days !== null ? <span className="text-[#EAF54F]">{days === 0 ? '¡Es hoy!' : days === 1 ? '¡Es mañana!' : `Faltan ${days} días`}</span> : undefined}
+                    title={active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : 'Tu reserva no pudo confirmarse'}
+                    subtitle={<>Hola {firstName}: <span className="font-semibold text-white">{title}</span></>}
+                />
+
+                {changed && <p role="status" className="mx-5 mt-5 rounded-xl border border-[#3DDC84]/40 bg-[#3DDC84]/10 px-4 py-3 text-sm font-semibold text-[#0A1330]">✓ Guardamos tu cambio. Te mandamos la confirmación por correo.</p>}
 
                 <div className="px-5 pt-6">
-                    <div className={`overflow-hidden rounded-2xl border border-[#22336B] bg-gradient-to-br from-[#0A1330] to-[#14214D] ${active ? '' : 'opacity-75'}`}>
-                        <div className="px-4 pb-3.5 pt-4">
-                            <div className="flex justify-between">
-                                <span className={`${mono} text-[10px] text-[#9AAEE0]`}>Número de reserva</span>
-                                <span className={`${mono} text-[10px] ${st.text}`}>● {active ? 'Confirmada' : st.label.replace('Reserva ', '')}</span>
-                            </div>
-                            <p className={`mt-1.5 break-all font-mono text-[22px] font-bold tracking-wide text-white ${active ? '' : 'line-through decoration-[#5F73AD]'}`}>{refNumber}</p>
-                        </div>
-                        <div className="mx-4 border-t border-dashed border-[#34467F]" />
-                        <div className="grid grid-cols-3">
-                            {[['Cuándo', when ?? '—'], ['Quiénes', people], ['Idioma', tourLang ?? '—']].map(([k, v]) => (
-                                <div key={k} className="px-4 pb-4 pt-3.5">
-                                    <p className={`${mono} text-[10px] text-[#9AAEE0]`}>{k}</p>
-                                    <p className="mt-1 text-sm font-semibold leading-snug text-white">{v}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    <BookingPass
+                        label="Número de reserva"
+                        value={refNumber}
+                        badge={active ? 'Confirmada' : st.label.replace('Reserva ', '')}
+                        badgeClass={st.text}
+                        cells={[['Cuándo', when ?? '—'], ['Quiénes', people], ['Idioma', tourLang ?? '—']]}
+                        dimmed={!active}
+                        strike={!active}
+                    />
                 </div>
 
                 <section className="px-6 pt-7">
@@ -114,9 +88,21 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                     </section>
                 )}
 
-                {(canCancel || (active && !offline) || offline) && (
+                {active && (
                     <section className="px-6 pt-7">
                         <Eyebrow n={++sec}>Cambios</Eyebrow>
+                        <h2 className="mb-3 text-[21px] font-bold tracking-tight text-[#0A1330]">¿Necesitas otra fecha u horario?</h2>
+                        {canEdit ? (
+                            <a href={`/reserva/${token}/modificar`} className="block rounded-xl bg-[#C12909] px-5 py-4 text-center text-base font-bold text-white hover:opacity-90">Cambiar fecha o personas &nbsp;→</a>
+                        ) : (
+                            wa && <Ghost href={wa}>Cambiar fecha por WhatsApp</Ghost>
+                        )}
+                    </section>
+                )}
+
+                {(canCancel || (active && !offline) || offline) && (
+                    <section className="px-6 pt-7">
+                        <Eyebrow n={++sec}>Cancelar</Eyebrow>
                         <h2 className="mb-3 text-[21px] font-bold tracking-tight text-[#0A1330]">¿Ya no puedes ir?</h2>
                         {canCancel && (
                             <>
@@ -129,41 +115,7 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                     </section>
                 )}
 
-                {wa && (
-                    <section className="px-5 pb-7 pt-7">
-                        <div className="flex items-center gap-4 rounded-2xl bg-gradient-to-br from-[#0A1330] to-[#14214D] p-5">
-                            <div className="flex-1">
-                                <Eyebrow n={++sec} dim>Soporte</Eyebrow>
-                                <p className="text-[19px] font-bold leading-tight text-white">¿Dudas? Estamos para ayudarte</p>
-                                <p className="mt-1.5 text-[13px] leading-relaxed text-[#9AAEE0]">Toca el botón y escríbenos por WhatsApp; ya lleva tu número de reserva.</p>
-                            </div>
-                            <a href={wa} aria-label="Escríbenos por WhatsApp" className="shrink-0">
-                                <img src="/brand/social/whatsapp.png" alt="" width={60} height={60} className="h-[60px] w-[60px] rounded-full shadow-[0_6px_18px_rgba(37,211,102,0.45)]" />
-                            </a>
-                        </div>
-                    </section>
-                )}
-
-                <footer className="flex items-center justify-between gap-4 bg-[#0A1330] px-5 py-5">
-                    <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Te armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
-                    <div className="text-right">
-                        {socials.length > 0 && (
-                            <>
-                                <p className={`${mono} mb-2.5 text-[10px] text-[#9AAEE0]`}>Síguenos</p>
-                                <div className="mb-3 flex justify-end gap-2">
-                                    {socials.map((s) => (
-                                        <a key={s.name} href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
-                                            <img src={`/brand/social/${s.name.toLowerCase()}.png`} alt="" width={32} height={32} className="h-8 w-8" />
-                                        </a>
-                                    ))}
-                                </div>
-                            </>
-                        )}
-                        <p className="text-xs text-[#C9D6F5]">Travel Puzzle México · travelpuzzle.com.mx</p>
-                    </div>
-                </footer>
-            </div>
-            <p className="mx-auto mt-4 max-w-[600px] text-center text-xs text-[#5F73AD]">Este enlace es privado. No lo compartas.</p>
-        </main>
+                {wa && <SupportCard n={++sec} wa={wa} text="Toca el botón y escríbenos por WhatsApp; ya lleva tu número de reserva." />}
+        </EmailFrame>
     );
 }

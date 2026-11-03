@@ -1,9 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { useLanguage } from '@/lib/language-context';
-import { CalendarAvailabilityService } from '@/lib/services/calendar/CalendarAvailabilityService';
+import { Eyebrow } from '@/components/booking/email-ui';
 import { PeopleSelector } from './PeopleSelector';
 import { useBookingForm } from './Contexts';
 import { PrivacyFormNotice } from '@/components/legal/PrivacyFormNotice';
@@ -20,177 +18,56 @@ interface EventDetailData {
 
 interface EventBookingFormProps {
   language: string;
-  languageDisplayName: string;
-  languageFlag: string;
-  date: string;
-  time: string;
   eventDetailData?: EventDetailData;
   isLoading?: boolean;
   error?: Error | null;
   onNext: () => void;
 }
 
-export function EventBookingForm({
-  language,
-  languageDisplayName,
-  languageFlag,
-  date,
-  time,
-  eventDetailData,
-  isLoading = false,
-  error,
-  onNext,
-}: EventBookingFormProps) {
-  // Get the current language from context (reads from localStorage)
-  const { language: currentLanguage } = useLanguage();
-
-  // Get form state and handlers from booking context
+/** Paso 1: 01 Personas y 02 Tus datos (estilo de los correos). La validación vive en el contexto. */
+export function EventBookingForm({ language, eventDetailData, isLoading = false, error, onNext }: EventBookingFormProps) {
   const { form, errors, handlers, isFormValid, submitError, isReady } = useBookingForm();
 
-  // Don't render form until it's ready
-  if (!isReady) {
-    return (
-      <div className="bg-gray-50 p-6 rounded-lg border-2 border-orange-500">
-        <div className="flex items-center justify-center py-8">
-          <div className="text-gray-500">Cargando formulario...</div>
-        </div>
-      </div>
-    );
-  }
+  if (!isReady) return <p className="px-6 py-8 text-sm text-gray-500">Cargando formulario…</p>;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate form before proceeding
-    if (isFormValid()) {
-      onNext();
-    }
+    if (isFormValid()) onNext();
   };
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg border-2 border-orange-500">
-      {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-800 text-sm">
-          Error al cargar los detalles del evento. Por favor, intenta de nuevo.
-        </div>
+    <form onSubmit={handleSubmit} className="space-y-7 pt-7">
+      {(error || submitError) && (
+        <p role="alert" className="mx-6 rounded-xl border border-[#C12909]/30 bg-[#C12909]/5 px-4 py-3 text-sm text-[#0A1330]">
+          {submitError ?? 'No pudimos cargar los lugares disponibles. Intenta de nuevo en un momento.'}
+        </p>
       )}
-      {submitError && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-800 text-sm">
-          {submitError}
+
+      <section className="px-6">
+        <Eyebrow n={1}>Personas</Eyebrow>
+        <h2 className="mb-3 text-[21px] font-bold tracking-tight text-[#0A1330]">¿Cuántos van?</h2>
+        <PeopleSelector eventDetailData={eventDetailData} value={form.adults} onChange={(value) => handlers.adults(value)} isLoading={isLoading} />
+      </section>
+
+      <section className="px-6">
+        <Eyebrow n={2}>Tus datos</Eyebrow>
+        <h2 className="mb-3 text-[21px] font-bold tracking-tight text-[#0A1330]">¿A nombre de quién?</h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Input type="text" label="Nombre" value={form.customer.firstName} onChange={(e) => handlers.customer.firstName(e.target.value)} error={errors.customer?.firstName} required className="w-full" />
+          <Input type="text" label="Apellido" value={form.customer.lastName} onChange={(e) => handlers.customer.lastName(e.target.value)} error={errors.customer?.lastName} required className="w-full" />
+          <Input type="email" label="Correo" value={form.customer.email} onChange={(e) => handlers.customer.email(e.target.value)} error={errors.customer?.email} required className="w-full" />
+          <Input type="tel" label="WhatsApp (opcional)" value={form.customer.phone || ''} onChange={(e) => handlers.customer.phone(e.target.value)} error={errors.customer?.phone} className="w-full" />
         </div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Section 1: Tour Details */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold mb-4">1. Detalles del tour</h2>
+        <p className="mt-2 text-[13px] text-gray-500">Te mandamos la confirmación a este correo.</p>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Language */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Idioma</label>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md">
-                <span className="text-lg">{languageFlag}</span>
-                <span>{languageDisplayName}</span>
-              </div>
-            </div>
-
-            {/* Date */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Fecha del tour</label>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md">
-                <span>📅</span>
-                <span className='capitalize'>{CalendarAvailabilityService.formatDateDisplay(date, currentLanguage)}</span>
-              </div>
-            </div>
-
-            {/* Time */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Hora de inicio</label>
-              <div className="px-4 py-2 bg-white border border-gray-300 rounded-md">
-                <span>{time}</span>
-              </div>
-            </div>
-
-            {/* Number of People */}
-            <div>
-              <PeopleSelector
-                eventDetailData={eventDetailData}
-                value={form.adults}
-                onChange={(value) => handlers.adults(value)}
-                isLoading={isLoading}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Section 2: Your Details */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold mb-4">2. Tus detalles</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* First Name */}
-            <div>
-              <Input
-                type="text"
-                label={'Nombre'}
-                value={form.customer.firstName}
-                onChange={(e) => handlers.customer.firstName(e.target.value)}
-                error={errors.customer?.firstName}
-                required
-                className="w-full"
-              />
-            </div>
-
-            {/* Last Name */}
-            <div>
-              <Input
-                type="text"
-                label="Apellido"
-                value={form.customer.lastName}
-                onChange={(e) => handlers.customer.lastName(e.target.value)}
-                error={errors.customer?.lastName}
-                required
-                className="w-full"
-              />
-            </div>
-
-            {/* Email */}
-            <div>
-              <Input
-                type="email"
-                label="E-mail"
-                value={form.customer.email}
-                onChange={(e) => handlers.customer.email(e.target.value)}
-                error={errors.customer?.email}
-                required
-                className="w-full"
-              />
-            </div>
-
-            {/* Phone (optional) */}
-            <div>
-              <Input
-                type="tel"
-                label="Teléfono (opcional)"
-                value={form.customer.phone || ''}
-                onChange={(e) => handlers.customer.phone(e.target.value)}
-                error={errors.customer?.phone}
-                className="w-full"
-              />
-            </div>
-          </div>
-        </div>
-
+      <section className="px-6">
         {/* Aviso legal (el formulario solo existe con BOOKINGS_ENABLED encendido) */}
         <PrivacyFormNotice lang={language} />
-
-        {/* Submit Button */}
-        <div className="flex justify-end">
-          <Button type="submit" variant="accent">
-            Continuar
-          </Button>
-        </div>
-      </form>
-    </div>
+        <button type="submit" className="mt-4 block w-full rounded-xl bg-[#C12909] px-5 py-4 text-center text-base font-bold text-white hover:opacity-90">
+          Continuar &nbsp;→
+        </button>
+      </section>
+    </form>
   );
 }
-
