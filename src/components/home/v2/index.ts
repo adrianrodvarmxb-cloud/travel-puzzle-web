@@ -6,3 +6,4 @@ export { ContinentExplorer } from './ContinentExplorer';
 export { ExpertCta } from './ExpertCta';
 export { SiteFooter } from './SiteFooter';
 export { WhatsAppBubble } from './WhatsAppBubble';
+export { HomeReviews } from './HomeReviews';

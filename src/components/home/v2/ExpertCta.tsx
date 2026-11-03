@@ -11,7 +11,7 @@ export function ExpertCta({ whatsapp }: { whatsapp?: string }) {
 
   return (
     <section className="px-4 py-16">
-      <div className="container mx-auto max-w-5xl overflow-hidden rounded-3xl bg-[#0A1330] bg-[linear-gradient(160deg,#0A1330_0%,#14214D_55%,#304A9F_100%)] p-8 md:p-12">
+      <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-3xl bg-[#0A1330] bg-[linear-gradient(160deg,#0A1330_0%,#14214D_55%,#304A9F_100%)] p-8 md:p-12">
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
           <div className="max-w-xl">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">05 — {c.expertEyebrow}</p>

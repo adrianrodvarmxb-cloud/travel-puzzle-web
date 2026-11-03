@@ -1,5 +1,6 @@
 'use server';
 
+import { loadTourHighlights } from '@/reviews/load';
 import {
   getToursWithFilters,
   getTourById,
@@ -169,3 +170,9 @@ export async function syncTours(maxPages?: number) {
   }
 }
 
+
+/** Frases destacadas de reseñas reales para las tarjetas de la lista de tours. */
+export async function fetchTourHighlights(tourExternalIds: number[], language: string = 'es') {
+  const ids = tourExternalIds.filter((n) => Number.isInteger(n) && n > 0).slice(0, 50);
+  return loadTourHighlights(ids, language);
+}

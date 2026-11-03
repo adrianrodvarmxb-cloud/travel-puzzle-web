@@ -10,6 +10,7 @@ import {
   fetchCitiesFromAPI,
   fetchToursMetadata,
   syncTours,
+  fetchTourHighlights,
 } from '@/actions/tours';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
@@ -180,3 +181,14 @@ export function usePrefetchToursNextPage(
   return { prefetchNextPage };
 }
 
+
+/** Frases destacadas (reseñas reales de 5 ★) de los tours de la página actual. */
+export function useTourHighlights(tourExternalIds: number[], language: string = 'es') {
+  const ids = [...tourExternalIds].sort((a, b) => a - b);
+  return useQuery({
+    queryKey: ['tour-highlights', ids, language] as const,
+    queryFn: () => fetchTourHighlights(ids, language),
+    enabled: ids.length > 0,
+    staleTime: 60 * 60 * 1000,
+  });
+}

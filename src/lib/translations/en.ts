@@ -218,4 +218,8 @@ export const en = {
   'reviews.total': '{count} reviews in total',
   'reviews.source': 'Real reviews from FREETOUR.com travelers',
   'home.recentReviews.title': 'What travelers say',
+  "reviews.count": "{count} reviews",
+  "reviews.showMore": "Show more reviews",
+  "tours.favorite": "Traveler favorite",
+  "reviews.seeTour": "See tour",
 };

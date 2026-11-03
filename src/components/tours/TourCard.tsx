@@ -1,18 +1,26 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Tour } from '@/types';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { useLanguage } from '@/lib/language-context';
 import { formatRating } from '@/home/lib/format';
+import { TravelerFavoriteBadge } from './TravelerFavoriteBadge';
 
 interface TourCardProps {
   tour: Tour;
+  /** Frase de una reseña real de 5 ★ (opcional). */
+  highlight?: string | null;
 }
 
-export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
+export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
+  const { t } = useLanguage();
   // Get the first valid image URL
   const imageUrl = tour.images.find(img => img && img.trim() !== '');
+  const rating = formatRating(tour.rating);
   
   return (
     <Link href={`/tours/${tour.id}`}>
@@ -31,17 +39,20 @@ export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
               <span className="text-2xl font-bold opacity-50">🌍</span>
             </div>
           )}
+          <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute top-2 left-2" />
           {tour.price === 0 && (
             <div className="absolute top-2 right-2">
-              <Badge variant="success">FREE</Badge>
+              <Badge variant="success">{t('tours.free', 'Free')}</Badge>
             </div>
           )}
         </div>
         <CardContent className="p-4">
           <h3 className="font-bold text-lg mb-2 line-clamp-2">{tour.title}</h3>
-          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-            {tour.brief}
-          </p>
+          {highlight ? (
+            <p className="text-sm italic text-[#304A9F] mb-3 line-clamp-2">“{highlight}”</p>
+          ) : (
+            <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{tour.brief}</p>
+          )}
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs text-muted-foreground">{tour.destination}</p>
@@ -49,11 +60,11 @@ export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
             </div>
             <div className="text-right">
               <p className="font-bold text-lg">
-                {tour.price > 0 ? `${tour.currency} ${tour.price}` : 'FREE'}
+                {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free', 'Free')}
               </p>
-              {tour.rating && (
+              {rating && (
                 <p className="text-xs text-muted-foreground">
-                  ⭐ {formatRating(tour.rating)} ({tour.reviewsNumber})
+                  ⭐ {rating} ({tour.reviewsNumber.toLocaleString()})
                 </p>
               )}
             </div>
@@ -63,4 +74,3 @@ export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
     </Link>
   );
 };
-

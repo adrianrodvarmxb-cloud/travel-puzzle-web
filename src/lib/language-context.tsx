@@ -33,7 +33,7 @@ function writeLanguageCookie(lang: SupportedLanguage) {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children, onReady }: LanguageProviderProps) {
-  // Español por defecto (igual que el servidor); se cambia solo si el visitante eligió otro idioma.
+  // Español mientras se detecta el idioma (igual que el servidor); luego: el elegido o el del navegador.
   const [language, setLanguageState] = useState<SupportedLanguage>('es');
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -65,6 +65,13 @@ export function LanguageProvider({ children, onReady }: LanguageProviderProps) {
       return;
     }
 
+    // Gate 1 (B): cada visitante en el idioma de su navegador; si no lo tenemos, español.
+    const browserLang = navigator.language.split('-')[0] as SupportedLanguage;
+    if (translations[browserLang]) {
+      setLanguageState(browserLang);
+      localStorage.setItem('preferredLanguage', browserLang);
+      writeLanguageCookie(browserLang);
+    }
 
     // Mark as initialized after language detection
     setTimeout(() => {

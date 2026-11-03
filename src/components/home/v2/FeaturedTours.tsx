@@ -7,6 +7,7 @@ import { nameIn } from '@/home/lib/destinations';
 import { formatCount, formatRating } from '@/home/lib/format';
 import type { HomeTour } from '@/home/load';
 import { SectionHeading } from './SectionHeading';
+import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
 
 export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
   const { language } = useLanguage();
@@ -26,6 +27,7 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
                 <div className="relative aspect-[16/10] bg-[#14214D]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={t.image} alt={title} loading="lazy" className="h-full w-full object-cover" />
+                  <TravelerFavoriteBadge rating={t.rating} reviews={t.reviews} className="absolute left-3 top-3" />
                   {t.isFree && (
                     <span className="absolute right-3 top-3 rounded-md border border-[#008DFF] bg-white px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[#008DFF]">{c.free}</span>
                   )}
