@@ -16,7 +16,7 @@ Actualizado: 3 nov 2026.
 - Sección legal: /terminos y /privacidad (textos revisados por el abogado + ajustes firmados en `docs/gates-legal-2026-11.md`), enlaces en el footer y aviso simplificado en el formulario de reserva.
 
 ## Banderas (wrangler.jsonc)
-- `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403).
+- `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403). También muestra `/ayuda` y su enlace en el footer.
 - `EMAILS_ENABLED=false`, `REVIEW_EMAILS_ENABLED=false`, `PAID_TOURS_ENABLED=false`.
 
 ## Pendientes
@@ -24,10 +24,11 @@ Actualizado: 3 nov 2026.
 - Página de reseña `/reserva/[token]/resena` (antes de encender los correos post-tour).
 - Paso de reserva y página de modificar reserva con el estilo de los correos.
 - Respaldar el sitio viejo de Vercel antes de darlo de baja.
-- Siguiente frente propuesto: sección "Viajes en grupo" (viajes propios de Travel Puzzle; casos de clientes solo con permiso) y centro de Ayuda (Customer Journey de Claudia).
+- Centro de ayuda `/ayuda` listo tras `BOOKINGS_ENABLED` (docs/gates-ayuda-2026-11.md).
+- Viajes en grupo: no se publica nada hasta tener autorizaciones de clientes (decisión 3 nov 2026). Garantías Travel Puzzle: las define Claudia.
 - Mapa en /tours ("Ver en mapa") para una fase siguiente.
 - Al subir la versión de `maplibre-gl`, copiar su worker a `public/maplibre/` (lo vigila `src/components/map/maplibre.test.ts`).
 - Fuera de alcance por ahora: Puzzle Rewards, ofertas, boletín, administrador de tours propios.
 - Legal: cuando se encienda `PAID_TOURS_ENABLED` con pago al llegar y tarjeta de garantía, revisar con el abogado la cláusula de cargo por no presentarse. Validar con el abogado el aviso contra la nueva ley de datos (mar 2025) y el plazo ARCO de 15 días.
 - Operación: no mandar correos masivos promocionando tours de Freetour (sus términos, 7.2); la publicidad por correo solo de tours propios.
-- Seguridad: rotar la contraseña de la API de Freetour; repo privado y límite de gasto en GitHub.
+- Seguridad: rotar la contraseña de la API de Freetour. Repo público con candados (escaneo y bloqueo de secretos, Dependabot, `main` protegida, PR externos con aprobación) — 3 nov 2026.

@@ -2,6 +2,7 @@ import { Navbar } from '@/components/layout';
 import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { toBlocks } from '@/legal/lib/blocks';
+import { isHelpVisible } from '@/help/lib/faq';
 import { LegalDocument } from './LegalDocument';
 import { SpanishOnlyNotice } from './SpanishOnlyNotice';
 
@@ -17,7 +18,7 @@ export function LegalPage({ eyebrow, title, markup }: { eyebrow: string; title: 
       <main className="tp-dark">
         <LegalDocument eyebrow={eyebrow} title={title} blocks={toBlocks(markup)} notice={<SpanishOnlyNotice />} />
       </main>
-      <SiteFooter contact={footer} />
+      <SiteFooter contact={footer} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
       <WhatsAppBubble whatsapp={contact.whatsapp} />
     </div>
   );

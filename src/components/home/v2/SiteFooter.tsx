@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
 import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
+import { HELP_PATH, helpCopy } from '@/help/lib/faq';
 
 export interface FooterContact {
   whatsapp?: string;
@@ -16,7 +17,8 @@ const SHOW_FOOTER_SLOGAN = false;
 
 const ICON: Record<string, string> = { Instagram: 'instagram', Facebook: 'facebook', TikTok: 'tiktok', YouTube: 'youtube' };
 
-export function SiteFooter({ contact }: { contact: FooterContact }) {
+/** `helpEnabled`: muestra el enlace a /ayuda (mismo interruptor que las reservas en línea). */
+export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterContact; helpEnabled?: boolean }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   const wa = waLink(contact.whatsapp, c.expertWa);
@@ -34,6 +36,7 @@ export function SiteFooter({ contact }: { contact: FooterContact }) {
         <div className="space-y-2 text-sm">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{c.footerContact}</p>
           <Link href="/tours" className="block hover:text-white">{c.footerTours}</Link>
+          {helpEnabled && <Link href={HELP_PATH} className="block hover:text-white">{helpCopy(language).footerLink}</Link>}
           {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="block hover:text-white">WhatsApp</a>}
           {contact.email && <a href={`mailto:${contact.email}`} className="block hover:text-white">{contact.email}</a>}
         </div>
