@@ -10,7 +10,7 @@ export function ExpertCta({ whatsapp }: { whatsapp?: string }) {
   if (!href) return null;
 
   return (
-    <section className="mx-auto max-w-[1280px] px-4 py-24 md:px-8 md:py-28">
+    <section id="asesor" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 py-24 md:px-8 md:py-28">
       <div className="grid grid-cols-1 items-center gap-6 rounded-3xl border border-[#008DFF]/45 bg-[#0E1A40] p-7 md:p-12 lg:grid-cols-12">
         <div className="lg:col-span-8">
           <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.expertEyebrowN}</p>

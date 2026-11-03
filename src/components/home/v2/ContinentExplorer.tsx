@@ -16,7 +16,7 @@ export function ContinentExplorer({ continents }: { continents: HomeData['contin
   if (!continents.length) return null;
 
   return (
-    <section id="continentes" className="mx-auto max-w-[1280px] px-4 pt-24 md:px-8 md:pt-28">
+    <section id="continentes" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
       <SectionHeading eyebrow={c.contEyebrow} title={c.contTitle} subtitle={c.contSub} />
       <MobileRail gridClass="sm:grid-cols-2 lg:grid-cols-3">
         {continents.map((k) => (

@@ -20,7 +20,7 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
   const avg = formatRating(average);
 
   return (
-    <section className="mx-auto max-w-[1280px] px-4 pt-24 md:px-8 md:pt-28">
+    <section id="opiniones" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#008DFF]">{c.reviewsEyebrow}</p>

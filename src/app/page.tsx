@@ -14,6 +14,7 @@ import {
 } from "@/components/home/v2";
 import { loadHomeData } from "@/home/load";
 import { createHighlightRepo } from "@/reviews/repository";
+import { HashScroll } from "@/components/home/v2/HashScroll";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { getPreferredLanguage } from "@/lib/utils/cookies";
@@ -50,6 +51,7 @@ export default async function Home() {
       </main>
       <SiteFooter contact={footer} />
       <WhatsAppBubble whatsapp={contact.whatsapp} />
+      <HashScroll />
     </div>
   );
 }

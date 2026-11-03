@@ -11,6 +11,7 @@ import { PlatformTextLogo } from '@/components/layout/PlatformTextLogo';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { ACCOUNTS_ENABLED } from '@/lib/features';
+import { homeSections } from '@/home/lib/sections';
 import {
   MenuIcon,
   CloseIcon,
@@ -19,7 +20,7 @@ import {
 export const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -180,7 +181,7 @@ export const Navbar = () => {
           <div className="md:hidden py-4 border-t border-tp-blue-dark">
             {/* Mobile Nav Links */}
             <div className="flex flex-col gap-2 mb-4">
-              {navLinks.map((link) => (
+              {navLinks.filter((link) => link.href !== '/#como-funciona').map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -191,6 +192,21 @@ export const Navbar = () => {
                     }`}
                 >
                   {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Las 7 secciones del inicio (decisión del PO, 3 nov 2026) */}
+            <div className="mb-4 border-t border-white/15 pt-3">
+              {homeSections(language).map((s) => (
+                <Link
+                  key={s.id}
+                  href={s.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-baseline gap-3 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                >
+                  <span className="font-mono text-xs text-[#EAF54F]">{s.number}</span>
+                  {s.label}
                 </Link>
               ))}
             </div>

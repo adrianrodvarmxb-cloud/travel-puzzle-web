@@ -17,7 +17,7 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
   if (!tours.length) return null;
 
   return (
-    <section className="mx-auto max-w-[1280px] px-4 pt-24 md:px-8 md:pt-28">
+    <section id="favoritos" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
       <SectionHeading eyebrow={c.featEyebrow} title={c.featHeadline} action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>} />
       <MobileRail gridClass="sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {tours.map((t) => {
