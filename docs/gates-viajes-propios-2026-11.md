@@ -5,7 +5,7 @@ Firmados por Adri (PO). Fuente: documentos "Página Web Travel Puzzle" (Next Ste
 | Gate | Decisión |
 |---|---|
 | A — Quién captura | Solo el equipo de Travel Puzzle (las agencias mandan la info). |
-| B — Acceso | Cuenta del sitio con rol ADMIN (Google o correo), en `/admin/entrar`; las cuentas de clientes siguen apagadas. |
+| B — Acceso | Cuenta del sitio con rol ADMIN en `/admin/entrar`; las cuentas de clientes siguen apagadas. Ajuste (3 nov): entrada principal con correo y contraseña; cada quien crea la suya con un enlace por correo (1 hora, un solo uso). Google queda como opción. |
 | C — Dónde se ven | Mezclados en /tours (filtro por tipo) + carrusel "Viajes by Travel Puzzle" en el home (ola 2). |
 | D — Pasaporte | Después, con enlace privado al confirmar (como el check-in de G Adventures / Go Ahead). Ola 3. |
 | E — Moneda | Se captura en MXN/USD/EUR; se muestra en pesos grande + moneda original con tipo de cambio Banxico (art. 34 LFPC). Ola 2. |
