@@ -10,9 +10,9 @@ export function TranslationEditor({ id, lang, source, entries }: { id: string; l
     const [busy, setBusy] = useState<string | null>(null);
     const [msg, setMsg] = useState<string | null>(null);
 
-    async function translateNow() {
-        setBusy('__all');
-        const res = await fetch(`/api/admin/viajes/${id}/traducir`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lang }) });
+    async function translateNow(force = false) {
+        setBusy(force ? '__force' : '__all');
+        const res = await fetch(`/api/admin/viajes/${id}/traducir`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lang, force }) });
         const j = await res.json().catch(() => ({}));
         setMsg(res.ok ? `Traducidos: ${j.translated}` : `No se pudo traducir todo (${j.pending ?? '?'} pendientes)`);
         setBusy(null);
@@ -27,8 +27,9 @@ export function TranslationEditor({ id, lang, source, entries }: { id: string; l
 
     return (
         <div className="mt-6 space-y-4">
-            <div className="flex items-center gap-3">
-                <button type="button" className={smallBtn} disabled={busy !== null} onClick={translateNow}>{busy === '__all' ? 'Traduciendo…' : 'Traducir pendientes ahora'}</button>
+            <div className="flex flex-wrap items-center gap-3">
+                <button type="button" className={smallBtn} disabled={busy !== null} onClick={() => translateNow()}>{busy === '__all' ? 'Traduciendo…' : 'Traducir pendientes ahora'}</button>
+                <button type="button" className={smallBtn} disabled={busy !== null} onClick={() => translateNow(true)}>{busy === '__force' ? 'Traduciendo…' : 'Volver a traducir todo (menos 🔒)'}</button>
                 {msg && <span className="text-sm text-[#D5DCEE]">{msg}</span>}
             </div>
             {Object.entries(source).map(([key, es]) => {

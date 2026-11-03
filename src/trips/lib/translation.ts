@@ -91,6 +91,7 @@ export function buildPrompt(lang: TargetLang, items: Record<string, string>) {
         `You are a professional travel copywriter translating tour listings from Mexican Spanish into ${LANG_NAME[lang]}.`,
         "Rules: translate faithfully and naturally for travelers; keep the same meaning, tone and length; do not add or invent information.",
         'Never translate: "Travel Puzzle", "Free tour", brand names, people names, and place names that have no common translation.',
+        "Keep every placeholder like ⟦0⟧, ⟦1⟧ exactly as it is, in the natural position of the sentence.",
         "Keep numbers, prices, currencies, times and dates exactly as written. Keep line breaks.",
         "Answer ONLY with a JSON object with the same keys and the translated strings as values.",
       ].join("\n"),
@@ -154,4 +155,25 @@ export function keyLabel(key: string): string {
     case "meetingPoints": return `Punto de encuentro ${n} · indicaciones`;
     default: return key;
   }
+}
+
+/** Términos que nunca se traducen (se mandan a la IA como marcadores ⟦0⟧, ⟦1⟧…). */
+export const GLOSSARY = ["Travel Puzzle", "Free tour"];
+const GLOSSARY_RE = new RegExp(GLOSSARY.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi");
+
+export function protectTerms(text: string): { text: string; terms: string[] } {
+  const terms: string[] = [];
+  const out = text.replace(GLOSSARY_RE, (m) => { terms.push(m); return `⟦${terms.length - 1}⟧`; });
+  return { text: out, terms };
+}
+
+/** Repone los términos; null si la IA perdió algún marcador (esa traducción se rechaza). */
+export function restoreTerms(text: string, terms: string[]): string | null {
+  let out = text;
+  for (let i = 0; i < terms.length; i++) {
+    const token = `⟦${i}⟧`;
+    if (!out.includes(token)) return null;
+    out = out.split(token).join(terms[i]);
+  }
+  return out;
 }
