@@ -26,3 +26,19 @@ export async function requireAdmin(): Promise<boolean> {
     return false;
   }
 }
+
+/** Dependencias reales para la contraseña del equipo (D1, bcrypt y Resend). */
+export async function passwordDeps(): Promise<import("./password").PasswordDeps> {
+  const bcrypt = (await import("bcryptjs")).default;
+  const { sendEmail } = await import("@/notifications/resend");
+  const prisma = getPrisma();
+  return {
+    now: new Date(),
+    secret: process.env.CRON_SECRET ?? "",
+    siteUrl: process.env.SITE_URL ?? "",
+    findUser: (email) => prisma.user.findUnique({ where: { email }, select: { email: true, name: true, role: true, password: true } }),
+    savePassword: async (email, hash) => { await prisma.user.update({ where: { email }, data: { password: hash } }); },
+    hash: (p) => bcrypt.hash(p, 10),
+    send: (email) => sendEmail({ apiKey: process.env.RESEND_API_KEY ?? "", fetch }, { ...email, from: process.env.EMAIL_FROM ?? "", replyTo: process.env.EMAIL_REPLY_TO }),
+  };
+}
