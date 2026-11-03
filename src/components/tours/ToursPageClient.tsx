@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { Navbar } from '@/components/layout/Navbar';
@@ -9,6 +9,11 @@ import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
 import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
+import { DurationFilter } from '@/components/tours/DurationFilter';
+import { ToursMap } from '@/components/tours/ToursMap';
+import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
+import { parseDurationRange, type DurationRange } from '@/tours/lib/duration';
+import { toursToPins } from '@/tours/lib/map-pins';
 import { parseSort, sortToPagination, type TourSort } from '@/tours/lib/sort';
 import { useTours, useCitiesFromAPI, useTourHighlights } from '@/lib/queries/tours';
 import { transformDBToursToUITours, transformCountryForFilter } from '@/lib/db/tour-transformer';
@@ -81,6 +86,11 @@ export function ToursPageClient({
     // Orden (?sort=…); por defecto, los que tienen más reseñas
     const [sort, setSort] = useState<TourSort>(() => parseSort(searchParams.get('sort')));
     const [filtersOpen, setFiltersOpen] = useState(false);
+    // Duración (?duracion=short|mid|long)
+    const [duration, setDuration] = useState<DurationRange | null>(() => parseDurationRange(searchParams.get('duracion')));
+    // Lista o mapa (celular y tablet) y tour resaltado en el mapa
+    const [view, setView] = useState<ToursView>('list');
+    const [activeId, setActiveId] = useState<string | null>(null);
 
     // Convert UI filters to repository filters
     const repositoryFilters: RepositoryTourFilters = {
@@ -89,6 +99,7 @@ export function ToursPageClient({
         cityId: uiFilters.cityId,
         minPrice: uiFilters.minPrice,
         maxPrice: uiFilters.maxPrice,
+        durationRange: duration,
     };
 
     // Build pagination with search if provided
@@ -127,6 +138,7 @@ export function ToursPageClient({
         paginationWithSearch.searchValue === serverSearch &&
         paginationWithSearch.page === serverPage &&
         sort === parseSort(searchParams.get('sort')) &&
+        duration === parseDurationRange(searchParams.get('duracion')) &&
         language === initialLanguage;
 
     // Fetch tours with filters and pagination
@@ -157,8 +169,25 @@ export function ToursPageClient({
     );
     const cities = citiesData || []; // API already returns in correct format
 
+    // Pines del mapa: los tours de esta página con punto de encuentro válido
+    const pins = useMemo(() => {
+        const rows = currentToursData?.data ?? [];
+        return toursToPins(tours.map((x) => ({
+            id: x.id,
+            externalId: x.externalId,
+            title: x.title,
+            image: x.images.find((img) => img && img.trim() !== '') ?? null,
+            price: x.price,
+            currency: x.currency,
+            meetingPoint: rows.find((r: { id: string }) => r.id === x.id)?.meetingPoint ?? null,
+        })));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentToursData, language]);
+
     const sortRef = useRef<TourSort>(sort);
     sortRef.current = sort;
+    const durationRef = useRef<DurationRange | null>(duration);
+    durationRef.current = duration;
 
     // Update URL params when filters or pagination change
     const updateUrlParams = useCallback(
@@ -172,6 +201,7 @@ export function ToursPageClient({
             if (filters.maxPrice !== undefined) params.set('maxPrice', filters.maxPrice.toString());
             if (filters.search) params.set('search', filters.search);
             if (sortRef.current !== 'reviews') params.set('sort', sortRef.current);
+            if (durationRef.current) params.set('duracion', durationRef.current);
 
             // Add pagination params (only if not page 1)
             if (pagination.page && pagination.page > 1) {
@@ -199,7 +229,7 @@ export function ToursPageClient({
             return;
         }
         updateUrlParams(uiFilters, pagination);
-    }, [uiFilters, pagination, sort, updateUrlParams]);
+    }, [uiFilters, pagination, sort, duration, updateUrlParams]);
 
     // Update state when URL params change (e.g., browser back/forward)
     useEffect(() => {
@@ -232,12 +262,17 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
+    const handleDurationChange = (next: DurationRange | null) => {
+        setDuration(next);
+        setPagination(prev => ({ ...prev, page: 1 }));
+    };
+
     const handleSortChange = (next: TourSort) => {
         setSort(next);
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice].filter((v) => v !== undefined).length;
+    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice, duration ?? undefined].filter((v) => v !== undefined).length;
 
     const handlePaginationChange = (newPage: number) => {
         setPagination(prev => ({ ...prev, page: newPage }));
@@ -259,9 +294,9 @@ export function ToursPageClient({
                     onSort={handleSortChange}
                 />
 
-                <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 pt-8 md:px-8 lg:grid-cols-4">
+                <div id="tours-results" className="mx-auto grid max-w-[1600px] scroll-mt-20 grid-cols-1 gap-6 px-4 pt-8 md:px-8 lg:grid-cols-4 xl:grid-cols-12">
                     {/* Filtros */}
-                    <aside className="lg:col-span-1">
+                    <aside className="lg:col-span-1 xl:col-span-3">
                         <MobileFiltersToggle open={filtersOpen} onToggle={() => setFiltersOpen((v) => !v)} active={activeFilters} />
                         <div className={`${filtersOpen ? 'mt-3 block' : 'hidden'} lg:sticky lg:top-6 lg:mt-0 lg:block`}>
                             <TourFiltersPanel
@@ -272,11 +307,12 @@ export function ToursPageClient({
                                 isLoadingCities={isLoadingCities}
                                 hideSearch
                             />
+                            <DurationFilter value={duration} onChange={handleDurationChange} />
                         </div>
                     </aside>
 
-                    {/* Tours */}
-                    <div className="lg:col-span-3">
+                    {/* Tours (en celular y tablet se oculta cuando se ve el mapa) */}
+                    <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
                         {isLoadingTours ? (
                             <TourGridSkeleton count={6} />
                         ) : tours.length === 0 ? (
@@ -286,9 +322,11 @@ export function ToursPageClient({
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
                                     {tours.map(tour => (
-                                        <TourCard key={tour.id} tour={tour} highlight={highlights?.[tour.externalId]?.text} />
+                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}>
+                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} />
+                                        </div>
                                     ))}
                                 </div>
 
@@ -316,7 +354,21 @@ export function ToursPageClient({
                             </>
                         )}
                     </div>
+
+                    {/* Mapa: columna fija en escritorio; en celular y tablet, con el botón Mapa/Lista */}
+                    <div className={`${view === 'map' ? 'block' : 'hidden'} lg:col-span-3 lg:col-start-2 xl:col-span-4 xl:col-start-auto xl:block`}>
+                        <div className="h-[calc(100vh-180px)] xl:sticky xl:top-24 xl:h-[calc(100vh-112px)]">
+                            <ToursMap pins={pins} activeId={activeId} />
+                        </div>
+                    </div>
                 </div>
+                <ViewToggle
+                    view={view}
+                    onChange={(v) => {
+                        setView(v);
+                        requestAnimationFrame(() => document.getElementById('tours-results')?.scrollIntoView({ behavior: 'smooth' }));
+                    }}
+                />
             </main>
         </div>
     );

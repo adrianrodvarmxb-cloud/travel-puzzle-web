@@ -237,3 +237,7 @@ body {
 .tp-map .maplibregl-ctrl-group { background: #121D45; border: 1px solid rgba(255, 255, 255, 0.15); }
 .tp-map .maplibregl-ctrl-group button + button { border-top-color: rgba(255, 255, 255, 0.15); }
 .tp-map .maplibregl-ctrl-icon { filter: invert(1); }
+
+/* Pines de precio del mapa de /tours */
+.tp-pin { cursor: pointer; border-radius: 9999px; background: #ffffff; color: #0A1330; font: 700 12px/1 var(--font-sans, system-ui), sans-serif; padding: 6px 10px; box-shadow: 0 2px 8px rgba(0,0,0,.35); border: 1px solid rgba(10,19,48,.15); white-space: nowrap; transition: transform .15s ease, background-color .15s ease; }
+.tp-pin:hover, .tp-pin--on { background: #EAF54F; transform: scale(1.12); z-index: 2; }

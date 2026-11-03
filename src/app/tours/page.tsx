@@ -4,6 +4,7 @@ import { getPreferredLanguage } from '@/lib/utils/cookies';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
 import { parseSort, sortToPagination } from '@/tours/lib/sort';
+import { parseDurationRange } from '@/tours/lib/duration';
 
 interface ToursPageProps {
   searchParams: Promise<{
@@ -14,6 +15,7 @@ interface ToursPageProps {
     search?: string;
     page?: string;
     sort?: string;
+    duracion?: string;
   }>;
 }
 
@@ -31,6 +33,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     cityId: params.cityId ? parseInt(params.cityId, 10) : undefined,
     minPrice: params.minPrice ? parseFloat(params.minPrice) : undefined,
     maxPrice: params.maxPrice ? parseFloat(params.maxPrice) : undefined,
+    durationRange: parseDurationRange(params.duracion),
   };
   
   // Build pagination from URL params

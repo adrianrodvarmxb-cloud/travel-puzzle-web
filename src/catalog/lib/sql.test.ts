@@ -5,7 +5,7 @@ import { MAX_PARAMS } from "@/lib/d1/batch";
 const now = new Date("2026-10-30T10:00:00Z");
 const row = (externalId: number) => ({
   tour: {
-    externalId, providerTitle: "p", providerPhone: null, priceValue: 0, priceCurrency: "EUR", duration: "2:00",
+    externalId, providerTitle: "p", providerPhone: null, priceValue: 0, priceCurrency: "EUR", duration: "2:00", durationMinutes: 120,
     titleImageURL: null, categoryId: 1, rating: 4.5, reviewsNumber: 3, cityId: 10, countryId: 99,
     meetingPoint: { es: "Zócalo" }, includes: [], POIs: null, images: [], videoURL: null, isActive: true as const, lastSeenAt: now,
   },
