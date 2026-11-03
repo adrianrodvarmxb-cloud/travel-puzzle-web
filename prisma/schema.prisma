@@ -316,3 +316,40 @@ model Trip {
   @@index([status, kind])
   @@index([agencyId])
 }
+
+// Solicitudes de cotización de los viajes (punto 17, ola 2, gate M). status: new | contacted | quoted | closed.
+model TripRequest {
+  id          String   @id @default(cuid())
+  ref         String   @unique
+  tripId      String
+  tripCode    String
+  tripTitle   String
+  kind        String // reserva | personalizado
+  status      String   @default("new")
+  date        String
+  endDate     String?
+  time        String   @default("")
+  serviceType String?
+  optionId    String?
+  optionName  String?
+  adults      Int
+  children    Int      @default(0)
+  infants     Int      @default(0)
+  childAges   Json // number[]
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  hotel       String   @default("")
+  comments    String   @default("")
+  language    String   @default("es")
+  estimate    Float?
+  currency    String   @default("MXN")
+  consent     Boolean  @default(true)
+  notes       String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([tripId])
+}
