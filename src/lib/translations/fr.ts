@@ -216,7 +216,7 @@ export const fr = {
   // Reviews
   'reviews.tourTitle': 'Avis des voyageurs',
   'reviews.total': '{count} avis au total',
-  'reviews.source': "Avis publiés sur FREETOUR.com",
+  'reviews.source': "Avis de voyageurs ayant fait la visite",
   'home.recentReviews.title': 'Ce que disent les voyageurs',
   "reviews.count": "{count} avis",
   "reviews.showMore": "Voir plus d'avis",

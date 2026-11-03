@@ -5,7 +5,7 @@ import { es } from "@/lib/translations/es";
 import { en } from "@/lib/translations/en";
 
 /** Línea de comunicación: nada inflado ni adjetivos que despierten sospecha (ADN de Mila). */
-const PROHIBIDAS = /\b(reales?|real|miles|thousands|increíbles?|amazing|garantizad[oa]s?|guaranteed|el mejor|los mejores|the best|única?o?|the only)\b/i;
+const PROHIBIDAS = /(free ?tour\.com|freetour)|\b(reales?|real|miles|thousands|increíbles?|amazing|garantizad[oa]s?|guaranteed|el mejor|los mejores|the best|única?o?|the only)\b/i;
 
 function textos(obj: unknown): string[] {
   if (typeof obj === "string") return [obj];

@@ -70,7 +70,7 @@ const es = {
   reviewsEyebrow: "06 — LO QUE DICEN",
   reviewsHeadline: "Lo que cuentan los viajeros.",
   reviewsSub: "Toca una reseña para ver su tour.",
-  avgLabel: "PROMEDIO EN FREETOUR.COM",
+  avgLabel: "CALIFICACIÓN PROMEDIO",
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
 };
 
@@ -146,7 +146,7 @@ const en: Copy = {
   reviewsEyebrow: "06 — WHAT THEY SAY",
   reviewsHeadline: "What travelers say.",
   reviewsSub: "Tap a review to see its tour.",
-  avgLabel: "AVERAGE ON FREETOUR.COM",
+  avgLabel: "AVERAGE RATING",
   expertEyebrowN: "07 — PERSONAL ADVICE",
 };
 

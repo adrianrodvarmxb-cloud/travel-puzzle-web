@@ -10,11 +10,12 @@ Aplica al sitio, a los correos y a cualquier texto que vea el cliente.
 - Cada sección deja **un siguiente paso** (buscar, ver tours, escribir a un asesor).
 
 ## Se dice así (mostrar, no adjetivar)
-- El dato exacto y su fuente: "★ 4.8 · 12,703 reseñas", "Reseñas publicadas en FREETOUR.com".
+- El dato exacto: "★ 4.8 · 12,703 reseñas".
 - Lo incómodo, de frente: "Los free tours no tienen costo de entrada: al final dejas al guía la propina que te parezca justa."
 - Ayuda concreta: "Cuéntanos a dónde vas y cuántos días tienes. Un asesor te sugiere tours y horarios."
 
 ## No se dice
+- **Nunca mencionar a FREETOUR.com ni a otros proveedores**: el cliente solo ve Travel Puzzle.
 - "real/reales", "verificado" como adjetivo, "miles", "increíble", "el mejor", "único", "garantizado".
 - Urgencia o escasez inventada ("última oportunidad", "solo hoy", "quedan X lugares").
 - Testimonios, cifras o casos que no podamos respaldar. Casos de clientes solo con su permiso.
