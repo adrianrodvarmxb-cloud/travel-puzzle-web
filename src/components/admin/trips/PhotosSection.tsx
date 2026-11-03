@@ -2,7 +2,8 @@
 import { useState } from 'react';
 /* eslint-disable @next/next/no-img-element */
 import { imageUrl } from '@/trips/lib/image';
-import { Section, Input, smallBtn } from './fields';
+import { MIN_PHOTOS } from '@/trips/lib/publish';
+import { Section, Field, Input, smallBtn } from './fields';
 import type { TripFormState, Patch } from './types';
 
 /** Fotos: subir a R2, texto alternativo, orden (la primera es la portada) y quitar. */
@@ -35,7 +36,7 @@ export function PhotosSection({ v, patch }: { v: TripFormState; patch: Patch }) 
     };
 
     return (
-        <Section n={5} title="Fotos">
+        <Section n={8} title={`Fotos y video (${v.images.length}, mínimo ${MIN_PHOTOS} para publicar)`}>
             <label className={`${smallBtn} inline-block cursor-pointer`}>
                 {busy ? 'Subiendo…' : 'Subir fotos (JPG, PNG o WebP, hasta 5 MB)'}
                 <input type="file" accept="image/jpeg,image/png,image/webp" multiple hidden disabled={busy} onChange={(e) => { upload(e.target.files); e.target.value = ''; }} />
@@ -57,6 +58,10 @@ export function PhotosSection({ v, patch }: { v: TripFormState; patch: Patch }) 
                     </li>
                 ))}
             </ul>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Video (enlace https de YouTube o Vimeo)"><Input value={v.videoUrl} onChange={(e) => patch({ videoUrl: e.target.value.trim() })} placeholder="https://…" /></Field>
+                <Field label="Descripción del video"><Input value={v.videoCaption} onChange={(e) => patch({ videoCaption: e.target.value })} maxLength={200} /></Field>
+            </div>
         </Section>
     );
 }

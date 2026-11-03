@@ -1,14 +1,22 @@
 import type { TripInput } from '@/trips/schemas/trip';
 
-/** Estado del formulario: igual que TripInput (los números pueden venir vacíos). */
+/** Estado del formulario: TripInput (el código y el "Desde" los calcula el servidor). */
 export type TripFormState = TripInput;
 export type Patch = (p: Partial<TripFormState>) => void;
-export interface AgencyOption { id: string; name: string }
+export interface AgencyOption { id: string; name: string; initials: string | null }
+
+export const newOptionId = () => Math.random().toString(36).slice(2, 10);
 
 export const emptyTrip: TripFormState = {
-    agencyId: null, code: '', kind: 'circuito', purchaseMode: 'quote', titleEs: '', titleEn: '', summaryEs: '', summaryEn: '',
-    descriptionEs: '', descriptionEn: '', countries: [], cities: [], durationDays: null, priceFrom: null, currency: 'USD', priceNote: '',
-    dates: [], meetingPoints: [], hotelPickup: false, itinerary: [], includes: [], excludes: [], visaInfo: '', images: [],
+    agencyId: null, kind: 'tour', purchaseMode: 'quote', category: null,
+    titleEs: '', titleEn: '', summaryEs: '', summaryEn: '', highlights: [], descriptionEs: '', descriptionEn: '',
+    importantInfo: '', whatToBring: '', accessibility: '', difficulty: null,
+    countries: [], cities: [], durationDays: null, flightsIncluded: false, languages: ['es'], minPax: null, maxPax: null,
+    currency: 'MXN', priceNote: '',
+    options: [{ id: 'grupo', name: 'En grupo', mode: 'group', adult: null, child: null, infant: null, childAgeMin: 3, childAgeMax: 11 }],
+    extras: [], availability: { weekdays: [], slots: [], closedDates: [], seasons: [] }, minNoticeHours: 24,
+    cancellation: { type: 'standard', tiers: [] }, dates: [], meetingPoints: [], hotelPickup: false, endPoint: '',
+    itinerary: [], includes: [], excludes: [], visaInfo: '', images: [], videoUrl: '', videoCaption: '',
 };
 
 /** "China, Japón" ⇄ ["China", "Japón"] */

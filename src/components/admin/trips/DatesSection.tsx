@@ -1,4 +1,5 @@
 'use client';
+/** Versión 1 (sin uso desde la ola 1b; se conserva de forma reversible). */
 import { useState } from 'react';
 import { MAX_TIMES_PER_DAY } from '@/trips/lib/trip';
 import { Section, Input, smallBtn } from './fields';

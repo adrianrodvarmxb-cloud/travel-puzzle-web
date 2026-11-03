@@ -1,14 +1,23 @@
 import { describe, it, expect, vi } from "vitest";
 import { saveTrip, setTripStatus, type TripsDeps, type StoredTrip } from "./manage";
 import { tripInputSchema } from "./schemas/trip";
+import { MIN_PHOTOS } from "./lib/publish";
 
-const input = tripInputSchema.parse({ code: "FCHTP", kind: "circuito", purchaseMode: "quote", titleEs: "China Maravillosa", countries: ["China"], priceFrom: 2490, currency: "USD", images: [{ key: "trips/1-a.jpg", alt: "" }] });
-const stored = (over: Partial<StoredTrip> = {}): StoredTrip => ({ ...input, id: "t1", slug: "china-maravillosa-fchtp", status: "draft", ...over });
+const input = tripInputSchema.parse({
+  kind: "unica", purchaseMode: "quote", titleEs: "Cocina oaxaqueña", summaryEs: "Cocina con chefs", descriptionEs: "Texto",
+  highlights: ["Cocina mole", "Visita mercado", "Come lo que preparas"], includes: ["Comida"], excludes: ["Propinas"],
+  countries: ["MX"], durationDays: 1, languages: ["es"], options: [{ id: "a", name: "Grupo", adult: 1200 }],
+  meetingPoints: [{ name: "Mercado", lat: 17.06, lng: -96.72 }],
+  images: Array.from({ length: MIN_PHOTOS }, (_, i) => ({ key: `trips/${i}-a.jpg` })),
+});
+
+const stored = (over: Partial<StoredTrip> = {}): StoredTrip => ({ ...input, id: "t1", slug: "cocina", code: "TP-MX-E01-001", seq: 1, codeLocked: false, priceFrom: 1200, status: "draft", ...over });
 
 function deps(over: Partial<TripsDeps> = {}): TripsDeps {
   return {
     findById: vi.fn(async () => stored()),
-    findByCode: vi.fn(async () => null),
+    agencyInitials: vi.fn(async (id: string | null) => (id ? "EMV" : "TP")),
+    nextSeq: vi.fn(async () => 7),
     create: vi.fn(async (d) => ({ ...d, id: "t1" }) as StoredTrip),
     update: vi.fn(async (id, d) => ({ ...stored(), ...d, id }) as StoredTrip),
     setStatus: vi.fn(async () => {}),
@@ -16,46 +25,45 @@ function deps(over: Partial<TripsDeps> = {}): TripsDeps {
   };
 }
 
-describe("saveTrip", () => {
-  it("crea como borrador con su slug", async () => {
+describe("saveTrip v2", () => {
+  it("crea con código automático, consecutivo y 'Desde' calculado", async () => {
     const d = deps();
-    const r = await saveTrip(null, input, d);
-    expect(r).toMatchObject({ ok: true, trip: { id: "t1" } });
-    expect(d.create).toHaveBeenCalledWith(expect.objectContaining({ slug: "china-maravillosa-fchtp", status: "draft" }));
+    const r = await saveTrip(null, { ...input, code: "MANUAL" }, d);
+    expect(r.ok).toBe(true);
+    expect(d.create).toHaveBeenCalledWith(expect.objectContaining({ code: "TP-MX-E01-007", seq: 7, priceFrom: 1200, status: "draft", codeLocked: false, slug: "cocina-oaxaquena-tp-mx-e01-007" }));
   });
-  it("no repite códigos", async () => {
-    const d = deps({ findByCode: vi.fn(async () => stored({ id: "otro" })) });
-    expect(await saveTrip(null, input, d)).toEqual({ ok: false, error: "Ya existe un viaje con el código FCHTP" });
+  it("antes de publicar, el código se actualiza con los datos (mismo consecutivo)", async () => {
+    const d = deps();
+    await saveTrip("t1", { ...input, durationDays: 3 }, d);
+    expect(d.update).toHaveBeenCalledWith("t1", expect.objectContaining({ code: "TP-MX-E03-001" }));
+    expect(d.nextSeq).not.toHaveBeenCalled();
   });
-  it("edita y conserva el estado", async () => {
-    const d = deps({ findByCode: vi.fn(async () => stored()) });
-    await saveTrip("t1", { ...input, titleEs: "China Maravillosa 2027" }, d);
-    expect(d.update).toHaveBeenCalledWith("t1", expect.objectContaining({ slug: "china-maravillosa-2027-fchtp" }));
-    expect(d.update).toHaveBeenCalledWith("t1", expect.not.objectContaining({ status: expect.anything() }));
+  it("ya publicado una vez, el código no cambia", async () => {
+    const d = deps({ findById: vi.fn(async () => stored({ codeLocked: true, status: "hidden" })) });
+    await saveTrip("t1", { ...input, durationDays: 3, countries: ["JP"] }, d);
+    expect(d.update).toHaveBeenCalledWith("t1", expect.objectContaining({ code: "TP-MX-E01-001" }));
   });
-  it("rechaza fechas con más de 4 horarios", async () => {
-    const bad = { ...input, dates: [{ date: "2027-03-01", times: ["08:00", "09:00", "10:00", "11:00", "12:00"] }] };
-    expect(await saveTrip(null, bad, deps())).toMatchObject({ ok: false });
-  });
-  it("si se edita un viaje publicado y queda incompleto, no se guarda", async () => {
-    const d = deps({ findById: vi.fn(async () => stored({ status: "published" })), findByCode: vi.fn(async () => stored()) });
-    expect(await saveTrip("t1", { ...input, images: [] }, d)).toEqual({ ok: false, error: "Para publicar falta: al menos una foto" });
+  it("un viaje publicado no puede quedar incompleto", async () => {
+    const d = deps({ findById: vi.fn(async () => stored({ status: "published", codeLocked: true })) });
+    const r = await saveTrip("t1", { ...input, images: [] }, d);
+    expect(r).toEqual({ ok: false, error: `Para publicar falta: al menos ${MIN_PHOTOS} fotos (tienes 0)` });
   });
 });
 
-describe("setTripStatus", () => {
-  it("publicar exige lo mínimo", async () => {
-    const d = deps({ findById: vi.fn(async () => stored({ images: [] })) });
-    expect(await setTripStatus("t1", "published", d)).toEqual({ ok: false, error: "Para publicar falta: al menos una foto" });
-    expect(d.setStatus).not.toHaveBeenCalled();
-  });
-  it("publicar, ocultar o volver a borrador (nunca se borra)", async () => {
+describe("setTripStatus v2", () => {
+  it("publicar revisa el checklist y congela el código", async () => {
     const d = deps();
     expect(await setTripStatus("t1", "published", d)).toEqual({ ok: true });
-    expect(await setTripStatus("t1", "hidden", d)).toEqual({ ok: true });
-    expect(d.setStatus).toHaveBeenLastCalledWith("t1", "hidden");
+    expect(d.setStatus).toHaveBeenCalledWith("t1", "published", true);
   });
-  it("viaje inexistente", async () => {
-    expect(await setTripStatus("x", "hidden", deps({ findById: vi.fn(async () => null) }))).toEqual({ ok: false, error: "No encontramos ese viaje" });
+  it("si falta algo, dice qué y no publica", async () => {
+    const d = deps({ findById: vi.fn(async () => stored({ highlights: [] })) });
+    expect(await setTripStatus("t1", "published", d)).toEqual({ ok: false, error: "Para publicar falta: 3 a 5 puntos destacados" });
+    expect(d.setStatus).not.toHaveBeenCalled();
+  });
+  it("ocultar o regresar a borrador no toca el candado del código", async () => {
+    const d = deps();
+    await setTripStatus("t1", "hidden", d);
+    expect(d.setStatus).toHaveBeenCalledWith("t1", "hidden", false);
   });
 });

@@ -1,4 +1,5 @@
 'use client';
+/** Versión 1 (sin uso desde la ola 1b; se conserva de forma reversible). */
 import { Section, Field, Input, TextArea, smallBtn } from './fields';
 import { splitLines, type TripFormState, type Patch } from './types';
 
