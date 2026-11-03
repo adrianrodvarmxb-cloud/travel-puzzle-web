@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
             }, { reason }),
     });
     console.log(`[rechazo] ${typeof body?.refNumber === 'string' ? body.refNumber : '?'} → ${result}`);
-    // 200 siempre que el aviso se entendió, para que Freetour no reintente sin fin.
-    return NextResponse.json({ ok: result !== 'invalid', result }, { status: result === 'invalid' ? 400 : 200 });
+    // 200 si el aviso se entendió; 503 si no pudimos confirmarlo con Freetour, para que lo reintente.
+    const status = result === 'invalid' ? 400 : result === 'retry' ? 503 : 200;
+    return NextResponse.json({ ok: result !== 'invalid' && result !== 'retry', result }, { status });
 }

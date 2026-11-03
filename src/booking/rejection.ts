@@ -9,7 +9,7 @@ import type { BookingRecord } from "./lib/booking-record";
  * Un aviso falso no puede hacer nada: solo reenvía el correo de una reserva
  * que ya está rechazada, y una sola vez.
  */
-export type RejectionResult = "invalid" | "unknown" | "not_rejected" | "already" | "processed";
+export type RejectionResult = "invalid" | "unknown" | "not_rejected" | "already" | "processed" | "retry";
 
 export const REF_PATTERN = /^\d{1,9}-\d{14}-\d{1,6}$/;
 
@@ -32,6 +32,8 @@ export async function handleRejection(body: unknown, deps: Deps): Promise<Reject
   if (record.status === "rejected") return "already";
 
   const status = await deps.freetourStatus(refNumber);
+  // Sin respuesta de Freetour no se sabe: se pide reintento para no perder el aviso.
+  if (status === null) return "retry";
   if (status !== "rejected") return "not_rejected";
 
   await deps.setStatus(refNumber, "rejected");

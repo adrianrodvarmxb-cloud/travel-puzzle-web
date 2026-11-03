@@ -40,22 +40,32 @@ interface Deps {
   secret: string;
   fetch: (url: string, init: RequestInit) => Promise<Response>;
   now?: () => number;
+  /** Tiempo máximo de espera a la pasarela (la pasarela espera 30 s a Freetour). */
+  timeoutMs?: number;
 }
 
-export function createGatewayClient({ url, secret, fetch, now = Date.now }: Deps) {
+export function createGatewayClient({ url, secret, fetch, now = Date.now, timeoutMs = 35_000 }: Deps) {
   async function call<T>(op: string, payload: unknown): Promise<T> {
     if (!url || !secret) throw new GatewayError("Pasarela no configurada (GATEWAY_URL / GATEWAY_SECRET)", 0, null);
     const body = JSON.stringify({ op, payload });
     const timestamp = String(now());
-    const res = await fetch(`${url.replace(/\/+$/, "")}/freetour`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-tp-timestamp": timestamp,
-        "x-tp-signature": await signRequest(secret, timestamp, body),
-      },
-      body,
-    });
+    let res: Response;
+    try {
+      res = await fetch(`${url.replace(/\/+$/, "")}/freetour`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-tp-timestamp": timestamp,
+          "x-tp-signature": await signRequest(secret, timestamp, body),
+        },
+        body,
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+    } catch (error) {
+      const name = (error as Error)?.name;
+      if (name === "TimeoutError" || name === "AbortError") throw new GatewayError("La pasarela no respondió a tiempo", 504, null);
+      throw error;
+    }
     const json = (await res.json().catch(() => null)) as { data?: any; error?: string } | null;
     if (!res.ok) {
       const message = json?.data?.errorMessage ?? json?.error ?? `HTTP ${res.status}`;
@@ -65,7 +75,7 @@ export function createGatewayClient({ url, secret, fetch, now = Date.now }: Deps
   }
 
   return {
-    createBooking: (p: { eventId: number; adults: number; children: number; price: number; customer: Customer }) => call<Booking>("createBooking", p),
+    createBooking: (p: { eventId: number; adults: number; children: number; price: number; customer: Customer; idempotencyKey?: string }) => call<Booking>("createBooking", p),
     getBooking: (refNumber: string) => call<Booking>("getBooking", { refNumber }),
     cancelBooking: (p: BookingRef) => call<{ refNumber: string }>("cancelBooking", p),
     editBooking: (p: BookingRef) => call<Booking>("editBooking", p),

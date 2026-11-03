@@ -62,6 +62,35 @@ describe("placeBooking", () => {
   });
 });
 
+describe("placeBooking: duplicados", () => {
+  it("si ya tiene una reserva activa en ese horario con ese correo, no reserva otra", async () => {
+    const gateway = { createBooking: vi.fn() };
+    const hasActiveBooking = vi.fn(async () => true);
+    const err = await placeBooking(dto, { gateway, getEvent, enabled: true, hasActiveBooking }).catch((e) => e);
+    expect(err).toMatchObject({ code: "already_booked" });
+    expect(err.message).toMatch(/revisa tu correo/i);
+    expect(hasActiveBooking).toHaveBeenCalledWith(631716694, "ana@example.com");
+    expect(gateway.createBooking).not.toHaveBeenCalled();
+  });
+
+  it("si la revisión de traslapes falla, la reserva sigue (no se bloquea al cliente)", async () => {
+    const gateway = { createBooking: vi.fn(async () => booking) };
+    const hasActiveBooking = vi.fn(async () => { throw new Error("D1 caído"); });
+    await expect(placeBooking(dto, { gateway, getEvent, enabled: true, hasActiveBooking })).resolves.toMatchObject({ booking });
+  });
+
+  it("pasa el token del intento a la pasarela", async () => {
+    const gateway = { createBooking: vi.fn(async () => booking) };
+    await placeBooking({ ...dto, idempotencyKey: "abcdefghijklmnop1234" }, { gateway, getEvent, enabled: true });
+    expect(gateway.createBooking).toHaveBeenCalledWith(expect.objectContaining({ idempotencyKey: "abcdefghijklmnop1234" }));
+  });
+
+  it("si la pasarela no respondió a tiempo, error para el cliente sin detalles", async () => {
+    const gateway = { createBooking: vi.fn(async () => { throw new GatewayError("timeout", 504, null); }) };
+    await expect(placeBooking(dto, { gateway, getEvent, enabled: true })).rejects.toMatchObject({ code: "provider_error" });
+  });
+});
+
 describe("recordBooking", () => {
   const now = new Date("2026-10-30T14:27:46Z");
   const b = { ...booking, refNumber: "6782-20261030162746-244" };

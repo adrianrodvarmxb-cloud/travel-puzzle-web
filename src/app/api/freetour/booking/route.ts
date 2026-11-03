@@ -17,6 +17,7 @@ import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
 import { isBookingsEnabled } from '@/booking/lib/flags';
+import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,6 +27,7 @@ const STATUS: Record<BookingRejectionCode, number> = {
     invalid_phone: 400,
     phone_required: 400,
     no_availability: 409,
+    already_booked: 409,
     provider_error: 502,
 };
 
@@ -34,15 +36,18 @@ const STATUS: Record<BookingRejectionCode, number> = {
  * Detrás del interruptor BOOKINGS_ENABLED ("true" para activar).
  */
 export async function POST(request: NextRequest) {
-    const parsed = zFTBookingDTO.safeParse(await request.json().catch(() => null));
+    const raw = (await request.json().catch(() => null)) as { idempotencyKey?: unknown } | null;
+    const parsed = zFTBookingDTO.safeParse(raw);
     if (!parsed.success) {
         return NextResponse.json({ error: 'invalid_booking', details: parsed.error.flatten() }, { status: 400 });
     }
 
     try {
         const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
-        const { booking, price } = await placeBooking(parsed.data, {
+        const repo = createBookingRepo(getPrisma());
+        const { booking, price } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey) }, {
             enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
+            hasActiveBooking: async (eventId, email) => isOverlap(await repo.findByEventAndEmail(eventId, email), { eventId, email }),
             getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(`/event/${id}`)) as { data: unknown }).data),
             gateway: createGatewayClient({
                 url: process.env.GATEWAY_URL ?? '',
@@ -54,7 +59,7 @@ export async function POST(request: NextRequest) {
             { booking, request: parsed.data, price },
             {
                 getEventInfo: async (tourId, eventId) => findEventInfo(await freetour.get(`/tours/${tourId}/events`), eventId),
-                save: (r) => createBookingRepo(getPrisma()).save(r),
+                save: (r) => repo.save(r),
                 newToken: newManageToken,
                 now: new Date(),
             }

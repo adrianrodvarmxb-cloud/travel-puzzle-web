@@ -36,4 +36,23 @@ describe("cliente de la pasarela", () => {
     await expect(gw.getBooking("R1")).rejects.toThrow(/pasarela no configurada/i);
     expect(fetch).not.toHaveBeenCalled();
   });
+
+  it("corta a los 35 s y lanza un error claro (504)", async () => {
+    const fetch = vi.fn(async (_url: string, init: RequestInit) => {
+      expect(init.signal).toBeInstanceOf(AbortSignal);
+      throw new DOMException("The operation was aborted due to timeout", "TimeoutError");
+    });
+    const gw = createGatewayClient({ url: "https://x.mx/p", secret: "s", fetch, now });
+    const err = await gw.getBooking("R1").catch((e) => e);
+    expect(err).toBeInstanceOf(GatewayError);
+    expect(err).toMatchObject({ status: 504 });
+  });
+
+  it("manda el token del intento junto con la reserva", async () => {
+    const fetch = fetchReturning(200, { data: { refNumber: "R1" } });
+    const gw = createGatewayClient({ url: "https://x.mx/p", secret: "s", fetch, now });
+    const p = { eventId: 1, adults: 1, children: 0, price: 0, customer: { email: "a@b.co", firstName: "A", lastName: "B" }, idempotencyKey: "abcdefghijklmnop1234" };
+    await gw.createBooking(p);
+    expect(JSON.parse(fetch.mock.calls[0][1].body as string).payload.idempotencyKey).toBe("abcdefghijklmnop1234");
+  });
 });

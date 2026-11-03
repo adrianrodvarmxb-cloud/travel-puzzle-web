@@ -46,4 +46,11 @@ describe("aviso de reserva rechazada", () => {
     expect(await handleRejection({ refNumber: record.refNumber }, d)).toBe("already");
     expect(d.notify).not.toHaveBeenCalled();
   });
+
+  it("si no se pudo consultar a Freetour, pide reintento y no toca nada", async () => {
+    const d = deps({ freetourStatus: vi.fn(async () => null) });
+    expect(await handleRejection({ refNumber: record.refNumber }, d)).toBe("retry");
+    expect(d.setStatus).not.toHaveBeenCalled();
+    expect(d.notify).not.toHaveBeenCalled();
+  });
 });
