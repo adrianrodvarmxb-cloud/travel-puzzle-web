@@ -11,6 +11,9 @@ describe("recomendaciones 60 % pago / 40 % free", () => {
   it("5 lugares: 3 de pago y 2 gratis", () => {
     expect(mixRecommendations(paid, free, 5)).toEqual(["P1", "P2", "P3", "F1", "F2"]);
   });
+  it("6 lugares (favoritos del inicio): 4 de pago y 2 gratis", () => {
+    expect(mixRecommendations(["P1", "P2", "P3", "P4", "P5"], free, 6)).toEqual(["P1", "P2", "P3", "P4", "F1", "F2"]);
+  });
   it("si faltan de pago, completa con gratis; si faltan gratis, con pago", () => {
     expect(mixRecommendations(["P1"], free, 3)).toEqual(["P1", "F1", "F2"]);
     expect(mixRecommendations(paid, [], 3)).toEqual(["P1", "P2", "P3"]);

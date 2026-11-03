@@ -97,6 +97,7 @@ export function TourDetailClient({
         <div className="min-h-screen bg-background">
             <Navbar />
 
+            <div className="tp-dark">
             <div className="container mx-auto px-4 py-8">
                 {/* Back Button */}
                 <Button
@@ -105,7 +106,7 @@ export function TourDetailClient({
                     className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
                 >
                     <ChevronLeftIcon className="w-4 h-4" />
-                    {t('common.back')} to {t('tours.title')}
+                    {t('tours.backToTours', 'Back to all tours')}
                 </Button>
 
                 {/* Hero Section */}
@@ -138,6 +139,7 @@ export function TourDetailClient({
                         />
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

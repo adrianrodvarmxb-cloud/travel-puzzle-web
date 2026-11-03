@@ -1,12 +1,14 @@
 import { Navbar } from "@/components/layout";
 import {
   HeroSearch,
+  ProofStrip,
   PopularDestinations,
   FeaturedTours,
-  WhyTravelPuzzle,
+  HowItWorks,
   ContinentExplorer,
-  ExpertCta,
+  MapSection,
   HomeReviews,
+  ExpertCta,
   SiteFooter,
   WhatsAppBubble,
 } from "@/components/home/v2";
@@ -33,14 +35,19 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header y footer se conservan como están (decisión del PO) */}
       <Navbar />
-      <HeroSearch stats={data.stats} slides={data.hero} />
-      <PopularDestinations destinations={data.destinations} />
-      <FeaturedTours tours={data.featured} />
-      <WhyTravelPuzzle stats={data.stats} />
-      <ContinentExplorer continents={data.continents} />
-      <ExpertCta whatsapp={contact.whatsapp} />
-      <HomeReviews reviews={data.reviews} />
+      <main className="tp-dark">
+        <HeroSearch slides={data.hero} quickCities={data.destinations.slice(0, 5)} />
+        <ProofStrip stats={data.stats} />
+        <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
+        <FeaturedTours tours={data.featured} />
+        <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
+        <ContinentExplorer continents={data.continents} />
+        <MapSection />
+        <HomeReviews reviews={data.reviews} average={data.stats.rating} />
+        <ExpertCta whatsapp={contact.whatsapp} />
+      </main>
       <SiteFooter contact={footer} />
       <WhatsAppBubble whatsapp={contact.whatsapp} />
     </div>

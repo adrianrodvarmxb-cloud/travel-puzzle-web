@@ -222,4 +222,6 @@ export const fr = {
   "reviews.showMore": "Voir plus d'avis",
   "tours.favorite": "Coup de cœur des voyageurs",
   "reviews.seeTour": "Voir la visite",
+  "tours.backToTours": "Retour à toutes les visites",
+  "tours.directions": "Itinéraire",
 };

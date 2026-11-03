@@ -1,54 +1,78 @@
 'use client';
 
+import { useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
-import { Badge } from '@/components/ui/Badge';
-import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { Tour } from '@/types';
 import { ReviewSummary } from './ReviewSummary';
+import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
 
 interface TourHeroSectionProps {
     tour: Tour;
 }
 
+/** Galería en mosaico + título, etiquetas, resumen de reseñas y datos clave del tour. */
 export function TourHeroSection({ tour }: TourHeroSectionProps) {
     const { t } = useLanguage();
+    const images = tour.images.filter((img) => img && img.trim() !== '');
+    const [showAll, setShowAll] = useState(false);
+    const [main, ...rest] = images;
+    const side = rest.slice(0, 4);
+    const facts: [string, string | null | undefined][] = [
+        [t('tours.duration'), tour.duration],
+        [t('tours.destination'), tour.destination],
+        [t('tours.meetingPoint'), tour.meetingPoint?.title],
+        [t('tours.provider'), tour.provider],
+    ];
 
     return (
-        <div className="relative w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden mb-8">
-            {tour.images.length > 0 ? (
-                <ImageCarousel
-                    images={tour.images}
-                    autoRotateInterval={5000}
-                    showDots={true}
-                    showOverlay={true}
-                    overlayOpacity="bg-black/30"
-                    className="w-full h-full"
-                >
-                    <div className="flex flex-col justify-end h-full p-8 text-white">
-                        <div className="max-w-4xl">
-                            {tour.price === 0 && (
-                                <Badge variant="success" className="mb-4">
-                                    {t('tours.free')}
-                                </Badge>
-                            )}
-                            <h1 className="text-4xl md:text-5xl font-bold mb-4">{tour.title}</h1>
-                            <div className="mb-4"><ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark /></div>
-                            {tour.brief && (
-                                <p className="text-lg md:text-xl opacity-90 line-clamp-2">{tour.brief}</p>
+        <section className="mb-10">
+            {main ? (
+                <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-3xl md:grid-cols-4 md:grid-rows-[220px_220px]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={main} alt={tour.title} className="h-72 w-full object-cover md:col-span-2 md:row-span-2 md:h-full" />
+                    {side.map((src, k) => (
+                        <div key={src} className="relative hidden md:block">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
+                            {k === side.length - 1 && images.length > 5 && (
+                                <button type="button" onClick={() => setShowAll(true)} className="absolute inset-0 flex items-center justify-center bg-[#0A1330]/55 text-sm font-semibold text-white hover:bg-[#0A1330]/40">
+                                    +{images.length - 5}
+                                </button>
                             )}
                         </div>
-                    </div>
-                </ImageCarousel>
+                    ))}
+                </div>
             ) : (
-                <div className="w-full h-full bg-linear-to-br from-tp-blue-primary to-tp-blue-dark flex items-center justify-center">
-                    <div className="text-center text-white">
-                        <span className="text-6xl mb-4 block">🌍</span>
-                        <h1 className="text-4xl font-bold">{tour.title}</h1>
-                        <div className="mt-4 flex justify-center"><ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark /></div>
-                    </div>
+                <div className="flex h-72 items-center justify-center rounded-3xl bg-[#121D45] text-6xl" aria-hidden>🌍</div>
+            )}
+
+            {showAll && (
+                <div className="mt-2.5 grid grid-cols-2 gap-2.5 md:grid-cols-4">
+                    {images.slice(5).map((src) => (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img key={src} src={src} alt="" loading="lazy" className="h-40 w-full rounded-xl object-cover" />
+                    ))}
                 </div>
             )}
-        </div>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+                <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} />
+                {tour.price === 0 && (
+                    <span className="font-data rounded-md border border-[#7CC4FF] px-2 py-0.5 text-[11px] uppercase tracking-[0.15em] text-[#7CC4FF]">{t('tours.free')}</span>
+                )}
+            </div>
+            <h1 className="font-display mb-4 mt-3 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{tour.title}</h1>
+            <ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark />
+            {tour.brief && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{tour.brief}</p>}
+
+            <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
+                {facts.filter(([, v]) => v).map(([label, value]) => (
+                    <div key={label} className="bg-[#0A1330] p-4 md:p-5">
+                        <dt className="font-data text-[10px] uppercase tracking-[0.2em] text-[#A9B6D6]">{label}</dt>
+                        <dd className="font-display mt-1.5 line-clamp-2 text-lg font-semibold text-white">{value}</dd>
+                    </div>
+                ))}
+            </dl>
+        </section>
     );
 }
-
