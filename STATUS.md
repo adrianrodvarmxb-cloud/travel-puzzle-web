@@ -25,6 +25,11 @@ Actualizado: 3 nov 2026.
 - **La pasarela no se publica con el merge:** hay que subir `gateway/` a cPanel y reiniciar la app
   (confirmar antes `FREETOUR_LOCAL_ADDRESS`).
 
+## Viajes propios y de agencias (punto 17, nov 2026)
+- Ola 1: gestor en `/admin/viajes` (entrada `/admin/entrar`, solo rol ADMIN), migración 0006 (Agency, Trip), fotos en R2 `travel-puzzle-trips`.
+  Gates en `docs/gates-viajes-propios-2026-11.md`. Aún no se ve nada en el sitio público.
+- Ola 2: ficha, /tours, carrusel, 3 formularios, thank you page, correos, precio en pesos. Ola 3: pago y pasaportes.
+
 ## Pendientes
 - Freetour (Elias): habilitar cancelación; dejar de mandar sus correos en modo 2; cancelar 2 reservas de prueba; nuevo webhook `https://travelpuzzle.com.mx/api/freetour/booking-rejected` (borrador listo).
 - Reseñas de clientes listas (`/reserva/[token]/resena`, aviso a info@, `/resenas/moderar`, `/admin/resenas`); requiere la migración 0005 — docs/gates-resenas-2026-11.md. Falta encender `REVIEW_EMAILS_ENABLED`.

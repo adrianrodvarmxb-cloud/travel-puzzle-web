@@ -45,12 +45,14 @@ export async function middleware(request: NextRequest) {
   }
 
   // Admin-only routes
-  const adminRoutes = ['/dashboard'];
+  const adminRoutes = ['/dashboard', '/admin/viajes'];
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route));
   
   if (isAdminRoute) {
     if (!session?.user) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      // El gestor tiene su propia entrada (las cuentas de clientes siguen apagadas).
+      const login = pathname.startsWith('/admin/') ? `/admin/entrar?callbackUrl=${encodeURIComponent(pathname)}` : '/login';
+      return NextResponse.redirect(new URL(login, request.url));
     }
     if (session.user.role !== 'ADMIN') {
       return NextResponse.redirect(new URL('/', request.url));

@@ -30,6 +30,10 @@
       "migrations_dir": "migrations"
     }
   ],
+  // Fotos de los viajes propios y de agencias (punto 17). Bucket creado en el panel de Cloudflare.
+  "r2_buckets": [
+    { "binding": "TRIP_IMAGES", "bucket_name": "travel-puzzle-trips" }
+  ],
   "vars": {
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
     "FREETOUR_ENV": "production",
