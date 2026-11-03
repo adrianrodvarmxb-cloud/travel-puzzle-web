@@ -218,3 +218,23 @@ model FreetourBookingEmail {
 
   @@id([refNumber, kind])
 }
+
+/// Reseñas de clientes de Travel Puzzle (una por reserva). Se publican solo con consentimiento y aprobación.
+model CustomerReview {
+  id             String    @id @default(cuid())
+  refNumber      String    @unique
+  tourExternalId Int?
+  rate           Int
+  content        String    @default("")
+  displayName    String
+  consent        Boolean   @default(false)
+  status         String    @default("pending") // pending | published | hidden
+  language       String    @default("es")
+  tourDate       String?
+  moderatedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([tourExternalId, status])
+  @@index([status, createdAt])
+}

@@ -8,7 +8,9 @@ import type { Review } from "./lib/reviews";
 
 /** Reseña lista para mandar a un componente de cliente (fecha como texto). */
 export interface ReviewView {
-  id: number;
+  id: number | string;
+  /** Reseña de un cliente de Travel Puzzle (aprobada). */
+  verified?: boolean;
   reviewerName: string;
   title: string | null;
   content: string;
@@ -37,10 +39,13 @@ export async function loadTourReviews(tourExternalId: number, lang: string, limi
         now: new Date(),
       }
     );
-    return { reviews: reviews.map(toView), total };
+    const ours = await loadVerifiedReviews(tourExternalId);
+    return { reviews: [...ours, ...reviews.map(toView)], total: total + ours.length };
   } catch (error) {
     console.warn(`[reviews] sin reseñas para el tour ${tourExternalId}:`, (error as Error).message);
-    return { reviews: [] as ReviewView[], total: 0 };
+    // Si Freetour falla, al menos las de nuestros clientes.
+    const ours = await loadVerifiedReviews(tourExternalId);
+    return { reviews: ours, total: ours.length };
   }
 }
 
@@ -63,5 +68,25 @@ export async function loadTourHighlights(tourExternalIds: number[], lang: string
   } catch (error) {
     console.warn("[reviews] sin frases destacadas:", (error as Error).message);
     return {};
+  }
+}
+
+/** Reseñas aprobadas de clientes de Travel Puzzle; van primero en la ficha. Si la tabla no existe aún, ninguna. */
+async function loadVerifiedReviews(tourExternalId: number): Promise<ReviewView[]> {
+  try {
+    const { listPublishedReviews } = await import("./customer-deps");
+    const rows = await listPublishedReviews(tourExternalId);
+    return rows.map((r) => ({
+      id: r.id,
+      verified: true,
+      reviewerName: r.displayName,
+      title: null,
+      content: r.content,
+      rate: r.rate,
+      addedAt: r.createdAt.toISOString(),
+    }));
+  } catch (error) {
+    console.warn("[reviews] sin reseñas verificadas:", (error as Error).message);
+    return [];
   }
 }
