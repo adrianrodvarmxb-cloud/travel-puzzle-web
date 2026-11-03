@@ -68,8 +68,8 @@ const es = {
   mapError: "No pudimos cargar el mapa. Explora por continente o busca tu ciudad arriba.",
   close: "Cerrar",
   reviewsEyebrow: "06 — LO QUE DICEN",
-  reviewsHeadline: "Lo que cuentan los viajeros.",
-  reviewsSub: "Toca una reseña para ver su tour.",
+  reviewsHeadline: "En palabras de los viajeros.",
+  reviewsSub: "Lo que cuentan quienes ya recorrieron estas ciudades.",
   avgLabel: "CALIFICACIÓN PROMEDIO",
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
 };
@@ -144,8 +144,8 @@ const en: Copy = {
   mapError: "We couldn't load the map. Explore by continent or search your city above.",
   close: "Close",
   reviewsEyebrow: "06 — WHAT THEY SAY",
-  reviewsHeadline: "What travelers say.",
-  reviewsSub: "Tap a review to see its tour.",
+  reviewsHeadline: "In travelers' own words.",
+  reviewsSub: "What people who already explored these cities have to say.",
   avgLabel: "AVERAGE RATING",
   expertEyebrowN: "07 — PERSONAL ADVICE",
 };

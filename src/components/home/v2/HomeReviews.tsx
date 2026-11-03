@@ -10,6 +10,8 @@ import type { HomeReview } from '@/home/load';
 const LOCALES: Record<string, string> = { en: 'en-US', es: 'es-MX', pt: 'pt-BR', de: 'de-DE', fr: 'fr-FR', it: 'it-IT' };
 
 /** Reseñas reales de 5 ★ de tours distintos; cada una lleva a su tour. */
+const SHOW_SOURCE_LINE = false;
+
 export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; average: number | null }) {
   const { t, language } = useLanguage();
   const c = homeCopy(language);
@@ -50,7 +52,8 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
               <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#121D45] p-5">{body}</div>
             );
           })}
-          <p className="text-xs text-[#7C8DBA] sm:col-span-2">{t('reviews.source')}</p>
+          {/* La fuente ya la dice el subtítulo (punto 4, 3 nov 2026) */}
+          {SHOW_SOURCE_LINE && <p className="text-xs text-[#7C8DBA] sm:col-span-2">{t('reviews.source')}</p>}
         </div>
       </div>
     </section>
