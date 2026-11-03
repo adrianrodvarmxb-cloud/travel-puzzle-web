@@ -21,6 +21,7 @@ import { TourMeetingPoint } from './TourMeetingPoint';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
 import { bookingMode } from '@/tours/lib/booking-cta';
+import { tipGuide } from '@/tours/lib/tip-guide';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
 
 interface TourDetailClientProps {
@@ -147,6 +148,7 @@ export function TourDetailClient({
                             isLoadingEvents={isLoadingEvents}
                             mode={bookingMode(bookingsEnabled)}
                             whatsapp={whatsapp}
+                            tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                         />
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 'use client';
 
+import { FreeTourGuide } from './FreeTourGuide';
+import type { TipGuide } from '@/tours/lib/tip-guide';
 import { formatRating } from '@/home/lib/format';
 import { waLink } from '@/home/lib/copy';
 import { advisorText, bookingCopy, type BookingMode } from '@/tours/lib/booking-cta';
@@ -22,12 +24,14 @@ interface TourSidebarProps {
     /** advisor: se aparta por WhatsApp (reservas apagadas); calendar: reserva en línea. */
     mode?: BookingMode;
     whatsapp?: string;
+    /** Cómo funciona el free tour en este destino (solo tours sin costo). */
+    tipGuide?: TipGuide | null;
 }
 
 /** Duración, destino y proveedor ya se muestran arriba del tour; aquí se repetían (auditoría de diseño, nov 2026). */
 const SHOW_DETAILS = false;
 
-export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp }: TourSidebarProps) {
+export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide }: TourSidebarProps) {
     const { t, language } = useLanguage();
     const copy = bookingCopy(language);
     const wa = waLink(whatsapp, advisorText(tour.title, language));
@@ -44,14 +48,14 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                 {/* Price */}
                 <div className="mb-6">
                     <div className="flex items-baseline gap-2 mb-2">
-                        <span className="text-sm text-muted-foreground">{t('tours.from')}</span>
+                        {tour.price > 0 && <span className="text-sm text-muted-foreground">{t('tours.from')}</span>}
                         <span className="text-4xl font-bold">
                             {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free')}
                         </span>
                     </div>
-                    {tour.price === 0 && (
+                    {tour.price === 0 && (tipGuide ? <FreeTourGuide guide={tipGuide} /> : (
                         <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the tour, tip the guide what you think is fair.')}</p>
-                    )}
+                    ))}
                     {tour.rating && (
                         <div className="flex items-center gap-2 mt-2">
                             <StarIcon className="w-5 h-5 text-yellow-500 fill-yellow-500" />

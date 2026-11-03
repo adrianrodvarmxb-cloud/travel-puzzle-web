@@ -41,8 +41,8 @@ const ES: FaqTopic[] = [
       {
         id: "gratis",
         tags: "free propina tip",
-        q: "¿Los tours sin costo son gratis de verdad?",
-        a: "Sí: reservarlos no cuesta nada. Al terminar el recorrido puedes darle al guía la propina que consideres justa; es voluntaria y se entrega directamente al guía.",
+        q: "¿Cómo funciona un free tour?",
+        a: "Reservar no cuesta nada. Al terminar, le das al guía lo que consideres justo según tu experiencia; es voluntario y se entrega directamente al guía, en efectivo. Como referencia: en Europa €10 a €15 por persona (€20 o más si fue excepcional); en Estados Unidos y Canadá $10 a $20 USD; en Latinoamérica el equivalente a $5 a $10 USD en moneda local. Lleva billetes chicos o cambio.",
       },
       {
         id: "pago",
@@ -123,8 +123,8 @@ const EN: FaqTopic[] = [
       {
         id: "gratis",
         tags: "free propina tip",
-        q: "Are the free tours really free?",
-        a: "Yes: booking them costs nothing. At the end of the tour you can give the guide the tip you think is fair; it's voluntary and goes directly to the guide.",
+        q: "How does a free tour work?",
+        a: "Booking costs nothing. At the end, you give the guide what you think is fair for the experience; it's voluntary and goes directly to the guide, in cash. As a reference: in Europe €10 to €15 per person (€20+ if it was exceptional); in the US and Canada $10 to $20 USD; in Latin America the equivalent of $5 to $10 USD in local currency. Bring small bills or change.",
       },
       {
         id: "pago",
