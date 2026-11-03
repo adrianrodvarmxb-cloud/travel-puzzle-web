@@ -6,6 +6,11 @@
   "name": "travel-puzzle-web",
   "main": "worker.ts",
   "compatibility_date": "2025-09-01",
+  // Dominio propio (zona en Cloudflare). La dirección workers.dev sigue funcionando.
+  "routes": [
+    { "pattern": "travelpuzzle.com.mx", "custom_domain": true },
+    { "pattern": "www.travelpuzzle.com.mx", "custom_domain": true }
+  ],
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
@@ -41,7 +46,7 @@
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
-    "SITE_URL": "https://travel-puzzle-web.adrianrodvarmxb.workers.dev",
+    "SITE_URL": "https://travelpuzzle.com.mx",
     // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)
     "WHATSAPP_NUMBER": "525536490320",
     // Redes sociales de Travel Puzzle (aparecen en el pie de los correos)
