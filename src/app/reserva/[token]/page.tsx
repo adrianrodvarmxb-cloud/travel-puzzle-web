@@ -9,7 +9,7 @@ import { getPrisma } from '@/lib/prisma';
 import { BookingPageView } from './BookingPageView';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Mi reserva · Travel Puzzle', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Mi reserva', robots: { index: false, follow: false } };
 
 /**
  * Página privada de la reserva. Mismo lenguaje visual que los correos:
