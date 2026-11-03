@@ -3,9 +3,10 @@ import { formatRating } from "@/home/lib/format";
 
 export const SITE_META = {
   name: "Travel Puzzle",
-  title: "Travel Puzzle · Tours con guías locales en todo el mundo",
-  description: "Te armamos tu viaje pieza por pieza: tours con guías locales en todo el mundo y asesoría en español por WhatsApp.",
-  image: "/og.jpg",
+  title: "Travel Puzzle · Te armamos tu viaje",
+  description: "Tours con guías locales en todo el mundo y un asesor en español que te acompaña por WhatsApp.",
+  // Nombre nuevo para que WhatsApp y Facebook no muestren la imagen anterior en caché.
+  image: "/og-2.jpg",
 };
 
 /** Corta el texto en un límite sin romper palabras. */

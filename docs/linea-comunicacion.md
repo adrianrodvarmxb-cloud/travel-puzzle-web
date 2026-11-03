@@ -24,3 +24,13 @@ Aplica al sitio, a los correos y a cualquier texto que vea el cliente.
 
 ## Control
 `src/home/lib/copy.test.ts` falla si vuelven a aparecer palabras prohibidas en los textos del inicio, las traducciones (es/en) o la vista previa al compartir.
+
+## Revisión punto por punto (firmada por el PO, 3 nov 2026)
+1. Textos generales sin adjetivos inflados ni mención a Freetour (hecho antes).
+2. Franja de confianza: "4.8 ★ · CALIFICACIÓN PROMEDIO", sin conteo ni fuente.
+3. Cómo funciona, tono premium: "Tres piezas, un gran viaje." — Elige / Te lo apartamos (Reserva con reservas encendidas) / Vive la ciudad.
+4. Reseñas: "En palabras de los viajeros." + "Lo que cuentan quienes ya recorrieron estas ciudades."; línea de fuente oculta.
+5. Asesor: "Te armamos tu viaje." + "a tu medida" + botón "Hablar con un asesor".
+6. Vista previa al compartir: título "Travel Puzzle · Te armamos tu viaje", descripción con el asesor por WhatsApp, imagen `og-2.jpg` sin el lema repetido.
+- Footer: se oculta el lema en texto porque el logo animado ya lo trae.
+- Pendiente de diseño: el logo dice "Armamos tu viaje"; el lema registrado es "Te armamos tu viaje".
