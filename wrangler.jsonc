@@ -6,7 +6,9 @@
   "name": "travel-puzzle-web",
   "main": "worker.ts",
   "compatibility_date": "2025-09-01",
-  // Dominio propio (zona en Cloudflare). La dirección workers.dev sigue funcionando.
+  // Dominio propio (zona en Cloudflare).
+  // Mantener viva la dirección workers.dev: correos ya enviados usan esas URLs (logos, "Mi reserva").
+  "workers_dev": true,
   "routes": [
     { "pattern": "travelpuzzle.com.mx", "custom_domain": true },
     { "pattern": "www.travelpuzzle.com.mx", "custom_domain": true }
