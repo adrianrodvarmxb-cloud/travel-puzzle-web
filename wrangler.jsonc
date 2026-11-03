@@ -34,6 +34,8 @@
   "r2_buckets": [
     { "binding": "TRIP_IMAGES", "bucket_name": "travel-puzzle-trips" }
   ],
+  // IA de Cloudflare para traducir los viajes del gestor (punto 17, gate I). Cobro por uso.
+  "ai": { "binding": "AI" },
   "vars": {
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
     "FREETOUR_ENV": "production",
