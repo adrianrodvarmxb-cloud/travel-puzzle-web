@@ -41,4 +41,13 @@ describe("operaciones permitidas", () => {
     expect(toFreetourRequest("login", {}).ok).toBe(false);
     expect(toFreetourRequest("tours", {}).ok).toBe(false);
   });
+
+  it("createBooking acepta un token de intento válido, pero no lo manda a Freetour", () => {
+    const base = { eventId: 1, adults: 1, children: 0, price: 0, customer };
+    const r = toFreetourRequest("createBooking", { ...base, idempotencyKey: "abcdefghijklmnop1234" });
+    expect(r.ok).toBe(true);
+    expect(r.body).not.toHaveProperty("idempotencyKey");
+    expect(toFreetourRequest("createBooking", { ...base, idempotencyKey: "corto" }).ok).toBe(false);
+    expect(toFreetourRequest("createBooking", { ...base, idempotencyKey: "x".repeat(20) + " ;" }).ok).toBe(false);
+  });
 });

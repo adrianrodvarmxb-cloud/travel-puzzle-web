@@ -53,6 +53,8 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [booking, setBooking] = useState<Booking | null>(null);
+    // Un token por formulario: si el envío se repite (doble clic, reintento), la pasarela no duplica la reserva.
+    const [idempotencyKey] = useState(() => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : undefined));
 
     // Auto-fill form with authenticated user's data
     useEffect(() => {
@@ -95,7 +97,7 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify({ ...form, idempotencyKey }),
             });
 
             const result = await response.json();

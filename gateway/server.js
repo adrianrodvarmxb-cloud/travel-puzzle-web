@@ -7,7 +7,7 @@
 //   FREETOUR_EMAIL           usuario de la API de Freetour (obligatorio)
 //   FREETOUR_PASSWORD        contraseña de la API de Freetour (obligatorio)
 //   FREETOUR_BASE_URL        por defecto producción v.2.0
-//   FREETOUR_LOCAL_ADDRESS   IP de salida (opcional; p. ej. 66.29.153.81)
+//   FREETOUR_LOCAL_ADDRESS   IP de salida registrada en Freetour (obligatorio; 66.29.153.81)
 //   PORT                     lo pone cPanel
 import http from "node:http";
 import { existsSync, readFileSync } from "node:fs";
@@ -15,6 +15,8 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { handleRequest } from "./lib/handler.js";
 import { createFreetourClient } from "./lib/freetour.js";
+import { createDedupe } from "./lib/dedupe.js";
+import { checkConfig } from "./lib/config.js";
 
 const MAX_BODY = 32 * 1024;
 const here = dirname(fileURLToPath(import.meta.url));
@@ -28,10 +30,9 @@ if (existsSync(envFile)) {
   }
 }
 
-const required = ["GATEWAY_SECRET", "FREETOUR_EMAIL", "FREETOUR_PASSWORD"];
-const missing = required.filter((k) => !process.env[k]);
-if (missing.length) {
-  console.error(`[pasarela] faltan variables: ${missing.join(", ")}`);
+const problems = checkConfig(process.env);
+if (problems.length) {
+  console.error(`[pasarela] no arranca: ${problems.join("; ")}`);
   process.exit(1);
 }
 
@@ -39,8 +40,9 @@ const freetour = createFreetourClient({
   baseUrl: process.env.FREETOUR_BASE_URL || "https://secure.freetour.com/partnersAPI/v.2.0",
   email: process.env.FREETOUR_EMAIL,
   password: process.env.FREETOUR_PASSWORD,
-  localAddress: process.env.FREETOUR_LOCAL_ADDRESS || undefined,
+  localAddress: process.env.FREETOUR_LOCAL_ADDRESS,
 });
+const dedupe = createDedupe();
 
 const log = (event, data) => console.log(JSON.stringify({ t: new Date().toISOString(), event, ...data }));
 
@@ -58,7 +60,7 @@ const server = http.createServer((req, res) => {
     const path = new URL(req.url, "http://x").pathname.replace(/\/+$/, "").replace(/^.*(\/health|\/freetour)$/, "$1");
     const out = await handleRequest(
       { method: req.method, path, headers: req.headers, body },
-      { secret: process.env.GATEWAY_SECRET, now: Date.now, freetour, log }
+      { secret: process.env.GATEWAY_SECRET, now: Date.now, freetour, log, dedupe }
     );
     res.writeHead(out.status, { "Content-Type": "application/json", "Cache-Control": "no-store" });
     res.end(JSON.stringify(out.json));

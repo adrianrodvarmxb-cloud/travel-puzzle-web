@@ -38,4 +38,17 @@ describe("cliente de Freetour de la pasarela", () => {
     await expect(ft.call("GET", "/booking/R1")).rejects.toThrow(/login/i);
     await expect(ft.call("GET", "/booking/R1")).rejects.not.toThrow(/p$/);
   });
+
+  it("tras un login fallido espera 60 s antes de volver a intentar", async () => {
+    let t = 0;
+    const request = vi.fn(async (m, url) => (url.endsWith("/login") ? { status: 401, json: { data: { errorMessage: "bad" } } } : { status: 200, json: {} }));
+    const ft = createFreetourClient({ ...cfg, request, now: () => t });
+    await expect(ft.call("GET", "/booking/R1")).rejects.toThrow(/login/i);
+    t = 30_000;
+    await expect(ft.call("GET", "/booking/R1")).rejects.toThrow(/espera/i);
+    expect(request).toHaveBeenCalledTimes(1);
+    t = 61_000;
+    await expect(ft.call("GET", "/booking/R1")).rejects.toThrow(/login/i);
+    expect(request).toHaveBeenCalledTimes(2);
+  });
 });

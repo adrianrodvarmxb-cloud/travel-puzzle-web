@@ -11,6 +11,7 @@ export type BookingRejectionCode =
   | "invalid_phone"
   | "phone_required"
   | "no_availability"
+  | "already_booked"
   | "provider_error";
 
 /** Error que se le puede mostrar al cliente (sin detalles internos). */
@@ -27,6 +28,8 @@ export interface BookingRequest {
   children: number;
   price: number;
   customer: Customer;
+  /** Token del intento (lo crea el formulario) para no duplicar la reserva. */
+  idempotencyKey?: string;
 }
 
 interface Deps {
@@ -35,14 +38,20 @@ interface Deps {
   getEvent(eventId: number): Promise<IzFTEventDetail>;
   /** Interruptor BOOKINGS_ENABLED. */
   enabled: boolean;
+  /** ¿Ya hay una reserva activa de este correo en este horario? */
+  hasActiveBooking?(eventId: number, email: string): Promise<boolean>;
 }
 
 /** Reserva un free tour en Freetour a través de la pasarela. */
-export async function placeBooking(req: BookingRequest, { gateway, getEvent, enabled }: Deps): Promise<{ booking: Booking; price: number }> {
+export async function placeBooking(req: BookingRequest, { gateway, getEvent, enabled, hasActiveBooking }: Deps): Promise<{ booking: Booking; price: number }> {
   if (!enabled) throw new BookingRejected("bookings_disabled", "Las reservas en línea abren muy pronto.");
 
   const phone = normalizePhone(req.customer.phone);
   if (phone === null) throw new BookingRejected("invalid_phone", "Revisa el teléfono (incluye la lada, por ejemplo +52 55 1234 5678).");
+
+  // Si la revisión falla no se bloquea al cliente (la pasarela además evita el doble envío).
+  const overlap = hasActiveBooking ? await hasActiveBooking(req.eventId, req.customer.email.trim().toLowerCase()).catch(() => false) : false;
+  if (overlap) throw new BookingRejected("already_booked", "Ya tienes una reserva para este horario. Revisa tu correo.");
 
   // El precio y la disponibilidad salen de Freetour, nunca del navegador.
   const event = await getEvent(req.eventId).catch(() => null);

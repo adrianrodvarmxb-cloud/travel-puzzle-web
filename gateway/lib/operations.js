@@ -7,6 +7,7 @@ const isEmail = (v) => isStr(v, 254) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const isHttpsUrl = (v) => {
   try { return isStr(v, 2000) && new URL(v).protocol === "https:"; } catch { return false; }
 };
+const isIdemKey = (v) => typeof v === "string" && /^[A-Za-z0-9_-]{16,64}$/.test(v);
 const seg = (v) => encodeURIComponent(String(v));
 const bad = (reason) => ({ ok: false, reason });
 
@@ -18,6 +19,8 @@ const OPERATIONS = {
     const c = p.customer ?? {};
     if (!isInt(p.eventId, 1) || !isInt(p.adults, 1) || !isInt(p.children, 0)) return bad("datos de la reserva");
     if (typeof p.price !== "number" || p.price < 0) return bad("precio");
+    // Token del intento (lo usa la pasarela para no duplicar; no se manda a Freetour).
+    if (p.idempotencyKey !== undefined && !isIdemKey(p.idempotencyKey)) return bad("token del intento");
     if (!isEmail(c.email) || !isStr(c.firstName, 100) || !isStr(c.lastName, 100)) return bad("cliente");
     if (c.phone !== undefined && !/^\+\d{6,16}$/.test(c.phone)) return bad("teléfono");
     const customer = { email: c.email, firstName: c.firstName, lastName: c.lastName, ...(c.phone && { phone: c.phone }) };

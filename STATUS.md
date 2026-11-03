@@ -19,6 +19,12 @@ Actualizado: 3 nov 2026.
 - `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403). También muestra `/ayuda` y su enlace en el footer.
 - `EMAILS_ENABLED=false`, `REVIEW_EMAILS_ENABLED=false`, `PAID_TOURS_ENABLED=false`.
 
+## Pasarela — robustez (punto 16, nov 2026)
+- Token por intento (24 h) + bloqueo de traslapes; IP de salida obligatoria; espera tras login fallido;
+  timeout de 35 s; rechazo no confirmado → 503. Gates en `docs/gates-pasarela-2026-11.md`.
+- **La pasarela no se publica con el merge:** hay que subir `gateway/` a cPanel y reiniciar la app
+  (confirmar antes `FREETOUR_LOCAL_ADDRESS`).
+
 ## Pendientes
 - Freetour (Elias): habilitar cancelación; dejar de mandar sus correos en modo 2; cancelar 2 reservas de prueba; nuevo webhook `https://travelpuzzle.com.mx/api/freetour/booking-rejected` (borrador listo).
 - Reseñas de clientes listas (`/reserva/[token]/resena`, aviso a info@, `/resenas/moderar`, `/admin/resenas`); requiere la migración 0005 — docs/gates-resenas-2026-11.md. Falta encender `REVIEW_EMAILS_ENABLED`.
