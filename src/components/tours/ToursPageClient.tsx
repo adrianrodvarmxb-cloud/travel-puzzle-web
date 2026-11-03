@@ -5,6 +5,9 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { Navbar } from '@/components/layout/Navbar';
 import { TourCard } from '@/components/tours/TourCard';
+import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
+import type { TripCard } from '@/trips/public-load';
+import { isOwnKindFilter, type ToursKindFilter } from '@/trips/lib/public';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
@@ -34,6 +37,10 @@ interface ToursPageClientProps {
         syncStatus: string;
     };
     initialLanguage: SupportedLanguage;
+    /** Viajes propios y de agencias publicados (vacío si OWN_TOURS_ENABLED está apagado). */
+    ownTrips?: TripCard[];
+    /** id de país del catálogo → código ISO, para filtrar los viajes por país. */
+    countryCodeById?: Record<number, string>;
 }
 
 export function ToursPageClient({
@@ -41,6 +48,8 @@ export function ToursPageClient({
     initialCountriesData,
     initialMetadata,
     initialLanguage,
+    ownTrips = [],
+    countryCodeById = {},
 }: ToursPageClientProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
@@ -74,6 +83,17 @@ export function ToursPageClient({
     }, [searchParams]);
 
     // Initialize state from URL params (only on mount)
+    // Tipo (gate L): todo, free tours o viajes propios/de agencias por tipo. Va en la URL como ?tipo=.
+    const [kind, setKind] = useState<ToursKindFilter>(() => {
+        const k = searchParams.get('tipo');
+        return k === 'free' || (k && isOwnKindFilter(k)) ? (k as ToursKindFilter) : 'all';
+    });
+    const changeKind = (k: ToursKindFilter) => {
+        setKind(k);
+        const q = new URLSearchParams(searchParams.toString());
+        if (k === 'all') q.delete('tipo'); else q.set('tipo', k);
+        router.replace(`${pathname}${q.toString() ? `?${q}` : ''}`, { scroll: false });
+    };
     const [uiFilters, setUiFilters] = useState<UITourFilters>(() => {
         const { filters } = parseUrlParams();
         return filters;
@@ -313,7 +333,11 @@ export function ToursPageClient({
 
                     {/* Tours (en celular y tablet se oculta cuando se ve el mapa) */}
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
-                        {isLoadingTours ? (
+                        {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} />}
+                        {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
+                            <OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} />
+                        )}
+                        {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />
                         ) : tours.length === 0 ? (
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] px-6 py-14 text-center">

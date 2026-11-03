@@ -27,3 +27,11 @@ Referentes leídos: GetYourGuide (supply), Viator (bandas de edad, cancelación)
 | J — Publicar | Estándar GYG con 5 fotos: título ≤60, resumen, 3–5 destacados, descripción, incluye/no incluye, país, duración, opción con precio, punto con mapa, idiomas. |
 
 También del documento 2024: horarios y puntos de encuentro "mínimo 4" → se permiten hasta 8; categoría temática; continente automático; vuelos incluidos; video.
+
+## Ola 2 (3 nov 2026) — gates K–N
+| Gate | Decisión |
+|---|---|
+| K — URL | `/viajes/{destino}/{nombre-código}` (destino como Civitatis/Viator + código único como Mega Travel); el destino se corrige solo con redirección. |
+| L — En /tours | Mezclados y marcados "Recomendado por Travel Puzzle" (Civitatis obliga a marcar el posicionamiento preferente); filtro Todo / Free tours / Tours / Circuitos / Experiencias (`?tipo=`). |
+| M — Solicitudes | Formularios del documento 2024 + panel /admin/solicitudes (PR D). |
+| N — Tipo de cambio | API SIE de Banxico (FIX USD SF43718, EUR SF46410) con token como secreto `BANXICO_TOKEN`; caché diaria; sin token se muestra la moneda original con "Pagadero en pesos al tipo de cambio del día". |
