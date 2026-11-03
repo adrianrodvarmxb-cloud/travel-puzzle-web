@@ -4,6 +4,7 @@ import { useLanguage } from '@/lib/language-context';
 import { Badge } from '@/components/ui/Badge';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { Tour } from '@/types';
+import { ReviewSummary } from './ReviewSummary';
 
 interface TourHeroSectionProps {
     tour: Tour;
@@ -31,6 +32,7 @@ export function TourHeroSection({ tour }: TourHeroSectionProps) {
                                 </Badge>
                             )}
                             <h1 className="text-4xl md:text-5xl font-bold mb-4">{tour.title}</h1>
+                            <div className="mb-4"><ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark /></div>
                             {tour.brief && (
                                 <p className="text-lg md:text-xl opacity-90 line-clamp-2">{tour.brief}</p>
                             )}
@@ -42,6 +44,7 @@ export function TourHeroSection({ tour }: TourHeroSectionProps) {
                     <div className="text-center text-white">
                         <span className="text-6xl mb-4 block">🌍</span>
                         <h1 className="text-4xl font-bold">{tour.title}</h1>
+                        <div className="mt-4 flex justify-center"><ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark /></div>
                     </div>
                 </div>
             )}

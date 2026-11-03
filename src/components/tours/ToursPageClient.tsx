@@ -7,7 +7,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { TourCard } from '@/components/tours/TourCard';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
-import { useTours, useCitiesFromAPI } from '@/lib/queries/tours';
+import { useTours, useCitiesFromAPI, useTourHighlights } from '@/lib/queries/tours';
 import { transformDBToursToUITours, transformCountryForFilter } from '@/lib/db/tour-transformer';
 import type { TourFilters as RepositoryTourFilters } from '@/lib/db/repositories/tour-repository';
 import type { TourFilters as UITourFilters } from '@/lib/utils/tour-search';
@@ -141,6 +141,8 @@ export function ToursPageClient({
     const tours = currentToursData?.data
         ? transformDBToursToUITours(currentToursData.data, language)
         : [];
+    // Frases de reseñas reales de 5 ★ para las tarjetas (llegan después de la lista; si no hay, se ve la descripción).
+    const { data: highlights } = useTourHighlights(tours.map((x) => x.externalId), language);
     const countries = initialCountriesData.map(country =>
         transformCountryForFilter(country, language)
     );
@@ -263,7 +265,7 @@ export function ToursPageClient({
                             <>
                                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                                     {tours.map(tour => (
-                                        <TourCard key={tour.id} tour={tour} />
+                                        <TourCard key={tour.id} tour={tour} highlight={highlights?.[tour.externalId]?.text} />
                                     ))}
                                 </div>
 

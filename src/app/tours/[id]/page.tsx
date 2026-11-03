@@ -39,7 +39,8 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         // Reseñas reales de Freetour (caché de 7 días en D1)
         const { reviews, total } = await loadTourReviews(
             (tourData as { externalId: number }).externalId,
-            language
+            language,
+            30
         );
 
         return (

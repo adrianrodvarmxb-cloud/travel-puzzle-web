@@ -1,5 +1,6 @@
 'use client';
 
+import { formatRating } from '@/home/lib/format';
 import { useLanguage } from '@/lib/language-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -38,10 +39,10 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                     {tour.rating && (
                         <div className="flex items-center gap-2 mt-2">
                             <StarIcon className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-                            <span className="font-medium">{tour.rating}</span>
-                            <span className="text-sm text-muted-foreground">
-                                ({tour.reviewsNumber} {tour.reviewsNumber === 1 ? 'review' : 'reviews'})
-                            </span>
+                            <span className="font-medium">{formatRating(tour.rating)}</span>
+                            <a href="#resenas" className="text-sm text-muted-foreground hover:underline">
+                                ({t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString())})
+                            </a>
                         </div>
                     )}
                 </div>

@@ -2,7 +2,8 @@ import { getPrisma, getD1 } from "@/lib/prisma";
 import { createFreetourApi } from "@/freetour/api";
 import { resolveFreetourConfig } from "@/freetour/lib/hosts";
 import { getTourReviews, getHomeReviews } from "./service";
-import { createReviewRepo } from "./repository";
+import { createReviewRepo, createHighlightRepo } from "./repository";
+import { pickHighlights } from "./lib/highlights";
 import type { Review } from "./lib/reviews";
 
 /** Reseña lista para mandar a un componente de cliente (fecha como texto). */
@@ -51,5 +52,16 @@ export async function loadHomeReviews(lang: string, limit = 6): Promise<ReviewVi
   } catch (error) {
     console.warn("[reviews] sin reseñas para el inicio:", (error as Error).message);
     return [];
+  }
+}
+
+/** Frase destacada (reseña real de 5 ★) de cada tour de la lista. Si algo falla, las tarjetas salen sin frase. */
+export async function loadTourHighlights(tourExternalIds: number[], lang: string): Promise<Record<number, { text: string; reviewerName: string }>> {
+  try {
+    const reviews = await createHighlightRepo(getPrisma()).listFiveStarForTours(tourExternalIds);
+    return Object.fromEntries(pickHighlights(reviews, lang));
+  } catch (error) {
+    console.warn("[reviews] sin frases destacadas:", (error as Error).message);
+    return {};
   }
 }
