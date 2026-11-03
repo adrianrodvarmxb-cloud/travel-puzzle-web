@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@prisma/client";
 import type { ReviewRepo } from "./service";
 import { upsertRows, runBatch, type D1Like } from "@/lib/d1/batch";
+import type { TourReview } from "./lib/highlights";
 
 const REVIEW_COLUMNS = ["id", "tourExternalId", "reviewerName", "language", "title", "content", "rate", "addedAt", "fetchedAt"];
 
@@ -53,6 +54,28 @@ export function createReviewRepo(prisma: PrismaClient, db: D1Like): ReviewRepo {
         ...upsertRows("Review", REVIEW_COLUMNS, rows, ["id"], REVIEW_COLUMNS.slice(1)),
         ...upsertRows("ReviewCache", ["tourExternalId", "totalObjects", "fetchedAt"], [[tourExternalId, totalObjects, fetchedAt]], ["tourExternalId"], ["totalObjects", "fetchedAt"]),
       ]);
+    },
+  };
+}
+
+/** Lecturas para la prueba social (frases destacadas y reseñas del inicio). Solo lee lo ya guardado. */
+export interface HighlightRepo {
+  /** Reseñas de 5 ★ con texto de los tours indicados. */
+  listFiveStarForTours(tourExternalIds: number[]): Promise<TourReview[]>;
+  /** Reseñas de 5 ★ con texto más recientes de cualquier tour. */
+  listRecentFiveStar(limit: number): Promise<TourReview[]>;
+}
+
+export function createHighlightRepo(prisma: PrismaClient): HighlightRepo {
+  const select = { id: true, tourExternalId: true, reviewerName: true, language: true, title: true, content: true, rate: true, addedAt: true } as const;
+  const where = { rate: { gte: 5 }, content: { not: null } };
+  return {
+    async listFiveStarForTours(ids) {
+      if (!ids.length) return [];
+      return prisma.review.findMany({ where: { ...where, tourExternalId: { in: ids.slice(0, 50) } }, orderBy: { addedAt: "desc" }, take: 500, select });
+    },
+    async listRecentFiveStar(limit) {
+      return prisma.review.findMany({ where, orderBy: { addedAt: "desc" }, take: limit, select });
     },
   };
 }
