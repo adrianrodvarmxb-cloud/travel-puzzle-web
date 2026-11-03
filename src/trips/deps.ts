@@ -42,3 +42,28 @@ export async function passwordDeps(): Promise<import("./password").PasswordDeps>
     send: (email) => sendEmail({ apiKey: process.env.RESEND_API_KEY ?? "", fetch }, { ...email, from: process.env.EMAIL_FROM ?? "", replyTo: process.env.EMAIL_REPLY_TO }),
   };
 }
+
+/** Dependencias reales de la traducción (D1 + Workers AI, binding AI). */
+export async function translationDeps() {
+  const { TRANSLATION_MODEL } = await import("./translate");
+  const repo = tripRepo();
+  const prisma = getPrisma();
+  const { env } = getCloudflareContext();
+  const ai = (env as unknown as { AI?: { run(model: string, input: unknown): Promise<{ response?: unknown }> } }).AI;
+  return {
+    async load(id: string) {
+      const trip = await repo.findById(id);
+      if (!trip) return null;
+      const row = await prisma.trip.findUnique({ where: { id }, select: { translations: true } });
+      return { trip, translations: (row?.translations ?? {}) as import("./lib/translation").Translations };
+    },
+    async save(id: string, t: import("./lib/translation").Translations) {
+      await prisma.trip.update({ where: { id }, data: { translations: t as object } });
+    },
+    async ai(messages: { role: string; content: string }[]) {
+      if (!ai) throw new Error("IA de Cloudflare no conectada (binding AI)");
+      const out = await ai.run(TRANSLATION_MODEL, { messages, max_tokens: 4096, temperature: 0.2 });
+      return typeof out.response === "string" ? out.response : JSON.stringify(out.response ?? "");
+    },
+  };
+}
