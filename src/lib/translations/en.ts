@@ -222,4 +222,6 @@ export const en = {
   "reviews.showMore": "Show more reviews",
   "tours.favorite": "Traveler favorite",
   "reviews.seeTour": "See tour",
+  "tours.backToTours": "Back to all tours",
+  "tours.directions": "Get directions",
 };

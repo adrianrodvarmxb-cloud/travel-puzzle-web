@@ -4,11 +4,14 @@ import { pickDestinations, type CityRow, type DestinationCard } from "./lib/dest
 import { groupByContinent, continentOf, type ContinentSummary } from "./lib/continents";
 import { pickVaried } from "./lib/featured";
 import { pickHeroSlides, HERO_SEARCH_NAMES, type HeroSlide } from "./lib/hero";
-import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, pickDistinctTourReviews } from "@/reviews/lib/highlights";
+import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, pickDistinctTourReviews, pickHighlights } from "@/reviews/lib/highlights";
 import type { HighlightRepo } from "@/reviews/repository";
 
 export interface HomeTour {
   id: string;
+  externalId: number;
+  /** Frase de una reseña real de 5 ★ (si la hay). */
+  quote?: string | null;
   titles: Record<string, string>;
   cityNames: Record<string, string>;
   image: string;
@@ -114,7 +117,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     rating: { gte: FAVORITE_MIN_RATING },
   };
   const select = {
-    id: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
+    id: true, externalId: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
     country: { select: { code: true } },
     city: { select: { translations: true } },
     translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
@@ -129,7 +132,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
     if (!https(t.titleImageURL) || !Object.keys(titles).length) return [];
     return [{
-      id: t.id, titles, cityNames: asNames(t.city?.translations), image: t.titleImageURL,
+      id: t.id, externalId: t.externalId, titles, cityNames: asNames(t.city?.translations), image: t.titleImageURL,
       isFree: Number(t.priceValue) === 0, price: Number(t.priceValue), currency: t.priceCurrency, duration: t.duration,
       rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber,
     }];
@@ -212,7 +215,11 @@ export async function loadHomeData({ prisma, highlights, includePaid, lang }: Ho
   const [hero, dest, feat, sc, reviews] = await Promise.allSettled([
     loadHero(prisma),
     loadDestinations(prisma),
-    loadFeatured(prisma, includePaid),
+    loadFeatured(prisma, includePaid).then(async (tours) => {
+      // Frase destacada de cada favorito (si falla, salen sin frase)
+      const quotes = await highlights.listFiveStarForTours(tours.map((t) => t.externalId)).then((r) => pickHighlights(r, lang)).catch(() => new Map());
+      return tours.map((t) => ({ ...t, quote: quotes.get(t.externalId)?.text ?? null }));
+    }),
     loadStatsAndContinents(prisma),
     loadReviews(prisma, highlights, lang),
   ]);

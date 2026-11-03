@@ -1,9 +1,13 @@
-export function SectionHeading({ eyebrow, title, subtitle, dark = false }: { eyebrow?: string; title: string; subtitle?: string; dark?: boolean }) {
+/** Encabezado de sección del diseño tecnológico: etiqueta numerada + titular grande (+ acción opcional). */
+export function SectionHeading({ eyebrow, title, subtitle, action }: { eyebrow: string; title: string; subtitle?: string; action?: React.ReactNode }) {
   return (
-    <div className="mb-10 text-center">
-      {eyebrow && <p className={`mb-2 font-mono text-xs uppercase tracking-[0.3em] ${dark ? 'text-[#EAF54F]' : 'text-[#008DFF]'}`}>{eyebrow}</p>}
-      <h2 className={`text-3xl font-bold md:text-4xl ${dark ? 'text-white' : 'text-[#0A1330]'}`}>{title}</h2>
-      {subtitle && <p className={`mx-auto mt-3 max-w-2xl text-lg ${dark ? 'text-white/75' : 'text-gray-600'}`}>{subtitle}</p>}
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
+      <div className="max-w-3xl">
+        <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#008DFF]">{eyebrow}</p>
+        <h2 className="font-display text-4xl font-bold leading-[1.05] text-white md:text-5xl">{title}</h2>
+        {subtitle && <p className="mt-3 text-lg text-[#A9B6D6]">{subtitle}</p>}
+      </div>
+      {action}
     </div>
   );
 }

@@ -5,26 +5,27 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
-import { formatCount } from '@/home/lib/format';
-import { nameIn } from '@/home/lib/destinations';
+import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
-import type { HomeStats } from '@/home/load';
 
 /** Respaldo si ninguna ciudad del carrusel tiene tours: una foto sin enlace. */
 const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', href: '/tours', tours: 0, names: {} };
 
-export function HeroSearch({ stats, slides }: { stats: HomeStats; slides: HeroSlide[] }) {
+/** Hero: titular fijo, buscador, accesos a ciudades y la ciudad de la foto con sus tours reales. */
+export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quickCities: DestinationCard[] }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   const router = useRouter();
   const [q, setQ] = useState('');
   const [i, setI] = useState(0);
   const list = slides.length ? slides : [FALLBACK];
-  const current = list[i % list.length];
+  const n = i % list.length;
+  const current = list[n];
+  const city = nameIn(current.names, language);
 
   useEffect(() => {
     if (list.length < 2) return;
-    const id = setInterval(() => setI((n) => (n + 1) % list.length), 5000);
+    const id = setInterval(() => setI((x) => (x + 1) % list.length), 6000);
     return () => clearInterval(id);
   }, [list.length]);
 
@@ -35,64 +36,62 @@ export function HeroSearch({ stats, slides }: { stats: HomeStats; slides: HeroSl
   };
 
   return (
-    <section className="relative h-[560px] overflow-hidden bg-[#0A1330] md:h-[680px]">
-      {list.map((s, n) => (
+    <section className="relative flex min-h-[640px] items-end overflow-hidden md:min-h-[720px]">
+      {list.map((s, k) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={s.image}
           src={s.image}
           alt={nameIn(s.names, language) || 'Travel Puzzle'}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${n === i % list.length ? 'opacity-100' : 'opacity-0'}`}
-          fetchPriority={n === 0 ? 'high' : 'low'}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${k === n ? 'opacity-100' : 'opacity-0'}`}
+          fetchPriority={k === 0 ? 'high' : 'low'}
         />
       ))}
-      <div className="absolute inset-0 bg-[#0A1330]/45" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,19,48,0.25)_0%,rgba(10,19,48,0.6)_55%,#0A1330_100%)]" />
 
-      <div className="relative z-10 flex h-full items-center justify-center px-4">
-        <div className="w-full max-w-3xl text-center">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">Travel Puzzle México</p>
-          <h1 className="mb-4 text-4xl font-bold text-white drop-shadow-lg md:text-6xl">{c.heroTitle}</h1>
-          <p className="mb-8 text-lg text-white/90 drop-shadow md:text-2xl">
-            {stats.tours > 0 ? c.heroSub(formatCount(stats.tours, language), formatCount(stats.cities, language)) : c.heroSubEmpty}
-          </p>
-          <form onSubmit={submit} role="search" className="mx-auto flex max-w-2xl flex-col gap-2 rounded-2xl bg-white/95 p-2 shadow-2xl sm:flex-row">
+      <div className="relative mx-auto grid w-full max-w-[1280px] grid-cols-1 items-end gap-8 px-4 pb-14 pt-32 md:px-8 lg:grid-cols-12">
+        <div className="min-w-0 lg:col-span-8">
+          <p className="font-data mb-4 text-[11px] uppercase tracking-[0.3em] text-[#EAF54F] md:text-xs">{c.heroEyebrow}</p>
+          <h1 className="font-display mb-7 text-[42px] font-bold leading-[1.02] text-white md:text-7xl">{c.heroHeadline}</h1>
+          <form onSubmit={submit} role="search" className="flex max-w-2xl flex-col gap-2 rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur-xl sm:flex-row">
             <label htmlFor="home-search" className="sr-only">{c.searchPlaceholder}</label>
-            <input
-              id="home-search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder={c.searchPlaceholder}
-              className="min-w-0 flex-1 rounded-xl px-4 py-3 text-base text-[#0A1330] outline-none placeholder:text-gray-400"
-            />
-            <button type="submit" className="rounded-xl bg-[#C12909] px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90">
-              {c.searchCta} →
-            </button>
+            <div className="flex min-w-0 flex-1 items-center gap-3 rounded-xl bg-white px-4">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#304A9F" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+              <input id="home-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={c.searchPlaceholder} className="min-w-0 flex-1 bg-transparent py-4 text-base text-[#0A1330] outline-none placeholder:text-gray-500" />
+            </div>
+            <button type="submit" className="rounded-xl bg-[#C12909] px-7 py-4 font-semibold text-white transition-opacity hover:opacity-90">{c.searchCta} →</button>
           </form>
+          {quickCities.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {quickCities.map((d) => (
+                <Link key={d.cityId} href={`/tours?countryId=${d.countryId}&cityId=${d.cityId}`} className="rounded-full border border-white/25 px-3.5 py-2 text-sm text-[#DCE4F5] transition-colors hover:border-[#008DFF] hover:text-white">
+                  {nameIn(d.names, language)}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Ciudad de la foto actual → sus tours reales */}
-      {current.tours > 0 && (
-        <Link
-          href={current.href}
-          className="absolute bottom-14 left-1/2 z-10 -translate-x-1/2 rounded-full border border-white/30 bg-[#0A1330]/60 px-4 py-2 text-sm font-semibold text-white backdrop-blur hover:bg-[#0A1330]/80"
-        >
-          📍 {nameIn(current.names, language)} · {c.tours(formatCount(current.tours, language))} →
-        </Link>
-      )}
-      {list.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-          {list.map((s, n) => (
-            <button
-              key={s.image}
-              type="button"
-              aria-label={nameIn(s.names, language)}
-              onClick={() => setI(n)}
-              className={`h-2 rounded-full transition-all ${n === i % list.length ? 'w-8 bg-white' : 'w-2 bg-white/50'}`}
-            />
-          ))}
-        </div>
-      )}
+        {current.tours > 0 && (
+          <div className="flex flex-col gap-3 lg:col-span-4">
+            <div className="rounded-2xl border border-white/20 bg-[#0A1330]/55 px-5 py-4 backdrop-blur-xl">
+              <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{c.onScreen(n + 1, list.length)}</p>
+              <p className="font-display mt-2 text-2xl font-semibold text-white">{city}</p>
+              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(String(current.tours))}</p>
+              <Link href={current.href} className="text-sm font-semibold text-[#EAF54F] hover:text-white">{c.seeToursIn(city)}</Link>
+            </div>
+            {list.length > 1 && (
+              <div className="flex gap-1.5">
+                {list.map((s, k) => (
+                  <button key={s.image} type="button" onClick={() => setI(k)} aria-label={nameIn(s.names, language)} className="flex h-6 flex-1 items-center" style={{ flexGrow: k === n ? 2 : 1 }}>
+                    <span className={`block h-[3px] w-full rounded ${k === n ? 'bg-white' : 'bg-white/30'}`} />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </section>
   );
 }

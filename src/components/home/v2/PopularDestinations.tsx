@@ -7,36 +7,41 @@ import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import { formatCount } from '@/home/lib/format';
 import { SectionHeading } from './SectionHeading';
 
-export function PopularDestinations({ destinations }: { destinations: DestinationCard[] }) {
+/** Destinos en mosaico: el primero grande y cuatro más; todos con su número real de tours. */
+export function PopularDestinations({ destinations, totalCities }: { destinations: DestinationCard[]; totalCities: number }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
-  if (!destinations.length) return null;
+  const list = destinations.slice(0, 5);
+  if (!list.length) return null;
 
   return (
-    <section id="destinos" className="bg-white px-4 py-16">
-      <div className="container mx-auto max-w-6xl">
-        <SectionHeading eyebrow="01 — Destinos" title={c.destTitle} subtitle={c.destSub} />
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {destinations.map((d) => {
-            const city = nameIn(d.names, language);
-            return (
-              <Link
-                key={d.cityId}
-                href={`/tours?countryId=${d.countryId}&cityId=${d.cityId}`}
-                className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-[#0A1330] shadow-sm"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={d.image} alt={city} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1330]/85 via-[#0A1330]/10 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                  <p className="text-lg font-bold leading-tight">{city}</p>
-                  <p className="text-xs text-white/80">{nameIn(d.countryNames, language)}</p>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-[#EAF54F]">{c.tours(formatCount(d.tours, language))}</p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+    <section id="destinos" className="mx-auto max-w-[1280px] px-4 pt-20 md:px-8 md:pt-24">
+      <SectionHeading
+        eyebrow="01 — DESTINOS"
+        title={c.destHeadline}
+        action={totalCities > 0 ? <Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.destAll(formatCount(totalCities, language))}</Link> : undefined}
+      />
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:grid-rows-[260px_260px] md:gap-4">
+        {list.map((d, k) => {
+          const city = nameIn(d.names, language);
+          const big = k === 0;
+          return (
+            <Link
+              key={d.cityId}
+              href={`/tours?countryId=${d.countryId}&cityId=${d.cityId}`}
+              className={`group relative block overflow-hidden rounded-2xl bg-[#121D45] transition-transform duration-300 hover:-translate-y-1 ${big ? 'col-span-2 aspect-[4/3] md:row-span-2 md:aspect-auto' : 'aspect-square md:aspect-auto'}`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={d.image} alt={city} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_40%,rgba(10,19,48,0.9))]" />
+              <div className="absolute inset-x-4 bottom-4 md:inset-x-5">
+                {big && <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#EAF54F]">{nameIn(d.countryNames, language)}</p>}
+                <p className={`font-display font-bold text-white ${big ? 'text-3xl md:text-[40px]' : 'text-xl md:text-2xl'}`}>{city}</p>
+                <p className="font-data mt-1 text-[11px] uppercase tracking-widest text-[#DCE4F5]">{c.tours(formatCount(d.tours, language))}</p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

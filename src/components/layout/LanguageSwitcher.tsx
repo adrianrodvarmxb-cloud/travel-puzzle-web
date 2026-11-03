@@ -23,12 +23,13 @@ export function LanguageSwitcher() {
       dropdownClassName="w-48 py-2"
       buttonContent={
         <>
-          <span className="text-xl">{currentLanguage.flag}</span>
+          {/* Globo en vez de bandera: en Windows las banderas emoji salen como letras ("ES ES") */}
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
           <span className="font-medium text-sm">{currentLanguage.label}</span>
         </>
       }
     >
-      {languages.map(({ code, label, flag, name }) => (
+      {languages.map(({ code, label, name }) => (
         <Button
           key={code}
           variant="ghost"
@@ -38,7 +39,6 @@ export function LanguageSwitcher() {
             language === code ? 'bg-muted font-semibold' : ''
           }`}
         >
-          <span className="text-xl">{flag}</span>
           <div className="flex flex-col items-start">
             <span className="text-sm">{name}</span>
             <span className="text-xs text-muted-foreground">{label}</span>
