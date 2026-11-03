@@ -52,7 +52,7 @@ const es = {
   featEyebrow: "02 — FAVORITOS DE LOS VIAJEROS",
   featHeadline: "Los más elegidos.",
   howEyebrow: "03 — CÓMO FUNCIONA",
-  howHeadline: "Tu viaje, pieza por pieza.",
+  howHeadline: "Tres piezas, un gran viaje.",
   howSteps: (bookings: boolean) => [
     ["Elige", "Recorridos con guías que viven la ciudad, con la opinión de quienes ya los hicieron."],
     bookings
@@ -128,7 +128,7 @@ const en: Copy = {
   featEyebrow: "02 — TRAVELER FAVORITES",
   featHeadline: "Travelers' top picks.",
   howEyebrow: "03 — HOW IT WORKS",
-  howHeadline: "Your trip, piece by piece.",
+  howHeadline: "Three pieces, one great trip.",
   howSteps: (bookings) => [
     ["Choose", "Tours with guides who live the city, with reviews from people who already took them."],
     bookings
