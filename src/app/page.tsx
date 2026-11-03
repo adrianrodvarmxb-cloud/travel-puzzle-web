@@ -1,38 +1,44 @@
-import { Navbar, Footer } from "@/components/layout";
+import { Navbar } from "@/components/layout";
+import { RecentReviews } from "@/components/home";
 import {
-  SearchBooking,
-  WhyChooseTravelPuzzle,
-  RecentReviews,
-  TopDestinations,
-  RewardsBanner
-} from "@/components/home";
-import { QuickSignUp } from "@/components/auth";
-import { ACCOUNTS_ENABLED } from "@/lib/features";
+  HeroSearch,
+  PopularDestinations,
+  FeaturedTours,
+  WhyTravelPuzzle,
+  ContinentExplorer,
+  ExpertCta,
+  SiteFooter,
+  WhatsAppBubble,
+} from "@/components/home/v2";
 import { loadHomeReviews } from "@/reviews/load";
+import { loadHomeData } from "@/home/load";
+import { contactFromEnv } from "@/booking/tour-summary";
 import { getPreferredLanguage } from "@/lib/utils/cookies";
 
-// Lee reseñas reales de la base en cada visita.
+// Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const reviews = await loadHomeReviews(await getPreferredLanguage());
+  const env = process.env as Record<string, string | undefined>;
+  const [reviews, data] = await Promise.all([
+    loadHomeReviews(await getPreferredLanguage()),
+    loadHomeData({ includePaid: env.PAID_TOURS_ENABLED === "true" }),
+  ]);
+  const contact = contactFromEnv(env);
+  const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navbar Component */}
       <Navbar />
-
-      {/* Quick Sign-Up Component */}
-      {ACCOUNTS_ENABLED && <QuickSignUp />}
-
-      {/* Home Page Sections */}
-      <SearchBooking />
-      <WhyChooseTravelPuzzle />
-      {ACCOUNTS_ENABLED && <RewardsBanner />}
-      <TopDestinations />
+      <HeroSearch stats={data.stats} />
+      <PopularDestinations destinations={data.destinations} />
+      <FeaturedTours tours={data.featured} />
+      <WhyTravelPuzzle stats={data.stats} />
+      <ContinentExplorer continents={data.continents} />
+      <ExpertCta whatsapp={contact.whatsapp} />
       <RecentReviews reviews={reviews} />
-      {/* Footer */}
-      <Footer />
+      <SiteFooter contact={footer} />
+      <WhatsAppBubble whatsapp={contact.whatsapp} />
     </div>
   );
 }

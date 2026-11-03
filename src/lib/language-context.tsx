@@ -21,11 +21,20 @@ interface LanguageProviderProps {
   onReady?: () => void;
 }
 
+/** El servidor lee el idioma de esta cookie (reseñas y catálogo en el idioma elegido). */
+function writeLanguageCookie(lang: SupportedLanguage) {
+  try {
+    document.cookie = `preferredLanguage=${lang}; path=/; max-age=31536000; samesite=lax`;
+  } catch {
+    /* sin cookies: el servidor usa español */
+  }
+}
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children, onReady }: LanguageProviderProps) {
-  // Always start with 'en' to match server-side rendering
-  const [language, setLanguageState] = useState<SupportedLanguage>('en');
+  // Español por defecto (igual que el servidor); se cambia solo si el visitante eligió otro idioma.
+  const [language, setLanguageState] = useState<SupportedLanguage>('es');
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Translation function with overloads
@@ -47,6 +56,7 @@ export function LanguageProvider({ children, onReady }: LanguageProviderProps) {
     if (savedLanguage && translations[savedLanguage]) {
       // eslint-disable-next-line
       setLanguageState(savedLanguage);
+      writeLanguageCookie(savedLanguage);
       // Small delay to ensure content is ready
       setTimeout(() => {
         setIsInitialized(true);
@@ -55,12 +65,6 @@ export function LanguageProvider({ children, onReady }: LanguageProviderProps) {
       return;
     }
 
-    // Detect browser language
-    const browserLang = navigator.language.split('-')[0] as SupportedLanguage;
-    if (translations[browserLang]) {
-      setLanguageState(browserLang);
-      localStorage.setItem('preferredLanguage', browserLang);
-    }
 
     // Mark as initialized after language detection
     setTimeout(() => {
@@ -74,6 +78,7 @@ export function LanguageProvider({ children, onReady }: LanguageProviderProps) {
     setLanguageState(lang);
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferredLanguage', lang);
+      writeLanguageCookie(lang);
     }
   };
 

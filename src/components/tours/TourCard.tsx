@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Tour } from '@/types';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { formatRating } from '@/home/lib/format';
 
 interface TourCardProps {
   tour: Tour;
@@ -52,7 +53,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
               </p>
               {tour.rating && (
                 <p className="text-xs text-muted-foreground">
-                  ⭐ {tour.rating} ({tour.reviewsNumber})
+                  ⭐ {formatRating(tour.rating)} ({tour.reviewsNumber})
                 </p>
               )}
             </div>
