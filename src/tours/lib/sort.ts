@@ -1,5 +1,5 @@
 /** Orden de la lista de tours (?sort=…). Por defecto: los que tienen más reseñas. */
-export const SORT_OPTIONS = ["reviews", "rating", "price"] as const;
+export const SORT_OPTIONS = ["reviews", "rating", "price", "duration"] as const;
 export type TourSort = (typeof SORT_OPTIONS)[number];
 
 export function parseSort(value: string | null | undefined): TourSort {
@@ -10,5 +10,6 @@ export function parseSort(value: string | null | undefined): TourSort {
 export function sortToPagination(sort: TourSort): { sortBy: string; sortOrder: "asc" | "desc" } {
   if (sort === "rating") return { sortBy: "rating", sortOrder: "desc" };
   if (sort === "price") return { sortBy: "price", sortOrder: "asc" };
+  if (sort === "duration") return { sortBy: "duration", sortOrder: "asc" };
   return { sortBy: "reviewsNumber", sortOrder: "desc" };
 }

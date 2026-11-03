@@ -2,7 +2,7 @@ import { upsertRows, sqlValue, type Stmt } from "@/lib/d1/batch";
 import type { TourRow, TranslationRow } from "./tour-rows";
 
 const TOUR_FIELDS = [
-  "externalId", "providerTitle", "providerPhone", "priceValue", "priceCurrency", "duration", "titleImageURL",
+  "externalId", "providerTitle", "providerPhone", "priceValue", "priceCurrency", "duration", "durationMinutes", "titleImageURL",
   "categoryId", "rating", "reviewsNumber", "cityId", "countryId", "meetingPoint", "includes", "POIs", "images",
   "videoURL", "isActive", "lastSeenAt",
 ] as const;

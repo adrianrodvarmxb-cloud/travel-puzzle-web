@@ -32,7 +32,7 @@ describe("toTourRows", () => {
   const rows = toTourRows(apiTour as never, seenAt);
 
   it("arma el tour con precio, ciudad, país y marca de visto hoy", () => {
-    expect(rows.tour).toMatchObject({ externalId: 6782, priceValue: 0, priceCurrency: "EUR", cityId: 4755, countryId: 220, duration: "2:00", isActive: true, lastSeenAt: seenAt });
+    expect(rows.tour).toMatchObject({ externalId: 6782, priceValue: 0, priceCurrency: "EUR", cityId: 4755, countryId: 220, duration: "2:00", durationMinutes: 120, isActive: true, lastSeenAt: seenAt });
     expect(rows.tour.images).toEqual([]);
   });
 

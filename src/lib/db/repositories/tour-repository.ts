@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { paginatedQuery, PaginationParams, PaginatedResponse } from '../pagination';
 import { Prisma } from '@prisma/client';
+import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 
 export type TourWithRelations = Prisma.TourGetPayload<{
   include: {
@@ -17,6 +18,8 @@ export interface TourFilters {
   minPrice?: number;
   maxPrice?: number;
   categoryId?: number;
+  /** Rango de duración (?duracion=). */
+  durationRange?: DurationRange | null;
 }
 
 export async function getToursWithFilters(
@@ -34,6 +37,7 @@ export async function getToursWithFilters(
     ...(filters.categoryId && { categoryId: filters.categoryId }),
     ...(filters.minPrice && { priceValue: { gte: filters.minPrice } }),
     ...(filters.maxPrice && { priceValue: { lte: filters.maxPrice } }),
+    ...(filters.durationRange && { durationMinutes: durationRangeWhere(filters.durationRange) }),
   };
 
   // Add search if provided
@@ -70,6 +74,8 @@ export async function getToursWithFilters(
   const orderByMapping = {
     price: (order: 'asc' | 'desc') => ({ priceValue: order }),
     rating: (order: 'asc' | 'desc') => ({ rating: order }),
+    // Los tours sin duración conocida van al final.
+    duration: (order: 'asc' | 'desc') => ({ durationMinutes: { sort: order, nulls: 'last' as const } }),
     reviewsNumber: (order: 'asc' | 'desc') => ({ reviewsNumber: order }),
     createdAt: (order: 'asc' | 'desc') => ({ createdAt: order }),
     updatedAt: (order: 'asc' | 'desc') => ({ updatedAt: order }),

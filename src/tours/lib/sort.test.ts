@@ -11,7 +11,10 @@ describe("ordenar tours", () => {
     expect(sortToPagination(parseSort("rating"))).toEqual({ sortBy: "rating", sortOrder: "desc" });
     expect(sortToPagination(parseSort("price"))).toEqual({ sortBy: "price", sortOrder: "asc" });
   });
+  it("más cortos primero", () => {
+    expect(sortToPagination(parseSort("duration"))).toEqual({ sortBy: "duration", sortOrder: "asc" });
+  });
   it("las opciones del selector", () => {
-    expect(SORT_OPTIONS).toEqual(["reviews", "rating", "price"]);
+    expect(SORT_OPTIONS).toEqual(["reviews", "rating", "price", "duration"]);
   });
 });

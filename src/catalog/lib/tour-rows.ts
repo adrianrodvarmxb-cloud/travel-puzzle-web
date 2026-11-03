@@ -1,4 +1,5 @@
 import type { TourAPI } from "@/types";
+import { durationMinutes } from "@/tours/lib/duration";
 
 export const LANGUAGES = ["en", "es", "pt", "de", "fr", "it"] as const;
 type Lang = (typeof LANGUAGES)[number];
@@ -10,6 +11,7 @@ export interface TourRow {
   priceValue: number;
   priceCurrency: string;
   duration: string;
+  durationMinutes: number | null;
   titleImageURL: string | null;
   categoryId: number;
   rating: number | null;
@@ -42,6 +44,7 @@ export function toTourRows(api: TourAPI, seenAt: Date): { tour: TourRow; transla
     priceValue: api.price.value,
     priceCurrency: api.price.currency,
     duration: api.length,
+    durationMinutes: durationMinutes(api.length),
     titleImageURL: api.titleImageURL ?? null,
     categoryId: api.categoryId,
     rating: api.rating ?? null,
