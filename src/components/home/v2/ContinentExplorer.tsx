@@ -8,6 +8,7 @@ import { formatCount } from '@/home/lib/format';
 import type { HomeData } from '@/home/load';
 import { SectionHeading } from './SectionHeading';
 import { ImageRotator } from './ImageRotator';
+import { MobileRail } from './MobileRail';
 
 export function ContinentExplorer({ continents }: { continents: HomeData['continents'] }) {
   const { language } = useLanguage();
@@ -17,7 +18,7 @@ export function ContinentExplorer({ continents }: { continents: HomeData['contin
   return (
     <section id="continentes" className="mx-auto max-w-[1280px] px-4 pt-24 md:px-8 md:pt-28">
       <SectionHeading eyebrow={c.contEyebrow} title={c.contTitle} subtitle={c.contSub} />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <MobileRail gridClass="sm:grid-cols-2 lg:grid-cols-3">
         {continents.map((k) => (
           <div key={k.continent} className="overflow-hidden rounded-2xl border border-white/10 bg-[#121D45]">
             {k.images.length > 0 && <ImageRotator images={k.images} alt={c.continents[k.continent]} className="aspect-[16/9]" />}
@@ -37,7 +38,7 @@ export function ContinentExplorer({ continents }: { continents: HomeData['contin
             </div>
           </div>
         ))}
-      </div>
+      </MobileRail>
     </section>
   );
 }
