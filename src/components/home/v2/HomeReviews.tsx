@@ -6,6 +6,7 @@ import { homeCopy } from '@/home/lib/copy';
 import { nameIn } from '@/home/lib/destinations';
 import { formatRating } from '@/home/lib/format';
 import type { HomeReview } from '@/home/load';
+import { MobileRail } from './MobileRail';
 
 const LOCALES: Record<string, string> = { en: 'en-US', es: 'es-MX', pt: 'pt-BR', de: 'de-DE', fr: 'fr-FR', it: 'it-IT' };
 
@@ -32,7 +33,7 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
             </>
           )}
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-8">
+        <MobileRail gridClass="sm:grid-cols-2 lg:col-span-8">
           {reviews.map((r) => {
             const date = new Date(r.addedAt).toLocaleDateString(LOCALES[language] ?? 'en-US', { year: 'numeric', month: 'long' });
             const body = (
@@ -54,7 +55,7 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
           })}
           {/* La fuente ya la dice el subtítulo (punto 4, 3 nov 2026) */}
           {SHOW_SOURCE_LINE && <p className="text-xs text-[#7C8DBA] sm:col-span-2">{t('reviews.source')}</p>}
-        </div>
+        </MobileRail>
       </div>
     </section>
   );

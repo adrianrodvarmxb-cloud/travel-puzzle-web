@@ -1,6 +1,8 @@
 'use client';
 
 import { formatRating } from '@/home/lib/format';
+import { waLink } from '@/home/lib/copy';
+import { advisorText, bookingCopy, type BookingMode } from '@/tours/lib/booking-cta';
 
 /** El cliente contacta siempre a Travel Puzzle, nunca directo al guía (términos de Freetour, sección 2.2). */
 const SHOW_PROVIDER_PHONE = false;
@@ -17,10 +19,18 @@ interface TourSidebarProps {
     tour: Tour;
     events?: TourEvent[];
     isLoadingEvents?: boolean;
+    /** advisor: se aparta por WhatsApp (reservas apagadas); calendar: reserva en línea. */
+    mode?: BookingMode;
+    whatsapp?: string;
 }
 
-export function TourSidebar({ tour, events = [], isLoadingEvents = false }: TourSidebarProps) {
-    const { t } = useLanguage();
+/** Duración, destino y proveedor ya se muestran arriba del tour; aquí se repetían (auditoría de diseño, nov 2026). */
+const SHOW_DETAILS = false;
+
+export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp }: TourSidebarProps) {
+    const { t, language } = useLanguage();
+    const copy = bookingCopy(language);
+    const wa = waLink(whatsapp, advisorText(tour.title, language));
 
     const handleBooking = () => {
         if (tour.bookingURL) {
@@ -53,8 +63,21 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                     )}
                 </div>
 
+                {/* Apartar con un asesor mientras las reservas en línea están apagadas */}
+                {mode === 'advisor' && (
+                    <div className="mb-6 border-t pt-6">
+                        <p className="font-display text-xl font-bold">{copy.advisorTitle}</p>
+                        <p className="mt-1 text-sm text-muted-foreground">{copy.advisorSub}</p>
+                        {wa && (
+                            <a href={wa} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-[#C12909] px-5 py-3 font-semibold text-white transition-colors hover:bg-[#A32207]">
+                                {copy.advisorCta} →
+                            </a>
+                        )}
+                    </div>
+                )}
+
                 {/* Booking Button */}
-                {events.length > 0 && <Button
+                {mode === 'calendar' && events.length > 0 && <Button
                     variant="accent"
                     size="lg"
                     className="w-full mb-6"
@@ -64,8 +87,8 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                 </Button>}
 
                 {/* Availability Calendar */}
-                {tour.externalId && (
-                    <div className="mb-6 border-t pt-6">
+                {mode === 'calendar' && tour.externalId && (
+                    <div id="disponibilidad" className="mb-6 scroll-mt-24 border-t pt-6">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="text-lg">
@@ -88,7 +111,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                 )}
 
                 {/* Tour Details */}
-                <div className="space-y-4 border-t pt-6">
+                {SHOW_DETAILS && <div className="space-y-4 border-t pt-6">
                     <div className="flex items-start gap-3">
                         <ClockIcon className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
                         <div>
@@ -122,7 +145,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                             </div>
                         </div>
                     )}
-                </div>
+                </div>}
             </CardContent>
         </Card>
     );

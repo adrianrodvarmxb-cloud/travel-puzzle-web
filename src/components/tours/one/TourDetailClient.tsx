@@ -19,6 +19,8 @@ import { TourDescription } from './TourDescription';
 import { TourIncludes } from './TourIncludes';
 import { TourMeetingPoint } from './TourMeetingPoint';
 import { TourSidebar } from './TourSidebar';
+import { TourMobileBar } from './TourMobileBar';
+import { bookingMode } from '@/tours/lib/booking-cta';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
 
 interface TourDetailClientProps {
@@ -28,6 +30,10 @@ interface TourDetailClientProps {
     initialLanguage: SupportedLanguage;
     reviews?: ReviewView[];
     reviewsTotal?: number;
+    /** Interruptor BOOKINGS_ENABLED (lo decide el servidor). */
+    bookingsEnabled?: boolean;
+    /** WhatsApp de Travel Puzzle para apartar con un asesor. */
+    whatsapp?: string;
 }
 
 export function TourDetailClient({
@@ -37,6 +43,8 @@ export function TourDetailClient({
     initialLanguage,
     reviews = [],
     reviewsTotal = 0,
+    bookingsEnabled = false,
+    whatsapp,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -98,7 +106,8 @@ export function TourDetailClient({
             <Navbar />
 
             <div className="tp-dark">
-            <div className="container mx-auto px-4 py-8">
+            {/* .container del sitio no trae padding: el margen lateral va explícito */}
+            <div className="mx-auto w-full max-w-7xl px-4 pb-28 pt-8 lg:pb-8">
                 {/* Back Button */}
                 <Button
                     variant="outline"
@@ -136,10 +145,13 @@ export function TourDetailClient({
                             tour={tour}
                             events={eventsFTData || []}
                             isLoadingEvents={isLoadingEvents}
+                            mode={bookingMode(bookingsEnabled)}
+                            whatsapp={whatsapp}
                         />
                     </div>
                 </div>
             </div>
+            <TourMobileBar tour={tour} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} />
             </div>
         </div>
     );

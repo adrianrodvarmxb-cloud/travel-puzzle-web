@@ -9,7 +9,7 @@ import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
 
 /** Respaldo si ninguna ciudad del carrusel tiene tours: una foto sin enlace. */
-const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', href: '/tours', tours: 0, names: {} };
+const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', focus: '66% 50%', href: '/tours', tours: 0, names: {} };
 
 /** Hero: titular fijo, buscador, accesos a ciudades y la ciudad de la foto con sus tours reales. */
 /** Línea amarilla sobre el titular: el logo ya trae el lema (decisión del PO, 3 nov 2026). */
@@ -47,6 +47,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
           src={s.image}
           alt={nameIn(s.names, language) || 'Travel Puzzle'}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${k === n ? 'opacity-100' : 'opacity-0'}`}
+          style={{ objectPosition: s.focus }}
           fetchPriority={k === 0 ? 'high' : 'low'}
         />
       ))}
@@ -65,9 +66,9 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
             <button type="submit" className="rounded-xl bg-[#C12909] px-7 py-4 font-semibold text-white transition-opacity hover:opacity-90">{c.searchCta} →</button>
           </form>
           {quickCities.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
               {quickCities.map((d) => (
-                <Link key={d.cityId} href={`/tours?countryId=${d.countryId}&cityId=${d.cityId}`} className="rounded-full border border-white/25 px-3.5 py-2 text-sm text-[#DCE4F5] transition-colors hover:border-[#008DFF] hover:text-white">
+                <Link key={d.cityId} href={`/tours?countryId=${d.countryId}&cityId=${d.cityId}`} className="shrink-0 whitespace-nowrap rounded-full border border-white/25 px-3.5 py-2 text-sm text-[#DCE4F5] transition-colors hover:border-[#008DFF] hover:text-white">
                   {nameIn(d.names, language)}
                 </Link>
               ))}

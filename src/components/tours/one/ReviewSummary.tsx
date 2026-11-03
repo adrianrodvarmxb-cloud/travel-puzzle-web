@@ -5,7 +5,7 @@ import { formatRating } from '@/home/lib/format';
 import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
 
 /** Resumen junto al título: ★ 4.8 · 12,703 reseñas (lleva a la sección de reseñas) y la etiqueta si aplica. */
-export function ReviewSummary({ rating, reviews, dark = false }: { rating: number | null; reviews: number; dark?: boolean }) {
+export function ReviewSummary({ rating, reviews, dark = false, withBadge = true }: { rating: number | null; reviews: number; dark?: boolean; withBadge?: boolean }) {
   const { t } = useLanguage();
   const value = formatRating(rating);
   if (!value || reviews <= 0) return null;
@@ -17,7 +17,7 @@ export function ReviewSummary({ rating, reviews, dark = false }: { rating: numbe
         <span>{value}</span>
         <span className="font-normal opacity-80">· {t('reviews.count', '{count} reviews').replace('{count}', reviews.toLocaleString())}</span>
       </a>
-      <TravelerFavoriteBadge rating={rating} reviews={reviews} />
+      {withBadge && <TravelerFavoriteBadge rating={rating} reviews={reviews} />}
     </div>
   );
 }

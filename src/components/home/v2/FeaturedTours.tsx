@@ -8,6 +8,7 @@ import { formatCount, formatRating } from '@/home/lib/format';
 import type { HomeTour } from '@/home/load';
 import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
 import { SectionHeading } from './SectionHeading';
+import { MobileRail } from './MobileRail';
 
 /** Favoritos de los viajeros (regla 60/40 cuando hay tours de pago), con frase de reseña real. */
 export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
@@ -18,7 +19,7 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
   return (
     <section className="mx-auto max-w-[1280px] px-4 pt-24 md:px-8 md:pt-28">
       <SectionHeading eyebrow={c.featEyebrow} title={c.featHeadline} action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>} />
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <MobileRail gridClass="sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {tours.map((t) => {
           const title = nameIn(t.titles, language);
           const rating = formatRating(t.rating);
@@ -47,7 +48,7 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
             </Link>
           );
         })}
-      </div>
+      </MobileRail>
     </section>
   );
 }

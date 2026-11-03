@@ -62,7 +62,7 @@ export function TourHeroSection({ tour }: TourHeroSectionProps) {
                 )}
             </div>
             <h1 className="font-display mb-4 mt-3 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{tour.title}</h1>
-            <ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark />
+            <ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark withBadge={false} />
             {tour.brief && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{tour.brief}</p>}
 
             <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
