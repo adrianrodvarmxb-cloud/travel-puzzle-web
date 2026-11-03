@@ -33,10 +33,10 @@ function usable(reviews: TourReview[], lang: string): TourReview[] {
   return [...ok.filter((r) => languageCode(r.language) === lang), ...ok.filter((r) => languageCode(r.language) !== lang)];
 }
 
-/** Una frase destacada por tour (tourExternalId → frase). */
+/** Una frase destacada por tour (tourExternalId → frase), solo en el idioma del visitante. */
 export function pickHighlights(reviews: TourReview[], lang: string): Map<number, { text: string; reviewerName: string }> {
   const out = new Map<number, { text: string; reviewerName: string }>();
-  for (const r of usable(reviews, lang)) {
+  for (const r of usable(reviews, lang).filter((x) => languageCode(x.language) === lang)) {
     if (!out.has(r.tourExternalId)) out.set(r.tourExternalId, { text: snippet(r.content ?? ""), reviewerName: r.reviewerName });
   }
   return out;

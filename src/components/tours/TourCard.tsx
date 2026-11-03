@@ -2,75 +2,57 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Tour } from '@/types';
-import { Card, CardContent } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { useLanguage } from '@/lib/language-context';
 import { formatRating } from '@/home/lib/format';
 import { TravelerFavoriteBadge } from './TravelerFavoriteBadge';
 
 interface TourCardProps {
   tour: Tour;
-  /** Frase de una reseña real de 5 ★ (opcional). */
+  /** Frase de una reseña real de 5 ★ en el idioma del visitante (opcional). */
   highlight?: string | null;
 }
 
+/** Tarjeta de tour con el diseño tecnológico (fondo azul marino). */
 export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
   const { t } = useLanguage();
-  // Get the first valid image URL
-  const imageUrl = tour.images.find(img => img && img.trim() !== '');
+  const imageUrl = tour.images.find((img) => img && img.trim() !== '');
   const rating = formatRating(tour.rating);
-  
+  const free = t('tours.free', 'Free');
+
   return (
-    <Link href={`/tours/${tour.id}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
-        <div className="relative h-48 w-full bg-linear-to-br from-tp-blue-primary to-tp-blue-dark">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={tour.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover rounded-t-lg"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full text-white text-center p-4">
-              <span className="text-2xl font-bold opacity-50">🌍</span>
-            </div>
-          )}
-          <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute top-2 left-2" />
-          {tour.price === 0 && (
-            <div className="absolute top-2 right-2">
-              <Badge variant="success">{t('tours.free', 'Free')}</Badge>
-            </div>
-          )}
+    <Link href={`/tours/${tour.id}`} className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#121D45] text-white transition-transform duration-300 hover:-translate-y-1 hover:border-[#008DFF]/60">
+      <div className="relative aspect-[16/10] bg-[#1B2A5E]">
+        {imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={imageUrl} alt={tour.title} loading="lazy" className="h-full w-full object-cover" />
+        ) : (
+          <span className="flex h-full items-center justify-center text-4xl opacity-50" aria-hidden>🌍</span>
+        )}
+        <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute left-3 top-3" />
+        {tour.price === 0 && (
+          <span className="font-data absolute right-3 top-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{free}</span>
+        )}
+      </div>
+      <div className="flex flex-1 flex-col gap-2.5 p-5">
+        <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{tour.destination} · {tour.duration}</p>
+        <h3 className="font-display line-clamp-2 text-lg font-semibold leading-snug">{tour.title}</h3>
+        {highlight ? (
+          <p className="line-clamp-2 text-sm italic leading-relaxed text-[#C9D6F5]">“{highlight}”</p>
+        ) : (
+          tour.brief && <p className="line-clamp-2 text-sm leading-relaxed text-[#A9B6D6]">{tour.brief}</p>
+        )}
+        <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-3.5 text-sm">
+          <span>
+            {rating ? (
+              <><span className="text-[#F5B301]">★</span> <b>{rating}</b> <span className="text-[#A9B6D6]">· {tour.reviewsNumber.toLocaleString()}</span></>
+            ) : (
+              <span className="text-[#7C8DBA]">—</span>
+            )}
+          </span>
+          <span className="font-semibold text-[#EAF54F]">{tour.price > 0 ? `${tour.currency} ${tour.price}` : free}</span>
         </div>
-        <CardContent className="p-4">
-          <h3 className="font-bold text-lg mb-2 line-clamp-2">{tour.title}</h3>
-          {highlight ? (
-            <p className="text-sm italic text-[#304A9F] mb-3 line-clamp-2">“{highlight}”</p>
-          ) : (
-            <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{tour.brief}</p>
-          )}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground">{tour.destination}</p>
-              <p className="text-xs text-muted-foreground">{tour.duration}</p>
-            </div>
-            <div className="text-right">
-              <p className="font-bold text-lg">
-                {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free', 'Free')}
-              </p>
-              {rating && (
-                <p className="text-xs text-muted-foreground">
-                  ⭐ {rating} ({tour.reviewsNumber.toLocaleString()})
-                </p>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      </div>
     </Link>
   );
 };
