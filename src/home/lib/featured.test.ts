@@ -35,6 +35,15 @@ describe("carrusel principal", () => {
     ]);
     expect(slides.map((s) => s.image)).toEqual(["/home/hero/machu-picchu.webp", "/home/hero/tokio.webp"]);
   });
+  it("cada foto lleva su punto de enfoque para que luzca en celular", () => {
+    const slides = pickHeroSlides([
+      { cityId: 1, countryId: 2, tours: 3, names: { en: "Singapore" } },
+      { cityId: 3, countryId: 4, tours: 9, names: { en: "Tokyo" } },
+    ]);
+    expect(slides[0].focus).toBe("74% 50%");
+    expect(slides[1].focus).toBe("50% 50%");
+    for (const c of HERO_CITIES) expect(c.focus ?? "50% 50%").toMatch(/^\d{1,3}% \d{1,3}%$/);
+  });
   it("tiene las 6 fotos rescatadas", () => {
     expect(HERO_CITIES).toHaveLength(6);
   });
