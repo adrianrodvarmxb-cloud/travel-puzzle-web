@@ -8,6 +8,7 @@ import { BookingPass, SupportCard } from '@/components/booking/email-ui';
 import { EventBookingForm } from './EventBookingForm';
 import { EventBookingConfirm } from './EventBookingConfirm';
 import { BookingFormProvider, useBookingForm } from './Contexts';
+import { paidPolicy } from '@/tours/lib/paid-policy';
 
 interface EventDetailData {
     id: number;
@@ -28,6 +29,7 @@ interface EventBookingFormClientProps {
     time: string;
     bookingsEnabled: boolean;
     wa: string | null;
+    paidEnabled?: boolean;
 }
 
 /** Dos pasos: 01 Personas + 02 Tus datos → 03 Confirmar. La lógica vive en BookingFormProvider. */
@@ -39,13 +41,18 @@ export function EventBookingFormClient(props: EventBookingFormClientProps) {
     );
 }
 
-function Steps({ language, languageDisplayName, languageFlag, date, time, eventId, wa }: EventBookingFormClientProps) {
+function Steps({ language, languageDisplayName, languageFlag, date, time, eventId, wa, paidEnabled = false }: EventBookingFormClientProps) {
     const { data: eventDetailFTData, isLoading, error } = useEventDetailFTData(eventId);
     const { language: uiLanguage } = useLanguage();
     const { form } = useBookingForm();
     const [step, setStep] = useState<1 | 2>(1);
     const eventDetailData: EventDetailData | undefined = eventDetailFTData?.data;
     const people = form.adults + form.children;
+    const full = eventDetailData?.fullPricePerGroup?.[String(form.adults)];
+    const now = eventDetailData?.payableNowPricePerGroup?.[String(form.adults)];
+    const policy = paidEnabled && full !== undefined && full > 0
+        ? paidPolicy({ fullPrice: full, payNow: now ?? full, isPartiallyPaid: !!eventDetailData?.isPartiallyPaid, currency: 'EUR' }, uiLanguage)
+        : null;
 
     return (
         <>
@@ -65,7 +72,7 @@ function Steps({ language, languageDisplayName, languageFlag, date, time, eventI
                     onNext={() => setStep(2)}
                 />
             ) : (
-                <EventBookingConfirm onBack={() => setStep(1)} />
+                <EventBookingConfirm onBack={() => setStep(1)} policy={policy} />
             )}
             {wa && <SupportCard n={step === 1 ? 3 : 4} wa={wa} text="¿Dudas antes de reservar? Escríbenos por WhatsApp y te ayudamos." />}
         </>

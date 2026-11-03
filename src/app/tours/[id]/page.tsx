@@ -77,6 +77,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 reviews={reviews}
                 reviewsTotal={total}
                 bookingsEnabled={env.BOOKINGS_ENABLED === 'true'}
+                paidEnabled={env.PAID_TOURS_ENABLED === 'true'}
                 whatsapp={contactFromEnv(env).whatsapp}
             />
         );

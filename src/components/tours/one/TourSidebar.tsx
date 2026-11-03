@@ -2,6 +2,8 @@
 
 import { FreeTourGuide } from './FreeTourGuide';
 import type { TipGuide } from '@/tours/lib/tip-guide';
+import type { PaidPolicy } from '@/tours/lib/paid-policy';
+import { PaidPolicyNotice } from '../PaidPolicyNotice';
 import { formatRating } from '@/home/lib/format';
 import { waLink } from '@/home/lib/copy';
 import { advisorText, bookingCopy, type BookingMode } from '@/tours/lib/booking-cta';
@@ -26,12 +28,14 @@ interface TourSidebarProps {
     whatsapp?: string;
     /** Cómo funciona el free tour en este destino (solo tours sin costo). */
     tipGuide?: TipGuide | null;
+    /** Pago y no presentarse (tours con costo, con PAID_TOURS_ENABLED). */
+    paidPolicy?: PaidPolicy | null;
 }
 
 /** Duración, destino y proveedor ya se muestran arriba del tour; aquí se repetían (auditoría de diseño, nov 2026). */
 const SHOW_DETAILS = false;
 
-export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide }: TourSidebarProps) {
+export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy }: TourSidebarProps) {
     const { t, language } = useLanguage();
     const copy = bookingCopy(language);
     const wa = waLink(whatsapp, advisorText(tour.title, language));
@@ -53,6 +57,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                             {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free')}
                         </span>
                     </div>
+                    {tour.price > 0 && paidPolicy && <PaidPolicyNotice policy={paidPolicy} className="mt-3" />}
                     {tour.price === 0 && (tipGuide ? <FreeTourGuide guide={tipGuide} /> : (
                         <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the tour, tip the guide what you think is fair.')}</p>
                     ))}

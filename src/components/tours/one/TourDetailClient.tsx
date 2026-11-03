@@ -22,6 +22,7 @@ import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
 import { bookingMode } from '@/tours/lib/booking-cta';
 import { tipGuide } from '@/tours/lib/tip-guide';
+import { paidPolicy } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
 
 interface TourDetailClientProps {
@@ -33,6 +34,8 @@ interface TourDetailClientProps {
     reviewsTotal?: number;
     /** Interruptor BOOKINGS_ENABLED (lo decide el servidor). */
     bookingsEnabled?: boolean;
+    /** PAID_TOURS_ENABLED: política de pago y no presentarse en tours con costo. */
+    paidEnabled?: boolean;
     /** WhatsApp de Travel Puzzle para apartar con un asesor. */
     whatsapp?: string;
 }
@@ -45,6 +48,7 @@ export function TourDetailClient({
     reviews = [],
     reviewsTotal = 0,
     bookingsEnabled = false,
+    paidEnabled = false,
     whatsapp,
 }: TourDetailClientProps) {
     const router = useRouter();
@@ -148,6 +152,7 @@ export function TourDetailClient({
                             isLoadingEvents={isLoadingEvents}
                             mode={bookingMode(bookingsEnabled)}
                             whatsapp={whatsapp}
+                            paidPolicy={paidEnabled ? paidPolicy(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                         />
                     </div>
