@@ -9,8 +9,8 @@ import { nameIn } from '@/home/lib/destinations';
 import type { MapCity, CityCard as CityCardData } from '@/map/load';
 import { CityCard } from './CityCard';
 
-/** Fondo del mapa: OpenFreeMap (gratis, sin llaves). */
-export const MAP_STYLE = 'https://tiles.openfreemap.org/styles/dark';
+/** Fondo del mapa: OpenFreeMap, estilo Fiord (azul marino; gratis, sin llaves). */
+export const MAP_STYLE = 'https://tiles.openfreemap.org/styles/fiord';
 
 /**
  * Mapa del inicio: ciudades con tours reales, agrupadas al alejar.
