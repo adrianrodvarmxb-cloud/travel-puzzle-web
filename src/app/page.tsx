@@ -17,6 +17,7 @@ import { createHighlightRepo } from "@/reviews/repository";
 import { HashScroll } from "@/components/home/v2/HashScroll";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
+import { isHelpVisible } from "@/help/lib/faq";
 import { getPreferredLanguage } from "@/lib/utils/cookies";
 
 // Lee catálogo y reseñas reales en cada visita.
@@ -49,7 +50,7 @@ export default async function Home() {
         <HomeReviews reviews={data.reviews} average={data.stats.rating} />
         <ExpertCta whatsapp={contact.whatsapp} />
       </main>
-      <SiteFooter contact={footer} />
+      <SiteFooter contact={footer} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
       <WhatsAppBubble whatsapp={contact.whatsapp} />
       <HashScroll />
     </div>
