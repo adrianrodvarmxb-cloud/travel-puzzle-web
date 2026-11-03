@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
+import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
 
 export interface FooterContact {
   whatsapp?: string;
@@ -16,6 +17,7 @@ export function SiteFooter({ contact }: { contact: FooterContact }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   const wa = waLink(contact.whatsapp, c.expertWa);
+  const legal = legalLabels(language);
 
   return (
     <footer className="bg-[#0A1330] px-4 pb-24 pt-12 text-white/80 md:pb-12">
@@ -46,7 +48,11 @@ export function SiteFooter({ contact }: { contact: FooterContact }) {
           </div>
         )}
       </div>
-      <p className="container mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-xs text-white/50">{c.footerRights(new Date().getFullYear())} · travelpuzzle.com.mx</p>
+      <p className="container mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-xs text-white/50">
+        {c.footerRights(new Date().getFullYear())} · travelpuzzle.com.mx
+        {' · '}<Link href={LEGAL_PATHS.terms} className="hover:text-white">{legal.terms}</Link>
+        {' · '}<Link href={LEGAL_PATHS.privacy} className="hover:text-white">{legal.privacy}</Link>
+      </p>
     </footer>
   );
 }
