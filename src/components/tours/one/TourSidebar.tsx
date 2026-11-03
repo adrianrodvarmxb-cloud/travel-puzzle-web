@@ -36,6 +36,9 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                             {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free')}
                         </span>
                     </div>
+                    {tour.price === 0 && (
+                        <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the tour, tip the guide what you think is fair.')}</p>
+                    )}
                     {tour.rating && (
                         <div className="flex items-center gap-2 mt-2">
                             <StarIcon className="w-5 h-5 text-yellow-500 fill-yellow-500" />

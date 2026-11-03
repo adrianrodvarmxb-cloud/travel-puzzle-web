@@ -17,7 +17,7 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
 
   return (
     <section className="mx-auto max-w-[1280px] px-4 pt-24 md:px-8 md:pt-28">
-      <SectionHeading eyebrow={c.featEyebrow} title={c.featHeadline} subtitle={c.featNote} action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>} />
+      <SectionHeading eyebrow={c.featEyebrow} title={c.featHeadline} action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>} />
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {tours.map((t) => {
           const title = nameIn(t.titles, language);

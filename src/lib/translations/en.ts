@@ -234,4 +234,5 @@ export const en = {
   "tours.noResultsHelp": "Try another city or message us on WhatsApp and we'll help.",
   "pagination.pageOf": "Page {current} of {total}",
   "tours.searchCta": "Search",
+  "tours.tipNote": "At the end of the tour, tip the guide what you think is fair.",
 };

@@ -51,7 +51,6 @@ const es = {
   destAll: (n: string) => `Ver los ${n} destinos →`,
   featEyebrow: "02 — FAVORITOS DE LOS VIAJEROS",
   featHeadline: "Los más elegidos.",
-  featNote: "Los free tours no tienen costo de entrada: al final dejas al guía la propina que te parezca justa.",
   howEyebrow: "03 — CÓMO FUNCIONA",
   howHeadline: "Tres piezas y listo.",
   howSteps: (bookings: boolean) => [
@@ -128,7 +127,6 @@ const en: Copy = {
   destAll: (n) => `See all ${n} destinations →`,
   featEyebrow: "02 — TRAVELER FAVORITES",
   featHeadline: "Travelers' top picks.",
-  featNote: "Free tours have no entry fee: at the end you tip the guide what you feel is fair.",
   howEyebrow: "03 — HOW IT WORKS",
   howHeadline: "Three pieces and you're set.",
   howSteps: (bookings) => [

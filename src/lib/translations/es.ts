@@ -234,4 +234,5 @@ export const es = {
   "tours.noResultsHelp": "Prueba con otra ciudad o escríbenos por WhatsApp y te ayudamos.",
   "pagination.pageOf": "Página {current} de {total}",
   "tours.searchCta": "Buscar",
+  "tours.tipNote": "Al final del tour, deja al guía la propina que consideres justa.",
 };

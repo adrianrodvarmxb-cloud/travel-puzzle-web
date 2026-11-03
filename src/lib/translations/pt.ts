@@ -234,4 +234,5 @@ export const pt = {
   "tours.noResultsHelp": "Tente outra cidade ou fale conosco no WhatsApp.",
   "pagination.pageOf": "Página {current} de {total}",
   "tours.searchCta": "Buscar",
+  "tours.tipNote": "No final do tour, deixe ao guia a gorjeta que achar justa.",
 };

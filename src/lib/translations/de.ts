@@ -234,4 +234,5 @@ export const de = {
   "tours.noResultsHelp": "Versuche eine andere Stadt oder schreib uns auf WhatsApp.",
   "pagination.pageOf": "Seite {current} von {total}",
   "tours.searchCta": "Suchen",
+  "tours.tipNote": "Gib dem Guide am Ende der Tour das Trinkgeld, das du für fair hältst.",
 };

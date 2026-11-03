@@ -234,4 +234,5 @@ export const it = {
   "tours.noResultsHelp": "Prova un'altra città o scrivici su WhatsApp.",
   "pagination.pageOf": "Pagina {current} di {total}",
   "tours.searchCta": "Cerca",
+  "tours.tipNote": "Alla fine del tour, lascia alla guida la mancia che ritieni giusta.",
 };
