@@ -18,7 +18,7 @@ export const fr = {
   
   // Hero Section
   'hero.title': 'Découvrez Votre Prochaine Aventure',
-  'hero.subtitle': 'Réservez des tours incroyables auprès de fournisseurs de confiance dans le monde entier',
+  'hero.subtitle': "Des visites avec des guides locaux dans le monde entier",
   'hero.cta.browse': 'Explorer les Tours',
   'hero.cta.howItWorks': 'Comment Ça Marche',
   
@@ -29,8 +29,8 @@ export const fr = {
   'home.whyChoose.safeTravels.subtitle': 'Tous nos forfaits incluent une assurance voyage complète pour votre tranquillité d\'esprit.',
   'home.whyChoose.personalized.title': 'Attention Personnalisée',
   'home.whyChoose.personalized.subtitle': 'Chaque voyage est unique. Nous créons des expériences personnalisées selon vos préférences.',
-  'home.whyChoose.bestPrice.title': 'Meilleur Prix Garanti',
-  'home.whyChoose.bestPrice.subtitle': 'Nous trouvons les meilleurs tarifs et vous garantissons le prix le plus compétitif.',
+  'home.whyChoose.bestPrice.title': "Prix clair",
+  'home.whyChoose.bestPrice.subtitle': "Vous voyez le prix avant de réserver, sans frais cachés.",
   'home.whyChoose.support.title': 'Support 24/7',
   'home.whyChoose.support.subtitle': 'Notre équipe est disponible 24 heures sur 24 pour vous aider à tout moment.',
   'home.whyChoose.experience.title': '15 Ans d\'Expérience',
@@ -42,13 +42,13 @@ export const fr = {
   'home.whyChoose.metrics.yearsExperience': 'Années d\'Expérience',
   'home.whyChoose.metrics.satisfaction': 'Satisfaction',
   'home.whyChoose.cta.title': 'Prêt pour votre prochaine aventure?',
-  'home.whyChoose.cta.subtitle': 'Rejoignez des milliers de voyageurs qui ont déjà découvert la magie du Mexique avec nous',
+  'home.whyChoose.cta.subtitle': "Dites-nous où vous allez et nous vous aidons à choisir",
   'home.whyChoose.cta.planTrip': 'Planifier Mon Voyage',
   'home.whyChoose.cta.talkExpert': 'Parler à un Expert',
   
   // Top Destinations
   'home.topDestinations.badge': 'Top 20 Expériences',
-  'home.topDestinations.title': 'Les Meilleures Expériences de Voyage',
+  'home.topDestinations.title': "Des expériences pour votre voyage",
   'home.topDestinations.subtitle': 'Découvrez les expériences les plus appréciées et réservées par les voyageurs du monde entier',
   'home.topDestinations.book': 'Réserver',
   
@@ -163,11 +163,11 @@ export const fr = {
   'messages.passwordChangeError': 'Impossible de modifier le mot de passe',
   
   // Rewards
-  'home.rewards.title': 'Puzzle Rewards - Gagnez de l\'Argent Réel',
-  'home.rewards.subtitle': 'Le seul programme qui vous paie de l\'argent réel pour voyager. Chaque expérience devient des gains réels.',
+  'home.rewards.title': "Puzzle Rewards",
+  'home.rewards.subtitle': "Programme de récompenses pour les voyageurs Travel Puzzle (bientôt).",
   'home.rewards.badge': 'Puzzle Rewards',
-  'home.rewards.innerTitle': 'Gagnez de l\'Argent Réel en Voyageant',
-  'home.rewards.innerSubtitle': 'Le seul programme qui vous paie de l\'argent réel pour chaque expérience. Complétez des défis et transformez vos aventures en gains.',
+  'home.rewards.innerTitle': "Puzzle Rewards",
+  'home.rewards.innerSubtitle': "Programme de récompenses pour les voyageurs Travel Puzzle (bientôt).",
   'home.rewards.metrics.moneyEarned': 'Argent gagné',
   'home.rewards.metrics.achievementsCompleted': 'Succès complétés',
   'home.rewards.metrics.challengesAvailable': 'Défis disponibles',
@@ -216,7 +216,7 @@ export const fr = {
   // Reviews
   'reviews.tourTitle': 'Avis des voyageurs',
   'reviews.total': '{count} avis au total',
-  'reviews.source': 'Avis réels de voyageurs FREETOUR.com',
+  'reviews.source': "Avis de voyageurs ayant fait la visite",
   'home.recentReviews.title': 'Ce que disent les voyageurs',
   "reviews.count": "{count} avis",
   "reviews.showMore": "Voir plus d'avis",
@@ -234,4 +234,5 @@ export const fr = {
   "tours.noResultsHelp": "Essayez une autre ville ou écrivez-nous sur WhatsApp.",
   "pagination.pageOf": "Page {current} sur {total}",
   "tours.searchCta": "Rechercher",
+  "tours.tipNote": "À la fin de la visite, laissez au guide le pourboire que vous jugez juste.",
 };

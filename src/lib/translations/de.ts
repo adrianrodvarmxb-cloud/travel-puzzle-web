@@ -18,7 +18,7 @@ export const de = {
   
   // Hero Section
   'hero.title': 'Entdecken Sie Ihr Nächstes Abenteuer',
-  'hero.subtitle': 'Buchen Sie erstaunliche Touren von vertrauenswürdigen Anbietern weltweit',
+  'hero.subtitle': "Touren mit lokalen Guides weltweit",
   'hero.cta.browse': 'Touren Durchsuchen',
   'hero.cta.howItWorks': 'Wie es Funktioniert',
   
@@ -29,8 +29,8 @@ export const de = {
   'home.whyChoose.safeTravels.subtitle': 'Alle unsere Pakete enthalten umfassende Reiseversicherungen für Ihr Seelenfrieden.',
   'home.whyChoose.personalized.title': 'Personalisierte Aufmerksamkeit',
   'home.whyChoose.personalized.subtitle': 'Jede Reise ist einzigartig. Wir schaffen personalisierte Erlebnisse nach Ihren Wünschen.',
-  'home.whyChoose.bestPrice.title': 'Bester Preis garantiert',
-  'home.whyChoose.bestPrice.subtitle': 'Wir finden die besten Preise und garantieren Ihnen den wettbewerbsfähigsten Preis.',
+  'home.whyChoose.bestPrice.title': "Klare Preise",
+  'home.whyChoose.bestPrice.subtitle': "Du siehst den Preis vor der Buchung, ohne versteckte Gebühren.",
   'home.whyChoose.support.title': '24/7 Support',
   'home.whyChoose.support.subtitle': 'Unser Team ist rund um die Uhr verfügbar, um Ihnen jederzeit zu helfen.',
   'home.whyChoose.experience.title': '15 Jahre Erfahrung',
@@ -42,13 +42,13 @@ export const de = {
   'home.whyChoose.metrics.yearsExperience': 'Jahre Erfahrung',
   'home.whyChoose.metrics.satisfaction': 'Zufriedenheit',
   'home.whyChoose.cta.title': 'Bereit für Ihr nächstes Abenteuer?',
-  'home.whyChoose.cta.subtitle': 'Schließen Sie sich Tausenden von Reisenden an, die bereits die Magie Mexikos mit uns entdeckt haben',
+  'home.whyChoose.cta.subtitle': "Sag uns, wohin du reist, und wir helfen dir bei der Auswahl",
   'home.whyChoose.cta.planTrip': 'Meine Reise Planen',
   'home.whyChoose.cta.talkExpert': 'Mit einem Experten Sprechen',
   
   // Top Destinations
   'home.topDestinations.badge': 'Top 20 Erlebnisse',
-  'home.topDestinations.title': 'Die Besten Reiseerlebnisse',
+  'home.topDestinations.title': "Erlebnisse für deine Reise",
   'home.topDestinations.subtitle': 'Entdecken Sie die meist geschätzten und gebuchten Erlebnisse von Reisenden aus aller Welt',
   'home.topDestinations.book': 'Buchen',
   
@@ -163,11 +163,11 @@ export const de = {
   'messages.passwordChangeError': 'Passwort konnte nicht geändert werden',
   
   // Rewards
-  'home.rewards.title': 'Puzzle Rewards - Echtes Geld Verdienen',
-  'home.rewards.subtitle': 'Das einzige Programm, das Ihnen echtes Geld fürs Reisen zahlt. Jede Erfahrung wird zu echten Einnahmen.',
+  'home.rewards.title': "Puzzle Rewards",
+  'home.rewards.subtitle': "Prämienprogramm für Travel-Puzzle-Reisende (demnächst).",
   'home.rewards.badge': 'Puzzle Rewards',
-  'home.rewards.innerTitle': 'Verdienen Sie Echtes Geld beim Reisen',
-  'home.rewards.innerSubtitle': 'Das einzige Programm, das Ihnen echtes Geld für jede Erfahrung zahlt. Absolvieren Sie Herausforderungen und verwandeln Sie Ihre Abenteuer in Einnahmen.',
+  'home.rewards.innerTitle': "Puzzle Rewards",
+  'home.rewards.innerSubtitle': "Prämienprogramm für Travel-Puzzle-Reisende (demnächst).",
   'home.rewards.metrics.moneyEarned': 'Verdientes Geld',
   'home.rewards.metrics.achievementsCompleted': 'Abgeschlossene Erfolge',
   'home.rewards.metrics.challengesAvailable': 'Verfügbare Herausforderungen',
@@ -216,7 +216,7 @@ export const de = {
   // Reviews
   'reviews.tourTitle': 'Bewertungen von Reisenden',
   'reviews.total': '{count} Bewertungen insgesamt',
-  'reviews.source': 'Echte Bewertungen von FREETOUR.com-Reisenden',
+  'reviews.source': "Meinungen von Reisenden, die die Tour gemacht haben",
   'home.recentReviews.title': 'Was Reisende sagen',
   "reviews.count": "{count} Bewertungen",
   "reviews.showMore": "Mehr Bewertungen",
@@ -234,4 +234,5 @@ export const de = {
   "tours.noResultsHelp": "Versuche eine andere Stadt oder schreib uns auf WhatsApp.",
   "pagination.pageOf": "Seite {current} von {total}",
   "tours.searchCta": "Suchen",
+  "tours.tipNote": "Gib dem Guide am Ende der Tour das Trinkgeld, das du für fair hältst.",
 };

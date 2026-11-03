@@ -1,6 +1,9 @@
 'use client';
 
 import { formatRating } from '@/home/lib/format';
+
+/** El cliente contacta siempre a Travel Puzzle, nunca directo al guía (términos de Freetour, sección 2.2). */
+const SHOW_PROVIDER_PHONE = false;
 import { useLanguage } from '@/lib/language-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -36,6 +39,9 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                             {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free')}
                         </span>
                     </div>
+                    {tour.price === 0 && (
+                        <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the tour, tip the guide what you think is fair.')}</p>
+                    )}
                     {tour.rating && (
                         <div className="flex items-center gap-2 mt-2">
                             <StarIcon className="w-5 h-5 text-yellow-500 fill-yellow-500" />
@@ -105,7 +111,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false }: Tour
                             <div>
                                 <p className="text-sm font-medium">{t('tours.provider')}</p>
                                 <p className="text-sm text-muted-foreground">{tour.provider}</p>
-                                {tour.providerPhone && (
+                                {SHOW_PROVIDER_PHONE && tour.providerPhone && (
                                     <a
                                         href={`tel:${tour.providerPhone}`}
                                         className="text-sm text-tp-blue-primary hover:underline mt-1 block"

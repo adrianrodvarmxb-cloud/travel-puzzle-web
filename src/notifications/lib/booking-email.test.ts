@@ -140,7 +140,7 @@ describe("diseño de alto impacto (manual de marca)", () => {
     for (const c of ["#304A9F", "#008DFF", "#EAF54F"]) expect(html.toUpperCase()).toContain(c.toUpperCase());
     expect(html).toContain('src="https://www.freetour.com/images/tours/6782/hero.jpg"');
     expect(html).toContain("Poppins");
-    expect(html).toContain("Armamos tu viaje");
+    expect(html).toContain("Te armamos tu viaje");
   });
 
   it("muestra galería y reseñas reales con estrellas", () => {

@@ -145,7 +145,7 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                 )}
 
                 <footer className="flex items-center justify-between gap-4 bg-[#0A1330] px-5 py-5">
-                    <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
+                    <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Te armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
                     <div className="text-right">
                         {socials.length > 0 && (
                             <>

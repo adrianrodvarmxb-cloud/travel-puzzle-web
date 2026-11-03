@@ -11,6 +11,9 @@ export interface FooterContact {
   socials: { name: string; url: string }[];
 }
 
+/** El logo animado ya trae el lema; el texto aparte lo repetía (decisión del PO, 3 nov 2026). */
+const SHOW_FOOTER_SLOGAN = false;
+
 const ICON: Record<string, string> = { Instagram: 'instagram', Facebook: 'facebook', TikTok: 'tiktok', YouTube: 'youtube' };
 
 export function SiteFooter({ contact }: { contact: FooterContact }) {
@@ -26,7 +29,7 @@ export function SiteFooter({ contact }: { contact: FooterContact }) {
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle" width={120} className="h-auto w-[120px]" />
-          <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.footerSlogan}</p>
+          {SHOW_FOOTER_SLOGAN && <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.footerSlogan}</p>}
         </div>
         <div className="space-y-2 text-sm">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{c.footerContact}</p>
