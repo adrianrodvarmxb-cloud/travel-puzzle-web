@@ -3,6 +3,7 @@ import { fetchTours, fetchCountries, fetchToursMetadata } from '@/actions/tours'
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
+import { parseSort, sortToPagination } from '@/tours/lib/sort';
 
 interface ToursPageProps {
   searchParams: Promise<{
@@ -12,6 +13,7 @@ interface ToursPageProps {
     maxPrice?: string;
     search?: string;
     page?: string;
+    sort?: string;
   }>;
 }
 
@@ -35,6 +37,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   const pagination: PaginationParams = {
     page: params.page ? parseInt(params.page, 10) : 1,
     limit: 20,
+    ...sortToPagination(parseSort(params.sort)),
     ...(params.search && {
       searchValue: params.search,
       searchBy: ['title', 'brief', 'description'],

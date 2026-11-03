@@ -12,6 +12,8 @@ interface TourFiltersPanelProps {
   countries: Array<{ id: number; name: string }>;
   cities: Array<{ id: number; name: string }>;
   isLoadingCities?: boolean;
+  /** El buscador vive en el encabezado de /tours; aquí se puede ocultar. */
+  hideSearch?: boolean;
 }
 
 export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
@@ -20,6 +22,7 @@ export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
   countries,
   cities,
   isLoadingCities = false,
+  hideSearch = false,
 }) => {
   const { t } = useLanguage();
 
@@ -69,7 +72,7 @@ export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Search */}
-        <div>
+        {!hideSearch && <div>
           <label className="block text-sm font-medium mb-2">
             {t('tours.filters.search')}
           </label>
@@ -79,7 +82,7 @@ export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
             value={filters.search || ''}
             onChange={handleSearchChange}
           />
-        </div>
+        </div>}
 
         {/* Country */}
         <div>

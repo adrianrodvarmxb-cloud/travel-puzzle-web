@@ -7,6 +7,9 @@ import { Navbar } from '@/components/layout/Navbar';
 import { TourCard } from '@/components/tours/TourCard';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
+import { ToursHeader } from '@/components/tours/ToursHeader';
+import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
+import { parseSort, sortToPagination, type TourSort } from '@/tours/lib/sort';
 import { useTours, useCitiesFromAPI, useTourHighlights } from '@/lib/queries/tours';
 import { transformDBToursToUITours, transformCountryForFilter } from '@/lib/db/tour-transformer';
 import type { TourFilters as RepositoryTourFilters } from '@/lib/db/repositories/tour-repository';
@@ -75,6 +78,10 @@ export function ToursPageClient({
         return pag;
     });
 
+    // Orden (?sort=…); por defecto, los que tienen más reseñas
+    const [sort, setSort] = useState<TourSort>(() => parseSort(searchParams.get('sort')));
+    const [filtersOpen, setFiltersOpen] = useState(false);
+
     // Convert UI filters to repository filters
     const repositoryFilters: RepositoryTourFilters = {
         language,
@@ -87,6 +94,7 @@ export function ToursPageClient({
     // Build pagination with search if provided
     const paginationWithSearch: PaginationParams = {
         ...pagination,
+        ...sortToPagination(sort),
         ...(uiFilters.search && {
             searchValue: uiFilters.search,
             searchBy: ['title', 'brief', 'description'],
@@ -118,6 +126,7 @@ export function ToursPageClient({
         repositoryFilters.maxPrice === serverFilters.maxPrice &&
         paginationWithSearch.searchValue === serverSearch &&
         paginationWithSearch.page === serverPage &&
+        sort === parseSort(searchParams.get('sort')) &&
         language === initialLanguage;
 
     // Fetch tours with filters and pagination
@@ -148,6 +157,9 @@ export function ToursPageClient({
     );
     const cities = citiesData || []; // API already returns in correct format
 
+    const sortRef = useRef<TourSort>(sort);
+    sortRef.current = sort;
+
     // Update URL params when filters or pagination change
     const updateUrlParams = useCallback(
         (filters: UITourFilters, pagination: PaginationParams) => {
@@ -159,6 +171,7 @@ export function ToursPageClient({
             if (filters.minPrice !== undefined) params.set('minPrice', filters.minPrice.toString());
             if (filters.maxPrice !== undefined) params.set('maxPrice', filters.maxPrice.toString());
             if (filters.search) params.set('search', filters.search);
+            if (sortRef.current !== 'reviews') params.set('sort', sortRef.current);
 
             // Add pagination params (only if not page 1)
             if (pagination.page && pagination.page > 1) {
@@ -186,7 +199,7 @@ export function ToursPageClient({
             return;
         }
         updateUrlParams(uiFilters, pagination);
-    }, [uiFilters, pagination, updateUrlParams]);
+    }, [uiFilters, pagination, sort, updateUrlParams]);
 
     // Update state when URL params change (e.g., browser back/forward)
     useEffect(() => {
@@ -219,91 +232,92 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
+    const handleSortChange = (next: TourSort) => {
+        setSort(next);
+        setPagination(prev => ({ ...prev, page: 1 }));
+    };
+
+    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice].filter((v) => v !== undefined).length;
+
     const handlePaginationChange = (newPage: number) => {
         setPagination(prev => ({ ...prev, page: newPage }));
     };
+
+    const pageInfo = currentToursData?.pagination;
 
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
 
-            <div className="container mx-auto px-4 py-8">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold mb-2">{t('tours.title')}</h1>
-                    <p className="text-muted-foreground">
-                        {currentToursData?.pagination.total || 0} {t('tours.subtitle')}
-                    </p>
-                    {initialMetadata?.lastUpdatedFormatted && (
-                        <p className="text-xs text-muted-foreground mt-1">
-                            {t('tours.lastUpdated')}: {initialMetadata.lastUpdatedFormatted}
-                        </p>
-                    )}
-                </div>
+            <main className="tp-dark min-h-screen pb-24">
+                <ToursHeader
+                    total={pageInfo?.total || 0}
+                    lastUpdated={initialMetadata?.lastUpdatedFormatted ?? undefined}
+                    search={uiFilters.search || ''}
+                    onSearch={(value) => handleFilterChange({ search: value || undefined })}
+                    sort={sort}
+                    onSort={handleSortChange}
+                />
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    {/* Filters Sidebar */}
-                    <div className="lg:col-span-1">
-                        <TourFiltersPanel
-                            filters={uiFilters}
-                            onFilterChange={handleFilterChange}
-                            countries={countries}
-                            cities={cities}
-                            isLoadingCities={isLoadingCities}
-                        />
-                    </div>
+                <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 pt-8 md:px-8 lg:grid-cols-4">
+                    {/* Filtros */}
+                    <aside className="lg:col-span-1">
+                        <MobileFiltersToggle open={filtersOpen} onToggle={() => setFiltersOpen((v) => !v)} active={activeFilters} />
+                        <div className={`${filtersOpen ? 'mt-3 block' : 'hidden'} lg:sticky lg:top-6 lg:mt-0 lg:block`}>
+                            <TourFiltersPanel
+                                filters={uiFilters}
+                                onFilterChange={handleFilterChange}
+                                countries={countries}
+                                cities={cities}
+                                isLoadingCities={isLoadingCities}
+                                hideSearch
+                            />
+                        </div>
+                    </aside>
 
-                    {/* Tours Grid */}
+                    {/* Tours */}
                     <div className="lg:col-span-3">
                         {isLoadingTours ? (
                             <TourGridSkeleton count={6} />
                         ) : tours.length === 0 ? (
-                            <div className="text-center py-12">
-                                <p className="text-muted-foreground">{t('tours.noResults')}</p>
+                            <div className="rounded-2xl border border-white/10 bg-[#121D45] px-6 py-14 text-center">
+                                <p className="font-display text-2xl font-semibold text-white">{t('tours.noResults')}</p>
+                                <p className="mt-2 text-[#A9B6D6]">{t('tours.noResultsHelp', "Try another city or message us on WhatsApp and we'll help.")}</p>
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                                     {tours.map(tour => (
                                         <TourCard key={tour.id} tour={tour} highlight={highlights?.[tour.externalId]?.text} />
                                     ))}
                                 </div>
 
-                                {/* Pagination */}
-                                {currentToursData && currentToursData.pagination.totalPages > 1 && (
-                                    <div className="mt-8 flex justify-center items-center gap-4">
+                                {pageInfo && pageInfo.totalPages > 1 && (
+                                    <nav aria-label="Paginación" className="mt-10 flex items-center justify-center gap-3">
                                         <button
-                                            onClick={() =>
-                                                handlePaginationChange(Math.max(1, (pagination.page || 1) - 1))
-                                            }
+                                            onClick={() => handlePaginationChange(Math.max(1, (pagination.page || 1) - 1))}
                                             disabled={pagination.page === 1}
-                                            className="px-4 py-2 border border-border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted"
+                                            className="rounded-xl border border-white/20 px-5 py-3 font-semibold text-white hover:border-[#008DFF] disabled:cursor-not-allowed disabled:opacity-40"
                                         >
-                                            {t('pagination.previous')}
+                                            ← {t('pagination.previous')}
                                         </button>
-
-                                        <span className="text-sm text-muted-foreground">
-                                            Page {currentToursData.pagination.currentPage} of{' '}
-                                            {currentToursData.pagination.totalPages}
+                                        <span className="font-data px-2 text-xs uppercase tracking-[0.2em] text-[#A9B6D6]">
+                                            {t('pagination.pageOf', 'Page {current} of {total}').replace('{current}', String(pageInfo.currentPage)).replace('{total}', String(pageInfo.totalPages))}
                                         </span>
-
                                         <button
-                                            onClick={() =>
-                                                handlePaginationChange((pagination.page || 1) + 1)
-                                            }
-                                            disabled={pagination.page === currentToursData.pagination.totalPages}
-                                            className="px-4 py-2 border border-border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted"
+                                            onClick={() => handlePaginationChange((pagination.page || 1) + 1)}
+                                            disabled={pagination.page === pageInfo.totalPages}
+                                            className="rounded-xl border border-white/20 px-5 py-3 font-semibold text-white hover:border-[#008DFF] disabled:cursor-not-allowed disabled:opacity-40"
                                         >
-                                            {t('pagination.next')}
+                                            {t('pagination.next')} →
                                         </button>
-                                    </div>
+                                    </nav>
                                 )}
                             </>
                         )}
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     );
 }
-

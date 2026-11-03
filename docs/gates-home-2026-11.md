@@ -24,3 +24,6 @@ Reglas que se derivan:
 | M2. Dónde va el mapa | Home + mapa del punto de encuentro en cada tour, con "Cómo llegar" | A + C |
 | M3. Al tocar una ciudad | Tarjeta flotante con total de tours y 3 recomendados | A |
 | Regla 60/40 | En toda recomendación: favoritos del home (6 = 4 de pago + 2 gratis), tarjeta del mapa (3 = 2 + 1), correos (3 = 2 + 1); si faltan de un tipo se rellena con el otro; con `PAID_TOURS_ENABLED=false`, solo gratis | Aprobado |
+
+| T1. Ordenar /tours | "Ordenar por": más reseñas (por defecto), mejor calificados, precio. Duración queda fuera: viene como texto ("10:00" quedaría antes de "2:30") | B |
+| Frases destacadas | Solo en el idioma del visitante; si no hay, se ve la descripción del tour | Aprobado |

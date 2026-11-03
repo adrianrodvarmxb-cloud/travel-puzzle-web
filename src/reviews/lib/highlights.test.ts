@@ -50,8 +50,14 @@ describe("frase por tour", () => {
       "es"
     );
     expect(out.get(10)?.text).toBe("Tour increíble, muy recomendable.");
-    expect(out.get(20)?.text).toBe("Fantastic guide, loved every minute.");
+    expect(out.has(20)).toBe(false); // solo hay reseña en inglés: sin frase para un visitante en español
     expect(out.has(30)).toBe(false);
+  });
+});
+
+describe("frase en el idioma del visitante", () => {
+  it("en inglés sí sale la reseña en inglés", () => {
+    expect(pickHighlights([r(4, 20, 5, "English", "Fantastic guide, loved every minute.", 2)], "en").get(20)?.text).toBe("Fantastic guide, loved every minute.");
   });
 });
 
