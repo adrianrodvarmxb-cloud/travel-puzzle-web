@@ -38,7 +38,7 @@
     // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
     "GATEWAY_URL": "https://pasarela.travelpuzzle.com.mx",
     // Interruptor de reservas reales. "true" solo con OK, después de probar en producción.
-    "BOOKINGS_ENABLED": "true",
+    "BOOKINGS_ENABLED": "false",
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
     "EMAILS_ENABLED": "false",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
