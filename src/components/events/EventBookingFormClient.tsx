@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Accordion, AccordionItem } from '@heroui/react';
 import { useEventDetailFTData } from '@/lib/api/hooks';
+import { useLanguage } from '@/lib/language-context';
+import { CalendarAvailabilityService } from '@/lib/services/calendar/CalendarAvailabilityService';
+import { BookingPass, SupportCard } from '@/components/booking/email-ui';
 import { EventBookingForm } from './EventBookingForm';
 import { EventBookingConfirm } from './EventBookingConfirm';
-import { BookingFormProvider } from './Contexts';
+import { BookingFormProvider, useBookingForm } from './Contexts';
 
 interface EventDetailData {
     id: number;
@@ -25,72 +27,47 @@ interface EventBookingFormClientProps {
     date: string;
     time: string;
     bookingsEnabled: boolean;
+    wa: string | null;
 }
 
-export function EventBookingFormClient({
-    eventId,
-    language,
-    languageDisplayName,
-    languageFlag,
-    date,
-    time,
-    bookingsEnabled,
-}: EventBookingFormClientProps) {
-    const { data: eventDetailFTData, isLoading, error } = useEventDetailFTData(eventId);
-    const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(['1']));
-
-    const eventDetailData: EventDetailData | undefined = eventDetailFTData?.data;
-
-    const handleNext = () => {
-        // Close current step (1) and open next step (2)
-        setSelectedKeys(new Set(['2']));
-    };
-
-    const handleBack = () => {
-        // Close current step (2) and open previous step (1)
-        setSelectedKeys(new Set(['1']));
-    };
-
-    const titleElement = (text: string) => (
-        <div className='v-center-normal gap-3 text-lg font-semibold cursor-pointer hover:bg-gray-100 rounded-lg p-2'>
-            <span className='text-tp-blue-primary'>{text}</span>
-        </div>
-    )
-
+/** Dos pasos: 01 Personas + 02 Tus datos → 03 Confirmar. La lógica vive en BookingFormProvider. */
+export function EventBookingFormClient(props: EventBookingFormClientProps) {
     return (
-        <BookingFormProvider eventId={eventId} bookingsEnabled={bookingsEnabled}>
-            <Accordion
-                selectedKeys={selectedKeys}
-                onSelectionChange={(keys) => setSelectedKeys(keys as Set<string>)}
-                selectionMode="single"
-                variant="bordered"
-            >
-                <AccordionItem
-                    key="1"
-                    title={titleElement('1. Detalles de la reserva')}
-                    aria-label="Step 1: Booking Details"
-                >
-                    <EventBookingForm
-                        language={language}
-                        languageDisplayName={languageDisplayName}
-                        languageFlag={languageFlag}
-                        date={date}
-                        time={time}
-                        eventDetailData={eventDetailData}
-                        isLoading={isLoading}
-                        error={error}
-                        onNext={handleNext}
-                    />
-                </AccordionItem>
-                <AccordionItem
-                    key="2"
-                    title={titleElement('2. Confirmar')}
-                    aria-label="Step 2: Confirm"
-                >
-                    <EventBookingConfirm onBack={handleBack} />
-                </AccordionItem>
-            </Accordion>
+        <BookingFormProvider eventId={props.eventId} bookingsEnabled={props.bookingsEnabled}>
+            <Steps {...props} />
         </BookingFormProvider>
     );
 }
 
+function Steps({ language, languageDisplayName, languageFlag, date, time, eventId, wa }: EventBookingFormClientProps) {
+    const { data: eventDetailFTData, isLoading, error } = useEventDetailFTData(eventId);
+    const { language: uiLanguage } = useLanguage();
+    const { form } = useBookingForm();
+    const [step, setStep] = useState<1 | 2>(1);
+    const eventDetailData: EventDetailData | undefined = eventDetailFTData?.data;
+    const people = form.adults + form.children;
+
+    return (
+        <>
+            <div className="px-5 pt-4">
+                <BookingPass
+                    label="Fecha del tour"
+                    value={CalendarAvailabilityService.formatDateDisplay(date, uiLanguage)}
+                    cells={[['Hora', time], ['Idioma', `${languageFlag} ${languageDisplayName}`], ['Quiénes', `${people} ${people === 1 ? 'persona' : 'personas'}`]]}
+                />
+            </div>
+            {step === 1 ? (
+                <EventBookingForm
+                    language={language}
+                    eventDetailData={eventDetailData}
+                    isLoading={isLoading}
+                    error={error}
+                    onNext={() => setStep(2)}
+                />
+            ) : (
+                <EventBookingConfirm onBack={() => setStep(1)} />
+            )}
+            {wa && <SupportCard n={step === 1 ? 3 : 4} wa={wa} text="¿Dudas antes de reservar? Escríbenos por WhatsApp y te ayudamos." />}
+        </>
+    );
+}

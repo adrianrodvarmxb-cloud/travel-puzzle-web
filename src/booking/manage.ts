@@ -18,6 +18,8 @@ export interface ManageView {
   record: BookingRecord;
   status: string;
   canCancel: boolean;
+  /** Freetour permite modificarla (canBeEdited). */
+  canEdit: boolean;
   /** No se pudo consultar a Freetour: se muestra la reserva sin acciones. */
   offline: boolean;
 }
@@ -27,12 +29,18 @@ export async function loadManageView(token: string, d: ManageDeps): Promise<Mana
   const record = await d.findByToken(token);
   if (!record) return null;
   const remote = await d.getRemote(record.refNumber).catch(() => null);
-  if (!remote) return { record, status: record.status, canCancel: false, offline: true };
+  if (!remote) return { record, status: record.status, canCancel: false, canEdit: false, offline: true };
   if (remote.status && remote.status !== record.status) {
     await d.setStatus(record.refNumber, remote.status);
   }
   const status = remote.status || record.status;
-  return { record: { ...record, status }, status, canCancel: status === "active" && !!remote.canBeCanceled, offline: false };
+  return {
+    record: { ...record, status },
+    status,
+    canCancel: status === "active" && !!remote.canBeCanceled,
+    canEdit: status === "active" && !!remote.canBeEdited,
+    offline: false,
+  };
 }
 
 export type CancelResult = "not_found" | "not_allowed" | "already" | "canceled" | "error";
