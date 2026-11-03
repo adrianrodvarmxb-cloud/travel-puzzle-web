@@ -16,6 +16,7 @@ Aplica al sitio, a los correos y a cualquier texto que vea el cliente.
 
 ## No se dice
 - **Nunca mencionar a FREETOUR.com ni a otros proveedores**: el cliente solo ve Travel Puzzle.
+- **Nunca mostrar teléfonos o datos de contacto del guía**: el contacto es Travel Puzzle por WhatsApp (términos de Freetour 2.2).
 - "real/reales", "verificado" como adjetivo, "miles", "increíble", "el mejor", "único", "garantizado".
 - Urgencia o escasez inventada ("última oportunidad", "solo hoy", "quedan X lugares").
 - Testimonios, cifras o casos que no podamos respaldar. Casos de clientes solo con su permiso.
