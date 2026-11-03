@@ -52,13 +52,13 @@ const es = {
   featEyebrow: "02 — FAVORITOS DE LOS VIAJEROS",
   featHeadline: "Los más elegidos.",
   howEyebrow: "03 — CÓMO FUNCIONA",
-  howHeadline: "Tres piezas y listo.",
+  howHeadline: "Tu viaje, pieza por pieza.",
   howSteps: (bookings: boolean) => [
-    ["Elige tu tour", "Guías locales en cada ciudad y opiniones de otros viajeros para elegir con calma."],
+    ["Elige", "Recorridos con guías que viven la ciudad, con la opinión de quienes ya los hicieron."],
     bookings
-      ? ["Reserva tu lugar", "Confirmación al instante, recordatorios y tu reserva siempre a la mano."]
-      : ["Apártalo con un asesor", "Escríbenos por WhatsApp y te ayudamos a reservar tu lugar."],
-    ["Vive la ciudad", "Si algo surge, te respondemos por WhatsApp antes, durante y después."],
+      ? ["Reserva", "Confirmación inmediata y tu reserva siempre contigo."]
+      : ["Te lo apartamos", "Un asesor de Travel Puzzle confirma tu lugar por WhatsApp."],
+    ["Vive la ciudad", "Te acompañamos antes, durante y después, a un mensaje de distancia."],
   ] as [string, string][],
   contEyebrow: "04 — EL MUNDO",
   mapEyebrow: "05 — EL MAPA",
@@ -128,13 +128,13 @@ const en: Copy = {
   featEyebrow: "02 — TRAVELER FAVORITES",
   featHeadline: "Travelers' top picks.",
   howEyebrow: "03 — HOW IT WORKS",
-  howHeadline: "Three pieces and you're set.",
+  howHeadline: "Your trip, piece by piece.",
   howSteps: (bookings) => [
-    ["Pick your tour", "Local guides in every city and opinions from other travelers to choose calmly."],
+    ["Choose", "Tours with guides who live the city, with reviews from people who already took them."],
     bookings
-      ? ["Book your spot", "Instant confirmation, reminders and your booking always at hand."]
-      : ["Book it with an advisor", "Message us on WhatsApp and we'll help you book your spot."],
-    ["Enjoy the city", "If anything comes up, we answer on WhatsApp before, during and after."],
+      ? ["Book", "Instant confirmation and your booking always with you."]
+      : ["We hold your spot", "A Travel Puzzle advisor confirms your place on WhatsApp."],
+    ["Enjoy the city", "We're with you before, during and after, one message away."],
   ],
   contEyebrow: "04 — THE WORLD",
   mapEyebrow: "05 — THE MAP",
