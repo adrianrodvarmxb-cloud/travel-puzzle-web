@@ -12,6 +12,9 @@ import type { HeroSlide } from '@/home/lib/hero';
 const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', href: '/tours', tours: 0, names: {} };
 
 /** Hero: titular fijo, buscador, accesos a ciudades y la ciudad de la foto con sus tours reales. */
+/** Línea amarilla sobre el titular: el logo ya trae el lema (decisión del PO, 3 nov 2026). */
+const SHOW_HERO_EYEBROW = false;
+
 export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quickCities: DestinationCard[] }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
@@ -51,7 +54,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
 
       <div className="relative mx-auto grid w-full max-w-[1280px] grid-cols-1 items-end gap-8 px-4 pb-14 pt-32 md:px-8 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-8">
-          <p className="font-data mb-4 text-[11px] uppercase tracking-[0.3em] text-[#EAF54F] md:text-xs">{c.heroEyebrow}</p>
+          {SHOW_HERO_EYEBROW && <p className="font-data mb-4 text-[11px] uppercase tracking-[0.3em] text-[#EAF54F] md:text-xs">{c.heroEyebrow}</p>}
           <h1 className="font-display mb-7 text-[42px] font-bold leading-[1.02] text-white md:text-7xl">{c.heroHeadline}</h1>
           <form onSubmit={submit} role="search" className="flex max-w-2xl flex-col gap-2 rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur-xl sm:flex-row">
             <label htmlFor="home-search" className="sr-only">{c.searchPlaceholder}</label>
