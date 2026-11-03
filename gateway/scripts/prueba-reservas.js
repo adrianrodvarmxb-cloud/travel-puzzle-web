@@ -17,9 +17,11 @@ if (existsSync(envFile)) {
   }
 }
 
-const baseUrl = process.env.FREETOUR_BASE_URL || "https://secure.freetour.com/partnersAPI/v.2.0";
+const arg = (k) => (process.argv.find((x) => x.startsWith(`--${k}=`)) ?? "").split("=")[1];
+const version = arg("version") || "2.0"; // --version=2.1 para probar la v2.1
+const baseUrl = (process.env.FREETOUR_BASE_URL || "https://secure.freetour.com/partnersAPI/v.2.0").replace(/v\.2\.\d$/, `v.${version}`);
 const localAddress = process.env.FREETOUR_LOCAL_ADDRESS || undefined;
-const altUrl = process.env.FREETOUR_ALT_BASE_URL || "https://www.freetour.com/partnersAPI/v.2.0";
+const altUrl = (process.env.FREETOUR_ALT_BASE_URL || "https://www.freetour.com/partnersAPI/v.2.0").replace(/v\.2\.\d$/, `v.${version}`);
 const completa = process.argv.includes("--completa");
 const TEST_TOUR = 6782;
 const RESERVAS_PRUEBA = [
