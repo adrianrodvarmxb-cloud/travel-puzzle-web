@@ -76,7 +76,7 @@ const T = {
     waText: (ref: string) => `Hola Travel Puzzle, tengo la reserva ${ref} y tengo una duda.`,
     explore: "Explora", support: "Soporte",
     free: "Gratis", see: "Ver tour",
-    myBooking: "Mi reserva", helpShort: "Ayuda", follow: "Síguenos", slogan: "Armamos tu viaje",
+    myBooking: "Mi reserva", helpShort: "Ayuda", follow: "Síguenos", slogan: "Te armamos tu viaje",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
   },
   en: {
@@ -115,7 +115,7 @@ const T = {
     waText: (ref: string) => `Hi Travel Puzzle, I have booking ${ref} and a question.`,
     explore: "Explore", support: "Support",
     free: "Free", see: "See tour",
-    myBooking: "My booking", helpShort: "Help", follow: "Follow us", slogan: "Armamos tu viaje",
+    myBooking: "My booking", helpShort: "Help", follow: "Follow us", slogan: "Te armamos tu viaje",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
   },
 };

@@ -37,7 +37,7 @@ const T = {
     free: "Gratis", see: "Ver tour",
     help: "¿Algo salió mal? Cuéntanos", whatsapp: "Escríbenos por WhatsApp", waSub: "Toca el botón y cuéntanos por WhatsApp; lo resolvemos contigo.", support: "Soporte",
     waText: (ref: string) => `Hola Travel Puzzle, tengo un comentario sobre mi tour (reserva ${ref}).`,
-    myBooking: "Mi reserva", helpShort: "Ayuda", follow: "Síguenos", slogan: "Armamos tu viaje",
+    myBooking: "Mi reserva", helpShort: "Ayuda", follow: "Síguenos", slogan: "Te armamos tu viaje",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
   },
   en: {
@@ -55,7 +55,7 @@ const T = {
     free: "Free", see: "See tour",
     help: "Something went wrong? Tell us", whatsapp: "Message us on WhatsApp", waSub: "Tap the button and tell us on WhatsApp; we'll sort it out with you.", support: "Support",
     waText: (ref: string) => `Hi Travel Puzzle, I have feedback about my tour (booking ${ref}).`,
-    myBooking: "My booking", helpShort: "Help", follow: "Follow us", slogan: "Armamos tu viaje",
+    myBooking: "My booking", helpShort: "Help", follow: "Follow us", slogan: "Te armamos tu viaje",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
   },
 };

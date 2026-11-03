@@ -18,7 +18,7 @@ export const en = {
   
   // Hero Section
   'hero.title': 'Discover Your Next Adventure',
-  'hero.subtitle': 'Book amazing tours from trusted providers worldwide',
+  'hero.subtitle': "Tours with local guides around the world",
   'hero.cta.browse': 'Browse Tours',
   'hero.cta.howItWorks': 'How It Works',
   
@@ -29,8 +29,8 @@ export const en = {
   'home.whyChoose.safeTravels.subtitle': 'All our packages include comprehensive travel insurance for your peace of mind.',
   'home.whyChoose.personalized.title': 'Personalized Attention',
   'home.whyChoose.personalized.subtitle': 'Every trip is unique. We create personalized experiences according to your preferences.',
-  'home.whyChoose.bestPrice.title': 'Best Price Guaranteed',
-  'home.whyChoose.bestPrice.subtitle': 'We find the best rates and guarantee you the most competitive price.',
+  'home.whyChoose.bestPrice.title': "Clear pricing",
+  'home.whyChoose.bestPrice.subtitle': "You see the price before booking, with no hidden fees.",
   'home.whyChoose.support.title': '24/7 Support',
   'home.whyChoose.support.subtitle': 'Our team is available 24 hours a day to help you at any time.',
   'home.whyChoose.experience.title': '15 Years of Experience',
@@ -42,13 +42,13 @@ export const en = {
   'home.whyChoose.metrics.yearsExperience': 'Years of Experience',
   'home.whyChoose.metrics.satisfaction': 'Satisfaction',
   'home.whyChoose.cta.title': 'Ready for your next adventure?',
-  'home.whyChoose.cta.subtitle': 'Join thousands of travelers who have already discovered the magic of Mexico with us',
+  'home.whyChoose.cta.subtitle': "Tell us where you're going and we'll help you choose",
   'home.whyChoose.cta.planTrip': 'Plan My Trip',
   'home.whyChoose.cta.talkExpert': 'Talk to an Expert',
   
   // Top Destinations
   'home.topDestinations.badge': 'Top 20 Experiences',
-  'home.topDestinations.title': 'The Best Travel Experiences',
+  'home.topDestinations.title': "Experiences for your trip",
   'home.topDestinations.subtitle': 'Discover the most valued and booked experiences by travelers from around the world',
   'home.topDestinations.book': 'Book',
   
@@ -163,11 +163,11 @@ export const en = {
   'messages.passwordChangeError': 'Could not change password',
   
   // Rewards
-  'home.rewards.title': 'Puzzle Rewards - Earn Real Money',
-  'home.rewards.subtitle': 'The only program that pays you real money for traveling. Every experience becomes real earnings.',
+  'home.rewards.title': "Puzzle Rewards",
+  'home.rewards.subtitle': "Rewards program for Travel Puzzle travelers (coming soon).",
   'home.rewards.badge': 'Puzzle Rewards',
-  'home.rewards.innerTitle': 'Earn Real Money Traveling',
-  'home.rewards.innerSubtitle': 'The only program that pays you real money for every experience. Complete challenges and turn your adventures into earnings.',
+  'home.rewards.innerTitle': "Puzzle Rewards",
+  'home.rewards.innerSubtitle': "Rewards program for Travel Puzzle travelers (coming soon).",
   'home.rewards.metrics.moneyEarned': 'Money earned',
   'home.rewards.metrics.achievementsCompleted': 'Achievements completed',
   'home.rewards.metrics.challengesAvailable': 'Challenges available',
@@ -216,7 +216,7 @@ export const en = {
   // Reviews
   'reviews.tourTitle': 'Traveler reviews',
   'reviews.total': '{count} reviews in total',
-  'reviews.source': 'Real reviews from FREETOUR.com travelers',
+  'reviews.source': "Reviews published on FREETOUR.com",
   'home.recentReviews.title': 'What travelers say',
   "reviews.count": "{count} reviews",
   "reviews.showMore": "Show more reviews",

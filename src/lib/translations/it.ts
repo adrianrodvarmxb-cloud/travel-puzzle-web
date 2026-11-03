@@ -18,7 +18,7 @@ export const it = {
   
   // Hero Section
   'hero.title': 'Scopri la Tua Prossima Avventura',
-  'hero.subtitle': 'Prenota tour straordinari da fornitori affidabili in tutto il mondo',
+  'hero.subtitle': "Tour con guide locali in tutto il mondo",
   'hero.cta.browse': 'Esplora i Tour',
   'hero.cta.howItWorks': 'Come Funziona',
   
@@ -29,8 +29,8 @@ export const it = {
   'home.whyChoose.safeTravels.subtitle': 'Tutti i nostri pacchetti includono un\'assicurazione di viaggio completa per la vostra tranquillità.',
   'home.whyChoose.personalized.title': 'Atenzione Personalizzata',
   'home.whyChoose.personalized.subtitle': 'Ogni viaggio è unico. Creiamo esperienze personalizzate secondo le vostre preferenze.',
-  'home.whyChoose.bestPrice.title': 'Miglior Prezzo Garantito',
-  'home.whyChoose.bestPrice.subtitle': 'Troviamo le migliori tariffe e vi garantiamo il prezzo più competitivo.',
+  'home.whyChoose.bestPrice.title': "Prezzo chiaro",
+  'home.whyChoose.bestPrice.subtitle': "Vedi il prezzo prima di prenotare, senza costi nascosti.",
   'home.whyChoose.support.title': 'Supporto 24/7',
   'home.whyChoose.support.subtitle': 'Il nostro team è disponibile 24 ore su 24 per aiutarvi in qualsiasi momento.',
   'home.whyChoose.experience.title': '15 Anni di Esperienza',
@@ -42,13 +42,13 @@ export const it = {
   'home.whyChoose.metrics.yearsExperience': 'Anni di Esperienza',
   'home.whyChoose.metrics.satisfaction': 'Soddisfazione',
   'home.whyChoose.cta.title': 'Pronto per la tua prossima avventura?',
-  'home.whyChoose.cta.subtitle': 'Unisciti a migliaia di viaggiatori che hanno già scoperto la magia del Messico con noi',
+  'home.whyChoose.cta.subtitle': "Dicci dove vai e ti aiutiamo a scegliere",
   'home.whyChoose.cta.planTrip': 'Pianifica Il Mio Viaggio',
   'home.whyChoose.cta.talkExpert': 'Parla con un Esperto',
   
   // Top Destinations
   'home.topDestinations.badge': 'Top 20 Esperienze',
-  'home.topDestinations.title': 'Le Migliori Esperienze di Viaggio',
+  'home.topDestinations.title': "Esperienze per il tuo viaggio",
   'home.topDestinations.subtitle': 'Scopri le esperienze più apprezzate e prenotate dai viaggiatori di tutto il mondo',
   'home.topDestinations.book': 'Prenota',
   
@@ -163,11 +163,11 @@ export const it = {
   'messages.passwordChangeError': 'Impossibile modificare la password',
   
   // Rewards
-  'home.rewards.title': 'Puzzle Rewards - Guadagna Denaro Reale',
-  'home.rewards.subtitle': 'L\'unico programma che ti paga denaro reale per viaggiare. Ogni esperienza diventa guadagni reali.',
+  'home.rewards.title': "Puzzle Rewards",
+  'home.rewards.subtitle': "Programma premi per i viaggiatori Travel Puzzle (in arrivo).",
   'home.rewards.badge': 'Puzzle Rewards',
-  'home.rewards.innerTitle': 'Guadagna Denaro Reale Viaggiando',
-  'home.rewards.innerSubtitle': 'L\'unico programma che ti paga denaro reale per ogni esperienza. Completa le sfide e trasforma le tue avventure in guadagni.',
+  'home.rewards.innerTitle': "Puzzle Rewards",
+  'home.rewards.innerSubtitle': "Programma premi per i viaggiatori Travel Puzzle (in arrivo).",
   'home.rewards.metrics.moneyEarned': 'Denaro guadagnato',
   'home.rewards.metrics.achievementsCompleted': 'Obiettivi completati',
   'home.rewards.metrics.challengesAvailable': 'Sfide disponibili',
@@ -216,7 +216,7 @@ export const it = {
   // Reviews
   'reviews.tourTitle': 'Recensioni dei viaggiatori',
   'reviews.total': '{count} recensioni in totale',
-  'reviews.source': 'Recensioni reali di viaggiatori FREETOUR.com',
+  'reviews.source': "Recensioni pubblicate su FREETOUR.com",
   'home.recentReviews.title': 'Cosa dicono i viaggiatori',
   "reviews.count": "{count} recensioni",
   "reviews.showMore": "Mostra altre recensioni",

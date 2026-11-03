@@ -4,7 +4,7 @@ import { formatRating } from "@/home/lib/format";
 export const SITE_META = {
   name: "Travel Puzzle",
   title: "Travel Puzzle · Tours con guías locales en todo el mundo",
-  description: "Arma tu próximo viaje pieza por pieza: miles de tours con reseñas reales y asesoría por WhatsApp.",
+  description: "Te armamos tu viaje pieza por pieza: tours con guías locales en todo el mundo y asesoría en español por WhatsApp.",
   image: "/og.jpg",
 };
 
