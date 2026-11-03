@@ -19,6 +19,7 @@ if (existsSync(envFile)) {
 
 const baseUrl = process.env.FREETOUR_BASE_URL || "https://secure.freetour.com/partnersAPI/v.2.0";
 const localAddress = process.env.FREETOUR_LOCAL_ADDRESS || undefined;
+const altUrl = process.env.FREETOUR_ALT_BASE_URL || "https://www.freetour.com/partnersAPI/v.2.0";
 const completa = process.argv.includes("--completa");
 const TEST_TOUR = 6782;
 const RESERVAS_PRUEBA = [
@@ -42,7 +43,14 @@ async function main() {
     out(`Consultar ${r.refNumber}`, antes);
     const d = antes.json?.data;
     if (antes.status === 200 && d?.status === "active" && Number(d.canBeCanceled) === 1) {
-      out(`Cancelar ${r.refNumber}`, await ft.call("POST", "/booking/cancel", r));
+      const cancel = await ft.call("POST", "/booking/cancel", r);
+      out(`Cancelar ${r.refNumber}`, cancel);
+      // Diagnóstico: si el host principal responde 403, se prueba una vez en el otro host de producción.
+      if (cancel.status === 403 && altUrl !== baseUrl) {
+        console.log(`\n(403 en ${baseUrl}; se intenta en ${altUrl})`);
+        const alt = createFreetourClient({ baseUrl: altUrl, email: process.env.FREETOUR_EMAIL, password: process.env.FREETOUR_PASSWORD, localAddress });
+        out(`Cancelar ${r.refNumber} en el otro host`, await alt.call("POST", "/booking/cancel", r));
+      }
       out(`Consultar de nuevo ${r.refNumber}`, await ft.call("GET", `/booking/${encodeURIComponent(r.refNumber)}`));
     } else {
       console.log(`(No se intenta cancelar: status=${d?.status ?? "?"}, canBeCanceled=${d?.canBeCanceled ?? "?"})`);
