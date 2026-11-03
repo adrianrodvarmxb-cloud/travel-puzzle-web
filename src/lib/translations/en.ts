@@ -69,7 +69,7 @@ export const en = {
   'tours.includes': 'Includes',
   'tours.meetingPoint': 'Meeting Point',
   'tours.from': 'From',
-  'tours.free': 'Free',
+  'tours.free': 'Free tour',
   'tours.noResults': 'No tours found',
   'tours.description': 'Description',
   'tours.destination': 'Destination',

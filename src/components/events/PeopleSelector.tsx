@@ -39,7 +39,7 @@ export function PeopleSelector({
 
     // Calculate price per person
     const groupPrice = eventDetailData?.fullPricePerGroup?.[value.toString()];
-    const priceLabel = groupPrice === undefined ? '' : groupPrice === 0 ? ' · Gratis' : ` · €${(groupPrice / value).toFixed(0)}/persona`;
+    const priceLabel = groupPrice === undefined ? '' : groupPrice === 0 ? ' · Free tour' : ` · €${(groupPrice / value).toFixed(0)}/persona`;
 
     // Close dropdown when clicking outside
     useEffect(() => {

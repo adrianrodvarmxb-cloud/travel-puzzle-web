@@ -31,7 +31,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
         )}
         <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute left-3 top-3" />
         {tour.price === 0 && (
-          <span className="font-data absolute right-3 top-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{free}</span>
+          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{free}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
