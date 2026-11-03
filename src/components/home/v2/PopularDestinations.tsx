@@ -15,7 +15,7 @@ export function PopularDestinations({ destinations, totalCities }: { destination
   if (!list.length) return null;
 
   return (
-    <section id="destinos" className="mx-auto max-w-[1280px] px-4 pt-20 md:px-8 md:pt-24">
+    <section id="destinos" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-20 md:px-8 md:pt-24">
       <SectionHeading
         eyebrow="01 — DESTINOS"
         title={c.destHeadline}
