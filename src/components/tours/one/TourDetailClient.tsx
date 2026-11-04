@@ -10,7 +10,15 @@ import { ChevronLeftIcon } from '@/assets/svg';
 import { useTour } from '@/lib/queries/tours';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
 import { useToursFTData } from '@/lib/api/hooks';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import type React from 'react';
+import { SectionBoundary } from '@/components/common/SectionBoundary';
+import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
+import { CompleteTripSheet } from '@/components/trips/CompleteTripSheet';
+import type { CrossItem } from '@/trips/cross-sell';
+import { advisorTextWithExtras, crossSellCopy, shouldOfferSheet } from '@/trips/lib/cross-sell-copy';
+import { advisorText } from '@/tours/lib/booking-cta';
+import { waLink } from '@/home/lib/copy';
 import { Tour, SupportedLanguage } from '@/types';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import { TourErrorState } from './TourErrorState';
@@ -38,6 +46,8 @@ interface TourDetailClientProps {
     paidEnabled?: boolean;
     /** WhatsApp de Travel Puzzle para apartar con un asesor. */
     whatsapp?: string;
+    /** REQ-005/006: transporte de la misma ciudad (o país), calculado en el servidor. */
+    crossSell?: { city: string; items: CrossItem[] } | null;
 }
 
 export function TourDetailClient({
@@ -50,6 +60,7 @@ export function TourDetailClient({
     bookingsEnabled = false,
     paidEnabled = false,
     whatsapp,
+    crossSell = null,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -85,6 +96,24 @@ export function TourDetailClient({
         }
         return null;
     }, [tourDB, tourFTData, initialTour, language, initialLanguage]);
+
+    // REQ-006: ventana "Completa tu viaje" antes de abrir WhatsApp (una vez por visita).
+    const [sheetOpen, setSheetOpen] = useState(false);
+    const csItems = crossSell?.items ?? [];
+    const csCopy = crossSellCopy(language);
+    const dismissedKey = 'tp-cross-sell-done';
+    const readDismissed = () => { try { return sessionStorage.getItem(dismissedKey) === '1'; } catch { return false; } };
+    const onAdvisorClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!shouldOfferSheet(csItems.length, readDismissed())) return;
+        e.preventDefault();
+        setSheetOpen(true);
+    };
+    const onSheetDone = (titles: string[]) => {
+        setSheetOpen(false);
+        try { sessionStorage.setItem(dismissedKey, '1'); } catch { /* sin almacenamiento: se vuelve a ofrecer */ }
+        const href = waLink(whatsapp, advisorTextWithExtras(advisorText(tour?.title ?? '', language), titles, language));
+        if (href) window.open(href, '_blank', 'noopener,noreferrer');
+    };
 
     const { data: eventsFTData, isLoading: isLoadingEvents } = useEventsByTourFTData(tour?.externalId?.toString() || null);
 
@@ -154,11 +183,22 @@ export function TourDetailClient({
                             whatsapp={whatsapp}
                             paidPolicy={paidEnabled ? paidPolicy(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
+                            onAdvisorClick={onAdvisorClick}
+                            below={crossSell && csItems.length > 0 ? (
+                                <SectionBoundary name="franja-transporte">
+                                    <CrossSellStrip eyebrow={csCopy.stripEyebrow(crossSell.city)} question={csCopy.stripQuestion} from={csCopy.from} items={csItems.slice(0, 1)} />
+                                </SectionBoundary>
+                            ) : null}
                         />
                     </div>
                 </div>
             </div>
-            <TourMobileBar tour={tour} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} />
+            <TourMobileBar tour={tour} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
+            {sheetOpen && crossSell && (
+                <SectionBoundary name="ventana-completa-tu-viaje">
+                    <CompleteTripSheet city={crossSell.city} items={csItems} copy={csCopy} onDone={onSheetDone} />
+                </SectionBoundary>
+            )}
             </div>
         </div>
     );

@@ -1,4 +1,5 @@
 'use client';
+import type React from 'react';
 
 import { useLanguage } from '@/lib/language-context';
 import { formatRating } from '@/home/lib/format';
@@ -7,7 +8,7 @@ import { advisorText, bookingCopy, priceText, type BookingMode } from '@/tours/l
 import type { Tour } from '@/types';
 
 /** Barra fija abajo en celular: precio, calificación y el botón para apartar (gate 3 de la auditoría de diseño). */
-export function TourMobileBar({ tour, mode, whatsapp }: { tour: Tour; mode: BookingMode; whatsapp?: string }) {
+export function TourMobileBar({ tour, mode, whatsapp, onAdvisorClick }: { tour: Tour; mode: BookingMode; whatsapp?: string; onAdvisorClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
   const { t, language } = useLanguage();
   const copy = bookingCopy(language);
   const rating = formatRating(tour.rating);
@@ -24,7 +25,7 @@ export function TourMobileBar({ tour, mode, whatsapp }: { tour: Tour; mode: Book
         </div>
         <a
           href={href}
-          {...(mode === 'advisor' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          {...(mode === 'advisor' ? { target: '_blank', rel: 'noopener noreferrer', onClick: onAdvisorClick } : {})}
           className="shrink-0 rounded-xl bg-[#C12909] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#A32207]"
         >
           {copy.barCta(mode)}

@@ -8,6 +8,8 @@ import { loadTourReviews } from '@/reviews/load';
 import type { Metadata } from 'next';
 import { tourMeta } from '@/seo/lib/meta';
 import { contactFromEnv } from '@/booking/tour-summary';
+import { cityLabel, transportForPlace } from '@/trips/cross-sell';
+import { crossSellDeps } from '@/trips/cross-sell-deps';
 
 interface TourDetailPageProps {
     params: Promise<{ id: string }>;
@@ -68,6 +70,11 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         );
 
         const env = process.env as Record<string, string | undefined>;
+        // REQ-005/006: transporte de la misma ciudad o país (vacío si TRANSPORT_ENABLED está apagado). Si falla, la ficha sigue.
+        const rel = tourData as unknown as { city?: { translations?: unknown }; country?: { code?: string } };
+        const place = { city: cityLabel(rel.city?.translations, 'es'), country: rel.country?.code ?? null };
+        const items = await transportForPlace(place, language, crossSellDeps()).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; });
+        const crossSell = items.length ? { city: cityLabel(rel.city?.translations, language) ?? place.city ?? '', items } : null;
         return (
             <TourDetailClient
                 tourId={tourId}
@@ -79,6 +86,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 bookingsEnabled={env.BOOKINGS_ENABLED === 'true'}
                 paidEnabled={env.PAID_TOURS_ENABLED === 'true'}
                 whatsapp={contactFromEnv(env).whatsapp}
+                crossSell={crossSell}
             />
         );
     } catch (error) {
