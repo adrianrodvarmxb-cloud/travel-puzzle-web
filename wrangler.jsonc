@@ -55,7 +55,10 @@
     "EDIT_ENABLED": "false",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
     "OWN_TOURS_ENABLED": "false",
-    "TRANSPORT_ENABLED": "true",
+    "TRANSPORT_ENABLED": "false",
+    "TRANSFERS_ENABLED": "false",
+    "AFFILIATES_ENABLED": "true",
+    "AFFILIATE_PATHS": "/,/trenes,/traslados",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
