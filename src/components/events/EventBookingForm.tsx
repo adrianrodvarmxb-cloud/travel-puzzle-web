@@ -1,5 +1,6 @@
 'use client';
 
+import { phoneLabel } from '@/booking/lib/phone-field';
 import { Input } from '@/components/ui/Input';
 import { Eyebrow } from '@/components/booking/email-ui';
 import { PeopleSelector } from './PeopleSelector';
@@ -14,6 +15,8 @@ interface EventDetailData {
   fullPricePerGroup: Record<string, number>;
   payableNowPricePerGroup: Record<string, number>;
   isPartiallyPaid: boolean;
+  /** Freetour: el proveedor exige teléfono (REQ-015). */
+  isPhoneRequired?: boolean | number;
 }
 
 interface EventBookingFormProps {
@@ -56,7 +59,7 @@ export function EventBookingForm({ language, eventDetailData, isLoading = false,
           <Input type="text" label="Nombre" value={form.customer.firstName} onChange={(e) => handlers.customer.firstName(e.target.value)} error={errors.customer?.firstName} required className="w-full" />
           <Input type="text" label="Apellido" value={form.customer.lastName} onChange={(e) => handlers.customer.lastName(e.target.value)} error={errors.customer?.lastName} required className="w-full" />
           <Input type="email" label="Correo" value={form.customer.email} onChange={(e) => handlers.customer.email(e.target.value)} error={errors.customer?.email} required className="w-full" />
-          <Input type="tel" label="WhatsApp (opcional)" value={form.customer.phone || ''} onChange={(e) => handlers.customer.phone(e.target.value)} error={errors.customer?.phone} className="w-full" />
+          <Input type="tel" label={phoneLabel(eventDetailData?.isPhoneRequired)} value={form.customer.phone || ''} onChange={(e) => handlers.customer.phone(e.target.value)} error={errors.customer?.phone} className="w-full" />
         </div>
         <p className="mt-2 text-[13px] text-gray-500">Te mandamos la confirmación a este correo.</p>
       </section>
