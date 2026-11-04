@@ -17,11 +17,20 @@ export function cacheKey(prefix: string, parts: Record<string, unknown>): string
   return `${prefix}?${clean.join("&")}`;
 }
 
-export function createSharedCache(deps: { l2: L2Store; now?: () => number; onError?: (where: string, err: unknown) => void }) {
+export function createSharedCache(deps: {
+  l2: L2Store; now?: () => number; onError?: (where: string, err: unknown) => void;
+  /** REQ-036: cuánto espera un visitante la consulta que ya lanzó otro antes de hacer la suya. */
+  waitMs?: number; delay?: (ms: number) => Promise<void>;
+}) {
   const now = deps.now ?? (() => Date.now());
   const log = deps.onError ?? (() => {});
+  const waitMs = deps.waitMs ?? 1500;
+  const delay = deps.delay ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
   const l1 = new Map<string, { at: number; value: unknown }>();
-  const inflight = new Map<string, Promise<unknown>>();
+  // REQ-036 (INC-003): en Workers una promesa creada por otra petición puede no resolverse nunca
+  // ("A promise was resolved ... from a different request context"); por eso se espera con tope.
+  const inflight = new Map<string, { at: number; job: Promise<unknown> }>();
+  const TIMEOUT = Symbol('timeout');
 
   async function l2get(key: string) {
     try { return await deps.l2.get(key); } catch (e) { log("l2.get", e); return null; }
@@ -35,7 +44,11 @@ export function createSharedCache(deps: { l2: L2Store; now?: () => number; onErr
       if (hit && now() - hit.at < ttl) return hit.value as T;
 
       const running = inflight.get(key);
-      if (running) return running as Promise<T>;
+      if (running && now() - running.at < waitMs) {
+        const r = await Promise.race([running.job.then((v) => v, () => TIMEOUT), delay(waitMs).then(() => TIMEOUT)]);
+        if (r !== TIMEOUT) return r as T;
+        log('inflight-timeout', key);
+      }
 
       const job = (async () => {
         const shared = await l2get(key);
@@ -58,8 +71,9 @@ export function createSharedCache(deps: { l2: L2Store; now?: () => number; onErr
           throw err;
         }
       })();
-      inflight.set(key, job);
-      try { return (await job) as T; } finally { inflight.delete(key); }
+      const entry = { at: now(), job };
+      inflight.set(key, entry);
+      try { return (await job) as T; } finally { if (inflight.get(key) === entry) inflight.delete(key); }
     },
   };
 }
