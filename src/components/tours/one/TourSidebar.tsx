@@ -7,7 +7,7 @@ import type { PaidPolicy } from '@/tours/lib/paid-policy';
 import { PaidPolicyNotice } from '../PaidPolicyNotice';
 import { formatRating } from '@/home/lib/format';
 import { waLink } from '@/home/lib/copy';
-import { advisorText, bookingCopy, type BookingMode } from '@/tours/lib/booking-cta';
+import { advisorText, bookingCopy, crossSellSlot, type BookingMode } from '@/tours/lib/booking-cta';
 
 /** El cliente contacta siempre a Travel Puzzle, nunca directo al guía (términos de Freetour, sección 2.2). */
 const SHOW_PROVIDER_PHONE = false;
@@ -87,7 +87,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                                 {copy.advisorCta} →
                             </a>
                         )}
-                        {below}
+                        {crossSellSlot(mode) === 'under-advisor' && below}
                     </div>
                 )}
 
@@ -124,6 +124,9 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                         </Card>
                     </div>
                 )}
+
+                {/* REQ-009: con reservas en línea la franja va bajo el calendario */}
+                {crossSellSlot(mode) === 'under-calendar' && below && <div className="mb-6">{below}</div>}
 
                 {/* Tour Details */}
                 {SHOW_DETAILS && <div className="space-y-4 border-t pt-6">
