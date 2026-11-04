@@ -4,6 +4,8 @@ import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { SITE_META } from "@/seo/lib/meta";
+import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
+import { driveConfig } from "@/affiliates/lib/drive";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +40,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // REQ-027: afiliados (Travelpayouts) apagados por defecto y solo en rutas elegidas.
+  const drive = driveConfig(process.env as Record<string, string | undefined>);
   return (
     <html lang="es" suppressHydrationWarning>
       <body
@@ -47,6 +51,7 @@ export default function RootLayout({
         <SessionProvider>
           <AppProviders>
             {children}
+            {drive.enabled && <AffiliateDrive config={drive} />}
           </AppProviders>
         </SessionProvider>
       </body>
