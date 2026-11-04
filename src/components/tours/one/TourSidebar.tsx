@@ -1,4 +1,5 @@
 'use client';
+import type React from 'react';
 
 import { FreeTourGuide } from './FreeTourGuide';
 import type { TipGuide } from '@/tours/lib/tip-guide';
@@ -6,7 +7,7 @@ import type { PaidPolicy } from '@/tours/lib/paid-policy';
 import { PaidPolicyNotice } from '../PaidPolicyNotice';
 import { formatRating } from '@/home/lib/format';
 import { waLink } from '@/home/lib/copy';
-import { advisorText, bookingCopy, type BookingMode } from '@/tours/lib/booking-cta';
+import { advisorText, bookingCopy, crossSellSlot, type BookingMode } from '@/tours/lib/booking-cta';
 
 /** El cliente contacta siempre a Travel Puzzle, nunca directo al guía (términos de Freetour, sección 2.2). */
 const SHOW_PROVIDER_PHONE = false;
@@ -30,12 +31,16 @@ interface TourSidebarProps {
     tipGuide?: TipGuide | null;
     /** Pago y no presentarse (tours con costo, con PAID_TOURS_ENABLED). */
     paidPolicy?: PaidPolicy | null;
+    /** REQ-006: antes de abrir WhatsApp se puede ofrecer el transporte (si devuelve true, no se abre aquí). */
+    onAdvisorClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+    /** REQ-005: contenido extra bajo el botón (franja de venta cruzada). */
+    below?: React.ReactNode;
 }
 
 /** Duración, destino y proveedor ya se muestran arriba del tour; aquí se repetían (auditoría de diseño, nov 2026). */
 const SHOW_DETAILS = false;
 
-export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy }: TourSidebarProps) {
+export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy, onAdvisorClick, below }: TourSidebarProps) {
     const { t, language } = useLanguage();
     const copy = bookingCopy(language);
     const wa = waLink(whatsapp, advisorText(tour.title, language));
@@ -78,10 +83,11 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                         <p className="font-display text-xl font-bold">{copy.advisorTitle}</p>
                         <p className="mt-1 text-sm text-muted-foreground">{copy.advisorSub}</p>
                         {wa && (
-                            <a href={wa} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-[#C12909] px-5 py-3 font-semibold text-white transition-colors hover:bg-[#A32207]">
+                            <a href={wa} target="_blank" rel="noopener noreferrer" onClick={onAdvisorClick} className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-[#C12909] px-5 py-3 font-semibold text-white transition-colors hover:bg-[#A32207]">
                                 {copy.advisorCta} →
                             </a>
                         )}
+                        {crossSellSlot(mode) === 'under-advisor' && below}
                     </div>
                 )}
 
@@ -118,6 +124,9 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                         </Card>
                     </div>
                 )}
+
+                {/* REQ-009: con reservas en línea la franja va bajo el calendario */}
+                {crossSellSlot(mode) === 'under-calendar' && below && <div className="mb-6">{below}</div>}
 
                 {/* Tour Details */}
                 {SHOW_DETAILS && <div className="space-y-4 border-t pt-6">

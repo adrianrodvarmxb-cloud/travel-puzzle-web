@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { bookingMode, advisorText, bookingCopy, priceText } from "./booking-cta";
+import { bookingMode, advisorText, bookingCopy, priceText, crossSellSlot } from "./booking-cta";
 
 describe("llamado a reservar en la ficha del tour", () => {
   it("con reservas apagadas se aparta con un asesor; encendidas, calendario", () => {
@@ -24,5 +24,12 @@ describe("llamado a reservar en la ficha del tour", () => {
   it("precio: gratis o moneda y monto", () => {
     expect(priceText(0, "EUR", "Gratis")).toBe("Gratis");
     expect(priceText(16, "EUR", "Gratis")).toBe("EUR 16");
+  });
+});
+
+describe("crossSellSlot", () => {
+  it("REQ-009: la franja de transporte se muestra en los dos modos de reserva", () => {
+    expect(crossSellSlot("advisor")).toBe("under-advisor");
+    expect(crossSellSlot("calendar")).toBe("under-calendar");
   });
 });

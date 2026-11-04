@@ -6,6 +6,12 @@ export function bookingMode(bookingsEnabled: boolean): BookingMode {
   return bookingsEnabled ? "calendar" : "advisor";
 }
 
+/** Dónde va la franja de transporte en la ficha: bajo el botón del asesor o bajo el calendario. */
+// REQ-009
+export function crossSellSlot(mode: BookingMode): "under-advisor" | "under-calendar" {
+  return mode === "calendar" ? "under-calendar" : "under-advisor";
+}
+
 /** Mensaje que se abre en WhatsApp para apartar el tour. */
 export function advisorText(title: string, lang: string): string {
   const t = title.trim();

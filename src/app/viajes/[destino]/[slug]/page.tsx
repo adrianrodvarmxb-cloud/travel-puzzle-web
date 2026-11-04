@@ -18,6 +18,11 @@ import { priceDisplay, formatMoney } from '@/trips/lib/money';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
+import { SectionBoundary } from '@/components/common/SectionBoundary';
+import { toursForPlace } from '@/trips/cross-sell';
+import { crossSellDeps } from '@/trips/cross-sell-deps';
+import { crossSellCopy } from '@/trips/lib/cross-sell-copy';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,6 +62,12 @@ export default async function TripPage({ params }: Props) {
     const contact = contactFromEnv(env);
     const wa = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(`Hola Travel Puzzle, quiero cotizar "${trip.titleEs}" (${trip.code}).`)}` : null;
     const opt = (n: number | null) => (n === null ? '—' : priceDisplay(n, trip.currency, fx, lang)?.main ?? '—');
+    // REQ-007: en la ficha de un transporte, tours de la misma ciudad (o país). Si falla, la ficha sigue.
+    const cs = crossSellCopy(lang);
+    const tourCity = trip.cities[0] ?? null;
+    const relatedTours = trip.kind === 'transporte'
+        ? await toursForPlace({ city: tourCity, country: trip.countries[0] ?? null }, lang, crossSellDeps()).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; })
+        : [];
     const cancel = trip.cancellation.type === 'standard' ? [c.cancelStandard] : trip.cancellation.type === 'none' ? [c.cancelNone] : trip.cancellation.tiers.map((t) => c.cancelTier(t.daysBefore, t.refundPct));
 
     return (
@@ -131,6 +142,11 @@ export default async function TripPage({ params }: Props) {
                         </div>
                         <aside className="space-y-5">
                             <TripPriceBox price={card.price} c={c} whatsappUrl={wa} />
+                            {relatedTours.length > 0 && (
+                                <SectionBoundary name="franja-tours">
+                                    <CrossSellStrip eyebrow={cs.toursEyebrow(L('cities.0', tourCity ?? ''))} question={cs.toursQuestion} from={cs.from} freeLabel="Free tour" items={relatedTours.slice(0, 2)} />
+                                </SectionBoundary>
+                            )}
                             <TripRequestForm tripId={trip.id} custom={trip.kind === 'personalizado'} currency={trip.currency} lang={lang} returnPath={path}
                                 options={trip.options.map((o) => ({ ...o, name: L(`options.${o.id}.name`, o.name) }))} availability={trip.availability}
                                 minNoticeHours={trip.minNoticeHours} hotelPickup={trip.hotelPickup} />
