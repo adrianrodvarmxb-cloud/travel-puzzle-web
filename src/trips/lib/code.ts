@@ -1,12 +1,12 @@
 /**
- * Código automático del viaje (gate H): AGENCIA-REGIÓN-TIPO+DÍAS-NÚM, p. ej. TP-MX-E01-007.
+ * Código automático del viaje (gate H): AGENCIA-REGIÓN-TIPO+DÍAS-NÚM, p. ej. TP-MX-E01-007 (transporte = M, movilidad).
  * Se congela al publicar. Siglas de agencia sugeridas a partir del nombre. Puro.
  */
 import { regionOf } from "./geo";
 import type { TripKind } from "./trip";
 
 export const TP_INITIALS = "TP";
-const KIND_LETTER: Record<TripKind, string> = { tour: "T", circuito: "C", unica: "E", personalizado: "P" };
+const KIND_LETTER: Record<TripKind, string> = { tour: "T", circuito: "C", unica: "E", personalizado: "P", transporte: "M" };
 const STOP = new Set(["de", "del", "la", "las", "el", "los", "y", "e", "en", "the", "and", "of", "sa", "cv", "s", "a"]);
 
 const clean = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z0-9 ]/g, " ");

@@ -14,6 +14,9 @@ describe("suggestInitials", () => {
 });
 
 describe("tripCode", () => {
+  it("transporte usa la letra M (movilidad)", () => {
+    expect(tripCode({ initials: "BBT", countries: ["FR"], kind: "transporte", durationDays: 1, seq: 1 })).toBe("BBT-FR-M01-001");
+  });
   it("AGENCIA-PAÍS-TIPO+DÍAS-NÚM", () => {
     expect(tripCode({ initials: "TP", countries: ["MX"], kind: "unica", durationDays: 1, seq: 7 })).toBe("TP-MX-E01-007");
     expect(tripCode({ initials: "EMV", countries: ["ES", "FR", "IT"], kind: "circuito", durationDays: 15, seq: 42 })).toBe("EMV-EUR-C15-042");
