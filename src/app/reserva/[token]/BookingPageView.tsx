@@ -6,8 +6,6 @@ const STATUS: Record<string, { label: string; dot: string; text: string }> = {
     active: { label: 'Reserva confirmada', dot: 'bg-[#3DDC84]', text: 'text-[#7CE3A1]' },
     canceled: { label: 'Reserva cancelada', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
     rejected: { label: 'Reserva rechazada', dot: 'bg-[#FF6B5A]', text: 'text-[#FFB3A8]' },
-    // REQ-017
-    cancel_requested: { label: 'Cancelación en proceso', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
 };
 
 export interface BookingPageViewProps {
@@ -49,7 +47,7 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                     dot={st.dot}
                     statusText={st.text}
                     extra={days !== null ? <span className="text-[#EAF54F]">{days === 0 ? '¡Es hoy!' : days === 1 ? '¡Es mañana!' : `Faltan ${days} días`}</span> : undefined}
-                    title={active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : status === 'cancel_requested' ? 'Recibimos tu cancelación' : 'Tu reserva no pudo confirmarse'}
+                    title={active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : 'Tu reserva no pudo confirmarse'}
                     subtitle={<>Hola {firstName}: <span className="font-semibold text-white">{title}</span></>}
                 />
 

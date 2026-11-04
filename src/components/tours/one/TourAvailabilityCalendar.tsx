@@ -1,7 +1,6 @@
 'use client';
 
-import { upcomingEvents } from '@/tours/lib/upcoming';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { ChevronLeftIcon, ChevronRightIcon, ClockIcon } from '@/assets/svg';
@@ -21,9 +20,7 @@ export function TourAvailabilityCalendar({ events, tourId }: TourAvailabilityCal
     const { language } = useLanguage();
 
     // Group events and get available dates
-    // REQ-016: sin horarios pasados (Freetour también los devuelve).
-    const upcoming = useMemo(() => upcomingEvents(events, Date.now()), [events]);
-    const { eventsByDate, availableDates } = useEventsGrouping(upcoming);
+    const { eventsByDate, availableDates } = useEventsGrouping(events);
 
     // Handle date selection with localStorage
     const { selectedDate, setSelectedDate, selectedDateForLS } = useSelectedDate({
