@@ -4,21 +4,15 @@ import { useState } from 'react';
 
 /** Botón de cancelar con confirmación (Freetour solo pide que el cliente confirme su intención). */
 export function CancelBooking({ token }: { token: string }) {
-    const [step, setStep] = useState<'idle' | 'confirm' | 'sending' | 'done' | 'requested' | 'error'>('idle');
+    const [step, setStep] = useState<'idle' | 'confirm' | 'sending' | 'done' | 'error'>('idle');
 
     async function cancel() {
         setStep('sending');
         const res = await fetch(`/api/reserva/${encodeURIComponent(token)}/cancelar`, { method: 'POST' }).catch(() => null);
-        const body = res ? await res.json().catch(() => null) : null;
-        // REQ-017: si el proveedor no la aceptó en línea, nuestro equipo la termina y se avisa por correo.
-        const next = res?.ok ? (body?.result === 'requested' ? 'requested' : 'done') : 'error';
-        setStep(next);
-        if (res?.ok) setTimeout(() => window.location.reload(), 2500);
+        setStep(res?.ok ? 'done' : 'error');
+        if (res?.ok) setTimeout(() => window.location.reload(), 1500);
     }
 
-    if (step === 'requested') {
-        return <p role="status" className="rounded-xl border border-[#E6EBF5] bg-[#F4F7FD] p-4 text-sm font-semibold text-[#0A1330]">Recibimos tu cancelación. Nuestro equipo la confirma y te avisamos por correo.</p>;
-    }
     if (step === 'done') {
         return <p role="status" className="rounded-xl border border-[#E6EBF5] bg-[#F4F7FD] p-4 text-sm font-semibold text-[#0A1330]">Listo, tu reserva quedó cancelada.</p>;
     }

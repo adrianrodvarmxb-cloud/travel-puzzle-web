@@ -38,11 +38,9 @@ export const zFTBookingDTO = z.object({
         lastName: z.string()
             .min(1, 'Last name is required')
             .describe('booking.form.customer.lastName'),
-        // REQ-018: opcional de verdad; vacío = sin teléfono. Si el proveedor lo exige, lo valida el servidor (phone_required).
         phone: z.string()
-            .max(30)
+            .min(1, 'Phone is required')
             .optional()
-            .transform((v) => (v && v.trim() ? v : undefined))
             .describe('booking.form.customer.phone'),
     }),
 });

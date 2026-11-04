@@ -1,5 +1,4 @@
 import type { BookingRecord } from "./lib/booking-record";
-import { cancelFailureAction } from "./lib/cancel-fallback";
 
 /**
  * Página privada de la reserva (/reserva/{token}): ver y cancelar.
@@ -31,10 +30,6 @@ export async function loadManageView(token: string, d: ManageDeps): Promise<Mana
   if (!record) return null;
   const remote = await d.getRemote(record.refNumber).catch(() => null);
   if (!remote) return { record, status: record.status, canCancel: false, canEdit: false, offline: true };
-  // REQ-017: cancelación ya solicitada al equipo; mientras Freetour la siga viendo activa, no se ofrece de nuevo.
-  if (record.status === "cancel_requested" && remote.status === "active") {
-    return { record, status: record.status, canCancel: false, canEdit: false, offline: false };
-  }
   if (remote.status && remote.status !== record.status) {
     await d.setStatus(record.refNumber, remote.status);
   }
@@ -48,15 +43,13 @@ export async function loadManageView(token: string, d: ManageDeps): Promise<Mana
   };
 }
 
-export type CancelResult = "not_found" | "not_allowed" | "already" | "canceled" | "error" | "requested";
+export type CancelResult = "not_found" | "not_allowed" | "already" | "canceled" | "error";
 
 export async function cancelByToken(
   token: string,
   d: ManageDeps & {
     cancel(ref: { refNumber: string; eventId: number; adults: number; children: number }): Promise<unknown>;
     notify(record: BookingRecord): Promise<unknown>;
-    /** REQ-017: si Freetour no acepta la cancelación, la solicitud pasa al equipo (correo interno). */
-    requestManual?(record: BookingRecord): Promise<unknown>;
   }
 ): Promise<CancelResult> {
   const view = await loadManageView(token, d);
@@ -66,15 +59,8 @@ export async function cancelByToken(
   const { record } = view;
   try {
     await d.cancel({ refNumber: record.refNumber, eventId: record.eventId, adults: record.adults, children: record.children });
-  } catch (e) {
-    if (!d.requestManual) return "error";
-    // REQ-017: modo 2 exige que el cliente siempre pueda cancelar con nosotros.
-    const action = cancelFailureAction(e as { status?: number; errorCode?: number | null });
-    if (action === "too_late") return "not_allowed";
-    if (action === "already") return "already";
-    await d.requestManual(record);
-    await d.setStatus(record.refNumber, "cancel_requested");
-    return "requested";
+  } catch {
+    return "error";
   }
   await d.setStatus(record.refNumber, "canceled");
   await d.notify({ ...record, status: "canceled" });
