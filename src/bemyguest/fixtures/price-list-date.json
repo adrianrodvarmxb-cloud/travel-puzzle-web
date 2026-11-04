@@ -1,0 +1,72 @@
+{
+ "data": {
+  "date": "2025-08-20",
+  "weekday": "Wednesday",
+  "cancellationPolicy": [],
+  "currency": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+  "availability": [
+   {
+    "category": "adult",
+    "type": "exclusive",
+    "quantity": 40
+   },
+   {
+    "category": "child",
+    "type": "exclusive",
+    "quantity": 20
+   }
+  ],
+  "timezone": "Asia/Singapore",
+  "options": [],
+  "voucherValidity": {
+   "adults": {
+    "date": "2025-08-20"
+   },
+   "children": {
+    "date": "2025-08-20"
+   }
+  },
+  "prices": [
+   {
+    "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+    "rates": [
+     {
+      "type": "retailPrice",
+      "category": "adult",
+      "currency": "SGD",
+      "amount": 36,
+      "format": "S$36.00"
+     },
+     {
+      "type": "nettPrice",
+      "category": "adult",
+      "currency": "SGD",
+      "amount": 31.59,
+      "format": "S$31.59"
+     },
+     {
+      "type": "minimumSellingPrice",
+      "category": "adult",
+      "currency": "SGD",
+      "amount": 35,
+      "format": "S$35.00"
+     },
+     {
+      "type": "retailPrice",
+      "category": "child",
+      "currency": "SGD",
+      "amount": 30,
+      "format": "S$30.00"
+     },
+     {
+      "type": "nettPrice",
+      "category": "child",
+      "currency": "SGD",
+      "amount": 25.59,
+      "format": "S$25.59"
+     }
+    ]
+   }
+  ]
+ }
+}

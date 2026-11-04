@@ -1,0 +1,46 @@
+{
+ "data": [
+  {
+   "links": [
+    {
+     "href": "https://api.bemyguest.com.sg/v2/product-types/80590844-e665-4fdc-843c-ffc6fe893403",
+     "method": "GET",
+     "rel": "self"
+    },
+    {
+     "href": "https://api.bemyguest.com.sg/v2/product-types/80590844-e665-4fdc-843c-ffc6fe893403/price-lists",
+     "method": "GET",
+     "rel": "priceLists"
+    },
+    {
+     "href": "https://api.bemyguest.com.sg/v2/products/4dd77d8e-043b-4edb-b32a-0776043143ad",
+     "method": "GET",
+     "rel": "product"
+    }
+   ],
+   "title": "MINT Museum of Toys - Admission with Complimentary Guided Tour",
+   "uuid": "80590844-e665-4fdc-843c-ffc6fe893403"
+  },
+  {
+   "links": [
+    {
+     "href": "https://api.bemyguest.com.sg/v2/product-types/c1483d3d-ec7f-45fc-ae29-acc706b6122e",
+     "method": "GET",
+     "rel": "self"
+    },
+    {
+     "href": "https://api.bemyguest.com.sg/v2/product-types/c1483d3d-ec7f-45fc-ae29-acc706b6122e/price-lists",
+     "method": "GET",
+     "rel": "priceLists"
+    },
+    {
+     "href": "https://api.bemyguest.com.sg/v2/products/4dd77d8e-043b-4edb-b32a-0776043143ad",
+     "method": "GET",
+     "rel": "product"
+    }
+   ],
+   "title": "MINT Museum of Toys - Around the World in 60 Minutes Guided Tour",
+   "uuid": "c1483d3d-ec7f-45fc-ae29-acc706b6122e"
+  }
+ ]
+}

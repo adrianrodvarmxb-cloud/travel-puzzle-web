@@ -1,0 +1,70 @@
+{
+ "data": [
+  {
+   "basePrice": 18.93,
+   "links": [
+    {
+     "href": "https://api.bemyguest.com.sg/v2/products/52d1b30f-9314-432a-9ec8-406b525a4f5c",
+     "method": "GET",
+     "rel": "self"
+    },
+    {
+     "href": "https://api.bemyguest.com.sg/v2/products/52d1b30f-9314-432a-9ec8-406b525a4f5c/product-types",
+     "method": "GET",
+     "rel": "productTypes"
+    }
+   ],
+   "title": "Hong Kong Disneyland Park Ticket",
+   "titleTranslated": "Hong Kong Disneyland Park Ticket",
+   "typeName": "Attraction",
+   "typeUuid": "d3c54653-dd05-598f-b193-f6683d1064ab",
+   "updatedAt": "2025-08-18 08:00:09",
+   "uuid": "52d1b30f-9314-432a-9ec8-406b525a4f5c",
+   "validFrom": null,
+   "validThrough": null
+  },
+  {
+   "basePrice": 25.88,
+   "links": [
+    {
+     "href": "https://api.bemyguest.com.sg/v2/products/4dd77d8e-043b-4edb-b32a-0776043143ad",
+     "method": "GET",
+     "rel": "self"
+    },
+    {
+     "href": "https://api.bemyguest.com.sg/v2/products/4dd77d8e-043b-4edb-b32a-0776043143ad/product-types",
+     "method": "GET",
+     "rel": "productTypes"
+    }
+   ],
+   "title": "MINT Museum of Toys Ticket",
+   "titleTranslated": "MINT Museum of Toys Ticket",
+   "typeName": "Attraction",
+   "typeUuid": "d3c54653-dd05-598f-b193-f6683d1064ab",
+   "updatedAt": "2025-08-11 08:02:32",
+   "uuid": "4dd77d8e-043b-4edb-b32a-0776043143ad",
+   "validFrom": null,
+   "validThrough": null
+  }
+ ],
+ "links": [
+  {
+   "href": "https://docs.bemyguest.com.sg/openapi/products",
+   "method": "GET",
+   "rel": "docs"
+  }
+ ],
+ "meta": {
+  "pagination": {
+   "count": 2,
+   "current_page": 1,
+   "links": {
+    "next": "https://api.bemyguest.com.sg/v2/products?per_page=2&currency=10&page=2"
+   },
+   "per_page": 2,
+   "total": 2740,
+   "total_pages": 1370
+  }
+ },
+ "timestamp": "2025-08-18T12:04:54.742+08:00"
+}

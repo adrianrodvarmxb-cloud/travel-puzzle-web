@@ -1,0 +1,105 @@
+{
+ "data": {
+  "additionalInfo": "IMPORTANT NOTICE:\r\n- Adults may only visit the attraction when accompanied by a child. Entry will be denied otherwise, and no refunds will be issued.\r\n\r\nChild policy:\r\n- Children under 2 years are free of charge when accompanied by a paying adult. \r\n- Children below 8 years must be accompanied by a paying adult at all times.\r\n- Children between 8 to 17 years are allowed to enter without an adult but must have an adult present upon entrance and exit of the attraction.",
+  "additionalInfoTranslated": "IMPORTANT NOTICE:\r\n- Adults may only visit the attraction when accompanied by a child. Entry will be denied otherwise, and no refunds will be issued.\r\n\r\nChild policy:\r\n- Children under 2 years are free of charge when accompanied by a paying adult. \r\n- Children below 8 years must be accompanied by a paying adult at all times.\r\n- Children between 8 to 17 years are allowed to enter without an adult but must have an adult present upon entrance and exit of the attraction.",
+  "address": "KidZania Kuala Lumpur Mutiara Damansara Petaling Jaya Selangor Malaysia",
+  "airportPickup": false,
+  "allProductTypesHaveOptions": false,
+  "audioHeadsetLanguages": [],
+  "averageDelivery": 8,
+  "basePrice": 17.48,
+  "businessHoursFrom": "10:00",
+  "businessHoursTo": "18:00",
+  "categories": [
+   {
+    "name": "Themepark",
+    "uuid": "9384f408-a941-58ba-b958-4a814c23d1bc"
+   }
+  ],
+  "covid19Measures": null,
+  "covid19MeasuresTranslated": null,
+  "currency": {
+   "code": "SGD",
+   "symbol": "S$",
+   "uuid": "cd15153e-dfd1-5039-8aa3-115bec58e86e"
+  },
+  "description": "KidZania Kuala Lumpur is an interactive indoor theme park, where children can experience real-life jobs in a role-playing environment. The child-geared activity centre comes complete with a functioning economy, paved streets, moving vehicles, and buildings. KidZania offers around 70 role-playing activities where they'll learn all about jobs, money and the real world while developing life skills that simply cannot be taught in the classroom.",
+  "descriptionTranslated": "KidZania Kuala Lumpur is an interactive indoor theme park, where children can experience real-life jobs in a role-playing environment. The child-geared activity centre comes complete with a functioning economy, paved streets, moving vehicles, and buildings. KidZania offers around 70 role-playing activities where they'll learn all about jobs, money and the real world while developing life skills that simply cannot be taught in the classroom.",
+  "guideLanguages": [],
+  "hasOptions": false,
+  "highlights": "Teach your kids about the real world of business, the economy, and responsibilities in a fun and interactive way.\nStep into a kid-centric theme park, offering a range of role-playing opportunities for your child.\nImmerse your kids in grown-up responsibilities and the functioning of a modern city.",
+  "highlightsTranslated": "Teach your kids about the real world of business, the economy, and responsibilities in a fun and interactive way.\nStep into a kid-centric theme park, offering a range of role-playing opportunities for your child.\nImmerse your kids in grown-up responsibilities and the functioning of a modern city.",
+  "hotelPickup": false,
+  "isFlatPaxPrice": true,
+  "isSrvEligible": false,
+  "itinerary": null,
+  "itineraryTranslated": null,
+  "latitude": "3.1579860",
+  "links": [
+   {
+    "href": "https://api.bemyguest.com.sg/v2/products/a9e0c99f-0140-5070-b7e5-c27f46b863d9",
+    "method": "GET",
+    "rel": "self"
+   },
+   {
+    "href": "https://api.bemyguest.com.sg/v2/products/a9e0c99f-0140-5070-b7e5-c27f46b863d9/product-types",
+    "method": "GET",
+    "rel": "productTypes"
+   },
+   {
+    "href": "https://docs.bemyguest.com.sg/openapi/products",
+    "method": "GET",
+    "rel": "docs"
+   }
+  ],
+  "locations": [
+   {
+    "city": "Kuala Lumpur",
+    "cityUuid": "93039b61-5798-5ff8-93f1-4af5ff22239c",
+    "country": "Malaysia",
+    "countryUuid": "57d665cd-1c86-59bf-a99a-19b10a5ae1ea",
+    "state": "Kuala Lumpur",
+    "stateUuid": "ab574343-036d-11e5-a2a9-d07e352b4840"
+   }
+  ],
+  "longitude": "101.6137710",
+  "maxPax": 50,
+  "minPax": 0,
+  "photos": [
+   {
+    "caption": null,
+    "paths": {
+     "1280x720": "/images/content/1280x720/338ddc70-3220-59bc-bad8-9dc7b6dc8a18.jpg",
+     "175x112": "/images/content/175x112/338ddc70-3220-59bc-bad8-9dc7b6dc8a18.jpg",
+     "1920x1080": null,
+     "2048x1536": null,
+     "680x325": "/images/content/680x325/338ddc70-3220-59bc-bad8-9dc7b6dc8a18.jpg",
+     "75x50": "/images/content/75x50/338ddc70-3220-59bc-bad8-9dc7b6dc8a18.jpg",
+     "original": "/images/content/original/338ddc70-3220-59bc-bad8-9dc7b6dc8a18.jpg"
+    },
+    "uuid": "d445f563-fb23-11e9-9d08-029860b28508"
+   }
+  ],
+  "photosUrl": "https://cdn.bemyguest.com.sg",
+  "priceExcludes": null,
+  "priceExcludesTranslated": null,
+  "priceIncludes": "Admission",
+  "priceIncludesTranslated": "Admission",
+  "reviewAverageScore": 0,
+  "reviewCount": 0,
+  "safety": "",
+  "safetyTranslated": "",
+  "title": "KidZania Kuala Lumpur Ticket",
+  "titleTranslated": "KidZania Kuala Lumpur Ticket",
+  "typeName": "Attraction",
+  "typeUuid": "d3c54653-dd05-598f-b193-f6683d1064ab",
+  "updatedAt": "2025-08-18 08:02:44",
+  "uuid": "a9e0c99f-0140-5070-b7e5-c27f46b863d3",
+  "validFrom": null,
+  "validThrough": null,
+  "warnings": null,
+  "warningsTranslated": null,
+  "writtenLanguages": []
+ },
+ "timestamp": "2025-08-18T12:04:54.742+08:00"
+}
