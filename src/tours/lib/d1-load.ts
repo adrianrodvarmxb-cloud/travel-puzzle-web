@@ -17,9 +17,9 @@ export function isD1Overloaded(err: unknown): boolean {
 /** REQ-029: reintenta con espera creciente solo cuando D1 está saturada. */
 export async function withRetry<T>(
   fn: () => Promise<T>,
-  opts: { tries?: number; baseMs?: number; sleep?: (ms: number) => Promise<void> } = {},
+  opts: { tries?: number; baseMs?: number; sleep?: (ms: number) => Promise<void>; jitter?: () => number } = {},
 ): Promise<T> {
-  const tries = opts.tries ?? 3;
+  const tries = opts.tries ?? 4;
   const baseMs = opts.baseMs ?? 400;
   const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
   for (let i = 1; ; i++) {
@@ -27,7 +27,7 @@ export async function withRetry<T>(
       return await fn();
     } catch (err) {
       if (i >= tries || !isD1Overloaded(err)) throw err;
-      await sleep(baseMs * i);
+      await sleep(baseMs * i + Math.floor((opts.jitter ?? Math.random)() * baseMs)); // espera creciente + jitter
     }
   }
 }

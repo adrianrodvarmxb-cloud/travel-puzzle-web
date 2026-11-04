@@ -180,5 +180,7 @@ export async function syncTours(maxPages?: number) {
 /** Frases destacadas de reseñas reales para las tarjetas de la lista de tours. */
 export async function fetchTourHighlights(tourExternalIds: number[], language: string = 'es') {
   const ids = tourExternalIds.filter((n) => Number.isInteger(n) && n > 0).slice(0, 50);
-  return loadTourHighlights(ids, language);
+  // REQ-032: caché compartida 1 h (la consulta de reseñas leía ~39 mil filas por llamada).
+  return cached(cacheKey('highlights', { ids: [...ids].sort((a, b) => a - b).join(','), language }), { ttlSec: 3600, staleSec: 86400 },
+    () => withRetry(() => loadTourHighlights(ids, language)));
 }
