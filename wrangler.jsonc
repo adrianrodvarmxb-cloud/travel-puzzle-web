@@ -58,7 +58,7 @@
     "TRANSPORT_ENABLED": "false",
     "TRANSFERS_ENABLED": "false",
     "AFFILIATES_ENABLED": "true",
-    "AFFILIATE_PATHS": "/,/trenes,/traslados",
+    "AFFILIATE_PATHS": "/trenes,/traslados",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
