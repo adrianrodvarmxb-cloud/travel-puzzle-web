@@ -10,5 +10,10 @@ describe("tripCopy", () => {
     }
     expect(tripCopy("xx").from).toBe("From");
     expect(tripCopy("es").child(3, 11)).toBe("Niño (3–11 años)");
+    for (const l of ["es", "en", "pt", "de", "fr", "it"]) {
+      expect(tripCopy(l).kinds.transporte).toBeTruthy();
+      expect(tripCopy(l).filterTransport).toBeTruthy();
+    }
+    expect(tripCopy("es").kinds.transporte).toBe("Transporte");
   });
 });

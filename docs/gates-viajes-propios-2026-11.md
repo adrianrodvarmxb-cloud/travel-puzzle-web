@@ -35,3 +35,14 @@ También del documento 2024: horarios y puntos de encuentro "mínimo 4" → se p
 | L — En /tours | Mezclados y marcados "Recomendado por Travel Puzzle" (Civitatis obliga a marcar el posicionamiento preferente); filtro Todo / Free tours / Tours / Circuitos / Experiencias (`?tipo=`). |
 | M — Solicitudes | Formularios del documento 2024 + panel /admin/solicitudes (PR D). |
 | N — Tipo de cambio | API SIE de Banxico (FIX USD SF43718, EUR SF46410) con token como secreto `BANXICO_TOKEN`; caché diaria; sin token se muestra la moneda original con "Pagadero en pesos al tipo de cambio del día". |
+
+## Venta cruzada de transporte y tours (firmado por el PO el 3 nov 2026)
+
+Pedido del PO: el transporte se puede comprar solo, pero se ofrece al comprar un tour de la misma zona, y al revés.
+
+- **Gate O, momento:** antes de confirmar ("Agrega tu transporte"), en la confirmación y en el correo ("Completa tu viaje"). Es como lo hacen Civitatis y GetYourGuide.
+- **Gate P, zona:** primero la misma ciudad; si no hay nada, el mismo país.
+- **Gate Q, incentivo:** sin descuento; solo comodidad, al precio normal.
+- **Gate R, alcance:** todas las compras (free tours, tours de pago, viajes propios y de agencias, transporte). Se respeta la mezcla 60 % de pago / 40 % free al recomendar tours.
+- **Tipo nuevo "transporte"** (ola X1): en el código del viaje usa la letra **M** (movilidad), por ejemplo BBT-FR-M01-001. El chip de /tours solo aparece si hay viajes de ese tipo, y todo sigue tras OWN_TOURS_ENABLED.
+- **Precios de Big Bus:** en USD para todas las ciudades. En las que no publican en USD, el precio se convierte y queda como de referencia, a confirmar al reservar.

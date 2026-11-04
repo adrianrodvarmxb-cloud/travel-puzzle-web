@@ -17,9 +17,14 @@ export function tripPath(t: { slug: string; countries: string[] }): string {
   return `/viajes/${destinationSlug(t.countries)}/${t.slug}`;
 }
 
-export type ToursKindFilter = "all" | "free" | "tour" | "circuito" | "unica";
-export const OWN_KIND_FILTERS = ["tour", "circuito", "unica"] as const;
+export type ToursKindFilter = "all" | "free" | "tour" | "circuito" | "unica" | "transporte";
+export const OWN_KIND_FILTERS = ["tour", "circuito", "unica", "transporte"] as const;
 export const isOwnKindFilter = (k: string): k is (typeof OWN_KIND_FILTERS)[number] => (OWN_KIND_FILTERS as readonly string[]).includes(k);
+
+/** Chips de /tours: "todo" y "free" siempre; de los propios, solo los tipos que existen. */
+export function visibleKindFilters(kinds: string[]): ToursKindFilter[] {
+  return ["all", "free", ...OWN_KIND_FILTERS.filter((k) => kinds.includes(k))];
+}
 
 /** ¿Va este viaje arriba de los resultados de /tours con este filtro? */
 export function matchesToursFilter(t: { countries: string[]; kind: TripKind }, f: { countryCode: string | null; kind: ToursKindFilter }): boolean {

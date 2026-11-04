@@ -333,7 +333,7 @@ export function ToursPageClient({
 
                     {/* Tours (en celular y tablet se oculta cuando se ve el mapa) */}
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
-                        {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} />}
+                        {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
                             <OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} />
                         )}

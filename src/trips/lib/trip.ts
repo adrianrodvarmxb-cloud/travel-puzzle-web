@@ -2,7 +2,7 @@
  * Viajes propios y de agencias (punto 17, ola 1). Funciones puras del gestor.
  * Gates firmados en docs/gates-viajes-propios-2026-11.md.
  */
-export const TRIP_KINDS = ["tour", "circuito", "unica", "personalizado"] as const;
+export const TRIP_KINDS = ["tour", "circuito", "unica", "personalizado", "transporte"] as const;
 export const PURCHASE_MODES = ["quote", "buy"] as const;
 export const TRIP_STATUSES = ["draft", "published", "hidden"] as const;
 export const CURRENCIES = ["MXN", "USD", "EUR"] as const;
@@ -14,7 +14,7 @@ export type PurchaseMode = (typeof PURCHASE_MODES)[number];
 export type TripStatus = (typeof TRIP_STATUSES)[number];
 export type Currency = (typeof CURRENCIES)[number];
 
-export const KIND_LABEL: Record<TripKind, string> = { tour: "Tour", circuito: "Circuito", unica: "Experiencia única", personalizado: "Personalizado" };
+export const KIND_LABEL: Record<TripKind, string> = { tour: "Tour", circuito: "Circuito", unica: "Experiencia única", personalizado: "Personalizado", transporte: "Transporte" };
 export const STATUS_LABEL: Record<TripStatus, string> = { draft: "Borrador", published: "Publicado", hidden: "Oculto" };
 
 export interface TripDate { date: string; times: string[] }
