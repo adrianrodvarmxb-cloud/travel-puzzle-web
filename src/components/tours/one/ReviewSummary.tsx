@@ -15,7 +15,7 @@ export function ReviewSummary({ rating, reviews, dark = false, withBadge = true 
       <a href="#resenas" className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold backdrop-blur ${dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-[#F4F7FD] text-[#0A1330]'}`}>
         <span className="tracking-tight text-[#F5B301]" aria-hidden>{'★'.repeat(stars)}{'☆'.repeat(5 - stars)}</span>
         <span>{value}</span>
-        <span className="font-normal opacity-80">· {t('reviews.count', '{count} reviews').replace('{count}', reviews.toLocaleString())}</span>
+        <span className="font-normal opacity-80">· {t('reviews.count', '{count} reviews').replace('{count}', reviews.toLocaleString('es-MX'))}</span>
       </a>
       {withBadge && <TravelerFavoriteBadge rating={rating} reviews={reviews} />}
     </div>

@@ -6,12 +6,18 @@ import { getPrisma } from "@/lib/prisma";
 import { createTripRepo } from "./repository";
 import { localized, type Translations } from "./lib/translation";
 import { tripPath } from "./lib/public";
+import { cardPlaces } from "./lib/geo";
 import { priceDisplay, type FxRates } from "./lib/money";
 import { imageUrl } from "./lib/image";
 import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
+import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
+/** Interruptores leídos del entorno (viajes propios y transporte por separado). */
+export const siteVisibility = () => visibilityFromEnv(process.env as Record<string, string | undefined>);
+/** ¿Hay algo propio visible? (solicitud y página de gracias). */
+export const anyTripsVisible = () => anyVisible(siteVisibility());
 
 const FX_KEY = "https://travelpuzzle.com.mx/__fx/banxico";
 /** Caché de un día en el Cache API del Worker (en local no hay; se consulta directo). */
@@ -29,7 +35,9 @@ export function loadFx(): Promise<FxRates | null> {
 
 export interface TripCard {
   id: string; path: string; code: string; kind: StoredTrip["kind"]; title: string; summary: string;
-  image: string | null; countries: string[]; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
+  image: string | null; countries: string[];
+  /** REQ-004: países ya traducidos en el servidor (el navegador no usa Intl; INC-001). */
+  places: string; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
 }
 
 async function publishedRows() {
@@ -42,17 +50,19 @@ export function toCard(t: StoredTrip & { translations?: unknown }, lang: string,
   return {
     id: t.id, path: tripPath(t), code: t.code, kind: t.kind,
     title: localized(tr, lang, "title", t.titleEs), summary: localized(tr, lang, "summary", t.summaryEs),
-    image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, durationDays: t.durationDays,
+    image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, places: cardPlaces(t.countries, lang), durationDays: t.durationDays,
     price: priceDisplay(t.priceFrom, t.currency, fx, lang),
   };
 }
 
 /** Tarjetas de todos los viajes publicados (pocos: se filtran en el cliente). */
 export async function loadTripCards(lang: string): Promise<TripCard[]> {
-  if (!isOwnToursEnabled(process.env.OWN_TOURS_ENABLED)) return [];
+  const vis = siteVisibility();
+  if (!anyVisible(vis)) return [];
   try {
     const repo = createTripRepo(getPrisma());
-    const [rows, fx] = await Promise.all([publishedRows(), loadFx()]);
+    const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
+    const rows = all.filter((r) => isKindVisible(r.kind, vis));
     const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
     return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations }, lang, fx));
   } catch (error) {
@@ -63,10 +73,11 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
 
 /** Ficha: solo publicados y con el interruptor encendido. */
 export async function loadTripBySlug(slug: string) {
-  if (!isOwnToursEnabled(process.env.OWN_TOURS_ENABLED)) return null;
+  const vis = siteVisibility();
+  if (!anyVisible(vis)) return null;
   const prisma = getPrisma();
   const row = await prisma.trip.findUnique({ where: { slug } });
-  if (!row || row.status !== "published") return null;
+  if (!row || row.status !== "published" || !isKindVisible(row.kind, vis)) return null;
   const trip = await createTripRepo(prisma).findById(row.id);
   if (!trip) return null;
   const agency = row.agencyId ? await prisma.agency.findUnique({ where: { id: row.agencyId }, select: { name: true } }) : null;
@@ -89,7 +100,7 @@ export async function requestDeps(): Promise<import("./requests").RequestDeps> {
     whatsapp: env.WHATSAPP_NUMBER,
     async findTrip(id) {
       const t = await repo.findById(id);
-      return t && t.status === "published" ? { ...t, path: tripPath(t) } : null;
+      return t && t.status === "published" && isKindVisible(t.kind, siteVisibility()) ? { ...t, path: tripPath(t) } : null;
     },
     async save(row) { await prisma.tripRequest.create({ data: row as unknown as import("@prisma/client").Prisma.TripRequestUncheckedCreateInput }); },
     sendCustomer: send,

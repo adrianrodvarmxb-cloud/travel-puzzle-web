@@ -1,3 +1,4 @@
+import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { Navbar } from "@/components/layout";
 import {
   HeroSearch,
@@ -48,7 +49,7 @@ export default async function Home() {
         <ProofStrip stats={data.stats} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
         <FeaturedTours tours={data.featured} />
-        <OwnTripsCarousel trips={ownTrips} />
+        <SectionBoundary name="carrusel-viajes"><OwnTripsCarousel trips={ownTrips} /></SectionBoundary>
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />
         <MapSection />

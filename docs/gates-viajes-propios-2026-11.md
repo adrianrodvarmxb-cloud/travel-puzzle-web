@@ -46,3 +46,9 @@ Pedido del PO: el transporte se puede comprar solo, pero se ofrece al comprar un
 - **Gate R, alcance:** todas las compras (free tours, tours de pago, viajes propios y de agencias, transporte). Se respeta la mezcla 60 % de pago / 40 % free al recomendar tours.
 - **Tipo nuevo "transporte"** (ola X1): en el código del viaje usa la letra **M** (movilidad), por ejemplo BBT-FR-M01-001. El chip de /tours solo aparece si hay viajes de ese tipo, y todo sigue tras OWN_TOURS_ENABLED.
 - **Precios de Big Bus:** en USD para todas las ciudades. En las que no publican en USD, el precio se convierte y queda como de referencia, a confirmar al reservar.
+
+## Interruptor propio de transporte (firmado por el PO el 3 nov 2026)
+- El transporte (tipo M, p. ej. Big Bus) es una categoría que complementa a los tours, no un viaje.
+- Se enciende con su propio interruptor `TRANSPORT_ENABLED` (entra en `false`), independiente de `OWN_TOURS_ENABLED`.
+- Con solo `TRANSPORT_ENABLED`: se ven y se cotizan únicamente los de tipo transporte; con solo `OWN_TOURS_ENABLED`, todo menos transporte.
+- Regla en `src/trips/lib/visibility.ts`. Encenderlo en Cloudflare requiere OK del PO.

@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import { countryName } from '@/trips/lib/geo';
 import type { TripCopy } from '@/trips/lib/copy';
 import type { TripCard } from '@/trips/public-load';
 
@@ -15,7 +14,7 @@ export function OwnTripCard({ trip, c, lang, marked = false }: { trip: TripCard;
             </div>
             <div className="flex flex-1 flex-col gap-2 p-5">
                 <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">
-                    {trip.countries.slice(0, 3).map((x) => countryName(x, lang)).join(' · ')}{trip.durationDays ? ` · ${c.days(trip.durationDays)}` : ''}
+                    {/* REQ-004: nombres de país calculados en el servidor (INC-001) */}{trip.places}{trip.durationDays ? ` · ${c.days(trip.durationDays)}` : ''}
                 </p>
                 <h3 className="font-display line-clamp-2 text-xl font-semibold leading-snug">{trip.title}</h3>
                 {trip.summary && <p className="line-clamp-2 text-sm text-[#C9D6F5]">{trip.summary}</p>}

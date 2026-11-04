@@ -1,0 +1,8 @@
+# Requisitos (ISO/IEC/IEEE 29148)
+
+| ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-001 | "Ninguna página pública lanza excepciones en el cliente." (INC-001, 3 nov 2026) | Dado cualquier página pública con datos reales, cuando se abre en un navegador a 390 o 1366 px, entonces no hay excepciones no atrapadas, ni errores de hidratación (#418/#423/#425), ni la pantalla "Application error". | CUMPLIDO |
+| REQ-002 | "Si una sección falla, el resto de la página sigue funcionando." | Dado que una sección (viajes en /tours, carrusel del home) lanza un error en el navegador, cuando se renderiza, entonces esa sección se oculta, se registra en consola y el resto de la página sigue visible. | CUMPLIDO |
+| REQ-003 | "Ningún deploy llega a producción si el smoke test falla." | Dado un merge a main, cuando el workflow publica, entonces primero sube una versión sin tráfico, le corre la prueba de humo y solo si pasa le da el 100%; después vuelve a probar producción y, si falla, regresa a la versión anterior. En cada PR corre la misma prueba sobre una versión sin tráfico. | EN CURSO (falta verificarlo en GitHub Actions con el primer PR/merge) |
+| REQ-004 | Causa raíz de INC-001: las tarjetas de viajes traducían el país en el navegador. | Dado un viaje en Hong Kong (u otro país), cuando el servidor y el navegador tienen datos de idioma distintos, entonces la tarjeta muestra el nombre calculado en el servidor y el HTML es idéntico en ambos. | CUMPLIDO |

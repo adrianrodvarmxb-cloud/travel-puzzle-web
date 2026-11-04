@@ -66,7 +66,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                             <StarIcon className="w-5 h-5 text-yellow-500 fill-yellow-500" />
                             <span className="font-medium">{formatRating(tour.rating)}</span>
                             <a href="#resenas" className="text-sm text-muted-foreground hover:underline">
-                                ({t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString())})
+                                ({t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString('es-MX'))})
                             </a>
                         </div>
                     )}

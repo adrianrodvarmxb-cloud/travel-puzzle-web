@@ -49,3 +49,8 @@ export function countryName(code: string, lang = "es"): string {
     return code;
   }
 }
+
+/** REQ-004: países de una tarjeta, resueltos una sola vez en el servidor (INC-001). */
+export function cardPlaces(countries: string[], lang = "es"): string {
+  return countries.slice(0, 3).map((c) => countryName(c, lang)).join(" · ");
+}

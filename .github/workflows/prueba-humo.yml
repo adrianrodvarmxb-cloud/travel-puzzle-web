@@ -1,0 +1,53 @@
+# REQ-003 (INC-001): en cada PR se sube una versión SIN tráfico y se le corre la prueba de humo
+# con navegador real (390 y 1366 px). Producción no cambia. Si falla, el PR no se debe fusionar.
+name: Prueba de humo (PR)
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: smoke-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  smoke:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Pruebas
+        run: npx vitest run
+      - name: Lista de países (desde Freetour)
+        env:
+          FREETOUR_ENV: production
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+        run: npm run countries:generate
+      - name: Cliente de Prisma
+        run: npx prisma generate
+        env:
+          DATABASE_URL: file:./dev.db
+      - name: Construir
+        run: npx opennextjs-cloudflare build
+      - name: Subir versión (sin tráfico)
+        id: version
+        run: |
+          npx opennextjs-cloudflare upload --preview-alias "pr-${{ github.event.pull_request.number }}" 2>&1 | tee upload.log || npx opennextjs-cloudflare upload 2>&1 | tee upload.log
+          url=$(grep -oE "https://[a-z0-9-]+-travel-puzzle-web\.[a-z0-9-]+\.workers\.dev" upload.log | tail -1)
+          if [ -z "$url" ]; then echo "::error::No se obtuvo la URL de preview."; exit 1; fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+      - name: Navegador
+        run: npx playwright install --with-deps chromium
+      - name: Prueba de humo
+        run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
