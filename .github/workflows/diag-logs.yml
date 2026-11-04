@@ -1,5 +1,4 @@
-# INC-003 (temporal): captura excepciones del Worker de producción mientras se pide /tours.
-# Solo imprime nombre y mensaje de excepciones/logs de error (sin cabeceras ni datos de la petición).
+# INC-003 (temporal, no se fusiona): lista migraciones pendientes de D1 (solo lectura).
 name: Diagnóstico INC-003 (logs)
 on:
   pull_request:
@@ -13,20 +12,6 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          (timeout 75 npx -y wrangler@4 tail travel-puzzle-web --format json > tail.json 2> tail.err &) 
-          sleep 20
-          for i in $(seq 1 12); do curl -s -m 40 -o /dev/null -w "%{http_code} ficha\n" https://travelpuzzle.com.mx/tours/95f03f37-38eb-4de3-a825-0409e76a0766 & curl -s -m 40 -o /dev/null -w "%{http_code} ficha2\n" https://travelpuzzle.com.mx/tours/56ea44da-d134-43fe-8622-97c668ae38eb & done; wait
-          sleep 50
-          echo "--- tail stderr"; tail -5 tail.err
-          echo "--- eventos"; grep -c '"outcome"' tail.json || true
-          node -e '
-          const lines=require("fs").readFileSync("tail.json","utf8").split(/\n(?=\{)/).filter(Boolean);
-          for (const l of lines){ let e; try{e=JSON.parse(l)}catch{continue}
-            const url=(e.event&&e.event.request&&e.event.request.url||"").replace(/\?.*/,"");
-            const ex=(e.exceptions||[]).map(x=>x.name+": "+String(x.message).slice(0,400));
-            const warns=(e.logs||[]).filter(x=>x.level==="warn").map(x=>JSON.stringify(x.message).slice(0,300));
-            const errs=(e.logs||[]).filter(x=>x.level==="error").map(x=>JSON.stringify(x.message).slice(0,600));
-            if (ex.length||errs.length||warns.length) console.log("\n#", e.outcome, url, "\n", ex.join("\n "), "\n", errs.join("\n "), "\n W:", warns.join("\n "));
-            else console.log("#", e.outcome, url);
-          }'
+      - uses: actions/checkout@v5
+        with: { ref: main }
+      - run: npx -y wrangler@4 d1 migrations list travel-puzzle --remote 2>&1 | tail -20
