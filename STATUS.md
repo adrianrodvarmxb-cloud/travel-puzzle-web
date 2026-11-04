@@ -80,6 +80,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-030 | D1 saturada: caché 10 min | idem | `d1-load.test.ts` | REEMPLAZADO por REQ-032 |
 | REQ-032 | Caché compartida L1+L2, single-flight, stale-if-error | `src/cache/lib/shared-cache.ts`, `src/cache/edge.ts`, home, /tours, ficha, mapa, /api/tours | `shared-cache.test.ts` | CUMPLIDO |
 | REQ-033 | Índices compuestos (migración 0010) | `migrations/0010_indices_rendimiento.sql`, `schema.prisma` | prueba de carga en preview + insights | CUMPLIDO al publicar |
+| REQ-035 | Lista/búsqueda en memoria sobre índice del catálogo | `src/catalog/lib/query.ts`, `src/catalog/snapshot.ts`, `tour-repository.ts` | `query.test.ts` | CUMPLIDO |
 | REQ-034 | Cron en grupos de 90 ids | `src/reviews/repository.ts`, `src/reviews/lib/chunk.ts` | `chunk.test.ts` | CUMPLIDO |
 | REQ-031 | Países por GROUP BY | `tour-repository.ts`, `d1-load.ts` | `d1-load.test.ts` | CUMPLIDO |
 

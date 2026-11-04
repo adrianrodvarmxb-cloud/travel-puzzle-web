@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
 import { fetchTourById } from '@/actions/tours';
 import { cached, cacheKey } from '@/cache/edge';
@@ -92,7 +92,9 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
             />
         );
     } catch (error) {
+        // INC-003 (regla 7): un fallo de la base no es "no existe"; va al aviso con Reintentar.
+        unstable_rethrow(error);
         console.error('Error fetching tour:', error);
-        notFound();
+        throw error;
     }
 }

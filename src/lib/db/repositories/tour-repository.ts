@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma';
-import { paginatedQuery, PaginationParams, PaginatedResponse } from '../pagination';
+import { paginatedQuery, buildPaginationLinks, PaginationParams, PaginatedResponse } from '../pagination';
+import { loadCatalog } from '@/catalog/snapshot';
+import { queryCatalog } from '@/catalog/lib/query';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
@@ -90,6 +92,35 @@ export async function getToursWithFilters(
     baseUrl,
     orderByMapping
   );
+}
+
+// REQ-035 (INC-003): misma respuesta que getToursWithFilters, pero filtro/orden/conteo en memoria
+// sobre el índice del catálogo; D1 solo lee los tours de la página por id.
+export async function getToursFromCatalog(
+  filters: TourFilters,
+  pagination: PaginationParams,
+  baseUrl: string = '/api/tours'
+): Promise<PaginatedResponse<TourWithRelations>> {
+  const language = filters.language || 'en';
+  const entries = await loadCatalog(language);
+  const { ids, total, page, limit } = queryCatalog(entries, {
+    countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
+    minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
+    search: pagination.searchValue,
+  }, pagination);
+  const rows = ids.length
+    ? await prisma.tour.findMany({
+        where: { id: { in: ids } },
+        include: { translations: { where: { language } }, city: true, country: true },
+      })
+    : [];
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  const data = ids.map((id) => byId.get(id)).filter((x): x is TourWithRelations => !!x);
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  return {
+    data,
+    pagination: { total, count: data.length, currentPage: page, perPage: limit, totalPages, links: buildPaginationLinks(baseUrl, pagination, page, totalPages) },
+  };
 }
 
 // Helper function to get a single tour by ID

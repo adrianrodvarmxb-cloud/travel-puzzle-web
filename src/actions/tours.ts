@@ -3,6 +3,7 @@
 import { loadTourHighlights } from '@/reviews/load';
 import {
   getToursWithFilters,
+  getToursFromCatalog,
   getTourById,
   getTourByExternalId,
   getCountriesWithTourCount,
@@ -59,7 +60,7 @@ export async function fetchTours(
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
     return await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {
-      const result = await withRetry(() => getToursWithFilters(filters, pagination));
+      const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
   } catch (error) {
