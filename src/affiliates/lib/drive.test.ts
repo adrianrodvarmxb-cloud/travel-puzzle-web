@@ -24,6 +24,12 @@ describe("Travelpayouts Drive", () => {
     expect(shouldLoadDrive("/trenes", { ...cfg, enabled: false })).toBe(false);
   });
 
+  it("REQ-027: '/' solo coincide con la portada exacta (verificación de Travelpayouts)", () => {
+    const cfg = { enabled: true, paths: ["/"] };
+    expect(shouldLoadDrive("/", cfg)).toBe(true);
+    expect(shouldLoadDrive("/tours/abc", cfg)).toBe(false);
+  });
+
   it("REQ-027: el script es el de Travelpayouts para nuestra cuenta (https)", () => {
     expect(DRIVE_SRC).toBe("https://emrld.ltd/NTk1Nzkx.js?t=595791");
   });
