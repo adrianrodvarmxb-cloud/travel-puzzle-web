@@ -6,6 +6,7 @@ import { AppProviders } from "@/components/providers/AppProviders";
 import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
+import { ClientErrorListener } from "@/components/common/ClientErrorListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,6 +49,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <ClientErrorListener />
         <SessionProvider>
           <AppProviders>
             {children}

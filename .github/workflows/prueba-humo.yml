@@ -38,6 +38,8 @@ jobs:
         run: npx prisma generate
         env:
           DATABASE_URL: file:./dev.db
+      - name: Tipos (tsc, REQ-031)
+        run: npx tsc --noEmit
       - name: Construir
         run: npx opennextjs-cloudflare build
       - name: Subir versión (sin tráfico)

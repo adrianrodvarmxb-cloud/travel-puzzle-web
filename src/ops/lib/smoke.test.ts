@@ -16,6 +16,12 @@ describe("smokeVerdict", () => {
     expect(v.failures).toHaveLength(2);
     expect(v.failures[0]).toContain("/tours @390");
   });
+  it("REQ-030: una página opcional (tras bandera) puede dar 404, pero nunca 500 ni excepciones", () => {
+    expect(smokeVerdict([{ ...ok, path: "/ayuda", status: 404, optional: true }]).ok).toBe(true);
+    expect(smokeVerdict([{ ...ok, path: "/ayuda", status: 500, optional: true }]).ok).toBe(false);
+    expect(smokeVerdict([{ ...ok, path: "/ayuda", status: 404, optional: true, pageErrors: ["boom"] }]).ok).toBe(false);
+    expect(smokeVerdict([{ ...ok, path: "/", status: 404 }]).ok).toBe(false);
+  });
   it("REQ-003: 404/500 o sin respuesta bloquean", () => {
     expect(smokeVerdict([{ ...ok, status: 500 }]).ok).toBe(false);
     expect(smokeVerdict([{ ...ok, status: null }]).ok).toBe(false);

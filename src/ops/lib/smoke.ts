@@ -7,6 +7,8 @@ export interface SmokeResult {
   pageErrors: string[];
   /** La pantalla "Application error" de Next. */
   appError: boolean;
+  /** Página tras bandera: un 404 es válido (bandera apagada), un 5xx o una excepción no. REQ-030 */
+  optional?: boolean;
 }
 
 export interface SmokeVerdict { ok: boolean; failures: string[] }
@@ -17,7 +19,8 @@ export function smokeVerdict(results: SmokeResult[]): SmokeVerdict {
   const failures: string[] = [];
   for (const r of results) {
     const where = `${r.path} @${r.viewport}`;
-    if (r.status === null || r.status >= 400) failures.push(`${where}: respuesta ${r.status ?? "sin respuesta"}`);
+    const allowed404 = r.optional && r.status === 404; // REQ-030
+    if (r.status === null || (r.status >= 400 && !allowed404)) failures.push(`${where}: respuesta ${r.status ?? "sin respuesta"}`);
     if (r.appError) failures.push(`${where}: pantalla "Application error"`);
     for (const e of r.pageErrors) failures.push(`${where}: excepción en el navegador: ${e.slice(0, 200)}`);
   }

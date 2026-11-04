@@ -55,7 +55,12 @@ Actualizado: 3 nov 2026.
 | REQ-002 | Si una sección falla, el resto sigue | `src/components/common/SectionBoundary.tsx`, `src/app/page.tsx`, `ToursPageClient.tsx` | `SectionBoundary.test.ts` | CUMPLIDO |
 | REQ-003 | Ningún deploy llega a producción si el smoke falla | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO (deploy #60) |
 | REQ-004 | País de tarjetas calculado en el servidor | `src/trips/lib/geo.ts`, `src/trips/public-load.ts`, `OwnTripCard.tsx` | `OwnTripCard.test.ts`, `geo.test.ts` | CUMPLIDO |
-Detalle: `docs/incidentes/INC-001.md`.
+| REQ-028 | Pantalla de error Travel Puzzle (error/global-error) | `src/app/error.tsx`, `src/app/global-error.tsx`, `src/components/common/ErrorScreen.tsx`, `src/ops/lib/clientError.ts` | `clientError.test.ts` | CUMPLIDO |
+| REQ-029 | Errores del navegador a los logs (ruta + stack) | `src/app/api/client-error/route.ts`, `src/ops/reportClientError.ts`, `ClientErrorListener.tsx`, `SectionBoundary.tsx` | `clientError.test.ts` | CUMPLIDO (logs en producción: PENDIENTE tras merge) |
+| REQ-030 | Humo cubre /ayuda y /admin/entrar (opcionales tras bandera) | `tests/smoke/pages.json`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO |
+| REQ-031 | `tsc --noEmit` como gate en PR y deploy | `.github/workflows/prueba-humo.yml`, `.github/workflows/deploy-cloudflare.yml` | (gate de CI) | CUMPLIDO; lint NO CUMPLIDO (sin ESLint) |
+| REQ-032 | Validación zod de DB/Freetour/IA | — | — | PENDIENTE |
+Detalle: `docs/incidentes/INC-001.md`. Rollback a mano: `docs/runbooks/rollback.md`.
 
 ## Ola X2a — venta cruzada en fichas (3 nov 2026)
 | ID | Requisito | Archivo(s) | Test | Estado |

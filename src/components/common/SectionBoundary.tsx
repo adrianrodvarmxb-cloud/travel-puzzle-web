@@ -1,5 +1,6 @@
 'use client';
 import { Component, type ReactNode } from 'react';
+import { reportClientError } from '@/ops/reportClientError';
 
 /**
  * REQ-002: si una sección falla en el navegador, se oculta y el resto de la página sigue (INC-001).
@@ -14,6 +15,7 @@ export class SectionBoundary extends Component<{ name: string; children: ReactNo
 
     componentDidCatch(error: Error) {
         console.error(`[sección ${this.props.name}] se ocultó por un error:`, error.message);
+        reportClientError(error, `section:${this.props.name}`); // REQ-029
     }
 
     render() {

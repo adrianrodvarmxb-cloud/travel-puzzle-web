@@ -36,4 +36,5 @@ Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un 
 **Incidentes (ISO/IEC 20000-1, ISO 9001 10.2):**
 11. Primero contener (revertir), luego diagnosticar (reproducir con el error exacto y el stack, bisect, 5 porqués), luego corregir con test rojo → verde que reproduzca la falla, y verificar en producción. Registro en `docs/incidentes/INC-###.md` con causa raíz y por qué ningún test lo detectó.
 - En este repo: prueba de humo `npx tsx src/scripts/smoke.ts <url>` (páginas en `tests/smoke/pages.json`); requisitos en `docs/requisitos.md`; incidentes en `docs/incidentes/`.
+- Ningún deploy sin prueba de humo verde en la versión de preview (sin tráfico); errores del navegador se ven en los logs del Worker buscando `client-error`; regreso a mano en `docs/runbooks/rollback.md`.
 - Render determinista: un componente de cliente no formatea con `Intl`/`toLocale*` sin idioma fijo ni usa `Date.now()`/`Math.random()` al pintar; lo que dependa del idioma se calcula en el servidor (INC-001).

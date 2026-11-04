@@ -1,1 +1,1 @@
-{ "fixed": ["/", "/tours", "/terminos", "/privacidad"] }
+{"fixed": ["/", "/tours", "/terminos", "/privacidad"], "optional": ["/ayuda", "/admin/entrar"]}
