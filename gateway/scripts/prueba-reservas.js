@@ -1,7 +1,7 @@
 // Prueba de reservas contra Freetour, desde el servidor (IP registrada).
 // Se corre en cPanel → Setup Node.js App → pasarela → "Run JS script":
 //   prueba           consulta y cancela las 2 reservas de prueba (tour 6782 de Mpika, de Freetour)
-//   prueba-completa  además crea una reserva nueva en Mpika, la consulta y la cancela
+//   prueba-completa  además crea una reserva nueva en Mpika, la consulta, la edita y la cancela
 // No imprime el token ni la contraseña. Mpika (City ID 4755) es el destino de prueba que indicó Freetour.
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -96,7 +96,11 @@ async function main() {
     const ref = nueva.json?.data?.refNumber;
     if (!ref) return;
     out(`Consultar ${ref}`, await ft.call("GET", `/booking/${encodeURIComponent(ref)}`));
-    out(`Cancelar ${ref}`, await ft.call("POST", "/booking/cancel", { refNumber: ref, eventId: Number(evento.id), adults: 1, children: 0 }));
+    // Modo 2: editar (sin cambios y luego a 2 adultos) antes de cancelar.
+    out(`Evento para editar ${ref}`, await ft.call("GET", `/event/${evento.id}/${encodeURIComponent(ref)}`));
+    out(`Editar ${ref} (2 adultos)`, await ft.call("POST", "/booking/edit", { refNumber: ref, eventId: Number(evento.id), adults: 2, children: 0 }));
+    out(`Consultar tras editar ${ref}`, await ft.call("GET", `/booking/${encodeURIComponent(ref)}`));
+    out(`Cancelar ${ref}`, await ft.call("POST", "/booking/cancel", { refNumber: ref, eventId: Number(evento.id), adults: 2, children: 0 }));
     out(`Consultar de nuevo ${ref}`, await ft.call("GET", `/booking/${encodeURIComponent(ref)}`));
   }
   console.log("\nFin de la prueba.");
