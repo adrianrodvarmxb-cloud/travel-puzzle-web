@@ -6,14 +6,14 @@ import { SiteFooter } from '@/components/home/v2';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
 import { tripCopy } from '@/trips/lib/copy';
-import { anyTripsVisible } from '@/trips/public-load';
+import { isOwnToursEnabled } from '@/trips/public-load';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 
 export const metadata: Metadata = { title: 'Gracias · Travel Puzzle', robots: { index: false, follow: false } };
 
 /** Thank you page de la solicitud (documento 2024). */
 export default async function ThanksPage({ searchParams }: { searchParams: Promise<{ folio?: string; volver?: string }> }) {
-    if (!anyTripsVisible()) notFound();
+    if (!isOwnToursEnabled(process.env.OWN_TOURS_ENABLED)) notFound();
     const q = await searchParams;
     const folio = /^SOL-\d{8}-[A-Z0-9]{4}$/.test(q.folio ?? '') ? q.folio! : null;
     const back = q.volver?.startsWith('/viajes/') ? q.volver : '/tours';
