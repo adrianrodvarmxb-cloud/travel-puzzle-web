@@ -13,12 +13,8 @@ import {
 import { syncToursFromAPI } from '@/lib/db/sync/tour-sync';
 import { freeTourClient } from '@/lib/api/freetour-client';
 import type { PaginationParams } from '@/lib/db/pagination';
-import { withRetry, createTtlCache } from '@/tours/lib/d1-load';
-
-// INC-003: cachés por isolate para no saturar D1 (no se exportan: archivo de server actions).
-const TEN_MIN = 10 * 60 * 1000;
-const countriesCache = createTtlCache<Awaited<ReturnType<typeof getCountriesWithTourCount>>>({ ttlMs: TEN_MIN });
-const metadataCache = createTtlCache<Awaited<ReturnType<typeof getToursMetadata>>>({ ttlMs: TEN_MIN });
+import { withRetry } from '@/tours/lib/d1-load';
+import { cached, cacheKey, POLICY } from '@/cache/edge';
 
 /**
  * Serialize Prisma Decimals and Dates to plain values for client components
@@ -61,10 +57,11 @@ export async function fetchTours(
   pagination: PaginationParams = {}
 ) {
   try {
-    const result = await withRetry(() => getToursWithFilters(filters, pagination)); // REQ-029
-    const serialized = serializeDecimals(result);
-    // Final JSON round-trip to ensure everything is plain objects
-    return JSON.parse(JSON.stringify(serialized));
+    // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
+    return await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {
+      const result = await withRetry(() => getToursWithFilters(filters, pagination));
+      return JSON.parse(JSON.stringify(serializeDecimals(result)));
+    });
   } catch (error) {
     console.error('Error fetching tours:', error);
     throw new Error('Failed to fetch tours');
@@ -76,9 +73,10 @@ export async function fetchTours(
  */
 export async function fetchTourById(tourId: string, language: string = 'en') {
   try {
-    const result = await getTourById(tourId, language);
-    const serialized = serializeDecimals(result);
-    return JSON.parse(JSON.stringify(serialized));
+    return await cached(cacheKey('tour', { tourId, language }), POLICY.tourDetail, async () => { // REQ-032
+      const result = await withRetry(() => getTourById(tourId, language));
+      return JSON.parse(JSON.stringify(serializeDecimals(result)));
+    });
   } catch (error) {
     console.error('Error fetching tour:', error);
     throw new Error('Failed to fetch tour');
@@ -104,8 +102,8 @@ export async function fetchTourByExternalId(externalId: number, language: string
  */
 export async function fetchCountries(language: string = 'en') {
   try {
-    // REQ-029/REQ-030: los países casi no cambian; se guardan 10 min por isolate.
-    const result = await countriesCache.get(language, () => withRetry(() => getCountriesWithTourCount(language)));
+    // REQ-029/REQ-032: los países casi no cambian; caché compartida 1 h.
+    const result = await cached(cacheKey('countries', { language }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
     const serialized = serializeDecimals(result);
     return JSON.parse(JSON.stringify(serialized));
   } catch (error) {
@@ -153,7 +151,7 @@ export async function fetchCitiesFromAPI(countryId: number, language: string = '
  */
 export async function fetchToursMetadata() {
   try {
-    return await metadataCache.get('freetour', () => withRetry(() => getToursMetadata())); // REQ-029/REQ-030
+    return await cached('tours-metadata', POLICY.metadata, () => withRetry(() => getToursMetadata())); // REQ-029/REQ-030
   } catch (error) {
     console.error('Error fetching tours metadata:', error);
     return {

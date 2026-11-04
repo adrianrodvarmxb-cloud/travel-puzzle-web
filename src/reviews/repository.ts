@@ -2,6 +2,7 @@ import type { PrismaClient } from "@prisma/client";
 import type { ReviewRepo } from "./service";
 import { upsertRows, runBatch, type D1Like } from "@/lib/d1/batch";
 import type { TourReview } from "./lib/highlights";
+import { chunk } from "./lib/chunk";
 
 const REVIEW_COLUMNS = ["id", "tourExternalId", "reviewerName", "language", "title", "content", "rate", "addedAt", "fetchedAt"];
 
@@ -40,10 +41,14 @@ export function createReviewRepo(prisma: PrismaClient, db: D1Like): ReviewRepo {
         take: 300,
       });
       const ids = tours.map((t) => t.externalId);
-      const fresh = await prisma.reviewCache.findMany({
-        where: { tourExternalId: { in: ids }, fetchedAt: { gte: staleBefore } },
-        select: { tourExternalId: true },
-      });
+      // INC-003/REQ-034: D1 acepta máx. 100 parámetros por consulta; antes iban 300 y el cron fallaba cada minuto.
+      const fresh: { tourExternalId: number }[] = [];
+      for (const part of chunk(ids, 90)) {
+        fresh.push(...(await prisma.reviewCache.findMany({
+          where: { tourExternalId: { in: part }, fetchedAt: { gte: staleBefore } },
+          select: { tourExternalId: true },
+        })));
+      }
       const freshIds = new Set(fresh.map((c) => c.tourExternalId));
       return ids.filter((id) => !freshIds.has(id)).slice(0, limit);
     },
