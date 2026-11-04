@@ -13,6 +13,12 @@ import {
 import { syncToursFromAPI } from '@/lib/db/sync/tour-sync';
 import { freeTourClient } from '@/lib/api/freetour-client';
 import type { PaginationParams } from '@/lib/db/pagination';
+import { withRetry, createTtlCache } from '@/tours/lib/d1-load';
+
+// INC-003: cachés por isolate para no saturar D1 (no se exportan: archivo de server actions).
+const TEN_MIN = 10 * 60 * 1000;
+const countriesCache = createTtlCache<Awaited<ReturnType<typeof getCountriesWithTourCount>>>({ ttlMs: TEN_MIN });
+const metadataCache = createTtlCache<Awaited<ReturnType<typeof getToursMetadata>>>({ ttlMs: TEN_MIN });
 
 /**
  * Serialize Prisma Decimals and Dates to plain values for client components
@@ -55,7 +61,7 @@ export async function fetchTours(
   pagination: PaginationParams = {}
 ) {
   try {
-    const result = await getToursWithFilters(filters, pagination);
+    const result = await withRetry(() => getToursWithFilters(filters, pagination)); // REQ-029
     const serialized = serializeDecimals(result);
     // Final JSON round-trip to ensure everything is plain objects
     return JSON.parse(JSON.stringify(serialized));
@@ -98,7 +104,8 @@ export async function fetchTourByExternalId(externalId: number, language: string
  */
 export async function fetchCountries(language: string = 'en') {
   try {
-    const result = await getCountriesWithTourCount(language);
+    // REQ-029/REQ-030: los países casi no cambian; se guardan 10 min por isolate.
+    const result = await countriesCache.get(language, () => withRetry(() => getCountriesWithTourCount(language)));
     const serialized = serializeDecimals(result);
     return JSON.parse(JSON.stringify(serialized));
   } catch (error) {
@@ -146,7 +153,7 @@ export async function fetchCitiesFromAPI(countryId: number, language: string = '
  */
 export async function fetchToursMetadata() {
   try {
-    return await getToursMetadata();
+    return await metadataCache.get('freetour', () => withRetry(() => getToursMetadata())); // REQ-029/REQ-030
   } catch (error) {
     console.error('Error fetching tours metadata:', error);
     return {

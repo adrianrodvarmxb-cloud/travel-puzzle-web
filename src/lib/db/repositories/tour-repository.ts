@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { paginatedQuery, PaginationParams, PaginatedResponse } from '../pagination';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
+import { countriesWithCounts } from '@/tours/lib/d1-load';
 
 export type TourWithRelations = Prisma.TourGetPayload<{
   include: {
@@ -116,17 +117,15 @@ export async function getTourByExternalId(externalId: number, language: string =
 }
 
 // Helper functions for dropdown filters
+// REQ-031 (INC-003): antes un findMany con `tours: { some }` + `_count` leía ~600 mil filas por llamada
+// y saturaba D1. Ahora un GROUP BY sobre el índice de countryId y la tabla chica de países.
 export async function getCountriesWithTourCount(language: string = 'en') {
-  return prisma.country.findMany({
-    where: { tours: { some: { isActive: true } } },
-    select: {
-      id: true,
-      code: true,
-      translations: true,
-      _count: { select: { tours: { where: { isActive: true } } } },
-    },
-    orderBy: { id: 'asc' },
-  });
+  void language;
+  const [groups, countries] = await Promise.all([
+    prisma.tour.groupBy({ by: ['countryId'], where: { isActive: true }, _count: { _all: true } }),
+    prisma.country.findMany({ select: { id: true, code: true, translations: true } }),
+  ]);
+  return countriesWithCounts(countries, groups);
 }
 
 export async function getCitiesWithTourCount(countryId?: number, language: string = 'en') {
