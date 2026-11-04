@@ -14,3 +14,4 @@
 | REQ-015 | "revisa lo que tengas que revisar y corrige" (4 nov 2026) — teléfono | Dado un evento con isPhoneRequired, cuando veo el formulario, entonces el campo dice "WhatsApp" sin "(opcional)". | CUMPLIDO (tests) |
 | REQ-016 | idem — calendario | Dado que Freetour devuelve horarios pasados, cuando veo el calendario de un tour, entonces solo aparecen horarios futuros. | CUMPLIDO (tests) |
 | REQ-017 | idem — modo 2: cancelar siempre | Dado que Freetour responde 403 (u otro error) al cancelar, cuando el cliente confirma, entonces la reserva queda "Cancelación en proceso", el equipo recibe un correo para cancelarla en el panel y el cliente ve que se le avisará; si es tarde (37) no se ofrece. | CUMPLIDO (tests) |
+| REQ-018 | idem — teléfono opcional | Dado un tour que no exige teléfono, cuando dejo WhatsApp vacío, entonces puedo reservar (antes salía "Phone is required" aunque decía opcional). | CUMPLIDO (tests) |
