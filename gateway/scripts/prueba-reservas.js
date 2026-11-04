@@ -1,12 +1,13 @@
 // Prueba de reservas contra Freetour, desde el servidor (IP registrada).
 // Se corre en cPanel → Setup Node.js App → pasarela → "Run JS script":
 //   prueba           consulta y cancela las 2 reservas de prueba (tour 6782 de Mpika, de Freetour)
-//   prueba-completa  además crea una reserva nueva en Mpika, la consulta y la cancela
+//   prueba-completa  además crea una reserva nueva en Mpika, la consulta, la edita y la cancela
 // No imprime el token ni la contraseña. Mpika (City ID 4755) es el destino de prueba que indicó Freetour.
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { createFreetourClient } from "../lib/freetour.js";
+import { diagnosticCalls, summarize } from "../lib/diagnostic.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const envFile = join(here, "..", ".env");
@@ -31,7 +32,29 @@ const RESERVAS_PRUEBA = [
 
 const out = (titulo, res) => console.log(`\n== ${titulo}\nHTTP ${res.status}\n${JSON.stringify(res.json, null, 2).slice(0, 1500)}`);
 
+// REQ-020 (INC-002): --diagnostico --ref=<refNumber> --event=<eventId> [--adults=1] [--children=0]
+// Hace con la MISMA reserva: consulta, evento para editar, editar sin cambios y cancelar; en v2.0 y v2.2.
+async function diagnostico() {
+  const r = { refNumber: arg("ref"), eventId: Number(arg("event")), adults: Number(arg("adults") || 1), children: Number(arg("children") || 0) };
+  if (!r.refNumber || !r.eventId) return console.log("Uso: --diagnostico --ref=<refNumber> --event=<eventId>");
+  for (const v of ["2.0", "2.2"]) {
+    const url = baseUrl.replace(/v\.2\.\d$/, `v.${v}`);
+    console.log(`\n######## API ${url} · IP de salida: ${localAddress ?? "(la del servidor)"} · ${new Date().toISOString()}`);
+    const ft = createFreetourClient({ baseUrl: url, email: process.env.FREETOUR_EMAIL, password: process.env.FREETOUR_PASSWORD, localAddress });
+    const res = [];
+    for (const c of diagnosticCalls(r)) {
+      const x = await ft.call(c.method, c.path, c.body);
+      res.push(x);
+      console.log(`\n== ${c.label}\nPETICIÓN: ${c.method} ${c.path}${c.body ? ` ${JSON.stringify(c.body)}` : ""}\nRESPUESTA: HTTP ${x.status} ${JSON.stringify(x.json).slice(0, 800)}`);
+      if (c.path === "/booking/cancel" && x.status === 200) break;
+    }
+    console.log(`\n>> CONCLUSIÓN v${v}: ${summarize(res)}`);
+    if (res[3]?.status === 200) break; // ya se canceló; no repetir en la otra versión
+  }
+}
+
 async function main() {
+  if (process.argv.includes("--diagnostico")) return diagnostico();
   if (!process.env.FREETOUR_EMAIL || !process.env.FREETOUR_PASSWORD) {
     console.log("Faltan FREETOUR_EMAIL o FREETOUR_PASSWORD en las variables de la app.");
     process.exit(1);
@@ -73,7 +96,11 @@ async function main() {
     const ref = nueva.json?.data?.refNumber;
     if (!ref) return;
     out(`Consultar ${ref}`, await ft.call("GET", `/booking/${encodeURIComponent(ref)}`));
-    out(`Cancelar ${ref}`, await ft.call("POST", "/booking/cancel", { refNumber: ref, eventId: Number(evento.id), adults: 1, children: 0 }));
+    // Modo 2: editar (sin cambios y luego a 2 adultos) antes de cancelar.
+    out(`Evento para editar ${ref}`, await ft.call("GET", `/event/${evento.id}/${encodeURIComponent(ref)}`));
+    out(`Editar ${ref} (2 adultos)`, await ft.call("POST", "/booking/edit", { refNumber: ref, eventId: Number(evento.id), adults: 2, children: 0 }));
+    out(`Consultar tras editar ${ref}`, await ft.call("GET", `/booking/${encodeURIComponent(ref)}`));
+    out(`Cancelar ${ref}`, await ft.call("POST", "/booking/cancel", { refNumber: ref, eventId: Number(evento.id), adults: 2, children: 0 }));
     out(`Consultar de nuevo ${ref}`, await ft.call("GET", `/booking/${encodeURIComponent(ref)}`));
   }
   console.log("\nFin de la prueba.");
