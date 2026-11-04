@@ -6,6 +6,8 @@ import { AppProviders } from "@/components/providers/AppProviders";
 import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
+import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
+import { isTransfersVisible } from "@/transfers/lib/widget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +52,9 @@ export default function RootLayout({
       >
         <SessionProvider>
           <AppProviders>
-            {children}
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED) }}>
+              {children}
+            </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}
           </AppProviders>
         </SessionProvider>

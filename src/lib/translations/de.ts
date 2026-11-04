@@ -3,6 +3,7 @@ export const de = {
   'nav.home': 'Startseite',
   'nav.tours': 'Touren',
   'nav.howItWorks': 'Wie es Funktioniert',
+  'nav.transfers': 'Transfers',
   'nav.login': 'Anmelden',
   'nav.signup': 'Registrieren',
   'nav.myBookings': 'Meine Buchungen',

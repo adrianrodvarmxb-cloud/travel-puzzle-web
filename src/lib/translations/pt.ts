@@ -3,6 +3,7 @@ export const pt = {
   'nav.home': 'Início',
   'nav.tours': 'Tours',
   'nav.howItWorks': 'Como Funciona',
+  'nav.transfers': 'Traslados',
   'nav.login': 'Entrar',
   'nav.signup': 'Registrar',
   'nav.myBookings': 'Minhas Reservas',
