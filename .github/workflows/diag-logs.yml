@@ -13,6 +13,13 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
+      - name: D1 insights (solo lectura)
+        run: |
+          npx -y wrangler@4 d1 insights travel-puzzle --sort-by=time --sort-direction=DESC --limit=8 --timePeriod=1d --json > ins.json 2>ins.err || true
+          tail -3 ins.err
+          node -e 'const a=JSON.parse(require("fs").readFileSync("ins.json","utf8")); for (const q of a) console.log("\n", Math.round(q.totalDurationMs||0)+"ms total ·", q.numberOfTimesRun+"x ·", "filas leídas "+(q.queryEfficiency!==undefined? "":"")+(q.totalRowsRead||q.avgRowsRead+" prom"), "\n ", String(q.query).slice(0,260))' || cat ins.json | head -c 3000
+          echo; echo "--- tamaños"
+          npx -y wrangler@4 d1 execute travel-puzzle --remote --json --command "select (select count(*) from tours) tours, (select count(*) from tour_translations) tr, (select count(*) from review_cache) rc" 2>/dev/null | head -c 600 || true
       - run: |
           (timeout 75 npx -y wrangler@4 tail travel-puzzle-web --format json > tail.json 2> tail.err &) 
           sleep 20
