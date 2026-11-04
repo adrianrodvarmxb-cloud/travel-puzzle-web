@@ -60,6 +60,32 @@ describe("cancelar", () => {
     const ya = deps({ getRemote: vi.fn(async () => ({ status: "canceled", canBeCanceled: 0, canBeEdited: 0 })) });
     expect(await cancelByToken(TOKEN, ya)).toBe("already");
   });
+  it("REQ-017: si Freetour niega el permiso (403), la cancelación queda solicitada al equipo y el cliente lo sabe", async () => {
+    const err = Object.assign(new Error("Bookings are not allowed"), { status: 403, errorCode: 0 });
+    const requestManual = vi.fn(async () => {});
+    const d = { ...deps({ cancel: vi.fn(async () => { throw err; }) }), requestManual };
+    expect(await cancelByToken(TOKEN, d)).toBe("requested");
+    expect(requestManual).toHaveBeenCalledWith(expect.objectContaining({ refNumber: record.refNumber }));
+    expect(d.setStatus).toHaveBeenCalledWith(record.refNumber, "cancel_requested");
+    expect(d.notify).not.toHaveBeenCalled();
+  });
+  it("REQ-017: si ya es tarde (37) no se solicita a mano", async () => {
+    const err = Object.assign(new Error("too late"), { status: 400, errorCode: 37 });
+    const requestManual = vi.fn(async () => {});
+    const d = { ...deps({ cancel: vi.fn(async () => { throw err; }) }), requestManual };
+    expect(await cancelByToken(TOKEN, d)).toBe("not_allowed");
+    expect(requestManual).not.toHaveBeenCalled();
+  });
+  it("REQ-017: con la cancelación solicitada, la página no vuelve a ofrecer cancelar ni cambiar", async () => {
+    const d = deps({ findByToken: vi.fn(async () => ({ ...record, status: "cancel_requested" })) });
+    const v = await loadManageView(TOKEN, d);
+    expect(v).toMatchObject({ status: "cancel_requested", canCancel: false, canEdit: false });
+    expect(d.setStatus).not.toHaveBeenCalled();
+  });
+  it("REQ-017: cuando el equipo la cancela en Freetour, la página muestra cancelada", async () => {
+    const d = deps({ findByToken: vi.fn(async () => ({ ...record, status: "cancel_requested" })), getRemote: vi.fn(async () => ({ status: "canceled", canBeCanceled: 0, canBeEdited: 0 })) });
+    expect((await loadManageView(TOKEN, d))?.status).toBe("canceled");
+  });
   it("si Freetour falla, no marca nada ni avisa", async () => {
     const d = deps({ cancel: vi.fn(async () => { throw new Error("403"); }) });
     expect(await cancelByToken(TOKEN, d)).toBe("error");
