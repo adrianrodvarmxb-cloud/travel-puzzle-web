@@ -59,8 +59,27 @@ jobs:
       - name: Construir
         run: npx opennextjs-cloudflare build
 
+      # REQ-003 (INC-001): ningún deploy llega a producción si la prueba de humo falla.
+      # 1) Se sube una VERSIÓN sin tráfico (con los datos y banderas reales) y se obtiene su URL de preview.
+      - name: Subir versión (sin tráfico)
+        id: version
+        run: |
+          npx opennextjs-cloudflare upload 2>&1 | tee upload.log
+          vid=$(grep -oE "Worker Version ID: [0-9a-f-]+" upload.log | awk '{print $4}' | tail -1)
+          url=$(grep -oE "https://[a-z0-9-]+-travel-puzzle-web\.[a-z0-9-]+\.workers\.dev" upload.log | tail -1)
+          if [ -z "$vid" ] || [ -z "$url" ]; then echo "::error::No se obtuvo la versión o su URL de preview. NO SE PUBLICA."; exit 1; fi
+          echo "id=$vid" >> "$GITHUB_OUTPUT"; echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Navegador para la prueba de humo
+        run: npx playwright install --with-deps chromium
+
+      # 2) Prueba de humo contra esa versión: 390 y 1366 px, sin excepciones ni "Application error".
+      - name: Prueba de humo (antes de publicar)
+        run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
+
+      # 3) Solo si pasó: se le da el 100% del tráfico.
       - name: Publicar
-        run: npx opennextjs-cloudflare deploy
+        run: npx wrangler versions deploy "${{ steps.version.outputs.id }}@100%" --yes --message "deploy ${{ github.sha }}"
 
       - name: Secretos del Worker
         env:
@@ -85,3 +104,16 @@ jobs:
           for n in CRON_SECRET AUTH_SECRET; do
             if ! tiene "$n"; then openssl rand -base64 32 | tr -d '\n' | npx wrangler secret put "$n"; fi
           done
+
+      # 4) Prueba de humo en producción; si falla, se regresa a la versión anterior y el job queda en rojo.
+      - name: Prueba de humo (producción)
+        id: smoke_prod
+        continue-on-error: true
+        run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
+
+      - name: Regresar a la versión anterior si falló
+        if: steps.smoke_prod.outcome == 'failure'
+        run: |
+          yes | npx wrangler rollback --message "rollback automatico: prueba de humo fallida ${{ github.sha }}"
+          echo "::error::La prueba de humo en producción falló; se regresó a la versión anterior."
+          exit 1
