@@ -10,13 +10,8 @@ import { priceDisplay, type FxRates } from "./lib/money";
 import { imageUrl } from "./lib/image";
 import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
-import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
-/** Interruptores leídos del entorno (viajes propios y transporte por separado). */
-export const siteVisibility = () => visibilityFromEnv(process.env as Record<string, string | undefined>);
-/** ¿Hay algo propio visible? (solicitud y página de gracias). */
-export const anyTripsVisible = () => anyVisible(siteVisibility());
 
 const FX_KEY = "https://travelpuzzle.com.mx/__fx/banxico";
 /** Caché de un día en el Cache API del Worker (en local no hay; se consulta directo). */
@@ -54,12 +49,10 @@ export function toCard(t: StoredTrip & { translations?: unknown }, lang: string,
 
 /** Tarjetas de todos los viajes publicados (pocos: se filtran en el cliente). */
 export async function loadTripCards(lang: string): Promise<TripCard[]> {
-  const vis = siteVisibility();
-  if (!anyVisible(vis)) return [];
+  if (!isOwnToursEnabled(process.env.OWN_TOURS_ENABLED)) return [];
   try {
     const repo = createTripRepo(getPrisma());
-    const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
-    const rows = all.filter((r) => isKindVisible(r.kind, vis));
+    const [rows, fx] = await Promise.all([publishedRows(), loadFx()]);
     const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
     return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations }, lang, fx));
   } catch (error) {
@@ -70,11 +63,10 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
 
 /** Ficha: solo publicados y con el interruptor encendido. */
 export async function loadTripBySlug(slug: string) {
-  const vis = siteVisibility();
-  if (!anyVisible(vis)) return null;
+  if (!isOwnToursEnabled(process.env.OWN_TOURS_ENABLED)) return null;
   const prisma = getPrisma();
   const row = await prisma.trip.findUnique({ where: { slug } });
-  if (!row || row.status !== "published" || !isKindVisible(row.kind, vis)) return null;
+  if (!row || row.status !== "published") return null;
   const trip = await createTripRepo(prisma).findById(row.id);
   if (!trip) return null;
   const agency = row.agencyId ? await prisma.agency.findUnique({ where: { id: row.agencyId }, select: { name: true } }) : null;
@@ -97,7 +89,7 @@ export async function requestDeps(): Promise<import("./requests").RequestDeps> {
     whatsapp: env.WHATSAPP_NUMBER,
     async findTrip(id) {
       const t = await repo.findById(id);
-      return t && t.status === "published" && isKindVisible(t.kind, siteVisibility()) ? { ...t, path: tripPath(t) } : null;
+      return t && t.status === "published" ? { ...t, path: tripPath(t) } : null;
     },
     async save(row) { await prisma.tripRequest.create({ data: row as unknown as import("@prisma/client").Prisma.TripRequestUncheckedCreateInput }); },
     sendCustomer: send,
