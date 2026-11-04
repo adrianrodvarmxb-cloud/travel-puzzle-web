@@ -55,3 +55,24 @@ describe("INC-003: caché compartida (REQ-032)", () => {
     expect(await c.get("k", { ttlSec: 60, staleSec: 600 }, async () => ({ ok: true }))).toEqual({ ok: true });
   });
 });
+
+describe("INC-003: promesas entre peticiones (REQ-036)", () => {
+  it("REQ-036: si la consulta de otra petición nunca termina, el visitante hace la suya tras el tope", async () => {
+    let now = 0;
+    const c = createSharedCache({ l2: memL2(), now: () => now, waitMs: 1500, delay: async () => {} });
+    void c.get("k", { ttlSec: 60, staleSec: 600 }, () => new Promise(() => {})); // colgada (petición cancelada)
+    const own = vi.fn(async () => ({ v: "propia" }));
+    expect(await c.get("k", { ttlSec: 60, staleSec: 600 }, own)).toEqual({ v: "propia" });
+    expect(own).toHaveBeenCalledTimes(1);
+  });
+
+  it("REQ-036: una consulta en curso más vieja que el tope ya no se espera", async () => {
+    let now = 0;
+    const delay = vi.fn(async () => {});
+    const c = createSharedCache({ l2: memL2(), now: () => now, waitMs: 1500, delay });
+    void c.get("k", { ttlSec: 60, staleSec: 600 }, () => new Promise(() => {}));
+    now = 2000;
+    expect(await c.get("k", { ttlSec: 60, staleSec: 600 }, async () => 7)).toBe(7);
+    expect(delay).not.toHaveBeenCalled();
+  });
+});
