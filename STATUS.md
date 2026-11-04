@@ -65,6 +65,15 @@ Detalle: `docs/incidentes/INC-001.md`.
 | REQ-007 | Tours de la ciudad en la ficha del transporte | `src/trips/cross-sell.ts`, `cross-sell-deps.ts`, `viajes/[destino]/[slug]/page.tsx` | `match.test.ts`, `cross-sell.test.ts` | EN CURSO |
 | REQ-008 | Bandera, aislamiento y textos del servidor | `cross-sell-copy.ts`, `SectionBoundary` | `cross-sell-copy.test.ts` | EN CURSO |
 | REQ-009 | Franja también con reservas en línea | `src/tours/lib/booking-cta.ts`, `TourSidebar.tsx` | `booking-cta.test.ts`, `TourSidebar.test.ts` | EN CURSO |
+
+## Reservas en modo 2 (4 nov 2026)
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-015 | Teléfono obligatorio sin "(opcional)" | `src/booking/lib/phone-field.ts`, `EventBookingForm.tsx` | `phone-field.test.ts` | CUMPLIDO |
+| REQ-016 | Calendario sin horarios pasados | `src/tours/lib/upcoming.ts`, `TourAvailabilityCalendar.tsx` | `upcoming.test.ts` | CUMPLIDO |
+| REQ-017 | Cancelación siempre posible (respaldo manual si Freetour da 403) | `src/booking/lib/cancel-fallback.ts`, `manage.ts`, `cancelar/route.ts`, `CancelBooking.tsx`, `BookingPageView.tsx` | `cancel-fallback.test.ts`, `manage.test.ts` | CUMPLIDO |
+| REQ-018 | WhatsApp opcional de verdad | `src/lib/api/schemas/FTBooking.Schema.ts` | `FTBooking.Schema.test.ts` | CUMPLIDO |
+Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/cancel (como pide la especificación v2.0–v2.2); el 403 "Bookings are not allowed" es un permiso pendiente en Freetour. Prueba real 4 nov: reserva 6782-20261104134017-915 (Mpika).
 | REQ-027 | Travelpayouts Drive tras bandera y solo en rutas elegidas | `src/affiliates/lib/drive.ts`, `AffiliateDrive.tsx`, `app/layout.tsx` | `drive.test.ts` | EN CURSO (apagado) |
 | REQ-028 | Página /traslados con buscador Kiwitaxi tras bandera | `src/transfers/lib/widget.ts`, `TransfersWidget.tsx`, `app/traslados/page.tsx` | `widget.test.ts` | EN CURSO (apagado) |
 | REQ-029 | D1 saturada: reintento | `src/tours/lib/d1-load.ts`, `src/actions/tours.ts` | `d1-load.test.ts` | CUMPLIDO |
