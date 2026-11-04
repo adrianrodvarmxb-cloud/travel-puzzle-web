@@ -5,7 +5,7 @@ import { manageDeps } from '@/booking/manage-deps';
 import { sendStatusEmail } from '@/booking/notify';
 import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
 import { sendEmail } from '@/notifications/resend';
-import { isBookingsEnabled } from '@/booking/lib/flags';
+import { isBookingsEnabled, paidInRecommendations } from '@/booking/lib/flags';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import type { EditEvent } from '@/booking/lib/edit-plan';
@@ -45,7 +45,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
                 lang: 'es',
                 siteUrl: env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
-                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(env.PAID_TOURS_ENABLED) }),
+                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: paidInRecommendations(env) }),
                 contact: contactFromEnv(env),
                 calendar: calendarFromEnv(env),
                 send: (email) => sendEmail({ apiKey: env.RESEND_API_KEY ?? '', fetch }, { ...email, from: env.EMAIL_FROM ?? '', replyTo: env.EMAIL_REPLY_TO }),

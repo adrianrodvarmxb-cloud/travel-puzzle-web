@@ -21,11 +21,26 @@ describe("placeBooking", () => {
     expect(gateway.createBooking).not.toHaveBeenCalled();
   });
 
+  it("REQ-011: con el piloto encendido, el tour de pago se reserva por lo que se cobra hoy", async () => {
+    const gateway = { createBooking: vi.fn(async () => ({ ...booking, status: "unpaid" })) };
+    const paid = vi.fn(async () => ({ ...event, fullPricePerGroup: { "2": 100 }, payableNowPricePerGroup: { "2": 20 }, isPartiallyPaid: true }));
+    const out = await placeBooking(dto, { gateway, getEvent: paid, enabled: true, paidEnabled: true });
+    expect(gateway.createBooking).toHaveBeenCalledWith(expect.objectContaining({ price: 20 }));
+    expect(out).toMatchObject({ price: 20, fullPrice: 100, isPaid: true });
+  });
+
+  it("REQ-010: tour de pago con niños se rechaza sin llamar a la pasarela", async () => {
+    const gateway = { createBooking: vi.fn() };
+    const paid = vi.fn(async () => ({ ...event, fullPricePerGroup: { "2": 50 }, payableNowPricePerGroup: { "2": 50 } }));
+    await expect(placeBooking({ ...dto, children: 1 }, { gateway, getEvent: paid, enabled: true, paidEnabled: true })).rejects.toMatchObject({ code: "children_not_allowed" });
+    expect(gateway.createBooking).not.toHaveBeenCalled();
+  });
+
   it("reserva con el teléfono normalizado y devuelve la reserva", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
     const out = await placeBooking(dto, { gateway, getEvent, enabled: true });
     expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { ...dto.customer, phone: "+525512345678" } });
-    expect(out).toEqual({ booking, price: 0 });
+    expect(out).toEqual({ booking, price: 0, fullPrice: 0, isPaid: false });
   });
 
   it("teléfono inválido: error claro sin llamar a la pasarela", async () => {

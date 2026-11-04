@@ -7,7 +7,7 @@ import { sendBookingConfirmation, sendReviewRequest } from '@/booking/notify';
 import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { sendEmail } from '@/notifications/resend';
-import { isBookingsEnabled } from '@/booking/lib/flags';
+import { isBookingsEnabled, paidInRecommendations } from '@/booking/lib/flags';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
         lang: 'es' as const,
         siteUrl: process.env.SITE_URL ?? '',
         getTour: (id: number, l: 'es' | 'en') => getTourSummary(prisma, id, l),
-        getMoreTours: (id: number, l: 'es' | 'en', site: string) => getMoreTours(prisma, id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+        getMoreTours: (id: number, l: 'es' | 'en', site: string) => getMoreTours(prisma, id, l, site, { includePaid: paidInRecommendations(process.env) }),
         contact: contactFromEnv(process.env as Record<string, string | undefined>),
         send: (email: { to: string; subject: string; html: string; text: string }) =>
             sendEmail({ apiKey: process.env.RESEND_API_KEY ?? '', fetch }, { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }),

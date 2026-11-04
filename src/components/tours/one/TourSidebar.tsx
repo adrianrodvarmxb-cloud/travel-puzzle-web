@@ -3,7 +3,7 @@ import type React from 'react';
 
 import { FreeTourGuide } from './FreeTourGuide';
 import type { TipGuide } from '@/tours/lib/tip-guide';
-import type { PaidPolicy } from '@/tours/lib/paid-policy';
+import type { ShownPolicy as PaidPolicy } from '@/tours/lib/paid-policy';
 import { PaidPolicyNotice } from '../PaidPolicyNotice';
 import { formatRating } from '@/home/lib/format';
 import { waLink } from '@/home/lib/copy';

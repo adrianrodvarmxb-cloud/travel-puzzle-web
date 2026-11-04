@@ -202,12 +202,21 @@ model FreetourBooking {
   language       String?
   status         String
   manageToken    String   @unique
+  // Tours de pago (migración 0009): `price` es lo cobrado hoy; `fullPrice` el total del grupo.
+  fullPrice         Float?
+  currency          String?
+  checkoutSessionId String?
+  paymentUrl        String?
+  paymentStatus     String? // pending | paid | canceled | review | expired
+  paymentExpiresAt  String?
+  paymentCheckedAt  String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
   @@index([email])
   @@index([eventId])
   @@index([status, eventUtcDate])
+  @@index([paymentStatus])
 }
 
 /// Correos automáticos ya enviados por reserva (recordatorios y reseña).

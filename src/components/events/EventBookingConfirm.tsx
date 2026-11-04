@@ -3,7 +3,7 @@
 import { Eyebrow, mono } from '@/components/booking/email-ui';
 import { useBookingForm } from './Contexts';
 import { PaidPolicyNotice } from '@/components/tours/PaidPolicyNotice';
-import type { PaidPolicy } from '@/tours/lib/paid-policy';
+import type { ShownPolicy as PaidPolicy } from '@/tours/lib/paid-policy';
 
 interface EventBookingConfirmProps {
   onBack: () => void;

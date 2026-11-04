@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { paidPolicy } from "./paid-policy";
+import { paidPolicy, isRefundPolicyConfirmed, paidPolicyConfirmed } from "./paid-policy";
 
 describe("política de tours con costo (como Freetour)", () => {
   it("pago parcial: depósito hoy y el resto en el punto de encuentro", () => {
@@ -20,5 +20,18 @@ describe("política de tours con costo (como Freetour)", () => {
   });
   it("en inglés", () => {
     expect(paidPolicy({ fullPrice: 50, payNow: 10, isPartiallyPaid: true, currency: "EUR" }, "en").payment).toBe("Today you pay a EUR 10 deposit; the rest, EUR 40, is paid at the meeting point.");
+  });
+});
+
+describe("política confirmada por Freetour (gate B)", () => {
+  it("REQ-013: mientras Freetour no confirme por escrito el reembolso, no se puede reservar con pago", () => {
+    expect(isRefundPolicyConfirmed()).toBe(false);
+  });
+  it("REQ-013: el aviso de reembolso usa el texto confirmado; sin él no se afirma nada sobre reembolsos", () => {
+    const p = paidPolicyConfirmed(null, "es", null);
+    expect(p.noShow).toBeNull();
+    const q = paidPolicyConfirmed(null, "es", { es: "Texto confirmado por Freetour.", en: "Confirmed text." });
+    expect(q.noShow).toBe("Texto confirmado por Freetour.");
+    expect(paidPolicyConfirmed(null, "en", { es: "x", en: "Confirmed text." }).noShow).toBe("Confirmed text.");
   });
 });

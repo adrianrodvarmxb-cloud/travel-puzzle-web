@@ -8,7 +8,7 @@ import { BookingPass, SupportCard } from '@/components/booking/email-ui';
 import { EventBookingForm } from './EventBookingForm';
 import { EventBookingConfirm } from './EventBookingConfirm';
 import { BookingFormProvider, useBookingForm } from './Contexts';
-import { paidPolicy } from '@/tours/lib/paid-policy';
+import { paidPolicyConfirmed } from '@/tours/lib/paid-policy';
 
 interface EventDetailData {
     id: number;
@@ -51,7 +51,7 @@ function Steps({ language, languageDisplayName, languageFlag, date, time, eventI
     const full = eventDetailData?.fullPricePerGroup?.[String(form.adults)];
     const now = eventDetailData?.payableNowPricePerGroup?.[String(form.adults)];
     const policy = paidEnabled && full !== undefined && full > 0
-        ? paidPolicy({ fullPrice: full, payNow: now ?? full, isPartiallyPaid: !!eventDetailData?.isPartiallyPaid, currency: 'EUR' }, uiLanguage)
+        ? paidPolicyConfirmed({ fullPrice: full, payNow: now ?? full, isPartiallyPaid: !!eventDetailData?.isPartiallyPaid, currency: 'EUR' }, uiLanguage)
         : null;
 
     return (

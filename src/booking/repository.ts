@@ -21,6 +21,21 @@ export function createBookingRepo(prisma: PrismaClient) {
     async update(refNumber: string, data: Pick<BookingRecord, "eventId" | "adults" | "children" | "eventDate" | "eventUtcDate" | "language">) {
       await prisma.freetourBooking.update({ where: { refNumber }, data });
     },
+    // REQ-011/012: datos del checkout de Freetour.
+    async savePayment(refNumber: string, p: { checkoutSessionId: string; paymentUrl: string; paymentStatus: string; paymentExpiresAt: string; fullPrice?: number; currency?: string }) {
+      await prisma.freetourBooking.update({ where: { refNumber }, data: { ...p, status: "pending_payment" } });
+    },
+    async findPaymentByToken(manageToken: string) {
+      return prisma.freetourBooking.findUnique({ where: { manageToken }, select: { refNumber: true, manageToken: true, checkoutSessionId: true, paymentStatus: true, paymentExpiresAt: true, paymentCheckedAt: true } });
+    },
+    /** Pagado → la reserva queda activa (recordatorios, reseña); cancelado/vencido → cancelada. */
+    async markPayment(refNumber: string, outcome: string, now: Date) {
+      const status = outcome === "paid" ? { status: "active" } : outcome === "canceled" || outcome === "expired" ? { status: "canceled" } : {};
+      await prisma.freetourBooking.update({ where: { refNumber }, data: { paymentStatus: outcome, paymentCheckedAt: now.toISOString(), ...status } });
+    },
+    async listPendingPayments() {
+      return prisma.freetourBooking.findMany({ where: { paymentStatus: "pending" }, select: { refNumber: true, manageToken: true, checkoutSessionId: true, paymentStatus: true, paymentExpiresAt: true, paymentCheckedAt: true }, take: 100 });
+    },
     async setStatus(refNumber: string, status: string) {
       await prisma.freetourBooking.update({ where: { refNumber }, data: { status } });
     },

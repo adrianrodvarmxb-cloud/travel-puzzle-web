@@ -5,7 +5,7 @@ import { handleRejection } from '@/booking/rejection';
 import { sendStatusEmail } from '@/booking/notify';
 import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
 import { sendEmail } from '@/notifications/resend';
-import { isBookingsEnabled } from '@/booking/lib/flags';
+import { isBookingsEnabled, paidInRecommendations } from '@/booking/lib/flags';
 import { getPrisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
                 lang: 'es',
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
-                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: paidInRecommendations(process.env) }),
                 contact: contactFromEnv(process.env as Record<string, string | undefined>),
                 calendar: calendarFromEnv(process.env as Record<string, string | undefined>),
                 send: (email) =>

@@ -1,5 +1,6 @@
 'use client';
 
+import { nextStepAfterBooking } from '@/booking/lib/after-booking';
 import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { buildFTBookingDTO, FTBookingErrorsMap, FTBookingHandlers } from '@/lib/api/schemas/FTBooking.Schema';
@@ -106,6 +107,12 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
                 throw new Error(result.message || 'No pudimos confirmar tu reserva. Intenta de nuevo.');
             }
 
+            // REQ-011: tour de pago → checkout de pago; free tour → confirmación aquí.
+            const next = nextStepAfterBooking(result);
+            if (next.kind === 'pay') {
+                window.location.assign(next.url);
+                return;
+            }
             setBooking(result.booking);
         } catch (error) {
             setSubmitError(error instanceof Error ? error.message : 'No pudimos confirmar tu reserva. Intenta de nuevo.');

@@ -37,3 +37,27 @@ export function paidPolicy(price: PaidPrice | null, lang: string): PaidPolicy {
     noShow: es ? `${what} no es reembolsable si cancelas o no te presentas.` : `${what} is non-refundable if you cancel or don't show up.`,
   };
 }
+
+/**
+ * Gate B (3 nov 2026): el texto de reembolso es el que Freetour confirme por escrito (Elias).
+ * Mientras sea null, no se afirma nada sobre reembolsos y no se puede reservar un tour de pago.
+ * Al recibir la confirmación se pega aquí (es/en) con la fecha y el correo de origen.
+ */
+export const CONFIRMED_REFUND_TEXT: { es: string; en: string } | null = null;
+
+// REQ-013
+export function isRefundPolicyConfirmed(text: { es: string; en: string } | null = CONFIRMED_REFUND_TEXT): boolean {
+  return !!text && !!text.es.trim() && !!text.en.trim();
+}
+
+/** Igual que paidPolicy, pero el aviso de reembolso sale solo del texto confirmado. */
+// REQ-013
+export function paidPolicyConfirmed(price: PaidPrice | null, lang: string, text: { es: string; en: string } | null = CONFIRMED_REFUND_TEXT): Omit<PaidPolicy, "noShow"> & { noShow: string | null; chargeNote: string } {
+  const base = paidPolicy(price, lang);
+  // REQ-014 (gate C, piloto): el cargo es en euros.
+  const chargeNote = lang === "es" ? "El cargo se hace en euros (EUR) en una plataforma de pago segura." : "You are charged in euros (EUR) on a secure payment platform.";
+  return { ...base, noShow: isRefundPolicyConfirmed(text) ? (lang === "es" ? text!.es : text!.en) : null, chargeNote };
+}
+
+/** Lo que se muestra al cliente (REQ-013/014). */
+export type ShownPolicy = ReturnType<typeof paidPolicyConfirmed>;

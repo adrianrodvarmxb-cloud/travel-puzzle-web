@@ -1,3 +1,4 @@
+import { paidInRecommendations } from '@/booking/lib/flags';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { Navbar } from "@/components/layout";
 import {
@@ -34,7 +35,7 @@ export default async function Home() {
   const data = await loadHomeData({
     prisma,
     highlights: createHighlightRepo(prisma),
-    includePaid: env.PAID_TOURS_ENABLED === "true",
+    includePaid: paidInRecommendations(env),
     lang,
   });
   const contact = contactFromEnv(env);

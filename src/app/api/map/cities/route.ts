@@ -1,3 +1,4 @@
+import { paidInRecommendations } from '@/booking/lib/flags';
 import { NextRequest, NextResponse } from 'next/server';
 import { getPrisma } from '@/lib/prisma';
 import { loadMapCities, loadCityCard } from '@/map/load';
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest) {
   const cityId = Number(request.nextUrl.searchParams.get('cityId'));
   if (request.nextUrl.searchParams.has('cityId')) {
     if (!Number.isInteger(cityId) || cityId <= 0) return NextResponse.json({ error: 'cityId inválido' }, { status: 400 });
-    const card = await loadCityCard(cityId, { prisma, includePaid: process.env.PAID_TOURS_ENABLED === 'true' });
+    const card = await loadCityCard(cityId, { prisma, includePaid: paidInRecommendations(process.env) });
     if (!card) return NextResponse.json({ error: 'sin tours' }, { status: 404 });
     return NextResponse.json(card, { headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=3600' } });
   }

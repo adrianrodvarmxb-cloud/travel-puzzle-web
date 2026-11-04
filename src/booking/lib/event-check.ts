@@ -1,6 +1,10 @@
 import type { IzFTEventDetail } from "@/lib/api/schemas/FTEvent.Schema";
+import { pricesFor } from "./paid-price";
 
-export type EventCheck = { ok: true; price: number } | { ok: false; code: "no_availability" | "phone_required" };
+/** `price` es lo que se cobra hoy (payableNow); `fullPrice` el total del grupo. */
+export type EventCheck =
+  | { ok: true; price: number; fullPrice: number; isPaid: boolean }
+  | { ok: false; code: "no_availability" | "phone_required" | "children_not_allowed" };
 
 /**
  * Revisa con los datos reales del evento (Freetour) si se puede reservar y
@@ -14,10 +18,8 @@ export function checkEvent(
   if (adults > ev.availableAdultPlaces || children > ev.availableChildrenPlaces) return { ok: false, code: "no_availability" };
   if (ev.isPhoneRequired && !hasPhone) return { ok: false, code: "phone_required" };
 
-  const prices = Object.values(ev.fullPricePerGroup ?? {});
-  const isFree = prices.every((p) => p === 0);
-  if (isFree) return { ok: true, price: 0 };
-
-  const price = ev.fullPricePerGroup[String(adults + children)];
-  return price === undefined ? { ok: false, code: "no_availability" } : { ok: true, price };
+  // REQ-010: la tabla va por adultos y se cobra hoy payableNow (antes se usaba adultos + niños y el total).
+  const p = pricesFor(ev, adults, children);
+  if (!p.ok) return { ok: false, code: p.code === "children_not_allowed" ? "children_not_allowed" : "no_availability" };
+  return { ok: true, price: p.payNow, fullPrice: p.fullPrice, isPaid: p.isPaid };
 }
