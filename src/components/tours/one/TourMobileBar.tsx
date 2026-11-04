@@ -20,7 +20,7 @@ export function TourMobileBar({ tour, mode, whatsapp }: { tour: Tour; mode: Book
       <div className="mx-auto flex max-w-xl items-center justify-between gap-4">
         <div className="min-w-0">
           <p className="font-display truncate text-lg font-bold leading-tight text-white">{priceText(tour.price, tour.currency, t('tours.free'))}</p>
-          {rating && <p className="text-xs text-[#A9B6D6]"><span className="text-[#F5B301]">★</span> {rating} · {t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString())}</p>}
+          {rating && <p className="text-xs text-[#A9B6D6]"><span className="text-[#F5B301]">★</span> {rating} · {t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString('es-MX'))}</p>}
         </div>
         <a
           href={href}

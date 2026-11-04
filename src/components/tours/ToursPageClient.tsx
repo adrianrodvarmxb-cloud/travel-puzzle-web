@@ -1,4 +1,5 @@
 'use client';
+import { SectionBoundary } from '@/components/common/SectionBoundary';
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
@@ -335,7 +336,7 @@ export function ToursPageClient({
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
                         {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
-                            <OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} />
+                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} /></SectionBoundary>
                         )}
                         {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />

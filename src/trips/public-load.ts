@@ -6,6 +6,7 @@ import { getPrisma } from "@/lib/prisma";
 import { createTripRepo } from "./repository";
 import { localized, type Translations } from "./lib/translation";
 import { tripPath } from "./lib/public";
+import { cardPlaces } from "./lib/geo";
 import { priceDisplay, type FxRates } from "./lib/money";
 import { imageUrl } from "./lib/image";
 import { getFxRates } from "./fx";
@@ -34,7 +35,9 @@ export function loadFx(): Promise<FxRates | null> {
 
 export interface TripCard {
   id: string; path: string; code: string; kind: StoredTrip["kind"]; title: string; summary: string;
-  image: string | null; countries: string[]; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
+  image: string | null; countries: string[];
+  /** REQ-004: países ya traducidos en el servidor (el navegador no usa Intl; INC-001). */
+  places: string; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
 }
 
 async function publishedRows() {
@@ -47,7 +50,7 @@ export function toCard(t: StoredTrip & { translations?: unknown }, lang: string,
   return {
     id: t.id, path: tripPath(t), code: t.code, kind: t.kind,
     title: localized(tr, lang, "title", t.titleEs), summary: localized(tr, lang, "summary", t.summaryEs),
-    image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, durationDays: t.durationDays,
+    image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, places: cardPlaces(t.countries, lang), durationDays: t.durationDays,
     price: priceDisplay(t.priceFrom, t.currency, fx, lang),
   };
 }

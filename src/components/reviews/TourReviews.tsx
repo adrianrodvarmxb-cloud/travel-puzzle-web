@@ -17,7 +17,7 @@ export function TourReviews({ reviews, total }: { reviews: ReviewView[]; total: 
       <CardContent className="p-6">
         <h2 className="text-2xl font-bold mb-1">{t('reviews.tourTitle')}</h2>
         <p className="text-sm text-muted-foreground mb-4">
-          {t('reviews.total').replace('{count}', total.toLocaleString())} · {t('reviews.source')}
+          {t('reviews.total').replace('{count}', total.toLocaleString('es-MX'))} · {t('reviews.source')}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {reviews.slice(0, shown).map((r) => (

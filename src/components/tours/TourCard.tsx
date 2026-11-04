@@ -45,7 +45,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
         <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-3.5 text-sm">
           <span>
             {rating ? (
-              <><span className="text-[#F5B301]">★</span> <b>{rating}</b> <span className="text-[#A9B6D6]">· {tour.reviewsNumber.toLocaleString()}</span></>
+              <><span className="text-[#F5B301]">★</span> <b>{rating}</b> <span className="text-[#A9B6D6]">· {tour.reviewsNumber.toLocaleString('es-MX')}</span></>
             ) : (
               <span className="text-[#7C8DBA]">—</span>
             )}
