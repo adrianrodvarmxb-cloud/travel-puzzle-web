@@ -7,6 +7,7 @@
 //   FREETOUR_EMAIL           usuario de la API de Freetour (obligatorio)
 //   FREETOUR_PASSWORD        contraseña de la API de Freetour (obligatorio)
 //   FREETOUR_BASE_URL        por defecto producción v.2.0
+//   FREETOUR_API_VERSION     2.0 (por defecto) | 2.1 | 2.2 — REQ-062; quitarla = regresar a 2.0
 //   FREETOUR_LOCAL_ADDRESS   IP de salida registrada en Freetour (obligatorio; 66.29.153.81)
 //   PORT                     lo pone cPanel
 import http from "node:http";
@@ -17,6 +18,7 @@ import { handleRequest } from "./lib/handler.js";
 import { createFreetourClient } from "./lib/freetour.js";
 import { createDedupe } from "./lib/dedupe.js";
 import { checkConfig } from "./lib/config.js";
+import { resolveBaseUrl } from "./lib/api-version.js";
 
 const MAX_BODY = 32 * 1024;
 const here = dirname(fileURLToPath(import.meta.url));
@@ -37,7 +39,7 @@ if (problems.length) {
 }
 
 const freetour = createFreetourClient({
-  baseUrl: process.env.FREETOUR_BASE_URL || "https://secure.freetour.com/partnersAPI/v.2.0",
+  baseUrl: resolveBaseUrl(process.env), // REQ-062
   email: process.env.FREETOUR_EMAIL,
   password: process.env.FREETOUR_PASSWORD,
   localAddress: process.env.FREETOUR_LOCAL_ADDRESS,
