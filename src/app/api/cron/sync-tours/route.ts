@@ -6,6 +6,9 @@ import { runSyncStep } from '@/catalog/sync';
 import { createCatalogRepo } from '@/catalog/repository';
 import { refreshStaleReviews } from '@/reviews/service';
 import { createReviewRepo } from '@/reviews/repository';
+import { runDeparturesStep } from '@/departures/sync';
+import { createDeparturesRepo } from '@/departures/repository';
+import { freetourSource } from '@/departures/sources/freetour';
 import countries from '../../../../../data/countries.json';
 
 export const dynamic = 'force-dynamic';
@@ -18,6 +21,8 @@ export const dynamic = 'force-dynamic';
  * reseñas reales de los tours más reseñados (5 por llamada).
  */
 const REVIEWS_PER_TICK = 5;
+/** REQ-049: tours por minuto para leer salidas (~8,000 tours en un día, cada uno como máximo 1 vez cada 20 h). */
+const DEPARTURES_PER_TICK = 8;
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
   if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -36,7 +41,11 @@ export async function GET(request: Request) {
     });
     if (result.action === 'idle') {
       const reviews = await refreshStaleReviews({ batch: REVIEWS_PER_TICK }, { api, repo: createReviewRepo(prisma, getD1()), now });
-      return NextResponse.json({ success: true, ...result, reviews });
+      // REQ-049: salidas (idiomas y fechas) escalonadas; Freetour pide leer /tours/{id}/events de forma periódica.
+      const departures = process.env.DEPARTURES_SYNC_ENABLED === 'true'
+        ? await runDeparturesStep({ source: freetourSource(api), repo: createDeparturesRepo(getD1() as never), now, batch: DEPARTURES_PER_TICK }).catch((e) => ({ error: (e as Error).message }))
+        : 'off';
+      return NextResponse.json({ success: true, ...result, reviews, departures });
     }
     return NextResponse.json({ success: true, ...result });
   } catch (error) {

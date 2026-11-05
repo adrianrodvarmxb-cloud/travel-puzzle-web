@@ -32,7 +32,7 @@ describe("REQ-049 sync escalonado de salidas", () => {
   it("REQ-049: cada tour se revisa como máximo una vez al día", async () => {
     const r = repo([]);
     await runDeparturesStep({ source: { list: vi.fn() }, repo: r, now, batch: 10 });
-    const before = r.dueTours.mock.calls[0][1] as Date;
+    const before = (r.dueTours.mock.calls[0] as unknown as [number, Date])[1];
     expect(now.getTime() - before.getTime()).toBe(20 * 3600 * 1000);
   });
 });

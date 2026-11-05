@@ -56,6 +56,8 @@
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
     "OWN_TOURS_ENABLED": "true",
     "TRANSPORT_ENABLED": "false",
+    // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
+    "DEPARTURES_SYNC_ENABLED": "false",
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
     "STRIPE_HOLD_ENABLED": "false",
     "TRANSFERS_ENABLED": "true",

@@ -6,9 +6,10 @@ import { GUIDE_LANGUAGE_OPTIONS } from '@/departures/lib/params';
 import { addDays, HORIZON_DAYS } from '@/departures/lib/summary';
 import { FilterSection, FilterCheck } from './FilterSection';
 import { DurationSlider } from './DurationSlider';
+import { PriceSlider } from './PriceSlider';
 
 /** REQ-049..056: filtros estilo Civitatis (tipo, características, idioma, fecha, duración). */
-export function MoreFilters({ value, onChange, today, lang }: { value: ExtraFilters; onChange: (v: ExtraFilters) => void; today: string; lang: string }) {
+export function MoreFilters({ value, onChange, today, lang, price, onPrice, priceLabel }: { value: ExtraFilters; onChange: (v: ExtraFilters) => void; today: string; lang: string; price?: { min?: number; max?: number }; onPrice?: (min: number | undefined, max: number | undefined) => void; priceLabel?: string }) {
     const c = filtersCopy(lang);
     const set = (patch: Partial<ExtraFilters>) => onChange({ ...value, ...patch });
     const toggleGroup = (id: string, on: boolean) => set({ groups: on ? [...value.groups, id] : value.groups.filter((g) => g !== id) });
@@ -33,6 +34,11 @@ export function MoreFilters({ value, onChange, today, lang }: { value: ExtraFilt
             <FilterSection title={c.date}>
                 <input type="date" aria-label={c.date} value={value.date ?? ''} min={today} max={addDays(today, HORIZON_DAYS - 1)} onChange={(e) => set({ date: e.target.value || null })} className={`${input} [color-scheme:dark]`} />
             </FilterSection>
+            {onPrice && (
+                <FilterSection title={priceLabel ?? 'Precio'}>
+                    <PriceSlider min={price?.min} max={price?.max} onChange={onPrice} />
+                </FilterSection>
+            )}
             <FilterSection title={c.duration}>
                 <DurationSlider min={value.durMin} max={value.durMax} lang={lang} onChange={(durMin, durMax) => set({ durMin, durMax })} />
             </FilterSection>

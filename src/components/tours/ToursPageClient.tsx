@@ -351,9 +351,10 @@ export function ToursPageClient({
                                 cities={cities}
                                 isLoadingCities={isLoadingCities}
                                 hideSearch
+                                hidePrice
                             />
-                            <DurationFilter value={duration} onChange={handleDurationChange} />
-                            <MoreFilters value={extra} onChange={changeExtra} today={today} lang={language} />
+                            {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
+                            <MoreFilters value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
