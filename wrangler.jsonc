@@ -54,7 +54,7 @@
     // Modificar reserva en línea (/reserva/[token]/modificar): "true" cuando Freetour dé el permiso de editar.
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
-    "OWN_TOURS_ENABLED": "false",
+    "OWN_TOURS_ENABLED": "true",
     "TRANSPORT_ENABLED": "false",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
