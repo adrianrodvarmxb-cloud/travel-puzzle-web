@@ -228,6 +228,7 @@ export const es = {
   "tours.headline": "Encuentra tu tour.",
   "tours.eyebrow": "TOURS · {count} DISPONIBLES",
   "tours.sort.label": "Ordenar por",
+  "tours.sort.relevance": "Relevancia",
   "tours.sort.reviews": "Más reseñas",
   "tours.sort.rating": "Mejor calificados",
   "tours.sort.price": "Precio: menor a mayor",

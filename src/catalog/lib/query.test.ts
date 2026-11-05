@@ -51,3 +51,28 @@ describe("INC-003: catálogo en memoria (REQ-035)", () => {
     expect(p).toEqual({ ids: ["a"], total: 3, page: 2, limit: 2 });
   });
 });
+
+describe("REQ-048 queryCatalog con relevancia de FTS5", () => {
+  const entries = [e("a", { text: "free tour lima", reviews: 900 }), e("b", { text: "machu picchu", reviews: 5 }), e("c", { text: "cusco machu picchu", reviews: 50 })];
+  it("REQ-048: con ids ordenados por relevancia, filtra a esos y respeta su orden si no hay otro orden elegido", () => {
+    const r = queryCatalog(entries, { search: "machu", ranked: ["c", "b"] }, { page: 1, limit: 20 });
+    expect(r.ids).toEqual(["c", "b"]);
+    expect(r.total).toBe(2);
+  });
+  it("REQ-048: si el visitante elige un orden (reseñas), se aplica sobre los encontrados", () => {
+    const r = queryCatalog(entries, { search: "machu", ranked: ["b", "c"] }, { page: 1, limit: 20, sortBy: "reviewsNumber", sortOrder: "desc" });
+    expect(r.ids).toEqual(["c", "b"]);
+  });
+  it("REQ-048: sin ranked (bandera apagada o FTS caído) se usa la búsqueda de siempre", () => {
+    const r = queryCatalog(entries, { search: "picchu" }, { page: 1, limit: 20 });
+    expect(r.ids.sort()).toEqual(["b", "c"]);
+  });
+});
+
+describe("REQ-048 orden 'relevance'", () => {
+  const entries = [e("a", { text: "machu x", reviews: 900 }), e("b", { text: "machu y", reviews: 5 })];
+  it("REQ-048: relevance con ids de FTS respeta su orden; sin FTS cae a más reseñas", () => {
+    expect(queryCatalog(entries, { search: "machu", ranked: ["b", "a"] }, { sortBy: "relevance", sortOrder: "desc" }).ids).toEqual(["b", "a"]);
+    expect(queryCatalog(entries, { search: "machu" }, { sortBy: "relevance", sortOrder: "desc" }).ids).toEqual(["a", "b"]);
+  });
+});

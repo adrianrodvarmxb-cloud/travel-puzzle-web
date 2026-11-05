@@ -6,6 +6,7 @@ import { runSyncStep } from '@/catalog/sync';
 import { createCatalogRepo } from '@/catalog/repository';
 import { refreshStaleReviews } from '@/reviews/service';
 import { createReviewRepo } from '@/reviews/repository';
+import { rebuildTourSearch, type D1Like } from '@/search/fts-search';
 import countries from '../../../../../data/countries.json';
 
 export const dynamic = 'force-dynamic';
@@ -33,6 +34,7 @@ export async function GET(request: Request) {
       repo: createCatalogRepo(prisma, getD1()),
       countries: countries as never,
       now,
+      rebuildSearch: () => rebuildTourSearch(getD1() as unknown as D1Like),
     });
     if (result.action === 'idle') {
       const reviews = await refreshStaleReviews({ batch: REVIEWS_PER_TICK }, { api, repo: createReviewRepo(prisma, getD1()), now });

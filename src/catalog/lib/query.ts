@@ -13,6 +13,8 @@ export interface CatalogEntry {
 export interface CatalogFilters {
   countryId?: number; cityId?: number; categoryId?: number; minPrice?: number; maxPrice?: number;
   durationRange?: DurationRange | null; search?: string;
+  /** REQ-048: ids por relevancia (FTS5). Si viene, reemplaza la búsqueda por palabras y da el orden por defecto. */
+  ranked?: string[] | null;
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -44,7 +46,8 @@ const SORT: Record<string, (x: CatalogEntry) => number | null> = {
 };
 
 export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: CatalogPage) {
-  const words = f.search ? normalize(f.search).split(" ").filter(Boolean) : [];
+  const rank = f.ranked ? new Map(f.ranked.map((id, i) => [id, i])) : null;
+  const words = !rank && f.search ? normalize(f.search).split(" ").filter(Boolean) : [];
   const dur = f.durationRange ? durationRangeWhere(f.durationRange) : null;
   const hit = entries.filter((x) =>
     (!f.countryId || x.countryId === f.countryId) &&
@@ -53,7 +56,16 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (f.minPrice === undefined || f.minPrice === null || (x.price ?? 0) >= f.minPrice) &&
     (f.maxPrice === undefined || f.maxPrice === null || (x.price ?? 0) <= f.maxPrice) &&
     (!dur || (x.durationMinutes !== null && (dur.gt === undefined || x.durationMinutes > dur.gt) && (dur.lte === undefined || x.durationMinutes <= dur.lte))) &&
+    (!rank || rank.has(x.id)) &&
     words.every((w) => x.text.includes(w)));
+  if (rank && !(p.sortBy && SORT[p.sortBy])) hit.sort((a, b) => rank.get(a.id)! - rank.get(b.id)!); // REQ-048: relevancia
+  else sortBy(hit, p.sortBy === "relevance" ? { sortBy: "reviewsNumber", sortOrder: "desc" } : p); // sin FTS: más reseñas
+  const limit = Math.min(100, Math.max(1, p.limit || 20));
+  const page = Math.max(1, p.page || 1);
+  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
+}
+
+function sortBy(hit: CatalogEntry[], p: CatalogPage) {
   const key = SORT[p.sortBy ?? ""] ?? SORT.createdAt;
   const dir = (p.sortBy && SORT[p.sortBy] ? p.sortOrder ?? "asc" : "desc") === "asc" ? 1 : -1;
   hit.sort((a, b) => {
@@ -63,7 +75,4 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     if (vb === null) return -1;
     return va === vb ? (a.id < b.id ? -1 : 1) : (va - vb) * dir;
   });
-  const limit = Math.min(100, Math.max(1, p.limit || 20));
-  const page = Math.max(1, p.page || 1);
-  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
 }
