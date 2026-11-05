@@ -1354,14 +1354,14 @@
    "status": "published",
    "photos": [
     {
-     "src": "inca",
-     "file": "01_Maras_Moray/2024-01-24_moray_vista_panorama.jpg",
-     "alt": "Andenes de Moray"
+     "src": "pixabay",
+     "id": 2615125,
+     "alt": "Terrazas circulares de Moray"
     },
     {
-     "src": "inca",
-     "file": "01_Maras_Moray/2024-01-24_salinera_de_maras_entrada.jpg",
-     "alt": "Salineras de Maras"
+     "src": "pixabay",
+     "id": 1260231,
+     "alt": "Andenes de Moray entre campos del altiplano"
     }
    ],
    "trip": {
