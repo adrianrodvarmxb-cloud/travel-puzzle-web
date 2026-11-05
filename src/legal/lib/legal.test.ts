@@ -91,4 +91,10 @@ describe("enlaces legales", () => {
     expect(legalLabels("fr").spanishOnly).toMatch(/Spanish/);
     expect(legalLabels("es").spanishOnly).toBe("");
   });
+  it("REQ-041: T&C remiten a la política de cancelación de cada ficha y al operador local", () => {
+    expect(TERMINOS).toContain("Política de cancelación de cada servicio");
+    expect(TERMINOS).toContain("acepta expresamente la política de cancelación de esa ficha");
+    expect(TERMINOS).toContain("operador local");
+    expect(TERMINOS).toContain("Ley Federal de Protección al Consumidor");
+  });
 });

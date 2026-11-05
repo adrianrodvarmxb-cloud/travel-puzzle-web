@@ -17,6 +17,8 @@ interface Props {
     hotelPickup: boolean;
     lang: string;
     returnPath: string;
+    /** REQ-040: resumen de la política de cancelación que el cliente acepta al enviar. */
+    policy?: string;
 }
 
 const field = 'w-full rounded-xl border border-white/15 bg-[#0A1330] px-3.5 py-2.5 text-sm text-white placeholder:text-[#5F73AD] focus:border-[#008DFF] focus:outline-none';
@@ -113,7 +115,7 @@ export function TripRequestForm(p: Props) {
             <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
             <label className="flex items-start gap-2 text-xs text-[#C9D6F5]">
                 <input name="consent" type="checkbox" required className="mt-0.5" />
-                <span>{c.consentA} <a href={LEGAL_PATHS.terms} target="_blank" className="underline">{c.terms}</a> {c.consentB} <a href={LEGAL_PATHS.privacy} target="_blank" className="underline">{c.privacy}</a>.</span>
+                <span>{c.consentA} <a href={LEGAL_PATHS.terms} target="_blank" className="underline">{c.terms}</a>{p.policy && <>, <a href="#cancelacion" className="underline">{c.policyAccept}</a> ({p.policy})</>} {c.consentB} <a href={LEGAL_PATHS.privacy} target="_blank" className="underline">{c.privacy}</a>.</span>
             </label>
             {est !== null && <p className="text-sm text-[#D5DCEE]">{c.estimate}: <strong className="text-white">{formatMoney(est, p.currency, p.lang)}</strong> <span className="block text-xs text-[#7F8DB0]">{c.estimateNote}</span></p>}
             {error && <p className="text-sm text-[#FF8A73]">{error}</p>}

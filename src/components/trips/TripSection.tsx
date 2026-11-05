@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
 /** Bloque con título de la ficha. */
-export function TripSection({ title, children }: { title: string; children: ReactNode }) {
+export function TripSection({ title, children, id }: { title: string; children: ReactNode; id?: string }) {
     return (
-        <section className="border-t border-white/10 pt-8">
+        <section id={id} className="scroll-mt-24 border-t border-white/10 pt-8">
             <h2 className="font-display text-2xl font-semibold text-white">{title}</h2>
             <div className="mt-4 text-[15px] leading-relaxed text-[#D5DCEE]">{children}</div>
         </section>
