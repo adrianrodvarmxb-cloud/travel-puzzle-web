@@ -7,6 +7,7 @@ import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
 import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
+import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
 
@@ -53,7 +54,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <AppProviders>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own }}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

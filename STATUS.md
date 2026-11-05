@@ -18,6 +18,7 @@ Actualizado: 3 nov 2026.
 ## Banderas (wrangler.jsonc)
 - `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403). También muestra `/ayuda` y su enlace en el footer.
 - `EMAILS_ENABLED=false`, `REVIEW_EMAILS_ENABLED=false`, `PAID_TOURS_ENABLED=false`.
+- `PRIMERA_PIEZA_ENABLED=false` — menú con La Primera Pieza y Destinos, y /llms.txt. No encender antes de que existan /la-primera-pieza y /destinos (Olas 3 y 4).
 
 ## Pasarela — robustez (punto 16, nov 2026)
 - Token por intento (24 h) + bloqueo de traslapes; IP de salida obligatoria; espera tras login fallido;
@@ -115,3 +116,23 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-019 | Conformidad con el Swagger | `gateway/lib/operations.js`, `gateway/lib/freetour-spec-required.json` | `spec-conformance.test.js` | CUMPLIDO |
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
+
+## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-088 | URLs canónicas por destino | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (faltan páginas, Ola 3) |
+| REQ-089 | Regla de indexación de ciudad | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
+| REQ-090 | noindex tras 14 días seguidos | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO (necesita columna de estado: migración) |
+| REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
+| REQ-092 | 301 desde URLs viejas y viajes propios; 410 removidos | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (falta conectar, Ola 3) |
+| REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) |
+| REQ-094 | H1 = título real | `src/tours/lib/title.ts` | `title.test.ts` | EN CURSO |
+| REQ-095 | Insignia solo con fullPricePerGroup = 0 | `src/tours/lib/badge.ts` | `badge.test.ts` | EN CURSO |
+| REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
+| REQ-097 | Tours de pago: 24 h y pago a la llegada | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
+| REQ-098 | Favorito ≥4.7 y ≥50; «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts` | `favorite.test.ts` | EN CURSO |
+| REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts` | `titles.test.ts` | EN CURSO |
+| REQ-100 | JSON-LD | `src/seo/lib/jsonld.ts` | `jsonld.test.ts` | EN CURSO |
+| REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts` | `hub.test.ts` | EN CURSO |
+| REQ-102 | Sitemaps por país con lastmod real | `src/seo/lib/sitemaps.ts` | `sitemaps.test.ts` | EN CURSO |
+| REQ-103 | robots.txt con buscadores de IA y llms.txt | `src/seo/lib/robots.ts`, `app/robots.txt/route.ts`, `app/llms.txt/route.ts` | `robots.test.ts` | EN CURSO |
