@@ -1,4 +1,6 @@
 'use client';
+import { useFeatureFlags } from '@/components/providers/FeatureFlags';
+import { withTransfersLink } from '@/transfers/lib/nav';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -34,17 +36,18 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const publicLinks = [
+  const { transfers } = useFeatureFlags();
+  const publicLinks = withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/#como-funciona', label: t('nav.howItWorks') },
-  ];
+  ], transfers, t('nav.transfers'));
 
-  const clientLinks = [
+  const clientLinks = withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/bookings', label: t('nav.myBookings') },
-  ];
+  ], transfers, t('nav.transfers'));
 
   const dashboardLinks = [
     { href: '/dashboard', label: t('nav.dashboard.overview'), icon: '📊' },

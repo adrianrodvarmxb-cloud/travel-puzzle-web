@@ -36,3 +36,39 @@ describe("mezcla en /tours (gate L)", () => {
     expect(isOwnKindFilter("free")).toBe(false);
   });
 });
+
+// REQ-046 (INC-004): los viajes propios respetan el buscador y los filtros de /tours
+describe("REQ-046 matchesToursFilter con búsqueda, ciudad y precio", () => {
+  const mp = { countries: ["PE"], kind: "tour" as const, title: "Machu Picchu Full Day desde Cusco", summary: "Tren, bus y entrada", cities: ["Cusco", "Aguas Calientes"], places: "Perú", priceFrom: 546 };
+  const f = (o: Record<string, unknown> = {}) => ({ countryCode: null, kind: "all" as const, ...o });
+  it("REQ-046: la búsqueda filtra por título, resumen, ciudades y país (sin acentos, todas las palabras)", () => {
+    expect(matchesToursFilter(mp, f({ search: "machu picchu" }))).toBe(true);
+    expect(matchesToursFilter(mp, f({ search: "CUSCO" }))).toBe(true);
+    expect(matchesToursFilter(mp, f({ search: "peru" }))).toBe(true);
+    expect(matchesToursFilter(mp, f({ search: "aguas calientes tren" }))).toBe(true);
+    expect(matchesToursFilter(mp, f({ search: "Paris" }))).toBe(false);
+    expect(matchesToursFilter(mp, f({ search: "machu paris" }))).toBe(false);
+    expect(matchesToursFilter(mp, f({ search: "   " }))).toBe(true);
+  });
+  it("REQ-046: el filtro de ciudad deja solo los viajes de esa ciudad", () => {
+    expect(matchesToursFilter(mp, f({ cityName: "Cusco" }))).toBe(true);
+    expect(matchesToursFilter(mp, f({ cityName: "Lima" }))).toBe(false);
+  });
+  it("REQ-046: el rango de precio también aplica", () => {
+    expect(matchesToursFilter(mp, f({ minPrice: 500, maxPrice: 600 }))).toBe(true);
+    expect(matchesToursFilter(mp, f({ maxPrice: 100 }))).toBe(false);
+    expect(matchesToursFilter(mp, f({ minPrice: 1000 }))).toBe(false);
+    expect(matchesToursFilter({ ...mp, priceFrom: null }, f({ minPrice: 1 }))).toBe(false);
+  });
+});
+
+describe("REQ-057 viajes propios: palabra, no pedazo", () => {
+  it("REQ-057: 'roma' no encuentra 'murallas romanas'; 'machu' sí encuentra 'Machu'", () => {
+    const t = { countries: ["ES"], kind: "tour" as const, title: "Murallas romanas de León", summary: "", cities: ["León"], places: "España" };
+    const f = (search: string) => ({ countryCode: null, kind: "all" as const, search });
+    expect(matchesToursFilter(t, f("roma"))).toBe(false);
+    expect(matchesToursFilter(t, f("romanas"))).toBe(true);
+    expect(matchesToursFilter(t, f("mural"))).toBe(true);
+  });
+});
+

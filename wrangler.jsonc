@@ -44,19 +44,26 @@
     // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
     "GATEWAY_URL": "https://pasarela.travelpuzzle.com.mx",
     // Interruptor de reservas reales. "true" solo con OK, después de probar en producción.
-    "BOOKINGS_ENABLED": "false",
+    "BOOKINGS_ENABLED": "true",
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
-    "EMAILS_ENABLED": "false",
+    "EMAILS_ENABLED": "true",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "false",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
     "PAID_TOURS_ENABLED": "false",
     "PAID_TOURS_IN_RECOMMENDATIONS": "false",
     // Modificar reserva en línea (/reserva/[token]/modificar): "true" cuando Freetour dé el permiso de editar.
-    "EDIT_ENABLED": "false",
+    "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
-    "OWN_TOURS_ENABLED": "false",
-    "TRANSPORT_ENABLED": "true",
+    "OWN_TOURS_ENABLED": "true",
+    "TRANSPORT_ENABLED": "false",
+    // Buscador con relevancia (FTS5, REQ-048). "true" con vista previa y OK del PO, después de la migración 0011.
+    "SEARCH_V2_ENABLED": "false",
+    // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
+    "STRIPE_HOLD_ENABLED": "false",
+    "TRANSFERS_ENABLED": "true",
+    "AFFILIATES_ENABLED": "true",
+    "AFFILIATE_PATHS": "/trenes,/traslados",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.

@@ -15,6 +15,8 @@ import {
   WhatsAppBubble,
 } from "@/components/home/v2";
 import { loadHomeData } from "@/home/load";
+import { cached, cacheKey, POLICY } from "@/cache/edge";
+import { withRetry } from "@/tours/lib/d1-load";
 import { createHighlightRepo } from "@/reviews/repository";
 import { HashScroll } from "@/components/home/v2/HashScroll";
 import { OwnTripsCarousel } from "@/components/home/v2/OwnTripsCarousel";
@@ -32,12 +34,11 @@ export default async function Home() {
   const prisma = getPrisma();
   const lang = await getPreferredLanguage();
   const ownTrips = await loadTripCards(lang);
-  const data = await loadHomeData({
-    prisma,
-    highlights: createHighlightRepo(prisma),
-    includePaid: paidInRecommendations(env),
-    lang,
-  });
+  const includePaid = paidInRecommendations(env);
+  // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
+  const data = await cached(cacheKey("home", { lang, includePaid }), POLICY.home, () =>
+    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang })),
+  );
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 

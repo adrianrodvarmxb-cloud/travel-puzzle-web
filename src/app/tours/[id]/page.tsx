@@ -1,6 +1,8 @@
-import { notFound } from 'next/navigation';
+import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
 import { fetchTourById } from '@/actions/tours';
+import { cached, cacheKey } from '@/cache/edge';
+import { withRetry } from '@/tours/lib/d1-load';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
@@ -63,11 +65,11 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         );
 
         // Reseñas reales de Freetour (caché de 7 días en D1)
-        const { reviews, total } = await loadTourReviews(
-            (tourData as { externalId: number }).externalId,
-            language,
-            30
-        );
+        // REQ-032: caché compartida 1 h; si falla, la ficha sigue sin reseñas (regla 7).
+        const externalId = (tourData as { externalId: number }).externalId;
+        const { reviews, total } = await cached(cacheKey('tour-reviews', { externalId, language }), { ttlSec: 3600, staleSec: 86400 },
+            () => withRetry(() => loadTourReviews(externalId, language, 30)))
+            .catch((e) => { console.error('[reseñas]', (e as Error).message); return { reviews: [], total: 0 }; });
 
         const env = process.env as Record<string, string | undefined>;
         // REQ-005/006: transporte de la misma ciudad o país (vacío si TRANSPORT_ENABLED está apagado). Si falla, la ficha sigue.
@@ -90,7 +92,9 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
             />
         );
     } catch (error) {
+        // INC-003 (regla 7): un fallo de la base no es "no existe"; va al aviso con Reintentar.
+        unstable_rethrow(error);
         console.error('Error fetching tour:', error);
-        notFound();
+        throw error;
     }
 }

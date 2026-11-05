@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-import { getToursWithFilters, getToursMetadata } from '@/lib/db/repositories/tour-repository';
+import { getToursWithFilters, getToursFromCatalog, getToursMetadata } from '@/lib/db/repositories/tour-repository';
+import { cached, cacheKey, POLICY } from '@/cache/edge';
+import { withRetry } from '@/tours/lib/d1-load';
 import type { PaginationParams } from '@/lib/db/pagination';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 
@@ -32,8 +34,10 @@ export async function GET(request: NextRequest) {
     const baseUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}${request.nextUrl.pathname}`;
 
     // Fetch tours with filters and pagination
-    const toursData = await getToursWithFilters(filters, pagination, baseUrl);
-    const metadata = await getToursMetadata();
+    // REQ-032: misma caché compartida que la página /tours.
+    const toursData = await cached(cacheKey('api-tours', { ...filters, ...pagination, baseUrl }), POLICY.toursList,
+      async () => JSON.parse(JSON.stringify(await withRetry(() => getToursFromCatalog(filters, pagination, baseUrl)))));
+    const metadata = await cached('tours-metadata', POLICY.metadata, () => withRetry(() => getToursMetadata()));
 
     return NextResponse.json({
       ...toursData,

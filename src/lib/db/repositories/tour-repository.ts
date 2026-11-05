@@ -1,7 +1,11 @@
 import { prisma } from '@/lib/prisma';
-import { paginatedQuery, PaginationParams, PaginatedResponse } from '../pagination';
+import { paginatedQuery, buildPaginationLinks, PaginationParams, PaginatedResponse } from '../pagination';
+import { loadCatalog } from '@/catalog/snapshot';
+import { queryCatalog } from '@/catalog/lib/query';
+import { rankedTourIds } from '@/search/ranked';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
+import { countriesWithCounts } from '@/tours/lib/d1-load';
 
 export type TourWithRelations = Prisma.TourGetPayload<{
   include: {
@@ -91,6 +95,36 @@ export async function getToursWithFilters(
   );
 }
 
+// REQ-035 (INC-003): misma respuesta que getToursWithFilters, pero filtro/orden/conteo en memoria
+// sobre el índice del catálogo; D1 solo lee los tours de la página por id.
+export async function getToursFromCatalog(
+  filters: TourFilters,
+  pagination: PaginationParams,
+  baseUrl: string = '/api/tours'
+): Promise<PaginatedResponse<TourWithRelations>> {
+  const language = filters.language || 'en';
+  const [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
+  const { ids, total, page, limit } = queryCatalog(entries, {
+    countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
+    minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
+    search: pagination.searchValue,
+    ranked, // REQ-048: relevancia FTS5 (null = búsqueda por palabras)
+  }, pagination);
+  const rows = ids.length
+    ? await prisma.tour.findMany({
+        where: { id: { in: ids } },
+        include: { translations: { where: { language } }, city: true, country: true },
+      })
+    : [];
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  const data = ids.map((id) => byId.get(id)).filter((x): x is TourWithRelations => !!x);
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  return {
+    data,
+    pagination: { total, count: data.length, currentPage: page, perPage: limit, totalPages, links: buildPaginationLinks(baseUrl, pagination, page, totalPages) },
+  };
+}
+
 // Helper function to get a single tour by ID
 export async function getTourById(tourId: string, language: string = 'en') {
   return prisma.tour.findUnique({
@@ -116,17 +150,15 @@ export async function getTourByExternalId(externalId: number, language: string =
 }
 
 // Helper functions for dropdown filters
+// REQ-031 (INC-003): antes un findMany con `tours: { some }` + `_count` leía ~600 mil filas por llamada
+// y saturaba D1. Ahora un GROUP BY sobre el índice de countryId y la tabla chica de países.
 export async function getCountriesWithTourCount(language: string = 'en') {
-  return prisma.country.findMany({
-    where: { tours: { some: { isActive: true } } },
-    select: {
-      id: true,
-      code: true,
-      translations: true,
-      _count: { select: { tours: { where: { isActive: true } } } },
-    },
-    orderBy: { id: 'asc' },
-  });
+  void language;
+  const [groups, countries] = await Promise.all([
+    prisma.tour.groupBy({ by: ['countryId'], where: { isActive: true }, _count: { _all: true } }),
+    prisma.country.findMany({ select: { id: true, code: true, translations: true } }),
+  ]);
+  return countriesWithCounts(countries, groups);
 }
 
 export async function getCitiesWithTourCount(countryId?: number, language: string = 'en') {

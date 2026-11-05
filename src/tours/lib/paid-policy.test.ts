@@ -24,8 +24,19 @@ describe("política de tours con costo (como Freetour)", () => {
 });
 
 describe("política confirmada por Freetour (gate B)", () => {
-  it("REQ-013: mientras Freetour no confirme por escrito el reembolso, no se puede reservar con pago", () => {
-    expect(isRefundPolicyConfirmed()).toBe(false);
+  it("REQ-013: sin texto confirmado por escrito no se puede reservar con pago", () => {
+    expect(isRefundPolicyConfirmed(null)).toBe(false);
+  });
+  it("REQ-013: Elias (Freetour) confirmó por escrito el reembolso automático (hasta 24 h antes y si el operador rechaza); ya hay texto", () => {
+    expect(isRefundPolicyConfirmed()).toBe(true);
+    for (const l of ["es", "en", "pt", "de", "fr", "it"]) {
+      const t = paidPolicyConfirmed(null, l).noShow!;
+      expect(t).toMatch(/24/);
+      expect(t.length).toBeGreaterThan(40);
+    }
+    expect(paidPolicyConfirmed(null, "es").noShow).toMatch(/reembolso/);
+    expect(paidPolicyConfirmed(null, "es").noShow).toMatch(/operador rechaza/);
+    expect(paidPolicyConfirmed(null, "xx").noShow).toBe(paidPolicyConfirmed(null, "en").noShow);
   });
   it("REQ-013: el aviso de reembolso usa el texto confirmado; sin él no se afirma nada sobre reembolsos", () => {
     const p = paidPolicyConfirmed(null, "es", null);

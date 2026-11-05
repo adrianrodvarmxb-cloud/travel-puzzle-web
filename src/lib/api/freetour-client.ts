@@ -76,6 +76,8 @@ export interface TourEvent {
   tourId: number;
   language: string;
   date: string; // Format: "YYYY-MM-DD HH:mm:ss"
+  /** Misma hora en UTC (la API la manda; REQ-016 la usa para ocultar horarios pasados). */
+  utcDate?: string;
 }
 
 interface FreeTourEventsResponse {

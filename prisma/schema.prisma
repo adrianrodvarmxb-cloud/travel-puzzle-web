@@ -83,6 +83,10 @@ model Tour {
   @@index([isActive])
   @@index([priceValue])
   @@index([durationMinutes])
+  @@index([isActive, reviewsNumber])
+  @@index([isActive, countryId])
+  @@index([isActive, cityId])
+  @@index([isActive, rating])
 }
 
 model TourTranslation {
@@ -182,6 +186,7 @@ model ReviewCache {
   tourExternalId Int      @id
   totalObjects   Int
   fetchedAt      DateTime
+  @@index([fetchedAt])
 }
 
 // Reservas confirmadas por Freetour (Modo 2), con o sin cuenta.

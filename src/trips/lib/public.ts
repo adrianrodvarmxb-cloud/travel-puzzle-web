@@ -26,9 +26,36 @@ export function visibleKindFilters(kinds: string[]): ToursKindFilter[] {
   return ["all", "free", ...OWN_KIND_FILTERS.filter((k) => kinds.includes(k))];
 }
 
-/** ¿Va este viaje arriba de los resultados de /tours con este filtro? */
-export function matchesToursFilter(t: { countries: string[]; kind: TripKind }, f: { countryCode: string | null; kind: ToursKindFilter }): boolean {
+const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+export interface ToursFilter {
+  countryCode: string | null;
+  kind: ToursKindFilter;
+  /** REQ-046: texto del buscador (todas las palabras, sin acentos). */
+  search?: string;
+  /** REQ-046: nombre de la ciudad elegida en el filtro. */
+  cityName?: string | null;
+  minPrice?: number;
+  maxPrice?: number;
+}
+type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null };
+
+/** ¿Va este viaje arriba de los resultados de /tours con este filtro? REQ-046: respeta buscador, ciudad y precio. */
+export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
   if (f.kind === "free") return false;
   if (f.kind !== "all" && t.kind !== f.kind) return false;
-  return !f.countryCode || t.countries.includes(f.countryCode);
+  if (f.countryCode && !t.countries.includes(f.countryCode)) return false;
+  if (f.cityName && !(t.cities ?? []).some((c) => fold(c) === fold(f.cityName!))) return false;
+  if (f.minPrice !== undefined || f.maxPrice !== undefined) {
+    const p = t.priceFrom;
+    if (p == null) return false;
+    if (f.minPrice !== undefined && p < f.minPrice) return false;
+    if (f.maxPrice !== undefined && p > f.maxPrice) return false;
+  }
+  const words = fold(f.search ?? "").split(/\s+/).filter(Boolean);
+  if (!words.length) return true;
+  const hay = fold([t.title, t.summary, ...(t.cities ?? []), t.places, ...t.countries].filter(Boolean).join(" "));
+  const tokens = hay.split(/[^a-z0-9\u00c0-\uffff]+/); // REQ-057: por inicio de palabra, no por pedazo (romano ≠ Roma)
+  // palabra completa; inicio de palabra solo desde 5 letras ("mural" → murallas, pero "roma" ≠ "romanas")
+  return words.every((w) => tokens.some((k) => k === w || (w.length >= 5 && k.startsWith(w))));
 }

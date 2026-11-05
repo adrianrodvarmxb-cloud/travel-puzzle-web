@@ -1,4 +1,5 @@
 'use client';
+import { PolicyLink } from './PolicyLink';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { tripCopy } from '@/trips/lib/copy';
@@ -17,6 +18,15 @@ interface Props {
     hotelPickup: boolean;
     lang: string;
     returnPath: string;
+    /** REQ-040: resumen de la política de cancelación que el cliente acepta al enviar. */
+    policy?: string;
+    /** REQ-060: detalle de la política (se abre en ventana desde la casilla). */
+    policyItems?: string[];
+    policyTitle?: string;
+    closeLabel?: string;
+    /** REQ-059: título y nota del formulario para viajes con precio. */
+    bookTitle?: string;
+    bookNote?: string;
 }
 
 const field = 'w-full rounded-xl border border-white/15 bg-[#0A1330] px-3.5 py-2.5 text-sm text-white placeholder:text-[#5F73AD] focus:border-[#008DFF] focus:outline-none';
@@ -70,7 +80,8 @@ export function TripRequestForm(p: Props) {
 
     return (
         <form onSubmit={onSubmit} className="space-y-3 rounded-2xl border border-white/10 bg-[#121D45] p-5" id="solicitar">
-            <h2 className="font-display text-xl font-semibold text-white">{p.custom ? c.formTitleCustom : c.formTitle}</h2>
+            <h2 className="font-display text-xl font-semibold text-white">{p.custom ? c.formTitleCustom : p.bookTitle ?? c.formTitle}</h2>
+            {!p.custom && p.bookNote && <p className="mt-1 text-sm font-semibold text-[#7EE2A8]">{p.bookNote}</p>}
             {p.custom ? (
                 <div className="grid grid-cols-2 gap-2">
                     <label><span className={label}>{c.start}</span><input name="startDate" type="date" required className={field} /></label>
@@ -113,7 +124,7 @@ export function TripRequestForm(p: Props) {
             <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
             <label className="flex items-start gap-2 text-xs text-[#C9D6F5]">
                 <input name="consent" type="checkbox" required className="mt-0.5" />
-                <span>{c.consentA} <a href={LEGAL_PATHS.terms} target="_blank" className="underline">{c.terms}</a> {c.consentB} <a href={LEGAL_PATHS.privacy} target="_blank" className="underline">{c.privacy}</a>.</span>
+                <span>{c.consentA} <a href={LEGAL_PATHS.terms} target="_blank" className="underline">{c.terms}</a>{p.policyItems?.length ? <>, <PolicyLink label={c.policyAccept} title={p.policyTitle ?? c.policyAccept} items={p.policyItems} closeLabel={p.closeLabel ?? "OK"} /></> : p.policy ? <>, <a href="#cancelacion" className="underline">{c.policyAccept}</a> ({p.policy})</> : null} {c.consentB} <a href={LEGAL_PATHS.privacy} target="_blank" className="underline">{c.privacy}</a>.</span>
             </label>
             {est !== null && <p className="text-sm text-[#D5DCEE]">{c.estimate}: <strong className="text-white">{formatMoney(est, p.currency, p.lang)}</strong> <span className="block text-xs text-[#7F8DB0]">{c.estimateNote}</span></p>}
             {error && <p className="text-sm text-[#FF8A73]">{error}</p>}
