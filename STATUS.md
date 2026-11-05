@@ -81,6 +81,8 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-041 | T&C remiten a la política de cada ficha y al operador local | `src/legal/lib/terminos.ts` | `legal.test.ts` | CUMPLIDO (validar con abogado) |
 | REQ-038 | Precio de venta desde tarifa neta (márgenes por parámetro) | `src/trips/lib/markup.ts` | `markup.test.ts` | CUMPLIDO |
 | REQ-039 | Carga masiva de viajes de operador (ensayo por defecto) | `src/trips/lib/bulk-import.ts`, `src/scripts/import-trips.ts`, `.github/workflows/importar-viajes.yml` | `bulk-import.test.ts` | EN CURSO |
+| REQ-042 | Galería en mosaico que se acomoda al número de fotos | `src/trips/lib/gallery-layout.ts`, `src/components/trips/TripGallery.tsx` | `gallery-layout.test.ts` | CUMPLIDO |
+| REQ-043 | Mínimo de 1 foto para publicar (antes 5) | `src/trips/lib/publish.ts` | `publish.test.ts`, `manage.test.ts` | CUMPLIDO |
 | REQ-029 | D1 saturada: reintento | `src/tours/lib/d1-load.ts`, `src/actions/tours.ts` | `d1-load.test.ts` | CUMPLIDO |
 | REQ-030 | D1 saturada: caché 10 min | idem | `d1-load.test.ts` | REEMPLAZADO por REQ-032 |
 | REQ-032 | Caché compartida L1+L2, single-flight, stale-if-error | `src/cache/lib/shared-cache.ts`, `src/cache/edge.ts`, home, /tours, ficha, mapa, /api/tours | `shared-cache.test.ts` | CUMPLIDO |

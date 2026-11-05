@@ -54,9 +54,9 @@ describe("REQ-039 buildImportSql", () => {
   });
 
   it("REQ-039: lo que no cumple la lista de publicación entra como borrador y se reporta", () => {
-    const { report } = buildImportSql([{ ref: "CUS-11", status: "published", trip: base({ images: [1, 2, 3, 4].map(img) }) }], AG, "x");
+    const { report } = buildImportSql([{ ref: "CUS-11", status: "published", trip: base({ images: [] }) }], AG, "x");
     expect(report[0].status).toBe("draft");
-    expect(report[0].missing.join()).toMatch(/fotos/);
+    expect(report[0].missing.join()).toMatch(/al menos 1 foto/);
   });
 });
 
