@@ -51,3 +51,5 @@
 | REQ-055 | Novedad | Alta en los últimos 30 días y posterior a la carga inicial del catálogo. | CUMPLIDO |
 | REQ-056 | Pantalla de filtros estilo Civitatis (capturas del PO, 4 nov 2026) | En celular, filtros a pantalla completa con "Quitar filtros" y "Ver N actividades" (conteo en vivo, incluye propios); precio y duración con deslizador; mismo contenido en el panel de escritorio; filtros en la URL. | EN CURSO (revisión visual) |
 | REQ-061 | "A" (ocultar idioma y fecha hasta que la lectura de salidas cubra los tours, 5 nov 2026) | Dado DEPARTURE_FILTERS_ENABLED distinto de "true", cuando abro los filtros, entonces no aparecen idioma del guía ni fecha; con "true" aparecen. | CUMPLIDO (revisión visual) |
+
+| REQ-112 | "Estos déjalos en dólares como vienen originalmente y si quieres pon pesos también" (PO, 5 nov 2026, captura de «Opciones y precios») | Dada una ficha de viaje con tarifa en USD o EUR, cuando veo «Opciones y precios», entonces cada precio aparece en la moneda original y al lado los pesos como aproximados; sin tipo de cambio, solo la moneda original. | CUMPLIDO (revisión visual) |
