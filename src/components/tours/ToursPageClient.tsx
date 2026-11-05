@@ -336,7 +336,7 @@ export function ToursPageClient({
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
                         {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
-                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} /></SectionBoundary>
+                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
                         )}
                         {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />

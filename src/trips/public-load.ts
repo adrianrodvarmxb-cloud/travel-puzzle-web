@@ -12,6 +12,7 @@ import { imageUrl } from "./lib/image";
 import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
+import { cached, cacheKey, POLICY } from "@/cache/edge";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
 /** Interruptores leídos del entorno (viajes propios y transporte por separado). */
@@ -40,6 +41,8 @@ export interface TripCard {
   places: string;
   /** Ciudades tal como se capturaron (venta cruzada por lugar, REQ-005). */
   cities: string[]; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
+  /** REQ-046: precio "Desde" en su moneda original, para el filtro de precio de /tours. */
+  priceFrom: number | null;
 }
 
 async function publishedRows() {
@@ -53,7 +56,7 @@ export function toCard(t: StoredTrip & { translations?: unknown }, lang: string,
     id: t.id, path: tripPath(t), code: t.code, kind: t.kind,
     title: localized(tr, lang, "title", t.titleEs), summary: localized(tr, lang, "summary", t.summaryEs),
     image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, places: cardPlaces(t.countries, lang), cities: t.cities, durationDays: t.durationDays,
-    price: priceDisplay(t.priceFrom, t.currency, fx, lang),
+    price: priceDisplay(t.priceFrom, t.currency, fx, lang), priceFrom: t.priceFrom,
   };
 }
 
@@ -62,11 +65,15 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   const vis = siteVisibility();
   if (!anyVisible(vis)) return [];
   try {
-    const repo = createTripRepo(getPrisma());
-    const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
-    const rows = all.filter((r) => isKindVisible(r.kind, vis));
-    const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
-    return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations }, lang, fx));
+    // REQ-047 (INC-004): con decenas de viajes, armar las tarjetas son ~N+2 consultas a D1 por visita a / y /tours.
+    // Se cachean como el catálogo (REQ-032): una carga por ventana, compartida entre visitas; si falla, se sirve la última copia.
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "1" }), POLICY.toursList, async () => {
+      const repo = createTripRepo(getPrisma());
+      const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
+      const rows = all.filter((r) => isKindVisible(r.kind, vis));
+      const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
+      return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations }, lang, fx));
+    });
   } catch (error) {
     console.error("[viajes] no se cargaron las tarjetas:", (error as Error).message);
     return [];
