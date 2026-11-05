@@ -54,7 +54,19 @@ interface Deps {
   now?: () => Date;
   /** Invitación de calendario (.ics); sin esto no se adjunta. */
   calendar?: { organizerEmail: string };
+  /**
+   * REQ-081: FREETOUR_POSTTOUR_PROMO_ENABLED. En false (por omisión) «Más planes» no ofrece
+   * tours de FREETOUR en ningún correo: confirmación, recordatorios, estado y post-tour (gate del PO, 5 nov 2026).
+   */
+  freetourPostTourPromo?: boolean;
   send(email: { to: string; subject: string; html: string; text: string; attachments?: { filename: string; content: string; contentType?: string }[] }): Promise<string>;
+}
+
+/** «Más planes» sin tours de FREETOUR mientras la bandera esté apagada. Nunca lanza. */
+// REQ-081
+async function offersFor(record: BookingRecord, deps: Pick<Deps, "lang" | "getMoreTours" | "freetourPostTourPromo">, site: string): Promise<MoreTour[]> {
+  const offers = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+  return filterPostTourOffers(offers, { postTourPromo: deps.freetourPostTourPromo === true });
 }
 
 /** Adjunto .ics de la reserva (REQUEST crea o mueve el evento; CANCEL lo borra). */
@@ -94,7 +106,7 @@ export async function sendBookingConfirmation(
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const reviews = record.tourExternalId && deps.getReviews ? await deps.getReviews(record.tourExternalId, deps.lang).catch(() => []) : [];
-    const moreTours = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+    const moreTours = await offersFor(record, deps, site); // REQ-081
     const weather = tour && record.eventDate && deps.getWeather ? await deps.getWeather(tour.meetingPoint, record.eventDate).catch(() => null) : null;
     const email = buildBookingConfirmationEmail({
       lang: deps.lang,
@@ -135,7 +147,7 @@ export async function sendBookingConfirmation(
   }
 }
 
-type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar">;
+type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo">;
 
 /** Correo de rechazo, cancelación o cambio de una reserva guardada. Nunca lanza. */
 export async function sendStatusEmail(
@@ -148,7 +160,7 @@ export async function sendStatusEmail(
   try {
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
-    const moreTours = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+    const moreTours = await offersFor(record, deps, site); // REQ-081
     const email = buildStatusEmail({
       kind,
       lang: deps.lang,
@@ -188,14 +200,13 @@ export async function sendStatusEmail(
  */
 export async function sendReviewRequest(
   record: BookingRecord,
-  deps: StatusDeps & { freetourPostTourPromo?: boolean }
+  deps: StatusDeps
 ): Promise<"disabled" | "sent" | "failed"> {
   if (!deps.enabled) return "disabled";
   try {
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
-    const offers = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
-    const moreTours = filterPostTourOffers(offers, { postTourPromo: deps.freetourPostTourPromo === true }); // REQ-081
+    const moreTours = await offersFor(record, deps, site); // REQ-081
     const email = buildReviewRequestEmail({
       lang: deps.lang,
       refNumber: record.refNumber,

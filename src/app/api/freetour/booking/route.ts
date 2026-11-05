@@ -19,6 +19,7 @@ import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
 import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -76,6 +77,8 @@ export async function POST(request: NextRequest) {
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
                 getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+                // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
+                freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
                 getWeather: async (mp, eventDate) => {
                     const c = coordsOf(mp);
                     return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;
