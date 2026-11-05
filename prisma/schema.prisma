@@ -79,6 +79,11 @@ model Tour {
   departureDates      Json      @default("[]")
   departuresSyncedAt  DateTime?
   departuresCheckedAt DateTime?
+  // Ola 1 (migración 0014, REQ-073/074): la base agrega "contentHash" TEXT, "syncStatus" TEXT ('active')
+  // y "missingRuns" INTEGER (0). NO se declaran aquí a propósito: Prisma lee todas las columnas del
+  // modelo en /tours y en la ficha, y si el código se publica antes de aplicar la 0014 la página
+  // falla con «no such column» (prueba de humo del PR #104, 5 nov 2026). Solo el sync blindado las
+  // usa, con SQL directo. Se declaran aquí cuando el render las necesite (Ola 4), con la 0014 ya aplicada.
   updatedAt     DateTime          @updatedAt
   createdAt     DateTime          @default(now())
 
@@ -120,6 +125,47 @@ model SyncMetadata {
   nextPage     Int       @default(1) // siguiente página a sincronizar
   totalPages   Int       @default(0)
   runStartedAt DateTime? // inicio de la corrida del día
+}
+
+/// Ola 1 (migración 0014, REQ-072/078): log y avance de cada corrida del sync blindado.
+model SyncRun {
+  id            String    @id
+  provider      String
+  status        String // staging | publishing | succeeded | aborted
+  startedAt     DateTime
+  finishedAt    DateTime?
+  nextPage      Int       @default(1)
+  totalPages    Int       @default(0)
+  failures      Int       @default(0)
+  notBefore     DateTime?
+  publishCursor Int       @default(0)
+  baseline      Int       @default(0)
+  seen          Int       @default(0)
+  added         Int       @default(0)
+  changed       Int       @default(0)
+  ratingUpdates Int       @default(0)
+  missing       Int       @default(0)
+  removed       Int       @default(0)
+  reactivated   Int       @default(0)
+  abortReason   String?
+  updatedAt     DateTime
+
+  @@index([provider, startedAt])
+  @@index([provider, status, finishedAt])
+}
+
+/// Ola 1 (migración 0014, REQ-071/072): staging por corrida; nada pasa a Tour hasta cruzar la barrera.
+model TourStage {
+  runId      String
+  externalId Int
+  hash       String
+  kind       String // new | changed | rating | same
+  payload    Json?
+  previous   Json? // respaldo de la fila de Tour antes de sobrescribirla
+  createdAt  DateTime
+
+  @@id([runId, externalId])
+  @@index([runId, kind, externalId])
 }
 
 // Booking Model
