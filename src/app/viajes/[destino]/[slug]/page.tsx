@@ -9,6 +9,7 @@ import { TripGuarantees } from '@/components/trips/TripGuarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
 import { TripRequestForm } from '@/components/trips/TripRequestForm';
 import { policySummary, policyText } from '@/trips/lib/cancel-policy';
+import { bookingSteps, isCardHoldEnabled } from '@/trips/lib/booking-steps';
 import { loadTripBySlug, toCard } from '@/trips/public-load';
 import { tripCopy } from '@/trips/lib/copy';
 import { tripPath } from '@/trips/lib/public';
@@ -72,6 +73,10 @@ export default async function TripPage({ params }: Props) {
     // REQ-040: la política de la ficha se ve junto al precio y se acepta al enviar (como Civitatis/GetYourGuide).
     const policySum = policySummary(trip.cancellation);
     const policy = { text: policyText(policySum, c), free: policySum.kind === 'free' };
+    // REQ-060 (PO, 5 nov 2026): la política no se ve a primera vista; solo desde la casilla de aceptación (y en el contrato).
+    const SHOW_POLICY_ON_PAGE = false;
+    // REQ-059: "Cómo funciona tu reserva" solo promete lo que existe (retención en tarjeta tras STRIPE_HOLD_ENABLED).
+    const steps = bookingSteps(lang, { cardHold: isCardHoldEnabled(env.STRIPE_HOLD_ENABLED) });
     const cancel = trip.cancellation.type === 'standard' ? [c.cancelStandard] : trip.cancellation.type === 'none' ? [c.cancelNone] : trip.cancellation.tiers.map((t) => c.cancelTier(t.daysBefore, t.refundPct));
 
     return (
@@ -133,11 +138,16 @@ export default async function TripPage({ params }: Props) {
                                         points={trip.meetingPoints.map((p, i) => ({ ...p, instructions: p.instructions ? L(`meetingPoints.${i}.instructions`, p.instructions) : '', photo: p.photoKey ? imageUrl(p.photoKey) : null }))} />
                                 </TripSection>
                             )}
+                            {trip.kind !== 'personalizado' && (
+                                <TripSection title={steps.title}>
+                                    <ol className="list-decimal space-y-2 pl-5">{steps.steps.map((x) => <li key={x}>{x}</li>)}</ol>
+                                </TripSection>
+                            )}
                             {trip.importantInfo && <TripSection title={c.important}><p className="whitespace-pre-line">{L('importantInfo', trip.importantInfo)}</p></TripSection>}
                             {trip.whatToBring && <TripSection title={c.bring}><p className="whitespace-pre-line">{L('whatToBring', trip.whatToBring)}</p></TripSection>}
                             {trip.accessibility && <TripSection title={c.accessibility}><p className="whitespace-pre-line">{L('accessibility', trip.accessibility)}</p></TripSection>}
                             {trip.visaInfo && <TripSection title={c.visa}><p className="whitespace-pre-line">{L('visaInfo', trip.visaInfo)}</p></TripSection>}
-                            <TripSection id="cancelacion" title={c.cancellation}><TripList mark="•" items={cancel} /></TripSection>
+                            {SHOW_POLICY_ON_PAGE && <TripSection id="cancelacion" title={c.cancellation}><TripList mark="•" items={cancel} /></TripSection>}
                             {trip.videoUrl && (
                                 <TripSection title={c.video}>
                                     <a href={trip.videoUrl} target="_blank" rel="noopener" className="text-[#7CC4FF] underline">{trip.videoCaption ? L('videoCaption', trip.videoCaption) : trip.videoUrl}</a>
@@ -145,7 +155,7 @@ export default async function TripPage({ params }: Props) {
                             )}
                         </div>
                         <aside className="space-y-5">
-                            <TripPriceBox price={card.price} c={c} whatsappUrl={wa} policy={policy} />
+                            <TripPriceBox price={card.price} c={c} whatsappUrl={wa} policy={SHOW_POLICY_ON_PAGE ? policy : undefined} />
                             {relatedTours.length > 0 && (
                                 <SectionBoundary name="franja-tours">
                                     <CrossSellStrip eyebrow={cs.toursEyebrow(L('cities.0', tourCity ?? ''))} question={cs.toursQuestion} from={cs.from} freeLabel="Free tour" items={relatedTours.slice(0, 2)} />
@@ -153,7 +163,8 @@ export default async function TripPage({ params }: Props) {
                             )}
                             <TripRequestForm tripId={trip.id} custom={trip.kind === 'personalizado'} currency={trip.currency} lang={lang} returnPath={path}
                                 options={trip.options.map((o) => ({ ...o, name: L(`options.${o.id}.name`, o.name) }))} availability={trip.availability}
-                                minNoticeHours={trip.minNoticeHours} hotelPickup={trip.hotelPickup} policy={policy.text} />
+                                minNoticeHours={trip.minNoticeHours} hotelPickup={trip.hotelPickup} policy={policy.text}
+                                policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} />
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5 text-sm text-[#D5DCEE]">
                                 <ul className="space-y-2">
                                     {trip.languages.length > 0 && <li>🗣️ {c.languages}: {trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
