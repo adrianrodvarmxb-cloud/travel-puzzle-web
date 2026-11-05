@@ -1,6 +1,39 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 3 nov 2026.
+Actualizado: 5 nov 2026, 11:45 (CDMX).
+
+## Resumen del 5 nov 2026
+
+**Publicado hoy (cada uno con deploy y prueba de humo en producción en verde):**
+- **China (Fantástica China):** 44 viajes en vivo; 7 en borrador (6 extensiones y Macao, que no tiene precio). Margen firmado: 14 % en el clásico de 8 días, 25 % en nicho (Gran Lujo, Tíbet, Ruta de la Seda) y 20 % en el resto. Fotos curadas sin repetir entre viajes (PR #95).
+- **Perú (Inca World):** 6 excursiones de un día más (Humantay, 2 raftings, bungee, slingshot y sandboarding); van 36 publicados de 45 (PR #96).
+- **Header animado y menú** en todo el sitio público. El menú del celular se arma desde la lista de secciones del home e incluye «Viajes armados por expertos» (Perú y China). Un test rompe CI si se agrega una sección sin entrada en el menú (REQ-062, REQ-068, PR #93).
+- **Opciones y precios** de los viajes en USD con los pesos aproximados al lado (REQ-112, PR #98).
+- **Freetour 2.2:** interruptor `FREETOUR_API_VERSION`; sin la variable sigue en 2.0 y no cambia nada (REQ-113, PR #94; plan en `docs/plan-freetour-v22.md`).
+- **Plan «La Primera Pieza»:** auditoría del sync, cumplimiento FREETOUR (32 elementos), REQ-069 a REQ-111, 8 olas y gates 1 a 6 firmados (`docs/plan-primera-pieza.md`, PR #97).
+
+**En curso:** Ola 1 (blindaje del sync, REQ-071 a REQ-078). La migración 0013 irá en un PR aparte, con OK del PO.
+
+**Falta el OK del PO:**
+1. Migración 0013 y código de la Ola 1.
+2. Encender `DEPARTURE_FILTERS_ENABLED` (idioma y fecha) tras probarlo en preview.
+3. Encender `SEARCH_V2_ENABLED` (relevancia) tras probarlo en preview.
+4. Activar las funciones de Freetour 2.2, una a la vez: mensaje al guía, reseñas, editar reserva y tours de pago (candado Stripe; PR #62 y migración 0009).
+
+**Correos que Claudia debe enviar (borradores en Gmail):**
+- Ignacio (FREETOUR): «Travel Puzzle × FREETOUR.com: ya en producción», con 7 preguntas de cumplimiento.
+- César (Inca): fotos de 7 tours, 2 precios que no cuadran y un neto más competitivo en Humantay (Civitatis la vende en USD 28; nuestro neto es USD 35).
+- Beibei (Fantástica China): precio de Macao.
+
+**Falta definición:**
+- Inca: base de precio de los 30 programas, 9 excursiones en borrador y el aviso mínimo de 60 días contra los 90 que necesita Machu Picchu.
+- China: visa, temporadas y fuente de excursiones de un día (Klook o tours de pago de Freetour).
+- Turismo Asiático y Extime: faltan los PDF, saber si son netos o comisionables y las fotos.
+- Rotar la API key de Freetour (pendiente, fuera del correo).
+
+**Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
+
+**Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
 ## En producción (travelpuzzle.com.mx, Cloudflare Workers + D1)
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).
@@ -15,9 +48,11 @@ Actualizado: 3 nov 2026.
 - Página privada de la reserva (/reserva/[token]).
 - Sección legal: /terminos y /privacidad (textos revisados por el abogado + ajustes firmados en `docs/gates-legal-2026-11.md`), enlaces en el footer y aviso simplificado en el formulario de reserva.
 
-## Banderas (wrangler.jsonc)
-- `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403). También muestra `/ayuda` y su enlace en el footer.
-- `EMAILS_ENABLED=false`, `REVIEW_EMAILS_ENABLED=false`, `PAID_TOURS_ENABLED=false`.
+## Banderas (wrangler.jsonc, 5 nov 2026)
+- Encendidas: `BOOKINGS_ENABLED`, `EDIT_ENABLED`, `EMAILS_ENABLED`, `OWN_TOURS_ENABLED`, `TRANSFERS_ENABLED`, `AFFILIATES_ENABLED`, `DEPARTURES_SYNC_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`.
+- `SYNC_GUARD_ENABLED=false`: sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
+- `FREETOUR_API_VERSION` sin definir (Freetour API 2.0).
 
 ## Pasarela — robustez (punto 16, nov 2026)
 - Token por intento (24 h) + bloqueo de traslapes; IP de salida obligatoria; espera tras login fallido;
@@ -141,3 +176,20 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | Tasa de éxito del sync (30 días) | ≥ 95 % | sin medir (Ola 1) | `SyncRun` (`syncSuccessRate`) |
 | Ciudades que cambian de indexación por semana | ≤ 5 | sin medir (Ola 4) | foto semanal de indexación (`indexingChanges`) |
 | Tasa de agregado del carrusel por categoría | se mide 4 semanas y luego se fija | sin medir (carrusel apagado) | logs `[carrusel-evento]` (`addRateByCategory`) |
+## Ola 1 «La Primera Pieza» — blindaje del sync (5 nov 2026)
+Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy queda idéntico. Migración 0014 en PR aparte (sin aplicar).
+| REQ-071 | Barrera de cordura (vacío, error, > 20 % menos) sin tocar Tour | `src/catalog/lib/sanity.ts`, `src/catalog/guarded-sync.ts`, `migrations/0014_sync_presencia.sql` | `sanity.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-072 | Respaldo, publicación al cierre (pasos de 100) y checkpoint solo si termina bien | `src/catalog/lib/sql.ts` (`publishBatch`), `src/catalog/lib/guard-plan.ts`, `src/catalog/guarded-repository.ts` | `sql.test.ts`, `guard-plan.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-073 | content_hash sin calificación; doble corrida = 0 escrituras | `src/catalog/lib/content-hash.ts`, `src/catalog/lib/sql.ts` | `content-hash.test.ts`, `sql.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-074 | active → missing → removed tras 3 corridas; reaparece = active | `src/catalog/lib/presence.ts`, `src/catalog/lib/sql.ts` | `presence.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-075 | updatedSince en /events y utcDate | — | — | PENDIENTE (ver nota) |
+| REQ-076 | Precio y lugares en vivo antes de reservar | — | — | PENDIENTE (fuera de la Ola 1 de código) |
+| REQ-077 | 429/Retry-After, login sin bucle, error 63 ≥ 10 min | `src/catalog/lib/retry.ts`, `src/freetour/api.ts` | `retry.test.ts`, `api.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta conectar el error 63 a un cron de estado de pago) |
+| REQ-078 | Log por corrida y alerta de 26 h | `src/catalog/lib/guard-plan.ts` (`syncHealth`), `SyncRun`, `api/cron/sync-tours/route.ts` | `guard-plan.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta canal de aviso al PO y el registro de reservas de prueba) |
+Notas:
+- REQ-075: `updatedSince` existe solo en `/events`; `/tours` se sigue recorriendo completo (así se detectan ausentes y se aplica la barrera del 20 %). Usar `/events?updatedSince` para las salidas no cabe sin cambiar el sync de salidas (REQ-049) y su ritmo; queda pendiente para una ola propia. `utcDate` tampoco se tocó.
+- REQ-076: hoy la ficha y la reserva ya consultan `/tours/{id}/events` en vivo (no caché). `GET /events/{id}` es de la API v2.2 (bandera `FREETOUR_API_VERSION`, apagada).
+- REQ-077: `canCheckPaymentStatus` existe y tiene test, pero hoy ningún cron consulta el estado de pago (tours de pago apagados). Se conecta cuando exista ese cron.
+- REQ-078: la alerta queda en la respuesta del cron (`health`) y en los logs del Worker (`[alerta-sync]`). Falta decidir el canal (correo o WhatsApp al PO). Reservas de prueba canceladas y registradas: no es parte de este PR.
+- REQ-072: con 100 cambios o menos, la publicación, la presencia y el checkpoint van en un solo batch de D1 (atómico). Con más de 100, el contenido se publica en pasos de 100 por minuto (cada paso es atómico y el sitio puede ver tours ya actualizados antes del cierre); las bajas (missing/removed) y el checkpoint solo se aplican en el último paso. El respaldo de cada fila sobrescrita queda en `TourStage.previous` (se conservan las últimas 7 corridas).
+- Primera corrida con la bandera encendida: arranca en el siguiente minuto (sin esperar las 3:00) y, como ningún tour tiene `contentHash` todavía, publica todo el catálogo una vez (unos 81 pasos de 100).
