@@ -169,7 +169,7 @@ export default async function TripPage({ params }: Props) {
                 </div>
             </main>
             <SiteFooter contact={{ whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials }} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
-            <WhatsAppBubble whatsapp={contact.whatsapp} />
+            <WhatsAppBubble whatsapp={contact.whatsapp} revealAfter={600} />
         </div>
     );
 }
