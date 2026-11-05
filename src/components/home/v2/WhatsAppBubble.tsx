@@ -1,14 +1,25 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
+import { bubbleVisible } from '@/home/lib/bubble';
 import { homeCopy, waLink } from '@/home/lib/copy';
 
-/** Burbuja flotante de WhatsApp (abajo a la derecha). */
-export function WhatsAppBubble({ whatsapp }: { whatsapp?: string }) {
+/** Burbuja flotante de WhatsApp (abajo a la derecha). revealAfter (REQ-045): en celular aparece al bajar esos px. */
+export function WhatsAppBubble({ whatsapp, revealAfter }: { whatsapp?: string; revealAfter?: number }) {
   const { language } = useLanguage();
+  const [show, setShow] = useState(!revealAfter);
+  useEffect(() => {
+    if (!revealAfter) return;
+    const f = () => setShow(bubbleVisible({ scrollY: window.scrollY, width: window.innerWidth, revealAfter }));
+    f();
+    window.addEventListener('scroll', f, { passive: true });
+    window.addEventListener('resize', f);
+    return () => { window.removeEventListener('scroll', f); window.removeEventListener('resize', f); };
+  }, [revealAfter]);
   const c = homeCopy(language);
   const href = waLink(whatsapp, c.expertWa);
-  if (!href) return null;
+  if (!href || !show) return null;
   return (
     <a
       href={href}

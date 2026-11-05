@@ -5,7 +5,10 @@ import { buildImportSql, formatLike, idFor, type ImportRow } from "./bulk-import
 import { tripInputSchema } from "../schemas/trip";
 
 const require_ = createRequire(import.meta.url);
-const { DatabaseSync } = require_("node:sqlite") as typeof import("node:sqlite");
+// node:sqlite (Node 22) sin depender de que @types/node ya lo declare.
+type Stmt = { get: () => unknown; all: () => unknown[] };
+type Db = { exec: (sql: string) => void; prepare: (sql: string) => Stmt };
+const { DatabaseSync } = require_("node:sqlite") as { DatabaseSync: new (path: string) => Db };
 
 const AG = { id: "ag-iwp", name: "Inca World Peru", initials: "IWP", phone: "+51 984 708 524" };
 const img = (n: number) => ({ key: `trips/1762300000-iwpx${n}.jpg`, alt: "Foto" });
@@ -22,7 +25,7 @@ function db() {
   for (const f of ["0006_trips.sql", "0007_trips_v2.sql"]) d.exec(readFileSync(`migrations/${f}`, "utf8"));
   return d;
 }
-const run = (d: InstanceType<typeof DatabaseSync>, sql: string[]) => sql.forEach((s) => d.exec(s));
+const run = (d: Db, sql: string[]) => sql.forEach((s) => d.exec(s));
 
 describe("REQ-039 buildImportSql", () => {
   it("REQ-039: crea la agencia y los viajes con código, slug y Desde del gestor", () => {
