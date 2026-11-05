@@ -42,7 +42,7 @@ export async function GET(request: Request) {
     if (isSyncGuardEnabled(process.env.SYNC_GUARD_ENABLED)) {
       const guarded = await runGuardedSyncStep({
         api,
-        repo: createGuardedRepo(prisma, getD1()),
+        repo: createGuardedRepo(prisma, getD1() as never),
         countries: countries as never,
         now,
         rebuildSearch: isSearchV2(process.env.SEARCH_V2_ENABLED) ? () => rebuildTourSearch(getD1() as unknown as D1Like) : undefined,
