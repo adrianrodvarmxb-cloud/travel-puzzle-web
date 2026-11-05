@@ -19,9 +19,10 @@ export function ToursKindChips({ value, onChange, lang, kinds }: { value: ToursK
 }
 
 /** Viajes propios y de agencias primero, marcados "Recomendado por Travel Puzzle" (estilo Civitatis). */
-export function OwnTripsInTours({ trips, countryCode, kind, lang }: { trips: TripCard[]; countryCode: string | null; kind: ToursKindFilter; lang: string }) {
+export function OwnTripsInTours({ trips, countryCode, kind, lang, search, cityName, minPrice, maxPrice }: { trips: TripCard[]; countryCode: string | null; kind: ToursKindFilter; lang: string; search?: string; cityName?: string | null; minPrice?: number; maxPrice?: number }) {
     const c = tripCopy(lang);
-    const list = trips.filter((t) => matchesToursFilter(t, { countryCode, kind }));
+    // REQ-046 (INC-004): también respetan el buscador, la ciudad y el precio.
+    const list = trips.filter((t) => matchesToursFilter(t, { countryCode, kind, search, cityName, minPrice, maxPrice }));
     if (!list.length) return null;
     return (
         <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">

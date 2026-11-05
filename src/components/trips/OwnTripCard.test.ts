@@ -9,7 +9,7 @@ import type { TripCard } from "@/trips/public-load";
 const trip: TripCard = {
   id: "t1", path: "/viajes/hong-kong/x", code: "BBT-HK-M01-028", kind: "transporte",
   title: "Autobús turístico en Hong Kong", summary: "", image: null, countries: ["HK"],
-  places: "Hong Kong", cities: ["Hong Kong"], durationDays: 1, price: null,
+  places: "Hong Kong", cities: ["Hong Kong"], durationDays: 1, price: null, priceFrom: null,
 };
 
 const render = () => renderToStaticMarkup(createElement(OwnTripCard, { trip, c: tripCopy("es"), lang: "es" }));
