@@ -115,3 +115,17 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-019 | Conformidad con el Swagger | `gateway/lib/operations.js`, `gateway/lib/freetour-spec-required.json` | `spec-conformance.test.js` | CUMPLIDO |
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
+
+## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
+Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-085 | ISO-2, geonameid (cruce + revisión), llave (provider_id, external_id), tour_uid; sin external_id en la URL | `src/destinations/lib/ids.ts`, `geonames.ts`, `dry-run.ts`, `src/scripts/geonames-cruce.ts`, `migrations/0015_identidad_slugs.sql` | `ids.test.ts`, `geonames.test.ts`, `dry-run.test.ts`, `slug.test.ts` | EN CURSO (falta: aplicar 0015, revisar la lista de dudosos, llenar datos con OK; la URL es de la Ola 4) |
+| REQ-086 | Slug puro, inmutable, ≤60, pinyin, sufijo si choca | `src/destinations/lib/slug.ts`, `assign-slugs.ts`, `dry-run.ts`, `src/scripts/slugs-ensayo.ts`, trigger `Tour_slug_inmutable` | `slug.test.ts`, `assign-slugs.test.ts`, `dry-run.test.ts` | EN CURSO (falta: guardar los slugs con OK y que el sync use `assignTourSlugs`) |
+| REQ-087 | Homónimas en un país llevan el código de estado | `src/destinations/lib/assign-slugs.ts` | `assign-slugs.test.ts` | CUMPLIDO (lógica; las homónimas sin `stateCode` salen en `ciudades-pendientes.csv`) |
+
+Siguiente paso en el sync (Ola 1, `src/catalog`; no se tocó aquí):
+1. En el upsert de `Tour`, no escribir nunca `slug` ni `providerId`. El trigger aborta si alguien intenta cambiar un slug.
+2. Al cerrar una corrida exitosa, para los tours con `slug IS NULL`, llamar a `assignTourSlugs(existentes, nuevos)` y escribir solo `UPDATE … SET slug = ? WHERE id = ? AND slug IS NULL`.
+3. En ciudades nuevas, `assignCitySlugs`; si quedan pendientes (homónimas sin estado), van a revisión y no se publican.
+4. `pinyin-pro` pesa unos 300 KB; si el Worker se acerca a su límite, el slug de tours chinos se calcula en el workflow y no en el cron.
