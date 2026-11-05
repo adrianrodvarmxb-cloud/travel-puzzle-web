@@ -69,6 +69,13 @@
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
+    // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
+    "ARMA_TU_VIAJE_ENABLED": "false",
+    // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
+    "CART_PAYMENTS_ENABLED": "false",
+    // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
+    "VISA_ENABLED": "false",
+    "ETIAS_ENABLED": "false",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
