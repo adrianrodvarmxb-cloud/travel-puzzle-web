@@ -71,5 +71,7 @@ export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
   const words = fold(f.search ?? "").split(/\s+/).filter(Boolean);
   if (!words.length) return true;
   const hay = fold([t.title, t.summary, ...(t.cities ?? []), t.places, ...t.countries].filter(Boolean).join(" "));
-  return words.every((w) => hay.includes(w));
+  const tokens = hay.split(/[^a-z0-9\u00c0-\uffff]+/); // REQ-057: por inicio de palabra, no por pedazo (romano ≠ Roma)
+  // palabra completa; inicio de palabra solo desde 5 letras ("mural" → murallas, pero "roma" ≠ "romanas")
+  return words.every((w) => tokens.some((k) => k === w || (w.length >= 5 && k.startsWith(w))));
 }

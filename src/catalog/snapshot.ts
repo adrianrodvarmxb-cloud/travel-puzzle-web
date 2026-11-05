@@ -1,7 +1,7 @@
 import { getD1 } from '@/lib/prisma';
 import { cached, cacheKey } from '@/cache/edge';
 import { withRetry } from '@/tours/lib/d1-load';
-import { toEntry, type CatalogEntry } from './lib/query';
+import { toEntry, CATALOG_SHAPE, type CatalogEntry } from './lib/query';
 
 /**
  * REQ-035: índice compacto del catálogo por idioma. Una sola consulta (JOIN, sin parámetros por id)
@@ -17,7 +17,8 @@ LEFT JOIN Country co ON co.id = t.countryId
 WHERE t.isActive = 1`;
 
 export function loadCatalog(language: string): Promise<CatalogEntry[]> {
-  return cached(cacheKey('catalog', { language, v: 2 }), { ttlSec: 1800, staleSec: 86400 }, () =>
+  // REQ-058: la firma de forma invalida la caché cuando cambian los campos del índice
+  return cached(cacheKey('catalog', { language, v: 2, shape: CATALOG_SHAPE }), { ttlSec: 1800, staleSec: 86400 }, () =>
     withRetry(async () => {
       const db = getD1() as unknown as { prepare(s: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } } };
       const { results } = await db.prepare(SQL).bind(language).all();

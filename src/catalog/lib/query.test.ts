@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalize, toEntry, queryCatalog, type CatalogEntry } from "./query";
+import { normalize, toEntry, queryCatalog, CATALOG_SHAPE, type CatalogEntry } from "./query";
 
 const e = (id: string, o: Partial<CatalogEntry> = {}): CatalogEntry => ({
   id, cityId: 1, countryId: 1, categoryId: 1, price: 0, rating: null, reviews: 0, durationMinutes: null,
@@ -104,5 +104,42 @@ describe("REQ-051/052/053/054/055 filtros de Freetour en el catálogo", () => {
   it("REQ-056: duración por rango en minutos", () => {
     expect(q({ durMin: 60, durMax: 180 })).toEqual(["pie"]);
     expect(q({ durMin: 200 })).toEqual(["barco"]);
+  });
+});
+
+// REQ-057 (INC-005): "Roma" traía Bucarest (Romania), León ("Jardín Romántico", "murallas romanas"), Nápoles ("romano")…
+describe("REQ-057 búsqueda por destino y por palabra completa", () => {
+  const entries = [
+    e("roma1", { text: normalize("Free Tour Roma Esencial Roma Rome Italia Italy"), cityNames: ["roma", "rome"], countryNames: ["italia", "italy"], reviews: 10 }),
+    e("roma2", { text: normalize("Trastevere Roma Rome Italia"), cityNames: ["roma", "rome"], countryNames: ["italia", "italy"], reviews: 5 }),
+    e("bucarest", { text: normalize("Free Tour Bucarest Bucharest Rumania Romania"), cityNames: ["bucarest", "bucharest"], countryNames: ["rumania", "romania"] }),
+    e("leon", { text: normalize("Centro de León Jardín Romántico murallas romanas León España"), cityNames: ["leon"], countryNames: ["espana", "spain"] }),
+    e("napoles", { text: normalize("Nápoles casco antiguo greco-romano Napoli Italia"), cityNames: ["napoles", "naples"], countryNames: ["italia", "italy"] }),
+  ];
+  const ids = (search: string) => queryCatalog(entries, { search }, {}).ids.sort();
+  it("REQ-057: si el texto es un destino (ciudad en cualquier idioma) solo salen tours de ese destino", () => {
+    expect(ids("Roma")).toEqual(["roma1", "roma2"]);
+    expect(ids("rome")).toEqual(["roma1", "roma2"]);
+    expect(ids("  ROMA ")).toEqual(["roma1", "roma2"]);
+  });
+  it("REQ-057: un país también es destino", () => {
+    expect(ids("Rumania")).toEqual(["bucarest"]);
+    expect(ids("italia")).toEqual(["napoles", "roma1", "roma2"]);
+  });
+  it("REQ-057: fuera de destinos, la palabra completa gana a los pedazos (romano no es Roma)", () => {
+    expect(ids("murallas")).toEqual(["leon"]);
+    expect(ids("casco antiguo")).toEqual(["napoles"]);
+  });
+  it("REQ-057: si nadie tiene la palabra completa, se acepta el inicio de palabra (se está escribiendo)", () => {
+    expect(ids("trasteve")).toEqual(["roma2"]);
+  });
+});
+
+// REQ-058 (INC-005): el catálogo en caché tenía la forma vieja (sin cityNames) y la búsqueda por destino no se activaba.
+describe("REQ-058 la llave de caché del catálogo cambia sola cuando cambia la forma de las entradas", () => {
+  it("REQ-058: la firma incluye todos los campos de toEntry", () => {
+    const keys = Object.keys(toEntry({ id: "x", cityId: 1, countryId: 1 }, "es")).sort().join(",");
+    expect(CATALOG_SHAPE).toBe(keys);
+    expect(CATALOG_SHAPE).toContain("cityNames");
   });
 });
