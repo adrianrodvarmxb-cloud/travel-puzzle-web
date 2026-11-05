@@ -49,7 +49,7 @@ Veredictos: **P** = permitido, **X** = prohibido, **A** = ambiguo, pedir por esc
 | 3 | Insignia «🧩 Primera Pieza · Tú decides cuánto vale» | D1, D2, C5 | **P** solo si es free y `fullPricePerGroup = 0` para el grupo elegido | Fuera de la foto. Test REQ. |
 | 4 | Aviso por evento (umbral de tarifa fija, EUR con MXN aproximado, cancelación) | D2, D3, D4 | **P** | El umbral se calcula por evento, nunca fijo en «5 adultos». |
 | 5 | Tours de pago: cancelación hasta 24 h y pago a la llegada | D3, D5, D7 | **P** | Mostrar el pago a la llegada cuando aplique. |
-| 6 | «Operado por un guía local de FREETOUR.com» (solo texto) | C3, C6 | **P** sin logo | El logo queda pendiente de permiso escrito (pregunta 6). |
+| 6 | «Operado por un guía local · {proveedor}» | C3, C6 | **P** | Por regla del PO, FREETOUR no se menciona al cliente: ni nombre ni logo. Así no se presenta a Travel Puzzle como operador. |
 | 7 | Reseñas de FREETOUR en la ficha | C7 | **P** como reseñas del tour | Nunca como reseñas de Travel Puzzle. AggregateRating solo con reseñas reales. |
 | 8 | «★ Favorito de los viajeros» | C7 | **P** con criterio real | Criterio propuesto: calificación ≥ 4.7 y ≥ 50 reseñas (gate). |
 | 9 | Hubs y fichas indexables (SEO) con títulos, descripciones y fotos de FREETOUR | C1, C2 | **A** | Mostrar y cachear para vender: P. Hacer indexable una ciudad: solo con texto propio (guía ≥ 300 palabras). Pedir por escrito si se puede indexar el contenido de FREETOUR (pregunta 5). |
@@ -166,4 +166,4 @@ src/
 | 3 | geonameid de las ciudades | **Cruce automático + revisión**: un workflow baja GeoNames y cruza por país + nombre + cercanía al centroide de los puntos de encuentro; lo dudoso va a una lista para revisión manual (REQ-085) |
 | 4 | Viajes propios (`/viajes/...`) | **Entran a `/destinos` con 301**: aparecen en la sección Tours de su ciudad y su ficha pasa a `/destinos/{pais}/{ciudad}/{slug}` (REQ-088, REQ-092) |
 | 5 | Metas de las métricas | **Firmadas**: ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · la tasa de agregado del carrusel se mide 4 semanas y luego se fija la meta (REQ-111) |
-| 6 | Correo de preguntas a FREETOUR | **El PO lo revisa primero** (sigue en borrador en Gmail) |
+| 6 | Correo de preguntas a FREETOUR | **El PO lo revisa primero** (sigue en borrador en Gmail). Versión final con 7 preguntas más la rotación de la API key; se quitó la pregunta del logo porque FREETOUR no se menciona al cliente. |
