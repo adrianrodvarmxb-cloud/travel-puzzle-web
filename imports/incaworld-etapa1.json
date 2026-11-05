@@ -14,28 +14,13 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 1191767,
-     "alt": "lime, peru, plaza de armas, heritage, square, peru, peru, plaza de armas, plaza de armas, plaza de armas, plaza de armas, plaza de armas"
-    },
-    {
-     "src": "pixabay",
      "id": 3416862,
-     "alt": "historic centre, lima, peru, downtown, colonial time, city square, colorful hustle and bustle, lima, lima, lima, lima, lima, peru"
+     "alt": "Plaza Mayor y Catedral de Lima"
     },
     {
      "src": "pixabay",
-     "id": 4136013,
-     "alt": "lima, peru, south america, america, history, landmark, huaca pucllana, adobe, clay, pyramid, archaeology, latin, culture, miraflores, city, peruvian, "
-    },
-    {
-     "src": "pixabay",
-     "id": 6784100,
-     "alt": "lima, peru, nature, sea, waterfront buildings, coast"
-    },
-    {
-     "src": "pixabay",
-     "id": 4713829,
-     "alt": "costa verde, lime, modern, peru, modern city, height, blue sky, beautiful landscapes, metropolis, sea, waves, darling, beaches, peaceful, hot, cliff, "
+     "id": 1191767,
+     "alt": "Plaza Mayor de Lima con sus palmeras"
     }
    ],
    "trip": {
@@ -175,28 +160,13 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 4136013,
-     "alt": "lima, peru, south america, america, history, landmark, huaca pucllana, adobe, clay, pyramid, archaeology, latin, culture, miraflores, city, peruvian, "
+     "id": 4713823,
+     "alt": "Bajada de los Baños en Barranco"
     },
     {
      "src": "pixabay",
-     "id": 6784100,
-     "alt": "lima, peru, nature, sea, waterfront buildings, coast"
-    },
-    {
-     "src": "pixabay",
-     "id": 4713829,
-     "alt": "costa verde, lime, modern, peru, modern city, height, blue sky, beautiful landscapes, metropolis, sea, waves, darling, beaches, peaceful, hot, cliff, "
-    },
-    {
-     "src": "pixabay",
-     "id": 502041,
-     "alt": "lima, peru, south america, miraflores, coastline, windy road, cliff, pacific coast in lima, beach, latin, building, landscape, seashore, seaside, lima"
-    },
-    {
-     "src": "pixabay",
-     "id": 1965785,
-     "alt": "lima, peru, paragliding, miraflores, beauty, green, orange, tourism, peruvian, scenic, air, sky, flight, lovely, culture, town, lima, lima, lima, lima"
+     "id": 4136017,
+     "alt": "Malecón de Miraflores frente al Pacífico"
     }
    ],
    "trip": {
@@ -336,27 +306,12 @@
     {
      "src": "pixabay",
      "id": 1626350,
-     "alt": "desert, pyramid, guy, peru, nature, ancient civilization"
+     "alt": "Pirámides de la Ciudad Sagrada de Caral"
     },
     {
      "src": "pixabay",
      "id": 1626352,
-     "alt": "pyramid, desert, nature, ancient civilization, guy, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 1626353,
-     "alt": "landscape, desert, guy, peru, nature, pyramid, vista, sand"
-    },
-    {
-     "src": "pixabay",
-     "id": 1191767,
-     "alt": "lime, peru, plaza de armas, heritage, square, peru, peru, plaza de armas, plaza de armas, plaza de armas, plaza de armas, plaza de armas"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416862,
-     "alt": "historic centre, lima, peru, downtown, colonial time, city square, colorful hustle and bustle, lima, lima, lima, lima, lima, peru"
+     "alt": "Muros de piedra de Caral en el valle de Supe"
     }
    ],
    "trip": {
@@ -494,34 +449,8 @@
   },
   {
    "ref": "LIM-04",
-   "status": "published",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 4713829,
-     "alt": "costa verde, lime, modern, peru, modern city, height, blue sky, beautiful landscapes, metropolis, sea, waves, darling, beaches, peaceful, hot, cliff, "
-    },
-    {
-     "src": "pixabay",
-     "id": 502041,
-     "alt": "lima, peru, south america, miraflores, coastline, windy road, cliff, pacific coast in lima, beach, latin, building, landscape, seashore, seaside, lima"
-    },
-    {
-     "src": "pixabay",
-     "id": 1965785,
-     "alt": "lima, peru, paragliding, miraflores, beauty, green, orange, tourism, peruvian, scenic, air, sky, flight, lovely, culture, town, lima, lima, lima, lima"
-    },
-    {
-     "src": "pixabay",
-     "id": 4713823,
-     "alt": "ravine, lime, city of lima, peru, stairs, sun, summer, hot, art, painted walls, nature, message on wall, messages, happy, sunrise, youth"
-    },
-    {
-     "src": "pixabay",
-     "id": 3207652,
-     "alt": "city, urban landscape, travel, aerial, horizon, urban space, home, panoramic, architecture, panoramic image, outdoors, view, lime, peru, buildings, st"
-    }
-   ],
+   "status": "draft",
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -654,34 +583,8 @@
   },
   {
    "ref": "LIM-05",
-   "status": "published",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 1191767,
-     "alt": "lime, peru, plaza de armas, heritage, square, peru, peru, plaza de armas, plaza de armas, plaza de armas, plaza de armas, plaza de armas"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416862,
-     "alt": "historic centre, lima, peru, downtown, colonial time, city square, colorful hustle and bustle, lima, lima, lima, lima, lima, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 4136013,
-     "alt": "lima, peru, south america, america, history, landmark, huaca pucllana, adobe, clay, pyramid, archaeology, latin, culture, miraflores, city, peruvian, "
-    },
-    {
-     "src": "pixabay",
-     "id": 6784100,
-     "alt": "lima, peru, nature, sea, waterfront buildings, coast"
-    },
-    {
-     "src": "pixabay",
-     "id": 4713829,
-     "alt": "costa verde, lime, modern, peru, modern city, height, blue sky, beautiful landscapes, metropolis, sea, waves, darling, beaches, peaceful, hot, cliff, "
-    }
-   ],
+   "status": "draft",
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -819,28 +722,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 2392181,
-     "alt": "paracas, sea, nazca lines, nature, island, peru, ballestas islands, wind, ica region, landscape, beach, views, water, ocean, travel, paragliding, sea "
+     "id": 6627197,
+     "alt": "Islote con lobos marinos frente a la costa"
     },
     {
      "src": "pixabay",
-     "id": 3664086,
-     "alt": "islas ballestas, birds, brood, coast, island, guano, nature reserve, pacific, paracas, peru, south america, water bird, sea bird, guano boobies, natur"
+     "id": 1179489,
+     "alt": "Colonia de lobos marinos en el mar"
     },
     {
      "src": "pixabay",
-     "id": 5059219,
-     "alt": "ballestas islands, peru, nature"
-    },
-    {
-     "src": "pixabay",
-     "id": 5059222,
-     "alt": "ballestas islands, peru, nature"
-    },
-    {
-     "src": "pixabay",
-     "id": 1809774,
-     "alt": "christ, ballestas islands, paracas, pisco, peru, ica region, national reserve, costa, christ, paracas, peru, peru, peru, peru, peru"
+     "id": 6655963,
+     "alt": "Lobo marino nadando"
     }
    ],
    "trip": {
@@ -945,33 +838,7 @@
   {
    "ref": "LIM-07",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 1965785,
-     "alt": "lima, peru, paragliding, miraflores, beauty, green, orange, tourism, peruvian, scenic, air, sky, flight, lovely, culture, town, lima, lima, lima, lima"
-    },
-    {
-     "src": "pixabay",
-     "id": 4713823,
-     "alt": "ravine, lime, city of lima, peru, stairs, sun, summer, hot, art, painted walls, nature, message on wall, messages, happy, sunrise, youth"
-    },
-    {
-     "src": "pixabay",
-     "id": 3207652,
-     "alt": "city, urban landscape, travel, aerial, horizon, urban space, home, panoramic, architecture, panoramic image, outdoors, view, lime, peru, buildings, st"
-    },
-    {
-     "src": "pixabay",
-     "id": 4432194,
-     "alt": "ponte de lima, rio lima, portugal, darling, nature, river, water, bridge, blue, tourism, landscape, sunset, sun"
-    },
-    {
-     "src": "pixabay",
-     "id": 1191767,
-     "alt": "lime, peru, plaza de armas, heritage, square, peru, peru, plaza de armas, plaza de armas, plaza de armas, plaza de armas, plaza de armas"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -1087,28 +954,28 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 5059219,
-     "alt": "ballestas islands, peru, nature"
-    },
-    {
-     "src": "pixabay",
-     "id": 5059222,
-     "alt": "ballestas islands, peru, nature"
-    },
-    {
-     "src": "pixabay",
-     "id": 1809774,
-     "alt": "christ, ballestas islands, paracas, pisco, peru, ica region, national reserve, costa, christ, paracas, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 3642904,
-     "alt": "cliff, 4k wallpaper, pacific, beautiful nature, laptop wallpaper, desktop backgrounds, wallpaper 4k, hd wallpaper, surf, beach, wallpaper, beautiful w"
+     "id": 2392181,
+     "alt": "El Candelabro de Paracas visto desde el mar"
     },
     {
      "src": "pixabay",
      "id": 3664085,
-     "alt": "islas ballestas, birds, nature, brood, coast, island, guano, nature reserve, gate, cave, rock gate, pacific, paracas, peru, south america, water bird,"
+     "alt": "Arco de roca en las Islas Ballestas"
+    },
+    {
+     "src": "pixabay",
+     "id": 4354160,
+     "alt": "Lobo marino en las Islas Ballestas"
+    },
+    {
+     "src": "pixabay",
+     "id": 7491690,
+     "alt": "Gaviotín zarcillo, ave de la costa peruana"
+    },
+    {
+     "src": "pixabay",
+     "id": 3642904,
+     "alt": "Acantilados de la Reserva Nacional de Paracas"
     }
    ],
    "trip": {
@@ -1229,28 +1096,28 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 639763,
-     "alt": "inca, wall, fortress, ruin, archeology, peru, cuzco, inca, inca, cuzco, cuzco, cuzco, cuzco, cuzco"
-    },
-    {
-     "src": "pixabay",
-     "id": 563154,
-     "alt": "wall, inca, cusco, sacsaywaman, cuzco, peru, ruins, architecture, stonework, ancient, complex, sacsayhuaman, unesco, walls, fortress, heritage, histor"
-    },
-    {
-     "src": "pixabay",
-     "id": 225157,
-     "alt": "sacsayhuaman, cuzco, peru, landmark, culture, ruins, old, ancient, history, historic, monument, historical, structure, architecture, sacsayhuaman, sac"
+     "id": 3418555,
+     "alt": "Iglesia de la Compañía en la Plaza de Armas de Cusco"
     },
     {
      "src": "pixabay",
      "id": 336179,
-     "alt": "peru, cusco, inka, wall, ruin, story, building, stone, peru, peru, peru, peru, peru, cusco, cusco, cusco"
+     "alt": "Muros megalíticos de Sacsayhuamán"
     },
     {
      "src": "pixabay",
-     "id": 2753983,
-     "alt": "inca fortress of sacsayhuamán, cusco, peru, cusco, cusco, cusco, cusco, cusco"
+     "id": 4203814,
+     "alt": "Catedral de Cusco"
+    },
+    {
+     "src": "pixabay",
+     "id": 2608832,
+     "alt": "Calle con muro inca en Cusco"
+    },
+    {
+     "src": "pixabay",
+     "id": 225157,
+     "alt": "Explanada de Sacsayhuamán"
     }
    ],
    "trip": {
@@ -1370,28 +1237,13 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 1633921,
-     "alt": "salt maras, nature, salt, white, water, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 2615125,
-     "alt": "inca, peru, stonework, ruin, inca, inca, inca, inca, inca, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
+     "id": 609473,
+     "alt": "Andenes circulares de Moray desde lo alto"
     },
     {
      "src": "pixabay",
      "id": 3965176,
-     "alt": "peru, salt, saline, landscape, maras, inca, moray, saline, saline, saline, saline, saline, moray"
-    },
-    {
-     "src": "pixabay",
-     "id": 609473,
-     "alt": "cusco, peru, inca, ruin, agriculture, south, america, sacred, valley, incan, civilization, heritage, indigenous, ancient, corn, terrace, pit, cusco, c"
+     "alt": "Pozas de sal de Maras"
     }
    ],
    "trip": {
@@ -1502,29 +1354,14 @@
    "status": "published",
    "photos": [
     {
-     "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
+     "src": "inca",
+     "file": "01_Maras_Moray/2024-01-24_moray_vista_panorama.jpg",
+     "alt": "Andenes de Moray"
     },
     {
-     "src": "pixabay",
-     "id": 3965176,
-     "alt": "peru, salt, saline, landscape, maras, inca, moray, saline, saline, saline, saline, saline, moray"
-    },
-    {
-     "src": "pixabay",
-     "id": 609473,
-     "alt": "cusco, peru, inca, ruin, agriculture, south, america, sacred, valley, incan, civilization, heritage, indigenous, ancient, corn, terrace, pit, cusco, c"
-    },
-    {
-     "src": "pixabay",
-     "id": 834109,
-     "alt": "mountain, history, lake, sky, clouds, south america, peru, landscape, nature, travel, landmark, ancient, sunlight, place, heritage, religion, earth, h"
-    },
-    {
-     "src": "pixabay",
-     "id": 1633904,
-     "alt": "landscape, agriculture, terraces, peru, peru, peru, peru, peru, peru"
+     "src": "inca",
+     "file": "01_Maras_Moray/2024-01-24_salinera_de_maras_entrada.jpg",
+     "alt": "Salineras de Maras"
     }
    ],
    "trip": {
@@ -1632,33 +1469,7 @@
   {
    "ref": "CUS-04",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 1823095,
-     "alt": "peru, ollantaytambo, inca ruins, ancient, mountain, archaeological, ollantaytambo, ollantaytambo, ollantaytambo, ollantaytambo, ollantaytambo"
-    },
-    {
-     "src": "pixabay",
-     "id": 6481681,
-     "alt": "peru, cusco, city, landscape, buildings, civilization, historic, inca, hill, mountain, south america, tourism"
-    },
-    {
-     "src": "pixabay",
-     "id": 225148,
-     "alt": "ollantaytambo, cuzco, peru, valley, town, stone, mountain, travel, destination, old, nature, civilization, hills, rock"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416866,
-     "alt": "pisac, inka, ruin, sacred valley, peru, story, historical, pisac, pisac, pisac, pisac, pisac, sacred valley"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -1766,28 +1577,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 609473,
-     "alt": "cusco, peru, inca, ruin, agriculture, south, america, sacred, valley, incan, civilization, heritage, indigenous, ancient, corn, terrace, pit, cusco, c"
+     "id": 3416867,
+     "alt": "Andenes circulares de Moray"
     },
     {
      "src": "pixabay",
-     "id": 834109,
-     "alt": "mountain, history, lake, sky, clouds, south america, peru, landscape, nature, travel, landmark, ancient, sunlight, place, heritage, religion, earth, h"
+     "id": 1633921,
+     "alt": "Salineras de Maras en la ladera"
     },
     {
      "src": "pixabay",
-     "id": 1633904,
-     "alt": "landscape, agriculture, terraces, peru, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 1260231,
-     "alt": "architecture, engineering, inca, peru, stadium, inca, inca, inca, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 290641,
-     "alt": "moray, peru, inca, landscape, wilderness, scenery, natural, wild, outdoor, environment, scenic, land, nature, tranquil, moray, moray, moray, moray, mo"
+     "id": 3965176,
+     "alt": "Pozas de sal blanca de Maras"
     }
    ],
    "trip": {
@@ -1917,18 +1718,8 @@
     },
     {
      "src": "inca",
-     "file": "04_Patrimonio_Cusco/terrazas_incas_con_luz_de_atardecer.webp",
-     "alt": "Terrazas incas al atardecer"
-    },
-    {
-     "src": "inca",
-     "file": "04_Patrimonio_Cusco/fuente_inca_detalle.webp",
-     "alt": "Canales de agua incas"
-    },
-    {
-     "src": "inca",
      "file": "04_Patrimonio_Cusco/terrazas_incas_y_montanas.webp",
-     "alt": "Terrazas incas y montañas"
+     "alt": "Terrazas incas y montañas del Valle Sur"
     }
    ],
    "trip": {
@@ -2047,28 +1838,23 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 225148,
-     "alt": "ollantaytambo, cuzco, peru, valley, town, stone, mountain, travel, destination, old, nature, civilization, hills, rock"
+     "id": 1823095,
+     "alt": "Depósitos incas de Pinkuylluna en Ollantaytambo"
     },
     {
      "src": "pixabay",
      "id": 3416866,
-     "alt": "pisac, inka, ruin, sacred valley, peru, story, historical, pisac, pisac, pisac, pisac, pisac, sacred valley"
+     "alt": "Andenes de Pisac"
     },
     {
      "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
+     "id": 225148,
+     "alt": "Pueblo inca de Ollantaytambo"
     },
     {
      "src": "pixabay",
-     "id": 3197192,
-     "alt": "mountain, nature, landscape, travel, sky, panoramic, outdoors, mountain peak, valley, hill, scenic, panorama, tourism, view, sacred valley, peru, sout"
-    },
-    {
-     "src": "pixabay",
-     "id": 451195,
-     "alt": "llamas, peru, animals, machu picchu, wildlife, wild, zoology, mammal, species, wilderness, environment, outdoors, nature, peru, machu picchu, machu pi"
+     "id": 3200500,
+     "alt": "Valle Sagrado del río Urubamba"
     }
    ],
    "trip": {
@@ -2191,27 +1977,22 @@
     {
      "src": "pixabay",
      "id": 2184732,
-     "alt": "peru, cusco, rainbow mountains, south america, peru, peru, peru, peru, peru, cusco, rainbow mountains"
-    },
-    {
-     "src": "pixabay",
-     "id": 4862475,
-     "alt": "peru, to dye, mountain, rainbow, nature, landscape, rock, to the, outlook, rockclimbing, tourism, to travel, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 5335886,
-     "alt": "mountain colorada, peru, do you travel, nature, panorama, andes, peru, peru, peru, peru, peru, andes, andes"
-    },
-    {
-     "src": "pixabay",
-     "id": 4563286,
-     "alt": "peru, rainbow mountain, landscape, mountains, nature, panorama, trekking"
+     "alt": "Franjas de colores de Vinicunca"
     },
     {
      "src": "pixabay",
      "id": 4862477,
-     "alt": "peru, to dye, mountain, rainbow, nature, landscape, rock, to the, outlook, rockclimbing, tourism, to travel, peru, peru, peru, peru, peru"
+     "alt": "Vinicunca con nieve en la cumbre"
+    },
+    {
+     "src": "pixabay",
+     "id": 1089328,
+     "alt": "Cerros rojizos camino a la Montaña de Colores"
+    },
+    {
+     "src": "pixabay",
+     "id": 4563289,
+     "alt": "Valle Rojo junto a Vinicunca"
     }
    ],
    "trip": {
@@ -2327,27 +2108,27 @@
   },
   {
    "ref": "CUS-11",
-   "status": "draft",
+   "status": "published",
    "photos": [
     {
      "src": "inca",
      "file": "04_Patrimonio_Cusco/iglesia_colonial_fachada.webp",
-     "alt": "Fachada de iglesia colonial del sur de Cusco"
+     "alt": "Fachada de templo colonial del sur de Cusco"
     },
     {
      "src": "inca",
      "file": "04_Patrimonio_Cusco/iglesia_colonial_altar_principal.webp",
-     "alt": "Altar barroco andino"
+     "alt": "Altar mayor barroco"
     },
     {
      "src": "inca",
      "file": "04_Patrimonio_Cusco/iglesia_colonial_organo_y_murales.webp",
-     "alt": "Órgano y murales coloniales"
+     "alt": "Órgano y pintura mural colonial"
     },
     {
      "src": "inca",
      "file": "04_Patrimonio_Cusco/iglesia_colonial_galeria_de_arte.webp",
-     "alt": "Pinturas de la escuela cusqueña"
+     "alt": "Lienzos de la escuela cusqueña"
     }
    ],
    "trip": {
@@ -2457,28 +2238,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
-    },
-    {
-     "src": "pixabay",
-     "id": 3197192,
-     "alt": "mountain, nature, landscape, travel, sky, panoramic, outdoors, mountain peak, valley, hill, scenic, panorama, tourism, view, sacred valley, peru, sout"
-    },
-    {
-     "src": "pixabay",
-     "id": 451195,
-     "alt": "llamas, peru, animals, machu picchu, wildlife, wild, zoology, mammal, species, wilderness, environment, outdoors, nature, peru, machu picchu, machu pi"
-    },
-    {
-     "src": "pixabay",
-     "id": 563123,
-     "alt": "sacred valley, cusco, sheep, peru, andes, mountain, nature, traditional, landscape, panoramic"
+     "id": 6481681,
+     "alt": "Montaña sobre el pueblo de Ollantaytambo"
     },
     {
      "src": "pixabay",
      "id": 85453,
-     "alt": "peru, landscape, scenic, sky, clouds, mountains, valley, nature, ravine, ruins, ancient, landmark, historical, forest, trees, woods, country, countrys"
+     "alt": "Andenes del Valle Sagrado"
+    },
+    {
+     "src": "pixabay",
+     "id": 3200519,
+     "alt": "Nevados sobre el Valle Sagrado"
     }
    ],
    "trip": {
@@ -2585,33 +2356,7 @@
   {
    "ref": "CUS-13",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 4274321,
-     "alt": "lagoon, lake, mountains, humantay, peru, andy, crystal, green, lazur, mountain lake, rocks, snow, mirror, peace of mind, landscape, nature, the glacie"
-    },
-    {
-     "src": "pixabay",
-     "id": 4252335,
-     "alt": "mountain, top, andy, humantay, climbing, trekking, landscape, sky, snow, mountains, nature, panorama, success, high, stone, the height of the, cold, c"
-    },
-    {
-     "src": "pixabay",
-     "id": 4293958,
-     "alt": "ausangate, array, mountain, cordillera de vilcanota, rainbow, nature, mountains, peru, trekking, peruvian, views, mountaineering, landscape, adventure"
-    },
-    {
-     "src": "pixabay",
-     "id": 4293936,
-     "alt": "ausangate, array, mountain, cordillera de vilcanota, nature, rainbow, mountains, peru, trekking, peruvian, views, mountaineering, landscape, adventure"
-    },
-    {
-     "src": "pixabay",
-     "id": 4293925,
-     "alt": "ausangate, array, mountain, cordillera de vilcanota, rainbow, mountains, peru, trekking, peruvian, views, mountaineering, landscape, adventure, rocks,"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -2729,28 +2474,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 4293958,
-     "alt": "ausangate, array, mountain, cordillera de vilcanota, rainbow, nature, mountains, peru, trekking, peruvian, views, mountaineering, landscape, adventure"
-    },
-    {
-     "src": "pixabay",
-     "id": 4293936,
-     "alt": "ausangate, array, mountain, cordillera de vilcanota, nature, rainbow, mountains, peru, trekking, peruvian, views, mountaineering, landscape, adventure"
-    },
-    {
-     "src": "pixabay",
-     "id": 4293925,
-     "alt": "ausangate, array, mountain, cordillera de vilcanota, rainbow, mountains, peru, trekking, peruvian, views, mountaineering, landscape, adventure, rocks,"
-    },
-    {
-     "src": "pixabay",
      "id": 4437691,
-     "alt": "horses, landscape, ausangate, laguna, ausangate, ausangate, ausangate, ausangate, ausangate"
+     "alt": "Laguna altoandina en la ruta del Ausangate"
     },
     {
      "src": "pixabay",
-     "id": 4388766,
-     "alt": "mountain, peru, ausangate, landscape, tourism, adventure, andes, the path, array, rocks, mountains, mountaineering, ausangate, ausangate, ausangate, a"
+     "id": 4293958,
+     "alt": "Nevado Ausangate"
+    },
+    {
+     "src": "pixabay",
+     "id": 7100093,
+     "alt": "Cumbres nevadas de la cordillera de Vilcanota"
     }
    ],
    "trip": {
@@ -2856,33 +2591,7 @@
   {
    "ref": "CUS-05",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 1823095,
-     "alt": "peru, ollantaytambo, inca ruins, ancient, mountain, archaeological, ollantaytambo, ollantaytambo, ollantaytambo, ollantaytambo, ollantaytambo"
-    },
-    {
-     "src": "pixabay",
-     "id": 6481681,
-     "alt": "peru, cusco, city, landscape, buildings, civilization, historic, inca, hill, mountain, south america, tourism"
-    },
-    {
-     "src": "pixabay",
-     "id": 225148,
-     "alt": "ollantaytambo, cuzco, peru, valley, town, stone, mountain, travel, destination, old, nature, civilization, hills, rock"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416866,
-     "alt": "pisac, inka, ruin, sacred valley, peru, story, historical, pisac, pisac, pisac, pisac, pisac, sacred valley"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -2986,33 +2695,7 @@
   {
    "ref": "CUS-06",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 225148,
-     "alt": "ollantaytambo, cuzco, peru, valley, town, stone, mountain, travel, destination, old, nature, civilization, hills, rock"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416866,
-     "alt": "pisac, inka, ruin, sacred valley, peru, story, historical, pisac, pisac, pisac, pisac, pisac, sacred valley"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416867,
-     "alt": "moray, inka, ruin, laboratory, sacred valley, peru, story, historical, moray, sacred valley, sacred valley, sacred valley, sacred valley, sacred valle"
-    },
-    {
-     "src": "pixabay",
-     "id": 3197192,
-     "alt": "mountain, nature, landscape, travel, sky, panoramic, outdoors, mountain peak, valley, hill, scenic, panorama, tourism, view, sacred valley, peru, sout"
-    },
-    {
-     "src": "pixabay",
-     "id": 451195,
-     "alt": "llamas, peru, animals, machu picchu, wildlife, wild, zoology, mammal, species, wilderness, environment, outdoors, nature, peru, machu picchu, machu pi"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -3120,27 +2803,22 @@
     {
      "src": "pixabay",
      "id": 5556322,
-     "alt": "machu picchu, inca, nature, valley, ancient, ruins, mountains, tourism, landscape, travel, city, archeology, architecture, adventure"
+     "alt": "Machu Picchu y el Huayna Picchu"
     },
     {
      "src": "pixabay",
-     "id": 8162918,
-     "alt": "mountain, nature, peak, sky, clouds, machu picchu, peru, landscape"
+     "id": 1868536,
+     "alt": "Machu Picchu entre nubes"
     },
     {
      "src": "pixabay",
      "id": 2774925,
-     "alt": "peru, machu picchu, lama, world heritage, landscape, peru, peru, peru, machu picchu, machu picchu, machu picchu, machu picchu, machu picchu"
+     "alt": "Llama frente a la ciudadela de Machu Picchu"
     },
     {
      "src": "pixabay",
-     "id": 43387,
-     "alt": "machu picchu, peru, inka, tourism, architecture, machu picchu, machu picchu, machu picchu, machu picchu, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 143875,
-     "alt": "peru, nature, andes, mountains, heaven, machu picchu, inca, architecture, tourism"
+     "id": 8162946,
+     "alt": "Terrazas agrícolas de Machu Picchu"
     }
    ],
    "trip": {
@@ -3254,28 +2932,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 2774925,
-     "alt": "peru, machu picchu, lama, world heritage, landscape, peru, peru, peru, machu picchu, machu picchu, machu picchu, machu picchu, machu picchu"
+     "id": 1102720,
+     "alt": "Vista clásica de Machu Picchu"
     },
     {
      "src": "pixabay",
-     "id": 43387,
-     "alt": "machu picchu, peru, inka, tourism, architecture, machu picchu, machu picchu, machu picchu, machu picchu, peru, peru, peru, peru, peru"
+     "id": 43394,
+     "alt": "Machu Picchu sobre el cañón del Urubamba"
     },
     {
      "src": "pixabay",
-     "id": 143875,
-     "alt": "peru, nature, andes, mountains, heaven, machu picchu, inca, architecture, tourism"
-    },
-    {
-     "src": "pixabay",
-     "id": 2773629,
-     "alt": "machu picchu, peru, nature, inca, travel, machu, picchu, tourism, cusco, mountain, south, america, historic, old, ruins, ancient"
-    },
-    {
-     "src": "pixabay",
-     "id": 1631989,
-     "alt": "machu picchu, mountain, peru, nature, landscape, vista"
+     "id": 1163479,
+     "alt": "Sector urbano de Machu Picchu"
     }
    ],
    "trip": {
@@ -3387,28 +3055,23 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 5556322,
-     "alt": "machu picchu, inca, nature, valley, ancient, ruins, mountains, tourism, landscape, travel, city, archeology, architecture, adventure"
-    },
-    {
-     "src": "pixabay",
-     "id": 8162918,
-     "alt": "mountain, nature, peak, sky, clouds, machu picchu, peru, landscape"
-    },
-    {
-     "src": "pixabay",
-     "id": 2774925,
-     "alt": "peru, machu picchu, lama, world heritage, landscape, peru, peru, peru, machu picchu, machu picchu, machu picchu, machu picchu, machu picchu"
-    },
-    {
-     "src": "pixabay",
-     "id": 43387,
-     "alt": "machu picchu, peru, inka, tourism, architecture, machu picchu, machu picchu, machu picchu, machu picchu, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
      "id": 143875,
-     "alt": "peru, nature, andes, mountains, heaven, machu picchu, inca, architecture, tourism"
+     "alt": "Ciudadela de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 43389,
+     "alt": "Machu Picchu al amanecer con neblina"
+    },
+    {
+     "src": "pixabay",
+     "id": 4578191,
+     "alt": "Camino inca en las montañas de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 3416866,
+     "alt": "Andenes de Pisac en el Valle Sagrado"
     }
    ],
    "trip": {
@@ -3524,28 +3187,23 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 15957,
-     "alt": "island, lake, titicaca, floating, nature, huts, sightseeing, scenic, tourism, andy, peru, blue island"
-    },
-    {
-     "src": "pixabay",
      "id": 3416837,
-     "alt": "reeds house, uros, floating islands, titcaca lake, peru, uros, uros, uros, peru, peru, peru, peru, peru"
+     "alt": "Casa de totora en las islas de los Uros"
     },
     {
      "src": "pixabay",
-     "id": 2817321,
-     "alt": "peru, lake-titicaca, canoes, peru, peru, peru, peru, peru, canoes, canoes"
+     "id": 2427709,
+     "alt": "Balsas de totora en el lago Titicaca"
     },
     {
      "src": "pixabay",
-     "id": 3669992,
-     "alt": "lake, titicaca, peru, nature, bolivia"
+     "id": 3967417,
+     "alt": "Islas flotantes de los Uros"
     },
     {
      "src": "pixabay",
-     "id": 2494522,
-     "alt": "lake titicaca, nature, bolivia, mountain, clouds"
+     "id": 43332,
+     "alt": "Escultura de totora en los Uros"
     }
    ],
    "trip": {
@@ -3656,28 +3314,13 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 2817321,
-     "alt": "peru, lake-titicaca, canoes, peru, peru, peru, peru, peru, canoes, canoes"
+     "id": 1756106,
+     "alt": "Balsa de totora en los Uros"
     },
     {
      "src": "pixabay",
-     "id": 3669992,
-     "alt": "lake, titicaca, peru, nature, bolivia"
-    },
-    {
-     "src": "pixabay",
-     "id": 2494522,
-     "alt": "lake titicaca, nature, bolivia, mountain, clouds"
-    },
-    {
-     "src": "pixabay",
-     "id": 318069,
-     "alt": "lake titicaca, bolivia, lake, tranquil, ocean, sea, beach, seascape, sky, water, sand, wave, coast, coastal, marine, coastline, scenic, outdoor, natur"
-    },
-    {
-     "src": "pixabay",
-     "id": 2659071,
-     "alt": "evening atmosphere, lake, titicaca lake, nature, sunset, peru, embers"
+     "id": 43331,
+     "alt": "Figura de totora en una isla flotante"
     }
    ],
    "trip": {
@@ -3786,28 +3429,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 2494522,
-     "alt": "lake titicaca, nature, bolivia, mountain, clouds"
+     "id": 4034500,
+     "alt": "Bahía del lago Titicaca"
     },
     {
      "src": "pixabay",
-     "id": 318069,
-     "alt": "lake titicaca, bolivia, lake, tranquil, ocean, sea, beach, seascape, sky, water, sand, wave, coast, coastal, marine, coastline, scenic, outdoor, natur"
+     "id": 952885,
+     "alt": "Atardecer en el lago Titicaca"
     },
     {
      "src": "pixabay",
-     "id": 2659071,
-     "alt": "evening atmosphere, lake, titicaca lake, nature, sunset, peru, embers"
-    },
-    {
-     "src": "pixabay",
-     "id": 1756106,
-     "alt": "uros, raft, rowing, peru, island, fist, uros, uros, uros, uros, uros, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416843,
-     "alt": "mobile, wind chimes, decoration, art, multicoloured, peru, uros, floating islands, wind chimes, wind chimes, wind chimes, wind chimes, wind chimes, pe"
+     "id": 6399913,
+     "alt": "Totorales del lago Titicaca"
     }
    ],
    "trip": {
@@ -3917,27 +3550,12 @@
     {
      "src": "pixabay",
      "id": 3418546,
-     "alt": "sillustani, grave tower, inka, lake, nature, peru, panorama"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416835,
-     "alt": "sillustani, peru, lake, panorama, nature, inka"
+     "alt": "Chullpas de Sillustani junto a la laguna Umayo"
     },
     {
      "src": "pixabay",
      "id": 6796345,
-     "alt": "sillustani, umayo, peru, umayo lake, landscape, panorama, lake"
-    },
-    {
-     "src": "pixabay",
-     "id": 6796331,
-     "alt": "sillustani, pier, peru, cemetery, pre-inca cemetery, umayo lake, landscape, panorama"
-    },
-    {
-     "src": "pixabay",
-     "id": 15957,
-     "alt": "island, lake, titicaca, floating, nature, huts, sightseeing, scenic, tourism, andy, peru, blue island"
+     "alt": "Laguna Umayo en el altiplano"
     }
    ],
    "trip": {
@@ -4046,28 +3664,18 @@
    "photos": [
     {
      "src": "pixabay",
+     "id": 4034492,
+     "alt": "Ciudad de Puno a orillas del Titicaca"
+    },
+    {
+     "src": "pixabay",
      "id": 15957,
-     "alt": "island, lake, titicaca, floating, nature, huts, sightseeing, scenic, tourism, andy, peru, blue island"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416837,
-     "alt": "reeds house, uros, floating islands, titcaca lake, peru, uros, uros, uros, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 2817321,
-     "alt": "peru, lake-titicaca, canoes, peru, peru, peru, peru, peru, canoes, canoes"
+     "alt": "Islas de totora en la bahía de Puno"
     },
     {
      "src": "pixabay",
      "id": 3669992,
-     "alt": "lake, titicaca, peru, nature, bolivia"
-    },
-    {
-     "src": "pixabay",
-     "id": 2494522,
-     "alt": "lake titicaca, nature, bolivia, mountain, clouds"
+     "alt": "Península del lago Titicaca"
     }
    ],
    "trip": {
@@ -4176,28 +3784,28 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 5165633,
-     "alt": "square, arequipa, peru, cathedral, building, architecture, bell tower, darling, urban, day, arequipa, arequipa, arequipa, arequipa, arequipa, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 242490,
-     "alt": "peru, arequipa, building, monastery, peru, arequipa, arequipa, arequipa, arequipa, arequipa, Arequipa, Peru"
-    },
-    {
-     "src": "pixabay",
      "id": 43265,
-     "alt": "santa cathalina monastery, peru, monastery, gate, passage, red, quiet, calm, quiet please, building, peru, quiet, quiet please, quiet please, quiet pl"
+     "alt": "Arco del Silencio en el Monasterio de Santa Catalina"
     },
     {
      "src": "pixabay",
-     "id": 4930129,
-     "alt": "monastery of santa catalina, arequipa, peru, christianity, architecture, pots, stairs, nuns, colors, arches, convent of nuns, medieval, reconquista sp"
+     "id": 2308382,
+     "alt": "Catedral de Arequipa y el volcán Misti"
     },
     {
      "src": "pixabay",
-     "id": 43286,
-     "alt": "arequipa, city, center, peru, building, architecture, arequipa, arequipa, arequipa, arequipa, arequipa, peru"
+     "id": 43269,
+     "alt": "Claustro azul de Santa Catalina"
+    },
+    {
+     "src": "pixabay",
+     "id": 1934515,
+     "alt": "Portales de la Plaza de Armas de noche"
+    },
+    {
+     "src": "pixabay",
+     "id": 5165633,
+     "alt": "Plaza de Armas de Arequipa al atardecer"
     }
    ],
    "trip": {
@@ -4306,28 +3914,23 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 3429730,
-     "alt": "colca canyon, canyon, terraces, peru, panorama, landscape, nature, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
+     "id": 3597158,
+     "alt": "Cruz del Cóndor en el Cañón del Colca"
     },
     {
      "src": "pixabay",
      "id": 6835292,
-     "alt": "condor, bird, flying, animal, wildlife, female bird, wings, plumage, soar, nature, valley, mountains, colca canyon, peru, condor, condor, condor, cond"
+     "alt": "Cóndor andino sobre el Colca"
     },
     {
      "src": "pixabay",
-     "id": 1087026,
-     "alt": "condor, to the, colcacanon, freedom, departure, ravines, condor, condor, condor, condor, condor"
-    },
-    {
-     "src": "pixabay",
-     "id": 3597158,
-     "alt": "cruz, condor, peru, flight, darling, mountain, colca, religion, nature, canon"
+     "id": 3429730,
+     "alt": "Andenes del Valle del Colca"
     },
     {
      "src": "pixabay",
      "id": 3418547,
-     "alt": "colca canyon, deep, abyss, canyon, panorama, peru, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
+     "alt": "Cañón del Colca"
     }
    ],
    "trip": {
@@ -4437,28 +4040,13 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 1087026,
-     "alt": "condor, to the, colcacanon, freedom, departure, ravines, condor, condor, condor, condor, condor"
+     "id": 6835289,
+     "alt": "Cóndor en vuelo en el Colca"
     },
     {
      "src": "pixabay",
-     "id": 3597158,
-     "alt": "cruz, condor, peru, flight, darling, mountain, colca, religion, nature, canon"
-    },
-    {
-     "src": "pixabay",
-     "id": 3418547,
-     "alt": "colca canyon, deep, abyss, canyon, panorama, peru, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
-    },
-    {
-     "src": "pixabay",
-     "id": 3416830,
-     "alt": "colca canyon, canyon, peru, panorama, depth, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
-    },
-    {
-     "src": "pixabay",
-     "id": 5154702,
-     "alt": "colca, arequipa, mountain range, nature, peru, mountain, darling, blue"
+     "id": 6513131,
+     "alt": "Pueblo en el Valle del Colca"
     }
    ],
    "trip": {
@@ -4568,28 +4156,18 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 3418547,
-     "alt": "colca canyon, deep, abyss, canyon, panorama, peru, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
-    },
-    {
-     "src": "pixabay",
      "id": 3416830,
-     "alt": "colca canyon, canyon, peru, panorama, depth, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
+     "alt": "Paredes del Cañón del Colca"
     },
     {
      "src": "pixabay",
      "id": 5154702,
-     "alt": "colca, arequipa, mountain range, nature, peru, mountain, darling, blue"
-    },
-    {
-     "src": "pixabay",
-     "id": 2656045,
-     "alt": "andean condor, colca canyon, the cross of the condor, peru, andean condor, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
+     "alt": "Cañón del Colca desde un mirador"
     },
     {
      "src": "pixabay",
      "id": 4862471,
-     "alt": "peru, colca, canyon, landscape, nature, mountains, light, panorama, to the, rock, mood, fields, outlook"
+     "alt": "Valle del Colca con sol de mañana"
     }
    ],
    "trip": {
@@ -4700,27 +4278,17 @@
     {
      "src": "pixabay",
      "id": 43325,
-     "alt": "volcano, stratovolcano, el misti, peru, nature, arequipa, landmark, mountain, high"
+     "alt": "Volcán Misti"
     },
     {
      "src": "pixabay",
      "id": 2214389,
-     "alt": "misti volcano, snow, clouds, sierra nevada, snowy landscape, nature, mountain, winter, volcano, sierra nevada, sierra nevada, sierra nevada, sierra ne"
+     "alt": "Cumbre nevada del Misti"
     },
     {
      "src": "pixabay",
-     "id": 43292,
-     "alt": "volcano, stratovolcano, el misti, peru, nature, arequipa, landmark, mountain, high"
-    },
-    {
-     "src": "pixabay",
-     "id": 43322,
-     "alt": "volcano, stratovolcano, el misti, peru, arequipa, landmark, nature, mountain, high"
-    },
-    {
-     "src": "pixabay",
-     "id": 3895609,
-     "alt": "volcanoes, misti, chachani, panorama, hd wallpaper, wallpaper, arequipa, peru, south america, mountain, landmark, stratovolcano, high, nature, landsca"
+     "id": 5154698,
+     "alt": "Arequipa de noche con el Misti al fondo"
     }
    ],
    "trip": {
@@ -4826,33 +4394,7 @@
   {
    "ref": "AQP-01",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 5165633,
-     "alt": "square, arequipa, peru, cathedral, building, architecture, bell tower, darling, urban, day, arequipa, arequipa, arequipa, arequipa, arequipa, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 242490,
-     "alt": "peru, arequipa, building, monastery, peru, arequipa, arequipa, arequipa, arequipa, arequipa, Arequipa, Peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 43265,
-     "alt": "santa cathalina monastery, peru, monastery, gate, passage, red, quiet, calm, quiet please, building, peru, quiet, quiet please, quiet please, quiet pl"
-    },
-    {
-     "src": "pixabay",
-     "id": 4930129,
-     "alt": "monastery of santa catalina, arequipa, peru, christianity, architecture, pots, stairs, nuns, colors, arches, convent of nuns, medieval, reconquista sp"
-    },
-    {
-     "src": "pixabay",
-     "id": 43286,
-     "alt": "arequipa, city, center, peru, building, architecture, arequipa, arequipa, arequipa, arequipa, arequipa, peru"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -4956,34 +4498,8 @@
   },
   {
    "ref": "AQP-04",
-   "status": "published",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 3429730,
-     "alt": "colca canyon, canyon, terraces, peru, panorama, landscape, nature, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
-    },
-    {
-     "src": "pixabay",
-     "id": 6835292,
-     "alt": "condor, bird, flying, animal, wildlife, female bird, wings, plumage, soar, nature, valley, mountains, colca canyon, peru, condor, condor, condor, cond"
-    },
-    {
-     "src": "pixabay",
-     "id": 1087026,
-     "alt": "condor, to the, colcacanon, freedom, departure, ravines, condor, condor, condor, condor, condor"
-    },
-    {
-     "src": "pixabay",
-     "id": 3597158,
-     "alt": "cruz, condor, peru, flight, darling, mountain, colca, religion, nature, canon"
-    },
-    {
-     "src": "pixabay",
-     "id": 3418547,
-     "alt": "colca canyon, deep, abyss, canyon, panorama, peru, colca canyon, colca canyon, colca canyon, colca canyon, colca canyon"
-    }
-   ],
+   "status": "draft",
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -5092,27 +4608,17 @@
     {
      "src": "pixabay",
      "id": 1177687,
-     "alt": "peru, scribblings, spider, nasca lines, nasca plateau, peru, peru, peru, peru, peru, nasca lines"
+     "alt": "Geoglifo de la araña en Nazca"
     },
     {
      "src": "pixabay",
      "id": 43228,
-     "alt": "nasca, nasca lines, peru, parrot, inka, nasca lines, nasca lines, nasca lines, nasca lines, nasca lines"
+     "alt": "Geoglifo del mono en Nazca"
     },
     {
      "src": "pixabay",
-     "id": 1089342,
-     "alt": "nasca, peru, nasca plateau, nasca lines, humming-bird, holy bird, mountain country, nazca lines, scribblings, geoglyphs, nazca, palpa, sausages, deser"
-    },
-    {
-     "src": "pixabay",
-     "id": 5567470,
-     "alt": "nazca, lines, peru, air, floor, nature, nazca lines, humming-bird, desert"
-    },
-    {
-     "src": "pixabay",
-     "id": 1177626,
-     "alt": "nasca, scribblings, condor, nasca plateau, peru, maria rich, condor, condor, condor, condor, condor"
+     "id": 43223,
+     "alt": "Sombra de la avioneta sobre las líneas"
     }
    ],
    "trip": {
@@ -5220,28 +4726,23 @@
    "photos": [
     {
      "src": "pixabay",
-     "id": 1089342,
-     "alt": "nasca, peru, nasca plateau, nasca lines, humming-bird, holy bird, mountain country, nazca lines, scribblings, geoglyphs, nazca, palpa, sausages, deser"
-    },
-    {
-     "src": "pixabay",
-     "id": 5567470,
-     "alt": "nazca, lines, peru, air, floor, nature, nazca lines, humming-bird, desert"
-    },
-    {
-     "src": "pixabay",
      "id": 1177626,
-     "alt": "nasca, scribblings, condor, nasca plateau, peru, maria rich, condor, condor, condor, condor, condor"
+     "alt": "Líneas y trapecios de Nazca desde el aire"
     },
     {
      "src": "pixabay",
-     "id": 43223,
-     "alt": "nazca level, nazca, nature, flying, plane, airport, landing site, desert"
+     "id": 1089342,
+     "alt": "Geoglifo en la ladera de Nazca"
+    },
+    {
+     "src": "pixabay",
+     "id": 43224,
+     "alt": "Pampa de Nazca desde la avioneta"
     },
     {
      "src": "pixabay",
      "id": 4920693,
-     "alt": "nasca, lines, earth, peru, holiday, hummingbird, shape"
+     "alt": "Líneas sobre el desierto de Nazca"
     }
    ],
    "trip": {
@@ -5345,34 +4846,8 @@
   },
   {
    "ref": "NAZ-03",
-   "status": "published",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 1177626,
-     "alt": "nasca, scribblings, condor, nasca plateau, peru, maria rich, condor, condor, condor, condor, condor"
-    },
-    {
-     "src": "pixabay",
-     "id": 43223,
-     "alt": "nazca level, nazca, nature, flying, plane, airport, landing site, desert"
-    },
-    {
-     "src": "pixabay",
-     "id": 4920693,
-     "alt": "nasca, lines, earth, peru, holiday, hummingbird, shape"
-    },
-    {
-     "src": "pixabay",
-     "id": 1177687,
-     "alt": "peru, scribblings, spider, nasca lines, nasca plateau, peru, peru, peru, peru, peru, nasca lines"
-    },
-    {
-     "src": "pixabay",
-     "id": 43228,
-     "alt": "nasca, nasca lines, peru, parrot, inka, nasca lines, nasca lines, nasca lines, nasca lines, nasca lines"
-    }
-   ],
+   "status": "draft",
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -5480,27 +4955,22 @@
     {
      "src": "pixabay",
      "id": 1587120,
-     "alt": "peru, huacachina, sandboarding, huacachina oasis, nature, desert"
+     "alt": "Oasis de Huacachina al atardecer"
     },
     {
      "src": "pixabay",
      "id": 1984755,
-     "alt": "ica, desert, peru, lake, oasis, nature, sand"
+     "alt": "Laguna de Huacachina entre dunas"
     },
     {
      "src": "pixabay",
-     "id": 1631145,
-     "alt": "oasis, peru, huacachina, desert, nature, sand, pond"
+     "id": 1586781,
+     "alt": "Buggy sobre las dunas de Ica"
     },
     {
      "src": "pixabay",
-     "id": 2675152,
-     "alt": "peru, nature, huacachina, lime, peru, huacachina, huacachina, huacachina, huacachina, huacachina"
-    },
-    {
-     "src": "pixabay",
-     "id": 4173731,
-     "alt": "huacachina, oasis, peru, desert, nature, sand, sand dunes, dry, landscape, hot, ica, sunset, eve, backlighting, to travel, sand dune"
+     "id": 4512001,
+     "alt": "Dunas del desierto de Ica"
     }
    ],
    "trip": {
@@ -5607,33 +5077,7 @@
   {
    "ref": "NAZ-05",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 1631145,
-     "alt": "oasis, peru, huacachina, desert, nature, sand, pond"
-    },
-    {
-     "src": "pixabay",
-     "id": 2675152,
-     "alt": "peru, nature, huacachina, lime, peru, huacachina, huacachina, huacachina, huacachina, huacachina"
-    },
-    {
-     "src": "pixabay",
-     "id": 4173731,
-     "alt": "huacachina, oasis, peru, desert, nature, sand, sand dunes, dry, landscape, hot, ica, sunset, eve, backlighting, to travel, sand dune"
-    },
-    {
-     "src": "pixabay",
-     "id": 1586781,
-     "alt": "peru, huacachina, sandboard, dunes, nature, sand, desert"
-    },
-    {
-     "src": "pixabay",
-     "id": 4018339,
-     "alt": "huacachina, nature, peru, sand, dunes, sunset, south america, sand boarding, black sunset, black sand, black board"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -5736,32 +5180,12 @@
   },
   {
    "ref": "CHH-01",
-   "status": "draft",
+   "status": "published",
    "photos": [
     {
      "src": "pixabay",
      "id": 301717,
-     "alt": "building, ancient, peru, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 5000656,
-     "alt": "gocta, amazon, peru, latin, rainforest, amazonia, jungle, wildlife, natural, south, andes, tropical, landscape, nature, gray landscape, gray amazon, g"
-    },
-    {
-     "src": "pixabay",
-     "id": 8090219,
-     "alt": "church, chapel, building, house, facade, architecture, peru, chachapoyas"
-    },
-    {
-     "src": "pixabay",
-     "id": 4046491,
-     "alt": "jungle, palms, aguaje, amazon, palm tree, plant, green, landscape, tree, tropical, tropic, exotic, nature, flora, sheets, paradise, vegetation, laguna"
-    },
-    {
-     "src": "pixabay",
-     "id": 1841419,
-     "alt": "river, guaporé, amazon, nature, boat, jungle, forest, amazon, amazon, amazon, amazon, amazon"
+     "alt": "Vivienda circular reconstruida en Kuélap"
     }
    ],
    "trip": {
@@ -5867,33 +5291,7 @@
   {
    "ref": "CHH-02",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 301717,
-     "alt": "building, ancient, peru, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 5000656,
-     "alt": "gocta, amazon, peru, latin, rainforest, amazonia, jungle, wildlife, natural, south, andes, tropical, landscape, nature, gray landscape, gray amazon, g"
-    },
-    {
-     "src": "pixabay",
-     "id": 8090219,
-     "alt": "church, chapel, building, house, facade, architecture, peru, chachapoyas"
-    },
-    {
-     "src": "pixabay",
-     "id": 4046491,
-     "alt": "jungle, palms, aguaje, amazon, palm tree, plant, green, landscape, tree, tropical, tropic, exotic, nature, flora, sheets, paradise, vegetation, laguna"
-    },
-    {
-     "src": "pixabay",
-     "id": 1841419,
-     "alt": "river, guaporé, amazon, nature, boat, jungle, forest, amazon, amazon, amazon, amazon, amazon"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -5998,33 +5396,7 @@
   {
    "ref": "CHH-03",
    "status": "draft",
-   "photos": [
-    {
-     "src": "pixabay",
-     "id": 8090219,
-     "alt": "church, chapel, building, house, facade, architecture, peru, chachapoyas"
-    },
-    {
-     "src": "pixabay",
-     "id": 301717,
-     "alt": "building, ancient, peru, peru, peru, peru, peru, peru"
-    },
-    {
-     "src": "pixabay",
-     "id": 4046491,
-     "alt": "jungle, palms, aguaje, amazon, palm tree, plant, green, landscape, tree, tropical, tropic, exotic, nature, flora, sheets, paradise, vegetation, laguna"
-    },
-    {
-     "src": "pixabay",
-     "id": 1841419,
-     "alt": "river, guaporé, amazon, nature, boat, jungle, forest, amazon, amazon, amazon, amazon, amazon"
-    },
-    {
-     "src": "pixabay",
-     "id": 4837213,
-     "alt": "puerto maldonado, peru, bridge interoceanico, puerto maldonado, puerto maldonado, puerto maldonado, puerto maldonado, puerto maldonado"
-    }
-   ],
+   "photos": [],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
