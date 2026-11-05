@@ -8,6 +8,7 @@ import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-sum
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { sendEmail } from '@/notifications/resend';
 import { isBookingsEnabled } from '@/booking/lib/flags';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,6 +33,8 @@ export async function GET(request: Request) {
         siteUrl: process.env.SITE_URL ?? '',
         getTour: (id: number, l: 'es' | 'en') => getTourSummary(prisma, id, l),
         getMoreTours: (id: number, l: 'es' | 'en', site: string) => getMoreTours(prisma, id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+        // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
+        freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
         contact: contactFromEnv(process.env as Record<string, string | undefined>),
         send: (email: { to: string; subject: string; html: string; text: string }) =>
             sendEmail({ apiKey: process.env.RESEND_API_KEY ?? '', fetch }, { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }),

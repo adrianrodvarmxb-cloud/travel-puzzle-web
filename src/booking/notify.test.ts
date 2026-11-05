@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { sendBookingConfirmation, sendStatusEmail } from "./notify";
+import { sendBookingConfirmation, sendStatusEmail, sendReviewRequest } from "./notify";
 
 const record = {
   refNumber: "6782-1-244", tourExternalId: 6782, eventId: 1, adults: 2, children: 0, price: 0,
@@ -73,5 +73,50 @@ describe("invitación de calendario", () => {
     const send = vi.fn(async (_e: { attachments?: { filename: string; content: string }[] }) => "id");
     await sendStatusEmail("canceled", withUtc, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send, calendar: { organizerEmail: "reservas@travelpuzzle.com.mx" } });
     expect(atob(send.mock.calls[0][0].attachments![0].content)).toContain("METHOD:CANCEL");
+  });
+});
+
+describe("REQ-081 correo post-tour sin FREETOUR", () => {
+  const more = [
+    { title: "Free tour Coyoacán", url: "https://x/tours/a", imageUrl: "https://x/a.jpg", source: "freetour" as const },
+    { title: "Traslado al aeropuerto", url: "https://x/traslados", imageUrl: "https://x/b.jpg", source: "affiliate" as const },
+  ];
+  it("REQ-081: con FREETOUR_POSTTOUR_PROMO_ENABLED apagada, el correo post-tour no ofrece tours de FREETOUR", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+    await sendReviewRequest(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send });
+    const { html, text } = send.mock.calls[0][0];
+    expect(html).not.toContain("Free tour Coyoacán");
+    expect(text).not.toContain("Free tour Coyoacán");
+    expect(text).toContain("Traslado al aeropuerto");
+  });
+  it("REQ-081: solo con la bandera encendida (autorización escrita) se ofrecen", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+    await sendReviewRequest(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send, freetourPostTourPromo: true });
+    expect(send.mock.calls[0][0].text).toContain("Free tour Coyoacán");
+  });
+  // Gate del PO (5 nov 2026): «Más planes» de la confirmación y de los cambios de estado tampoco ofrecen FREETOUR.
+  it("REQ-081: la confirmación y los recordatorios no ofrecen tours de FREETOUR en «Más planes»", async () => {
+    for (const variant of [undefined, "reminder48", "dayOf"] as const) {
+      const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+      await sendBookingConfirmation(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send }, { variant });
+      const { html, text } = send.mock.calls[0][0];
+      expect(html).not.toContain("Free tour Coyoacán");
+      expect(text).not.toContain("Free tour Coyoacán");
+      expect(text).toContain("Traslado al aeropuerto");
+    }
+  });
+  it("REQ-081: los correos de rechazo, cancelación y cambio no ofrecen tours de FREETOUR", async () => {
+    for (const kind of ["rejected", "canceled", "modified"] as const) {
+      const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+      await sendStatusEmail(kind, record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send });
+      const { html, text } = send.mock.calls[0][0];
+      expect(html, kind).not.toContain("Free tour Coyoacán");
+      expect(text, kind).not.toContain("Free tour Coyoacán");
+    }
+  });
+  it("REQ-081: con la bandera encendida la confirmación vuelve a mostrarlos", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+    await sendBookingConfirmation(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send, freetourPostTourPromo: true });
+    expect(send.mock.calls[0][0].text).toContain("Free tour Coyoacán");
   });
 });

@@ -151,10 +151,17 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
 
-## Ola 1 «La Primera Pieza» — blindaje del sync (5 nov 2026)
-Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy queda idéntico. Migración 0014 en PR aparte (sin aplicar).
+## Ola 2 (La Primera Pieza): comunicación en Modo 2 con FREETOUR (5 nov 2026)
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-079 | Correos de Modo 2: confirmación con 9 datos, recordatorio, cancelación y rechazo | `src/notifications/lib/booking-email.ts`, `status-emails.ts`, `src/booking/rejection.ts` | `booking-email.test.ts`, `status-emails.test.ts`, `rejection.test.ts` | CUMPLIDO |
+| REQ-080 | Release: FREETOUR no manda correos propios | `src/freetour/lib/release-email-check.ts`, `src/scripts/release-check-freetour.ts`, `docs/runbook/release-freetour-sin-correos.md` | `release-email-check.test.ts` | EN CURSO: la herramienta y la checklist están listas; falta la primera corrida con reserva de prueba (requiere OK del PO) |
+| REQ-081 | Post-tour y chatbot sin FREETOUR (`FREETOUR_POSTTOUR_PROMO_ENABLED` y `FREETOUR_CHATBOT_ENABLED` en `false`) | `src/freetour/lib/promo-policy.ts`, `src/booking/notify.ts` («Más planes» de todos los correos, gate en `docs/gates-comunicacion-freetour-2026-11.md`), rutas de reserva, rechazo, cancelar, modificar y cron | `promo-policy.test.ts`, `notify.test.ts` | CUMPLIDO |
+| REQ-082 | Sin premios por FREETOUR | `src/freetour/lib/rewards-guard.ts` (guarda lista; hoy no hay código de Rewards) | `rewards-guard.test.ts` | CUMPLIDO |
+| REQ-083 | Mensajes al proveedor sin enlaces y ≤ 5000; contacto adulto | `src/booking/lib/provider-message.ts`, `src/booking/lib/adult-contact.ts`, `service.ts`, formulario de reserva | `provider-message.test.ts`, `adult-contact.test.ts`, `service.test.ts` | EN CURSO: falta encender `ADULT_CONTACT_CHECK_ENABLED` con OK del PO; hoy no se envían mensajes al proveedor |
+| REQ-084 | Casilla de marketing LFPDPPP; política de cookies; aviso de privacidad | `src/legal/lib/marketing-consent.ts`, `MarketingConsentCheckbox.tsx`, `src/legal/lib/cookies.ts`, `/cookies`, `docs/legal/borrador-aviso-privacidad-2026-11.md` | `marketing-consent.test.ts`, `cookies.test.ts` | EN CURSO: textos pendientes de revisión del PO y de un abogado; para guardar el consentimiento hace falta una migración |
+## Ola 1 «La Primera Pieza» — blindaje del sync (5 nov 2026)
+Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy queda idéntico. Migración 0014 en PR aparte (sin aplicar).
 | REQ-071 | Barrera de cordura (vacío, error, > 20 % menos) sin tocar Tour | `src/catalog/lib/sanity.ts`, `src/catalog/guarded-sync.ts`, `migrations/0014_sync_presencia.sql` | `sanity.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
 | REQ-072 | Respaldo, publicación al cierre (pasos de 100) y checkpoint solo si termina bien | `src/catalog/lib/sql.ts` (`publishBatch`), `src/catalog/lib/guard-plan.ts`, `src/catalog/guarded-repository.ts` | `sql.test.ts`, `guard-plan.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
 | REQ-073 | content_hash sin calificación; doble corrida = 0 escrituras | `src/catalog/lib/content-hash.ts`, `src/catalog/lib/sql.ts` | `content-hash.test.ts`, `sql.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
@@ -163,7 +170,6 @@ Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy
 | REQ-076 | Precio y lugares en vivo antes de reservar | — | — | PENDIENTE (fuera de la Ola 1 de código) |
 | REQ-077 | 429/Retry-After, login sin bucle, error 63 ≥ 10 min | `src/catalog/lib/retry.ts`, `src/freetour/api.ts` | `retry.test.ts`, `api.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta conectar el error 63 a un cron de estado de pago) |
 | REQ-078 | Log por corrida y alerta de 26 h | `src/catalog/lib/guard-plan.ts` (`syncHealth`), `SyncRun`, `api/cron/sync-tours/route.ts` | `guard-plan.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta canal de aviso al PO y el registro de reservas de prueba) |
-
 Notas:
 - REQ-075: `updatedSince` existe solo en `/events`; `/tours` se sigue recorriendo completo (así se detectan ausentes y se aplica la barrera del 20 %). Usar `/events?updatedSince` para las salidas no cabe sin cambiar el sync de salidas (REQ-049) y su ritmo; queda pendiente para una ola propia. `utcDate` tampoco se tocó.
 - REQ-076: hoy la ficha y la reserva ya consultan `/tours/{id}/events` en vivo (no caché). `GET /events/{id}` es de la API v2.2 (bandera `FREETOUR_API_VERSION`, apagada).

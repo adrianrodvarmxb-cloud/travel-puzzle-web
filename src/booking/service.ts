@@ -1,4 +1,5 @@
 import { normalizePhone } from "./lib/phone";
+import { checkAdultContact } from "./lib/adult-contact";
 import { checkEvent } from "./lib/event-check";
 import { buildBookingRecord, tourIdFromRef, type BookingRecord } from "./lib/booking-record";
 import type { EventInfo } from "./lib/event-info";
@@ -12,7 +13,8 @@ export type BookingRejectionCode =
   | "phone_required"
   | "no_availability"
   | "already_booked"
-  | "provider_error";
+  | "provider_error"
+  | "adult_required";
 
 /** Error que se le puede mostrar al cliente (sin detalles internos). */
 export class BookingRejected extends Error {
@@ -30,6 +32,8 @@ export interface BookingRequest {
   customer: Customer;
   /** Token del intento (lo crea el formulario) para no duplicar la reserva. */
   idempotencyKey?: string;
+  /** REQ-083: el contacto declaró ser adulto (casilla). No se envía a FREETOUR. */
+  contactIsAdult?: boolean;
 }
 
 interface Deps {
@@ -40,11 +44,19 @@ interface Deps {
   enabled: boolean;
   /** ¿Ya hay una reserva activa de este correo en este horario? */
   hasActiveBooking?(eventId: number, email: string): Promise<boolean>;
+  /** REQ-083: interruptor ADULT_CONTACT_CHECK_ENABLED. */
+  adultContactRequired?: boolean;
 }
 
 /** Reserva un free tour en Freetour a través de la pasarela. */
-export async function placeBooking(req: BookingRequest, { gateway, getEvent, enabled, hasActiveBooking }: Deps): Promise<{ booking: Booking; price: number }> {
+export async function placeBooking(input: BookingRequest, { gateway, getEvent, enabled, hasActiveBooking, adultContactRequired = false }: Deps): Promise<{ booking: Booking; price: number }> {
   if (!enabled) throw new BookingRejected("bookings_disabled", "Las reservas en línea abren muy pronto.");
+
+  // REQ-083: el contacto debe declararse adulto; la declaración se queda en Travel Puzzle (G2).
+  const { contactIsAdult, ...req } = input;
+  if (!checkAdultContact(contactIsAdult, adultContactRequired).ok) {
+    throw new BookingRejected("adult_required", "La persona de contacto de la reserva debe ser mayor de edad.");
+  }
 
   const phone = normalizePhone(req.customer.phone);
   if (phone === null) throw new BookingRejected("invalid_phone", "Revisa el teléfono (incluye la lada, por ejemplo +52 55 1234 5678).");
