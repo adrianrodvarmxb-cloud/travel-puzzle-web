@@ -31,6 +31,7 @@ model User {
 model Country {
   id           Int    @id
   code         String @unique
+  iso2         String? @unique // REQ-085: ISO 3166-1 alfa-2 en mayúsculas (migración 0015)
   translations Json? // Store translations as JSON: { "en": "Hungary", "es": "Hungría", ... }
   cities       City[]
   tours        Tour[]
@@ -43,14 +44,26 @@ model City {
   country      Country @relation(fields: [countryId], references: [id])
   translations Json? // Store translations as JSON: { "en": "Paris", "es": "París", ... }
   tours        Tour[]
+  // Ola 3 (migración 0015)
+  geonameid      Int? // REQ-085: id de GeoNames (cruce automático + revisión, gate 3)
+  slug           String? // REQ-086/087: único dentro del país; homónimas con código de estado
+  stateCode      String? // REQ-087: código de estado para homónimas (BCS)
+  guide          String? // guía propia de la ciudad (≥ 300 palabras, REQ-089)
+  guideUpdatedAt DateTime?
+  indexableSince DateTime? // REQ-090: desde cuándo es indexable (null = noindex)
+  failingSince   DateTime? // REQ-090: primer día sin cumplir la regla; al día 14 pasa a noindex
 
+  @@unique([countryId, slug])
   @@index([countryId])
+  @@index([geonameid])
 }
 
 // Tour Model (Refactored for FreeTour API)
 model Tour {
   id            String            @id @default(cuid())
   externalId    Int               @unique
+  providerId    String            @default("freetour") // REQ-085: llave natural (providerId, externalId)
+  slug          String?           @unique // REQ-086: se guarda una vez; un trigger impide cambiarlo
   providerTitle String
   providerPhone String?
   priceValue    Decimal
@@ -93,6 +106,7 @@ model Tour {
   @@index([isActive, cityId])
   @@index([isActive, rating])
   @@index([isActive, departuresCheckedAt])
+  @@unique([providerId, externalId])
 }
 
 model TourTranslation {
