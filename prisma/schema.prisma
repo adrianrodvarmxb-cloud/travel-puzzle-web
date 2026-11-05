@@ -79,10 +79,11 @@ model Tour {
   departureDates      Json      @default("[]")
   departuresSyncedAt  DateTime?
   departuresCheckedAt DateTime?
-  // Ola 1 (migración 0014, REQ-073/074): hash del contenido sin calificación y presencia en el feed
-  contentHash   String?
-  syncStatus    String            @default("active") // active | missing | removed
-  missingRuns   Int               @default(0)
+  // Ola 1 (migración 0014, REQ-073/074): la base agrega "contentHash" TEXT, "syncStatus" TEXT ('active')
+  // y "missingRuns" INTEGER (0). NO se declaran aquí a propósito: Prisma lee todas las columnas del
+  // modelo en /tours y en la ficha, y si el código se publica antes de aplicar la 0014 la página
+  // falla con «no such column» (prueba de humo del PR #104, 5 nov 2026). Solo el sync blindado las
+  // usa, con SQL directo. Se declaran aquí cuando el render las necesite (Ola 4), con la 0014 ya aplicada.
   updatedAt     DateTime          @updatedAt
   createdAt     DateTime          @default(now())
 
@@ -97,7 +98,6 @@ model Tour {
   @@index([isActive, cityId])
   @@index([isActive, rating])
   @@index([isActive, departuresCheckedAt])
-  @@index([syncStatus])
 }
 
 model TourTranslation {
