@@ -1,0 +1,5501 @@
+{
+ "agency": {
+  "id": "ag-iwp",
+  "name": "Inca World Peru",
+  "initials": "IWP",
+  "notes": "Reservas CPM S.A.C. · RUC 20524295106 · Operador de turismo MINCETUR. Contacto operativo por confirmar (correo de César, nov 2026)."
+ },
+ "keyStamp": 1762300000,
+ "seqStart": 1,
+ "trips": [
+  {
+   "ref": "LIM-01",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3416862,
+     "alt": "Plaza Mayor y Catedral de Lima"
+    },
+    {
+     "src": "pixabay",
+     "id": 1191767,
+     "alt": "Plaza Mayor de Lima con sus palmeras"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "City Tour Virreinal de Lima",
+    "summaryEs": "Medio día por el Centro Histórico de Lima: Plaza Mayor, Catedral y el convento de San Francisco.",
+    "highlights": [
+     "Plaza Mayor, Catedral y Palacio de Gobierno",
+     "Convento de San Francisco y sus catacumbas",
+     "Barrios históricos de la Ciudad de los Reyes",
+     "Guía profesional en español o inglés"
+    ],
+    "descriptionEs": "Recorre el corazón virreinal y republicano de Lima, la antigua Ciudad de los Reyes. Visitarás la Plaza Mayor, rodeada por la Catedral y el Palacio de Gobierno, el convento de San Francisco y los balcones y casonas de los barrios históricos, con un guía que te cuenta cómo se formó la capital del virreinato del Perú.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 65,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p2",
+      "name": "Privado · 2 viajeros",
+      "mode": "private",
+      "adult": 144,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p34",
+      "name": "Privado · 3 a 4 viajeros",
+      "mode": "private",
+      "adult": 127,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p58",
+      "name": "Privado · 5 a 8 viajeros",
+      "mode": "private",
+      "adult": 107,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-02",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4713823,
+     "alt": "Bajada de los Baños en Barranco"
+    },
+    {
+     "src": "pixabay",
+     "id": 4136017,
+     "alt": "Malecón de Miraflores frente al Pacífico"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "gastronomico",
+    "titleEs": "Tour Gastronómico en Lima",
+    "summaryEs": "Medio día de sabores peruanos con degustaciones guiadas en Lima, capital gastronómica de Latinoamérica.",
+    "highlights": [
+     "Degustaciones de cocina peruana",
+     "Ingredientes y tradiciones explicadas por un guía",
+     "Lima, referente gastronómico de Latinoamérica"
+    ],
+    "descriptionEs": "Descubre por qué Lima es uno de los grandes destinos gastronómicos del continente. Con un guía recorrerás sabores, ingredientes y tradiciones de la cocina peruana a través de degustaciones seleccionadas.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 137,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p2",
+      "name": "Privado · 2 viajeros",
+      "mode": "private",
+      "adult": 182,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p34",
+      "name": "Privado · 3 a 4 viajeros",
+      "mode": "private",
+      "adult": 150,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p58",
+      "name": "Privado · 5 a 8 viajeros",
+      "mode": "private",
+      "adult": 144,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía o acompañante",
+     "Degustaciones indicadas en el programa"
+    ],
+    "excludes": [
+     "Consumos adicionales",
+     "Bebidas no incluidas",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-03",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1626350,
+     "alt": "Pirámides de la Ciudad Sagrada de Caral"
+    },
+    {
+     "src": "pixabay",
+     "id": 1626352,
+     "alt": "Muros de piedra de Caral en el valle de Supe"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Excursión a la Ciudad Sagrada de Caral",
+    "summaryEs": "Día completo a Caral, una de las ciudades más antiguas de América, al norte de Lima.",
+    "highlights": [
+     "Caral, Patrimonio de la Humanidad",
+     "Pirámides, plazas circulares y templos ceremoniales",
+     "Una civilización de casi 5,000 años",
+     "Transporte y guía desde Lima"
+    ],
+    "descriptionEs": "Viaja al valle de Supe para conocer Caral, uno de los centros urbanos más antiguos del continente americano. Recorrerás sus complejos monumentales, plazas y estructuras ceremoniales con un guía profesional.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima",
+     "Supe"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 163,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p2",
+      "name": "Privado · 2 viajeros",
+      "mode": "private",
+      "adult": 434,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p34",
+      "name": "Privado · 3 a 4 viajeros",
+      "mode": "private",
+      "adult": 375,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p58",
+      "name": "Privado · 5 a 8 viajeros",
+      "mode": "private",
+      "adult": 275,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional",
+     "Visita a Caral"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-04",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Circuito Mágico del Agua de noche",
+    "summaryEs": "Visita nocturna al parque de fuentes iluminadas más famoso de Lima.",
+    "highlights": [
+     "Fuentes con agua, luz y efectos visuales",
+     "Recorrido nocturno de unas 3 horas",
+     "Ideal para cerrar un día cultural"
+    ],
+    "descriptionEs": "Al caer la noche, recorre el Circuito Mágico del Agua, un parque con fuentes ornamentales que combinan agua, iluminación y efectos visuales. Un plan ligero para complementar las actividades culturales del día.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 59,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p2",
+      "name": "Privado · 2 viajeros",
+      "mode": "private",
+      "adult": 119,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p34",
+      "name": "Privado · 3 a 4 viajeros",
+      "mode": "private",
+      "adult": 85,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p58",
+      "name": "Privado · 5 a 8 viajeros",
+      "mode": "private",
+      "adult": 82,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Asistencia o guía según la opción elegida"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-05",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Santuario Arqueológico de Pachacámac",
+    "summaryEs": "Medio día al gran santuario prehispánico de la costa central del Perú.",
+    "highlights": [
+     "Templos y pirámides de adobe",
+     "Centro religioso de la costa central",
+     "Guía profesional y entrada al complejo"
+    ],
+    "descriptionEs": "Visita Pachacámac, uno de los centros religiosos más importantes del antiguo Perú. Recorrerás sus principales sectores y entenderás su importancia política y religiosa con un guía profesional.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 59,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p2",
+      "name": "Privado · 2 viajeros",
+      "mode": "private",
+      "adult": 112,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p34",
+      "name": "Privado · 3 a 4 viajeros",
+      "mode": "private",
+      "adult": 88,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p58",
+      "name": "Privado · 5 a 8 viajeros",
+      "mode": "private",
+      "adult": 72,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional",
+     "Visita al complejo"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-06",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 6627197,
+     "alt": "Islote con lobos marinos frente a la costa"
+    },
+    {
+     "src": "pixabay",
+     "id": 1179489,
+     "alt": "Colonia de lobos marinos en el mar"
+    },
+    {
+     "src": "pixabay",
+     "id": 6655963,
+     "alt": "Lobo marino nadando"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Nado con lobos marinos en el Callao",
+    "summaryEs": "Navega frente al Callao hasta las colonias de lobos marinos y entra al mar a observarlos.",
+    "highlights": [
+     "Navegación frente a las costas del Callao",
+     "Nado opcional junto a lobos marinos",
+     "Equipo incluido según el operador"
+    ],
+    "descriptionEs": "Sal en embarcación desde el Callao hacia las colonias de lobos marinos. Si las condiciones lo permiten, podrás entrar al agua con el equipo provisto para observarlos en su entorno natural.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nActividad sujeta a condiciones del mar, climáticas y operativas.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Callao"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 99,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Muelle de La Punta, Callao",
+      "address": "",
+      "lat": -12.0722,
+      "lng": -77.1636,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "includes": [
+     "Navegación",
+     "Equipo según el operador"
+    ],
+    "excludes": [
+     "Traslado hotel–embarque",
+     "Alimentación",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-07",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Espectáculo del Caballo Peruano de Paso",
+    "summaryEs": "Experiencia cultural con el caballo peruano de paso y sus chalanes, tradición ecuestre del Perú.",
+    "highlights": [
+     "Exhibición del paso lateral característico",
+     "Chalanes y tradición ecuestre peruana",
+     "Opción regular o privada"
+    ],
+    "descriptionEs": "Conoce el Caballo Peruano de Paso, reconocido en el mundo por su andar lateral, y la maestría de los chalanes que lo montan, en un espectáculo dedicado a la tradición ecuestre más representativa del Perú.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 137,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 213,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Espectáculo",
+     "Servicios indicados en la opción elegida"
+    ],
+    "excludes": [
+     "Servicios no indicados",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "LIM-08",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2392181,
+     "alt": "El Candelabro de Paracas visto desde el mar"
+    },
+    {
+     "src": "pixabay",
+     "id": 3664085,
+     "alt": "Arco de roca en las Islas Ballestas"
+    },
+    {
+     "src": "pixabay",
+     "id": 4354160,
+     "alt": "Lobo marino en las Islas Ballestas"
+    },
+    {
+     "src": "pixabay",
+     "id": 7491690,
+     "alt": "Gaviotín zarcillo, ave de la costa peruana"
+    },
+    {
+     "src": "pixabay",
+     "id": 3642904,
+     "alt": "Acantilados de la Reserva Nacional de Paracas"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Paracas e Islas Ballestas desde Lima",
+    "summaryEs": "Día completo desde Lima para navegar a las Islas Ballestas y ver El Candelabro y la fauna marina.",
+    "highlights": [
+     "Navegación a las Islas Ballestas",
+     "El geoglifo de El Candelabro",
+     "Fauna marina de la reserva",
+     "Tiempo libre en Paracas"
+    ],
+    "descriptionEs": "Sal muy temprano de Lima rumbo a Paracas. Navegarás hacia las Islas Ballestas para observar El Candelabro y la fauna marina, y tendrás tiempo libre en Paracas antes del regreso a Lima.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nExcursión marítima sujeta a condiciones del mar.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima",
+     "Paracas"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 85,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 775,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Miraflores, San Isidro, Barranco o Centro de Lima",
+      "address": "",
+      "lat": -12.1211,
+      "lng": -77.0297,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte Lima–Paracas–Lima",
+     "Excursión a las Islas Ballestas"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-01",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3418555,
+     "alt": "Iglesia de la Compañía en la Plaza de Armas de Cusco"
+    },
+    {
+     "src": "pixabay",
+     "id": 336179,
+     "alt": "Muros megalíticos de Sacsayhuamán"
+    },
+    {
+     "src": "pixabay",
+     "id": 4203814,
+     "alt": "Catedral de Cusco"
+    },
+    {
+     "src": "pixabay",
+     "id": 2608832,
+     "alt": "Calle con muro inca en Cusco"
+    },
+    {
+     "src": "pixabay",
+     "id": 225157,
+     "alt": "Explanada de Sacsayhuamán"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "City Tour Cusco: Qoricancha y Sacsayhuamán",
+    "summaryEs": "Centro histórico de Cusco, Qoricancha, Sacsayhuamán y Puca Pucará con guía.",
+    "highlights": [
+     "Qoricancha, el templo del Sol",
+     "Muros megalíticos de Sacsayhuamán",
+     "Puca Pucará y el centro histórico",
+     "Guía profesional"
+    ],
+    "descriptionEs": "Recorre la antigua capital del Tahuantinsuyo: el centro histórico, el Qoricancha y los sitios arqueológicos que rodean la ciudad, como Sacsayhuamán y Puca Pucará, con un guía que te explica la historia inca y colonial de Cusco.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 16,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 250,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Boleto turístico y entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-02",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 609473,
+     "alt": "Andenes circulares de Moray desde lo alto"
+    },
+    {
+     "src": "pixabay",
+     "id": 3965176,
+     "alt": "Pozas de sal de Maras"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Maras y Moray en bicicleta",
+    "summaryEs": "Día de ciclismo por los paisajes del Valle Sagrado entre los andenes de Moray y las salineras de Maras.",
+    "highlights": [
+     "Ruta en bicicleta por el altiplano",
+     "Andenes circulares de Moray",
+     "Salineras de Maras",
+     "Bicicleta y equipo incluidos"
+    ],
+    "descriptionEs": "Pedalea por los caminos rurales del Valle Sagrado hasta los andenes circulares de Moray y las salineras de Maras, con paisajes de nevados y campos de cultivo.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Maras"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 124,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Bicicleta y equipo",
+     "Guía"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-03",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2615125,
+     "alt": "Terrazas circulares de Moray"
+    },
+    {
+     "src": "pixabay",
+     "id": 1260231,
+     "alt": "Andenes de Moray entre campos del altiplano"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Maras y Moray en cuatrimoto",
+    "summaryEs": "Medio día de aventura en cuatrimoto por el entorno del Valle Sagrado.",
+    "highlights": [
+     "Conducción en cuatrimoto por caminos rurales",
+     "Vistas de Moray y Maras",
+     "Equipo de seguridad"
+    ],
+    "descriptionEs": "Recorre en cuatrimoto los caminos del altiplano entre Moray y Maras, con vistas al Valle Sagrado y los nevados de la cordillera.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Maras"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 46,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Cuatrimoto y equipo de seguridad",
+     "Guía"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-04",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Rafting en el río Urubamba",
+    "summaryEs": "Medio día de rafting en el sector de Chuquicahuana del río Urubamba.",
+    "highlights": [
+     "Rápidos del río Urubamba",
+     "Equipo completo y guías de río",
+     "Salida regular desde Cusco"
+    ],
+    "descriptionEs": "Vive la adrenalina del río Urubamba en el sector de Chuquicahuana, con equipo completo y guías especializados.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nActividad sujeta al nivel del río y a condiciones de seguridad.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 117,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Equipo de rafting",
+     "Guías de río"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-07",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3416867,
+     "alt": "Andenes circulares de Moray"
+    },
+    {
+     "src": "pixabay",
+     "id": 1633921,
+     "alt": "Salineras de Maras en la ladera"
+    },
+    {
+     "src": "pixabay",
+     "id": 3965176,
+     "alt": "Pozas de sal blanca de Maras"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Tour Maras y Moray",
+    "summaryEs": "Medio día a los andenes circulares de Moray y las salineras tradicionales de Maras.",
+    "highlights": [
+     "Andenes circulares de Moray",
+     "Salineras de Maras en uso desde tiempos incas",
+     "Paisajes del Valle Sagrado"
+    ],
+    "descriptionEs": "Visita Moray, el laboratorio agrícola de los incas con sus andenes concéntricos, y las salineras de Maras, miles de pozas de sal que se siguen trabajando de forma tradicional.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Maras"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 20,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 263,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-08",
+   "status": "published",
+   "photos": [
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/terrazas_incas_vista_general.webp",
+     "alt": "Terrazas incas del Valle Sur"
+    },
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/fuente_inca_vista_frontal.webp",
+     "alt": "Fuente ceremonial inca"
+    },
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/terrazas_incas_y_montanas.webp",
+     "alt": "Terrazas incas y montañas del Valle Sur"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Valle Sur de Cusco",
+    "summaryEs": "Medio día por los sitios arqueológicos al sur de Cusco.",
+    "highlights": [
+     "Terrazas y canales de agua incas",
+     "Sitios arqueológicos del Valle Sur",
+     "Guía profesional"
+    ],
+    "descriptionEs": "Explora el Valle Sur de Cusco y sus sitios arqueológicos, con terrazas y fuentes que muestran la ingeniería hidráulica inca.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 40,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 225,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-09",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1823095,
+     "alt": "Depósitos incas de Pinkuylluna en Ollantaytambo"
+    },
+    {
+     "src": "pixabay",
+     "id": 3416866,
+     "alt": "Andenes de Pisac"
+    },
+    {
+     "src": "pixabay",
+     "id": 225148,
+     "alt": "Pueblo inca de Ollantaytambo"
+    },
+    {
+     "src": "pixabay",
+     "id": 3200500,
+     "alt": "Valle Sagrado del río Urubamba"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Valle Sagrado de los Incas: Pisac y Ollantaytambo",
+    "summaryEs": "Día completo por el Valle Sagrado con visita a Pisac y Ollantaytambo.",
+    "highlights": [
+     "Andenes y mercado de Pisac",
+     "Fortaleza de Ollantaytambo",
+     "Paisajes del río Urubamba",
+     "Guía profesional"
+    ],
+    "descriptionEs": "Recorre el Valle Sagrado de los Incas: los andenes y el pueblo de Pisac, el valle del río Urubamba y la fortaleza de Ollantaytambo, un pueblo inca que sigue habitado.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Pisac",
+     "Ollantaytambo"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 22,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 282,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte turístico",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Boleto turístico y entradas",
+     "Almuerzo (según programa)",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-10",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2184732,
+     "alt": "Franjas de colores de Vinicunca"
+    },
+    {
+     "src": "pixabay",
+     "id": 4862477,
+     "alt": "Vinicunca con nieve en la cumbre"
+    },
+    {
+     "src": "pixabay",
+     "id": 1089328,
+     "alt": "Cerros rojizos camino a la Montaña de Colores"
+    },
+    {
+     "src": "pixabay",
+     "id": 4563289,
+     "alt": "Valle Rojo junto a Vinicunca"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Montaña de 7 Colores Vinicunca",
+    "summaryEs": "Día completo de caminata a la Montaña de Colores, a más de 5,000 metros de altura.",
+    "highlights": [
+     "Caminata a la Montaña de 7 Colores",
+     "Paisajes altoandinos y nevados",
+     "Salida de madrugada desde Cusco",
+     "Nivel físico alto"
+    ],
+    "descriptionEs": "Sal de madrugada desde Cusco hacia Vinicunca, la Montaña de 7 Colores. Una caminata exigente en altura premiada con uno de los paisajes más fotografiados del Perú.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nActividad en altura: se recomiendan al menos 2 días de aclimatación en Cusco antes de realizarla. Sujeta a condiciones climáticas y de seguridad.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "Ropa abrigadora por capas, protector solar, agua y calzado de montaña.",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 52,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 327,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Entrada",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-11",
+   "status": "published",
+   "photos": [
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/iglesia_colonial_fachada.webp",
+     "alt": "Fachada de templo colonial del sur de Cusco"
+    },
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/iglesia_colonial_altar_principal.webp",
+     "alt": "Altar mayor barroco"
+    },
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/iglesia_colonial_organo_y_murales.webp",
+     "alt": "Órgano y pintura mural colonial"
+    },
+    {
+     "src": "inca",
+     "file": "04_Patrimonio_Cusco/iglesia_colonial_galeria_de_arte.webp",
+     "alt": "Lienzos de la escuela cusqueña"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Ruta del Barroco Andino",
+    "summaryEs": "Medio día privado por el patrimonio virreinal del sur de Cusco.",
+    "highlights": [
+     "Iglesias coloniales del sur de Cusco",
+     "Pintura mural y escuela cusqueña",
+     "Servicio privado con guía"
+    ],
+    "descriptionEs": "Descubre el arte virreinal del sur de Cusco en una ruta privada por templos coloniales decorados con pintura mural, retablos dorados y obras de la escuela cusqueña.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Andahuaylillas"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 270,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte privado",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-12",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 6481681,
+     "alt": "Montaña sobre el pueblo de Ollantaytambo"
+    },
+    {
+     "src": "pixabay",
+     "id": 85453,
+     "alt": "Andenes del Valle Sagrado"
+    },
+    {
+     "src": "pixabay",
+     "id": 3200519,
+     "alt": "Nevados sobre el Valle Sagrado"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Valle Sagrado y Museo Inkary privado",
+    "summaryEs": "Día completo privado por el Valle Sagrado con visita al Museo Inkary.",
+    "highlights": [
+     "Recorrido privado por el Valle Sagrado",
+     "Museo Inkary y las culturas del Perú",
+     "Ritmo a tu medida"
+    ],
+    "descriptionEs": "Una experiencia privada por el Valle Sagrado de los Incas que incluye el Museo Inkary, dedicado a las culturas del antiguo Perú.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Urubamba"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 294,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte privado",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-13",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Laguna Humantay",
+    "summaryEs": "Día completo de caminata a la laguna turquesa al pie del nevado Humantay.",
+    "highlights": [
+     "Laguna turquesa a 4,200 m",
+     "Vistas del nevado Humantay",
+     "Nivel físico alto"
+    ],
+    "descriptionEs": "Camina hasta la laguna Humantay, de aguas turquesa al pie del nevado del mismo nombre, en la ruta hacia el Salkantay.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nActividad en altura: se recomiendan al menos 2 días de aclimatación en Cusco antes de realizarla. Sujeta a condiciones climáticas y de seguridad.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "Ropa abrigadora por capas, protector solar, agua y calzado de montaña.",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Mollepata"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD. Privado para 1 o para 9 o más viajeros: cotización.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 46,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 357,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Entrada",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-14",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4437691,
+     "alt": "Laguna altoandina en la ruta del Ausangate"
+    },
+    {
+     "src": "pixabay",
+     "id": 4293958,
+     "alt": "Nevado Ausangate"
+    },
+    {
+     "src": "pixabay",
+     "id": 7100093,
+     "alt": "Cumbres nevadas de la cordillera de Vilcanota"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "7 Lagunas del Ausangate",
+    "summaryEs": "Día completo a la zona del nevado Ausangate y sus lagunas altoandinas.",
+    "highlights": [
+     "Siete lagunas de colores",
+     "Nevado Ausangate",
+     "Paisajes de pastoreo altoandino"
+    ],
+    "descriptionEs": "Excursión de día completo hacia el Ausangate, la montaña sagrada del sur de Cusco, para recorrer sus lagunas de distintos colores.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nActividad en altura: se recomiendan al menos 2 días de aclimatación en Cusco antes de realizarla. Sujeta a condiciones climáticas y de seguridad.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Servicio compartido",
+      "mode": "group",
+      "adult": 46,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Entrada",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-05",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Bungee en Action Valley, Cusco",
+    "summaryEs": "Actividad de alta adrenalina: salto de bungee en Action Valley, cerca de Cusco.",
+    "highlights": [
+     "Salto de bungee con instructores",
+     "Parque de aventura cerca de Cusco",
+     "Equipo de seguridad incluido"
+    ],
+    "descriptionEs": "Para los que buscan adrenalina: salto de bungee en Action Valley, un parque de aventura a las afueras de Cusco, con equipo y personal especializado.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nRestricciones de edad, peso y salud según el parque.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 129,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Actividad",
+     "Equipo de seguridad"
+    ],
+    "excludes": [
+     "Transporte no indicado",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CUS-06",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Slingshot en Action Valley, Cusco",
+    "summaryEs": "Actividad de alta adrenalina: lanzamiento vertical en slingshot en Action Valley, cerca de Cusco.",
+    "highlights": [
+     "Lanzamiento vertical en slingshot con instructores",
+     "Parque de aventura cerca de Cusco",
+     "Equipo de seguridad incluido"
+    ],
+    "descriptionEs": "Para los que buscan adrenalina: lanzamiento vertical en slingshot en Action Valley, un parque de aventura a las afueras de Cusco, con equipo y personal especializado.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nRestricciones de edad, peso y salud según el parque.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 129,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Actividad",
+     "Equipo de seguridad"
+    ],
+    "excludes": [
+     "Transporte no indicado",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "MP-01",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 5556322,
+     "alt": "Machu Picchu y el Huayna Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 1868536,
+     "alt": "Machu Picchu entre nubes"
+    },
+    {
+     "src": "pixabay",
+     "id": 2774925,
+     "alt": "Llama frente a la ciudadela de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 8162946,
+     "alt": "Terrazas agrícolas de Machu Picchu"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Machu Picchu Full Day desde Cusco",
+    "summaryEs": "Día completo a Machu Picchu desde Cusco con tren, bus, entrada y guía incluidos.",
+    "highlights": [
+     "Tren al pueblo de Aguas Calientes",
+     "Visita guiada a la ciudadela inca",
+     "Bus de subida y bajada",
+     "Boleto de entrada incluido"
+    ],
+    "descriptionEs": "Viaja en tren desde Cusco y el Valle Sagrado hasta Aguas Calientes, sube en bus a la ciudadela y recórrela con un guía profesional antes de regresar a Cusco el mismo día.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Aguas Calientes"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 546,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Tren de ida y vuelta",
+     "Bus de subida y bajada a Machu Picchu",
+     "Boleto de entrada a Machu Picchu",
+     "Guía profesional",
+     "Traslados indicados"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "MP-02",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1102720,
+     "alt": "Vista clásica de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 43394,
+     "alt": "Machu Picchu sobre el cañón del Urubamba"
+    },
+    {
+     "src": "pixabay",
+     "id": 1163479,
+     "alt": "Sector urbano de Machu Picchu"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Machu Picchu desde Ollantaytambo",
+    "summaryEs": "Visita a Machu Picchu saliendo desde Ollantaytambo, ideal si duermes en el Valle Sagrado.",
+    "highlights": [
+     "Tren desde Ollantaytambo",
+     "Visita guiada a Machu Picchu",
+     "Boleto de entrada incluido"
+    ],
+    "descriptionEs": "Si te hospedas en el Valle Sagrado, esta opción te lleva en tren desde Ollantaytambo hasta Aguas Calientes para visitar Machu Picchu con guía profesional.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Ollantaytambo",
+     "Aguas Calientes"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 642,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Tren de ida y vuelta",
+     "Bus de subida y bajada a Machu Picchu",
+     "Boleto de entrada a Machu Picchu",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "MP-03",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 143875,
+     "alt": "Ciudadela de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 43389,
+     "alt": "Machu Picchu al amanecer con neblina"
+    },
+    {
+     "src": "pixabay",
+     "id": 4578191,
+     "alt": "Camino inca en las montañas de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 3416866,
+     "alt": "Andenes de Pisac en el Valle Sagrado"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Valle Sagrado y Machu Picchu 2 días",
+    "summaryEs": "Dos días: Valle Sagrado, noche en Aguas Calientes y visita guiada a Machu Picchu.",
+    "highlights": [
+     "Día en el Valle Sagrado",
+     "Noche en Aguas Calientes",
+     "Visita guiada a Machu Picchu temprano",
+     "Tren y entrada incluidos"
+    ],
+    "descriptionEs": "Primer día por el Valle Sagrado y tren a Aguas Calientes, donde pasas la noche. Al día siguiente subes temprano a Machu Picchu para recorrerlo con guía.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Valle Sagrado",
+     "Aguas Calientes"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 786,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Tren de ida y vuelta",
+     "Bus de subida y bajada a Machu Picchu",
+     "Boleto de entrada a Machu Picchu",
+     "Guía profesional",
+     "1 noche de alojamiento en Aguas Calientes",
+     "Tour al Valle Sagrado"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PUN-02",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3416837,
+     "alt": "Casa de totora en las islas de los Uros"
+    },
+    {
+     "src": "pixabay",
+     "id": 2427709,
+     "alt": "Balsas de totora en el lago Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 3967417,
+     "alt": "Islas flotantes de los Uros"
+    },
+    {
+     "src": "pixabay",
+     "id": 43332,
+     "alt": "Escultura de totora en los Uros"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Islas Uros y Taquile en el Titicaca",
+    "summaryEs": "Día completo en el lago Titicaca: islas flotantes de los Uros y la isla de Taquile.",
+    "highlights": [
+     "Islas flotantes de totora de los Uros",
+     "Isla de Taquile y su tradición textil",
+     "Navegación por el lago navegable más alto del mundo",
+     "Entradas incluidas"
+    ],
+    "descriptionEs": "Navega por el lago Titicaca para conocer las islas flotantes de los Uros, construidas con totora, y la isla de Taquile, famosa por su arte textil.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nExcursión lacustre sujeta a condiciones climáticas y del lago.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 49,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Navegación",
+     "Guía",
+     "Entradas a las islas"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PUN-05",
+   "status": "draft",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1756106,
+     "alt": "Balsa de totora en los Uros"
+    },
+    {
+     "src": "pixabay",
+     "id": 43331,
+     "alt": "Figura de totora en una isla flotante"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Islas flotantes de los Uros medio día",
+    "summaryEs": "Medio día de navegación a las islas flotantes de los Uros.",
+    "highlights": [
+     "Islas construidas con totora",
+     "Vida de las familias uros",
+     "Navegación por el Titicaca"
+    ],
+    "descriptionEs": "Una visita corta al lago Titicaca para conocer cómo viven las familias uros en sus islas flotantes de totora.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 91,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Navegación",
+     "Entrada a las islas"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PUN-01",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4034500,
+     "alt": "Bahía del lago Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 952885,
+     "alt": "Atardecer en el lago Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 6399913,
+     "alt": "Totorales del lago Titicaca"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Kayak en el lago Titicaca",
+    "summaryEs": "Medio día remando en kayak por el lago Titicaca.",
+    "highlights": [
+     "Kayak en el lago Titicaca",
+     "Equipo y asistencia especializada",
+     "Vistas de la bahía de Puno"
+    ],
+    "descriptionEs": "Rema por las aguas del lago Titicaca con equipo y asistencia especializada.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 86,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Kayak y equipo",
+     "Asistencia especializada"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PUN-03",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3418546,
+     "alt": "Chullpas de Sillustani junto a la laguna Umayo"
+    },
+    {
+     "src": "pixabay",
+     "id": 6796345,
+     "alt": "Laguna Umayo en el altiplano"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Chullpas de Sillustani",
+    "summaryEs": "Medio día a las torres funerarias de Sillustani junto a la laguna Umayo.",
+    "highlights": [
+     "Chullpas, torres funerarias preincas",
+     "Laguna Umayo",
+     "Transporte y guía profesional"
+    ],
+    "descriptionEs": "Visita la necrópolis de Sillustani, con sus chullpas o torres funerarias levantadas por los collas y los incas a orillas de la laguna Umayo.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 32,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Entrada",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PUN-04",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4034492,
+     "alt": "Ciudad de Puno a orillas del Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 15957,
+     "alt": "Islas de totora en la bahía de Puno"
+    },
+    {
+     "src": "pixabay",
+     "id": 3669992,
+     "alt": "Península del lago Titicaca"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Ruta Aymara en el altiplano de Puno",
+    "summaryEs": "Día completo por los pueblos y paisajes del altiplano aymara.",
+    "highlights": [
+     "Pueblos aymaras del altiplano",
+     "Iglesias coloniales y paisajes del lago",
+     "Recorrido cultural con guía"
+    ],
+    "descriptionEs": "Recorre el altiplano puneño por la ruta aymara, con sus pueblos, tradiciones y paisajes a orillas del Titicaca.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 72,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-03",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 43265,
+     "alt": "Arco del Silencio en el Monasterio de Santa Catalina"
+    },
+    {
+     "src": "pixabay",
+     "id": 2308382,
+     "alt": "Catedral de Arequipa y el volcán Misti"
+    },
+    {
+     "src": "pixabay",
+     "id": 43269,
+     "alt": "Claustro azul de Santa Catalina"
+    },
+    {
+     "src": "pixabay",
+     "id": 1934515,
+     "alt": "Portales de la Plaza de Armas de noche"
+    },
+    {
+     "src": "pixabay",
+     "id": 5165633,
+     "alt": "Plaza de Armas de Arequipa al atardecer"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "City Tour Arequipa y Monasterio de Santa Catalina",
+    "summaryEs": "Medio día por la Ciudad Blanca: sillar, Santa Catalina y vistas a los volcanes.",
+    "highlights": [
+     "Centro histórico de sillar",
+     "Monasterio de Santa Catalina",
+     "Miradores con vista al Misti"
+    ],
+    "descriptionEs": "Recorre Arequipa, la Ciudad Blanca construida en sillar volcánico, con su Plaza de Armas, el Monasterio de Santa Catalina y miradores hacia el Misti.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 88,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Entradas",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-02",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3597158,
+     "alt": "Cruz del Cóndor en el Cañón del Colca"
+    },
+    {
+     "src": "pixabay",
+     "id": 6835292,
+     "alt": "Cóndor andino sobre el Colca"
+    },
+    {
+     "src": "pixabay",
+     "id": 3429730,
+     "alt": "Andenes del Valle del Colca"
+    },
+    {
+     "src": "pixabay",
+     "id": 3418547,
+     "alt": "Cañón del Colca"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Cañón del Colca y Cruz del Cóndor en 1 día",
+    "summaryEs": "Día completo al Cañón del Colca para ver el vuelo del cóndor desde la Cruz del Cóndor.",
+    "highlights": [
+     "Vuelo del cóndor andino",
+     "Miradores del Cañón del Colca",
+     "Andenes y pueblos del valle"
+    ],
+    "descriptionEs": "Sal de madrugada desde Arequipa hacia el Cañón del Colca, uno de los más profundos del mundo, para ver el vuelo de los cóndores en la Cruz del Cóndor y recorrer sus miradores.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nSujeto a estado de carreteras y clima. Ruta en altura.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa",
+     "Chivay"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 164,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Boleto turístico del Colca",
+     "Alimentación",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-07",
+   "status": "draft",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 6835289,
+     "alt": "Cóndor en vuelo en el Colca"
+    },
+    {
+     "src": "pixabay",
+     "id": 6513131,
+     "alt": "Pueblo en el Valle del Colca"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Valle del Colca 2 días",
+    "summaryEs": "Dos días en el Valle del Colca con noche en Chivay y Cruz del Cóndor.",
+    "highlights": [
+     "Noche en el Valle del Colca",
+     "Cruz del Cóndor",
+     "Pueblos y andenes del Colca"
+    ],
+    "descriptionEs": "Recorre el Valle del Colca a buen ritmo: primer día de paisajes altoandinos y noche en el valle; segundo día temprano a la Cruz del Cóndor y regreso a Arequipa.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nConfirmaremos contigo el alojamiento incluido antes de cobrar. Sujeto a estado de carreteras y clima.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa",
+     "Chivay"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 52,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Boleto turístico del Colca",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-05",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3416830,
+     "alt": "Paredes del Cañón del Colca"
+    },
+    {
+     "src": "pixabay",
+     "id": 5154702,
+     "alt": "Cañón del Colca desde un mirador"
+    },
+    {
+     "src": "pixabay",
+     "id": 4862471,
+     "alt": "Valle del Colca con sol de mañana"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Caminata en el Cañón del Colca 2 días",
+    "summaryEs": "Trekking de dos días: descenso y ascenso del Cañón del Colca.",
+    "highlights": [
+     "Descenso al fondo del cañón",
+     "Noche en el fondo del cañón",
+     "Ascenso al amanecer"
+    ],
+    "descriptionEs": "Desciende al fondo del Cañón del Colca, pasa la noche junto al río y asciende al día siguiente. Una caminata exigente para viajeros en buena condición física.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nRequiere buena condición física y aclimatación. Sujeto a clima y estado de caminos.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa",
+     "Cabanaconde"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 231,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Boleto turístico del Colca",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-06",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 43325,
+     "alt": "Volcán Misti"
+    },
+    {
+     "src": "pixabay",
+     "id": 2214389,
+     "alt": "Cumbre nevada del Misti"
+    },
+    {
+     "src": "pixabay",
+     "id": 5154698,
+     "alt": "Arequipa de noche con el Misti al fondo"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Ascenso al volcán Misti 2 días",
+    "summaryEs": "Expedición de dos días a la cumbre del volcán Misti con guía especializado.",
+    "highlights": [
+     "Cumbre del Misti a 5,822 m",
+     "Vista sobre Arequipa y sus volcanes",
+     "Guía de montaña especializado"
+    ],
+    "descriptionEs": "Asciende el Misti, el volcán que custodia Arequipa, en una expedición de dos días con guía especializado.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nAlta montaña: requiere condición física y aclimatación previa.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 168,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía de montaña"
+    ],
+    "excludes": [
+     "Alimentación no indicada",
+     "Equipo personal",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-01",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Rafting en el río Chili, Arequipa",
+    "summaryEs": "Medio día de rafting en el río Chili, a minutos de Arequipa.",
+    "highlights": [
+     "Rápidos del río Chili",
+     "Equipo completo y guía especializado",
+     "Transporte incluido"
+    ],
+    "descriptionEs": "Una dosis de adrenalina a pocos minutos de la ciudad: rafting en el río Chili con equipo completo y guía especializado.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 34,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Equipo completo",
+     "Guía especializado"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "AQP-04",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Cañón de Cotahuasi 4 días privado",
+    "summaryEs": "Expedición privada de 4 días al Cañón de Cotahuasi, el más profundo del Perú.",
+    "highlights": [
+     "Cañón de Cotahuasi",
+     "Pueblos y paisajes andinos del valle",
+     "Servicio privado"
+    ],
+    "descriptionEs": "Cuatro días de expedición privada hacia el Cañón de Cotahuasi, con sus pueblos tradicionales, cascadas y paisajes andinos.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nConfirmaremos contigo alojamiento y comidas incluidos antes de cobrar. Sujeto a estado de carreteras y clima.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Arequipa",
+     "Cotahuasi"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "privado",
+      "name": "Servicio privado",
+      "mode": "private",
+      "adult": 1344,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Arequipa",
+      "address": "",
+      "lat": -16.3989,
+      "lng": -71.537,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte privado",
+     "Guía"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "NAZ-01",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1177687,
+     "alt": "Geoglifo de la araña en Nazca"
+    },
+    {
+     "src": "pixabay",
+     "id": 43228,
+     "alt": "Geoglifo del mono en Nazca"
+    },
+    {
+     "src": "pixabay",
+     "id": 43223,
+     "alt": "Sombra de la avioneta sobre las líneas"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Sobrevuelo de las Líneas de Nazca 30 min",
+    "summaryEs": "Vuelo de unos 30 minutos sobre las Líneas de Nazca.",
+    "highlights": [
+     "El colibrí, el mono y la araña desde el aire",
+     "Vuelo en avioneta",
+     "Vuelo de aproximadamente 30 minutos"
+    ],
+    "descriptionEs": "Sobrevuela durante unos 30 minutos las Líneas de Nazca, los geoglifos trazados en el desierto hace más de 1,500 años.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nSujeto a condiciones meteorológicas y aeronáuticas.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Nazca"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 156,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Nazca",
+      "address": "",
+      "lat": -14.8309,
+      "lng": -74.9381,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Sobrevuelo"
+    ],
+    "excludes": [
+     "Tasa aeroportuaria (salvo indicación)",
+     "Traslados no indicados",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "NAZ-02",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1177626,
+     "alt": "Líneas y trapecios de Nazca desde el aire"
+    },
+    {
+     "src": "pixabay",
+     "id": 1089342,
+     "alt": "Geoglifo en la ladera de Nazca"
+    },
+    {
+     "src": "pixabay",
+     "id": 43224,
+     "alt": "Pampa de Nazca desde la avioneta"
+    },
+    {
+     "src": "pixabay",
+     "id": 4920693,
+     "alt": "Líneas sobre el desierto de Nazca"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Sobrevuelo de las Líneas de Nazca 60 min",
+    "summaryEs": "Vuelo de unos 60 minutos sobre las Líneas de Nazca.",
+    "highlights": [
+     "El colibrí, el mono y la araña desde el aire",
+     "Vuelo en avioneta",
+     "Vuelo de aproximadamente 60 minutos"
+    ],
+    "descriptionEs": "Sobrevuela durante unos 60 minutos las Líneas de Nazca, los geoglifos trazados en el desierto hace más de 1,500 años.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nSujeto a condiciones meteorológicas y aeronáuticas.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Nazca"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 286,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Nazca",
+      "address": "",
+      "lat": -14.8309,
+      "lng": -74.9381,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Sobrevuelo"
+    ],
+    "excludes": [
+     "Tasa aeroportuaria (salvo indicación)",
+     "Traslados no indicados",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "NAZ-03",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Cementerio de Chauchilla, Nazca",
+    "summaryEs": "Medio día al cementerio prehispánico de Chauchilla en el desierto de Nazca.",
+    "highlights": [
+     "Tumbas prehispánicas a cielo abierto",
+     "Cultura Nazca",
+     "Transporte y guía profesional"
+    ],
+    "descriptionEs": "Visita el cementerio de Chauchilla, donde se conservan tumbas y restos de la cultura Nazca en pleno desierto.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Nazca"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 73,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Nazca",
+      "address": "",
+      "lat": -14.8309,
+      "lng": -74.9381,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía profesional"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "NAZ-04",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1587120,
+     "alt": "Oasis de Huacachina al atardecer"
+    },
+    {
+     "src": "pixabay",
+     "id": 1984755,
+     "alt": "Laguna de Huacachina entre dunas"
+    },
+    {
+     "src": "pixabay",
+     "id": 1586781,
+     "alt": "Buggy sobre las dunas de Ica"
+    },
+    {
+     "src": "pixabay",
+     "id": 4512001,
+     "alt": "Dunas del desierto de Ica"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Buggies y sandboarding en las dunas",
+    "summaryEs": "Paseo en buggy por las dunas y sandboarding en el desierto.",
+    "highlights": [
+     "Buggy por las dunas",
+     "Sandboarding con equipo",
+     "Atardecer en el desierto"
+    ],
+    "descriptionEs": "Recorre las dunas del desierto en buggy y deslízate en tabla de sandboarding, con equipo y asistencia.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Ica"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 164,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Oasis de Huacachina, Ica",
+      "address": "",
+      "lat": -14.0875,
+      "lng": -75.7626,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Buggy",
+     "Equipo de sandboarding",
+     "Asistencia"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "NAZ-05",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Sandboarding en el Cerro Blanco, Nazca",
+    "summaryEs": "Sandboarding en el Cerro Blanco, una de las dunas más altas del mundo.",
+    "highlights": [
+     "Duna del Cerro Blanco",
+     "Sandboarding de altura",
+     "Equipo incluido"
+    ],
+    "descriptionEs": "Asciende el Cerro Blanco, una de las dunas más altas del mundo, y desciende en tabla de sandboarding.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Nazca"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 228,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Nazca",
+      "address": "",
+      "lat": -14.8309,
+      "lng": -74.9381,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Equipo",
+     "Guía"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CHH-01",
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 301717,
+     "alt": "Vivienda circular reconstruida en Kuélap"
+    }
+   ],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Fortaleza de Kuélap",
+    "summaryEs": "Día completo a Kuélap, la gran fortaleza de la cultura Chachapoyas.",
+    "highlights": [
+     "Ciudadela amurallada de Kuélap",
+     "Viviendas circulares de piedra",
+     "Cultura Chachapoyas"
+    ],
+    "descriptionEs": "Visita Kuélap, la monumental ciudadela amurallada de la cultura Chachapoyas sobre las montañas de Amazonas.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nSujeto a condiciones climáticas y estado de carreteras.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Chachapoyas"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 63,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Chachapoyas",
+      "address": "",
+      "lat": -6.2294,
+      "lng": -77.8714,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CHH-02",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Mausoleos de Revash y Museo Leymebamba",
+    "summaryEs": "Día completo a los mausoleos de Revash y la colección de momias del Museo Leymebamba.",
+    "highlights": [
+     "Mausoleos de Revash en el acantilado",
+     "Museo Leymebamba",
+     "Cultura Chachapoyas"
+    ],
+    "descriptionEs": "Conoce los mausoleos de Revash, construidos en los acantilados, y el Museo Leymebamba con su colección arqueológica.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nSujeto a condiciones climáticas y estado de carreteras.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Chachapoyas",
+     "Leymebamba"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 88,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Chachapoyas",
+      "address": "",
+      "lat": -6.2294,
+      "lng": -77.8714,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "CHH-03",
+   "status": "draft",
+   "photos": [],
+   "trip": {
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Sarcófagos de Karajía",
+    "summaryEs": "Día completo a los sarcófagos de Karajía, en lo alto de un acantilado.",
+    "highlights": [
+     "Sarcófagos antropomorfos",
+     "Estructuras funerarias en roca",
+     "Paisajes de Amazonas"
+    ],
+    "descriptionEs": "Visita los sarcófagos de Karajía, figuras funerarias de la cultura Chachapoyas colocadas en un acantilado.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nSujeto a condiciones climáticas y estado de carreteras.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Chachapoyas"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD.",
+    "options": [
+     {
+      "id": "regular",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 73,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Chachapoyas",
+      "address": "",
+      "lat": -6.2294,
+      "lng": -77.8714,
+      "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Transporte",
+     "Guía"
+    ],
+    "excludes": [
+     "Vuelos y traslados no indicados",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  }
+ ]
+}
