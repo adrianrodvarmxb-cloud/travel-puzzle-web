@@ -91,3 +91,6 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
   const page = Math.max(1, p.page || 1);
   return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
 }
+
+/** REQ-058: firma de la forma de las entradas; va en la llave de caché para que un cambio de forma invalide lo guardado. */
+export const CATALOG_SHAPE = Object.keys(toEntry({ id: "x", cityId: 1, countryId: 1 }, "es")).sort().join(",");

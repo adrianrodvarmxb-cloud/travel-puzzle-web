@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalize, toEntry, queryCatalog, type CatalogEntry } from "./query";
+import { normalize, toEntry, queryCatalog, CATALOG_SHAPE, type CatalogEntry } from "./query";
 
 const e = (id: string, o: Partial<CatalogEntry> = {}): CatalogEntry => ({
   id, cityId: 1, countryId: 1, categoryId: 1, price: 0, rating: null, reviews: 0, durationMinutes: null,
@@ -77,5 +77,14 @@ describe("REQ-057 búsqueda por destino y por palabra completa", () => {
   });
   it("REQ-057: si nadie tiene la palabra completa, se acepta el inicio de palabra (se está escribiendo)", () => {
     expect(ids("trasteve")).toEqual(["roma2"]);
+  });
+});
+
+// REQ-058 (INC-005): el catálogo en caché tenía la forma vieja (sin cityNames) y la búsqueda por destino no se activaba.
+describe("REQ-058 la llave de caché del catálogo cambia sola cuando cambia la forma de las entradas", () => {
+  it("REQ-058: la firma incluye todos los campos de toEntry", () => {
+    const keys = Object.keys(toEntry({ id: "x", cityId: 1, countryId: 1 }, "es")).sort().join(",");
+    expect(CATALOG_SHAPE).toBe(keys);
+    expect(CATALOG_SHAPE).toContain("cityNames");
   });
 });
