@@ -1,8 +1,8 @@
-/** Lo mínimo para publicar (gate J: estándar GetYourGuide con 5 fotos). Puro. */
+/** Lo mínimo para publicar (gate J; REQ-043: basta 1 foto, la galería se acomoda con REQ-042). Puro. */
 import type { TripKind } from "./trip";
 import type { TripOption } from "./pricing";
 
-export const MIN_PHOTOS = 5;
+export const MIN_PHOTOS = 1; // REQ-043 (antes 5): sin fotos de relleno
 export const MAX_TITLE = 60;
 
 export interface PublishInput {
@@ -36,6 +36,6 @@ export function publishChecklist(t: PublishInput): string[] {
   if (!custom && !t.options.some((o) => (o.adult ?? 0) > 0)) m.push("al menos una opción con precio adulto");
   if (!custom && !t.meetingPoints.some((p) => p.lat !== null && p.lng !== null)) m.push("punto de encuentro con ubicación en el mapa");
   if (!t.languages.length) m.push("idiomas del guía");
-  if (t.images.length < MIN_PHOTOS) m.push(`al menos ${MIN_PHOTOS} fotos (tienes ${t.images.length})`);
+  if (t.images.length < MIN_PHOTOS) m.push(`al menos ${MIN_PHOTOS} foto${MIN_PHOTOS === 1 ? "" : "s"} (tienes ${t.images.length})`);
   return m;
 }

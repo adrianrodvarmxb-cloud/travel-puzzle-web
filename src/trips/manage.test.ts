@@ -46,7 +46,7 @@ describe("saveTrip v2", () => {
   it("un viaje publicado no puede quedar incompleto", async () => {
     const d = deps({ findById: vi.fn(async () => stored({ status: "published", codeLocked: true })) });
     const r = await saveTrip("t1", { ...input, images: [] }, d);
-    expect(r).toEqual({ ok: false, error: `Para publicar falta: al menos ${MIN_PHOTOS} fotos (tienes 0)` });
+    expect(r).toEqual({ ok: false, error: `Para publicar falta: al menos ${MIN_PHOTOS} foto (tienes 0)` });
   });
 });
 
