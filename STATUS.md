@@ -96,6 +96,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-051..055 | Tipo, cancelación gratuita, privado, recogida, novedad | `src/tours/lib/extra-filters.ts`, `query.ts`, `src/trips/lib/public.ts` | `extra-filters.test.ts`, `query.test.ts`, `public.test.ts` | CUMPLIDO |
 | REQ-056 | Pantalla de filtros estilo Civitatis | `src/components/tours/filters/*`, `ToursPageClient.tsx` | `extra-filters.test.ts`, `filters-copy.test.ts` + revisión visual | EN CURSO |
 | REQ-061 | Idioma y fecha ocultos hasta cubrir el catálogo | `MoreFilters.tsx`, `/tours`, `wrangler.jsonc` | revisión visual | CUMPLIDO |
+| REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-029 | D1 saturada: reintento | `src/tours/lib/d1-load.ts`, `src/actions/tours.ts` | `d1-load.test.ts` | CUMPLIDO |
 | REQ-030 | D1 saturada: caché 10 min | idem | `d1-load.test.ts` | REEMPLAZADO por REQ-032 |
 | REQ-032 | Caché compartida L1+L2, single-flight, stale-if-error | `src/cache/lib/shared-cache.ts`, `src/cache/edge.ts`, home, /tours, ficha, mapa, /api/tours | `shared-cache.test.ts` | CUMPLIDO |
