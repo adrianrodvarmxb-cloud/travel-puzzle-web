@@ -62,3 +62,14 @@ describe("REQ-046 matchesToursFilter con búsqueda, ciudad y precio", () => {
   });
 });
 
+
+describe("REQ-049 viajes propios con idioma y fecha", () => {
+  const t = { countries: ["PE"], kind: "tour" as const, languages: ["es", "en"], dates: ["2026-11-10"] };
+  const f = (o: Record<string, unknown> = {}) => ({ countryCode: null, kind: "all" as const, ...o });
+  it("REQ-049: respetan el idioma del guía y la fecha disponible", () => {
+    expect(matchesToursFilter(t, f({ guideLanguage: "en" }))).toBe(true);
+    expect(matchesToursFilter(t, f({ guideLanguage: "fr" }))).toBe(false);
+    expect(matchesToursFilter(t, f({ date: "2026-11-10" }))).toBe(true);
+    expect(matchesToursFilter(t, f({ date: "2026-11-12" }))).toBe(false);
+  });
+});

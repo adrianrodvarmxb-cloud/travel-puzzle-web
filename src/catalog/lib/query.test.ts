@@ -51,3 +51,31 @@ describe("INC-003: catálogo en memoria (REQ-035)", () => {
     expect(p).toEqual({ ids: ["a"], total: 3, page: 2, limit: 2 });
   });
 });
+
+describe("REQ-049 filtros de idioma del guía y fecha disponible", () => {
+  const entries = [
+    e("es", { languages: ["es"], dates: ["2026-11-10"] }),
+    e("en", { languages: ["en", "es"], dates: ["2026-11-10", "2026-11-11"] }),
+    e("sin", { languages: null, dates: null }), // sin dato vigente
+  ];
+  it("REQ-049: idioma deja solo los tours con salida en ese idioma; sin dato no se afirma", () => {
+    expect(queryCatalog(entries, { guideLanguage: "en" }, {}).ids).toEqual(["en"]);
+    expect(queryCatalog(entries, { guideLanguage: "es" }, {}).ids.sort()).toEqual(["en", "es"]);
+  });
+  it("REQ-049: fecha deja solo los tours con salida ese día", () => {
+    expect(queryCatalog(entries, { date: "2026-11-11" }, {}).ids).toEqual(["en"]);
+  });
+  it("REQ-049: sin filtros, los tours sin dato siguen apareciendo", () => {
+    expect(queryCatalog(entries, {}, {}).ids).toHaveLength(3);
+  });
+});
+
+describe("REQ-049 toEntry lee el resumen solo si está vigente", () => {
+  it("REQ-049: resumen reciente → idiomas y fechas; viejo o ausente → null", () => {
+    const base = { id: "t", cityId: 1, countryId: 1, guideLanguages: '["es","en"]', departureDates: '["2026-11-10"]' };
+    const now = new Date("2026-11-05T12:00:00Z");
+    expect(toEntry({ ...base, departuresSyncedAt: "2026-11-05T01:00:00.000+00:00" }, "es", now)).toMatchObject({ languages: ["es", "en"], dates: ["2026-11-10"] });
+    expect(toEntry({ ...base, departuresSyncedAt: "2026-10-01T01:00:00.000+00:00" }, "es", now)).toMatchObject({ languages: null, dates: null });
+    expect(toEntry({ id: "t", cityId: 1, countryId: 1 }, "es", now)).toMatchObject({ languages: null, dates: null });
+  });
+});

@@ -4,15 +4,20 @@
  * visita. D1 solo entrega los 20 tours de la página por id. Puro.
  */
 import { durationRangeWhere, type DurationRange } from "@/tours/lib/duration";
+import { freshSummary } from "@/departures/lib/summary";
 
 export interface CatalogEntry {
   id: string; cityId: number; countryId: number; categoryId: number | null;
   price: number | null; rating: number | null; reviews: number; durationMinutes: number | null;
   createdAt: number; updatedAt: number; text: string;
+  /** REQ-049: idiomas del guía y fechas con salida (null = sin dato vigente). */
+  languages?: string[] | null; dates?: string[] | null;
 }
 export interface CatalogFilters {
   countryId?: number; cityId?: number; categoryId?: number; minPrice?: number; maxPrice?: number;
   durationRange?: DurationRange | null; search?: string;
+  /** REQ-049: idioma del guía (es, en…) y fecha disponible (YYYY-MM-DD). */
+  guideLanguage?: string | null; date?: string | null;
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -29,8 +34,15 @@ function names(json: unknown): string {
   } catch { return ""; }
 }
 
-export function toEntry(r: Record<string, unknown>, _lang: string): CatalogEntry {
+const list = (v: unknown): string[] => {
+  try { const a = typeof v === "string" ? JSON.parse(v) : v; return Array.isArray(a) ? a.filter((x): x is string => typeof x === "string") : []; } catch { return []; }
+};
+
+export function toEntry(r: Record<string, unknown>, _lang: string, now: Date = new Date()): CatalogEntry {
+  // REQ-049: el resumen de salidas solo cuenta si está vigente
+  const dep = freshSummary({ languages: list(r.guideLanguages), dates: list(r.departureDates) }, r.departuresSyncedAt ? String(r.departuresSyncedAt) : null, now);
   return {
+    languages: dep?.languages ?? null, dates: dep?.dates ?? null,
     id: String(r.id), cityId: Number(r.cityId), countryId: Number(r.countryId), categoryId: num(r.categoryId),
     price: num(r.priceValue), rating: num(r.rating), reviews: Number(r.reviewsNumber ?? 0) || 0,
     durationMinutes: num(r.durationMinutes), createdAt: time(r.createdAt), updatedAt: time(r.updatedAt),
@@ -53,6 +65,8 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (f.minPrice === undefined || f.minPrice === null || (x.price ?? 0) >= f.minPrice) &&
     (f.maxPrice === undefined || f.maxPrice === null || (x.price ?? 0) <= f.maxPrice) &&
     (!dur || (x.durationMinutes !== null && (dur.gt === undefined || x.durationMinutes > dur.gt) && (dur.lte === undefined || x.durationMinutes <= dur.lte))) &&
+    (!f.guideLanguage || (x.languages ?? []).includes(f.guideLanguage)) && // REQ-049
+    (!f.date || (x.dates ?? []).includes(f.date)) &&
     words.every((w) => x.text.includes(w)));
   const key = SORT[p.sortBy ?? ""] ?? SORT.createdAt;
   const dir = (p.sortBy && SORT[p.sortBy] ? p.sortOrder ?? "asc" : "desc") === "asc" ? 1 : -1;

@@ -37,8 +37,11 @@ export interface ToursFilter {
   cityName?: string | null;
   minPrice?: number;
   maxPrice?: number;
+  /** REQ-049: idioma del guía y fecha disponible. */
+  guideLanguage?: string | null;
+  date?: string | null;
 }
-type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null };
+type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null; languages?: string[]; dates?: string[] };
 
 /** ¿Va este viaje arriba de los resultados de /tours con este filtro? REQ-046: respeta buscador, ciudad y precio. */
 export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
@@ -52,6 +55,8 @@ export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
     if (f.minPrice !== undefined && p < f.minPrice) return false;
     if (f.maxPrice !== undefined && p > f.maxPrice) return false;
   }
+  if (f.guideLanguage && !(t.languages ?? []).includes(f.guideLanguage)) return false; // REQ-049
+  if (f.date && !(t.dates ?? []).includes(f.date)) return false;
   const words = fold(f.search ?? "").split(/\s+/).filter(Boolean);
   if (!words.length) return true;
   const hay = fold([t.title, t.summary, ...(t.cities ?? []), t.places, ...t.countries].filter(Boolean).join(" "));

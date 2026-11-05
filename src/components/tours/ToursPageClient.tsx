@@ -14,6 +14,8 @@ import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
 import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
 import { DurationFilter } from '@/components/tours/DurationFilter';
+import { DepartureFilters } from '@/components/tours/DepartureFilters';
+import { parseGuideLanguage, parseTripDate } from '@/departures/lib/params';
 import { ToursMap } from '@/components/tours/ToursMap';
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
 import { parseDurationRange, type DurationRange } from '@/tours/lib/duration';
@@ -109,6 +111,9 @@ export function ToursPageClient({
     const [filtersOpen, setFiltersOpen] = useState(false);
     // Duración (?duracion=short|mid|long)
     const [duration, setDuration] = useState<DurationRange | null>(() => parseDurationRange(searchParams.get('duracion')));
+    // REQ-049: idioma del guía (?idioma=) y fecha disponible (?fecha=); "hoy" llega del servidor (render determinista)
+    const [guideLanguage, setGuideLanguage] = useState<string | null>(() => parseGuideLanguage(searchParams.get('idioma')));
+    const [tripDate, setTripDate] = useState<string | null>(() => parseTripDate(searchParams.get('fecha'), today));
     // Lista o mapa (celular y tablet) y tour resaltado en el mapa
     const [view, setView] = useState<ToursView>('list');
     const [activeId, setActiveId] = useState<string | null>(null);
@@ -121,6 +126,8 @@ export function ToursPageClient({
         minPrice: uiFilters.minPrice,
         maxPrice: uiFilters.maxPrice,
         durationRange: duration,
+        guideLanguage,
+        date: tripDate,
     };
 
     // Build pagination with search if provided
@@ -160,6 +167,8 @@ export function ToursPageClient({
         paginationWithSearch.page === serverPage &&
         sort === parseSort(searchParams.get('sort')) &&
         duration === parseDurationRange(searchParams.get('duracion')) &&
+        guideLanguage === parseGuideLanguage(searchParams.get('idioma')) &&
+        tripDate === parseTripDate(searchParams.get('fecha'), today) &&
         language === initialLanguage;
 
     // Fetch tours with filters and pagination
@@ -209,6 +218,8 @@ export function ToursPageClient({
     sortRef.current = sort;
     const durationRef = useRef<DurationRange | null>(duration);
     durationRef.current = duration;
+    const departureRef = useRef({ guideLanguage, tripDate });
+    departureRef.current = { guideLanguage, tripDate };
 
     // Update URL params when filters or pagination change
     const updateUrlParams = useCallback(
@@ -223,6 +234,8 @@ export function ToursPageClient({
             if (filters.search) params.set('search', filters.search);
             if (sortRef.current !== 'reviews') params.set('sort', sortRef.current);
             if (durationRef.current) params.set('duracion', durationRef.current);
+            if (departureRef.current.guideLanguage) params.set('idioma', departureRef.current.guideLanguage);
+            if (departureRef.current.tripDate) params.set('fecha', departureRef.current.tripDate);
 
             // Add pagination params (only if not page 1)
             if (pagination.page && pagination.page > 1) {
@@ -250,7 +263,7 @@ export function ToursPageClient({
             return;
         }
         updateUrlParams(uiFilters, pagination);
-    }, [uiFilters, pagination, sort, duration, updateUrlParams]);
+    }, [uiFilters, pagination, sort, duration, guideLanguage, tripDate, updateUrlParams]);
 
     // Update state when URL params change (e.g., browser back/forward)
     useEffect(() => {
@@ -293,7 +306,7 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice, duration ?? undefined].filter((v) => v !== undefined).length;
+    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice, duration ?? undefined, guideLanguage ?? undefined, tripDate ?? undefined].filter((v) => v !== undefined).length;
 
     const handlePaginationChange = (newPage: number) => {
         setPagination(prev => ({ ...prev, page: newPage }));
@@ -329,6 +342,13 @@ export function ToursPageClient({
                                 hideSearch
                             />
                             <DurationFilter value={duration} onChange={handleDurationChange} />
+                            <DepartureFilters
+                                language={guideLanguage}
+                                date={tripDate}
+                                today={today}
+                                onLanguage={(v) => { setGuideLanguage(v); setPagination((p) => ({ ...p, page: 1 })); }}
+                                onDate={(v) => { setTripDate(v); setPagination((p) => ({ ...p, page: 1 })); }}
+                            />
                         </div>
                     </aside>
 
@@ -336,7 +356,7 @@ export function ToursPageClient({
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
                         {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
-                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
+                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} guideLanguage={guideLanguage} date={tripDate} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
                         )}
                         {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />
