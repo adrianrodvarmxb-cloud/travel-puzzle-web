@@ -62,3 +62,13 @@ describe("REQ-046 matchesToursFilter con búsqueda, ciudad y precio", () => {
   });
 });
 
+describe("REQ-057 viajes propios: palabra, no pedazo", () => {
+  it("REQ-057: 'roma' no encuentra 'murallas romanas'; 'machu' sí encuentra 'Machu'", () => {
+    const t = { countries: ["ES"], kind: "tour" as const, title: "Murallas romanas de León", summary: "", cities: ["León"], places: "España" };
+    const f = (search: string) => ({ countryCode: null, kind: "all" as const, search });
+    expect(matchesToursFilter(t, f("roma"))).toBe(false);
+    expect(matchesToursFilter(t, f("romanas"))).toBe(true);
+    expect(matchesToursFilter(t, f("mural"))).toBe(true);
+  });
+});
+
