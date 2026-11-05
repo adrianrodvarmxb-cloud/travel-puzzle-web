@@ -87,6 +87,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-045 | Burbuja de WhatsApp aparece tras la galería en celular (fichas) | `src/home/lib/bubble.ts`, `WhatsAppBubble.tsx` | `bubble.test.ts` | CUMPLIDO |
 | REQ-046 | Viajes propios respetan buscador, ciudad y precio en /tours (INC-004) | `src/trips/lib/public.ts`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx` | `public.test.ts` | CUMPLIDO |
 | REQ-047 | Tarjetas de viajes en caché compartida (INC-004) | `src/trips/public-load.ts` | prueba de carga (carga.mjs) | CUMPLIDO |
+| REQ-048 | Buscador con relevancia FTS5 (ola 1) | `src/search/*`, `migrations/0011_busqueda_fts.sql`, `src/catalog/lib/query.ts`, `src/tours/lib/sort.ts`, cron sync | `fts-query.test.ts`, `fts-search.test.ts`, `query.test.ts`, `sort.test.ts`, `sync.test.ts` | EN CURSO |
 | REQ-029 | D1 saturada: reintento | `src/tours/lib/d1-load.ts`, `src/actions/tours.ts` | `d1-load.test.ts` | CUMPLIDO |
 | REQ-030 | D1 saturada: caché 10 min | idem | `d1-load.test.ts` | REEMPLAZADO por REQ-032 |
 | REQ-032 | Caché compartida L1+L2, single-flight, stale-if-error | `src/cache/lib/shared-cache.ts`, `src/cache/edge.ts`, home, /tours, ficha, mapa, /api/tours | `shared-cache.test.ts` | CUMPLIDO |
