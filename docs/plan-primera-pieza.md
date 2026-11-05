@@ -157,11 +157,13 @@ src/
 
 ---
 
-## 5. Gates para el PO (uno por uno)
+## 5. Gates firmados por el PO (5 nov 2026)
 
-1. ¿Va primero la Ola 1 (blindaje del sync) antes que lo visible?
-2. ¿Con qué criterio se marca «Favorito de los viajeros»? Propuesta: ≥ 4.7 con ≥ 50 reseñas.
-3. ¿Cómo se obtiene el geonameid de cada ciudad? Propuesta: un workflow de GitHub baja `cities1000` de GeoNames y lo cruza por país + nombre + cercanía al centroide de los puntos de encuentro. Lo que no cruce va a una lista para revisión manual.
-4. ¿Qué pasa con los viajes propios (Inca, China, hoy en `/viajes/{destino}/{slug}`)? ¿Entran en la sección «Tours» de cada ciudad y se mueven a `/destinos/...` con 301?
-5. Metas de las métricas (Ola 8).
-6. Enviar o no el correo con las preguntas a FREETOUR (borrador para Claudia).
+| # | Gate | Decisión |
+|---|---|---|
+| 1 | Orden de las olas | **Ola 1 primero** (blindaje del sync) y después las demás, en el orden del plan |
+| 2 | «★ Favorito de los viajeros» | **Calificación ≥ 4.7 y ≥ 50 reseñas** (REQ-098) |
+| 3 | geonameid de las ciudades | **Cruce automático + revisión**: un workflow baja GeoNames y cruza por país + nombre + cercanía al centroide de los puntos de encuentro; lo dudoso va a una lista para revisión manual (REQ-085) |
+| 4 | Viajes propios (`/viajes/...`) | **Entran a `/destinos` con 301**: aparecen en la sección Tours de su ciudad y su ficha pasa a `/destinos/{pais}/{ciudad}/{slug}` (REQ-088, REQ-092) |
+| 5 | Metas de las métricas | **Firmadas**: ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · la tasa de agregado del carrusel se mide 4 semanas y luego se fija la meta (REQ-111) |
+| 6 | Correo de preguntas a FREETOUR | **El PO lo revisa primero** (sigue en borrador en Gmail) |
