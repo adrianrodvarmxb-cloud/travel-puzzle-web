@@ -48,6 +48,8 @@ interface ToursPageClientProps {
     countryCodeById?: Record<number, string>;
     /** Fecha de hoy (YYYY-MM-DD) calculada en el servidor. */
     today: string;
+    /** REQ-061: mostrar filtros de idioma y fecha (DEPARTURE_FILTERS_ENABLED). */
+    showDepartures?: boolean;
 }
 
 export function ToursPageClient({
@@ -58,6 +60,7 @@ export function ToursPageClient({
     ownTrips = [],
     countryCodeById = {},
     today,
+    showDepartures = false,
 }: ToursPageClientProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
@@ -360,7 +363,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters showDepartures={showDepartures} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 

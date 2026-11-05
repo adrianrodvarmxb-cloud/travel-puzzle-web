@@ -99,6 +99,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       ownTrips={ownTrips}
       countryCodeById={countryCodeById}
       today={today}
+      showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
     />
   );
 }

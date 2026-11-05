@@ -58,6 +58,8 @@
     "TRANSPORT_ENABLED": "false",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
     "DEPARTURES_SYNC_ENABLED": "false",
+    // Mostrar filtros de idioma del guía y fecha (REQ-061). "true" cuando la lectura de salidas cubra el catálogo, con OK.
+    "DEPARTURE_FILTERS_ENABLED": "false",
     // Buscador con relevancia (FTS5, REQ-048). "true" con vista previa y OK del PO, después de la migración 0011.
     "SEARCH_V2_ENABLED": "false",
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
