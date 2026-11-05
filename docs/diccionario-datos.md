@@ -1,6 +1,6 @@
 # Diccionario de datos: identidad de destinos y tours (REQ-069)
 
-Las columnas marcadas como *Ola 3* todavía no existen: entran con la migración 0014.
+Las columnas marcadas como *Ola 3* todavía no existen: entran con la migración 0015.
 
 | Campo | Definición | Formato | ¿Cambia? | Dueño |
 |---|---|---|---|---|

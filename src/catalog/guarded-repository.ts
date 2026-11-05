@@ -1,0 +1,140 @@
+import type { PrismaClient } from "@prisma/client";
+import { runBatch, type D1Like } from "@/lib/d1/batch";
+import { createCatalogRepo } from "./repository";
+import type { GuardedRepo } from "./guarded-sync";
+import type { RunState, RunStatus } from "./lib/guard-plan";
+import type { StageKind } from "./lib/content-hash";
+import { stageStatements, publishBatch, type StagedRow } from "./lib/sql";
+
+const PROVIDER = "freetour";
+
+/**
+ * Lecturas directas a D1: las columnas nuevas de Tour (contentHash, syncStatus, missingRuns) no están
+ * en el modelo de Prisma para que el sitio no dependa del orden migración/código (ver schema.prisma).
+ */
+export interface D1Read {
+  prepare(sql: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } };
+  batch: D1Like["batch"];
+}
+
+/** D1 acepta como máximo 100 parámetros por sentencia. */
+const IN_CHUNK = 100;
+
+async function selectIn(db: D1Read, sql: (marks: string) => string, ids: number[]) {
+  const out: Record<string, unknown>[] = [];
+  for (let i = 0; i < ids.length; i += IN_CHUNK) {
+    const part = ids.slice(i, i + IN_CHUNK);
+    const { results } = await db.prepare(sql(part.map(() => "?").join(", "))).bind(...part).all();
+    out.push(...results);
+  }
+  return out;
+}
+
+const num = (v: unknown) => (v === null || v === undefined ? null : Number(v));
+
+/**
+ * GuardedRepo sobre D1 (migración 0014). Lecturas con Prisma; escrituras en batch directo a D1.
+ * Solo lo usa el sync blindado (SYNC_GUARD_ENABLED="true").
+ */
+// REQ-071, REQ-072, REQ-073, REQ-074, REQ-078
+export function createGuardedRepo(prisma: PrismaClient, db: D1Read, newId: () => string = () => crypto.randomUUID()): GuardedRepo {
+  const places = createCatalogRepo(prisma, db as D1Like, newId);
+
+  return {
+    existingCityIds: places.existingCityIds,
+    existingCountryIds: places.existingCountryIds,
+    upsertCountries: places.upsertCountries,
+    upsertCities: places.upsertCities,
+
+    async latestRun() {
+      const r = await prisma.syncRun.findFirst({ where: { provider: PROVIDER }, orderBy: { startedAt: "desc" } });
+      if (!r) return null;
+      const run: RunState = {
+        id: r.id, status: r.status as RunStatus, startedAt: r.startedAt, nextPage: r.nextPage, totalPages: r.totalPages,
+        failures: r.failures, notBefore: r.notBefore, publishCursor: r.publishCursor, baseline: r.baseline, abortReason: r.abortReason,
+      };
+      return run;
+    },
+
+    async lastSuccess() {
+      const r = await prisma.syncRun.findFirst({
+        where: { provider: PROVIDER, status: "succeeded", finishedAt: { not: null } },
+        orderBy: { finishedAt: "desc" },
+        select: { finishedAt: true, seen: true },
+      });
+      return r ? { finishedAt: r.finishedAt!, seen: r.seen } : null;
+    },
+
+    activeCount: () => prisma.tour.count({ where: { isActive: true } }),
+
+    async createRun({ id, startedAt, baseline }) {
+      await prisma.syncRun.create({ data: { id, provider: PROVIDER, status: "staging", startedAt, baseline, updatedAt: startedAt } });
+    },
+
+    async updateRun(id, patch, now) {
+      await prisma.syncRun.update({ where: { id }, data: { ...patch, updatedAt: now } });
+    },
+
+    async cleanupStages(keepRuns) {
+      // Staging propio del sync (no datos del sitio): se conservan las últimas corridas como respaldo.
+      await runBatch(db as D1Like, [{
+        sql: 'DELETE FROM "TourStage" WHERE "runId" NOT IN (SELECT "id" FROM "SyncRun" WHERE "provider" = ? ORDER BY "startedAt" DESC LIMIT ?)',
+        params: [PROVIDER, keepRuns],
+      }]);
+    },
+
+    async storedTours(externalIds) {
+      const rows = await selectIn(db, (m) => `SELECT "externalId", "contentHash", "rating", "reviewsNumber" FROM "Tour" WHERE "externalId" IN (${m})`, externalIds);
+      return new Map(rows.map((r) => [Number(r.externalId), {
+        contentHash: (r.contentHash as string | null) ?? null, rating: num(r.rating), reviewsNumber: Number(r.reviewsNumber ?? 0),
+      }]));
+    },
+
+    async stage(runId, rows, now) {
+      await runBatch(db as D1Like, stageStatements(runId, rows, now));
+    },
+
+    async stageCounts(runId) {
+      const groups = await prisma.tourStage.groupBy({ by: ["kind"], where: { runId }, _count: { _all: true } });
+      const counts: Record<StageKind, number> = { new: 0, changed: 0, rating: 0, same: 0 };
+      for (const g of groups) counts[g.kind as StageKind] = g._count._all;
+      return counts;
+    },
+
+    async nextChunk(runId, after, limit) {
+      const rows = await prisma.tourStage.findMany({
+        where: { runId, kind: { in: ["new", "changed", "rating"] }, externalId: { gt: after } },
+        orderBy: { externalId: "asc" },
+        take: limit,
+        select: { externalId: true, hash: true, kind: true, payload: true },
+      });
+      return rows.map((r): StagedRow => ({ externalId: r.externalId, hash: r.hash, kind: r.kind as StageKind, payload: r.payload }));
+    },
+
+    async presenceInputs(runId) {
+      const { results } = await db.prepare(
+        'SELECT t."externalId", t."syncStatus", t."missingRuns", t."isActive", (s."externalId" IS NOT NULL) AS "seen" FROM "Tour" t' +
+        ' LEFT JOIN "TourStage" s ON s."runId" = ? AND s."externalId" = t."externalId"'
+      ).bind(runId).all();
+      return results.map((r) => ({
+        externalId: Number(r.externalId), syncStatus: String(r.syncStatus), missingRuns: Number(r.missingRuns),
+        isActive: Number(r.isActive) === 1 || r.isActive === true, seen: Number(r.seen) === 1 || r.seen === true,
+      }));
+    },
+
+    async publish(input) {
+      // Respaldo: la fila actual (tal como está en D1) de cada tour que se va a sobrescribir, con sus
+      // traducciones; va en el mismo batch que la escritura.
+      const ids = input.tours.map((t) => t.tour.externalId);
+      const [current, translations] = await Promise.all([
+        selectIn(db, (m) => `SELECT * FROM "Tour" WHERE "externalId" IN (${m})`, ids),
+        selectIn(db, (m) => `SELECT t."externalId", tr."language", tr."title", tr."brief", tr."description", tr."url" FROM "TourTranslation" tr JOIN "Tour" t ON t."id" = tr."tourId" WHERE t."externalId" IN (${m})`, ids),
+      ]);
+      const backups = current.map((row) => ({
+        externalId: Number(row.externalId),
+        previous: { tour: row, translations: translations.filter((tr) => Number(tr.externalId) === Number(row.externalId)) },
+      }));
+      await runBatch(db as D1Like, publishBatch({ ...input, backups, newId }));
+    },
+  };
+}
