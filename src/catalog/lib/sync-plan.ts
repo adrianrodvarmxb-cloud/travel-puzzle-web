@@ -30,7 +30,7 @@ export function mexicoDay(date: Date): string {
   return new Date(date.getTime() + MEXICO_OFFSET_MS).toISOString().slice(0, 10);
 }
 
-function mexicoHour(date: Date): number {
+export function mexicoHour(date: Date): number {
   return new Date(date.getTime() + MEXICO_OFFSET_MS).getUTCHours();
 }
 
