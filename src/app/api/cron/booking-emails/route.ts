@@ -8,6 +8,7 @@ import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-sum
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { sendEmail } from '@/notifications/resend';
 import { isBookingsEnabled } from '@/booking/lib/flags';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,7 +48,7 @@ export async function GET(request: Request) {
         getDuration: async (id) => (id ? (await getTourSummary(prisma, id, 'es'))?.duration ?? null : null),
         send: (kind, record) =>
             kind === 'review'
-                ? sendReviewRequest(record, base)
+                ? sendReviewRequest(record, { ...base, freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo })
                 : sendBookingConfirmation(record, {
                       ...base,
                       getWeather: async (mp, eventDate) => {

@@ -5,6 +5,7 @@ import { durationMinutes } from "./lib/schedule";
 import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type EmailLang } from "@/notifications/lib/booking-email";
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
+import { filterPostTourOffers, type OfferSource } from "@/freetour/lib/promo-policy";
 
 export interface TourSummary {
   title: string;
@@ -20,7 +21,15 @@ export interface TourSummary {
   pageId?: string;
 }
 
-export interface MoreTour { title: string; url: string; imageUrl: string; rating?: number | null; isFree?: boolean }
+export interface MoreTour {
+  title: string;
+  url: string;
+  imageUrl: string;
+  rating?: number | null;
+  isFree?: boolean;
+  /** REQ-081: origen del producto; sin origen cuenta como FREETOUR (falla cerrada). */
+  source?: OfferSource;
+}
 
 export interface ContactConfig {
   whatsapp?: string;
@@ -172,13 +181,21 @@ export async function sendStatusEmail(
   }
 }
 
-/** Correo post-tour: reseña en un clic y siguiente plan. Nunca lanza. */
-export async function sendReviewRequest(record: BookingRecord, deps: StatusDeps): Promise<"disabled" | "sent" | "failed"> {
+/**
+ * Correo post-tour: reseña en un clic y siguiente plan. Nunca lanza.
+ * REQ-081: el siguiente plan no ofrece tours de FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED
+ * esté apagada (`freetourPostTourPromo` en false por omisión).
+ */
+export async function sendReviewRequest(
+  record: BookingRecord,
+  deps: StatusDeps & { freetourPostTourPromo?: boolean }
+): Promise<"disabled" | "sent" | "failed"> {
   if (!deps.enabled) return "disabled";
   try {
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
-    const moreTours = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+    const offers = record.tourExternalId && deps.getMoreTours ? await deps.getMoreTours(record.tourExternalId, deps.lang, site).catch(() => []) : [];
+    const moreTours = filterPostTourOffers(offers, { postTourPromo: deps.freetourPostTourPromo === true }); // REQ-081
     const email = buildReviewRequestEmail({
       lang: deps.lang,
       refNumber: record.refNumber,

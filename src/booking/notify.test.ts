@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { sendBookingConfirmation, sendStatusEmail } from "./notify";
+import { sendBookingConfirmation, sendStatusEmail, sendReviewRequest } from "./notify";
 
 const record = {
   refNumber: "6782-1-244", tourExternalId: 6782, eventId: 1, adults: 2, children: 0, price: 0,
@@ -73,5 +73,25 @@ describe("invitación de calendario", () => {
     const send = vi.fn(async (_e: { attachments?: { filename: string; content: string }[] }) => "id");
     await sendStatusEmail("canceled", withUtc, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send, calendar: { organizerEmail: "reservas@travelpuzzle.com.mx" } });
     expect(atob(send.mock.calls[0][0].attachments![0].content)).toContain("METHOD:CANCEL");
+  });
+});
+
+describe("REQ-081 correo post-tour sin FREETOUR", () => {
+  const more = [
+    { title: "Free tour Coyoacán", url: "https://x/tours/a", imageUrl: "https://x/a.jpg", source: "freetour" as const },
+    { title: "Traslado al aeropuerto", url: "https://x/traslados", imageUrl: "https://x/b.jpg", source: "affiliate" as const },
+  ];
+  it("REQ-081: con FREETOUR_POSTTOUR_PROMO_ENABLED apagada, el correo post-tour no ofrece tours de FREETOUR", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+    await sendReviewRequest(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send });
+    const { html, text } = send.mock.calls[0][0];
+    expect(html).not.toContain("Free tour Coyoacán");
+    expect(text).not.toContain("Free tour Coyoacán");
+    expect(text).toContain("Traslado al aeropuerto");
+  });
+  it("REQ-081: solo con la bandera encendida (autorización escrita) se ofrecen", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "id");
+    await sendReviewRequest(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, getMoreTours: async () => more, send, freetourPostTourPromo: true });
+    expect(send.mock.calls[0][0].text).toContain("Free tour Coyoacán");
   });
 });
