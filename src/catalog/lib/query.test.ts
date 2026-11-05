@@ -51,3 +51,31 @@ describe("INC-003: catálogo en memoria (REQ-035)", () => {
     expect(p).toEqual({ ids: ["a"], total: 3, page: 2, limit: 2 });
   });
 });
+
+// REQ-057 (INC-005): "Roma" traía Bucarest (Romania), León ("Jardín Romántico", "murallas romanas"), Nápoles ("romano")…
+describe("REQ-057 búsqueda por destino y por palabra completa", () => {
+  const entries = [
+    e("roma1", { text: normalize("Free Tour Roma Esencial Roma Rome Italia Italy"), cityNames: ["roma", "rome"], countryNames: ["italia", "italy"], reviews: 10 }),
+    e("roma2", { text: normalize("Trastevere Roma Rome Italia"), cityNames: ["roma", "rome"], countryNames: ["italia", "italy"], reviews: 5 }),
+    e("bucarest", { text: normalize("Free Tour Bucarest Bucharest Rumania Romania"), cityNames: ["bucarest", "bucharest"], countryNames: ["rumania", "romania"] }),
+    e("leon", { text: normalize("Centro de León Jardín Romántico murallas romanas León España"), cityNames: ["leon"], countryNames: ["espana", "spain"] }),
+    e("napoles", { text: normalize("Nápoles casco antiguo greco-romano Napoli Italia"), cityNames: ["napoles", "naples"], countryNames: ["italia", "italy"] }),
+  ];
+  const ids = (search: string) => queryCatalog(entries, { search }, {}).ids.sort();
+  it("REQ-057: si el texto es un destino (ciudad en cualquier idioma) solo salen tours de ese destino", () => {
+    expect(ids("Roma")).toEqual(["roma1", "roma2"]);
+    expect(ids("rome")).toEqual(["roma1", "roma2"]);
+    expect(ids("  ROMA ")).toEqual(["roma1", "roma2"]);
+  });
+  it("REQ-057: un país también es destino", () => {
+    expect(ids("Rumania")).toEqual(["bucarest"]);
+    expect(ids("italia")).toEqual(["napoles", "roma1", "roma2"]);
+  });
+  it("REQ-057: fuera de destinos, la palabra completa gana a los pedazos (romano no es Roma)", () => {
+    expect(ids("murallas")).toEqual(["leon"]);
+    expect(ids("casco antiguo")).toEqual(["napoles"]);
+  });
+  it("REQ-057: si nadie tiene la palabra completa, se acepta el inicio de palabra (se está escribiendo)", () => {
+    expect(ids("trasteve")).toEqual(["roma2"]);
+  });
+});
