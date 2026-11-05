@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { createFreetourApi } from "./api";
 import { FREETOUR_HOSTS } from "./lib/hosts";
 
-const config = { environment: "stage" as const, baseUrl: FREETOUR_HOSTS.stage, email: "e", password: "p" };
+const config = { environment: "stage" as const, apiVersion: "2.0" as const, baseUrl: FREETOUR_HOSTS.stage, email: "e", password: "p" };
 
 function fakeFetch() {
   return vi.fn(async (url: string) => {
