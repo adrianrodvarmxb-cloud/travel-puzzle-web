@@ -79,3 +79,30 @@ describe("REQ-049 toEntry lee el resumen solo si está vigente", () => {
     expect(toEntry({ id: "t", cityId: 1, countryId: 1 }, "es", now)).toMatchObject({ languages: null, dates: null });
   });
 });
+
+describe("REQ-051/052/053/054/055 filtros de Freetour en el catálogo", () => {
+  const nowMs = Date.parse("2026-12-15T00:00:00Z");
+  const entries = [
+    e("pie", { categoryId: 12, durationMinutes: 120, createdAt: Date.parse("2026-10-30T00:00:00Z") }),
+    e("barco", { categoryId: 3, durationMinutes: 300, createdAt: Date.parse("2026-12-10T00:00:00Z") }),
+  ];
+  const q = (f: object) => queryCatalog(entries, f, {}, nowMs).ids.sort();
+  it("REQ-051: tipo de actividad por grupo", () => {
+    expect(q({ groups: ["barcos"] })).toEqual(["barco"]);
+    expect(q({ groups: ["barcos", "visitas"] })).toEqual(["barco", "pie"]);
+  });
+  it("REQ-052: cancelación gratuita — todos los de Freetour la tienen (24 h)", () => {
+    expect(q({ freeCancel: true })).toEqual(["barco", "pie"]);
+  });
+  it("REQ-053/054: privado y recogida en hotel — Freetour no lo informa, así que no se afirma", () => {
+    expect(q({ privateOnly: true })).toEqual([]);
+    expect(q({ hotelPickup: true })).toEqual([]);
+  });
+  it("REQ-055: novedad = alta en los últimos 30 días y después de la carga inicial del catálogo", () => {
+    expect(q({ novelty: true })).toEqual(["barco"]);
+  });
+  it("REQ-056: duración por rango en minutos", () => {
+    expect(q({ durMin: 60, durMax: 180 })).toEqual(["pie"]);
+    expect(q({ durMin: 200 })).toEqual(["barco"]);
+  });
+});

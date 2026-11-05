@@ -9,7 +9,7 @@ import { toEntry, type CatalogEntry } from './lib/query';
  */
 const SQL = `
 SELECT t.id, t.cityId, t.countryId, t.categoryId, t.priceValue, t.rating, t.reviewsNumber, t.durationMinutes,
-       t.createdAt, t.updatedAt, tr.title, tr.brief, c.translations AS cityTr, co.translations AS countryTr
+       t.createdAt, t.updatedAt, t.guideLanguages, t.departureDates, t.departuresSyncedAt, tr.title, tr.brief, c.translations AS cityTr, co.translations AS countryTr
 FROM Tour t
 LEFT JOIN TourTranslation tr ON tr.tourId = t.id AND tr.language = ?1
 LEFT JOIN City c ON c.id = t.cityId
@@ -17,7 +17,7 @@ LEFT JOIN Country co ON co.id = t.countryId
 WHERE t.isActive = 1`;
 
 export function loadCatalog(language: string): Promise<CatalogEntry[]> {
-  return cached(cacheKey('catalog', { language, v: 1 }), { ttlSec: 1800, staleSec: 86400 }, () =>
+  return cached(cacheKey('catalog', { language, v: 2 }), { ttlSec: 1800, staleSec: 86400 }, () =>
     withRetry(async () => {
       const db = getD1() as unknown as { prepare(s: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } } };
       const { results } = await db.prepare(SQL).bind(language).all();

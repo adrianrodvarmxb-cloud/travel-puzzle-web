@@ -73,3 +73,21 @@ describe("REQ-049 viajes propios con idioma y fecha", () => {
     expect(matchesToursFilter(t, f({ date: "2026-11-12" }))).toBe(false);
   });
 });
+
+describe("REQ-051..056 viajes propios con los filtros estilo Civitatis", () => {
+  const t = { countries: ["PE"], kind: "tour" as const, group: "visitas", freeCancel: true, private: true, hotelPickup: true, createdAt: Date.parse("2026-11-05T00:00:00Z"), durationMinutes: 1440 };
+  const f = (o: Record<string, unknown> = {}) => ({ countryCode: null, kind: "all" as const, nowMs: Date.parse("2026-11-20T00:00:00Z"), ...o });
+  it("REQ-051..055: tipo, cancelación gratuita, privado, recogida y novedad", () => {
+    expect(matchesToursFilter(t, f({ groups: ["visitas"] }))).toBe(true);
+    expect(matchesToursFilter(t, f({ groups: ["barcos"] }))).toBe(false);
+    expect(matchesToursFilter(t, f({ freeCancel: true, privateOnly: true, hotelPickup: true, novelty: true }))).toBe(true);
+    expect(matchesToursFilter({ ...t, freeCancel: false }, f({ freeCancel: true }))).toBe(false);
+    expect(matchesToursFilter({ ...t, private: false }, f({ privateOnly: true }))).toBe(false);
+    expect(matchesToursFilter({ ...t, hotelPickup: false }, f({ hotelPickup: true }))).toBe(false);
+    expect(matchesToursFilter({ ...t, createdAt: Date.parse("2026-09-01T00:00:00Z") }, f({ novelty: true }))).toBe(false);
+  });
+  it("REQ-056: duración en minutos", () => {
+    expect(matchesToursFilter(t, f({ durMax: 240 }))).toBe(false);
+    expect(matchesToursFilter(t, f({ durMin: 600 }))).toBe(true);
+  });
+});

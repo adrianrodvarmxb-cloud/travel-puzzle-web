@@ -5,6 +5,11 @@
  */
 import { durationRangeWhere, type DurationRange } from "@/tours/lib/duration";
 import { freshSummary } from "@/departures/lib/summary";
+import { categoryGroupOf } from "@/tours/lib/extra-filters";
+
+/** REQ-055: el catálogo se cargó completo el 30-31 oct 2026; antes de esa fecha "alta" no significa "novedad". */
+export const CATALOG_LOADED_AT = Date.parse("2026-11-01T00:00:00Z");
+export const NOVELTY_DAYS = 30;
 
 export interface CatalogEntry {
   id: string; cityId: number; countryId: number; categoryId: number | null;
@@ -18,6 +23,9 @@ export interface CatalogFilters {
   durationRange?: DurationRange | null; search?: string;
   /** REQ-049: idioma del guía (es, en…) y fecha disponible (YYYY-MM-DD). */
   guideLanguage?: string | null; date?: string | null;
+  /** REQ-051..056: tipo de actividad (grupos), cancelación gratuita, privado, recogida, novedad y duración (min). */
+  groups?: string[]; freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
+  durMin?: number | null; durMax?: number | null;
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -55,7 +63,8 @@ const SORT: Record<string, (x: CatalogEntry) => number | null> = {
   reviewsNumber: (x) => x.reviews, createdAt: (x) => x.createdAt, updatedAt: (x) => x.updatedAt,
 };
 
-export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: CatalogPage) {
+export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: CatalogPage, nowMs: number = Date.now()) {
+  const newSince = Math.max(CATALOG_LOADED_AT, nowMs - NOVELTY_DAYS * 864e5);
   const words = f.search ? normalize(f.search).split(" ").filter(Boolean) : [];
   const dur = f.durationRange ? durationRangeWhere(f.durationRange) : null;
   const hit = entries.filter((x) =>
@@ -67,6 +76,12 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (!dur || (x.durationMinutes !== null && (dur.gt === undefined || x.durationMinutes > dur.gt) && (dur.lte === undefined || x.durationMinutes <= dur.lte))) &&
     (!f.guideLanguage || (x.languages ?? []).includes(f.guideLanguage)) && // REQ-049
     (!f.date || (x.dates ?? []).includes(f.date)) &&
+    (!f.groups?.length || f.groups.includes(categoryGroupOf(x.categoryId))) && // REQ-051
+    // REQ-052: Freetour cancela gratis (24 h). REQ-053/054: no informa privado ni recogida → no se afirma.
+    !f.privateOnly && !f.hotelPickup &&
+    (!f.novelty || x.createdAt > newSince) && // REQ-055
+    (f.durMin == null || (x.durationMinutes !== null && x.durationMinutes >= f.durMin)) && // REQ-056
+    (f.durMax == null || (x.durationMinutes !== null && x.durationMinutes <= f.durMax)) &&
     words.every((w) => x.text.includes(w)));
   const key = SORT[p.sortBy ?? ""] ?? SORT.createdAt;
   const dir = (p.sortBy && SORT[p.sortBy] ? p.sortOrder ?? "asc" : "desc") === "asc" ? 1 : -1;

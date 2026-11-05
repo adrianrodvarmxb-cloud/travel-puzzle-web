@@ -14,8 +14,10 @@ import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
 import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
 import { DurationFilter } from '@/components/tours/DurationFilter';
-import { DepartureFilters } from '@/components/tours/DepartureFilters';
-import { parseGuideLanguage, parseTripDate } from '@/departures/lib/params';
+import { MoreFilters } from '@/components/tours/filters/MoreFilters';
+import { FiltersSheet } from '@/components/tours/filters/FiltersSheet';
+import { matchesToursFilter } from '@/trips/lib/public';
+import { parseExtraFilters, extraFiltersToParams, countActive, EMPTY_EXTRA, type ExtraFilters } from '@/tours/lib/extra-filters';
 import { ToursMap } from '@/components/tours/ToursMap';
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
 import { parseDurationRange, type DurationRange } from '@/tours/lib/duration';
@@ -44,6 +46,8 @@ interface ToursPageClientProps {
     ownTrips?: TripCard[];
     /** id de país del catálogo → código ISO, para filtrar los viajes por país. */
     countryCodeById?: Record<number, string>;
+    /** Fecha de hoy (YYYY-MM-DD) calculada en el servidor. */
+    today: string;
 }
 
 export function ToursPageClient({
@@ -53,6 +57,7 @@ export function ToursPageClient({
     initialLanguage,
     ownTrips = [],
     countryCodeById = {},
+    today,
 }: ToursPageClientProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
@@ -111,9 +116,10 @@ export function ToursPageClient({
     const [filtersOpen, setFiltersOpen] = useState(false);
     // Duración (?duracion=short|mid|long)
     const [duration, setDuration] = useState<DurationRange | null>(() => parseDurationRange(searchParams.get('duracion')));
-    // REQ-049: idioma del guía (?idioma=) y fecha disponible (?fecha=); "hoy" llega del servidor (render determinista)
-    const [guideLanguage, setGuideLanguage] = useState<string | null>(() => parseGuideLanguage(searchParams.get('idioma')));
-    const [tripDate, setTripDate] = useState<string | null>(() => parseTripDate(searchParams.get('fecha'), today));
+    // REQ-049..056: filtros estilo Civitatis en un solo estado; "hoy" llega del servidor (render determinista)
+    const [extra, setExtra] = useState<ExtraFilters>(() => parseExtraFilters(new URLSearchParams(searchParams.toString()), today));
+    const extraKey = extraFiltersToParams(extra).toString();
+    const changeExtra = (next: ExtraFilters) => { setExtra(next); setPagination((p) => ({ ...p, page: 1 })); };
     // Lista o mapa (celular y tablet) y tour resaltado en el mapa
     const [view, setView] = useState<ToursView>('list');
     const [activeId, setActiveId] = useState<string | null>(null);
@@ -126,8 +132,7 @@ export function ToursPageClient({
         minPrice: uiFilters.minPrice,
         maxPrice: uiFilters.maxPrice,
         durationRange: duration,
-        guideLanguage,
-        date: tripDate,
+        ...extra,
     };
 
     // Build pagination with search if provided
@@ -167,8 +172,7 @@ export function ToursPageClient({
         paginationWithSearch.page === serverPage &&
         sort === parseSort(searchParams.get('sort')) &&
         duration === parseDurationRange(searchParams.get('duracion')) &&
-        guideLanguage === parseGuideLanguage(searchParams.get('idioma')) &&
-        tripDate === parseTripDate(searchParams.get('fecha'), today) &&
+        extraKey === extraFiltersToParams(parseExtraFilters(new URLSearchParams(searchParams.toString()), today)).toString() &&
         language === initialLanguage;
 
     // Fetch tours with filters and pagination
@@ -218,8 +222,8 @@ export function ToursPageClient({
     sortRef.current = sort;
     const durationRef = useRef<DurationRange | null>(duration);
     durationRef.current = duration;
-    const departureRef = useRef({ guideLanguage, tripDate });
-    departureRef.current = { guideLanguage, tripDate };
+    const extraRef = useRef(extra);
+    extraRef.current = extra;
 
     // Update URL params when filters or pagination change
     const updateUrlParams = useCallback(
@@ -234,8 +238,7 @@ export function ToursPageClient({
             if (filters.search) params.set('search', filters.search);
             if (sortRef.current !== 'reviews') params.set('sort', sortRef.current);
             if (durationRef.current) params.set('duracion', durationRef.current);
-            if (departureRef.current.guideLanguage) params.set('idioma', departureRef.current.guideLanguage);
-            if (departureRef.current.tripDate) params.set('fecha', departureRef.current.tripDate);
+            extraFiltersToParams(extraRef.current, params);
 
             // Add pagination params (only if not page 1)
             if (pagination.page && pagination.page > 1) {
@@ -263,7 +266,7 @@ export function ToursPageClient({
             return;
         }
         updateUrlParams(uiFilters, pagination);
-    }, [uiFilters, pagination, sort, duration, guideLanguage, tripDate, updateUrlParams]);
+    }, [uiFilters, pagination, sort, duration, extraKey, updateUrlParams]);
 
     // Update state when URL params change (e.g., browser back/forward)
     useEffect(() => {
@@ -306,7 +309,15 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice, duration ?? undefined, guideLanguage ?? undefined, tripDate ?? undefined].filter((v) => v !== undefined).length;
+    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N actividades")
+    const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
+    const clearAllFilters = () => {
+        setUiFilters((prev) => ({ search: prev.search }));
+        setDuration(null);
+        setExtra(EMPTY_EXTRA);
+        setPagination((p) => ({ ...p, page: 1 }));
+    };
+    const activeFilters = [uiFilters.countryId, uiFilters.cityId, uiFilters.minPrice, uiFilters.maxPrice, duration ?? undefined].filter((v) => v !== undefined).length + countActive(extra);
 
     const handlePaginationChange = (newPage: number) => {
         setPagination(prev => ({ ...prev, page: newPage }));
@@ -332,7 +343,7 @@ export function ToursPageClient({
                     {/* Filtros */}
                     <aside className="lg:col-span-1 xl:col-span-3">
                         <MobileFiltersToggle open={filtersOpen} onToggle={() => setFiltersOpen((v) => !v)} active={activeFilters} />
-                        <div className={`${filtersOpen ? 'mt-3 block' : 'hidden'} lg:sticky lg:top-6 lg:mt-0 lg:block`}>
+                        <FiltersSheet open={filtersOpen} onClose={() => setFiltersOpen(false)} onClear={clearAllFilters} count={(currentToursData?.pagination?.total ?? 0) + ownCount} lang={language}>
                             <TourFiltersPanel
                                 filters={uiFilters}
                                 onFilterChange={handleFilterChange}
@@ -342,21 +353,15 @@ export function ToursPageClient({
                                 hideSearch
                             />
                             <DurationFilter value={duration} onChange={handleDurationChange} />
-                            <DepartureFilters
-                                language={guideLanguage}
-                                date={tripDate}
-                                today={today}
-                                onLanguage={(v) => { setGuideLanguage(v); setPagination((p) => ({ ...p, page: 1 })); }}
-                                onDate={(v) => { setTripDate(v); setPagination((p) => ({ ...p, page: 1 })); }}
-                            />
-                        </div>
+                            <MoreFilters value={extra} onChange={changeExtra} today={today} lang={language} />
+                        </FiltersSheet>
                     </aside>
 
                     {/* Tours (en celular y tablet se oculta cuando se ve el mapa) */}
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
                         {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
-                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} guideLanguage={guideLanguage} date={tripDate} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
+                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} extra={extra} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
                         )}
                         {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />

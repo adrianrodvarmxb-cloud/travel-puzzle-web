@@ -23,6 +23,10 @@ export interface TourFilters {
   categoryId?: number;
   /** Rango de duración (?duracion=). */
   durationRange?: DurationRange | null;
+  /** REQ-049..056: filtros estilo Civitatis. */
+  guideLanguage?: string | null; date?: string | null; groups?: string[];
+  freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
+  durMin?: number | null; durMax?: number | null;
 }
 
 export async function getToursWithFilters(
@@ -107,6 +111,9 @@ export async function getToursFromCatalog(
     countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
     minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
     search: pagination.searchValue,
+    guideLanguage: filters.guideLanguage, date: filters.date, groups: filters.groups, freeCancel: filters.freeCancel,
+    privateOnly: filters.privateOnly, hotelPickup: filters.hotelPickup, novelty: filters.novelty,
+    durMin: filters.durMin, durMax: filters.durMax,
   }, pagination);
   const rows = ids.length
     ? await prisma.tour.findMany({
