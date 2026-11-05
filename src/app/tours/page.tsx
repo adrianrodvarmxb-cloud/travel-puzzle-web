@@ -4,6 +4,7 @@ import { getPreferredLanguage } from '@/lib/utils/cookies';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
 import { parseSort, sortToPagination } from '@/tours/lib/sort';
+import { parseExtraFilters } from '@/tours/lib/extra-filters';
 import { parseDurationRange } from '@/tours/lib/duration';
 import { loadTripCards } from '@/trips/public-load';
 import { getPrisma } from '@/lib/prisma';
@@ -18,6 +19,7 @@ interface ToursPageProps {
     page?: string;
     sort?: string;
     duracion?: string;
+    [k: string]: string | undefined;
   }>;
 }
 
@@ -28,6 +30,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   // Parse URL search params
   const params = await searchParams;
   
+  // REQ-049..056: "hoy" se calcula en el servidor (render determinista, INC-001)
+  const today = new Date().toISOString().slice(0, 10);
+  const extra = parseExtraFilters(new URLSearchParams(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), today);
   // Build filters from URL params
   const filters: TourFilters = {
     language,
@@ -36,6 +41,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     minPrice: params.minPrice ? parseFloat(params.minPrice) : undefined,
     maxPrice: params.maxPrice ? parseFloat(params.maxPrice) : undefined,
     durationRange: parseDurationRange(params.duracion),
+    ...extra,
   };
   
   // Build pagination from URL params
@@ -92,6 +98,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       initialLanguage={language}
       ownTrips={ownTrips}
       countryCodeById={countryCodeById}
+      today={today}
+      showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
     />
   );
 }

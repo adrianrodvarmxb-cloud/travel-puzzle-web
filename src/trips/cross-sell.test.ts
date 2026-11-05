@@ -4,7 +4,7 @@ import type { TripCard } from "./public-load";
 
 const card = (id: string, kind: TripCard["kind"], cities: string[], countries: string[]): TripCard => ({
   id, path: `/viajes/x/${id}`, code: id, kind, title: `T ${id}`, summary: "", image: null, countries, places: "", cities, durationDays: 1,
-  price: { main: "MXN $630", original: null, rateNote: null }, priceFrom: 630,
+  price: { main: "MXN $630", original: null, rateNote: null }, priceFrom: 630, languages: [], dates: [], group: "otros", freeCancel: false, private: false, hotelPickup: false, createdAt: 0, durationMinutes: null,
 });
 
 const deps: CrossSellDeps = {

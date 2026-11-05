@@ -74,6 +74,11 @@ model Tour {
   bookings      Booking[]
   isActive      Boolean           @default(true)
   lastSeenAt    DateTime? // última corrida diaria en la que apareció en la API
+  // REQ-049: resumen de salidas (idiomas del guía y fechas próximas), lo llena el sync escalonado de salidas
+  guideLanguages      Json      @default("[]")
+  departureDates      Json      @default("[]")
+  departuresSyncedAt  DateTime?
+  departuresCheckedAt DateTime?
   updatedAt     DateTime          @updatedAt
   createdAt     DateTime          @default(now())
 
@@ -87,6 +92,7 @@ model Tour {
   @@index([isActive, countryId])
   @@index([isActive, cityId])
   @@index([isActive, rating])
+  @@index([isActive, departuresCheckedAt])
 }
 
 model TourTranslation {

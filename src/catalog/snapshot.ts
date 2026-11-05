@@ -9,7 +9,7 @@ import { toEntry, CATALOG_SHAPE, type CatalogEntry } from './lib/query';
  */
 const SQL = `
 SELECT t.id, t.cityId, t.countryId, t.categoryId, t.priceValue, t.rating, t.reviewsNumber, t.durationMinutes,
-       t.createdAt, t.updatedAt, tr.title, tr.brief, c.translations AS cityTr, co.translations AS countryTr
+       t.createdAt, t.updatedAt, t.guideLanguages, t.departureDates, t.departuresSyncedAt, tr.title, tr.brief, c.translations AS cityTr, co.translations AS countryTr
 FROM Tour t
 LEFT JOIN TourTranslation tr ON tr.tourId = t.id AND tr.language = ?1
 LEFT JOIN City c ON c.id = t.cityId
