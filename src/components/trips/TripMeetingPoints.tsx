@@ -5,13 +5,13 @@ import { mapsUrl } from '@/trips/lib/maps';
 
 interface Point { name: string; address: string; lat: number | null; lng: number | null; instructions: string; photo: string | null }
 
-/** Puntos de encuentro con mapa, foto e indicaciones. */
+/** Puntos de encuentro con mapa, foto e indicaciones. REQ-044: el mapa define su propia altura (no se encima al texto). */
 export function TripMeetingPoints({ points, hotelPickup, endPoint, c }: { points: Point[]; hotelPickup: boolean; endPoint: string; c: { hotel: string; endPoint: string; seeMap: string } }) {
     return (
         <div className="space-y-5">
             {points.map((p, i) => (
                 <div key={i} className="overflow-hidden rounded-2xl border border-white/10 bg-[#121D45]">
-                    {p.lat !== null && p.lng !== null && <div className="h-56"><MeetingPointMap point={{ lat: p.lat, lng: p.lng }} label={p.name} /></div>}
+                    {p.lat !== null && p.lng !== null && <div><MeetingPointMap point={{ lat: p.lat, lng: p.lng }} label={p.name} /></div>}
                     <div className="flex gap-4 p-4">
                         {p.photo && <img src={p.photo} alt="" className="h-20 w-28 shrink-0 rounded-lg object-cover" />}
                         <div>
