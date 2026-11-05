@@ -24,16 +24,33 @@ const ext = (p: Photo) => (p.src === "inca" ? extname(p.file).slice(1).replace("
 const keyFor = (ref: string, n: number, p: Photo) =>
   `trips/${bundle.keyStamp}-${`${bundle.agency.initials}${ref}${n}`.toLowerCase().replace(/[^a-z0-9]/g, "")}.${ext(p)}`;
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const cache = new Map<number, string>(); // la misma foto puede ir en varias fichas: se baja una vez
+
+/** Pixabay permite ~100 consultas por minuto: pausa entre llamadas y reintento con espera en 429. */
+async function get(url: string): Promise<Response> {
+  for (let i = 0; i < 5; i++) {
+    const r = await fetch(url);
+    if (r.status !== 429) return r;
+    await sleep(15_000 * (i + 1));
+  }
+  return fetch(url);
+}
+
 async function fetchPixabay(id: number, dest: string) {
+  const prev = cache.get(id);
+  if (prev) return copyFileSync(prev, dest);
   const key = process.env.PIXABAY_API_KEY;
   if (!key) throw new Error("Falta PIXABAY_API_KEY");
-  const r = await fetch(`https://pixabay.com/api/?key=${key}&id=${id}`);
+  await sleep(800);
+  const r = await get(`https://pixabay.com/api/?key=${key}&id=${id}`);
   if (!r.ok) throw new Error(`Pixabay ${id}: HTTP ${r.status}`);
   const hit = (await r.json()).hits?.[0];
   if (!hit) throw new Error(`Pixabay ${id}: sin resultado`);
-  const img = await fetch(hit.largeImageURL);
+  const img = await get(hit.largeImageURL);
   if (!img.ok) throw new Error(`Pixabay ${id}: imagen HTTP ${img.status}`);
   writeFileSync(dest, Buffer.from(await img.arrayBuffer()));
+  cache.set(id, dest);
 }
 
 async function main() {
