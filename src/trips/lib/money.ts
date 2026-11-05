@@ -34,3 +34,13 @@ export function priceDisplay(amount: number | null, currency: Cur, rates: FxRate
   if (mxn === null || !rates) return { main: formatMoney(amount, currency, lang), original: null, rateNote: note.pay };
   return { main: formatMoney(mxn, "MXN", lang), original: formatMoney(amount, currency, lang), rateNote: `${note.fix} ${rates.date}: ${rates[currency]}` };
 }
+
+const APPROX: Record<string, string> = { es: "aprox.", en: "approx.", pt: "aprox.", de: "ca.", fr: "env.", it: "circa" };
+
+/** REQ-112: en «Opciones y precios» manda la moneda original del operador; los pesos van al lado como aproximados. */
+export function optionPrice(amount: number, currency: Cur, rates: FxRates | null, lang = "es"): string {
+  const original = formatMoney(amount, currency, lang);
+  if (currency === "MXN") return original;
+  const mxn = toMXN(amount, currency, rates);
+  return mxn === null ? original : `${original} (${APPROX[lang] ?? APPROX.en} ${formatMoney(mxn, "MXN", lang)})`;
+}

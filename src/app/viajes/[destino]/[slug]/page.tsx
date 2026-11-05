@@ -16,7 +16,7 @@ import { tripPath } from '@/trips/lib/public';
 import { countryName } from '@/trips/lib/geo';
 import { imageUrl } from '@/trips/lib/image';
 import { localized } from '@/trips/lib/translation';
-import { priceDisplay, formatMoney } from '@/trips/lib/money';
+import { priceDisplay, formatMoney, optionPrice } from '@/trips/lib/money';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
@@ -63,7 +63,9 @@ export default async function TripPage({ params }: Props) {
     const env = process.env as Record<string, string | undefined>;
     const contact = contactFromEnv(env);
     const wa = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(`Hola Travel Puzzle, quiero cotizar "${trip.titleEs}" (${trip.code}).`)}` : null;
-    const opt = (n: number | null) => (n === null ? '—' : priceDisplay(n, trip.currency, fx, lang)?.main ?? '—');
+    // REQ-112: opciones en la moneda original del operador con pesos aproximados (decisión del PO, 5 nov 2026). Reversible: false vuelve a pesos primero.
+    const OPTIONS_IN_ORIGINAL = true;
+    const opt = (n: number | null) => (n === null ? '—' : OPTIONS_IN_ORIGINAL ? optionPrice(n, trip.currency, fx, lang) : priceDisplay(n, trip.currency, fx, lang)?.main ?? '—');
     // REQ-007: en la ficha de un transporte, tours de la misma ciudad (o país). Si falla, la ficha sigue.
     const cs = crossSellCopy(lang);
     const tourCity = trip.cities[0] ?? null;
