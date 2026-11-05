@@ -13,7 +13,7 @@ import { PlatformTextLogo } from '@/components/layout/PlatformTextLogo';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { ACCOUNTS_ENABLED } from '@/lib/features';
-import { homeSections } from '@/home/lib/sections';
+import { homeSections, isActiveLink } from '@/home/lib/sections';
 import {
   MenuIcon,
   CloseIcon,
@@ -27,7 +27,7 @@ export const Navbar = () => {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => isActiveLink(pathname ?? '', path); // REQ-068
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
@@ -36,7 +36,7 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const { transfers } = useFeatureFlags();
+  const { transfers, ownTrips } = useFeatureFlags();
   const publicLinks = withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
@@ -199,9 +199,9 @@ export const Navbar = () => {
               ))}
             </div>
 
-            {/* Las 7 secciones del inicio (decisión del PO, 3 nov 2026) */}
+            {/* Secciones del inicio (decisión del PO, 3 nov 2026); REQ-068: se derivan de la lista única */}
             <div className="mb-4 border-t border-white/15 pt-3">
-              {homeSections(language).map((s) => (
+              {homeSections(language, { ownTrips }).map((s) => (
                 <Link
                   key={s.id}
                   href={s.href}

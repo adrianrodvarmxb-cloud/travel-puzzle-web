@@ -14,7 +14,7 @@ export const FREETOUR_HOSTS = {
 export type FreetourEnvironment = keyof typeof FREETOUR_HOSTS;
 
 /**
- * REQ-062: interruptor FREETOUR_API_VERSION. Sin variable (o con un valor desconocido) se usa
+ * REQ-113: interruptor FREETOUR_API_VERSION. Sin variable (o con un valor desconocido) se usa
  * "2.0" como hoy; regresar = quitar la variable. Solo cambia el sufijo /v.2.x del host.
  */
 export const FREETOUR_API_VERSIONS = ["2.0", "2.1", "2.2"] as const;

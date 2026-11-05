@@ -8,7 +8,7 @@ Estado: **plan + interruptor apagado**. Este PR no cambia nada en producción: s
 
 | Pieza | Dónde se define la versión | Hoy | ¿Cómo se cambia? |
 |---|---|---|---|
-| Worker (catálogo, cron sync-tours, reseñas, /api/freetour/booking, modificar) | `src/freetour/lib/hosts.ts` | v.2.0 fija en código | Con este PR: variable `FREETOUR_API_VERSION` (REQ-062) |
+| Worker (catálogo, cron sync-tours, reseñas, /api/freetour/booking, modificar) | `src/freetour/lib/hosts.ts` | v.2.0 fija en código | Con este PR: variable `FREETOUR_API_VERSION` (REQ-113) |
 | Pasarela cPanel (reservas, cancelación, edición; IP registrada) | `gateway/server.js` | `FREETOUR_BASE_URL` o v.2.0 | Con este PR: `FREETOUR_API_VERSION` en cPanel + reiniciar app |
 | Cliente heredado | `src/lib/api/freetour-client.ts:94` | `www.freetour.com/.../v.2.0` fijo | No se toca (código heredado; ver riesgo R5) |
 | Scripts (`generate-countries`, `gateway/scripts/prueba-reservas.js` en PR #62) | `hosts.ts` / argumento del script | v.2.0; el de prueba ya diagnostica 2.0 y 2.2 | El PO los corre |
@@ -23,7 +23,7 @@ Lo que ya existe para 2.2 (sin publicar):
 
 | # | Cambio en v2.2 | Impacto en nuestro código | Qué falta |
 |---|---|---|---|
-| D1 | Ruta `/partnersAPI/v.2.2` | Worker y pasarela tenían la versión fija | Resuelto con el interruptor (REQ-062) |
+| D1 | Ruta `/partnersAPI/v.2.2` | Worker y pasarela tenían la versión fija | Resuelto con el interruptor (REQ-113) |
 | D2 | Pagos: `POST /payment` → `paymentUrl`, `checkoutSessionId`, `expiresAt`; `GET /payment/{id}` → `paymentStatus` (1 = pagado) | Implementado en PR #62 | Probar en 2.2 con tour 6782; migración 0009 |
 | D3 | Estados de reserva: `active`, `unpaid`, `canceled`, `rejected` | Hoy tratamos todo lo creado como activo | Mapear `unpaid` (pendiente de pago) y `rejected` en la página de reserva (REQ-065) |
 | D4 | Error **63**: pago aún no confirmado → reintentar por cron, **no más de cada 10 min**, hasta que expire la sesión | `retryPendingPayments` en PR #62 | Verificar intervalo del cron ≥ 10 min y corte en `expiresAt` |
@@ -50,7 +50,7 @@ El copy solo promete lo que esté encendido en producción.
 
 | Paso | REQ | Qué | Quién | Gate |
 |---|---|---|---|---|
-| 0 | REQ-062 | Interruptor de versión, apagado (este PR) | Claude | Gate A: PO firma el plan y el merge (no cambia el comportamiento) |
+| 0 | REQ-113 | Interruptor de versión, apagado (este PR) | Claude | Gate A: PO firma el plan y el merge (no cambia el comportamiento) |
 | 1 | REQ-063 | Prueba de reservas en v2.2 con la pasarela, tour de prueba **6782 (Mpika)**: crear → consultar → editar → cancelar | **PO** corre el script en cPanel | Gate B1: salida del script verde |
 | 2 | REQ-063 | Pasarela en 2.2: `FREETOUR_API_VERSION=2.2` en cPanel + reiniciar; repetir paso 1 | **PO** | Gate B2 |
 | 3 | REQ-064 | Worker en 2.2: precio desde `payableNowPricePerGroup`, validación Zod de campos nuevos, luego `FREETOUR_API_VERSION="2.2"` en preview → humo → producción | Claude prepara PR; PO firma deploy | Gate B3 |
