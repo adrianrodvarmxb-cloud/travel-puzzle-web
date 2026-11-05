@@ -15,15 +15,19 @@ describe("publishChecklist (estándar GYG, gate J)", () => {
     expect(publishChecklist(full)).toEqual([]);
   });
   it("dice exactamente qué falta", () => {
-    const r = publishChecklist({ ...full, titleEs: "x".repeat(61), highlights: ["uno"], images: full.images.slice(0, 2), options: [], meetingPoints: [{ ...full.meetingPoints[0], lat: null, lng: null }], languages: [] });
+    const r = publishChecklist({ ...full, titleEs: "x".repeat(61), highlights: ["uno"], images: [], options: [], meetingPoints: [{ ...full.meetingPoints[0], lat: null, lng: null }], languages: [] });
     expect(r).toEqual([
       "título de máximo 60 caracteres",
       "3 a 5 puntos destacados",
       "al menos una opción con precio adulto",
       "punto de encuentro con ubicación en el mapa",
       "idiomas del guía",
-      `al menos ${MIN_PHOTOS} fotos (tienes 2)`,
+      "al menos 1 foto (tienes 0)",
     ]);
+  });
+  it("REQ-043: basta 1 foto para publicar (sin mínimo de 5)", () => {
+    expect(MIN_PHOTOS).toBe(1);
+    expect(publishChecklist({ ...full, images: full.images.slice(0, 1) })).toEqual([]);
   });
   it("personalizado: sin precio ni punto de encuentro obligatorio", () => {
     expect(publishChecklist({ ...full, kind: "personalizado", options: [], meetingPoints: [] })).toEqual([]);
