@@ -18,6 +18,7 @@ Actualizado: 3 nov 2026.
 ## Banderas (wrangler.jsonc)
 - `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403). También muestra `/ayuda` y su enlace en el footer.
 - `EMAILS_ENABLED=false`, `REVIEW_EMAILS_ENABLED=false`, `PAID_TOURS_ENABLED=false`.
+- `SYNC_GUARD_ENABLED=false` — sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
 
 ## Pasarela — robustez (punto 16, nov 2026)
 - Token por intento (24 h) + bloqueo de traslapes; IP de salida obligatoria; espera tras login fallido;
@@ -115,3 +116,24 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-019 | Conformidad con el Swagger | `gateway/lib/operations.js`, `gateway/lib/freetour-spec-required.json` | `spec-conformance.test.js` | CUMPLIDO |
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
+
+## Ola 1 «La Primera Pieza» — blindaje del sync (5 nov 2026)
+Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy queda idéntico. Migración 0014 en PR aparte (sin aplicar).
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-071 | Barrera de cordura (vacío, error, > 20 % menos) sin tocar Tour | `src/catalog/lib/sanity.ts`, `src/catalog/guarded-sync.ts`, `migrations/0014_sync_presencia.sql` | `sanity.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-072 | Respaldo, publicación al cierre (pasos de 100) y checkpoint solo si termina bien | `src/catalog/lib/sql.ts` (`publishBatch`), `src/catalog/lib/guard-plan.ts`, `src/catalog/guarded-repository.ts` | `sql.test.ts`, `guard-plan.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-073 | content_hash sin calificación; doble corrida = 0 escrituras | `src/catalog/lib/content-hash.ts`, `src/catalog/lib/sql.ts` | `content-hash.test.ts`, `sql.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-074 | active → missing → removed tras 3 corridas; reaparece = active | `src/catalog/lib/presence.ts`, `src/catalog/lib/sql.ts` | `presence.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-075 | updatedSince en /events y utcDate | — | — | PENDIENTE (ver nota) |
+| REQ-076 | Precio y lugares en vivo antes de reservar | — | — | PENDIENTE (fuera de la Ola 1 de código) |
+| REQ-077 | 429/Retry-After, login sin bucle, error 63 ≥ 10 min | `src/catalog/lib/retry.ts`, `src/freetour/api.ts` | `retry.test.ts`, `api.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta conectar el error 63 a un cron de estado de pago) |
+| REQ-078 | Log por corrida y alerta de 26 h | `src/catalog/lib/guard-plan.ts` (`syncHealth`), `SyncRun`, `api/cron/sync-tours/route.ts` | `guard-plan.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta canal de aviso al PO y el registro de reservas de prueba) |
+
+Notas:
+- REQ-075: `updatedSince` existe solo en `/events`; `/tours` se sigue recorriendo completo (así se detectan ausentes y se aplica la barrera del 20 %). Usar `/events?updatedSince` para las salidas no cabe sin cambiar el sync de salidas (REQ-049) y su ritmo; queda pendiente para una ola propia. `utcDate` tampoco se tocó.
+- REQ-076: hoy la ficha y la reserva ya consultan `/tours/{id}/events` en vivo (no caché). `GET /events/{id}` es de la API v2.2 (bandera `FREETOUR_API_VERSION`, apagada).
+- REQ-077: `canCheckPaymentStatus` existe y tiene test, pero hoy ningún cron consulta el estado de pago (tours de pago apagados). Se conecta cuando exista ese cron.
+- REQ-078: la alerta queda en la respuesta del cron (`health`) y en los logs del Worker (`[alerta-sync]`). Falta decidir el canal (correo o WhatsApp al PO). Reservas de prueba canceladas y registradas: no es parte de este PR.
+- REQ-072: con 100 cambios o menos, la publicación, la presencia y el checkpoint van en un solo batch de D1 (atómico). Con más de 100, el contenido se publica en pasos de 100 por minuto (cada paso es atómico y el sitio puede ver tours ya actualizados antes del cierre); las bajas (missing/removed) y el checkpoint solo se aplican en el último paso. El respaldo de cada fila sobrescrita queda en `TourStage.previous` (se conservan las últimas 7 corridas).
+- Primera corrida con la bandera encendida: arranca en el siguiente minuto (sin esperar las 3:00) y, como ningún tour tiene `contentHash` todavía, publica todo el catálogo una vez (unos 81 pasos de 100).

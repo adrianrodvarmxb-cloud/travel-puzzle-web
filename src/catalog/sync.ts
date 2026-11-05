@@ -56,31 +56,7 @@ export async function runSyncStep({ api, repo, countries, now, rebuildSearch }: 
       await repo.upsertCountries(allCountries);
     }
 
-    // Ciudades: solo se piden a la API las que aún no existen.
-    const byCountry = cityIdsOf(tours);
-
-    // Antes de las ciudades, cada país de esta página debe existir (la ciudad apunta a su país).
-    const neededCountries = [...byCountry.keys()];
-    const savedCountries = new Set(await repo.existingCountryIds(neededCountries));
-    const missingCountries = neededCountries.filter((id) => !savedCountries.has(id));
-    if (missingCountries.length > 0) {
-      const known = new Map(allCountries.map((c) => [c.id, c]));
-      await repo.upsertCountries(missingCountries.map((id) => known.get(id) ?? placeholderCountry(id)));
-    }
-    const existing = new Set(await repo.existingCityIds([...byCountry.values()].flat()));
-    for (const [countryId, cityIds] of byCountry) {
-      const missing = cityIds.filter((id) => !existing.has(id));
-      if (missing.length === 0) continue;
-      const cities = await api.get(`/cities/${countryId}`).then((r) => r.data as { id: number; title: Record<string, string> }[]).catch(() => []);
-      const names = new Map(cities.map((c) => [c.id, c.title]));
-      await repo.upsertCities(
-        missing.map((id) => ({
-          id,
-          countryId,
-          translations: Object.fromEntries(LANGUAGES.map((l) => [l, names.get(id)?.[l] || `Ciudad ${id}`])),
-        }))
-      );
-    }
+    await ensurePlaces({ api, repo, tours, allCountries });
 
     await repo.upsertTours(tours.map((t) => toTourRows(t, runStartedAt)));
     await repo.saveState({ status: "in_progress", nextPage: step.page + 1, totalPages, runStartedAt, lastSyncAt: now });
@@ -88,5 +64,45 @@ export async function runSyncStep({ api, repo, countries, now, rebuildSearch }: 
   } catch (error) {
     await repo.saveState({ status: "failed", nextPage: step.page, runStartedAt, lastSyncAt: now });
     throw error;
+  }
+}
+
+type PlacesRepo = Pick<CatalogRepo, "existingCityIds" | "existingCountryIds" | "upsertCountries" | "upsertCities">;
+
+/**
+ * Antes de guardar tours, sus países y ciudades deben existir (llaves foráneas).
+ * Solo agrega lo que falta; las ciudades se piden a la API solo si aún no existen.
+ * La usan el sync de hoy y el sync blindado.
+ */
+export async function ensurePlaces({ api, repo, tours, allCountries }: {
+  api: Deps["api"];
+  repo: PlacesRepo;
+  tours: Pick<TourAPI, "cityId" | "countryId">[];
+  allCountries: ReturnType<typeof countryRows>;
+}) {
+  // Ciudades: solo se piden a la API las que aún no existen.
+  const byCountry = cityIdsOf(tours);
+
+  // Antes de las ciudades, cada país de esta página debe existir (la ciudad apunta a su país).
+  const neededCountries = [...byCountry.keys()];
+  const savedCountries = new Set(await repo.existingCountryIds(neededCountries));
+  const missingCountries = neededCountries.filter((id) => !savedCountries.has(id));
+  if (missingCountries.length > 0) {
+    const known = new Map(allCountries.map((c) => [c.id, c]));
+    await repo.upsertCountries(missingCountries.map((id) => known.get(id) ?? placeholderCountry(id)));
+  }
+  const existing = new Set(await repo.existingCityIds([...byCountry.values()].flat()));
+  for (const [countryId, cityIds] of byCountry) {
+    const missing = cityIds.filter((id) => !existing.has(id));
+    if (missing.length === 0) continue;
+    const cities = await api.get(`/cities/${countryId}`).then((r) => r.data as { id: number; title: Record<string, string> }[]).catch(() => []);
+    const names = new Map(cities.map((c) => [c.id, c.title]));
+    await repo.upsertCities(
+      missing.map((id) => ({
+        id,
+        countryId,
+        translations: Object.fromEntries(LANGUAGES.map((l) => [l, names.get(id)?.[l] || `Ciudad ${id}`])),
+      }))
+    );
   }
 }
