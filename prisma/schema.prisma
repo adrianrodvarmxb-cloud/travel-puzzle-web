@@ -364,3 +364,26 @@ model TripRequest {
   @@index([status, createdAt])
   @@index([tripId])
 }
+
+// REQ-119: pagos con Stripe (ola 1). status: pending | paid | expired | replaced. Siempre en MXN (gate B1).
+model Payment {
+  id               String    @id
+  requestId        String
+  kind             String // anticipo | liquidacion | total
+  amountCentavos   Int
+  currency         String    @default("MXN")
+  originalAmount   Float
+  originalCurrency String
+  fxRate           Float?
+  fxCushionPct     Float     @default(0)
+  stripeSessionId  String    @unique
+  checkoutUrl      String
+  paymentIntent    String?
+  status           String    @default("pending")
+  expiresAt        DateTime
+  paidAt           DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([requestId, status])
+}

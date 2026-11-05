@@ -66,6 +66,10 @@
     "SEARCH_V2_ENABLED": "false",
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
     "STRIPE_HOLD_ENABLED": "false",
+    // Enlace de pago de Stripe para solicitudes (REQ-114..119). "true" solo tras migración 0013, webhook creado y OK del PO.
+    "STRIPE_ENABLED": "false",
+    // Colchón de tipo de cambio para cobros en USD/EUR (gate B1).
+    "STRIPE_FX_CUSHION_PCT": "3",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
