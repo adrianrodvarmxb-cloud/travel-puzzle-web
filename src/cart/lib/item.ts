@@ -12,7 +12,11 @@ export type CartItemType = (typeof CART_ITEM_TYPES)[number];
 export const CART_ITEM_STATUSES = ["in_cart", "pending_payment", "confirmed", "cancelled", "failed"] as const;
 export type CartItemStatus = (typeof CART_ITEM_STATUSES)[number];
 
-export type AdapterMode = "api" | "deeplink";
+/**
+ * api: reserva nativa · deeplink: afiliado en el sitio del proveedor ·
+ * request (REQ-121): el cliente lo pide y Travel Puzzle lo compra (sin pago directo).
+ */
+export type AdapterMode = "api" | "deeplink" | "request";
 
 export interface Money { amount: number; currency: string }
 export interface People { adults: number; children: number }
@@ -29,6 +33,8 @@ export interface CartItem {
   externalId: string;
   mode: AdapterMode;
   cityCode: string;
+  /** Nombre de la ciudad (para prellenar la búsqueda del proveedor). */
+  cityName?: string;
   /** ISO 8601: fecha (AAAA-MM-DD) o fecha y hora. */
   date: string;
   people: People;
@@ -67,8 +73,9 @@ const zItemInput = z.object({
   type: z.enum(CART_ITEM_TYPES),
   providerId: z.string().min(1),
   externalId: z.string().min(1),
-  mode: z.enum(["api", "deeplink"]),
+  mode: z.enum(["api", "deeplink", "request"]),
   cityCode: z.string().min(1),
+  cityName: z.string().min(1).optional(),
   date: z.string().refine((d) => /^\d{4}-\d{2}-\d{2}/.test(d) && !Number.isNaN(Date.parse(d)), "fecha inválida"),
   people: z.object({ adults: z.number().int().min(1), children: z.number().int().min(0) }),
   price: z.object({ amount: z.number().finite().min(0), currency: z.string().refine(isCurrencyCode, "moneda no ISO 4217") }),

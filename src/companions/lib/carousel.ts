@@ -45,6 +45,8 @@ export interface CarouselCandidate {
   chargedBy: string;
   /** Del interruptor (REQ-105); null = sin inventario ni asesor. */
   action: CardAction | null;
+  /** REQ-121: «A cotizar» cuando no hay precio verificado. */
+  priceLabel?: string;
 }
 
 export interface CarouselCard extends CarouselCandidate {

@@ -10,8 +10,12 @@ import { loadManageView } from '@/booking/manage';
 import { manageDeps } from '@/booking/manage-deps';
 import { getPrisma } from '@/lib/prisma';
 import { cartFlags } from '@/cart/lib/flags';
-import { buildArmaTuViajeModel, parseTripQuery } from '@/cart/lib/page-model';
+import { buildArmaTuViajeModel, cartIdFromToken, parseTripQuery } from '@/cart/lib/page-model';
 import { createWhatsAppAdvisor } from '@/cart/adapters/whatsapp';
+import { buildRegistryAdapters } from '@/cart/adapters';
+import { DEFAULT_REGISTRY, probeRegistry } from '@/companions/lib/registry';
+import { providerCities, type TripCitiesDb } from '@/companions/load';
+import { transfersWidgetUrl } from '@/transfers/lib/widget';
 import { loadFirstPiece } from '@/cart/load';
 
 export const dynamic = 'force-dynamic';
@@ -26,7 +30,7 @@ type SP = Record<string, string | string[] | undefined>;
 /**
  * REQ-104…110: «Arma tu viaje». Tras ARMA_TU_VIAJE_ENABLED: apagada responde 404 y no se pinta nada.
  * La Primera Pieza sale de la reserva (?reserva=<token>); las demás piezas, del carrusel.
- * Hoy no hay adaptadores con inventario conectados: cada categoría cae al asesor por WhatsApp (REQ-105).
+ * Traslados con Kiwitaxi (REQ-120); las demás categorías caen al asesor por WhatsApp hasta tener su adaptador (REQ-105).
  */
 export default async function ArmaTuViajePage({ searchParams }: { searchParams: Promise<SP> }) {
     const env = process.env as Record<string, string | undefined>;
@@ -43,11 +47,22 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
         },
     });
     const contact = contactFromEnv(env);
+    const query = parseTripQuery(sp);
+    // REQ-120 / REQ-121: complementos del registro (Kiwitaxi deeplink, Big Bus en solicitud…) prellenados con
+    // la ciudad, la fecha y las personas de la primera pieza; si un adaptador falla, esa tarjeta cae a WhatsApp.
+    const db: TripCitiesDb = { trip: { findMany: (args) => (getPrisma() as unknown as TripCitiesDb).trip.findMany(args) } };
+    const adapters = buildRegistryAdapters(DEFAULT_REGISTRY, { whatsapp: contact.whatsapp, citiesFor: (e) => providerCities(db, e.provider) });
+    const probes = piece && token
+        ? await probeRegistry(DEFAULT_REGISTRY, adapters, {
+            type: 'tour', cityCode: query.cityCode ?? '', cityName: piece.cityName, country: query.country ?? '',
+            date: piece.date.slice(0, 10), people: piece.people, cartId: cartIdFromToken(token),
+        })
+        : {};
     const model = buildArmaTuViajeModel({
         piece,
-        query: parseTripQuery(sp),
+        query,
         advisor: createWhatsAppAdvisor(contact.whatsapp),
-        probes: {},
+        probes,
         flags: { visa: flags.visa, etias: flags.etias },
         now: Date.now(),
     });
@@ -68,7 +83,7 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
                                 <p className="text-sm text-slate-300">{model.piece.when} · {model.piece.cost}</p>
                             </div>
                             <SectionBoundary name="carrusel-arma-tu-viaje">
-                                <CompanionCarousel cards={model.cards} cityCode={model.cityCode ?? ''} />
+                                <CompanionCarousel cards={model.cards} cityCode={model.cityCode ?? ''} transferWidgetSrc={transfersWidgetUrl('es')} />
                             </SectionBoundary>
                         </>
                     ) : (

@@ -1,7 +1,8 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { CarouselCard } from '@/companions/lib/carousel';
 import type { CarouselEventName } from '@/companions/lib/events';
+import { TransferPanel } from './TransferPanel';
 
 /** REQ-110: manda el evento sin bloquear la navegación (sin datos personales). */
 function track(name: CarouselEventName, card: CarouselCard, cityCode: string) {
@@ -19,7 +20,8 @@ function track(name: CarouselEventName, card: CarouselCard, cityCode: string) {
  * Recibe hasta 4 tarjetas ya ordenadas en el servidor; en celular solo se ven las 3 primeras.
  * Nada viene preseleccionado: cada acción es un toque del cliente. Cada tarjeta dice quién cobra.
  */
-export function CompanionCarousel({ cards, cityCode }: { cards: CarouselCard[]; cityCode: string }) {
+export function CompanionCarousel({ cards, cityCode, transferWidgetSrc }: { cards: CarouselCard[]; cityCode: string; transferWidgetSrc?: string }) {
+    const [panel, setPanel] = useState<CarouselCard | null>(null);
     useEffect(() => {
         const visible = window.matchMedia('(min-width: 768px)').matches ? 4 : 3;
         cards.slice(0, visible).forEach((c) => track('card_viewed', c, cityCode));
@@ -38,19 +40,31 @@ export function CompanionCarousel({ cards, cityCode }: { cards: CarouselCard[]; 
                         <li key={`${card.category}-${i}`} className={`${i >= 3 ? 'hidden md:flex' : 'flex'} flex-col rounded-2xl border border-white/10 bg-white/5 p-4`}>
                             <p className="text-base font-semibold text-white">{card.title}</p>
                             <p className="mt-1 text-sm text-slate-300">{card.chargedByLabel}</p>
+                            {card.priceLabel ? <p className="mt-1 text-sm font-semibold text-sky-300">{card.priceLabel}</p> : null}
                             <a
                                 href={a.url}
                                 target="_blank"
                                 rel={a.kind === 'deeplink' ? 'sponsored noopener noreferrer' : 'noopener noreferrer'}
-                                onClick={() => track(a.kind === 'whatsapp' ? 'whatsapp_quote' : 'card_added', card, cityCode)}
+                                onClick={() => track(a.kind === 'deeplink' ? 'card_added' : 'whatsapp_quote', card, cityCode)}
                                 className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full bg-sky-500 px-4 text-sm font-semibold text-white hover:bg-sky-400"
                             >
                                 {a.label}
                             </a>
+                            {/* REQ-120: el buscador de traslados vive dentro del carrito, en un panel; nunca como sección suelta. */}
+                            {card.type === 'transfer' && a.kind === 'deeplink' && transferWidgetSrc ? (
+                                <button
+                                    type="button"
+                                    onClick={() => { track('card_added', card, cityCode); setPanel(card); }}
+                                    className="mt-2 inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-semibold text-white hover:bg-white/10"
+                                >
+                                    Agregar traslado
+                                </button>
+                            ) : null}
                         </li>
                     );
                 })}
             </ul>
+            {panel && transferWidgetSrc ? <TransferPanel src={transferWidgetSrc} chargedBy={panel.chargedByLabel} onClose={() => setPanel(null)} /> : null}
         </section>
     );
 }

@@ -1,0 +1,13 @@
+/**
+ * REQ-120: qué muestra /traslados. Con ARMA_TU_VIAJE_ENABLED encendida, la página es entrada al carrito
+ * (el traslado es complemento de una pieza) y el cuadro suelto de Kiwitaxi se oculta de forma reversible.
+ * Apagada, se queda como hoy (REQ-028: widget tras TRANSFERS_ENABLED). Puro.
+ */
+import { isTransfersVisible } from "./widget";
+
+export type TrasladosMode = "widget" | "cart-entry" | "hidden";
+
+export function trasladosMode(env: Record<string, string | undefined>): TrasladosMode {
+  if (env.ARMA_TU_VIAJE_ENABLED === "true") return "cart-entry";
+  return isTransfersVisible(env.TRANSFERS_ENABLED) ? "widget" : "hidden";
+}

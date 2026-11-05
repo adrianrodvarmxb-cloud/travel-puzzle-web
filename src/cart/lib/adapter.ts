@@ -13,6 +13,13 @@ export interface SearchQuery {
   country: string;
   date: string;
   people: People;
+  /** Nombre de la ciudad para prellenar búsquedas de proveedores (REQ-120). */
+  cityName?: string;
+  /** Aeropuerto (IATA o nombre) si se conoce. */
+  airport?: string;
+  /** Para el subID por pieza de los deeplinks. */
+  cartId?: string;
+  itemId?: string;
 }
 
 export interface Offer {

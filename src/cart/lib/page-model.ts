@@ -21,6 +21,21 @@ export function parseTripQuery(sp: Record<string, string | string[] | undefined>
   return { country: iso(one("pais")), cityCode: CITY_CODE.test(cc) ? cc : null, travelerCountry: iso(one("viajero")) };
 }
 
+/**
+ * REQ-120: id del carrito para el subID de afiliados, derivado del token privado de la reserva
+ * sin exponerlo (hash FNV-1a; el token nunca sale a sitios de terceros). Puro y determinista.
+ */
+export function cartIdFromToken(token: string): string {
+  let h1 = 0x811c9dc5;
+  let h2 = 0x01000193;
+  for (let i = 0; i < token.length; i++) {
+    const c = token.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 0x01000193) >>> 0;
+    h2 = Math.imul(h2 ^ c, 0x811c9dc5) >>> 0;
+  }
+  return `c${h1.toString(36)}${h2.toString(36)}`;
+}
+
 /** Qué ofrece cada categoría, en palabras del cliente. */
 export const CATEGORY_TITLES: Record<CompanionCategory, string> = {
   tour: "Un tour para completar el día", day_trip: "Una excursión de un día", transfer: "Traslado del aeropuerto a tu hotel",
@@ -59,7 +74,10 @@ export function buildArmaTuViajeModel(input: {
     const probes = input.probes[category] ?? [];
     const action = chooseAction(category, probes, input.advisor, quoteCtx);
     const chosen = action && action.kind !== "whatsapp" ? probes.find((p) => p.adapterId === action.adapterId) : undefined;
-    return { type, category, title: CATEGORY_TITLES[category], chargedBy: chosen?.chargedBy ?? "Travel Puzzle", action };
+    return {
+      type, category, title: CATEGORY_TITLES[category], chargedBy: chosen?.chargedBy ?? "Travel Puzzle", action,
+      ...(action?.kind === "request" ? { priceLabel: "A cotizar" } : {}),
+    };
   });
 
   const cards = buildCarousel({

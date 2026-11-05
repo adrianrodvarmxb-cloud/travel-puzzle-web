@@ -22,6 +22,8 @@ export interface AdapterProbe {
 export type CardAction =
   | { kind: "book"; label: "Reservar"; adapterId: string }
   | { kind: "deeplink"; label: "Ver opciones"; adapterId: string; url: string }
+  /** REQ-121: solicitud a Travel Puzzle (compra el asesor); nunca es pago directo. */
+  | { kind: "request"; label: "Pedir a Travel Puzzle"; adapterId: string; url: string }
   | { kind: "whatsapp"; label: "Te lo cotiza tu asesor por WhatsApp"; url: string };
 
 export interface QuoteContext { cityName: string; dateFrom: string; dateTo?: string; people: People }
@@ -53,18 +55,20 @@ export function quoteMessage(type: CartItemType | "etias", ctx: QuoteContext): s
   return `Hola Travel Puzzle, quiero cotizar ${TYPE_LABELS[type]} en ${ctx.cityName} ${dates} para ${peopleText(ctx.people)}.`;
 }
 
-function whatsappLink(number: string, text: string): string {
+export function whatsappLink(number: string, text: string): string {
   return `https://wa.me/${number.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
 }
 
 /** REQ-105: elige la acción de la tarjeta; null = no se muestra. */
 export function chooseAction(type: CartItemType | "etias", probes: AdapterProbe[], advisor: Advisor, ctx: QuoteContext): CardAction | null {
   // REQ-107: el seguro nunca se vende directo: solo deeplink o asesor.
-  const usable = probes.filter((p) => p.result === "inventory" && !(type === "insurance" && p.mode === "api"));
+  const usable = probes.filter((p) => p.result === "inventory" && !(type === "insurance" && p.mode !== "deeplink"));
   const api = usable.find((p) => p.mode === "api");
   if (api) return { kind: "book", label: "Reservar", adapterId: api.adapterId };
   const deep = usable.find((p) => p.mode === "deeplink" && p.url);
   if (deep) return { kind: "deeplink", label: "Ver opciones", adapterId: deep.adapterId, url: deep.url! };
+  const req = usable.find((p) => p.mode === "request" && p.url);
+  if (req) return { kind: "request", label: "Pedir a Travel Puzzle", adapterId: req.adapterId, url: req.url! };
   const number = advisor.whatsapp?.replace(/\D/g, "");
   if (number) return { kind: "whatsapp", label: "Te lo cotiza tu asesor por WhatsApp", url: whatsappLink(number, quoteMessage(type, ctx)) };
   return null;

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "kiwitaxi",
+    "adapter": "kiwitaxi",
+    "provider": "Kiwitaxi",
+    "product": "un traslado privado",
+    "category": "transfer",
+    "group": "transporte",
+    "title": "Traslado del aeropuerto a tu hotel",
+    "description": "Traslado privado con chofer que te espera con tu nombre a la llegada. Precios en dólares (USD).",
+    "hubAction": "widget"
+  },
+  {
+    "id": "bigbus",
+    "adapter": "request",
+    "provider": "Big Bus",
+    "product": "el bus turístico hop-on hop-off",
+    "category": "tickets",
+    "group": "transporte",
+    "title": "Bus turístico hop-on hop-off",
+    "description": "Recorre la ciudad subiendo y bajando en las paradas que quieras. Si tu ticket de varios días cae en un día de cierre, sigue el siguiente día abierto. Tu asesor lo compra por ti.",
+    "hubAction": "request"
+  }
+]
