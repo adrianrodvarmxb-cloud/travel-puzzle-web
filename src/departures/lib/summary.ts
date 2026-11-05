@@ -1,5 +1,6 @@
 /** REQ-049: resumen compacto de salidas (idiomas + fechas) y su vigencia. Puro. */
 import type { Departure, DepartureSummary } from "./types";
+import { languageCode } from "./language";
 
 export const HORIZON_DAYS = 60;
 export const MAX_AGE_DAYS = 7;
@@ -10,14 +11,15 @@ export function addDays(iso: string, n: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-const lang2 = (l: string) => l.trim().toLowerCase().slice(0, 2);
+/** REQ-114: antes tomaba las 2 primeras letras ("Spanish" → "sp"); se conserva oculto por regla de no borrar. */
+export const lang2Legacy = (l: string) => l.trim().toLowerCase().slice(0, 2);
 
 // REQ-049
 export function summarize(list: Departure[], today: string, horizon = HORIZON_DAYS): DepartureSummary {
   const end = addDays(today, horizon);
   const inRange = list.filter((d) => /^\d{4}-\d\d-\d\d$/.test(d.date) && d.date >= today && d.date < end && d.language);
   return {
-    languages: [...new Set(inRange.map((d) => lang2(d.language)))].sort(),
+    languages: [...new Set(inRange.map((d) => languageCode(d.language)).filter((x): x is string => !!x))].sort(),
     dates: [...new Set(inRange.map((d) => d.date))].sort(),
   };
 }
