@@ -1468,8 +1468,24 @@
   },
   {
    "ref": "CUS-04",
-   "status": "draft",
-   "photos": [],
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1259609,
+     "alt": "Rafting en aguas rápidas"
+    },
+    {
+     "src": "pixabay",
+     "id": 293542,
+     "alt": "Balsa de rafting en el río"
+    },
+    {
+     "src": "pixabay",
+     "id": 168007,
+     "alt": "Grupo de rafting en un tramo tranquilo"
+    }
+   ],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -2355,8 +2371,24 @@
   },
   {
    "ref": "CUS-13",
-   "status": "draft",
-   "photos": [],
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4274321,
+     "alt": "Laguna Humantay bajo el nevado Salkantay"
+    },
+    {
+     "src": "pixabay",
+     "id": 4274318,
+     "alt": "Orilla de la laguna Humantay"
+    },
+    {
+     "src": "pixabay",
+     "id": 4264889,
+     "alt": "Nevado Salkantay desde la ruta a Humantay"
+    }
+   ],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -2590,8 +2622,19 @@
   },
   {
    "ref": "CUS-05",
-   "status": "draft",
-   "photos": [],
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 664131,
+     "alt": "Salto en columpio extremo"
+    },
+    {
+     "src": "pixabay",
+     "id": 436750,
+     "alt": "Salto de bungee sobre el bosque"
+    }
+   ],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -2694,8 +2737,14 @@
   },
   {
    "ref": "CUS-06",
-   "status": "draft",
-   "photos": [],
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 664132,
+     "alt": "Lanzamiento en columpio extremo"
+    }
+   ],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -4393,8 +4442,19 @@
   },
   {
    "ref": "AQP-01",
-   "status": "draft",
-   "photos": [],
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 444743,
+     "alt": "Rafting en aguas rápidas"
+    },
+    {
+     "src": "pixabay",
+     "id": 8205894,
+     "alt": "Rafting en un río de montaña"
+    }
+   ],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
@@ -5076,8 +5136,24 @@
   },
   {
    "ref": "NAZ-05",
-   "status": "draft",
-   "photos": [],
+   "status": "published",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 7316680,
+     "alt": "Sandboarding en una gran duna"
+    },
+    {
+     "src": "pixabay",
+     "id": 688184,
+     "alt": "Salto en sandboard"
+    },
+    {
+     "src": "pixabay",
+     "id": 6030431,
+     "alt": "Bajada en sandboard por la duna"
+    }
+   ],
    "trip": {
     "kind": "tour",
     "purchaseMode": "quote",
