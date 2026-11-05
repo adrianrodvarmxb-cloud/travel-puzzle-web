@@ -28,6 +28,8 @@ export interface CatalogFilters {
   /** REQ-051..056: tipo de actividad (grupos), cancelación gratuita, privado, recogida, novedad y duración (min). */
   groups?: string[]; freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
   durMin?: number | null; durMax?: number | null;
+  /** REQ-048: ids por relevancia (FTS5). Si viene, reemplaza la búsqueda por palabras y da el orden por defecto. */
+  ranked?: string[] | null;
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -68,11 +70,20 @@ export function toEntry(r: Record<string, unknown>, _lang: string, now: Date = n
  * 2) Si no, todas las palabras completas; 3) si nadie las tiene, inicio de palabra (se está escribiendo);
  * 4) último recurso, el pedazo de texto (comportamiento anterior).
  */
+/** REQ-057: si el texto es una ciudad o un país (cualquier idioma), el filtro de ese destino; si no, null. */
+export function destinationMatcher(entries: CatalogEntry[], search: string | undefined): ((x: CatalogEntry) => boolean) | null {
+  const q = search ? normalize(search) : "";
+  if (!q) return null;
+  if (entries.some((x) => x.cityNames?.includes(q))) return (x) => !!x.cityNames?.includes(q);
+  if (entries.some((x) => x.countryNames?.includes(q))) return (x) => !!x.countryNames?.includes(q);
+  return null;
+}
+
 export function searchMatcher(entries: CatalogEntry[], search: string | undefined): (x: CatalogEntry) => boolean {
   const q = search ? normalize(search) : "";
   if (!q) return () => true;
-  if (entries.some((x) => x.cityNames?.includes(q))) return (x) => !!x.cityNames?.includes(q);
-  if (entries.some((x) => x.countryNames?.includes(q))) return (x) => !!x.countryNames?.includes(q);
+  const dest = destinationMatcher(entries, search);
+  if (dest) return dest;
   const words = q.split(" ").filter(Boolean);
   const tokens = (x: CatalogEntry) => x.text.split(/[^a-z0-9\u00c0-\uffff]+/);
   const whole = (x: CatalogEntry) => { const t = new Set(tokens(x)); return words.every((w) => t.has(w)); };
@@ -89,7 +100,10 @@ const SORT: Record<string, (x: CatalogEntry) => number | null> = {
 
 export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: CatalogPage, nowMs: number = Date.now()) {
   const newSince = Math.max(CATALOG_LOADED_AT, nowMs - NOVELTY_DAYS * 864e5);
+  const rank = f.ranked ? new Map(f.ranked.map((id, i) => [id, i])) : null;
   const textMatch = searchMatcher(entries, f.search);
+  // REQ-048 + REQ-057: con relevancia FTS se respeta igual la intención de destino ("Roma" = solo Roma)
+  const dest = rank ? destinationMatcher(entries, f.search) : null;
   const dur = f.durationRange ? durationRangeWhere(f.durationRange) : null;
   const hit = entries.filter((x) =>
     (!f.countryId || x.countryId === f.countryId) &&
@@ -106,7 +120,15 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (!f.novelty || x.createdAt > newSince) && // REQ-055
     (f.durMin == null || (x.durationMinutes !== null && x.durationMinutes >= f.durMin)) && // REQ-056
     (f.durMax == null || (x.durationMinutes !== null && x.durationMinutes <= f.durMax)) &&
-    textMatch(x));
+    (rank ? rank.has(x.id) && (!dest || dest(x)) : textMatch(x)));
+  if (rank && !(p.sortBy && SORT[p.sortBy])) hit.sort((a, b) => rank.get(a.id)! - rank.get(b.id)!); // REQ-048: relevancia
+  else sortBy(hit, p.sortBy === "relevance" ? { sortBy: "reviewsNumber", sortOrder: "desc" } : p); // sin FTS: más reseñas
+  const limit = Math.min(100, Math.max(1, p.limit || 20));
+  const page = Math.max(1, p.page || 1);
+  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
+}
+
+function sortBy(hit: CatalogEntry[], p: CatalogPage) {
   const key = SORT[p.sortBy ?? ""] ?? SORT.createdAt;
   const dir = (p.sortBy && SORT[p.sortBy] ? p.sortOrder ?? "asc" : "desc") === "asc" ? 1 : -1;
   hit.sort((a, b) => {
@@ -116,9 +138,6 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     if (vb === null) return -1;
     return va === vb ? (a.id < b.id ? -1 : 1) : (va - vb) * dir;
   });
-  const limit = Math.min(100, Math.max(1, p.limit || 20));
-  const page = Math.max(1, p.page || 1);
-  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
 }
 
 /** REQ-058: firma de la forma de las entradas; va en la llave de caché para que un cambio de forma invalide lo guardado. */

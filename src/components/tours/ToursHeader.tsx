@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
-import { SORT_OPTIONS, type TourSort } from '@/tours/lib/sort';
+import { sortOptions, type TourSort } from '@/tours/lib/sort';
 
 interface ToursHeaderProps {
   total: number;
@@ -46,7 +46,7 @@ export function ToursHeader({ total, lastUpdated, search, onSearch, sort, onSort
               onChange={(e) => onSort(e.target.value as TourSort)}
               className="rounded-xl border border-white/20 bg-[#121D45] px-3 py-2.5 text-sm font-semibold text-white outline-none focus:border-[#008DFF]"
             >
-              {SORT_OPTIONS.map((o) => <option key={o} value={o}>{t(`tours.sort.${o}`)}</option>)}
+              {sortOptions(sort === 'relevance' || !!search).map((o) => <option key={o} value={o}>{t(`tours.sort.${o}`)}</option>)}
             </select>
           </label>
         </div>

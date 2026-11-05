@@ -48,7 +48,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   const pagination: PaginationParams = {
     page: params.page ? parseInt(params.page, 10) : 1,
     limit: 20,
-    ...sortToPagination(parseSort(params.sort)),
+    ...sortToPagination(parseSort(params.sort, !!params.search)),
     ...(params.search && {
       searchValue: params.search,
       searchBy: ['title', 'brief', 'description'],

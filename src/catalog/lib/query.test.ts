@@ -107,6 +107,31 @@ describe("REQ-051/052/053/054/055 filtros de Freetour en el catálogo", () => {
   });
 });
 
+describe("REQ-048 queryCatalog con relevancia de FTS5", () => {
+  const entries = [e("a", { text: "free tour lima", reviews: 900 }), e("b", { text: "machu picchu", reviews: 5 }), e("c", { text: "cusco machu picchu", reviews: 50 })];
+  it("REQ-048: con ids ordenados por relevancia, filtra a esos y respeta su orden si no hay otro orden elegido", () => {
+    const r = queryCatalog(entries, { search: "machu", ranked: ["c", "b"] }, { page: 1, limit: 20 });
+    expect(r.ids).toEqual(["c", "b"]);
+    expect(r.total).toBe(2);
+  });
+  it("REQ-048: si el visitante elige un orden (reseñas), se aplica sobre los encontrados", () => {
+    const r = queryCatalog(entries, { search: "machu", ranked: ["b", "c"] }, { page: 1, limit: 20, sortBy: "reviewsNumber", sortOrder: "desc" });
+    expect(r.ids).toEqual(["c", "b"]);
+  });
+  it("REQ-048: sin ranked (bandera apagada o FTS caído) se usa la búsqueda de siempre", () => {
+    const r = queryCatalog(entries, { search: "picchu" }, { page: 1, limit: 20 });
+    expect(r.ids.sort()).toEqual(["b", "c"]);
+  });
+});
+
+describe("REQ-048 orden 'relevance'", () => {
+  const entries = [e("a", { text: "machu x", reviews: 900 }), e("b", { text: "machu y", reviews: 5 })];
+  it("REQ-048: relevance con ids de FTS respeta su orden; sin FTS cae a más reseñas", () => {
+    expect(queryCatalog(entries, { search: "machu", ranked: ["b", "a"] }, { sortBy: "relevance", sortOrder: "desc" }).ids).toEqual(["b", "a"]);
+    expect(queryCatalog(entries, { search: "machu" }, { sortBy: "relevance", sortOrder: "desc" }).ids).toEqual(["a", "b"]);
+  });
+});
+
 // REQ-057 (INC-005): "Roma" traía Bucarest (Romania), León ("Jardín Romántico", "murallas romanas"), Nápoles ("romano")…
 describe("REQ-057 búsqueda por destino y por palabra completa", () => {
   const entries = [
@@ -141,5 +166,16 @@ describe("REQ-058 la llave de caché del catálogo cambia sola cuando cambia la 
     const keys = Object.keys(toEntry({ id: "x", cityId: 1, countryId: 1 }, "es")).sort().join(",");
     expect(CATALOG_SHAPE).toBe(keys);
     expect(CATALOG_SHAPE).toContain("cityNames");
+  });
+});
+
+describe("REQ-048 + REQ-057 relevancia FTS respeta la intención de destino", () => {
+  it("REQ-057: con ids de FTS que incluyen 'romano', buscar 'Roma' deja solo tours de Roma", () => {
+    const entries = [
+      e("roma", { text: "free tour roma", cityNames: ["roma", "rome"] }),
+      e("leon", { text: "murallas romanas leon", cityNames: ["leon"] }),
+    ];
+    expect(queryCatalog(entries, { search: "Roma", ranked: ["leon", "roma"] }, {}).ids).toEqual(["roma"]);
+    expect(queryCatalog(entries, { search: "murallas", ranked: ["leon"] }, {}).ids).toEqual(["leon"]);
   });
 });

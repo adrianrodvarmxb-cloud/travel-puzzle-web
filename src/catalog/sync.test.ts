@@ -70,6 +70,17 @@ describe("runSyncStep", () => {
     expect(repo.state()).toMatchObject({ status: "completed" });
   });
 
+  it("REQ-048: al terminar la corrida rehace el índice de búsqueda; si falla, la corrida igual se cierra", async () => {
+    const repo = fakeRepo({ status: "in_progress", nextPage: 3, totalPages: 2, runStartedAt: now });
+    const rebuildSearch = vi.fn(async () => {});
+    await runSyncStep({ api: fakeApi(), repo, countries: countries as never, now, rebuildSearch });
+    expect(rebuildSearch).toHaveBeenCalledTimes(1);
+    const repo2 = fakeRepo({ status: "in_progress", nextPage: 3, totalPages: 2, runStartedAt: now });
+    const res = await runSyncStep({ api: fakeApi(), repo: repo2, countries: countries as never, now, rebuildSearch: async () => { throw new Error("fts"); } });
+    expect(res).toMatchObject({ action: "finish", searchIndex: "error" });
+    expect(repo2.state()).toMatchObject({ status: "completed" });
+  });
+
   it("si falla una página la marca como fallida para reintentarla", async () => {
     const repo = fakeRepo({ status: "in_progress", nextPage: 2, totalPages: 2, runStartedAt: now });
     const api = { get: vi.fn(async () => { throw new Error("timeout"); }) };

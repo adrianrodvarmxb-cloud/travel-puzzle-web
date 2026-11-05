@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { paginatedQuery, buildPaginationLinks, PaginationParams, PaginatedResponse } from '../pagination';
 import { loadCatalog } from '@/catalog/snapshot';
 import { queryCatalog } from '@/catalog/lib/query';
+import { rankedTourIds } from '@/search/ranked';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
@@ -106,7 +107,7 @@ export async function getToursFromCatalog(
   baseUrl: string = '/api/tours'
 ): Promise<PaginatedResponse<TourWithRelations>> {
   const language = filters.language || 'en';
-  const entries = await loadCatalog(language);
+  const [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
   const { ids, total, page, limit } = queryCatalog(entries, {
     countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
     minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
@@ -114,6 +115,7 @@ export async function getToursFromCatalog(
     guideLanguage: filters.guideLanguage, date: filters.date, groups: filters.groups, freeCancel: filters.freeCancel,
     privateOnly: filters.privateOnly, hotelPickup: filters.hotelPickup, novelty: filters.novelty,
     durMin: filters.durMin, durMax: filters.durMax,
+    ranked, // REQ-048: relevancia FTS5 (null = búsqueda por palabras)
   }, pagination);
   const rows = ids.length
     ? await prisma.tour.findMany({

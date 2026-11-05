@@ -20,13 +20,15 @@ interface Deps {
   /** Lista de data/countries.json (no hace falta pedirla a la API). */
   countries: Parameters<typeof countryRows>[0];
   now: Date;
+  /** REQ-048: rehace el índice FTS5 al cerrar la corrida (opcional). */
+  rebuildSearch?: () => Promise<void>;
 }
 
 /**
  * Una ejecución del cron: procesa como máximo UNA página del catálogo.
  * Devuelve qué hizo, para registrarlo en los logs.
  */
-export async function runSyncStep({ api, repo, countries, now }: Deps) {
+export async function runSyncStep({ api, repo, countries, now, rebuildSearch }: Deps) {
   const state = await repo.getState();
   const step = planSyncStep(state, now);
 
@@ -35,7 +37,12 @@ export async function runSyncStep({ api, repo, countries, now }: Deps) {
   if (step.action === "finish") {
     const deactivated = await repo.deactivateNotSeenSince(state!.runStartedAt!);
     await repo.saveState({ status: "completed", lastSyncAt: now });
-    return { action: "finish" as const, deactivated };
+    // REQ-048: el índice de búsqueda se rehace con el catálogo ya cerrado; si falla, se queda el anterior.
+    let searchIndex: "ok" | "error" | "skipped" = "skipped";
+    if (rebuildSearch) {
+      try { await rebuildSearch(); searchIndex = "ok"; } catch (e) { console.error("[busqueda] no se rehízo el índice:", (e as Error).message); searchIndex = "error"; }
+    }
+    return { action: "finish" as const, deactivated, searchIndex };
   }
 
   const runStartedAt = step.action === "start" ? now : state!.runStartedAt!;

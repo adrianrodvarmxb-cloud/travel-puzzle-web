@@ -9,6 +9,8 @@ import { createReviewRepo } from '@/reviews/repository';
 import { runDeparturesStep } from '@/departures/sync';
 import { createDeparturesRepo } from '@/departures/repository';
 import { freetourSource } from '@/departures/sources/freetour';
+import { rebuildTourSearch, type D1Like } from '@/search/fts-search';
+import { isSearchV2 } from '@/search/lib/fts-query';
 import countries from '../../../../../data/countries.json';
 
 export const dynamic = 'force-dynamic';
@@ -38,6 +40,8 @@ export async function GET(request: Request) {
       repo: createCatalogRepo(prisma, getD1()),
       countries: countries as never,
       now,
+      // REQ-048: solo con el buscador nuevo encendido (la migración 0011 ya creó y llenó el índice).
+      rebuildSearch: isSearchV2(process.env.SEARCH_V2_ENABLED) ? () => rebuildTourSearch(getD1() as unknown as D1Like) : undefined,
     });
     if (result.action === 'idle') {
       const reviews = await refreshStaleReviews({ batch: REVIEWS_PER_TICK }, { api, repo: createReviewRepo(prisma, getD1()), now });

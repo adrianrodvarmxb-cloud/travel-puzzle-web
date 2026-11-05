@@ -112,7 +112,13 @@ export function ToursPageClient({
     });
 
     // Orden (?sort=…); por defecto, los que tienen más reseñas
-    const [sort, setSort] = useState<TourSort>(() => parseSort(searchParams.get('sort')));
+    const [sort, setSort] = useState<TourSort>(() => parseSort(searchParams.get('sort'), !!searchParams.get('search')));
+    // REQ-048: al buscar sin un orden elegido se ordena por relevancia; al quitar la búsqueda vuelve a "más reseñas".
+    const searching = !!uiFilters.search;
+    useEffect(() => {
+        setSort((s) => (searching ? (s === 'reviews' && !searchParams.get('sort') ? 'relevance' : s) : (s === 'relevance' ? 'reviews' : s)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searching]);
     const [filtersOpen, setFiltersOpen] = useState(false);
     // Duración (?duracion=short|mid|long)
     const [duration, setDuration] = useState<DurationRange | null>(() => parseDurationRange(searchParams.get('duracion')));
@@ -170,7 +176,7 @@ export function ToursPageClient({
         repositoryFilters.maxPrice === serverFilters.maxPrice &&
         paginationWithSearch.searchValue === serverSearch &&
         paginationWithSearch.page === serverPage &&
-        sort === parseSort(searchParams.get('sort')) &&
+        sort === parseSort(searchParams.get('sort'), !!searchParams.get('search')) &&
         duration === parseDurationRange(searchParams.get('duracion')) &&
         extraKey === extraFiltersToParams(parseExtraFilters(new URLSearchParams(searchParams.toString()), today)).toString() &&
         language === initialLanguage;
@@ -236,7 +242,7 @@ export function ToursPageClient({
             if (filters.minPrice !== undefined) params.set('minPrice', filters.minPrice.toString());
             if (filters.maxPrice !== undefined) params.set('maxPrice', filters.maxPrice.toString());
             if (filters.search) params.set('search', filters.search);
-            if (sortRef.current !== 'reviews') params.set('sort', sortRef.current);
+            if (sortRef.current !== 'reviews' && sortRef.current !== 'relevance') params.set('sort', sortRef.current); // REQ-048: relevancia es el defecto al buscar
             if (durationRef.current) params.set('duracion', durationRef.current);
             extraFiltersToParams(extraRef.current, params);
 
