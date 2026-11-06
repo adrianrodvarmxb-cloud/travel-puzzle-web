@@ -7,6 +7,8 @@ export interface FeatureFlags {
   transfers: boolean;
   ownTrips?: boolean;
   primeraPieza?: boolean;
+  /** REQ-453 */
+  dayTrips?: boolean;
   /** REQ-241: páginas institucionales encendidas (enlaces del pie). */
   pages?: Partial<SitePages>;
   /** D9 (INC-001): año del pie calculado en el servidor, para que el cliente no use Date al pintar. */

@@ -52,3 +52,15 @@ describe("REQ-048 búsqueda FTS5 en D1", () => {
     expect(await searchTourIds(asD1(seed()), "es", " ¿? ")).toBeNull();
   });
 });
+
+describe("REQ-122 searchTourIds intenta exacta → prefijo", () => {
+  it("REQ-122: si la consulta exacta trae resultados no se prueba el prefijo; si no, sí", async () => {
+    const seen: unknown[] = [];
+    const db = { prepare: () => ({ bind: (...v: unknown[]) => ({ all: async () => { seen.push(v[0]); return { results: v[0] === '"arte"' ? [] : [{ tourId: "t1" }] }; }, run: async () => null }) }) };
+    expect(await searchTourIds(db, "es", "arte")).toEqual(["t1"]);
+    expect(seen).toEqual(['"arte"', '"arte"*']);
+    seen.length = 0;
+    expect(await searchTourIds(db, "es", "tour", 10, "roma")).toEqual(["t1"]);
+    expect(seen).toEqual(['"tour" AND place : "roma"']);
+  });
+});

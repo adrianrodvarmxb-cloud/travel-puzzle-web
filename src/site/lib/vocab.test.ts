@@ -4,7 +4,7 @@ import { PROHIBIDAS_SITIO, textsOf } from "./vocab";
 describe("vocabulario prohibido de las páginas nuevas", () => {
   it("REQ-244: rechaza FREETOUR, proveedores, «expertos», garantías e inflados", () => {
     for (const bad of [
-      "Reserva en FreeTour.com", "freetour", "Viajes armados por nuestros expertos", "viajeros expertos", "expert travelers",
+      "Reserva en FreeTour.com", "freetour", "Viajes diseñados por expertos", "viajeros expertos", "expert travelers",
       "garantía de no gastos adicionales", "somos la única agencia", "miles de viajeros", "reseñas reales", "el mejor precio",
       "Inca World", "Fantástica China", "Big Bus", "Kiwitaxi", "Civitatis", "GetYourGuide", "GuruWalk", "Klook",
     ]) expect(PROHIBIDAS_SITIO.test(bad), bad).toBe(true);

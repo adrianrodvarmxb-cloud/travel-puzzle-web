@@ -1,0 +1,41 @@
+// REQ-225: la llave del agente se crea y se carga sin que nadie la vea. npx vitest run src/ops/llave-agente-workflow.test.ts
+import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+
+const wf = readFileSync(".github/workflows/llave-agente.yml", "utf8");
+
+describe("REQ-225: llave del agente", () => {
+  it("REQ-225: solo se corre a mano y con permisos de lectura", () => {
+    expect(wf).toMatch(/\non:\n {2}workflow_dispatch:\n\n/);
+    expect(wf).not.toMatch(/\n {2}(push|pull_request|schedule):/);
+    expect(wf).toMatch(/\npermissions:\n {2}contents: read\n/);
+  });
+  it("REQ-225: la misma llave va a los dos Workers, enmascarada y sin imprimirse", () => {
+    expect(wf).toMatch(/llave=\$\(openssl rand -hex 32\)/);
+    expect(wf).toMatch(/::add-mask::\$llave/);
+    expect(wf).toMatch(/printf '%s' "\$llave" \| npx wrangler secret put AGENTE_TOKEN --name travel-puzzle-web > \/dev\/null/);
+    expect(wf).toMatch(/printf '%s' "\$llave" \| npx wrangler secret put CATALOGO_TRAVEL_PUZZLE --name mila-zoefel > \/dev\/null/);
+    expect(wf).not.toMatch(/echo "?\$llave/);
+  });
+  it("REQ-225: no puede cancelar una publicación de main (grupo propio)", () => {
+    expect(wf).toMatch(/concurrency:\n {2}group: llave-agente\n {2}cancel-in-progress: false/);
+    expect(wf).not.toMatch(/group: deploy-cloudflare/);
+  });
+});
+
+describe("REQ-187: la llave inicial la crea la publicación de main", () => {
+  const deploy = readFileSync(".github/workflows/deploy-cloudflare.yml", "utf8");
+  const paso = deploy.slice(deploy.indexOf("name: Secretos del Worker"), deploy.indexOf("name: Prueba de humo (producción)"));
+  it("REQ-187: va en «Secretos del Worker», después de «Publicar», y solo si falta", () => {
+    expect(deploy.indexOf("name: Publicar")).toBeLessThan(deploy.indexOf("name: Secretos del Worker"));
+    expect(paso).toMatch(/if ! tiene AGENTE_TOKEN; then/);
+  });
+  it("REQ-187: misma llave en los dos Workers, primero mila-zoefel, enmascarada y sin imprimirse", () => {
+    const mila = paso.indexOf("secret put CATALOGO_TRAVEL_PUZZLE --name mila-zoefel > /dev/null");
+    const tp = paso.indexOf("secret put AGENTE_TOKEN > /dev/null");
+    expect(mila).toBeGreaterThan(0);
+    expect(tp).toBeGreaterThan(mila);
+    expect(paso).toMatch(/llave=\$\(openssl rand -hex 32\); echo "::add-mask::\$llave"/);
+    expect(paso).not.toMatch(/echo "?\$llave"?\s*$/m);
+  });
+});

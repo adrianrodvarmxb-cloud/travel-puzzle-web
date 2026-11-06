@@ -5,6 +5,8 @@
  * Solo presentación.
  */
 import { Navbar } from '@/components/layout/Navbar';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import type { SiteFooterData } from '@/layout/lib/site-footer';
 import type { ReactNode } from 'react';
 
 export const mono = 'font-mono text-[11px] uppercase tracking-[0.15em]';
@@ -21,8 +23,14 @@ export function Ghost({ href, children, external = true }: { href: string; child
     );
 }
 
-/** Marco de 600 px con la franja de colores, encabezado con logo y pie con logo animado y redes. */
-export function EmailFrame({ wa, socials, children, note }: { wa: string | null; socials: { name: string; url: string }[]; children: ReactNode; note?: string }) {
+/**
+ * Marco de 600 px con la franja de colores.
+ * REQ-300: el único encabezado es el del home (Navbar). El encabezado de la tarjeta con el logo fijo
+ * (copia del correo) queda oculto; `cardHeader` lo vuelve a mostrar (reversible).
+ * REQ-303: el pie es el del home (SiteFooter, con `site`). El pie de la tarjeta (copia del correo)
+ * queda oculto; `cardFooter` lo vuelve a mostrar (reversible).
+ */
+export function EmailFrame({ wa, socials, children, note, site, cardHeader = false, cardFooter = false }: { wa: string | null; socials: { name: string; url: string }[]; children: ReactNode; note?: string; site: SiteFooterData; cardHeader?: boolean; cardFooter?: boolean }) {
     return (
         <>
         {/* REQ-062: el mismo header del home (logo animado) en todo el acompañamiento y las reservas */}
@@ -30,32 +38,43 @@ export function EmailFrame({ wa, socials, children, note }: { wa: string | null;
         <main className="min-h-screen bg-[#0A1330] px-3 py-6 sm:py-10">
             <div className="mx-auto max-w-[600px] overflow-hidden rounded-[20px] bg-white">
                 <div className="flex h-[3px]"><span className="w-[60%] bg-[#008DFF]" /><span className="w-1/4 bg-[#EAF54F]" /><span className="w-[15%] bg-[#C12909]" /></div>
+                {cardHeader && (
                 <header className="flex items-center justify-between bg-[#0A1330] px-5 py-3.5">
                     <a href="/"><img src="/brand/logo-tp-oscuro.png" alt="Travel Puzzle" width={150} className="h-auto w-[130px] sm:w-[150px]" /></a>
                     {wa && <a href={wa} className={`${mono} text-white`}>Ayuda</a>}
                 </header>
+                )}
                 {children}
-                <footer className="flex items-center justify-between gap-4 bg-[#0A1330] px-5 py-5">
-                    <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Te armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
-                    <div className="text-right">
-                        {socials.length > 0 && (
-                            <>
-                                <p className={`${mono} mb-2.5 text-[10px] text-[#9AAEE0]`}>Síguenos</p>
-                                <div className="mb-3 flex justify-end gap-2">
-                                    {socials.map((s) => (
-                                        <a key={s.name} href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
-                                            <img src={`/brand/social/${s.name.toLowerCase()}.png`} alt="" width={32} height={32} className="h-8 w-8" />
-                                        </a>
-                                    ))}
-                                </div>
-                            </>
-                        )}
-                        <p className="text-xs text-[#C9D6F5]">Travel Puzzle México · travelpuzzle.com.mx</p>
-                    </div>
-                </footer>
+                {cardFooter && (
+                    <footer className="flex items-center justify-between gap-4 bg-[#0A1330] px-5 py-5">
+                        <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Te armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
+                        <div className="text-right">
+                            {socials.length > 0 && (
+                                <>
+                                    <p className={`${mono} mb-2.5 text-[10px] text-[#9AAEE0]`}>Síguenos</p>
+                                    <div className="mb-3 flex justify-end gap-2">
+                                        {socials.map((s) => (
+                                            <a key={s.name} href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+                                                <img src={`/brand/social/${s.name.toLowerCase()}.png`} alt="" width={32} height={32} className="h-8 w-8" />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                            <p className="text-xs text-[#C9D6F5]">Travel Puzzle México · travelpuzzle.com.mx</p>
+                        </div>
+                    </footer>
+                )}
             </div>
             {note && <p className="mx-auto mt-4 max-w-[600px] text-center text-xs text-[#5F73AD]">{note}</p>}
         </main>
+        <SiteFooter contact={site.contact} helpEnabled={site.helpEnabled} />
+        {/* REQ-300: la «Ayuda» del encabezado de la tarjeta pasa a la burbuja de WhatsApp, como en el home */}
+        {wa && (
+            <a href={wa} target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp" title="Escríbenos por WhatsApp" className="fixed bottom-5 right-5 z-50 rounded-full shadow-[0_8px_24px_rgba(10,19,48,0.35)] transition-transform hover:scale-105">
+                <img src="/brand/social/whatsapp.png" alt="" width={60} height={60} className="h-[60px] w-[60px] rounded-full" />
+            </a>
+        )}
         </>
     );
 }

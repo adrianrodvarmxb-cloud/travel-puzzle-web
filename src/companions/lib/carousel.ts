@@ -7,6 +7,7 @@
 import { z } from "zod";
 import type { CartItemType } from "@/cart/lib/item";
 import type { CardAction } from "@/cart/lib/switch";
+import type { NearbyExperience } from "./nearby";
 import defaultRules from "../rules.json";
 
 export type CompanionCategory = Exclude<CartItemType, "free_tour"> | "etias";
@@ -17,6 +18,19 @@ export const BASE_ORDER: CompanionCategory[] = ["tour", "day_trip", "transfer", 
 const RANK_ORDER: CompanionCategory[] = [...BASE_ORDER.filter((c) => c !== "lodging"), "visa", "etias", "lodging"];
 const TOUR_GROUP = new Set<CompanionCategory>(["tour", "day_trip"]);
 export const MAX_CARDS = { mobile: 3, desktop: 4 } as const;
+
+/**
+ * REQ-323: no hay proveedor de eSIM integrado. Mientras no lo haya, la tarjeta de eSIM solo sale «con el asesor»
+ * en estos países (China: la regla del destino la pone primero). Con un proveedor real (api, deeplink o solicitud
+ * con inventario) sale en cualquier país. Propuesta para firma del PO.
+ */
+export const ESIM_ADVISOR_COUNTRIES: readonly string[] = ["CN"];
+
+/**
+ * REQ-326: el seguro solo se ofrece con un deeplink de afiliado registrado (REQ-107). Mientras no lo haya, la tarjeta
+ * de seguro «con el asesor» no sale en ningún país (riesgo CNSF). Reversible: agregar países aquí la vuelve a mostrar.
+ */
+export const INSURANCE_ADVISOR_COUNTRIES: readonly string[] = [];
 
 const zCategory = z.enum(CATEGORIES);
 const zRule = z.object({
@@ -47,6 +61,8 @@ export interface CarouselCandidate {
   action: CardAction | null;
   /** REQ-121: «A cotizar» cuando no hay precio verificado. */
   priceLabel?: string;
+  /** REQ-320: experiencias ya cargadas cerca (máx. 3) que recomienda la tarjeta de tour. */
+  experiences?: NearbyExperience[];
 }
 
 export interface CarouselCard extends CarouselCandidate {
@@ -98,6 +114,11 @@ export function buildCarousel(input: {
   device: "mobile" | "desktop" | "both";
   rules: CarouselRule[];
   flags: CarouselFlags;
+  /**
+   * REQ-108: la primera tarjeta es un tour de pago o de día (por omisión). REQ-263: el bloque de venta cruzada
+   * de los correos lo apaga, porque ahí no hay tours de FREETOUR (B3) y casi nunca un tour propio en la misma ciudad.
+   */
+  requireTour?: boolean;
 }): CarouselCard[] {
   const active = input.rules.filter((r) => matches(r, input.context));
   const hidden = new Set<CompanionCategory>(active.flatMap((r) => r.hide ?? []));
@@ -122,8 +143,8 @@ export function buildCarousel(input: {
   const distinct = sorted.filter((c) => !seen.has(groupOf(c.category)) && seen.add(groupOf(c.category)));
 
   const firstTour = distinct.findIndex((c) => TOUR_GROUP.has(c.category));
-  if (firstTour < 0) return [];
-  const ordered = [distinct[firstTour], ...distinct.filter((_, i) => i !== firstTour)];
+  if (firstTour < 0 && input.requireTour !== false) return [];
+  const ordered = firstTour < 0 ? distinct : [distinct[firstTour], ...distinct.filter((_, i) => i !== firstTour)];
 
   // REQ-184: escritorio = las 4 primeras. Celular = la primera (tour) y 2 más por este orden de reglas:
   // 1) lo que una regla del destino pone primero (China: eSIM), 2) lo que tiene proveedor real (api, deeplink o
@@ -131,7 +152,7 @@ export function buildCarousel(input: {
   const destinationFirst = new Set<CompanionCategory>(active.filter((r) => r.when.country).flatMap((r) => r.priority ?? []));
   const tier = (c: (typeof ordered)[number]) =>
     destinationFirst.has(c.category) ? 0 : c.action && c.action.kind !== "whatsapp" ? 1 : 2;
-  const mobileIdx = new Set<number>([0, ...ordered
+  const mobileIdx = new Set<number>([...(ordered.length ? [0] : []), ...ordered
     .map((c, i) => ({ c, i }))
     .slice(1)
     .sort((a, b) => tier(a.c) - tier(b.c) || a.i - b.i)
