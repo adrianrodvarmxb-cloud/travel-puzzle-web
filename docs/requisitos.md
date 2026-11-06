@@ -127,6 +127,16 @@
 
 | REQ-114 | Filtros de idioma: español salía con 33 de 8,098 (revisión del 5 nov 2026, PR #101) | Dada una salida de Freetour con idioma «Spanish», «German», «Portuguese», etc., cuando se resume, entonces se guarda su código ISO 639-1 (es, de, pt…) y no las 2 primeras letras; un idioma desconocido no se inventa. | CUMPLIDO (test; datos se corrigen solos en la siguiente lectura, ≤ 20 h) |
 
+### Stripe ola 1 (REQ-159 y REQ-115..119; el enlace de pago era REQ-114, renumerado porque main ya usa REQ-114 para idiomas) (PO, 5 nov 2026: "crear cuenta stripe travel puzzle" + gates A sí, B1, C1). Gates: `docs/gates-stripe-2026-11.md`
+| ID | Requisito | Criterio de aceptación | Estado |
+|---|---|---|---|
+| REQ-159 | "A sí": enlace de pago desde el gestor para solicitudes confirmadas | Dada una solicitud (Inca World / viaje propio / agencia) y STRIPE_ENABLED="true", cuando un ADMIN captura monto, moneda y tipo (anticipo, liquidación o total) y da "Enviar enlace de pago", entonces se crea un Checkout de Stripe solo con tarjeta, se guarda el pago como pendiente, se le manda el enlace al cliente por correo y la solicitud pasa a "Cotizada". | EN CURSO |
+| REQ-115 | "B1": cobro en pesos con colchón de tipo de cambio | Dado un monto en USD o EUR, cuando se genera el enlace, entonces se cobra en MXN = monto × FIX Banxico × (1 + colchón), redondeado hacia arriba al peso (colchón 3% por defecto, STRIPE_FX_CUSHION_PCT); en MXN se cobra tal cual; sin tipo de cambio no se genera enlace; menos de $10 MXN se rechaza. | EN CURSO |
+| REQ-116 | "C1": enlace de 24 h y reenviar | Dado un enlace, cuando se crea, entonces vence a las 24 h; cuando el ADMIN reenvía, entonces los enlaces pendientes anteriores de esa solicitud se vencen en Stripe y se marcan "reemplazado" antes de crear el nuevo con el precio del día. | EN CURSO |
+| REQ-117 | Webhook de Stripe firmado e idempotente | Dado un aviso a /api/stripe/webhook, cuando la firma (STRIPE_WEBHOOK_SECRET, tolerancia 5 min) no es válida, entonces responde 400 sin tocar nada; cuando es checkout.session.completed pagado, entonces el pago pasa a "pagado" una sola vez (avisos repetidos no duplican correos), la solicitud pasa a "Pagada" y se avisa al cliente y al equipo; checkout.session.expired marca "vencido". | EN CURSO |
+| REQ-118 | Bandera STRIPE_ENABLED | Dado STRIPE_ENABLED distinto de "true", cuando se abre /admin/solicitudes o se llama al webhook o a la ruta de pago, entonces no aparece el control de pago y las rutas responden 404. | EN CURSO |
+| REQ-119 | Registro de pagos (migración 0013) | Dado un pago, cuando cambia de estado, entonces queda en la tabla Payment: solicitud, tipo, monto en centavos, moneda y monto original, tipo de cambio usado, sesión de Stripe, vencimiento, estado y fecha de pago (para pagar al proveedor tras los 5 días hábiles). | EN CURSO (migración sin aplicar: candado) |
+
 ### Identidad geográfica v2 — ensayo (pedido del PO, 5 nov 2026, sobre el informe aprobado «Identidad geográfica del catálogo», pasos 1–5 y 7 propuesto). Gates: `docs/gates-geo-v2-2026-11.md`
 | ID | Requisito | Criterio de aceptación | Estado |
 |---|---|---|---|

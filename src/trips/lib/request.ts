@@ -1,9 +1,10 @@
 /** Solicitudes de cotización (gate M): calendario, estimado y folio. Puro. */
 import { seasonFor, type Season } from "./pricing";
 
-export const REQUEST_STATUSES = ["new", "contacted", "quoted", "closed"] as const;
+// REQ-117: "paid" lo pone el webhook de Stripe (también se puede elegir a mano).
+export const REQUEST_STATUSES = ["new", "contacted", "quoted", "paid", "closed"] as const;
 export type RequestStatus = (typeof REQUEST_STATUSES)[number];
-export const REQUEST_STATUS_LABEL: Record<RequestStatus, string> = { new: "Nueva", contacted: "En contacto", quoted: "Cotizada", closed: "Cerrada" };
+export const REQUEST_STATUS_LABEL: Record<RequestStatus, string> = { new: "Nueva", contacted: "En contacto", quoted: "Cotizada", paid: "Pagada", closed: "Cerrada" };
 
 interface Availability { weekdays: number[]; slots: { time: string; capacity: number | null }[]; closedDates: string[] }
 
