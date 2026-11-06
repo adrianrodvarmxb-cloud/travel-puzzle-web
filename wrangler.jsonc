@@ -78,6 +78,9 @@
     "FREETOUR_POSTTOUR_PROMO_ENABLED": "false",
     // REQ-081: chatbot (Mila u otro) que ofrezca o reserve tours de FREETOUR. "true" solo con autorización escrita.
     "FREETOUR_CHATBOT_ENABLED": "false",
+    // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
+    // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
+    "TAXONOMY_SYNC_ENABLED": "false",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).

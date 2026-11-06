@@ -208,3 +208,10 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | REQ | Código | Test | Estado |
 |---|---|---|---|
 | REQ-409 (clasificación en tabla propia, fuera de Tour y del content_hash) · REQ-408 (log de `por-revisar` en la corrida) | `migrations/0017_taxonomia.sql` (`ExperienceTaxonomy`, `ExperienceTaxonomyOverride`, `TaxonomyRun`) | `src/taxonomy/migration-0017.test.ts` (SQLite real) | Migración escrita y probada; **sin aplicar**. El recálculo que la escribe va en T2b tras `TAXONOMY_SYNC_ENABLED="false"`. |
+
+### Taxonomía, fase T2b: recálculo al cerrar el sync, tras `TAXONOMY_SYNC_ENABLED="false"` (requiere 0017 aplicada; va después de #156 y #162)
+
+| REQ | Código | Test | Estado |
+|---|---|---|---|
+| REQ-409 (se recalcula en cada sync exitoso, en tabla propia, sin tocar Tour ni el content_hash; si la corrida falla se sigue leyendo la anterior) | `src/taxonomy/recompute.ts`, `src/taxonomy/repository.ts`, `src/taxonomy/lib/run-plan.ts`, hook en `src/app/api/cron/sync-tours/route.ts` (minutos libres del cron) | `src/taxonomy/recompute.test.ts` (SQLite real con la 0017) | CUMPLIDO (apagado) |
+| REQ-408 (por-revisar en el log de la corrida; el sync no se aborta) | `TaxonomyRun.unmapped` y `console.warn` al cerrar | `recompute.test.ts` | CUMPLIDO (apagado) |
