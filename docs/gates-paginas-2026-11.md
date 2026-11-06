@@ -36,3 +36,14 @@ Bloques en borrador (no salen en el sitio hasta que el PO llene el hueco y los m
 | N4 | Llamadas | Sin enlace tel: hasta confirmar que el número contesta llamadas | Agregar «Llamar» | [ ] |
 
 Huecos que siguen abiertos (no se publican): días de atención y zona horaria (hoy solo «De 9:00 a 19:00 horas», como /ayuda), atención en inglés, URL oficial de Facebook, LinkedIn o X de empresa.
+
+## Habla con un asesor de viaje (PR de /asesores)
+
+| # | Decisión | Opción aplicada (recomendada) | Alternativa | Firma |
+|---|---|---|---|---|
+| E1 | Nombre | «Habla con un asesor de viaje» (H1, title y enlace del pie). La bandera conserva el nombre pedido: `EXPERTOS_ENABLED` | «Habla con un asesor»; otro nombre | [ ] |
+| E2 | Formato | Página propia `/asesores` con el bloque reutilizable (WhatsApp + formulario corto) | Solo bloque dentro de /contacto o /nosotros | [ ] |
+| E3 | Formulario | Nombre, correo, destino y aviso de privacidad obligatorios; WhatsApp, fechas y mensaje opcionales. Mismo envío y anti-spam que /contacto (Resend a info@) | Pedir WhatsApp obligatorio | [ ] |
+| E4 | Personas | El bloque «Quiénes te atienden» no sale hasta tener nombres, destinos que conocen, fotos y permiso escrito | Publicar sin nombres | [ ] |
+
+Hallazgo fuera de alcance (no se tocó): el inicio en producción todavía dice «Viajes armados por nuestros expertos» (src/trips/lib/copy.ts) y el menú del celular «Viajes armados por expertos» (src/home/lib/sections.ts). Choca con lo que el PO rechazó hoy; va en un PR aparte si el PO lo pide.

@@ -7,6 +7,7 @@
 export const PAGE_FLAGS = {
   nosotros: "NOSOTROS_ENABLED",
   contacto: "CONTACTO_ENABLED",
+  expertos: "EXPERTOS_ENABLED",
 } as const;
 
 export type SitePageKey = keyof typeof PAGE_FLAGS;
@@ -15,11 +16,14 @@ export type SitePages = Record<SitePageKey, boolean>;
 export const PAGE_PATHS: Record<SitePageKey, string> = {
   nosotros: "/nosotros",
   contacto: "/contacto",
+  expertos: "/asesores",
 };
 
 const LABELS: Record<SitePageKey, { es: string; en: string }> = {
   nosotros: { es: "Nosotros", en: "About us" },
   contacto: { es: "Contacto", en: "Contact" },
+  // «Habla con nuestros viajeros expertos» del encargo, sin prometer expertos (PO, 6 nov 2026): asesores de viaje.
+  expertos: { es: "Habla con un asesor de viaje", en: "Talk to a travel advisor" },
 };
 
 // REQ-240

@@ -27,6 +27,26 @@ export const contactMessageSchema = z.object({
 
 export type ContactMessage = z.infer<typeof contactMessageSchema>;
 
+/** REQ-251: formulario corto de «Habla con un asesor de viaje». Mismo anti-spam. */
+export const advisorMessageSchema = z.object({
+  kind: z.literal("asesor"),
+  name: z.string().trim().min(2, "Escribe tu nombre").max(80),
+  email: z.string().trim().toLowerCase().email("Revisa tu correo").max(254),
+  phone: z.string().trim().max(30).regex(/^[+\d\s()-]*$/, "Revisa tu WhatsApp").default(""),
+  destination: z.string().trim().min(2, "¿A dónde quieres ir?").max(120),
+  when: z.string().trim().max(120).default(""),
+  message: z.string().trim().max(1000).default(""),
+  consent: z.literal(true, "Acepta el aviso de privacidad para enviar"),
+  website: z.string().max(500).default(""),
+  elapsedMs: z.number().int().min(0).max(86_400_000),
+  language: z.string().max(5).default("es"),
+});
+export type AdvisorMessage = z.infer<typeof advisorMessageSchema>;
+
+/** REQ-252: lo que acepta /api/contacto (cada tipo con su bandera). */
+export const inboundMessageSchema = z.discriminatedUnion("kind", [contactMessageSchema, advisorMessageSchema]);
+export type InboundMessage = z.infer<typeof inboundMessageSchema>;
+
 const LINK = /https?:\/\/|www\./gi;
 
 // REQ-247
