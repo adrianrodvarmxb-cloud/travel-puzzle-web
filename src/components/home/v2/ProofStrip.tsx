@@ -2,18 +2,21 @@
 
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
-import { formatCount, formatRating } from '@/home/lib/format';
+import { formatRating } from '@/home/lib/format';
 import type { HomeStats } from '@/home/load';
 
+/** Cifras ya formateadas en el servidor con idioma fijo (REQ-173, INC-001). */
+export interface ProofCounts { tours: string; cities: string; countries: string }
+
 /** Franja de cifras en vivo, todas calculadas del catálogo. */
-export function ProofStrip({ stats }: { stats: HomeStats }) {
+export function ProofStrip({ stats, counts }: { stats: HomeStats; counts: ProofCounts }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   const rating = formatRating(stats.rating);
   const items = [
-    stats.tours > 0 && { value: formatCount(stats.tours, language), label: c.statTours, accent: false },
-    stats.cities > 0 && { value: formatCount(stats.cities, language), label: c.statCities, accent: false },
-    stats.countries > 0 && { value: formatCount(stats.countries, language), label: c.statCountries, accent: false },
+    stats.tours > 0 && { value: counts.tours, label: c.statTours, accent: false },
+    stats.cities > 0 && { value: counts.cities, label: c.statCities, accent: false },
+    stats.countries > 0 && { value: counts.countries, label: c.statCountries, accent: false },
     rating && { value: `${rating} ★`, label: c.statRatingShort, accent: true },
   ].filter(Boolean) as { value: string; label: string; accent: boolean }[];
   if (!items.length) return null;
