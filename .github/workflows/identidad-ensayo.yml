@@ -72,7 +72,8 @@ jobs:
           # --file usa la importación de D1, que falla con «Not currently importing anything»;
           # se aplica en lotes de 300 sentencias con --command (cada lote es atómico).
           for f in salida/identidad.sql salida/geonames.sql; do
-            grep -v '^--' "$f" | grep -v '^\s*$' > lotes.sql
+            grep -v '^--' "$f" | grep -v '^\s*$' > lotes.sql || true
+            if [ ! -s lotes.sql ]; then echo "$f: nada que llenar"; rm -f lotes.sql; continue; fi
             split -l 300 -d -a 3 lotes.sql lote-
             for l in lote-*; do npx wrangler d1 execute travel-puzzle --remote --command "$(cat "$l")" > /dev/null; echo "aplicado $f $l"; done
             rm -f lote-* lotes.sql
