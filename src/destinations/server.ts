@@ -8,7 +8,7 @@ import { withRetry } from "@/tours/lib/d1-load";
 import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
 import { destinationsRepo, loadTree, SITE_URL_DEFAULT } from "./load";
-import type { D1Read } from "./repository";
+import type { D1Read, TourPlaceRow } from "./repository";
 import type { CountryNode } from "./lib/catalog";
 
 export const primeraPiezaOn = () => isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED);
@@ -20,4 +20,15 @@ export function getDestinations(): Promise<CountryNode[]> {
   return cached(cacheKey("destinos", { v: "1", own: String(vis.own), transport: String(vis.transport) }), POLICY.toursList, () =>
     withRetry(() => loadTree(destinationsRepo(getD1() as unknown as D1Read), new Date(), vis))
   );
+}
+
+/** REQ-092: el tour de la página 410, leído de D1 por id. Si la base falla, null (la página usa su texto fijo). */
+export async function getGonePlace(id: string): Promise<TourPlaceRow | null> {
+  if (!id || id.length > 64) return null;
+  try {
+    return await withRetry(() => destinationsRepo(getD1() as unknown as D1Read).tourPlaceById(id));
+  } catch (error) {
+    console.error("[destinos] tour retirado sin datos:", (error as Error).message);
+    return null;
+  }
 }
