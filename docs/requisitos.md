@@ -221,3 +221,9 @@ Numeración: este frente usa **REQ-400…REQ-433** (bloque asignado por el coord
 | REQ-224 | "tsc --noEmit como gate en la prueba de humo del PR y en el deploy" (PO, 6 nov 2026, 06:43; INC-001) | Dado un PR o un deploy, cuando corre su workflow, entonces `npx tsc --noEmit` corre sin condición después de generar la lista de países y Prisma y antes de migraciones, build y subida; si falla, no se sube ni se publica. | CUMPLIDO (tsc verde local) |
 | REQ-187 | La llave del agente no se pudo cargar con el workflow manual (6 nov 2026): un PR subió su versión de prueba y Cloudflare no deja cambiar secretos si la última versión no es la publicada | Dada una publicación de main, cuando en «Secretos del Worker» falta AGENTE_TOKEN, entonces crea una llave y la carga primero como CATALOGO_TRAVEL_PUZZLE en mila-zoefel y luego como AGENTE_TOKEN aquí, sin imprimirla; si ya existe, no la toca. | REEMPLAZADO por REQ-188: la publicación ya no usa `secret put` (REQ-155, INC-006), así que ese paso quedó apagado |
 | REQ-188 | Reemplaza a REQ-187 (6 nov 2026): la llave del agente viaja con la versión | Dada una publicación de main, cuando falta AGENTE_TOKEN, entonces se genera una vez, se carga primero como CATALOGO_TRAVEL_PUZZLE en mila-zoefel y solo si eso funcionó viaja con la versión (--secrets-file); si falla, avisa y la próxima publicación lo vuelve a intentar. Nunca se imprime. | CUMPLIDO (src/ops/lib/worker-secrets.test.ts) |
+
+### Taxonomía, fase T6a: migración 0018 (columnas nuevas de Trip), en su propio PR. CANDADO: no se aplica aquí
+
+| Fase y REQ | Código | Test | Estado |
+|---|---|---|---|
+| T6a · REQ-425 (migración de los campos nuevos de Trip: solo agrega; `difficulty` y `accessibility` se conservan) | `migrations/0018_trip_facetas.sql` | `src/trips/migration-0018.test.ts` (SQLite real) | Escrita y probada; **sin aplicar**. Prisma y el gestor la usan en un PR posterior, ya aplicada |
