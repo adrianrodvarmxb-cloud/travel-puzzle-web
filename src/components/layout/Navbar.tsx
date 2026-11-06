@@ -37,7 +37,7 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const { transfers, ownTrips, primeraPieza } = useFeatureFlags();
+  const { transfers, primeraPieza, dayTrips } = useFeatureFlags();
   // REQ-093: La Primera Pieza y Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
   const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
@@ -203,7 +203,7 @@ export const Navbar = () => {
 
             {/* Secciones del inicio (decisión del PO, 3 nov 2026); REQ-068: se derivan de la lista única */}
             <div className="mb-4 border-t border-white/15 pt-3">
-              {homeSections(language, { ownTrips }).map((s) => (
+              {homeSections(language, { dayTrips }).map((s) => (
                 <Link
                   key={s.id}
                   href={s.href}
