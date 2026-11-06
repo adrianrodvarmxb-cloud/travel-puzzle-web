@@ -17,6 +17,8 @@ import { DEFAULT_REGISTRY, probeRegistry } from '@/companions/lib/registry';
 import { providerCities, type TripCitiesDb } from '@/companions/load';
 import { transfersWidgetUrl } from '@/transfers/lib/widget';
 import { loadFirstPiece } from '@/cart/load';
+import { pieceDay } from '@/cart/lib/piece';
+import { loadFx } from '@/trips/public-load';
 
 export const dynamic = 'force-dynamic';
 /** Con la bandera apagada no se publica ni el título: la 404 queda igual que cualquier otra. */
@@ -43,7 +45,13 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
         view: (t) => loadManageView(t, manageDeps()),
         summary: async (id) => {
             const s = await getTourSummary(getPrisma(), id, 'es');
-            return s ? { title: s.title, cityName: s.cityName ?? null } : null;
+            if (!s) return null;
+            // REQ-181: país y ciudad del catálogo (no de la URL). Si falla, la pieza sigue sin reglas por país.
+            const place = await getPrisma().tour.findUnique({
+                where: { externalId: id },
+                select: { city: { select: { slug: true } }, country: { select: { code: true, iso2: true } } },
+            }).catch(() => null);
+            return { title: s.title, cityName: s.cityName ?? null, country: place?.country?.iso2 ?? place?.country?.code ?? null, citySlug: place?.city?.slug ?? null };
         },
     });
     const contact = contactFromEnv(env);
@@ -54,8 +62,9 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
     const adapters = buildRegistryAdapters(DEFAULT_REGISTRY, { whatsapp: contact.whatsapp, citiesFor: (e) => providerCities(db, e.provider) });
     const probes = piece && token
         ? await probeRegistry(DEFAULT_REGISTRY, adapters, {
-            type: 'tour', cityCode: query.cityCode ?? '', cityName: piece.cityName, country: query.country ?? '',
-            date: piece.date.slice(0, 10), people: piece.people, cartId: cartIdFromToken(token),
+            type: 'tour', cityCode: piece.cityCode ?? query.cityCode ?? '', cityName: piece.cityName, country: piece.country ?? '',
+            // REQ-180: día en la ciudad del tour.
+            date: pieceDay(piece.localDate, piece.date) ?? piece.date.slice(0, 10), people: piece.people, cartId: cartIdFromToken(token),
         })
         : {};
     const model = buildArmaTuViajeModel({
@@ -65,6 +74,8 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
         probes,
         flags: { visa: flags.visa, etias: flags.etias },
         now: Date.now(),
+        // REQ-183: MXN aproximado solo si la reserva quedó con tarifa fija.
+        fx: piece?.price && piece.price > 0 ? await loadFx().catch(() => null) : null,
     });
     const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
