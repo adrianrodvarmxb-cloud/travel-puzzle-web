@@ -8,6 +8,8 @@ import { withRetry } from '@/tours/lib/d1-load';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import { loadTourReviews } from '@/reviews/load';
+import { withoutPlatformMentions } from '@/reviews/lib/platform-mention';
+import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { cityLabel, transportForPlace } from '@/trips/cross-sell';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
@@ -28,6 +30,9 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
         .catch((e) => { console.error('[reseñas]', (e as Error).message); return { reviews: [], total: 0 }; });
 
     const env = process.env as Record<string, string | undefined>;
+    // REQ-171: con PRIMERA_PIEZA_ENABLED no se pintan reseñas que nombran la plataforma (la base no cambia;
+    // el total y la calificación siguen siendo los del proveedor). Aplica a /destinos y a /tours (mismo componente).
+    const shown = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? withoutPlatformMentions(reviews) : reviews;
     // REQ-005/006: transporte de la misma ciudad o país (vacío si TRANSPORT_ENABLED está apagado). Si falla, la ficha sigue.
     const rel = tourData as unknown as { city?: { translations?: unknown }; country?: { code?: string } };
     const place = { city: cityLabel(rel.city?.translations, 'es'), country: rel.country?.code ?? null };
@@ -38,7 +43,7 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
         initialTour,
         initialTourData: tourData as unknown as TourWithRelations,
         initialLanguage: language,
-        reviews,
+        reviews: shown,
         reviewsTotal: total,
         bookingsEnabled: env.BOOKINGS_ENABLED === 'true',
         paidEnabled: env.PAID_TOURS_ENABLED === 'true',
