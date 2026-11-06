@@ -13,11 +13,11 @@ const r = (id: number, tour: number, rate: number, language: string, content: st
 });
 
 describe("etiqueta Favorito de los viajeros", () => {
-  it("solo con 4.7 o más y 100 reseñas o más", () => {
-    expect(isTravelerFavorite(4.7, 100)).toBe(true);
+  it("REQ-098: solo con 4.7 o más y 50 reseñas o más (gate 2)", () => {
+    expect(isTravelerFavorite(4.7, 50)).toBe(true);
     expect(isTravelerFavorite("4.93", 12703)).toBe(true);
     expect(isTravelerFavorite(4.69, 5000)).toBe(false);
-    expect(isTravelerFavorite(5, 99)).toBe(false);
+    expect(isTravelerFavorite(5, 49)).toBe(false);
     expect(isTravelerFavorite(null, 500)).toBe(false);
   });
 });

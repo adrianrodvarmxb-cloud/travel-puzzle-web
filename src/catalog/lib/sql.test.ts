@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { tourStatements, publishTourStatements, ratingStatements, stageStatements, backupStatements, presenceStatements, publishBatch, slugStatements } from "./sql";
+import { tourStatements, publishTourStatements, ratingStatements, stageStatements, backupStatements, presenceStatements, publishBatch, slugStatements, cityIndexStatements } from "./sql";
 import { MAX_PARAMS } from "@/lib/d1/batch";
 
 const now = new Date("2026-10-30T10:00:00Z");
@@ -126,5 +126,13 @@ describe("slugs del sync blindado", () => {
       tours: [], slugs: [{ externalId: 7, slug: "tour-7" }],
     });
     expect(stmts.some((s) => s.sql.startsWith('UPDATE "Tour" SET "slug"'))).toBe(true);
+  });
+});
+
+describe("estado de indexación de ciudades", () => {
+  it("REQ-090: una sentencia por ciudad, fechas como las guarda Prisma y null para borrar", () => {
+    const [st] = cityIndexStatements([{ id: 20, indexableSince: null, failingSince: "2026-11-04T09:09:00.000Z" }]);
+    expect(st.sql).toBe('UPDATE "City" SET "indexableSince" = ?, "failingSince" = ? WHERE "id" = ?');
+    expect(st.params).toEqual([null, "2026-11-04T09:09:00.000+00:00", 20]);
   });
 });

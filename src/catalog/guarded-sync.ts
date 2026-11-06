@@ -9,6 +9,14 @@ import { toTourRows, countryRows, type TourRow, type TranslationRow } from "./li
 import type { PublishInput, StagedRow } from "./lib/sql";
 import { assignTourSlugs, type ExistingTour } from "@/destinations/lib/assign-slugs";
 import { DEFAULT_PROVIDER, naturalKey } from "@/destinations/lib/ids";
+import { planCityIndexing, type CityIndexRow, type CityIndexUpdate } from "@/destinations/lib/indexing";
+
+/** REQ-090: estado de indexación de las ciudades (City.indexableSince / failingSince, migración 0015). */
+export interface CityIndexRepo {
+  /** Ciudades con slug, con sus tours publicados (slug, activos y no removed) y lo guardado. */
+  cityIndexInputs(): Promise<CityIndexRow[]>;
+  saveCityIndex(updates: CityIndexUpdate[]): Promise<void>;
+}
 
 /**
  * Sync blindado del catálogo de FREETOUR (Ola 1, tras SYNC_GUARD_ENABLED).
@@ -64,6 +72,8 @@ interface Deps {
   now: Date;
   newId?: () => string;
   rebuildSearch?: () => Promise<void>;
+  /** REQ-090: si viene, al cerrar cada corrida exitosa se recalcula y guarda la indexación de las ciudades. */
+  indexing?: CityIndexRepo;
   /** Filas que se publican por minuto. */
   chunkSize?: number;
 }
@@ -81,7 +91,7 @@ export async function runGuardedSyncStep(deps: Deps) {
   return { ...result, health: syncHealth(last?.finishedAt ?? null, deps.now) };
 }
 
-async function step({ api, repo, countries, now, newId = () => crypto.randomUUID(), rebuildSearch, chunkSize = PUBLISH_CHUNK }: Deps) {
+async function step({ api, repo, countries, now, newId = () => crypto.randomUUID(), rebuildSearch, indexing, chunkSize = PUBLISH_CHUNK }: Deps) {
   const latest = await repo.latestRun();
   const plan = planGuardedStep(latest, now);
 
@@ -94,7 +104,7 @@ async function step({ api, repo, countries, now, newId = () => crypto.randomUUID
     case "close":
       return close(repo, latest!, now);
     case "publish":
-      return publish(repo, latest!, now, chunkSize, rebuildSearch);
+      return publish(repo, latest!, now, chunkSize, rebuildSearch, indexing);
     case "start": {
       if (latest?.status === "staging") {
         await repo.updateRun(latest.id, { status: "aborted", abortReason: "superseded", finishedAt: now }, now);
@@ -192,7 +202,7 @@ function fromPayload(row: StagedRow): { tour: TourRow; translations: Translation
   return { tour: { ...p.tour, lastSeenAt: new Date(p.tour.lastSeenAt) } as TourRow, translations: p.translations, hash: row.hash };
 }
 
-async function publish(repo: GuardedRepo, run: RunState, now: Date, chunkSize: number, rebuildSearch?: () => Promise<void>) {
+async function publish(repo: GuardedRepo, run: RunState, now: Date, chunkSize: number, rebuildSearch?: () => Promise<void>, indexing?: CityIndexRepo) {
   const chunk = await repo.nextChunk(run.id, run.publishCursor, chunkSize);
   const tours = chunk.filter((r) => r.kind === "new" || r.kind === "changed").map(fromPayload);
   const ratings = chunk
@@ -219,6 +229,13 @@ async function publish(repo: GuardedRepo, run: RunState, now: Date, chunkSize: n
   if (rebuildSearch) {
     try { await rebuildSearch(); searchIndex = "ok"; } catch (e) { console.error("[busqueda] no se rehízo el índice:", (e as Error).message); searchIndex = "error"; }
   }
+  // REQ-090: solo tras una corrida exitosa (el render lee este estado). Si falla, la corrida sigue exitosa
+  // y la siguiente lo recalcula con la misma regla.
+  let cityIndex: "ok" | "error" | "skipped" = "skipped";
+  if (indexing) {
+    try { await indexing.saveCityIndex(planCityIndexing(await indexing.cityIndexInputs(), now)); cityIndex = "ok"; }
+    catch (e) { console.error("[indexacion] no se guardó el estado de las ciudades:", (e as Error).message); cityIndex = "error"; }
+  }
   console.log(`[sync] corrida ${run.id} publicada: ${JSON.stringify(finalize!.counts)}`);
-  return { action: "finish" as const, runId: run.id, published: chunk.length, ...finalize!.counts, searchIndex };
+  return { action: "finish" as const, runId: run.id, published: chunk.length, ...finalize!.counts, searchIndex, cityIndex };
 }

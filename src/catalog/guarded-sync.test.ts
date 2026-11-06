@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { runGuardedSyncStep, type GuardedRepo, type RunPatch } from "./guarded-sync";
+import { runGuardedSyncStep, type GuardedRepo, type RunPatch, type CityIndexRepo } from "./guarded-sync";
 import type { RunState } from "./lib/guard-plan";
 import type { StagedRow } from "./lib/sql";
 import type { StageKind } from "./lib/content-hash";
@@ -10,7 +10,7 @@ import {
 
 /** Base de datos en memoria con la misma semántica que el repositorio de D1. */
 function memoryRepo() {
-  const tours = new Map<number, { title: string; contentHash: string | null; rating: number | null; reviewsNumber: number; syncStatus: string; missingRuns: number; isActive: boolean; slug?: string | null }>();
+  const tours = new Map<number, { title: string; contentHash: string | null; rating: number | null; reviewsNumber: number; syncStatus: string; missingRuns: number; isActive: boolean; slug?: string | null; cityId?: number }>();
   const runs: (RunState & Record<string, unknown>)[] = [];
   const stages = new Map<string, Map<number, StagedRow & { previous?: unknown }>>();
   const meta: { checkpoint: Date | null } = { checkpoint: null };
@@ -55,7 +55,7 @@ function memoryRepo() {
         if (prev) stages.get(runId)!.get(r.tour.externalId)!.previous = { ...prev };
         tours.set(r.tour.externalId, {
           title: r.translations[0]?.title ?? "", contentHash: r.hash, rating: r.tour.rating, reviewsNumber: r.tour.reviewsNumber,
-          syncStatus: prev?.syncStatus ?? "active", missingRuns: prev?.missingRuns ?? 0, isActive: true, slug: prev?.slug ?? null,
+          syncStatus: prev?.syncStatus ?? "active", missingRuns: prev?.missingRuns ?? 0, isActive: true, slug: prev?.slug ?? null, cityId: r.tour.cityId,
         });
         tourWrites++;
       }
@@ -95,12 +95,12 @@ let seq = 0;
 const newId = () => `run${++seq}`;
 
 /** Corre minuto a minuto hasta que la corrida termine o aborte. */
-async function runDay(db: ReturnType<typeof memoryRepo>, source: (page: number) => unknown, start: Date, chunkSize?: number) {
+async function runDay(db: ReturnType<typeof memoryRepo>, source: (page: number) => unknown, start: Date, chunkSize?: number, indexing?: CityIndexRepo) {
   const api = feedApi(source);
   const results: Record<string, unknown>[] = [];
   for (let i = 0; i < 60; i++) {
     const now = new Date(start.getTime() + i * 60_000);
-    const res = await runGuardedSyncStep({ api, repo: db.repo, countries: countries as never, now, newId, chunkSize });
+    const res = await runGuardedSyncStep({ api, repo: db.repo, countries: countries as never, now, newId, chunkSize, indexing });
     results.push(res);
     if (res.action === "finish" || res.action === "abort") break;
   }
@@ -363,5 +363,80 @@ describe("runGuardedSyncStep: slugs de tours nuevos", () => {
     db.tours.get(3)!.slug = null;
     await runDay(db, pagedFeed(BASE_CATALOG.map((t) => (t.id === 3 ? { ...t, title: { es: "Tour 3 cambiado" } } : t))), day(2));
     expect(db.tours.get(3)!.slug).toBeNull();
+  });
+});
+
+describe("runGuardedSyncStep: estado de indexación de ciudades (REQ-090)", () => {
+  /** Tours 1–3 en la ciudad 20; 4–6 en la 10. */
+  const CITY_CATALOG = [1, 2, 3, 4, 5, 6].map((id) => feedTour(id, { cityId: id <= 3 ? 20 : 10 }));
+  const WITHOUT_3 = CITY_CATALOG.filter((t) => t.id !== 3);
+
+  function memoryIndex(db: ReturnType<typeof memoryRepo>) {
+    const cities = new Map<number, { indexableSince: string | null; failingSince: string | null }>([[10, { indexableSince: null, failingSince: null }], [20, { indexableSince: null, failingSince: null }]]);
+    let fail = false;
+    const repo: CityIndexRepo = {
+      cityIndexInputs: async () => [...cities.entries()].map(([id, c]) => ({
+        id, guide: null, ...c,
+        activeTours: [...db.tours.values()].filter((t) => t.cityId === id && t.slug && t.isActive && t.syncStatus !== "removed").length,
+      })),
+      saveCityIndex: async (updates) => {
+        if (fail) throw new Error("D1 falló");
+        for (const u of updates) cities.set(u.id, { indexableSince: u.indexableSince, failingSince: u.failingSince });
+      },
+    };
+    return { repo, cities, failSaves: (v: boolean) => { fail = v; } };
+  }
+
+  async function dropped() {
+    const db = memoryRepo();
+    const idx = memoryIndex(db);
+    await runDay(db, pagedFeed(CITY_CATALOG), day(1), undefined, idx.repo);
+    expect(idx.cities.get(20)!.indexableSince).not.toBeNull();
+    // El tour 3 falta 3 corridas seguidas → removed el día 4: la ciudad 20 baja de 3 a 2 tours.
+    for (const d of [2, 3, 4]) await runDay(db, pagedFeed(WITHOUT_3), day(d), undefined, idx.repo);
+    return { db, idx };
+  }
+
+  it("REQ-090: al cerrar la corrida exitosa, failingSince se fija el primer día que la ciudad deja de cumplir", async () => {
+    const { idx } = await dropped();
+    const c20 = idx.cities.get(20)!;
+    expect(c20.indexableSince).not.toBeNull();
+    expect(c20.failingSince!.slice(0, 10)).toBe("2026-11-04");
+    expect(idx.cities.get(10)).toMatchObject({ failingSince: null });
+  });
+
+  it("REQ-090: 13 días sin cumplir sigue indexada; al 14 pasa a noindex; al 15 sigue en noindex", async () => {
+    const { db, idx } = await dropped();
+    const since = idx.cities.get(20)!.failingSince;
+    await runDay(db, pagedFeed(WITHOUT_3), day(4 + 13), undefined, idx.repo);
+    expect(idx.cities.get(20)).toMatchObject({ failingSince: since });
+    expect(idx.cities.get(20)!.indexableSince).not.toBeNull();
+    await runDay(db, pagedFeed(WITHOUT_3), day(4 + 14), undefined, idx.repo);
+    expect(idx.cities.get(20)).toMatchObject({ indexableSince: null, failingSince: since });
+    await runDay(db, pagedFeed(WITHOUT_3), day(4 + 15), undefined, idx.repo);
+    expect(idx.cities.get(20)).toMatchObject({ indexableSince: null, failingSince: since });
+  });
+
+  it("REQ-090: vuelve a indexarse en cuanto cumple y se borra failingSince", async () => {
+    const { db, idx } = await dropped();
+    await runDay(db, pagedFeed(WITHOUT_3), day(4 + 14), undefined, idx.repo);
+    const r = await runDay(db, pagedFeed(CITY_CATALOG), day(4 + 15), undefined, idx.repo);
+    expect(last(r)).toMatchObject({ action: "finish", reactivated: 1 });
+    expect(idx.cities.get(20)!.indexableSince).not.toBeNull();
+    expect(idx.cities.get(20)!.failingSince).toBeNull();
+  });
+
+  it("REQ-090: una corrida abortada no toca el estado de indexación", async () => {
+    const { db, idx } = await dropped();
+    const before = JSON.stringify([...idx.cities]);
+    await runDay(db, EMPTY_FEED, day(10), undefined, idx.repo);
+    expect(JSON.stringify([...idx.cities])).toBe(before);
+  });
+
+  it("REQ-090: si guardar el estado falla, la corrida igual queda exitosa (se reintenta en la siguiente)", async () => {
+    const { db, idx } = await dropped();
+    idx.failSaves(true);
+    const r = await runDay(db, pagedFeed(WITHOUT_3), day(6), undefined, idx.repo);
+    expect(last(r)).toMatchObject({ action: "finish", cityIndex: "error" });
   });
 });

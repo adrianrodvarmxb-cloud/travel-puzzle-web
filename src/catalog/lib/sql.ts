@@ -136,6 +136,13 @@ export function slugStatements(slugs: { externalId: number; slug: string }[]): S
   return slugs.map((s) => ({ sql: 'UPDATE "Tour" SET "slug" = ? WHERE "externalId" = ? AND "slug" IS NULL', params: [s.slug, s.externalId] }));
 }
 
+/** REQ-090: estado de indexación de cada ciudad que cambió (City.indexableSince / failingSince). */
+// REQ-090
+export function cityIndexStatements(updates: { id: number; indexableSince: string | null; failingSince: string | null }[]): Stmt[] {
+  const d = (iso: string | null) => (iso ? sqlValue(new Date(iso)) : null);
+  return updates.map((u) => ({ sql: 'UPDATE "City" SET "indexableSince" = ?, "failingSince" = ? WHERE "id" = ?', params: [d(u.indexableSince), d(u.failingSince), u.id] }));
+}
+
 export interface PublishInput {
   runId: string;
   startedAt: Date;
