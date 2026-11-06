@@ -19,6 +19,15 @@ export const cityPath = (pais: string, ciudad: string) => `${countryPath(pais)}/
 export const tourPath = (pais: string, ciudad: string, slug: string) => `${cityPath(pais, ciudad)}/${seg(slug)}`;
 
 export type TourStatus = "active" | "missing" | "removed";
+
+/**
+ * REQ-092: estado para responder la URL de un tour. Un tour con isActive=0 cuenta como removed aunque
+ * syncStatus diga 'active' (el sync blindado no reescribe los que ya estaban dados de baja; preview PR #128).
+ */
+export function placeStatus(syncStatus: unknown, isActive: unknown): TourStatus {
+  if (isActive === false || isActive === 0 || isActive === "0") return "removed";
+  return syncStatus === "missing" || syncStatus === "removed" ? syncStatus : "active";
+}
 export interface TourPlace { countrySlug: string; citySlug: string; slug: string }
 export interface TourRouteInfo { countrySlug: string; citySlug: string; slug: string | null; status: TourStatus; equivalent?: TourPlace | null }
 

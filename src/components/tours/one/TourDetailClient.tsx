@@ -34,6 +34,7 @@ import { paidPolicy } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import type { PrimeraPiezaView } from './PrimeraPiezaInfo';
+import type { TourPriceLabel } from '@/tours/lib/price-label';
 
 interface TourDetailClientProps {
     tourId: string;
@@ -52,6 +53,8 @@ interface TourDetailClientProps {
     crossSell?: { city: string; items: CrossItem[] } | null;
     /** REQ-094…098: ficha bajo /destinos (PRIMERA_PIEZA_ENABLED). Sin esto la ficha queda igual que hoy. */
     primeraPieza?: PrimeraPiezaView | null;
+    /** REQ-170: precio en EUR con MXN aproximado, calculado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
+    priceLabel?: TourPriceLabel | null;
 }
 
 export function TourDetailClient({
@@ -66,6 +69,7 @@ export function TourDetailClient({
     whatsapp,
     crossSell = null,
     primeraPieza = null,
+    priceLabel = null,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -186,6 +190,7 @@ export function TourDetailClient({
                     <div className="lg:col-span-1">
                         <TourSidebar
                             tour={tour}
+                            priceLabel={priceLabel}
                             events={eventsFTData || []}
                             isLoadingEvents={isLoadingEvents}
                             mode={bookingMode(bookingsEnabled)}
@@ -202,7 +207,7 @@ export function TourDetailClient({
                     </div>
                 </div>
             </div>
-            <TourMobileBar tour={tour} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
+            <TourMobileBar tour={tour} priceLabel={priceLabel} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
             {sheetOpen && crossSell && (
                 <SectionBoundary name="ventana-completa-tu-viaje">
                     <CompleteTripSheet city={crossSell.city} items={csItems} copy={csCopy} onDone={onSheetDone} />
