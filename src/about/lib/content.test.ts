@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { aboutContent, visibleAboutSections, ABOUT_SECTIONS, hasPendingGap, agencyFacts } from "./content";
+import { aboutContent, visibleAboutSections, ABOUT_SECTIONS, hasPendingGap, agencyFacts, aboutSectionsToShow } from "./content";
 import { PROHIBIDAS_SITIO, textsOf } from "@/site/lib/vocab";
 
 describe("contenido de /nosotros", () => {
@@ -46,6 +46,13 @@ describe("contenido de /nosotros", () => {
     expect(agencyFacts("texto sin datos")).toEqual({ holder: null, rnt: null, profeco: null });
     const agencia = aboutContent("es").sections.find((s) => s.id === "agencia")!;
     expect(JSON.stringify(agencia)).not.toMatch(/Lázaro|Cárdenas|Esperanza|34080/);
+  });
+
+  it("REQ-243 (D8): sin cifras del catálogo, «Hoy en el sitio» no sale ni con su título", () => {
+    const v = visibleAboutSections(aboutContent("es"));
+    expect(aboutSectionsToShow(v, null).map((s) => s.id)).not.toContain("cifras");
+    expect(aboutSectionsToShow(v, { tours: 0, cities: 0, countries: 0, rating: null }).map((s) => s.id)).not.toContain("cifras");
+    expect(aboutSectionsToShow(v, { tours: 5, cities: 0, countries: 0, rating: null }).map((s) => s.id)).toContain("cifras");
   });
 
   it("REQ-244: todas las secciones declaradas tienen id único", () => {

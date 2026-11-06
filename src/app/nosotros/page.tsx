@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/site/PageHeader';
 import { AboutSections } from '@/components/about/AboutSections';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { contactFromEnv } from '@/booking/tour-summary';
-import { aboutContent, visibleAboutSections } from '@/about/lib/content';
+import { aboutContent, visibleAboutSections, aboutSectionsToShow } from '@/about/lib/content';
 import { sitePagesFromEnv } from '@/site/lib/pages';
 import { aboutPageJsonLd, organizationWithContactJsonLd } from '@/seo/lib/pages-jsonld';
 import { breadcrumbJsonLd } from '@/seo/lib/jsonld';
@@ -61,7 +61,7 @@ export default async function NosotrosPage() {
       <main className="tp-dark">
         <PageHeader crumbs={crumbs} eyebrow={c.eyebrow} title={c.h1} lead={c.lead} />
         <AboutSections sections={sections} stats={stats} />
-        <ExpertCta whatsapp={contact.whatsapp} />
+        <ExpertCta whatsapp={contact.whatsapp} eyebrow={`${String(aboutSectionsToShow(sections, stats).length + 1).padStart(2, '0')} — ${lang === 'es' ? 'ASESORÍA PERSONALIZADA' : 'PERSONAL ADVICE'}`} />
       </main>
       <SiteFooter contact={footer} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
       <WhatsAppBubble whatsapp={contact.whatsapp} />
