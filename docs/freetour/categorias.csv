@@ -1,0 +1,34 @@
+﻿ID_Categoria,Nombre_ES,Nombre_EN,Formato_TP,Formato_secundario,Temas_TP,Precio0_es_La_Primera_Pieza,CartItem_tipo,Estado
+3,Cruceros y barcos,Cruises & Boat,tour,excursion-dia si ≥ 6 h,playa-mar,sí,tour,activo
+4,Viajes de 1 Día,Day Trips,excursion-dia,circuito si ≥ 1440 min,(por palabras),sí,day_trip,activo
+5,Tour Gastronómico,Food & Drink,tour,experiencia-unica con clase/taller,gastronomia,sí,tour,activo
+7,Vida Nocturna,Night Life,experiencia-unica,,noche-espectaculos,sí,tour,activo
+8,Tour Online,Online Tour,fuera,,—,no,(no aplica),oculto
+10,Tour Corriendo,Running Tour,caminata,,deportivo; urbano,sí,tour,activo
+12,Tour a Pie,Walking Tour,caminata,,urbano,sí,tour,activo
+13,Otros,Other,tour,traslado/entradas/excursion-dia por palabras,(por palabras),sí,tour,activo
+14,Top selección,Top Picks,tour,entradas/excursion-dia por palabras,(por palabras),sí,tour,activo
+16,Tours de aventura,Adventure Tours,experiencia-unica,,aventura,sí,tour,activo
+17,Audioguías,Audio guides,autoguiado,,(por palabras),no,tickets,activo
+18,Aviación,Aviation,experiencia-unica,,aventura,sí,tour,activo
+19,Tours en vehículo por la ciudad,City Ride Tours,tour,,urbano,sí,tour,activo
+20,Entradas,Entrance tickets,entradas,,(por palabras),no,tickets,activo
+21,Juegos y ocio,Games & Leisure,experiencia-unica,,parques-ocio,sí,tour,activo
+22,Sitios históricos,Historic Sites,tour,,cultural,sí,tour,activo
+23,Deportes de motor,Motorsports,experiencia-unica,,aventura; deportivo,sí,tour,activo
+24,Museos,Museums,entradas,,cultural,no,tickets,activo
+25,Naturaleza y parques,Nature & Parks,tour,excursion-dia si ≥ 6 h,naturaleza,sí,tour,activo
+26,Alquileres,Rentals,alquiler,,—,no,car_rental,tras bandera
+27,Espectáculos en vivo,Live Shows,experiencia-unica,,cultural; noche-espectaculos,sí,tour,activo
+28,Pases urbanos,City Passes,entradas,,(por palabras),no,tickets,activo
+29,Traslados,Transfers,traslado,,—,no,transfer,activo
+30,Transporte público,Public Transport,transporte,,urbano,no,transport,tras bandera (TRANSPORT_ENABLED=false)
+31,Servicios de viaje,Travel services,fuera,,—,no,(no aplica),oculto
+32,Actividades acuáticas,Water activities,experiencia-unica,,playa-mar,sí,tour,activo
+33,Bienestar,Wellness,experiencia-unica,,bienestar,sí,tour,activo
+34,Talleres,Workshops,experiencia-unica,,talleres-aprendizaje,sí,tour,activo
+35,Zoológicos y acuarios,Zoos & aquariums,entradas,,naturaleza; parques-ocio,no,tickets,activo
+1,Tour en Bici (ya no existe),,por-revisar,,,,,histórico: si reaparece, oculto de filtros y Destinos; visible en /tours
+2,Tour en Bus (ya no existe),,por-revisar,,,,,histórico: si reaparece, oculto de filtros y Destinos; visible en /tours
+6,(id retirado),,por-revisar,,,,,histórico: si reaparece, oculto de filtros y Destinos; visible en /tours
+9,(id retirado),,por-revisar,,,,,histórico: si reaparece, oculto de filtros y Destinos; visible en /tours

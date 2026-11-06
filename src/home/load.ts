@@ -6,6 +6,7 @@ import { pickVaried } from "./lib/featured";
 import { pickHeroSlides, HERO_SEARCH_NAMES, type HeroSlide } from "./lib/hero";
 import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, pickDistinctTourReviews, pickHighlights } from "@/reviews/lib/highlights";
 import type { HighlightRepo } from "@/reviews/repository";
+import { titlesMentionBrand } from "./lib/brand";
 
 export interface HomeTour {
   id: string;
@@ -127,7 +128,9 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     includePaid ? prisma.tour.findMany({ where: { ...base, priceValue: { gt: 0 } }, orderBy: order, take: 60, select }) : Promise.resolve([]),
     prisma.tour.findMany({ where: { ...base, priceValue: 0 }, orderBy: order, take: 60, select }),
   ]);
-  const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(list.map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
+  // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
+  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)));
+  const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(clean(list).map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
   return mixRecommendations(vary(paid), vary(free), 6, includePaid).flatMap((t) => {
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
     if (!https(t.titleImageURL) || !Object.keys(titles).length) return [];
@@ -188,14 +191,16 @@ async function loadStatsAndContinents(prisma: PrismaClient) {
 
 /** Reseñas reales de 5 ★ de tours distintos, cada una con su tour. */
 async function loadReviews(prisma: PrismaClient, repo: HighlightRepo, lang: string): Promise<HomeReview[]> {
-  const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 6);
+  // REQ-219: se piden de más; la reseña cuyo tour lleva la marca en el título se descarta y entra la siguiente.
+  const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 30);
   if (!picked.length) return [];
   const tours = await prisma.tour.findMany({
     where: { externalId: { in: picked.map((r) => r.tourExternalId) } },
     select: { id: true, externalId: true, city: { select: { translations: true } }, translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } } },
   });
   const byExt = new Map(tours.map((t) => [t.externalId, t]));
-  return picked.map((r) => {
+  const shown = picked.filter((r) => { const t = byExt.get(r.tourExternalId); return !t || !titlesMentionBrand(t.translations.map((x) => x.title)); }).slice(0, 6);
+  return shown.map((r) => {
     const t = byExt.get(r.tourExternalId);
     return {
       id: r.id, reviewerName: r.reviewerName, title: r.title, content: r.content ?? "", rate: r.rate, addedAt: r.addedAt.toISOString(),

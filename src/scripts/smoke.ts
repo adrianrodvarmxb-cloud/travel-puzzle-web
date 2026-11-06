@@ -5,11 +5,12 @@
  */
 import { readFileSync } from "node:fs";
 import { chromium, devices } from "playwright";
-import { isHydrationError, smokePages, smokeVerdict, type SmokeResult } from "../ops/lib/smoke";
+import { isErrorScreen, isHydrationError, smokePages, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
 if (!/^https?:\/\//.test(base)) { console.error("Uso: npx tsx src/scripts/smoke.ts <url-base>"); process.exit(2); }
-const { fixed } = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as { fixed: string[] };
+// REQ-223: `optional` = páginas tras bandera; un 404 ahí es válido (bandera apagada).
+const { fixed, optional = [] } = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as { fixed: string[]; optional?: string[] };
 
 (async () => {
   const browser = await chromium.launch();
@@ -17,7 +18,7 @@ const { fixed } = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as 
   await discover.goto(`${base}/tours`, { waitUntil: "networkidle", timeout: 90_000 }).catch(() => null);
   const links = await discover.$$eval("a[href^='/']", (as) => as.map((a) => a.getAttribute("href") ?? "")).catch(() => [] as string[]);
   await discover.close();
-  const pages = smokePages(fixed, links);
+  const pages = withOptionalPages(smokePages(fixed, links), optional);
 
   const results: SmokeResult[] = [];
   for (const [viewport, opts] of [[390, { ...devices["Pixel 7"] }], [1366, { viewport: { width: 1366, height: 900 } }]] as const) {
@@ -33,8 +34,8 @@ const { fixed } = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as 
       page.on("console", (m) => { if (m.type() === "error" && isHydrationError(m.text())) pageErrors.push(m.text()); });
       const res = await page.goto(`${base}${path}${path.includes("?") ? "&" : "?"}smoke=${Date.now()}`, { waitUntil: "networkidle", timeout: 90_000 }).catch(() => null);
       await page.waitForTimeout(1500);
-      const appError = await page.evaluate(() => document.body?.innerText.includes("Application error") ?? false).catch(() => false);
-      results.push({ path, viewport, status: res?.status() ?? null, pageErrors, appError });
+      const appError = isErrorScreen(await page.evaluate(() => document.body?.innerText ?? "").catch(() => ""));
+      results.push({ path, viewport, status: res?.status() ?? null, pageErrors, appError, optional: optional.includes(path) });
       await page.close();
     }
     await ctx.close();
