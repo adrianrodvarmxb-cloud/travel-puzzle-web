@@ -163,6 +163,9 @@ Detalle: `docs/incidentes/INC-002.md`.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-155 | Secretos dentro de la versión que se prueba y despliega; reintento de subida; humo de producción siempre tras publicar; modo ensayo | `.github/workflows/deploy-cloudflare.yml`, `src/ops/lib/worker-secrets.ts`, `src/scripts/worker-secrets.ts` | `deploy-workflow.test.ts`, `worker-secrets.test.ts` | EN CURSO (falta el primer deploy con el workflow nuevo) |
+| REQ-226 | Los PR esperan a que main termine de publicar antes de subir su versión (antes REQ-153/186) | `.github/workflows/prueba-humo.yml` | `subidas-workflow.test.ts` | CUMPLIDO |
+| REQ-225 | Llave del catálogo del agente creada y cargada sin mostrarse (antes REQ-154/185) | `.github/workflows/llave-agente.yml` | `llave-agente-workflow.test.ts` | CUMPLIDO (corrida manual del workflow PENDIENTE, con OK del PO: es un secreto) |
+| REQ-227 | Ningún REQ en dos filas de `docs/requisitos.md` | `docs/requisitos.md` | `requisitos-unicos.test.ts` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-006.md`.
 
 ## La Primera Pieza — Ola 7 «Arma tu viaje» y carrusel (5 nov 2026)
