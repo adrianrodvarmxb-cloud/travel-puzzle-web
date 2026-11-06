@@ -57,7 +57,8 @@
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
     "OWN_TOURS_ENABLED": "true",
-    "TRANSPORT_ENABLED": "false",
+    // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
+    "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
     "DEPARTURES_SYNC_ENABLED": "true",
     // Mostrar filtros de idioma del guía y fecha (REQ-061). "true" cuando la lectura de salidas cubra el catálogo, con OK.
