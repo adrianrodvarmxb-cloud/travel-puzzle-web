@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { CancelBooking } from './CancelBooking';
 import { TripLinkCard } from '@/components/booking/TripLinkCard';
+import type { SiteFooterData } from '@/layout/lib/site-footer';
 import { mono, Eyebrow, Ghost, EmailFrame, Hero, BookingPass, SupportCard } from '@/components/booking/email-ui';
 
 const STATUS: Record<string, { label: string; dot: string; text: string }> = {
@@ -33,18 +34,20 @@ export interface BookingPageViewProps {
     cal: { google: string; outlook: string } | null;
     wa: string | null;
     socials: { name: string; url: string }[];
+    /** REQ-303: pie del home. */
+    site: SiteFooterData;
     /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED y la reserva activa). */
     tripUrl?: string | null;
 }
 
 /** Vista de la página (solo presentación). */
-export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, tripUrl }: BookingPageViewProps) {
+export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, site, tripUrl }: BookingPageViewProps) {
     const active = status === 'active';
     const st = STATUS[status] ?? { label: status, dot: 'bg-gray-300', text: 'text-gray-200' };
     let sec = 0;
 
     return (
-        <EmailFrame wa={wa} socials={socials} note="Este enlace es privado. No lo compartas.">
+        <EmailFrame wa={wa} socials={socials} site={site} note="Este enlace es privado. No lo compartas.">
                 {imageUrl && <img src={imageUrl} alt={title} className="block max-h-[320px] w-full object-cover" />}
 
                 <Hero

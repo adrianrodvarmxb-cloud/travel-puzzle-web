@@ -5,6 +5,8 @@
  * Solo presentación.
  */
 import { Navbar } from '@/components/layout/Navbar';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import type { SiteFooterData } from '@/layout/lib/site-footer';
 import type { ReactNode } from 'react';
 
 export const mono = 'font-mono text-[11px] uppercase tracking-[0.15em]';
@@ -21,8 +23,12 @@ export function Ghost({ href, children, external = true }: { href: string; child
     );
 }
 
-/** Marco de 600 px con la franja de colores, encabezado con logo y pie con logo animado y redes. */
-export function EmailFrame({ wa, socials, children, note }: { wa: string | null; socials: { name: string; url: string }[]; children: ReactNode; note?: string }) {
+/**
+ * Marco de 600 px con la franja de colores y encabezado con logo.
+ * REQ-303: el pie es el del home (SiteFooter, con `site`). El pie de la tarjeta (copia del correo)
+ * queda oculto; `cardFooter` lo vuelve a mostrar (reversible).
+ */
+export function EmailFrame({ wa, socials, children, note, site, cardFooter = false }: { wa: string | null; socials: { name: string; url: string }[]; children: ReactNode; note?: string; site: SiteFooterData; cardFooter?: boolean }) {
     return (
         <>
         {/* REQ-062: el mismo header del home (logo animado) en todo el acompañamiento y las reservas */}
@@ -35,27 +41,30 @@ export function EmailFrame({ wa, socials, children, note }: { wa: string | null;
                     {wa && <a href={wa} className={`${mono} text-white`}>Ayuda</a>}
                 </header>
                 {children}
-                <footer className="flex items-center justify-between gap-4 bg-[#0A1330] px-5 py-5">
-                    <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Te armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
-                    <div className="text-right">
-                        {socials.length > 0 && (
-                            <>
-                                <p className={`${mono} mb-2.5 text-[10px] text-[#9AAEE0]`}>Síguenos</p>
-                                <div className="mb-3 flex justify-end gap-2">
-                                    {socials.map((s) => (
-                                        <a key={s.name} href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
-                                            <img src={`/brand/social/${s.name.toLowerCase()}.png`} alt="" width={32} height={32} className="h-8 w-8" />
-                                        </a>
-                                    ))}
-                                </div>
-                            </>
-                        )}
-                        <p className="text-xs text-[#C9D6F5]">Travel Puzzle México · travelpuzzle.com.mx</p>
-                    </div>
-                </footer>
+                {cardFooter && (
+                    <footer className="flex items-center justify-between gap-4 bg-[#0A1330] px-5 py-5">
+                        <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle · Te armamos tu viaje" width={150} className="h-auto w-[120px] sm:w-[150px]" />
+                        <div className="text-right">
+                            {socials.length > 0 && (
+                                <>
+                                    <p className={`${mono} mb-2.5 text-[10px] text-[#9AAEE0]`}>Síguenos</p>
+                                    <div className="mb-3 flex justify-end gap-2">
+                                        {socials.map((s) => (
+                                            <a key={s.name} href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+                                                <img src={`/brand/social/${s.name.toLowerCase()}.png`} alt="" width={32} height={32} className="h-8 w-8" />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                            <p className="text-xs text-[#C9D6F5]">Travel Puzzle México · travelpuzzle.com.mx</p>
+                        </div>
+                    </footer>
+                )}
             </div>
             {note && <p className="mx-auto mt-4 max-w-[600px] text-center text-xs text-[#5F73AD]">{note}</p>}
         </main>
+        <SiteFooter contact={site.contact} helpEnabled={site.helpEnabled} />
         </>
     );
 }
