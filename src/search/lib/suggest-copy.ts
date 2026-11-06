@@ -18,7 +18,7 @@ type Copy = {
 const es: Copy = {
   destinations: "Destinos", tours: "Tours", categories: "Tipos de actividad",
   didYouMean: "¿Quisiste decir…?", showingFor: "Mostrando resultados de «{q}»", youSearched: "Buscaste «{q}»",
-  noResultsFor: "No encontramos resultados para «{q}»", tryWithout: "Prueba con menos palabras", seeAll: "Ver los {n}", showingInstead: "No había resultados para «{q}». Te mostramos «{alt}».",
+  noResultsFor: "No encontramos resultados para «{q}»", tryWithout: "Prueba con menos palabras", seeAll: "Ver resultados", showingInstead: "No había resultados para «{q}». Te mostramos «{alt}».",
   popular: "Destinos populares", activityTypes: "Tipos de actividad", whatsappTitle: "¿No lo encuentras?", whatsappCta: "Escríbenos por WhatsApp",
   whatsappText: "Hola Travel Puzzle, busqué «{q}» en el sitio y no encontré lo que quería.",
   tourCount1: "1 tour", tourCountN: "{n} tours", listLabel: "Sugerencias de búsqueda",
@@ -26,7 +26,7 @@ const es: Copy = {
 const en: Copy = {
   destinations: "Destinations", tours: "Tours", categories: "Activity types",
   didYouMean: "Did you mean…?", showingFor: "Showing results for “{q}”", youSearched: "You searched “{q}”",
-  noResultsFor: "No results for “{q}”", tryWithout: "Try fewer words", seeAll: "See all {n}", showingInstead: "There were no results for “{q}”. Showing “{alt}”.",
+  noResultsFor: "No results for “{q}”", tryWithout: "Try fewer words", seeAll: "See results", showingInstead: "There were no results for “{q}”. Showing “{alt}”.",
   popular: "Popular destinations", activityTypes: "Activity types", whatsappTitle: "Can’t find it?", whatsappCta: "Message us on WhatsApp",
   whatsappText: "Hi Travel Puzzle, I searched “{q}” on the site and couldn’t find what I wanted.",
   tourCount1: "1 tour", tourCountN: "{n} tours", listLabel: "Search suggestions",
