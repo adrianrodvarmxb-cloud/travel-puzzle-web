@@ -13,6 +13,10 @@ import { runDeparturesStep } from '@/departures/sync';
 import { createDeparturesRepo } from '@/departures/repository';
 import { freetourSource } from '@/departures/sources/freetour';
 import { searchRebuilder } from '@/search/rebuild';
+import { runTaxonomyStep } from '@/taxonomy/recompute';
+import { createTaxonomyRepo } from '@/taxonomy/repository';
+import { taxonomySyncEnabled } from '@/taxonomy/lib/run-plan';
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from '@/taxonomy/data';
 import countries from '../../../../../data/countries.json';
 
 export const dynamic = 'force-dynamic';
@@ -39,9 +43,10 @@ export async function GET(request: Request) {
     const now = new Date();
     // REQ-071…078: sync blindado (staging, barrera de cordura, hash, presencia, log). Apagado = sync de hoy, idéntico.
     if (isSyncGuardEnabled(process.env.SYNC_GUARD_ENABLED)) {
+      const guardedRepo = createGuardedRepo(prisma, getD1() as never);
       const guarded = await runGuardedSyncStep({
         api,
-        repo: createGuardedRepo(prisma, getD1() as never),
+        repo: guardedRepo,
         countries: countries as never,
         now,
         // REQ-090: al cerrar cada corrida exitosa guarda el estado de indexación de las ciudades (14 días reales).
@@ -56,7 +61,18 @@ export async function GET(request: Request) {
         const departures = process.env.DEPARTURES_SYNC_ENABLED === 'true'
           ? await runDeparturesStep({ source: freetourSource(api), repo: createDeparturesRepo(getD1() as never), now, batch: DEPARTURES_PER_TICK }).catch((e) => ({ error: (e as Error).message }))
           : 'off';
-        return NextResponse.json({ success: true, ...guarded, reviews, departures });
+        // REQ-408 / REQ-409 (taxonomía T2b): recálculo por tandas en las tablas de la 0017, tras TAXONOMY_SYNC_ENABLED (apagada).
+        // Necesita la migración 0017 aplicada; si falla, el sync y el sitio siguen igual.
+        const taxonomy = taxonomySyncEnabled(process.env as Record<string, string | undefined>)
+          ? await runTaxonomyStep({
+              repo: createTaxonomyRepo(getD1() as never),
+              dict: DEFAULT_DICTIONARY,
+              mappings: DEFAULT_MAPPINGS,
+              lastSyncAt: (await guardedRepo.lastSuccess())?.finishedAt.toISOString() ?? null,
+              now,
+            }).catch((e) => ({ error: (e as Error).message }))
+          : 'off';
+        return NextResponse.json({ success: true, ...guarded, reviews, departures, taxonomy });
       }
       return NextResponse.json({ success: guarded.action !== 'abort', ...guarded });
     }

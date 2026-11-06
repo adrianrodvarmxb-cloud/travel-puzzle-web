@@ -35,6 +35,12 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
+## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
+- La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
+- eSIM: sin proveedor integrado se oculta salvo en China (`ESIM_ADVISOR_COUNTRIES`). Seguro: oculto hasta tener deeplink de afiliado (`INSURANCE_ADVISOR_COUNTRIES = []`, REQ-326).
+- Solo circuitos cerca → «Circuitos cerca de {ciudad}»; nunca «expertos» (REQ-325).
+- Todo tras `ARMA_TU_VIAJE_ENABLED` (apagada). Decisiones 1 a 5 (radios 300/800 km, orden, eSIM, no repetir Big Bus, «Lo reservas con Travel Puzzle») firmadas por recomendación, PO autopiloto (6 nov 2026).
+
 ## En producción (travelpuzzle.com.mx, Cloudflare Workers + D1)
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).
 - Home con secciones rescatadas del sitio anterior, datos reales y prueba social (ver `docs/gates-home-2026-11.md`).
@@ -51,6 +57,9 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Banderas (wrangler.jsonc, 5 nov 2026)
 - Encendidas: `BOOKINGS_ENABLED`, `EDIT_ENABLED`, `EMAILS_ENABLED`, `OWN_TOURS_ENABLED`, `TRANSFERS_ENABLED`, `AFFILIATES_ENABLED`, `DEPARTURES_SYNC_ENABLED`.
 - Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`, `SEARCH_LOG_ENABLED`, `SEARCH_STEM_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`, `SEARCH_LOG_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`.
 - `PRIMERA_PIEZA_ENABLED=false` — menú con La Primera Pieza y Destinos, y /llms.txt. No encender antes de que existan /la-primera-pieza y /destinos (Olas 3 y 4).
 - `SYNC_GUARD_ENABLED=false`: sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
 - `FREETOUR_API_VERSION` sin definir (Freetour API 2.0).
@@ -152,6 +161,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
+| REQ-304 | Página 404 con el pie del home | `src/app/not-found.tsx` | `src/app/not-found.test.ts` + capturas 390/1366 | CUMPLIDO |
 | REQ-305 | Prueba de humo con La Primera Pieza: destinos, ficha real de la ciudad, sitemap y URL vieja /tours/{id} (301/410); descubrimiento obligatorio con reintentos | `tests/smoke/pages.json`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `smoke-config.test.ts`, `smoke.test.ts` + humo del PR | CUMPLIDO |
 | REQ-500 | Prueba de humo con evidencia (INC-007): al fallar una página guarda HTML crudo, DOM tras hidratar y al error, errores con stack/componentStack, primera diferencia y captura; la recarga una vez y anota si es intermitente, sin dejar de fallar; artefacto en deploy y PR | `src/ops/lib/smoke-evidence.ts`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts`, `deploy-cloudflare.yml`, `prueba-humo.yml` | `smoke-evidence.test.ts`, `smoke-evidence-workflow.test.ts` + humo del PR | CUMPLIDO (test); INC-007 ABIERTO |
 | REQ-300 | Reservas, cancelación, modificar y eventos sin segundo encabezado: solo el del home; ayuda por burbuja de WhatsApp | `src/components/booking/email-ui.tsx` (EmailFrame, `cardHeader`), `email-ui.test.ts`, `site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
@@ -230,7 +240,7 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | REQ-095 | Insignia solo con fullPricePerGroup = 0 (evento en vivo) | `src/tours/lib/badge.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `badge.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `notice.test.ts`, `live-notice.test.ts` | CUMPLIDO |
 | REQ-097 | Tours de pago: sin insignia, 24 h y pago a la llegada; gate REQ-097: reembolso hasta 24 h, después o sin presentarse no hay (también sobre depósito o pago a la llegada) | `src/tours/lib/notice.ts`, `src/tours/lib/paid-policy.ts`, `src/tours/lib/live-notice.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `notice.test.ts`, `paid-policy.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO (la política del sidebar se ve con PAID_TOURS_ENABLED) |
-| REQ-098 | Favorito ≥4.7 y ≥50 (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-098 | Favorito ≥4.9 y ≥180 (≈140 tours; regla única en favorite.ts) (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts`, `page-model.ts` | `titles.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-100 | JSON-LD y migas visibles | `src/seo/lib/jsonld.ts`, `page-model.ts`, `components/destinations/*` | `jsonld.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts`, `page-model.ts`, `DestinationsLayout.tsx` | `hub.test.ts`, `page-model.test.ts` | CUMPLIDO |
@@ -360,6 +370,7 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | REQ-432 | Métricas en STATUS.md, con la meta que propongas: % de tours con formato (100 %) y % sin tema; categoryIds por revisar (0); precisión por… | `src/taxonomy/lib/metrics.ts` (propuesto) | — | PENDIENTE (metas: gate G-T3) |
 | REQ-433 | FREETOUR: las etiquetas nunca van sobre la foto; el H1 es el título real; ningún texto de taxonomía promete pagos, MSI ni «guía en español»… | `src/taxonomy/lib/copy.ts` (propuesto) | — | PENDIENTE |
 | REQ-230 | Formato `experiencia-unica` = «Momentos de autor» (G-T6 firmado, 06:22); en «Signature moments» por firmar; slug sin cambio | `src/taxonomy/data/dictionary.ts`, `lib/copy.ts` (propuesto) | — | PENDIENTE |
+| REQ-480 | «Pieza libre»: chip de filtros de /tours e insignia azul de tarjetas y ficha; el precio «Free tour» se queda; EN «Free tour» pendiente de firma | `src/tours/lib/pieza-libre.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/lib/translations/*.ts`, `TourCard.tsx`, `FeaturedTours.tsx`, `TourHeroSection.tsx` | `pieza-libre.test.ts` | CUMPLIDO |
 
 **Métricas de taxonomía (REQ-432; metas propuestas, gate G-T3):**
 | Métrica | Meta propuesta | Valor (ensayo del 5-11, sin producción) |
