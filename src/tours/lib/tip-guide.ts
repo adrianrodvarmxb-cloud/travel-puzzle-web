@@ -50,7 +50,7 @@ const EN: typeof ES = {
     latam: "the equivalent of $5 to $10 USD per person, in local currency",
     otros: null,
   },
-  tips: ["Pay in cash at the end of the tour.", "Bring small bills or change."],
+  tips: ["Pay in cash at the end of the experience.", "Bring small bills or change."],
 };
 
 export function tipGuide(countryCode: string | null | undefined, lang: string): TipGuide {
