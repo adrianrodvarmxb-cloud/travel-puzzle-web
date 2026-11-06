@@ -1,0 +1,21 @@
+# Busca fotos candidatas en Pixabay (licencia libre, uso comercial) para los destinos de Exotic Escapes (India, Nepal y Sri Lanka).
+# No publica nada: deja las fotos como artefacto del workflow para revisión. La llave vive en el secreto PIXABAY_API_KEY.
+name: Fotos candidatas (Pixabay)
+on:
+  push:
+    branches: [ops/fotos-pixabay]
+  workflow_dispatch:
+jobs:
+  buscar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Buscar y descargar
+        env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: node .github/scripts/fotos-pixabay.mjs fotos
+      - uses: actions/upload-artifact@v4
+        with: { name: fotos-pixabay, path: fotos, retention-days: 7 }
