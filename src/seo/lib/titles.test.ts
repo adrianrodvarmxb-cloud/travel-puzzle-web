@@ -3,13 +3,15 @@ import { HOME_TITLE, homeDescription, hubTitle, freeToursCityTitle, tourTitle, f
 
 describe("REQ-099: titles únicos por tipo de página", () => {
   it("REQ-099: home con marca, qué ofrece y alcance", () => {
-    expect(HOME_TITLE).toBe("Travel Puzzle – Free tours, tours y traslados en todo el mundo");
+    expect(HOME_TITLE).toBe("Travel Puzzle – Free tours, experiencias y traslados en todo el mundo");
   });
   it("REQ-099: la description de la home menciona los destinos principales (máx. 160)", () => {
     const d = homeDescription(["Perú", "China", "México"]);
     expect(d).toContain("Perú, China y México");
     expect(d.length).toBeLessThanOrEqual(161);
     expect(homeDescription([])).not.toContain(" y .");
+    // REQ-173 (PO, 6 nov 2026): «Free tours, experiencias y traslados».
+    expect(d.startsWith("Free tours, experiencias y traslados en Perú")).toBe(true);
   });
   it("REQ-099: hubs empiezan por la sección y la marca va al final", () => {
     expect(hubTitle("Ciudad de México")).toBe("Ciudad de México | Travel Puzzle");
