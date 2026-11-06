@@ -2,7 +2,7 @@
  * Secciones del inicio, en el orden en que el home las pinta, para el menú de las tres rayitas (celular).
  * REQ-068: es la única lista; un test compara contra src/app/page.tsx, así que una sección nueva sin entrada aquí rompe CI.
  * `when`: la sección solo existe con esa bandera encendida (p. ej. «Excursiones de un día» con CARRUSELES_HOME_ENABLED).
- * REQ-187: la sección «viajes» («Viajes armados por expertos») se borró por decisión del PO (6 nov 2026): la frase era falsa,
+ * REQ-187: la sección «viajes» se borró por decisión del PO (6 nov 2026): su título afirmaba algo falso,
  * esos viajes son de proveedores.
  */
 export interface SectionFlags { dayTrips?: boolean }

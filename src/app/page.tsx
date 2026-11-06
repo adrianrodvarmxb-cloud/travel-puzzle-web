@@ -53,7 +53,7 @@ export default async function Home() {
         <ProofStrip stats={data.stats} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
         <FeaturedTours tours={data.featured} />
-        {/* REQ-187: el carrusel «Viajes armados por nuestros expertos» se borró (PO, 6 nov 2026: la frase era falsa). */}
+        {/* REQ-187: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
         <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} /></SectionBoundary>
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />

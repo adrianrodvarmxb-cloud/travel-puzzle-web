@@ -24,7 +24,7 @@ describe("secciones del inicio para el menú", () => {
     expect(homeSections("en", { dayTrips: true })[2].label).toBe("Day trips");
     expect(s[7].number).toBe("08");
   });
-  it("REQ-187: la sección «viajes» («Viajes armados por expertos») ya no existe en el menú, con ninguna bandera", () => {
+  it("REQ-187: la sección «viajes» ya no existe en el menú, con ninguna bandera", () => {
     for (const flags of [{}, { dayTrips: true }, { ownTrips: true } as never]) {
       expect(homeSections("es", flags).map((x) => x.id)).not.toContain("viajes");
       expect(homeSections("es", flags).map((x) => x.label).join(" ")).not.toMatch(/expertos/i);
