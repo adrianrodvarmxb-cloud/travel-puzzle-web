@@ -81,6 +81,9 @@
     "COOKIES_POLICY_ENABLED": "false",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
+    // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
+    // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
+    "PRIMERA_PIEZA_ENABLED": "false",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",

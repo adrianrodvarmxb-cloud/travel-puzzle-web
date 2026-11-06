@@ -51,6 +51,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Banderas (wrangler.jsonc, 5 nov 2026)
 - Encendidas: `BOOKINGS_ENABLED`, `EDIT_ENABLED`, `EMAILS_ENABLED`, `OWN_TOURS_ENABLED`, `TRANSFERS_ENABLED`, `AFFILIATES_ENABLED`, `DEPARTURES_SYNC_ENABLED`.
 - Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`.
+- `PRIMERA_PIEZA_ENABLED=false` — menú con La Primera Pieza y Destinos, y /llms.txt. No encender antes de que existan /la-primera-pieza y /destinos (Olas 3 y 4).
 - `SYNC_GUARD_ENABLED=false`: sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
 - `FREETOUR_API_VERSION` sin definir (Freetour API 2.0).
 
@@ -151,14 +152,30 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
 
-## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
-Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
+## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-088 | URLs canónicas por destino | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (faltan páginas, Ola 3) |
+| REQ-089 | Regla de indexación de ciudad | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
+| REQ-090 | noindex tras 14 días seguidos | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO (necesita columna de estado: migración) |
+| REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
+| REQ-092 | 301 desde URLs viejas y viajes propios; 410 removidos | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (falta conectar, Ola 3) |
+| REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) |
+| REQ-094 | H1 = título real | `src/tours/lib/title.ts` | `title.test.ts` | EN CURSO |
+| REQ-095 | Insignia solo con fullPricePerGroup = 0 | `src/tours/lib/badge.ts` | `badge.test.ts` | EN CURSO |
+| REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
+| REQ-097 | Tours de pago: 24 h y pago a la llegada | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
+| REQ-098 | Favorito ≥4.7 y ≥50; «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts` | `favorite.test.ts` | EN CURSO |
+| REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts` | `titles.test.ts` | EN CURSO |
+| REQ-100 | JSON-LD | `src/seo/lib/jsonld.ts` | `jsonld.test.ts` | EN CURSO |
+| REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts` | `hub.test.ts` | EN CURSO |
+| REQ-102 | Sitemaps por país con lastmod real | `src/seo/lib/sitemaps.ts` | `sitemaps.test.ts` | EN CURSO |
+| REQ-103 | robots.txt con buscadores de IA y llms.txt | `src/seo/lib/robots.ts`, `app/robots.txt/route.ts`, `app/llms.txt/route.ts` | `robots.test.ts` | EN CURSO |
+## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
+Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
 | REQ-085 | ISO-2, geonameid (cruce + revisión), llave (provider_id, external_id), tour_uid; sin external_id en la URL | `src/destinations/lib/ids.ts`, `geonames.ts`, `dry-run.ts`, `src/scripts/geonames-cruce.ts`, `migrations/0015_identidad_slugs.sql` | `ids.test.ts`, `geonames.test.ts`, `dry-run.test.ts`, `slug.test.ts` | EN CURSO (falta: aplicar 0015, revisar la lista de dudosos, llenar datos con OK; la URL es de la Ola 4) |
 | REQ-086 | Slug puro, inmutable, ≤60, pinyin, sufijo si choca | `src/destinations/lib/slug.ts`, `assign-slugs.ts`, `dry-run.ts`, `src/scripts/slugs-ensayo.ts`, trigger `Tour_slug_inmutable` | `slug.test.ts`, `assign-slugs.test.ts`, `dry-run.test.ts` | EN CURSO (falta: guardar los slugs con OK y que el sync use `assignTourSlugs`) |
 | REQ-087 | Homónimas en un país llevan el código de estado | `src/destinations/lib/assign-slugs.ts` | `assign-slugs.test.ts` | CUMPLIDO (lógica; las homónimas sin `stateCode` salen en `ciudades-pendientes.csv`) |
-
 Siguiente paso en el sync (Ola 1, `src/catalog`; no se tocó aquí):
 1. En el upsert de `Tour`, no escribir nunca `slug` ni `providerId`. El trigger aborta si alguien intenta cambiar un slug.
 2. Al cerrar una corrida exitosa, para los tours con `slug IS NULL`, llamar a `assignTourSlugs(existentes, nuevos)` y escribir solo `UPDATE … SET slug = ? WHERE id = ? AND slug IS NULL`.
