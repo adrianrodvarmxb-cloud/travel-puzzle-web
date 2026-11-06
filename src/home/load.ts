@@ -184,7 +184,7 @@ async function loadPrior(prisma: PrismaClient): Promise<Prior> {
  * Fuera desde aquí: 8 y 31 (fuera), 29 (traslado), 30 (transporte), 26 (alquiler). Sin PAID_TOURS_ENABLED, solo precio 0
  * (no se recomienda lo que no se puede reservar, recommendations.ts).
  */
-async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean): Promise<TourCandidate[]> {
+async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean, taxonomy?: CatalogClassifier): Promise<TourCandidate[]> {
   // Banderas como parámetros (no fragmentos Prisma.sql): la consulta no depende del cliente generado.
   const paid = includePaid ? 1 : 0;
   const day = dayTripsOnly ? 1 : 0;
@@ -201,7 +201,7 @@ async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePai
       AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
     ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
     LIMIT ${dayTripsOnly ? 600 : 300}`;
-  const { ok, dropped } = parseTourRankRows(rows); // REQ-219: también salta los títulos que dicen «free tour»
+  const { ok, dropped } = parseTourRankRows(rows, { taxonomy }); // REQ-219: también salta los títulos que dicen «free tour»; REQ-270: y lo que la taxonomía no publica
   if (dropped) console.error(`[home] ${dropped} fila(s) de tours descartadas por datos inválidos`);
   return ok;
 }
@@ -224,11 +224,11 @@ async function hydrateTours(prisma: PrismaClient, ids: string[]): Promise<Map<st
 }
 
 /** REQ-450 + REQ-453: «Los más elegidos» y «Excursiones de un día» con el medidor de reseñas. */
-async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[]): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[] }> {
+async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[], taxonomy?: CatalogClassifier): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[] }> {
   const prior = await loadPrior(prisma);
   const [all, days] = await Promise.all([
-    loadTourCandidates(prisma, prior, includePaid, false),
-    loadTourCandidates(prisma, prior, includePaid, true),
+    loadTourCandidates(prisma, prior, includePaid, false, taxonomy),
+    loadTourCandidates(prisma, prior, includePaid, true, taxonomy),
   ]);
   const trips: TripCandidate[] = ownTrips.filter((t) => t.image && !mentionsProviderBrand(t.title)).map((t) => tripCandidate(t)); // REQ-219
   // Lo que no se puede pintar (sin foto o título, o un título en otro idioma dice «free tour», REQ-219) se salta y se vuelve
@@ -340,7 +340,7 @@ export async function loadHomeData({ prisma, highlights, includePaid, lang, caro
     const quotes = await highlights.listFiveStarForTours(tours.map((t) => t.externalId)).then((r) => pickHighlights(r, lang)).catch(() => new Map());
     return tours.map((t) => ({ ...t, quote: quotes.get(t.externalId)?.text ?? null }));
   };
-  const ranked = carousels ? loadRankedCarousels(prisma, includePaid, ownTrips) : null;
+  const ranked = carousels ? loadRankedCarousels(prisma, includePaid, ownTrips, taxonomy) : null; // REQ-270
   const [hero, dest, feat, sc, reviews, days] = await Promise.allSettled([
     loadHero(prisma),
     loadDestinations(prisma),
