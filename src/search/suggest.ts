@@ -22,6 +22,8 @@ export interface SuggestDeps {
   cityTranslations(ids: number[]): Promise<{ id: number; translations: unknown }[]>;
   countryTranslations(ids: number[]): Promise<{ id: number; translations: unknown }[]>;
   tourTitles(ids: string[], language: string): Promise<{ tourId: string; language: string; title: unknown }[]>;
+  /** REQ-354: filas de destino_alias (vacío si la tabla no existe) */
+  dbAliases?(): Promise<readonly unknown[]>;
   env: SuggestEnv;
 }
 
@@ -69,9 +71,10 @@ async function titlesFor(deps: SuggestDeps, ids: string[], language: string): Pr
   return out;
 }
 
-function resolve(deps: SuggestDeps, entries: CatalogEntry[], q: string): FuzzyResult {
+async function resolve(deps: SuggestDeps, entries: CatalogEntry[], q: string): Promise<FuzzyResult> {
   const on = isSearchV2(deps.env.SEARCH_V2_ENABLED) && isSearchFuzzy(deps.env.SEARCH_FUZZY_ENABLED);
-  return fuzzySearch(entries, q, on) ?? { text: q, changes: [], suggestions: [] };
+  const rows = on && deps.dbAliases ? await deps.dbAliases() : undefined;
+  return fuzzySearch(entries, q, on, rows) ?? { text: q, changes: [], suggestions: [] };
 }
 
 const destItem = (group: SuggestGroup, h: DestinationHit, labels: Map<string, string>, language: string): SuggestItem | null => {
@@ -85,7 +88,7 @@ export async function suggestFor(deps: SuggestDeps, rawQ: string | null, languag
   const q = cleanQuery(rawQ);
   if (!q) return { q: rawQ ?? "", corrected: false, correctedLabel: null, items: [] };
   const entries = await deps.loadCatalog(language);
-  const resolved = resolve(deps, entries, q);
+  const resolved = await resolve(deps, entries, q);
   const plan = planSuggestions(entries, resolved, isSearchV2(deps.env.SEARCH_V2_ENABLED));
   const [labels, titles] = await Promise.all([labelsFor(deps, [...plan.didYouMean, ...plan.destinations], language), titlesFor(deps, plan.tourIds, language)]);
   const items: SuggestItem[] = [
@@ -104,7 +107,7 @@ export async function recoverFor(deps: SuggestDeps, rawQ: string | null, languag
   const q = (rawQ ?? "").replace(/\s+/g, " ").trim().slice(0, 80);
   if (!q) return null;
   const entries = await deps.loadCatalog(language);
-  const resolved = resolve(deps, entries, q);
+  const resolved = await resolve(deps, entries, q);
   const plan = planRecovery(entries, resolved, isSearchV2(deps.env.SEARCH_V2_ENABLED));
   const tourIds = plan.alternatives.flatMap((a) => a.tourIds);
   const [labels, titles] = await Promise.all([labelsFor(deps, [...plan.didYouMean, ...plan.popular], language), titlesFor(deps, tourIds, language)]);
