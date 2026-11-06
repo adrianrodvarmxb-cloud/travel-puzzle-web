@@ -1,6 +1,7 @@
 'use client';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
 import { withTransfersLink } from '@/transfers/lib/nav';
+import { withPrimeraPiezaLinks } from '@/tours/lib/menu';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -36,18 +37,19 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const { transfers, ownTrips } = useFeatureFlags();
-  const publicLinks = withTransfersLink([
+  const { transfers, ownTrips, primeraPieza } = useFeatureFlags();
+  // REQ-093: La Primera Pieza y Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
+  const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/#como-funciona', label: t('nav.howItWorks') },
-  ], transfers, t('nav.transfers'));
+  ], transfers, t('nav.transfers')), !!primeraPieza, language);
 
-  const clientLinks = withTransfersLink([
+  const clientLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/bookings', label: t('nav.myBookings') },
-  ], transfers, t('nav.transfers'));
+  ], transfers, t('nav.transfers')), !!primeraPieza, language);
 
   const dashboardLinks = [
     { href: '/dashboard', label: t('nav.dashboard.overview'), icon: '📊' },
