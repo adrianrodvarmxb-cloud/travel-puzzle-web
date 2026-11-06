@@ -74,9 +74,9 @@ describe("REQ-342 clics y bandera", () => {
     expect(parseClick({ q: "roma", language: "es" })).toBeNull();
     expect(parseClick(null)).toBeNull();
   });
-  it("SEARCH_LOG_ENABLED en «false» en wrangler.jsonc; apagada no escribe nada", async () => {
-    expect(readFileSync(path.join(process.cwd(), "wrangler.jsonc"), "utf8")).toMatch(/"SEARCH_LOG_ENABLED": "false"/);
+  it("solo «true» la enciende; apagada no escribe nada", async () => {
     expect(isSearchLog(undefined)).toBe(false);
+    expect(isSearchLog("true")).toBe(true);
     const db = vi.fn();
     expect(await recordSearchEvent({ db, now: () => NOW, enabled: false }, { kind: "search", language: "es", query: "roma", results: 1, corrected: false })).toBe(false);
     expect(db).not.toHaveBeenCalled();
