@@ -29,7 +29,8 @@ export function cityFormatChips(cards: readonly FormatCard[], lang = "es"): { sl
 /** REQ-416: intro de la ciudad; «con guías locales» solo si todo lo de «Tours» tiene guía en persona. */
 export function cityIntro(city: string, free: number, tours: readonly FormatCard[]): string {
   const allGuided = tours.every((t) => t.guiaEnPersona !== false);
-  return `${free} free tours y ${tours.length} ${allGuided ? "tours con guías locales" : "tours y experiencias"} en ${city}.`;
+  // REQ-271: la categoría es «Pieza libre» (PO, 6-11).
+  return `${free} en Pieza libre y ${tours.length} ${allGuided ? "tours con guías locales" : "tours y experiencias"} en ${city}.`;
 }
 
 /** REQ-415: etiquetas de la ficha (el formato; los temas se agregan cuando el PO firme la muestra). */
