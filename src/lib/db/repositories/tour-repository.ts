@@ -4,6 +4,7 @@ import { loadCatalog } from '@/catalog/snapshot';
 import { queryCatalog, splitDestination, type CatalogEntry } from '@/catalog/lib/query';
 import { rankedTourIds } from '@/search/ranked';
 import { isSearchV2 } from '@/search/lib/fts-query';
+import { fuzzySearch, isSearchFuzzy } from '@/search/fuzzy';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
@@ -112,17 +113,21 @@ export async function getToursFromCatalog(
   // Con la bandera apagada, exactamente lo de antes (rankedTourIds devuelve null).
   const searchV2 = isSearchV2(process.env.SEARCH_V2_ENABLED);
   let entries: CatalogEntry[], ranked: string[] | null;
+  let search = pagination.searchValue;
   if (searchV2) {
     entries = await loadCatalog(language);
-    const split = splitDestination(entries, pagination.searchValue);
-    ranked = split ? (split.rest ? await rankedTourIds(language, split.rest, split.name) : null) : await rankedTourIds(language, pagination.searchValue);
+    // REQ-285: con SEARCH_FUZZY_ENABLED="true", alias curados y erratas se resuelven antes de buscar
+    // (Cuzco → Cusco, Barselona → Barcelona). Apagada (o si falla), el texto tal cual.
+    search = fuzzySearch(entries, search, isSearchFuzzy(process.env.SEARCH_FUZZY_ENABLED))?.text ?? search;
+    const split = splitDestination(entries, search);
+    ranked = split ? (split.rest ? await rankedTourIds(language, split.rest, split.name) : null) : await rankedTourIds(language, search);
   } else {
     [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
   }
   const { ids, total, page, limit } = queryCatalog(entries, {
     countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
     minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
-    search: pagination.searchValue,
+    search, // REQ-285: el texto resuelto (igual al de la URL si la bandera está apagada)
     guideLanguage: filters.guideLanguage, date: filters.date, groups: filters.groups, freeCancel: filters.freeCancel,
     privateOnly: filters.privateOnly, hotelPickup: filters.hotelPickup, novelty: filters.novelty,
     durMin: filters.durMin, durMax: filters.durMax,
