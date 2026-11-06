@@ -125,6 +125,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-047 | Tarjetas de viajes en caché compartida (INC-004) | `src/trips/public-load.ts` | prueba de carga (carga.mjs) | CUMPLIDO |
 | REQ-048 | Buscador con relevancia FTS5 (ola 1) | `src/search/*`, `migrations/0011_busqueda_fts.sql`, `src/catalog/lib/query.ts`, `src/tours/lib/sort.ts`, cron sync | `fts-query.test.ts`, `fts-search.test.ts`, `query.test.ts`, `sort.test.ts`, `sync.test.ts` | EN CURSO |
 | REQ-057 | Búsqueda por destino y palabra completa (INC-005) | `src/catalog/lib/query.ts`, `src/trips/lib/public.ts` | `query.test.ts`, `public.test.ts` | CUMPLIDO |
+| REQ-122 | Búsqueda por destino dentro del texto y palabra exacta primero (gates 5 nov 2026) | `src/catalog/lib/query.ts`, `src/search/lib/fts-query.ts`, `src/search/lib/words.ts`, `src/search/fts-search.ts`, `src/search/ranked.ts`, `tour-repository.ts` | `query.test.ts`, `fts-query.test.ts`, `fts-search.test.ts`, `busqueda-destino.test.ts` | CUMPLIDO (apagado) |
 | REQ-058 | Llave de caché del catálogo con firma de forma | `src/catalog/lib/query.ts`, `src/catalog/snapshot.ts` | `query.test.ts` | CUMPLIDO |
 | REQ-059 | "Cómo funciona tu reserva" según lo que existe (Stripe tras bandera) | `src/trips/lib/booking-steps.ts`, ficha `/viajes` | `booking-steps.test.ts` | CUMPLIDO |
 | REQ-060 | Política de cancelación solo desde la casilla de aceptación | ficha `/viajes`, `PolicyLink.tsx`, `TripRequestForm.tsx` | revisión visual 390/1366 | CUMPLIDO (validar con abogado) |
@@ -279,3 +280,13 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-184 | Carrusel en celular: proveedor real antes que cotización | `src/companions/lib/carousel.ts`, `components/companions/CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.
+
+## Agente de WhatsApp — catálogo de solo lectura (PR #125, 6 nov 2026)
+Todo tras `AGENTE_API_ENABLED="false"` (apagada: `/api/agente/*` responde 404) y la llave `AGENTE_TOKEN` (secreto, candado del PO). FREETOUR queda bloqueado (regla B3: un bot no vende sus tours sin autorización escrita). Los REQ de este frente se renumeraron a REQ-148…152 (antes REQ-122…126) porque REQ-122 ya es del PR #122 (buscador); se tomó el bloque libre al fusionar. Este PR limpia los restos de la numeración vieja (REQ-148..126, REQ-148/123, REQ-150/125) en comentarios, tests y wrangler.jsonc.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-148 | Proveedores con interruptor; FREETOUR bloqueado (B3) | `src/agente/lib/catalogo.ts`, `src/app/api/agente/proveedores/route.ts`, `src/trips/public-load.ts` | `src/agente/lib/catalogo.test.ts`, `src/agente/rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-149 | Búsqueda del agente (máx. 5, solo proveedores encendidos) | `src/agente/lib/catalogo.ts`, `src/app/api/agente/buscar/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-150 | Liga prellenada (?fecha=&adultos=&ninos=) | `src/agente/lib/catalogo.ts`, `TripRequestForm.tsx`, `TripDetailView.tsx`, fichas `/viajes` y `/destinos` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
+| REQ-151 | Revisión en vivo de la fecha antes de la liga | `src/agente/lib/catalogo.ts`, `src/app/api/agente/viaje/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-152 | Bandera y llave (404 / 401) | `src/agente/catalogo.ts`, `src/app/api/agente/respuesta.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
