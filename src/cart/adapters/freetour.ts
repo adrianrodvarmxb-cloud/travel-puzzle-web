@@ -47,7 +47,8 @@ export function createFreetourAdapter(deps: FreetourAdapterDeps): ProviderAdapte
       const ev = await liveEvent(externalId);
       const check = checkEvent(ev, { ...q.people, hasPhone: true });
       if (!check.ok) return { available: false };
-      return { available: true, price: { amount: check.price, currency: CURRENCY }, places: ev.availableAdultPlaces };
+      // REQ-104 + REQ-010: el carrito muestra el total del grupo (fullPrice); `check.price` ahora es lo que se cobra hoy.
+      return { available: true, price: { amount: check.fullPrice, currency: CURRENCY }, places: ev.availableAdultPlaces };
     },
 
     async reserve(item: CartItem): Promise<ReserveResult> {
@@ -55,8 +56,9 @@ export function createFreetourAdapter(deps: FreetourAdapterDeps): ProviderAdapte
       const check = checkEvent(ev, { ...item.people, hasPhone: true });
       if (!check.ok) throw new Error("Este horario ya no está disponible.");
       if (!deps.book) throw new Error("Reservas del carrito no conectadas.");
-      const { refNumber } = await deps.book({ eventId: Number(item.externalId), ...item.people, price: check.price });
-      return { kind: "reserved", externalRef: refNumber, price: { amount: check.price, currency: CURRENCY } };
+      // REQ-104 + REQ-010: mismo total que antes de REQ-010 (sin cambio de comportamiento del carrito, apagado).
+      const { refNumber } = await deps.book({ eventId: Number(item.externalId), ...item.people, price: check.fullPrice });
+      return { kind: "reserved", externalRef: refNumber, price: { amount: check.fullPrice, currency: CURRENCY } };
     },
 
     async cancel(item) {

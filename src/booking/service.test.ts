@@ -119,7 +119,7 @@ describe("REQ-083 placeBooking: contacto adulto", () => {
   });
   it("REQ-083: con la bandera apagada se comporta como hoy", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
-    await expect(placeBooking(dto, { gateway, getEvent, enabled: true })).resolves.toEqual({ booking, price: 0 });
+    await expect(placeBooking(dto, { gateway, getEvent, enabled: true })).resolves.toEqual({ booking, price: 0, fullPrice: 0, isPaid: false });
   });
 });
 
