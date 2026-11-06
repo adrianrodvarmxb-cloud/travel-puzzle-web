@@ -41,12 +41,13 @@ Inventario de todos los correos del repo (`origin/main` en c8f18e0) y dónde va 
 
 - El bloque es **informativo** y va solo dentro de correos que ya se envían. No hay envíos nuevos ni píxeles de rastreo.
 - El aviso de privacidad (`legal/lib/privacidad.ts`) ya lista «Enviar publicidad relevante propia o de terceros» como **finalidad no necesaria**, con negativa por correo (asunto «No publicidad»). El bloque repite cómo negarse.
-- La negativa se respeta con la variable `EMAIL_NO_PUBLICIDAD`: una lista de SHA-256 de correos en minúsculas, nunca en claro. **Sin la variable, el bloque no sale** (falla cerrada). Vacía significa que nadie se ha negado.
+- **Decisión del PO (6-11, 09:07, «solo freetours no publicidad»): la única restricción del bloque es no promover FREETOUR; no se exige la lista de «No publicidad».** La lógica de abajo se conserva oculta y reversible (`REQUIRE_NO_PUBLICIDAD = false` en `lib/cross-sell.ts`), y la validación LFPDPPP queda como pregunta para el abogado. Mientras no se exija, el bloque no muestra la línea «¿Prefieres no ver sugerencias?», para no prometer un mecanismo que no se aplica.
+- (Oculto, reversible) La negativa se respeta con la variable `EMAIL_NO_PUBLICIDAD`: una lista de SHA-256 de correos en minúsculas, nunca en claro. **Sin la variable, el bloque no sale** (falla cerrada). Vacía significa que nadie se ha negado.
 - La casilla de consentimiento de marketing del registro (REQ-084, `MARKETING_CONSENT_ENABLED`) es aparte y no se toca. Este bloque no la necesita porque no es una campaña de email (B2) y va dentro de un correo transaccional. Si el PO o el abogado deciden que sí la necesita, se encadena a esa casilla en su propio PR.
 
 ## 4. Para encender (un cambio a la vez)
 
-1. Cargar `EMAIL_NO_PUBLICIDAD` (variable: candado del PO), aunque esté vacía.
+1. ~~Cargar `EMAIL_NO_PUBLICIDAD`~~: ya no hace falta (decisión del PO, 6-11 09:07).
 2. PR que cambia `EMAIL_CROSS_SELL_ENABLED` a `"true"`, con preview, prueba de humo y una reserva de prueba que reciba el correo.
 3. Después de publicar, revisar 3 correos reales (confirmación, 48 h y cambio) y que el rechazo y la cancelación lleguen sin bloque.
 
@@ -57,6 +58,6 @@ Inventario de todos los correos del repo (`origin/main` en c8f18e0) y dónde va 
 | 7 | Qué correos llevan el bloque (confirmación, 48 h, día, modificada, post-tour; pago recibido en una ola siguiente) | Firmado por recomendación |
 | 8 | En el correo no se exige que la primera tarjeta sea un tour (`requireTour: false`) | Firmado por recomendación |
 | 9 | Viajes propios de la misma ciudad o, si no hay, del mismo país | Firmado por recomendación |
-| 10 | Negativa «No publicidad»: variable `EMAIL_NO_PUBLICIDAD` o tabla de bajas | **Pendiente (candado del PO).** Mientras no exista una de las dos, el bloque no se muestra aunque la bandera esté encendida (falla cerrada, ya implementado). |
-| 11 | ¿Basta la negativa del aviso de privacidad o hace falta consentimiento expreso (REQ-084)? | **Pregunta para el abogado.** No se enciende la bandera sin su respuesta. |
+| 10 | Negativa «No publicidad»: variable `EMAIL_NO_PUBLICIDAD` o tabla de bajas | **Decisión del PO (6-11 09:07): no se exige.** Solo no promover FREETOUR. Código conservado oculto (`REQUIRE_NO_PUBLICIDAD = false`). |
+| 11 | Validación LFPDPPP del bloque (sin lista de negativa y sin consentimiento expreso, REQ-084) | **Pregunta para el abogado** (lista de preguntas). |
 | 12 | Copy del bloque («Completa tu viaje a {ciudad}», intro y línea de negativa) | Firmado por recomendación |

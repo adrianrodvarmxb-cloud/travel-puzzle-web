@@ -7,9 +7,10 @@
  *   del carrito (prioridades y ocultos por destino, una tarjeta por categoría, máx. 3 como en celular).
  * - REQ-265: UTM por correo en cada enlace; los enlaces van al sitio de Travel Puzzle (nunca directo a terceros).
  * - REQ-266: sin descuentos ni precios inventados: el precio sale tal cual del producto o no se muestra.
- * - REQ-267: LFPDPPP. Es informativo, va solo en correos que ya se envían y respeta la negativa «No publicidad» del aviso
- *   de privacidad; si no hay forma de consultarla, no se muestra (falla cerrada). El consentimiento de marketing
- *   del registro (REQ-084) es aparte y no se toca.
+ * - REQ-267: es informativo y va solo en correos que ya se envían. Decisión del PO (6-11, 09:07, «solo freetours no
+ *   publicidad»): la única restricción es no promover FREETOUR; NO se exige la lista «No publicidad». La lógica de la
+ *   negativa se conserva oculta y reversible (`REQUIRE_NO_PUBLICIDAD = false`); la validación LFPDPPP queda como pregunta
+ *   para el abogado. El consentimiento de marketing del registro (REQ-084) es aparte y no se toca.
  * Puro: sin I/O; fechas sin Intl (INC-001).
  */
 import { buildCarousel, DEFAULT_RULES, type CarouselRule } from "@/companions/lib/carousel";
@@ -17,6 +18,9 @@ import { isFreetourOffer, type OfferSource } from "@/freetour/lib/promo-policy";
 import { BRAND as B } from "./brand";
 import { esc, kit, UI, MONO } from "./email-layout";
 import type { EmailLang } from "./booking-email";
+
+/** REQ-267: con `true` vuelve la regla anterior (sin consultar la negativa no hay bloque, y el bloque dice cómo negarse). */
+export const REQUIRE_NO_PUBLICIDAD = false;
 
 /** Inventario de correos al cliente y a la operación (docs/correos-venta-cruzada.md). */
 export const CROSS_SELL_POLICY = {
@@ -61,8 +65,10 @@ export interface EmailCrossSellCandidate {
 export interface EmailCrossSellInput {
   email: CrossSellEmail;
   enabled: boolean;
-  /** REQ-267: null = no se pudo saber si el cliente pidió «No publicidad» → no se muestra. */
+  /** REQ-267: si el cliente pidió «No publicidad» (true) o no se pudo saber (null). Solo cuenta con `requireOptOut`. */
   optedOut: boolean | null;
+  /** REQ-267: exigir la negativa (por omisión, REQUIRE_NO_PUBLICIDAD = false por decisión del PO). */
+  requireOptOut?: boolean;
   lang: EmailLang;
   site: string;
   context: {
@@ -82,7 +88,8 @@ export interface EmailCrossSellInput {
 }
 
 export interface CrossSellCard { category: CrossSellCategory; title: string; chargedByLabel: string; url: string; priceLabel: string | null }
-export interface CrossSellBlock { email: CrossSellEmail; lang: EmailLang; title: string; intro: string; cards: CrossSellCard[]; optOut: string; cta: string }
+/** `optOut` es null cuando no se exige la negativa: no se promete un mecanismo que no se aplica. */
+export interface CrossSellBlock { email: CrossSellEmail; lang: EmailLang; title: string; intro: string; cards: CrossSellCard[]; optOut: string | null; cta: string }
 
 const T = {
   es: {
@@ -121,7 +128,9 @@ export const PROMO_WORDS = /descuento|% ?off|\boferta|promoci[oó]n|cup[oó]n|gr
 
 export function buildEmailCrossSell(input: EmailCrossSellInput): CrossSellBlock | null {
   const policy = CROSS_SELL_POLICY[input.email];
-  if (!input.enabled || !policy?.aplica || input.optedOut !== false) return null;
+  const requireOptOut = input.requireOptOut ?? REQUIRE_NO_PUBLICIDAD;
+  if (!input.enabled || !policy?.aplica) return null;
+  if (input.optedOut === true || (requireOptOut && input.optedOut !== false)) return null;
   const { cityName, country, day } = input.context;
   if (!cityName || !day || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
   const t = T[input.lang];
@@ -148,7 +157,7 @@ export function buildEmailCrossSell(input: EmailCrossSellInput): CrossSellBlock 
     return url ? [{ category: c.category as CrossSellCategory, title: c.title, chargedByLabel: t.charged(c.chargedBy), url, priceLabel: c.priceLabel ?? null }] : [];
   });
   if (!out.length) return null;
-  return { email: input.email, lang: input.lang, title: t.title(cityName), intro: t.intro, cards: out, optOut: t.optOut, cta: t.cta };
+  return { email: input.email, lang: input.lang, title: t.title(cityName), intro: t.intro, cards: out, optOut: requireOptOut ? t.optOut : null, cta: t.cta };
 }
 
 /** Filas HTML del bloque (mismo marco que «Más planes»). `eyebrow` viene del kit del correo para seguir su numeración. */
@@ -167,12 +176,12 @@ export function renderCrossSellHtml(block: CrossSellBlock | null | undefined, ey
 ${eb(t.eyebrow)}${k.h2(block.title)}
 <p style="margin:-6px 0 14px;font-size:13px;line-height:1.5;color:${B.darkBlue}">${esc(block.intro)}</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${cards}</table>
-<p style="margin:4px 0 0;font-size:11px;line-height:1.5;color:${B.muted}">${esc(block.optOut)}</p>
+${block.optOut ? `<p style="margin:4px 0 0;font-size:11px;line-height:1.5;color:${B.muted}">${esc(block.optOut)}</p>` : ""}
 </td></tr>`;
 }
 
 /** Líneas de texto plano del bloque. */
 export function crossSellText(block: CrossSellBlock | null | undefined): string[] {
   if (!block || !block.cards.length) return [];
-  return ["", block.title, block.intro, ...block.cards.map((c) => `- ${c.title} (${c.chargedByLabel}${c.priceLabel ? `, ${c.priceLabel}` : ""}): ${c.url}`), block.optOut];
+  return ["", block.title, block.intro, ...block.cards.map((c) => `- ${c.title} (${c.chargedByLabel}${c.priceLabel ? `, ${c.priceLabel}` : ""}): ${c.url}`), ...(block.optOut ? [block.optOut] : [])];
 }

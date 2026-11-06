@@ -5,7 +5,7 @@
 import type { BookingRecord } from "@/booking/lib/booking-record";
 import { pickByPlace } from "@/trips/lib/match";
 import type { TripCard } from "@/trips/public-load";
-import { buildEmailCrossSell, type CrossSellBlock, type CrossSellEmail, type EmailCrossSellCandidate } from "./lib/cross-sell";
+import { buildEmailCrossSell, REQUIRE_NO_PUBLICIDAD, type CrossSellBlock, type CrossSellEmail, type EmailCrossSellCandidate } from "./lib/cross-sell";
 import type { EmailLang } from "./lib/booking-email";
 
 export interface CrossSellPlace { cityName: string | null; country: string | null; cityCode: string | null }
@@ -19,8 +19,10 @@ export interface CrossSellLoaderDeps {
   tripCards(lang: string): Promise<TripCard[]>;
   /** TRANSFERS_ENABLED: /traslados está publicado (Kiwitaxi). */
   transfers: boolean;
-  /** REQ-267: ¿el cliente pidió «No publicidad»? Sin esta función el bloque no se muestra (falla cerrada). */
+  /** REQ-267: ¿el cliente pidió «No publicidad»? Solo se consulta con `requireOptOut` (hoy no: decisión del PO 6-11 09:07). */
   noPublicidad?: (email: string) => Promise<boolean>;
+  /** REQ-267: exigir la negativa; por omisión REQUIRE_NO_PUBLICIDAD (false). */
+  requireOptOut?: boolean;
   now?: () => number;
 }
 
@@ -50,8 +52,9 @@ export async function loadEmailCrossSell(
 ): Promise<CrossSellBlock | null> {
   if (!deps?.enabled || !record.tourExternalId) return null;
   try {
-    const optedOut = deps.noPublicidad ? await deps.noPublicidad(record.email) : null;
-    if (optedOut !== false) return null;
+    const requireOptOut = deps.requireOptOut ?? REQUIRE_NO_PUBLICIDAD;
+    const optedOut = requireOptOut ? (deps.noPublicidad ? await deps.noPublicidad(record.email) : null) : false;
+    if (requireOptOut && optedOut !== false) return null;
     const place = await deps.place(record.tourExternalId);
     if (!place?.cityName) return null;
     const cards = await deps.tripCards(lang).catch(() => []);
@@ -59,6 +62,7 @@ export async function loadEmailCrossSell(
       email,
       enabled: deps.enabled,
       optedOut,
+      requireOptOut,
       lang,
       site,
       context: {

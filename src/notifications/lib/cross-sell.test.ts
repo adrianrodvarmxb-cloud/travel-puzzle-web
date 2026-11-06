@@ -102,18 +102,26 @@ describe("REQ-266 sin descuentos ni precios inventados", () => {
     expect(buildEmailCrossSell(input({ candidates: [{ ...transfer, title: "Traslado con 20% de descuento" }] }))).toBeNull();
     for (const lang of ["es", "en"] as const) {
       const b = buildEmailCrossSell(input({ lang }))!;
-      expect(PROMO_WORDS.test(`${b.title} ${b.intro} ${b.optOut} ${b.cta} ${b.cards.map((c) => c.chargedByLabel).join(" ")}`)).toBe(false);
+      expect(PROMO_WORDS.test(`${b.title} ${b.intro} ${b.optOut ?? ""} ${b.cta} ${b.cards.map((c) => c.chargedByLabel).join(" ")}`)).toBe(false);
     }
   });
 });
 
-describe("REQ-267 LFPDPPP: informativo y con la negativa respetada", () => {
-  it("REQ-267 si el cliente pidió «No publicidad», o no se puede saber, no hay bloque", () => {
-    expect(buildEmailCrossSell(input({ optedOut: true }))).toBeNull();
-    expect(buildEmailCrossSell(input({ optedOut: null }))).toBeNull();
+describe("REQ-267 informativo; decisión del PO (6-11 09:07): sin lista «No publicidad»", () => {
+  it("REQ-267 por omisión no se exige la negativa: sin forma de consultarla también hay bloque, y no promete un mecanismo", () => {
+    const b = buildEmailCrossSell(input({ optedOut: null }))!;
+    expect(b.cards.length).toBeGreaterThan(0);
+    expect(b.optOut).toBeNull();
+    expect(renderCrossSellHtml(b)).not.toContain("No publicidad");
+    expect(crossSellText(b).join("\n")).not.toContain("No publicidad");
   });
-  it("REQ-267 el bloque dice cómo negarse y que cada cosa se reserva aparte con quien la vende", () => {
-    const b = buildEmailCrossSell(input())!;
+  it("REQ-267 reversible: con requireOptOut vuelve la regla anterior (falla cerrada y línea de negativa)", () => {
+    expect(buildEmailCrossSell(input({ optedOut: null, requireOptOut: true }))).toBeNull();
+    expect(buildEmailCrossSell(input({ optedOut: true, requireOptOut: true }))).toBeNull();
+    expect(buildEmailCrossSell(input({ optedOut: false, requireOptOut: true }))?.optOut).toContain("No publicidad");
+  });
+  it("REQ-267 el bloque dice que cada cosa se reserva aparte con quien la vende", () => {
+    const b = buildEmailCrossSell(input({ requireOptOut: true }))!;
     expect(b.optOut).toContain("No publicidad");
     expect(b.intro).toContain("se reserva aparte");
     expect(b.cards.find((c) => c.category === "transfer")?.chargedByLabel).toBe("Lo reservas con Kiwitaxi");

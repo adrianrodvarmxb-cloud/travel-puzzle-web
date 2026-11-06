@@ -55,9 +55,15 @@ describe("REQ-264 / REQ-267 carga del bloque", () => {
     expect(await loadEmailCrossSell("confirmation", record, "es", SITE, undefined)).toBeNull();
     expect(place).not.toHaveBeenCalled();
   });
-  it("REQ-267 sin forma de consultar la negativa, o con negativa, no hay bloque", async () => {
-    expect(await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ noPublicidad: undefined }))).toBeNull();
-    expect(await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ noPublicidad: async () => true }))).toBeNull();
+  it("REQ-267 decisión del PO: sin lista de negativa también hay bloque, y no se consulta", async () => {
+    const noPublicidad = vi.fn(async () => true);
+    expect((await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ noPublicidad: undefined })))?.cards.length).toBeGreaterThan(0);
+    expect((await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ noPublicidad })))?.cards.length).toBeGreaterThan(0);
+    expect(noPublicidad).not.toHaveBeenCalled();
+  });
+  it("REQ-267 reversible: con requireOptOut, sin forma de consultarla o con negativa, no hay bloque", async () => {
+    expect(await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ requireOptOut: true, noPublicidad: undefined }))).toBeNull();
+    expect(await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ requireOptOut: true, noPublicidad: async () => true }))).toBeNull();
   });
   it("REQ-264 si algo falla, el correo sale sin bloque (nunca lanza)", async () => {
     expect(await loadEmailCrossSell("confirmation", record, "es", SITE, deps({ place: async () => { throw new Error("D1"); } }))).toBeNull();
