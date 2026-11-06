@@ -52,6 +52,8 @@ export interface BookingEmailData {
   isFree?: boolean;
   /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED); sin él no se menciona el carrito. */
   tripUrl?: string | null;
+  /** REQ-264: bloque de venta cruzada (sin FREETOUR), ya armado; null o ausente = no se pinta. */
+  crossSell?: CrossSellBlock | null;
   /** Canales de Travel Puzzle; cada uno aparece solo si está configurado. */
   contact?: {
     /** Número de WhatsApp en formato internacional, solo dígitos (52155...). */
@@ -64,6 +66,7 @@ export interface BookingEmailData {
 
 import { BRAND } from "./brand";
 import { esc, renderShell, kit, supportCard, UI, MONO } from "./email-layout";
+import { crossSellText, renderCrossSellHtml, type CrossSellBlock } from "./cross-sell";
 export { BRAND };
 
 
@@ -366,6 +369,8 @@ ${eyebrow(t.secTips)}${h2(t.tipsTitle)}
 
 ${waUrl || assistantUrl ? supportCard({ eyebrow: eyebrow(t.secHelp, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl, assistant: assistantUrl ? { url: assistantUrl, label: t.assistant } : null }) : ""}
 
+${renderCrossSellHtml(d.crossSell, eyebrow)}
+
 ${more.length ? `<tr><td style="padding:30px 26px 0">
 ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${more.map((x) => `<td valign="top" width="${Math.floor(100 / more.length)}%" style="padding:0 5px">
@@ -410,6 +415,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
     ...t.tips(!!d.isFree).map((x) => `- ${x}`),
     ...(waUrl ? ["", `${t.whatsapp}: ${waUrl}`] : []),
     ...(assistantUrl ? [`${t.assistant}: ${assistantUrl}`] : []),
+    ...crossSellText(d.crossSell),
     ...(more.length ? ["", t.more(d.cityName ?? null), ...more.map((x) => `- ${x.title}: ${x.url}`)] : []),
     ...(socials.length ? ["", `${t.follow}: ${socials.map((x) => `${x.name} ${x.url}`).join(" · ")}`] : []),
     "",

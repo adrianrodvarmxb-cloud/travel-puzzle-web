@@ -7,6 +7,7 @@ import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type Email
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
 import { filterPostTourOffers, type OfferSource } from "@/freetour/lib/promo-policy";
+import { loadEmailCrossSell, type CrossSellLoaderDeps } from "@/notifications/cross-sell";
 
 export interface TourSummary {
   title: string;
@@ -62,6 +63,8 @@ interface Deps {
   freetourPostTourPromo?: boolean;
   /** REQ-182: ARMA_TU_VIAJE_ENABLED; con "true" la confirmación enlaza a «Arma tu viaje» de esa reserva. */
   armaTuViaje?: boolean;
+  /** REQ-264: venta cruzada sin FREETOUR (EMAIL_CROSS_SELL_ENABLED); sin esto, el correo sale igual que hoy. */
+  crossSell?: CrossSellLoaderDeps;
   send(email: { to: string; subject: string; html: string; text: string; attachments?: { filename: string; content: string; contentType?: string }[] }): Promise<string>;
 }
 
@@ -111,6 +114,7 @@ export async function sendBookingConfirmation(
     const reviews = record.tourExternalId && deps.getReviews ? await deps.getReviews(record.tourExternalId, deps.lang).catch(() => []) : [];
     const moreTours = await offersFor(record, deps, site); // REQ-081
     const weather = tour && record.eventDate && deps.getWeather ? await deps.getWeather(tour.meetingPoint, record.eventDate).catch(() => null) : null;
+    const crossSell = await loadEmailCrossSell(opts.variant ?? "confirmation", record, deps.lang, site, deps.crossSell); // REQ-264
     const email = buildBookingConfirmationEmail({
       lang: deps.lang,
       refNumber: record.refNumber,
@@ -142,6 +146,7 @@ export async function sendBookingConfirmation(
       variant: opts.variant,
       // REQ-182
       tripUrl: tripUrl({ site, token: record.manageToken, enabled: deps.armaTuViaje === true, status: record.status }),
+      crossSell,
     });
     const attachments = !opts.variant || opts.variant === "confirmation" ? calendarAttachment("REQUEST", record, tour, site, deps.calendar) : [];
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
@@ -152,7 +157,7 @@ export async function sendBookingConfirmation(
   }
 }
 
-type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo">;
+type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo" | "crossSell">;
 
 /** Correo de rechazo, cancelación o cambio de una reserva guardada. Nunca lanza. */
 export async function sendStatusEmail(
@@ -166,6 +171,8 @@ export async function sendStatusEmail(
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const moreTours = await offersFor(record, deps, site); // REQ-081
+    // REQ-262: nunca en rechazo ni cancelación; solo el cambio de una reserva que sigue activa.
+    const crossSell = kind === "modified" ? await loadEmailCrossSell("modified", record, deps.lang, site, deps.crossSell) : null;
     const email = buildStatusEmail({
       kind,
       lang: deps.lang,
@@ -188,6 +195,7 @@ export async function sendStatusEmail(
       animatedLogoUrl: `${site}/brand/logo-animado-tp-oscuro.gif`,
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
+      crossSell,
     });
     const attachments = calendarAttachment(kind === "modified" ? "REQUEST" : "CANCEL", record, tour, site, deps.calendar);
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
@@ -212,6 +220,7 @@ export async function sendReviewRequest(
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const moreTours = await offersFor(record, deps, site); // REQ-081
+    const crossSell = await loadEmailCrossSell("review", record, deps.lang, site, deps.crossSell); // REQ-264
     const email = buildReviewRequestEmail({
       lang: deps.lang,
       refNumber: record.refNumber,
@@ -224,6 +233,7 @@ export async function sendReviewRequest(
       animatedLogoUrl: `${site}/brand/logo-animado-tp-oscuro.gif`,
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
+      crossSell,
     });
     await deps.send({ to: record.email, ...email });
     return "sent";
