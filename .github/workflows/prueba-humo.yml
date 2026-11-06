@@ -10,7 +10,7 @@ concurrency:
   group: smoke-${{ github.head_ref }}
   cancel-in-progress: true
 
-# REQ-186: solo lectura de Actions, para esperar a que main termine de publicar antes de subir la versión del PR.
+# REQ-226: solo lectura de Actions, para esperar a que main termine de publicar antes de subir la versión del PR.
 permissions:
   contents: read
   actions: read
@@ -48,7 +48,7 @@ jobs:
         run: npx tsc --noEmit
       - name: Construir
         run: npx opennextjs-cloudflare build
-      # REQ-186: si main está publicando, se espera (máx. 20 min). Una versión de PR subida a la mitad de la publicación
+      # REQ-226: si main está publicando, se espera (máx. 20 min). Una versión de PR subida a la mitad de la publicación
       # deja a main sin poder cargar sus secretos ni correr la prueba de humo en producción (6 nov 2026, 15e7cfd).
       - name: Esperar a que main termine de publicar
         env:

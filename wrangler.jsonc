@@ -62,7 +62,7 @@
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
     "DEPARTURES_SYNC_ENABLED": "true",
     // Mostrar filtros de idioma del guía y fecha (REQ-061). "true" cuando la lectura de salidas cubra el catálogo, con OK.
-    "DEPARTURE_FILTERS_ENABLED": "false",
+    "DEPARTURE_FILTERS_ENABLED": "true",
     // Buscador con relevancia (FTS5, REQ-048). "true" con vista previa y OK del PO, después de la migración 0011.
     "SEARCH_V2_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
