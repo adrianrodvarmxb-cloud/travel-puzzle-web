@@ -79,6 +79,9 @@
     "MARKETING_CONSENT_ENABLED": "false",
     // REQ-084: página /cookies (borrador). "true" con texto aprobado por PO y abogado.
     "COOKIES_POLICY_ENABLED": "false",
+    // REQ-122..126: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). "true" solo con OK
+    // del PO y con el secreto AGENTE_TOKEN (24+ caracteres) cargado con `wrangler secret put AGENTE_TOKEN`.
+    "AGENTE_API_ENABLED": "false",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
     // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
