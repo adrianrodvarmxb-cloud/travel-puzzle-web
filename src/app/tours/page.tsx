@@ -102,6 +102,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       countryCodeById={countryCodeById}
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
+      showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
     />
   );
 }
