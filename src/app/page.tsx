@@ -1,3 +1,5 @@
+import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
+import { homeTaxonomy } from "@/home/load";
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { Navbar } from "@/components/layout";
 import {
@@ -44,8 +46,10 @@ export default async function Home() {
   // REQ-450/453: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
   const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
-  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), v: "tarjeta-unica" }) /* REQ-520: forma nueva de HomeTour */, POLICY.home, () =>
-    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips })),
+  // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
+  const taxonomyOn = taxonomyPublishEnabled(env);
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "tarjeta-unica" }) /* REQ-520: forma nueva de HomeTour */, POLICY.home, () =>
+    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.
   const numLang = lang === "en" ? "en" : "es";
