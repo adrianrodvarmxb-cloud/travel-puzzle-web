@@ -22,3 +22,20 @@ describe("REQ-225: llave del agente", () => {
     expect(wf).not.toMatch(/group: deploy-cloudflare/);
   });
 });
+
+describe("REQ-187: la llave inicial la crea la publicación de main", () => {
+  const deploy = readFileSync(".github/workflows/deploy-cloudflare.yml", "utf8");
+  const paso = deploy.slice(deploy.indexOf("name: Secretos del Worker"), deploy.indexOf("name: Prueba de humo (producción)"));
+  it("REQ-187: va en «Secretos del Worker», después de «Publicar», y solo si falta", () => {
+    expect(deploy.indexOf("name: Publicar")).toBeLessThan(deploy.indexOf("name: Secretos del Worker"));
+    expect(paso).toMatch(/if ! tiene AGENTE_TOKEN; then/);
+  });
+  it("REQ-187: misma llave en los dos Workers, primero mila-zoefel, enmascarada y sin imprimirse", () => {
+    const mila = paso.indexOf("secret put CATALOGO_TRAVEL_PUZZLE --name mila-zoefel > /dev/null");
+    const tp = paso.indexOf("secret put AGENTE_TOKEN > /dev/null");
+    expect(mila).toBeGreaterThan(0);
+    expect(tp).toBeGreaterThan(mila);
+    expect(paso).toMatch(/llave=\$\(openssl rand -hex 32\); echo "::add-mask::\$llave"/);
+    expect(paso).not.toMatch(/echo "?\$llave"?\s*$/m);
+  });
+});

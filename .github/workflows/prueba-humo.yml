@@ -43,6 +43,9 @@ jobs:
         run: npx prisma generate
         env:
           DATABASE_URL: file:./dev.db
+      # REQ-224 (INC-001): un error de tipos detiene el PR antes de construir.
+      - name: Tipos (tsc)
+        run: npx tsc --noEmit
       - name: Construir
         run: npx opennextjs-cloudflare build
       # REQ-226: si main está publicando, se espera (máx. 20 min). Una versión de PR subida a la mitad de la publicación
