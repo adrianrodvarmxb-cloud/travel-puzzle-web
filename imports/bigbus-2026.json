@@ -3260,14 +3260,19 @@
     },
     {
       "ref": "MCT",
-      "status": "draft",
-      "hold": "En la base la ciudad se llama «Moscatel» (traducción errónea de Muscat): corregir el nombre antes de publicar para que la ficha, la página del destino y el carrusel la empaten. Una sola foto.",
+      "status": "published",
+      "hold": "",
       "source": "https://www.bigbustours.com/en/muscat/muscat-tour-tickets-and-passes",
       "photos": [
         {
           "src": "pixabay",
           "id": 5963724,
           "alt": "Gran Mezquita del Sultán Qaboos"
+        },
+        {
+          "src": "pixabay",
+          "id": 5963727,
+          "alt": "Real Ópera de Mascate"
         }
       ],
       "trip": {
