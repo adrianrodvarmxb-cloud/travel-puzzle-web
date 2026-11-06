@@ -176,8 +176,9 @@ async function loadPrior(prisma: PrismaClient): Promise<Prior> {
  * (no se recomienda lo que no se puede reservar, recommendations.ts).
  */
 async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean): Promise<TourCandidate[]> {
-  const paid = includePaid ? Prisma.empty : Prisma.sql`AND CAST(t.priceValue AS REAL) = 0`;
-  const day = dayTripsOnly ? Prisma.sql`AND (t.categoryId = 4 OR t.durationMinutes >= 360)` : Prisma.empty;
+  // Banderas como parámetros (no fragmentos Prisma.sql): la consulta no depende del cliente generado.
+  const paid = includePaid ? 1 : 0;
+  const day = dayTripsOnly ? 1 : 0;
   const rows = await prisma.$queryRaw<unknown[]>`
     SELECT t.id AS id, t.externalId AS externalId, t.cityId AS cityId, json_extract(c.translations, '$.en') AS cityName,
       co.code AS countryCode, t.categoryId AS categoryId, t.durationMinutes AS durationMinutes,
@@ -186,7 +187,9 @@ async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePai
       (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'en') AS titleEn
     FROM Tour t JOIN Country co ON co.id = t.countryId LEFT JOIN City c ON c.id = t.cityId
     WHERE t.isActive = 1 AND t.titleImageURL LIKE 'https://%' AND t.reviewsNumber > 0 AND t.rating IS NOT NULL
-      AND t.categoryId NOT IN (8, 31, 29, 30, 26) ${paid} ${day}
+      AND t.categoryId NOT IN (8, 31, 29, 30, 26)
+      AND (${paid} = 1 OR CAST(t.priceValue AS REAL) = 0)
+      AND (${day} = 0 OR t.categoryId = 4 OR t.durationMinutes >= 360)
     ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
     LIMIT ${dayTripsOnly ? 600 : 300}`;
   const { ok, dropped } = parseTourRankRows(rows); // REQ-234: también salta los títulos que dicen «free tour»
