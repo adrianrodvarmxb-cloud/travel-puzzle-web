@@ -35,7 +35,7 @@ export default async function Home() {
   const lang = await getPreferredLanguage();
   const ownTrips = await loadTripCards(lang);
   const includePaid = env.PAID_TOURS_ENABLED === "true";
-  // REQ-185/188: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
+  // REQ-230/188: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
   const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
   const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels) }), POLICY.home, () =>
@@ -53,7 +53,7 @@ export default async function Home() {
         <ProofStrip stats={data.stats} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
         <FeaturedTours tours={data.featured} />
-        {/* REQ-187: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
+        {/* REQ-232: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
         <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} /></SectionBoundary>
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />

@@ -1,5 +1,5 @@
 /**
- * REQ-186 — TEMPORAL: regla mínima del Eje A «Formato» para los carruseles del home (puro).
+ * REQ-231 — TEMPORAL: regla mínima del Eje A «Formato» para los carruseles del home (puro).
  * Alineada con la taxonomía homologada del 6 nov 2026 (taxonomia.md §4.1 y taxonomia-diccionario.csv:
  * precedencia de arriba abajo, gana la primera regla que se cumple).
  * REEMPLAZAR por el clasificador de la taxonomía (TaxonomyTerm `formato:*`, plan de taxonomía §13) cuando llegue
@@ -28,7 +28,7 @@ const CLASS = /\b(clase|taller|cooking)/i;
 
 export interface FreetourInput { categoryId: number; price: number; durationMinutes: number | null; titles: readonly string[] }
 
-// REQ-186
+// REQ-231
 export function freetourFormat(t: FreetourInput, opts: { freeWins?: boolean } = {}): ExperienceFormat {
   const freeWins = opts.freeWins ?? true;
   const cat = t.categoryId;
@@ -50,14 +50,14 @@ export function freetourFormat(t: FreetourInput, opts: { freeWins?: boolean } = 
 }
 
 /**
- * REQ-186: ¿es excursión de un día para el carrusel? Misma regla, pero sin que «precio 0» gane:
+ * REQ-231: ¿es excursión de un día para el carrusel? Misma regla, pero sin que «precio 0» gane:
  * una excursión gratis (cat 4 a propina) sigue siendo una excursión de un día.
  */
 export const isDayTripTour = (t: FreetourInput): boolean => freetourFormat(t, { freeWins: false }) === "excursion-dia";
 
 export interface TripInput { kind: string; durationDays: number | null; titles: readonly string[] }
 
-// REQ-186: viajes propios y de agencias (kind del gestor).
+// REQ-231: viajes propios y de agencias (kind del gestor).
 export function tripFormat(t: TripInput): ExperienceFormat {
   if (t.kind === "transporte") return "transporte";
   if (t.kind === "circuito") return "circuito";
@@ -70,5 +70,5 @@ export function tripFormat(t: TripInput): ExperienceFormat {
 export const isDayTripTrip = (t: TripInput): boolean => tripFormat(t) === "excursion-dia";
 
 const NOT_RANKED = new Set<ExperienceFormat>(["fuera", "traslado", "transporte", "alquiler", "por-revisar"]);
-/** REQ-185: formatos que entran a los carruseles por reseñas (fuera online/servicios, traslados y transporte). */
+/** REQ-230: formatos que entran a los carruseles por reseñas (fuera online/servicios, traslados y transporte). */
 export const isOnSiteForRanking = (f: ExperienceFormat): boolean => !NOT_RANKED.has(f);

@@ -1,5 +1,5 @@
 /**
- * REQ-185, REQ-188: valida las filas de la base antes de rankearlas (CLAUDE.md, regla 8) y las vuelve candidatas.
+ * REQ-230, REQ-233: valida las filas de la base antes de rankearlas (CLAUDE.md, regla 8) y las vuelve candidatas.
  * Una fila mala se descarta y se cuenta; nunca tumba el carrusel. Puro.
  */
 import { z } from "zod";
@@ -29,7 +29,7 @@ export const normKey = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "")
 
 export type TourCandidate = RankCandidate & { source: "tour"; id: string; externalId: number };
 
-// REQ-185
+// REQ-230
 export function parseTourRankRows(rows: readonly unknown[]): { ok: TourCandidate[]; dropped: number; branded: number } {
   const ok: TourCandidate[] = [];
   let dropped = 0;
@@ -39,7 +39,7 @@ export function parseTourRankRows(rows: readonly unknown[]): { ok: TourCandidate
     if (!r.success) { dropped++; continue; }
     const t = r.data;
     const titles = [t.titleEs, t.titleEn].filter((x): x is string => !!x);
-    if (anyTitleMentionsProviderBrand(titles)) { branded++; continue; } // REQ-189
+    if (anyTitleMentionsProviderBrand(titles)) { branded++; continue; } // REQ-234
     const input = { categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes, titles };
     ok.push({
       source: "tour", id: t.id, externalId: t.externalId, key: `tour:${t.id}`,
@@ -58,7 +58,7 @@ export interface TripLike {
 }
 export type TripCandidate = RankCandidate & { source: "trip"; id: string };
 
-/** REQ-188: viajes propios y de agencias como candidatas (hoy sin sistema de reseñas). */
+/** REQ-233: viajes propios y de agencias como candidatas (hoy sin sistema de reseñas). */
 export function tripCandidate(t: TripLike): TripCandidate {
   const input = { kind: t.kind, durationDays: t.durationDays, titles: t.titles ?? [] };
   const dayTrip = t.dayTrip ?? isDayTripTrip(input);

@@ -183,7 +183,7 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-145 | Rango de vigencia en el encabezado de la ficha (transporte) | `src/trips/lib/trip-facts.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
 | REQ-146 | «Audioguía en …» en hop-on hop-off | `src/trips/lib/trip-facts.ts`, `src/trips/lib/copy.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
 | REQ-147 | «Disponible en» solo con viajes publicados | `src/companions/load.ts` | `load.test.ts` | CUMPLIDO |
-| REQ-153 | Sin transporte en el carrusel de viajes del home (carrusel borrado) | — | — | SUSTITUIDO por REQ-187 |
+| REQ-153 | Sin transporte en el carrusel de viajes del home (carrusel borrado) | — | — | SUSTITUIDO por REQ-232 |
 | REQ-154 | «Guía en español» solo con guía en vivo en español | `src/trips/lib/guarantees.ts`, `TripGuarantees.tsx`, `TripDetailView.tsx` | `guarantees.test.ts` | EN CURSO |
 | REQ-156 | «Opciones de pago» solo con pagos en línea | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
 | REQ-157 | «Asesores» siempre; «Itinerarios a tu medida» solo en personalizado | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
@@ -277,10 +277,20 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-182 | Enlace a «Arma tu viaje» en confirmación, /reserva/{token} y correo (tras bandera) | `src/cart/lib/links.ts`, `components/booking/TripLinkCard.tsx`, `EventBookingConfirm.tsx`, `BookingFormContext.tsx`, `app/reserva/[token]/*`, `api/freetour/booking/route.ts`, `booking/notify.ts`, `notifications/lib/booking-email.ts` | `links.test.ts`, `TripLinkCard.test.ts`, `BookingConfirmed.test.ts`, `notify.test.ts`, `booking-email.test.ts` | CUMPLIDO (apagado) |
 | REQ-183 | «Costo 0» solo sin tarifa fija | `src/cart/lib/piece.ts`, `src/cart/lib/page-model.ts` | `piece.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
 | REQ-184 | Carrusel en celular: proveedor real antes que cotización | `src/companions/lib/carousel.ts`, `components/companions/CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
-| REQ-185 | «Los más elegidos» por medidor de reseñas (bayesiano m = 50, C del catálogo), cualquier proveedor, diversidad 2 ciudad / 3 formato, tras CARRUSELES_HOME_ENABLED="false" | `src/home/lib/review-score.ts`, `src/home/lib/carousels.ts`, `src/home/lib/rank-row.ts`, `src/home/load.ts` | `review-score.test.ts`, `carousels.test.ts`, `rank-row.test.ts`, `load.test.ts` | EN CURSO |
-| REQ-186 | Regla mínima de formato y excursión de un día (TEMPORAL hasta el clasificador de taxonomía) | `src/home/lib/experience-format.ts` | `experience-format.test.ts` | CUMPLIDO |
-| REQ-187 | Carrusel «viajes» borrado del home y del menú (OK del PO) | `src/app/page.tsx`, `src/home/lib/sections.ts`, `src/trips/lib/copy.ts` | `sections.test.ts`, `no-expert-claim.test.ts` | CUMPLIDO |
-| REQ-188 | Carrusel y sección «Excursiones de un día», tras CARRUSELES_HOME_ENABLED="false" | `src/components/home/v2/DayTripsCarousel.tsx`, `src/home/lib/carousels.ts`, `src/home/lib/sections.ts`, `src/home/lib/copy.ts` | `carousels.test.ts`, `sections.test.ts`, `copy.test.ts`, `load.test.ts` | EN CURSO |
-| REQ-189 | Carruseles del inicio sin títulos que digan FreeTour o «free tour» (sin bandera) | `src/home/lib/provider-brand.ts`, `src/home/load.ts`, `src/home/lib/rank-row.ts` | `provider-brand.test.ts`, `load.test.ts`, `rank-row.test.ts` | EN CURSO |
+| REQ-230 | «Los más elegidos» por medidor de reseñas (bayesiano m = 50, C del catálogo), cualquier proveedor, diversidad 2 ciudad / 3 formato, tras CARRUSELES_HOME_ENABLED="false" | `src/home/lib/review-score.ts`, `src/home/lib/carousels.ts`, `src/home/lib/rank-row.ts`, `src/home/load.ts` | `review-score.test.ts`, `carousels.test.ts`, `rank-row.test.ts`, `load.test.ts` | EN CURSO |
+| REQ-231 | Regla mínima de formato y excursión de un día (TEMPORAL hasta el clasificador de taxonomía) | `src/home/lib/experience-format.ts` | `experience-format.test.ts` | CUMPLIDO |
+| REQ-232 | Carrusel «viajes» borrado del home y del menú (OK del PO) | `src/app/page.tsx`, `src/home/lib/sections.ts`, `src/trips/lib/copy.ts` | `sections.test.ts`, `no-expert-claim.test.ts` | CUMPLIDO |
+| REQ-233 | Carrusel y sección «Excursiones de un día», tras CARRUSELES_HOME_ENABLED="false" | `src/components/home/v2/DayTripsCarousel.tsx`, `src/home/lib/carousels.ts`, `src/home/lib/sections.ts`, `src/home/lib/copy.ts` | `carousels.test.ts`, `sections.test.ts`, `copy.test.ts`, `load.test.ts` | EN CURSO |
+| REQ-234 | Carruseles del inicio sin títulos que digan FreeTour o «free tour» (sin bandera) | `src/home/lib/provider-brand.ts`, `src/home/load.ts`, `src/home/lib/rank-row.ts` | `provider-brand.test.ts`, `load.test.ts`, `rank-row.test.ts` | EN CURSO |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.
+
+## Agente de WhatsApp — catálogo de solo lectura (PR #125, 6 nov 2026)
+Todo tras `AGENTE_API_ENABLED="false"` (apagada: `/api/agente/*` responde 404) y la llave `AGENTE_TOKEN` (secreto, candado del PO). FREETOUR queda bloqueado (regla B3: un bot no vende sus tours sin autorización escrita). Los REQ de este frente se renumeraron a REQ-148…152 (antes REQ-122…126) porque REQ-122 ya es del PR #122 (buscador); se tomó el bloque libre al fusionar. Este PR limpia los restos de la numeración vieja (REQ-148..126, REQ-148/123, REQ-150/125) en comentarios, tests y wrangler.jsonc.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-148 | Proveedores con interruptor; FREETOUR bloqueado (B3) | `src/agente/lib/catalogo.ts`, `src/app/api/agente/proveedores/route.ts`, `src/trips/public-load.ts` | `src/agente/lib/catalogo.test.ts`, `src/agente/rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-149 | Búsqueda del agente (máx. 5, solo proveedores encendidos) | `src/agente/lib/catalogo.ts`, `src/app/api/agente/buscar/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-150 | Liga prellenada (?fecha=&adultos=&ninos=) | `src/agente/lib/catalogo.ts`, `TripRequestForm.tsx`, `TripDetailView.tsx`, fichas `/viajes` y `/destinos` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
+| REQ-151 | Revisión en vivo de la fecha antes de la liga | `src/agente/lib/catalogo.ts`, `src/app/api/agente/viaje/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-152 | Bandera y llave (404 / 401) | `src/agente/catalogo.ts`, `src/app/api/agente/respuesta.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
