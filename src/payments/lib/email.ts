@@ -1,4 +1,4 @@
-/** Correos de pago: enlace (REQ-114) y confirmación (REQ-117). Puro. */
+/** Correos de pago: enlace (REQ-159) y confirmación (REQ-117). Puro. */
 import { esc, kit, renderShell, UI } from "@/notifications/lib/email-layout";
 import { BRAND as B } from "@/notifications/lib/brand";
 import { kindLabel, type PaymentKind } from "./checkout";
@@ -28,7 +28,7 @@ function summary(i: PayMailInput) {
   return { html, text: rows.map(([k, v]) => `${k}: ${v}`) };
 }
 
-// REQ-114 / REQ-116
+// REQ-159 / REQ-116
 export function buildPaymentLinkEmail(i: PayMailInput, url: string) {
   const subject = `Travel Puzzle / Tu enlace de pago · ${i.ref}`;
   const lead = `Hola ${i.firstName}, confirmamos lugar para tu viaje. Puedes pagar con tarjeta en el enlace seguro de Stripe.`;

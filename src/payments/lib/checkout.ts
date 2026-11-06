@@ -44,7 +44,7 @@ export interface CheckoutInput {
   centavos: number; email: string; siteUrl: string; expiresAt: number;
 }
 
-// REQ-114: parámetros de POST /v1/checkout/sessions (form-urlencoded).
+// REQ-159: parámetros de POST /v1/checkout/sessions (form-urlencoded).
 export function buildCheckoutParams(i: CheckoutInput): Record<string, string> {
   return {
     mode: "payment",

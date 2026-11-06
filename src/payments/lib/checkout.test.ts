@@ -41,7 +41,7 @@ describe("buildCheckoutParams", () => {
     paymentId: "pay_1", requestId: "req_1", ref: "TP-ABC", tripTitle: "Machu Picchu 2D", kind: "anticipo" as const,
     centavos: 190600, email: "cliente@example.com", siteUrl: "https://travelpuzzle.com.mx", expiresAt: 1800000000,
   };
-  it("REQ-114: Checkout en pesos, solo tarjeta, con metadatos para el webhook", () => {
+  it("REQ-159: Checkout en pesos, solo tarjeta, con metadatos para el webhook", () => {
     const p = buildCheckoutParams(base);
     expect(p["mode"]).toBe("payment");
     expect(p["payment_method_types[0]"]).toBe("card");
@@ -60,7 +60,7 @@ describe("buildCheckoutParams", () => {
     expect(p["success_url"]).toBe("https://travelpuzzle.com.mx/?pago=recibido&ref=TP-ABC");
     expect(p["cancel_url"]).toBe("https://travelpuzzle.com.mx/");
   });
-  it("REQ-114: nombre del concepto según el tipo", () => {
+  it("REQ-159: nombre del concepto según el tipo", () => {
     expect(buildCheckoutParams({ ...base, kind: "liquidacion" })["line_items[0][price_data][product_data][name]"]).toMatch(/^Liquidación · /);
     expect(buildCheckoutParams({ ...base, kind: "total" })["line_items[0][price_data][product_data][name]"]).toMatch(/^Pago total · /);
   });

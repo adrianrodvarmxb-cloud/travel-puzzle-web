@@ -1,6 +1,39 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 3 nov 2026.
+Actualizado: 5 nov 2026, 11:45 (CDMX).
+
+## Resumen del 5 nov 2026
+
+**Publicado hoy (cada uno con deploy y prueba de humo en producción en verde):**
+- **China (Fantástica China):** 44 viajes en vivo; 7 en borrador (6 extensiones y Macao, que no tiene precio). Margen firmado: 14 % en el clásico de 8 días, 25 % en nicho (Gran Lujo, Tíbet, Ruta de la Seda) y 20 % en el resto. Fotos curadas sin repetir entre viajes (PR #95).
+- **Perú (Inca World):** 6 excursiones de un día más (Humantay, 2 raftings, bungee, slingshot y sandboarding); van 36 publicados de 45 (PR #96).
+- **Header animado y menú** en todo el sitio público. El menú del celular se arma desde la lista de secciones del home e incluye «Viajes armados por expertos» (Perú y China). Un test rompe CI si se agrega una sección sin entrada en el menú (REQ-062, REQ-068, PR #93).
+- **Opciones y precios** de los viajes en USD con los pesos aproximados al lado (REQ-112, PR #98).
+- **Freetour 2.2:** interruptor `FREETOUR_API_VERSION`; sin la variable sigue en 2.0 y no cambia nada (REQ-113, PR #94; plan en `docs/plan-freetour-v22.md`).
+- **Plan «La Primera Pieza»:** auditoría del sync, cumplimiento FREETOUR (32 elementos), REQ-069 a REQ-111, 8 olas y gates 1 a 6 firmados (`docs/plan-primera-pieza.md`, PR #97).
+
+**En curso:** Ola 1 (blindaje del sync, REQ-071 a REQ-078). La migración 0013 irá en un PR aparte, con OK del PO.
+
+**Falta el OK del PO:**
+1. Migración 0013 y código de la Ola 1.
+2. Encender `DEPARTURE_FILTERS_ENABLED` (idioma y fecha) tras probarlo en preview.
+3. Encender `SEARCH_V2_ENABLED` (relevancia) tras probarlo en preview.
+4. Activar las funciones de Freetour 2.2, una a la vez: mensaje al guía, reseñas, editar reserva y tours de pago (candado Stripe; PR #62 y migración 0009).
+
+**Correos que Claudia debe enviar (borradores en Gmail):**
+- Ignacio (FREETOUR): «Travel Puzzle × FREETOUR.com: ya en producción», con 7 preguntas de cumplimiento.
+- César (Inca): fotos de 7 tours, 2 precios que no cuadran y un neto más competitivo en Humantay (Civitatis la vende en USD 28; nuestro neto es USD 35).
+- Beibei (Fantástica China): precio de Macao.
+
+**Falta definición:**
+- Inca: base de precio de los 30 programas, 9 excursiones en borrador y el aviso mínimo de 60 días contra los 90 que necesita Machu Picchu.
+- China: visa, temporadas y fuente de excursiones de un día (Klook o tours de pago de Freetour).
+- Turismo Asiático y Extime: faltan los PDF, saber si son netos o comisionables y las fotos.
+- Rotar la API key de Freetour (pendiente, fuera del correo).
+
+**Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
+
+**Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
 ## En producción (travelpuzzle.com.mx, Cloudflare Workers + D1)
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).
@@ -15,9 +48,12 @@ Actualizado: 3 nov 2026.
 - Página privada de la reserva (/reserva/[token]).
 - Sección legal: /terminos y /privacidad (textos revisados por el abogado + ajustes firmados en `docs/gates-legal-2026-11.md`), enlaces en el footer y aviso simplificado en el formulario de reserva.
 
-## Banderas (wrangler.jsonc)
-- `BOOKINGS_ENABLED=false` — hasta que Freetour habilite cancelar (hoy responde 403). También muestra `/ayuda` y su enlace en el footer.
-- `EMAILS_ENABLED=false`, `REVIEW_EMAILS_ENABLED=false`, `PAID_TOURS_ENABLED=false`.
+## Banderas (wrangler.jsonc, 5 nov 2026)
+- Encendidas: `BOOKINGS_ENABLED`, `EDIT_ENABLED`, `EMAILS_ENABLED`, `OWN_TOURS_ENABLED`, `TRANSFERS_ENABLED`, `AFFILIATES_ENABLED`, `DEPARTURES_SYNC_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`.
+- `PRIMERA_PIEZA_ENABLED=false` — menú con La Primera Pieza y Destinos, y /llms.txt. No encender antes de que existan /la-primera-pieza y /destinos (Olas 3 y 4).
+- `SYNC_GUARD_ENABLED=false`: sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
+- `FREETOUR_API_VERSION` sin definir (Freetour API 2.0).
 
 ## Pasarela — robustez (punto 16, nov 2026)
 - Token por intento (24 h) + bloqueo de traslapes; IP de salida obligatoria; espera tras login fallido;
@@ -97,7 +133,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-056 | Pantalla de filtros estilo Civitatis | `src/components/tours/filters/*`, `ToursPageClient.tsx` | `extra-filters.test.ts`, `filters-copy.test.ts` + revisión visual | EN CURSO |
 | REQ-061 | Idioma y fecha ocultos hasta cubrir el catálogo | `MoreFilters.tsx`, `/tours`, `wrangler.jsonc` | revisión visual | CUMPLIDO |
 | REQ-113 | Interruptor FREETOUR_API_VERSION (2.0 por defecto) | `src/freetour/lib/hosts.ts`, `gateway/lib/api-version.js`, `gateway/server.js` | `hosts.test.ts`, `api-version.test.js` | CUMPLIDO (apagado) |
-| REQ-114 | Enlace de pago de Stripe desde /admin/solicitudes (gate A) | `src/payments/service.ts`, `src/payments/lib/checkout.ts`, `src/app/api/admin/solicitudes/[id]/pago/route.ts`, `src/components/admin/PaymentLinkControl.tsx` | `service.test.ts`, `checkout.test.ts` | EN CURSO (apagado; falta preview con bandera) |
+| REQ-159 | Enlace de pago de Stripe desde /admin/solicitudes (gate A) | `src/payments/service.ts`, `src/payments/lib/checkout.ts`, `src/app/api/admin/solicitudes/[id]/pago/route.ts`, `src/components/admin/PaymentLinkControl.tsx` | `service.test.ts`, `checkout.test.ts` | EN CURSO (apagado; falta preview con bandera) |
 | REQ-115 | Cobro en MXN, USD/EUR con FIX + colchón 3% (gate B1) | `src/payments/lib/checkout.ts` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-116 | Enlace de 24 h y reenviar vence el anterior (gate C1) | `src/payments/lib/checkout.ts`, `src/payments/service.ts`, `src/payments/stripe-client.ts` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-117 | Webhook firmado e idempotente; solicitud "Pagada" y correos | `src/payments/lib/webhook.ts`, `src/payments/service.ts`, `src/payments/deps.ts`, `src/app/api/stripe/webhook/route.ts`, `src/trips/lib/request.ts` | `webhook.test.ts`, `service.test.ts`, `request.test.ts` | EN CURSO (apagado; falta webhook en Stripe) |
@@ -121,3 +157,117 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-019 | Conformidad con el Swagger | `gateway/lib/operations.js`, `gateway/lib/freetour-spec-required.json` | `spec-conformance.test.js` | CUMPLIDO |
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
+
+## INC-006 (6 nov 2026) — deploy en rojo por `wrangler secret put` tras versiones de PR
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-155 | Secretos dentro de la versión que se prueba y despliega; reintento de subida; humo de producción siempre tras publicar; modo ensayo | `.github/workflows/deploy-cloudflare.yml`, `src/ops/lib/worker-secrets.ts`, `src/scripts/worker-secrets.ts` | `deploy-workflow.test.ts`, `worker-secrets.test.ts` | EN CURSO (falta el primer deploy con el workflow nuevo) |
+Detalle: `docs/incidentes/INC-006.md`.
+
+## La Primera Pieza — Ola 7 «Arma tu viaje» y carrusel (5 nov 2026)
+Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arma-tu-viaje/eventos` responden 404). Cobros tras `CART_PAYMENTS_ENABLED="false"` (candado Stripe). Visa y ETIAS tras `VISA_ENABLED` / `ETIAS_ENABLED` en `"false"`.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-104 | CartItem genérico y ProviderAdapter (api/deeplink); FREETOUR primer adaptador api | `src/cart/lib/item.ts`, `adapter.ts`, `flags.ts`, `src/cart/adapters/freetour.ts`, `deeplink.ts` | `item.test.ts`, `adapter.test.ts`, `flags.test.ts`, `freetour.test.ts`, `deeplink.test.ts` | CUMPLIDO (apagado) |
+| REQ-105 | Interruptor automático api → deeplink → WhatsApp → oculto | `src/cart/lib/switch.ts`, `page-model.ts`, `src/cart/adapters/whatsapp.ts`, `CompanionCarousel.tsx` | `switch.test.ts`, `page-model.test.ts`, `deeplink.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
+| REQ-106 | Primera Pieza confirmada (costo 0) que sobrevive al abandono; sugerencias solo con un toque | `src/cart/lib/cart.ts`, `src/cart/load.ts`, `page-model.ts`, `app/arma-tu-viaje/page.tsx` | `cart.test.ts`, `load.test.ts`, `page-model.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
+| REQ-107 | Cobro dividido por proveedor, paymentUrl renovable, cancelación aislada, seguro solo deeplink | `src/cart/lib/split.ts`, `switch.ts`, `src/cart/adapters/freetour.ts` | `split.test.ts`, `switch.test.ts`, `freetour.test.ts` | EN CURSO (falta stage de FREETOUR y OK del PO) |
+| REQ-108 | Carrusel 3/4 tarjetas, primera un tour, quién cobra, orden base | `src/companions/lib/carousel.ts`, `CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
+| REQ-109 | Reglas por destino como datos; visa y ETIAS tras bandera | `src/companions/rules.json`, `carousel.ts` | `carousel.test.ts` | CUMPLIDO (apagado) |
+| REQ-110 | Eventos vista/agregada/reservada/WhatsApp por tipo y ciudad | `src/companions/lib/events.ts`, `app/api/arma-tu-viaje/eventos/route.ts`, `CompanionCarousel.tsx` | `events.test.ts` | EN CURSO («reservada» se emite cuando exista la reserva desde el carrito) |
+| REQ-111 | Métricas con metas firmadas | `src/ops/lib/metrics.ts`, este archivo | `metrics.test.ts` | EN CURSO (faltan valores de producción) |
+| REQ-120 | Traslados Kiwitaxi como complemento del carrito (deeplink tp.media, panel, /traslados tras bandera) | `src/cart/adapters/kiwitaxi.ts`, `src/transfers/lib/page-mode.ts`, `TransferPanel.tsx`, `CompanionCarousel.tsx`, `app/traslados/page.tsx`, `app/arma-tu-viaje/page.tsx` | `kiwitaxi.test.ts`, `page-mode.test.ts`, `page-model.test.ts`, `ComplementsHub.test.ts` | CUMPLIDO (apagado; p=647 y subID por confirmar) |
+| REQ-121 | Registro de complementos, hub «Transporte» y Big Bus en modo solicitud | `src/companions/registry.json`, `src/companions/lib/registry.ts`, `src/companions/load.ts`, `src/cart/adapters/request.ts`, `src/cart/adapters/index.ts`, `ComplementsHub.tsx` | `registry.test.ts`, `request.test.ts`, `load.test.ts`, `ComplementsHub.test.ts` | CUMPLIDO (apagado) |
+| REQ-130 | Nombre de ciudad corregido a mano (Moscatel → Mascate) que el sync no reescribe | `src/catalog/sync.ts`, `.github/workflows/corregir-ciudad-mascate.yml`, `docs/datos/2026-11-05-mascate.sql` | `src/catalog/sync.test.ts` | EN CURSO (falta la escritura con OK del PO) |
+| REQ-144 | Texto corto de Big Bus sin vigencias repetidas | `imports/bigbus-2026.json` | `trip-facts.test.ts` | CUMPLIDO |
+| REQ-145 | Rango de vigencia en el encabezado de la ficha (transporte) | `src/trips/lib/trip-facts.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
+| REQ-146 | «Audioguía en …» en hop-on hop-off | `src/trips/lib/trip-facts.ts`, `src/trips/lib/copy.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
+| REQ-147 | «Disponible en» solo con viajes publicados | `src/companions/load.ts` | `load.test.ts` | CUMPLIDO |
+| REQ-153 | Sin transporte en el carrusel «Viajes armados por nuestros expertos» | `src/home/lib/carousel.ts`, `src/components/home/v2/OwnTripsCarousel.tsx` | `carousel.test.ts` | EN CURSO |
+| REQ-154 | «Guía en español» solo con guía en vivo en español | `src/trips/lib/guarantees.ts`, `TripGuarantees.tsx`, `TripDetailView.tsx` | `guarantees.test.ts` | EN CURSO |
+| REQ-156 | «Opciones de pago» solo con pagos en línea | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
+| REQ-157 | «Asesores» siempre; «Itinerarios a tu medida» solo en personalizado | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
+| REQ-158 | Encender TRANSPORT_ENABLED (protocolo de bandera) | `wrangler.jsonc` | prueba de humo del preview | EN CURSO (PR #127) |
+
+## Métricas La Primera Pieza (REQ-111, metas firmadas en el gate 5 del plan)
+Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_TARGETS`). Sin dato = no cumple; nada se simula.
+| Métrica | Meta firmada | Valor actual | Fuente |
+|---|---|---|---|
+| % de tours con ciudad válida | ≥ 98 % | sin medir | D1 `Tour.cityId` contra `City` (`pctToursWithValidCity`) |
+| Slugs duplicados | 0 | sin medir (los slugs llegan en la Ola 3) | `Tour.slug` (`duplicateSlugs`) |
+| Horas desde el último sync exitoso | < 26 h | sin medir (el log de corridas llega en la Ola 1) | `SyncRun` (`hoursSinceLastSuccess`) |
+| Tasa de éxito del sync (30 días) | ≥ 95 % | sin medir (Ola 1) | `SyncRun` (`syncSuccessRate`) |
+| Ciudades que cambian de indexación por semana | ≤ 5 | sin medir (Ola 4) | foto semanal de indexación (`indexingChanges`) |
+| Tasa de agregado del carrusel por categoría | se mide 4 semanas y luego se fija | sin medir (carrusel apagado) | logs `[carrusel-evento]` (`addRateByCategory`) |
+## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
+| REQ-088 | Rutas /la-primera-pieza, /destinos, país, ciudad (free tours, tours + viajes propios, traslados) y ficha, desde los datos | `src/destinations/lib/catalog.ts`, `page-model.ts`, `repository.ts`, `load.ts`, `server.ts`, `src/app/la-primera-pieza`, `src/app/destinos/**` | `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (tras PRIMERA_PIEZA_ENABLED="false"; sin slugs en producción no aparece nada) |
+| REQ-089 | Regla de indexación de ciudad (noindex, fuera del sitemap) | `src/destinations/lib/indexing.ts`, `catalog.ts`, `page-model.ts` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-090 | noindex tras 14 días seguidos; el sync blindado guarda City.indexableSince/failingSince al cerrar cada corrida exitosa | `src/destinations/lib/indexing.ts` (`planCityIndexing`), `src/catalog/guarded-sync.ts`, `guarded-repository.ts` (`createCityIndexRepo`), `lib/sql.ts` (`cityIndexStatements`), `src/destinations/lib/catalog.ts` | `indexing.test.ts`, `guarded-sync.test.ts`, `sql.test.ts`, `catalog.test.ts` | CUMPLIDO (lo escribe el sync con SYNC_GUARD_ENABLED; lo lee /destinos con PRIMERA_PIEZA_ENABLED) |
+| REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts`, `catalog.ts`, `app/destinos/[pais]/[ciudad]/page.tsx` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-092 | 301 desde /tours/{id}, /tours?countryId= y /viajes/... (solo con slug); 410 removidos | `src/destinations/lib/routes.ts`, `request-plan.ts`, `edge.ts`, `middleware.ts`, `src/middleware.ts` | `routes.test.ts`, `request-plan.test.ts`, `edge.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (301 y 410 reales desde el middleware, tras la bandera) |
+| REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) |
+| REQ-094 | H1 = título real | `src/tours/lib/title.ts`, `page-model.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `title.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-095 | Insignia solo con fullPricePerGroup = 0 (evento en vivo) | `src/tours/lib/badge.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `badge.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `notice.test.ts`, `live-notice.test.ts` | CUMPLIDO |
+| REQ-097 | Tours de pago: sin insignia, 24 h y pago a la llegada; gate REQ-097: reembolso hasta 24 h, después o sin presentarse no hay (también sobre depósito o pago a la llegada) | `src/tours/lib/notice.ts`, `src/tours/lib/paid-policy.ts`, `src/tours/lib/live-notice.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `notice.test.ts`, `paid-policy.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO (la política del sidebar se ve con PAID_TOURS_ENABLED) |
+| REQ-098 | Favorito ≥4.7 y ≥50 (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts`, `page-model.ts` | `titles.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-100 | JSON-LD y migas visibles | `src/seo/lib/jsonld.ts`, `page-model.ts`, `components/destinations/*` | `jsonld.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts`, `page-model.ts`, `DestinationsLayout.tsx` | `hub.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-102 | Sitemaps por país con lastmod real | `src/seo/lib/sitemaps.ts`, `page-model.ts` (`sitemapInput`), `src/destinations/sitemaps.ts`, `app/sitemap-index.xml`, `app/sitemap-destinos.xml`, `app/sitemaps/tours/[pais]` | `sitemaps.test.ts`, `page-model.test.ts`, `edge.test.ts` | EN CURSO (route handlers tras la bandera; lastmod = Tour.updatedAt, que solo es el cambio real con SYNC_GUARD_ENABLED encendido) |
+| REQ-103 | robots.txt con buscadores de IA y llms.txt | `src/seo/lib/robots.ts`, `app/robots.txt/route.ts`, `app/llms.txt/route.ts` | `robots.test.ts` | EN CURSO |
+## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
+Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
+| REQ-085 | ISO-2, geonameid (cruce + revisión), llave (provider_id, external_id), tour_uid; sin external_id en la URL | `src/destinations/lib/ids.ts`, `geonames.ts`, `dry-run.ts`, `src/scripts/geonames-cruce.ts`, `migrations/0015_identidad_slugs.sql` | `ids.test.ts`, `geonames.test.ts`, `dry-run.test.ts`, `slug.test.ts` | EN CURSO (falta: aplicar 0015, revisar la lista de dudosos, llenar datos con OK; la URL es de la Ola 4) |
+| REQ-086 | Slug puro, inmutable, ≤60, pinyin, sufijo si choca; el sync blindado asigna el slug a cada tour nuevo una sola vez | `src/destinations/lib/slug.ts`, `assign-slugs.ts`, `dry-run.ts`, `src/scripts/slugs-ensayo.ts`, `src/catalog/guarded-sync.ts` (`newTourSlugs`), `guarded-repository.ts` (`slugIndex`), `lib/sql.ts` (`slugStatements`), trigger `Tour_slug_inmutable` | `slug.test.ts`, `assign-slugs.test.ts`, `dry-run.test.ts`, `guarded-sync.test.ts`, `sql.test.ts` | EN CURSO (sync conectado tras SYNC_GUARD_ENABLED; falta: llenar los slugs de los tours que ya existen, con OK del PO) |
+| REQ-087 | Homónimas en un país llevan el código de estado | `src/destinations/lib/assign-slugs.ts` | `assign-slugs.test.ts` | CUMPLIDO (lógica; las homónimas sin `stateCode` salen en `ciudades-pendientes.csv`) |
+Siguiente paso en el sync (Ola 1, `src/catalog`; no se tocó aquí):
+1. En el upsert de `Tour`, no escribir nunca `slug` ni `providerId`. El trigger aborta si alguien intenta cambiar un slug.
+2. Al cerrar una corrida exitosa, para los tours con `slug IS NULL`, llamar a `assignTourSlugs(existentes, nuevos)` y escribir solo `UPDATE … SET slug = ? WHERE id = ? AND slug IS NULL`.
+3. En ciudades nuevas, `assignCitySlugs`; si quedan pendientes (homónimas sin estado), van a revisión y no se publican.
+4. `pinyin-pro` pesa unos 300 KB; si el Worker se acerca a su límite, el slug de tours chinos se calcula en el workflow y no en el cron.
+## Ola 2 (La Primera Pieza): comunicación en Modo 2 con FREETOUR (5 nov 2026)
+| REQ-079 | Correos de Modo 2: confirmación con 9 datos, recordatorio, cancelación y rechazo | `src/notifications/lib/booking-email.ts`, `status-emails.ts`, `src/booking/rejection.ts` | `booking-email.test.ts`, `status-emails.test.ts`, `rejection.test.ts` | CUMPLIDO |
+| REQ-080 | Release: FREETOUR no manda correos propios | `src/freetour/lib/release-email-check.ts`, `src/scripts/release-check-freetour.ts`, `docs/runbook/release-freetour-sin-correos.md` | `release-email-check.test.ts` | EN CURSO: la herramienta y la checklist están listas; falta la primera corrida con reserva de prueba (requiere OK del PO) |
+| REQ-081 | Post-tour y chatbot sin FREETOUR (`FREETOUR_POSTTOUR_PROMO_ENABLED` y `FREETOUR_CHATBOT_ENABLED` en `false`) | `src/freetour/lib/promo-policy.ts`, `src/booking/notify.ts` («Más planes» de todos los correos, gate en `docs/gates-comunicacion-freetour-2026-11.md`), rutas de reserva, rechazo, cancelar, modificar y cron | `promo-policy.test.ts`, `notify.test.ts` | CUMPLIDO |
+| REQ-082 | Sin premios por FREETOUR | `src/freetour/lib/rewards-guard.ts` (guarda lista; hoy no hay código de Rewards) | `rewards-guard.test.ts` | CUMPLIDO |
+| REQ-083 | Mensajes al proveedor sin enlaces y ≤ 5000; contacto adulto | `src/booking/lib/provider-message.ts`, `src/booking/lib/adult-contact.ts`, `service.ts`, formulario de reserva | `provider-message.test.ts`, `adult-contact.test.ts`, `service.test.ts` | EN CURSO: falta encender `ADULT_CONTACT_CHECK_ENABLED` con OK del PO; hoy no se envían mensajes al proveedor |
+| REQ-084 | Casilla de marketing LFPDPPP; política de cookies; aviso de privacidad | `src/legal/lib/marketing-consent.ts`, `MarketingConsentCheckbox.tsx`, `src/legal/lib/cookies.ts`, `/cookies`, `docs/legal/borrador-aviso-privacidad-2026-11.md` | `marketing-consent.test.ts`, `cookies.test.ts` | EN CURSO: textos pendientes de revisión del PO y de un abogado; para guardar el consentimiento hace falta una migración |
+## Ola 1 «La Primera Pieza» — blindaje del sync (5 nov 2026)
+Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy queda idéntico. Migración 0014 en PR aparte (sin aplicar).
+| REQ-071 | Barrera de cordura (vacío, error, > 20 % menos) sin tocar Tour | `src/catalog/lib/sanity.ts`, `src/catalog/guarded-sync.ts`, `migrations/0014_sync_presencia.sql` | `sanity.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-072 | Respaldo, publicación al cierre (pasos de 100) y checkpoint solo si termina bien | `src/catalog/lib/sql.ts` (`publishBatch`), `src/catalog/lib/guard-plan.ts`, `src/catalog/guarded-repository.ts` | `sql.test.ts`, `guard-plan.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-073 | content_hash sin calificación; doble corrida = 0 escrituras | `src/catalog/lib/content-hash.ts`, `src/catalog/lib/sql.ts` | `content-hash.test.ts`, `sql.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-074 | active → missing → removed tras 3 corridas; reaparece = active | `src/catalog/lib/presence.ts`, `src/catalog/lib/sql.ts` | `presence.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
+| REQ-075 | updatedSince en /events y utcDate | — | — | PENDIENTE (ver nota) |
+| REQ-076 | Precio y lugares en vivo antes de reservar | — | — | PENDIENTE (fuera de la Ola 1 de código) |
+| REQ-077 | 429/Retry-After, login sin bucle, error 63 ≥ 10 min | `src/catalog/lib/retry.ts`, `src/freetour/api.ts` | `retry.test.ts`, `api.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta conectar el error 63 a un cron de estado de pago) |
+| REQ-078 | Log por corrida y alerta de 26 h | `src/catalog/lib/guard-plan.ts` (`syncHealth`), `SyncRun`, `api/cron/sync-tours/route.ts` | `guard-plan.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta canal de aviso al PO y el registro de reservas de prueba) |
+Notas:
+- REQ-075: `updatedSince` existe solo en `/events`; `/tours` se sigue recorriendo completo (así se detectan ausentes y se aplica la barrera del 20 %). Usar `/events?updatedSince` para las salidas no cabe sin cambiar el sync de salidas (REQ-049) y su ritmo; queda pendiente para una ola propia. `utcDate` tampoco se tocó.
+- REQ-076: hoy la ficha y la reserva ya consultan `/tours/{id}/events` en vivo (no caché). `GET /events/{id}` es de la API v2.2 (bandera `FREETOUR_API_VERSION`, apagada).
+- REQ-077: `canCheckPaymentStatus` existe y tiene test, pero hoy ningún cron consulta el estado de pago (tours de pago apagados). Se conecta cuando exista ese cron.
+- REQ-078: la alerta queda en la respuesta del cron (`health`) y en los logs del Worker (`[alerta-sync]`). Falta decidir el canal (correo o WhatsApp al PO). Reservas de prueba canceladas y registradas: no es parte de este PR.
+- REQ-072: con 100 cambios o menos, la publicación, la presencia y el checkpoint van en un solo batch de D1 (atómico). Con más de 100, el contenido se publica en pasos de 100 por minuto (cada paso es atómico y el sitio puede ver tours ya actualizados antes del cierre); las bajas (missing/removed) y el checkpoint solo se aplican en el último paso. El respaldo de cada fila sobrescrita queda en `TourStage.previous` (se conservan las últimas 7 corridas).
+- Primera corrida con la bandera encendida: arranca en el siguiente minuto (sin esperar las 3:00) y, como ningún tour tiene `contentHash` todavía, publica todo el catálogo una vez (unos 81 pasos de 100).
+
+## Identidad geográfica v2 — ensayo (5 nov 2026)
+Informe aprobado «Identidad geográfica del catálogo», pasos 1–5 (7 propuesto). Lógica en `src/geo/lib/`, tablas en `src/geo/data/`, ensayo en «Identidad geográfica v2 (ensayo)» (solo lectura). Gates: `docs/gates-geo-v2-2026-11.md`. Migración 0016 **sin aplicar**.
+Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porque REQ-122 ya es del PR #122 (buscador) y REQ-130 del PR #124 (Mascate). REQ-139…141 son los gates G5–G7 y REQ-142…143 son las firmas del PO del 6 nov 2026 (país por ciudad y las 5 dudosas). Gates firmados el 5 nov 2026: G1, G2, G5, G6 y G7 en este PR; **G3 (migración 0016) y G4 (escritura del geonameid) aprobados para el 6 nov**, después de la primera corrida del sync blindado, y siguen sin aplicar.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-131 | Normalización de nombres | `src/geo/lib/normalize.ts` | `normalize.test.ts` | CUMPLIDO |
+| REQ-132 | Centroides no confiables | `src/geo/lib/centroid.ts`, `geonames-v2.ts` | `centroid.test.ts`, `geonames-v2.test.ts` | CUMPLIDO |
+| REQ-133 | Puntaje, umbrales, nombre exacto único, prioridad override > id > aproximado | `src/geo/lib/score.ts`, `resolve.ts` | `score.test.ts`, `resolve.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (umbrales: gate G1) |
+| REQ-134 | SCT/WLS/NIR → GB + región; AN por ciudad; XX sin página | `src/geo/lib/country.ts`, `src/geo/data/country-overrides.csv`, `an-cities.csv`, `migrations/0016_identidad_geo.sql` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
+| REQ-135 | Taipei 4200/6172 → canónica «taipei» | `src/geo/lib/alias.ts`, `src/geo/data/city-aliases.csv` | `alias.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
+| REQ-136 | Overrides humanos por PR | `src/geo/lib/resolve.ts`, `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+| REQ-137 | Workflow de ensayo v2 | `.github/workflows/geo-dry-run.yml`, `src/scripts/geo-cruce-v2.ts`, `src/geo/lib/dry-run-v2.ts`, `wikidata.ts`, `geonames-v2.ts` | `dry-run-v2.test.ts`, `wikidata.test.ts`, `geonames-v2.test.ts` | CUMPLIDO (ensayo: corrida #1, id 42163176603) |
+| REQ-138 | Atribución GeoNames CC BY 4.0 | `src/geo/lib/attribution.ts` | `attribution.test.ts` | CUMPLIDO |
+| REQ-139 | Atribución solo en /terminos, no en el pie, tras GEO_ATTRIBUTION_ENABLED="false" (G5) | `src/geo/lib/attribution.ts`, `src/components/legal/GeoAttribution.tsx`, `src/app/terminos/page.tsx`, `wrangler.jsonc` | `attribution.test.ts` | CUMPLIDO (bandera apagada) |
+| REQ-140 | Ensayo semanal cada lunes, solo lectura (G6) | `.github/workflows/geo-dry-run.yml` | `dry-run-workflow.test.ts` | CUMPLIDO (corre desde main tras el merge) |
+| REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firmado por el PO el 6 nov 2026) |
+| REQ-142 | País propio por ciudad: Hong Kong → HK, Tórshavn → FO | `src/geo/lib/country.ts`, `dry-run-v2.ts`, `src/scripts/geo-cruce-v2.ts`, `src/geo/data/city-country-overrides.csv` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (se escribe con la 0016: G3/G4) |
+| REQ-143 | Las 5 dudosas decididas por el PO (Alajuela ADM1, SLP ADM1, La Palma sin geonameid, Diani Beach, Ao Nang) | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+
+Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.

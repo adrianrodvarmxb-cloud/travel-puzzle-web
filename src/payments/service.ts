@@ -31,7 +31,7 @@ export type LinkResult =
   | { ok: true; url: string; centavos: number }
   | { ok: false; code: "disabled" | "not_found" | "no_fx" | "invalid_amount" | "stripe_error" };
 
-// REQ-114, REQ-115, REQ-116, REQ-118
+// REQ-159, REQ-115, REQ-116, REQ-118
 export async function createPaymentLink(
   input: { requestId: string; amount: number; currency: PayCurrency; kind: PaymentKind },
   d: LinkDeps

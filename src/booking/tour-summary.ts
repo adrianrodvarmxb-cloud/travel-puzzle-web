@@ -63,7 +63,7 @@ export async function getMoreTours(
   return mixRecommendations(paid, free, 3, includePaid).flatMap((o) => {
     const title = o.translations.find((t) => t.language === lang)?.title ?? o.translations.find((t) => t.language === "en")?.title;
     if (!title || !o.titleImageURL) return [];
-    return [{ title, url: `${site}/tours/${o.id}`, imageUrl: o.titleImageURL, rating: o.rating ? Number(o.rating) : null, isFree: Number(o.priceValue) === 0 }];
+    return [{ title, url: `${site}/tours/${o.id}`, imageUrl: o.titleImageURL, rating: o.rating ? Number(o.rating) : null, isFree: Number(o.priceValue) === 0, source: "freetour" as const }];
   });
 }
 

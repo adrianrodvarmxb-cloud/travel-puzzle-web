@@ -88,9 +88,9 @@ Cada ola es su propio PR con tests primero, suite completa, build, prueba de hum
 | Ola | Qué | REQ | Candados |
 |---|---|---|---|
 | **0** | Este PR: plan, requisitos, `autorizaciones.md`, diccionario de datos | REQ-069, 070 | Ninguno |
-| **1** | Blindaje del sync: barrera de cordura, respaldo y publicación atómica, `content_hash`, missing → removed, `updatedSince` y `utcDate`, reintentos, log y alerta de 26 h | REQ-071…078 | Migración 0013 (columnas de estado y hash) |
+| **1** | Blindaje del sync: barrera de cordura, respaldo y publicación atómica, `content_hash`, missing → removed, `updatedSince` y `utcDate`, reintentos, log y alerta de 26 h | REQ-071…078 | Migración 0014 (columnas de estado y hash) |
 | **2** | Comunicación Modo 2: test de los 9 campos, prueba de no-correos de FREETOUR, post-tour sin FREETOUR, sin premios, mensajes sin enlaces, contacto adulto, LFPDPPP y cookies | REQ-079…084 | Ninguno (copy legal: revisión del PO) |
-| **3** | Identidad: ISO-2, geonameid, `tour_uid`, slug puro e inmutable con pinyin y sufijo de estado | REQ-085…087 | Migración 0014 + llenado de slugs (datos de producción) |
+| **3** | Identidad: ISO-2, geonameid, `tour_uid`, slug puro e inmutable con pinyin y sufijo de estado | REQ-085…087 | Migración 0015 + llenado de slugs (datos de producción) |
 | **4** | Rutas por destino y regla de indexación (≥ 3 tours, o ≥ 1 tour + guía de 300 palabras; noindex tras 14 días), 301 y 410 | REQ-088…092 | Ninguno |
 | **5** | Ficha y textos: menú nuevo, título real, insignia, aviso por evento, tours de pago, «Operado por…», reseñas, Favorito | REQ-093…098 | Ninguno |
 | **6** | SEO técnico: titles y H1, JSON-LD, «Actividades destacadas», canonical, sitemaps por país, robots y llms.txt | REQ-099…103 | DNS/Cloudflare: solo revisar los bots, sin cambiar nada |
@@ -109,8 +109,8 @@ docs/
   diccionario-datos.md           NUEVO: provider_id, external_id, tour_uid, slug, city_code, status
   freetour/autorizaciones.md     NUEVO: registro con fecha de lo que FREETOUR autorice por escrito
 migrations/
-  0013_sync_presencia.sql        Ola 1: Tour.contentHash, Tour.syncStatus (active|missing|removed), Tour.missingRuns, SyncRun (log)
-  0014_identidad_slugs.sql       Ola 3: Country.iso2, City.geonameid/slug/stateCode/guide, Tour.slug (único, inmutable), Tour.providerId
+  0014_sync_presencia.sql        Ola 1: Tour.contentHash, Tour.syncStatus (active|missing|removed), Tour.missingRuns, SyncRun (log)
+  0015_identidad_slugs.sql       Ola 3: Country.iso2, City.geonameid/slug/stateCode/guide, Tour.slug (único, inmutable), Tour.providerId
 src/
   catalog/lib/
     sanity.ts         Ola 1  barrera de cordura (vacío, error, >20 % menos)            puro
@@ -167,3 +167,16 @@ src/
 | 4 | Viajes propios (`/viajes/...`) | **Entran a `/destinos` con 301**: aparecen en la sección Tours de su ciudad y su ficha pasa a `/destinos/{pais}/{ciudad}/{slug}` (REQ-088, REQ-092) |
 | 5 | Metas de las métricas | **Firmadas**: ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · la tasa de agregado del carrusel se mide 4 semanas y luego se fija la meta (REQ-111) |
 | 6 | Correo de preguntas a FREETOUR | **El PO lo revisa primero** (sigue en borrador en Gmail). Versión final con 7 preguntas más la rotación de la API key; se quitó la pregunta del logo porque FREETOUR no se menciona al cliente. |
+| 7 | Quién opera el free tour (revisión del 5 nov 2026, contra el pedido «Operado por un guía local de FREETOUR.com») | **Sin mencionar FREETOUR**: «Operado por un guía local · {proveedor}» (se mantiene REQ-098 y la regla del PO) |
+| 8 | Choque de número de migración con el PR #99 (Stripe usa 0013) | El PO delegó la decisión: **el plan se renumera**. Ola 1 = 0014, Ola 3 = 0015 |
+| 9 | Política de cancelación de tours de pago (REQ-097, 5 nov 2026) | **Cancelación gratis con reembolso hasta 24 h antes**; después, o si no se presenta, **no hay reembolso**. Con depósito o con pago a la llegada aplica lo mismo sobre lo pagado. Reemplaza el texto anterior («el pago/depósito no es reembolsable si cancelas»). Código: `src/tours/lib/paid-policy.ts` |
+
+### Slug en el sync blindado (REQ-086, 5 nov 2026)
+- Con `SYNC_GUARD_ENABLED`, cada tour **nuevo** (kind `new` en el staging) recibe su slug en el mismo batch en que se inserta: `UPDATE "Tour" SET "slug" = ? WHERE "externalId" = ? AND "slug" IS NULL`. Nunca se regenera (renombrado o reaparecido conserva el suyo) y el trigger `Tour_slug_inmutable` lo impide en la base.
+- Los tours que ya existen sin slug **no** lo reciben del sync: eso es el llenado de datos de producción, candado con OK del PO.
+
+### Aclaraciones técnicas para el PR de la Ola 1 (revisión del 5 nov 2026)
+- **REQ-072, publicación atómica:** el sync escribe una página por minuto durante unos 80 minutos. Las filas de la corrida se marcan con su `runId` y no son visibles para el render hasta que la corrida cierra bien. El cierre hace el cambio de estado en un solo `batch` de D1. Si la corrida falla, el sitio sigue leyendo la corrida anterior.
+- **REQ-075, sync incremental:** `updatedSince` existe solo en `/events`. `/tours` se sigue recorriendo completo cada día porque así se detectan los ausentes (REQ-074) y se aplica la barrera del 20 % (REQ-071).
+- **REQ-093, menú:** convive con el menú automático de secciones del home (REQ-068). Su test debe seguir verde.
+- **Paso 1 de cumplimiento-freetour (releer las fuentes):** el 5 nov 2026 se releyeron completos, desde el Chrome del PO, los términos de afiliados y proveedores (admin.freetour.com/affiliate-terms, 13 secciones) y los términos generales (freetour.com/terms). **Sin cambios** frente a la instantánea de la skill: cuota y estados de reserva (§1.1), cancelación de free tours y de pago a 24 h (§1.2 y §1.4.3), pago a la llegada (§1.4.2.2), reglas del proveedor (§2.2), aviso de cambios de 4 días (§4.3), fuentes prohibidas (§7.2), reparto 50/50 (§8), retiro desde 30 € (§9.4) y terminación (§10 y §11); los términos generales siguen con cobro en EUR, uso solo personal o comercial y ley suiza. No se releyeron la privacidad, las cookies, la lealtad ni el Swagger: no afectan a la Ola 1.

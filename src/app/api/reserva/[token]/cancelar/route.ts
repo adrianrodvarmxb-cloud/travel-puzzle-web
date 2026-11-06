@@ -6,6 +6,7 @@ import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@
 import { sendEmail } from '@/notifications/resend';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { getPrisma } from '@/lib/prisma';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,6 +46,8 @@ export async function POST(_request: Request, { params }: { params: Promise<{ to
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
                 getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+                // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
+                freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
                 contact: contactFromEnv(process.env as Record<string, string | undefined>),
                 calendar: calendarFromEnv(process.env as Record<string, string | undefined>),
                 send: (email) =>

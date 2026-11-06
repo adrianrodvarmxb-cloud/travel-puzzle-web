@@ -17,7 +17,7 @@ export function createStripeClient({ secretKey, fetch }: { secretKey: string; fe
     return json;
   }
   return {
-    // REQ-114
+    // REQ-159
     async createCheckoutSession(params: Record<string, string>): Promise<{ id: string; url: string }> {
       const s = await post("/checkout/sessions", params);
       if (typeof s.id !== "string" || typeof s.url !== "string") throw new Error("Stripe: sesión sin id/url");

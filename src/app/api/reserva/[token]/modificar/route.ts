@@ -10,6 +10,7 @@ import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import type { EditEvent } from '@/booking/lib/edit-plan';
 import { getPrisma } from '@/lib/prisma';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,6 +47,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
                 siteUrl: env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
                 getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(env.PAID_TOURS_ENABLED) }),
+                // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
+                freetourPostTourPromo: freetourPromoFlags(env as Record<string, string | undefined>).postTourPromo,
                 contact: contactFromEnv(env),
                 calendar: calendarFromEnv(env),
                 send: (email) => sendEmail({ apiKey: env.RESEND_API_KEY ?? '', fetch }, { ...email, from: env.EMAIL_FROM ?? '', replyTo: env.EMAIL_REPLY_TO }),

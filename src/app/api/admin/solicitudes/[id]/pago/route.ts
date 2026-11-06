@@ -14,7 +14,7 @@ const MESSAGE: Record<string, string> = {
     stripe_error: 'Stripe no pudo crear el enlace. Intenta de nuevo.',
 };
 
-/** Crea (o reenvía) el enlace de pago de una solicitud. Solo ADMIN. REQ-114, REQ-115, REQ-116, REQ-118. */
+/** Crea (o reenvía) el enlace de pago de una solicitud. Solo ADMIN. REQ-159, REQ-115, REQ-116, REQ-118. */
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
     if (!stripeEnabled()) return NextResponse.json({ error: 'not_found' }, { status: 404 });
     if (!(await requireAdmin())) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });

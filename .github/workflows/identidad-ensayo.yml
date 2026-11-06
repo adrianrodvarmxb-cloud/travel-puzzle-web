@@ -1,0 +1,93 @@
+# REQ-085/086/087 (Ola 3): ENSAYO de identidad. No escribe en la base.
+# 1) Exporta de D1 en SOLO LECTURA países, ciudades y tours (título es/en y punto de encuentro).
+# 2) Calcula ISO-2 y slugs de ciudades y tours, y reporta duplicados (src/scripts/slugs-ensayo.ts).
+# 3) Baja GeoNames cities15000 y cruza por país + nombre + cercanía al centroide (gate 3; src/scripts/geonames-cruce.ts).
+# Sube todo como artefacto «identidad-ensayo»: identidad.sql, geonames.sql, listas CSV para revisión y reportes.
+# Aplicar los .sql en producción es otro paso, a mano, con OK del PO (candado: datos de producción) y después de la migración 0015.
+name: Identidad (ensayo)
+on:
+  push:
+    branches: [feat/ola3-slugs]
+    paths: [src/destinations/lib/**, src/scripts/slugs-ensayo.ts, src/scripts/geonames-cruce.ts, .github/workflows/identidad-ensayo.yml]
+  workflow_dispatch:
+    inputs:
+      escribir:
+        description: "Escribir en producción: llena ISO-2, slugs y geonameid SOLO donde están vacíos (candado: OK del PO)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  ensayo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas de la lógica (REQ-085…087)
+        run: npx vitest run src/destinations/lib
+      - name: Exportar de D1 (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p export
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          # ¿Ya está aplicada la 0015? Si no, se exporta con NULL en las columnas nuevas.
+          n=$(q "SELECT COUNT(*) AS n FROM pragma_table_info('Tour') WHERE name = 'slug'" | jq -r '.[0].results[0].n' || echo 0)
+          echo "Migración 0015 aplicada: $([ "$n" = "1" ] && echo sí || echo no)"
+          if [ "$n" = "1" ]; then
+            CO='"iso2"'; CI='"slug", "stateCode", "geonameid"'; TP='t."providerId"'; TS='t."slug"'
+          else
+            CO='NULL AS "iso2"'; CI='NULL AS "slug", NULL AS "stateCode", NULL AS "geonameid"'; TP="'freetour' AS \"providerId\""; TS='NULL AS "slug"'
+          fi
+          q "SELECT \"id\", \"code\", $CO FROM \"Country\"" > export/countries.json
+          q "SELECT \"id\", \"countryId\", \"translations\", $CI FROM \"City\"" > export/cities.json
+          total=$(q 'SELECT COUNT(*) AS n FROM "Tour"' | jq -r '.[0].results[0].n')
+          echo "Tours: $total"
+          for off in $(seq 0 2000 "$total"); do
+            q "SELECT t.\"id\", t.\"externalId\", $TP, t.\"cityId\", t.\"countryId\", es.\"title\" AS \"titleEs\", en.\"title\" AS \"titleEn\", $TS, json_extract(t.\"meetingPoint\", '\$.coordinates') AS \"coords\" FROM \"Tour\" t LEFT JOIN \"TourTranslation\" es ON es.\"tourId\" = t.\"id\" AND es.\"language\" = 'es' LEFT JOIN \"TourTranslation\" en ON en.\"tourId\" = t.\"id\" AND en.\"language\" = 'en' ORDER BY t.\"id\" LIMIT 2000 OFFSET $off" > "export/tours-$off.json"
+          done
+          jq -s '[.[] | .[0].results[]]' export/tours-*.json > export/tours.json
+          rm export/tours-*.json
+          echo "Exportados: $(jq length export/tours.json) tours"
+      - name: Ensayo de slugs
+        run: npx tsx src/scripts/slugs-ensayo.ts export salida
+      - name: Bajar GeoNames cities15000
+        run: |
+          mkdir -p geonames
+          curl -sSfL -o geonames/cities15000.zip https://download.geonames.org/export/dump/cities15000.zip
+          unzip -o -q geonames/cities15000.zip -d geonames
+      - name: Cruce con GeoNames (ensayo)
+        run: npx tsx src/scripts/geonames-cruce.ts geonames/cities15000.txt export salida
+      - name: Escribir en producción (solo con escribir=true)
+        if: github.event_name == 'workflow_dispatch' && inputs.escribir
+        run: |
+          set -euo pipefail
+          # Respaldo: export/ (países, ciudades y tours antes de escribir) va en el artefacto.
+          # Los .sql solo llenan columnas vacías (WHERE … IS NULL): correrlo dos veces no cambia nada.
+          # --file usa la importación de D1, que falla con «Not currently importing anything»;
+          # se aplica en lotes de 300 sentencias con --command (cada lote es atómico).
+          for f in salida/identidad.sql salida/geonames.sql; do
+            grep -v '^--' "$f" | grep -v '^\s*$' > lotes.sql || true
+            if [ ! -s lotes.sql ]; then echo "$f: nada que llenar"; rm -f lotes.sql; continue; fi
+            split -l 300 -d -a 3 lotes.sql lote-
+            for l in lote-*; do npx wrangler d1 execute travel-puzzle --remote --command "$(cat "$l")" > /dev/null; echo "aplicado $f $l"; done
+            rm -f lote-* lotes.sql
+          done
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1" | jq -r '.[0].results[0].n'; }
+          echo "Tours con slug: $(q 'SELECT COUNT(*) AS n FROM "Tour" WHERE "slug" IS NOT NULL')"
+          echo "Ciudades con slug: $(q 'SELECT COUNT(*) AS n FROM "City" WHERE "slug" IS NOT NULL')"
+          echo "Países con ISO-2: $(q 'SELECT COUNT(*) AS n FROM "Country" WHERE "iso2" IS NOT NULL')"
+          echo "Ciudades con geonameid: $(q 'SELECT COUNT(*) AS n FROM "City" WHERE "geonameid" IS NOT NULL')"
+      - name: Resumen
+        if: always()
+        run: |
+          [ -f salida/reporte.json ] && jq '{countries: .countries.total, paisesPendientes: (.countries.pending | length), cities, tours, tourDuplicates: (.tourDuplicates | length), cityDuplicates: (.cityDuplicates | length)}' salida/reporte.json || true
+          [ -f salida/geonames-resumen.json ] && cat salida/geonames-resumen.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: identidad-ensayo, path: "salida\nexport", retention-days: 30 }

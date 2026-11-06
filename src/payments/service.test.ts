@@ -27,7 +27,7 @@ function linkDeps(over: Partial<LinkDeps> = {}): LinkDeps & { rows: PaymentRow[]
 }
 
 describe("createPaymentLink", () => {
-  it("REQ-114: crea Checkout, guarda el pago pendiente, marca Cotizada y manda el enlace", async () => {
+  it("REQ-159: crea Checkout, guarda el pago pendiente, marca Cotizada y manda el enlace", async () => {
     const d = linkDeps();
     const r = await createPaymentLink({ requestId: "req_1", amount: 100, currency: "USD", kind: "anticipo" }, d);
     expect(r).toEqual({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_new", centavos: 190600 });
@@ -98,13 +98,13 @@ describe("createPaymentLink", () => {
     expect(low.createSession).not.toHaveBeenCalled();
   });
 
-  it("REQ-114: solicitud inexistente → not_found, sin tocar Stripe", async () => {
+  it("REQ-159: solicitud inexistente → not_found, sin tocar Stripe", async () => {
     const d = linkDeps();
     expect(await createPaymentLink({ requestId: "nope", amount: 5000, currency: "MXN", kind: "total" }, d)).toEqual({ ok: false, code: "not_found" });
     expect(d.createSession).not.toHaveBeenCalled();
   });
 
-  it("REQ-114: si Stripe falla no se guarda nada ni se manda correo", async () => {
+  it("REQ-159: si Stripe falla no se guarda nada ni se manda correo", async () => {
     const d = linkDeps({ createSession: vi.fn(async () => { throw new Error("stripe 500"); }) });
     expect(await createPaymentLink({ requestId: "req_1", amount: 5000, currency: "MXN", kind: "total" }, d)).toEqual({ ok: false, code: "stripe_error" });
     expect(d.rows).toHaveLength(0);

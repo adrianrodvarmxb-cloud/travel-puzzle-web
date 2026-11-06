@@ -1,0 +1,10 @@
+# REQ-134: AN → CW (Curazao), SX (Sint Maarten), BQ (Bonaire, San Eustaquio, Saba) o AW (Aruba), ciudad por ciudad.
+# Hoy el catálogo no tiene ciudades con país 111 (export del 6 nov 2026), así que no hay ids: todo queda en «revisar».
+# Solo se aplica una fila con provider_city_id y estado=aprobado (lo decide el PO por PR).
+provider,provider_city_id,nombre,country_code,estado,nota
+freetour,,Willemstad,CW,revisar,propuesta del informe; sin id en el catálogo
+freetour,,Philipsburg,SX,revisar,propuesta del informe; San Martín está compartida con Francia (MF): validar por coordenada
+freetour,,Kralendijk,BQ,revisar,propuesta del informe; sin id en el catálogo
+freetour,,Oranjestad (San Eustaquio),BQ,revisar,propuesta del informe; no confundir con Oranjestad de Aruba
+freetour,,The Bottom (Saba),BQ,revisar,propuesta del informe; sin id en el catálogo
+freetour,,Oranjestad (Aruba),AW,revisar,propuesta del informe; solo si FREETOUR la pone en AN

@@ -19,6 +19,8 @@ interface EventDetailClientProps {
     contact: { wa: string | null; socials: { name: string; url: string }[] };
     /** PAID_TOURS_ENABLED: muestra pago, cancelación y no presentarse en tours con costo. */
     paidEnabled?: boolean;
+    /** REQ-083: ADULT_CONTACT_CHECK_ENABLED, casilla «soy mayor de edad». */
+    adultContactCheck?: boolean;
 }
 
 /** Paso de reserva con el mismo lenguaje visual que los correos y "Mi reserva". */
@@ -30,6 +32,7 @@ export function EventDetailClient({
     bookingsEnabled,
     contact,
     paidEnabled = false,
+    adultContactCheck = false,
 }: EventDetailClientProps) {
     const { t } = useLanguage();
     const languageDisplayName = CalendarAvailabilityService.LANGUAGE_NAMES[eventLanguage] || eventLanguage;
@@ -58,6 +61,7 @@ export function EventDetailClient({
                     bookingsEnabled={bookingsEnabled}
                     wa={contact.wa}
                     paidEnabled={paidEnabled}
+                    adultContactCheck={adultContactCheck}
                 />
             ) : (
                 <p className="px-6 py-8 text-sm text-gray-600">Elige primero la fecha y el horario en la ficha del tour.</p>

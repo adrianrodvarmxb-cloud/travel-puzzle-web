@@ -224,3 +224,46 @@ describe("meetingPointText", () => {
     expect(meetingPointText(null, "es")).toBeNull();
   });
 });
+
+// REQ-079: correos de Modo 2 (FREETOUR, guía PDF A2/A3): confirmación con los 9 datos,
+// recordatorio, cancelación y rechazo.
+describe("REQ-079 correos de Modo 2", () => {
+  const nueve = {
+    titulo: data.tourTitle,
+    proveedor: data.provider,
+    fecha: "31 de octubre de 2026, 08:00",
+    duracion: data.duration,
+    idioma: "Francés",
+    adultosYNinos: "2 adultos, 1 niño",
+    refNumber: data.refNumber,
+    puntoDeEncuentro: data.meetingPoint,
+    enlaceCancelacion: data.manageUrl,
+  };
+
+  it("REQ-079: la confirmación trae los 9 datos en HTML y en texto plano", () => {
+    const { html, text } = buildBookingConfirmationEmail(data);
+    expect(Object.keys(nueve)).toHaveLength(9);
+    for (const [campo, valor] of Object.entries(nueve)) {
+      expect(html, `HTML sin ${campo}`).toContain(valor);
+      expect(text, `texto sin ${campo}`).toContain(valor);
+    }
+    // El enlace de cancelación se presenta como tal, no como URL suelta.
+    expect(text).toContain("Ver, cambiar o cancelar mi reserva: https://travelpuzzle.com.mx/reserva/abc");
+  });
+
+  it("REQ-079: en inglés también trae los 9 datos", () => {
+    const { text } = buildBookingConfirmationEmail({ ...data, lang: "en" });
+    for (const v of [data.tourTitle, "Mpika Tours", "October 31, 2026, 08:00", "2:30", "French", "2 adults, 1 child", data.refNumber, data.meetingPoint, `View, change or cancel my booking: ${data.manageUrl}`]) {
+      expect(text).toContain(v);
+    }
+  });
+
+  it("REQ-079: los recordatorios (48 h y del día) repiten los 9 datos con otro asunto", () => {
+    const confirmation = buildBookingConfirmationEmail(data).subject;
+    for (const variant of ["reminder48", "dayOf"] as const) {
+      const { subject, text } = buildBookingConfirmationEmail({ ...data, variant });
+      expect(subject).not.toBe(confirmation);
+      for (const v of Object.values(nueve)) expect(text).toContain(v);
+    }
+  });
+});

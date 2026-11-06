@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { inputCls, smallBtn } from './trips/fields';
 
-/** Enlace de pago de Stripe de una solicitud (REQ-114, REQ-116). Solo se pinta con STRIPE_ENABLED. */
+/** Enlace de pago de Stripe de una solicitud (REQ-159, REQ-116). Solo se pinta con STRIPE_ENABLED. */
 export function PaymentLinkControl({ id, hasPending, defaultAmount, defaultCurrency }: { id: string; hasPending: boolean; defaultAmount: number | null; defaultCurrency: string }) {
     const router = useRouter();
     const [busy, setBusy] = useState(false);
