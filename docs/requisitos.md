@@ -180,3 +180,43 @@
 | REQ-187 | La llave del agente no se pudo cargar con el workflow manual (6 nov 2026): un PR subió su versión de prueba y Cloudflare no deja cambiar secretos si la última versión no es la publicada | Dada una publicación de main, cuando en «Secretos del Worker» falta AGENTE_TOKEN, entonces crea una llave y la carga primero como CATALOGO_TRAVEL_PUZZLE en mila-zoefel y luego como AGENTE_TOKEN aquí, sin imprimirla; si ya existe, no la toca. | REEMPLAZADO por REQ-188: la publicación ya no usa `secret put` (REQ-155, INC-006), así que ese paso quedó apagado |
 | REQ-188 | Reemplaza a REQ-187 (6 nov 2026): la llave del agente viaja con la versión | Dada una publicación de main, cuando falta AGENTE_TOKEN, entonces se genera una vez, se carga primero como CATALOGO_TRAVEL_PUZZLE en mila-zoefel y solo si eso funcionó viaja con la versión (--secrets-file); si falla, avisa y la próxima publicación lo vuelve a intentar. Nunca se imprime. | CUMPLIDO (src/ops/lib/worker-secrets.test.ts) |
 
+### Taxonomía, fase T1: diccionario, mapeos y clasificador puros (plan `docs/plan-taxonomia.md`, PR #143; PO, 6 nov 2026)
+
+Numeración (coordinador, 6-11): los REQ de la taxonomía pasan de 185–218 a **400–433** en el mismo orden (185→400 … 218→433); REQ-230 («Momentos de autor») se queda. El texto y el criterio de cada uno están en el registro del PR #143; aquí va solo la trazabilidad de T1 y los 2 REQ nuevos de esta fase (REQ-260 y REQ-261). Nada de esto se conecta a la UI ni a la base (T2 en adelante). Gates: todos «firmado por recomendación, PO 6-11 07:04» (aviso del coordinador), en `src/taxonomy/lib/gates.ts`.
+
+| REQ | Requisito (texto del PO) | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
+|---|---|---|---|
+| REQ-260 | "Gates abiertos (G2 Caminata, G-T1 a G-T11, lista de temas): usa la recomendación del plan, deja una constante por gate y lista en el PR qué cambiaría si el PO elige otra cosa" (encargo del PO, 6 nov 2026) | Dado `src/taxonomy/lib/gates.ts`, cuando se lee, entonces hay una constante por gate (G2, G3, G-T1…G-T11 y la decisión de lectura D-T1) con la opción firmada por recomendación; las funciones de lib/ la reciben por parámetro y los tests muestran qué cambia con la otra opción (G2, G-T1, G-T7, G-T8, G-T10, G-T11, D-T1). | CUMPLIDO (src/taxonomy/lib/gates.test.ts) |
+| REQ-261 | "Transporte y traslados fuera de Experiencias" (decisión firmada del PO, 6 nov 2026) | Dado un formato del diccionario, cuando se lee su sección, entonces traslado, transporte y renta son `traslados`; fuera y por-revisar, `ninguna`; los demás, `experiencias`; el clasificador devuelve la sección con el formato. | CUMPLIDO en lib (src/taxonomy/schemas/dictionary.test.ts; se usa en T3/T4) |
+
+Trazabilidad de T1 (REQ del plan, numeración nueva):
+
+| REQ | Código | Test | Estado tras T1 |
+|---|---|---|---|
+| T1 · REQ-400 (raíz «Experiencias») · REQ-401 (diccionario) | `src/taxonomy/data/dictionary.json`, `src/taxonomy/schemas/dictionary.ts`, `src/taxonomy/data/index.ts` | `src/taxonomy/schemas/dictionary.test.ts` | 401 CUMPLIDO; 400 parte del diccionario (el menú es REQ-174) |
+| T1 · REQ-402 (formato y precedencia) | `src/taxonomy/lib/format.ts` | `src/taxonomy/lib/format.test.ts`, `src/taxonomy/data/mapping/freetour.test.ts` (un caso por cada una de las 29 categorías) | CUMPLIDO en lib |
+| T1 · REQ-403 (temas 0–3; 26 términos de 2024 como sinónimos) | `src/taxonomy/lib/themes.ts`, `legado` del diccionario | `themes.test.ts`, `dictionary.test.ts` | CUMPLIDO en lib |
+| T1 · REQ-404 (29 ids; proveedor nuevo sin tocar el clasificador) | `src/taxonomy/data/mapping/freetour.json`, `propios.json` | `freetour.test.ts`, `classify.test.ts` | CUMPLIDO |
+| T1 · REQ-405 (clasificador puro) · REQ-409 (parte: sin slug ni content_hash) | `src/taxonomy/lib/classify.ts` | `classify.test.ts` | 405 CUMPLIDO; 409 sigue en T2 (tabla propia) |
+| T1 · REQ-406 (Primera Pieza con 10 excepciones) | `format.ts`, `primera-pieza.ts` | `format.test.ts`, `freetour.test.ts` | CUMPLIDO en lib (se conecta en T3) |
+| T1 · REQ-407 (`fuera`) · REQ-408 (`por-revisar`) | `format.ts`, `classify.ts` (aviso para el log) | `freetour.test.ts` | Clasificador CUMPLIDO; publicación y log en T2/T3 |
+| T1 · REQ-410 (temas en `muestra`) · REQ-411 (urbano sin chip; «game», «Casa Cueva») | diccionario, `themes.ts` | `dictionary.test.ts`, `themes.test.ts` | 411 CUMPLIDO; 410 se aplica al publicar (T3) |
+| T1 · REQ-416 (sin «guía local» en autoguiado/online) · REQ-433 (sin MSI, pagos ni marca) | diccionario | `dictionary.test.ts` | Copy del diccionario CUMPLIDO; copy de páginas en T5 |
+| T1 · REQ-417 (atributos con dato) · REQ-418 (atributos tras bandera) · REQ-419 (pares excluyentes) | `src/taxonomy/lib/attributes.ts` | `attributes.test.ts` | CUMPLIDO en lib |
+| T1 · REQ-420 (Favorito) | `attributes.ts`, `gates.ts` (G-T1 A: ≥4.7 y ≥50) | `attributes.test.ts`, `gates.test.ts` | CUMPLIDO en lib |
+| T1 · REQ-421 (tipo de grupo) · REQ-422 (dificultad 1–5) · REQ-423 (rangos de días) | `src/taxonomy/lib/circuits.ts` | `circuits.test.ts` | CUMPLIDO en lib (se muestra en T6) |
+| T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
+| T1 · REQ-230 («Momentos de autor»; apoyo por firmar; «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO (apoyo por firmar) |
+
+### Taxonomía, fase T2a: migración 0017 (tablas propias), en su propio PR. CANDADO: no se aplica aquí; la aplica el coordinador con respaldo
+
+| REQ | Código | Test | Estado |
+|---|---|---|---|
+| T2a · REQ-409 (clasificación en tabla propia, fuera de Tour y del content_hash) · REQ-408 (log de `por-revisar` en la corrida) | `migrations/0017_taxonomia.sql` (`ExperienceTaxonomy`, `ExperienceTaxonomyOverride`, `TaxonomyRun`) | `src/taxonomy/migration-0017.test.ts` (SQLite real) | Migración escrita y probada; **sin aplicar**. El recálculo que la escribe va en T2b tras `TAXONOMY_SYNC_ENABLED="false"`. |
+
+### Taxonomía, fase T2b: recálculo al cerrar el sync, tras `TAXONOMY_SYNC_ENABLED="false"` (requiere 0017 aplicada; va después de #156 y #162)
+
+| REQ | Código | Test | Estado |
+|---|---|---|---|
+| T2b · REQ-409 (se recalcula en cada sync exitoso, en tabla propia, sin tocar Tour ni el content_hash; si la corrida falla se sigue leyendo la anterior) | `src/taxonomy/recompute.ts`, `src/taxonomy/repository.ts`, `src/taxonomy/lib/run-plan.ts`, hook en `src/app/api/cron/sync-tours/route.ts` (minutos libres del cron) | `src/taxonomy/recompute.test.ts` (SQLite real con la 0017) | CUMPLIDO (apagado) |
+| T2b · REQ-408 (por-revisar en el log de la corrida; el sync no se aborta) | `TaxonomyRun.unmapped` y `console.warn` al cerrar | `recompute.test.ts` | CUMPLIDO (apagado) |
