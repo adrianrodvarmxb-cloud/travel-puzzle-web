@@ -11,3 +11,16 @@ export function trasladosMode(env: Record<string, string | undefined>): Traslado
   if (env.ARMA_TU_VIAJE_ENABLED === "true") return "cart-entry";
   return isTransfersVisible(env.TRANSFERS_ENABLED) ? "widget" : "hidden";
 }
+
+export interface TrasladosView { mode: TrasladosMode; transport: boolean; found: boolean }
+
+/**
+ * REQ-172: además del modo, la sección «Transporte turístico» (viajes de tipo transporte publicados) sale con
+ * TRANSPORT_ENABLED="true", sin depender de ARMA_TU_VIAJE_ENABLED. La página existe si hay algo que mostrar.
+ */
+// REQ-172
+export function trasladosView(env: Record<string, string | undefined>): TrasladosView {
+  const mode = trasladosMode(env);
+  const transport = env.TRANSPORT_ENABLED === "true";
+  return { mode, transport, found: mode !== "hidden" || transport };
+}

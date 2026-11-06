@@ -13,6 +13,7 @@ import { trasladosMode } from '@/transfers/lib/page-mode';
 import { PRIMERA_PIEZA_LABEL } from '@/tours/lib/menu';
 import { providerCities, type TripCitiesDb } from '@/companions/load';
 import { getPrisma } from '@/lib/prisma';
+import { loadFx } from '@/trips/public-load';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string }> };
@@ -42,7 +43,10 @@ export default async function CityPage({ params }: Props) {
     const requestCities = await Promise.all(DEFAULT_REGISTRY.filter((e) => e.adapter === 'request').map(async (e) => [e.id, await providerCities(db, e.provider)] as const));
     const groups = hubModel(DEFAULT_REGISTRY, { whatsapp: contactFromEnv(env).whatsapp, citiesByEntry: Object.fromEntries(requestCities) });
     const transport = cityTransportCards(groups, city.name, trasladosMode(env) !== 'hidden');
+    // REQ-172: el transporte (Big Bus…) no es un tour: city.ownTrips ya no lo trae; va en Traslados.
     const tours = [...city.paidTours, ...city.ownTrips];
+    // REQ-170: tipo de cambio para el «aprox. MXN» de las tarjetas de pago; si falla, solo EUR.
+    const rates = city.paidTours.length ? await loadFx().catch(() => null) : null;
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
             intro={`${city.freeTours.length} free tours y ${tours.length} tours con guías locales en ${city.name}.`}>
@@ -53,12 +57,13 @@ export default async function CityPage({ params }: Props) {
             )}
             {tours.length > 0 && (
                 <Section id="tours" title="Tours" subtitle="Tours con precio y viajes de Travel Puzzle.">
-                    <TourGrid tours={tours} />
+                    <TourGrid tours={tours} rates={rates} />
                 </Section>
             )}
-            {transport.length > 0 && (
+            {(transport.length > 0 || city.transportTrips.length > 0) && (
                 <Section id="traslados" title="Traslados" subtitle="Cada tarjeta dice quién lo cobra.">
-                    <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {city.transportTrips.length > 0 && <TourGrid tours={city.transportTrips} />}
+                    {transport.length > 0 && <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {transport.map((c) => (
                             <li key={c.id} className="flex flex-col rounded-2xl border border-white/10 bg-[#121D45] p-5 text-white">
                                 <p className="font-display text-lg font-semibold">{c.title}</p>
@@ -71,7 +76,7 @@ export default async function CityPage({ params }: Props) {
                                 )}
                             </li>
                         ))}
-                    </ul>
+                    </ul>}
                 </Section>
             )}
             {city.guide && (
