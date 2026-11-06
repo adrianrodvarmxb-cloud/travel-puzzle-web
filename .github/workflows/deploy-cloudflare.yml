@@ -2,6 +2,8 @@
 # - Automático al fusionar a main (cada PR se fusiona con el OK del PO). No aplica migraciones.
 # - A mano (Actions → Publicar en Cloudflare → Run workflow) cuando hay migraciones de D1:
 #   marcar la casilla es el OK de la migración.
+# - Ensayo (REQ-155, INC-006): Run workflow con «ensayo» marcado, en cualquier rama. Sube una versión SIN tráfico
+#   con sus secretos y le corre la prueba de humo; nunca publica ni aplica migraciones.
 name: Publicar en Cloudflare
 
 on:
@@ -11,6 +13,10 @@ on:
     inputs:
       migraciones:
         description: "Aplicar migraciones de la base D1 antes de publicar"
+        type: boolean
+        default: false
+      ensayo:
+        description: "Ensayo: subir versión sin tráfico y probarla, SIN publicar (REQ-155)"
         type: boolean
         default: false
 
@@ -53,22 +59,56 @@ jobs:
           DATABASE_URL: file:./dev.db
 
       - name: Migraciones D1
-        if: github.event_name == 'workflow_dispatch' && inputs.migraciones
+        if: github.event_name == 'workflow_dispatch' && inputs.migraciones && !inputs.ensayo
         run: npx wrangler d1 migrations apply travel-puzzle --remote
 
       - name: Construir
         run: npx opennextjs-cloudflare build
 
+      # REQ-155 (INC-006): los secretos viajan DENTRO de la versión que se prueba y se despliega.
+      # Antes se ponían con `wrangler secret put` después de publicar, y eso falla en cuanto un PR sube su propia
+      # versión de prueba (la «última versión» deja de ser la desplegada). El archivo vive en RUNNER_TEMP (0600),
+      # nunca se imprime y se borra al final pase lo que pase.
+      - name: Secretos de la versión
+        env:
+          SECRETOS_FILE: ${{ runner.temp }}/secretos-worker.json
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+          GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+        run: npx tsx src/scripts/worker-secrets.ts "$SECRETOS_FILE"
+
       # REQ-003 (INC-001): ningún deploy llega a producción si la prueba de humo falla.
-      # 1) Se sube una VERSIÓN sin tráfico (con los datos y banderas reales) y se obtiene su URL de preview.
+      # 1) Se sube una VERSIÓN sin tráfico (con los datos, banderas y secretos reales) y se obtiene su URL de preview.
+      #    REQ-155: hasta 3 intentos ante fallas pasajeras de la API de Cloudflare (503 / 10013 del 6 nov 2026).
       - name: Subir versión (sin tráfico)
         id: version
+        env:
+          SECRETOS_FILE: ${{ runner.temp }}/secretos-worker.json
         run: |
-          npx opennextjs-cloudflare upload 2>&1 | tee upload.log
-          vid=$(grep -oE "Worker Version ID: [0-9a-f-]+" upload.log | awk '{print $4}' | tail -1)
-          url=$(grep -oE "https://[a-z0-9-]+-travel-puzzle-web\.[a-z0-9-]+\.workers\.dev" upload.log | tail -1)
+          for intento in 1 2 3; do
+            npx opennextjs-cloudflare upload --secrets-file="$SECRETOS_FILE" 2>&1 | tee upload.log || true
+            vid=$(grep -oE "Worker Version ID: [0-9a-f-]+" upload.log | awk '{print $4}' | tail -1)
+            url=$(grep -oE "https://[a-z0-9-]+-travel-puzzle-web\.[a-z0-9-]+\.workers\.dev" upload.log | tail -1)
+            if [ -n "$vid" ] && [ -n "$url" ]; then break; fi
+            if [ "$intento" -lt 3 ]; then echo "::warning::Intento $intento de subir la versión falló; reintento en $((intento * 30)) s."; sleep $((intento * 30)); fi
+          done
           if [ -z "$vid" ] || [ -z "$url" ]; then echo "::error::No se obtuvo la versión o su URL de preview. NO SE PUBLICA."; exit 1; fi
           echo "id=$vid" >> "$GITHUB_OUTPUT"; echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Borrar archivo de secretos
+        if: always()
+        env:
+          SECRETOS_FILE: ${{ runner.temp }}/secretos-worker.json
+        run: rm -f "$SECRETOS_FILE"
+
+      # REQ-155: evidencia (solo nombres) de que la versión lleva sus secretos.
+      - name: Secretos en la versión (solo nombres)
+        continue-on-error: true
+        run: |
+          npx wrangler versions view "${{ steps.version.outputs.id }}" --json > version.json
+          node -e 'const v=JSON.parse(require("fs").readFileSync("version.json","utf8"));const b=(v.resources?.bindings??[]).filter(x=>x.type==="secret_text").map(x=>x.name);console.log("Secretos en la versión:",b.join(", ")||"(ninguno)");'
 
       - name: Navegador para la prueba de humo
         run: npx playwright install --with-deps chromium
@@ -77,11 +117,16 @@ jobs:
       - name: Prueba de humo (antes de publicar)
         run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
 
-      # 3) Solo si pasó: se le da el 100% del tráfico.
+      # 3) Solo si pasó: se le da el 100% del tráfico (nunca en ensayo).
       - name: Publicar
+        id: publicar
+        if: ${{ !inputs.ensayo }}
         run: npx wrangler versions deploy "${{ steps.version.outputs.id }}@100%" --yes --message "deploy ${{ github.sha }}"
 
-      - name: Secretos del Worker
+      # OCULTO (REQ-155, INC-006): reemplazado por «Secretos de la versión» + --secrets-file. Se conserva apagado
+      # para regresar rápido: quitar el `if: false` (y el --secrets-file) restaura el flujo anterior.
+      - name: Secretos del Worker (anterior, apagado)
+        if: ${{ false }}
         env:
           FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
           FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
@@ -108,11 +153,12 @@ jobs:
       # 4) Prueba de humo en producción; si falla, se regresa a la versión anterior y el job queda en rojo.
       - name: Prueba de humo (producción)
         id: smoke_prod
+        if: always() && steps.publicar.outcome == 'success'
         continue-on-error: true
         run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
 
       - name: Regresar a la versión anterior si falló
-        if: steps.smoke_prod.outcome == 'failure'
+        if: always() && steps.smoke_prod.outcome == 'failure'
         run: |
           yes | npx wrangler rollback --message "rollback automatico: prueba de humo fallida ${{ github.sha }}"
           echo "::error::La prueba de humo en producción falló; se regresó a la versión anterior."
