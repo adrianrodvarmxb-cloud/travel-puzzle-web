@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { buildManualCancelTeamEmail } from '@/notifications/lib/manual-cancel-email';
 import { cancelByToken } from '@/booking/manage';
 import { manageDeps } from '@/booking/manage-deps';
 import { sendStatusEmail } from '@/booking/notify';
@@ -34,9 +35,8 @@ export async function POST(_request: Request, { params }: { params: Promise<{ to
                 {
                     to: process.env.EMAIL_REPLY_TO ?? 'info@travelpuzzle.com.mx',
                     from: process.env.EMAIL_FROM ?? '',
-                    subject: `Cancelación por hacer a mano – ${record.refNumber}`,
-                    text: `El cliente pidió cancelar y Freetour no lo aceptó por API (${detail ? `${detail.status} ${detail.message}` : 'sin detalle'}).\n\nReserva: ${record.refNumber}\nEvento: ${record.eventId} (${record.eventDate ?? ''})\nPersonas: ${record.adults} adultos, ${record.children} niños\nCliente: ${record.firstName} ${record.lastName} <${record.email}>\n\nCancélala en el panel de Freetour y confirma al cliente por correo.`,
-                    html: `<p>El cliente pidió cancelar y Freetour no lo aceptó por API (${detail ? `${detail.status} ${detail.message}` : 'sin detalle'}).</p><p><b>Reserva:</b> ${record.refNumber}<br><b>Evento:</b> ${record.eventId} (${record.eventDate ?? ''})<br><b>Personas:</b> ${record.adults} adultos, ${record.children} niños<br><b>Cliente:</b> ${record.firstName} ${record.lastName} &lt;${record.email}&gt;</p><p>Cancélala en el panel de Freetour y confirma al cliente por correo.</p>`,
+                    // REQ-302: mismo encabezado con el logo que los demás correos (antes HTML suelto).
+                    ...buildManualCancelTeamEmail({ ...record, detail, logoUrl: `${(process.env.SITE_URL ?? '').replace(/\/+$/, '')}/brand/logo-tp-oscuro.png` }),
                 }
             ),
         notify: (record) =>
