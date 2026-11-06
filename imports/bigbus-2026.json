@@ -35,7 +35,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Nueva York",
-        "summaryEs": "Recorre Nueva York en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 1 día, 2 días).",
+        "summaryEs": "Recorre Nueva York en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 o 2 días).",
         "highlights": [
           "Times Square",
           "Quinta Avenida",
@@ -168,7 +168,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Chicago",
-        "summaryEs": "Recorre Chicago en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas).",
+        "summaryEs": "Recorre Chicago en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Willis Tower",
           "Millennium Park",
@@ -287,7 +287,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Boston",
-        "summaryEs": "Recorre Boston en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (recorrido de 90 min, 1 día, 2 días).",
+        "summaryEs": "Recorre Boston en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (recorrido de 90 min, 1 o 2 días).",
         "highlights": [
           "Massachusetts State House",
           "Boston Common",
@@ -409,7 +409,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Washington DC",
-        "summaryEs": "Recorre Washington DC en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "summaryEs": "Recorre Washington DC en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24, 48 o 72 horas).",
         "highlights": [
           "Capitolio",
           "Casa Blanca",
@@ -541,7 +541,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Filadelfia",
-        "summaryEs": "Recorre Filadelfia en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 3 días).",
+        "summaryEs": "Recorre Filadelfia en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1, 2 o 3 días).",
         "highlights": [
           "Independence Hall",
           "Campana de la Libertad",
@@ -668,7 +668,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en San Francisco",
-        "summaryEs": "Recorre San Francisco en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre San Francisco en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Golden Gate Bridge",
           "Fisherman's Wharf",
@@ -802,7 +802,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Los Angeles",
-        "summaryEs": "Recorre Los Angeles en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "summaryEs": "Recorre Los Angeles en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Paseo de la Fama de Hollywood",
           "Letrero de Hollywood",
@@ -930,7 +930,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Las Vegas",
-        "summaryEs": "Recorre Las Vegas en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 3 días, 3 días).",
+        "summaryEs": "Recorre Las Vegas en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 o 3 días).",
         "highlights": [
           "The Strip",
           "Letrero Welcome to Fabulous Las Vegas",
@@ -1059,7 +1059,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Miami",
-        "summaryEs": "Recorre Miami en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 2 días).",
+        "summaryEs": "Recorre Miami en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 o 2 días).",
         "highlights": [
           "South Beach",
           "Art Deco District",
@@ -1191,7 +1191,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Londres",
-        "summaryEs": "Recorre Londres en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (mismo día, 24 horas, 48 horas, 48 horas).",
+        "summaryEs": "Recorre Londres en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (mismo día, 24 o 48 horas).",
         "highlights": [
           "Tower Bridge",
           "Palacio de Westminster y Big Ben",
@@ -1335,7 +1335,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Edimburgo",
-        "summaryEs": "Recorre Edimburgo en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "summaryEs": "Recorre Edimburgo en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Castillo de Edimburgo",
           "Royal Mile",
@@ -1470,7 +1470,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Dublín",
-        "summaryEs": "Recorre Dublín en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "summaryEs": "Recorre Dublín en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24, 48 o 72 horas).",
         "highlights": [
           "Guinness Storehouse",
           "Trinity College",
@@ -1598,7 +1598,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en París",
-        "summaryEs": "Recorre París en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre París en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Torre Eiffel",
           "Museo del Louvre",
@@ -1733,7 +1733,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Roma",
-        "summaryEs": "Recorre Roma en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "summaryEs": "Recorre Roma en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24, 48 o 72 horas).",
         "highlights": [
           "Coliseo",
           "Ciudad del Vaticano",
@@ -1867,7 +1867,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Madrid",
-        "summaryEs": "Recorre Madrid en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (un recorrido, 24 horas, 48 horas).",
+        "summaryEs": "Recorre Madrid en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (un recorrido, 24 o 48 horas).",
         "highlights": [
           "Puerta del Sol",
           "Gran Vía",
@@ -1996,7 +1996,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Praga",
-        "summaryEs": "Recorre Praga en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre Praga en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Plaza de la Ciudad Vieja",
           "Puente de Carlos",
@@ -2124,7 +2124,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Viena",
-        "summaryEs": "Recorre Viena en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "summaryEs": "Recorre Viena en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24, 48 o 72 horas).",
         "highlights": [
           "Palacio de Schönbrunn",
           "Catedral de San Esteban",
@@ -2258,7 +2258,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Berlín",
-        "summaryEs": "Recorre Berlín en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre Berlín en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Puerta de Brandeburgo",
           "Reichstag",
@@ -2387,7 +2387,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Múnich",
-        "summaryEs": "Recorre Múnich en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre Múnich en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Marienplatz",
           "Frauenkirche",
@@ -2515,7 +2515,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Budapest",
-        "summaryEs": "Recorre Budapest en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 3 días).",
+        "summaryEs": "Recorre Budapest en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1, 2 o 3 días).",
         "highlights": [
           "Parlamento de Budapest",
           "Puente de las Cadenas",
@@ -2649,7 +2649,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Atenas",
-        "summaryEs": "Recorre Atenas en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (48 horas, 48 horas).",
+        "summaryEs": "Recorre Atenas en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (48 horas).",
         "highlights": [
           "Acrópolis",
           "Templo de Zeus Olímpico",
@@ -2774,7 +2774,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Salónica",
-        "summaryEs": "Recorre Salónica en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "summaryEs": "Recorre Salónica en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Torre Blanca",
           "Arco de Galerio",
@@ -2906,7 +2906,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Vancouver",
-        "summaryEs": "Recorre Vancouver en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas).",
+        "summaryEs": "Recorre Vancouver en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Stanley Park",
           "Granville Island",
@@ -3030,7 +3030,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Dubai",
-        "summaryEs": "Recorre Dubai en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 5 días).",
+        "summaryEs": "Recorre Dubai en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 h, 48 h o 5 días).",
         "highlights": [
           "Burj Khalifa",
           "Dubai Mall",
@@ -3157,7 +3157,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Abu Dhabi",
-        "summaryEs": "Recorre Abu Dhabi en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "summaryEs": "Recorre Abu Dhabi en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24, 48 o 72 horas).",
         "highlights": [
           "Gran Mezquita Sheikh Zayed",
           "Louvre Abu Dabi",
@@ -3280,7 +3280,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Mascate",
-        "summaryEs": "Recorre Mascate en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre Mascate en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Gran Mezquita del Sultán Qaboos",
           "Zoco de Mutrah",
@@ -3402,7 +3402,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Singapur",
-        "summaryEs": "Recorre Singapur en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 2 días).",
+        "summaryEs": "Recorre Singapur en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 o 2 días).",
         "highlights": [
           "Marina Bay Sands",
           "Gardens by the Bay",
@@ -3536,7 +3536,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Hong Kong",
-        "summaryEs": "Recorre Hong Kong en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "summaryEs": "Recorre Hong Kong en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Bahía Victoria",
           "Star Ferry",
@@ -3659,7 +3659,7 @@
         "purchaseMode": "quote",
         "category": "urbano",
         "titleEs": "Bus turístico hop-on hop-off en Sydney",
-        "summaryEs": "Recorre Sydney en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "summaryEs": "Recorre Sydney en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 o 48 horas).",
         "highlights": [
           "Ópera de Sídney",
           "Harbour Bridge",
