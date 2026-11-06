@@ -56,7 +56,7 @@ export function SearchRecovery({ q, language, onApply }: { q: string; language: 
             {data.alternatives.map((a) => (
               <li key={a.href} className="rounded-xl border border-white/10 p-4">
                 <a href={a.href} className="flex items-baseline justify-between gap-3 font-semibold text-white hover:text-[#008DFF]">
-                  <span>«{a.query}»</span><span className="font-data text-[11px] text-[#7C8DBA]">{fill(c.seeAll, { n: a.total })}</span>
+                  <span>«{a.query}»</span><span className="font-data text-[11px] text-[#7C8DBA]">{c.seeAll}</span>
                 </a>
                 {a.tours.length > 0 && (
                   <ul className="mt-2 space-y-1 text-sm text-[#C9D6F5]">
