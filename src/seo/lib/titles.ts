@@ -4,14 +4,15 @@ import { clip, SITE_META } from "./meta";
 const BRAND = SITE_META.name;
 
 // REQ-099
-export const HOME_TITLE = `${BRAND} – Free tours, tours y traslados en todo el mundo`;
+// REQ-173: «experiencias» en lugar de «tours» (PO, 6 nov 2026).
+export const HOME_TITLE = `${BRAND} – Free tours, experiencias y traslados en todo el mundo`;
 
 const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
 
 // REQ-099: description de la home con los destinos principales.
 export function homeDescription(destinations: string[]): string {
   const where = destinations.length ? ` en ${list(destinations)}` : " en todo el mundo";
-  return clip(`Free tours, tours y traslados${where}, con guías locales y un asesor en español por WhatsApp.`);
+  return clip(`Free tours, experiencias y traslados${where}, con guías locales y un asesor en español por WhatsApp.`);
 }
 
 // REQ-099
