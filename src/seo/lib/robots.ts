@@ -14,7 +14,7 @@ export function robotsTxt({ sitemapUrl }: { sitemapUrl?: string }): string {
 }
 
 // REQ-103: llms.txt con La Primera Pieza y los destinos (formato llmstxt.org).
-export function llmsTxt({ siteUrl, destinations }: { siteUrl: string; destinations: { name: string; url: string }[] }): string {
+export function llmsTxt({ siteUrl, destinations, pages = [] }: { siteUrl: string; destinations: { name: string; url: string }[]; pages?: { name: string; url: string }[] }): string {
   const site = siteUrl.replace(/\/+$/, "");
   return [
     "# Travel Puzzle",
@@ -28,5 +28,7 @@ export function llmsTxt({ siteUrl, destinations }: { siteUrl: string; destinatio
     `- [Tours](${site}/tours): buscador de tours.`,
     "",
     ...(destinations.length ? ["## Destinos", "", ...destinations.map((d) => `- [${d.name}](${d.url})`), ""] : []),
+    // REQ-264: páginas institucionales y blog encendidos.
+    ...(pages.length ? ["## Páginas", "", ...pages.map((p) => `- [${p.name}](${p.url})`), ""] : []),
   ].join("\n");
 }

@@ -31,7 +31,8 @@ export function sitemapIndexXml(entries: UrlEntry[]): string {
 }
 
 // REQ-102
-export function buildSitemaps({ siteUrl, countries, cities, tours }: SitemapInput): { index: string; files: Record<string, string> } {
+// REQ-264: `extraIndex` suma otros sitemaps al índice (p. ej. sitemap-paginas.xml); vacío = igual que antes.
+export function buildSitemaps({ siteUrl, countries, cities, tours }: SitemapInput, extraIndex: UrlEntry[] = []): { index: string; files: Record<string, string> } {
   const site = siteUrl.replace(/\/+$/, "");
   const abs = (p: string) => `${site}${p}`;
   const countryOk = new Set(countries.filter((c) => c.indexable).map((c) => c.slug));
@@ -66,5 +67,6 @@ export function buildSitemaps({ siteUrl, countries, cities, tours }: SitemapInpu
     files[name] = urlsetXml(mine.map((t) => ({ loc: abs(tourPath(t.countrySlug, t.citySlug, t.slug)), lastmod: day(t.contentUpdatedAt) })));
     index.push({ loc: abs(`/${name}`), lastmod: day(latest(mine.map((t) => t.contentUpdatedAt))) });
   }
+  index.push(...extraIndex);
   return { index: sitemapIndexXml(index), files };
 }
