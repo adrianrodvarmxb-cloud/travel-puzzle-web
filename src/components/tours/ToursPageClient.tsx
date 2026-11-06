@@ -13,6 +13,7 @@ import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
 import { SearchNote, SearchRecovery } from '@/components/search/SearchRecovery';
+import { useSearchLog } from '@/components/search/useSearchLog';
 import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
 import { DurationFilter } from '@/components/tours/DurationFilter';
 import { MoreFilters } from '@/components/tours/filters/MoreFilters';
@@ -53,6 +54,8 @@ interface ToursPageClientProps {
     showDepartures?: boolean;
     /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
     showSuggest?: boolean;
+    /** REQ-340…342: analítica anónima de búsquedas (SEARCH_LOG_ENABLED). */
+    logSearches?: boolean;
 }
 
 export function ToursPageClient({
@@ -65,6 +68,7 @@ export function ToursPageClient({
     today,
     showDepartures = false,
     showSuggest = false,
+    logSearches = false,
 }: ToursPageClientProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
@@ -347,6 +351,8 @@ export function ToursPageClient({
     };
 
     const pageInfo = currentToursData?.pagination;
+    // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
+    const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
 
     return (
         <div className="min-h-screen bg-background">
@@ -405,8 +411,9 @@ export function ToursPageClient({
                                     <SectionBoundary name="busqueda-nota"><SearchNote q={uiFilters.search} language={language} recoveredFrom={recoveredFrom} /></SectionBoundary>
                                 )}
                                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
-                                    {tours.map(tour => (
-                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}>
+                                    {tours.map((tour, i) => (
+                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
+                                            onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} />
                                         </div>
                                     ))}
