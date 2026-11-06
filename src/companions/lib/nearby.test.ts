@@ -31,7 +31,8 @@ describe("Experiencias cercanas para la tarjeta de tour (REQ-320…322)", () => 
     expect(r.tier).toBe("city");
     expect(r.items.map((i) => i.id)).toEqual(["iw-cusco-city", "iw-montana", "iw-circuito"]);
     expect(r.items.length).toBeLessThanOrEqual(MAX_EXPERIENCES);
-    expect(r.items[0]).toMatchObject({ title: "City Tour en Cusco", image: "https://img/iw-cusco-city.jpg", path: "/viajes/x/iw-cusco-city", operator: "Inca World Peru" });
+    expect(r.items[0]).toMatchObject({ title: "City Tour en Cusco", image: "https://img/iw-cusco-city.jpg", path: "/viajes/x/iw-cusco-city", operator: "Inca World Peru", multiDay: false });
+    expect(r.items[2].multiDay).toBe(true);
     // precio en su moneda con los pesos aproximados (REQ-112), calculado en el servidor
     expect(r.items[1].price).toBe("Desde USD $35 (aprox. MXN $648)");
   });

@@ -49,8 +49,8 @@ describe("CompanionCarousel", () => {
       piece: { title: "Free tour Cusco", date: "2026-12-10T15:00:00Z", cityName: "Cusco", people: { adults: 2, children: 0 }, country: "PE" },
       query: parseTripQuery({}), advisor: { whatsapp: "525536490320" }, probes: {}, flags: {}, now: Date.parse("2026-12-01T12:00:00Z"),
       experiences: [
-        { id: "a", title: "City Tour en Cusco", path: "/viajes/peru/city-tour-cusco", image: "https://img/a.jpg", price: "Desde USD $35 (aprox. MXN $648)", operator: "Inca World Peru" },
-        { id: "b", title: "Montaña de Colores", path: "/viajes/peru/montana", image: null, price: "A cotizar", operator: "Inca World Peru" },
+        { id: "a", title: "City Tour en Cusco", path: "/viajes/peru/city-tour-cusco", image: "https://img/a.jpg", price: "Desde USD $35 (aprox. MXN $648)", operator: "Inca World Peru", multiDay: false },
+        { id: "b", title: "Montaña de Colores", path: "/viajes/peru/montana", image: null, price: "A cotizar", operator: "Inca World Peru", multiDay: false },
       ],
     });
     const h = renderToStaticMarkup(createElement(CompanionCarousel, { cards: model.cards.length ? m.cards : [], cityCode: "cusco" }));

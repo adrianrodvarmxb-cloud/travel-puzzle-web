@@ -66,6 +66,8 @@ export const CATEGORY_TITLES: Record<CompanionCategory, string> = {
   transport: "Transporte entre ciudades", car_rental: "Renta de auto", lodging: "Alojamiento",
   visa: "Asesoría de visa", etias: "Trámite ETIAS",
 };
+/** REQ-320: título de la tarjeta de tour cuando solo hay viajes de varios días cerca (no promete «completar el día»). */
+export const MULTI_DAY_TITLE = "Viajes armados por expertos";
 const CANDIDATE_TYPES: { type: CartItemType; category: CompanionCategory }[] = (
   ["tour", "day_trip", "transfer", "esim", "tickets", "insurance", "transport", "car_rental", "lodging", "visa"] as const
 ).map((t) => ({ type: t, category: t as CompanionCategory })).concat([{ type: "visa", category: "etias" }]);
@@ -111,7 +113,7 @@ export function buildArmaTuViajeModel(input: {
     // REQ-320: tour o excursión con experiencias cercanas → las recomienda; el asesor queda como último recurso.
     if ((category === "tour" || category === "day_trip") && experiences.length) {
       return {
-        type, category, title: CATEGORY_TITLES[category], chargedBy: "Travel Puzzle",
+        type, category, title: experiences.every((e) => e.multiDay) ? MULTI_DAY_TITLE : CATEGORY_TITLES[category], chargedBy: "Travel Puzzle",
         action: { kind: "catalog" as const, label: "Ver experiencia" as const, url: experiences[0].path }, experiences,
       };
     }

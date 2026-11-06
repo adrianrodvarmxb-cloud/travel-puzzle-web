@@ -106,8 +106,8 @@ describe("Tarjeta de tour con experiencias cercanas y eSIM (REQ-320…324)", () 
   const mpika = { title: "Free tour Mpika", date: "2026-11-20T08:00:00Z", cityName: "Mpika", people: { adults: 2, children: 0 }, country: "ZM" };
   const cusco = { ...mpika, title: "Free tour Cusco", cityName: "Cusco", country: "PE" };
   const exp: NearbyExperience[] = [
-    { id: "a", title: "City Tour en Cusco", path: "/viajes/peru/city-tour-cusco", image: "https://img/a.jpg", price: "Desde USD $35 (aprox. MXN $648)", operator: "Inca World Peru" },
-    { id: "b", title: "Montaña de Colores", path: "/viajes/peru/montana", image: null, price: "A cotizar", operator: "Inca World Peru" },
+    { id: "a", title: "City Tour en Cusco", path: "/viajes/peru/city-tour-cusco", image: "https://img/a.jpg", price: "Desde USD $35 (aprox. MXN $648)", operator: "Inca World Peru", multiDay: false },
+    { id: "b", title: "Montaña de Colores", path: "/viajes/peru/montana", image: null, price: "A cotizar", operator: "Inca World Peru", multiDay: false },
   ];
 
   it("REQ-320: con experiencias cercanas la tarjeta de tour las recomienda (no dice «Te lo cotiza tu asesor»)", () => {
@@ -118,6 +118,13 @@ describe("Tarjeta de tour con experiencias cercanas y eSIM (REQ-320…324)", () 
     expect(tour.chargedByLabel).toBe("Lo reservas con Travel Puzzle");
     expect(tour.experiences).toEqual(exp);
     expect(tour.mobile && tour.desktop).toBe(true);
+  });
+
+  it("REQ-320: si todas las experiencias son de varios días, la tarjeta no promete «un tour para completar el día»", () => {
+    const multi = exp.map((e) => ({ ...e, multiDay: true }));
+    const m = buildArmaTuViajeModel({ ...base, piece: { ...cusco, cityName: "Shanghái", country: "CN" }, experiences: multi });
+    expect(m.cards[0].title).toBe("Viajes armados por expertos");
+    expect(buildArmaTuViajeModel({ ...base, piece: cusco, experiences: exp }).cards[0].title).not.toBe("Viajes armados por expertos");
   });
 
   it("REQ-320: Mpika sin nada cerca → la tarjeta de tour cae al asesor; sin asesor no hay tarjeta ni carrusel", () => {
@@ -147,7 +154,7 @@ describe("Tarjeta de tour con experiencias cercanas y eSIM (REQ-320…324)", () 
   it("REQ-324: la solicitud de un proveedor que ya sale en la tarjeta de tour no se repite", () => {
     const probes = { tickets: [{ adapterId: "bigbus", mode: "request" as const, chargedBy: "Travel Puzzle", result: "inventory" as const, url: "https://wa.me/1" }] };
     const london = { ...mpika, cityName: "Londres", country: "GB" };
-    const bb: NearbyExperience[] = [{ id: "bb", title: "Bus turístico hop-on hop-off en Londres", path: "/viajes/reino-unido/bb", image: null, price: "Desde USD $52", operator: "Big Bus Tours" }];
+    const bb: NearbyExperience[] = [{ id: "bb", title: "Bus turístico hop-on hop-off en Londres", path: "/viajes/reino-unido/bb", image: null, price: "Desde USD $52", operator: "Big Bus Tours", multiDay: false }];
     const m = buildArmaTuViajeModel({ ...base, piece: london, probes, experiences: bb, coveredAdapterIds: ["bigbus"] });
     expect(m.cards.find((c) => c.type === "tickets")?.action?.kind).not.toBe("request");
     expect(m.cards[0].experiences?.[0].operator).toBe("Big Bus Tours");

@@ -42,6 +42,8 @@ export interface NearbyExperience {
   price: string;
   /** Quién opera (agencia); null = Travel Puzzle. */
   operator: string | null;
+  /** Circuito o viaje de varios días (la tarjeta no promete «completar el día»). */
+  multiDay: boolean;
 }
 
 export type NearbyTier = "city" | "country" | `radius-${(typeof NEARBY_RADII_KM)[number]}`;
@@ -95,7 +97,7 @@ export function nearbyExperiences(input: { origin: NearbyOrigin; candidates: Nea
       .map((c, i) => ({ c, i, d: dist(c) }))
       .sort((a, b) => Number(isDay(b.c)) - Number(isDay(a.c)) || a.d - b.d || a.i - b.i)
       .slice(0, max)
-      .map(({ c }) => ({ id: c.id, title: c.title.trim(), path: c.path, image: c.image, price: priceText(c, input.fx), operator: c.agencyName })),
+      .map(({ c }) => ({ id: c.id, title: c.title.trim(), path: c.path, image: c.image, price: priceText(c, input.fx), operator: c.agencyName, multiDay: !isDay(c) })),
   });
 
   const city = normPlace(origin.cityName);
