@@ -7,6 +7,7 @@
 import { z } from "zod";
 import type { CartItemType } from "@/cart/lib/item";
 import type { CardAction } from "@/cart/lib/switch";
+import type { NearbyExperience } from "./nearby";
 import defaultRules from "../rules.json";
 
 export type CompanionCategory = Exclude<CartItemType, "free_tour"> | "etias";
@@ -17,6 +18,13 @@ export const BASE_ORDER: CompanionCategory[] = ["tour", "day_trip", "transfer", 
 const RANK_ORDER: CompanionCategory[] = [...BASE_ORDER.filter((c) => c !== "lodging"), "visa", "etias", "lodging"];
 const TOUR_GROUP = new Set<CompanionCategory>(["tour", "day_trip"]);
 export const MAX_CARDS = { mobile: 3, desktop: 4 } as const;
+
+/**
+ * REQ-323: no hay proveedor de eSIM integrado. Mientras no lo haya, la tarjeta de eSIM solo sale «con el asesor»
+ * en estos países (China: la regla del destino la pone primero). Con un proveedor real (api, deeplink o solicitud
+ * con inventario) sale en cualquier país. Propuesta para firma del PO.
+ */
+export const ESIM_ADVISOR_COUNTRIES: readonly string[] = ["CN"];
 
 const zCategory = z.enum(CATEGORIES);
 const zRule = z.object({
@@ -47,6 +55,8 @@ export interface CarouselCandidate {
   action: CardAction | null;
   /** REQ-121: «A cotizar» cuando no hay precio verificado. */
   priceLabel?: string;
+  /** REQ-320: experiencias ya cargadas cerca (máx. 3) que recomienda la tarjeta de tour. */
+  experiences?: NearbyExperience[];
 }
 
 export interface CarouselCard extends CarouselCandidate {

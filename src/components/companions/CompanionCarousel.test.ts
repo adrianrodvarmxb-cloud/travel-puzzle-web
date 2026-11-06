@@ -43,4 +43,24 @@ describe("CompanionCarousel", () => {
     expect(h.match(/class="hidden md:flex/g)).toHaveLength(1);
     expect(h.match(/class="flex md:hidden/g)).toHaveLength(1);
   });
+
+  it("REQ-320: con experiencias cercanas la tarjeta de tour pinta foto, nombre, precio y enlace a la ficha, sin el asesor", () => {
+    const m = buildArmaTuViajeModel({
+      piece: { title: "Free tour Cusco", date: "2026-12-10T15:00:00Z", cityName: "Cusco", people: { adults: 2, children: 0 }, country: "PE" },
+      query: parseTripQuery({}), advisor: { whatsapp: "525536490320" }, probes: {}, flags: {}, now: Date.parse("2026-12-01T12:00:00Z"),
+      experiences: [
+        { id: "a", title: "City Tour en Cusco", path: "/viajes/peru/city-tour-cusco", image: "https://img/a.jpg", price: "Desde USD $35 (aprox. MXN $648)", operator: "Inca World Peru" },
+        { id: "b", title: "Montaña de Colores", path: "/viajes/peru/montana", image: null, price: "A cotizar", operator: "Inca World Peru" },
+      ],
+    });
+    const h = renderToStaticMarkup(createElement(CompanionCarousel, { cards: model.cards.length ? m.cards : [], cityCode: "cusco" }));
+    const first = h.split("</li></ul></li>")[0];
+    expect(first).toContain('href="/viajes/peru/city-tour-cusco"');
+    expect(first).toContain('src="https://img/a.jpg"');
+    expect(first).toContain("City Tour en Cusco");
+    expect(first).toContain("Desde USD $35 (aprox. MXN $648)");
+    expect(first).toContain("Lo reservas con Travel Puzzle");
+    expect(first).not.toContain("Te lo cotiza tu asesor");
+    expect(first).not.toContain("wa.me");
+  });
 });

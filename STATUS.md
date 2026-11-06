@@ -35,6 +35,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
+## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
+- La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
+- eSIM: sin proveedor integrado se oculta salvo en China (`ESIM_ADVISOR_COUNTRIES`).
+- Todo tras `ARMA_TU_VIAJE_ENABLED` (apagada). **Falta firma del PO:** radios 300/800 km, orden (un día antes que circuitos), regla de eSIM y no repetir Big Bus.
+
 ## En producción (travelpuzzle.com.mx, Cloudflare Workers + D1)
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).
 - Home con secciones rescatadas del sitio anterior, datos reales y prueba social (ver `docs/gates-home-2026-11.md`).
