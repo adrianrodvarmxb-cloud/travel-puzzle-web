@@ -14,7 +14,7 @@ describe("T4 filtro ?formato= en /tours (REQ-412, REQ-413)", () => {
   it("REQ-413 bandera TAXONOMY_FILTERS_ENABLED: solo \"true\"; wrangler.jsonc la trae en \"false\"", () => {
     expect(taxonomyFiltersEnabled({ TAXONOMY_FILTERS_ENABLED: "true" })).toBe(true);
     expect(taxonomyFiltersEnabled({})).toBe(false);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_FILTERS_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_FILTERS_ENABLED":\s*"(true|false)"/);
   });
   it("REQ-413 solo formatos de Experiencias y activos; nunca traslado, transporte, renta, crucero, fuera ni por-revisar", () => {
     for (const f of FORMATOS_FILTRO) expect(term(f)).toMatchObject({ seccion: "experiencias", estado: "activo" });

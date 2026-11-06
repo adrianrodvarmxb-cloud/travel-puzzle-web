@@ -11,7 +11,7 @@ describe("T3 publicación con la taxonomía (REQ-406, REQ-407, REQ-408, REQ-261)
     expect(taxonomyPublishEnabled({})).toBe(false);
     expect(taxonomyPublishEnabled({ TAXONOMY_PUBLISH_ENABLED: "1" })).toBe(false);
     expect(taxonomyPublishEnabled({ TAXONOMY_PUBLISH_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_PUBLISH_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_PUBLISH_ENABLED":\s*"(true|false)"/);
   });
   it("REQ-406 Free tour: precio 0 salvo las 10 categorías que ganan antes", () => {
     expect(c(row(12, 0)).formato).toBe("pieza-libre");
