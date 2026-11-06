@@ -150,8 +150,8 @@
     {
       "slug": "pieza-libre",
       "eje": "formato",
-      "termino_es": "Free tour",
-      "termino_en": "Tip-based free tour",
+      "termino_es": "Pieza libre",
+      "termino_en": "Free tour",
       "definicion_es": "Recorrido con guía local en el que reservar es gratis; al final le das al guía lo que consideres justo. Si el grupo es grande, el proveedor puede aplicar una tarifa fija y te avisamos antes de reservar.",
       "sinonimos": [
         "free tour",
@@ -168,7 +168,7 @@
       "seccion": "experiencias",
       "guiaEnPersona": true,
       "coleccion_es": "La Primera Pieza",
-      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4)."
+      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4). Etiqueta pública «Pieza libre» (PO 6-11 10:43, REQ-269); EN «Free tour» por ahora, propuesta «Free piece» para firma; «free tour» y «tour gratis» quedan como sinónimos de búsqueda."
     },
     {
       "slug": "circuito",

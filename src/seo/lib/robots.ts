@@ -25,7 +25,8 @@ export function llmsTxt({ siteUrl, destinations }: { siteUrl: string; destinatio
     "",
     `- [${PRIMERA_PIEZA_LABEL}](${site}${ROUTES.primeraPieza}): colección de free tours; reservar es gratis y al final cada quien decide cuánto darle al guía.`,
     `- [Destinos](${site}${ROUTES.destinos}): países y ciudades con sus free tours, tours y traslados.`,
-    `- [Tours](${site}/tours): buscador de tours.`,
+    // REQ-173: copy genérico; la etiqueta [Tours] sigue al menú (REQ-174, en espera).
+    `- [Tours](${site}/tours): buscador de experiencias.`,
     "",
     ...(destinations.length ? ["## Destinos", "", ...destinations.map((d) => `- [${d.name}](${d.url})`), ""] : []),
   ].join("\n");

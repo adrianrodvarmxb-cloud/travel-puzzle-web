@@ -44,7 +44,7 @@ export function EventBookingConfirm({ onBack, policy }: EventBookingConfirmProps
         {!bookingsEnabled ? (
           <Notice>Las reservas en línea abren muy pronto.</Notice>
         ) : isPaid ? (
-          <Notice>Este tour es de pago. El pago en línea estará disponible muy pronto.</Notice>
+          <Notice>Esta experiencia es de pago. El pago en línea estará disponible muy pronto.</Notice>
         ) : (
           <>
             {submitError && <p role="alert" className="mb-3 rounded-xl border border-[#C12909]/30 bg-[#C12909]/5 px-4 py-3 text-sm text-[#0A1330]">{submitError}</p>}

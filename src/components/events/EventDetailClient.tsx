@@ -4,6 +4,7 @@ import { SupportedLanguage } from '@/types';
 import { CalendarAvailabilityService } from '@/lib/services/calendar/CalendarAvailabilityService';
 import { useLanguage } from '@/lib/language-context';
 import { EmailFrame, Hero } from '@/components/booking/email-ui';
+import type { SiteFooterData } from '@/layout/lib/site-footer';
 import { EventBackButton } from './EventBackButton';
 import { EventBookingFormClient } from './EventBookingFormClient';
 
@@ -17,6 +18,8 @@ interface EventDetailClientProps {
     bookingsEnabled: boolean;
     /** WhatsApp y redes para el marco (los arma el servidor). */
     contact: { wa: string | null; socials: { name: string; url: string }[] };
+    /** REQ-303: pie del home. */
+    site: SiteFooterData;
     /** PAID_TOURS_ENABLED: muestra pago, cancelación y no presentarse en tours con costo. */
     paidEnabled?: boolean;
     /** REQ-083: ADULT_CONTACT_CHECK_ENABLED, casilla «soy mayor de edad». */
@@ -31,6 +34,7 @@ export function EventDetailClient({
     time: eventTime,
     bookingsEnabled,
     contact,
+    site,
     paidEnabled = false,
     adultContactCheck = false,
 }: EventDetailClientProps) {
@@ -39,7 +43,7 @@ export function EventDetailClient({
     const languageFlag = CalendarAvailabilityService.LANGUAGE_FLAGS[eventLanguage] || '🌐';
 
     return (
-        <EmailFrame wa={contact.wa} socials={contact.socials}>
+        <EmailFrame wa={contact.wa} socials={contact.socials} site={site}>
             <Hero
                 status={bookingsEnabled ? 'Estás por reservar' : 'Reservas en línea muy pronto'}
                 dot={bookingsEnabled ? 'bg-[#EAF54F]' : 'bg-[#9AAEE0]'}
