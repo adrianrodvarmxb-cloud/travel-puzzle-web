@@ -4,7 +4,7 @@
  * aplicadas en producción; hoy los slugs están vacíos, así que todo devuelve listas vacías sin fallar.
  */
 import type { CityRow, CountryRow, TourRow, TripRow } from "./lib/catalog";
-import type { TourStatus } from "./lib/routes";
+import { placeStatus, type TourStatus } from "./lib/routes";
 
 export interface D1Read {
   prepare(sql: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } };
@@ -57,14 +57,15 @@ function cityRow(r: Record<string, unknown>): CityRow {
   };
 }
 
-const PLACE = `SELECT t."id", t."slug", t."syncStatus", ${TITLE} AS "title", co."iso2", c."slug" AS "citySlug", c."translations" AS "cityTr",
+// REQ-092: isActive entra para que un tour dado de baja (isActive=0) responda 410 aunque syncStatus siga 'active'.
+const PLACE = `SELECT t."id", t."slug", t."syncStatus", t."isActive", ${TITLE} AS "title", co."iso2", c."slug" AS "citySlug", c."translations" AS "cityTr",
   EXISTS (SELECT 1 FROM "Tour" t2 WHERE t2."cityId" = c."id" AND t2."slug" IS NOT NULL AND t2."isActive" = 1 AND t2."syncStatus" <> 'removed') AS "cityLive"
   FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" JOIN "Country" co ON co."id" = t."countryId" ${JOIN_TITLES}`;
 
 function placeRow(r: Record<string, unknown> | undefined, cityName: (tr: unknown) => string): TourPlaceRow | null {
   if (!r) return null;
   return {
-    id: String(r.id), slug: (r.slug as string | null) ?? null, status: status(r.syncStatus), title: String(r.title ?? ""),
+    id: String(r.id), slug: (r.slug as string | null) ?? null, status: placeStatus(r.syncStatus, r.isActive), title: String(r.title ?? ""),
     countrySlug: typeof r.iso2 === "string" && r.iso2 ? r.iso2.toLowerCase() : null, citySlug: (r.citySlug as string | null) ?? null,
     cityName: cityName(json(r.cityTr)), cityLive: bool(r.cityLive),
   };
