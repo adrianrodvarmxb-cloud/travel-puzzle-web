@@ -1,5 +1,5 @@
 /**
- * REQ-230: medidor de reseñas de los carruseles del home (puro).
+ * REQ-450: medidor de reseñas de los carruseles del home (puro).
  *
  * Calificación bayesiana (promedio ponderado por número de reseñas con un prior del catálogo):
  *   puntaje = (v · R + m · C) / (v + m)
@@ -17,23 +17,23 @@ export const REVIEW_PRIOR_C_FALLBACK = 4.5;
 export interface Prior { m: number; C: number }
 export interface Rated { rating: number | null; reviews: number }
 
-// REQ-230 (REQ-100): solo reseñas reales — al menos una y calificación entre 1 y 5.
+// REQ-450 (REQ-100): solo reseñas reales — al menos una y calificación entre 1 y 5.
 export function hasRealReviews(x: Rated): boolean {
   return Number.isInteger(x.reviews) && x.reviews >= 1 && x.rating !== null && Number.isFinite(x.rating) && x.rating >= 1 && x.rating <= 5;
 }
 
-// REQ-230
+// REQ-450
 export function bayesScore(rating: number, reviews: number, { m, C }: Prior): number {
   return (reviews * rating + m * C) / (reviews + m);
 }
 
-/** REQ-230: C = Σ(R·v) / Σv del catálogo; fuera de [1, 5] o sin reseñas, el respaldo. */
+/** REQ-450: C = Σ(R·v) / Σv del catálogo; fuera de [1, 5] o sin reseñas, el respaldo. */
 export function catalogPrior(weightedSum: number, reviews: number): number {
   const c = reviews > 0 ? weightedSum / reviews : NaN;
   return Number.isFinite(c) && c >= 1 && c <= 5 ? c : REVIEW_PRIOR_C_FALLBACK;
 }
 
-/** REQ-230: descarta lo que no tiene reseñas reales y ordena por puntaje (desempate: más reseñas, luego la llave). */
+/** REQ-450: descarta lo que no tiene reseñas reales y ordena por puntaje (desempate: más reseñas, luego la llave). */
 export function rankByReviews<T extends Rated & { key: string }>(items: readonly T[], prior: Prior): T[] {
   return items
     .filter(hasRealReviews)
@@ -45,7 +45,7 @@ export function rankByReviews<T extends Rated & { key: string }>(items: readonly
 export interface Cap<T> { of: (t: T) => string; max: number }
 
 /**
- * REQ-230: diversidad en las primeras posiciones. Recorre la lista ya ordenada y toma lo que respeta todos los topes;
+ * REQ-450: diversidad en las primeras posiciones. Recorre la lista ya ordenada y toma lo que respeta todos los topes;
  * si no alcanza para `n`, relaja los topes del último al primero (p. ej. primero el formato, luego la ciudad)
  * y completa en el mismo orden. Nunca deja huecos ni repite.
  */

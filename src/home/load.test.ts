@@ -35,7 +35,7 @@ describe("datos del inicio", () => {
   });
 });
 
-describe("REQ-230/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_ENABLED)", () => {
+describe("REQ-450/453: carruseles con el medidor de reseñas (CARRUSELES_HOME_ENABLED)", () => {
   const tourRow = (id: string, o: Record<string, unknown> = {}) => ({
     id, externalId: Number(id.slice(1)), cityId: Number(id.slice(1)), cityName: `City ${id}`, countryCode: "es", categoryId: 12, durationMinutes: 120,
     price: 0, rating: 4.8, reviews: 400, titleEs: `Tour ${id}`, titleEn: `Tour ${id}`, ...o,
@@ -55,34 +55,34 @@ describe("REQ-230/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
     return { ...p, $queryRaw } as unknown as PrismaClient;
   }
 
-  it("REQ-230: «Los más elegidos» sale del medidor (bayesiano) y excluye traslados y online", async () => {
+  it("REQ-450: «Los más elegidos» sale del medidor (bayesiano) y excluye traslados y online", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.6, reviews: 20000 }), tourRow("t2", { rating: 4.95, reviews: 900 }), tourRow("t3", { categoryId: 8, rating: 5, reviews: 9000 })], day: [] });
     const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
     expect(out.featured.map((t) => t.id)).toEqual(["t2", "t1"]);
   });
 
-  it("REQ-233: «Excursiones de un día» mezcla tours con reseñas y viajes de proveedores sin reseñas (al final)", async () => {
+  it("REQ-453: «Excursiones de un día» mezcla tours con reseñas y viajes de proveedores sin reseñas (al final)", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const prisma = prismaWith({ all: [], day: [tourRow("t4", { categoryId: 4, durationMinutes: 600 }), tourRow("t5", { categoryId: 19, durationMinutes: 480 })] });
     const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true, ownTrips: [trip] });
     expect(out.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["t4", "v1"]);
   });
 
-  it("REQ-233: con la bandera apagada no hay excursiones y «Los más elegidos» usa la regla anterior", async () => {
+  it("REQ-453: con la bandera apagada no hay excursiones y «Los más elegidos» usa la regla anterior", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const out = await loadHomeData({ prisma: fakePrisma(), highlights: noHighlights, includePaid: false, lang: "es", ownTrips: [trip] });
     expect(out.dayTrips).toEqual([]);
   });
 
-  it("REQ-230: si el medidor falla, el inicio no se cae (excursiones vacías)", async () => {
+  it("REQ-450: si el medidor falla, el inicio no se cae (excursiones vacías)", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const out = await loadHomeData({ prisma: fakePrisma(), highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
     expect(out.dayTrips).toEqual([]);
     expect(out.featured).toEqual([]);
   });
 
-  it("REQ-234: si un título en otro idioma dice «free tour», se salta y entra la siguiente", async () => {
+  it("REQ-454: si un título en otro idioma dice «free tour», se salta y entra la siguiente", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.99 }), tourRow("t2", { rating: 4.9 }), tourRow("t3", { rating: 4.85 })], day: [] }, (id) => (id === "t1" ? "Il miglior free tour di Roma" : `Tour ${id}`));
     const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
@@ -90,8 +90,8 @@ describe("REQ-230/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
   });
 });
 
-describe("REQ-234: reseñas y favoritos sin títulos que digan FreeTour (sin depender de la bandera)", () => {
-  it("REQ-234: la reseña de un tour cuyo título dice «free tour» se salta", async () => {
+describe("REQ-454: reseñas y favoritos sin títulos que digan FreeTour (sin depender de la bandera)", () => {
+  it("REQ-454: la reseña de un tour cuyo título dice «free tour» se salta", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const rev = (id: number) => ({ id, tourExternalId: id, reviewerName: "Ana", language: "Spanish", title: null, content: "Excelente recorrido por la ciudad", rate: 5, addedAt: new Date("2026-10-30") });
     const prisma = fakePrisma({
@@ -106,7 +106,7 @@ describe("REQ-234: reseñas y favoritos sin títulos que digan FreeTour (sin dep
     expect(out.reviews.map((r) => r.tour?.id)).toEqual(["b"]);
   });
 
-  it("REQ-234: «Los más elegidos» con la regla anterior también se salta esos títulos", async () => {
+  it("REQ-454: «Los más elegidos» con la regla anterior también se salta esos títulos", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const t = (id: string, title: string) => ({ id, externalId: 1, cityId: id.charCodeAt(0), titleImageURL: "https://i/x.jpg", priceValue: 0, priceCurrency: "EUR", duration: "2:00", rating: 4.9, reviewsNumber: 900, country: { code: "IT" }, city: { translations: {} }, translations: [{ language: "es", title }] });
     const prisma = fakePrisma({ tour: { findMany: async () => [t("a", "Free Tour de Roma"), t("b", "Roma antigua")] } });
@@ -114,3 +114,20 @@ describe("REQ-234: reseñas y favoritos sin títulos que digan FreeTour (sin dep
     expect(out.featured.map((x) => x.id)).toEqual(["b"]);
   });
 });
+
+describe("REQ-453: «Excursiones de un día» no repite lo que ya está en «Los más elegidos»", () => {
+  it("REQ-453: un tour que sale en ambos se queda solo en «Los más elegidos»", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const row = (id: string, o: Record<string, unknown> = {}) => ({ id, externalId: Number(id.slice(1)), cityId: Number(id.slice(1)), cityName: `C${id}`, countryCode: "jp", categoryId: 4, durationMinutes: 600, price: 0, rating: 4.9, reviews: 500, titleEs: `Excursión ${id}`, titleEn: `Day trip ${id}`, ...o });
+    const $queryRaw = async (strings: TemplateStringsArray, ...values: unknown[]) => {
+      if (strings.join("?").includes("SUM(")) return [{ s: 4800, v: 1000 }];
+      return values.includes(600) ? [row("t1"), row("t2")] : [row("t1")];
+    };
+    const hydrated = (id: string) => ({ id, externalId: Number(id.slice(1)), titleImageURL: `https://img/${id}.jpg`, priceValue: 0, priceCurrency: "EUR", duration: "10:00", rating: 4.9, reviewsNumber: 500, city: { translations: {} }, translations: [{ language: "es", title: `Excursión ${id}` }] });
+    const base = fakePrisma({ tour: { findMany: async (q: { where: { id: { in: string[] } } }) => q.where.id.in.map(hydrated) } }) as unknown as Record<string, unknown>;
+    const out = await loadHomeData({ prisma: { ...base, $queryRaw } as unknown as PrismaClient, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
+    expect(out.featured.map((t) => t.id)).toEqual(["t1"]);
+    expect(out.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["t2"]);
+  });
+});
+

@@ -72,7 +72,7 @@ const es = {
   reviewsSub: "Lo que cuentan quienes ya recorrieron estas ciudades.",
   avgLabel: "CALIFICACIÓN PROMEDIO",
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
-  // REQ-233: carrusel «Excursiones de un día» (definición del diccionario de taxonomía; sin promesas ni proveedor)
+  // REQ-453: carrusel «Excursiones de un día» (definición del diccionario de taxonomía; sin promesas ni proveedor)
   dayEyebrow: "EXCURSIONES DE UN DÍA",
   dayHeadline: "Excursiones de un día.",
   daySub: "Sales de la ciudad y vuelves el mismo día.",
