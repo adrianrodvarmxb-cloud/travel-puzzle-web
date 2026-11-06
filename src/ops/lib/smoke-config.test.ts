@@ -5,6 +5,10 @@ import { discoverPages, legacyFailures, parseSmokeConfig, smokeVerdict } from ".
 const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")));
 
 describe("Lista de la prueba de humo con La Primera Pieza encendida (REQ-305)", () => {
+  it("REQ-223: conserva las páginas tras bandera (/ayuda, /admin/entrar) como opcionales", () => {
+    expect(config.optional).toEqual(["/ayuda", "/admin/entrar"]);
+  });
+
   it("REQ-305: revisa La Primera Pieza, destinos, país, ciudad y el sitemap", () => {
     for (const p of ["/la-primera-pieza", "/destinos", "/destinos/mx", "/destinos/mx/ciudad-de-mexico", "/sitemap-index.xml"]) expect(config.fixed, p).toContain(p);
   });
@@ -75,6 +79,6 @@ describe("parseSmokeConfig (REQ-305)", () => {
     expect(() => parseSmokeConfig({ fixed: ["/"], discover: [{ from: "/x", pattern: "(", take: 1 }] })).toThrow();
   });
   it("REQ-305: la lista anterior (solo fixed) sigue siendo válida", () => {
-    expect(parseSmokeConfig({ fixed: ["/"] })).toEqual({ fixed: ["/"], discover: [], legacy: [] });
+    expect(parseSmokeConfig({ fixed: ["/"] })).toEqual({ fixed: ["/"], optional: [], discover: [], legacy: [] });
   });
 });

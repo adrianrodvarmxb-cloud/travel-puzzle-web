@@ -6,11 +6,13 @@
  */
 import { readFileSync } from "node:fs";
 import { chromium, devices } from "playwright";
-import { discoverPages, isHydrationError, legacyFailures, parseSmokeConfig, smokeVerdict, type SmokeResult } from "../ops/lib/smoke";
+import { discoverPages, isErrorScreen, isHydrationError, legacyFailures, parseSmokeConfig, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
 if (!/^https?:\/\//.test(base)) { console.error("Uso: npx tsx src/scripts/smoke.ts <url-base>"); process.exit(2); }
+// REQ-223: `optional` = páginas tras bandera; un 404 ahí es válido (bandera apagada). REQ-305: discover y legacy.
 const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")));
+const optional = config.optional;
 
 (async () => {
   const browser = await chromium.launch();
@@ -31,7 +33,7 @@ const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json"
     }
   }
   const discovered = discoverPages(config.discover, linksByPage);
-  const pages = [...new Set([...config.fixed, ...discovered.pages])];
+  const pages = withOptionalPages([...new Set([...config.fixed, ...discovered.pages])], optional);
 
   // REQ-305: URL viejas sin seguir la redirección (301/410 esperados; 5xx nunca).
   const legacyStatus: Record<string, number | null> = {};
@@ -57,8 +59,8 @@ const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json"
       page.on("console", (m) => { if (m.type() === "error" && isHydrationError(m.text())) pageErrors.push(m.text()); });
       const res = await page.goto(`${base}${path}${path.includes("?") ? "&" : "?"}smoke=${Date.now()}`, { waitUntil: "networkidle", timeout: 90_000 }).catch(() => null);
       await page.waitForTimeout(1500);
-      const appError = await page.evaluate(() => document.body?.innerText.includes("Application error") ?? false).catch(() => false);
-      results.push({ path, viewport, status: res?.status() ?? null, pageErrors, appError });
+      const appError = isErrorScreen(await page.evaluate(() => document.body?.innerText ?? "").catch(() => ""));
+      results.push({ path, viewport, status: res?.status() ?? null, pageErrors, appError, optional: optional.includes(path) });
       await page.close();
     }
     await ctx.close();

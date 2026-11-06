@@ -17,6 +17,7 @@
     { "from": "/tours", "pattern": "^/viajes/[^/]+/[^/?#]+$", "take": 2, "required": true },
     { "from": "/destinos/mx/ciudad-de-mexico", "pattern": "^/destinos/mx/ciudad-de-mexico/[^/?#]+$", "take": 1, "required": true }
   ],
+  "optional": ["/ayuda", "/admin/entrar"],
   "legacy": [
     { "path": "/tours/cmvuuv0qz0000psp7xrmovnmv", "expect": [301, 410] }
   ]
