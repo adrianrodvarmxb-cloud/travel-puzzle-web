@@ -4,6 +4,7 @@ import { translations } from "@/lib/translations";
 import { homeCopy } from "@/home/lib/copy";
 import { formatCount } from "@/home/lib/format";
 import { llmsTxt } from "@/seo/lib/robots";
+import { withToursText } from "@/home/lib/hero";
 
 const LANGS = ["es", "en", "pt", "de", "fr", "it"] as const;
 /** «tour/tours» genérico; «free tour» es tipo de producto y se queda (decisión del PO, 6 nov 2026). */
@@ -86,5 +87,10 @@ describe("REQ-173 + INC-001: la cifra «8,054» no depende del Intl del navegado
     expect(formatCount(999, "es")).toBe("999");
     expect(formatCount(8054, "de")).toBe("8.054");
     expect(formatCount(0, "es")).toBe("0");
+  });
+
+  it("REQ-173: la tarjeta del hero dice «1,343 experiencias» con el número del servidor", () => {
+    const [s] = withToursText([{ image: "/x.webp", focus: "50% 50%", href: "/tours", tours: 1343, names: { es: "Venecia" } }], "es");
+    expect(homeCopy("es").tours(s.toursText!)).toBe("1,343 experiencias");
   });
 });

@@ -25,6 +25,7 @@ import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
 import { getPreferredLanguage } from "@/lib/utils/cookies";
 import { formatCount } from "@/home/lib/format";
+import { withToursText } from "@/home/lib/hero";
 
 // Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
@@ -42,6 +43,7 @@ export default async function Home() {
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.
   const numLang = lang === "en" ? "en" : "es";
   const counts = { tours: formatCount(data.stats.tours, numLang), cities: formatCount(data.stats.cities, numLang), countries: formatCount(data.stats.countries, numLang) };
+  const hero = withToursText(data.hero, numLang);
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
@@ -50,7 +52,7 @@ export default async function Home() {
       {/* Header y footer se conservan como están (decisión del PO) */}
       <Navbar />
       <main className="tp-dark">
-        <HeroSearch slides={data.hero} quickCities={data.destinations.slice(0, 5)} />
+        <HeroSearch slides={hero} quickCities={data.destinations.slice(0, 5)} />
         <ProofStrip stats={data.stats} counts={counts} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
         <FeaturedTours tours={data.featured} />
