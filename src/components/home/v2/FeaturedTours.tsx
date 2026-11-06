@@ -11,7 +11,8 @@ import { SectionHeading } from './SectionHeading';
 import { MobileRail } from './MobileRail';
 
 /** Favoritos de los viajeros (regla 60/40 cuando hay tours de pago), con frase de reseña real. */
-export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
+/** REQ-170: priceLabels (EUR + «aprox. MXN») llegan armados del servidor; sin ellos, el precio queda como hoy. */
+export function FeaturedTours({ tours, priceLabels = {} }: { tours: HomeTour[]; priceLabels?: Record<string, { main: string; approx: string | null }> }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   if (!tours.length) return null;
@@ -42,7 +43,14 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
                     {rating && <><span className="text-[#F5B301]">★</span> <b>{rating}</b> </>}
                     <span className="text-[#A9B6D6]">· {c.reviews(formatCount(t.reviews, language))}</span>
                   </span>
-                  <span className="font-semibold text-[#EAF54F]">{t.isFree ? c.free : `${t.currency} ${t.price}`}</span>
+                  {!t.isFree && priceLabels[t.id] ? (
+                    <span className="text-right">
+                      <span className="block font-semibold text-[#EAF54F]">{priceLabels[t.id].main}</span>
+                      {priceLabels[t.id].approx && <span className="block text-[11px] text-[#A9B6D6]">{priceLabels[t.id].approx}</span>}
+                    </span>
+                  ) : (
+                    <span className="font-semibold text-[#EAF54F]">{t.isFree ? c.free : `${t.currency} ${t.price}`}</span>
+                  )}
                 </div>
               </div>
             </Link>
