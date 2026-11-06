@@ -74,6 +74,9 @@
     // Analítica anónima del buscador agregada por día (REQ-340…344). "true" solo después de que el PO aplique la migración
     // migrations/0019_search_log_daily.sql (después de la 0017) y del aviso de privacidad, con su OK.
     "SEARCH_LOG_ENABLED": "false",
+    // Raíz (plurales y género, Snowball) y sinónimos en el índice FTS (REQ-360…366). "true" solo DESPUÉS de aplicar la
+    // migración propuesta docs/migraciones-propuestas/0021_tour_search_stem.sql, con preview, humo y OK del PO.
+    "SEARCH_STEM_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
     "SYNC_GUARD_ENABLED": "true",
