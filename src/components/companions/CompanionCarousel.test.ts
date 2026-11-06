@@ -34,4 +34,13 @@ describe("CompanionCarousel", () => {
     }));
     expect(withBook).not.toContain(">Reservar<");
   });
+
+  it("REQ-184: la clase de cada tarjeta sale de dónde se pinta (solo celular, solo escritorio o ambos)", () => {
+    const [a, b, c, d] = model.cards;
+    const cards = [{ ...a, mobile: true, desktop: true }, { ...b, mobile: false, desktop: true }, { ...c, mobile: true, desktop: true }, { ...d, mobile: true, desktop: false }];
+    const h = renderToStaticMarkup(createElement(CompanionCarousel, { cards, cityCode: "pe-lima" }));
+    expect(h.match(/<li /g)).toHaveLength(4);
+    expect(h.match(/class="hidden md:flex/g)).toHaveLength(1);
+    expect(h.match(/class="flex md:hidden/g)).toHaveLength(1);
+  });
 });
