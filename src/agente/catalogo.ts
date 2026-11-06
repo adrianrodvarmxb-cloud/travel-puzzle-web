@@ -1,4 +1,4 @@
-// Catálogo para el agente de WhatsApp (REQ-148..126). Orquesta: lee las tarjetas publicadas (con su caché) y las
+// Catálogo para el agente de WhatsApp (REQ-148..152). Orquesta: lee las tarjetas publicadas (con su caché) y las
 // agencias; la lógica pura vive en ./lib/catalogo. Las dependencias llegan por parámetro.
 import type { TripCard } from "@/trips/public-load";
 import type { ViajeAgente } from "./lib/catalogo";
