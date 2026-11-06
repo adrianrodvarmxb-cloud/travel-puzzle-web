@@ -37,8 +37,9 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 ## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
 - La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
-- eSIM: sin proveedor integrado se oculta salvo en China (`ESIM_ADVISOR_COUNTRIES`).
-- Todo tras `ARMA_TU_VIAJE_ENABLED` (apagada). **Falta firma del PO:** radios 300/800 km, orden (un día antes que circuitos), regla de eSIM y no repetir Big Bus.
+- eSIM: sin proveedor integrado se oculta salvo en China (`ESIM_ADVISOR_COUNTRIES`). Seguro: oculto hasta tener deeplink de afiliado (`INSURANCE_ADVISOR_COUNTRIES = []`, REQ-326).
+- Solo circuitos cerca → «Circuitos cerca de {ciudad}»; nunca «expertos» (REQ-325).
+- Todo tras `ARMA_TU_VIAJE_ENABLED` (apagada). Decisiones 1 a 5 (radios 300/800 km, orden, eSIM, no repetir Big Bus, «Lo reservas con Travel Puzzle») firmadas por recomendación, PO autopiloto (6 nov 2026).
 
 ## En producción (travelpuzzle.com.mx, Cloudflare Workers + D1)
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).

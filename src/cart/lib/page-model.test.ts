@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildArmaTuViajeModel, cartIdFromToken, parseTripQuery } from "./page-model";
-import { ESIM_ADVISOR_COUNTRIES } from "@/companions/lib/carousel";
+import { buildArmaTuViajeModel, cartIdFromToken, parseTripQuery, CATEGORY_TITLES } from "./page-model";
+import { ESIM_ADVISOR_COUNTRIES, INSURANCE_ADVISOR_COUNTRIES } from "@/companions/lib/carousel";
 import type { NearbyExperience } from "@/companions/lib/nearby";
 
 const NOW = Date.parse("2026-12-01T12:00:00Z");
@@ -123,8 +123,29 @@ describe("Tarjeta de tour con experiencias cercanas y eSIM (REQ-320…324)", () 
   it("REQ-320: si todas las experiencias son de varios días, la tarjeta no promete «un tour para completar el día»", () => {
     const multi = exp.map((e) => ({ ...e, multiDay: true }));
     const m = buildArmaTuViajeModel({ ...base, piece: { ...cusco, cityName: "Shanghái", country: "CN" }, experiences: multi });
-    expect(m.cards[0].title).toBe("Viajes armados por expertos");
-    expect(buildArmaTuViajeModel({ ...base, piece: cusco, experiences: exp }).cards[0].title).not.toBe("Viajes armados por expertos");
+    // Son viajes de proveedores: el título no promete autoría (PO, 6 nov 2026).
+    expect(m.cards[0].title).toBe("Circuitos cerca de Shanghái");
+    expect(buildArmaTuViajeModel({ ...base, piece: cusco, experiences: exp }).cards[0].title).not.toMatch(/^Circuitos/);
+  });
+
+  it("REQ-325: el copy del carrusel nunca dice «expertos» (ni variantes)", () => {
+    const multi = exp.map((e) => ({ ...e, multiDay: true }));
+    const models = [
+      buildArmaTuViajeModel({ ...base, piece: cusco, experiences: exp }),
+      buildArmaTuViajeModel({ ...base, piece: { ...cusco, cityName: "Shanghái", country: "CN" }, experiences: multi }),
+      buildArmaTuViajeModel({ ...base, piece: mpika, experiences: [] }),
+    ];
+    for (const m of models) expect(JSON.stringify(m.cards)).not.toMatch(/expert/i);
+    expect(JSON.stringify(Object.values(CATEGORY_TITLES))).not.toMatch(/expert/i);
+  });
+
+  it("REQ-326: sin deeplink de afiliado registrado, el seguro no sale con el asesor (riesgo CNSF); con deeplink sí", () => {
+    expect(INSURANCE_ADVISOR_COUNTRIES).toEqual([]);
+    for (const country of ["ZM", "GB", "IS", "CN", "PE", "MX"]) {
+      expect(buildArmaTuViajeModel({ ...base, piece: { ...mpika, country } }).cards.map((c) => c.type)).not.toContain("insurance");
+    }
+    const deep = buildArmaTuViajeModel({ ...base, advisor: { whatsapp: null }, piece: mpika, experiences: exp, probes: { insurance: [{ adapterId: "seguro-x", mode: "deeplink", chargedBy: "Seguro X", result: "inventory", url: "https://x.test/s" }] } });
+    expect(deep.cards.find((c) => c.type === "insurance")?.action?.kind).toBe("deeplink");
   });
 
   it("REQ-320: Mpika sin nada cerca → la tarjeta de tour cae al asesor; sin asesor no hay tarjeta ni carrusel", () => {

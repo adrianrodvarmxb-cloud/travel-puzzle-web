@@ -5,7 +5,7 @@
  */
 import type { CartItemType, People } from "./item";
 import { chooseAction, shortDate, type AdapterProbe, type Advisor } from "./switch";
-import { buildCarousel, DEFAULT_RULES, ESIM_ADVISOR_COUNTRIES, type CarouselCard, type CarouselFlags, type CompanionCategory } from "@/companions/lib/carousel";
+import { buildCarousel, DEFAULT_RULES, ESIM_ADVISOR_COUNTRIES, INSURANCE_ADVISOR_COUNTRIES, type CarouselCard, type CarouselFlags, type CompanionCategory } from "@/companions/lib/carousel";
 import type { NearbyExperience } from "@/companions/lib/nearby";
 import { pieceCost, pieceDay, pieceWhen } from "./piece";
 import { tourPriceLabel } from "@/tours/lib/price-label";
@@ -66,8 +66,11 @@ export const CATEGORY_TITLES: Record<CompanionCategory, string> = {
   transport: "Transporte entre ciudades", car_rental: "Renta de auto", lodging: "Alojamiento",
   visa: "Asesoría de visa", etias: "Trámite ETIAS",
 };
-/** REQ-320: título de la tarjeta de tour cuando solo hay viajes de varios días cerca (no promete «completar el día»). */
-export const MULTI_DAY_TITLE = "Viajes armados por expertos";
+/**
+ * REQ-320 / REQ-325: título de la tarjeta de tour cuando solo hay viajes de varios días cerca (no promete «completar
+ * el día»). Son viajes de proveedores: nunca se promete autoría («expertos» está prohibido por el PO, 6 nov 2026).
+ */
+export const multiDayTitle = (cityName: string) => (cityName.trim() ? `Circuitos cerca de ${cityName.trim()}` : "Viajes de varios días cerca de tu destino");
 const CANDIDATE_TYPES: { type: CartItemType; category: CompanionCategory }[] = (
   ["tour", "day_trip", "transfer", "esim", "tickets", "insurance", "transport", "car_rental", "lodging", "visa"] as const
 ).map((t) => ({ type: t, category: t as CompanionCategory })).concat([{ type: "visa", category: "etias" }]);
@@ -113,7 +116,7 @@ export function buildArmaTuViajeModel(input: {
     // REQ-320: tour o excursión con experiencias cercanas → las recomienda; el asesor queda como último recurso.
     if ((category === "tour" || category === "day_trip") && experiences.length) {
       return {
-        type, category, title: experiences.every((e) => e.multiDay) ? MULTI_DAY_TITLE : CATEGORY_TITLES[category], chargedBy: "Travel Puzzle",
+        type, category, title: experiences.every((e) => e.multiDay) ? multiDayTitle(piece.cityName) : CATEGORY_TITLES[category], chargedBy: "Travel Puzzle",
         action: { kind: "catalog" as const, label: "Ver experiencia" as const, url: experiences[0].path }, experiences,
       };
     }
@@ -122,6 +125,8 @@ export function buildArmaTuViajeModel(input: {
     let action = chooseAction(category, probes, input.advisor, quoteCtx);
     // REQ-323: sin proveedor de eSIM, «con el asesor» solo donde la regla lo pide (China).
     if (category === "esim" && action?.kind === "whatsapp" && !esimCountries.includes(country)) action = null;
+    // REQ-326: sin deeplink de afiliado registrado, el seguro no sale «con el asesor» (riesgo CNSF).
+    if (category === "insurance" && action?.kind === "whatsapp" && !INSURANCE_ADVISOR_COUNTRIES.includes(country)) action = null;
     const chosen = action && action.kind !== "whatsapp" && action.kind !== "catalog" ? probes.find((p) => p.adapterId === action.adapterId) : undefined;
     return {
       type, category, title: CATEGORY_TITLES[category], chargedBy: chosen?.chargedBy ?? "Travel Puzzle", action,

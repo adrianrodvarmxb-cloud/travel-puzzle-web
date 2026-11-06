@@ -26,6 +26,12 @@ export const MAX_CARDS = { mobile: 3, desktop: 4 } as const;
  */
 export const ESIM_ADVISOR_COUNTRIES: readonly string[] = ["CN"];
 
+/**
+ * REQ-326: el seguro solo se ofrece con un deeplink de afiliado registrado (REQ-107). Mientras no lo haya, la tarjeta
+ * de seguro «con el asesor» no sale en ningún país (riesgo CNSF). Reversible: agregar países aquí la vuelve a mostrar.
+ */
+export const INSURANCE_ADVISOR_COUNTRIES: readonly string[] = [];
+
 const zCategory = z.enum(CATEGORIES);
 const zRule = z.object({
   id: z.string().min(1),
