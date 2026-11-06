@@ -19,8 +19,8 @@ export const fr = {
   
   // Hero Section
   'hero.title': 'Découvrez Votre Prochaine Aventure',
-  'hero.subtitle': "Des visites avec des guides locaux dans le monde entier",
-  'hero.cta.browse': 'Explorer les Tours',
+  'hero.subtitle': "Des expériences avec des guides locaux dans le monde entier",
+  'hero.cta.browse': "Explorer les expériences",
   'hero.cta.howItWorks': 'Comment Ça Marche',
   
   // Home
@@ -55,15 +55,15 @@ export const fr = {
   
   // Tours
   'tours.title': "Toutes les expériences",
-  'tours.subtitle': 'tours disponibles',
+  'tours.subtitle': "expériences disponibles",
   'tours.lastUpdated': 'Dernière mise à jour',
-  'tours.featuredTitle': 'Tours en Vedette',
-  'tours.viewAll': 'Voir Tous les Tours',
+  'tours.featuredTitle': "Expériences en vedette",
+  'tours.viewAll': "Voir toutes les expériences",
   'tours.filter.destination': 'Destination',
   'tours.filter.priceRange': 'Gamme de Prix',
   'tours.filter.provider': 'Fournisseur',
   'tours.filter.sortBy': 'Trier Par',
-  'tours.filter.search': 'Rechercher des tours...',
+  'tours.filter.search': "Rechercher des expériences...",
   'tours.viewDetails': 'Voir les Détails',
   'tours.bookNow': 'Réserver Maintenant',
   'tours.duration': 'Durée',
@@ -93,10 +93,10 @@ export const fr = {
   
   // How It Works
   'howItWorks.title': 'Comment Ça Marche',
-  'howItWorks.step1.title': 'Explorer les Tours',
+  'howItWorks.step1.title': "Explorer les expériences",
   'howItWorks.step1.description': 'Découvrez des destinations et des activités de fournisseurs de confiance',
   'howItWorks.step2.title': 'Réserver en Toute Sécurité',
-  'howItWorks.step2.description': 'Choisissez votre tour et complétez la réservation avec nos partenaires',
+  'howItWorks.step2.description': "Choisissez votre expérience et complétez la réservation avec nos partenaires",
   'howItWorks.step3.title': 'Profitez de Votre Voyage',
   'howItWorks.step3.description': 'Recevez la confirmation et préparez-vous pour votre aventure',
   
@@ -106,7 +106,7 @@ export const fr = {
   'booking.status.confirmed': 'Confirmé',
   'booking.status.cancelled': 'Annulé',
   'booking.empty': 'Aucune réservation pour le moment',
-  'booking.viewTour': 'Voir le Tour',
+  'booking.viewTour': "Voir l'expérience",
   'booking.totalAmount': 'Montant Total',
   'booking.bookingDate': 'Date de Réservation',
   
@@ -217,12 +217,12 @@ export const fr = {
   // Reviews
   'reviews.tourTitle': 'Avis des voyageurs',
   'reviews.total': '{count} avis au total',
-  'reviews.source': "Avis de voyageurs ayant fait la visite",
+  'reviews.source': "Avis de voyageurs ayant vécu l'expérience",
   'home.recentReviews.title': 'Ce que disent les voyageurs',
   "reviews.count": "{count} avis",
   "reviews.showMore": "Voir plus d'avis",
   "tours.favorite": "Coup de cœur des voyageurs",
-  "reviews.seeTour": "Voir la visite",
+  "reviews.seeTour": "Voir l'expérience",
   "tours.backToTours": "Retour à toutes les expériences",
   "tours.directions": "Itinéraire",
   "tours.headline": "Expériences",
@@ -240,12 +240,12 @@ export const fr = {
   "tours.map.loading": "Chargement de la carte…",
   "tours.map.error": "Impossible de charger la carte.",
   "tours.map.empty": "Les expériences de cette page n'ont pas de point de rencontre sur la carte.",
-  "tours.map.view": "Voir le tour",
+  "tours.map.view": "Voir l'expérience",
   "tours.map.show": "Carte",
   "tours.map.list": "Liste",
   "tours.filters.toggle": "Filtres",
   "tours.noResultsHelp": "Essayez une autre ville ou écrivez-nous sur WhatsApp.",
   "pagination.pageOf": "Page {current} sur {total}",
   "tours.searchCta": "Rechercher",
-  "tours.tipNote": "À la fin de la visite, laissez au guide le pourboire que vous jugez juste.",
+  "tours.tipNote": "À la fin de l'expérience, laissez au guide le pourboire que vous jugez juste.",
 };

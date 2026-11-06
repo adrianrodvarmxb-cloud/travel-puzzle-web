@@ -5,6 +5,8 @@ import { homeCopy } from "@/home/lib/copy";
 import { formatCount } from "@/home/lib/format";
 import { llmsTxt } from "@/seo/lib/robots";
 import { withToursText } from "@/home/lib/hero";
+import { tipGuide } from "./tip-guide";
+import { goneViewFromPlace } from "@/destinations/lib/page-model";
 
 const LANGS = ["es", "en", "pt", "de", "fr", "it"] as const;
 /** «tour/tours» genérico; «free tour» es tipo de producto y se queda (decisión del PO, 6 nov 2026). */
@@ -55,6 +57,19 @@ describe("REQ-173: copy genérico del catálogo: «experiencias» en lugar de «
     const t = translations[lang];
     const keys = ["tours.title", "tours.noResults", "tours.backToTours", "tours.eyebrow", "tours.filters.searchPlaceholder", "tours.map.empty"];
     expect(keys.filter((k) => GENERIC_TOUR.test(t[k]))).toEqual([]);
+  });
+
+  it.each(LANGS)("REQ-173 (PO, 06:31): ningún texto visible de /tours ni de la ficha en %s dice «tour» genérico", (lang) => {
+    // Fuera: navegación (REQ-174), panel de administración, «Free tour» y «Reservar» (otro PR cambia tours.bookNow).
+    const skip = (k: string) => ["nav.tours", "tours.headline", "tours.free", "tours.bookNow"].includes(k) || k.startsWith("nav.dashboard.");
+    const left = Object.entries(translations[lang]).filter(([k, v]) => !skip(k) && GENERIC_TOUR.test(v));
+    expect(left).toEqual([]);
+  });
+
+  it("REQ-173: ficha: guía de propina y página de tour retirado", () => {
+    expect(tipGuide("FR", "en").tips.join(" ")).not.toMatch(GENERIC_TOUR);
+    expect(tipGuide("FR", "es").title).toBe("¿Cómo funciona un free tour?");
+    expect(goneViewFromPlace(null).title).toBe("Esta experiencia");
   });
 
   it("REQ-173: buscador y contador de /tours iguales al home", () => {
