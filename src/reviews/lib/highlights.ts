@@ -4,9 +4,9 @@ import { languageCode, type Review } from "./reviews";
 export type TourReview = Review & { tourExternalId: number };
 
 export const FAVORITE_MIN_RATING = 4.7;
-export const FAVORITE_MIN_REVIEWS = 100;
+export const FAVORITE_MIN_REVIEWS = 50; // REQ-098 (gate 2): ≥4.7 y ≥50 reseñas
 
-/** El tour se gana la etiqueta solo con datos reales: 4.7 ★ o más y 100 reseñas o más. */
+/** El tour se gana la etiqueta solo con datos reales: 4.7 ★ o más y 50 reseñas o más. */
 export function isTravelerFavorite(rating: number | string | null | undefined, reviews: number): boolean {
   const n = Number(rating);
   return rating !== null && rating !== undefined && Number.isFinite(n) && n >= FAVORITE_MIN_RATING && reviews >= FAVORITE_MIN_REVIEWS;

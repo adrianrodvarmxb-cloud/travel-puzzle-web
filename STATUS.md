@@ -180,15 +180,15 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 ## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
 | REQ-088 | URLs canónicas por destino | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (faltan páginas, Ola 3) |
 | REQ-089 | Regla de indexación de ciudad | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
-| REQ-090 | noindex tras 14 días seguidos | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO (necesita columna de estado: migración) |
+| REQ-090 | noindex tras 14 días seguidos; el sync blindado guarda City.indexableSince/failingSince al cerrar cada corrida exitosa | `src/destinations/lib/indexing.ts` (`planCityIndexing`), `src/catalog/guarded-sync.ts`, `guarded-repository.ts` (`createCityIndexRepo`), `lib/sql.ts` (`cityIndexStatements`), `src/destinations/lib/catalog.ts` | `indexing.test.ts`, `guarded-sync.test.ts`, `sql.test.ts`, `catalog.test.ts` | CUMPLIDO (lo escribe el sync con SYNC_GUARD_ENABLED; lo lee /destinos con PRIMERA_PIEZA_ENABLED) |
 | REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
 | REQ-092 | 301 desde URLs viejas y viajes propios; 410 removidos | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (falta conectar, Ola 3) |
 | REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) |
 | REQ-094 | H1 = título real | `src/tours/lib/title.ts` | `title.test.ts` | EN CURSO |
 | REQ-095 | Insignia solo con fullPricePerGroup = 0 | `src/tours/lib/badge.ts` | `badge.test.ts` | EN CURSO |
 | REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
-| REQ-097 | Tours de pago: 24 h y pago a la llegada | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
-| REQ-098 | Favorito ≥4.7 y ≥50; «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts` | `favorite.test.ts` | EN CURSO |
+| REQ-097 | Tours de pago: 24 h y pago a la llegada; gate REQ-097: reembolso hasta 24 h, después o sin presentarse no hay (también sobre depósito o pago a la llegada) | `src/tours/lib/notice.ts`, `src/tours/lib/paid-policy.ts` | `notice.test.ts`, `paid-policy.test.ts` | EN CURSO (lógica verde; falta verlo en la ficha nueva, PR de páginas) |
+| REQ-098 | Favorito ≥4.7 y ≥50 (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts` | `titles.test.ts` | EN CURSO |
 | REQ-100 | JSON-LD | `src/seo/lib/jsonld.ts` | `jsonld.test.ts` | EN CURSO |
 | REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts` | `hub.test.ts` | EN CURSO |
@@ -197,7 +197,7 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 ## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
 Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
 | REQ-085 | ISO-2, geonameid (cruce + revisión), llave (provider_id, external_id), tour_uid; sin external_id en la URL | `src/destinations/lib/ids.ts`, `geonames.ts`, `dry-run.ts`, `src/scripts/geonames-cruce.ts`, `migrations/0015_identidad_slugs.sql` | `ids.test.ts`, `geonames.test.ts`, `dry-run.test.ts`, `slug.test.ts` | EN CURSO (falta: aplicar 0015, revisar la lista de dudosos, llenar datos con OK; la URL es de la Ola 4) |
-| REQ-086 | Slug puro, inmutable, ≤60, pinyin, sufijo si choca | `src/destinations/lib/slug.ts`, `assign-slugs.ts`, `dry-run.ts`, `src/scripts/slugs-ensayo.ts`, trigger `Tour_slug_inmutable` | `slug.test.ts`, `assign-slugs.test.ts`, `dry-run.test.ts` | EN CURSO (falta: guardar los slugs con OK y que el sync use `assignTourSlugs`) |
+| REQ-086 | Slug puro, inmutable, ≤60, pinyin, sufijo si choca; el sync blindado asigna el slug a cada tour nuevo una sola vez | `src/destinations/lib/slug.ts`, `assign-slugs.ts`, `dry-run.ts`, `src/scripts/slugs-ensayo.ts`, `src/catalog/guarded-sync.ts` (`newTourSlugs`), `guarded-repository.ts` (`slugIndex`), `lib/sql.ts` (`slugStatements`), trigger `Tour_slug_inmutable` | `slug.test.ts`, `assign-slugs.test.ts`, `dry-run.test.ts`, `guarded-sync.test.ts`, `sql.test.ts` | EN CURSO (sync conectado tras SYNC_GUARD_ENABLED; falta: llenar los slugs de los tours que ya existen, con OK del PO) |
 | REQ-087 | Homónimas en un país llevan el código de estado | `src/destinations/lib/assign-slugs.ts` | `assign-slugs.test.ts` | CUMPLIDO (lógica; las homónimas sin `stateCode` salen en `ciudades-pendientes.csv`) |
 Siguiente paso en el sync (Ola 1, `src/catalog`; no se tocó aquí):
 1. En el upsert de `Tour`, no escribir nunca `slug` ni `providerId`. El trigger aborta si alguien intenta cambiar un slug.

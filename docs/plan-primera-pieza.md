@@ -169,6 +169,11 @@ src/
 | 6 | Correo de preguntas a FREETOUR | **El PO lo revisa primero** (sigue en borrador en Gmail). Versión final con 7 preguntas más la rotación de la API key; se quitó la pregunta del logo porque FREETOUR no se menciona al cliente. |
 | 7 | Quién opera el free tour (revisión del 5 nov 2026, contra el pedido «Operado por un guía local de FREETOUR.com») | **Sin mencionar FREETOUR**: «Operado por un guía local · {proveedor}» (se mantiene REQ-098 y la regla del PO) |
 | 8 | Choque de número de migración con el PR #99 (Stripe usa 0013) | El PO delegó la decisión: **el plan se renumera**. Ola 1 = 0014, Ola 3 = 0015 |
+| 9 | Política de cancelación de tours de pago (REQ-097, 5 nov 2026) | **Cancelación gratis con reembolso hasta 24 h antes**; después, o si no se presenta, **no hay reembolso**. Con depósito o con pago a la llegada aplica lo mismo sobre lo pagado. Reemplaza el texto anterior («el pago/depósito no es reembolsable si cancelas»). Código: `src/tours/lib/paid-policy.ts` |
+
+### Slug en el sync blindado (REQ-086, 5 nov 2026)
+- Con `SYNC_GUARD_ENABLED`, cada tour **nuevo** (kind `new` en el staging) recibe su slug en el mismo batch en que se inserta: `UPDATE "Tour" SET "slug" = ? WHERE "externalId" = ? AND "slug" IS NULL`. Nunca se regenera (renombrado o reaparecido conserva el suyo) y el trigger `Tour_slug_inmutable` lo impide en la base.
+- Los tours que ya existen sin slug **no** lo reciben del sync: eso es el llenado de datos de producción, candado con OK del PO.
 
 ### Aclaraciones técnicas para el PR de la Ola 1 (revisión del 5 nov 2026)
 - **REQ-072, publicación atómica:** el sync escribe una página por minuto durante unos 80 minutos. Las filas de la corrida se marcan con su `runId` y no son visibles para el render hasta que la corrida cierra bien. El cierre hace el cambio de estado en un solo `batch` de D1. Si la corrida falla, el sitio sigue leyendo la corrida anterior.

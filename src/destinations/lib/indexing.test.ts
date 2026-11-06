@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cityMeetsRule, nextCityIndexState, cityHasPage, countryIndexable, wordCount, type CityIndexState } from "./indexing";
+import { cityMeetsRule, nextCityIndexState, cityHasPage, countryIndexable, wordCount, planCityIndexing, type CityIndexState, type CityIndexRow } from "./indexing";
 
 const guide = (words: number) => Array.from({ length: words }, (_, i) => `palabra${i}`).join(" ");
 const day = (n: number) => new Date(Date.UTC(2026, 10, 1 + n, 9));
@@ -67,5 +67,28 @@ describe("REQ-091: país indexable y ciudad sin tours", () => {
   it("REQ-091: una ciudad sin tours activos no genera página (404); con 1 sí", () => {
     expect(cityHasPage(0)).toBe(false);
     expect(cityHasPage(1)).toBe(true);
+  });
+});
+
+describe("REQ-090: estado guardado por ciudad (City.indexableSince / failingSince)", () => {
+  const city = (over: Partial<CityIndexRow> = {}): CityIndexRow => ({ id: 1, activeTours: 3, guide: null, indexableSince: null, failingSince: null, ...over });
+
+  it("REQ-090: cumple por primera vez: indexableSince = hoy, failingSince vacío", () => {
+    expect(planCityIndexing([city()], day(0))).toEqual([{ id: 1, indexableSince: day(0).toISOString(), failingSince: null }]);
+  });
+  it("REQ-090: indexada que deja de cumplir: conserva indexableSince y fija failingSince el primer día", () => {
+    const idx = city({ activeTours: 2, indexableSince: day(-30).toISOString() });
+    expect(planCityIndexing([idx], day(0))).toEqual([{ id: 1, indexableSince: day(-30).toISOString(), failingSince: day(0).toISOString() }]);
+    // Al día siguiente no se mueve failingSince: no hay nada que escribir.
+    expect(planCityIndexing([{ ...idx, failingSince: day(0).toISOString() }], day(1))).toEqual([]);
+  });
+  it("REQ-090: al día 14 sin cumplir pasa a noindex (indexableSince vacío); vuelve en cuanto cumple y se borra failingSince", () => {
+    const failing = city({ activeTours: 2, indexableSince: day(-30).toISOString(), failingSince: day(0).toISOString() });
+    expect(planCityIndexing([failing], day(13))).toEqual([]);
+    expect(planCityIndexing([failing], day(14))).toEqual([{ id: 1, indexableSince: null, failingSince: day(0).toISOString() }]);
+    expect(planCityIndexing([{ ...failing, indexableSince: null, activeTours: 3 }], day(20))).toEqual([{ id: 1, indexableSince: day(20).toISOString(), failingSince: null }]);
+  });
+  it("REQ-090: sin cambios no escribe nada", () => {
+    expect(planCityIndexing([city({ indexableSince: day(-1).toISOString() })], day(0))).toEqual([]);
   });
 });

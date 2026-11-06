@@ -1,10 +1,10 @@
 import type { PrismaClient } from "@prisma/client";
 import { runBatch, type D1Like } from "@/lib/d1/batch";
 import { createCatalogRepo } from "./repository";
-import type { GuardedRepo } from "./guarded-sync";
+import type { GuardedRepo, CityIndexRepo } from "./guarded-sync";
 import type { RunState, RunStatus } from "./lib/guard-plan";
 import type { StageKind } from "./lib/content-hash";
-import { stageStatements, publishBatch, type StagedRow } from "./lib/sql";
+import { stageStatements, publishBatch, cityIndexStatements, type StagedRow } from "./lib/sql";
 
 const PROVIDER = "freetour";
 
@@ -122,6 +122,18 @@ export function createGuardedRepo(prisma: PrismaClient, db: D1Read, newId: () =>
       }));
     },
 
+    // REQ-086: los tours del paso y todos los slugs ya guardados (para que el nuevo no choque con el índice único).
+    async slugIndex(externalIds) {
+      const [mine, withSlug] = await Promise.all([
+        selectIn(db, (m) => `SELECT "id", "providerId", "externalId", "slug" FROM "Tour" WHERE "externalId" IN (${m})`, externalIds),
+        db.prepare('SELECT "id", "providerId", "externalId", "slug" FROM "Tour" WHERE "slug" IS NOT NULL').bind().all().then((r) => r.results),
+      ]);
+      const byKey = new Map([...withSlug, ...mine].map((r) => [`${r.providerId}:${r.externalId}`, r]));
+      return [...byKey.values()].map((r) => ({
+        id: String(r.id), providerId: String(r.providerId ?? "freetour"), externalId: Number(r.externalId), slug: (r.slug as string | null) ?? null,
+      }));
+    },
+
     async publish(input) {
       // Respaldo: la fila actual (tal como está en D1) de cada tour que se va a sobrescribir, con sus
       // traducciones; va en el mismo batch que la escritura.
@@ -135,6 +147,31 @@ export function createGuardedRepo(prisma: PrismaClient, db: D1Read, newId: () =>
         previous: { tour: row, translations: translations.filter((tr) => Number(tr.externalId) === Number(row.externalId)) },
       }));
       await runBatch(db as D1Like, publishBatch({ ...input, backups, newId }));
+    },
+  };
+}
+
+const isoOrNull = (v: unknown) => (v === null || v === undefined || v === "" ? null : new Date(String(v)).toISOString());
+
+/**
+ * REQ-090: estado de indexación de las ciudades sobre D1 (columnas de la 0015). Cuenta los tours publicados
+ * igual que /destinos: con slug, activos y no removed. Solo lo usa el sync blindado (SYNC_GUARD_ENABLED="true").
+ */
+// REQ-090
+export function createCityIndexRepo(db: D1Read): CityIndexRepo {
+  return {
+    async cityIndexInputs() {
+      const { results } = await db.prepare(
+        'SELECT c."id", c."guide", c."indexableSince", c."failingSince", (SELECT COUNT(*) FROM "Tour" t WHERE t."cityId" = c."id" AND t."slug" IS NOT NULL' +
+        ' AND t."isActive" = 1 AND t."syncStatus" <> \'removed\') AS "activeTours" FROM "City" c WHERE c."slug" IS NOT NULL'
+      ).bind().all();
+      return results.map((r) => ({
+        id: Number(r.id), guide: (r.guide as string | null) ?? null, activeTours: Number(r.activeTours ?? 0),
+        indexableSince: isoOrNull(r.indexableSince), failingSince: isoOrNull(r.failingSince),
+      }));
+    },
+    async saveCityIndex(updates) {
+      await runBatch(db as D1Like, cityIndexStatements(updates));
     },
   };
 }
