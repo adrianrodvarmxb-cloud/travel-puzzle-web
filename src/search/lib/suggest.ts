@@ -3,7 +3,7 @@
  * Puro: recibe el catálogo en memoria y lo que ya resolvió el buscador tolerante (S2) y devuelve ids; la raíz
  * (src/search/suggest.ts) pone nombres y títulos. Sin Intl, sin fechas, sin azar (INC-001).
  */
-import { queryCatalog, type CatalogEntry } from "@/catalog/lib/query";
+import { splitDestination, type CatalogEntry } from "@/catalog/lib/query";
 import { CATEGORY_GROUPS, categoryGroupOf } from "@/tours/lib/extra-filters";
 import { fold, foldTokens } from "./normalize";
 import { STOPWORDS } from "./words";
@@ -102,11 +102,26 @@ export function suggestCategories(entries: CatalogEntry[], text: string, max = M
     .slice(0, max);
 }
 
-/** Ids de tours para el texto ya resuelto, por número de reseñas (las mismas reglas que /tours). */
+/**
+ * Ids de tours para el texto ya resuelto, por número de reseñas. Como /tours (destino dentro del texto, palabra
+ * completa y luego inicio de palabra), pero SIN el último recurso de subcadena: una sugerencia con «rma» dentro de
+ * «germany» confunde (hallazgo del ensayo del 6 nov 2026).
+ */
 // REQ-290
 export function suggestTours(entries: CatalogEntry[], text: string, searchV2: boolean, max = MAX_TOURS): { ids: string[]; total: number } {
-  const r = queryCatalog(entries, { search: text, searchV2 }, { limit: max, sortBy: "reviewsNumber", sortOrder: "desc" });
-  return { ids: r.ids, total: r.total };
+  const split = searchV2 ? splitDestination(entries, text) : null;
+  const pool = split ? entries.filter(split.match) : entries;
+  const all = foldTokens(split ? split.rest : text);
+  const words = all.filter((w) => !STOPWORDS.has(w)).length ? all.filter((w) => !STOPWORDS.has(w)) : all;
+  let hits = pool;
+  if (words.length) {
+    const tokens = (x: CatalogEntry) => x.text.split(/[^a-z0-9\u00c0-\uffff]+/);
+    const whole = pool.filter((x) => { const t = new Set(tokens(x)); return words.every((w) => t.has(w)); });
+    hits = whole.length ? whole : pool.filter((x) => { const t = tokens(x); return words.every((w) => t.some((k) => k.startsWith(w))); });
+    if (!hits.length && split) hits = pool; // REQ-122: si el resto no encuentra nada en el destino, todo el destino
+  } else if (!split) hits = [];
+  const ids = [...hits].sort((a, b) => b.reviews - a.reviews || (a.id < b.id ? -1 : 1)).slice(0, max).map((x) => x.id);
+  return { ids, total: hits.length };
 }
 
 // REQ-290 REQ-291
