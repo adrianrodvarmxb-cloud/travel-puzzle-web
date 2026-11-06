@@ -152,6 +152,12 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
 
+## INC-006 (6 nov 2026) — deploy en rojo por `wrangler secret put` tras versiones de PR
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-155 | Secretos dentro de la versión que se prueba y despliega; reintento de subida; humo de producción siempre tras publicar; modo ensayo | `.github/workflows/deploy-cloudflare.yml`, `src/ops/lib/worker-secrets.ts`, `src/scripts/worker-secrets.ts` | `deploy-workflow.test.ts`, `worker-secrets.test.ts` | EN CURSO (falta el primer deploy con el workflow nuevo) |
+Detalle: `docs/incidentes/INC-006.md`.
+
 ## La Primera Pieza — Ola 7 «Arma tu viaje» y carrusel (5 nov 2026)
 Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arma-tu-viaje/eventos` responden 404). Cobros tras `CART_PAYMENTS_ENABLED="false"` (candado Stripe). Visa y ETIAS tras `VISA_ENABLED` / `ETIAS_ENABLED` en `"false"`.
 | ID | Requisito | Archivo(s) | Test | Estado |
