@@ -84,6 +84,10 @@
     // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
     // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
     "TAXONOMY_SYNC_ENABLED": "false",
+    // Taxonomía T3 (REQ-406…408, REQ-261): Free tour = formato pieza-libre (sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35), sin online,
+    // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
+    // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
+    "TAXONOMY_PUBLISH_ENABLED": "false",
     // REQ-262…267: bloque de venta cruzada (sin FREETOUR, regla B3) en confirmación, recordatorios, cambio y post-tour.
     // Nunca en rechazo ni cancelación. "true" con preview, prueba de humo y OK del PO. Decisión del PO (6-11 09:07):
     // la única restricción es no promover FREETOUR; no se exige la lista «No publicidad».
