@@ -71,6 +71,8 @@ export const it = {
   'tours.meetingPoint': 'Punto di Incontro',
   'tours.from': 'Da',
   'tours.free': 'Free tour',
+  // REQ-480: insignia azul sobre la foto (el precio sigue con tours.free).
+  'tours.freeBadge': 'Free tour',
   'tours.noResults': 'Nessun tour trovato',
   'tours.description': 'Descrizione',
   'tours.destination': 'Destinazione',

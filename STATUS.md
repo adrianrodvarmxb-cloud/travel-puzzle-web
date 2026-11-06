@@ -346,6 +346,7 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | REQ-432 | Métricas en STATUS.md, con la meta que propongas: % de tours con formato (100 %) y % sin tema; categoryIds por revisar (0); precisión por… | `src/taxonomy/lib/metrics.ts` (propuesto) | — | PENDIENTE (metas: gate G-T3) |
 | REQ-433 | FREETOUR: las etiquetas nunca van sobre la foto; el H1 es el título real; ningún texto de taxonomía promete pagos, MSI ni «guía en español»… | `src/taxonomy/lib/copy.ts` (propuesto) | — | PENDIENTE |
 | REQ-230 | Formato `experiencia-unica` = «Momentos de autor» (G-T6 firmado, 06:22); en «Signature moments» por firmar; slug sin cambio | `src/taxonomy/data/dictionary.ts`, `lib/copy.ts` (propuesto) | — | PENDIENTE |
+| REQ-480 | «Pieza libre»: chip de filtros de /tours e insignia azul de tarjetas y ficha; el precio «Free tour» se queda; EN «Free tour» pendiente de firma | `src/tours/lib/pieza-libre.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/lib/translations/*.ts`, `TourCard.tsx`, `FeaturedTours.tsx`, `TourHeroSection.tsx` | `pieza-libre.test.ts` | CUMPLIDO |
 
 **Métricas de taxonomía (REQ-432; metas propuestas, gate G-T3):**
 | Métrica | Meta propuesta | Valor (ensayo del 5-11, sin producción) |

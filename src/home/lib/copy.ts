@@ -12,6 +12,8 @@ const es = {
   featTitle: "Los favoritos de los viajeros",
   featSub: "Los tours con más reseñas",
   free: "Free tour",
+  /** REQ-480: insignia azul sobre la foto. */
+  freeBadge: "Pieza libre",
   reviews: (n: string) => `${n} reseñas`,
   seeAll: "Ver todos los tours",
   whyTitle: "¿Por qué Travel Puzzle?",
@@ -93,6 +95,7 @@ const en: Copy = {
   featTitle: "Travelers' favorites",
   featSub: "The tours with the most reviews",
   free: "Free tour",
+  freeBadge: "Free tour",
   reviews: (n) => `${n} reviews`,
   seeAll: "See all tours",
   whyTitle: "Why Travel Puzzle?",
