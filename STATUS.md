@@ -281,3 +281,13 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-174 | Menú, footer, H1 y title de /tours: «Experiencias» (6 idiomas); /tours no cambia de URL; «Tours» sigue como formato en filtros y chips (G1 firmado, 6 nov 2026) | `src/tours/lib/catalog-name.ts`, `src/lib/translations/*.ts`, `src/home/lib/copy.ts`, `ToursHeader.tsx`, `app/tours/page.tsx`, `seo/lib/robots.ts`, `src/tours/lib/menu.ts` | `catalog-menu.test.ts`, `menu.test.ts` | CUMPLIDO (falta OK del PO para publicar) |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.
+
+## Agente de WhatsApp — catálogo de solo lectura (PR #125, 6 nov 2026)
+Todo tras `AGENTE_API_ENABLED="false"` (apagada: `/api/agente/*` responde 404) y la llave `AGENTE_TOKEN` (secreto, candado del PO). FREETOUR queda bloqueado (regla B3: un bot no vende sus tours sin autorización escrita). Los REQ de este frente se renumeraron a REQ-148…152 (antes REQ-122…126) porque REQ-122 ya es del PR #122 (buscador); se tomó el bloque libre al fusionar. Este PR limpia los restos de la numeración vieja (REQ-148..126, REQ-148/123, REQ-150/125) en comentarios, tests y wrangler.jsonc.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-148 | Proveedores con interruptor; FREETOUR bloqueado (B3) | `src/agente/lib/catalogo.ts`, `src/app/api/agente/proveedores/route.ts`, `src/trips/public-load.ts` | `src/agente/lib/catalogo.test.ts`, `src/agente/rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-149 | Búsqueda del agente (máx. 5, solo proveedores encendidos) | `src/agente/lib/catalogo.ts`, `src/app/api/agente/buscar/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-150 | Liga prellenada (?fecha=&adultos=&ninos=) | `src/agente/lib/catalogo.ts`, `TripRequestForm.tsx`, `TripDetailView.tsx`, fichas `/viajes` y `/destinos` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
+| REQ-151 | Revisión en vivo de la fecha antes de la liga | `src/agente/lib/catalogo.ts`, `src/app/api/agente/viaje/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
+| REQ-152 | Bandera y llave (404 / 401) | `src/agente/catalogo.ts`, `src/app/api/agente/respuesta.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
