@@ -21,6 +21,7 @@ interface Deps {
   notify(record: BookingRecord, reason: string | null): Promise<unknown>;
 }
 
+// REQ-079: rechazo por webhook, confirmado con GET /booking/{refNumber} antes de avisar.
 export async function handleRejection(body: unknown, deps: Deps): Promise<RejectionResult> {
   const b = (body ?? {}) as { refNumber?: unknown; reason?: unknown };
   const refNumber = typeof b.refNumber === "string" ? b.refNumber.trim() : "";
