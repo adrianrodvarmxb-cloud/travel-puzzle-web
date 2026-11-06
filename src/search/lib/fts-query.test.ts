@@ -43,3 +43,36 @@ describe("REQ-048 interruptor y respaldo", () => {
     expect(rankedOrFallback(["a"])).toEqual(["a"]);
   });
 });
+
+// REQ-122 (gates búsqueda 5 nov 2026): palabra exacta primero; prefijo solo en la última palabra o como respaldo.
+describe("REQ-122 ftsQueries: exacta primero, prefijo después", () => {
+  it("REQ-122: la primera consulta es por palabra exacta; luego prefijo en la última; al final prefijo en todas", async () => {
+    const { ftsQueries } = await import("./fts-query");
+    expect(ftsQueries("arte")).toEqual(['"arte"', '"arte"*']);
+    expect(ftsQueries("free tour")).toEqual(['"free" AND "tour"', '"free" AND "tour"*', '"free"* AND "tour"*']);
+  });
+  it("REQ-122: plural simple también busca el singular (\"tours\" → \"tour\")", async () => {
+    const { ftsQueries } = await import("./fts-query");
+    expect(ftsQueries("tours")[0]).toBe('("tours" OR "tour")');
+    expect(ftsQueries("museos arte")[0]).toBe('("museos" OR "museo") AND "arte"');
+    // palabras cortas o que no son plural simple no se tocan
+    expect(ftsQueries("bus")[0]).toBe('"bus"');
+    expect(ftsQueries("paris")[0]).toBe('"paris"');
+  });
+  it("REQ-122: se ignoran las palabras vacías (en, de, la, the…) si queda alguna con contenido", async () => {
+    const { ftsQueries } = await import("./fts-query");
+    expect(ftsQueries("tours en")[0]).toBe('("tours" OR "tour")');
+    expect(ftsQueries("de la")[0]).toBe('"de" AND "la"');
+  });
+  it("REQ-122: con destino, todas las consultas se limitan a la columna del lugar", async () => {
+    const { ftsQueries } = await import("./fts-query");
+    expect(ftsQueries("tour", "roma")).toEqual(['"tour" AND place : "roma"', '"tour"* AND place : "roma"']);
+    expect(ftsQueries("free", "nueva york")[0]).toBe('"free" AND place : "nueva york"');
+  });
+  it("REQ-122: sigue siendo segura ante operadores de FTS y texto vacío", async () => {
+    const { ftsQueries } = await import("./fts-query");
+    expect(ftsQueries('tour "Lima" OR NEAR(')[0]).toBe('"tour" AND "lima" AND "or" AND "near"');
+    expect(ftsQueries("  ¿? ")).toEqual([]);
+    expect(ftsQueries("roma", '"; DROP')[0]).toBe('"roma" AND place : "drop"');
+  });
+});
