@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { mentionsPlatform } from "./platform-mention";
 
 /**
  * Reseñas reales de Freetour (GET /tours/{id}/reviews).
@@ -74,7 +75,8 @@ export function languageCode(name: string): string | null {
  */
 export function pickReviews(reviews: Review[], { lang, limit, minRate = 4 }: { lang: string; limit: number; minRate?: number }): Review[] {
   const usable = reviews
-    .filter((r) => r.rate >= minRate && (r.content ?? "").trim().length > 0)
+    // REQ-171: sin reseñas que nombran la plataforma (antes del límite, para no dejar huecos).
+    .filter((r) => r.rate >= minRate && (r.content ?? "").trim().length > 0 && !mentionsPlatform(r.title) && !mentionsPlatform(r.content))
     .sort((a, b) => b.addedAt.getTime() - a.addedAt.getTime());
   const own = usable.filter((r) => languageCode(r.language) === lang);
   const others = usable.filter((r) => languageCode(r.language) !== lang);

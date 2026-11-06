@@ -3,15 +3,20 @@ import type { TourCardModel } from '@/destinations/lib/catalog';
 import { formatRating } from '@/home/lib/format';
 import { isTravelerFavorite, operatedBy } from '@/tours/lib/favorite';
 import { PRIMERA_PIEZA_BADGE } from '@/tours/lib/badge';
+import { cardPrice } from '@/tours/lib/price-label';
+import type { FxRates } from '@/trips/lib/money';
 
-const price = (t: TourCardModel) =>
+/** Oculto desde REQ-170 (la tarjeta usa cardPrice, con MXN aproximado). Se conserva por la regla de no borrar código. */
+export const price = (t: TourCardModel) =>
     t.kind === 'own' ? t.priceLabel ?? 'A cotizar' : t.isFreeTour ? 'Gratis' : `Desde ${t.currency} ${Number.isInteger(t.price) ? t.price : t.price.toFixed(2)}`;
 
 /**
  * Tarjeta de tour en /destinos y /la-primera-pieza. Nada se sobrepone a la foto (REQ-098, C5):
  * la insignia y «Favorito» van debajo. El proveedor se nombra; FREETOUR nunca.
+ * Componente de servidor: el precio (REQ-170) se formatea aquí con idioma fijo (INC-001).
  */
-export function DestinationTourCard({ tour }: { tour: TourCardModel }) {
+export function DestinationTourCard({ tour, rates = null }: { tour: TourCardModel; rates?: FxRates | null }) {
+    const p = cardPrice(tour, rates);
     const rating = formatRating(tour.rating);
     const favorite = isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews });
     return (
@@ -37,17 +42,20 @@ export function DestinationTourCard({ tour }: { tour: TourCardModel }) {
                     <span className="text-[#C9D6F5]">
                         {rating ? <><span className="text-[#F5B301]">★</span> <b>{rating}</b> <span className="text-[#A9B6D6]">· {tour.reviews.toLocaleString('es-MX')}</span></> : tour.duration ? `${tour.duration} h` : ''}
                     </span>
-                    <span className="font-semibold text-[#EAF54F]">{price(tour)}</span>
+                    <span className="text-right">
+                        <span className="block font-semibold text-[#EAF54F]">{p.main}</span>
+                        {p.approx && <span className="block text-[11px] text-[#A9B6D6]">{p.approx}</span>}
+                    </span>
                 </div>
             </div>
         </Link>
     );
 }
 
-export function TourGrid({ tours }: { tours: TourCardModel[] }) {
+export function TourGrid({ tours, rates = null }: { tours: TourCardModel[]; rates?: FxRates | null }) {
     return (
         <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {tours.map((t) => <li key={t.id}><DestinationTourCard tour={t} /></li>)}
+            {tours.map((t) => <li key={t.id}><DestinationTourCard tour={t} rates={rates} /></li>)}
         </ul>
     );
 }
