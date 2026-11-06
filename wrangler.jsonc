@@ -80,7 +80,7 @@
     "FREETOUR_CHATBOT_ENABLED": "false",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
-    "TAXONOMY_CIRCUITS_ENABLED": "false",
+    "TAXONOMY_CIRCUITS_ENABLED": "true",
     "TAXONOMY_CIRCUIT_EXTRA_ENABLED": "false",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",

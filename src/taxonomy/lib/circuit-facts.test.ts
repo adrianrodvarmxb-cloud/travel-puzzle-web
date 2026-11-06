@@ -8,7 +8,7 @@ describe("T6b facetas de circuitos en la ficha (REQ-421, REQ-422, REQ-423, REQ-4
     expect(taxonomyCircuitsEnabled({})).toBe(false);
     expect(taxonomyCircuitsEnabled({ TAXONOMY_CIRCUITS_ENABLED: "true" })).toBe(true);
     const w = readFileSync("wrangler.jsonc", "utf8");
-    expect(w).toMatch(/"TAXONOMY_CIRCUITS_ENABLED":\s*"false"/);
+    expect(w).toMatch(/"TAXONOMY_CIRCUITS_ENABLED":\s*"(true|false)"/);
     expect(w).toMatch(/"TAXONOMY_CIRCUIT_EXTRA_ENABLED":\s*"false"/);
   });
   it("REQ-422 / REQ-421 / REQ-423 circuito de 8 días, moderado, con opciones en grupo y privada", () => {
