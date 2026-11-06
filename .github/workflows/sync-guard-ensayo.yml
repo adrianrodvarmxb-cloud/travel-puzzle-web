@@ -1,0 +1,73 @@
+# REQ-071…074, REQ-086, REQ-090: ENSAYO del encendido de SYNC_GUARD_ENABLED. SOLO LECTURA: no escribe en D1.
+# 1) Verifica que las migraciones 0014 y 0015 estén aplicadas (sin ellas el sync blindado falla cada minuto).
+# 2) Exporta con SELECT por páginas (no bloquea la base, a diferencia de `wrangler d1 export`) lo que la
+#    primera corrida tocaría: presencia de tours, ciudades (indexación), checkpoint del sync de hoy.
+# 3) Respaldo completo de "Tour", "TourTranslation", "City" y "SyncMetadata" en el artefacto (mide tiempo y tamaño).
+# 4) Marcador de Time Travel de D1 (punto de restauración), solo lectura.
+# La simulación (filas que escribiría la primera corrida) se calcula con la lógica pura del repo sobre este export.
+name: Sync blindado (ensayo)
+on:
+  push:
+    branches: [ops/sync-guard-ensayo]
+    paths: [.github/workflows/sync-guard-ensayo.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  ensayo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Estado de la base (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p export respaldo
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          r() { q "$1" | jq -c '.[0].results'; }
+          echo "== Migraciones aplicadas =="; r 'SELECT "name", "applied_at" FROM "d1_migrations" ORDER BY "id"' | tee export/migraciones.json | jq -r '.[] | .name'
+          echo "== Columnas 0014 en Tour =="; r "SELECT name FROM pragma_table_info('Tour') WHERE name IN ('contentHash','syncStatus','missingRuns','slug')" | tee export/columnas.json
+          echo "== Tablas 0014 =="; r "SELECT name FROM sqlite_master WHERE type IN ('table','trigger') AND name IN ('SyncRun','TourStage','Tour_slug_inmutable')" | tee export/tablas.json
+          echo "== Checkpoint del sync de hoy =="; r 'SELECT * FROM "SyncMetadata"' | tee export/syncmetadata.json
+          echo "== Conteos =="; r 'SELECT COUNT(*) AS total, SUM("isActive" = 1) AS activos, SUM("contentHash" IS NULL) AS sinHash, SUM("slug" IS NULL) AS sinSlug, SUM("syncStatus" = '"'active'"') AS stActive, SUM("syncStatus" <> '"'active'"') AS stOtro FROM "Tour"' | tee export/conteos.json
+          r 'SELECT (SELECT COUNT(*) FROM "SyncRun") AS syncRuns, (SELECT COUNT(*) FROM "TourStage") AS stage, (SELECT COUNT(*) FROM "TourTranslation") AS traducciones, (SELECT COUNT(*) FROM "City") AS ciudades, (SELECT COUNT(*) FROM "City" WHERE "slug" IS NOT NULL) AS ciudadesConSlug, (SELECT COUNT(*) FROM "City" WHERE "indexableSince" IS NOT NULL) AS ciudadesIndexables' | tee export/conteos2.json
+          echo "== Tamaño estimado del payload (bytes) =="; r 'SELECT SUM(LENGTH("title") + LENGTH(COALESCE("brief", '"''"')) + LENGTH(COALESCE("description", '"''"')) + LENGTH(COALESCE("url", '"''"'))) AS bytesTraducciones FROM "TourTranslation"' | tee export/tamano.json
+          r 'SELECT SUM(LENGTH(COALESCE("meetingPoint", '"''"')) + LENGTH(COALESCE("includes", '"''"')) + LENGTH(COALESCE("POIs", '"''"')) + LENGTH(COALESCE("images", '"''"'))) AS bytesTours FROM "Tour"' | tee -a export/tamano.json
+          echo "== D1 info =="; npx wrangler d1 info travel-puzzle --json | tee export/d1-info.json || true
+          echo "== Time Travel (marcador actual) =="; npx wrangler d1 time-travel info travel-puzzle --json | tee export/time-travel.json || true
+      - name: Export de presencia y ciudades (solo lectura)
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          total=$(q 'SELECT COUNT(*) AS n FROM "Tour"' | jq -r '.[0].results[0].n')
+          for off in $(seq 0 2000 "$total"); do
+            q "SELECT \"externalId\", \"cityId\", \"isActive\", \"lastSeenAt\", \"syncStatus\", \"missingRuns\", (\"slug\" IS NOT NULL) AS \"hasSlug\", (\"contentHash\" IS NOT NULL) AS \"hasHash\", \"rating\", \"reviewsNumber\" FROM \"Tour\" ORDER BY \"externalId\" LIMIT 2000 OFFSET $off" > "export/p-$off.json"
+          done
+          jq -s '[.[] | .[0].results[]]' export/p-*.json > export/presencia.json; rm export/p-*.json
+          q 'SELECT "id", "slug", "guide", "indexableSince", "failingSince" FROM "City"' | jq '.[0].results' > export/ciudades.json
+          echo "Presencia: $(jq length export/presencia.json) tours · Ciudades: $(jq length export/ciudades.json)"
+      - name: Respaldo por SELECT (no bloquea la base)
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          inicio=$(date +%s)
+          total=$(q 'SELECT COUNT(*) AS n FROM "Tour"' | jq -r '.[0].results[0].n')
+          for off in $(seq 0 500 "$total"); do q "SELECT * FROM \"Tour\" ORDER BY \"externalId\" LIMIT 500 OFFSET $off" > "respaldo/t-$off.json"; done
+          jq -s '[.[] | .[0].results[]]' respaldo/t-*.json > respaldo/Tour.json; rm respaldo/t-*.json
+          ntr=$(q 'SELECT COUNT(*) AS n FROM "TourTranslation"' | jq -r '.[0].results[0].n')
+          for off in $(seq 0 500 "$ntr"); do q "SELECT * FROM \"TourTranslation\" ORDER BY \"id\" LIMIT 500 OFFSET $off" > "respaldo/tr-$off.json"; done
+          jq -s '[.[] | .[0].results[]]' respaldo/tr-*.json > respaldo/TourTranslation.json; rm respaldo/tr-*.json
+          q 'SELECT * FROM "City"' | jq '.[0].results' > respaldo/City.json
+          q 'SELECT * FROM "SyncMetadata"' | jq '.[0].results' > respaldo/SyncMetadata.json
+          fin=$(date +%s)
+          echo "Respaldo: Tour $(jq length respaldo/Tour.json), TourTranslation $(jq length respaldo/TourTranslation.json), City $(jq length respaldo/City.json) en $((fin - inicio)) s"
+          du -sh respaldo/*
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: sync-guard-ensayo, path: "export\nrespaldo", retention-days: 30 }
