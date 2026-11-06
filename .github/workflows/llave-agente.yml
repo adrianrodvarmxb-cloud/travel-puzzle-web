@@ -1,6 +1,7 @@
-# REQ-185 (PO, 6 nov 2026: "hazlo tú"): crea UNA llave aleatoria y la carga como secreto en los dos Workers, sin que
+# REQ-225 (PO, 6 nov 2026: "hazlo tú"): crea UNA llave aleatoria y la carga como secreto en los dos Workers, sin que
 # nadie la vea: AGENTE_TOKEN en travel-puzzle-web y CATALOGO_TRAVEL_PUZZLE en mila-zoefel. Solo se corre a mano.
-# Correrlo otra vez rota la llave en los dos lados al mismo tiempo.
+# Correrlo otra vez rota la llave en los dos lados al mismo tiempo. Solo funciona justo después de una publicación de main:
+# si un PR subió su versión de prueba después, Cloudflare no deja cambiar secretos (la llave inicial la crea la publicación, REQ-187).
 name: Llave del agente (catálogo)
 
 on:
