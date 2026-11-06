@@ -294,6 +294,11 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T3 · REQ-407 (`fuera` fuera de /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; no cuenta para indexar) | `catalog.ts` (`destinationTree`), `destinations/load.ts`, `destinations/server.ts`, `home/load.ts`, `trips/cross-sell-deps.ts` | `publish.test.ts`, `catalog.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-408 (`por-revisar` no se publica, G-T10 = A) | `publish.ts` (`isPublishable`) | `publish.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-261 (traslados y transporte, también de FREETOUR, fuera de Experiencias) | `catalog.ts`: sección «traslados» → Traslados de la ciudad | `catalog.test.ts` | CUMPLIDO (apagado) |
+
+### Taxonomía en los carruseles del home (#148), tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #177)
+
+| REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
+|---|---|---|---|
 | REQ-480 | "El nombre de la categoría es «Pieza libre»: chip «Free tours» de los filtros de /tours → «Pieza libre» e insignia azul «FREE TOUR» → «PIEZA LIBRE»" (PO, 6 nov 2026, 10:45; corrección 10:46: el precio verde «Free tour» de las tarjetas se queda) | Dado el sitio actual (sin bandera, solo texto), cuando se ven el chip de tipo en /tours y la insignia azul sobre la foto de las tarjetas (/tours, inicio y sus carruseles) y de la ficha, entonces dicen «Pieza libre» («Free tour» en inglés y demás idiomas, pendiente de firma); el precio «Free tour», el título real (FREETOUR C4) y la colección «La Primera Pieza» no cambian. | CUMPLIDO |
 
 ## Tarjeta única de experiencia y filtros de /tours (PO, 6 nov 2026, 14:24)
