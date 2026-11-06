@@ -2,6 +2,12 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
+
+- 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-264.
+- Formularios con Zod y anti-spam; envían con Resend a info@ (sin base ni migración). Blog con datos en el repo, cero publicados y un borrador de ejemplo.
+- Falta: firma de las decisiones en `docs/gates-paginas-2026-11.md`, material del cliente para los bloques en borrador, preview en Cloudflare con banderas encendidas y OK del PO para encender (una bandera por PR).
+
 ## Resumen del 5 nov 2026
 
 **Publicado hoy (cada uno con deploy y prueba de humo en producción en verde):**
