@@ -11,7 +11,7 @@ import { SectionHeading } from './SectionHeading';
 import { MobileRail } from './MobileRail';
 
 /**
- * «Los más elegidos»: con CARRUSELES_HOME_ENABLED, ranking por medidor de reseñas de cualquier proveedor (REQ-230);
+ * «Los más elegidos»: con CARRUSELES_HOME_ENABLED, ranking por medidor de reseñas de cualquier proveedor (REQ-450);
  * sin ella, la regla anterior (60/40 cuando hay tours de pago). Con frase de reseña real.
  */
 export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
@@ -29,7 +29,7 @@ export function FeaturedTours({ tours }: { tours: HomeTour[] }) {
   );
 }
 
-/** Tarjeta de tour del home (también la usa «Excursiones de un día», REQ-233). */
+/** Tarjeta de tour del home (también la usa «Excursiones de un día», REQ-453). */
 export function HomeTourCard({ t, language, c }: { t: HomeTour; language: string; c: ReturnType<typeof homeCopy> }) {
   const title = nameIn(t.titles, language);
   const rating = formatRating(t.rating);

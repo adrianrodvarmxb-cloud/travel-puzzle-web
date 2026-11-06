@@ -10,7 +10,7 @@ import { MobileRail } from './MobileRail';
 import { HomeTourCard } from './FeaturedTours';
 
 /**
- * REQ-233: «Excursiones de un día» de cualquier proveedor, ordenadas por el medidor de reseñas (REQ-230).
+ * REQ-453: «Excursiones de un día» de cualquier proveedor, ordenadas por el medidor de reseñas (REQ-450).
  * Sin inventario (o con CARRUSELES_HOME_ENABLED apagada) no se muestra.
  */
 export function DayTripsCarousel({ items }: { items: HomeDayTrip[] }) {

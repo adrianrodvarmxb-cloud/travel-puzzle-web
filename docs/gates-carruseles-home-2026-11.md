@@ -1,6 +1,6 @@
 # Gates: carruseles del home (6 nov 2026)
 
-PO: Adrián Rodvar. Decisiones del 6 nov 2026 (06:14, 06:16 y 06:28). REQ-230 a REQ-234. Todo lo nuevo va tras `CARRUSELES_HOME_ENABLED="false"`, salvo REQ-232 (borrado) y REQ-234 (filtro de títulos).
+PO: Adrián Rodvar. Decisiones del 6 nov 2026 (06:14, 06:16 y 06:28). REQ-450 a REQ-454. Todo lo nuevo va tras `CARRUSELES_HOME_ENABLED="false"`, salvo REQ-452 (borrado) y REQ-454 (filtro de títulos).
 
 ## Ya decidido por el PO
 
@@ -26,13 +26,15 @@ PO: Adrián Rodvar. Decisiones del 6 nov 2026 (06:14, 06:16 y 06:28). REQ-230 a 
 | C7. Tamaño | 9 tarjetas por carrusel (3×3 en escritorio, deslizable en celular) | 6 |
 | C8. Excursión a propina | Una excursión de la cat 4 con precio 0 cuenta como «excursión de un día» en el carrusel. En los filtros sigue siendo «pieza libre» por precedencia | Excluirla |
 | C9. Copy | es: «EXCURSIONES DE UN DÍA» / «Excursiones de un día.» / «Sales de la ciudad y vuelves el mismo día.» · en: «DAY TRIPS» / «Day trips.» / «Leave the city and be back the same day.» (definición del diccionario de taxonomía; no nombra al proveedor) | — |
+| C11. Excursión de menos de 6 h | En el carrusel, una cat 4 de FREETOUR necesita ≥ 6 h cuando se conoce la duración. En el preview con datos de producción salían recorridos a pie de 1:30 a 2:30 h marcados como cat 4 (Zamora, Weimar, Arusha), y el copy «Sales de la ciudad y vuelves el mismo día» no sería cierto | Aceptar cualquier cat 4 (regla del diccionario) |
+| C12. Sin repetidos | Lo que ya sale en «Los más elegidos» no se repite en «Excursiones de un día» | Permitir repetidos |
 | C10. Tours de pago | Mientras `PAID_TOURS_ENABLED="false"`, solo entran tours de precio 0: no se recomienda lo que no se puede reservar (`paid_not_available`). Por eso, hoy la mezcla de formatos es limitada | Mostrarlos sin poder reservarlos (no recomendado) |
 
 ## Reglas que se derivan
 
-- Formato: es la regla mínima temporal `src/home/lib/experience-format.ts` (REQ-231). Se reemplaza por el clasificador de la taxonomía cuando llegue.
+- Formato: es la regla mínima temporal `src/home/lib/experience-format.ts` (REQ-451). Se reemplaza por el clasificador de la taxonomía cuando llegue.
 - El SQL solo prefiltra (con la misma fórmula). El orden, el formato, la diversidad y el filtro de títulos los decide `src/home/lib/`.
 - Una fila inválida se descarta y se registra en el log. Si el medidor falla, «Los más elegidos» vuelve a la regla anterior y las excursiones no se muestran.
-- Filtro de títulos (REQ-234): `src/home/lib/provider-brand.ts` es provisional. Se une con la `mentionsProviderBrand` del otro PR (agente a41f4aa).
+- Filtro de títulos (REQ-454): `src/home/lib/provider-brand.ts` es provisional. Se une con la `mentionsProviderBrand` del otro PR (agente a41f4aa).
 
 Firma del PO: ______  Fecha: ______

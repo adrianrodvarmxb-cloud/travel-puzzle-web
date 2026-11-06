@@ -1,5 +1,5 @@
 /**
- * REQ-231 — TEMPORAL: regla mínima del Eje A «Formato» para los carruseles del home (puro).
+ * REQ-451 — TEMPORAL: regla mínima del Eje A «Formato» para los carruseles del home (puro).
  * Alineada con la taxonomía homologada del 6 nov 2026 (taxonomia.md §4.1 y taxonomia-diccionario.csv:
  * precedencia de arriba abajo, gana la primera regla que se cumple).
  * REEMPLAZAR por el clasificador de la taxonomía (TaxonomyTerm `formato:*`, plan de taxonomía §13) cuando llegue
@@ -28,7 +28,7 @@ const CLASS = /\b(clase|taller|cooking)/i;
 
 export interface FreetourInput { categoryId: number; price: number; durationMinutes: number | null; titles: readonly string[] }
 
-// REQ-231
+// REQ-451
 export function freetourFormat(t: FreetourInput, opts: { freeWins?: boolean } = {}): ExperienceFormat {
   const freeWins = opts.freeWins ?? true;
   const cat = t.categoryId;
@@ -50,14 +50,20 @@ export function freetourFormat(t: FreetourInput, opts: { freeWins?: boolean } = 
 }
 
 /**
- * REQ-231: ¿es excursión de un día para el carrusel? Misma regla, pero sin que «precio 0» gane:
+ * REQ-451: ¿es excursión de un día para el carrusel? Misma regla, pero sin que «precio 0» gane:
  * una excursión gratis (cat 4 a propina) sigue siendo una excursión de un día.
  */
-export const isDayTripTour = (t: FreetourInput): boolean => freetourFormat(t, { freeWins: false }) === "excursion-dia";
+export const DAY_TRIP_MIN_MINUTES = 360;
+/**
+ * Gate C11 (por firmar): en el carrusel se exige además ≥ 6 h cuando se conoce la duración. En producción, FREETOUR marca
+ * como cat 4 recorridos a pie de 1:30 a 2:30 h, que no son «salir de la ciudad y volver el mismo día» (el copy no lo promete).
+ */
+export const isDayTripTour = (t: FreetourInput): boolean =>
+  freetourFormat(t, { freeWins: false }) === "excursion-dia" && (t.durationMinutes === null || t.durationMinutes >= DAY_TRIP_MIN_MINUTES);
 
 export interface TripInput { kind: string; durationDays: number | null; titles: readonly string[] }
 
-// REQ-231: viajes propios y de agencias (kind del gestor).
+// REQ-451: viajes propios y de agencias (kind del gestor).
 export function tripFormat(t: TripInput): ExperienceFormat {
   if (t.kind === "transporte") return "transporte";
   if (t.kind === "circuito") return "circuito";
@@ -70,5 +76,5 @@ export function tripFormat(t: TripInput): ExperienceFormat {
 export const isDayTripTrip = (t: TripInput): boolean => tripFormat(t) === "excursion-dia";
 
 const NOT_RANKED = new Set<ExperienceFormat>(["fuera", "traslado", "transporte", "alquiler", "por-revisar"]);
-/** REQ-230: formatos que entran a los carruseles por reseñas (fuera online/servicios, traslados y transporte). */
+/** REQ-450: formatos que entran a los carruseles por reseñas (fuera online/servicios, traslados y transporte). */
 export const isOnSiteForRanking = (f: ExperienceFormat): boolean => !NOT_RANKED.has(f);
