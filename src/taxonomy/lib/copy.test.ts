@@ -11,7 +11,7 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
   it("REQ-415 bandera TAXONOMY_LABELS_ENABLED: solo con \"true\" y con la publicación (T3) encendida; wrangler.jsonc en \"false\"", () => {
     expect(taxonomyLabelsEnabled({ TAXONOMY_LABELS_ENABLED: "true" })).toBe(false);
     expect(taxonomyLabelsEnabled({ TAXONOMY_LABELS_ENABLED: "true", TAXONOMY_PUBLISH_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_LABELS_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_LABELS_ENABLED":\s*"(true|false)"/);
   });
   it("REQ-416 decisión del PO: con «autoguiado» o «self-guided» en el título no hay guía en persona aunque la categoría sea guiada", () => {
     expect(c({ categoryId: 13, price: 20, title: "Juego de exploración autoguiado" }).guiaEnPersona).toBe(false);

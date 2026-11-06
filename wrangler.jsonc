@@ -81,13 +81,13 @@
     // Taxonomía T3 (REQ-406…408, REQ-261): Free tour = formato pieza-libre (sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35), sin online,
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
-    "TAXONOMY_PUBLISH_ENABLED": "false",
+    "TAXONOMY_PUBLISH_ENABLED": "true",
     // Taxonomía T4 (REQ-412, REQ-413): /tours con «Tipo de experiencia» (?formato=), sin chips en cero, noindex en combinaciones
     // y ?tipo_act= traducido. "true" con preview, prueba de humo y OK del PO (después de TAXONOMY_PUBLISH_ENABLED).
     "TAXONOMY_FILTERS_ENABLED": "false",
     // Taxonomía T5 (REQ-414…416, REQ-433, G-T9): chips de formato en la ciudad, etiqueta en la ficha y copy por formato
     // («con un guía local» solo con guía en persona). Requiere TAXONOMY_PUBLISH_ENABLED. "true" con preview, humo y OK del PO.
-    "TAXONOMY_LABELS_ENABLED": "false",
+    "TAXONOMY_LABELS_ENABLED": "true",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).
