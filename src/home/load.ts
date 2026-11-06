@@ -9,7 +9,7 @@ import type { HighlightRepo } from "@/reviews/repository";
 import type { TripCard } from "@/trips/public-load";
 import { catalogPrior, REVIEW_PRIOR_M, type Prior } from "./lib/review-score";
 import { pickDayTrips, pickMostChosen, HOME_CAROUSEL_SIZE } from "./lib/carousels";
-import { anyTitleMentionsProviderBrand, mentionsProviderBrand } from "./lib/provider-brand";
+import { mentionsProviderBrand, titlesMentionBrand } from "./lib/brand";
 import { parseTourRankRows, tripCandidate, type TourCandidate, type TripCandidate } from "./lib/rank-row";
 
 export interface HomeTour {
@@ -141,8 +141,8 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     includePaid ? prisma.tour.findMany({ where: { ...base, priceValue: { gt: 0 } }, orderBy: order, take: 60, select }) : Promise.resolve([]),
     prisma.tour.findMany({ where: { ...base, priceValue: 0 }, orderBy: order, take: 60, select }),
   ]);
-  // REQ-454: se saltan los títulos que dicen FreeTour o «free tour» (en cualquier idioma) y entra el siguiente.
-  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !anyTitleMentionsProviderBrand(t.translations.map((x) => x.title)));
+  // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
+  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)));
   const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(clean(list).map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
   return mixRecommendations(vary(paid), vary(free), 6, includePaid).flatMap((t) => {
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
@@ -192,7 +192,7 @@ async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePai
       AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
     ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
     LIMIT ${dayTripsOnly ? 600 : 300}`;
-  const { ok, dropped } = parseTourRankRows(rows); // REQ-454: también salta los títulos que dicen «free tour»
+  const { ok, dropped } = parseTourRankRows(rows); // REQ-219: también salta los títulos que dicen «free tour»
   if (dropped) console.error(`[home] ${dropped} fila(s) de tours descartadas por datos inválidos`);
   return ok;
 }
@@ -204,7 +204,7 @@ async function hydrateTours(prisma: PrismaClient, ids: string[]): Promise<Map<st
   const out = new Map<string, HomeTour>();
   for (const t of rows) {
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
-    if (!https(t.titleImageURL) || !Object.keys(titles).length || anyTitleMentionsProviderBrand(titles)) continue; // REQ-454
+    if (!https(t.titleImageURL) || !Object.keys(titles).length || titlesMentionBrand(titles)) continue; // REQ-219
     out.set(t.id, {
       id: t.id, externalId: t.externalId, titles, cityNames: asNames(t.city?.translations), image: t.titleImageURL,
       isFree: Number(t.priceValue) === 0, price: Number(t.priceValue), currency: t.priceCurrency, duration: t.duration,
@@ -221,8 +221,8 @@ async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, o
     loadTourCandidates(prisma, prior, includePaid, false),
     loadTourCandidates(prisma, prior, includePaid, true),
   ]);
-  const trips: TripCandidate[] = ownTrips.filter((t) => t.image && !mentionsProviderBrand(t.title)).map((t) => tripCandidate(t)); // REQ-454
-  // Lo que no se puede pintar (sin foto o título, o un título en otro idioma dice «free tour», REQ-454) se salta y se vuelve
+  const trips: TripCandidate[] = ownTrips.filter((t) => t.image && !mentionsProviderBrand(t.title)).map((t) => tripCandidate(t)); // REQ-219
+  // Lo que no se puede pintar (sin foto o título, o un título en otro idioma dice «free tour», REQ-219) se salta y se vuelve
   // a elegir, para que entre la siguiente y la diversidad se respete. Máx. 3 vueltas.
   const skip = new Set<string>();
   let mostChosen: (TourCandidate | TripCandidate)[] = [];
@@ -300,16 +300,16 @@ async function loadStatsAndContinents(prisma: PrismaClient) {
 
 /** Reseñas reales de 5 ★ de tours distintos, cada una con su tour. */
 async function loadReviews(prisma: PrismaClient, repo: HighlightRepo, lang: string): Promise<HomeReview[]> {
-  // REQ-454: se piden de más para saltar las de tours cuyo título dice FreeTour o «free tour» y tomar la siguiente.
-  const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 18);
+  // REQ-219: se piden de más; la reseña cuyo tour lleva la marca en el título se descarta y entra la siguiente.
+  const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 30);
   if (!picked.length) return [];
   const tours = await prisma.tour.findMany({
     where: { externalId: { in: picked.map((r) => r.tourExternalId) } },
     select: { id: true, externalId: true, city: { select: { translations: true } }, translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } } },
   });
   const byExt = new Map(tours.map((t) => [t.externalId, t]));
-  const branded = (r: (typeof picked)[number]) => { const t = byExt.get(r.tourExternalId); return !!t && anyTitleMentionsProviderBrand(t.translations.map((x) => x.title)); };
-  return picked.filter((r) => !branded(r)).slice(0, 6).map((r) => {
+  const shown = picked.filter((r) => { const t = byExt.get(r.tourExternalId); return !t || !titlesMentionBrand(t.translations.map((x) => x.title)); }).slice(0, 6);
+  return shown.map((r) => {
     const t = byExt.get(r.tourExternalId);
     return {
       id: r.id, reviewerName: r.reviewerName, title: r.title, content: r.content ?? "", rate: r.rate, addedAt: r.addedAt.toISOString(),

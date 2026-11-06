@@ -5,7 +5,7 @@
 import { z } from "zod";
 import { freetourFormat, isDayTripTour, tripFormat, isDayTripTrip } from "./experience-format";
 import type { RankCandidate } from "./carousels";
-import { anyTitleMentionsProviderBrand } from "./provider-brand";
+import { titlesMentionBrand } from "./brand";
 
 const num = z.union([z.number(), z.bigint(), z.string()]).transform((v) => Number(v)).pipe(z.number().finite());
 const numOrNull = z.union([num, z.null()]);
@@ -39,7 +39,7 @@ export function parseTourRankRows(rows: readonly unknown[]): { ok: TourCandidate
     if (!r.success) { dropped++; continue; }
     const t = r.data;
     const titles = [t.titleEs, t.titleEn].filter((x): x is string => !!x);
-    if (anyTitleMentionsProviderBrand(titles)) { branded++; continue; } // REQ-454
+    if (titlesMentionBrand(titles)) { branded++; continue; } // REQ-219 (REQ-454)
     const input = { categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes, titles };
     ok.push({
       source: "tour", id: t.id, externalId: t.externalId, key: `tour:${t.id}`,

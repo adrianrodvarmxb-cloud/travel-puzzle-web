@@ -11,10 +11,12 @@ interface TourCardProps {
   tour: Tour;
   /** Frase de una reseña real de 5 ★ en el idioma del visitante (opcional). */
   highlight?: string | null;
+  /** REQ-170: EUR + «aprox. MXN» armado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
+  priceLabel?: { main: string; approx: string | null } | null;
 }
 
 /** Tarjeta de tour con el diseño tecnológico (fondo azul marino). */
-export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
+export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel = null }) => {
   const { t } = useLanguage();
   const imageUrl = tour.images.find((img) => img && img.trim() !== '');
   const rating = formatRating(tour.rating);
@@ -50,7 +52,14 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
               <span className="text-[#7C8DBA]">—</span>
             )}
           </span>
-          <span className="font-semibold text-[#EAF54F]">{tour.price > 0 ? `${tour.currency} ${tour.price}` : free}</span>
+          {priceLabel && tour.price > 0 ? (
+            <span className="text-right">
+              <span className="block font-semibold text-[#EAF54F]">{priceLabel.main}</span>
+              {priceLabel.approx && <span className="block text-[11px] text-[#A9B6D6]">{priceLabel.approx}</span>}
+            </span>
+          ) : (
+            <span className="font-semibold text-[#EAF54F]">{tour.price > 0 ? `${tour.currency} ${tour.price}` : free}</span>
+          )}
         </div>
       </div>
     </Link>
