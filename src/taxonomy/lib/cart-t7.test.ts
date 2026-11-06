@@ -18,7 +18,7 @@ describe("T7 carrito y carrusel por formato (REQ-428, REQ-429)", () => {
   it("REQ-428 bandera TAXONOMY_CART_ENABLED en \"false\"", () => {
     expect(taxonomyCartEnabled({ TAXONOMY_CART_ENABLED: "true" })).toBe(true);
     expect(taxonomyCartEnabled({})).toBe(false);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_CART_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_CART_ENABLED":\s*"true"/);
   });
   it("REQ-428 apagada: el adaptador de FREETOUR ofrece lo de hoy (free_tour y tour) sin filtrar", async () => {
     const a = createFreetourAdapter({ api, paymentsEnabled: false, findEvents: async () => offers });

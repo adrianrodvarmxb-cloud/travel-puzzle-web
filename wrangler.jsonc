@@ -80,7 +80,7 @@
     "FREETOUR_CHATBOT_ENABLED": "false",
     // Taxonomía T7 (REQ-428, REQ-429): el carrito usa el formato (excursiones → day_trip, entradas → tickets) y la primera tarjeta
     // del carrusel se elige por formato. Sin efecto visible mientras «Arma tu viaje» esté apagada. "true" con preview, humo y OK del PO.
-    "TAXONOMY_CART_ENABLED": "false",
+    "TAXONOMY_CART_ENABLED": "true",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).
