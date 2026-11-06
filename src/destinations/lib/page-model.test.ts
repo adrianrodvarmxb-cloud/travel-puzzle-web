@@ -23,6 +23,8 @@ describe("REQ-099: titles y H1 por página", () => {
   it("REQ-099: hubs empiezan por la sección; ciudad con free tours usa el patrón firmado", () => {
     expect(primeraPiezaPage(tree, site).meta.title).toBe("La Primera Pieza | Travel Puzzle");
     expect(destinosPage(tree, site).meta.title).toBe("Destinos | Travel Puzzle");
+    // REQ-173 (PO, 6 nov 2026): description SEO de /destinos.
+    expect(destinosPage(tree, site).meta.description).toMatch(/^Free tours, experiencias y traslados en /);
     expect(countryPage(tree[0], site).meta.title).toBe("México | Travel Puzzle");
     expect(cityPage(cdmx.country, cdmx.city, site).meta.title).toBe("Free tours en Ciudad de México: tú decides cuánto vale | Travel Puzzle");
     expect(cityPage(cdmx.country, cdmx.city, site).h1).toBe("Ciudad de México");

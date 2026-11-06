@@ -6,6 +6,8 @@ const es = {
   heroSub: (tours: string, cities: string) => `${tours} experiencias con guías locales en ${cities} ciudades del mundo`,
   heroSubEmpty: "Experiencias con guías locales en todo el mundo",
   searchPlaceholder: "¿A dónde vas? Ciudad, país o experiencia",
+  /** REQ-173: en celular (<640 px) la frase completa se corta; se muestra esta (PO, 6 nov 2026). */
+  searchPlaceholderShort: "Ciudad, país o experiencia",
   searchCta: "Buscar",
   countryPlaceholder: "O elige un país",
   destTitle: "Destinos populares",
@@ -83,6 +85,7 @@ const en: Copy = {
   heroSub: (tours, cities) => `${tours} experiences with local guides in ${cities} cities worldwide`,
   heroSubEmpty: "Experiences with local guides around the world",
   searchPlaceholder: "Where to? City, country or experience",
+  searchPlaceholderShort: "City, country or experience",
   searchCta: "Search",
   countryPlaceholder: "Or pick a country",
   destTitle: "Popular destinations",
