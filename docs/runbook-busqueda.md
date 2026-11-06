@@ -25,7 +25,7 @@
 
 - **Antes de encender (en este orden, cada paso en su PR y con OK del PO):**
   1. Aviso de privacidad: el texto de `docs/legal/propuesta-aviso-busquedas-2026-11.md` pasa a `src/legal/lib/privacidad.ts`, con humo de `/privacidad`.
-  2. Migración: mover `docs/migraciones-propuestas/0017_search_log_daily.sql` a `migrations/` con el siguiente número libre y publicar a mano con la casilla «migraciones».
+  2. Migración: `migrations/0019_search_log_daily.sql`, aplicada por el PO después de la 0017 (taxonomía), en su propia publicación con la casilla «migraciones».
   3. `SEARCH_LOG_ENABLED="true"`, con preview con la bandera encendida y humo verde. Ojo: la preview usa la D1 de producción, así que si la tabla ya existe la preview escribe ahí.
 - **Top semanal de cero resultados (solo lectura):** `WEEKLY_ZERO_SQL` con `lastWeek(Date.now())` y un límite, por ejemplo `wrangler d1 execute travel-puzzle --remote --command "<WEEKLY_ZERO_SQL con las fechas>"`.
 - **Retención:** `PURGE_SQL` con `purgeBefore(Date.now())` borra lo de más de 400 días. Es una escritura en producción, así que lleva el OK del PO.
