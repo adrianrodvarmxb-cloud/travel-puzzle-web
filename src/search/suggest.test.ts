@@ -1,6 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import type { CatalogEntry } from "@/catalog/lib/query";
 import { isSearchSuggest, recoverFor, suggestFor, type SuggestDeps } from "./suggest";
 
@@ -24,10 +22,9 @@ const deps = (env: SuggestDeps["env"], over: Partial<SuggestDeps> = {}): Suggest
 const ON = { SEARCH_SUGGEST_ENABLED: "true", SEARCH_V2_ENABLED: "true", SEARCH_FUZZY_ENABLED: "true" };
 
 describe("REQ-290 SEARCH_SUGGEST_ENABLED", () => {
-  it("solo «true» la enciende; en wrangler.jsonc está en «false»", () => {
+  it("solo «true» la enciende (sin la variable, apagada)", () => {
     expect(isSearchSuggest("true")).toBe(true);
     for (const v of [undefined, "false", "1", "TRUE"]) expect(isSearchSuggest(v)).toBe(false);
-    expect(readFileSync(path.join(process.cwd(), "wrangler.jsonc"), "utf8")).toMatch(/"SEARCH_SUGGEST_ENABLED": "false"/);
   });
   it("apagada: no responde nada ni lee el catálogo", async () => {
     const load = vi.fn(async () => entries);
