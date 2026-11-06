@@ -137,3 +137,15 @@ describe("Carrusel en celular (3 tarjetas)", () => {
     expect(fifth.filter((c) => c.mobile).length).toBeLessThanOrEqual(3);
   });
 });
+
+describe("REQ-263 requireTour (correos)", () => {
+  const c = (type: CartItemType): CarouselCandidate => ({ type, title: `T ${type}`, chargedBy: "X", action: { kind: "deeplink", label: "Ver opciones", adapterId: "x", url: "https://x" } });
+  const ctx = { country: "PE", cityCode: "lima", now: 0 };
+  it("REQ-263 por omisión, sin tour no hay carrusel (REQ-108 sin cambio)", () => {
+    expect(buildCarousel({ candidates: [c("transfer"), c("transport")], context: ctx, device: "mobile", rules: [], flags: {} })).toEqual([]);
+  });
+  it("REQ-263 con requireTour=false se arma igual, con las mismas reglas de orden y máximo", () => {
+    const out = buildCarousel({ candidates: [c("transport"), c("transfer"), c("esim"), c("tickets")], context: ctx, device: "mobile", rules: [], flags: {}, requireTour: false });
+    expect(out.map((x) => x.category)).toEqual(["transfer", "esim", "tickets"]);
+  });
+});

@@ -1,0 +1,88 @@
+{
+  "proveedor": "propios",
+  "version": "2026-11-06",
+  "revisado": "src/trips/lib/trip.ts (TRIP_KINDS) y src/trips/schemas/trip.ts (CATEGORIES)",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "tour",
+      "nombre_es": "tour",
+      "nombre_en": "tour",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Pasa a circuito con 2+ días y a excursión de un día con palabra de salida."
+    },
+    {
+      "id": "circuito",
+      "nombre_es": "circuito",
+      "nombre_en": "circuito",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true
+    },
+    {
+      "id": "unica",
+      "nombre_es": "unica",
+      "nombre_en": "unica",
+      "formato": "experiencia-unica",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true
+    },
+    {
+      "id": "personalizado",
+      "nombre_es": "personalizado",
+      "nombre_en": "personalizado",
+      "formato": "a-la-medida",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true
+    },
+    {
+      "id": "transporte",
+      "nombre_es": "transporte",
+      "nombre_en": "transporte",
+      "formato": "transporte",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true
+    }
+  ],
+  "temasPorFuente": {
+    "cultural": [
+      "cultural"
+    ],
+    "aventura": [
+      "aventura"
+    ],
+    "ecoturismo": [
+      "naturaleza"
+    ],
+    "gastronomico": [
+      "gastronomia"
+    ],
+    "sol-y-playa": [
+      "playa-mar"
+    ],
+    "urbano": [
+      "urbano"
+    ],
+    "bienestar": [
+      "bienestar"
+    ]
+  }
+}

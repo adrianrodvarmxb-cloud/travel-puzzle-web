@@ -1,3 +1,5 @@
+import { formatCount } from "./format";
+
 /** Carrusel principal: fotos rescatadas que llevan a los tours reales de su ciudad. */
 
 /** Foto y nombres (en inglés, como vienen de Freetour) de cada ciudad del carrusel. */
@@ -23,6 +25,8 @@ export interface HeroSlide {
   focus: string;
   href: string;
   tours: number;
+  /** REQ-173 (INC-001): el número ya formateado en el servidor («1,343»). */
+  toursText?: string;
   names: Record<string, string>;
 }
 
@@ -41,3 +45,8 @@ export function pickHeroSlides(cities: HeroCity[]): HeroSlide[] {
 
 /** Nombres en inglés que hay que buscar en el catálogo para armar el carrusel. */
 export const HERO_SEARCH_NAMES = HERO_CITIES.flatMap((c) => c.aliases);
+
+// REQ-173 (INC-001): la tarjeta «EN PANTALLA» recibe el número formateado en el servidor («1,343 experiencias»).
+export function withToursText(slides: HeroSlide[], lang: string): HeroSlide[] {
+  return slides.map((s) => ({ ...s, toursText: formatCount(s.tours, lang) }));
+}
