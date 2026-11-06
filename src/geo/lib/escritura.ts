@@ -89,3 +89,74 @@ export function marcarNuevos(antes: Repetido[], despues: Repetido[]): Repetido[]
   const previos = new Set(antes.map(clave));
   return despues.map((r) => ({ ...r, toca: previos.has(clave(r)) ? 0 : 1 }));
 }
+
+// ---- REQ-473: país y región propios de la ciudad y alias (geo-v2-0016.sql), corrida aparte con escribir_pais=true ----
+
+export type CambioPais = { id: number; col: "countryCode" | "regionCode"; val: string };
+export type Alias = { providerCityId: number; cityId: number };
+export type FilaPais = CambioPais & { crudo: string | null };
+
+const PAIS = /^UPDATE "City" SET "(countryCode|regionCode)" = '([A-Z]{2}(?:-[A-Z]{3})?)' WHERE "id" = ([1-9]\d{0,9}) AND "(countryCode|regionCode)" IS NULL;$/;
+const ALIAS = /^INSERT OR IGNORE INTO "CityAlias" \("provider", "providerCityId", "cityId"\) VALUES \('freetour', ([1-9]\d{0,9}), ([1-9]\d{0,9})\);$/;
+
+/** REQ-473: solo UPDATE que llena countryCode/regionCode vacíos e INSERT OR IGNORE de alias de freetour. */
+export function leerSqlPais(texto: string): { cambios: CambioPais[]; alias: Alias[] } {
+  const cambios: CambioPais[] = [];
+  const alias: Alias[] = [];
+  const vistos = new Set<string>();
+  texto.split("\n").forEach((cruda, i) => {
+    const linea = cruda.replace(/\r$/, "");
+    if (linea.trim() === "" || /^--[^\n]*$/.test(linea)) return;
+    const m = PAIS.exec(linea);
+    const a = ALIAS.exec(linea);
+    if (m && m[1] === m[4]) {
+      const c = { id: Number(m[3]), col: m[1] as CambioPais["col"], val: m[2] };
+      if ((c.col === "countryCode") !== /^[A-Z]{2}$/.test(c.val)) throw new Error(`línea ${i + 1}: valor ${c.val} no va en ${c.col}`);
+      const k = `${c.col}:${c.id}`;
+      if (vistos.has(k)) throw new Error(`línea ${i + 1}: ${k} repetido`);
+      vistos.add(k);
+      cambios.push(c);
+    } else if (a) {
+      alias.push({ providerCityId: Number(a[1]), cityId: Number(a[2]) });
+    } else throw new Error(`línea ${i + 1}: no es una sentencia permitida: ${linea.slice(0, 120)}`);
+  });
+  if (cambios.length + alias.length === 0) throw new Error("el SQL no trae ninguna fila");
+  return { cambios, alias };
+}
+
+/** REQ-473: SELECT equivalente: valor de hoy y país crudo de FREETOUR de cada ciudad que se tocaría. */
+export function sqlEnsayoPais(cambios: CambioPais[]): string {
+  const v = cambios.map((c) => `(${c.id}, '${c.col}', '${c.val}')`).join(", ");
+  return `WITH "v"("id", "col", "val") AS (VALUES ${v}) SELECT "v"."id", "v"."col", "v"."val", "k"."code" AS "crudo", ` +
+    `CASE "v"."col" WHEN 'countryCode' THEN "c"."countryCode" ELSE "c"."regionCode" END AS "hoy", ` +
+    `"c"."id" IS NOT NULL AS "existe" FROM "v" LEFT JOIN "City" "c" ON "c"."id" = "v"."id" ` +
+    `LEFT JOIN "Country" "k" ON "k"."id" = "c"."countryId" ORDER BY "v"."id", "v"."col"`;
+}
+
+/** REQ-473: alias que ya existen y si su ciudad canónica existe. */
+export function sqlEnsayoAlias(alias: Alias[]): string {
+  const v = alias.map((a) => `(${a.providerCityId}, ${a.cityId})`).join(", ");
+  return `WITH "v"("p", "c") AS (VALUES ${v}) SELECT "v"."p" AS "providerCityId", "v"."c" AS "cityId", ` +
+    `"a"."cityId" AS "hoy", (SELECT COUNT(*) FROM "City" WHERE "id" = "v"."c") AS "canonica_existe" ` +
+    `FROM "v" LEFT JOIN "CityAlias" "a" ON "a"."provider" = 'freetour' AND "a"."providerCityId" = "v"."p" ORDER BY 1`;
+}
+
+/**
+ * REQ-473 (REQ-134, REQ-142): el país crudo de FREETOUR debe seguir siendo el firmado; si no, nada se escribe.
+ * countryOv = country-overrides.csv (crudo → país y región); cityOv = city-country-overrides.csv (ciudad → crudo y país).
+ */
+export function revisarPais(filas: FilaPais[], countryOv: string, cityOv: string): string[] {
+  const filasCsv = (t: string) => t.split("\n").filter((l) => l.startsWith("freetour,")).map((l) => l.split(","));
+  const porCrudo = new Map(filasCsv(countryOv).map((f) => [f[2], { pais: f[3], region: f[4] }]));
+  const porCiudad = new Map(filasCsv(cityOv).map((f) => [Number(f[1]), { crudo: f[2], pais: f[3] }]));
+  const errores: string[] = [];
+  for (const f of filas) {
+    const ciudad = porCiudad.get(Number(f.id));
+    const pais = porCrudo.get(String(f.crudo));
+    const esperado = f.col === "countryCode"
+      ? (ciudad && ciudad.crudo === f.crudo ? ciudad.pais : pais?.pais)
+      : pais?.region;
+    if (!esperado || esperado !== f.val) errores.push(`ciudad ${f.id}: ${f.col} = ${f.val} no cuadra con el país crudo ${f.crudo ?? "(sin ciudad)"}`);
+  }
+  return errores;
+}

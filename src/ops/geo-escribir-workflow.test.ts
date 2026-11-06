@@ -35,11 +35,21 @@ describe("REQ-470…472: workflow «Geo: escribir geonameid»", () => {
     expect(paso("Verificar (conteo y repetidos)")).toMatch(/repetidos geo\/repetidos-despues\.json "\$PERMITIR" geo\/repetidos-antes\.json/);
     expect(wf).toMatch(/smoke\.ts https:\/\/travelpuzzle\.com\.mx/);
     const r = paso("Restaurar D1 al instante anotado si algo falló después de escribir");
-    expect(r).toMatch(/if: failure\(\) && inputs\.escribir/);
+    expect(r).toMatch(/if: failure\(\) && [^\n]*inputs\.escribir && steps\.escribir\.outcome != 'skipped'/);
     expect(r).toMatch(/time-travel restore "\$DB" --bookmark="\$BOOKMARK"/);
   });
-  it("REQ-470: el workflow no trae SQL que borre o cambie otra cosa", () => {
-    expect(wf).not.toMatch(/\b(DELETE|DROP|ALTER|INSERT)\b/);
+  it("REQ-470: el workflow no trae SQL que borre o cambie otra cosa (INSERT solo en la validación del SQL de país)", () => {
+    expect(wf).not.toMatch(/\b(DELETE|DROP|ALTER)\b/);
+    expect(wf.split("\n").filter((l) => /\bINSERT\b/.test(l)).every((l) => l.trim().startsWith('if grep -vE "^(--.*|UPDATE'))).toBe(true);
     expect(wf).not.toMatch(/SET "(slug|translations|countryId)"/);
+  });
+  it("REQ-473: país y alias en corrida aparte, con ensayo, verificación, humo y la misma restauración", () => {
+    expect(wf).toMatch(/ {6}escribir_pais:\n.*\n {8}type: boolean\n {8}default: false/);
+    expect(paso("Un cambio por corrida")).toMatch(/if: inputs\.escribir && inputs\.escribir_pais\n[\s\S]*exit 1/);
+    expect(wf.indexOf("name: Ensayo de país y alias")).toBeGreaterThan(wf.indexOf("name: Instante para Time Travel"));
+    expect(paso("Escribir país y alias (solo con escribir_pais=true)")).toMatch(/if: inputs\.escribir_pais && !inputs\.escribir/);
+    expect(paso("Verificar país y alias")).toMatch(/revisar-pais geo\/pais-despues\.json geo\/alias-despues\.json despues/);
+    expect(paso("Prueba de humo (producción) y páginas de destinos")).toMatch(/if: \(inputs\.escribir \|\| inputs\.escribir_pais\)/);
+    expect(paso("Restaurar D1 al instante anotado si algo falló después de escribir")).toMatch(/inputs\.escribir_pais && steps\.escribir_pais\.outcome != 'skipped'/);
   });
 });

@@ -1,7 +1,7 @@
 // REQ-470…472: escritura de los geonameid v2 (gate G4). npx vitest run src/geo/lib/escritura.test.ts
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
-import { leerSqlGeonameid, lotes, sqlValores, sqlEnsayo, sqlRepetidos, gruposAlias, repetidosNoPermitidos, marcarNuevos } from "./escritura";
+import { leerSqlGeonameid, lotes, sqlValores, sqlEnsayo, sqlRepetidos, gruposAlias, repetidosNoPermitidos, marcarNuevos, leerSqlPais, sqlEnsayoPais, sqlEnsayoAlias, revisarPais } from "./escritura";
 
 const ok = (g: number, id: number) => `UPDATE "City" SET "geonameid" = ${g} WHERE "id" = ${id} AND "geonameid" IS NULL;`;
 
@@ -77,5 +77,46 @@ describe("REQ-472: ningún geonameid se repite donde no debe", () => {
     const despues = [{ g: 2511174, ids: "4016,4040", toca: 0 }, { g: 3687238, ids: "898,5948", toca: 0 }];
     expect(marcarNuevos(antes, despues).map((r) => r.toca)).toEqual([0, 1]);
     expect(repetidosNoPermitidos(marcarNuevos(antes, despues), alias, [])).toHaveLength(1);
+  });
+});
+
+describe("REQ-473: país y región propios y alias (geo-v2-0016.sql)", () => {
+  const sql = readFileSync("docs/datos/2026-11-06-geo-v2-0016-pais.sql", "utf8");
+  it("REQ-473: el SQL vigente trae 12 cambios (GB ×5 + región ×5, HK, FO) y los 2 alias de Taipei", () => {
+    const { cambios, alias } = leerSqlPais(sql);
+    expect(cambios).toHaveLength(12);
+    expect(cambios).toContainEqual({ id: 5835, col: "countryCode", val: "HK" });
+    expect(cambios).toContainEqual({ id: 6298, col: "countryCode", val: "FO" });
+    expect(cambios.filter((c) => c.col === "regionCode").map((c) => c.val)).toEqual(["GB-SCT", "GB-SCT", "GB-SCT", "GB-NIR", "GB-WLS"]);
+    expect(alias).toEqual([{ providerCityId: 4200, cityId: 4200 }, { providerCityId: 6172, cityId: 4200 }]);
+  });
+  it.each([
+    'DELETE FROM "CityAlias";',
+    'UPDATE "City" SET "countryCode" = \'HK\' WHERE "id" = 5835;',
+    'UPDATE "City" SET "countryCode" = \'HK\' WHERE "id" = 5835 AND "regionCode" IS NULL;',
+    'UPDATE "City" SET "slug" = \'hk\' WHERE "id" = 5835 AND "slug" IS NULL;',
+    'UPDATE "City" SET "countryCode" = \'GB-SCT\' WHERE "id" = 1 AND "countryCode" IS NULL;',
+    'INSERT INTO "CityAlias" ("provider", "providerCityId", "cityId") VALUES (\'freetour\', 1, 1);',
+    'INSERT OR REPLACE INTO "CityAlias" ("provider", "providerCityId", "cityId") VALUES (\'freetour\', 1, 1);',
+  ])("REQ-473: rechaza %s", (linea) => {
+    expect(() => leerSqlPais(`-- x\n${linea}\n`)).toThrow(/línea 2/);
+  });
+  it("REQ-473: los ensayos solo leen", () => {
+    const { cambios, alias } = leerSqlPais(sql);
+    for (const q of [sqlEnsayoPais(cambios), sqlEnsayoAlias(alias)]) expect(q).not.toMatch(/UPDATE|DELETE|INSERT|DROP/i);
+  });
+  const countryOv = "x\nfreetour,177,SCT,GB,GB-SCT,si,no,E\nfreetour,179,NIR,GB,GB-NIR,si,no,I\n";
+  const cityOv = "x\nfreetour,5835,CN,HK,n,PO\nfreetour,6298,DK,FO,n,PO\n";
+  it("REQ-473: escribe solo si FREETOUR sigue dando el país crudo firmado", () => {
+    const ok = [
+      { id: 4842, col: "countryCode" as const, val: "GB", crudo: "SCT" },
+      { id: 4842, col: "regionCode" as const, val: "GB-SCT", crudo: "SCT" },
+      { id: 5835, col: "countryCode" as const, val: "HK", crudo: "CN" },
+      { id: 6298, col: "countryCode" as const, val: "FO", crudo: "DK" },
+    ];
+    expect(revisarPais(ok, countryOv, cityOv)).toEqual([]);
+    expect(revisarPais([{ id: 5835, col: "countryCode", val: "HK", crudo: "HK" }], countryOv, cityOv)).toHaveLength(1);
+    expect(revisarPais([{ id: 4849, col: "regionCode", val: "GB-SCT", crudo: "NIR" }], countryOv, cityOv)).toHaveLength(1);
+    expect(revisarPais([{ id: 9, col: "countryCode", val: "GB", crudo: null }], countryOv, cityOv)).toHaveLength(1);
   });
 });
