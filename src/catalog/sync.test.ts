@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { runSyncStep, type CatalogRepo } from "./sync";
+import { runSyncStep, ensurePlaces, type CatalogRepo } from "./sync";
 
 function fakeRepo(initial: Awaited<ReturnType<CatalogRepo["getState"]>> = null) {
   let state = initial;
@@ -109,5 +109,27 @@ describe("runSyncStep", () => {
     const repo = fakeRepo({ status: "in_progress", nextPage: 2, totalPages: 2, runStartedAt: now });
     await runSyncStep({ api: fakeApi(), repo, countries: [] as never, now });
     expect(repo.upsertCountries).toHaveBeenCalledWith([expect.objectContaining({ id: 99, code: "C99" })]);
+  });
+});
+
+describe("ensurePlaces: nombres de ciudad corregidos a mano (REQ-130)", () => {
+  const moscatel = { id: 3209, title: { en: "Muscat", es: "Moscatel", pt: "Mascate", de: "Muscat", fr: "Mascate", it: "Moscato" } };
+  const api = () => ({ get: vi.fn(async () => ({ data: [moscatel] })) });
+
+  it("REQ-130: una ciudad que ya existe no se vuelve a escribir, aunque la API traiga otro nombre («Moscatel»)", async () => {
+    const repo = fakeRepo();
+    repo.countries.push(116);
+    repo.existingCityIds.mockResolvedValue([3209]);
+    const a = api();
+    await ensurePlaces({ api: a, repo, tours: [{ cityId: 3209, countryId: 116 }], allCountries: [] });
+    expect(a.get).not.toHaveBeenCalled();
+    expect(repo.upsertCities).not.toHaveBeenCalled();
+  });
+
+  it("REQ-130: solo una ciudad nueva toma el nombre de la API", async () => {
+    const repo = fakeRepo();
+    repo.countries.push(116);
+    await ensurePlaces({ api: api(), repo, tours: [{ cityId: 3209, countryId: 116 }], allCountries: [] });
+    expect(repo.upsertCities).toHaveBeenCalledWith([expect.objectContaining({ id: 3209, translations: expect.objectContaining({ es: "Moscatel" }) })]);
   });
 });
