@@ -32,3 +32,11 @@ describe("REQ-271 «Pieza libre» en la ciudad, los pines del mapa y los asuntos
     expect(readFileSync("src/booking/notify.ts", "utf8")).not.toMatch(/`Free tour \$\{/);
   });
 });
+
+describe("REQ-271 filtro «Tipo de actividad» de /tours (PO 6-11)", () => {
+  it("REQ-271 el grupo viejo dice «Visitas guiadas y Pieza libre» (en: «Guided tours & free tours»)", async () => {
+    const { groupLabel } = await import("@/tours/lib/extra-filters");
+    expect(groupLabel("visitas", "es")).toBe("Visitas guiadas y Pieza libre");
+    expect(groupLabel("visitas", "en")).toBe("Guided tours & free tours");
+  });
+});

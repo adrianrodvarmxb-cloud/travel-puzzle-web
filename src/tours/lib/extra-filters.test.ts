@@ -32,7 +32,7 @@ describe("REQ-051 tipo de actividad (categorías de Freetour agrupadas como Civi
   });
   it("REQ-051: nombres en los 6 idiomas", () => {
     for (const g of CATEGORY_GROUPS) for (const l of ["es", "en", "pt", "de", "fr", "it"]) expect(groupLabel(g.id, l).length).toBeGreaterThan(2);
-    expect(groupLabel("visitas", "es")).toBe("Visitas guiadas y free tours");
+    expect(groupLabel("visitas", "es")).toBe("Visitas guiadas y Pieza libre"); // REQ-271
   });
 });
 
