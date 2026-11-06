@@ -1,17 +1,15 @@
 import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
 import { fetchTourById } from '@/actions/tours';
-import { cached, cacheKey } from '@/cache/edge';
-import { withRetry } from '@/tours/lib/d1-load';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
-import { loadTourReviews } from '@/reviews/load';
 import type { Metadata } from 'next';
 import { tourMeta } from '@/seo/lib/meta';
-import { contactFromEnv } from '@/booking/tour-summary';
-import { cityLabel, transportForPlace } from '@/trips/cross-sell';
-import { crossSellDeps } from '@/trips/cross-sell-deps';
+import { loadTourDetailProps } from '@/tours/detail-props';
+import { primeraPiezaOn } from '@/destinations/server';
+import { tourPriceLabel } from '@/tours/lib/price-label';
+import { loadFx } from '@/trips/public-load';
 
 interface TourDetailPageProps {
     params: Promise<{ id: string }>;
@@ -51,46 +49,15 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     }
 
     try {
-        // Fetch tour data from DB
-        const tourData = await fetchTourById(tourId, language);
-
-        if (!tourData) {
+        // La carga vive en src/tours/detail-props.ts (la comparte la ficha de /destinos).
+        const props = await loadTourDetailProps(tourId, language);
+        if (!props) {
             notFound();
         }
-
-        // Transform DB tour to UI tour format
-        const initialTour = transformDBTourToUITour(
-            tourData as unknown as TourWithRelations,
-            language
-        );
-
-        // Reseñas reales de Freetour (caché de 7 días en D1)
-        // REQ-032: caché compartida 1 h; si falla, la ficha sigue sin reseñas (regla 7).
-        const externalId = (tourData as { externalId: number }).externalId;
-        const { reviews, total } = await cached(cacheKey('tour-reviews', { externalId, language }), { ttlSec: 3600, staleSec: 86400 },
-            () => withRetry(() => loadTourReviews(externalId, language, 30)))
-            .catch((e) => { console.error('[reseñas]', (e as Error).message); return { reviews: [], total: 0 }; });
-
-        const env = process.env as Record<string, string | undefined>;
-        // REQ-005/006: transporte de la misma ciudad o país (vacío si TRANSPORT_ENABLED está apagado). Si falla, la ficha sigue.
-        const rel = tourData as unknown as { city?: { translations?: unknown }; country?: { code?: string } };
-        const place = { city: cityLabel(rel.city?.translations, 'es'), country: rel.country?.code ?? null };
-        const items = await transportForPlace(place, language, crossSellDeps()).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; });
-        const crossSell = items.length ? { city: cityLabel(rel.city?.translations, language) ?? place.city ?? '', items } : null;
-        return (
-            <TourDetailClient
-                tourId={tourId}
-                initialTour={initialTour}
-                initialTourData={tourData as unknown as TourWithRelations}
-                initialLanguage={language}
-                reviews={reviews}
-                reviewsTotal={total}
-                bookingsEnabled={env.BOOKINGS_ENABLED === 'true'}
-                paidEnabled={env.PAID_TOURS_ENABLED === 'true'}
-                whatsapp={contactFromEnv(env).whatsapp}
-                crossSell={crossSell}
-            />
-        );
+        // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR con MXN aproximado (calculado aquí, idioma fijo; INC-001).
+        const rates = primeraPiezaOn() && props.initialTour && props.initialTour.price > 0 ? await loadFx().catch(() => null) : null;
+        const priceLabel = primeraPiezaOn() && props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null;
+        return <TourDetailClient {...props} priceLabel={priceLabel} />;
     } catch (error) {
         // INC-003 (regla 7): un fallo de la base no es "no existe"; va al aviso con Reintentar.
         unstable_rethrow(error);

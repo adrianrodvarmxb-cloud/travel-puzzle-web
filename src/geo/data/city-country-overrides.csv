@@ -1,0 +1,5 @@
+# REQ-142: país ISO 3166-1 propio de una ciudad cuando el país de FREETOUR no es el correcto. Se cambia solo por PR firmado por el PO.
+# Solo aplica si codigo_crudo coincide con el país que trae FREETOUR; si no, la ciudad va a revisión (conflicto).
+provider,provider_city_id,codigo_crudo,country_code,nota,revisado_por
+freetour,5835,CN,HK,Hong Kong (GeoNames 1819729 es país HK),PO firmó 6 nov 2026
+freetour,6298,DK,FO,Tórshavn (GeoNames 2611396 es país FO),PO firmó 6 nov 2026

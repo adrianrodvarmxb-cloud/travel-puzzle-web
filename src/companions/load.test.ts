@@ -14,4 +14,13 @@ describe("Ciudades de un proveedor de complementos", () => {
     const db: TripCitiesDb = { trip: { findMany: async () => { throw new Error("D1"); } } };
     expect(await providerCities(db, "Big Bus")).toEqual([]);
   });
+
+  it("REQ-147: solo cuenta viajes publicados (un borrador no anuncia su ciudad)", async () => {
+    const rows = [{ status: "published", cities: ["Londres"] }, { status: "draft", cities: ["Mascate"] }, { status: "hidden", cities: ["Oslo"] }];
+    const db: TripCitiesDb = { trip: { findMany: async (args) => {
+      expect(args.where.status).toBe("published");
+      return rows.filter((r) => r.status === args.where.status);
+    } } };
+    expect(await providerCities(db, "Big Bus")).toEqual(["Londres"]);
+  });
 });
