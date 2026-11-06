@@ -36,6 +36,12 @@ describe("REQ-173: copy genérico del catálogo: «experiencias» en lugar de «
     expect(c.seeAll).toBe("Ver todas las experiencias");
   });
 
+  it("REQ-173 (PO, 6 nov 2026): en celular el buscador del home dice la frase corta para que no se corte", () => {
+    expect(homeCopy("es").searchPlaceholderShort).toBe("Ciudad, país o experiencia");
+    expect(homeCopy("en").searchPlaceholderShort).toBe("City, country or experience");
+    expect(homeCopy("es").searchPlaceholder).toBe("¿A dónde vas? Ciudad, país o experiencia");
+  });
+
   it("REQ-173: home en inglés", () => {
     const c = homeCopy("en");
     expect(c.searchPlaceholder).toBe("Where to? City, country or experience");

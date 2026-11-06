@@ -75,7 +75,7 @@ export function destinosPage(tree: CountryNode[], siteUrl: string) {
   return {
     meta: {
       title: hubTitle(DESTINOS.name),
-      description: clip(`Free tours, tours y traslados en ${shown.length ? list(shown.slice(0, 5).map((c) => c.name)) : "todo el mundo"}, con guías locales y un asesor en español por WhatsApp.`),
+      description: clip(`Free tours, experiencias y traslados en ${shown.length ? list(shown.slice(0, 5).map((c) => c.name)) : "todo el mundo"}, con guías locales y un asesor en español por WhatsApp.`),
       canonical: canonicalUrl(siteUrl, ROUTES.destinos),
       index: shown.length > 0,
     } satisfies PageMeta,
