@@ -10,6 +10,7 @@ import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
 import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
+import { sitePagesFromEnv } from "@/site/lib/pages";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,7 +55,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <AppProviders>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) }}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), pages: sitePagesFromEnv(process.env as Record<string, string | undefined>), year: new Date().getFullYear() }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

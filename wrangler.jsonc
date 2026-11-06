@@ -96,6 +96,8 @@
     // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
     "PRIMERA_PIEZA_ENABLED": "false",
     "AFFILIATE_PATHS": "/trenes,/traslados",
+    // Página /nosotros (REQ-240…245). Apagada = 404 y sin enlace en el pie. "true" con preview encendido, prueba de humo y OK del PO.
+    "NOSOTROS_ENABLED": "false",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.

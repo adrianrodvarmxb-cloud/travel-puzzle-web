@@ -2,14 +2,17 @@
  * REQ-003 — Prueba de humo con navegador real (Playwright) a 390 y 1366 px.
  * Uso: npx tsx src/scripts/smoke.ts <url-base>   → sale con código 1 si algo falla.
  * Páginas: tests/smoke/pages.json + fichas reales encontradas en /tours.
+ * REQ-242: las de "flagged" entran solo si su bandera está en "true" (en el entorno del runner o en wrangler.jsonc).
  */
 import { readFileSync } from "node:fs";
 import { chromium, devices } from "playwright";
 import { isHydrationError, smokePages, smokeVerdict, type SmokeResult } from "../ops/lib/smoke";
+import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
 if (!/^https?:\/\//.test(base)) { console.error("Uso: npx tsx src/scripts/smoke.ts <url-base>"); process.exit(2); }
-const { fixed } = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as { fixed: string[] };
+const cfg = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as { fixed: string[]; flagged?: Record<string, string[]> };
+const fixed = [...cfg.fixed, ...flaggedSmokePages(cfg.flagged, wranglerVars(readFileSync("wrangler.jsonc", "utf8")), process.env)];
 
 (async () => {
   const browser = await chromium.launch();
