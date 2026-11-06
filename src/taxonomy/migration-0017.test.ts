@@ -47,6 +47,6 @@ describe("REQ-409 migración 0017: tablas propias de la taxonomía", () => {
   it("REQ-408 la corrida guarda las categorías sin mapear (log de por-revisar) con valores por omisión", () => {
     const d = db();
     d.prepare(`INSERT INTO "TaxonomyRun" ("id","startedAt","mappingVersion") VALUES ('r1','2026-11-06T00:00:00Z','2026-11-06')`).run();
-    expect(d.prepare(`SELECT "counts","unmapped","unclassified","status" FROM "TaxonomyRun"`).all()).toEqual([{ counts: "{}", unmapped: "[]", unclassified: 0, status: "running" }]);
+    expect(d.prepare(`SELECT "counts","unmapped","unclassified","status","cursor","tripsDone" FROM "TaxonomyRun"`).all()).toEqual([{ counts: "{}", unmapped: "[]", unclassified: 0, status: "running", cursor: "", tripsDone: 0 }]);
   });
 });

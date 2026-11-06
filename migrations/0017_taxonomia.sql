@@ -43,6 +43,8 @@ CREATE TABLE IF NOT EXISTS "TaxonomyRun" (
   "unmapped"       TEXT NOT NULL DEFAULT '[]',   -- JSON [{provider, categoryId, tours}]
   "unclassified"   INTEGER NOT NULL DEFAULT 0,
   "status"         TEXT NOT NULL DEFAULT 'running' CHECK ("status" IN ('running','published','aborted')),
-  "abortReason"    TEXT
+  "abortReason"    TEXT,
+  "cursor"         TEXT NOT NULL DEFAULT '',     -- último Tour.id clasificado (el recálculo va por tandas, una por minuto)
+  "tripsDone"      INTEGER NOT NULL DEFAULT 0    -- 1 cuando ya se clasificaron los viajes propios
 );
 CREATE INDEX IF NOT EXISTS "TaxonomyRun_status" ON "TaxonomyRun" ("status","finishedAt");
