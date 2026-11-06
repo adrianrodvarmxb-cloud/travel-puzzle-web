@@ -47,7 +47,7 @@ export async function tripMetadata(data: TripData, path: string): Promise<Metada
     };
 }
 
-export async function TripDetailView({ data, path, breadcrumbs }: { data: TripData; path: string; breadcrumbs?: React.ReactNode }) {
+export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { data: TripData; path: string; breadcrumbs?: React.ReactNode; prellenado?: { fecha?: string; adultos?: number; ninos?: number } }) {
     const { trip, translations: tr, fx } = data;
     const lang = await getPreferredLanguage();
     const c = tripCopy(lang);
@@ -162,7 +162,7 @@ export async function TripDetailView({ data, path, breadcrumbs }: { data: TripDa
                             <TripRequestForm tripId={trip.id} custom={trip.kind === 'personalizado'} currency={trip.currency} lang={lang} returnPath={path}
                                 options={trip.options.map((o) => ({ ...o, name: L(`options.${o.id}.name`, o.name) }))} availability={trip.availability}
                                 minNoticeHours={trip.minNoticeHours} hotelPickup={trip.hotelPickup} policy={policy.text}
-                                policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} />
+                                policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} prellenado={prellenado} />
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5 text-sm text-[#D5DCEE]">
                                 <ul className="space-y-2">
                                     {trip.languages.length > 0 && <li>{/* REQ-146 */}{isAudio ? '🎧' : '🗣️'} {languagesLabel(trip, c)}{isAudio ? ' ' : ': '}{trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
