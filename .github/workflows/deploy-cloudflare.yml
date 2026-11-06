@@ -145,6 +145,15 @@ jobs:
           if [ -n "$RESEND_API_KEY" ]; then printf '%s' "$RESEND_API_KEY" | npx wrangler secret put RESEND_API_KEY; fi
           # Tipo de cambio FIX de Banxico (viajes propios), si ya está en GitHub
           if [ -n "$BANXICO_TOKEN" ]; then printf '%s' "$BANXICO_TOKEN" | npx wrangler secret put BANXICO_TOKEN; fi
+          # REQ-187: llave del catálogo del agente de WhatsApp. Se crea una sola vez, aquí, justo después de publicar
+          # (Cloudflare no deja cambiar secretos si la última versión no es la publicada). Primero en mila-zoefel y luego
+          # aquí: si lo segundo falla, la próxima publicación la vuelve a crear en los dos. Nunca se imprime.
+          if ! tiene AGENTE_TOKEN; then
+            llave=$(openssl rand -hex 32); echo "::add-mask::$llave"
+            printf '%s' "$llave" | npx wrangler secret put CATALOGO_TRAVEL_PUZZLE --name mila-zoefel > /dev/null
+            printf '%s' "$llave" | npx wrangler secret put AGENTE_TOKEN > /dev/null
+            unset llave; echo "Llave del agente creada (mila-zoefel y travel-puzzle-web)."
+          fi
           # Claves internas: se generan una sola vez y se conservan
           for n in CRON_SECRET AUTH_SECRET; do
             if ! tiene "$n"; then openssl rand -base64 32 | tr -d '\n' | npx wrangler secret put "$n"; fi
