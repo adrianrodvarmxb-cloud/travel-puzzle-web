@@ -225,3 +225,13 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T4 · REQ-412 (nunca un chip en cero) | conteos por formato de la consulta (`facets.formato`) + viajes propios | `filters.test.ts` | CUMPLIDO (apagado) |
 | T4 · REQ-410 (temas en muestra no se muestran) | `?tema=` no filtra hasta la firma de la muestra | — | Pendiente de la firma de la muestra |
 | T4 · REQ-261 (traslado, transporte y renta fuera de /tours) | `queryCatalog` con la taxonomía | `filters.test.ts` | CUMPLIDO (apagado) |
+
+### Taxonomía, fase T5: etiquetas y copy por formato, tras `TAXONOMY_LABELS_ENABLED="false"` (requiere T3; va después de #156, #177 y #179)
+
+| Fase y REQ | Código | Test | Estado |
+|---|---|---|---|
+| T5 · REQ-414 (chips de formato en «Tours» de la ciudad, sin cambiar la URL, nunca en cero) | `src/taxonomy/lib/copy.ts` (`cityFormatChips`), `components/destinations/ToursByFormat.tsx`, `app/destinos/[pais]/[ciudad]/page.tsx` | `src/taxonomy/lib/copy.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-415 (etiqueta de formato fuera de la foto; H1 = título real) | `destinations/lib/page-model.ts` (`labels`), `components/tours/one/PrimeraPiezaInfo.tsx` | `copy.test.ts`, `destinations/lib/page-model.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-416 («con un guía local» solo con guía en persona; decisión del PO: no si el título dice autoguiado o self-guided) | `taxonomy/lib/publish.ts` (`guiaEnPersona`), `copy.ts` (`cityIntro`, `operatedByFor`, `tourDescription`) | `copy.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado); pt/de/fr/it de los nombres de formato: flujo de traducción pendiente (hoy en inglés) |
+| T5 · REQ-433 (sin MSI, pagos, «guía en español» ni la marca en el copy de T5) | `copy.ts` | `copy.test.ts` | CUMPLIDO |
+| T5 · G-T9 = A (title «– Excursión desde {Ciudad}» en excursiones; cambia REQ-099 solo para ese formato) | `copy.ts` (`tourTitleByFormat`), `page-model.ts` | `copy.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |

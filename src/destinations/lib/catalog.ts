@@ -11,7 +11,7 @@
 import { cityName } from "./dry-run";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
-import { isPublishable, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { isPublishable, ownKindFormato, type CatalogClassifier } from "@/taxonomy/lib/publish";
 
 export interface CountryRow { id: number; code: string; iso2: string | null; translations: unknown }
 export interface CityRow {
@@ -63,6 +63,9 @@ export interface TourCardModel {
   kind: "free" | "paid" | "own";
   priceLabel?: string | null;
   updatedAt: string;
+  /** T3/T5: formato de la taxonomía y si hay guía en persona (solo con TAXONOMY_PUBLISH_ENABLED). */
+  formato?: string;
+  guiaEnPersona?: boolean;
 }
 
 export interface CityNode {
@@ -106,7 +109,9 @@ export function isListed(t: Pick<TourRow, "slug" | "isActive" | "status">): bool
 export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxonomy?: CatalogClassifier): TourCardModel {
   // REQ-406 (T3, tras TAXONOMY_PUBLISH_ENABLED): Free tour = formato pieza-libre; apagada, precio 0 como hoy.
   const isFreeTour = taxonomy ? taxonomy(t).formato === "pieza-libre" : Number(t.price) === 0;
+  const cls = taxonomy?.(t);
   return {
+    ...(cls && { formato: cls.formato, guiaEnPersona: cls.guiaEnPersona }),
     id: t.id, href: tourPath(countrySlug, citySlug, t.slug!), title: t.title, provider: t.provider, image: t.image,
     isFreeTour, price: Number(t.price), currency: t.currency, rating: t.rating, reviews: t.reviews, duration: t.duration,
     kind: isFreeTour ? "free" : "paid", updatedAt: t.updatedAt,
@@ -154,6 +159,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
         .map((tr): TourCardModel => ({
           id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: null, image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
+          ...(taxonomy && { formato: ownKindFormato(tr.kind), guiaEnPersona: tr.kind !== "transporte" }),
         }));
       // REQ-172: el transporte no es un tour; cuenta para que la ciudad tenga página, pero se lista en Traslados.
       const transportIds = new Set(trips.filter((tr) => tr.kind === "transporte").map((tr) => tr.id));
