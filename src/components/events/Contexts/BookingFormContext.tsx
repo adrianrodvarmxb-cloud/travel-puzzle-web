@@ -26,6 +26,8 @@ interface BookingFormContextValue {
     bookingsEnabled: boolean;
     /** Reserva confirmada por Freetour (cuando ya se reservó). */
     booking: Booking | null;
+    /** REQ-182: enlace a «Arma tu viaje» que devuelve el servidor (solo con ARMA_TU_VIAJE_ENABLED). */
+    tripUrl: string | null;
     /** REQ-083: ADULT_CONTACT_CHECK_ENABLED; si está encendida, el contacto debe declararse adulto. */
     adultContactCheck: boolean;
     contactIsAdult: boolean;
@@ -59,6 +61,7 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled, adultC
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [booking, setBooking] = useState<Booking | null>(null);
+    const [tripUrl, setTripUrl] = useState<string | null>(null);
     // REQ-083: casilla «soy mayor de edad», sin marcar por omisión.
     const [contactIsAdult, setContactIsAdult] = useState(false);
     // Un token por formulario: si el envío se repite (doble clic, reintento), la pasarela no duplica la reserva.
@@ -118,6 +121,7 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled, adultC
                 throw new Error(result.message || 'No pudimos confirmar tu reserva. Intenta de nuevo.');
             }
 
+            setTripUrl(typeof result.tripUrl === 'string' && result.tripUrl.startsWith('/arma-tu-viaje?') ? result.tripUrl : null);
             setBooking(result.booking);
         } catch (error) {
             setSubmitError(error instanceof Error ? error.message : 'No pudimos confirmar tu reserva. Intenta de nuevo.');
@@ -141,6 +145,7 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled, adultC
         isReady,
         bookingsEnabled,
         booking,
+        tripUrl,
         adultContactCheck,
         contactIsAdult,
         setContactIsAdult,

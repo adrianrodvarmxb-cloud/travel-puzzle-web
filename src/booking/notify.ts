@@ -1,3 +1,4 @@
+import { tripUrl } from "@/cart/lib/links";
 import { buildStatusEmail, type StatusKind } from "@/notifications/lib/status-emails";
 import { buildReviewRequestEmail } from "@/notifications/lib/review-email";
 import { buildIcs, icsAttachment } from "@/notifications/lib/ics";
@@ -59,6 +60,8 @@ interface Deps {
    * tours de FREETOUR en ningún correo: confirmación, recordatorios, estado y post-tour (gate del PO, 5 nov 2026).
    */
   freetourPostTourPromo?: boolean;
+  /** REQ-182: ARMA_TU_VIAJE_ENABLED; con "true" la confirmación enlaza a «Arma tu viaje» de esa reserva. */
+  armaTuViaje?: boolean;
   send(email: { to: string; subject: string; html: string; text: string; attachments?: { filename: string; content: string; contentType?: string }[] }): Promise<string>;
 }
 
@@ -137,6 +140,8 @@ export async function sendBookingConfirmation(
       isFree: tour?.isFree ?? record.price === 0,
       contact: deps.contact,
       variant: opts.variant,
+      // REQ-182
+      tripUrl: tripUrl({ site, token: record.manageToken, enabled: deps.armaTuViaje === true, status: record.status }),
     });
     const attachments = !opts.variant || opts.variant === "confirmation" ? calendarAttachment("REQUEST", record, tour, site, deps.calendar) : [];
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
