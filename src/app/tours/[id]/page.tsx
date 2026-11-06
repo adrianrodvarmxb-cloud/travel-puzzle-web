@@ -7,6 +7,9 @@ import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import type { Metadata } from 'next';
 import { tourMeta } from '@/seo/lib/meta';
 import { loadTourDetailProps } from '@/tours/detail-props';
+import { primeraPiezaOn } from '@/destinations/server';
+import { tourPriceLabel } from '@/tours/lib/price-label';
+import { loadFx } from '@/trips/public-load';
 
 interface TourDetailPageProps {
     params: Promise<{ id: string }>;
@@ -51,7 +54,10 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         if (!props) {
             notFound();
         }
-        return <TourDetailClient {...props} />;
+        // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR con MXN aproximado (calculado aquí, idioma fijo; INC-001).
+        const rates = primeraPiezaOn() && props.initialTour && props.initialTour.price > 0 ? await loadFx().catch(() => null) : null;
+        const priceLabel = primeraPiezaOn() && props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null;
+        return <TourDetailClient {...props} priceLabel={priceLabel} />;
     } catch (error) {
         // INC-003 (regla 7): un fallo de la base no es "no existe"; va al aviso con Reintentar.
         unstable_rethrow(error);

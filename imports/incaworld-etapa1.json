@@ -2905,7 +2905,7 @@
       "id": "regular",
       "name": "Servicio regular",
       "mode": "group",
-      "adult": 546,
+      "adult": 522,
       "child": null,
       "infant": null,
       "childAgeMin": 3,

@@ -1,5 +1,6 @@
 /** Prueba social a partir de reseñas reales: etiqueta "Favorito de los viajeros" y frases destacadas. */
 import { languageCode, type Review } from "./reviews";
+import { mentionsPlatform } from "./platform-mention";
 
 export type TourReview = Review & { tourExternalId: number };
 
@@ -28,7 +29,8 @@ const MIN_LENGTH = 20;
 /** Reseñas de 5 ★ con texto útil, primero las del idioma del visitante y las más recientes. */
 function usable(reviews: TourReview[], lang: string): TourReview[] {
   const ok = reviews
-    .filter((r) => r.rate >= 5 && (r.content ?? "").trim().length >= MIN_LENGTH)
+    // REQ-171: ni frases destacadas ni reseñas del inicio que nombran la plataforma.
+    .filter((r) => r.rate >= 5 && (r.content ?? "").trim().length >= MIN_LENGTH && !mentionsPlatform(r.title) && !mentionsPlatform(r.content))
     .sort((a, b) => b.addedAt.getTime() - a.addedAt.getTime());
   return [...ok.filter((r) => languageCode(r.language) === lang), ...ok.filter((r) => languageCode(r.language) !== lang)];
 }

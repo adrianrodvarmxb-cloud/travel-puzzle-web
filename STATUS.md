@@ -133,6 +133,12 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-056 | Pantalla de filtros estilo Civitatis | `src/components/tours/filters/*`, `ToursPageClient.tsx` | `extra-filters.test.ts`, `filters-copy.test.ts` + revisión visual | EN CURSO |
 | REQ-061 | Idioma y fecha ocultos hasta cubrir el catálogo | `MoreFilters.tsx`, `/tours`, `wrangler.jsonc` | revisión visual | CUMPLIDO |
 | REQ-113 | Interruptor FREETOUR_API_VERSION (2.0 por defecto) | `src/freetour/lib/hosts.ts`, `gateway/lib/api-version.js`, `gateway/server.js` | `hosts.test.ts`, `api-version.test.js` | CUMPLIDO (apagado) |
+| REQ-159 | Enlace de pago de Stripe desde /admin/solicitudes (gate A) | `src/payments/service.ts`, `src/payments/lib/checkout.ts`, `src/app/api/admin/solicitudes/[id]/pago/route.ts`, `src/components/admin/PaymentLinkControl.tsx` | `service.test.ts`, `checkout.test.ts` | EN CURSO (apagado; falta preview con bandera) |
+| REQ-115 | Cobro en MXN, USD/EUR con FIX + colchón 3% (gate B1) | `src/payments/lib/checkout.ts` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
+| REQ-116 | Enlace de 24 h y reenviar vence el anterior (gate C1) | `src/payments/lib/checkout.ts`, `src/payments/service.ts`, `src/payments/stripe-client.ts` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
+| REQ-117 | Webhook firmado e idempotente; solicitud "Pagada" y correos | `src/payments/lib/webhook.ts`, `src/payments/service.ts`, `src/payments/deps.ts`, `src/app/api/stripe/webhook/route.ts`, `src/trips/lib/request.ts` | `webhook.test.ts`, `service.test.ts`, `request.test.ts` | EN CURSO (apagado; falta webhook en Stripe) |
+| REQ-118 | Bandera STRIPE_ENABLED (404 y sin control) | `src/payments/lib/checkout.ts`, rutas de pago y webhook, `src/app/admin/solicitudes/page.tsx` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
+| REQ-119 | Tabla Payment (migración 0013) | `migrations/0013_pagos.sql`, `prisma/schema.prisma` | `service.test.ts` (fila guardada) | EN CURSO (migración sin aplicar) |
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
@@ -151,6 +157,12 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-019 | Conformidad con el Swagger | `gateway/lib/operations.js`, `gateway/lib/freetour-spec-required.json` | `spec-conformance.test.js` | CUMPLIDO |
 | REQ-020 | Diagnóstico en cPanel | `gateway/lib/diagnostic.js`, `gateway/scripts/prueba-reservas.js` | `diagnostic.test.js` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-002.md`.
+
+## INC-006 (6 nov 2026) — deploy en rojo por `wrangler secret put` tras versiones de PR
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-155 | Secretos dentro de la versión que se prueba y despliega; reintento de subida; humo de producción siempre tras publicar; modo ensayo | `.github/workflows/deploy-cloudflare.yml`, `src/ops/lib/worker-secrets.ts`, `src/scripts/worker-secrets.ts` | `deploy-workflow.test.ts`, `worker-secrets.test.ts` | EN CURSO (falta el primer deploy con el workflow nuevo) |
+Detalle: `docs/incidentes/INC-006.md`.
 
 ## La Primera Pieza — Ola 7 «Arma tu viaje» y carrusel (5 nov 2026)
 Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arma-tu-viaje/eventos` responden 404). Cobros tras `CART_PAYMENTS_ENABLED="false"` (candado Stripe). Visa y ETIAS tras `VISA_ENABLED` / `ETIAS_ENABLED` en `"false"`.
@@ -171,6 +183,12 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-145 | Rango de vigencia en el encabezado de la ficha (transporte) | `src/trips/lib/trip-facts.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
 | REQ-146 | «Audioguía en …» en hop-on hop-off | `src/trips/lib/trip-facts.ts`, `src/trips/lib/copy.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
 | REQ-147 | «Disponible en» solo con viajes publicados | `src/companions/load.ts` | `load.test.ts` | CUMPLIDO |
+| REQ-153 | Sin transporte en el carrusel «Viajes armados por nuestros expertos» | `src/home/lib/carousel.ts`, `src/components/home/v2/OwnTripsCarousel.tsx` | `carousel.test.ts` | EN CURSO |
+| REQ-154 | «Guía en español» solo con guía en vivo en español | `src/trips/lib/guarantees.ts`, `TripGuarantees.tsx`, `TripDetailView.tsx` | `guarantees.test.ts` | EN CURSO |
+| REQ-156 | «Opciones de pago» solo con pagos en línea | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
+| REQ-157 | «Asesores» siempre; «Itinerarios a tu medida» solo en personalizado | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
+| REQ-158 | Encender TRANSPORT_ENABLED (protocolo de bandera) | `wrangler.jsonc` | prueba de humo del preview | EN CURSO (PR #127) |
+| REQ-172 | Transporte fuera de /tours; sección «Transporte turístico» en /traslados; Traslados en /destinos | `src/trips/lib/public.ts`, `src/transfers/lib/page-mode.ts`, `src/destinations/lib/catalog.ts`, `src/middleware.ts`, `src/app/tours/page.tsx`, `src/app/traslados/page.tsx`, `src/app/destinos/[pais]/[ciudad]/page.tsx` | `public.test.ts`, `page-mode.test.ts`, `catalog.test.ts`, prueba de humo | EN CURSO (tests verdes; falta OK del PO) |
 
 ## Métricas La Primera Pieza (REQ-111, metas firmadas en el gate 5 del plan)
 Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_TARGETS`). Sin dato = no cumple; nada se simula.
@@ -252,5 +270,7 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firmado por el PO el 6 nov 2026) |
 | REQ-142 | País propio por ciudad: Hong Kong → HK, Tórshavn → FO | `src/geo/lib/country.ts`, `dry-run-v2.ts`, `src/scripts/geo-cruce-v2.ts`, `src/geo/data/city-country-overrides.csv` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (se escribe con la 0016: G3/G4) |
 | REQ-143 | Las 5 dudosas decididas por el PO (Alajuela ADM1, SLP ADM1, La Palma sin geonameid, Diani Beach, Ao Nang) | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+| REQ-170 | Ficha de tour de pago y tarjetas de la lista de ciudad: EUR con MXN aproximado (FREETOUR D4), tras PRIMERA_PIEZA_ENABLED | `src/tours/lib/price-label.ts`, `DestinationTourCard.tsx`, `app/destinos/[pais]/[ciudad]/page.tsx`, `TourSidebar.tsx`, `TourMobileBar.tsx`, `TourDetailClient.tsx`, `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `app/tours/[id]/page.tsx` | `price-label.test.ts`, `card-price.test.ts` | CUMPLIDO |
+| REQ-171 | Reseñas que nombran la plataforma se ocultan al pintar en ficha, frases destacadas e inicio (en producción, sin bandera) | `src/reviews/lib/platform-mention.ts`, `reviews.ts`, `highlights.ts`, `src/tours/detail-props.ts` | `platform-mention.test.ts`, `platform-everywhere.test.ts` | CUMPLIDO |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.

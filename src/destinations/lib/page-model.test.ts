@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { destinationTree, findCity } from "./catalog";
 import { fx, tour } from "../fixtures/destinos";
-import { cityPage, countryPage, destinosPage, primeraPiezaPage, tourPage, cityTransportCards, goneRewritePath, goneView, sitemapInput } from "./page-model";
+import { cityPage, countryPage, destinosPage, primeraPiezaPage, tourPage, cityTransportCards, goneRewritePath, goneViewFromPlace, sitemapInput } from "./page-model";
 import { buildSitemaps } from "@/seo/lib/sitemaps";
 import { findDuplicateTitles } from "@/seo/lib/titles";
 
@@ -167,16 +167,26 @@ describe("REQ-088: traslados en la ciudad desde el registro de complementos", ()
 });
 
 describe("REQ-092: página 410 (con el header del sitio)", () => {
-  it("REQ-092: el middleware reescribe a /tour-retirado con el título, la ciudad y su enlace", () => {
-    const path = goneRewritePath({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
-    const u = new URL(path, "https://x");
+  const removed = { status: "removed" as const, title: "Tour viejo", cityName: "Ciudad de México", countrySlug: "mx", citySlug: "ciudad-de-mexico", cityLive: true };
+  it("REQ-092: el middleware reescribe a /tour-retirado solo con el id (sin texto en la URL)", () => {
+    const u = new URL(goneRewritePath("ck1"), "https://x");
     expect(u.pathname).toBe("/tour-retirado");
-    expect(goneView(Object.fromEntries(u.searchParams))).toEqual({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
+    expect(Object.fromEntries(u.searchParams)).toEqual({ id: "ck1" });
   });
-  it("REQ-092: la página no acepta enlaces fuera de /destinos (sin redirección abierta) y tiene textos de respaldo", () => {
-    expect(goneView({ h: "https://malo.example", t: "", c: "" })).toEqual({ title: "Este tour", cityName: "otros destinos", cityHref: "/destinos" });
-    expect(goneView({ h: "//malo.example" }).cityHref).toBe("/destinos");
-    expect(goneView({ h: ["/destinos/pe"], t: "x".repeat(500) }).title).toHaveLength(160);
+  it("REQ-092: el título y la ciudad salen de la base (tour removed)", () => {
+    expect(goneViewFromPlace(removed)).toEqual({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
+  });
+  it("REQ-092: sin tour, o si el tour sigue activo, se usa el texto fijo (nunca un parámetro)", () => {
+    const fixed = { title: "Este tour", cityName: "otros destinos", cityHref: "/destinos" };
+    expect(goneViewFromPlace(null)).toEqual(fixed);
+    expect(goneViewFromPlace({ ...removed, status: "active" })).toEqual(fixed);
+    expect(goneViewFromPlace({ ...removed, status: "missing" })).toEqual(fixed);
+  });
+  it("REQ-092: si la ciudad ya no tiene tours o no tiene slug, enlaza a /destinos; título vacío o largo con respaldo", () => {
+    expect(goneViewFromPlace({ ...removed, cityLive: false })).toMatchObject({ cityName: "otros destinos", cityHref: "/destinos" });
+    expect(goneViewFromPlace({ ...removed, citySlug: null })).toMatchObject({ cityHref: "/destinos" });
+    expect(goneViewFromPlace({ ...removed, title: "  " }).title).toBe("Este tour");
+    expect(goneViewFromPlace({ ...removed, title: "x".repeat(500) }).title).toHaveLength(160);
   });
 });
 

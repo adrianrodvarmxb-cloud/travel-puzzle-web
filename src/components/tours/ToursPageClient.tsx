@@ -8,7 +8,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { TourCard } from '@/components/tours/TourCard';
 import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
 import type { TripCard } from '@/trips/public-load';
-import { isOwnKindFilter, type ToursKindFilter } from '@/trips/lib/public';
+import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trips/lib/public';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
@@ -97,7 +97,8 @@ export function ToursPageClient({
     // Tipo (gate L): todo, free tours o viajes propios/de agencias por tipo. Va en la URL como ?tipo=.
     const [kind, setKind] = useState<ToursKindFilter>(() => {
         const k = searchParams.get('tipo');
-        return k === 'free' || (k && isOwnKindFilter(k)) ? (k as ToursKindFilter) : 'all';
+        // REQ-172: ?tipo=transporte ya no es un filtro de /tours (el middleware lo manda a /traslados).
+        return k === 'free' || (k && isToursKindFilter(k)) ? (k as ToursKindFilter) : 'all';
     });
     const changeKind = (k: ToursKindFilter) => {
         setKind(k);
