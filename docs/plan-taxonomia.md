@@ -11,7 +11,7 @@ Estado: **PLAN, sin código** (fase «Antes de código» del pedido). Cada ola e
 | **A** | «Experiencias» es el concepto base (paraguas del eje Formato) y **reemplaza a «Tours» en el menú**; dentro van Tours, Circuitos, Caminatas… | PO, 6-11 05:57 |
 | B | El menú REQ-093 se queda con «Tours» y la taxonomía vive solo como filtros | Insumos homologados (06:09) y punto 4 del pedido |
 
-**Decisión del PO (6-11, ~06:12): A.** Menú: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona (6 ítems). Circuitos no es pestaña. `/tours` se mantiene como listado y no se crean rutas nuevas, así que el punto 4 del pedido se cumple en rutas y pestañas; solo cambia la etiqueta. REQ-093 queda **REEMPLAZADO por REQ-185**; la etiqueta ya está escrita en la rama de REQ-174 (en espera, sobre #141). Las partes de los homologados que dicen «Tours en el menú» quedan anotadas como superadas en cada documento. `/experiencias` y el nombre del formato «Experiencia única»: §7.1 y G-T6.
+**Decisión del PO (6-11, ~06:12): A.** Menú: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona (6 ítems). Circuitos no es pestaña. `/tours` se mantiene como listado y no se crean rutas nuevas, así que el punto 4 del pedido se cumple en rutas y pestañas; solo cambia la etiqueta. REQ-093 queda **REEMPLAZADO por REQ-185**; la etiqueta ya está escrita en la rama de REQ-174 (en espera, sobre #141). Las partes de los homologados que dicen «Tours en el menú» quedan anotadas como superadas en cada documento. `/experiencias` y el nombre del formato `experiencia-unica` («Momentos de autor», firmado a las 06:22): §7.1 y §7.3.
 
 Documentos de este frente (versiones **homologadas** del PO, 6-11 06:09, copiadas tal cual; cada `.md` lleva al inicio una «Nota del repo» con lo que cambió después):
 - `docs/taxonomia.md`: análisis, precedencia de formatos (§4.1), ejes C y D, ensayo y gates. Se omitieron los ids del Drive y la mención a archivos personales porque el repo es público.
@@ -19,7 +19,7 @@ Documentos de este frente (versiones **homologadas** del PO, 6-11 06:09, copiada
 - `docs/freetour/categorias.csv`: los 29 ids con `Formato_TP`, `Formato_secundario`, `Temas_TP`, `Precio0_es_La_Primera_Pieza`, `CartItem_tipo` y `Estado`, más los históricos 1, 2, 6 y 9.
 - `docs/taxonomia-referentes.md`: reporte «Taxonomía de referentes de viajes», con la tabla de alineación completada (menú firmado, transporte activo, Favorito).
 - `docs/taxonomia/comparacion.md`, `docs/taxonomia/complementos-y-proveedores-api.md`, `docs/taxonomia/Taxonomia.docx` y `docs/taxonomia/Pagina_Web_Travel_Puzzle.docx`: auditoría contra el documento de 2024, investigación de complementos y las dos versiones homologadas en Word.
-- REQ-185…REQ-218 en `docs/requisitos.md`.
+- REQ-185…REQ-219 en `docs/requisitos.md`.
 
 **Diferencias entre los homologados y el pedido literal** (el pedido manda salvo contra el plan del 5-11; quedan como confirmación en G-T10 y G-T11):
 - Ids 1, 2, 6, 9 o nuevos → `por-revisar`: el pedido dice «no se publican»; `categorias.csv` dice «oculto de filtros y Destinos; visible en /tours». REQ-193 sigue al pedido.
@@ -308,6 +308,7 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 | # | Gate | Decisión |
 |---|---|---|
 | G1 | Menú y jerarquía (A: decisión de las 05:57; B: homologados y punto 4 del pedido) | **Firmado A el 6-11 (~06:12), ratifica lo de las 05:57:** «Experiencias» es el paraguas y reemplaza a «Tours» en el menú: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona (6 ítems). Dentro van los formatos; Circuitos **no** es pestaña. Solo cambia la etiqueta: `/tours` sigue siendo el listado y no hay rutas nuevas. Resuelve el choque: el punto 4 se cumple en rutas y pestañas; REQ-093 queda REEMPLAZADO por REQ-185 (la etiqueta la implementa REQ-174). **`/experiencias` como alias: recomiendo NO hacer 301 hoy.** Motivos: (1) el pedido pide no crear rutas; (2) una 301 /experiencias → /tours queda guardada en el navegador sin vencimiento, y si un día /experiencias pasa a ser la URL principal (con /tours → /experiencias), quien la tenga guardada cae en un ciclo de redirecciones; (3) sin enlaces a /experiencias no hay nada que recuperar. Si el PO quiere que la URL exista ya (por ejemplo, para campañas), que sea una **307 temporal** a /tours; si algún día se muda el listado, se hace al revés con 301 /tours → /experiencias en su propio PR (rutas, sitemaps, canonical y hreflang a la vez). Nunca dos URLs que sirvan el mismo listado. |
+| G-T6 | Nombre visible del formato `experiencia-unica` (choca con el paraguas «Experiencias») | **Firmado por el PO el 6-11 a las 06:22: «Momentos de autor»** (se descartó la propuesta «Actividades»). El slug interno `experiencia-unica` y el `kind = unica` del gestor no cambian. Inglés propuesto: «Signature moments» (**por firmar**). Copy y traducciones en §7.3 (REQ-219). |
 | — | Favorito (5-11, gate 2) | ≥ 4.7 y ≥ 50 reseñas (REQ-098) |
 
 ### 7.2 Pendientes (uno por uno, en este orden)
@@ -331,7 +332,7 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 
 **G-T5. Dónde vive la clasificación.** A (recomendada): las 3 tablas de 0017 (§6.1), con el diccionario y los mapeos en el repo. B: columnas en Tour y Trip (el pedido lo permite, pero mezcla datos del proveedor con los de Travel Puzzle). C: en memoria en cada render (sin migración, pero no deja bitácora ni sirve para filtrar en SQL).
 
-**G-T6. Nombre del formato «Experiencia única».** Con el paraguas «Experiencias», un formato llamado igual confunde («Experiencias > Experiencias únicas»). A (recomendada): **«Actividades»** (slug `actividad`): describe «para hacer, no solo para ver» (talleres, shows, aventura, vida nocturna) y lo usan Despegar y Klook. B: «Experiencia especial» (sigue repitiendo la raíz). C: dejar «Experiencia única». En el gestor, `kind = unica` no cambia (es un dato interno).
+**G-T6.** Firmado (ver §7.1).
 
 **G-T7. Regla de excursión por duración.** A (recomendada): **≥ 360 min con palabra de salida** en el título («excursión, day trip, full day, desde, from»), además de la categoría 4: 1,222 excursiones. B: **solo ≥ 360 min**, como dice la verificación del pedido: 1,523 excursiones, pero 301 tours cambian, entre ellos 75 caminatas de pago y 86 de la categoría 19 («Tours en vehículo por la ciudad») que duran 6 h o más pero no dicen en el título que salgan de la ciudad. Los tests de límite (359/360) aplican a las dos opciones.
 
@@ -342,6 +343,26 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 **G-T11. Autoguiado en el carrito (confirmación).** El pedido mapea autoguiado → `tour`; los homologados, → `tickets`. Recomiendo **A: `tour`** (lo literal del pedido; con el formato como atributo del ítem, la tarjeta ya puede decir «audioguía»). B: `tickets` (la audioguía se compra como un boleto; así entra en la regla de Perú «tickets primero»).
 
 **G-T9 (opcional). Title de la ficha por formato.** «{título real} – Excursión desde {Ciudad}» cuando el formato es `excursion-dia` (cambia el patrón firmado de REQ-099). A: sí, solo para excursión. B: no (se queda «– Tour en {Ciudad}»).
+
+
+### 7.3 Copy propuesto de «Momentos de autor» (REQ-219)
+
+El español está firmado. Los demás idiomas son **propuesta por firmar**: en (`termino_en` del diccionario) y pt/de/fr/it por el flujo de traducción que ya existe (REQ-201). El slug y los parámetros de URL no cambian (`?formato=experiencia-unica`).
+
+| Idioma | Nombre (chip y etiqueta) | Definición para el cliente | Estado |
+|---|---|---|---|
+| es | Momentos de autor | Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna. | **Firmado** (nombre); definición por revisar |
+| en | Signature moments | Something to do, not just to see: workshops, classes, shows, adventure or nightlife. | **Por firmar** |
+| pt | Momentos de autor | Algo para fazer, não só para ver: oficinas, aulas, espetáculos, aventura ou vida noturna. | Por firmar |
+| de | Signature-Momente | Etwas zum Erleben, nicht nur zum Anschauen: Workshops, Kurse, Shows, Abenteuer oder Nachtleben. | Por firmar |
+| fr | Moments signature | À vivre, pas seulement à voir : ateliers, cours, spectacles, aventure ou vie nocturne. | Por firmar |
+| it | Momenti d'autore | Da vivere, non solo da vedere: laboratori, corsi, spettacoli, avventura o vita notturna. | Por firmar |
+
+Reglas del copy:
+- «De autor» no debe sonar a que lo diseña Travel Puzzle: en productos de FREETOUR el operador sigue siendo el proveedor («Operado por un guía local · {proveedor}», REQ-098; C6). El nombre describe el formato, no quién lo opera.
+- La definición no promete nada que el dato no respalde: sin «exclusivo», «privado» ni «grupo pequeño» (esos son atributos con su propia regla).
+- Búsqueda: «momentos de autor», «signature moments» y el nombre anterior «experiencia única» quedan como sinónimos del mismo formato (REQ-215).
+- Test (REQ-219, en T1/T5): con el diccionario cargado, la etiqueta en es es «Momentos de autor», ningún texto visible dice «Experiencia única» como nombre de formato, y el slug sigue siendo `experiencia-unica`.
 
 ---
 
