@@ -1,4 +1,4 @@
-// REQ-122: proveedores que el agente puede encender o apagar (FREETOUR bloqueado).
+// REQ-148: proveedores que el agente puede encender o apagar (FREETOUR bloqueado).
 import { NextRequest, NextResponse } from 'next/server';
 import { listaProveedores } from '@/agente/lib/catalogo';
 import { catalogoDeps } from '@/agente/catalogo';

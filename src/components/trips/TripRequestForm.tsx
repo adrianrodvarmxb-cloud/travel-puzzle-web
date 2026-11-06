@@ -27,7 +27,7 @@ interface Props {
     /** REQ-059: título y nota del formulario para viajes con precio. */
     bookTitle?: string;
     bookNote?: string;
-    /** REQ-124: fecha y personas que manda el agente de WhatsApp en la liga (?fecha=&adultos=&ninos=). Opcional. */
+    /** REQ-150: fecha y personas que manda el agente de WhatsApp en la liga (?fecha=&adultos=&ninos=). Opcional. */
     prellenado?: { fecha?: string; adultos?: number; ninos?: number };
 }
 

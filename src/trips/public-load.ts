@@ -50,7 +50,7 @@ export interface TripCard {
   /** REQ-049..056: datos para los filtros estilo Civitatis (mismo modelo que Freetour). */
   languages: string[]; dates: string[]; group: string; freeCancel: boolean; private: boolean;
   hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
-  /** REQ-122: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
+  /** REQ-148: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
   agencyId?: string | null;
 }
 
@@ -72,7 +72,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     freeCancel: policySummary(t.cancellation).kind === "free", private: t.options.some((o) => o.mode === "private"),
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
-    agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-122
+    agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
   };
 }
 

@@ -57,7 +57,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         return (
             <>
                 <JsonLd data={model.jsonLd.slice(1)} />
-                <TripDetailView data={data} path={tour.href} breadcrumbs={<Breadcrumbs items={model.crumbs} />} prellenado={leerPrellenado((await searchParams) ?? {})} /* REQ-124 */ />
+                <TripDetailView data={data} path={tour.href} breadcrumbs={<Breadcrumbs items={model.crumbs} />} prellenado={leerPrellenado((await searchParams) ?? {})} /* REQ-150 */ />
             </>
         );
     }

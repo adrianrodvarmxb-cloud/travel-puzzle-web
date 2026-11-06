@@ -1,4 +1,4 @@
-// Catálogo para el agente de WhatsApp (REQ-122..126). Orquesta: lee las tarjetas publicadas (con su caché) y las
+// Catálogo para el agente de WhatsApp (REQ-148..126). Orquesta: lee las tarjetas publicadas (con su caché) y las
 // agencias; la lógica pura vive en ./lib/catalogo. Las dependencias llegan por parámetro.
 import type { TripCard } from "@/trips/public-load";
 import type { ViajeAgente } from "./lib/catalogo";
@@ -27,5 +27,5 @@ export async function catalogoDeps(): Promise<CatalogoDeps> {
   };
 }
 
-/** REQ-126: la ventana del agente solo existe con la bandera encendida y la llave cargada. */
+/** REQ-152: la ventana del agente solo existe con la bandera encendida y la llave cargada. */
 export const agenteHabilitado = (env: Record<string, string | undefined>) => env.AGENTE_API_ENABLED === "true" && (env.AGENTE_TOKEN ?? "").length >= 24;

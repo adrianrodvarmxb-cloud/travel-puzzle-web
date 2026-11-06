@@ -1,4 +1,4 @@
-// REQ-123: búsqueda de solo lectura para el agente (?q=&proveedores=propios,agencia:x). Sin datos de clientes ni reservas.
+// REQ-149: búsqueda de solo lectura para el agente (?q=&proveedores=propios,agencia:x). Sin datos de clientes ni reservas.
 import { NextRequest, NextResponse } from 'next/server';
 import { buscarViajes, enlacePrellenado, proveedorDe } from '@/agente/lib/catalogo';
 import { catalogoDeps, viajesParaAgente } from '@/agente/catalogo';

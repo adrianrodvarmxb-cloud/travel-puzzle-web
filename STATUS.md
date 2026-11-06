@@ -166,6 +166,11 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-111 | Métricas con metas firmadas | `src/ops/lib/metrics.ts`, este archivo | `metrics.test.ts` | EN CURSO (faltan valores de producción) |
 | REQ-120 | Traslados Kiwitaxi como complemento del carrito (deeplink tp.media, panel, /traslados tras bandera) | `src/cart/adapters/kiwitaxi.ts`, `src/transfers/lib/page-mode.ts`, `TransferPanel.tsx`, `CompanionCarousel.tsx`, `app/traslados/page.tsx`, `app/arma-tu-viaje/page.tsx` | `kiwitaxi.test.ts`, `page-mode.test.ts`, `page-model.test.ts`, `ComplementsHub.test.ts` | CUMPLIDO (apagado; p=647 y subID por confirmar) |
 | REQ-121 | Registro de complementos, hub «Transporte» y Big Bus en modo solicitud | `src/companions/registry.json`, `src/companions/lib/registry.ts`, `src/companions/load.ts`, `src/cart/adapters/request.ts`, `src/cart/adapters/index.ts`, `ComplementsHub.tsx` | `registry.test.ts`, `request.test.ts`, `load.test.ts`, `ComplementsHub.test.ts` | CUMPLIDO (apagado) |
+| REQ-130 | Nombre de ciudad corregido a mano (Moscatel → Mascate) que el sync no reescribe | `src/catalog/sync.ts`, `.github/workflows/corregir-ciudad-mascate.yml`, `docs/datos/2026-11-05-mascate.sql` | `src/catalog/sync.test.ts` | EN CURSO (falta la escritura con OK del PO) |
+| REQ-144 | Texto corto de Big Bus sin vigencias repetidas | `imports/bigbus-2026.json` | `trip-facts.test.ts` | CUMPLIDO |
+| REQ-145 | Rango de vigencia en el encabezado de la ficha (transporte) | `src/trips/lib/trip-facts.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
+| REQ-146 | «Audioguía en …» en hop-on hop-off | `src/trips/lib/trip-facts.ts`, `src/trips/lib/copy.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
+| REQ-147 | «Disponible en» solo con viajes publicados | `src/companions/load.ts` | `load.test.ts` | CUMPLIDO |
 
 ## Métricas La Primera Pieza (REQ-111, metas firmadas en el gate 5 del plan)
 Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_TARGETS`). Sin dato = no cumple; nada se simula.
@@ -228,3 +233,24 @@ Notas:
 - REQ-078: la alerta queda en la respuesta del cron (`health`) y en los logs del Worker (`[alerta-sync]`). Falta decidir el canal (correo o WhatsApp al PO). Reservas de prueba canceladas y registradas: no es parte de este PR.
 - REQ-072: con 100 cambios o menos, la publicación, la presencia y el checkpoint van en un solo batch de D1 (atómico). Con más de 100, el contenido se publica en pasos de 100 por minuto (cada paso es atómico y el sitio puede ver tours ya actualizados antes del cierre); las bajas (missing/removed) y el checkpoint solo se aplican en el último paso. El respaldo de cada fila sobrescrita queda en `TourStage.previous` (se conservan las últimas 7 corridas).
 - Primera corrida con la bandera encendida: arranca en el siguiente minuto (sin esperar las 3:00) y, como ningún tour tiene `contentHash` todavía, publica todo el catálogo una vez (unos 81 pasos de 100).
+
+## Identidad geográfica v2 — ensayo (5 nov 2026)
+Informe aprobado «Identidad geográfica del catálogo», pasos 1–5 (7 propuesto). Lógica en `src/geo/lib/`, tablas en `src/geo/data/`, ensayo en «Identidad geográfica v2 (ensayo)» (solo lectura). Gates: `docs/gates-geo-v2-2026-11.md`. Migración 0016 **sin aplicar**.
+Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porque REQ-122 ya es del PR #122 (buscador) y REQ-130 del PR #124 (Mascate). REQ-139…141 son los gates G5–G7 y REQ-142…143 son las firmas del PO del 6 nov 2026 (país por ciudad y las 5 dudosas). Gates firmados el 5 nov 2026: G1, G2, G5, G6 y G7 en este PR; **G3 (migración 0016) y G4 (escritura del geonameid) aprobados para el 6 nov**, después de la primera corrida del sync blindado, y siguen sin aplicar.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-131 | Normalización de nombres | `src/geo/lib/normalize.ts` | `normalize.test.ts` | CUMPLIDO |
+| REQ-132 | Centroides no confiables | `src/geo/lib/centroid.ts`, `geonames-v2.ts` | `centroid.test.ts`, `geonames-v2.test.ts` | CUMPLIDO |
+| REQ-133 | Puntaje, umbrales, nombre exacto único, prioridad override > id > aproximado | `src/geo/lib/score.ts`, `resolve.ts` | `score.test.ts`, `resolve.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (umbrales: gate G1) |
+| REQ-134 | SCT/WLS/NIR → GB + región; AN por ciudad; XX sin página | `src/geo/lib/country.ts`, `src/geo/data/country-overrides.csv`, `an-cities.csv`, `migrations/0016_identidad_geo.sql` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
+| REQ-135 | Taipei 4200/6172 → canónica «taipei» | `src/geo/lib/alias.ts`, `src/geo/data/city-aliases.csv` | `alias.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
+| REQ-136 | Overrides humanos por PR | `src/geo/lib/resolve.ts`, `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+| REQ-137 | Workflow de ensayo v2 | `.github/workflows/geo-dry-run.yml`, `src/scripts/geo-cruce-v2.ts`, `src/geo/lib/dry-run-v2.ts`, `wikidata.ts`, `geonames-v2.ts` | `dry-run-v2.test.ts`, `wikidata.test.ts`, `geonames-v2.test.ts` | CUMPLIDO (ensayo: corrida #1, id 42163176603) |
+| REQ-138 | Atribución GeoNames CC BY 4.0 | `src/geo/lib/attribution.ts` | `attribution.test.ts` | CUMPLIDO |
+| REQ-139 | Atribución solo en /terminos, no en el pie, tras GEO_ATTRIBUTION_ENABLED="false" (G5) | `src/geo/lib/attribution.ts`, `src/components/legal/GeoAttribution.tsx`, `src/app/terminos/page.tsx`, `wrangler.jsonc` | `attribution.test.ts` | CUMPLIDO (bandera apagada) |
+| REQ-140 | Ensayo semanal cada lunes, solo lectura (G6) | `.github/workflows/geo-dry-run.yml` | `dry-run-workflow.test.ts` | CUMPLIDO (corre desde main tras el merge) |
+| REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firmado por el PO el 6 nov 2026) |
+| REQ-142 | País propio por ciudad: Hong Kong → HK, Tórshavn → FO | `src/geo/lib/country.ts`, `dry-run-v2.ts`, `src/scripts/geo-cruce-v2.ts`, `src/geo/data/city-country-overrides.csv` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (se escribe con la 0016: G3/G4) |
+| REQ-143 | Las 5 dudosas decididas por el PO (Alajuela ADM1, SLP ADM1, La Palma sin geonameid, Diani Beach, Ao Nang) | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+
+Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.

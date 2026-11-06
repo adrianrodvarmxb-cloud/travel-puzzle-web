@@ -1,4 +1,4 @@
-// REQ-126: puerta común de la ventana del agente (bandera + llave). Sin bandera responde 404, como si no existiera.
+// REQ-152: puerta común de la ventana del agente (bandera + llave). Sin bandera responde 404, como si no existiera.
 import { NextRequest, NextResponse } from 'next/server';
 import { autorizado } from '@/agente/lib/catalogo';
 import { agenteHabilitado } from '@/agente/catalogo';

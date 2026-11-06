@@ -1,4 +1,4 @@
-// REQ-124/125: antes de dar la liga, el agente revisa en vivo el viaje elegido (fecha y precio) y recibe la liga prellenada.
+// REQ-150/125: antes de dar la liga, el agente revisa en vivo el viaje elegido (fecha y precio) y recibe la liga prellenada.
 import { NextRequest, NextResponse } from 'next/server';
 import { enlacePrellenado, leerPrellenado, proveedorDe, revisarFecha } from '@/agente/lib/catalogo';
 import { catalogoDeps, viajesParaAgente } from '@/agente/catalogo';

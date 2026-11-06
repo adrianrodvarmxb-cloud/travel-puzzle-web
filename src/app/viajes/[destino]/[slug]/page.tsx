@@ -26,7 +26,7 @@ export default async function TripPage({ params, searchParams }: Props) {
     if (!data) notFound();
     const path = tripPath(data.trip);
     if (path !== `/viajes/${destino}/${slug}`) permanentRedirect(path);
-    // REQ-124: la liga del agente de WhatsApp llega con fecha y personas; solo se usan valores válidos.
+    // REQ-150: la liga del agente de WhatsApp llega con fecha y personas; solo se usan valores válidos.
     const prellenado = leerPrellenado((await searchParams) ?? {});
     return <TripDetailView data={data} path={path} prellenado={prellenado} />;
 }

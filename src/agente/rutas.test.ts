@@ -1,4 +1,4 @@
-// REQ-122..126: la ventana del agente con la bandera, la llave y los interruptores. npx vitest run src/agente/rutas.test.ts
+// REQ-148..126: la ventana del agente con la bandera, la llave y los interruptores. npx vitest run src/agente/rutas.test.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { NextRequest } from "next/server";
 
@@ -21,23 +21,23 @@ const env = process.env as Record<string, string | undefined>;
 beforeEach(() => { env.AGENTE_API_ENABLED = "true"; env.AGENTE_TOKEN = LLAVE; env.SITE_URL = "https://travelpuzzle.com.mx"; });
 afterEach(() => { delete env.AGENTE_API_ENABLED; delete env.AGENTE_TOKEN; });
 
-describe("REQ-126: bandera y llave", () => {
-  it("REQ-126: con la bandera apagada no existe (404)", async () => {
+describe("REQ-152: bandera y llave", () => {
+  it("REQ-152: con la bandera apagada no existe (404)", async () => {
     env.AGENTE_API_ENABLED = "false";
     expect((await buscar(req("/api/agente/buscar?q=oaxaca&proveedores=propios"))).status).toBe(404);
   });
-  it("REQ-126: sin llave o con otra llave: 401", async () => {
+  it("REQ-152: sin llave o con otra llave: 401", async () => {
     expect((await buscar(req("/api/agente/buscar?q=oaxaca&proveedores=propios", null))).status).toBe(401);
     expect((await proveedores(req("/api/agente/proveedores", "x".repeat(32)))).status).toBe(401);
   });
 });
 
-describe("REQ-122/123: proveedores y búsqueda", () => {
-  it("REQ-122: lista los proveedores con FREETOUR bloqueado", async () => {
+describe("REQ-148/123: proveedores y búsqueda", () => {
+  it("REQ-148: lista los proveedores con FREETOUR bloqueado", async () => {
     const r = await (await proveedores(req("/api/agente/proveedores"))).json();
     expect(r.proveedores.map((p: { id: string }) => p.id)).toEqual(["propios", "agencia:ag1", "freetour"]);
   });
-  it("REQ-123: busca solo en los proveedores encendidos y regresa la liga a la ficha", async () => {
+  it("REQ-149: busca solo en los proveedores encendidos y regresa la liga a la ficha", async () => {
     const r = await (await buscar(req("/api/agente/buscar?q=oaxaca&proveedores=propios,agencia:ag1"))).json();
     expect(r.resultados).toHaveLength(1);
     expect(r.resultados[0]).toMatchObject({ slug: "oaxaca", proveedor: "propios", precio: "$1,000 MXN", enlace: "https://travelpuzzle.com.mx/viajes/mexico/oaxaca#solicitar" });
@@ -45,18 +45,18 @@ describe("REQ-122/123: proveedores y búsqueda", () => {
   });
 });
 
-describe("REQ-124/125: revisión en vivo y liga prellenada", () => {
-  it("REQ-125: fecha que sí sale → liga con fecha y personas", async () => {
+describe("REQ-150/125: revisión en vivo y liga prellenada", () => {
+  it("REQ-151: fecha que sí sale → liga con fecha y personas", async () => {
     const r = await (await viaje(req("/api/agente/viaje?slug=oaxaca&proveedores=propios&fecha=2026-11-20&adultos=2&ninos=1"))).json();
     expect(r.fecha).toEqual({ disponible: true, alternativas: [] });
     expect(r.enlace).toBe("https://travelpuzzle.com.mx/viajes/mexico/oaxaca?fecha=2026-11-20&adultos=2&ninos=1#solicitar");
   });
-  it("REQ-125: fecha que no sale → alternativas y la liga sin esa fecha", async () => {
+  it("REQ-151: fecha que no sale → alternativas y la liga sin esa fecha", async () => {
     const r = await (await viaje(req("/api/agente/viaje?slug=oaxaca&proveedores=propios&fecha=2026-11-21&adultos=2"))).json();
     expect(r.fecha).toEqual({ disponible: false, alternativas: ["2026-11-20"] });
     expect(r.enlace).toBe("https://travelpuzzle.com.mx/viajes/mexico/oaxaca?adultos=2#solicitar");
   });
-  it("REQ-122: un viaje de un proveedor apagado no se entrega", async () => {
+  it("REQ-148: un viaje de un proveedor apagado no se entrega", async () => {
     expect((await viaje(req("/api/agente/viaje?slug=cusco&proveedores=propios"))).status).toBe(404);
   });
 });

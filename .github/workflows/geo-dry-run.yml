@@ -1,0 +1,98 @@
+# REQ-131…137, REQ-140: ENSAYO del cruce v2 de identidad geográfica. NO escribe en la base: no tiene paso de escritura.
+# 1) Exporta de D1 en SOLO LECTURA países, ciudades (con su geonameid, que sirve de control) y puntos de encuentro.
+# 2) GeoNames cities500 + alternateNamesV2 (solo es/en y wkdt, sin históricos ni coloquiales), leídos en streaming
+#    y guardados en actions/cache con clave mensual. cities15000 solo para medir la receta v1 («antes»).
+# 3) Wikidata como segunda opinión (opcional), User-Agent genérico de la marca. Sin Nominatim.
+# 4) Sube CSV de revisión (top-3 candidatos), SQL idempotente y resumen como artefacto de 10 días.
+# Aplicar geo-v2.sql o geo-v2-0016.sql en producción es otro paso, con OK del PO (candado: datos de producción y migración 0016).
+name: Identidad geográfica v2 (ensayo)
+on:
+  push:
+    branches: [feat/geo-cruce-v2]
+    paths: [src/geo/**, src/scripts/geo-cruce-v2.ts, .github/workflows/geo-dry-run.yml]
+  # REQ-140 (gate G6, firmado el 5 nov 2026): corrida semanal, cada lunes 10:17 UTC (04:17 en CDMX). Solo lectura.
+  # GitHub solo dispara «schedule» desde la rama por defecto: empieza a correr después del merge a main.
+  schedule:
+    - cron: "17 10 * * 1"
+  workflow_dispatch:
+    inputs:
+      wikidata:
+        description: "Consultar Wikidata como segunda opinión (solo lectura)"
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: geo-dry-run-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  ensayo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas de la lógica (REQ-131…138)
+        run: npx vitest run src/geo/lib
+      - name: Exportar de D1 (solo lectura, solo SELECT)
+        run: |
+          set -euo pipefail
+          mkdir -p export
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          n=$(q "SELECT COUNT(*) AS n FROM pragma_table_info('City') WHERE name = 'geonameid'" | jq -r '.[0].results[0].n' || echo 0)
+          if [ "$n" = "1" ]; then GN='"geonameid"'; else GN='NULL AS "geonameid"'; fi
+          q 'SELECT "id", "code" FROM "Country"' > export/countries.json
+          q "SELECT \"id\", \"countryId\", \"translations\", $GN FROM \"City\"" > export/cities.json
+          total=$(q 'SELECT COUNT(*) AS n FROM "Tour"' | jq -r '.[0].results[0].n')
+          for off in $(seq 0 4000 "$total"); do
+            q "SELECT \"cityId\", json_extract(\"meetingPoint\", '\$.coordinates') AS \"coords\" FROM \"Tour\" ORDER BY \"id\" LIMIT 4000 OFFSET $off" > "export/tours-$off.json"
+          done
+          jq -s '[.[] | .[0].results[]]' export/tours-*.json > export/tours.json
+          rm export/tours-*.json
+          echo "Ciudades: $(jq '.[0].results | length' export/cities.json); con geonameid: $(jq '[.[0].results[] | select(.geonameid != null)] | length' export/cities.json); tours: $(jq length export/tours.json)"
+      - name: Mes para la caché de GeoNames
+        id: mes
+        run: echo "mes=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - name: Caché de GeoNames (clave mensual)
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: geonames
+          key: geonames-v2-${{ steps.mes.outputs.mes }}
+      - name: Bajar GeoNames en streaming (solo si no está en caché)
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p geonames
+          curl -sSfL https://download.geonames.org/export/dump/cities500.zip -o geonames/cities500.zip
+          unzip -p geonames/cities500.zip cities500.txt > geonames/cities500.txt
+          curl -sSfL https://download.geonames.org/export/dump/cities15000.zip -o geonames/cities15000.zip
+          unzip -p geonames/cities15000.zip cities15000.txt > geonames/cities15000.txt
+          # alternateNamesV2 (~200 MB comprimido, ~790 MB sin comprimir) se filtra al vuelo y no se guarda completo:
+          # solo lugares de cities500, idioma es/en/wkdt, sin coloquiales (col 7) ni históricos (col 8).
+          curl -sSfL https://download.geonames.org/export/dump/alternateNamesV2.zip -o alt.zip
+          unzip -p alt.zip alternateNamesV2.txt \
+            | awk -F'\t' 'NR==FNR{ids[$1];next} ($2 in ids) && ($3=="es"||$3=="en"||$3=="wkdt") && $7!="1" && $8!="1"' geonames/cities500.txt - \
+            > geonames/alt-es-en.tsv
+          rm -f alt.zip geonames/*.zip
+          wc -l geonames/*
+      - name: Cruce v2 (ensayo)
+        run: |
+          WD=""
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] || [ "${{ inputs.wikidata }}" = "true" ]; then WD="--wikidata"; fi
+          npx tsx src/scripts/geo-cruce-v2.ts geonames/cities500.txt geonames/alt-es-en.tsv export salida --cities15000 geonames/cities15000.txt $WD
+      - name: Resumen
+        if: always()
+        run: |
+          if [ -f salida/geo-v2-resumen.json ]; then
+            { echo '### Cruce v2 (ensayo, sin escritura)'; echo '```json'; jq '{ciudades, sinPagina, antes, reglaV2, despues, control, centroideNoConfiable, wikidata}' salida/geo-v2-resumen.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            cat salida/geo-v2-resumen.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: geo-v2-ensayo, path: salida, retention-days: 10 }
