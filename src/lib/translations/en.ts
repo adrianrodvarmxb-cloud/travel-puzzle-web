@@ -1,7 +1,7 @@
 export const en = {
   // Navigation
   'nav.home': 'Home',
-  'nav.tours': 'Tours',
+  'nav.tours': 'Experiences',
   'nav.howItWorks': 'How It Works',
   'nav.transfers': 'Transfers',
   'nav.login': 'Login',
@@ -225,7 +225,7 @@ export const en = {
   "reviews.seeTour": "See experience",
   "tours.backToTours": "Back to all experiences",
   "tours.directions": "Get directions",
-  "tours.headline": "Find your tour.",
+  "tours.headline": "Experiences",
   "tours.eyebrow": "{count} EXPERIENCES AVAILABLE",
   "tours.sort.label": "Sort by",
   "tours.sort.relevance": "Relevance",
