@@ -55,6 +55,15 @@ describe("REQ-290 autocompletado agrupado", () => {
   });
 });
 
+describe("REQ-290 tours sugeridos solo por palabra o inicio de palabra (hallazgo del ensayo del 6 nov)", () => {
+  it("«rma» no trae tours que solo contienen «rma» dentro de otra palabra (germany, forma)", () => {
+    const extra = [...entries, e(9, ["berlin"], 40, ["alemania", "germany"], "free tour berlin germany"), e(9, ["berlin"], 40, ["alemania"], "tour en forma de bici")];
+    expect(planSuggestions(extra, res("rma"), true).tourIds).toEqual([]);
+    expect(planSuggestions(extra, res("forma"), true).tourIds.length).toBe(1);
+    expect(planSuggestions(extra, res("colis"), true).tourIds.length).toBe(2);
+  });
+});
+
 describe("REQ-291 «¿Quisiste decir…?» dentro del desplegable", () => {
   it("«Rma» propone Roma sin filtrar", () => {
     const r = res("Rma", { suggestions: [{ from: "rma", options: ["roma"] }] });
