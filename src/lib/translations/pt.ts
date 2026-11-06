@@ -1,7 +1,7 @@
 export const pt = {
   // Navigation
   'nav.home': 'Início',
-  'nav.tours': 'Tours',
+  'nav.tours': 'Experiências',
   'nav.howItWorks': 'Como Funciona',
   'nav.transfers': 'Traslados',
   'nav.login': 'Entrar',
@@ -225,7 +225,7 @@ export const pt = {
   "reviews.seeTour": "Ver tour",
   "tours.backToTours": "Voltar a todas as experiências",
   "tours.directions": "Como chegar",
-  "tours.headline": "Encontre seu tour.",
+  "tours.headline": "Experiências",
   "tours.eyebrow": "{count} EXPERIÊNCIAS DISPONÍVEIS",
   "tours.sort.label": "Ordenar por",
   "tours.sort.relevance": "Relevância",
