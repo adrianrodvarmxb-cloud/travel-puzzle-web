@@ -58,6 +58,10 @@ jobs:
         env:
           DATABASE_URL: file:./dev.db
 
+      # REQ-224 (INC-001): un error de tipos detiene el deploy antes de migraciones y build.
+      - name: Tipos (tsc)
+        run: npx tsc --noEmit
+
       - name: Migraciones D1
         if: github.event_name == 'workflow_dispatch' && inputs.migraciones && !inputs.ensayo
         run: npx wrangler d1 migrations apply travel-puzzle --remote
