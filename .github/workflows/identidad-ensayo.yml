@@ -69,8 +69,14 @@ jobs:
           set -euo pipefail
           # Respaldo: export/ (países, ciudades y tours antes de escribir) va en el artefacto.
           # Los .sql solo llenan columnas vacías (WHERE … IS NULL): correrlo dos veces no cambia nada.
-          npx wrangler d1 execute travel-puzzle --remote --file salida/identidad.sql
-          npx wrangler d1 execute travel-puzzle --remote --file salida/geonames.sql
+          # --file usa la importación de D1, que falla con «Not currently importing anything»;
+          # se aplica en lotes de 300 sentencias con --command (cada lote es atómico).
+          for f in salida/identidad.sql salida/geonames.sql; do
+            grep -v '^--' "$f" | grep -v '^\s*$' > lotes.sql
+            split -l 300 -d -a 3 lotes.sql lote-
+            for l in lote-*; do npx wrangler d1 execute travel-puzzle --remote --command "$(cat "$l")" > /dev/null; echo "aplicado $f $l"; done
+            rm -f lote-* lotes.sql
+          done
           q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1" | jq -r '.[0].results[0].n'; }
           echo "Tours con slug: $(q 'SELECT COUNT(*) AS n FROM "Tour" WHERE "slug" IS NOT NULL')"
           echo "Ciudades con slug: $(q 'SELECT COUNT(*) AS n FROM "City" WHERE "slug" IS NOT NULL')"
