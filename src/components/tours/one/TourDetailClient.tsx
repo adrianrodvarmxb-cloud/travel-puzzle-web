@@ -32,6 +32,8 @@ import { bookingMode } from '@/tours/lib/booking-cta';
 import { tipGuide } from '@/tours/lib/tip-guide';
 import { paidPolicy } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
+import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
+import type { PrimeraPiezaView } from './PrimeraPiezaInfo';
 
 interface TourDetailClientProps {
     tourId: string;
@@ -48,6 +50,8 @@ interface TourDetailClientProps {
     whatsapp?: string;
     /** REQ-005/006: transporte de la misma ciudad (o país), calculado en el servidor. */
     crossSell?: { city: string; items: CrossItem[] } | null;
+    /** REQ-094…098: ficha bajo /destinos (PRIMERA_PIEZA_ENABLED). Sin esto la ficha queda igual que hoy. */
+    primeraPieza?: PrimeraPiezaView | null;
 }
 
 export function TourDetailClient({
@@ -61,6 +65,7 @@ export function TourDetailClient({
     paidEnabled = false,
     whatsapp,
     crossSell = null,
+    primeraPieza = null,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -142,7 +147,10 @@ export function TourDetailClient({
             <div className="tp-dark">
             {/* .container del sitio no trae padding: el margen lateral va explícito */}
             <div className="mx-auto w-full max-w-7xl px-4 pb-28 pt-8 lg:pb-8">
-                {/* Back Button */}
+                {/* REQ-100: en /destinos, migas visibles en lugar del botón de regreso */}
+                {primeraPieza ? (
+                    <div className="mb-6"><Breadcrumbs items={primeraPieza.crumbs} /></div>
+                ) : (
                 <Button
                     variant="outline"
                     onClick={() => router.back()}
@@ -151,9 +159,10 @@ export function TourDetailClient({
                     <ChevronLeftIcon className="w-4 h-4" />
                     {t('tours.backToTours', 'Back to all tours')}
                 </Button>
+                )}
 
                 {/* Hero Section */}
-                <TourHeroSection tour={tour} />
+                <TourHeroSection tour={tour} primeraPieza={primeraPieza} events={eventsFTData || []} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content */}
