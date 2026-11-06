@@ -13,7 +13,7 @@ const notFound = () => new Response('Not found', { status: 404 });
 // REQ-102
 export async function sitemapResponse(file: string): Promise<Response> {
     if (!primeraPiezaOn()) return notFound();
-    // REQ-264: si hay páginas institucionales o blog encendidos, el índice suma sitemap-paginas.xml.
+    // REQ-276: si hay páginas institucionales o blog encendidos, el índice suma sitemap-paginas.xml.
     const extra = sitePagesSitemap().length ? [{ loc: `${siteUrl().replace(/\/+$/, '')}/sitemap-paginas.xml`, lastmod: null }] : [];
     const { index, files } = buildSitemaps(sitemapInput(await getDestinations(), siteUrl()), extra);
     const body = file === 'sitemap-index.xml' ? index : files[file];

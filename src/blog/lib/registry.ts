@@ -3,7 +3,7 @@
  * REQ-256: solo publicados (los borradores, solo con BLOG_SHOW_DRAFTS en preview); nunca de un pilar bloqueado.
  * REQ-257: «Blog» en el pie con la bandera y ≥3 artículos visibles (no se enlaza una sección vacía).
  * REQ-258: un slug y un término objetivo por artículo. REQ-259: relacionados desde los datos.
- * REQ-260: enlaces en el texto al pilar, a un hermano y a la página comercial; sin «aquí» ni rutas apagadas.
+ * REQ-272: enlaces en el texto al pilar, a un hermano y a la página comercial; sin «aquí» ni rutas apagadas.
  */
 import type { Post } from "./schema";
 import { PILLARS, pillarBySlug, commercialHref, offRoutes, type Pillar } from "./pillars";
@@ -67,7 +67,7 @@ export function pillarsWithPosts(posts: Post[]): Pillar[] {
 
 const GENERIC = /^(aqu[ií]|clic|click|haz clic|aqu[ií] mismo|ver m[aá]s|here|click here)$/i;
 
-// REQ-260
+// REQ-272
 export function linkProblems(post: Post, all: Post[], flags: { primeraPieza: boolean }): string[] {
   const texts = [post.entrada, ...post.sections.flatMap((s) => [s.answer, ...s.body, ...(s.list ?? [])])];
   const links = texts.flatMap(inlineLinks);

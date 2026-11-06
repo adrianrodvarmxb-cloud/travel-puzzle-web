@@ -19,7 +19,7 @@ interface EditBookingFormProps {
 const MESSAGES: Record<string, string> = {
     no_change: 'No hay cambios que guardar.',
     no_availability: 'Ya no hay lugares suficientes en ese horario. Elige otro.',
-    min_adults: 'Este tour pide más adultos por reserva.',
+    min_adults: 'Esta experiencia pide más adultos por reserva.',
     not_allowed: 'Esta reserva ya no se puede modificar en línea. Escríbenos por WhatsApp.',
     disabled: 'Por ahora los cambios se hacen por WhatsApp.',
 };

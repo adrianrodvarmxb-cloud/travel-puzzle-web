@@ -17,6 +17,7 @@ import { loadHomeData, type HomeStats } from '@/home/load';
 import { cached, cacheKey, POLICY } from '@/cache/edge';
 import { withRetry } from '@/tours/lib/d1-load';
 import { createHighlightRepo } from '@/reviews/repository';
+import { formatCount } from '@/home/lib/format';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,6 +46,9 @@ export default async function NosotrosPage() {
   const c = aboutContent(lang);
   const sections = visibleAboutSections(c);
   const stats = sections.some((s) => s.kind === 'stats') ? await loadStats(lang, env.PAID_TOURS_ENABLED === 'true') : null;
+  // REQ-173 (INC-001): las cifras se formatean aquí, en el servidor, con idioma fijo (igual que el inicio).
+  const numLang = lang === 'en' ? 'en' : 'es';
+  const counts = stats ? { tours: formatCount(stats.tours, numLang), cities: formatCount(stats.cities, numLang), countries: formatCount(stats.countries, numLang) } : null;
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
   const site = env.SITE_URL || 'https://travelpuzzle.com.mx';
@@ -60,7 +64,7 @@ export default async function NosotrosPage() {
       <Navbar />
       <main className="tp-dark">
         <PageHeader crumbs={crumbs} eyebrow={c.eyebrow} title={c.h1} lead={c.lead} />
-        <AboutSections sections={sections} stats={stats} />
+        <AboutSections sections={sections} stats={stats} counts={counts} />
         <ExpertCta whatsapp={contact.whatsapp} eyebrow={`${String(aboutSectionsToShow(sections, stats).length + 1).padStart(2, '0')} — ${lang === 'es' ? 'ASESORÍA PERSONALIZADA' : 'PERSONAL ADVICE'}`} />
       </main>
       <SiteFooter contact={footer} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />

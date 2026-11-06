@@ -1,5 +1,5 @@
 /**
- * REQ-262, REQ-263: metadatos, JSON-LD, compartir y sitemap del blog. Puro.
+ * REQ-274, REQ-275: metadatos, JSON-LD, compartir y sitemap del blog. Puro.
  * BlogPosting + Person + BreadcrumbList, coherentes con el texto visible; sin FAQPage (no da resultado enriquecido).
  */
 import type { Post } from "./schema";
@@ -15,7 +15,7 @@ export function postMeta(p: Post) {
   return { title: p.title, description: p.summary.slice(0, 155), canonical: postPath(p), noindex: p.draft };
 }
 
-// REQ-262
+// REQ-274
 export function blogPostingJsonLd(p: Post, author: Author, siteUrl: string) {
   const site = base(siteUrl);
   const url = `${site}${postPath(p)}`;
@@ -41,7 +41,7 @@ export function blogPostingJsonLd(p: Post, author: Author, siteUrl: string) {
   };
 }
 
-// REQ-263
+// REQ-275
 export function shareLinks(url: string, title: string): { name: "WhatsApp" | "Facebook" | "LinkedIn"; href: string }[] {
   const tagged = (src: string) => `${url}${url.includes("?") ? "&" : "?"}utm_source=${src}&utm_medium=social&utm_campaign=blog`;
   return [
@@ -51,7 +51,7 @@ export function shareLinks(url: string, title: string): { name: "WhatsApp" | "Fa
   ];
 }
 
-// REQ-263: solo publicados; /blog y los pilares entran solo si tienen artículos publicados.
+// REQ-275: solo publicados; /blog y los pilares entran solo si tienen artículos publicados.
 export function blogSitemapUrls(posts: Post[], siteUrl: string): UrlEntry[] {
   const site = base(siteUrl);
   const pub = posts.filter((p) => !p.draft && pillarBySlug(p.pillar)?.status === "activo");

@@ -1,4 +1,4 @@
-/** REQ-264: páginas institucionales encendidas y artículos publicados del blog. Sin ninguna, 404. */
+/** REQ-276: páginas institucionales encendidas y artículos publicados del blog. Sin ninguna, 404. */
 import { urlsetXml } from '@/seo/lib/sitemaps';
 import { sitePagesSitemap } from '@/site/server';
 

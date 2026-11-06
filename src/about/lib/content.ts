@@ -3,7 +3,7 @@
  * REQ-243: cada sección tiene estado. Solo se pinta la «aprobada» y sin huecos `[PO: …]`. Lo que falta del cliente
  * (historia, misión y visión, frase de marca, equipo) queda aquí como borrador marcado y no sale en el sitio.
  * REQ-244: solo promete lo que hay en producción. Los tours los operan guías y agencias de cada destino; Travel Puzzle
- * es la agencia que ayuda a elegirlos y reservarlos (nunca «armados por expertos», nunca un proveedor como operador).
+ * es la agencia que ayuda a elegirlos y reservarlos (nunca se dice que los arman expertos, nunca un proveedor como operador).
  * Fuentes del borrador: plan del 6 nov 2026 (scratchpad paginas-nuevas/nosotros-contacto.md) y Drive 2023.
  */
 import { TERMINOS } from "@/legal/lib/terminos";

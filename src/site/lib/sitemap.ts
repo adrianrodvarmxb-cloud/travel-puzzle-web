@@ -1,4 +1,4 @@
-/** REQ-264: URLs de sitemap-paginas.xml: páginas institucionales encendidas + blog publicado. Puro. */
+/** REQ-276: URLs de sitemap-paginas.xml: páginas institucionales encendidas + blog publicado. Puro. */
 import type { UrlEntry } from "@/seo/lib/sitemaps";
 import { PAGE_PATHS, type SitePages } from "./pages";
 

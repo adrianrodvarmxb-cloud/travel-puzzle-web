@@ -17,11 +17,19 @@ describe("secciones del inicio para el menú", () => {
     expect(homeSections("en")[1].label).toBe("Traveler favorites");
     expect(homeSections("fr")[2].label).toBe("How it works");
   });
-  it("REQ-068: con viajes propios encendidos aparece 'viajes' después de favoritos y se renumera", () => {
-    const s = homeSections("es", { ownTrips: true });
-    expect(s.map((x) => x.id)).toEqual(["destinos", "favoritos", "viajes", "como-funciona", "continentes", "mapa", "opiniones", "asesor"]);
-    expect(s[2]).toMatchObject({ href: "/#viajes", number: "03", label: "Viajes armados por expertos" });
+  it("REQ-453: con CARRUSELES_HOME_ENABLED aparece «Excursiones de un día» después de favoritos y se renumera", () => {
+    const s = homeSections("es", { dayTrips: true });
+    expect(s.map((x) => x.id)).toEqual(["destinos", "favoritos", "excursiones", "como-funciona", "continentes", "mapa", "opiniones", "asesor"]);
+    expect(s[2]).toMatchObject({ href: "/#excursiones", number: "03", label: "Excursiones de un día" });
+    expect(homeSections("en", { dayTrips: true })[2].label).toBe("Day trips");
     expect(s[7].number).toBe("08");
+  });
+  it("REQ-452: la sección «viajes» ya no existe en el menú, con ninguna bandera", () => {
+    for (const flags of [{}, { dayTrips: true }, { ownTrips: true } as never]) {
+      expect(homeSections("es", flags).map((x) => x.id)).not.toContain("viajes");
+      expect(homeSections("es", flags).map((x) => x.label).join(" ")).not.toMatch(/expertos/i);
+    }
+    expect(HOME_SECTION_IDS).not.toContain("viajes");
   });
 });
 

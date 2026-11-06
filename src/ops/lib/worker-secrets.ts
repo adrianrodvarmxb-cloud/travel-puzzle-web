@@ -42,3 +42,14 @@ export function nombresDeSecretos(json: string): string[] {
     return name;
   });
 }
+
+/** REQ-188: llaves compartidas con otro Worker (misma cuenta). Se generan una sola vez: primero se cargan en el otro
+ *  Worker y solo si eso funcionó viajan con la versión de aquí; si falla, la próxima publicación lo vuelve a intentar. */
+export const CLAVES_COMPARTIDAS = [
+  { nombre: "AGENTE_TOKEN", worker: "mila-zoefel", comoSeLlamaAlla: "CATALOGO_TRAVEL_PUZZLE" }, // catálogo del agente de WhatsApp
+] as const;
+
+// REQ-188
+export function clavesCompartidasQueFaltan(p: { existentes: readonly string[]; generar: () => string }) {
+  return CLAVES_COMPARTIDAS.filter((c) => !p.existentes.includes(c.nombre)).map((c) => ({ ...c, valor: p.generar() }));
+}

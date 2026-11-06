@@ -13,6 +13,8 @@ import { visibilityFromEnv } from "@/trips/lib/visibility";
 import { sitePagesFromEnv } from "@/site/lib/pages";
 import { blogEnv, loadVisiblePosts } from "@/blog/load";
 import { blogNavVisible } from "@/blog/lib/registry";
+import { isHomeCarouselsEnabled } from "@/home/lib/flags";
+import { ClientErrorListener } from "@/components/common/ClientErrorListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,9 +61,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}
+        <ClientErrorListener />
         <SessionProvider>
           <AppProviders>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), pages, year: new Date().getFullYear() }}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear() }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

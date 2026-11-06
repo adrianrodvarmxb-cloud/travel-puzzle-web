@@ -4,6 +4,7 @@
  */
 import { ROUTES } from "@/destinations/lib/routes";
 import { PRIMERA_PIEZA_LABEL } from "@/tours/lib/menu";
+import { catalogName } from "@/tours/lib/catalog-name";
 
 export const AI_SEARCH_BOTS = ["OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Claude-SearchBot", "Claude-User"] as const;
 
@@ -25,10 +26,11 @@ export function llmsTxt({ siteUrl, destinations, pages = [] }: { siteUrl: string
     "",
     `- [${PRIMERA_PIEZA_LABEL}](${site}${ROUTES.primeraPieza}): colección de free tours; reservar es gratis y al final cada quien decide cuánto darle al guía.`,
     `- [Destinos](${site}${ROUTES.destinos}): países y ciudades con sus free tours, tours y traslados.`,
-    `- [Tours](${site}/tours): buscador de tours.`,
+    // REQ-173 + REQ-174: misma etiqueta que el menú; la URL sigue siendo /tours.
+    `- [${catalogName("es")}](${site}/tours): buscador de experiencias.`,
     "",
     ...(destinations.length ? ["## Destinos", "", ...destinations.map((d) => `- [${d.name}](${d.url})`), ""] : []),
-    // REQ-264: páginas institucionales y blog encendidos.
+    // REQ-276: páginas institucionales y blog encendidos.
     ...(pages.length ? ["## Páginas", "", ...pages.map((p) => `- [${p.name}](${p.url})`), ""] : []),
   ].join("\n");
 }

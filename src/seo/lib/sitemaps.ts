@@ -31,7 +31,7 @@ export function sitemapIndexXml(entries: UrlEntry[]): string {
 }
 
 // REQ-102
-// REQ-264: `extraIndex` suma otros sitemaps al índice (p. ej. sitemap-paginas.xml); vacío = igual que antes.
+// REQ-276: `extraIndex` suma otros sitemaps al índice (p. ej. sitemap-paginas.xml); vacío = igual que antes.
 export function buildSitemaps({ siteUrl, countries, cities, tours }: SitemapInput, extraIndex: UrlEntry[] = []): { index: string; files: Record<string, string> } {
   const site = siteUrl.replace(/\/+$/, "");
   const abs = (p: string) => `${site}${p}`;

@@ -58,7 +58,7 @@ describe("registro de artículos", () => {
     expect(pillarSummaries("colombia", [a, b])).toEqual([]);
   });
 
-  it("REQ-260: un publicado enlaza en el texto a su pilar, a un hermano (si hay) y a la página comercial; nunca «aquí» ni rutas apagadas", () => {
+  it("REQ-272: un publicado enlaza en el texto a su pilar, a un hermano (si hay) y a la página comercial; nunca «aquí» ni rutas apagadas", () => {
     const p = ok();
     const sib = ok({ slug: "hermano-de-prueba", targetTerm: "h" });
     expect(linkProblems(p, [p, sib], { primeraPieza: false })).toEqual([]);
@@ -72,13 +72,13 @@ describe("registro de artículos", () => {
     ]);
   });
 
-  it("REQ-260: la página comercial del pilar cambia con PRIMERA_PIEZA_ENABLED (sin enlazar 404)", () => {
+  it("REQ-272: la página comercial del pilar cambia con PRIMERA_PIEZA_ENABLED (sin enlazar 404)", () => {
     expect(commercialHref(pillarBySlug("china")!, false)).toBe("/tours?search=China");
     expect(commercialHref(pillarBySlug("china")!, true)).toBe("/destinos/china");
     expect(pillarBySlug("free-tours")!.status).toBe("bloqueado");
   });
 
-  it("REQ-261: pilares y artículos sin FREETOUR, proveedores, «expertos» ni vocabulario prohibido", () => {
+  it("REQ-273: pilares y artículos sin FREETOUR, proveedores, «expertos» ni vocabulario prohibido", () => {
     expect(textsOf(PILLARS).filter((t) => PROHIBIDAS_SITIO.test(t))).toEqual([]);
     expect(textsOf(POSTS).filter((t) => PROHIBIDAS_SITIO.test(t))).toEqual([]);
   });
