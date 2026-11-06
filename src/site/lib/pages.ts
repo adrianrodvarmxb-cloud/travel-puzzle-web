@@ -6,6 +6,7 @@
  */
 export const PAGE_FLAGS = {
   nosotros: "NOSOTROS_ENABLED",
+  contacto: "CONTACTO_ENABLED",
 } as const;
 
 export type SitePageKey = keyof typeof PAGE_FLAGS;
@@ -13,10 +14,12 @@ export type SitePages = Record<SitePageKey, boolean>;
 
 export const PAGE_PATHS: Record<SitePageKey, string> = {
   nosotros: "/nosotros",
+  contacto: "/contacto",
 };
 
 const LABELS: Record<SitePageKey, { es: string; en: string }> = {
   nosotros: { es: "Nosotros", en: "About us" },
+  contacto: { es: "Contacto", en: "Contact" },
 };
 
 // REQ-240

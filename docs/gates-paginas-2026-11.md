@@ -23,3 +23,16 @@ Bloques en borrador (no salen en el sitio hasta que el PO llene el hueco y los m
 - Misión y visión: confirmar la redacción de 2023 (la visión dice «líder… al mejor precio»).
 - Frase «Vivimos un viaje tres veces…».
 - Equipo: personas, cargo, foto y permiso escrito.
+
+## Contacto (PR de /contacto)
+
+| # | Decisión | Opción aplicada (recomendada) | Alternativa | Firma |
+|---|---|---|---|---|
+| D1 | Formulario | **Sí**, porque lo pidió el PO (el plan recomendaba no hacerlo en esta entrega). Sin base de datos ni migración: un solo correo con Resend a info@, con reply-to del viajero. Consentimiento con enlace al aviso de privacidad (el integral y el simplificado ya listan «Respuesta a mensajes del formulario de contacto»). Sin casilla de publicidad (`MARKETING_CONSENT_ENABLED` sigue en false) | Solo WhatsApp y correo | [ ] |
+| D1-b | Anti-spam | Campo trampa, 3 s mínimos de llenado y máximo 2 enlaces; el spam recibe «enviado» y no se manda nada. No se escribe nunca al viajero | Agregar Cloudflare Turnstile (requiere llave y secreto nuevos: candado) | [ ] |
+| D4 | Domicilio | No se publica; solo canales en línea | — | [ ] |
+| D5 | Correo público | Solo info@travelpuzzle.com.mx; contacto@ y comercial@ fuera | Agregar otro buzón (confirmar que existe) | [ ] |
+| N3 | Formato del WhatsApp visible | «+52 1 55 3649 0320», como lo dio el PO (el enlace usa wa.me/525536490320) | «+52 55 3649 0320» | [ ] |
+| N4 | Llamadas | Sin enlace tel: hasta confirmar que el número contesta llamadas | Agregar «Llamar» | [ ] |
+
+Huecos que siguen abiertos (no se publican): días de atención y zona horaria (hoy solo «De 9:00 a 19:00 horas», como /ayuda), atención en inglés, URL oficial de Facebook, LinkedIn o X de empresa.
