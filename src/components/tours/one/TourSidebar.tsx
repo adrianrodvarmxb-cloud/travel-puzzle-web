@@ -75,7 +75,7 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                     )}
                     {tour.price > 0 && paidPolicy && <PaidPolicyNotice policy={paidPolicy} className="mt-3" />}
                     {tour.price === 0 && (tipGuide ? <FreeTourGuide guide={tipGuide} /> : (
-                        <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the tour, tip the guide what you think is fair.')}</p>
+                        <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the experience, tip the guide what you think is fair.')}</p>
                     ))}
                     {tour.rating && (
                         <div className="flex items-center gap-2 mt-2">

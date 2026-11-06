@@ -13,7 +13,7 @@ export function isPrimeraPiezaEnabled(value: string | undefined): boolean {
   return value === "true";
 }
 
-// REQ-093: Inicio · La Primera Pieza · Destinos · Tours · Traslados · Cómo Funciona
+// REQ-093 + REQ-174: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona
 export function withPrimeraPiezaLinks<L extends { href: string; label: string }>(links: L[], enabled: boolean, lang: string): (L | { href: string; label: string })[] {
   if (!enabled) return links;
   const rest = links.filter((l) => l.href !== ROUTES.primeraPieza && l.href !== ROUTES.destinos);
