@@ -1,7 +1,10 @@
 'use client';
+import { useEffect } from 'react';
+import { reportClientError } from '@/ops/reportClientError';
 import { Navbar } from '@/components/layout/Navbar';
 /** INC-003 (regla 7): si la lista de tours falla, se avisa y se puede reintentar; nunca pantalla en blanco. */
-export default function ToursError({ reset }: { error: Error; reset: () => void }) {
+export default function ToursError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  useEffect(() => reportClientError(error, 'page:/tours', error.digest), [error]); // REQ-221
   return (
     <>
     {/* REQ-062: header del sitio también en la pantalla de error */}
