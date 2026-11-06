@@ -4,7 +4,7 @@
 import { execFileSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { writeFileSync } from "node:fs";
-import { armarSecretos, nombresDeSecretos } from "../ops/lib/worker-secrets";
+import { armarSecretos, clavesCompartidasQueFaltan, nombresDeSecretos } from "../ops/lib/worker-secrets";
 
 const ruta = process.argv[2];
 if (!ruta) {
@@ -24,6 +24,19 @@ const { secretos, generados } = armarSecretos({
   generar: () => randomBytes(32).toString("base64"),
 });
 for (const n of generados) console.log(`::add-mask::${secretos[n]}`);
+
+// REQ-188: llaves compartidas (p. ej. AGENTE_TOKEN ↔ CATALOGO_TRAVEL_PUZZLE de mila-zoefel). Primero allá; si falla, no viaja aquí.
+for (const c of clavesCompartidasQueFaltan({ existentes, generar: () => randomBytes(32).toString("hex") })) {
+  console.log(`::add-mask::${c.valor}`);
+  try {
+    execFileSync("npx", ["wrangler", "secret", "put", c.comoSeLlamaAlla, "--name", c.worker], { input: c.valor, stdio: ["pipe", "ignore", "inherit"] });
+    secretos[c.nombre] = c.valor;
+    generados.push(c.nombre);
+    console.log(`Llave compartida ${c.nombre} creada (también en ${c.worker} como ${c.comoSeLlamaAlla}).`);
+  } catch {
+    console.log(`::warning::No se pudo cargar ${c.comoSeLlamaAlla} en ${c.worker}; ${c.nombre} queda para la próxima publicación.`);
+  }
+}
 
 writeFileSync(ruta, JSON.stringify(secretos), { mode: 0o600 });
 console.log(`Secretos existentes en el Worker: ${existentes.join(", ") || "(ninguno)"}`);

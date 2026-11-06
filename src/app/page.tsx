@@ -20,7 +20,9 @@ import { withRetry } from "@/tours/lib/d1-load";
 import { createHighlightRepo } from "@/reviews/repository";
 import { HashScroll } from "@/components/home/v2/HashScroll";
 import { OwnTripsCarousel } from "@/components/home/v2/OwnTripsCarousel";
-import { loadTripCards } from "@/trips/public-load";
+import { loadFx, loadTripCards } from "@/trips/public-load";
+import { priceLabelsFor } from "@/tours/lib/price-label";
+import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
@@ -40,6 +42,10 @@ export default async function Home() {
   const data = await cached(cacheKey("home", { lang, includePaid }), POLICY.home, () =>
     withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang })),
   );
+  // REQ-170: EUR + «aprox. MXN» en las destacadas de pago (servidor, idioma fijo; INC-001), solo con PRIMERA_PIEZA_ENABLED.
+  const paid = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? data.featured.filter((t) => !t.isFree && t.price > 0) : [];
+  const rates = paid.length ? await loadFx().catch(() => null) : null;
+  const priceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.price, currency: t.currency })), rates, lang === "es" ? "es" : "en");
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
@@ -51,7 +57,7 @@ export default async function Home() {
         <HeroSearch slides={data.hero} quickCities={data.destinations.slice(0, 5)} />
         <ProofStrip stats={data.stats} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
-        <FeaturedTours tours={data.featured} />
+        <FeaturedTours tours={data.featured} priceLabels={priceLabels} />
         <SectionBoundary name="carrusel-viajes"><OwnTripsCarousel trips={ownTrips} /></SectionBoundary>
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />

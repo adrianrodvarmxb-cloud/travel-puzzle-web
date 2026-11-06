@@ -1,4 +1,4 @@
-// REQ-148..126: la ventana del agente con la bandera, la llave y los interruptores. npx vitest run src/agente/rutas.test.ts
+// REQ-148..152: la ventana del agente con la bandera, la llave y los interruptores. npx vitest run src/agente/rutas.test.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { NextRequest } from "next/server";
 
@@ -32,7 +32,7 @@ describe("REQ-152: bandera y llave", () => {
   });
 });
 
-describe("REQ-148/123: proveedores y búsqueda", () => {
+describe("REQ-148/149: proveedores y búsqueda", () => {
   it("REQ-148: lista los proveedores con FREETOUR bloqueado", async () => {
     const r = await (await proveedores(req("/api/agente/proveedores"))).json();
     expect(r.proveedores.map((p: { id: string }) => p.id)).toEqual(["propios", "agencia:ag1", "freetour"]);
@@ -45,7 +45,7 @@ describe("REQ-148/123: proveedores y búsqueda", () => {
   });
 });
 
-describe("REQ-150/125: revisión en vivo y liga prellenada", () => {
+describe("REQ-150/151: revisión en vivo y liga prellenada", () => {
   it("REQ-151: fecha que sí sale → liga con fecha y personas", async () => {
     const r = await (await viaje(req("/api/agente/viaje?slug=oaxaca&proveedores=propios&fecha=2026-11-20&adultos=2&ninos=1"))).json();
     expect(r.fecha).toEqual({ disponible: true, alternativas: [] });
