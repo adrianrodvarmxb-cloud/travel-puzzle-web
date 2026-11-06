@@ -308,10 +308,32 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 | # | Gate | Decisión |
 |---|---|---|
 | G1 | Menú y jerarquía (A: decisión de las 05:57; B: homologados y punto 4 del pedido) | **Firmado A el 6-11 (~06:12), ratifica lo de las 05:57:** «Experiencias» es el paraguas y reemplaza a «Tours» en el menú: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona (6 ítems). Dentro van los formatos; Circuitos **no** es pestaña. Solo cambia la etiqueta: `/tours` sigue siendo el listado y no hay rutas nuevas. Resuelve el choque: el punto 4 se cumple en rutas y pestañas; REQ-093 queda REEMPLAZADO por REQ-400 (la etiqueta la implementa REQ-174). **`/experiencias` como alias: recomiendo NO hacer 301 hoy.** Motivos: (1) el pedido pide no crear rutas; (2) una 301 /experiencias → /tours queda guardada en el navegador sin vencimiento, y si un día /experiencias pasa a ser la URL principal (con /tours → /experiencias), quien la tenga guardada cae en un ciclo de redirecciones; (3) sin enlaces a /experiencias no hay nada que recuperar. Si el PO quiere que la URL exista ya (por ejemplo, para campañas), que sea una **307 temporal** a /tours; si algún día se muda el listado, se hace al revés con 301 /tours → /experiencias en su propio PR (rutas, sitemaps, canonical y hreflang a la vez). Nunca dos URLs que sirvan el mismo listado. |
-| G-T6 | Nombre visible del formato `experiencia-unica` (choca con el paraguas «Experiencias») | **Firmado por el PO el 6-11 a las 06:22: «Momentos de autor»** (se descartó la propuesta «Actividades»). El slug interno `experiencia-unica` y el `kind = unica` del gestor no cambian. Inglés propuesto: «Signature moments» (**por firmar**). Copy y traducciones en §7.3 (REQ-230). |
+| G-T6 | Nombre visible del formato `experiencia-unica` (choca con el paraguas «Experiencias») | **Firmado por el PO el 6-11 a las 06:22: «Momentos de autor»** (se descartó la propuesta «Actividades»). El slug interno `experiencia-unica` y el `kind = unica` del gestor no cambian. Inglés: «Signature moments» (firmado por recomendación, PO 6-11 07:04). Copy y traducciones en §7.3 (REQ-230). |
 | — | Favorito (5-11, gate 2) | ≥ 4.7 y ≥ 50 reseñas (REQ-098) |
 
+### 7.1 bis Firmados por recomendación (PO, 6-11 07:04)
+
+Aviso del coordinador: el PO aprobó a las 07:04 todas las olas T1 a T9 en autopiloto y los 12 gates pendientes con la opción recomendada. Cada uno queda **«firmado por recomendación, PO 6-11 07:04»**; las constantes viven en `src/taxonomy/lib/gates.ts` (PR #156) y cambiar una opción es un PR con OK del PO.
+
+| # | Gate | Opción firmada |
+|---|---|---|
+| 1 | G2 · Qué es «Caminata» | A: tour guiado a pie de pago; el free tour a pie es Free tour (La Primera Pieza) |
+| 2 | Lista de temas (G3) | A: los 13 temas depurados de `docs/taxonomia.md` §4.2; los 26 términos de 2024 como sinónimos |
+| 3 | G-T1 · Favorito de los viajeros | A: ≥ 4.7 y ≥ 50 reseñas reales (= REQ-098) |
+| 4 | G-T2 · México en /destinos | A: bloque propio, antes de «América del Norte» |
+| 5 | G-T3 · Metas de las métricas | Las de la tabla de abajo (100 % · ≤ 5 % · 0 · ≥ 90 % · 0 · medir 4 semanas) |
+| 6 | G-T4 · Franja horaria | A: sigue tras bandera (el sync no guarda la hora) |
+| 7 | G-T5 · Dónde vive la clasificación | A: las 3 tablas de 0017 (migración: candado; la aplica el coordinador) |
+| 8 | G-T7 · Excursión por duración | A: ≥ 360 min con palabra de salida, además de la categoría 4 |
+| 9 | G-T8 · Dificultad 1–5 | A: facil → 2, moderada → 3, exigente → 4; 1 y 5 solo declarados |
+| 10 | G-T9 · Title de la ficha por formato | **A**: «{título real} – Excursión desde {Ciudad}» en `excursion-dia` (cambia REQ-099; se aplica en T5) |
+| 11 | G-T10 · `por-revisar` | A: no se publica en ningún lado |
+| 12 | G-T11 · Autoguiado en el carrito | A: `tour` |
+| — | «Signature moments» y traducciones de §7.3 | Firmados (en, pt, de, fr, it). El apoyo «Actividades únicas operadas por expertos locales» sigue **por firmar** (no está en la lista del aviso). |
+
 ### 7.2 Pendientes (uno por uno, en este orden)
+
+> Los gates de esta sección quedaron firmados por recomendación (§7.1 bis). El texto se conserva como registro de las opciones.
 
 **G-T1. Criterio de «Favorito de los viajeros».** Recomiendo **A: el mismo criterio ya firmado, ≥ 4.7 y ≥ 50 reseñas reales** (REQ-098), para no tener dos «favoritos». Con el respaldo del 5-11 lo cumplen **998** tours. B: ≥ 4.7 y ≥ 20 (1,419 tours; sale más, pero con menos evidencia). C: ≥ 4.7 y ≥ 100 (677).
 
@@ -347,16 +369,16 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 
 ### 7.3 Copy propuesto de «Momentos de autor» (REQ-230)
 
-El español está firmado. Los demás idiomas son **propuesta por firmar**: en (`termino_en` del diccionario) y pt/de/fr/it por el flujo de traducción que ya existe (REQ-416). El slug y los parámetros de URL no cambian (`?formato=experiencia-unica`).
+El español está firmado; en, pt, de, fr e it quedaron **firmados por recomendación (PO 6-11 07:04)**: en (`termino_en` del diccionario) y pt/de/fr/it por el flujo de traducción que ya existe (REQ-416). El slug y los parámetros de URL no cambian (`?formato=experiencia-unica`).
 
 | Idioma | Nombre (chip y etiqueta) | Definición para el cliente | Estado |
 |---|---|---|---|
 | es | Momentos de autor | Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna. | **Firmado** (nombre); definición por revisar |
-| en | Signature moments | Something to do, not just to see: workshops, classes, shows, adventure or nightlife. | **Por firmar** |
-| pt | Momentos de autor | Algo para fazer, não só para ver: oficinas, aulas, espetáculos, aventura ou vida noturna. | Por firmar |
-| de | Signature-Momente | Etwas zum Erleben, nicht nur zum Anschauen: Workshops, Kurse, Shows, Abenteuer oder Nachtleben. | Por firmar |
-| fr | Moments signature | À vivre, pas seulement à voir : ateliers, cours, spectacles, aventure ou vie nocturne. | Por firmar |
-| it | Momenti d'autore | Da vivere, non solo da vedere: laboratori, corsi, spettacoli, avventura o vita notturna. | Por firmar |
+| en | Signature moments | Something to do, not just to see: workshops, classes, shows, adventure or nightlife. | Firmado por recomendación (6-11 07:04) |
+| pt | Momentos de autor | Algo para fazer, não só para ver: oficinas, aulas, espetáculos, aventura ou vida noturna. | Firmado por recomendación (6-11 07:04) |
+| de | Signature-Momente | Etwas zum Erleben, nicht nur zum Anschauen: Workshops, Kurse, Shows, Abenteuer oder Nachtleben. | Firmado por recomendación (6-11 07:04) |
+| fr | Moments signature | À vivre, pas seulement à voir : ateliers, cours, spectacles, aventure ou vie nocturne. | Firmado por recomendación (6-11 07:04) |
+| it | Momenti d'autore | Da vivere, non solo da vedere: laboratori, corsi, spettacoli, avventura o vita notturna. | Firmado por recomendación (6-11 07:04) |
 
 Reglas del copy:
 - «De autor» no debe sonar a que lo diseña Travel Puzzle: en productos de FREETOUR el operador sigue siendo el proveedor («Operado por un guía local · {proveedor}», REQ-098; C6). El nombre describe el formato, no quién lo opera.
