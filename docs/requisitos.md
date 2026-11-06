@@ -307,6 +307,25 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
 
+### Taxonomía, fase T3: publicación tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #156)
+
+| REQ | Código | Test | Estado |
+|---|---|---|---|
+| T3 · REQ-406 (Free tour = `pieza-libre`, sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35) | `src/taxonomy/lib/publish.ts`, `destinations/lib/catalog.ts` (`tourCard`), `home/load.ts` | `publish.test.ts`, `destinations/lib/catalog.test.ts` | CUMPLIDO (apagado) |
+| T3 · REQ-407 (`fuera` fuera de /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; no cuenta para indexar) | `catalog.ts` (`destinationTree`), `destinations/load.ts`, `destinations/server.ts`, `home/load.ts`, `trips/cross-sell-deps.ts` | `publish.test.ts`, `catalog.test.ts` | CUMPLIDO (apagado) |
+| T3 · REQ-408 (`por-revisar` no se publica, G-T10 = A) | `publish.ts` (`isPublishable`) | `publish.test.ts` | CUMPLIDO (apagado) |
+| T3 · REQ-261 (traslados y transporte, también de FREETOUR, fuera de Experiencias) | `catalog.ts`: sección «traslados» → Traslados de la ciudad | `catalog.test.ts` | CUMPLIDO (apagado) |
+
+### Taxonomía, fase T4: filtro «Tipo de experiencia» en /tours, tras `TAXONOMY_FILTERS_ENABLED="false"` (va después de #156 y #177)
+
+| Fase y REQ | Código | Test | Estado |
+|---|---|---|---|
+| T4 · REQ-413 (?formato= con slugs TP; canonical /tours y noindex,follow con filtro; ?tipo_act= traducido) | `src/taxonomy/lib/filters.ts`, `tours/lib/extra-filters.ts`, `catalog/lib/query.ts`, `catalog/snapshot.ts`, `actions/tours.ts` (la bandera la decide el servidor), `app/tours/page.tsx` (`generateMetadata`), `trips/lib/public.ts`, `trips/public-load.ts`, `components/tours/filters/MoreFilters.tsx`, `components/tours/ToursPageClient.tsx` | `src/taxonomy/lib/filters.test.ts` | CUMPLIDO (apagado) |
+| T4 · REQ-412 (nunca un chip en cero) | conteos por formato de la consulta (`facets.formato`) + viajes propios | `filters.test.ts` | CUMPLIDO (apagado) |
+| T4 · REQ-410 (temas en muestra no se muestran) | `?tema=` no filtra hasta la firma de la muestra | — | Pendiente de la firma de la muestra |
+| T4 · REQ-261 (traslado, transporte y renta fuera de /tours) | `queryCatalog` con la taxonomía | `filters.test.ts` | CUMPLIDO (apagado) |
+| T4 · REQ-269 (chip «Pieza libre»; EN «Free tour» por ahora) | `src/taxonomy/lib/filters.ts` (`FORMATO_LABEL`) | `filters.test.ts` | CUMPLIDO (apagado) |
+
 ### Viajes propios: tarjetas con la caché fría (hallazgo del ensayo #178, 6 nov 2026)
 
 | REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |

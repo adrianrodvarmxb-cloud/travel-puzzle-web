@@ -68,11 +68,13 @@ export interface ToursFilter {
   guideLanguage?: string | null;
   date?: string | null;
   /** REQ-051..056 */
+  /** T4: formatos de la taxonomía (?formato=). */
+  formatos?: string[];
   groups?: string[]; freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
   durMin?: number | null; durMax?: number | null; nowMs?: number;
 }
 type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null; languages?: string[]; dates?: string[];
-  group?: string; freeCancel?: boolean; private?: boolean; hotelPickup?: boolean; createdAt?: number; durationMinutes?: number | null };
+  group?: string; formato?: string; freeCancel?: boolean; private?: boolean; hotelPickup?: boolean; createdAt?: number; durationMinutes?: number | null };
 
 /** ¿Va este viaje arriba de los resultados de /tours con este filtro? REQ-046: respeta buscador, ciudad y precio. */
 export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
@@ -89,6 +91,7 @@ export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
   if (f.guideLanguage && !(t.languages ?? []).includes(f.guideLanguage)) return false; // REQ-049
   if (f.date && !(t.dates ?? []).includes(f.date)) return false;
   if (f.groups?.length && !f.groups.includes(t.group ?? "otros")) return false; // REQ-051
+  if (f.formatos?.length && !f.formatos.includes(t.formato ?? "")) return false; // T4 (REQ-413)
   if (f.freeCancel && !t.freeCancel) return false; // REQ-052
   if (f.privateOnly && !t.private) return false; // REQ-053
   if (f.hotelPickup && !t.hotelPickup) return false; // REQ-054
