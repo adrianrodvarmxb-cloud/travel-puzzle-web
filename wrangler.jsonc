@@ -62,9 +62,12 @@
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
     "DEPARTURES_SYNC_ENABLED": "true",
     // Mostrar filtros de idioma del guía y fecha (REQ-061). "true" cuando la lectura de salidas cubra el catálogo, con OK.
-    "DEPARTURE_FILTERS_ENABLED": "false",
+    "DEPARTURE_FILTERS_ENABLED": "true",
     // Buscador con relevancia (FTS5, REQ-048). "true" con vista previa y OK del PO, después de la migración 0011.
-    "SEARCH_V2_ENABLED": "false",
+    "SEARCH_V2_ENABLED": "true",
+    // Buscador tolerante a erratas y alias curados (REQ-280…285). Requiere SEARCH_V2_ENABLED. "true" solo con preview
+    // con la bandera encendida, prueba de humo y OK del PO, en su propio PR. Regreso: "false".
+    "SEARCH_FUZZY_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
     "SYNC_GUARD_ENABLED": "true",
@@ -78,6 +81,10 @@
     "FREETOUR_POSTTOUR_PROMO_ENABLED": "false",
     // REQ-081: chatbot (Mila u otro) que ofrezca o reserve tours de FREETOUR. "true" solo con autorización escrita.
     "FREETOUR_CHATBOT_ENABLED": "false",
+    // REQ-262…267: bloque de venta cruzada (sin FREETOUR, regla B3) en confirmación, recordatorios, cambio y post-tour.
+    // Nunca en rechazo ni cancelación. "true" con preview, prueba de humo y OK del PO. Decisión del PO (6-11 09:07):
+    // la única restricción es no promover FREETOUR; no se exige la lista «No publicidad».
+    "EMAIL_CROSS_SELL_ENABLED": "false",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).
@@ -87,14 +94,17 @@
     // REQ-139 (gate G5): atribución CC BY 4.0 de GeoNames, solo en /terminos (no en el pie). "true" cuando el geonameid
     // o datos de GeoNames se vean en el sitio (JSON-LD, hubs), con preview, prueba de humo y OK del PO.
     "GEO_ATTRIBUTION_ENABLED": "false",
-    // REQ-148..152: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). "true" solo con OK
-    // del PO y con el secreto AGENTE_TOKEN (24+ caracteres) cargado con `wrangler secret put AGENTE_TOKEN`.
-    "AGENTE_API_ENABLED": "false",
+    // REQ-221 (PO, 6 nov 2026): ENCENDIDA. REQ-148..152: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). Con OK
+    // del PO; la llave AGENTE_TOKEN viaja con la versión (REQ-188).
+    "AGENTE_API_ENABLED": "true",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
     // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
     // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
-    "PRIMERA_PIEZA_ENABLED": "false",
+    "PRIMERA_PIEZA_ENABLED": "true",
+    // Carruseles del home (REQ-450, REQ-453): «Los más elegidos» por medidor de reseñas (bayesiano, cualquier proveedor)
+    // y «Excursiones de un día». "true" con preview con la bandera encendida, prueba de humo y OK del PO.
+    "CARRUSELES_HOME_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
