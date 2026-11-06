@@ -1,0 +1,52 @@
+# REQ-130: corrige el nombre en español de UNA ciudad (City 3209, Omán): «Moscatel» → «Mascate».
+# Solo se dispara a mano. Con escribir=false (default) solo lee y muestra el antes y lo que cambiaría.
+# Con escribir=true: respaldo de la fila en el artefacto → UPDATE de esa fila → verificación (1 fila cambiada, es = «Mascate»).
+# Candado: datos de producción; lo corre el coordinador con OK del PO y nunca mientras corre el sync.
+# SQL y plan de regreso: docs/datos/2026-11-05-mascate.sql.
+name: "Corregir ciudad: Mascate"
+on:
+  workflow_dispatch:
+    inputs:
+      escribir:
+        description: "Escribir en producción la fila City 3209 (candado: OK del PO)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  mascate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Prueba REQ-130 (el sync no reescribe ciudades existentes)
+        run: npx vitest run src/catalog/sync.test.ts -t "REQ-130"
+      - name: Respaldo de la fila (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p respaldo
+          npx wrangler d1 execute travel-puzzle --remote --json --command 'SELECT "id", "countryId", "translations", "slug", "geonameid" FROM "City" WHERE "id" = 3209' > respaldo/City-3209-antes.json
+          jq '.[0].results' respaldo/City-3209-antes.json
+          es=$(jq -r '.[0].results[0].translations | fromjson | .es' respaldo/City-3209-antes.json)
+          echo "Nombre en español hoy: $es"
+          if [ "$es" = "Mascate" ]; then echo "Ya dice «Mascate»: nada que hacer."; elif [ "$es" != "Moscatel" ]; then echo "::error::La fila no dice «Moscatel» ($es): no se toca."; exit 1; else echo "Cambiaría: es «Moscatel» → «Mascate» (1 fila)."; fi
+      - name: Escribir (solo con escribir=true)
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute travel-puzzle --remote --json --command "UPDATE \"City\" SET \"translations\" = json_set(\"translations\", '\$.es', 'Mascate') WHERE \"id\" = 3209 AND \"countryId\" = 116 AND json_extract(\"translations\", '\$.es') = 'Moscatel'" | tee respaldo/update.json | jq '.[0].meta.changes'
+          npx wrangler d1 execute travel-puzzle --remote --json --command 'SELECT "id", "translations", "slug" FROM "City" WHERE "id" = 3209' > respaldo/City-3209-despues.json
+          jq '.[0].results' respaldo/City-3209-despues.json
+          es=$(jq -r '.[0].results[0].translations | fromjson | .es' respaldo/City-3209-despues.json)
+          [ "$es" = "Mascate" ] || { echo "::error::Después del UPDATE dice «$es»"; exit 1; }
+          echo "Listo: City 3209 es = «Mascate». El índice del buscador se rehace al cerrar la siguiente corrida del sync."
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: mascate-respaldo, path: respaldo, retention-days: 90 }
