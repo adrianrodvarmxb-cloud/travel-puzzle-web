@@ -30,3 +30,11 @@
 - **Top semanal de cero resultados (solo lectura):** `WEEKLY_ZERO_SQL` con `lastWeek(Date.now())` y un límite, por ejemplo `wrangler d1 execute travel-puzzle --remote --command "<WEEKLY_ZERO_SQL con las fechas>"`.
 - **Retención:** `PURGE_SQL` con `purgeBefore(Date.now())` borra lo de más de 400 días. Es una escritura en producción, así que lleva el OK del PO.
 - **Apagar:** `SEARCH_LOG_ENABLED="false"`. El navegador deja de mandar eventos y la ruta responde 404. La tabla se queda.
+
+## Alias multilingües (S5, REQ-350…355)
+
+- **Orden (cada paso con OK del PO):** 1) 0016 aplicada y `City.geonameid` lleno (frente geo, G3/G4); 2) mover `docs/migraciones-propuestas/0018_destino_alias.sql` a `migrations/` y aplicarla; 3) correr «Alias de destino (ensayo)» y revisar `destino-alias.csv` y `cobertura.json`; 4) aplicar `destino-alias.sql` en lotes (escritura en producción); 5) `GEO_ATTRIBUTION_ENABLED="true"` (y «wikidata» en `GEO_SOURCES_IN_PRODUCTION` si hubo alias de Wikidata).
+- **Sin geonameid en producción:** el script acepta `--map geo-v2-auto.csv` (los propuestos del ensayo geo v2) para medir la cobertura antes de tiempo. Ese SQL **no** se aplica: los `geonameid` tienen que estar guardados primero.
+- **Local:** `unzip -p alternateNamesV2.zip alternateNamesV2.txt | npx tsx src/scripts/alias-ingesta.ts - <export> <salida> [--map …] [--wikidata …]`.
+- **Lectura en el Worker:** `SELECT city_id, alias_plegado, alias_ascii FROM destino_alias`, con caché de 1 h. Si la tabla no existe se usan solo los alias curados.
+- **Regreso:** `SEARCH_FUZZY_ENABLED="false"` o vaciar la tabla (con OK). El buscador vuelve a los alias curados.
