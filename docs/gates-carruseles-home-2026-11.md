@@ -13,22 +13,24 @@ PO: Adrián Rodvar. Decisiones del 6 nov 2026 (06:14, 06:16 y 06:28). REQ-450 a 
 | 5 | Nuevo carrusel «Excursiones de un día» en su lugar, como sección del registro del menú. |
 | 6 | (06:28) Ningún carrusel del inicio muestra experiencias cuyo título diga FreeTour, FREETOUR o «free tour»: se saltan y entra la siguiente. |
 
-## Propuestas por firmar
+## Gates C1–C12: se aplicó la recomendación
 
-| Gate | Propuesta | Alternativa |
-|---|---|---|
-| C1. Fórmula | `puntaje = (v·R + m·C) / (v + m)`: R = calificación, v = número de reseñas reales | — |
-| C2. m | **50 reseñas**, el mismo mínimo de la insignia «Favorito» (REQ-098). Con 50 reseñas, un tour pesa igual que el promedio del catálogo; con 5,000, casi solo cuenta su nota. Ejemplo con C = 4.8: 5.0 con 3 reseñas da 4.81, y 4.9 con 5,000 da 4.90 | m = 100 (más conservador) |
-| C3. C | El promedio del catálogo ponderado por reseñas, calculado en cada carga (tours activos con reseñas). Si no es válido, 4.5 | C fijo |
-| C4. Diversidad en «Los más elegidos» | En las primeras posiciones, máximo 2 por ciudad y 3 por formato. Si no alcanza la variedad, se relaja primero el formato y luego la ciudad, para no dejar huecos | También máximo 3 por país |
-| C5. Diversidad en excursiones | Máximo 1 por ciudad y 2 por país; se relaja primero el país | 2 por ciudad |
-| C6. Sin reseñas en excursiones | Los de FREETOUR con 0 reseñas no entran. Los de proveedores sin sistema de reseñas (viajes propios/DMC) ocupan hasta **2 lugares al final**, y completan si faltan con reseñas (`DAY_TRIP_UNRATED_SLOTS`; 0 = excluirlos) | Excluirlos (0) |
-| C7. Tamaño | 9 tarjetas por carrusel (3×3 en escritorio, deslizable en celular) | 6 |
-| C8. Excursión a propina | Una excursión de la cat 4 con precio 0 cuenta como «excursión de un día» en el carrusel. En los filtros sigue siendo «pieza libre» por precedencia | Excluirla |
-| C9. Copy | es: «EXCURSIONES DE UN DÍA» / «Excursiones de un día.» / «Sales de la ciudad y vuelves el mismo día.» · en: «DAY TRIPS» / «Day trips.» / «Leave the city and be back the same day.» (definición del diccionario de taxonomía; no nombra al proveedor) | — |
-| C11. Excursión de menos de 6 h | En el carrusel, una cat 4 de FREETOUR necesita ≥ 6 h cuando se conoce la duración. En el preview con datos de producción salían recorridos a pie de 1:30 a 2:30 h marcados como cat 4 (Zamora, Weimar, Arusha), y el copy «Sales de la ciudad y vuelves el mismo día» no sería cierto | Aceptar cualquier cat 4 (regla del diccionario) |
-| C12. Sin repetidos | Lo que ya sale en «Los más elegidos» no se repite en «Excursiones de un día» | Permitir repetidos |
-| C10. Tours de pago | Mientras `PAID_TOURS_ENABLED="false"`, solo entran tours de precio 0: no se recomienda lo que no se puede reservar (`paid_not_available`). Por eso, hoy la mezcla de formatos es limitada | Mostrarlos sin poder reservarlos (no recomendado) |
+**Firmado por recomendación, PO autopiloto 6-11.** La instrucción llegó por el coordinador. El PO no firmó cada gate en persona; si quiere cambiar alguno, se cambia aquí y en la constante que corresponde.
+
+| Gate | Recomendación aplicada | Alternativa no elegida | Estado |
+|---|---|---|---|
+| C1. Fórmula | `puntaje = (v·R + m·C) / (v + m)`: R = calificación, v = número de reseñas reales | — | Firmado por recomendación, PO autopiloto 6-11 |
+| C2. m | **50 reseñas**, el mismo mínimo de la insignia «Favorito» (REQ-098). Con 50 reseñas, un tour pesa igual que el promedio del catálogo; con 5,000, casi solo cuenta su nota. Ejemplo con C = 4.8: 5.0 con 3 reseñas da 4.81, y 4.9 con 5,000 da 4.90 | m = 100 (más conservador) | Firmado por recomendación, PO autopiloto 6-11 |
+| C3. C | El promedio del catálogo ponderado por reseñas, calculado en cada carga (tours activos con reseñas). Si no es válido, 4.5 | C fijo | Firmado por recomendación, PO autopiloto 6-11 |
+| C4. Diversidad en «Los más elegidos» | En las primeras posiciones, máximo 2 por ciudad y 3 por formato. Si no alcanza la variedad, se relaja primero el formato y luego la ciudad, para no dejar huecos | También máximo 3 por país | Firmado por recomendación, PO autopiloto 6-11 |
+| C5. Diversidad en excursiones | Máximo 1 por ciudad y 2 por país; se relaja primero el país | 2 por ciudad | Firmado por recomendación, PO autopiloto 6-11 |
+| C6. Sin reseñas en excursiones | Los de FREETOUR con 0 reseñas no entran. Los de proveedores sin sistema de reseñas (viajes propios/DMC) ocupan hasta **2 lugares al final**, y completan si faltan con reseñas (`DAY_TRIP_UNRATED_SLOTS`; 0 = excluirlos) | Excluirlos (0) | Firmado por recomendación, PO autopiloto 6-11 |
+| C7. Tamaño | 9 tarjetas por carrusel (3×3 en escritorio, deslizable en celular) | 6 | Firmado por recomendación, PO autopiloto 6-11 |
+| C8. Excursión a propina | Una excursión de la cat 4 con precio 0 cuenta como «excursión de un día» en el carrusel. En los filtros sigue siendo «pieza libre» por precedencia | Excluirla | Firmado por recomendación, PO autopiloto 6-11 |
+| C9. Copy | es: «EXCURSIONES DE UN DÍA» / «Excursiones de un día.» / «Sales de la ciudad y vuelves el mismo día.» · en: «DAY TRIPS» / «Day trips.» / «Leave the city and be back the same day.» (definición del diccionario de taxonomía; no nombra al proveedor) | — | Firmado por recomendación, PO autopiloto 6-11 |
+| C11. Excursión de menos de 6 h | En el carrusel, una cat 4 de FREETOUR necesita ≥ 6 h cuando se conoce la duración. En el preview con datos de producción salían recorridos a pie de 1:30 a 2:30 h marcados como cat 4 (Zamora, Weimar, Arusha), y el copy «Sales de la ciudad y vuelves el mismo día» no sería cierto | Aceptar cualquier cat 4 (regla del diccionario) | Firmado por recomendación, PO autopiloto 6-11 |
+| C12. Sin repetidos | Lo que ya sale en «Los más elegidos» no se repite en «Excursiones de un día» | Permitir repetidos | Firmado por recomendación, PO autopiloto 6-11 |
+| C10. Tours de pago | Mientras `PAID_TOURS_ENABLED="false"`, solo entran tours de precio 0: no se recomienda lo que no se puede reservar (`paid_not_available`). Por eso, hoy la mezcla de formatos es limitada | Mostrarlos sin poder reservarlos (no recomendado) | Firmado por recomendación, PO autopiloto 6-11 |
 
 ## Reglas que se derivan
 
@@ -37,4 +39,4 @@ PO: Adrián Rodvar. Decisiones del 6 nov 2026 (06:14, 06:16 y 06:28). REQ-450 a 
 - Una fila inválida se descarta y se registra en el log. Si el medidor falla, «Los más elegidos» vuelve a la regla anterior y las excursiones no se muestran.
 - Filtro de títulos (REQ-454): `src/home/lib/provider-brand.ts` es provisional. Se une con la `mentionsProviderBrand` del otro PR (agente a41f4aa).
 
-Firma del PO: ______  Fecha: ______
+Firma: por recomendación, PO autopiloto 6-11 (vía coordinador).

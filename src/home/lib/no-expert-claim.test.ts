@@ -3,7 +3,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 /** REQ-452: la afirmación «Viajes armados por nuestros expertos» era falsa (los viajes son de proveedores) y se borró. */
-const FALSE_CLAIM = /armados por (nuestros )?expertos|viajes by travel puzzle|trips by travel puzzle|crafted by our experts|trips by our experts|criadas pelos nossos especialistas|von unseren experten|conçus par nos experts|creati dai nostri esperti/i;
+const FALSE_CLAIM = /armados por (nuestros )?expertos|nuestros expertos|our experts|nossos especialistas|unseren experten|nos experts|nostri esperti|viajes by travel puzzle|trips by travel puzzle/i;
 
 function files(dir: string): string[] {
   return readdirSync(dir).flatMap((f) => {
@@ -13,7 +13,7 @@ function files(dir: string): string[] {
 }
 
 describe("REQ-452: sin el carrusel «Viajes armados por nuestros expertos»", () => {
-  it("REQ-452: ningún archivo de src/ trae la frase (es, en, pt, de, fr, it)", () => {
+  it("REQ-452: ningún archivo de src/ trae la frase ni «nuestros expertos» (es, en, pt, de, fr, it)", () => {
     expect(files("src").filter((f) => FALSE_CLAIM.test(readFileSync(f, "utf8")))).toEqual([]);
   });
 });
