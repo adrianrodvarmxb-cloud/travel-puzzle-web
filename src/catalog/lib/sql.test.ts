@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { tourStatements, publishTourStatements, ratingStatements, stageStatements, backupStatements, presenceStatements, publishBatch } from "./sql";
+import { tourStatements, publishTourStatements, ratingStatements, stageStatements, backupStatements, presenceStatements, publishBatch, slugStatements } from "./sql";
 import { MAX_PARAMS } from "@/lib/d1/batch";
 
 const now = new Date("2026-10-30T10:00:00Z");
@@ -110,5 +110,21 @@ describe("sync blindado: sentencias", () => {
     const stmts = publishBatch({ runId: "run1", startedAt: now, now, newId, tours: [], ratings: [], backups: [], cursor: 100, finalize: null });
     expect(stmts).toHaveLength(1);
     expect(stmts[0].sql).toBe('UPDATE "SyncRun" SET "publishCursor" = ?, "updatedAt" = ? WHERE "id" = ?');
+  });
+});
+
+describe("slugs del sync blindado", () => {
+  it("REQ-086: solo llena el slug vacío; nunca sobrescribe uno guardado", () => {
+    const [st] = slugStatements([{ externalId: 7, slug: "tour-7" }]);
+    expect(st.sql).toBe('UPDATE "Tour" SET "slug" = ? WHERE "externalId" = ? AND "slug" IS NULL');
+    expect(st.params).toEqual(["tour-7", 7]);
+  });
+
+  it("REQ-086: el batch de publicación escribe los slugs después de insertar los tours", () => {
+    const stmts = publishBatch({
+      runId: "r1", startedAt: new Date(0), now: new Date(0), newId: () => "x", ratings: [], backups: [], cursor: 7, finalize: null,
+      tours: [], slugs: [{ externalId: 7, slug: "tour-7" }],
+    });
+    expect(stmts.some((s) => s.sql.startsWith('UPDATE "Tour" SET "slug"'))).toBe(true);
   });
 });

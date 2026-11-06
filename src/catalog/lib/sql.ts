@@ -130,6 +130,12 @@ export function presenceStatements(updates: PresenceUpdate[]): Stmt[] {
   return stmts;
 }
 
+/** Slug de un tour nuevo (REQ-086). Solo llena el vacío; el trigger Tour_slug_inmutable impide cambiar uno guardado. */
+// REQ-086
+export function slugStatements(slugs: { externalId: number; slug: string }[]): Stmt[] {
+  return slugs.map((s) => ({ sql: 'UPDATE "Tour" SET "slug" = ? WHERE "externalId" = ? AND "slug" IS NULL', params: [s.slug, s.externalId] }));
+}
+
 export interface PublishInput {
   runId: string;
   startedAt: Date;
@@ -137,6 +143,8 @@ export interface PublishInput {
   newId: () => string;
   tours: { tour: TourRow; translations: TranslationRow[]; hash: string }[];
   ratings: RatingRow[];
+  /** REQ-086: slugs de los tours nuevos de este paso (se escriben después de insertarlos). */
+  slugs?: { externalId: number; slug: string }[];
   backups: { externalId: number; previous: unknown }[];
   /** Último externalId publicado en este paso. */
   cursor: number;
@@ -159,6 +167,7 @@ export function publishBatch(p: PublishInput): Stmt[] {
   const stmts: Stmt[] = [
     ...backupStatements(p.runId, p.backups),
     ...publishTourStatements(p.tours, p.now, p.newId),
+    ...slugStatements(p.slugs ?? []),
     ...ratingStatements(p.ratings),
   ];
   if (!p.finalize) {

@@ -10,7 +10,7 @@ import {
 
 /** Base de datos en memoria con la misma semántica que el repositorio de D1. */
 function memoryRepo() {
-  const tours = new Map<number, { title: string; contentHash: string | null; rating: number | null; reviewsNumber: number; syncStatus: string; missingRuns: number; isActive: boolean }>();
+  const tours = new Map<number, { title: string; contentHash: string | null; rating: number | null; reviewsNumber: number; syncStatus: string; missingRuns: number; isActive: boolean; slug?: string | null }>();
   const runs: (RunState & Record<string, unknown>)[] = [];
   const stages = new Map<string, Map<number, StagedRow & { previous?: unknown }>>();
   const meta: { checkpoint: Date | null } = { checkpoint: null };
@@ -44,19 +44,23 @@ function memoryRepo() {
     },
     nextChunk: async (runId, after, limit) =>
       [...stages.get(runId)!.values()].filter((r) => r.kind !== "same" && r.externalId > after).sort((a, b) => a.externalId - b.externalId).slice(0, limit),
+    slugIndex: async (ids) =>
+      [...tours.entries()].filter(([id, t]) => ids.includes(id) || t.slug).map(([externalId, t]) => ({ id: `uid${externalId}`, providerId: "freetour", externalId, slug: t.slug ?? null })),
     presenceInputs: async (runId) =>
       [...tours.entries()].map(([externalId, t]) => ({ externalId, syncStatus: t.syncStatus, missingRuns: t.missingRuns, isActive: t.isActive, seen: stages.get(runId)!.has(externalId) })),
-    publish: async ({ runId, tours: rows, ratings, cursor, finalize, now }) => {
+    publish: async ({ runId, tours: rows, ratings, cursor, finalize, now, slugs = [] }) => {
       if (failPublish) throw new Error("D1 batch falló");
       for (const r of rows) {
         const prev = tours.get(r.tour.externalId);
         if (prev) stages.get(runId)!.get(r.tour.externalId)!.previous = { ...prev };
         tours.set(r.tour.externalId, {
           title: r.translations[0]?.title ?? "", contentHash: r.hash, rating: r.tour.rating, reviewsNumber: r.tour.reviewsNumber,
-          syncStatus: prev?.syncStatus ?? "active", missingRuns: prev?.missingRuns ?? 0, isActive: true,
+          syncStatus: prev?.syncStatus ?? "active", missingRuns: prev?.missingRuns ?? 0, isActive: true, slug: prev?.slug ?? null,
         });
         tourWrites++;
       }
+      // Igual que la base: solo llena el slug si está vacío (UPDATE … WHERE "slug" IS NULL y trigger Tour_slug_inmutable).
+      for (const s of slugs) { const t = tours.get(s.externalId)!; if (!t.slug) t.slug = s.slug; }
       for (const r of ratings) { Object.assign(tours.get(r.externalId)!, { rating: r.rating, reviewsNumber: r.reviewsNumber }); tourWrites++; }
       const run = runs.find((x) => x.id === runId)!;
       run.publishCursor = cursor;
@@ -320,5 +324,44 @@ describe("runGuardedSyncStep: log y salud", () => {
     await runDay(db, EMPTY_FEED, day(3));
     expect(db.runs[2]).toMatchObject({ status: "aborted" });
     expect(db.runs[2].abortReason).toBeTruthy();
+  });
+});
+
+describe("runGuardedSyncStep: slugs de tours nuevos", () => {
+  it("REQ-086: un tour nuevo recibe su slug al publicarse, a partir de su título", async () => {
+    const db = await seeded();
+    expect(db.tours.get(1)!.slug).toBe("tour-1");
+    expect(db.tours.get(6)!.slug).toBe("tour-6");
+  });
+
+  it("REQ-086: el sync nunca regenera el slug aunque el tour cambie de nombre", async () => {
+    const db = await seeded();
+    await runDay(db, pagedFeed(RENAMED_CATALOG), day(2));
+    expect(db.tours.get(2)!.title).toBe("Tour 2 · nuevo nombre");
+    expect(db.tours.get(2)!.slug).toBe("tour-2");
+  });
+
+  it("REQ-086: un tour que reaparece conserva su slug", async () => {
+    const db = await seeded();
+    for (const d of [2, 3, 4]) await runDay(db, pagedFeed(DELETED_CATALOG), day(d));
+    expect(db.tours.get(6)).toMatchObject({ syncStatus: "removed", slug: "tour-6" });
+    await runDay(db, pagedFeed(BASE_CATALOG), day(5));
+    expect(db.tours.get(6)).toMatchObject({ syncStatus: "active", slug: "tour-6" });
+  });
+
+  it("REQ-086: si el slug ya lo tiene otro tour, el nuevo lleva un sufijo corto", async () => {
+    const db = await seeded();
+    await runDay(db, pagedFeed([...BASE_CATALOG, feedTour(7, { title: { es: "Tour 1" } })]), day(2));
+    const s = db.tours.get(7)!.slug!;
+    expect(s).not.toBe("tour-1");
+    expect(s.startsWith("tour-1-")).toBe(true);
+    expect(db.tours.get(1)!.slug).toBe("tour-1");
+  });
+
+  it("REQ-086: un tour que ya existía sin slug no lo recibe del sync (eso es el llenado con OK del PO)", async () => {
+    const db = await seeded();
+    db.tours.get(3)!.slug = null;
+    await runDay(db, pagedFeed(BASE_CATALOG.map((t) => (t.id === 3 ? { ...t, title: { es: "Tour 3 cambiado" } } : t))), day(2));
+    expect(db.tours.get(3)!.slug).toBeNull();
   });
 });

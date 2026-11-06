@@ -122,6 +122,18 @@ export function createGuardedRepo(prisma: PrismaClient, db: D1Read, newId: () =>
       }));
     },
 
+    // REQ-086: los tours del paso y todos los slugs ya guardados (para que el nuevo no choque con el índice único).
+    async slugIndex(externalIds) {
+      const [mine, withSlug] = await Promise.all([
+        selectIn(db, (m) => `SELECT "id", "providerId", "externalId", "slug" FROM "Tour" WHERE "externalId" IN (${m})`, externalIds),
+        db.prepare('SELECT "id", "providerId", "externalId", "slug" FROM "Tour" WHERE "slug" IS NOT NULL').bind().all().then((r) => r.results),
+      ]);
+      const byKey = new Map([...withSlug, ...mine].map((r) => [`${r.providerId}:${r.externalId}`, r]));
+      return [...byKey.values()].map((r) => ({
+        id: String(r.id), providerId: String(r.providerId ?? "freetour"), externalId: Number(r.externalId), slug: (r.slug as string | null) ?? null,
+      }));
+    },
+
     async publish(input) {
       // Respaldo: la fila actual (tal como está en D1) de cada tour que se va a sobrescribir, con sus
       // traducciones; va en el mismo batch que la escritura.
