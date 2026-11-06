@@ -227,7 +227,7 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | REQ-095 | Insignia solo con fullPricePerGroup = 0 (evento en vivo) | `src/tours/lib/badge.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `badge.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `notice.test.ts`, `live-notice.test.ts` | CUMPLIDO |
 | REQ-097 | Tours de pago: sin insignia, 24 h y pago a la llegada; gate REQ-097: reembolso hasta 24 h, después o sin presentarse no hay (también sobre depósito o pago a la llegada) | `src/tours/lib/notice.ts`, `src/tours/lib/paid-policy.ts`, `src/tours/lib/live-notice.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `notice.test.ts`, `paid-policy.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO (la política del sidebar se ve con PAID_TOURS_ENABLED) |
-| REQ-098 | Favorito ≥4.7 y ≥50 (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-098 | Favorito ≥4.9 y ≥180 (≈140 tours; regla única en favorite.ts) (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts`, `page-model.ts` | `titles.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-100 | JSON-LD y migas visibles | `src/seo/lib/jsonld.ts`, `page-model.ts`, `components/destinations/*` | `jsonld.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts`, `page-model.ts`, `DestinationsLayout.tsx` | `hub.test.ts`, `page-model.test.ts` | CUMPLIDO |
@@ -357,6 +357,7 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | REQ-432 | Métricas en STATUS.md, con la meta que propongas: % de tours con formato (100 %) y % sin tema; categoryIds por revisar (0); precisión por… | `src/taxonomy/lib/metrics.ts` (propuesto) | — | PENDIENTE (metas: gate G-T3) |
 | REQ-433 | FREETOUR: las etiquetas nunca van sobre la foto; el H1 es el título real; ningún texto de taxonomía promete pagos, MSI ni «guía en español»… | `src/taxonomy/lib/copy.ts` (propuesto) | — | PENDIENTE |
 | REQ-230 | Formato `experiencia-unica` = «Momentos de autor» (G-T6 firmado, 06:22); en «Signature moments» por firmar; slug sin cambio | `src/taxonomy/data/dictionary.ts`, `lib/copy.ts` (propuesto) | — | PENDIENTE |
+| REQ-480 | «Pieza libre»: chip de filtros de /tours e insignia azul de tarjetas y ficha; el precio «Free tour» se queda; EN «Free tour» pendiente de firma | `src/tours/lib/pieza-libre.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/lib/translations/*.ts`, `TourCard.tsx`, `FeaturedTours.tsx`, `TourHeroSection.tsx` | `pieza-libre.test.ts` | CUMPLIDO |
 
 **Métricas de taxonomía (REQ-432; metas propuestas, gate G-T3):**
 | Métrica | Meta propuesta | Valor (ensayo del 5-11, sin producción) |
