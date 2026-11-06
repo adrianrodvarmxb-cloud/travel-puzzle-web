@@ -1,3 +1,4 @@
+import { taxonomyCartEnabled } from '@/taxonomy/lib/cart-type';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -76,6 +77,8 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
         now: Date.now(),
         // REQ-183: MXN aproximado solo si la reserva quedó con tarifa fija.
         fx: piece?.price && piece.price > 0 ? await loadFx().catch(() => null) : null,
+        // T7 (REQ-429): primera tarjeta por formato, tras TAXONOMY_CART_ENABLED.
+        firstByFormat: taxonomyCartEnabled(env),
     });
     const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 

@@ -87,6 +87,8 @@ export function buildArmaTuViajeModel(input: {
   now: number;
   /** REQ-183: tipo de cambio para el MXN aproximado de una tarifa fija (null = solo EUR). */
   fx?: FxRates | null;
+  /** T7 (REQ-429): primera tarjeta por formato (TAXONOMY_CART_ENABLED). */
+  firstByFormat?: boolean;
 }): ArmaTuViajeModel {
   const { piece, query } = input;
   if (!piece) return { piece: null, cards: [], cityCode: null };
@@ -112,6 +114,7 @@ export function buildArmaTuViajeModel(input: {
     device: "both",
     rules: DEFAULT_RULES,
     flags: input.flags,
+    firstByFormat: input.firstByFormat,
   });
 
   return {

@@ -249,3 +249,12 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-421 (tipo de grupo) · REQ-422 (dificultad 1–5) · REQ-423 (rangos de días) | `src/taxonomy/lib/circuits.ts` | `circuits.test.ts` | CUMPLIDO en lib (se muestra en T6) |
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
+
+### Taxonomía, fase T7 (carrito y carrusel por formato, tras `TAXONOMY_CART_ENABLED=false`)
+
+Sin REQ nuevos: esta fase implementa REQ-428 y REQ-429 detrás de la bandera. Con la bandera apagada todo sigue igual (REQ-108). Sin cambio visible mientras «Arma tu viaje» (`ARMA_TU_VIAJE_ENABLED`) siga apagado.
+
+| Requisito | Código | Prueba | Estado |
+|---|---|---|---|
+| T7 · REQ-428 (adaptador de FREETOUR: free_tour, tour, day_trip, tickets según `cartTypeFor(formato)`) | `src/cart/adapters/freetour.ts`, `src/cart/lib/adapter.ts` (`Offer.formato`), `src/taxonomy/lib/cart-type.ts` (`taxonomyCartEnabled`) | `src/taxonomy/lib/cart-t7.test.ts` | CUMPLIDO (apagado) |
+| T7 · REQ-429 (primera tarjeta por formato ∈ {caminata, tour, excursion-dia, experiencia-unica}; sin formato, regla REQ-108) | `src/companions/lib/carousel.ts` (`firstByFormat`), `src/cart/lib/page-model.ts`, `src/app/arma-tu-viaje/page.tsx` | `src/taxonomy/lib/cart-t7.test.ts` | CUMPLIDO (apagado) |
