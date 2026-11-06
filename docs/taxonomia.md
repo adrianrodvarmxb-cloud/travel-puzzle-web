@@ -4,7 +4,7 @@
 > 1. **Menú — gate G1 FIRMADO por el PO (06:12, opción A, ratifica lo de las 05:57):** «Experiencias» es el concepto base (paraguas del eje Formato) y **reemplaza a «Tours» en el menú**: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona. Dentro van Tours, Circuitos, Caminatas, etc.; Circuitos no es pestaña. `/tours` se mantiene como listado. Donde este documento dice «se queda Tours en el menú» o «no hay pestaña Experiencias», **ya no aplica**. REQ-093 queda REEMPLAZADO por REQ-185.
 > 2. **Transporte:** `TRANSPORT_ENABLED` está en `true` desde el 6-11 (#127) y el transporte vive en su sección de /traslados, fuera de /tours (#136, REQ-172). Donde dice «tras bandera (`TRANSPORT_ENABLED=false`)», ya no aplica.
 > 3. **Diferencias con el pedido literal del PO del 6-11** (el pedido manda; quedan como gates de confirmación en `docs/plan-taxonomia.md` §7): ids 1, 2, 6 y 9 → `por-revisar` **no se publican en ningún lado** (aquí: «visible en /tours»); Autoguiado → `CartItem.tipo = tour` (aquí: `tickets`).
-> 4. **Nombre del formato `experiencia-unica` — gate G-T6 FIRMADO por el PO (6-11, 06:22):** se llama **«Momentos de autor»** (antes «Experiencia única»; el slug interno no cambia). En inglés se propone «Signature moments» (por firmar). Donde abajo dice «Experiencia única» como nombre visible, ya no aplica (REQ-219).
+> 4. **Nombre del formato `experiencia-unica` — gate G-T6 FIRMADO por el PO (6-11, 06:22):** se llama **«Momentos de autor»** (antes «Experiencia única»; el slug interno no cambia). En inglés se propone «Signature moments» (por firmar). Donde abajo dice «Experiencia única» como nombre visible, ya no aplica (REQ-230).
 
 Fecha: 6 nov 2026. Análisis sin código: no hay PR y no se escribió nada en el repo ni en D1.
 

@@ -19,7 +19,7 @@ Documentos de este frente (versiones **homologadas** del PO, 6-11 06:09, copiada
 - `docs/freetour/categorias.csv`: los 29 ids con `Formato_TP`, `Formato_secundario`, `Temas_TP`, `Precio0_es_La_Primera_Pieza`, `CartItem_tipo` y `Estado`, más los históricos 1, 2, 6 y 9.
 - `docs/taxonomia-referentes.md`: reporte «Taxonomía de referentes de viajes», con la tabla de alineación completada (menú firmado, transporte activo, Favorito).
 - `docs/taxonomia/comparacion.md`, `docs/taxonomia/complementos-y-proveedores-api.md`, `docs/taxonomia/Taxonomia.docx` y `docs/taxonomia/Pagina_Web_Travel_Puzzle.docx`: auditoría contra el documento de 2024, investigación de complementos y las dos versiones homologadas en Word.
-- REQ-185…REQ-219 en `docs/requisitos.md`.
+- REQ-185…REQ-218 y REQ-230 en `docs/requisitos.md`.
 
 **Diferencias entre los homologados y el pedido literal** (el pedido manda salvo contra el plan del 5-11; quedan como confirmación en G-T10 y G-T11):
 - Ids 1, 2, 6, 9 o nuevos → `por-revisar`: el pedido dice «no se publican»; `categorias.csv` dice «oculto de filtros y Destinos; visible en /tours». REQ-193 sigue al pedido.
@@ -308,7 +308,7 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 | # | Gate | Decisión |
 |---|---|---|
 | G1 | Menú y jerarquía (A: decisión de las 05:57; B: homologados y punto 4 del pedido) | **Firmado A el 6-11 (~06:12), ratifica lo de las 05:57:** «Experiencias» es el paraguas y reemplaza a «Tours» en el menú: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona (6 ítems). Dentro van los formatos; Circuitos **no** es pestaña. Solo cambia la etiqueta: `/tours` sigue siendo el listado y no hay rutas nuevas. Resuelve el choque: el punto 4 se cumple en rutas y pestañas; REQ-093 queda REEMPLAZADO por REQ-185 (la etiqueta la implementa REQ-174). **`/experiencias` como alias: recomiendo NO hacer 301 hoy.** Motivos: (1) el pedido pide no crear rutas; (2) una 301 /experiencias → /tours queda guardada en el navegador sin vencimiento, y si un día /experiencias pasa a ser la URL principal (con /tours → /experiencias), quien la tenga guardada cae en un ciclo de redirecciones; (3) sin enlaces a /experiencias no hay nada que recuperar. Si el PO quiere que la URL exista ya (por ejemplo, para campañas), que sea una **307 temporal** a /tours; si algún día se muda el listado, se hace al revés con 301 /tours → /experiencias en su propio PR (rutas, sitemaps, canonical y hreflang a la vez). Nunca dos URLs que sirvan el mismo listado. |
-| G-T6 | Nombre visible del formato `experiencia-unica` (choca con el paraguas «Experiencias») | **Firmado por el PO el 6-11 a las 06:22: «Momentos de autor»** (se descartó la propuesta «Actividades»). El slug interno `experiencia-unica` y el `kind = unica` del gestor no cambian. Inglés propuesto: «Signature moments» (**por firmar**). Copy y traducciones en §7.3 (REQ-219). |
+| G-T6 | Nombre visible del formato `experiencia-unica` (choca con el paraguas «Experiencias») | **Firmado por el PO el 6-11 a las 06:22: «Momentos de autor»** (se descartó la propuesta «Actividades»). El slug interno `experiencia-unica` y el `kind = unica` del gestor no cambian. Inglés propuesto: «Signature moments» (**por firmar**). Copy y traducciones en §7.3 (REQ-230). |
 | — | Favorito (5-11, gate 2) | ≥ 4.7 y ≥ 50 reseñas (REQ-098) |
 
 ### 7.2 Pendientes (uno por uno, en este orden)
@@ -345,7 +345,7 @@ El llenado de `difficultyLevel` desde los 3 valores de hoy (`facil` 131, `modera
 **G-T9 (opcional). Title de la ficha por formato.** «{título real} – Excursión desde {Ciudad}» cuando el formato es `excursion-dia` (cambia el patrón firmado de REQ-099). A: sí, solo para excursión. B: no (se queda «– Tour en {Ciudad}»).
 
 
-### 7.3 Copy propuesto de «Momentos de autor» (REQ-219)
+### 7.3 Copy propuesto de «Momentos de autor» (REQ-230)
 
 El español está firmado. Los demás idiomas son **propuesta por firmar**: en (`termino_en` del diccionario) y pt/de/fr/it por el flujo de traducción que ya existe (REQ-201). El slug y los parámetros de URL no cambian (`?formato=experiencia-unica`).
 
@@ -362,7 +362,7 @@ Reglas del copy:
 - «De autor» no debe sonar a que lo diseña Travel Puzzle: en productos de FREETOUR el operador sigue siendo el proveedor («Operado por un guía local · {proveedor}», REQ-098; C6). El nombre describe el formato, no quién lo opera.
 - La definición no promete nada que el dato no respalde: sin «exclusivo», «privado» ni «grupo pequeño» (esos son atributos con su propia regla).
 - Búsqueda: «momentos de autor», «signature moments» y el nombre anterior «experiencia única» quedan como sinónimos del mismo formato (REQ-215).
-- Test (REQ-219, en T1/T5): con el diccionario cargado, la etiqueta en es es «Momentos de autor», ningún texto visible dice «Experiencia única» como nombre de formato, y el slug sigue siendo `experiencia-unica`.
+- Test (REQ-230, en T1/T5): con el diccionario cargado, la etiqueta en es es «Momentos de autor», ningún texto visible dice «Experiencia única» como nombre de formato, y el slug sigue siendo `experiencia-unica`.
 
 ---
 

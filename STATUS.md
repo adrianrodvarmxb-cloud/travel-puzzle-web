@@ -307,7 +307,7 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | REQ-216 | Buscar un continente o un tipo («Europa», «aventura») devuelve todo lo de ese continente o tipo, no solo coincidencias de texto. Revisa si… | `src/search/lib/scope.ts` (propuesto) | — | PENDIENTE |
 | REQ-217 | Métricas en STATUS.md, con la meta que propongas: % de tours con formato (100 %) y % sin tema; categoryIds por revisar (0); precisión por… | `src/taxonomy/lib/metrics.ts` (propuesto) | — | PENDIENTE (metas: gate G-T3) |
 | REQ-218 | FREETOUR: las etiquetas nunca van sobre la foto; el H1 es el título real; ningún texto de taxonomía promete pagos, MSI ni «guía en español»… | `src/taxonomy/lib/copy.ts` (propuesto) | — | PENDIENTE |
-| REQ-219 | Formato `experiencia-unica` = «Momentos de autor» (G-T6 firmado, 06:22); en «Signature moments» por firmar; slug sin cambio | `src/taxonomy/data/dictionary.ts`, `lib/copy.ts` (propuesto) | — | PENDIENTE |
+| REQ-230 | Formato `experiencia-unica` = «Momentos de autor» (G-T6 firmado, 06:22); en «Signature moments» por firmar; slug sin cambio | `src/taxonomy/data/dictionary.ts`, `lib/copy.ts` (propuesto) | — | PENDIENTE |
 
 **Métricas de taxonomía (REQ-217; metas propuestas, gate G-T3):**
 | Métrica | Meta propuesta | Valor (ensayo del 5-11, sin producción) |
