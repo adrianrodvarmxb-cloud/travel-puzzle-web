@@ -18,7 +18,7 @@
   "dependencies": {
     "@heroui/react": "^2.8.5",
     "@heroui/system": "^2.4.23",
-    "@opennextjs/cloudflare": "^1.20.14",
+    "@opennextjs/cloudflare": "^1.20.16",
     "@prisma/adapter-d1": "^6.19.3",
     "@prisma/client": "^6.19.3",
     "@tanstack/react-query": "^5.90.5",
@@ -29,12 +29,12 @@
     "framer-motion": "^12.23.24",
     "maplibre-gl": "6.13.0",
     "next": "^15.5.28",
-    "next-auth": "^5.0.0-beta.29",
+    "next-auth": "^5.0.0-beta.32",
     "pinyin-pro": "^3.29.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.3.1",
-    "zod": "^4.1.12",
+    "zod": "^4.6.7",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "playwright": "^1.63.0",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
@@ -52,5 +52,21 @@
     "typescript": "^5",
     "vitest": "^3.2.7",
     "wrangler": "^4.155.0"
+  },
+  "overrides": {
+    "@auth/core": "^0.41.3",
+    "nanoid@<3.3.18": "^3.3.18",
+    "source-map-js": "^1.2.2",
+    "postcss": "^8.5.32",
+    "next": {
+      "postcss": "^8.5.32"
+    },
+    "@node-minify/core": {
+      "glob": "^14.0.4"
+    },
+    "glob@>=13 <14.0.2": "^14.0.4",
+    "minimatch@>=7 <11.0.1": "^11.0.5",
+    "deepmerge-ts": "^8.0.2",
+    "tinypool": "^2.1.2"
   }
 }
