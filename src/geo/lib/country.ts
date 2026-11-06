@@ -1,5 +1,5 @@
 /**
- * Países que FREETOUR no da en ISO 3166-1 (REQ-125). Puro.
+ * Países que FREETOUR no da en ISO 3166-1 (REQ-134). Puro.
  * SCT/WLS/NIR → GB con región GB-SCT/GB-WLS/GB-NIR; AN (Antillas, extinto en 2010) → CW/SX/BQ por ciudad
  * con tabla manual; XX → sin país y sin página. La tabla vive en src/geo/data/country-overrides.csv (revisión por PR).
  */
@@ -29,7 +29,7 @@ const ISO2 = /^[A-Z]{2}$/;
 const REGION = /^[A-Z]{2}-[A-Z0-9]{1,3}$/;
 const yes = (v: string | undefined) => /^(si|sí|true|1)$/i.test((v ?? "").trim());
 
-/** REQ-125: lee country-overrides.csv; descarta filas con códigos mal formados. */
+/** REQ-134: lee country-overrides.csv; descarta filas con códigos mal formados. */
 export function parseCountryOverrides(text: string): CountryOverride[] {
   return parseCsv(text).flatMap((r) => {
     const id = toId(r.provider_country_id);
@@ -40,7 +40,7 @@ export function parseCountryOverrides(text: string): CountryOverride[] {
   });
 }
 
-/** REQ-125: país de FREETOUR → ISO-2 + región. El override solo aplica si el código crudo coincide. */
+/** REQ-134: país de FREETOUR → ISO-2 + región. El override solo aplica si el código crudo coincide. */
 export function mapCountry(c: { id: number; code: string }, overrides: readonly CountryOverride[], provider = "freetour"): CountryMapping {
   const o = overrides.find((x) => x.provider === provider && x.providerCountryId === c.id);
   const raw = (c.code ?? "").toUpperCase().replace(/-\d+$/, "");
@@ -61,7 +61,7 @@ export interface AnCity {
   estado: "aprobado" | "revisar";
 }
 
-/** REQ-125: lee an-cities.csv (AN → CW/SX/BQ/AW por ciudad). Solo «aprobado» con id se aplica. */
+/** REQ-134: lee an-cities.csv (AN → CW/SX/BQ/AW por ciudad). Solo «aprobado» con id se aplica. */
 export function parseAnCities(text: string): AnCity[] {
   return parseCsv(text).flatMap((r) => {
     const cc = (r.country_code ?? "").toUpperCase();
@@ -70,7 +70,7 @@ export function parseAnCities(text: string): AnCity[] {
   });
 }
 
-/** REQ-125: país final de una ciudad. Para AN usa la tabla manual; sin fila aprobada no hay país ni página. */
+/** REQ-134: país final de una ciudad. Para AN usa la tabla manual; sin fila aprobada no hay país ni página. */
 export function mapCityCountry(
   cityId: number,
   country: CountryMapping,

@@ -6,7 +6,7 @@
 const SPECIAL: Record<string, string> = { ß: "ss", æ: "ae", œ: "oe", ø: "o", ł: "l", đ: "d", ð: "d", þ: "th", ı: "i", ŀ: "l", ħ: "h" };
 
 /**
- * REQ-122: nombre → tokens en minúsculas sin acentos ni puntuación; sin «(XX)», sin «, Estado» ni « - País».
+ * REQ-131: nombre → tokens en minúsculas sin acentos ni puntuación; sin «(XX)», sin «, Estado» ni « - País».
  * Con `keepQualifiers` (nombres de GeoNames) el calificador se queda: «Zürich (Kreis 1)» no es «Zürich».
  */
 export function normalizeName(text: string, opts: { keepQualifiers?: boolean } = {}): string {
@@ -32,7 +32,7 @@ export interface NameKeys {
   variants: string[];
 }
 
-/** REQ-122: llave exacta + variantes (San/St./Saint/Sankt unificados; sin prefijos «Isla de», «Ciudad de»; sin sufijos «City», «Old Town»). */
+/** REQ-131: llave exacta + variantes (San/St./Saint/Sankt unificados; sin prefijos «Isla de», «Ciudad de»; sin sufijos «City», «Old Town»). */
 export function nameKeys(text: string, opts: { keepQualifiers?: boolean } = {}): NameKeys {
   const exact = normalizeName(text, opts);
   const out = new Set<string>();
@@ -53,7 +53,7 @@ export function nameKeys(text: string, opts: { keepQualifiers?: boolean } = {}):
   return { exact, variants: [...out] };
 }
 
-/** REQ-122: similitud Jaro-Winkler (0 a 1). */
+/** REQ-131: similitud Jaro-Winkler (0 a 1). */
 export function jaroWinkler(a: string, b: string): number {
   if (!a || !b) return 0;
   if (a === b) return 1;

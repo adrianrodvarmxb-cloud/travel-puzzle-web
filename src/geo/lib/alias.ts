@@ -1,5 +1,5 @@
 /**
- * Ciudad canónica con alias (REQ-126). Puro. El sync sigue usando el id de FREETOUR como clave y resuelve la
+ * Ciudad canónica con alias (REQ-135). Puro. El sync sigue usando el id de FREETOUR como clave y resuelve la
  * ciudad por (provider, provider_city_id) → canónica. El sistema solo sugiere alias; los confirma una persona por PR.
  */
 import { distanceKm, type Point } from "./centroid";
@@ -15,7 +15,7 @@ export interface CityAlias {
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-/** REQ-126: lee city-aliases.csv; descarta filas sin id o con city_key que no es slug. */
+/** REQ-135: lee city-aliases.csv; descarta filas sin id o con city_key que no es slug. */
 export function parseCityAliases(text: string): CityAlias[] {
   return parseCsv(text).flatMap((r) => {
     const id = toId(r.provider_city_id);
@@ -25,7 +25,7 @@ export function parseCityAliases(text: string): CityAlias[] {
   });
 }
 
-/** REQ-126: (provider, id) → ciudad canónica, o null si no tiene alias. */
+/** REQ-135: (provider, id) → ciudad canónica, o null si no tiene alias. */
 export function resolveCityAlias(provider: string, providerCityId: number, aliases: readonly CityAlias[]): { cityKey: string; canonicalCityId: number } | null {
   const a = aliases.find((x) => x.provider === provider && x.providerCityId === providerCityId);
   return a ? { cityKey: a.cityKey, canonicalCityId: a.canonicalCityId } : null;
@@ -33,7 +33,7 @@ export function resolveCityAlias(provider: string, providerCityId: number, alias
 
 export const ALIAS_KM = 10;
 
-/** REQ-126: sugiere alias: mismo país, alguna llave de nombre en común y centroides a ≤ 10 km (o sin centroide). */
+/** REQ-135: sugiere alias: mismo país, alguna llave de nombre en común y centroides a ≤ 10 km (o sin centroide). */
 export function suggestAliases(
   cities: ReadonlyArray<{ id: number; iso2: string | null; names: readonly string[]; centroid: Point | null }>,
 ): { ids: number[]; iso2: string; key: string }[] {

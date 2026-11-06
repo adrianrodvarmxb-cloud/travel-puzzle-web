@@ -1,5 +1,5 @@
 /**
- * Prioridad de la identidad de una ciudad (REQ-124, REQ-127). Puro.
+ * Prioridad de la identidad de una ciudad (REQ-133, REQ-136). Puro.
  * override humano (src/geo/data/city-overrides.csv, revisado por PR) > id exacto ya guardado > aproximado.
  * Un geonameid ya aceptado nunca se mueve solo: si el aproximado difiere, se reporta como diferencia de control.
  */
@@ -18,7 +18,7 @@ export interface CityOverride {
 
 const ACTIONS: readonly OverrideAction[] = ["asignar", "no-indexar", "sin-geonameid"];
 
-/** REQ-127: lee city-overrides.csv; descarta acciones inválidas y «asignar» sin geonameid. Llave «provider:id». */
+/** REQ-136: lee city-overrides.csv; descarta acciones inválidas y «asignar» sin geonameid. Llave «provider:id». */
 export function parseCityOverrides(text: string): Map<string, CityOverride> {
   const out = new Map<string, CityOverride>();
   for (const r of parseCsv(text)) {
@@ -42,7 +42,7 @@ export interface Resolution {
   controlDiff: boolean;
 }
 
-/** REQ-124/REQ-127: resuelve con la prioridad override > id exacto > aproximado. */
+/** REQ-133/REQ-136: resuelve con la prioridad override > id exacto > aproximado. */
 export function resolveCity(
   input: { provider: string; cityId: number; storedGeonameid: number | null | undefined; approx: { status: MatchStatus; geonameid: number | null; reason: string } },
   overrides: ReadonlyMap<string, CityOverride>,

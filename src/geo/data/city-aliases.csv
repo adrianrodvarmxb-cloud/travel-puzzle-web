@@ -1,4 +1,4 @@
-# REQ-126: (provider, provider_city_id) → ciudad canónica. El sync sigue usando el id de FREETOUR; la URL usa city_key.
+# REQ-135: (provider, provider_city_id) → ciudad canónica. El sync sigue usando el id de FREETOUR; la URL usa city_key.
 # canonical_city_id = la ciudad de D1 que sobrevive (la de más tours). El sistema solo sugiere alias; se confirman por PR.
 provider,provider_city_id,city_key,canonical_city_id,nota
 freetour,4200,taipei,4200,Taipei (12 tours)

@@ -1,5 +1,5 @@
 /**
- * Wikidata como segunda opinión del cruce v2 (REQ-128). Puro: arma la consulta y lee la respuesta; el script
+ * Wikidata como segunda opinión del cruce v2 (REQ-137). Puro: arma la consulta y lee la respuesta; el script
  * hace el fetch. Nunca decide sola: solo marca si coincide con el candidato propuesto. Sin Nominatim.
  */
 
@@ -17,7 +17,7 @@ export interface WdItem {
 
 const lit = (s: string) => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 
-/** REQ-128: SPARQL por etiqueta (es y en) + país (P17 con ISO-2 P297); devuelve P1566 (geonameid) y P625 (coordenada). */
+/** REQ-137: SPARQL por etiqueta (es y en) + país (P17 con ISO-2 P297); devuelve P1566 (geonameid) y P625 (coordenada). */
 export function buildWikidataQuery(rows: ReadonlyArray<{ cityId: number; iso2: string; labels: readonly string[] }>): string {
   const values = rows.flatMap((r) =>
     [...new Set(r.labels.filter(Boolean))].flatMap((l) => ["es", "en"].map((lang) => `(${lit(String(r.cityId))} ${lit(l)}@${lang} ${lit(r.iso2)})`)),
@@ -38,7 +38,7 @@ export function buildWikidataQuery(rows: ReadonlyArray<{ cityId: number; iso2: s
 
 interface Binding { [k: string]: { value: string } | undefined }
 
-/** REQ-128: respuesta JSON de WDQS → items por ciudad (sin repetir QID). */
+/** REQ-137: respuesta JSON de WDQS → items por ciudad (sin repetir QID). */
 export function parseWikidataResponse(json: unknown): Map<number, WdItem[]> {
   const out = new Map<number, WdItem[]>();
   const bindings = ((json as { results?: { bindings?: Binding[] } })?.results?.bindings ?? []) as Binding[];
@@ -66,7 +66,7 @@ export function parseWikidataResponse(json: unknown): Map<number, WdItem[]> {
 
 export type WdOpinion = "coincide" | "difiere" | "varios" | "sin-dato";
 
-/** REQ-128: compara Wikidata con el geonameid propuesto. Con varios items, va a revisión («varios»). */
+/** REQ-137: compara Wikidata con el geonameid propuesto. Con varios items, va a revisión («varios»). */
 export function wikidataOpinion(items: readonly WdItem[] | undefined, proposed: number | null): { opinion: WdOpinion; qid: string | null; geonameid: number | null } {
   const withGn = (items ?? []).filter((i) => i.geonameid);
   if (!withGn.length) return { opinion: "sin-dato", qid: null, geonameid: null };

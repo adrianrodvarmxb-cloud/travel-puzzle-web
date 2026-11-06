@@ -1,4 +1,4 @@
-# REQ-122…128: ENSAYO del cruce v2 de identidad geográfica. NO escribe en la base: no tiene paso de escritura.
+# REQ-131…137, REQ-140: ENSAYO del cruce v2 de identidad geográfica. NO escribe en la base: no tiene paso de escritura.
 # 1) Exporta de D1 en SOLO LECTURA países, ciudades (con su geonameid, que sirve de control) y puntos de encuentro.
 # 2) GeoNames cities500 + alternateNamesV2 (solo es/en y wkdt, sin históricos ni coloquiales), leídos en streaming
 #    y guardados en actions/cache con clave mensual. cities15000 solo para medir la receta v1 («antes»).
@@ -10,6 +10,10 @@ on:
   push:
     branches: [feat/geo-cruce-v2]
     paths: [src/geo/**, src/scripts/geo-cruce-v2.ts, .github/workflows/geo-dry-run.yml]
+  # REQ-140 (gate G6, firmado el 5 nov 2026): corrida semanal, cada lunes 10:17 UTC (04:17 en CDMX). Solo lectura.
+  # GitHub solo dispara «schedule» desde la rama por defecto: empieza a correr después del merge a main.
+  schedule:
+    - cron: "17 10 * * 1"
   workflow_dispatch:
     inputs:
       wikidata:
@@ -33,7 +37,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
-      - name: Pruebas de la lógica (REQ-122…129)
+      - name: Pruebas de la lógica (REQ-131…138)
         run: npx vitest run src/geo/lib
       - name: Exportar de D1 (solo lectura, solo SELECT)
         run: |

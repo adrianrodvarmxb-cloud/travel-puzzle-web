@@ -1,5 +1,5 @@
 /**
- * ¿Sirve el centroide de los puntos de encuentro para cruzar la ciudad? (cruce v2, REQ-123). Puro.
+ * ¿Sirve el centroide de los puntos de encuentro para cruzar la ciudad? (cruce v2, REQ-132). Puro.
  * No sirve si es relleno (Greenwich 51.478,0.0015), si lo comparten varias ciudades (los tours salen de otra
  * ciudad, p. ej. Delphi desde Atenas), si los puntos están muy dispersos o si no cae cerca de ninguna ciudad del país.
  */
@@ -34,13 +34,13 @@ function median(values: number[]): number {
   return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
 }
 
-/** REQ-123: centroide = mediana de lat y de lng (un punto mal capturado no lo mueve). */
+/** REQ-132: centroide = mediana de lat y de lng (un punto mal capturado no lo mueve). */
 export function centroidOf(points: readonly Point[]): Point | null {
   if (!points.length) return null;
   return { lat: median(points.map((p) => p.lat)), lng: median(points.map((p) => p.lng)) };
 }
 
-/** REQ-123: dispersión = mediana de la distancia de cada punto al centroide. */
+/** REQ-132: dispersión = mediana de la distancia de cada punto al centroide. */
 export function spreadKm(points: readonly Point[], c: Point): number {
   return points.length ? median(points.map((p) => distanceKm(p, c))) : 0;
 }
@@ -53,7 +53,7 @@ export interface CentroidAssessment {
 }
 
 /**
- * REQ-123: evalúa el centroide de cada ciudad.
+ * REQ-132: evalúa el centroide de cada ciudad.
  * `nearestOwnCountryKm(cityId, centroid)` = distancia a la ciudad más cercana de su país (I/O inyectado).
  * `sameGroup(a, b)` = true si las dos son alias de la misma ciudad (no cuentan como «compartido»).
  */

@@ -1,4 +1,4 @@
-# Identidad geográfica v2 (ensayo): gates para el PO (REQ-122…129)
+# Identidad geográfica v2 (ensayo): gates para el PO (REQ-131…141)
 
 Base: informe aprobado «Identidad geográfica del catálogo». Este PR cubre los pasos 1–5 y deja propuesto el 7. **No escribe en D1.**
 
@@ -19,6 +19,19 @@ Base: informe aprobado «Identidad geográfica del catálogo». Este PR cubre lo
 | G6 | Corrida semanal | El informe propone «manual + semanal». Este PR deja solo push en la rama y manual; agregar `schedule` después del merge si el PO quiere. |
 | G7 | Revisión humana | `geo-v2-revisar.csv` (top-3 con km y población, más opinión de Wikidata) → decisiones en `src/geo/data/city-overrides.csv` por PR. |
 
+## Firmas del PO (5 nov 2026)
+| Gate | Firma | Qué se hizo en este PR |
+|---|---|---|
+| G1 | **Aprobado tal cual** (umbrales propuestos), 5 nov 2026. | Nada que cambiar: la lógica (REQ-133) ya usa esos umbrales. |
+| G2 | **Queda como está**, 5 nov 2026: filas AN se aprueban una por una cuando aparezcan ciudades con país 111. | Sin cambios en `an-cities.csv`. |
+| G3 | **Aprobado para el 6 nov 2026**, después de que termine la primera corrida del sync blindado. | **No aplicado** en este PR (candado: migración). |
+| G4 | **Aprobado para el 6 nov 2026**, después de G3 y de la primera corrida del sync blindado. | **No aplicado** en este PR (candado: datos de producción). Nada se escribió en D1. |
+| G5 | **Atribución solo en la sección legal, no en el pie de página**, tras `GEO_ATTRIBUTION_ENABLED="false"`, 5 nov 2026. | REQ-139. El sitio no tiene ruta `/legal`: va al final de `/terminos` (página «TRAVEL PUZZLE · LEGAL»). Si el PO quiere una página `/legal` propia, es página nueva y va en otro PR. |
+| G6 | **Corrida semanal aprobada**, 5 nov 2026 (sigue siendo solo lectura). | REQ-140: `schedule` cada lunes 10:17 UTC. GitHub solo lo dispara desde `main`, así que empieza después del merge. |
+| G7 | **«Claude propone, el PO firma»**, 5 nov 2026. | REQ-141: de las 73 ciudades de `geo-v2-revisar.csv` (artefacto 13477662786), 68 quedan en `city-overrides.csv` (42 `asignar`, 26 `sin-geonameid` para islas, lagos, montañas, parques y regiones). 5 dudosas quedan fuera y se listan en el PR. La firma del PO es aprobar el PR. |
+
 ## Plan de regreso
-- Código: revertir el PR. No toca páginas, Worker ni base.
+- Código: revertir el PR. Solo toca `/terminos` tras bandera apagada (no se ve nada) y no toca Worker ni base.
+- Overrides (G7): quitar o corregir la fila en `src/geo/data/city-overrides.csv` por PR; el ensayo siguiente lo refleja.
+- Corrida semanal (G6): quitar el bloque `schedule` del workflow.
 - Migración 0016 (si se aplicó): ver el encabezado del archivo (DROP de lo agregado), solo con OK del PO y bookmark de Time Travel.

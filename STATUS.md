@@ -231,15 +231,19 @@ Notas:
 
 ## Identidad geográfica v2 — ensayo (5 nov 2026)
 Informe aprobado «Identidad geográfica del catálogo», pasos 1–5 (7 propuesto). Lógica en `src/geo/lib/`, tablas en `src/geo/data/`, ensayo en «Identidad geográfica v2 (ensayo)» (solo lectura). Gates: `docs/gates-geo-v2-2026-11.md`. Migración 0016 **sin aplicar**.
+Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porque REQ-122 ya es del PR #122 (buscador) y REQ-130 del PR #124 (Mascate). REQ-139…141 son los gates G5–G7. Gates firmados el 5 nov 2026: G1, G2, G5, G6 y G7 en este PR; **G3 (migración 0016) y G4 (escritura del geonameid) aprobados para el 6 nov**, después de la primera corrida del sync blindado, y siguen sin aplicar.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-122 | Normalización de nombres | `src/geo/lib/normalize.ts` | `normalize.test.ts` | CUMPLIDO |
-| REQ-123 | Centroides no confiables | `src/geo/lib/centroid.ts`, `geonames-v2.ts` | `centroid.test.ts`, `geonames-v2.test.ts` | CUMPLIDO |
-| REQ-124 | Puntaje, umbrales, nombre exacto único, prioridad override > id > aproximado | `src/geo/lib/score.ts`, `resolve.ts` | `score.test.ts`, `resolve.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (umbrales: gate G1) |
-| REQ-125 | SCT/WLS/NIR → GB + región; AN por ciudad; XX sin página | `src/geo/lib/country.ts`, `src/geo/data/country-overrides.csv`, `an-cities.csv`, `migrations/0016_identidad_geo.sql` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
-| REQ-126 | Taipei 4200/6172 → canónica «taipei» | `src/geo/lib/alias.ts`, `src/geo/data/city-aliases.csv` | `alias.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
-| REQ-127 | Overrides humanos por PR | `src/geo/lib/resolve.ts`, `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
-| REQ-128 | Workflow de ensayo v2 | `.github/workflows/geo-dry-run.yml`, `src/scripts/geo-cruce-v2.ts`, `src/geo/lib/dry-run-v2.ts`, `wikidata.ts`, `geonames-v2.ts` | `dry-run-v2.test.ts`, `wikidata.test.ts`, `geonames-v2.test.ts` | CUMPLIDO (ensayo: corrida #1, id 42163176603) |
-| REQ-129 | Atribución GeoNames CC BY 4.0 | `src/geo/lib/attribution.ts` | `attribution.test.ts` | EN CURSO (gate G5) |
+| REQ-131 | Normalización de nombres | `src/geo/lib/normalize.ts` | `normalize.test.ts` | CUMPLIDO |
+| REQ-132 | Centroides no confiables | `src/geo/lib/centroid.ts`, `geonames-v2.ts` | `centroid.test.ts`, `geonames-v2.test.ts` | CUMPLIDO |
+| REQ-133 | Puntaje, umbrales, nombre exacto único, prioridad override > id > aproximado | `src/geo/lib/score.ts`, `resolve.ts` | `score.test.ts`, `resolve.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (umbrales: gate G1) |
+| REQ-134 | SCT/WLS/NIR → GB + región; AN por ciudad; XX sin página | `src/geo/lib/country.ts`, `src/geo/data/country-overrides.csv`, `an-cities.csv`, `migrations/0016_identidad_geo.sql` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
+| REQ-135 | Taipei 4200/6172 → canónica «taipei» | `src/geo/lib/alias.ts`, `src/geo/data/city-aliases.csv` | `alias.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (lógica; 0016 sin aplicar) |
+| REQ-136 | Overrides humanos por PR | `src/geo/lib/resolve.ts`, `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+| REQ-137 | Workflow de ensayo v2 | `.github/workflows/geo-dry-run.yml`, `src/scripts/geo-cruce-v2.ts`, `src/geo/lib/dry-run-v2.ts`, `wikidata.ts`, `geonames-v2.ts` | `dry-run-v2.test.ts`, `wikidata.test.ts`, `geonames-v2.test.ts` | CUMPLIDO (ensayo: corrida #1, id 42163176603) |
+| REQ-138 | Atribución GeoNames CC BY 4.0 | `src/geo/lib/attribution.ts` | `attribution.test.ts` | CUMPLIDO |
+| REQ-139 | Atribución solo en /terminos, no en el pie, tras GEO_ATTRIBUTION_ENABLED="false" (G5) | `src/geo/lib/attribution.ts`, `src/components/legal/GeoAttribution.tsx`, `src/app/terminos/page.tsx`, `wrangler.jsonc` | `attribution.test.ts` | CUMPLIDO (bandera apagada) |
+| REQ-140 | Ensayo semanal cada lunes, solo lectura (G6) | `.github/workflows/geo-dry-run.yml` | `dry-run-workflow.test.ts` | CUMPLIDO (corre desde main tras el merge) |
+| REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firma del PO = aprobar el PR) |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.

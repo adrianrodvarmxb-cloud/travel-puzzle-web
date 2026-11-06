@@ -22,7 +22,7 @@ function splitLine(line: string): string[] {
   return out.map((s) => s.trim());
 }
 
-/** REQ-127: texto CSV con encabezado → filas como objetos. */
+/** REQ-136: texto CSV con encabezado → filas como objetos. */
 export function parseCsv(text: string): Record<string, string>[] {
   const lines = (text ?? "").split(/\r?\n/).filter((l) => l.trim() && !l.trimStart().startsWith("#"));
   if (!lines.length) return [];

@@ -1,5 +1,5 @@
 /**
- * Índice de GeoNames para el cruce v2 (REQ-128): cities500 + alternateNamesV2 (solo es/en y el puente wkdt,
+ * Índice de GeoNames para el cruce v2 (REQ-137): cities500 + alternateNamesV2 (solo es/en y el puente wkdt,
  * sin históricos ni coloquiales). Puro: el script lee los archivos en streaming y pasa las líneas.
  */
 import { distanceKm, type Point } from "./centroid";
@@ -29,7 +29,7 @@ export interface AltName {
 
 const LATIN = /[A-Za-zÀ-ɏ]/;
 
-/** REQ-128: una línea de cities500.txt (formato «geoname», 19 columnas). */
+/** REQ-137: una línea de cities500.txt (formato «geoname», 19 columnas). */
 export function parseCityLine(line: string): GeoPlace | null {
   const f = line.split("\t");
   if (f.length < 15) return null;
@@ -41,7 +41,7 @@ export function parseCityLine(line: string): GeoPlace | null {
   return { geonameid, name: f[1], lat, lng, countryCode: f[8], admin1: f[10], population: Number(f[14]) || 0, featureCode: f[7], names, strong: [...new Set([f[1], f[2]].filter(Boolean))] };
 }
 
-/** REQ-128: una línea de alternateNamesV2.txt. Solo es/en/wkdt; fuera históricos (col 8) y coloquiales (col 7). */
+/** REQ-137: una línea de alternateNamesV2.txt. Solo es/en/wkdt; fuera históricos (col 8) y coloquiales (col 7). */
 export function parseAltNameLine(line: string): AltName | null {
   const f = line.split("\t");
   if (f.length < 4) return null;
@@ -74,7 +74,7 @@ function push<T>(m: Map<string, Map<string, T[]>>, country: string, key: string,
   else if (!arr.includes(v)) arr.push(v);
 }
 
-/** REQ-128: arma el índice. `countries` limita a los países del catálogo (memoria). */
+/** REQ-137: arma el índice. `countries` limita a los países del catálogo (memoria). */
 export function buildIndex(places: Iterable<GeoPlace>, altNames: Iterable<AltName> = [], countries?: ReadonlySet<string>): GeoIndexV2 {
   const idx: GeoIndexV2 = { places: new Map(), exact: new Map(), variant: new Map(), keysByPlace: new Map(), strongKeys: new Map(), grid: new Map(), wikidata: new Map() };
   for (const p of places) {
@@ -116,7 +116,7 @@ function nearby(idx: GeoIndexV2, iso2: string, at: Point, rings: number): GeoPla
   return out;
 }
 
-/** REQ-123: km a la ciudad más cercana del país (Infinity si no hay ninguna en ~2°). */
+/** REQ-132: km a la ciudad más cercana del país (Infinity si no hay ninguna en ~2°). */
 export function nearestInCountryKm(idx: GeoIndexV2, iso2: string, at: Point): number {
   let best = Infinity;
   for (const p of nearby(idx, iso2, at, 2)) best = Math.min(best, distanceKm(at, p));
@@ -127,7 +127,7 @@ export function nearestInCountryKm(idx: GeoIndexV2, iso2: string, at: Point): nu
 export const NEAR_KM = 25;
 const FUZZY_MIN = 0.85; // se muestran en revisión; auto solo con THRESHOLDS.fuzzyJw
 
-/** REQ-128: candidatos de GeoNames para una ciudad (exactos, variantes, fuzzy y cercanas). */
+/** REQ-137: candidatos de GeoNames para una ciudad (exactos, variantes, fuzzy y cercanas). */
 export function findCandidates(idx: GeoIndexV2, city: { iso2: string; names: readonly string[]; centroid: Point | null }): Candidate[] {
   const keys = city.names.map((n) => nameKeys(n)).filter((k) => k.exact);
   const qExact = new Set(keys.map((k) => k.exact));

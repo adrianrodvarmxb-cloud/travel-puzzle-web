@@ -1,5 +1,5 @@
 /**
- * Puntaje nombre + distancia y decisión del cruce v2 (REQ-124). Puro.
+ * Puntaje nombre + distancia y decisión del cruce v2 (REQ-133). Puro.
  * La distancia es puntaje, no filtro. Los umbrales son la propuesta del informe y se calibran con el ensayo.
  */
 
@@ -56,7 +56,7 @@ export const THRESHOLDS = {
 
 const round = (n: number, d = 3) => Math.round(n * 10 ** d) / 10 ** d;
 
-/** REQ-124: puntaje de distancia (1 a ≤ 15 km, lineal a 0 en 100 km; null = 0.5 neutro). */
+/** REQ-133: puntaje de distancia (1 a ≤ 15 km, lineal a 0 en 100 km; null = 0.5 neutro). */
 export function distanceScore(km: number | null): number {
   if (km === null) return 0.5;
   if (km <= THRESHOLDS.fullKm) return 1;
@@ -64,14 +64,14 @@ export function distanceScore(km: number | null): number {
   return round(1 - (km - THRESHOLDS.fullKm) / (THRESHOLDS.zeroKm - THRESHOLDS.fullKm));
 }
 
-/** REQ-124: puntaje total = 0.6 × nombre + 0.4 × distancia. */
+/** REQ-133: puntaje total = 0.6 × nombre + 0.4 × distancia. */
 export function scoreCandidate(c: { nameScore: number; distanceKm: number | null }): number {
   return round(0.6 * c.nameScore + 0.4 * distanceScore(c.distanceKm));
 }
 
 const km = (d: number | null) => (d === null ? "?" : String(Math.round(d * 10) / 10));
 
-/** REQ-124: decide auto / revisar / sin-candidato. «La más cercana» sin nombre nunca es auto. */
+/** REQ-133: decide auto / revisar / sin-candidato. «La más cercana» sin nombre nunca es auto. */
 export function decideMatch(input: { candidates: readonly Candidate[]; reliable: boolean }): MatchDecision {
   const scored = input.candidates
     .map((c) => ({ ...c, score: scoreCandidate(c) }))

@@ -54,48 +54,48 @@ const plan = planGeoV2({
 const row = (id: number) => plan.rows.find((r) => r.cityId === id)!;
 
 describe("planGeoV2", () => {
-  it("REQ-125: Edimburgo (SCT) se cruza contra GB y lleva región GB-SCT", () => {
+  it("REQ-134: Edimburgo (SCT) se cruza contra GB y lleva región GB-SCT", () => {
     expect(row(4842)).toMatchObject({ countryCode: "GB", regionCode: "GB-SCT", status: "auto", geonameid: 2650225 });
   });
 
-  it("REQ-126: Taipei 4200 y 6172 se resuelven juntas en la canónica «taipei»", () => {
+  it("REQ-135: Taipei 4200 y 6172 se resuelven juntas en la canónica «taipei»", () => {
     expect(row(4200)).toMatchObject({ cityKey: "taipei", canonicalCityId: 4200, geonameid: 1668341 });
     expect(row(6172)).toMatchObject({ cityKey: "taipei", canonicalCityId: 4200, geonameid: 1668341 });
   });
 
-  it("REQ-123/124: Delphi con centroide en Atenas → centroide no confiable y nombre exacto único", () => {
+  it("REQ-132/133: Delphi con centroide en Atenas → centroide no confiable y nombre exacto único", () => {
     expect(row(1606)).toMatchObject({ centroidReliable: false, status: "auto", geonameid: 264637 });
   });
 
-  it("REQ-124: control: un geonameid guardado no se mueve; si el aproximado difiere, se reporta", () => {
+  it("REQ-133: control: un geonameid guardado no se mueve; si el aproximado difiere, se reporta", () => {
     expect(row(1700)).toMatchObject({ geonameid: 999, source: "id", controlDiff: true });
     expect(plan.summary.control).toMatchObject({ conGeonameid: 2, difieren: 1 });
   });
 
-  it("REQ-125: XX → sin página, fuera del conteo de cruce", () => {
+  it("REQ-134: XX → sin página, fuera del conteo de cruce", () => {
     expect(row(2550)).toMatchObject({ status: "sin-pagina", countryCode: null });
   });
 
-  it("REQ-128: resumen con automáticas antes/después, revisar y sin candidato", () => {
+  it("REQ-137: resumen con automáticas antes/después, revisar y sin candidato", () => {
     expect(plan.summary).toMatchObject({ ciudades: 7, sinPagina: 1 });
     expect(plan.summary.despues.auto).toBe(plan.rows.filter((r) => r.status === "auto").length);
   });
 
-  it("REQ-128: el SQL solo llena geonameid vacíos; nada para las de control ni sin página", () => {
+  it("REQ-137: el SQL solo llena geonameid vacíos; nada para las de control ni sin página", () => {
     const sql = buildGeoV2Sql(plan);
     expect(sql).toContain(`UPDATE "City" SET "geonameid" = 2650225 WHERE "id" = 4842 AND "geonameid" IS NULL;`);
     expect(sql).not.toMatch(/"id" = (1600|1700|2550)\b/);
     expect(sql).not.toMatch(/DELETE|DROP|INSERT/);
   });
 
-  it("REQ-125/126: el SQL que depende de la 0016 va aparte e idempotente", () => {
+  it("REQ-134/135: el SQL que depende de la 0016 va aparte e idempotente", () => {
     const sql = buildGeoV2PendingSql(plan);
     expect(sql).toMatch(/0016/);
     expect(sql).toContain(`UPDATE "City" SET "regionCode" = 'GB-SCT' WHERE "id" = 4842 AND "regionCode" IS NULL;`);
     expect(sql).toContain(`INSERT OR IGNORE INTO "CityAlias" ("provider", "providerCityId", "cityId") VALUES ('freetour', 6172, 4200);`);
   });
 
-  it("REQ-128: CSV de revisión con top-3 (geonameid, nombre, km, población)", () => {
+  it("REQ-137: CSV de revisión con top-3 (geonameid, nombre, km, población)", () => {
     const r = reviewCsvRows([{ ...row(1606), status: "revisar" }])[0];
     expect(r).toHaveProperty("c1_geonameid");
     expect(r).toHaveProperty("c1_km");

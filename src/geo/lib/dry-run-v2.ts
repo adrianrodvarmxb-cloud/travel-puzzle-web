@@ -68,7 +68,7 @@ function translationsOf(v: unknown): string[] {
 const count = <T>(xs: readonly T[], f: (x: T) => boolean) => xs.filter(f).length;
 const pct = (n: number, d: number) => (d ? Math.round((n / d) * 1000) / 10 : 0);
 
-/** REQ-122…128: plan completo del ensayo v2. */
+/** REQ-131…137: plan completo del ensayo v2. */
 export function planGeoV2(input: GeoV2Input) {
   const provider = input.provider ?? "freetour";
   const countryById = new Map(input.countries.map((c) => [c.id, c]));
@@ -80,7 +80,7 @@ export function planGeoV2(input: GeoV2Input) {
     if (p) points.set(t.cityId, [...(points.get(t.cityId) ?? []), p]);
   }
 
-  // Unidades de cruce: la ciudad canónica junta nombres y puntos de sus alias (REQ-126).
+  // Unidades de cruce: la ciudad canónica junta nombres y puntos de sus alias (REQ-135).
   const unitOf = new Map<number, number>();
   for (const c of input.cities) unitOf.set(c.id, resolveCityAlias(provider, c.id, input.overrides.aliases)?.canonicalCityId ?? c.id);
   const units = new Map<number, { names: Set<string>; points: Point[]; members: number[] }>();
@@ -227,7 +227,7 @@ export function planGeoV2(input: GeoV2Input) {
 
 export type GeoV2Plan = ReturnType<typeof planGeoV2>;
 
-/** REQ-128: SQL idempotente que hoy se puede correr (columnas de la 0015): solo llena geonameid vacíos. */
+/** REQ-137: SQL idempotente que hoy se puede correr (columnas de la 0015): solo llena geonameid vacíos. */
 export function buildGeoV2Sql(plan: GeoV2Plan): string {
   const lines = ["-- Cruce v2 (ensayo). Solo llena City.geonameid vacíos; un geonameid guardado nunca se toca. Aplicar = candado del PO."];
   for (const r of plan.rows) {
@@ -242,7 +242,7 @@ export function buildGeoV2Sql(plan: GeoV2Plan): string {
 
 const q = (s: string) => `'${s.replace(/'/g, "''")}'`;
 
-/** REQ-125/126: SQL que necesita la migración 0016 (región, país por ciudad, alias). Idempotente; no se aplica sin la 0016. */
+/** REQ-134/135: SQL que necesita la migración 0016 (región, país por ciudad, alias). Idempotente; no se aplica sin la 0016. */
 export function buildGeoV2PendingSql(plan: GeoV2Plan, provider = "freetour"): string {
   const lines = ["-- Requiere migrations/0016_identidad_geo.sql aplicada (candado del PO). Idempotente: solo llena lo vacío."];
   for (const r of plan.rows) {
@@ -254,7 +254,7 @@ export function buildGeoV2PendingSql(plan: GeoV2Plan, provider = "freetour"): st
   return lines.join("\n") + "\n";
 }
 
-/** REQ-128: filas del CSV de revisión con top-3 candidatos (geonameid, nombre, estado, km, población, puntaje). */
+/** REQ-137: filas del CSV de revisión con top-3 candidatos (geonameid, nombre, estado, km, población, puntaje). */
 export function reviewCsvRows(rows: readonly GeoV2Row[]): Record<string, string | number>[] {
   return rows.map((r) => {
     const out: Record<string, string | number> = {

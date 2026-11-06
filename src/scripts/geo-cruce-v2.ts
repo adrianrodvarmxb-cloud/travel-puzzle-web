@@ -1,5 +1,5 @@
 /**
- * REQ-122…128: ensayo del cruce v2 de identidad geográfica. Lo corre el workflow «Identidad geográfica v2 (ensayo)».
+ * REQ-131…137: ensayo del cruce v2 de identidad geográfica. Lo corre el workflow «Identidad geográfica v2 (ensayo)».
  *   npx tsx src/scripts/geo-cruce-v2.ts <cities500.txt> <alt-es-en.tsv> <carpeta-export> <carpeta-salida> [--cities15000 <txt>] [--wikidata]
  * Lee en streaming; la lógica está en src/geo/lib. No toca la base: escribe CSV, SQL y un resumen en <carpeta-salida>.
  */
