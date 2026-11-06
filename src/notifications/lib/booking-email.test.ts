@@ -267,3 +267,23 @@ describe("REQ-079 correos de Modo 2", () => {
     }
   });
 });
+
+describe("Correo de confirmación: «Arma el resto de tu viaje»", () => {
+  it("REQ-182: con enlace al carrito, el correo lo ofrece sin promover tours (solo complementos; regla B3)", () => {
+    const e = buildBookingConfirmationEmail({ ...data, cityName: "Ciudad de México", tripUrl: "https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123" });
+    expect(e.html).toContain("https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123");
+    expect(e.html).toContain("Arma el resto de tu viaje");
+    expect(e.text).toContain("Arma el resto de tu viaje: https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123");
+    const block = e.text.split("\n").filter((l) => l.includes("resto de tu viaje") || l.includes("eSIM"));
+    expect(block.join(" ").toLowerCase()).not.toMatch(/tour|freetour/);
+    const en = buildBookingConfirmationEmail({ ...data, lang: "en", tripUrl: "https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123" });
+    expect(en.html).toContain("Build the rest of your trip");
+  });
+
+  it("REQ-182: sin enlace (bandera apagada) el correo no menciona el carrito", () => {
+    const e = buildBookingConfirmationEmail({ ...data });
+    expect(e.html).not.toContain("arma-tu-viaje");
+    expect(e.html).not.toContain("Arma el resto de tu viaje");
+    expect(buildBookingConfirmationEmail({ ...data, tripUrl: "javascript:alert(1)" }).html).not.toContain("javascript:");
+  });
+});
