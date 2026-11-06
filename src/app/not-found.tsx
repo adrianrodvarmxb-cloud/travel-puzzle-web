@@ -3,8 +3,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 
 const TEXT = {
-    es: { title: 'No encontramos esta página', body: 'Puede que el enlace esté incompleto o que la página ya no exista. Si buscas tu reserva, abre el enlace del correo de confirmación.', home: 'Ir al inicio', tours: 'Ver tours', help: '¿Necesitas ayuda? Escríbenos por WhatsApp' },
-    en: { title: "We couldn't find this page", body: "The link may be incomplete or the page may no longer exist. If you're looking for your booking, open the link in your confirmation email.", home: 'Go to home', tours: 'See tours', help: 'Need help? Message us on WhatsApp' },
+    es: { title: 'No encontramos esta página', body: 'Puede que el enlace esté incompleto o que la página ya no exista. Si buscas tu reserva, abre el enlace del correo de confirmación.', home: 'Ir al inicio', tours: 'Ver experiencias', help: '¿Necesitas ayuda? Escríbenos por WhatsApp' },
+    en: { title: "We couldn't find this page", body: "The link may be incomplete or the page may no longer exist. If you're looking for your booking, open the link in your confirmation email.", home: 'Go to home', tours: 'See experiences', help: 'Need help? Message us on WhatsApp' },
 };
 
 export default async function NotFound() {
