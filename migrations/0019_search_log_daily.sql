@@ -1,6 +1,5 @@
--- PROPUESTA, SIN APLICAR (REQ-340…343, plan S4). Vive fuera de migrations/ a propósito: así ninguna corrida de
--- «Migraciones D1» la aplica por accidente. Para aplicarla: PR aparte que la mueva a migrations/ con el siguiente
--- número libre, OK del PO y publicación a mano con la casilla «migraciones» (un cambio a la vez, blindaje 9).
+-- REQ-340…343 (plan S4). SIN APLICAR: la aplica el PO DESPUÉS de la 0017 (taxonomía, #162), en su propia
+-- publicación con la casilla «migraciones» (un cambio a la vez, blindaje 9). La 0018 está reservada para la T6.
 --
 -- Analítica anónima del buscador: un renglón por día, idioma y consulta normalizada. Sin IP, usuario, cookie,
 -- agente ni hora exacta. Solo AGREGA una tabla; no toca datos existentes. Se escribe solo con SEARCH_LOG_ENABLED="true".
