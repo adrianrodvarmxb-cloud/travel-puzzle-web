@@ -13,6 +13,10 @@ import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
 import { cached, cacheKey, POLICY } from "@/cache/edge";
+import { ownTripDepartures } from "@/departures/sources/own-trips";
+import { summarize, HORIZON_DAYS } from "@/departures/lib/summary";
+import { policySummary } from "./lib/cancel-policy";
+import { ownTripGroup } from "@/tours/lib/extra-filters";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
 /** Interruptores leídos del entorno (viajes propios y transporte por separado). */
@@ -43,6 +47,11 @@ export interface TripCard {
   cities: string[]; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
   /** REQ-046: precio "Desde" en su moneda original, para el filtro de precio de /tours. */
   priceFrom: number | null;
+  /** REQ-049..056: datos para los filtros estilo Civitatis (mismo modelo que Freetour). */
+  languages: string[]; dates: string[]; group: string; freeCancel: boolean; private: boolean;
+  hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
+  /** REQ-148: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
+  agencyId?: string | null;
 }
 
 async function publishedRows() {
@@ -50,13 +59,20 @@ async function publishedRows() {
   return prisma.trip.findMany({ where: { status: "published" }, orderBy: { updatedAt: "desc" }, take: 200 });
 }
 
-export function toCard(t: StoredTrip & { translations?: unknown }, lang: string, fx: FxRates | null): TripCard {
+export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Date | string }, lang: string, fx: FxRates | null, now: Date = new Date()): TripCard {
   const tr = (t.translations ?? {}) as Translations;
+  const today = now.toISOString().slice(0, 10);
+  const dep = summarize(ownTripDepartures({ languages: t.languages ?? [], availability: { weekdays: t.availability?.weekdays ?? [], closedDates: t.availability?.closedDates ?? [] }, minNoticeHours: t.minNoticeHours ?? 0 }, today, HORIZON_DAYS), today);
   return {
     id: t.id, path: tripPath(t), code: t.code, kind: t.kind,
     title: localized(tr, lang, "title", t.titleEs), summary: localized(tr, lang, "summary", t.summaryEs),
     image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, places: cardPlaces(t.countries, lang), cities: t.cities, durationDays: t.durationDays,
     price: priceDisplay(t.priceFrom, t.currency, fx, lang), priceFrom: t.priceFrom,
+    languages: dep.languages, dates: dep.dates, group: ownTripGroup(t.kind, t.category),
+    freeCancel: policySummary(t.cancellation).kind === "free", private: t.options.some((o) => o.mode === "private"),
+    hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
+    durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
+    agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
   };
 }
 
@@ -67,12 +83,12 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   try {
     // REQ-047 (INC-004): con decenas de viajes, armar las tarjetas son ~N+2 consultas a D1 por visita a / y /tours.
     // Se cachean como el catálogo (REQ-032): una carga por ventana, compartida entre visitas; si falla, se sirve la última copia.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "1" }), POLICY.toursList, async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "3" }), POLICY.toursList, async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));
       const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
-      return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations }, lang, fx));
+      return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations, createdAt: rows[i].createdAt }, lang, fx));
     });
   } catch (error) {
     console.error("[viajes] no se cargaron las tarjetas:", (error as Error).message);

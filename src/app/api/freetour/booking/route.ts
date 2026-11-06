@@ -15,6 +15,7 @@ import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
 import { startPayment } from '@/booking/payment';
 import { isRefundPolicyConfirmed } from '@/tours/lib/paid-policy';
 import { sendConfirmationFor } from '@/booking/confirmation-send';
+import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,7 @@ const STATUS: Record<BookingRejectionCode, number> = {
     no_availability: 409,
     already_booked: 409,
     provider_error: 502,
+    adult_required: 400,
 };
 
 /**
@@ -34,7 +36,7 @@ const STATUS: Record<BookingRejectionCode, number> = {
  * Detrás del interruptor BOOKINGS_ENABLED ("true" para activar).
  */
 export async function POST(request: NextRequest) {
-    const raw = (await request.json().catch(() => null)) as { idempotencyKey?: unknown } | null;
+    const raw = (await request.json().catch(() => null)) as { idempotencyKey?: unknown; contactIsAdult?: unknown } | null;
     const parsed = zFTBookingDTO.safeParse(raw);
     if (!parsed.success) {
         return NextResponse.json({ error: 'invalid_booking', details: parsed.error.flatten() }, { status: 400 });
@@ -43,10 +45,12 @@ export async function POST(request: NextRequest) {
     try {
         const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
         const repo = createBookingRepo(getPrisma());
-        const { booking, price, fullPrice, isPaid } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey) }, {
+        const { booking, price, fullPrice, isPaid } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey), contactIsAdult: raw?.contactIsAdult === true }, {
             enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
             // REQ-013: sin el texto de reembolso confirmado por Freetour no se cobra.
             paidEnabled: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) && isRefundPolicyConfirmed(),
+            // REQ-083: contacto adulto, tras ADULT_CONTACT_CHECK_ENABLED (apagada).
+            adultContactRequired: isAdultContactCheckEnabled(process.env.ADULT_CONTACT_CHECK_ENABLED),
             hasActiveBooking: async (eventId, email) => isOverlap(await repo.findByEventAndEmail(eventId, email), { eventId, email }),
             getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(`/event/${id}`)) as { data: unknown }).data),
             gateway: createGatewayClient({

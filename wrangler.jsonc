@@ -39,6 +39,8 @@
   "vars": {
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
     "FREETOUR_ENV": "production",
+    // REQ-062: versión de la API de Freetour. Sin la variable = "2.0" (hoy). Para 2.2 se agrega
+    // "FREETOUR_API_VERSION": "2.2" solo con OK del PO y después de la pasarela (docs/plan-freetour-v22.md).
     // Auth.js fuera de Vercel necesita confiar en el host del Worker
     "AUTH_TRUST_HOST": "true",
     // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
@@ -56,14 +58,48 @@
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
     "OWN_TOURS_ENABLED": "true",
-    "TRANSPORT_ENABLED": "false",
+    // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
+    "TRANSPORT_ENABLED": "true",
+    // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
+    "DEPARTURES_SYNC_ENABLED": "true",
+    // Mostrar filtros de idioma del guía y fecha (REQ-061). "true" cuando la lectura de salidas cubra el catálogo, con OK.
+    "DEPARTURE_FILTERS_ENABLED": "false",
     // Buscador con relevancia (FTS5, REQ-048). "true" con vista previa y OK del PO, después de la migración 0011.
     "SEARCH_V2_ENABLED": "false",
+    // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
+    // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
+    "SYNC_GUARD_ENABLED": "true",
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
     "STRIPE_HOLD_ENABLED": "false",
+    // REQ-081: post-tour (correo o WhatsApp) que promueva tours de FREETOUR. "true" solo con autorización escrita en docs/freetour/autorizaciones.md.
+    "FREETOUR_POSTTOUR_PROMO_ENABLED": "false",
+    // REQ-081: chatbot (Mila u otro) que ofrezca o reserve tours de FREETOUR. "true" solo con autorización escrita.
+    "FREETOUR_CHATBOT_ENABLED": "false",
+    // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
+    "ADULT_CONTACT_CHECK_ENABLED": "false",
+    // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).
+    "MARKETING_CONSENT_ENABLED": "false",
+    // REQ-084: página /cookies (borrador). "true" con texto aprobado por PO y abogado.
+    "COOKIES_POLICY_ENABLED": "false",
+    // REQ-139 (gate G5): atribución CC BY 4.0 de GeoNames, solo en /terminos (no en el pie). "true" cuando el geonameid
+    // o datos de GeoNames se vean en el sitio (JSON-LD, hubs), con preview, prueba de humo y OK del PO.
+    "GEO_ATTRIBUTION_ENABLED": "false",
+    // REQ-148..126: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). "true" solo con OK
+    // del PO y con el secreto AGENTE_TOKEN (24+ caracteres) cargado con `wrangler secret put AGENTE_TOKEN`.
+    "AGENTE_API_ENABLED": "false",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
+    // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
+    // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
+    "PRIMERA_PIEZA_ENABLED": "false",
     "AFFILIATE_PATHS": "/trenes,/traslados",
+    // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
+    "ARMA_TU_VIAJE_ENABLED": "false",
+    // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
+    "CART_PAYMENTS_ENABLED": "false",
+    // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
+    "VISA_ENABLED": "false",
+    "ETIAS_ENABLED": "false",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.

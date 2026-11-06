@@ -1,9 +1,17 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
+import { destinationsMiddleware } from '@/destinations/middleware';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // REQ-092 / REQ-102: 301 desde URLs viejas (solo si ya hay slug), 410 de tours retirados y sitemaps por país.
+  // Solo con PRIMERA_PIEZA_ENABLED="true"; apagada, el middleware queda igual que hoy.
+  if (process.env.PRIMERA_PIEZA_ENABLED === 'true') {
+    const res = await destinationsMiddleware(request);
+    if (res) return res;
+  }
 
   // Auth routes - allow access without checking session first
   const authRoutes = ['/login', '/signup'];

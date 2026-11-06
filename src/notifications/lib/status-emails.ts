@@ -126,6 +126,7 @@ const STATUS_COLOR: Record<StatusKind, { dot: string; text: string }> = {
   modified: { dot: B.lightBlue, text: "#9FD3FF" },
 };
 
+// REQ-079: correos de cancelación y rechazo de Modo 2.
 export function buildStatusEmail(d: StatusEmailData) {
   const t = T[d.lang];
   const k = t[d.kind];

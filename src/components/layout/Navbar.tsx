@@ -1,6 +1,7 @@
 'use client';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
 import { withTransfersLink } from '@/transfers/lib/nav';
+import { withPrimeraPiezaLinks } from '@/tours/lib/menu';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -13,7 +14,7 @@ import { PlatformTextLogo } from '@/components/layout/PlatformTextLogo';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { ACCOUNTS_ENABLED } from '@/lib/features';
-import { homeSections } from '@/home/lib/sections';
+import { homeSections, isActiveLink } from '@/home/lib/sections';
 import {
   MenuIcon,
   CloseIcon,
@@ -27,7 +28,7 @@ export const Navbar = () => {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => isActiveLink(pathname ?? '', path); // REQ-068
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
@@ -36,18 +37,19 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const { transfers } = useFeatureFlags();
-  const publicLinks = withTransfersLink([
+  const { transfers, ownTrips, primeraPieza } = useFeatureFlags();
+  // REQ-093: La Primera Pieza y Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
+  const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/#como-funciona', label: t('nav.howItWorks') },
-  ], transfers, t('nav.transfers'));
+  ], transfers, t('nav.transfers')), !!primeraPieza, language);
 
-  const clientLinks = withTransfersLink([
+  const clientLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/bookings', label: t('nav.myBookings') },
-  ], transfers, t('nav.transfers'));
+  ], transfers, t('nav.transfers')), !!primeraPieza, language);
 
   const dashboardLinks = [
     { href: '/dashboard', label: t('nav.dashboard.overview'), icon: '📊' },
@@ -199,9 +201,9 @@ export const Navbar = () => {
               ))}
             </div>
 
-            {/* Las 7 secciones del inicio (decisión del PO, 3 nov 2026) */}
+            {/* Secciones del inicio (decisión del PO, 3 nov 2026); REQ-068: se derivan de la lista única */}
             <div className="mb-4 border-t border-white/15 pt-3">
-              {homeSections(language).map((s) => (
+              {homeSections(language, { ownTrips }).map((s) => (
                 <Link
                   key={s.id}
                   href={s.href}

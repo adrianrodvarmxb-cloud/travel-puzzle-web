@@ -14,6 +14,8 @@ interface TourFiltersPanelProps {
   isLoadingCities?: boolean;
   /** El buscador vive en el encabezado de /tours; aquí se puede ocultar. */
   hideSearch?: boolean;
+  /** REQ-056: el precio se muestra como deslizador en los filtros nuevos. */
+  hidePrice?: boolean;
 }
 
 export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
@@ -23,6 +25,7 @@ export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
   cities,
   isLoadingCities = false,
   hideSearch = false,
+  hidePrice = false,
 }) => {
   const { t } = useLanguage();
 
@@ -136,7 +139,7 @@ export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
         </div>
 
         {/* Price Range */}
-        <div>
+        {!hidePrice && <div>
           <label className="block text-sm font-medium mb-2">
             {t('tours.filters.priceRange')}
           </label>
@@ -156,7 +159,7 @@ export const TourFiltersPanel: React.FC<TourFiltersPanelProps> = ({
               min="0"
             />
           </div>
-        </div>
+        </div>}
 
         {/* Clear Filters */}
         <Button

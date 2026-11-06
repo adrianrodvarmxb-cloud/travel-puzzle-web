@@ -37,8 +37,15 @@ export interface ToursFilter {
   cityName?: string | null;
   minPrice?: number;
   maxPrice?: number;
+  /** REQ-049: idioma del guía y fecha disponible. */
+  guideLanguage?: string | null;
+  date?: string | null;
+  /** REQ-051..056 */
+  groups?: string[]; freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
+  durMin?: number | null; durMax?: number | null; nowMs?: number;
 }
-type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null };
+type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null; languages?: string[]; dates?: string[];
+  group?: string; freeCancel?: boolean; private?: boolean; hotelPickup?: boolean; createdAt?: number; durationMinutes?: number | null };
 
 /** ¿Va este viaje arriba de los resultados de /tours con este filtro? REQ-046: respeta buscador, ciudad y precio. */
 export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
@@ -52,6 +59,15 @@ export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
     if (f.minPrice !== undefined && p < f.minPrice) return false;
     if (f.maxPrice !== undefined && p > f.maxPrice) return false;
   }
+  if (f.guideLanguage && !(t.languages ?? []).includes(f.guideLanguage)) return false; // REQ-049
+  if (f.date && !(t.dates ?? []).includes(f.date)) return false;
+  if (f.groups?.length && !f.groups.includes(t.group ?? "otros")) return false; // REQ-051
+  if (f.freeCancel && !t.freeCancel) return false; // REQ-052
+  if (f.privateOnly && !t.private) return false; // REQ-053
+  if (f.hotelPickup && !t.hotelPickup) return false; // REQ-054
+  if (f.novelty && !((t.createdAt ?? 0) > (f.nowMs ?? Date.now()) - 30 * 864e5)) return false; // REQ-055
+  if (f.durMin != null && !((t.durationMinutes ?? -1) >= f.durMin)) return false; // REQ-056
+  if (f.durMax != null && !(t.durationMinutes != null && t.durationMinutes <= f.durMax)) return false;
   const words = fold(f.search ?? "").split(/\s+/).filter(Boolean);
   if (!words.length) return true;
   const hay = fold([t.title, t.summary, ...(t.cities ?? []), t.places, ...t.countries].filter(Boolean).join(" "));

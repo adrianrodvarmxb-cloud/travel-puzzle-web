@@ -9,10 +9,13 @@ import { Alert } from '@/components/ui/Alert';
 import { useLanguage } from '@/lib/language-context';
 import { AuthLayout, AuthHeader } from '@/components/auth';
 import { FormField } from '@/components/forms';
+import { MarketingConsentCheckbox } from '@/components/legal/MarketingConsentCheckbox';
+import { useMarketingConsentEnabled } from '@/components/legal/MarketingConsentContext';
 
 export default function SignupPage() {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const marketingConsentEnabled = useMarketingConsentEnabled();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -125,6 +128,9 @@ export default function SignupPage() {
             error={fieldErrors.confirmPassword?.[0]}
           />
         </div>
+
+        {/* REQ-084: casilla aparte y sin marcar. Encender la bandera requiere antes guardar el consentimiento (migración, candado). */}
+        {marketingConsentEnabled && <MarketingConsentCheckbox lang={language} />}
 
         <Button type="submit" className="w-full" isLoading={isLoading}>
           {t('auth.signup.button')}

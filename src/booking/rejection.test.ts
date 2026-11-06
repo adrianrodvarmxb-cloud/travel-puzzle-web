@@ -54,3 +54,15 @@ describe("aviso de reserva rechazada", () => {
     expect(d.notify).not.toHaveBeenCalled();
   });
 });
+
+describe("REQ-079 rechazo por webhook", () => {
+  it("REQ-079: antes de avisar al cliente confirma con GET /booking/{refNumber} (vía la pasarela)", async () => {
+    const order: string[] = [];
+    const d = deps({
+      freetourStatus: vi.fn(async () => { order.push("get"); return "rejected"; }),
+      notify: vi.fn(async () => { order.push("notify"); return "sent"; }),
+    });
+    expect(await handleRejection({ refNumber: record.refNumber }, d)).toBe("processed");
+    expect(order).toEqual(["get", "notify"]);
+  });
+});

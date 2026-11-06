@@ -65,3 +65,16 @@ describe("correos de cambio de estado", () => {
     expect(html).not.toContain("Inseguro");
   });
 });
+
+describe("REQ-079 cancelación y rechazo", () => {
+  it("REQ-079: existen el correo de cancelación y el de rechazo, con número de reserva y tour", () => {
+    for (const kind of ["canceled", "rejected"] as const) {
+      const { subject, html, text } = buildStatusEmail({ ...base, kind });
+      expect(subject).toContain(base.tourTitle);
+      expect(html).toContain(base.refNumber);
+      expect(text).toContain(base.refNumber);
+    }
+    expect(buildStatusEmail({ ...base, kind: "canceled" }).subject).toMatch(/cancelada/);
+    expect(buildStatusEmail({ ...base, kind: "rejected" }).subject).toMatch(/no pudo confirmarse/);
+  });
+});

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { EventDetailClient } from '@/components/events/EventDetailClient';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { isBookingsEnabled } from '@/booking/lib/flags';
+import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { whatsappUrl } from '@/notifications/lib/email-layout';
 
@@ -44,6 +45,7 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
             bookingsEnabled={isBookingsEnabled(process.env.BOOKINGS_ENABLED)}
             contact={contactFor()}
             paidEnabled={isBookingsEnabled(process.env.PAID_TOURS_ENABLED)}
+            adultContactCheck={isAdultContactCheckEnabled(process.env.ADULT_CONTACT_CHECK_ENABLED)}
         />
     );
 }

@@ -241,3 +241,9 @@ body {
 /* Pines de precio del mapa de /tours */
 .tp-pin { cursor: pointer; border-radius: 9999px; background: #ffffff; color: #0A1330; font: 700 12px/1 var(--font-sans, system-ui), sans-serif; padding: 6px 10px; box-shadow: 0 2px 8px rgba(0,0,0,.35); border: 1px solid rgba(10,19,48,.15); white-space: nowrap; transition: transform .15s ease, background-color .15s ease; }
 .tp-pin:hover, .tp-pin--on { background: #EAF54F; transform: scale(1.12); z-index: 2; }
+
+/* REQ-056: deslizador doble (dos range superpuestos; solo las perillas reciben el toque) */
+.tp-range { -webkit-appearance: none; appearance: none; background: transparent; pointer-events: none; height: 2rem; margin: 0; }
+.tp-range::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 22px; height: 22px; border-radius: 9999px; background: #EAF54F; border: 2px solid #0A1330; cursor: pointer; }
+.tp-range::-moz-range-thumb { pointer-events: auto; width: 22px; height: 22px; border-radius: 9999px; background: #EAF54F; border: 2px solid #0A1330; cursor: pointer; }
+.tp-range::-webkit-slider-runnable-track, .tp-range::-moz-range-track { background: transparent; }

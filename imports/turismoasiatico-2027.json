@@ -1,0 +1,1786 @@
+{
+ "agency": {
+  "id": "ag-tas",
+  "name": "Turismo Asiático",
+  "initials": "TAS",
+  "contactName": "Sergi Matas",
+  "email": "reservas@turismoasiatico.com",
+  "phone": "+60 18 366 0943",
+  "notes": "División de The Malayan Safari & Expedition Company SDN BHD (KPL No. 4824, Petaling Jaya, Malasia). Tarifas 2027 en USD; neto o comisión por confirmar (nov 2026)."
+ },
+ "keyStamp": 1762500000,
+ "seqStart": 1,
+ "trips": [
+  {
+   "ref": "MYS-01",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; salidas regulares de marzo a octubre 2027: precio de venta pendiente de validar con el PO",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1536865,
+     "alt": "Plantaciones de té de Cameron Highlands"
+    },
+    {
+     "src": "pixabay",
+     "id": 1820944,
+     "alt": "Torres Petronas de noche, Kuala Lumpur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2720461,
+     "alt": "Estatua de Murugan en Batu Caves"
+    },
+    {
+     "src": "pixabay",
+     "id": 2223147,
+     "alt": "Templo Kek Lok Si, Penang"
+    },
+    {
+     "src": "pixabay",
+     "id": 2676193,
+     "alt": "Casa clan Khoo Kongsi, Penang"
+    },
+    {
+     "src": "pixabay",
+     "id": 2869936,
+     "alt": "Arte urbano en Georgetown, Penang"
+    },
+    {
+     "src": "pixabay",
+     "id": 4544818,
+     "alt": "Muelle en las islas Perhentian"
+    },
+    {
+     "src": "pixabay",
+     "id": 2297970,
+     "alt": "Puente colgante de Langkawi"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "circuito",
+    "category": "cultural",
+    "titleEs": "Malasia Esencial: Kuala Lumpur, Penang y selva de Belum",
+    "summaryEs": "7 días en circuito regular en español y grupo reducido: Kuala Lumpur, Batu Caves, plantaciones de té de Cameron Highlands, Penang y la selva de Belum. Extensión opcional a playa.",
+    "highlights": [
+     "Kuala Lumpur, Torres Petronas y Batu Caves",
+     "Plantaciones de té de Cameron Highlands",
+     "Georgetown de Penang, Patrimonio de la UNESCO",
+     "Paseo en barco por la selva de Belum",
+     "Extensión opcional a Perhentian o Langkawi"
+    ],
+    "descriptionEs": "Circuito regular con guía de habla hispana y grupos reducidos que recorre lo esencial de la Malasia peninsular: la moderna Kuala Lumpur, el templo hindú de Batu Caves, las plantaciones de té de Cameron Highlands, la antigua capital real de Kuala Kangsar, la Georgetown colonial de Penang y la selva tropical de Belum, una de las más antiguas del mundo. Salidas todos los miércoles de marzo a octubre de 2027, con hoteles de 4 o 5 estrellas y la opción de terminar con 3 noches de playa en las islas Perhentian o en Langkawi.",
+    "importantInfo": "Salidas regulares todos los miércoles del 3 de marzo al 6 de octubre de 2027, con llegada a Kuala Lumpur (KUL). Mínimo 2 viajeros.\nFin del programa: día 7 (martes) en el aeropuerto de Kota Bharu (KBR); toma un vuelo de salida a partir de las 14:00 (el operador recomienda el MH1427).\nTarifas por persona en USD:\n· Programa 7 días, hoteles 4*: doble 1,836 · triple 1,740 · individual 2,262 USD\n· Programa 7 días, hoteles 5*: doble 2,352 · triple 2,232 · individual 3,144 USD\n· Extensión Perhentian 4D/3N, hotel 4*: doble 420 · triple 402 · individual 804 USD\n· Extensión Perhentian 4D/3N, hotel 5* (fuera de temporada alta): doble 684 · triple 654 · individual 1,272 USD\n· Extensión Perhentian 4D/3N, hotel 5* (20 jun a 20 sep 2027): doble 894 · triple 864 · individual 1,728 USD\n· Extensión Langkawi 4D/3N, Holiday Villa 4*: doble 414 · triple 408 · individual 738 USD\n· Extensión Langkawi 4D/3N, Pelangi 5* Garden Terrace: doble 702 · triple 678 · individual 1,368 USD\n· Extensión Langkawi 4D/3N, Pelangi 5* Seaview: doble 930 · triple 882 · individual 1,806 USD\nExtensión Perhentian: termina el día 10 en Kota Bharu (KBR); el vuelo de salida debe ser después de las 12:00 por el horario de las lanchas. Extensión Langkawi: el vuelo interno Penang–Langkawi no está incluido.\nPerhentian Island Resort (4*) es un alojamiento sencillo en plena naturaleza; si prefieres instalaciones más modernas, elige la opción 5* (Marriott).\nTasa turística local de 10 MYR por habitación y noche, y tasa del parque marino de Perhentian (unos 50 MYR por persona), a pagar en destino.\nLa plantación de té cierra los lunes y días festivos. En la selva de Belum se acostumbra llevar alguna donación para los niños orang asli.\nLa habitación triple es por lo general una doble con cama extra.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nEl operador puede revisar la tarifa si el dólar se deprecia frente al ringgit (MYR) por debajo del tipo indicado en su tarifario, o si un hotel cambia sus condiciones; te confirmamos el precio final antes de cobrar.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "MY"
+    ],
+    "cities": [
+     "Kuala Lumpur",
+     "Cameron Highlands",
+     "Penang",
+     "Belum",
+     "Islas Perhentian",
+     "Langkawi"
+    ],
+    "durationDays": 7,
+    "languages": [
+     "es"
+    ],
+    "minPax": 2,
+    "priceNote": "Precio por persona en USD en habitación doble. Triple, individual y extensiones 5*: ver la información importante.",
+    "options": [
+     {
+      "id": "h4",
+      "name": "Programa 7 días · hoteles 4*",
+      "mode": "group",
+      "adult": 1836,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "h5",
+      "name": "Programa 7 días · hoteles 5*",
+      "mode": "group",
+      "adult": 2352,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "h4per",
+      "name": "Hoteles 4* + extensión playa Perhentian 4* (10 días)",
+      "mode": "group",
+      "adult": 2256,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "h4lgk",
+      "name": "Hoteles 4* + extensión playa Langkawi 4* (10 días)",
+      "mode": "group",
+      "adult": 2250,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "extras": [],
+    "availability": {
+     "weekdays": [
+      3
+     ]
+    },
+    "minNoticeHours": 744,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 46,
+       "refundPct": 85
+      },
+      {
+       "daysBefore": 30,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 15,
+       "refundPct": 30
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Internacional de Kuala Lumpur (llegada)",
+      "address": "",
+      "lat": 2.7456,
+      "lng": 101.7072,
+      "instructions": "Traslado privado del aeropuerto al hotel incluido (conductor de habla inglesa); llegada el miércoles.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto de Kota Bharu (KBR), o Kota Bharu / Langkawi con extensión de playa",
+    "itinerary": [
+     {
+      "title": "Día 1 (miércoles) · Llegada a Kuala Lumpur",
+      "text": "Llegada al aeropuerto de Kuala Lumpur, encuentro con el conductor y traslado privado al hotel."
+     },
+     {
+      "title": "Día 2 · Kuala Lumpur, tour de medio día",
+      "text": "Visita en español de KLCC y las Torres Petronas (subida al puente no incluida), el templo Thean Hou, la mezquita Masjid Jamek, la plaza Merdeka con el edificio Sultan Abdul Samad, el Central Market y Petaling Street en el barrio chino. Regreso al hotel a las 13:30 y tarde libre."
+     },
+     {
+      "title": "Día 3 · Batu Caves – Cameron Highlands",
+      "text": "Visita de Batu Caves, el templo hindú más importante de Malasia, con sus 272 escalones. Camino a Cameron Highlands (unas 4 horas en total) con paradas en la cascada de Lata Iskandar, un mercado de artesanías y una casa típica orang asli (no se visita el poblado)."
+     },
+     {
+      "title": "Día 4 · Cameron Highlands – Kuala Kangsar – Penang",
+      "text": "Visita de las plantaciones de té de Cameron Highlands. Descenso a Kuala Kangsar, antigua capital real: mezquita Ubudiah, el palacio del sultán por fuera y un poblado malayo junto al río Perak. Llegada a la isla de Penang por uno de los puentes más largos de Asia."
+     },
+     {
+      "title": "Día 5 · Penang",
+      "text": "Medio día: templo Kek Lok Si (entrada incluida), Georgetown, Patrimonio de la UNESCO, con el templo tailandés del Buda reclinado y el templo birmano, el fuerte Cornwallis, la casa clan Khoo Kongsi y las casas sobre pilotes de Clan Jetty."
+     },
+     {
+      "title": "Día 6 · Penang – Selva de Belum",
+      "text": "Salida a las 06:00 hacia Belum. Excursión en barco por el parque estatal con almuerzo sencillo tipo pícnic: poblado orang asli, el Salt Lick donde se alimentan los elefantes y una cascada donde es posible bañarse. Noche en el resort de la selva."
+     },
+     {
+      "title": "Día 7 (martes) · Belum – Kota Bharu, fin del programa",
+      "text": "Traslado al aeropuerto de Kota Bharu para tu vuelo de salida, o continuación a la extensión de playa."
+     },
+     {
+      "title": "Extensión Perhentian · Días 7 a 10",
+      "text": "Día 7: traslado a Kuala Besut y lancha semiprivada a las islas Perhentian (llegada al puerto a las 13:00). Días 8 y 9: libres para playa y snorkel por tu cuenta. Día 10: lancha y traslado al aeropuerto de Kota Bharu."
+     },
+     {
+      "title": "Extensión Langkawi · Días 7 a 10",
+      "text": "Día 7: traslado al aeropuerto de Penang y vuelo interno a Langkawi (no incluido; se recomienda a partir de las 13:00), traslado al hotel. Días 8 y 9: libres (island hopping, teleférico y puente colgante del monte Mat Cincang, por tu cuenta). Día 10: traslado al aeropuerto de Langkawi."
+     }
+    ],
+    "includes": [
+     "Traslados y visitas en servicio compartido (mínimo 2 viajeros)",
+     "Guía oficial de habla hispana en los días 2 a 7",
+     "Hoteles de 4* o 5* (según opción) con desayuno, o similares",
+     "1 almuerzo (selva de Belum)",
+     "Entradas a los templos y atracciones del programa",
+     "Asistencia telefónica 24 h en español",
+     "Con extensión: traslados, lancha y 3 noches con desayuno en Perhentian o Langkawi"
+    ],
+    "excludes": [
+     "Vuelos internacionales",
+     "Vuelos internos (incluido Penang–Langkawi en la extensión)",
+     "Guía de habla hispana en los traslados de aeropuerto",
+     "Tasa turística local (10 MYR por habitación y noche) y tasa del parque marino de Perhentian",
+     "Subida al puente de las Torres Petronas",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas y maleteros",
+     "Early check-in y late check-out"
+    ]
+   }
+  },
+  {
+   "ref": "BOR-01",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; vuelos internos KUL–Sandakan–KUL no incluidos: confirmar cómo se venden",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3985939,
+     "alt": "Orangutana con su cría en Borneo"
+    },
+    {
+     "src": "pixabay",
+     "id": 10495663,
+     "alt": "Mono narigudo junto al río en Borneo"
+    },
+    {
+     "src": "pixabay",
+     "id": 9559558,
+     "alt": "Elefante en la selva de Sabah, Borneo"
+    },
+    {
+     "src": "pixabay",
+     "id": 7540535,
+     "alt": "Cálao rinoceronte en Borneo"
+    },
+    {
+     "src": "pixabay",
+     "id": 1852915,
+     "alt": "Torres Petronas, Kuala Lumpur"
+    },
+    {
+     "src": "pixabay",
+     "id": 4580960,
+     "alt": "Escalinata y estatua de Batu Caves"
+    },
+    {
+     "src": "pixabay",
+     "id": 4544818,
+     "alt": "Muelle en las islas Perhentian"
+    },
+    {
+     "src": "pixabay",
+     "id": 1650889,
+     "alt": "Playa de Langkawi"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "circuito",
+    "category": "ecoturismo",
+    "titleEs": "Lo mejor de Borneo: orangutanes y río Kinabatangan",
+    "summaryEs": "6 días en circuito regular en español y grupo reducido: Kuala Lumpur, Batu Caves, el centro de orangutanes de Sepilok y safaris en barco por el río Kinabatangan. Extensión opcional a playa.",
+    "highlights": [
+     "Centro de rehabilitación de orangutanes de Sepilok",
+     "Safaris en barco por el río Kinabatangan",
+     "Monos narigudos, cálaos y elefantes pigmeos (sin garantía)",
+     "Kuala Lumpur y Batu Caves",
+     "Extensión opcional a Perhentian o Langkawi"
+    ],
+    "descriptionEs": "Circuito regular con guía de habla hispana y grupos reducidos que combina Kuala Lumpur con la naturaleza de Borneo malayo (Sabah). Visitarás el centro de rehabilitación de orangutanes de Sepilok y el de osos malayos, y dormirás dos noches junto al río Kinabatangan, con paseos en barca al amanecer y al atardecer en busca de orangutanes, monos narigudos, cálaos y elefantes pigmeos. Salidas todos los miércoles de marzo a octubre de 2027, con opción de terminar con playa en las islas Perhentian o en Langkawi.",
+    "importantInfo": "Salidas regulares todos los miércoles del 3 de marzo al 6 de octubre de 2027, con llegada a Kuala Lumpur (KUL). Mínimo 2 viajeros.\nVuelos internos no incluidos: Kuala Lumpur–Sandakan el día 3 (viernes) después de las 14:00 (recomendado MH2668) y Sandakan–Kuala Lumpur el día 6 (lunes) después de las 12:00 (recomendado MH2711). Fin del programa: día 6 en el aeropuerto de Kuala Lumpur.\nTarifas por persona en USD:\n· Programa 6 días: doble 1,698 · triple 1,620 · individual 2,004 USD\n· Suplemento hotel EQ 5* en Kuala Lumpur: doble 186 · triple 138 · individual 372 USD\n· Extensión Perhentian 5D/4N, hoteles 4*: doble 588 · triple 558 · individual 1,080 USD\n· Extensión Perhentian 5D/4N, hoteles 5* (fuera de temporada alta): doble 858 · triple 834 · individual 1,554 USD\n· Extensión Perhentian 5D/4N, hoteles 5* (20 jun a 20 sep 2027): doble 1,074 · triple 1,038 · individual 1,998 USD\n· Extensión Langkawi 5D/4N, Holiday Villa 4*: doble 510 · triple 492 · individual 936 USD\n· Extensión Langkawi 5D/4N, Pelangi 5* Garden Terrace: doble 930 · triple 888 · individual 1,806 USD\n· Extensión Langkawi 5D/4N, Pelangi 5* Seaview: doble 1,218 · triple 1,152 · individual 2,388 USD\nExtensión Perhentian: noche en el hotel del aeropuerto de Kuala Lumpur y vuelo a Kota Bharu (no incluido) que debe llegar antes de las 15:00; si llega después, se necesita una lancha privada con costo extra. Termina el día 10 en Kota Bharu. Extensión Langkawi: vuelos Sandakan–Kuala Lumpur–Langkawi no incluidos.\nEl avistamiento de animales no está garantizado: es vida completamente salvaje. Los paseos por el río son compartidos con otros huéspedes del resort y un guía naturalista. Lleva binoculares; la caminata nocturna es opcional y se paga en destino.\nTasa turística local de 10 MYR por habitación y noche, y tasa del parque marino de Perhentian (unos 50 MYR por persona), a pagar en destino.\nLa habitación triple es por lo general una doble con cama extra.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nEl operador puede revisar la tarifa si el dólar se deprecia frente al ringgit (MYR) por debajo del tipo indicado en su tarifario, o si un hotel cambia sus condiciones; te confirmamos el precio final antes de cobrar.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "MY"
+    ],
+    "cities": [
+     "Kuala Lumpur",
+     "Sandakan",
+     "Sepilok",
+     "Río Kinabatangan",
+     "Islas Perhentian",
+     "Langkawi"
+    ],
+    "durationDays": 6,
+    "languages": [
+     "es"
+    ],
+    "minPax": 2,
+    "priceNote": "Precio por persona en USD en habitación doble. Vuelos internos no incluidos. Triple, individual y extensiones 5*: ver la información importante.",
+    "options": [
+     {
+      "id": "base",
+      "name": "Programa 6 días · hoteles previstos",
+      "mode": "group",
+      "adult": 1698,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "eq5",
+      "name": "Programa 6 días · hotel EQ 5* en Kuala Lumpur",
+      "mode": "group",
+      "adult": 1884,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "per4",
+      "name": "Programa + extensión playa Perhentian 4* (10 días)",
+      "mode": "group",
+      "adult": 2286,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "lgk4",
+      "name": "Programa + extensión playa Langkawi 4* (10 días)",
+      "mode": "group",
+      "adult": 2208,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "extras": [],
+    "availability": {
+     "weekdays": [
+      3
+     ]
+    },
+    "minNoticeHours": 744,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 46,
+       "refundPct": 85
+      },
+      {
+       "daysBefore": 30,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 15,
+       "refundPct": 30
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Internacional de Kuala Lumpur (llegada)",
+      "address": "",
+      "lat": 2.7456,
+      "lng": 101.7072,
+      "instructions": "Traslado privado del aeropuerto al hotel incluido (conductor de habla inglesa); llegada el miércoles.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto de Kuala Lumpur, o Kota Bharu / Langkawi con extensión de playa",
+    "itinerary": [
+     {
+      "title": "Día 1 (miércoles) · Llegada a Kuala Lumpur",
+      "text": "Llegada al aeropuerto de Kuala Lumpur, encuentro con el conductor y traslado privado al hotel."
+     },
+     {
+      "title": "Día 2 · Kuala Lumpur, tour de medio día",
+      "text": "Visita en español de KLCC y las Torres Petronas (subida al puente no incluida), el templo Thean Hou, Masjid Jamek, la plaza Merdeka, el Central Market y Petaling Street. Regreso al hotel a las 13:30."
+     },
+     {
+      "title": "Día 3 (viernes) · Batu Caves – Sandakan",
+      "text": "Visita de Batu Caves y traslado al aeropuerto para el vuelo a Sandakan, en Borneo (no incluido). Traslado al hotel y tarde libre."
+     },
+     {
+      "title": "Día 4 · Sepilok – Río Kinabatangan",
+      "text": "Centro de rehabilitación de orangutanes de Sepilok y centro de osos malayos. Almuerzo y viaje por tierra al río Kinabatangan. A las 16:00, primer paseo en barca por el río. Cena en el resort."
+     },
+     {
+      "title": "Día 5 · Río Kinabatangan",
+      "text": "Paseo en barca a las 06:00, desayuno, caminata de una hora por los alrededores y nuevo paseo en barca por la tarde en busca de fauna. Almuerzo y cena en el resort."
+     },
+     {
+      "title": "Día 6 (lunes) · Kinabatangan – Sandakan – Kuala Lumpur, fin del programa",
+      "text": "Regreso a Sandakan (llegada hacia las 10:00) y vuelo a Kuala Lumpur (no incluido) para conectar con tu vuelo internacional."
+     },
+     {
+      "title": "Extensión Perhentian · Días 6 a 10",
+      "text": "Día 6: noche en el hotel Sama Sama del aeropuerto de Kuala Lumpur. Día 7: vuelo a Kota Bharu (no incluido), traslado a Kuala Besut y lancha a las islas Perhentian. Días 8 y 9 libres. Día 10: lancha y traslado al aeropuerto de Kota Bharu."
+     },
+     {
+      "title": "Extensión Langkawi · Días 6 a 10",
+      "text": "Día 6: vuelos Sandakan–Kuala Lumpur–Langkawi (no incluidos) y traslado al hotel. Días 7 a 9 libres. Día 10: traslado al aeropuerto de Langkawi."
+     }
+    ],
+    "includes": [
+     "Traslados y visitas en servicio compartido (mínimo 2 viajeros)",
+     "Guía oficial de habla hispana en los días 2 a 6 (en el río, guía naturalista)",
+     "Hoteles previstos con desayuno, o similares",
+     "2 almuerzos y 2 cenas",
+     "Entradas a los templos y atracciones del programa",
+     "Asistencia telefónica 24 h en español",
+     "Con extensión: traslados, lancha y noches con desayuno indicadas"
+    ],
+    "excludes": [
+     "Vuelos internacionales",
+     "Vuelos internos (Kuala Lumpur–Sandakan–Kuala Lumpur y los de la extensión)",
+     "Tasa turística local (10 MYR por habitación y noche) y tasa del parque marino de Perhentian",
+     "Caminata nocturna opcional en el río",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas y maleteros",
+     "Early check-in y late check-out"
+    ]
+   }
+  },
+  {
+   "ref": "SGP-PRE",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; preextensión: solo se vende junto con Malasia Esencial o Lo mejor de Borneo; confirmación manual; menos de 31 días antes, bajo petición; el PDF fecha el día 4 como 05/03/25 (dato viejo del documento)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2471492,
+     "alt": "Superárboles y cúpulas de Gardens by the Bay, Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 4339710,
+     "alt": "Merlion frente a Marina Bay, Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2696704,
+     "alt": "Helix Bridge de noche, Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 5817283,
+     "alt": "Cúpula de Gardens by the Bay desde el aire"
+    },
+    {
+     "src": "pixabay",
+     "id": 957004,
+     "alt": "Iglesia de Cristo en la plaza Holandesa, Melaka"
+    },
+    {
+     "src": "pixabay",
+     "id": 957061,
+     "alt": "Paseo junto al río Melaka"
+    },
+    {
+     "src": "pixabay",
+     "id": 1731121,
+     "alt": "Laksa, plato típico de Melaka"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "circuito",
+    "category": "cultural",
+    "titleEs": "Singapur y Melaka: preextensión de 4 días",
+    "summaryEs": "4 días antes de tu circuito por Malasia o Borneo: Singapur a pie con Gardens by the Bay, cruce a Malasia y visita de la histórica Melaka, para llegar a Kuala Lumpur y seguir con el programa.",
+    "highlights": [
+     "Singapur a pie: Merlion, Helix Bridge y Marina Bay",
+     "Gardens by the Bay con sus 2 cúpulas",
+     "Melaka, Patrimonio de la UNESCO",
+     "Almuerzo de cocina peranakan (nyonya)",
+     "Enlaza con Malasia Esencial o Lo mejor de Borneo"
+    ],
+    "descriptionEs": "Preextensión en servicio regular con guía de habla hispana para empezar tu viaje en Singapur. Recorrerás a pie el parque del Merlion, el Helix Bridge y Gardens by the Bay con sus dos cúpulas; cruzarás por tierra a Malasia para dormir en Melaka y conocer su centro histórico, con huellas portuguesas, holandesas e inglesas, antes de llegar a Kuala Lumpur y unirte al día 2 de Malasia Esencial o de Lo mejor de Borneo.",
+    "importantInfo": "Solo se vende junto con Malasia Esencial o Lo mejor de Borneo: llegas a Singapur (SIN) en domingo y el miércoles por la tarde te unes en Kuala Lumpur al día 2 del circuito.\nSalidas regulares todos los domingos del 28 de febrero al 3 de octubre de 2027. Mínimo 2 viajeros.\nEl precio ya incluye la entrada obligatoria a las 2 cúpulas de Gardens by the Bay.\nTarifas por persona en USD:\n· Hoteles 4*: doble 1,068 · triple 1,014 · individual 1,458 USD\n· Hoteles 5*: doble 1,188 · triple 1,140 · individual 1,704 USD\nTasa turística local en Melaka (10 MYR por habitación y noche), a pagar en destino.\nEl tour de Singapur es a pie y en transporte público, sin vehículo; el regreso al hotel es por tu cuenta.\nConfirmación manual del operador; las reservas con menos de 31 días de anticipación son bajo petición.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nEl operador puede revisar la tarifa si el dólar se deprecia frente al ringgit (MYR) por debajo del tipo indicado en su tarifario, o si un hotel cambia sus condiciones; te confirmamos el precio final antes de cobrar.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "SG",
+     "MY"
+    ],
+    "cities": [
+     "Singapur",
+     "Melaka",
+     "Kuala Lumpur"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es"
+    ],
+    "minPax": 2,
+    "priceNote": "Precio por persona en USD en habitación doble, con la entrada a Gardens by the Bay. Se reserva junto con un circuito por Malasia o Borneo.",
+    "options": [
+     {
+      "id": "h4",
+      "name": "Preextensión 4 días · hoteles 4*",
+      "mode": "group",
+      "adult": 1068,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "h5",
+      "name": "Preextensión 4 días · hoteles 5*",
+      "mode": "group",
+      "adult": 1188,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "extras": [],
+    "availability": {
+     "weekdays": [
+      0
+     ]
+    },
+    "minNoticeHours": 744,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 46,
+       "refundPct": 85
+      },
+      {
+       "daysBefore": 30,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 15,
+       "refundPct": 30
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto de Singapur Changi (llegada)",
+      "address": "",
+      "lat": 1.3644,
+      "lng": 103.9915,
+      "instructions": "Traslado privado del aeropuerto al hotel incluido (conductor de habla inglesa); llegada el domingo.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Hotel en Kuala Lumpur (continúa con el día 2 del circuito)",
+    "itinerary": [
+     {
+      "title": "Día 1 (domingo) · Llegada a Singapur",
+      "text": "Llegada al aeropuerto de Singapur y traslado privado al hotel."
+     },
+     {
+      "title": "Día 2 · Singapur a pie",
+      "text": "Tour caminando y en transporte público con guía de habla hispana: parque del Merlion con vistas a Marina Bay, el Esplanade, el Helix Bridge y Gardens by the Bay con sus 2 cúpulas (Flower Dome y Cloud Forest). Regreso por tu cuenta."
+     },
+     {
+      "title": "Día 3 · Singapur – Melaka",
+      "text": "Mañana libre. A las 15:00, traslado por tierra a Melaka cruzando la frontera (unas 4 horas con los trámites). Tarde libre junto al río Melaka."
+     },
+     {
+      "title": "Día 4 (miércoles) · Melaka – Kuala Lumpur",
+      "text": "Visita guiada del centro histórico: plaza Holandesa, Iglesia de Cristo, Torre del Reloj, templo Cheng Hoon Teng, Puerta de Santiago (A Famosa) e iglesia de San Pablo. Almuerzo de cocina peranakan. Traslado de unas 2 horas a Kuala Lumpur (llegada hacia las 18:00) para seguir con el día 2 de tu circuito."
+     }
+    ],
+    "includes": [
+     "Traslados y visitas en servicio compartido (mínimo 2 viajeros)",
+     "Guía oficial de habla hispana en los días 2 y 4",
+     "Hoteles de 4* o 5* (según opción) con desayuno, o similares",
+     "1 almuerzo en Melaka",
+     "Entrada a las 2 cúpulas de Gardens by the Bay",
+     "Entradas a los templos y atracciones del programa",
+     "Asistencia telefónica 24 h en español"
+    ],
+    "excludes": [
+     "Vuelos internacionales",
+     "Guía de habla hispana en los traslados de aeropuerto",
+     "Tasa turística local en Melaka",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas y maleteros",
+     "Early check-in y late check-out"
+    ]
+   }
+  },
+  {
+   "ref": "SIN-01",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2358810,
+     "alt": "Merlion y el skyline de Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2463786,
+     "alt": "Mezquita del Sultán en Kampong Glam"
+    },
+    {
+     "src": "pixabay",
+     "id": 1132081,
+     "alt": "Arco de orquídeas en el Jardín Botánico de Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2025388,
+     "alt": "Chinatown de Singapur al anochecer"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": []
+    },
+    "extras": [],
+    "category": "urbano",
+    "titleEs": "Singapur: city tour compartido en inglés",
+    "summaryEs": "Medio día en grupo con guía de habla inglesa por Kampong Glam, el barrio colonial, el Merlion, el templo Thian Hock Keng, Chinatown y el Jardín de Orquídeas.",
+    "highlights": [
+     "Kampong Glam y el barrio colonial",
+     "Merlion con vistas a Marina Bay",
+     "Templo Thian Hock Keng y Chinatown",
+     "Jardín Nacional de Orquídeas, Patrimonio de la UNESCO"
+    ],
+    "descriptionEs": "Un tour compartido de unas 3 horas y media para ver lo esencial de Singapur: el barrio malayo y árabe de Kampong Glam, el distrito colonial con el Padang, el Club de Cricket, la antigua Casa del Parlamento y la National Gallery, el parque del Merlion frente a Marina Bay, el templo Thian Hock Keng, Chinatown y el Jardín Botánico de Singapur, primer Patrimonio de la UNESCO del país, con su famoso Jardín de Orquídeas.",
+    "importantInfo": "Salida diaria a las 08:45 desde el mostrador de tours del hotel Paradox Singapore; se confirma con un mínimo de 4 personas.\nNo incluye el traslado de tu hotel al punto de encuentro; si lo necesitas, pídelo al reservar.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nTarifas de 2027 sujetas a confirmación del guía de habla hispana y a disponibilidad.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "SG"
+    ],
+    "cities": [
+     "Singapur"
+    ],
+    "languages": [
+     "en"
+    ],
+    "priceNote": "Precio por persona en USD, en grupo con guía de habla inglesa.",
+    "options": [
+     {
+      "id": "compartido",
+      "name": "Tour compartido con guía en inglés",
+      "mode": "group",
+      "adult": 72,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel Paradox Singapore Merchant Court (mostrador de tours)",
+      "address": "20 Merchant Road, Singapur",
+      "lat": 1.2887,
+      "lng": 103.8466,
+      "instructions": "Preséntate a las 08:45 en el mostrador de tours, junto a la conserjería del lobby.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "includes": [
+     "Guía de habla inglesa",
+     "Transporte durante el tour",
+     "Entradas indicadas en el itinerario"
+    ],
+    "excludes": [
+     "Traslado entre tu hotel y el punto de encuentro",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "SIN-02",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 79116,
+     "alt": "Merlion y rascacielos de Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 3069089,
+     "alt": "Templo en Chinatown, Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 217999,
+     "alt": "Orquídeas del Jardín Botánico de Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 1049141,
+     "alt": "Little India iluminada, Singapur"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": []
+    },
+    "extras": [],
+    "category": "urbano",
+    "titleEs": "Singapur esencial: tour privado en español",
+    "summaryEs": "4 horas en privado con guía en español: barrio colonial, Merlion, templo Thian Hock Keng, Chinatown, Jardín de Orquídeas y Little India.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Merlion y Marina Bay",
+     "Templo Thian Hock Keng y Chinatown",
+     "Jardín Nacional de Orquídeas (entrada incluida)",
+     "Colores y especias de Little India"
+    ],
+    "descriptionEs": "Lo esencial de Singapur a tu ritmo, en vehículo y con guía privado en español: el distrito colonial con el Padang, el Parlamento y la National Gallery, el parque del Merlion frente a Marina Bay, el templo Thian Hock Keng, Chinatown, el Jardín de Orquídeas dentro del Jardín Botánico y, para terminar, los colores y aromas de Little India. Empieza a las 09:00 y regresa al hotel hacia las 13:00.",
+    "importantInfo": "Tour privado: solo tú y tus acompañantes, con guía de habla hispana. Grupos de hasta 6 personas; para 6 viajeros te cotizamos el precio exacto.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nTarifas de 2027 sujetas a confirmación del guía de habla hispana y a disponibilidad.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "SG"
+    ],
+    "cities": [
+     "Singapur"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 6,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado, con las entradas indicadas. 6 viajeros: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 360,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 246,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 190,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 155,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Singapur",
+      "address": "",
+      "lat": 1.2903,
+      "lng": 103.852,
+      "instructions": "Recogida en tu hotel a las 09:00.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado",
+     "Entrada al Jardín de Orquídeas",
+     "Recogida y regreso al hotel"
+    ],
+    "excludes": [
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "SIN-03",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 503897,
+     "alt": "Superárboles de Gardens by the Bay de noche"
+    },
+    {
+     "src": "pixabay",
+     "id": 4817516,
+     "alt": "Merlion frente a los rascacielos de Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2433128,
+     "alt": "Flower Dome de Gardens by the Bay"
+    },
+    {
+     "src": "pixabay",
+     "id": 2933529,
+     "alt": "Casa colorida en Little India, Singapur"
+    },
+    {
+     "src": "pixabay",
+     "id": 3934014,
+     "alt": "Templo Sri Mariamman en Chinatown, Singapur"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": []
+    },
+    "extras": [],
+    "category": "urbano",
+    "titleEs": "Singapur y Gardens by the Bay: privado en español",
+    "summaryEs": "5 horas en privado con guía en español: barrio colonial, Little India, Thian Hock Keng, Chinatown, el Merlion y Gardens by the Bay con sus 2 cúpulas.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Gardens by the Bay y sus 2 cúpulas (entrada incluida)",
+     "Merlion y Marina Bay",
+     "Little India y Chinatown"
+    ],
+    "descriptionEs": "El tour más completo para un primer día en Singapur, con vehículo y guía privado en español: el distrito colonial, una parada en Little India, el templo Thian Hock Keng y Chinatown, el parque del Merlion y Gardens by the Bay, el gran complejo botánico de la ciudad, con sus dos cúpulas (el pabellón de las flores y el bosque nuboso). Empieza a las 09:00 y regresa al hotel hacia las 14:00.",
+    "importantInfo": "Tour privado: solo tú y tus acompañantes, con guía de habla hispana. Grupos de hasta 6 personas; para 6 viajeros te cotizamos el precio exacto.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nTarifas de 2027 sujetas a confirmación del guía de habla hispana y a disponibilidad.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "SG"
+    ],
+    "cities": [
+     "Singapur"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 6,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado, con las entradas indicadas. 6 viajeros: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 494,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 350,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 279,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 235,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Singapur",
+      "address": "",
+      "lat": 1.2903,
+      "lng": 103.852,
+      "instructions": "Recogida en tu hotel a las 09:00.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado",
+     "Entrada a las 2 cúpulas de Gardens by the Bay",
+     "Recogida y regreso al hotel"
+    ],
+    "excludes": [
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "SIN-04",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1927733,
+     "alt": "Pasarela entre los superárboles de Gardens by the Bay"
+    },
+    {
+     "src": "pixabay",
+     "id": 6748241,
+     "alt": "Cúpulas de Gardens by the Bay"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": []
+    },
+    "extras": [],
+    "category": "urbano",
+    "titleEs": "Gardens by the Bay y Katong: privado en español",
+    "summaryEs": "4 horas en privado con guía en español: Gardens by the Bay con sus 2 cúpulas y los barrios tradicionales de Katong y Joo Chiat.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Gardens by the Bay y sus 2 cúpulas (entrada incluida)",
+     "Barrios de Katong y Joo Chiat",
+     "Cultura peranakan, mezcla china y malaya"
+    ],
+    "descriptionEs": "Empieza a las 09:00 en Gardens by the Bay, el gran complejo botánico de Singapur, con sus dos cúpulas (el pabellón de las flores y el bosque nuboso). Después, en coche, llegarás a los barrios tradicionales de Katong y Joo Chiat para un breve paseo que explica la cultura peranakan. Hacia las 13:00 puedes quedarte en la zona o volver al hotel.",
+    "importantInfo": "Tour privado: solo tú y tus acompañantes, con guía de habla hispana. Grupos de hasta 6 personas; para 6 viajeros te cotizamos el precio exacto.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nTarifas de 2027 sujetas a confirmación del guía de habla hispana y a disponibilidad.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "SG"
+    ],
+    "cities": [
+     "Singapur"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 6,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado, con las entradas indicadas. 6 viajeros: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 404,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 290,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 233,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 199,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Singapur",
+      "address": "",
+      "lat": 1.2903,
+      "lng": 103.852,
+      "instructions": "Recogida en tu hotel a las 09:00.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado",
+     "Entrada a las 2 cúpulas de Gardens by the Bay",
+     "Recogida y regreso opcional al hotel"
+    ],
+    "excludes": [
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "SIN-05",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; sin foto verificada de Katong o Joo Chiat; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": []
+    },
+    "extras": [],
+    "category": "cultural",
+    "titleEs": "Singapur peranakan: tour cultural privado en español",
+    "summaryEs": "4 horas en privado con guía en español para descubrir la cultura peranakan: jardín de especias, casas de Katong y Joo Chiat y degustación.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Jardín de especias de la cocina peranakan",
+     "Casas tradicionales de los años 20 y 30 en Katong y Joo Chiat",
+     "Degustación de comida peranakan"
+    ],
+    "descriptionEs": "Un tour cultural sobre los peranakan, descendientes de los primeros inmigrantes chinos del estrecho de Melaka que mezclaron su origen con las costumbres malayas. Pasearás por un jardín de especias, por los barrios de Katong y Joo Chiat con sus casas de los años 20 y 30, verás trajes, bordados, joyas, porcelana y muebles peranakan, y terminarás con una degustación. De 09:00 a 13:00.",
+    "importantInfo": "Conductor de habla inglesa y guía de habla hispana.\nTour privado: solo tú y tus acompañantes, con guía de habla hispana. Grupos de hasta 6 personas; para 6 viajeros te cotizamos el precio exacto.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nTarifas de 2027 sujetas a confirmación del guía de habla hispana y a disponibilidad.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "SG"
+    ],
+    "cities": [
+     "Singapur"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 6,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado, con las entradas indicadas. 6 viajeros: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 360,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 246,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 190,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 155,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Singapur",
+      "address": "",
+      "lat": 1.2903,
+      "lng": 103.852,
+      "instructions": "Encuentro en el lobby de tu hotel a las 09:00.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado con conductor",
+     "Entrada peranakan",
+     "Degustación de comida peranakan",
+     "Recogida y regreso al hotel"
+    ],
+    "excludes": [
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "KUL-01",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1283140,
+     "alt": "Torres Petronas y Kuala Lumpur al anochecer"
+    },
+    {
+     "src": "pixabay",
+     "id": 2724140,
+     "alt": "Mezquita Masjid Jamek, Kuala Lumpur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2724078,
+     "alt": "Edificio Sultan Abdul Samad, plaza Merdeka"
+    },
+    {
+     "src": "pixabay",
+     "id": 7109918,
+     "alt": "Kuala Lumpur con la Torre KL y las Petronas"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": [
+      "2027-01-01",
+      "2027-02-06",
+      "2027-02-07",
+      "2027-03-10",
+      "2027-03-11",
+      "2027-05-01",
+      "2027-05-17",
+      "2027-05-20",
+      "2027-06-07",
+      "2027-08-31",
+      "2027-09-16",
+      "2027-10-28",
+      "2027-12-25",
+      "2028-01-01"
+     ]
+    },
+    "extras": [
+     {
+      "name": "Subida al puente de las Torres Petronas",
+      "price": 50,
+      "perPerson": true
+     }
+    ],
+    "category": "cultural",
+    "titleEs": "Kuala Lumpur: medio día privado en español",
+    "summaryEs": "4 horas en privado con guía en español por las Torres Petronas, Masjid Jamek, la plaza Merdeka, el Central Market y Chinatown con sus templos.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Torres Petronas desde el parque KLCC",
+     "Masjid Jamek y la plaza Merdeka",
+     "Chinatown y los templos Sze Ya y Sri Maha Mariamman"
+    ],
+    "descriptionEs": "La parte más histórica y la más moderna de Kuala Lumpur en una mañana: el KLCC y el parque detrás de las Torres Petronas para las mejores fotos, la mezquita Masjid Jamek donde nació la ciudad, la plaza Merdeka con el edificio Sultan Abdul Samad, el Central Market de artesanías y Chinatown, con el templo taoísta Sze Ya y el hindú Sri Maha Mariamman. De 09:00 a 13:00.",
+    "importantInfo": "La subida al puente de las Torres Petronas no está incluida; puedes añadirla al reservar.\nTour privado: solo tú y tus acompañantes. Para 6 a 9 viajeros (precio por persona menor) o con guía de habla inglesa, te cotizamos aparte.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "MY"
+    ],
+    "cities": [
+     "Kuala Lumpur"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 9,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado. 6 a 9 viajeros o guía en inglés: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 177,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 118,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 89,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 71,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Kuala Lumpur",
+      "address": "",
+      "lat": 3.1478,
+      "lng": 101.6953,
+      "instructions": "Encuentro con el guía en el lobby de tu hotel a las 09:00.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado",
+     "Recogida y regreso al hotel"
+    ],
+    "excludes": [
+     "Subida al puente de las Torres Petronas (opcional)",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "KUL-02",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; el itinerario marca almuerzo a las 13:00 pero la tarifa lo cobra aparte: confirmar si está incluido; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4580959,
+     "alt": "Templo hindú de Batu Caves"
+    },
+    {
+     "src": "pixabay",
+     "id": 911580,
+     "alt": "Torres Petronas y su puente"
+    },
+    {
+     "src": "pixabay",
+     "id": 5326230,
+     "alt": "Cúpulas de Masjid Jamek, Kuala Lumpur"
+    },
+    {
+     "src": "pixabay",
+     "id": 373289,
+     "alt": "Edificio Sultan Abdul Samad, Kuala Lumpur"
+    },
+    {
+     "src": "pixabay",
+     "id": 2720830,
+     "alt": "Torre KL al atardecer"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": [
+      "2027-01-01",
+      "2027-02-06",
+      "2027-02-07",
+      "2027-03-10",
+      "2027-03-11",
+      "2027-05-01",
+      "2027-05-17",
+      "2027-05-20",
+      "2027-06-07",
+      "2027-08-31",
+      "2027-09-16",
+      "2027-10-28",
+      "2027-12-25",
+      "2028-01-01"
+     ]
+    },
+    "extras": [
+     {
+      "name": "Almuerzo en Chinatown",
+      "price": 28,
+      "perPerson": true
+     },
+     {
+      "name": "Almuerzo en Orbit (Torre KL)",
+      "price": 65,
+      "perPerson": true
+     },
+     {
+      "name": "Subida al puente de las Torres Petronas",
+      "price": 50,
+      "perPerson": true
+     }
+    ],
+    "category": "cultural",
+    "titleEs": "Kuala Lumpur y Batu Caves: día completo privado",
+    "summaryEs": "Día completo en privado con guía en español: Batu Caves, Torres Petronas, Masjid Jamek, la plaza Merdeka, Chinatown y el Central Market.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Batu Caves y sus 272 escalones",
+     "Torres Petronas desde el parque KLCC",
+     "Masjid Jamek, plaza Merdeka y Chinatown"
+    ],
+    "descriptionEs": "Kuala Lumpur completa en un día con guía privado en español. Empiezas en Batu Caves, el templo hindú más importante de Malasia, sigues al KLCC y el parque de las Torres Petronas y, tras la pausa del almuerzo, recorres la mezquita Masjid Jamek, la plaza Merdeka, Chinatown con los templos Sze Ya y Sri Maha Mariamman y el Central Market. De 09:00 a 17:00.",
+    "importantInfo": "El almuerzo no está incluido; puedes añadirlo en Chinatown o en la Torre KL (Orbit) al reservar. La subida al puente de las Torres Petronas también es opcional.\nTour privado: solo tú y tus acompañantes. Para 6 a 9 viajeros (precio por persona menor) o con guía de habla inglesa, te cotizamos aparte.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "moderada",
+    "countries": [
+     "MY"
+    ],
+    "cities": [
+     "Kuala Lumpur",
+     "Batu Caves"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 9,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado. 6 a 9 viajeros o guía en inglés: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 282,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 188,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 141,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 113,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Kuala Lumpur",
+      "address": "",
+      "lat": 3.1478,
+      "lng": 101.6953,
+      "instructions": "Recogida en tu hotel a las 09:00.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado",
+     "Recogida y regreso al hotel"
+    ],
+    "excludes": [
+     "Almuerzo (opcional)",
+     "Subida al puente de las Torres Petronas (opcional)",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  },
+  {
+   "ref": "KUL-03",
+   "status": "draft",
+   "hold": "confirmar neto/comisión con Turismo Asiático; datos incoherentes: el texto incluye almuerzo nyonya pero la tarifa lo cobra aparte; horario 08:00 en el texto vs 09:00-18:00 en la tarifa; el texto dice 4 horas; sin política de cancelación para tours en el PDF: pedirla a Turismo Asiático",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3748200,
+     "alt": "Plaza Holandesa de Melaka"
+    },
+    {
+     "src": "pixabay",
+     "id": 957016,
+     "alt": "Barco por el río Melaka"
+    },
+    {
+     "src": "pixabay",
+     "id": 3289949,
+     "alt": "Río e iglesia en el centro histórico de Melaka"
+    }
+   ],
+   "trip": {
+    "purchaseMode": "quote",
+    "currency": "USD",
+    "whatToBring": "",
+    "visaInfo": "Pasaporte con vigencia mínima de 6 meses a partir de la fecha de regreso. Para entrar a Malasia se llena antes el formulario digital MDAC y para Singapur la SG Arrival Card. Verifica los requisitos de entrada vigentes para tu nacionalidad con los consulados antes de viajar; el operador no se hace responsable de negativas de embarque o de entrada por falta de documentos.",
+    "flightsIncluded": false,
+    "kind": "tour",
+    "durationDays": 1,
+    "minNoticeHours": 72,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "closedDates": [
+      "2027-01-01",
+      "2027-02-06",
+      "2027-02-07",
+      "2027-03-10",
+      "2027-03-11",
+      "2027-05-01",
+      "2027-05-17",
+      "2027-05-20",
+      "2027-06-07",
+      "2027-08-31",
+      "2027-09-16",
+      "2027-10-28",
+      "2027-12-25",
+      "2028-01-01"
+     ]
+    },
+    "extras": [
+     {
+      "name": "Almuerzo",
+      "price": 28,
+      "perPerson": true
+     }
+    ],
+    "category": "cultural",
+    "titleEs": "Melaka desde Kuala Lumpur: día completo privado",
+    "summaryEs": "Excursión privada de día completo con guía en español a Melaka, ciudad Patrimonio de la UNESCO: plaza Holandesa, Cheng Hoon Teng, A Famosa y San Pablo.",
+    "highlights": [
+     "Guía privado de habla hispana",
+     "Centro histórico de Melaka, Patrimonio de la UNESCO",
+     "Plaza Holandesa e Iglesia de Cristo",
+     "Templo Cheng Hoon Teng, el más antiguo de Malasia",
+     "Puerta de Santiago (A Famosa) e iglesia de San Pablo"
+    ],
+    "descriptionEs": "Viaja en vehículo privado unas 2 horas al sur de Kuala Lumpur para conocer Melaka, colonizada por portugueses, holandeses, ingleses y japoneses. Con tu guía visitarás la plaza Holandesa de color rosa, la Iglesia de Cristo, la Torre del Reloj, la Fuente de la Reina Victoria, el templo Cheng Hoon Teng, la Puerta de Santiago (A Famosa) y la iglesia de San Pablo. Regreso a Kuala Lumpur hacia las 17:30 o 18:00.",
+    "importantInfo": "El almuerzo es opcional y se añade al reservar.\nTour privado: solo tú y tus acompañantes. Para 6 a 9 viajeros (precio por persona menor) o con guía de habla inglesa, te cotizamos aparte.\nReserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.\nLos traslados entre las 23:00 y las 07:00 llevan un recargo del 50%.\nOperador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia de turismo KPL No. 4824, Malasia).",
+    "difficulty": "facil",
+    "countries": [
+     "MY"
+    ],
+    "cities": [
+     "Kuala Lumpur",
+     "Melaka"
+    ],
+    "languages": [
+     "es"
+    ],
+    "maxPax": 9,
+    "priceNote": "Precio por persona en USD según el número de viajeros del grupo privado. 6 a 9 viajeros o guía en inglés: cotización.",
+    "options": [
+     {
+      "id": "p2",
+      "name": "Privado en español · 2 viajeros",
+      "mode": "private",
+      "adult": 300,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p3",
+      "name": "Privado en español · 3 viajeros",
+      "mode": "private",
+      "adult": 200,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p4",
+      "name": "Privado en español · 4 viajeros",
+      "mode": "private",
+      "adult": 150,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "p5",
+      "name": "Privado en español · 5 viajeros",
+      "mode": "private",
+      "adult": 120,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro de Kuala Lumpur",
+      "address": "",
+      "lat": 3.1478,
+      "lng": 101.6953,
+      "instructions": "Recogida en tu hotel; la hora se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "includes": [
+     "Guía privado de habla hispana",
+     "Vehículo privado Kuala Lumpur–Melaka–Kuala Lumpur",
+     "Recogida y regreso al hotel"
+    ],
+    "excludes": [
+     "Almuerzo (opcional)",
+     "Bebidas y comidas no indicadas",
+     "Seguro de viaje",
+     "Propinas"
+    ]
+   }
+  }
+ ]
+}

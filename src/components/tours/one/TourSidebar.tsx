@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/Button';
 import { ClockIcon, MapPinIcon, ShieldIcon, StarIcon } from '@/assets/svg';
 import { Tour } from '@/types';
 import { TourEvent } from '@/lib/api/freetour-client';
+import type { TourPriceLabel } from '@/tours/lib/price-label';
 import { TourAvailabilityCalendar } from './TourAvailabilityCalendar';
 import { TourAvailabilityCalendarSkeleton } from './TourAvailabilityCalendarSkeleton';
 
@@ -35,12 +36,16 @@ interface TourSidebarProps {
     onAdvisorClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
     /** REQ-005: contenido extra bajo el botón (franja de venta cruzada). */
     below?: React.ReactNode;
+    /** REQ-170: EUR con MXN aproximado (del servidor). Sin esto, el precio queda como hoy. */
+    priceLabel?: TourPriceLabel | null;
 }
 
 /** Duración, destino y proveedor ya se muestran arriba del tour; aquí se repetían (auditoría de diseño, nov 2026). */
 const SHOW_DETAILS = false;
 
-export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy, onAdvisorClick, below }: TourSidebarProps) {
+export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy, onAdvisorClick, below, priceLabel = null }: TourSidebarProps) {
+    // REQ-170: solo si el precio del servidor es el mismo que pinta la ficha.
+    const label = priceLabel && tour.price > 0 && priceLabel.amount === tour.price ? priceLabel : null;
     const { t, language } = useLanguage();
     const copy = bookingCopy(language);
     const wa = waLink(whatsapp, advisorText(tour.title, language));
@@ -59,9 +64,15 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                     <div className="flex items-baseline gap-2 mb-2">
                         {tour.price > 0 && <span className="text-sm text-muted-foreground">{t('tours.from')}</span>}
                         <span className="text-4xl font-bold">
-                            {tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free')}
+                            {label ? label.main : tour.price > 0 ? `${tour.currency} ${tour.price}` : t('tours.free')}
                         </span>
                     </div>
+                    {label && (
+                        <div className="mb-2 text-sm text-muted-foreground">
+                            {label.approx && <p className="font-medium">{label.approx}</p>}
+                            {label.note && <p className="text-xs">{label.note}</p>}
+                        </div>
+                    )}
                     {tour.price > 0 && paidPolicy && <PaidPolicyNotice policy={paidPolicy} className="mt-3" />}
                     {tour.price === 0 && (tipGuide ? <FreeTourGuide guide={tipGuide} /> : (
                         <p className="text-sm text-muted-foreground">{t('tours.tipNote', 'At the end of the tour, tip the guide what you think is fair.')}</p>

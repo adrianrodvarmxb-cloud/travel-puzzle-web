@@ -106,6 +106,23 @@ describe("placeBooking: duplicados", () => {
   });
 });
 
+describe("REQ-083 placeBooking: contacto adulto", () => {
+  it("REQ-083: con la revisión encendida y sin declarar adulto, no reserva", async () => {
+    const gateway = { createBooking: vi.fn() };
+    await expect(placeBooking(dto, { gateway, getEvent, enabled: true, adultContactRequired: true })).rejects.toMatchObject({ code: "adult_required" });
+    expect(gateway.createBooking).not.toHaveBeenCalled();
+  });
+  it("REQ-083: declarado adulto reserva, y la declaración no se envía a FREETOUR", async () => {
+    const gateway = { createBooking: vi.fn(async () => booking) };
+    await placeBooking({ ...dto, contactIsAdult: true }, { gateway, getEvent, enabled: true, adultContactRequired: true });
+    expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { ...dto.customer, phone: "+525512345678" } });
+  });
+  it("REQ-083: con la bandera apagada se comporta como hoy", async () => {
+    const gateway = { createBooking: vi.fn(async () => booking) };
+    await expect(placeBooking(dto, { gateway, getEvent, enabled: true })).resolves.toEqual({ booking, price: 0 });
+  });
+});
+
 describe("recordBooking", () => {
   const now = new Date("2026-10-30T14:27:46Z");
   const b = { ...booking, refNumber: "6782-20261030162746-244" };

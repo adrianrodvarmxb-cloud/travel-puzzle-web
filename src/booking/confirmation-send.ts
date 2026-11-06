@@ -10,6 +10,7 @@ import { pickReviews } from '@/reviews/lib/reviews';
 import { sendEmail } from '@/notifications/resend';
 import { getPrisma, getD1 } from '@/lib/prisma';
 import { isBookingsEnabled, paidInRecommendations } from '@/booking/lib/flags';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 import type { BookingRecord } from '@/booking/lib/booking-record';
 
 export async function sendConfirmationFor(record: BookingRecord, lang: 'es' | 'en') {
@@ -19,6 +20,8 @@ export async function sendConfirmationFor(record: BookingRecord, lang: 'es' | 'e
         siteUrl: process.env.SITE_URL ?? '',
         getTour: (id, l) => getTourSummary(getPrisma(), id, l),
         getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: paidInRecommendations(process.env) }),
+        // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
+        freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
         getWeather: async (mp, eventDate) => {
             const c = coordsOf(mp);
             return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;

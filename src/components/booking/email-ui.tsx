@@ -4,6 +4,7 @@
  * marco blanco sobre azul marino, encabezado oscuro, pase tipo boarding pass y secciones numeradas.
  * Solo presentación.
  */
+import { Navbar } from '@/components/layout/Navbar';
 import type { ReactNode } from 'react';
 
 export const mono = 'font-mono text-[11px] uppercase tracking-[0.15em]';
@@ -23,6 +24,9 @@ export function Ghost({ href, children, external = true }: { href: string; child
 /** Marco de 600 px con la franja de colores, encabezado con logo y pie con logo animado y redes. */
 export function EmailFrame({ wa, socials, children, note }: { wa: string | null; socials: { name: string; url: string }[]; children: ReactNode; note?: string }) {
     return (
+        <>
+        {/* REQ-062: el mismo header del home (logo animado) en todo el acompañamiento y las reservas */}
+        <Navbar />
         <main className="min-h-screen bg-[#0A1330] px-3 py-6 sm:py-10">
             <div className="mx-auto max-w-[600px] overflow-hidden rounded-[20px] bg-white">
                 <div className="flex h-[3px]"><span className="w-[60%] bg-[#008DFF]" /><span className="w-1/4 bg-[#EAF54F]" /><span className="w-[15%] bg-[#C12909]" /></div>
@@ -52,6 +56,7 @@ export function EmailFrame({ wa, socials, children, note }: { wa: string | null;
             </div>
             {note && <p className="mx-auto mt-4 max-w-[600px] text-center text-xs text-[#5F73AD]">{note}</p>}
         </main>
+        </>
     );
 }
 

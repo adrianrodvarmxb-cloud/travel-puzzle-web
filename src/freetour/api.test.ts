@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { createFreetourApi } from "./api";
 import { FREETOUR_HOSTS } from "./lib/hosts";
 
-const config = { environment: "stage" as const, baseUrl: FREETOUR_HOSTS.stage, email: "e", password: "p" };
+const config = { environment: "stage" as const, apiVersion: "2.0" as const, baseUrl: FREETOUR_HOSTS.stage, email: "e", password: "p" };
 
 function fakeFetch() {
   return vi.fn(async (url: string) => {
@@ -48,5 +48,22 @@ describe("createFreetourApi", () => {
     );
     const api = createFreetourApi({ config, fetch: fetchImpl as unknown as typeof fetch });
     await expect(api.get("/booking/x")).rejects.toMatchObject({ status: 403, errorCode: 0, message: "Bookings are not allowed" });
+  });
+
+  it("REQ-077: un 429 trae el Retry-After para que el sync espere", async () => {
+    const fetchImpl = vi.fn(async (url: string) =>
+      url.endsWith("/login")
+        ? new Response(JSON.stringify({ data: { token: { accessToken: "tok" } } }))
+        : new Response("{}", { status: 429, headers: { "Retry-After": "120" } })
+    );
+    const api = createFreetourApi({ config, fetch: fetchImpl as unknown as typeof fetch });
+    await expect(api.get("/tours?page=1")).rejects.toMatchObject({ status: 429, retryAfter: "120", login: false });
+  });
+
+  it("REQ-077: un login rechazado se marca como login para no reintentarlo en bucle", async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify({ data: { errorMessage: "Bad credentials", errorCode: 1 } }), { status: 401 }));
+    const api = createFreetourApi({ config, fetch: fetchImpl as unknown as typeof fetch });
+    await expect(api.get("/tours?page=1")).rejects.toMatchObject({ status: 401, login: true });
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
   });
 });

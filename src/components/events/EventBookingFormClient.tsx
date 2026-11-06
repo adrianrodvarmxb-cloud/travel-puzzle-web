@@ -30,12 +30,14 @@ interface EventBookingFormClientProps {
     bookingsEnabled: boolean;
     wa: string | null;
     paidEnabled?: boolean;
+    /** REQ-083: ADULT_CONTACT_CHECK_ENABLED. */
+    adultContactCheck?: boolean;
 }
 
 /** Dos pasos: 01 Personas + 02 Tus datos → 03 Confirmar. La lógica vive en BookingFormProvider. */
 export function EventBookingFormClient(props: EventBookingFormClientProps) {
     return (
-        <BookingFormProvider eventId={props.eventId} bookingsEnabled={props.bookingsEnabled}>
+        <BookingFormProvider eventId={props.eventId} bookingsEnabled={props.bookingsEnabled} adultContactCheck={props.adultContactCheck}>
             <Steps {...props} />
         </BookingFormProvider>
     );
