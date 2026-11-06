@@ -17,7 +17,7 @@ export const siteUrl = () => process.env.SITE_URL || SITE_URL_DEFAULT;
 /** Árbol de destinos de la petición. Caché de 5 min (el sync escribe una vez al día). */
 export function getDestinations(): Promise<CountryNode[]> {
   const vis = visibilityFromEnv(process.env as Record<string, string | undefined>);
-  return cached(cacheKey("destinos", { v: "1", own: String(vis.own), transport: String(vis.transport) }), POLICY.toursList, () =>
+  return cached(cacheKey("destinos", { v: "2" /* REQ-520 */, own: String(vis.own), transport: String(vis.transport) }), POLICY.toursList, () =>
     withRetry(() => loadTree(destinationsRepo(getD1() as unknown as D1Read), new Date(), vis))
   );
 }

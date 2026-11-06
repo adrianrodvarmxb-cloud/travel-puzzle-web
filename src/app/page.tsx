@@ -44,7 +44,7 @@ export default async function Home() {
   // REQ-450/453: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
   const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
-  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels) }), POLICY.home, () =>
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), v: "tarjeta-unica" }) /* REQ-520: forma nueva de HomeTour */, POLICY.home, () =>
     withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips })),
   );
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.

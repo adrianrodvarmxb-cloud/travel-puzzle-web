@@ -18,6 +18,7 @@ import { withRetry } from '@/tours/lib/d1-load';
 import { cached, cacheKey, POLICY } from '@/cache/edge';
 import { priceLabelsFor, type CardPriceLabels } from '@/tours/lib/price-label';
 import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
+import { cardFormatsFor } from '@/tours/lib/card-format';
 import { loadFx } from '@/trips/public-load';
 
 /**
@@ -66,13 +67,16 @@ export async function fetchTours(
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
+    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[] };
+    const rows = ((list as { data?: Row[] }).data ?? []);
+    // REQ-522: formato de la taxonomía de cada tarjeta, calculado aquí (el diccionario no viaja al navegador).
+    const cardFormats = cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title) })));
     // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR + «aprox. MXN» de cada tarjeta, armado aquí (servidor, idioma fijo; INC-001).
-    if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return list;
-    const rows = ((list as { data?: { id: string; priceValue?: number | string; priceCurrency?: string }[] }).data ?? []);
+    if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return { ...list, cardFormats };
     const paid = rows.filter((t) => Number(t.priceValue ?? 0) > 0);
     const rates = paid.length ? await loadFx().catch(() => null) : null;
     const priceLabels: CardPriceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.priceValue, currency: t.priceCurrency })), rates, filters.language === 'es' ? 'es' : 'en');
-    return { ...list, priceLabels };
+    return { ...list, priceLabels, cardFormats };
   } catch (error) {
     console.error('Error fetching tours:', error);
     throw new Error('Failed to fetch tours');

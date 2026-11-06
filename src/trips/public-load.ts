@@ -18,6 +18,7 @@ import { summarize, HORIZON_DAYS } from "@/departures/lib/summary";
 import { policySummary } from "./lib/cancel-policy";
 import { ownTripGroup } from "@/tours/lib/extra-filters";
 import { isDayTripTrip } from "@/home/lib/experience-format";
+import { tripFormat } from "@/tours/lib/card-format";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
 /** Interruptores leídos del entorno (viajes propios y transporte por separado). */
@@ -55,16 +56,25 @@ export interface TripCard {
   agencyId?: string | null;
   /** REQ-453: excursión de un día (regla mínima REQ-451 con el título en es y en), para el carrusel del home. */
   dayTrip?: boolean;
+  /** REQ-524: nombre de la agencia (Big Bus, Extime, Exotic Escapes…); sin agencia, «Travel Puzzle» (REQ-148). */
+  provider?: string | null;
+  /** REQ-522: formato de la taxonomía (mapeo «propios»). */
+  formato?: string | null;
 }
+
+/** REQ-524: viaje sin agencia = de Travel Puzzle (REQ-148). */
+export const OWN_PROVIDER = "Travel Puzzle";
 
 async function publishedRows() {
   const prisma = getPrisma();
-  return prisma.trip.findMany({ where: { status: "published" }, orderBy: { updatedAt: "desc" }, take: 200 });
+  return prisma.trip.findMany({ where: { status: "published" }, orderBy: { updatedAt: "desc" }, take: 200, include: { agency: { select: { name: true } } } }); // REQ-524
 }
 
-export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Date | string }, lang: string, fx: FxRates | null, now: Date = new Date()): TripCard {
+export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Date | string; agencyName?: string | null }, lang: string, fx: FxRates | null, now: Date = new Date()): TripCard {
   const tr = (t.translations ?? {}) as Translations;
   const today = now.toISOString().slice(0, 10);
+  const titles = [t.titleEs, localized(tr, "en", "title", t.titleEs)];
+  const dayTrip = isDayTripTrip({ kind: t.kind, durationDays: t.durationDays, titles });
   const dep = summarize(ownTripDepartures({ languages: t.languages ?? [], availability: { weekdays: t.availability?.weekdays ?? [], closedDates: t.availability?.closedDates ?? [] }, minNoticeHours: t.minNoticeHours ?? 0 }, today, HORIZON_DAYS), today);
   return {
     id: t.id, path: tripPath(t), code: t.code, kind: t.kind,
@@ -76,7 +86,9 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
     agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
-    dayTrip: isDayTripTrip({ kind: t.kind, durationDays: t.durationDays, titles: [t.titleEs, localized(tr, "en", "title", t.titleEs)] }), // REQ-453
+    dayTrip, // REQ-453
+    provider: (t as { agencyId?: string | null }).agencyId ? (t.agencyName?.trim() || null) : OWN_PROVIDER, // REQ-524
+    formato: tripFormat({ kind: t.kind, priceFrom: t.priceFrom, durationDays: t.durationDays, titles, dayTrip }), // REQ-522
   };
 }
 
@@ -87,12 +99,12 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   try {
     // REQ-047 (INC-004): con decenas de viajes, armar las tarjetas son ~N+2 consultas a D1 por visita a / y /tours.
     // Se cachean como el catálogo (REQ-032): una carga por ventana, compartida entre visitas; si falla, se sirve la última copia.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "4" }), POLICY.toursList, async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "5" }), POLICY.toursList, async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));
       const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
-      return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations, createdAt: rows[i].createdAt }, lang, fx));
+      return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations, createdAt: rows[i].createdAt, agencyName: rows[i].agency?.name ?? null }, lang, fx));
     });
   } catch (error) {
     console.error("[viajes] no se cargaron las tarjetas:", (error as Error).message);

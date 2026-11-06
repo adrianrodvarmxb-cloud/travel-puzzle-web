@@ -11,6 +11,7 @@
 import { cityName } from "./dry-run";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
+import { catalogTourFormat, tripFormat } from "@/tours/lib/card-format";
 
 export interface CountryRow { id: number; code: string; iso2: string | null; translations: unknown }
 export interface CityRow {
@@ -40,9 +41,16 @@ export interface TourRow {
   status: TourStatus;
   isActive: boolean;
   updatedAt: string;
+  /** REQ-522: para el formato de la tarjeta (opcionales: filas viejas o de prueba quedan con el respaldo). */
+  categoryId?: number | null;
+  durationMinutes?: number | null;
 }
 /** Viaje propio publicado: países ISO-2 y ciudades por nombre, tal como se capturan en el gestor. */
-export interface TripRow { id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string }
+export interface TripRow {
+  id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string;
+  /** REQ-524: agencia (null = Travel Puzzle). REQ-523: días y resumen. Opcionales. */
+  agency?: string | null; agencyId?: string | null; durationDays?: number | null; summary?: string | null; priceFrom?: number | null;
+}
 
 export interface TourCardModel {
   id: string;
@@ -59,6 +67,11 @@ export interface TourCardModel {
   kind: "free" | "paid" | "own";
   priceLabel?: string | null;
   updatedAt: string;
+  /** REQ-522: formato de la taxonomía. REQ-523: ciudad, días y resumen para la tarjeta única. */
+  formato?: string | null;
+  city?: string | null;
+  durationDays?: number | null;
+  summary?: string | null;
 }
 
 export interface CityNode {
@@ -99,14 +112,20 @@ export function isListed(t: Pick<TourRow, "slug" | "isActive" | "status">): bool
   return !!t.slug && SLUG.test(t.slug) && t.isActive && t.status !== "removed";
 }
 
-export function tourCard(t: TourRow, countrySlug: string, citySlug: string): TourCardModel {
+export function tourCard(t: TourRow, countrySlug: string, citySlug: string, cityName: string | null = null): TourCardModel {
   const isFreeTour = Number(t.price) === 0;
   return {
     id: t.id, href: tourPath(countrySlug, citySlug, t.slug!), title: t.title, provider: t.provider, image: t.image,
     isFreeTour, price: Number(t.price), currency: t.currency, rating: t.rating, reviews: t.reviews, duration: t.duration,
     kind: isFreeTour ? "free" : "paid", updatedAt: t.updatedAt,
+    // REQ-522, REQ-523
+    formato: t.categoryId === undefined || t.categoryId === null ? null : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title] }),
+    city: cityName,
   };
 }
+
+/** REQ-524: un viaje sin agencia es de Travel Puzzle (REQ-148). */
+const tripProvider = (tr: TripRow) => (tr.agencyId ? tr.agency?.trim() || null : tr.agency === undefined ? null : "Travel Puzzle");
 
 const byReviews = (a: TourCardModel, b: TourCardModel) => b.reviews - a.reviews || Number(b.rating ?? 0) - Number(a.rating ?? 0) || a.title.localeCompare(b.title, "es");
 
@@ -135,12 +154,16 @@ export function destinationTree({ countries, cities, tours, trips, now }: TreeIn
     const nodes: CityNode[] = [];
     for (const city of cities.filter((x) => x.countryId === c.id && x.slug && SLUG.test(x.slug))) {
       const citySlug = city.slug!;
-      const mine = (toursByCity.get(city.id) ?? []).map((t) => tourCard(t, slug, citySlug));
+      const cityLabel = placeName(city.translations, citySlug);
+      const mine = (toursByCity.get(city.id) ?? []).map((t) => tourCard(t, slug, citySlug, cityLabel));
       const here = trips
         .filter((tr) => SLUG.test(tr.slug) && tripInCity(tr, iso2, city.translations))
         .map((tr): TourCardModel => ({
-          id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: null, image: tr.image, isFreeTour: false,
+          id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: tripProvider(tr), image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
+          // REQ-522, REQ-523
+          formato: tr.kind ? tripFormat({ kind: tr.kind, priceFrom: tr.priceFrom ?? null, durationDays: tr.durationDays ?? null, titles: [tr.title] }) : null,
+          city: cityLabel, durationDays: tr.durationDays ?? null, summary: tr.summary ?? null,
         }));
       // REQ-172: el transporte no es un tour; cuenta para que la ciudad tenga página, pero se lista en Traslados.
       const transportIds = new Set(trips.filter((tr) => tr.kind === "transporte").map((tr) => tr.id));
@@ -151,7 +174,7 @@ export function destinationTree({ countries, cities, tours, trips, now }: TreeIn
       const meets = cityMeetsRule({ activeTours, guide: city.guide });
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
       nodes.push({
-        id: city.id, slug: citySlug, name: placeName(city.translations, citySlug), href: cityPath(slug, citySlug), guide: city.guide,
+        id: city.id, slug: citySlug, name: cityLabel, href: cityPath(slug, citySlug), guide: city.guide,
         guideUpdatedAt: city.guideUpdatedAt, activeTours, indexed,
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),

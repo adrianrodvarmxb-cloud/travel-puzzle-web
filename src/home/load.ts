@@ -10,6 +10,7 @@ import type { TripCard } from "@/trips/public-load";
 import { catalogPrior, REVIEW_PRIOR_M, type Prior } from "./lib/review-score";
 import { pickDayTrips, pickMostChosen, HOME_CAROUSEL_SIZE } from "./lib/carousels";
 import { mentionsProviderBrand, titlesMentionBrand } from "./lib/brand";
+import { catalogTourFormat } from "@/tours/lib/card-format";
 import { parseTourRankRows, tripCandidate, type TourCandidate, type TripCandidate } from "./lib/rank-row";
 
 export interface HomeTour {
@@ -26,6 +27,13 @@ export interface HomeTour {
   duration: string;
   rating: number | null;
   reviews: number;
+  /** REQ-524: operador real (providerTitle); la tarjeta descarta FREETOUR. */
+  provider?: string | null;
+  /** REQ-522: formato de la taxonomía (src/tours/lib/card-format.ts), calculado aquí en el servidor. */
+  formato?: string | null;
+  durationMinutes?: number | null;
+  /** REQ-523: descripción breve por idioma (si no hay frase de reseña). */
+  briefs?: Record<string, string>;
 }
 
 export interface HomeStats {
@@ -132,9 +140,10 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
   };
   const select = {
     id: true, externalId: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
+    providerTitle: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524
     country: { select: { code: true } },
     city: { select: { translations: true } },
-    translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
+    translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true, brief: true } },
   } as const;
   const order = [{ reviewsNumber: "desc" as const }];
   const [paid, free] = await Promise.all([
@@ -150,16 +159,27 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     return [{
       id: t.id, externalId: t.externalId, titles, cityNames: asNames(t.city?.translations), image: t.titleImageURL,
       isFree: Number(t.priceValue) === 0, price: Number(t.priceValue), currency: t.priceCurrency, duration: t.duration,
-      rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber,
+      rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber, ...cardExtras(t),
     }];
   });
 }
 
 const TOUR_SELECT = {
   id: true, externalId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
+  providerTitle: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524
   city: { select: { translations: true } },
-  translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
+  translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true, brief: true } },
 } as const;
+
+/** REQ-522…524: lo que la tarjeta única necesita además (proveedor, formato, duración y descripción breve). */
+function cardExtras(t: { providerTitle: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[] }) {
+  return {
+    provider: t.providerTitle ?? null,
+    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title) }),
+    durationMinutes: t.durationMinutes ?? null,
+    briefs: Object.fromEntries(t.translations.filter((x) => x.brief && x.brief.trim()).map((x) => [x.language, x.brief as string])),
+  };
+}
 
 /** REQ-450: C del medidor = promedio del catálogo ponderado por reseñas. */
 async function loadPrior(prisma: PrismaClient): Promise<Prior> {
@@ -208,7 +228,7 @@ async function hydrateTours(prisma: PrismaClient, ids: string[]): Promise<Map<st
     out.set(t.id, {
       id: t.id, externalId: t.externalId, titles, cityNames: asNames(t.city?.translations), image: t.titleImageURL,
       isFree: Number(t.priceValue) === 0, price: Number(t.priceValue), currency: t.priceCurrency, duration: t.duration,
-      rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber,
+      rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber, ...cardExtras(t),
     });
   }
   return out;
