@@ -56,6 +56,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 ## Banderas (wrangler.jsonc, 5 nov 2026)
 - Encendidas: `BOOKINGS_ENABLED`, `EDIT_ENABLED`, `EMAILS_ENABLED`, `OWN_TOURS_ENABLED`, `TRANSFERS_ENABLED`, `AFFILIATES_ENABLED`, `DEPARTURES_SYNC_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`.
 - Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`.
 - `PRIMERA_PIEZA_ENABLED=false` — menú con La Primera Pieza y Destinos, y /llms.txt. No encender antes de que existan /la-primera-pieza y /destinos (Olas 3 y 4).
 - `SYNC_GUARD_ENABLED=false`: sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
@@ -137,6 +138,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-057 | Búsqueda por destino y palabra completa (INC-005) | `src/catalog/lib/query.ts`, `src/trips/lib/public.ts` | `query.test.ts`, `public.test.ts` | CUMPLIDO |
 | REQ-122 | Búsqueda por destino dentro del texto y palabra exacta primero (gates 5 nov 2026) | `src/catalog/lib/query.ts`, `src/search/lib/fts-query.ts`, `src/search/lib/words.ts`, `src/search/fts-search.ts`, `src/search/ranked.ts`, `tour-repository.ts` | `query.test.ts`, `fts-query.test.ts`, `fts-search.test.ts`, `busqueda-destino.test.ts` | CUMPLIDO (apagado) |
 | REQ-280…285 | Buscador tolerante S2: normalize, damerau, umbrales, SymSpell (índice curado en el build), esMetaphone con seseo, alias curados y nombres que chocan (gates 6 nov 2026) | `src/search/lib/{normalize,damerau,threshold,symspell,es-metaphone,aliases,fuzzy}.ts`, `src/search/fuzzy.ts`, `data/search-aliases.json`, `src/scripts/search-index.ts`, `tour-repository.ts` | `fuzzy-parts.test.ts`, `fuzzy.test.ts`, `src/search/fuzzy.test.ts` | CUMPLIDO (apagado: `SEARCH_FUZZY_ENABLED="false"`) |
+| REQ-290…294 | Buscador S3: autocompletado agrupado con «¿Quisiste decir…?», teclado y cero resultados con salida y WhatsApp | `src/search/lib/suggest.ts`, `src/search/lib/suggest-copy.ts`, `src/search/suggest.ts`, `src/app/api/search/{suggest,recover}`, `src/components/search/*`, `ToursHeader.tsx`, `ToursPageClient.tsx` | `suggest.test.ts` (lib y raíz) | CUMPLIDO (apagado: `SEARCH_SUGGEST_ENABLED="false"`) |
 | REQ-058 | Llave de caché del catálogo con firma de forma | `src/catalog/lib/query.ts`, `src/catalog/snapshot.ts` | `query.test.ts` | CUMPLIDO |
 | REQ-059 | "Cómo funciona tu reserva" según lo que existe (Stripe tras bandera) | `src/trips/lib/booking-steps.ts`, ficha `/viajes` | `booking-steps.test.ts` | CUMPLIDO |
 | REQ-060 | Política de cancelación solo desde la casilla de aceptación | ficha `/viajes`, `PolicyLink.tsx`, `TripRequestForm.tsx` | revisión visual 390/1366 | CUMPLIDO (validar con abogado) |
