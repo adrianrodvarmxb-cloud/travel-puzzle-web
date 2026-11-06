@@ -15,6 +15,7 @@ const ENVOLTURAS: Record<string, string> = {
   BookingPageView: "src/app/reserva/[token]/BookingPageView.tsx",
   DestinationsLayout: "src/components/destinations/DestinationsLayout.tsx",
   TripDetailView: "src/components/trips/TripDetailView.tsx",
+  BlogShell: "src/components/blog/BlogShell.tsx",
 };
 
 function pages(dir: string, out: string[] = []): string[] {
