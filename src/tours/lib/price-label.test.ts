@@ -22,3 +22,16 @@ describe("REQ-170: precio de tour de pago en EUR con MXN aproximado (FREETOUR D4
     expect(tourPriceLabel(Number.NaN, "EUR", rates, "es")).toBeNull();
   });
 });
+
+describe("REQ-170: tarjetas de /tours y destacadas del inicio (EUR + MXN aprox., servidor)", () => {
+  it("REQ-170: un mapa por id solo con los tours de pago; el free tour no lleva etiqueta", async () => {
+    const { priceLabelsFor } = await import("./price-label");
+    expect(priceLabelsFor([{ id: "a", price: 25, currency: "EUR" }, { id: "b", price: 0, currency: "EUR" }], rates, "es")).toEqual({
+      a: { main: "EUR €25", approx: "aprox. MXN $510" },
+    });
+  });
+  it("REQ-170: sin tipo de cambio, solo EUR; precio como texto (Decimal serializado) también sirve", async () => {
+    const { priceLabelsFor } = await import("./price-label");
+    expect(priceLabelsFor([{ id: "a", price: "12.5", currency: "EUR" }], null, "en")).toEqual({ a: { main: "EUR €12.50", approx: null } });
+  });
+});
