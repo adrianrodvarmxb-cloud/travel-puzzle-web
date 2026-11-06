@@ -91,7 +91,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-002 | Si una sección falla, el resto sigue | `src/components/common/SectionBoundary.tsx`, `src/app/page.tsx`, `ToursPageClient.tsx` | `SectionBoundary.test.ts` | CUMPLIDO |
 | REQ-003 | Ningún deploy llega a producción si el smoke falla | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO (deploy #60) |
 | REQ-004 | País de tarjetas calculado en el servidor | `src/trips/lib/geo.ts`, `src/trips/public-load.ts`, `OwnTripCard.tsx` | `OwnTripCard.test.ts`, `geo.test.ts` | CUMPLIDO |
-Detalle: `docs/incidentes/INC-001.md`.
+| REQ-221 | Errores del navegador a los logs del Worker (`client-error`, zod) | `src/ops/lib/clientError.ts`, `src/app/api/client-error/route.ts`, `src/ops/reportClientError.ts`, `ClientErrorListener.tsx`, `SectionBoundary.tsx`, `error.tsx`, `global-error.tsx`, `tours/error.tsx` | `clientError.test.ts` | CUMPLIDO (logs en producción: PENDIENTE tras merge) |
+| REQ-222 | Regreso a mano (Cloudflare o revert en GitHub) | `docs/runbooks/rollback.md` | (documento) | CUMPLIDO |
+| REQ-223 | Humo abre /ayuda y /admin/entrar (404 válido tras bandera) y detecta las pantallas de error | `tests/smoke/pages.json`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO |
+| REQ-224 | `tsc --noEmit` como gate en PR y deploy | `.github/workflows/prueba-humo.yml`, `.github/workflows/deploy-cloudflare.yml` | `tsc-gate-workflow.test.ts` | CUMPLIDO |
+Detalle: `docs/incidentes/INC-001.md`. Regreso a mano: `docs/runbooks/rollback.md`.
 
 ## Ola X2a — venta cruzada en fichas (3 nov 2026)
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -278,6 +282,7 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-182 | Enlace a «Arma tu viaje» en confirmación, /reserva/{token} y correo (tras bandera) | `src/cart/lib/links.ts`, `components/booking/TripLinkCard.tsx`, `EventBookingConfirm.tsx`, `BookingFormContext.tsx`, `app/reserva/[token]/*`, `api/freetour/booking/route.ts`, `booking/notify.ts`, `notifications/lib/booking-email.ts` | `links.test.ts`, `TripLinkCard.test.ts`, `BookingConfirmed.test.ts`, `notify.test.ts`, `booking-email.test.ts` | CUMPLIDO (apagado) |
 | REQ-183 | «Costo 0» solo sin tarifa fija | `src/cart/lib/piece.ts`, `src/cart/lib/page-model.ts` | `piece.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
 | REQ-184 | Carrusel en celular: proveedor real antes que cotización | `src/companions/lib/carousel.ts`, `components/companions/CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
+| REQ-219 | Inicio sin títulos con «FreeTour» / «Free Tour» (favoritos, reseñas destacadas, carrusel de viajes) | `src/home/lib/brand.ts`, `src/home/load.ts`, `src/app/page.tsx` | `brand.test.ts`, `load.test.ts` | CUMPLIDO |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.
 
