@@ -44,3 +44,17 @@ describe("secretos que viajan con la versión (INC-006)", () => {
     expect(() => nombresDeSecretos('{"error":1}')).toThrow();
   });
 });
+
+describe("REQ-188: llave del agente compartida con mila-zoefel", async () => {
+  const { clavesCompartidasQueFaltan, armarSecretos: armar } = await import("./worker-secrets");
+  it("REQ-188: si falta AGENTE_TOKEN se genera una vez, con su destino en mila-zoefel", () => {
+    expect(clavesCompartidasQueFaltan({ existentes: ["AUTH_SECRET"], generar: () => "k" })).toEqual([
+      { nombre: "AGENTE_TOKEN", worker: "mila-zoefel", comoSeLlamaAlla: "CATALOGO_TRAVEL_PUZZLE", valor: "k" }]);
+  });
+  it("REQ-188: si ya existe no se toca (no se rota sola)", () => {
+    expect(clavesCompartidasQueFaltan({ existentes: ["AGENTE_TOKEN"], generar: () => "k" })).toEqual([]);
+  });
+  it("REQ-188: no cambia lo que arma REQ-155", () => {
+    expect(armar({ env: {}, existentes: ["CRON_SECRET", "AUTH_SECRET"], generar: () => "x" }).generados).toEqual([]);
+  });
+});
