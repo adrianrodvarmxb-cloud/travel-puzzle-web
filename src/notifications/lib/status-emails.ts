@@ -8,6 +8,7 @@
 import { BRAND as B } from "./brand";
 import { esc, kit, renderShell, supportCard, whatsappUrl, UI, MONO, type ContactInfo } from "./email-layout";
 import { describeBooking, calendarLinks, type EmailLang } from "./booking-email";
+import { crossSellText, renderCrossSellHtml, type CrossSellBlock } from "./cross-sell";
 
 export type StatusKind = "rejected" | "canceled" | "modified";
 
@@ -37,6 +38,8 @@ export interface StatusEmailData {
   animatedLogoUrl?: string;
   iconsBaseUrl?: string;
   contact?: ContactInfo;
+  /** REQ-262 / REQ-264: venta cruzada; solo se pinta en «modified», nunca en rechazo ni cancelación. */
+  crossSell?: CrossSellBlock | null;
 }
 
 const T = {
@@ -144,6 +147,7 @@ export function buildStatusEmail(d: StatusEmailData) {
   const subject = k.subject(d.tourTitle);
   const color = STATUS_COLOR[d.kind];
   const dim = !isActive ? "opacity:0.75;" : "";
+  const cross = d.kind === "modified" ? d.crossSell ?? null : null; // REQ-262
 
   const body = `<tr><td style="background:${N9};background-image:linear-gradient(160deg,${N9} 0%,${N8} 55%,${B.darkBlue} 100%);padding:26px 26px 30px">
 ${status(k.status, color.dot, color.text)}
@@ -184,6 +188,8 @@ ${eyebrow(t.explore)}${h2(k.moreTitle(d.cityName ?? null))}
 <div style="font-size:12px;font-weight:700;color:${B.lightBlue};margin-top:8px">${esc(t.see)} →</div></a></td>`).join("")}</tr></table>
 </td></tr>` : ""}
 
+${renderCrossSellHtml(cross, eyebrow)}
+
 ${supportCard({ eyebrow: eyebrow(t.support, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl })}`;
 
   const html = renderShell({
@@ -213,6 +219,7 @@ ${supportCard({ eyebrow: eyebrow(t.support, DIM), title: t.help, subtitle: t.waS
     ...(reason ? ["", `${k.reason}: ${reason}`] : []),
     ...(ctaUrl ? ["", `${k.cta}: ${ctaUrl}`] : []),
     ...(more.length ? ["", k.moreTitle(d.cityName ?? null), ...more.map((x) => `- ${x.title}: ${x.url}`)] : []),
+    ...crossSellText(cross),
     ...(waUrl ? ["", `${t.whatsapp}: ${waUrl}`] : []),
     "",
     `${t.slogan} · ${t.footer}`,

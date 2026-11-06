@@ -1,13 +1,15 @@
 /**
  * Secciones del inicio, en el orden en que el home las pinta, para el menú de las tres rayitas (celular).
  * REQ-068: es la única lista; un test compara contra src/app/page.tsx, así que una sección nueva sin entrada aquí rompe CI.
- * `when`: la sección solo existe con esa bandera encendida (p. ej. viajes propios con OWN_TOURS_ENABLED).
+ * `when`: la sección solo existe con esa bandera encendida (p. ej. «Excursiones de un día» con CARRUSELES_HOME_ENABLED).
+ * REQ-452: la sección «viajes» se borró por decisión del PO (6 nov 2026): su título afirmaba algo falso,
+ * esos viajes son de proveedores.
  */
-export interface SectionFlags { ownTrips?: boolean }
+export interface SectionFlags { dayTrips?: boolean }
 const SECTIONS: { id: string; es: string; en: string; when?: keyof SectionFlags }[] = [
   { id: "destinos", es: "Destinos", en: "Destinations" },
   { id: "favoritos", es: "Favoritos de los viajeros", en: "Traveler favorites" },
-  { id: "viajes", es: "Viajes armados por expertos", en: "Trips by our experts", when: "ownTrips" },
+  { id: "excursiones", es: "Excursiones de un día", en: "Day trips", when: "dayTrips" }, // REQ-453
   { id: "como-funciona", es: "Cómo funciona", en: "How it works" },
   { id: "continentes", es: "Explora por continente", en: "Explore by continent" },
   { id: "mapa", es: "El mapa", en: "The map" },

@@ -9,6 +9,7 @@ import { findEventInfo } from '@/booking/lib/event-info';
 import { newManageToken } from '@/booking/lib/token';
 import { getPrisma, getD1 } from '@/lib/prisma';
 import { sendBookingConfirmation } from '@/booking/notify';
+import { crossSellDepsFromEnv } from '@/notifications/cross-sell-deps';
 import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { createReviewRepo } from '@/reviews/repository';
@@ -83,6 +84,8 @@ export async function POST(request: NextRequest) {
                 freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
                 // REQ-182: enlace a «Arma tu viaje» en la confirmación, solo con ARMA_TU_VIAJE_ENABLED.
                 armaTuViaje: cartFlags(process.env as Record<string, string | undefined>).enabled,
+                // REQ-264: venta cruzada sin FREETOUR, tras EMAIL_CROSS_SELL_ENABLED (apagada).
+                crossSell: crossSellDepsFromEnv(process.env as Record<string, string | undefined>),
                 getWeather: async (mp, eventDate) => {
                     const c = coordsOf(mp);
                     return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;

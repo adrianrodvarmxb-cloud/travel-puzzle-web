@@ -54,3 +54,6 @@ next-env.d.ts
 /.open-next
 /.wrangler
 .dev.vars
+
+# REQ-500: evidencia local de la prueba de humo (en CI se sube como artefacto)
+/smoke-evidencia
