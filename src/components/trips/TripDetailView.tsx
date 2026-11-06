@@ -11,6 +11,7 @@ import { TripGallery } from '@/components/trips/TripGallery';
 import { TripSection, TripList } from '@/components/trips/TripSection';
 import { TripPriceBox } from '@/components/trips/TripPriceBox';
 import { TripGuarantees } from '@/components/trips/TripGuarantees';
+import { guaranteeItems, onlinePaymentsFromEnv } from '@/trips/lib/guarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
 import { TripRequestForm } from '@/components/trips/TripRequestForm';
 import { policySummary, policyText } from '@/trips/lib/cancel-policy';
@@ -172,7 +173,7 @@ export async function TripDetailView({ data, path, breadcrumbs }: { data: TripDa
                                     <li className="font-data text-[11px] uppercase tracking-wider text-[#7F8DB0]">{trip.code}</li>
                                 </ul>
                             </div>
-                            <TripGuarantees c={c} />
+                            <TripGuarantees c={c} items={guaranteeItems(trip, { onlinePayments: onlinePaymentsFromEnv(env) }, c)} />
                         </aside>
                     </div>
                 </div>
