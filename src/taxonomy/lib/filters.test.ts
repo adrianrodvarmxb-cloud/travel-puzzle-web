@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DICTIONARY as D } from "../data/index";
 import type { TerminoFormato } from "../schemas/dictionary";
-import { FORMATO_LABEL, FORMATOS_FILTRO, formatoOptions, parseFormatos, taxonomyFiltersEnabled, toursRobots } from "./filters";
+import { FORMATO_LABEL, FORMATOS_FILTRO, formatoLabel, formatoOptions, parseFormatos, taxonomyFiltersEnabled, toursRobots } from "./filters";
 import { parseExtraFilters, extraFiltersToParams, countActive } from "@/tours/lib/extra-filters";
 import { queryCatalog, type CatalogEntry } from "@/catalog/lib/query";
 import { matchesToursFilter } from "@/trips/lib/public";
@@ -73,5 +73,15 @@ describe("T4 integración con los filtros de hoy", () => {
     const trip = { countries: ["PE"], kind: "circuito" as const, formato: "circuito" };
     expect(matchesToursFilter(trip, { kind: "all", formatos: ["circuito"] } as never)).toBe(true);
     expect(matchesToursFilter(trip, { kind: "all", formatos: ["tour"] } as never)).toBe(false);
+  });
+});
+
+describe("REQ-269 chip de pieza-libre = «Pieza libre» (PO 6-11 10:43)", () => {
+  it("el chip dice «Pieza libre» en español y «Free tour» en inglés, igual que el diccionario", async () => {
+    const { DEFAULT_DICTIONARY } = await import("@/taxonomy/data");
+    const t = DEFAULT_DICTIONARY.terminos.find((x) => x.slug === "pieza-libre")!;
+    expect(formatoLabel("pieza-libre", "es")).toBe("Pieza libre");
+    expect(formatoLabel("pieza-libre", "en")).toBe("Free tour");
+    expect(FORMATO_LABEL["pieza-libre"]).toEqual({ es: t.termino_es, en: t.termino_en });
   });
 });

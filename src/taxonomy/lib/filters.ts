@@ -17,7 +17,7 @@ export type FormatoFiltro = (typeof FORMATOS_FILTRO)[number];
 
 /** Etiquetas visibles (es y en del diccionario; pt/de/fr/it del flujo de traducción en T5, mientras tanto en inglés). */
 export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
-  "pieza-libre": { es: "Free tour", en: "Tip-based free tour" },
+  "pieza-libre": { es: "Pieza libre", en: "Free tour" }, // REQ-269 (PO 6-11 10:43); EN «Free piece» por firmar
   caminata: { es: "Caminata (tour a pie)", en: "Walking tour" },
   tour: { es: "Tour", en: "Guided tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },

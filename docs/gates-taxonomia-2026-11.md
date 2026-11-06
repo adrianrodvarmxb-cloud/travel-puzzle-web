@@ -16,7 +16,8 @@ G-T9 = A (title «– Excursión desde {Ciudad}», T5) · G-T10 = A (por-revisar
 |---|---|---|
 | 1 | Apoyo de «Momentos de autor» | **Firmado por el PO**: se quita «operadas por expertos locales» («no es cierto»); el apoyo es la definición de §7.3: «Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.» |
 | 2 | Términos mexicanos «Boletos y entradas» y «Renta» | Firmado por recomendación |
-| 3 | «Free tour» como etiqueta pública de `pieza-libre`; «La Primera Pieza» solo como colección | Firmado por recomendación |
+| 3 | ~~«Free tour» como etiqueta pública de `pieza-libre`~~; «La Primera Pieza» solo como colección | **Anulada por el PO (6-11 10:43)**: la etiqueta pública es **«Pieza libre»** (término ES del diccionario, chips de /tours y de la ciudad, etiqueta junto a la insignia). «Free tour», «free tour» y «tour gratis» quedan como sinónimos de búsqueda. La colección sigue llamándose «La Primera Pieza». REQ-269. |
+| 3-EN | Término en inglés de `pieza-libre` | **Por firmar.** Por ahora «Free tour»; propuesta: «Free piece». |
 | 4 | Renta en la sección Traslados | Firmado por recomendación |
 | 5 | «Salud» (2024) como sinónimo de búsqueda de Bienestar | Firmado por recomendación |
 | 6 | D-T1: reglas por palabra antes de Free tour (hoy cambia 0 tours) | Firmado por recomendación |
