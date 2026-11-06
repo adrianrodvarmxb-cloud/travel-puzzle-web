@@ -13,6 +13,7 @@ import { trasladosMode } from '@/transfers/lib/page-mode';
 import { PRIMERA_PIEZA_LABEL } from '@/tours/lib/menu';
 import { providerCities, type TripCitiesDb } from '@/companions/load';
 import { getPrisma } from '@/lib/prisma';
+import { loadFx } from '@/trips/public-load';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string }> };
@@ -43,6 +44,8 @@ export default async function CityPage({ params }: Props) {
     const groups = hubModel(DEFAULT_REGISTRY, { whatsapp: contactFromEnv(env).whatsapp, citiesByEntry: Object.fromEntries(requestCities) });
     const transport = cityTransportCards(groups, city.name, trasladosMode(env) !== 'hidden');
     const tours = [...city.paidTours, ...city.ownTrips];
+    // REQ-170: tipo de cambio para el «aprox. MXN» de las tarjetas de pago; si falla, solo EUR.
+    const rates = city.paidTours.length ? await loadFx().catch(() => null) : null;
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
             intro={`${city.freeTours.length} free tours y ${tours.length} tours con guías locales en ${city.name}.`}>
@@ -53,7 +56,7 @@ export default async function CityPage({ params }: Props) {
             )}
             {tours.length > 0 && (
                 <Section id="tours" title="Tours" subtitle="Tours con precio y viajes de Travel Puzzle.">
-                    <TourGrid tours={tours} />
+                    <TourGrid tours={tours} rates={rates} />
                 </Section>
             )}
             {transport.length > 0 && (
