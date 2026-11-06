@@ -1,0 +1,405 @@
+{
+  "proveedor": "freetour",
+  "version": "2026-11-06",
+  "revisado": "docs/freetour/categorias.csv homologado (PO, 6-11-2026)",
+  "precioCeroEsPiezaLibre": true,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "3",
+      "nombre_es": "Cruceros y barcos",
+      "nombre_en": "Cruises & Boat",
+      "formato": "tour",
+      "temas": [
+        "playa-mar"
+      ],
+      "atributos": [
+        "medio:barco"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "4",
+      "nombre_es": "Viajes de 1 Día",
+      "nombre_en": "Day Trips",
+      "formato": "excursion-dia",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "5",
+      "nombre_es": "Tour Gastronómico",
+      "nombre_en": "Food & Drink",
+      "formato": "tour",
+      "temas": [
+        "gastronomia"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "experiencia-unica"
+      ],
+      "estado": "activo"
+    },
+    {
+      "id": "7",
+      "nombre_es": "Vida Nocturna",
+      "nombre_en": "Night Life",
+      "formato": "experiencia-unica",
+      "temas": [
+        "noche-espectaculos"
+      ],
+      "atributos": [
+        "nocturno"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "8",
+      "nombre_es": "Tour Online",
+      "nombre_en": "Online Tour",
+      "formato": "fuera",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "oculto"
+    },
+    {
+      "id": "10",
+      "nombre_es": "Tour Corriendo",
+      "nombre_en": "Running Tour",
+      "formato": "caminata",
+      "temas": [
+        "deportivo",
+        "urbano"
+      ],
+      "atributos": [
+        "medio:a-pie"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "12",
+      "nombre_es": "Tour a Pie",
+      "nombre_en": "Walking Tour",
+      "formato": "caminata",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [
+        "medio:a-pie"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "13",
+      "nombre_es": "Otros",
+      "nombre_en": "Other",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "traslado",
+        "entradas"
+      ],
+      "estado": "activo"
+    },
+    {
+      "id": "14",
+      "nombre_es": "Top selección",
+      "nombre_en": "Top Picks",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "traslado",
+        "entradas"
+      ],
+      "estado": "activo"
+    },
+    {
+      "id": "16",
+      "nombre_es": "Tours de aventura",
+      "nombre_en": "Adventure Tours",
+      "formato": "experiencia-unica",
+      "temas": [
+        "aventura"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "17",
+      "nombre_es": "Audioguías",
+      "nombre_en": "Audio guides",
+      "formato": "autoguiado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "18",
+      "nombre_es": "Aviación",
+      "nombre_en": "Aviation",
+      "formato": "experiencia-unica",
+      "temas": [
+        "aventura"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "19",
+      "nombre_es": "Tours en vehículo por la ciudad",
+      "nombre_en": "City Ride Tours",
+      "formato": "tour",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [
+        "medio:vehiculo"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "20",
+      "nombre_es": "Entradas",
+      "nombre_en": "Entrance tickets",
+      "formato": "entradas",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "21",
+      "nombre_es": "Juegos y ocio",
+      "nombre_en": "Games & Leisure",
+      "formato": "experiencia-unica",
+      "temas": [
+        "parques-ocio"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "22",
+      "nombre_es": "Sitios históricos",
+      "nombre_en": "Historic Sites",
+      "formato": "tour",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "23",
+      "nombre_es": "Deportes de motor",
+      "nombre_en": "Motorsports",
+      "formato": "experiencia-unica",
+      "temas": [
+        "aventura",
+        "deportivo"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "24",
+      "nombre_es": "Museos",
+      "nombre_en": "Museums",
+      "formato": "entradas",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "25",
+      "nombre_es": "Naturaleza y parques",
+      "nombre_en": "Nature & Parks",
+      "formato": "tour",
+      "temas": [
+        "naturaleza"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "26",
+      "nombre_es": "Alquileres",
+      "nombre_en": "Rentals",
+      "formato": "alquiler",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "tras_bandera"
+    },
+    {
+      "id": "27",
+      "nombre_es": "Espectáculos en vivo",
+      "nombre_en": "Live Shows",
+      "formato": "experiencia-unica",
+      "temas": [
+        "cultural",
+        "noche-espectaculos"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "28",
+      "nombre_es": "Pases urbanos",
+      "nombre_en": "City Passes",
+      "formato": "entradas",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "29",
+      "nombre_es": "Traslados",
+      "nombre_en": "Transfers",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "30",
+      "nombre_es": "Transporte público",
+      "nombre_en": "Public Transport",
+      "formato": "transporte",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "31",
+      "nombre_es": "Servicios de viaje",
+      "nombre_en": "Travel services",
+      "formato": "fuera",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "oculto"
+    },
+    {
+      "id": "32",
+      "nombre_es": "Actividades acuáticas",
+      "nombre_en": "Water activities",
+      "formato": "experiencia-unica",
+      "temas": [
+        "playa-mar"
+      ],
+      "atributos": [
+        "medio:barco"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "33",
+      "nombre_es": "Bienestar",
+      "nombre_en": "Wellness",
+      "formato": "experiencia-unica",
+      "temas": [
+        "bienestar"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "34",
+      "nombre_es": "Talleres",
+      "nombre_en": "Workshops",
+      "formato": "experiencia-unica",
+      "temas": [
+        "talleres-aprendizaje"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "35",
+      "nombre_es": "Zoológicos y acuarios",
+      "nombre_en": "Zoos & aquariums",
+      "formato": "entradas",
+      "temas": [
+        "naturaleza",
+        "parques-ocio"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo"
+    },
+    {
+      "id": "1",
+      "nombre_es": "Tour en Bici (ya no existe)",
+      "nombre_en": "Bike Tour",
+      "formato": "por-revisar",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "historico",
+      "nota": "Firmado 6-11: no se publica si reaparece."
+    },
+    {
+      "id": "2",
+      "nombre_es": "Tour en Bus (ya no existe)",
+      "nombre_en": "Bus Tour",
+      "formato": "por-revisar",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "historico",
+      "nota": "Firmado 6-11: no se publica si reaparece."
+    },
+    {
+      "id": "6",
+      "nombre_es": "(id retirado)",
+      "nombre_en": "",
+      "formato": "por-revisar",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "historico",
+      "nota": "Firmado 6-11: no se publica si reaparece."
+    },
+    {
+      "id": "9",
+      "nombre_es": "(id retirado)",
+      "nombre_en": "",
+      "formato": "por-revisar",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "historico",
+      "nota": "Firmado 6-11: no se publica si reaparece."
+    }
+  ]
+}

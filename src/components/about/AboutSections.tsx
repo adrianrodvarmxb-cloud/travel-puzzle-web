@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SectionHeading } from '@/components/home/v2/SectionHeading';
-import { ProofStrip } from '@/components/home/v2/ProofStrip';
+import { ProofStrip, type ProofCounts } from '@/components/home/v2/ProofStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { DarkCard } from '@/components/site/PageHeader';
 import { aboutSectionsToShow, type AboutSection } from '@/about/lib/content';
@@ -9,7 +9,7 @@ import type { HomeStats } from '@/home/load';
 const n = (i: number) => String(i + 1).padStart(2, '0');
 
 /** REQ-243: pinta solo las secciones visibles (ya filtradas en el servidor); numera sin saltos. */
-export function AboutSections({ sections, stats }: { sections: AboutSection[]; stats: HomeStats | null }) {
+export function AboutSections({ sections, stats, counts }: { sections: AboutSection[]; stats: HomeStats | null; counts: ProofCounts | null }) {
   const shown = aboutSectionsToShow(sections, stats);
   return (
     <>
@@ -34,7 +34,7 @@ export function AboutSections({ sections, stats }: { sections: AboutSection[]; s
             return (
               <section key={s.id} id={s.id} className="scroll-mt-24 py-12">
                 <div className="mx-auto max-w-5xl px-4"><SectionHeading eyebrow={eyebrow} title={s.title} /></div>
-                <SectionBoundary name="nosotros-cifras"><ProofStrip stats={stats!} /></SectionBoundary>
+                <SectionBoundary name="nosotros-cifras"><ProofStrip stats={stats!} counts={counts!} /></SectionBoundary>
               </section>
             );
           case 'facts':

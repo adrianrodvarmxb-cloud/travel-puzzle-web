@@ -1,7 +1,10 @@
 'use client';
+import { useEffect } from 'react';
+import { reportClientError } from '@/ops/reportClientError';
 /* eslint-disable @next/next/no-img-element */
 /** INC-003 (regla 7): último respaldo de toda la app; nunca pantalla en blanco. */
-export default function GlobalError({ reset }: { error: Error; reset: () => void }) {
+export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  useEffect(() => reportClientError(error, 'global', error.digest), [error]); // REQ-221
   return (
     <html lang="es">
       <body style={{ fontFamily: 'system-ui, sans-serif', background: '#0b1630', color: '#fff', margin: 0 }}>

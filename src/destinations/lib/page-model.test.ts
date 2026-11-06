@@ -23,6 +23,8 @@ describe("REQ-099: titles y H1 por página", () => {
   it("REQ-099: hubs empiezan por la sección; ciudad con free tours usa el patrón firmado", () => {
     expect(primeraPiezaPage(tree, site).meta.title).toBe("La Primera Pieza | Travel Puzzle");
     expect(destinosPage(tree, site).meta.title).toBe("Destinos | Travel Puzzle");
+    // REQ-173 (PO, 6 nov 2026): description SEO de /destinos.
+    expect(destinosPage(tree, site).meta.description).toMatch(/^Free tours, experiencias y traslados en /);
     expect(countryPage(tree[0], site).meta.title).toBe("México | Travel Puzzle");
     expect(cityPage(cdmx.country, cdmx.city, site).meta.title).toBe("Free tours en Ciudad de México: tú decides cuánto vale | Travel Puzzle");
     expect(cityPage(cdmx.country, cdmx.city, site).h1).toBe("Ciudad de México");
@@ -177,7 +179,7 @@ describe("REQ-092: página 410 (con el header del sitio)", () => {
     expect(goneViewFromPlace(removed)).toEqual({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
   });
   it("REQ-092: sin tour, o si el tour sigue activo, se usa el texto fijo (nunca un parámetro)", () => {
-    const fixed = { title: "Este tour", cityName: "otros destinos", cityHref: "/destinos" };
+    const fixed = { title: "Esta experiencia", cityName: "otros destinos", cityHref: "/destinos" };
     expect(goneViewFromPlace(null)).toEqual(fixed);
     expect(goneViewFromPlace({ ...removed, status: "active" })).toEqual(fixed);
     expect(goneViewFromPlace({ ...removed, status: "missing" })).toEqual(fixed);
@@ -185,7 +187,7 @@ describe("REQ-092: página 410 (con el header del sitio)", () => {
   it("REQ-092: si la ciudad ya no tiene tours o no tiene slug, enlaza a /destinos; título vacío o largo con respaldo", () => {
     expect(goneViewFromPlace({ ...removed, cityLive: false })).toMatchObject({ cityName: "otros destinos", cityHref: "/destinos" });
     expect(goneViewFromPlace({ ...removed, citySlug: null })).toMatchObject({ cityHref: "/destinos" });
-    expect(goneViewFromPlace({ ...removed, title: "  " }).title).toBe("Este tour");
+    expect(goneViewFromPlace({ ...removed, title: "  " }).title).toBe("Esta experiencia");
     expect(goneViewFromPlace({ ...removed, title: "x".repeat(500) }).title).toHaveLength(160);
   });
 });
