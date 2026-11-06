@@ -16,6 +16,9 @@ import { freeTourClient } from '@/lib/api/freetour-client';
 import type { PaginationParams } from '@/lib/db/pagination';
 import { withRetry } from '@/tours/lib/d1-load';
 import { cached, cacheKey, POLICY } from '@/cache/edge';
+import { priceLabelsFor, type CardPriceLabels } from '@/tours/lib/price-label';
+import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
+import { loadFx } from '@/trips/public-load';
 
 /**
  * Serialize Prisma Decimals and Dates to plain values for client components
@@ -59,10 +62,17 @@ export async function fetchTours(
 ) {
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
-    return await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {
+    const list = await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
+    // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR + «aprox. MXN» de cada tarjeta, armado aquí (servidor, idioma fijo; INC-001).
+    if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return list;
+    const rows = ((list as { data?: { id: string; priceValue?: number | string; priceCurrency?: string }[] }).data ?? []);
+    const paid = rows.filter((t) => Number(t.priceValue ?? 0) > 0);
+    const rates = paid.length ? await loadFx().catch(() => null) : null;
+    const priceLabels: CardPriceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.priceValue, currency: t.priceCurrency })), rates, filters.language === 'es' ? 'es' : 'en');
+    return { ...list, priceLabels };
   } catch (error) {
     console.error('Error fetching tours:', error);
     throw new Error('Failed to fetch tours');

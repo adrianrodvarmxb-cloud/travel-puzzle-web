@@ -10,6 +10,7 @@ import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
 import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
+import { ClientErrorListener } from "@/components/common/ClientErrorListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +53,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}
+        <ClientErrorListener />
         <SessionProvider>
           <AppProviders>
             <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) }}>
