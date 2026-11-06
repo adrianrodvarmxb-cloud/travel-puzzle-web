@@ -25,7 +25,7 @@
 
 - **Antes de encender (en este orden, cada paso en su PR y con OK del PO):**
   1. Aviso de privacidad: el texto de `docs/legal/propuesta-aviso-busquedas-2026-11.md` pasa a `src/legal/lib/privacidad.ts`, con humo de `/privacidad`.
-  2. Migración: mover `docs/migraciones-propuestas/0017_search_log_daily.sql` a `migrations/` con el siguiente número libre y publicar a mano con la casilla «migraciones».
+  2. Migración: `migrations/0019_search_log_daily.sql`, aplicada por el PO después de la 0017 (taxonomía), en su propia publicación con la casilla «migraciones».
   3. `SEARCH_LOG_ENABLED="true"`, con preview con la bandera encendida y humo verde. Ojo: la preview usa la D1 de producción, así que si la tabla ya existe la preview escribe ahí.
 - **Top semanal de cero resultados (solo lectura):** `WEEKLY_ZERO_SQL` con `lastWeek(Date.now())` y un límite, por ejemplo `wrangler d1 execute travel-puzzle --remote --command "<WEEKLY_ZERO_SQL con las fechas>"`.
 - **Retención:** `PURGE_SQL` con `purgeBefore(Date.now())` borra lo de más de 400 días. Es una escritura en producción, así que lleva el OK del PO.
@@ -33,7 +33,7 @@
 
 ## Alias multilingües (S5, REQ-350…355)
 
-- **Orden (cada paso con OK del PO):** 1) 0016 aplicada y `City.geonameid` lleno (frente geo, G3/G4); 2) mover `docs/migraciones-propuestas/0018_destino_alias.sql` a `migrations/` y aplicarla; 3) correr «Alias de destino (ensayo)» y revisar `destino-alias.csv` y `cobertura.json`; 4) aplicar `destino-alias.sql` en lotes (escritura en producción); 5) `GEO_ATTRIBUTION_ENABLED="true"` (y «wikidata» en `GEO_SOURCES_IN_PRODUCTION` si hubo alias de Wikidata).
+- **Orden (cada paso con OK del PO):** 1) 0016 aplicada y `City.geonameid` lleno (frente geo, G3/G4); 2) mover `docs/migraciones-propuestas/0020_destino_alias.sql` a `migrations/` y aplicarla; 3) correr «Alias de destino (ensayo)» y revisar `destino-alias.csv` y `cobertura.json`; 4) aplicar `destino-alias.sql` en lotes (escritura en producción); 5) `GEO_ATTRIBUTION_ENABLED="true"` (y «wikidata» en `GEO_SOURCES_IN_PRODUCTION` si hubo alias de Wikidata).
 - **Sin geonameid en producción:** el script acepta `--map geo-v2-auto.csv` (los propuestos del ensayo geo v2) para medir la cobertura antes de tiempo. Ese SQL **no** se aplica: los `geonameid` tienen que estar guardados primero.
 - **Local:** `unzip -p alternateNamesV2.zip alternateNamesV2.txt | npx tsx src/scripts/alias-ingesta.ts - <export> <salida> [--map …] [--wikidata …]`.
 - **Lectura en el Worker:** `SELECT city_id, alias_plegado, alias_ascii FROM destino_alias`, con caché de 1 h. Si la tabla no existe se usan solo los alias curados.
@@ -43,7 +43,7 @@
 
 - **Orden (cada paso con OK del PO):**
   1. Respaldo: `DROP TABLE "TourSearch";` → exportar D1 → reaplicar.
-  2. Mover `docs/migraciones-propuestas/0019_tour_search_stem.sql` a `migrations/` y aplicarla. Recrea TourSearch con `stem` vacío y es compatible con el código actual.
+  2. Mover `docs/migraciones-propuestas/0021_tour_search_stem.sql` a `migrations/` y aplicarla. Recrea TourSearch con `stem` vacío y es compatible con el código actual.
   3. PR que encienda `SEARCH_STEM_ENABLED`, con preview y humo. La siguiente corrida del sync llena las raíces.
 - **Cambiar el stemmer:** subir `STEM_VERSION` (src/search/lib/stem.ts). La caché se invalida sola, pero el índice hay que reconstruirlo (siguiente sync o `rebuildTourSearchStem`).
 - **Sinónimos:** se editan en `data/search-synonyms.json` por PR. Nunca la marca del proveedor. Los de un sentido van con `"mode": "un-sentido"`. Al fusionar T1 (taxonomía), `TAXONOMY_TERMS` en `src/search/synonyms.ts` pasa a `DEFAULT_DICTIONARY.terminos`.

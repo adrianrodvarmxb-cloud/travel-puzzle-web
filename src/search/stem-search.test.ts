@@ -1,6 +1,6 @@
 /**
  * REQ-360…366: raíz (Snowball) y sinónimos en el índice FTS5, de punta a punta en node:sqlite con la migración
- * propuesta 0019 (TourSearch con columna stem). Con la bandera apagada, el índice de la 0011 sigue igual.
+ * propuesta 0021 (TourSearch con columna stem). Con la bandera apagada, el índice de la 0011 sigue igual.
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
@@ -46,7 +46,7 @@ function setup(migration: string) {
   };
   return { d, db, batches: () => batches };
 }
-const PROPOSED = "docs/migraciones-propuestas/0019_tour_search_stem.sql";
+const PROPOSED = "docs/migraciones-propuestas/0021_tour_search_stem.sql";
 
 describe("REQ-360 stemmer Snowball en español", () => {
   it(`igual a la implementación de referencia en ${Object.keys(REF).length} palabras (títulos reales + casos difíciles)`, () => {
@@ -96,7 +96,7 @@ describe("REQ-361/362 sinónimos", () => {
   });
 });
 
-describe("REQ-363/364 consultas con raíz y sinónimos (FTS5 real, migración propuesta 0019)", () => {
+describe("REQ-363/364 consultas con raíz y sinónimos (FTS5 real, migración propuesta 0021)", () => {
   it("exacta primero con su raíz; prefijo solo en la última; respaldo; destino en place", () => {
     const q = ftsStemQueries("museos nocturnos", "Madrid", SYN);
     expect(q[0]).toBe('("museos" OR "museo" OR stem : "muse") AND ("nocturnos" OR "nocturno" OR stem : "nocturn") AND place : "madrid"');

@@ -13,7 +13,7 @@ const require_ = createRequire(import.meta.url);
 type Stmt = { run: (...p: unknown[]) => unknown; all: (...p: unknown[]) => unknown[] };
 type Db = { exec: (sql: string) => void; prepare: (sql: string) => Stmt };
 const { DatabaseSync } = require_("node:sqlite") as { DatabaseSync: new (path: string) => Db };
-const MIGRATION = readFileSync(path.join(process.cwd(), "docs", "migraciones-propuestas", "0018_destino_alias.sql"), "utf8");
+const MIGRATION = readFileSync(path.join(process.cwd(), "docs", "migraciones-propuestas", "0020_destino_alias.sql"), "utf8");
 
 // Líneas con la forma real de alternateNamesV2.txt (Roma = 3169070, Ciudad de México = 3530597)
 const L = (id: number, gn: number, lang: string, name: string, pref = "", short = "", coll = "", hist = "") => [id, gn, lang, name, pref, short, coll, hist, "", ""].join("\t");
