@@ -1,3 +1,5 @@
+import { catalogClassifier, FORMATOS_PRESENCIALES, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { Prisma, type PrismaClient } from "@prisma/client";
 import { mixRecommendations } from "@/booking/lib/recommendations";
 import { pickDestinations, type CityRow, type DestinationCard } from "./lib/destinations";
@@ -59,6 +61,8 @@ export interface HomeDeps {
   highlights: HighlightRepo;
   includePaid: boolean;
   lang: string;
+  /** T3 (REQ-406, REQ-407): con TAXONOMY_PUBLISH_ENABLED, los destacados salen de la taxonomía; sin él, como hoy. */
+  taxonomy?: CatalogClassifier;
 }
 
 const asNames = (j: unknown): Record<string, string> =>
@@ -110,7 +114,7 @@ async function loadHero(prisma: PrismaClient): Promise<HeroSlide[]> {
   );
 }
 
-async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise<HomeTour[]> {
+async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy?: CatalogClassifier): Promise<HomeTour[]> {
   const base = {
     isActive: true,
     titleImageURL: { startsWith: "https://" },
@@ -119,6 +123,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
   };
   const select = {
     id: true, externalId: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
+    categoryId: true, durationMinutes: true,
     country: { select: { code: true } },
     city: { select: { translations: true } },
     translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
@@ -129,7 +134,11 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     prisma.tour.findMany({ where: { ...base, priceValue: 0 }, orderBy: order, take: 60, select }),
   ]);
   // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
-  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)));
+  // T3: free = formato pieza-libre; de pago = publicable, presencial y no Free tour (sin online, servicios ni traslados).
+  const fmt = (t: (typeof free)[number]) => taxonomy?.({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, title: t.translations.map((x) => x.title).join(" | ") }).formato;
+  const okFree = (t: (typeof free)[number]) => !taxonomy || fmt(t) === "pieza-libre";
+  const okPaid = (t: (typeof free)[number]) => !taxonomy || (FORMATOS_PRESENCIALES.includes(fmt(t)!) && fmt(t) !== "pieza-libre");
+  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)) && (Number(t.priceValue) === 0 ? okFree(t) : okPaid(t)));
   const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(clean(list).map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
   return mixRecommendations(vary(paid), vary(free), 6, includePaid).flatMap((t) => {
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
@@ -216,11 +225,11 @@ const settle = <T>(r: PromiseSettledResult<T>, fallback: T): T => {
 };
 
 /** Todo lo que el home muestra, leído de nuestro catálogo. Si algo falla, esa sección no aparece. */
-export async function loadHomeData({ prisma, highlights, includePaid, lang }: HomeDeps): Promise<HomeData> {
+export async function loadHomeData({ prisma, highlights, includePaid, lang, taxonomy }: HomeDeps): Promise<HomeData> {
   const [hero, dest, feat, sc, reviews] = await Promise.allSettled([
     loadHero(prisma),
     loadDestinations(prisma),
-    loadFeatured(prisma, includePaid).then(async (tours) => {
+    loadFeatured(prisma, includePaid, taxonomy).then(async (tours) => {
       // Frase destacada de cada favorito (si falla, salen sin frase)
       const quotes = await highlights.listFiveStarForTours(tours.map((t) => t.externalId)).then((r) => pickHighlights(r, lang)).catch(() => new Map());
       return tours.map((t) => ({ ...t, quote: quotes.get(t.externalId)?.text ?? null }));
@@ -237,4 +246,9 @@ export async function loadHomeData({ prisma, highlights, includePaid, lang }: Ho
     continents: statsC.continents,
     reviews: settle(reviews, []),
   };
+}
+
+/** T3: clasificador de la taxonomía para el inicio, solo con TAXONOMY_PUBLISH_ENABLED. */
+export function homeTaxonomy(enabled: boolean): CatalogClassifier | undefined {
+  return enabled ? catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS) : undefined;
 }

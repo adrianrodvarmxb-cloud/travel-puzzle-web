@@ -1,3 +1,5 @@
+import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
+import { homeTaxonomy } from "@/home/load";
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { Navbar } from "@/components/layout";
 import {
@@ -39,8 +41,10 @@ export default async function Home() {
   const ownTrips = (await loadTripCards(lang)).filter((t) => !mentionsProviderBrand(t.title));
   const includePaid = env.PAID_TOURS_ENABLED === "true";
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
-  const data = await cached(cacheKey("home", { lang, includePaid }), POLICY.home, () =>
-    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang })),
+  // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
+  const taxonomyOn = taxonomyPublishEnabled(env);
+  const data = await cached(cacheKey("home", { lang, includePaid, tax: taxonomyOn }), POLICY.home, () =>
+    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
   // REQ-170: EUR + «aprox. MXN» en las destacadas de pago (servidor, idioma fijo; INC-001), solo con PRIMERA_PIEZA_ENABLED.
   const paid = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? data.featured.filter((t) => !t.isFree && t.price > 0) : [];
