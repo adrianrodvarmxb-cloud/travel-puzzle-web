@@ -38,3 +38,13 @@
 - **Local:** `unzip -p alternateNamesV2.zip alternateNamesV2.txt | npx tsx src/scripts/alias-ingesta.ts - <export> <salida> [--map …] [--wikidata …]`.
 - **Lectura en el Worker:** `SELECT city_id, alias_plegado, alias_ascii FROM destino_alias`, con caché de 1 h. Si la tabla no existe se usan solo los alias curados.
 - **Regreso:** `SEARCH_FUZZY_ENABLED="false"` o vaciar la tabla (con OK). El buscador vuelve a los alias curados.
+
+## Raíz y sinónimos (S6, REQ-360…366)
+
+- **Orden (cada paso con OK del PO):**
+  1. Respaldo: `DROP TABLE "TourSearch";` → exportar D1 → reaplicar.
+  2. Mover `docs/migraciones-propuestas/0019_tour_search_stem.sql` a `migrations/` y aplicarla. Recrea TourSearch con `stem` vacío y es compatible con el código actual.
+  3. PR que encienda `SEARCH_STEM_ENABLED`, con preview y humo. La siguiente corrida del sync llena las raíces.
+- **Cambiar el stemmer:** subir `STEM_VERSION` (src/search/lib/stem.ts). La caché se invalida sola, pero el índice hay que reconstruirlo (siguiente sync o `rebuildTourSearchStem`).
+- **Sinónimos:** se editan en `data/search-synonyms.json` por PR. Nunca la marca del proveedor. Los de un sentido van con `"mode": "un-sentido"`. Al fusionar T1 (taxonomía), `TAXONOMY_TERMS` en `src/search/synonyms.ts` pasa a `DEFAULT_DICTIONARY.terminos`.
+- **Regreso:** `SEARCH_STEM_ENABLED="false"`: se busca como hoy y la columna `stem` se ignora. Para volver al esquema de la 0011: `DROP TABLE "TourSearch";` y luego la 0011.
