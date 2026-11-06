@@ -1,0 +1,3641 @@
+{
+ "agency": {
+  "id": "ag-iwp",
+  "name": "Inca World Peru",
+  "initials": "IWP",
+  "email": "centralincaworldtravel@gmail.com",
+  "phone": "+51 984 708 524",
+  "notes": "Reservas CPM S.A.C. · RUC 20524295106 · Operador de turismo MINCETUR. Reservas: centralincaworldtravel@gmail.com. Emergencias 24/7: +51 984 708 524 (César, 5 nov 2026)."
+ },
+ "keyStamp": 1762500000,
+ "seqStart": 101,
+ "trips": [
+  {
+   "ref": "PROG-CUS-03",
+   "status": "draft",
+   "hold": "falta incluye/no incluye e itinerario día por día (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 43385,
+     "alt": "Machu Picchu y el Huayna Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 1533437,
+     "alt": "Explanada de Sacsayhuamán, Cusco"
+    },
+    {
+     "src": "pixabay",
+     "id": 5985297,
+     "alt": "Andenes de Pisac en el Valle Sagrado"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Cusco y Machu Picchu 3 días",
+    "summaryEs": "Paquete de 3 días y 2 noches en Cusco con visita a Machu Picchu.",
+    "highlights": [
+     "Cusco y Machu Picchu en 3 días y 2 noches",
+     "Visita a Machu Picchu",
+     "Programa operado en Cusco por operador local"
+    ],
+    "descriptionEs": "Paquete de 3 días y 2 noches en Cusco que incluye la visita a Machu Picchu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Machu Picchu"
+    ],
+    "durationDays": 3,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 666,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-CUS-04",
+   "status": "draft",
+   "hold": "falta incluye/no incluye e itinerario día por día (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1674143,
+     "alt": "Recintos de piedra de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 639763,
+     "alt": "Muros megalíticos de Sacsayhuamán"
+    },
+    {
+     "src": "pixabay",
+     "id": 4563288,
+     "alt": "Montaña de 7 Colores (Vinicunca)"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Cusco y Machu Picchu 4 días",
+    "summaryEs": "Paquete de 4 días y 3 noches en Cusco con visita a Machu Picchu.",
+    "highlights": [
+     "Cusco y Machu Picchu en 4 días y 3 noches",
+     "Visita a Machu Picchu",
+     "Eliges entre Montaña de 7 Colores (Vinicunca) o Laguna Humantay",
+     "Programa operado en Cusco por operador local"
+    ],
+    "descriptionEs": "Paquete de 4 días y 3 noches en Cusco que incluye la visita a Machu Picchu. En programas de 4 días o más eliges entre la Montaña de 7 Colores (Vinicunca) o la Laguna Humantay. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Machu Picchu"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 784,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-CUS-05",
+   "status": "draft",
+   "hold": "falta incluye/no incluye e itinerario día por día (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 43390,
+     "alt": "Machu Picchu entre la neblina"
+    },
+    {
+     "src": "pixabay",
+     "id": 1421037,
+     "alt": "Muralla inca de Sacsayhuamán"
+    },
+    {
+     "src": "pixabay",
+     "id": 4293947,
+     "alt": "Franjas de colores de Vinicunca"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Cusco y Machu Picchu 5 días",
+    "summaryEs": "Paquete de 5 días y 4 noches en Cusco con visita a Machu Picchu.",
+    "highlights": [
+     "Cusco y Machu Picchu en 5 días y 4 noches",
+     "Visita a Machu Picchu",
+     "Eliges entre Montaña de 7 Colores (Vinicunca) o Laguna Humantay",
+     "Programa operado en Cusco por operador local"
+    ],
+    "descriptionEs": "Paquete de 5 días y 4 noches en Cusco que incluye la visita a Machu Picchu. En programas de 4 días o más eliges entre la Montaña de 7 Colores (Vinicunca) o la Laguna Humantay. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Machu Picchu"
+    ],
+    "durationDays": 5,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 818,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-CUS-06",
+   "status": "draft",
+   "hold": "falta incluye/no incluye e itinerario día por día (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 6080933,
+     "alt": "Machu Picchu al atardecer"
+    },
+    {
+     "src": "pixabay",
+     "id": 2753983,
+     "alt": "Piedras talladas de Sacsayhuamán"
+    },
+    {
+     "src": "pixabay",
+     "id": 4563286,
+     "alt": "Cerros de colores de Vinicunca"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Cusco y Machu Picchu 6 días",
+    "summaryEs": "Paquete de 6 días y 5 noches en Cusco con visita a Machu Picchu.",
+    "highlights": [
+     "Cusco y Machu Picchu en 6 días y 5 noches",
+     "Visita a Machu Picchu",
+     "Eliges entre Montaña de 7 Colores (Vinicunca) o Laguna Humantay",
+     "Programa operado en Cusco por operador local"
+    ],
+    "descriptionEs": "Paquete de 6 días y 5 noches en Cusco que incluye la visita a Machu Picchu. En programas de 4 días o más eliges entre la Montaña de 7 Colores (Vinicunca) o la Laguna Humantay. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Machu Picchu"
+    ],
+    "durationDays": 6,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Servicio regular",
+      "mode": "group",
+      "adult": 903,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-01",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 43388,
+     "alt": "Terrazas de Machu Picchu y el Huayna Picchu"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Camino Inca a Machu Picchu 4 días",
+    "summaryEs": "Camino Inca clásico de 4 días y 3 noches que termina en Machu Picchu.",
+    "highlights": [
+     "Camino Inca clásico de 4 días",
+     "Llegada a Machu Picchu caminando",
+     "Requiere permiso de ingreso al Camino Inca"
+    ],
+    "descriptionEs": "Camino Inca clásico de 4 días y 3 noches que termina en Machu Picchu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCamino Inca: reservar con la mayor anticipación posible.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 972,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-02",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1138641,
+     "alt": "Plaza principal de Machu Picchu"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Camino Inca corto 2 días",
+    "summaryEs": "Camino Inca corto de 2 días y 1 noche hacia Machu Picchu.",
+    "highlights": [
+     "Versión corta del Camino Inca",
+     "2 días y 1 noche",
+     "Requiere permiso de ingreso al Camino Inca"
+    ],
+    "descriptionEs": "Camino Inca corto de 2 días y 1 noche hacia Machu Picchu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCamino Inca: reservar con la mayor anticipación posible.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 672,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-03",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Salkantay Trek 5 días",
+    "summaryEs": "Trekking de 5 días y 4 noches por la ruta del nevado Salkantay.",
+    "highlights": [
+     "Trekking de 5 días y 4 noches",
+     "Ruta del nevado Salkantay",
+     "Paisajes de alta montaña"
+    ],
+    "descriptionEs": "Trekking de 5 días y 4 noches por la ruta del nevado Salkantay. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 5,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 672,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-04",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Lares Trek 4 días",
+    "summaryEs": "Trekking de 4 días y 3 noches por la ruta de Lares.",
+    "highlights": [
+     "Trekking de 4 días y 3 noches",
+     "Ruta de Lares",
+     "Paisajes andinos"
+    ],
+    "descriptionEs": "Trekking de 4 días y 3 noches por la ruta de Lares. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 848,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-06",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); duración 'según programa' sin días definidos",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1072063,
+     "alt": "Machu Picchu desde las terrazas agrícolas"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Huchuy Qosqo y Machu Picchu",
+    "summaryEs": "Trekking a Huchuy Qosqo con visita a Machu Picchu.",
+    "highlights": [
+     "Caminata a Huchuy Qosqo",
+     "Visita a Machu Picchu",
+     "Trekking de aventura"
+    ],
+    "descriptionEs": "Trekking a Huchuy Qosqo con visita a Machu Picchu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": null,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 684,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-07",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); duración 'según programa' sin días definidos; sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Inca Jungle",
+    "summaryEs": "Programa de aventura Inca Jungle.",
+    "highlights": [
+     "Programa de aventura",
+     "Ruta Inca Jungle",
+     "Operado en Cusco"
+    ],
+    "descriptionEs": "Programa de aventura Inca Jungle. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": null,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 726,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-08",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Choquequirao Trek 4 días",
+    "summaryEs": "Trekking de 4 días y 3 noches a Choquequirao.",
+    "highlights": [
+     "Trekking de 4 días y 3 noches",
+     "Destino: Choquequirao",
+     "Ruta exigente de montaña"
+    ],
+    "descriptionEs": "Trekking de 4 días y 3 noches a Choquequirao. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 804,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TRK-05",
+   "status": "draft",
+   "hold": "sin tarifa: se cotiza aparte (César, 5 nov 2026); falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2773629,
+     "alt": "Sector urbano de Machu Picchu"
+    }
+   ],
+   "trip": {
+    "minPax": null,
+    "kind": "personalizado",
+    "purchaseMode": "quote",
+    "category": "aventura",
+    "titleEs": "Lares Trek y Machu Picchu 5 días",
+    "summaryEs": "Trekking de Lares de 5 días y 4 noches con visita a Machu Picchu. Precio a cotizar.",
+    "highlights": [
+     "Ruta de Lares",
+     "Visita a Machu Picchu",
+     "5 días y 4 noches"
+    ],
+    "descriptionEs": "Trekking de 5 días y 4 noches por la ruta de Lares que termina con la visita a Machu Picchu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nTrekking sujeto a temporada, clima, estado de caminos y disponibilidad de permisos.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "exigente",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Machu Picchu"
+    ],
+    "durationDays": 5,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio a cotizar según fecha, hotel y número de viajeros.",
+    "options": [],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TAM-01",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4837213,
+     "alt": "Puente sobre el río Madre de Dios, Puerto Maldonado"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Tambopata Mágico 3 días",
+    "summaryEs": "Programa de 3 días y 2 noches en la Amazonía de Tambopata.",
+    "highlights": [
+     "3 días y 2 noches en Tambopata",
+     "Selva amazónica de Madre de Dios",
+     "Salida desde Puerto Maldonado"
+    ],
+    "descriptionEs": "Programa de naturaleza de 3 días y 2 noches en Tambopata, en la Amazonía sur del Perú. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puerto Maldonado",
+     "Tambopata"
+    ],
+    "durationDays": 3,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 326,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto de Puerto Maldonado",
+      "address": "",
+      "lat": -12.6136,
+      "lng": -69.2286,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-TAM-02",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4046491,
+     "alt": "Aguajal en la Amazonía peruana"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Tambopata Mágico 4 días",
+    "summaryEs": "Programa de 4 días y 3 noches en la Amazonía de Tambopata.",
+    "highlights": [
+     "4 días y 3 noches en Tambopata",
+     "Selva amazónica de Madre de Dios",
+     "Salida desde Puerto Maldonado"
+    ],
+    "descriptionEs": "Programa de naturaleza de 4 días y 3 noches en Tambopata, en la Amazonía sur del Perú. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puerto Maldonado",
+     "Tambopata"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 360,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto de Puerto Maldonado",
+      "address": "",
+      "lat": -12.6136,
+      "lng": -69.2286,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-MAN-01",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Excursión a Manu 4 días",
+    "summaryEs": "Programa de naturaleza de 4 días y 3 noches en Manu.",
+    "highlights": [
+     "4 días y 3 noches",
+     "Naturaleza de Manu",
+     "Programa de ecoturismo"
+    ],
+    "descriptionEs": "Programa de naturaleza de 4 días y 3 noches en Manu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Manu"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 672,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-MAN-02",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Excursión a Manu 5 días",
+    "summaryEs": "Programa de naturaleza de 5 días y 4 noches en Manu.",
+    "highlights": [
+     "5 días y 4 noches",
+     "Naturaleza de Manu",
+     "Programa de ecoturismo"
+    ],
+    "descriptionEs": "Programa de naturaleza de 5 días y 4 noches en Manu. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Manu"
+    ],
+    "durationDays": 5,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 804,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IQT-01",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Iquitos Programa Delfín 2 días",
+    "summaryEs": "Programa Delfín de 2 días y 1 noches en la Amazonía de Iquitos.",
+    "highlights": [
+     "2 días y 1 noches",
+     "Amazonía de Iquitos",
+     "Programa Delfín"
+    ],
+    "descriptionEs": "Programa Delfín de 2 días y 1 noches en la Amazonía, con salida desde Iquitos. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Iquitos"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 240,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto de Iquitos",
+      "address": "",
+      "lat": -3.7847,
+      "lng": -73.3088,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IQT-02",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); el precio público del operador está muy por encima de su tarifa para agencias (margen fuera de lo normal), revisar con Inca; sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Iquitos Programa Tucán 3 días",
+    "summaryEs": "Programa Tucán de 3 días y 2 noches en la Amazonía de Iquitos.",
+    "highlights": [
+     "3 días y 2 noches",
+     "Amazonía de Iquitos",
+     "Programa Tucán"
+    ],
+    "descriptionEs": "Programa Tucán de 3 días y 2 noches en la Amazonía, con salida desde Iquitos. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Iquitos"
+    ],
+    "durationDays": 3,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 290,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto de Iquitos",
+      "address": "",
+      "lat": -3.7847,
+      "lng": -73.3088,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IQT-03",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); sin fotos del lugar exacto",
+   "photos": [],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "ecoturismo",
+    "titleEs": "Iquitos Programa Papagayo 4 días",
+    "summaryEs": "Programa Papagayo de 4 días y 3 noches en la Amazonía de Iquitos.",
+    "highlights": [
+     "4 días y 3 noches",
+     "Amazonía de Iquitos",
+     "Programa Papagayo"
+    ],
+    "descriptionEs": "Programa Papagayo de 4 días y 3 noches en la Amazonía, con salida desde Iquitos. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Iquitos"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 452,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto de Iquitos",
+      "address": "",
+      "lat": -3.7847,
+      "lng": -73.3088,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-PUN-01",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César); como programa cuesta menos que el tour PUN-02 Uros y Taquile de la etapa 1, revisar con Inca",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 5443460,
+     "alt": "Isla flotante de los Uros, lago Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 3416843,
+     "alt": "Artesanía de los Uros"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "tour",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Uros y Taquile en Puno, 1 día",
+    "summaryEs": "Programa Uros y Taquile de 1 día en Puno y el lago Titicaca.",
+    "highlights": [
+     "Programa de 1 día",
+     "Lago Titicaca",
+     "Programa Uros y Taquile"
+    ],
+    "descriptionEs": "Programa Uros y Taquile de 1 día en Puno y el lago Titicaca. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nExcursiones lacustres sujetas a condiciones climáticas y del lago.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 1,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 38,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-PUN-02",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2817321,
+     "alt": "Balsas de totora a orillas del Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 2659071,
+     "alt": "Atardecer en el lago Titicaca"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Ruta Aymara en Puno 2 días",
+    "summaryEs": "Programa Ruta Aymara de 2 días y 1 noches en Puno y el lago Titicaca.",
+    "highlights": [
+     "Programa de 2 días y 1 noches",
+     "Lago Titicaca",
+     "Programa Ruta Aymara"
+    ],
+    "descriptionEs": "Programa Ruta Aymara de 2 días y 1 noches en Puno y el lago Titicaca. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nExcursiones lacustres sujetas a condiciones climáticas y del lago.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 2,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 135,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-PUN-03",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1865676,
+     "alt": "Mujer uro en una isla flotante del Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 1674141,
+     "alt": "Cielo sobre el lago Titicaca"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Ruta Quechua en Puno 3 días",
+    "summaryEs": "Programa Ruta Quechua de 3 días y 2 noches en Puno y el lago Titicaca.",
+    "highlights": [
+     "Programa de 3 días y 2 noches",
+     "Lago Titicaca",
+     "Programa Ruta Quechua"
+    ],
+    "descriptionEs": "Programa Ruta Quechua de 3 días y 2 noches en Puno y el lago Titicaca. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nExcursiones lacustres sujetas a condiciones climáticas y del lago.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 3,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 251,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-PUN-04",
+   "status": "draft",
+   "hold": "falta itinerario e incluye/no incluye (no vienen en el tarifario; pedir el PDF del programa a César)",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3416835,
+     "alt": "Sillustani y la laguna Umayo"
+    },
+    {
+     "src": "pixabay",
+     "id": 6796331,
+     "alt": "Muelle en la laguna Umayo, Sillustani"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Sillustani, Umayo y Puno 4 días",
+    "summaryEs": "Programa Sillustani, Umayo y Puno de 4 días y 3 noches en Puno y el lago Titicaca.",
+    "highlights": [
+     "Programa de 4 días y 3 noches",
+     "Lago Titicaca",
+     "Programa Sillustani, Umayo y Puno"
+    ],
+    "descriptionEs": "Programa Sillustani, Umayo y Puno de 4 días y 3 noches en Puno y el lago Titicaca. Te confirmamos el detalle del itinerario y hoteles antes de cobrar.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nExcursiones lacustres sujetas a condiciones climáticas y del lago.\nTe confirmamos el detalle del itinerario y hoteles antes de cobrar.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "facil",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Puno"
+    ],
+    "durationDays": 4,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 316,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en Puno",
+      "address": "",
+      "lat": -15.8402,
+      "lng": -70.0219,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [],
+    "excludes": [
+     "Vuelos internacionales",
+     "Alimentación no indicada",
+     "Gastos personales",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IWP-01",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 930676,
+     "alt": "Oasis de Huacachina, Ica"
+    },
+    {
+     "src": "pixabay",
+     "id": 1191767,
+     "alt": "Plaza Mayor de Lima"
+    },
+    {
+     "src": "pixabay",
+     "id": 3664086,
+     "alt": "Islas Ballestas, Paracas"
+    },
+    {
+     "src": "pixabay",
+     "id": 2135770,
+     "alt": "Ciudadela de Machu Picchu"
+    },
+    {
+     "src": "pixabay",
+     "id": 4046491,
+     "alt": "Aguajal en la Amazonía peruana"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Descubriendo el Perú en 9 días",
+    "summaryEs": "Lima, Paracas, Cusco, Machu Picchu y la Amazonía de Tambopata en 9 días.",
+    "highlights": [
+     "Islas Ballestas y oasis de Huacachina",
+     "City tour en Cusco y Valle Sagrado",
+     "Machu Picchu con visita guiada",
+     "Lago Sandoval en la Reserva Nacional Tambopata"
+    ],
+    "descriptionEs": "Circuito de 9 días que une la costa, los Andes y la Amazonía: Lima y su centro histórico, Paracas y Huacachina, Cusco, el Valle Sagrado, Machu Picchu, Maras y Moray, y tres días en un ecolodge de Tambopata con el lago Sandoval.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nPrograma sujeto a temporada, clima, nivel de los ríos y condiciones operativas. La observación de fauna se realiza en ambientes naturales y no se garantiza ver especies específicas.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima",
+     "Paracas",
+     "Ica",
+     "Cusco",
+     "Machu Picchu",
+     "Puerto Maldonado"
+    ],
+    "durationDays": 9,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 2064,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Internacional Jorge Chávez, Lima",
+      "address": "",
+      "lat": -12.0219,
+      "lng": -77.1143,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Lima y city tour",
+      "text": "Recepción en el aeropuerto y traslado al hotel. Por la tarde, city tour por el Centro Histórico, la Plaza Mayor, el Convento de San Francisco y los distritos de Miraflores y San Isidro. Noche en Lima."
+     },
+     {
+      "title": "Día 2 · Paracas, Islas Ballestas, Ica y Huacachina",
+      "text": "Salida temprano a Paracas para la excursión a las Islas Ballestas (lobos marinos, pingüinos de Humboldt y aves marinas). Continuación a Ica y al oasis de Huacachina y regreso a Lima. Noche en Lima."
+     },
+     {
+      "title": "Día 3 · Lima – Cusco y city tour",
+      "text": "Vuelo a Cusco, recepción y traslado al hotel. Por la tarde, city tour: Catedral, Qoricancha, Sacsayhuamán, Qenqo, Puka Pukara y Tambomachay. Noche en Cusco."
+     },
+     {
+      "title": "Día 4 · Valle Sagrado – Aguas Calientes",
+      "text": "Recorrido por el Valle Sagrado visitando Pisac y Ollantaytambo. Tras el almuerzo, tren a Aguas Calientes. Noche en Aguas Calientes."
+     },
+     {
+      "title": "Día 5 · Machu Picchu – Cusco",
+      "text": "Visita guiada temprano a Machu Picchu. Bus a Aguas Calientes, tren a Ollantaytambo y traslado a Cusco. Noche en Cusco."
+     },
+     {
+      "title": "Día 6 · Maras y Moray – Puerto Maldonado",
+      "text": "Visita a los andenes de Moray y las Salineras de Maras. Traslado al aeropuerto y vuelo a Puerto Maldonado. Noche en Puerto Maldonado."
+     },
+     {
+      "title": "Día 7 · Ecolodge: canopy, tirolesa, kayak e Isla de los Monos",
+      "text": "Traslado al ecolodge. Actividades de canopy, tirolesa, kayak y visita a la Isla de los Monos. Noche en el ecolodge."
+     },
+     {
+      "title": "Día 8 · Lago Sandoval",
+      "text": "Excursión al lago Sandoval, en la Reserva Nacional Tambopata, para observar fauna amazónica. Noche en el ecolodge."
+     },
+     {
+      "title": "Día 9 · Comunidad nativa, pesca deportiva y regreso",
+      "text": "Visita a una comunidad nativa y pesca deportiva. Traslado al aeropuerto de Puerto Maldonado. Fin de los servicios."
+     }
+    ],
+    "includes": [
+     "Traslados aeropuerto – hotel – aeropuerto durante el programa",
+     "Transporte turístico en las excursiones",
+     "Guía profesional bilingüe (español e inglés)",
+     "City tour en Lima",
+     "Tour Islas Ballestas – Ica – Huacachina",
+     "Vuelo nacional Lima – Cusco",
+     "City tour en Cusco",
+     "Boleto Turístico General de Cusco (BTG)",
+     "Entradas a la Catedral de Cusco y al Qoricancha",
+     "Tour Valle Sagrado con almuerzo",
+     "Tren Ollantaytambo – Aguas Calientes – Ollantaytambo",
+     "Entrada a Machu Picchu",
+     "Bus Consettur de subida y bajada",
+     "Visita guiada en Machu Picchu",
+     "Tour Maras y Moray",
+     "Vuelo nacional Cusco – Puerto Maldonado",
+     "Programa en ecolodge de 3 días y 2 noches con canopy, tirolesa, kayak e Isla de los Monos",
+     "Excursión al lago Sandoval",
+     "Visita a comunidad nativa y pesca deportiva",
+     "Alojamiento en hoteles de 3 estrellas y ecolodge",
+     "Alimentación indicada en el programa del lodge"
+    ],
+    "excludes": [
+     "Vuelo nacional Puerto Maldonado – Lima",
+     "Vuelos internacionales",
+     "Alimentación y bebidas no mencionadas",
+     "Seguro de viaje",
+     "Gastos personales",
+     "Propinas",
+     "Bebidas alcohólicas y gaseosas",
+     "Actividades opcionales",
+     "Mejora de tren (Vistadome, Observatory o First Class)",
+     "Servicios no mencionados en el itinerario"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IWP-02",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1087026,
+     "alt": "Cóndor andino en el Cañón del Colca"
+    },
+    {
+     "src": "pixabay",
+     "id": 5059220,
+     "alt": "Islas Ballestas frente a Paracas"
+    },
+    {
+     "src": "pixabay",
+     "id": 5443460,
+     "alt": "Isla flotante de los Uros, lago Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 43387,
+     "alt": "Machu Picchu sobre el valle del Urubamba"
+    },
+    {
+     "src": "pixabay",
+     "id": 4862475,
+     "alt": "Montaña de 7 Colores bajo las nubes"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Misterios naturales y arqueológicos del Perú",
+    "summaryEs": "Lima, Paracas, Nazca, Arequipa, Colca, Titicaca, Cusco y Machu Picchu en 11 días.",
+    "highlights": [
+     "Islas Ballestas, hacienda vitivinícola y Huacachina",
+     "Cañón del Colca y Cruz del Cóndor",
+     "Islas de los Uros y Taquile",
+     "Machu Picchu y Montaña de 7 Colores"
+    ],
+    "descriptionEs": "Circuito de 11 días y 10 noches por el sur del Perú: Lima, Paracas y Huacachina, la necrópolis de Chauchilla en Nazca, Arequipa, el Cañón del Colca, el lago Titicaca, la Ruta del Sol, Cusco, Machu Picchu y la Montaña de 7 Colores.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima",
+     "Paracas",
+     "Ica",
+     "Nazca",
+     "Arequipa",
+     "Chivay",
+     "Puno",
+     "Cusco",
+     "Machu Picchu"
+    ],
+    "durationDays": 11,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 1866,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Internacional Jorge Chávez, Lima",
+      "address": "",
+      "lat": -12.0219,
+      "lng": -77.1143,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [
+     {
+      "title": "Día 1 · Lima: city tour y Circuito Mágico del Agua",
+      "text": "Recepción en el aeropuerto y traslado al hotel. Por la tarde, recorrido por Lima y, al anochecer, el Circuito Mágico del Agua. Noche en Lima."
+     },
+     {
+      "title": "Día 2 · Paracas, Islas Ballestas, hacienda vitivinícola, Huacachina y Nazca",
+      "text": "Navegación a las Islas Ballestas y vista de El Candelabro. Visita a una hacienda vitivinícola con degustación, el oasis de Huacachina y traslado a Nazca. Noche en Nazca."
+     },
+     {
+      "title": "Día 3 · Necrópolis de Chauchilla – Arequipa",
+      "text": "Visita a la necrópolis de Chauchilla y bus turístico a Arequipa. Traslado al hotel. Noche en Arequipa."
+     },
+     {
+      "title": "Día 4 · Cañón del Colca – Chivay",
+      "text": "Ruta al Colca por la Reserva Nacional de Salinas y Aguada Blanca. Llegada a Chivay; aguas termales opcionales. Noche en Chivay."
+     },
+     {
+      "title": "Día 5 · Cruz del Cóndor – Puno",
+      "text": "Temprano al mirador de la Cruz del Cóndor. Recorrido por pueblos y andenes del valle y transporte turístico a Puno. Noche en Puno."
+     },
+     {
+      "title": "Día 6 · Islas de los Uros y Taquile",
+      "text": "Navegación por el lago Titicaca a las islas flotantes de los Uros y a la isla Taquile. Regreso a Puno. Noche en Puno."
+     },
+     {
+      "title": "Día 7 · Ruta del Sol Puno – Cusco",
+      "text": "Bus turístico por la Ruta del Sol con visitas a Pukara, La Raya, Raqchi y Andahuaylillas. Traslado al hotel. Noche en Cusco."
+     },
+     {
+      "title": "Día 8 · Valle Sagrado – Aguas Calientes",
+      "text": "Excursión por el Valle Sagrado con almuerzo buffet y tren desde Ollantaytambo a Aguas Calientes. Noche en Aguas Calientes."
+     },
+     {
+      "title": "Día 9 · Machu Picchu – Cusco",
+      "text": "Bus a Machu Picchu y visita guiada. Tren a Ollantaytambo y transporte a Cusco. Noche en Cusco."
+     },
+     {
+      "title": "Día 10 · Montaña de 7 Colores",
+      "text": "Excursión a Vinicunca con caminata a más de 5,000 m s. n. m. Regreso a Cusco. Noche en Cusco."
+     },
+     {
+      "title": "Día 11 · Salida de Cusco",
+      "text": "Traslado al aeropuerto de Cusco. Fin de los servicios."
+     }
+    ],
+    "includes": [
+     "Traslados aeropuerto – hotel – aeropuerto",
+     "Traslados a terminales terrestres",
+     "10 noches de alojamiento con desayuno en hoteles de 3 estrellas",
+     "City tour en Lima y Circuito Mágico del Agua",
+     "Full day Paracas, Islas Ballestas, hacienda vitivinícola y Huacachina",
+     "Transporte Huacachina – Nazca",
+     "Excursión a la necrópolis de Chauchilla",
+     "Bus turístico Nazca – Arequipa",
+     "Tour Cañón del Colca de 2 días y 1 noche",
+     "Bus turístico Chivay – Puno",
+     "Excursión a las islas de los Uros y Taquile",
+     "Bus turístico Ruta del Sol Puno – Cusco",
+     "Tour Valle Sagrado con almuerzo buffet",
+     "Tren de ida a Aguas Calientes y de regreso a Ollantaytambo",
+     "1 noche en Aguas Calientes",
+     "Entrada a Machu Picchu",
+     "Bus Consettur de subida y bajada",
+     "Visita guiada en Machu Picchu",
+     "Transporte Ollantaytambo – Cusco",
+     "Excursión a la Montaña de 7 Colores",
+     "Guías profesionales en todas las excursiones",
+     "Asistencia durante todo el viaje"
+    ],
+    "excludes": [
+     "Vuelos nacionales e internacionales",
+     "Alimentación no especificada",
+     "Bebidas durante las comidas",
+     "Seguro de viaje",
+     "Gastos personales",
+     "Propinas para guías y conductores",
+     "Actividades opcionales",
+     "Servicios no especificados en lo que incluye"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IWP-03",
+   "status": "draft",
+   "hold": "César confirma 9 días / 8 noches, pero el itinerario del PDF describe 8 días y 7 noches de hotel y el tarifario dice 8D/7N; falta el día adicional y confirmar que la tarifa del tarifario corresponde a 9D/8N",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2659071,
+     "alt": "Atardecer en el lago Titicaca"
+    },
+    {
+     "src": "pixabay",
+     "id": 1631989,
+     "alt": "Machu Picchu entre montañas"
+    },
+    {
+     "src": "pixabay",
+     "id": 563154,
+     "alt": "Gran piedra de Sacsayhuamán"
+    },
+    {
+     "src": "pixabay",
+     "id": 4047008,
+     "alt": "Terrazas incas de Pisac"
+    },
+    {
+     "src": "pixabay",
+     "id": 6784100,
+     "alt": "Acantilados de Miraflores, Lima"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Siguiendo la Ruta del Sur en 9 días",
+    "summaryEs": "Lima, Cusco, Valle Sagrado, Machu Picchu, la Ruta del Sol y el lago Titicaca en 9 días.",
+    "highlights": [
+     "Santuario de Pachacámac",
+     "City tour en Cusco y Valle Sagrado",
+     "Machu Picchu con visita guiada",
+     "Ruta del Sol e islas de los Uros y Taquile"
+    ],
+    "descriptionEs": "Circuito por el sur del Perú: Lima y Pachacámac, Cusco, el Valle Sagrado, Machu Picchu, la Ruta del Sol en bus turístico y el lago Titicaca.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima",
+     "Cusco",
+     "Machu Picchu",
+     "Puno"
+    ],
+    "durationDays": 9,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 1614,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Internacional Jorge Chávez, Lima",
+      "address": "",
+      "lat": -12.0219,
+      "lng": -77.1143,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Lima",
+      "text": "Recepción en el aeropuerto y traslado al hotel. Resto del día libre."
+     },
+     {
+      "title": "Día 2 · Santuario de Pachacámac",
+      "text": "Excursión al Santuario Arqueológico de Pachacámac y regreso al hotel en Lima."
+     },
+     {
+      "title": "Día 3 · Lima – Cusco y city tour",
+      "text": "Vuelo a Cusco y traslado al hotel. Por la tarde, Catedral, Qoricancha, Sacsayhuamán, Qenqo, Puka Pukara y Tambomachay."
+     },
+     {
+      "title": "Día 4 · Valle Sagrado – Aguas Calientes",
+      "text": "Pisac, almuerzo en Urubamba y Ollantaytambo. Tren a Aguas Calientes. Noche en Aguas Calientes."
+     },
+     {
+      "title": "Día 5 · Machu Picchu – Cusco",
+      "text": "Bus a Machu Picchu y visita guiada. Tren a Ollantaytambo y transporte a Cusco."
+     },
+     {
+      "title": "Día 6 · Ruta del Sol Cusco – Puno",
+      "text": "Bus turístico por la Ruta del Sol con visitas culturales y arqueológicas. Traslado al hotel en Puno."
+     },
+     {
+      "title": "Día 7 · Lago Titicaca: Uros y Taquile",
+      "text": "Full day a las islas flotantes de los Uros y a la isla Taquile. Regreso a Puno."
+     },
+     {
+      "title": "Día 8 · Puno – aeropuerto de Juliaca",
+      "text": "Traslado al aeropuerto de Juliaca. Fin de los servicios."
+     }
+    ],
+    "includes": [
+     "Traslados aeropuerto – hotel – aeropuerto según itinerario",
+     "Alojamiento en hoteles de 3 estrellas",
+     "Excursión al Santuario de Pachacámac",
+     "Vuelo Lima – Cusco",
+     "City tour de Cusco",
+     "Boleto Turístico General (BTG)",
+     "Entradas a la Catedral y al Qoricancha",
+     "Tour Valle Sagrado con almuerzo",
+     "Tren Ollantaytambo – Aguas Calientes – Ollantaytambo",
+     "Entrada a Machu Picchu",
+     "Bus Consettur de subida y bajada",
+     "Guía profesional en Machu Picchu",
+     "Transporte Ollantaytambo – Cusco",
+     "Bus turístico Cusco – Puno por la Ruta del Sol",
+     "Traslado de llegada en Puno",
+     "Full day islas de los Uros y Taquile",
+     "Traslado Puno – aeropuerto de Juliaca"
+    ],
+    "excludes": [
+     "Vuelo Juliaca – Lima",
+     "Vuelos internacionales",
+     "Alimentación no especificada",
+     "Bebidas durante las comidas",
+     "Gastos personales",
+     "Propinas",
+     "Servicios no mencionados en el programa"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PROG-IWP-04",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 5567470,
+     "alt": "Líneas de Nazca desde la avioneta"
+    },
+    {
+     "src": "pixabay",
+     "id": 43241,
+     "alt": "Acueducto (puquio) inca de Nazca"
+    },
+    {
+     "src": "pixabay",
+     "id": 4567753,
+     "alt": "Huayna Picchu sobre la ciudadela"
+    },
+    {
+     "src": "pixabay",
+     "id": 5335886,
+     "alt": "Panorama de la Montaña Colorada, Vinicunca"
+    },
+    {
+     "src": "pixabay",
+     "id": 290641,
+     "alt": "Andenes circulares de Moray"
+    }
+   ],
+   "trip": {
+    "minPax": 2,
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Maravillas del Perú en 12 días",
+    "summaryEs": "Paracas, Nazca, Cusco, Machu Picchu, Vinicunca, Valle Sur y el lago Titicaca en 12 días.",
+    "highlights": [
+     "Islas Ballestas, Huacachina y sobrevuelo de Nazca",
+     "Maras, Moray y Valle Sagrado",
+     "Machu Picchu con visita guiada",
+     "Montaña de 7 Colores y Valle Sur",
+     "Islas de los Uros y Taquile"
+    ],
+    "descriptionEs": "Circuito de 12 días por la costa sur, Cusco y el altiplano: Paracas y Huacachina, el sobrevuelo de las Líneas de Nazca, Maras y Moray, el Valle Sagrado, Machu Picchu, la Montaña de 7 Colores, el Valle Sur, la Ruta del Sol y el lago Titicaca.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nTarifa 2027: válida para viajes del 1 de enero al 31 de diciembre de 2027. Para otras fechas te cotizamos.\nPrecio por persona en habitación doble, desde 2 viajeros, con hoteles de 3 estrellas. La habitación sencilla tiene el mismo precio. Precio con tarifa de extranjero, la que aplica a viajeros mexicanos.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nEl día 3 se viaja de noche en bus de Nazca a Cusco (por eso son 10 noches de hotel en 12 días).\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Lima",
+     "Paracas",
+     "Ica",
+     "Nazca",
+     "Cusco",
+     "Machu Picchu",
+     "Puno"
+    ],
+    "durationDays": 12,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio por persona en USD en habitación doble, desde 2 viajeros, hoteles de 3 estrellas. Habitación sencilla al mismo precio. Tarifa 2027.",
+    "options": [
+     {
+      "id": "pp",
+      "name": "Por persona",
+      "mode": "group",
+      "adult": 1986,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Internacional Jorge Chávez, Lima",
+      "address": "",
+      "lat": -12.0219,
+      "lng": -77.1143,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Lima",
+      "text": "Recepción en el aeropuerto y traslado al hotel. Resto del día libre."
+     },
+     {
+      "title": "Día 2 · Paracas, Islas Ballestas, Huacachina – Nazca",
+      "text": "Excursión a las Islas Ballestas y El Candelabro, visita a Paracas y al oasis de Huacachina, y viaje a Nazca. Noche en Nazca."
+     },
+     {
+      "title": "Día 3 · Líneas de Nazca, Paredones y Acueductos – bus a Cusco",
+      "text": "Sobrevuelo de las Líneas de Nazca y excursión a Paredones y los Acueductos de Cantalloc. Traslado al terminal para el bus a Cusco."
+     },
+     {
+      "title": "Día 4 · Llegada a Cusco",
+      "text": "Traslado al hotel y tarde libre para aclimatarse."
+     },
+     {
+      "title": "Día 5 · Maras y Moray",
+      "text": "Excursión a Moray y a las Salineras de Maras. Regreso a Cusco."
+     },
+     {
+      "title": "Día 6 · Valle Sagrado – Aguas Calientes",
+      "text": "Recorrido por el Valle Sagrado con almuerzo y visita a Ollantaytambo. Tren a Aguas Calientes. Noche en Aguas Calientes."
+     },
+     {
+      "title": "Día 7 · Machu Picchu – Cusco",
+      "text": "Bus a Machu Picchu y visita guiada. Tren a Ollantaytambo y transporte a Cusco."
+     },
+     {
+      "title": "Día 8 · Montaña de 7 Colores",
+      "text": "Excursión de día completo a Vinicunca y regreso a Cusco."
+     },
+     {
+      "title": "Día 9 · Valle Sur",
+      "text": "Visita a Tipón y Pikillacta y regreso a Cusco."
+     },
+     {
+      "title": "Día 10 · Ruta del Sol Cusco – Puno",
+      "text": "Bus turístico por la Ruta del Sol. Traslado al hotel en Puno."
+     },
+     {
+      "title": "Día 11 · Lago Titicaca: Uros y Taquile",
+      "text": "Full day a las islas flotantes de los Uros y a la isla Taquile. Regreso a Puno."
+     },
+     {
+      "title": "Día 12 · Puno – aeropuerto de Juliaca",
+      "text": "Traslado al aeropuerto de Juliaca. Fin de los servicios."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel en Lima",
+     "10 noches de alojamiento en hoteles de 3 estrellas según itinerario",
+     "Full day Islas Ballestas, Paracas y Huacachina",
+     "Traslado a Nazca",
+     "Sobrevuelo de las Líneas de Nazca",
+     "Tour arqueológico en Nazca",
+     "Bus Nazca – Cusco",
+     "Traslado de llegada en Cusco",
+     "Tour Maras y Moray con entrada a las Salineras",
+     "Tour Valle Sagrado con almuerzo",
+     "Boleto Turístico General (BTG)",
+     "Tren Ollantaytambo – Aguas Calientes – Ollantaytambo",
+     "Entrada a Machu Picchu",
+     "Bus Consettur de subida y bajada",
+     "Guía profesional en Machu Picchu",
+     "Transporte Ollantaytambo – Cusco",
+     "Tour Montaña de 7 Colores",
+     "Tour Valle Sur",
+     "Bus turístico Cusco – Puno por la Ruta del Sol",
+     "Traslado de llegada en Puno",
+     "Full day islas de los Uros y Taquile",
+     "Traslado Puno – aeropuerto de Juliaca"
+    ],
+    "excludes": [
+     "Vuelo Juliaca – Lima",
+     "Vuelos internacionales",
+     "Alimentación no especificada",
+     "Bebidas",
+     "Gastos personales",
+     "Propinas",
+     "Servicios no mencionados en el itinerario"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "MP-04",
+   "status": "draft",
+   "hold": "sin tarifa: se cotiza aparte (César, 5 nov 2026)",
+   "photos": [
+    {
+     "src": "inca",
+     "file": "02_Machu_Picchu/2024-07-10_machu_picchu_amigas_de_pie.jpg",
+     "alt": "Viajeras de Inca World en Machu Picchu"
+    }
+   ],
+   "trip": {
+    "minPax": null,
+    "kind": "personalizado",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Machu Picchu Overnight 3 días a cotizar",
+    "summaryEs": "Machu Picchu en 3 días y 2 noches con hotel de 3 a 5 estrellas o de lujo. Precio a cotizar.",
+    "highlights": [
+     "3 días y 2 noches",
+     "Tren, entrada a Machu Picchu y guía",
+     "Hotel de 3, 4 o 5 estrellas o de lujo"
+    ],
+    "descriptionEs": "Programa de 3 días y 2 noches a Machu Picchu con tren, entrada, guía y alojamiento en la categoría que elijas. Te cotizamos según fecha y hotel.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nLa cotización no bloquea entradas ni trenes; horarios sujetos a disponibilidad.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Aguas Calientes"
+    ],
+    "durationDays": 3,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio a cotizar según fecha, hotel y número de viajeros.",
+    "options": [],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [
+     "Tren",
+     "Entrada a Machu Picchu",
+     "Guía",
+     "Alojamiento en la categoría elegida"
+    ],
+    "excludes": [
+     "Suplemento por habitación sencilla",
+     "Mejoras de tren u hotel",
+     "Alimentación no indicada",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "MP-05",
+   "status": "draft",
+   "hold": "sin tarifa: se cotiza aparte (César, 5 nov 2026); sin duración ni detalle en el tarifario",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3007688,
+     "alt": "Vista general de Machu Picchu"
+    }
+   ],
+   "trip": {
+    "minPax": null,
+    "kind": "personalizado",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Machu Picchu y tren panorámico a cotizar",
+    "summaryEs": "Machu Picchu con tren panorámico Vistadome o 360°. Precio a cotizar.",
+    "highlights": [
+     "Tren panorámico Vistadome o 360°",
+     "Visita a Machu Picchu",
+     "Según el programa que elijas"
+    ],
+    "descriptionEs": "Programa a Machu Picchu con tren panorámico (Vistadome o 360°) según el programa seleccionado. Te cotizamos según fecha.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nLa cotización no bloquea entradas ni trenes; horarios sujetos a disponibilidad.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Aguas Calientes"
+    ],
+    "durationDays": null,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio a cotizar según fecha, hotel y número de viajeros.",
+    "options": [],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [
+     "Tren panorámico según programa"
+    ],
+    "excludes": [
+     "Suplemento por habitación sencilla",
+     "Alimentación no indicada",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "MP-06",
+   "status": "draft",
+   "hold": "sin tarifa: se cotiza aparte (César, 5 nov 2026); sin duración ni detalle en el tarifario",
+   "photos": [
+    {
+     "src": "inca",
+     "file": "02_Machu_Picchu/2024-02-09_machu_picchu_grupo_panoramico.png",
+     "alt": "Grupo de Inca World en Machu Picchu"
+    }
+   ],
+   "trip": {
+    "minPax": null,
+    "kind": "personalizado",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Machu Picchu Premium o Luxury a cotizar",
+    "summaryEs": "Machu Picchu con tren, alojamiento y servicios de categoría superior. Precio a cotizar.",
+    "highlights": [
+     "Tren y alojamiento de categoría superior",
+     "Servicios personalizados",
+     "Visita a Machu Picchu"
+    ],
+    "descriptionEs": "Programa Premium o Luxury a Machu Picchu con tren, alojamiento y servicios superiores personalizados. Te cotizamos según fecha.",
+    "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad con el operador local en 24 a 48 horas hábiles antes de cualquier cobro.\nLos tours son en servicio compartido; la visita a Machu Picchu se opera siempre en privado.\nLa cotización no bloquea entradas ni trenes; horarios sujetos a disponibilidad.\nMachu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nCancelaciones: las entradas a Machu Picchu y otros ingresos no son reembolsables una vez comprados; los boletos de tren siguen la política del operador ferroviario; los demás servicios, según el proveedor y los gastos ya incurridos. Si algún hotel tiene una política especial, te la informamos al confirmar.\nContacto de emergencias 24/7 del operador local en destino: +51 984 708 524.\nOperador local: Inca World Peru (Reservas CPM S.A.C.).",
+    "difficulty": "moderada",
+    "countries": [
+     "PE"
+    ],
+    "cities": [
+     "Cusco",
+     "Aguas Calientes"
+    ],
+    "durationDays": null,
+    "languages": [
+     "es",
+     "en"
+    ],
+    "currency": "USD",
+    "priceNote": "Precio a cotizar según fecha, hotel y número de viajeros.",
+    "options": [],
+    "minNoticeHours": 1440,
+    "cancellation": {
+     "type": "custom",
+     "tiers": [
+      {
+       "daysBefore": 62,
+       "refundPct": 100
+      },
+      {
+       "daysBefore": 16,
+       "refundPct": 70
+      },
+      {
+       "daysBefore": 8,
+       "refundPct": 50
+      },
+      {
+       "daysBefore": 3,
+       "refundPct": 20
+      },
+      {
+       "daysBefore": 0,
+       "refundPct": 0
+      }
+     ]
+    },
+    "meetingPoints": [
+     {
+      "name": "Hotel en el centro histórico de Cusco",
+      "address": "",
+      "lat": -13.5167,
+      "lng": -71.9787,
+      "instructions": "La hora exacta se confirma con la reserva.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": true,
+    "itinerary": [],
+    "includes": [
+     "Tren y alojamiento de categoría superior",
+     "Servicios personalizados según programa"
+    ],
+    "excludes": [
+     "Alimentación no indicada",
+     "Propinas"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  }
+ ]
+}

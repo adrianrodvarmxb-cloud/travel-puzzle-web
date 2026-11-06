@@ -50,6 +50,8 @@ export interface BookingEmailData {
   variant?: "confirmation" | "reminder48" | "dayOf";
   /** Free tour (recordar la propina). */
   isFree?: boolean;
+  /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED); sin él no se menciona el carrito. */
+  tripUrl?: string | null;
   /** Canales de Travel Puzzle; cada uno aparece solo si está configurado. */
   contact?: {
     /** Número de WhatsApp en formato internacional, solo dígitos (52155...). */
@@ -87,6 +89,10 @@ const T = {
     tips: (free: boolean) => ["Llega 10 minutos antes al punto de encuentro.", "Guarda este correo: aquí está tu número de reserva y tu enlace.", ...(free ? ["Es un free tour: al final, deja a tu guía la propina que consideres justa, en efectivo. Lleva billetes chicos o cambio."] : [])],
     slogan: "Te armamos tu viaje",
     manageNote: "Si no puedes asistir, cancela desde este enlace para liberar el lugar. Guárdalo: es privado.",
+    // REQ-182: solo complementos (traslado, eSIM, transporte); nunca promueve tours (regla B3).
+    tripTitle: "Arma el resto de tu viaje",
+    tripSub: (city: string | null) => `Traslado del aeropuerto, eSIM y transporte${city ? ` en ${city}` : ""}, con tu fecha ya escrita. Cada pieza dice quién la cobra.`,
+    tripCta: "Armar mi viaje",
     people_: (a: number, c: number) => [`${a} ${a === 1 ? "adulto" : "adultos"}`, c ? `${c} ${c === 1 ? "niño" : "niños"}` : ""].filter(Boolean).join(", "),
     locale: "es-MX",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
@@ -132,6 +138,9 @@ const T = {
     tips: (free: boolean) => ["Arrive 10 minutes early at the meeting point.", "Keep this email: it has your booking number and private link.", ...(free ? ["It's a free tour: at the end, give your guide what you think is fair, in cash. Bring small bills or change."] : [])],
     slogan: "Te armamos tu viaje",
     manageNote: "If you can't make it, please cancel from this link to free up the spot. Keep it safe: it's private.",
+    tripTitle: "Build the rest of your trip",
+    tripSub: (city: string | null) => `Airport transfer, eSIM and getting around${city ? ` in ${city}` : ""}, with your date already filled in. Each piece says who charges for it.`,
+    tripCta: "Build my trip",
     people_: (a: number, c: number) => [`${a} ${a === 1 ? "adult" : "adults"}`, c ? `${c} ${c === 1 ? "child" : "children"}` : ""].filter(Boolean).join(", "),
     locale: "en-US",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
@@ -242,6 +251,8 @@ export function meetingPointText(mp: unknown, lang: EmailLang): string | null {
   return typeof v === "string" && v.trim() ? v : null;
 }
 
+// REQ-079: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
+// idioma, adultos y niños, refNumber, punto de encuentro y enlace de cancelación).
 export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const t = T[d.lang];
   const B = BRAND;
@@ -262,6 +273,7 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
   const SKY: Record<WeatherKind, string> = { sun: "☀️", partly: "⛅", cloud: "☁️", rain: "🌧️", storm: "⛈️", snow: "❄️", fog: "🌫️" };
   const w = d.weather ?? null;
+  const trip = d.tripUrl && /^https?:\/\//.test(d.tripUrl) ? d.tripUrl : null; // REQ-182
 
   const rows: [string, string][] = [
     [t.ref, d.refNumber],
@@ -329,6 +341,14 @@ ${cal ? `<div style="font-family:${mono};font-size:10px;letter-spacing:1.5px;tex
 <p style="margin:14px 0 0;font-size:12px;line-height:1.5;color:${B.muted}">${esc(t.manageNote)}</p>
 </td></tr>
 
+${trip ? `<tr><td style="padding:22px 22px 0">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${SOFT};border:1px solid ${LINE};border-radius:16px"><tr><td style="padding:18px 18px 20px">
+<div style="font-size:18px;font-weight:700;color:${N9}">${esc(t.tripTitle)}</div>
+<p style="margin:6px 0 14px;font-size:14px;line-height:1.5;color:${B.darkBlue}">${esc(t.tripSub(d.cityName ?? null))}</p>
+${ghost(trip, `${esc(t.tripCta)} →`)}
+</td></tr></table>
+</td></tr>` : ""}
+
 ${gallery.length ? `<tr><td style="padding:22px 20px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${gallery.map((u) => `<td style="padding:0 6px" width="${Math.floor(100 / gallery.length)}%"><img src="${esc(u)}" alt="${esc(d.tourTitle)}" width="270" style="display:block;width:100%;height:auto;border-radius:14px;border:0"></td>`).join("")}</tr></table></td></tr>` : ""}
 
 ${reviews.length ? `<tr><td style="padding:30px 26px 0">
@@ -383,6 +403,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
     "",
     `${t.manage}: ${d.manageUrl}`,
     t.manageNote,
+    ...(trip ? ["", `${t.tripTitle}: ${trip}`, t.tripSub(d.cityName ?? null)] : []),
     ...(reviews.length ? ["", t.reviewsTitle, ...reviews.map((r) => `${stars(r.rate)} "${r.text}" — ${r.name}`)] : []),
     "",
     t.tipsTitle,

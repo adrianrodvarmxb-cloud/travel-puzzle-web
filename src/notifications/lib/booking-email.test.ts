@@ -224,3 +224,66 @@ describe("meetingPointText", () => {
     expect(meetingPointText(null, "es")).toBeNull();
   });
 });
+
+// REQ-079: correos de Modo 2 (FREETOUR, guía PDF A2/A3): confirmación con los 9 datos,
+// recordatorio, cancelación y rechazo.
+describe("REQ-079 correos de Modo 2", () => {
+  const nueve = {
+    titulo: data.tourTitle,
+    proveedor: data.provider,
+    fecha: "31 de octubre de 2026, 08:00",
+    duracion: data.duration,
+    idioma: "Francés",
+    adultosYNinos: "2 adultos, 1 niño",
+    refNumber: data.refNumber,
+    puntoDeEncuentro: data.meetingPoint,
+    enlaceCancelacion: data.manageUrl,
+  };
+
+  it("REQ-079: la confirmación trae los 9 datos en HTML y en texto plano", () => {
+    const { html, text } = buildBookingConfirmationEmail(data);
+    expect(Object.keys(nueve)).toHaveLength(9);
+    for (const [campo, valor] of Object.entries(nueve)) {
+      expect(html, `HTML sin ${campo}`).toContain(valor);
+      expect(text, `texto sin ${campo}`).toContain(valor);
+    }
+    // El enlace de cancelación se presenta como tal, no como URL suelta.
+    expect(text).toContain("Ver, cambiar o cancelar mi reserva: https://travelpuzzle.com.mx/reserva/abc");
+  });
+
+  it("REQ-079: en inglés también trae los 9 datos", () => {
+    const { text } = buildBookingConfirmationEmail({ ...data, lang: "en" });
+    for (const v of [data.tourTitle, "Mpika Tours", "October 31, 2026, 08:00", "2:30", "French", "2 adults, 1 child", data.refNumber, data.meetingPoint, `View, change or cancel my booking: ${data.manageUrl}`]) {
+      expect(text).toContain(v);
+    }
+  });
+
+  it("REQ-079: los recordatorios (48 h y del día) repiten los 9 datos con otro asunto", () => {
+    const confirmation = buildBookingConfirmationEmail(data).subject;
+    for (const variant of ["reminder48", "dayOf"] as const) {
+      const { subject, text } = buildBookingConfirmationEmail({ ...data, variant });
+      expect(subject).not.toBe(confirmation);
+      for (const v of Object.values(nueve)) expect(text).toContain(v);
+    }
+  });
+});
+
+describe("Correo de confirmación: «Arma el resto de tu viaje»", () => {
+  it("REQ-182: con enlace al carrito, el correo lo ofrece sin promover tours (solo complementos; regla B3)", () => {
+    const e = buildBookingConfirmationEmail({ ...data, cityName: "Ciudad de México", tripUrl: "https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123" });
+    expect(e.html).toContain("https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123");
+    expect(e.html).toContain("Arma el resto de tu viaje");
+    expect(e.text).toContain("Arma el resto de tu viaje: https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123");
+    const block = e.text.split("\n").filter((l) => l.includes("resto de tu viaje") || l.includes("eSIM"));
+    expect(block.join(" ").toLowerCase()).not.toMatch(/tour|freetour/);
+    const en = buildBookingConfirmationEmail({ ...data, lang: "en", tripUrl: "https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123" });
+    expect(en.html).toContain("Build the rest of your trip");
+  });
+
+  it("REQ-182: sin enlace (bandera apagada) el correo no menciona el carrito", () => {
+    const e = buildBookingConfirmationEmail({ ...data });
+    expect(e.html).not.toContain("arma-tu-viaje");
+    expect(e.html).not.toContain("Arma el resto de tu viaje");
+    expect(buildBookingConfirmationEmail({ ...data, tripUrl: "javascript:alert(1)" }).html).not.toContain("javascript:");
+  });
+});

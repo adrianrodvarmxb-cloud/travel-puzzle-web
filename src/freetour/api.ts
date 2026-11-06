@@ -2,7 +2,15 @@ import type { FreetourConfig } from "./lib/hosts";
 
 /** Error con el status y el código reales que devuelve Freetour. */
 export class FreetourError extends Error {
-  constructor(message: string, readonly status: number, readonly errorCode: number | null) {
+  constructor(
+    message: string,
+    readonly status: number,
+    readonly errorCode: number | null,
+    /** REQ-077: cabecera Retry-After (429), para que el sync espere lo que pide la API. */
+    readonly retryAfter: string | null = null,
+    /** REQ-077: el fallo fue en /login (no se reintenta en bucle: la API bloquea la cuenta). */
+    readonly login = false
+  ) {
     super(message);
     this.name = "FreetourError";
   }
@@ -33,11 +41,12 @@ export function createFreetourApi({ config, fetch: fetchImpl, now = Date.now }: 
   let token: string | null = null;
   let expiresAt = 0;
 
-  async function parse(res: Response) {
+  async function parse(res: Response, isLogin = false) {
     const body = await res.json().catch(() => null);
     if (!res.ok) {
       const data = body?.data ?? {};
-      throw new FreetourError(data.errorMessage ?? `Freetour respondió ${res.status}`, res.status, data.errorCode ?? null);
+      const retryAfter = res.headers?.get?.("retry-after") ?? null;
+      throw new FreetourError(data.errorMessage ?? `Freetour respondió ${res.status}`, res.status, data.errorCode ?? null, retryAfter, isLogin);
     }
     return body;
   }
@@ -49,7 +58,7 @@ export function createFreetourApi({ config, fetch: fetchImpl, now = Date.now }: 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: config.email, password: config.password }),
     });
-    const body = await parse(res);
+    const body = await parse(res, true);
     token = body.data.token.accessToken as string;
     expiresAt = now() + TOKEN_TTL_MS;
     return token;

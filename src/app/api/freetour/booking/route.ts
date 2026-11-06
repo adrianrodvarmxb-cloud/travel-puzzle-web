@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cartFlags } from '@/cart/lib/flags';
+import { tripUrl } from '@/cart/lib/links';
 import { zFTBookingDTO } from '@/lib/api/schemas/FTBooking.Schema';
 import { createGatewayClient } from '@/booking/gateway-client';
 import { placeBooking, recordBooking, BookingRejected, type BookingRejectionCode } from '@/booking/service';
@@ -18,6 +20,8 @@ import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
+import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
+import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +33,7 @@ const STATUS: Record<BookingRejectionCode, number> = {
     no_availability: 409,
     already_booked: 409,
     provider_error: 502,
+    adult_required: 400,
 };
 
 /**
@@ -36,7 +41,7 @@ const STATUS: Record<BookingRejectionCode, number> = {
  * Detrás del interruptor BOOKINGS_ENABLED ("true" para activar).
  */
 export async function POST(request: NextRequest) {
-    const raw = (await request.json().catch(() => null)) as { idempotencyKey?: unknown } | null;
+    const raw = (await request.json().catch(() => null)) as { idempotencyKey?: unknown; contactIsAdult?: unknown } | null;
     const parsed = zFTBookingDTO.safeParse(raw);
     if (!parsed.success) {
         return NextResponse.json({ error: 'invalid_booking', details: parsed.error.flatten() }, { status: 400 });
@@ -45,8 +50,10 @@ export async function POST(request: NextRequest) {
     try {
         const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
         const repo = createBookingRepo(getPrisma());
-        const { booking, price } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey) }, {
+        const { booking, price } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey), contactIsAdult: raw?.contactIsAdult === true }, {
             enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
+            // REQ-083: contacto adulto, tras ADULT_CONTACT_CHECK_ENABLED (apagada).
+            adultContactRequired: isAdultContactCheckEnabled(process.env.ADULT_CONTACT_CHECK_ENABLED),
             hasActiveBooking: async (eventId, email) => isOverlap(await repo.findByEventAndEmail(eventId, email), { eventId, email }),
             getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(`/event/${id}`)) as { data: unknown }).data),
             gateway: createGatewayClient({
@@ -72,6 +79,10 @@ export async function POST(request: NextRequest) {
                 siteUrl: process.env.SITE_URL ?? '',
                 getTour: (id, l) => getTourSummary(getPrisma(), id, l),
                 getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+                // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
+                freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
+                // REQ-182: enlace a «Arma tu viaje» en la confirmación, solo con ARMA_TU_VIAJE_ENABLED.
+                armaTuViaje: cartFlags(process.env as Record<string, string | undefined>).enabled,
                 getWeather: async (mp, eventDate) => {
                     const c = coordsOf(mp);
                     return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;
@@ -89,7 +100,9 @@ export async function POST(request: NextRequest) {
                     ),
             });
         }
-        return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null });
+        // REQ-182: la pantalla de confirmación enlaza al carrito solo con la bandera encendida.
+        const trip = tripUrl({ site: '', token: record?.manageToken, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status: record?.status ?? '' });
+        return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null, tripUrl: trip });
     } catch (error) {
         if (error instanceof BookingRejected) {
             return NextResponse.json({ error: error.code, message: error.message }, { status: STATUS[error.code] });

@@ -10,6 +10,11 @@ concurrency:
   group: smoke-${{ github.head_ref }}
   cancel-in-progress: true
 
+# REQ-186: solo lectura de Actions, para esperar a que main termine de publicar antes de subir la versión del PR.
+permissions:
+  contents: read
+  actions: read
+
 env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
@@ -40,6 +45,22 @@ jobs:
           DATABASE_URL: file:./dev.db
       - name: Construir
         run: npx opennextjs-cloudflare build
+      # REQ-186: si main está publicando, se espera (máx. 20 min). Una versión de PR subida a la mitad de la publicación
+      # deja a main sin poder cargar sus secretos ni correr la prueba de humo en producción (6 nov 2026, 15e7cfd).
+      - name: Esperar a que main termine de publicar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 40); do
+            n=0
+            for st in in_progress queued; do
+              c=$(gh api "repos/${{ github.repository }}/actions/workflows/deploy-cloudflare.yml/runs?status=$st&per_page=1" --jq '.total_count' 2>/dev/null || echo 0)
+              n=$((n + c))
+            done
+            [ "$n" -eq 0 ] && { echo "Sin publicación en curso."; exit 0; }
+            echo "Hay $n publicación(es) de main en curso; espero 30 s ($i/40)."; sleep 30
+          done
+          echo "::warning::main sigue publicando después de 20 min; se sube de todos modos."
       - name: Subir versión (sin tráfico)
         id: version
         run: |

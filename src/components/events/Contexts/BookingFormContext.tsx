@@ -7,6 +7,7 @@ import { useFormBuilder } from '@/lib/utils/forms';
 import { IzFTBookingDTO } from '@/lib/api/schemas/FTBooking.Schema';
 import { StateAction } from '@/globals';
 import type { Booking } from '@/booking/gateway-client';
+import { checkAdultContact } from '@/booking/lib/adult-contact';
 
 interface BookingFormContextValue {
     form: IzFTBookingDTO;
@@ -25,6 +26,12 @@ interface BookingFormContextValue {
     bookingsEnabled: boolean;
     /** Reserva confirmada por Freetour (cuando ya se reservó). */
     booking: Booking | null;
+    /** REQ-182: enlace a «Arma tu viaje» que devuelve el servidor (solo con ARMA_TU_VIAJE_ENABLED). */
+    tripUrl: string | null;
+    /** REQ-083: ADULT_CONTACT_CHECK_ENABLED; si está encendida, el contacto debe declararse adulto. */
+    adultContactCheck: boolean;
+    contactIsAdult: boolean;
+    setContactIsAdult: (v: boolean) => void;
 }
 
 const BookingFormContext = createContext<BookingFormContextValue | undefined>(undefined);
@@ -33,9 +40,10 @@ interface BookingFormProviderProps {
     children: ReactNode;
     eventId: string;
     bookingsEnabled: boolean;
+    adultContactCheck?: boolean;
 }
 
-export function BookingFormProvider({ children, eventId, bookingsEnabled }: BookingFormProviderProps) {
+export function BookingFormProvider({ children, eventId, bookingsEnabled, adultContactCheck = false }: BookingFormProviderProps) {
     const { data: session } = useSession();
     const builderService = buildFTBookingDTO();
     const {
@@ -53,6 +61,9 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [booking, setBooking] = useState<Booking | null>(null);
+    const [tripUrl, setTripUrl] = useState<string | null>(null);
+    // REQ-083: casilla «soy mayor de edad», sin marcar por omisión.
+    const [contactIsAdult, setContactIsAdult] = useState(false);
     // Un token por formulario: si el envío se repite (doble clic, reintento), la pasarela no duplica la reserva.
     const [idempotencyKey] = useState(() => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : undefined));
 
@@ -88,6 +99,10 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
             setSubmitError('Revisa los datos del formulario antes de confirmar.');
             return;
         }
+        if (!checkAdultContact(contactIsAdult, adultContactCheck).ok) {
+            setSubmitError('La persona de contacto de la reserva debe ser mayor de edad.');
+            return;
+        }
 
         setIsSubmitting(true);
 
@@ -97,7 +112,7 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...form, idempotencyKey }),
+                body: JSON.stringify({ ...form, idempotencyKey, ...(adultContactCheck && { contactIsAdult }) }),
             });
 
             const result = await response.json();
@@ -106,6 +121,7 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
                 throw new Error(result.message || 'No pudimos confirmar tu reserva. Intenta de nuevo.');
             }
 
+            setTripUrl(typeof result.tripUrl === 'string' && result.tripUrl.startsWith('/arma-tu-viaje?') ? result.tripUrl : null);
             setBooking(result.booking);
         } catch (error) {
             setSubmitError(error instanceof Error ? error.message : 'No pudimos confirmar tu reserva. Intenta de nuevo.');
@@ -129,6 +145,10 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled }: Book
         isReady,
         bookingsEnabled,
         booking,
+        tripUrl,
+        adultContactCheck,
+        contactIsAdult,
+        setContactIsAdult,
     };
 
     return (

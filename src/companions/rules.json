@@ -1,0 +1,7 @@
+[
+  { "id": "free-tour-72h", "when": { "freeTourWithinHours": 72 }, "priority": ["day_trip", "tour", "transfer", "esim", "tickets"], "hide": ["lodging"] },
+  { "id": "mexico-viajero-local", "when": { "country": ["MX"], "travelerInCountry": true }, "hide": ["esim", "insurance"] },
+  { "id": "china", "when": { "country": ["CN"] }, "priority": ["esim"] },
+  { "id": "china-72h", "when": { "country": ["CN"], "freeTourWithinHours": 72 }, "hide": ["visa"] },
+  { "id": "peru", "when": { "country": ["PE"] }, "priority": ["day_trip", "tickets", "transport"] }
+]
