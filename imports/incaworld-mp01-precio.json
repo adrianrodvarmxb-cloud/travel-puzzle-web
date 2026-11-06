@@ -1,0 +1,142 @@
+{
+  "agency": {
+    "id": "ag-iwp",
+    "name": "Inca World Peru",
+    "initials": "IWP",
+    "notes": "Reservas CPM S.A.C. · RUC 20524295106 · Operador de turismo MINCETUR. Contacto operativo por confirmar (correo de César, nov 2026)."
+  },
+  "keyStamp": 1762300000,
+  "seqStart": 23,
+  "trips": [
+    {
+      "ref": "MP-01",
+      "status": "published",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 5556322,
+          "alt": "Machu Picchu y el Huayna Picchu"
+        },
+        {
+          "src": "pixabay",
+          "id": 1868536,
+          "alt": "Machu Picchu entre nubes"
+        },
+        {
+          "src": "pixabay",
+          "id": 2774925,
+          "alt": "Llama frente a la ciudadela de Machu Picchu"
+        },
+        {
+          "src": "pixabay",
+          "id": 8162946,
+          "alt": "Terrazas agrícolas de Machu Picchu"
+        }
+      ],
+      "trip": {
+        "kind": "tour",
+        "purchaseMode": "quote",
+        "category": "cultural",
+        "titleEs": "Machu Picchu Full Day desde Cusco",
+        "summaryEs": "Día completo a Machu Picchu desde Cusco con tren, bus, entrada y guía incluidos.",
+        "highlights": [
+          "Tren al pueblo de Aguas Calientes",
+          "Visita guiada a la ciudadela inca",
+          "Bus de subida y bajada",
+          "Boleto de entrada incluido"
+        ],
+        "descriptionEs": "Viaja en tren desde Cusco y el Valle Sagrado hasta Aguas Calientes, sube en bus a la ciudadela y recórrela con un guía profesional antes de regresar a Cusco el mismo día.",
+        "importantInfo": "Machu Picchu: los boletos son nominativos y deben comprarse con al menos 3 meses de anticipación con los datos exactos del pasaporte. Una vez comprados no son reembolsables ni admiten cambio de fecha. Compramos los boletos solo después del plazo de 5 días hábiles de tu contrato.\nOperador local: Inca World Peru (Reservas CPM S.A.C., RUC 20524295106), operador de turismo registrado ante MINCETUR.",
+        "whatToBring": "",
+        "difficulty": "facil",
+        "countries": [
+          "PE"
+        ],
+        "cities": [
+          "Cusco",
+          "Aguas Calientes"
+        ],
+        "durationDays": 1,
+        "languages": [
+          "es",
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona en USD.",
+        "options": [
+          {
+            "id": "regular",
+            "name": "Servicio regular",
+            "mode": "group",
+            "adult": 522,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "minNoticeHours": 1440,
+        "cancellation": {
+          "type": "custom",
+          "tiers": [
+            {
+              "daysBefore": 62,
+              "refundPct": 100
+            },
+            {
+              "daysBefore": 16,
+              "refundPct": 70
+            },
+            {
+              "daysBefore": 8,
+              "refundPct": 50
+            },
+            {
+              "daysBefore": 3,
+              "refundPct": 20
+            },
+            {
+              "daysBefore": 0,
+              "refundPct": 0
+            }
+          ]
+        },
+        "meetingPoints": [
+          {
+            "name": "Hotel en el centro histórico de Cusco",
+            "address": "",
+            "lat": -13.5167,
+            "lng": -71.9787,
+            "instructions": "Recogida en tu hotel; la hora exacta se confirma con la reserva.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": true,
+        "includes": [
+          "Tren de ida y vuelta",
+          "Bus de subida y bajada a Machu Picchu",
+          "Boleto de entrada a Machu Picchu",
+          "Guía profesional",
+          "Traslados indicados"
+        ],
+        "excludes": [
+          "Vuelos y traslados no indicados",
+          "Alimentación no indicada",
+          "Gastos personales",
+          "Propinas"
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      }
+    }
+  ]
+}
