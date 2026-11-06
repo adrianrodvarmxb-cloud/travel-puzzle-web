@@ -19,8 +19,8 @@ export const en = {
   
   // Hero Section
   'hero.title': 'Discover Your Next Adventure',
-  'hero.subtitle': "Tours with local guides around the world",
-  'hero.cta.browse': 'Browse Tours',
+  'hero.subtitle': "Experiences with local guides around the world",
+  'hero.cta.browse': "Browse experiences",
   'hero.cta.howItWorks': 'How It Works',
   
   // Home
@@ -55,15 +55,15 @@ export const en = {
   
   // Tours
   'tours.title': "All experiences",
-  'tours.subtitle': 'tours available',
+  'tours.subtitle': "experiences available",
   'tours.lastUpdated': 'Last updated',
-  'tours.featuredTitle': 'Featured Tours',
-  'tours.viewAll': 'View All Tours',
+  'tours.featuredTitle': "Featured experiences",
+  'tours.viewAll': "View all experiences",
   'tours.filter.destination': 'Destination',
   'tours.filter.priceRange': 'Price Range',
   'tours.filter.provider': 'Provider',
   'tours.filter.sortBy': 'Sort By',
-  'tours.filter.search': 'Search tours...',
+  'tours.filter.search': "Search experiences...",
   'tours.viewDetails': 'View Details',
   'tours.bookNow': 'Book Now',
   'tours.duration': 'Duration',
@@ -93,10 +93,10 @@ export const en = {
   
   // How It Works
   'howItWorks.title': 'How It Works',
-  'howItWorks.step1.title': 'Browse Tours',
+  'howItWorks.step1.title': "Browse experiences",
   'howItWorks.step1.description': 'Explore destinations and activities from trusted providers',
   'howItWorks.step2.title': 'Book Securely',
-  'howItWorks.step2.description': 'Choose your tour and complete booking with our partners',
+  'howItWorks.step2.description': "Choose your experience and complete booking with our partners",
   'howItWorks.step3.title': 'Enjoy Your Trip',
   'howItWorks.step3.description': 'Receive confirmation and get ready for your adventure',
   
@@ -106,7 +106,7 @@ export const en = {
   'booking.status.confirmed': 'Confirmed',
   'booking.status.cancelled': 'Cancelled',
   'booking.empty': 'No bookings yet',
-  'booking.viewTour': 'View Tour',
+  'booking.viewTour': "View experience",
   'booking.totalAmount': 'Total Amount',
   'booking.bookingDate': 'Booking Date',
   
@@ -217,12 +217,12 @@ export const en = {
   // Reviews
   'reviews.tourTitle': 'Traveler reviews',
   'reviews.total': '{count} reviews in total',
-  'reviews.source': "Opinions from people who took the tour",
+  'reviews.source': "Opinions from people who already lived the experience",
   'home.recentReviews.title': 'What travelers say',
   "reviews.count": "{count} reviews",
   "reviews.showMore": "Show more reviews",
   "tours.favorite": "Traveler favorite",
-  "reviews.seeTour": "See tour",
+  "reviews.seeTour": "See experience",
   "tours.backToTours": "Back to all experiences",
   "tours.directions": "Get directions",
   "tours.headline": "Find your tour.",
@@ -240,12 +240,12 @@ export const en = {
   "tours.map.loading": "Loading map…",
   "tours.map.error": "We couldn't load the map.",
   "tours.map.empty": "The experiences on this page have no meeting point on the map.",
-  "tours.map.view": "View tour",
+  "tours.map.view": "View experience",
   "tours.map.show": "Map",
   "tours.map.list": "List",
   "tours.filters.toggle": "Filters",
   "tours.noResultsHelp": "Try another city or message us on WhatsApp and we'll help.",
   "pagination.pageOf": "Page {current} of {total}",
   "tours.searchCta": "Search",
-  "tours.tipNote": "At the end of the tour, tip the guide what you think is fair.",
+  "tours.tipNote": "At the end of the experience, tip the guide what you think is fair.",
 };

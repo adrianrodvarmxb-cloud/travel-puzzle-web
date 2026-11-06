@@ -111,12 +111,12 @@ export function cityFaq(city: CityNode): { q: string; a: string }[] {
   const tours = city.paidTours.length + city.ownTrips.length;
   return [
     ...(free ? [{ q: `¿Qué es un free tour en ${city.name}?`, a: "Es un recorrido con un guía local en el que reservar es gratis; al final le das al guía lo que consideres justo." }] : []),
-    { q: `¿Cuántos tours hay en ${city.name}?`, a: `Hoy hay ${plural(free, "free tour", "free tours")} y ${plural(tours, "tour", "tours")} en ${city.name} en Travel Puzzle.` },
+    { q: `¿Cuántas experiencias hay en ${city.name}?`, a: `Hoy hay ${plural(free, "free tour", "free tours")} y ${plural(tours, "tour", "tours")} en ${city.name} en Travel Puzzle.` },
     {
       q: "¿Puedo cancelar mi reserva?",
       a: "Los free tours se cancelan gratis en cualquier momento; si tu grupo paga tarifa fija, la cancelación con reembolso es hasta 24 h antes. Los tours de pago tienen cancelación con reembolso hasta 24 h antes.",
     },
-    { q: "¿Me ayudan con el resto del viaje?", a: "Sí. Un asesor de Travel Puzzle te ayuda en español por WhatsApp con traslados y otros tours." },
+    { q: "¿Me ayudan con el resto del viaje?", a: "Sí. Un asesor de Travel Puzzle te ayuda en español por WhatsApp con traslados y otras experiencias." },
   ];
 }
 
@@ -220,7 +220,7 @@ export interface GonePlace {
   cityLive: boolean;
 }
 
-const GONE_FIXED: GoneView = { title: "Este tour", cityName: "otros destinos", cityHref: ROUTES.destinos };
+const GONE_FIXED: GoneView = { title: "Esta experiencia", cityName: "otros destinos", cityHref: ROUTES.destinos };
 
 // REQ-092: lo que muestra la página 410, desde la fila de la base. Sin tour o si no está retirado: texto fijo.
 export function goneViewFromPlace(p: GonePlace | null): GoneView {
@@ -241,7 +241,7 @@ export function goneViewFromPlace(p: GonePlace | null): GoneView {
 export function goneView(sp: Record<string, string | string[] | undefined>): GoneView {
   const href = one(sp.h);
   return {
-    title: one(sp.t).trim().slice(0, 160) || "Este tour",
+    title: one(sp.t).trim().slice(0, 160) || "Esta experiencia",
     cityName: one(sp.c).trim().slice(0, 120) || "otros destinos",
     cityHref: DEST_HREF.test(href) ? href : ROUTES.destinos,
   };
