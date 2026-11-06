@@ -2,9 +2,14 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { destinationsMiddleware } from '@/destinations/middleware';
+import { toursKindRedirect } from '@/trips/lib/public';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // REQ-172: el transporte no es un tour. /tours?tipo=transporte → 301 a la sección de transporte de /traslados.
+  const toTransport = toursKindRedirect(pathname, request.nextUrl.searchParams, process.env.TRANSPORT_ENABLED === 'true');
+  if (toTransport) return NextResponse.redirect(new URL(toTransport, request.url), 301);
 
   // REQ-092 / REQ-102: 301 desde URLs viejas (solo si ya hay slug), 410 de tours retirados y sitemaps por país.
   // Solo con PRIMERA_PIEZA_ENABLED="true"; apagada, el middleware queda igual que hoy.

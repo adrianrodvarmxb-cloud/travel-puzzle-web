@@ -12,7 +12,7 @@ describe("tripPath (gate K)", () => {
 
 describe("chips visibles", () => {
   it("solo los tipos que existen (todo y free siempre)", () => {
-    expect(visibleKindFilters(["transporte", "tour"])).toEqual(["all", "free", "tour", "transporte"]);
+    expect(visibleKindFilters(["circuito", "tour"])).toEqual(["all", "free", "tour", "circuito"]); // REQ-172: transporte ya no es chip
     expect(visibleKindFilters([])).toEqual(["all", "free"]);
   });
 });
@@ -102,3 +102,31 @@ describe("REQ-057 viajes propios: palabra, no pedazo", () => {
   });
 });
 
+
+// REQ-172: el transporte no es un tour; vive fuera de /tours, en /traslados.
+import { TOURS_KIND_FILTERS, isToursKindFilter, toursTrips, transportTrips, toursKindRedirect, TRANSPORT_SECTION_PATH } from "./public";
+describe("REQ-172: transporte fuera de /tours", () => {
+  const cards = [{ id: "a", kind: "tour" as const }, { id: "b", kind: "transporte" as const }, { id: "c", kind: "circuito" as const }];
+  it("REQ-172: los chips de /tours nunca ofrecen «Transporte»", () => {
+    expect(TOURS_KIND_FILTERS).toEqual(["tour", "circuito", "unica"]);
+    expect(visibleKindFilters(["transporte", "tour"])).toEqual(["all", "free", "tour"]);
+    expect(visibleKindFilters(["transporte"])).toEqual(["all", "free"]);
+    expect(isToursKindFilter("transporte")).toBe(false);
+    expect(isToursKindFilter("circuito")).toBe(true);
+  });
+  it("REQ-172: /tours recibe los viajes sin transporte (listado, conteos y buscador)", () => {
+    expect(toursTrips(cards).map((c) => c.id)).toEqual(["a", "c"]);
+  });
+  it("REQ-172: /traslados recibe solo los de transporte", () => {
+    expect(transportTrips(cards).map((c) => c.id)).toEqual(["b"]);
+  });
+  it("REQ-172: /tours?tipo=transporte va con 301 a la sección de transporte de /traslados (solo con el transporte visible)", () => {
+    expect(TRANSPORT_SECTION_PATH).toBe("/traslados#transporte-turistico");
+    expect(toursKindRedirect("/tours", new URLSearchParams("tipo=transporte"), true)).toBe("/traslados#transporte-turistico");
+    expect(toursKindRedirect("/tours", new URLSearchParams("tipo=transporte&countryId=3"), true)).toBe("/traslados#transporte-turistico");
+    expect(toursKindRedirect("/tours", new URLSearchParams("tipo=transporte"), false)).toBeNull();
+    expect(toursKindRedirect("/tours", new URLSearchParams("tipo=tour"), true)).toBeNull();
+    expect(toursKindRedirect("/tours/123", new URLSearchParams("tipo=transporte"), true)).toBeNull();
+    expect(toursKindRedirect("/", new URLSearchParams("tipo=transporte"), true)).toBeNull();
+  });
+});

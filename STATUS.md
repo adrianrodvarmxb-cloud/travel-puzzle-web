@@ -182,6 +182,7 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-156 | «Opciones de pago» solo con pagos en línea | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
 | REQ-157 | «Asesores» siempre; «Itinerarios a tu medida» solo en personalizado | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
 | REQ-158 | Encender TRANSPORT_ENABLED (protocolo de bandera) | `wrangler.jsonc` | prueba de humo del preview | EN CURSO (PR #127) |
+| REQ-172 | Transporte fuera de /tours; sección «Transporte turístico» en /traslados; Traslados en /destinos | `src/trips/lib/public.ts`, `src/transfers/lib/page-mode.ts`, `src/destinations/lib/catalog.ts`, `src/middleware.ts`, `src/app/tours/page.tsx`, `src/app/traslados/page.tsx`, `src/app/destinos/[pais]/[ciudad]/page.tsx` | `public.test.ts`, `page-mode.test.ts`, `catalog.test.ts`, prueba de humo | EN CURSO (tests verdes; falta OK del PO) |
 
 ## Métricas La Primera Pieza (REQ-111, metas firmadas en el gate 5 del plan)
 Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_TARGETS`). Sin dato = no cumple; nada se simula.

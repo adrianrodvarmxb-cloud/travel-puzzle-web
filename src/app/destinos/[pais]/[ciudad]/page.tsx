@@ -42,6 +42,7 @@ export default async function CityPage({ params }: Props) {
     const requestCities = await Promise.all(DEFAULT_REGISTRY.filter((e) => e.adapter === 'request').map(async (e) => [e.id, await providerCities(db, e.provider)] as const));
     const groups = hubModel(DEFAULT_REGISTRY, { whatsapp: contactFromEnv(env).whatsapp, citiesByEntry: Object.fromEntries(requestCities) });
     const transport = cityTransportCards(groups, city.name, trasladosMode(env) !== 'hidden');
+    // REQ-172: el transporte (Big Bus…) no es un tour: city.ownTrips ya no lo trae; va en Traslados.
     const tours = [...city.paidTours, ...city.ownTrips];
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
@@ -56,9 +57,10 @@ export default async function CityPage({ params }: Props) {
                     <TourGrid tours={tours} />
                 </Section>
             )}
-            {transport.length > 0 && (
+            {(transport.length > 0 || city.transportTrips.length > 0) && (
                 <Section id="traslados" title="Traslados" subtitle="Cada tarjeta dice quién lo cobra.">
-                    <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {city.transportTrips.length > 0 && <TourGrid tours={city.transportTrips} />}
+                    {transport.length > 0 && <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {transport.map((c) => (
                             <li key={c.id} className="flex flex-col rounded-2xl border border-white/10 bg-[#121D45] p-5 text-white">
                                 <p className="font-display text-lg font-semibold">{c.title}</p>
@@ -71,7 +73,7 @@ export default async function CityPage({ params }: Props) {
                                 )}
                             </li>
                         ))}
-                    </ul>
+                    </ul>}
                 </Section>
             )}
             {city.guide && (

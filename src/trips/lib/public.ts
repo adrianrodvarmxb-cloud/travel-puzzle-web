@@ -21,9 +21,36 @@ export type ToursKindFilter = "all" | "free" | "tour" | "circuito" | "unica" | "
 export const OWN_KIND_FILTERS = ["tour", "circuito", "unica", "transporte"] as const;
 export const isOwnKindFilter = (k: string): k is (typeof OWN_KIND_FILTERS)[number] => (OWN_KIND_FILTERS as readonly string[]).includes(k);
 
-/** Chips de /tours: "todo" y "free" siempre; de los propios, solo los tipos que existen. */
+/** REQ-172: tipos que /tours ofrece como chip. El transporte no es un tour: vive en /traslados (decisión del PO, 6 nov 2026). */
+export const TOURS_KIND_FILTERS = ["tour", "circuito", "unica"] as const;
+export const isToursKindFilter = (k: string): k is (typeof TOURS_KIND_FILTERS)[number] => (TOURS_KIND_FILTERS as readonly string[]).includes(k);
+
+/** Chips de /tours: "todo" y "free" siempre; de los propios, solo los tipos que existen (nunca transporte, REQ-172). */
+// REQ-172
 export function visibleKindFilters(kinds: string[]): ToursKindFilter[] {
-  return ["all", "free", ...OWN_KIND_FILTERS.filter((k) => kinds.includes(k))];
+  return ["all", "free", ...TOURS_KIND_FILTERS.filter((k) => kinds.includes(k))];
+}
+
+/** REQ-172: lo que /tours mezcla (listado, chips, conteos y buscador): todo menos transporte. */
+// REQ-172
+export function toursTrips<T extends { kind: string }>(cards: T[]): T[] {
+  return cards.filter((c) => c.kind !== "transporte");
+}
+
+/** REQ-172: lo que lista la sección «Transporte turístico» de /traslados. */
+// REQ-172
+export function transportTrips<T extends { kind: string }>(cards: T[]): T[] {
+  return cards.filter((c) => c.kind === "transporte");
+}
+
+export const TRANSPORT_SECTION_ID = "transporte-turistico";
+export const TRANSPORT_SECTION_PATH = `/traslados#${TRANSPORT_SECTION_ID}`;
+
+/** REQ-172: /tours?tipo=transporte (enlaces viejos) → 301 a la sección de /traslados, solo con el transporte visible. */
+// REQ-172
+export function toursKindRedirect(pathname: string, search: URLSearchParams, transportVisible: boolean): string | null {
+  if (!transportVisible || pathname.replace(/\/+$/, "") !== "/tours") return null;
+  return search.get("tipo") === "transporte" ? TRANSPORT_SECTION_PATH : null;
 }
 
 const fold = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();

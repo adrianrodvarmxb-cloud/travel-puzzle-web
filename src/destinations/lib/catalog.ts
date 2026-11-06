@@ -42,7 +42,7 @@ export interface TourRow {
   updatedAt: string;
 }
 /** Viaje propio publicado: países ISO-2 y ciudades por nombre, tal como se capturan en el gestor. */
-export interface TripRow { id: string; slug: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string }
+export interface TripRow { id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string }
 
 export interface TourCardModel {
   id: string;
@@ -73,6 +73,8 @@ export interface CityNode {
   freeTours: TourCardModel[];
   paidTours: TourCardModel[];
   ownTrips: TourCardModel[];
+  /** REQ-172: viajes de tipo transporte (Big Bus…): sección Traslados de la ciudad, no Tours. */
+  transportTrips: TourCardModel[];
 }
 export interface CountryNode { id: number; iso2: string; slug: string; name: string; href: string; indexable: boolean; cities: CityNode[] }
 
@@ -134,13 +136,17 @@ export function destinationTree({ countries, cities, tours, trips, now }: TreeIn
     for (const city of cities.filter((x) => x.countryId === c.id && x.slug && SLUG.test(x.slug))) {
       const citySlug = city.slug!;
       const mine = (toursByCity.get(city.id) ?? []).map((t) => tourCard(t, slug, citySlug));
-      const own = trips
+      const here = trips
         .filter((tr) => SLUG.test(tr.slug) && tripInCity(tr, iso2, city.translations))
         .map((tr): TourCardModel => ({
           id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: null, image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
         }));
-      const activeTours = mine.length + own.length;
+      // REQ-172: el transporte no es un tour; cuenta para que la ciudad tenga página, pero se lista en Traslados.
+      const transportIds = new Set(trips.filter((tr) => tr.kind === "transporte").map((tr) => tr.id));
+      const own = here.filter((t) => !transportIds.has(t.id));
+      const transport = here.filter((t) => transportIds.has(t.id));
+      const activeTours = mine.length + here.length;
       if (!cityHasPage(activeTours)) continue;
       const meets = cityMeetsRule({ activeTours, guide: city.guide });
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
@@ -150,6 +156,7 @@ export function destinationTree({ countries, cities, tours, trips, now }: TreeIn
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),
         ownTrips: own,
+        transportTrips: transport,
       });
     }
     if (!nodes.length) continue;
@@ -182,4 +189,5 @@ export function findCity(tree: CountryNode[], pais: string, ciudad: string): { c
   return country && city ? { country, city } : null;
 }
 
-export const allTours = (city: CityNode) => [...city.freeTours, ...city.paidTours, ...city.ownTrips];
+/** Todas las fichas de la ciudad (incluye transporte: su ficha y el sitemap siguen, REQ-172). */
+export const allTours = (city: CityNode) => [...city.freeTours, ...city.paidTours, ...city.ownTrips, ...city.transportTrips];
