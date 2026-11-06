@@ -252,5 +252,6 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firmado por el PO el 6 nov 2026) |
 | REQ-142 | País propio por ciudad: Hong Kong → HK, Tórshavn → FO | `src/geo/lib/country.ts`, `dry-run-v2.ts`, `src/scripts/geo-cruce-v2.ts`, `src/geo/data/city-country-overrides.csv` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (se escribe con la 0016: G3/G4) |
 | REQ-143 | Las 5 dudosas decididas por el PO (Alajuela ADM1, SLP ADM1, La Palma sin geonameid, Diani Beach, Ao Nang) | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
+| REQ-170 | Ficha de tour de pago: EUR con MXN aproximado (FREETOUR D4), tras PRIMERA_PIEZA_ENABLED | `src/tours/lib/price-label.ts`, `TourSidebar.tsx`, `TourMobileBar.tsx`, `TourDetailClient.tsx`, `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `app/tours/[id]/page.tsx` | `price-label.test.ts` | CUMPLIDO |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.
