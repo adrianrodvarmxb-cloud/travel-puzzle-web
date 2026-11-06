@@ -173,9 +173,9 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-147 | «Disponible en» solo con viajes publicados | `src/companions/load.ts` | `load.test.ts` | CUMPLIDO |
 | REQ-153 | Sin transporte en el carrusel «Viajes armados por nuestros expertos» | `src/home/lib/carousel.ts`, `src/components/home/v2/OwnTripsCarousel.tsx` | `carousel.test.ts` | EN CURSO |
 | REQ-154 | «Guía en español» solo con guía en vivo en español | `src/trips/lib/guarantees.ts`, `TripGuarantees.tsx`, `TripDetailView.tsx` | `guarantees.test.ts` | EN CURSO |
-| REQ-155 | Encender TRANSPORT_ENABLED (protocolo de bandera) | `wrangler.jsonc` | prueba de humo del preview | EN CURSO (PR #127) |
 | REQ-156 | «Opciones de pago» solo con pagos en línea | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
 | REQ-157 | «Asesores» siempre; «Itinerarios a tu medida» solo en personalizado | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
+| REQ-158 | Encender TRANSPORT_ENABLED (protocolo de bandera) | `wrangler.jsonc` | prueba de humo del preview | EN CURSO (PR #127) |
 
 ## Métricas La Primera Pieza (REQ-111, metas firmadas en el gate 5 del plan)
 Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_TARGETS`). Sin dato = no cumple; nada se simula.
