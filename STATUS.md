@@ -91,7 +91,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-002 | Si una sección falla, el resto sigue | `src/components/common/SectionBoundary.tsx`, `src/app/page.tsx`, `ToursPageClient.tsx` | `SectionBoundary.test.ts` | CUMPLIDO |
 | REQ-003 | Ningún deploy llega a producción si el smoke falla | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO (deploy #60) |
 | REQ-004 | País de tarjetas calculado en el servidor | `src/trips/lib/geo.ts`, `src/trips/public-load.ts`, `OwnTripCard.tsx` | `OwnTripCard.test.ts`, `geo.test.ts` | CUMPLIDO |
-Detalle: `docs/incidentes/INC-001.md`.
+| REQ-221 | Errores del navegador a los logs del Worker (`client-error`, zod) | `src/ops/lib/clientError.ts`, `src/app/api/client-error/route.ts`, `src/ops/reportClientError.ts`, `ClientErrorListener.tsx`, `SectionBoundary.tsx`, `error.tsx`, `global-error.tsx`, `tours/error.tsx` | `clientError.test.ts` | CUMPLIDO (logs en producción: PENDIENTE tras merge) |
+| REQ-222 | Regreso a mano (Cloudflare o revert en GitHub) | `docs/runbooks/rollback.md` | (documento) | CUMPLIDO |
+| REQ-223 | Humo abre /ayuda y /admin/entrar (404 válido tras bandera) y detecta las pantallas de error | `tests/smoke/pages.json`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO |
+| REQ-224 | `tsc --noEmit` como gate en PR y deploy | `.github/workflows/prueba-humo.yml`, `.github/workflows/deploy-cloudflare.yml` | `tsc-gate-workflow.test.ts` | CUMPLIDO |
+Detalle: `docs/incidentes/INC-001.md`. Regreso a mano: `docs/runbooks/rollback.md`.
 
 ## Ola X2a — venta cruzada en fichas (3 nov 2026)
 | ID | Requisito | Archivo(s) | Test | Estado |
