@@ -5,13 +5,18 @@ import { useLanguage } from '@/lib/language-context';
 import { Tour } from '@/types';
 import { ReviewSummary } from './ReviewSummary';
 import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
+import type { TourEvent } from '@/lib/api/freetour-client';
+import { PrimeraPiezaInfo, type PrimeraPiezaView } from './PrimeraPiezaInfo';
 
 interface TourHeroSectionProps {
     tour: Tour;
+    /** Ficha bajo /destinos (PRIMERA_PIEZA_ENABLED): insignia, «Operado por…» y aviso por evento. Sin esto, igual que hoy. */
+    primeraPieza?: PrimeraPiezaView | null;
+    events?: TourEvent[];
 }
 
 /** Galería en mosaico + título, etiquetas, resumen de reseñas y datos clave del tour. */
-export function TourHeroSection({ tour }: TourHeroSectionProps) {
+export function TourHeroSection({ tour, primeraPieza = null, events = [] }: TourHeroSectionProps) {
     const { t } = useLanguage();
     const images = tour.images.filter((img) => img && img.trim() !== '');
     const [showAll, setShowAll] = useState(false);
@@ -56,13 +61,14 @@ export function TourHeroSection({ tour }: TourHeroSectionProps) {
             )}
 
             <div className="mt-8 flex flex-wrap gap-2">
-                <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} />
+                {!primeraPieza && <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} />}
                 {tour.price === 0 && (
                     <span className="font-data rounded-md border border-[#7CC4FF] px-2 py-0.5 text-[11px] uppercase tracking-[0.15em] text-[#7CC4FF]">{t('tours.free')}</span>
                 )}
             </div>
             <h1 className="font-display mb-4 mt-3 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{tour.title}</h1>
             <ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark withBadge={false} />
+            {primeraPieza && <PrimeraPiezaInfo view={primeraPieza} events={events} />}
             {tour.brief && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{tour.brief}</p>}
 
             <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">

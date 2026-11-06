@@ -13,6 +13,8 @@ const ENVOLTURAS: Record<string, string> = {
   EmailFrame: "src/components/booking/email-ui.tsx",
   EventDetailClient: "src/components/events/EventDetailClient.tsx",
   BookingPageView: "src/app/reserva/[token]/BookingPageView.tsx",
+  DestinationsLayout: "src/components/destinations/DestinationsLayout.tsx",
+  TripDetailView: "src/components/trips/TripDetailView.tsx",
 };
 
 function pages(dir: string, out: string[] = []): string[] {
