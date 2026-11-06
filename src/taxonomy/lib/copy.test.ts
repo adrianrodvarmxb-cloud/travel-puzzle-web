@@ -20,8 +20,8 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
     expect(c({ categoryId: 12, price: 0, title: "Free tour por el centro" }).guiaEnPersona).toBe(true);
   });
   it("REQ-416 la intro de la ciudad solo promete guías locales si todo lo de «Tours» tiene guía en persona", () => {
-    expect(cityIntro("Roma", 3, [{ guiaEnPersona: true }, { guiaEnPersona: true }])).toBe("3 free tours y 2 tours con guías locales en Roma.");
-    expect(cityIntro("Roma", 3, [{ guiaEnPersona: true }, { guiaEnPersona: false }])).toBe("3 free tours y 2 tours y experiencias en Roma.");
+    expect(cityIntro("Roma", 3, [{ guiaEnPersona: true }, { guiaEnPersona: true }])).toBe("3 en Pieza libre y 2 tours con guías locales en Roma.");
+    expect(cityIntro("Roma", 3, [{ guiaEnPersona: true }, { guiaEnPersona: false }])).toBe("3 en Pieza libre y 2 tours y experiencias en Roma.");
   });
   it("REQ-416 «Operado por un guía local» solo con guía en persona", () => {
     expect(operatedByFor("Rome Audio", false, "Operado por un guía local · Rome Audio")).toBe("Operado por Rome Audio");

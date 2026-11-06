@@ -285,6 +285,7 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T5 · REQ-433 (sin MSI, pagos, «guía en español» ni la marca en el copy de T5) | `copy.ts` | `copy.test.ts` | CUMPLIDO |
 | T5 · G-T9 = A (title «– Excursión desde {Ciudad}» en excursiones; cambia REQ-099 solo para ese formato) | `copy.ts` (`tourTitleByFormat`), `page-model.ts` | `copy.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
 | T5 · REQ-269 (chip de la ciudad y etiqueta de la ficha «Pieza libre») | `src/taxonomy/lib/copy.ts` (vía `FORMATO_LABEL`) | `copy.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-271 (intro de la ciudad «N en Pieza libre y…»; el resto de REQ-271 va en #195) | `src/taxonomy/lib/copy.ts` (`cityIntro`) | `copy.test.ts` | CUMPLIDO (apagado) |
 
 ### Viajes propios: tarjetas con la caché fría (hallazgo del ensayo #178, 6 nov 2026)
 
