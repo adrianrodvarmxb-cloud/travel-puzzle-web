@@ -1,0 +1,4 @@
+# REQ-127: decisiones humanas por ciudad; ganan sobre el id guardado y sobre el cruce automático. Se cambian solo por PR.
+# accion: asignar (con geonameid) | no-indexar (sin página) | sin-geonameid (se publica sin geonameid, p. ej. isla o región)
+# Se llena con la revisión de geo-v2-revisar.csv del ensayo (paso 6 del informe). Vacío a propósito: ninguna decisión está firmada.
+provider,provider_city_id,accion,geonameid,nota,revisado_por

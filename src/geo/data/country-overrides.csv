@@ -1,0 +1,8 @@
+# REQ-125: países de FREETOUR que no son ISO 3166-1 alfa-2. Se cambia solo por PR revisado por el PO.
+# country_code vacío = sin país. por_ciudad=si = se decide ciudad por ciudad en an-cities.csv.
+provider,provider_country_id,codigo_crudo,country_code,region_code,indexable,por_ciudad,nota
+freetour,111,AN,,,si,si,Antillas Neerlandesas (extinto en ISO desde 2010): CW/SX/BQ por ciudad
+freetour,177,SCT,GB,GB-SCT,si,no,Escocia
+freetour,178,WLS,GB,GB-WLS,si,no,Gales
+freetour,179,NIR,GB,GB-NIR,si,no,Irlanda del Norte
+freetour,255,XX,,,no,no,Código de uso privado: sin página ni sitemap
