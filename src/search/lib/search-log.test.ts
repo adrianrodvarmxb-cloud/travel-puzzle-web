@@ -11,7 +11,7 @@ const require_ = createRequire(import.meta.url);
 type Stmt = { run: (...p: unknown[]) => unknown; all: (...p: unknown[]) => unknown[] };
 type Db = { exec: (sql: string) => void; prepare: (sql: string) => Stmt };
 const { DatabaseSync } = require_("node:sqlite") as { DatabaseSync: new (path: string) => Db };
-const MIGRATION = readFileSync(path.join(process.cwd(), "docs", "migraciones-propuestas", "0017_search_log_daily.sql"), "utf8");
+const MIGRATION = readFileSync(path.join(process.cwd(), "migrations", "0019_search_log_daily.sql"), "utf8");
 
 // 6 nov 2026, 05:30 UTC = 5 nov 23:30 en CDMX
 const NOW = Date.parse("2026-11-06T05:30:00Z");
@@ -88,8 +88,9 @@ describe("REQ-342 clics y bandera", () => {
     expect(err).toHaveBeenCalled();
     err.mockRestore();
   });
-  it("la migración propuesta NO está en migrations/ (nadie la aplica por accidente)", () => {
+  it("la migración es la 0019 (la 0017 es de la taxonomía y la 0018 está reservada para la T6) y solo agrega la tabla", () => {
     const files: string[] = require_("node:fs").readdirSync(path.join(process.cwd(), "migrations"));
-    expect(files.some((f) => /search_log/.test(f))).toBe(false);
+    expect(files.filter((f) => /search_log/.test(f))).toEqual(["0019_search_log_daily.sql"]);
+    expect(MIGRATION.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n")).not.toMatch(/\b(DROP|DELETE|UPDATE|ALTER)\b/);
   });
 });
