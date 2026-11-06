@@ -60,7 +60,10 @@ describe("REQ-092: 410 para tours removed", () => {
   it("REQ-092: la ficha nueva de un tour removed responde 410 con enlace a su ciudad", async () => {
     const d = await go("/destinos/mx/ciudad-de-mexico/centro-historico", repo({ tourPlaceBySlug: async () => place({ status: "removed" }) }));
     expect(d).toMatchObject({ type: "gone", status: 410 });
-    expect((d as { html: string }).html).toContain('href="/destinos/mx/ciudad-de-mexico"');
+    const q = new URL((d as { path: string }).path, "https://x").searchParams;
+    expect(new URL((d as { path: string }).path, "https://x").pathname).toBe("/tour-retirado");
+    expect(q.get("h")).toBe("/destinos/mx/ciudad-de-mexico");
+    expect(q.get("c")).toBe("Ciudad de México");
   });
 
   it("REQ-092: la URL vieja de un tour removed también responde 410", async () => {
@@ -69,8 +72,7 @@ describe("REQ-092: 410 para tours removed", () => {
 
   it("REQ-092: si la ciudad ya no tiene tours, el 410 enlaza a /destinos", async () => {
     const d = await go("/destinos/mx/ciudad-de-mexico/centro-historico", repo({ tourPlaceBySlug: async () => place({ status: "removed", cityLive: false }) }));
-    expect((d as { html: string }).html).toContain('href="/destinos"');
-    expect((d as { html: string }).html).not.toContain('href="/destinos/mx/ciudad-de-mexico"');
+    expect(new URL((d as { path: string }).path, "https://x").searchParams.get("h")).toBe("/destinos");
   });
 
   it("REQ-092: tour activo o missing en /destinos: la página lo sirve (200)", async () => {

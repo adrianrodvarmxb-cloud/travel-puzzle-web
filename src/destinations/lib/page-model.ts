@@ -200,13 +200,23 @@ export function cityTransportCards(groups: HubGroup[], cityName: string, transfe
 }
 const pick = (c: HubGroup["cards"][number]) => ({ id: c.id, title: c.title, description: c.description, chargedByLabel: c.chargedByLabel, price: c.price });
 
-const escHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export interface GoneView { title: string; cityName: string; cityHref: string }
+export const GONE_PATH = "/tour-retirado";
+const DEST_HREF = /^\/destinos(?:\/[a-z0-9]+(?:-[a-z0-9]+)*){0,2}$/;
+const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
 
-// REQ-092: página útil para un tour retirado (410), con enlace a su ciudad. La sirve el middleware.
-export function goneHtml({ title, cityName, cityHref }: { title: string | null; cityName: string; cityHref: string }): string {
-  const t = title ? escHtml(title) : "Este tour";
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Tour no disponible | Travel Puzzle</title>
-<style>body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#0A1330;color:#E3E9F7}main{max-width:640px;margin:0 auto;padding:64px 16px}h1{font-size:28px;line-height:1.2;color:#fff;margin:8px 0 12px}p{color:#C9D6F5;line-height:1.6}.k{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#7CC4FF}.b{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:#008DFF;color:#fff;text-decoration:none;font-weight:600;margin:8px 8px 0 0}.o{background:transparent;border:1px solid rgba(255,255,255,.25)}a.h{color:#7CC4FF}</style></head>
-<body><main><p class="k"><a class="h" href="/">Travel Puzzle</a></p><h1>${t} ya no está disponible</h1><p>Ya no se puede reservar. En ${escHtml(cityName)} hay otros tours disponibles.</p>
-<p><a class="b" href="${escHtml(cityHref)}">Ver tours en ${escHtml(cityName)}</a><a class="b o" href="${ROUTES.destinos}">Todos los destinos</a></p></main></body></html>`;
+// REQ-092: a dónde reescribe el middleware un tour removed (la página lleva el header del sitio y responde 410).
+export function goneRewritePath(v: { title: string | null; cityName: string; cityHref: string }): string {
+  const q = new URLSearchParams({ t: v.title ?? "", c: v.cityName, h: v.cityHref });
+  return `${GONE_PATH}?${q.toString()}`;
+}
+
+// REQ-092: lo que muestra la página 410. Solo enlaza dentro de /destinos (sin redirección abierta).
+export function goneView(sp: Record<string, string | string[] | undefined>): GoneView {
+  const href = one(sp.h);
+  return {
+    title: one(sp.t).trim().slice(0, 160) || "Este tour",
+    cityName: one(sp.c).trim().slice(0, 120) || "otros destinos",
+    cityHref: DEST_HREF.test(href) ? href : ROUTES.destinos,
+  };
 }

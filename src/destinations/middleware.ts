@@ -23,7 +23,8 @@ export async function destinationsMiddleware(request: NextRequest): Promise<Next
         if (!d) return null;
         if (d.type === 'redirect') return NextResponse.redirect(new URL(d.location, request.url), 301);
         if (d.type === 'rewrite') return NextResponse.rewrite(new URL(d.path, request.url));
-        return new NextResponse(d.html, { status: 410, headers: { 'content-type': 'text/html; charset=utf-8', 'x-robots-tag': 'noindex' } });
+        // REQ-092 / REQ-062: la página 410 es una página del sitio (header y footer); el visitante conserva su URL.
+        return NextResponse.rewrite(new URL(d.path, request.url), { status: 410, headers: { 'x-robots-tag': 'noindex' } });
     } catch (error) {
         console.error('[destinos] middleware:', (error as Error).message);
         return null;

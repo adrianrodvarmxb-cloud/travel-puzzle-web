@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { destinationTree, findCity } from "./catalog";
 import { fx, tour } from "../fixtures/destinos";
-import { cityPage, countryPage, destinosPage, primeraPiezaPage, tourPage, cityTransportCards, goneHtml, sitemapInput } from "./page-model";
+import { cityPage, countryPage, destinosPage, primeraPiezaPage, tourPage, cityTransportCards, goneRewritePath, goneView, sitemapInput } from "./page-model";
 import { buildSitemaps } from "@/seo/lib/sitemaps";
 import { findDuplicateTitles } from "@/seo/lib/titles";
 
@@ -166,13 +166,17 @@ describe("REQ-088: traslados en la ciudad desde el registro de complementos", ()
   });
 });
 
-describe("REQ-092: página 410", () => {
-  it("REQ-092: 410 útil con enlace a su ciudad y noindex", () => {
-    const html = goneHtml({ title: "Tour <viejo>", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
-    expect(html).toContain('href="/destinos/mx/ciudad-de-mexico"');
-    expect(html).toContain('<meta name="robots" content="noindex">');
-    expect(html).toContain("Tour &lt;viejo&gt;");
-    expect(html).not.toMatch(/freetour/i);
+describe("REQ-092: página 410 (con el header del sitio)", () => {
+  it("REQ-092: el middleware reescribe a /tour-retirado con el título, la ciudad y su enlace", () => {
+    const path = goneRewritePath({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
+    const u = new URL(path, "https://x");
+    expect(u.pathname).toBe("/tour-retirado");
+    expect(goneView(Object.fromEntries(u.searchParams))).toEqual({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
+  });
+  it("REQ-092: la página no acepta enlaces fuera de /destinos (sin redirección abierta) y tiene textos de respaldo", () => {
+    expect(goneView({ h: "https://malo.example", t: "", c: "" })).toEqual({ title: "Este tour", cityName: "otros destinos", cityHref: "/destinos" });
+    expect(goneView({ h: "//malo.example" }).cityHref).toBe("/destinos");
+    expect(goneView({ h: ["/destinos/pe"], t: "x".repeat(500) }).title).toHaveLength(160);
   });
 });
 

@@ -7,12 +7,12 @@
 import { planDestinationsRequest } from "./lib/request-plan";
 import { cityPath, legacyCountryResolution, legacyTourResolution, ownTripResolution, ROUTES, type Resolution } from "./lib/routes";
 import { ownTripPlace } from "./lib/catalog";
-import { goneHtml } from "./lib/page-model";
+import { goneRewritePath } from "./lib/page-model";
 import type { DestinationsRepo, TourPlaceRow } from "./repository";
 
 export type EdgeDecision =
   | { type: "redirect"; status: 301; location: string }
-  | { type: "gone"; status: 410; html: string }
+  | { type: "gone"; status: 410; path: string }
   | { type: "rewrite"; path: string }
   | null;
 
@@ -24,7 +24,7 @@ export interface EdgeDeps {
 
 function gone(p: TourPlaceRow): EdgeDecision {
   const live = p.cityLive && p.countrySlug && p.citySlug;
-  return { type: "gone", status: 410, html: goneHtml({ title: p.title || null, cityName: live ? p.cityName : "otros destinos", cityHref: live ? cityPath(p.countrySlug!, p.citySlug!) : ROUTES.destinos }) };
+  return { type: "gone", status: 410, path: goneRewritePath({ title: p.title || null, cityName: live ? p.cityName : "otros destinos", cityHref: live ? cityPath(p.countrySlug!, p.citySlug!) : ROUTES.destinos }) };
 }
 
 function apply(r: Resolution, p: TourPlaceRow | null): EdgeDecision {
