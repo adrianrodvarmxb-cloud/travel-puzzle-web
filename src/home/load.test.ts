@@ -86,6 +86,19 @@ describe("REQ-450/453: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
     expect(out.featured.map((t) => t.id)).toEqual(["t2", "t1"]);
   });
 
+  it("REQ-270: con la taxonomía (TAXONOMY_PUBLISH_ENABLED), lo que no se publica no entra a los carruseles; sin ella, como hoy", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const { homeTaxonomy } = await import("./load");
+    const stub = ((t: { title: string }) => ({ formato: /t1|t4/.test(t.title) ? "por-revisar" : "caminata", seccion: "experiencias", guiaEnPersona: true })) as unknown as NonNullable<ReturnType<typeof homeTaxonomy>>;
+    const rows = { all: [tourRow("t1", { rating: 5, reviews: 9000 }), tourRow("t2")], day: [tourRow("t4", { categoryId: 4, durationMinutes: 600 }), tourRow("t5", { categoryId: 4, durationMinutes: 600 })] };
+    const off = await loadHomeData({ prisma: prismaWith(rows), highlights: noHighlights, includePaid: false, lang: "es", carousels: true, taxonomy: homeTaxonomy(false) });
+    expect(off.featured.map((t) => t.id)).toEqual(["t1", "t2"]);
+    expect(off.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["t4", "t5"]);
+    const on = await loadHomeData({ prisma: prismaWith(rows), highlights: noHighlights, includePaid: false, lang: "es", carousels: true, taxonomy: stub });
+    expect(on.featured.map((t) => t.id)).toEqual(["t2"]);
+    expect(on.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["t5"]);
+  });
+
   it("REQ-453: «Excursiones de un día» mezcla tours con reseñas y viajes de proveedores sin reseñas (al final)", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const prisma = prismaWith({ all: [], day: [tourRow("t4", { categoryId: 4, durationMinutes: 600 }), tourRow("t5", { categoryId: 19, durationMinutes: 480 })] });

@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import { contactFromEnv } from '@/booking/tour-summary';
+import { isHelpVisible } from '@/help/lib/faq';
 
 const TEXT = {
     es: { title: 'No encontramos esta página', body: 'Puede que el enlace esté incompleto o que la página ya no exista. Si buscas tu reserva, abre el enlace del correo de confirmación.', home: 'Ir al inicio', tours: 'Ver experiencias', help: '¿Necesitas ayuda? Escríbenos por WhatsApp' },
@@ -11,6 +14,9 @@ export default async function NotFound() {
     const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
     const t = TEXT[lang];
     const wa = process.env.WHATSAPP_NUMBER?.replace(/\D/g, '');
+    // REQ-304: el mismo pie del home que el resto del sitio.
+    const env = process.env as Record<string, string | undefined>;
+    const contact = contactFromEnv(env);
     return (
         <div className="min-h-screen bg-background relative">
             <Navbar />
@@ -35,6 +41,7 @@ export default async function NotFound() {
                     )}
                 </div>
             </div>
+            <SiteFooter contact={{ whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO || undefined, socials: contact.socials }} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
         </div>
     );
 }
