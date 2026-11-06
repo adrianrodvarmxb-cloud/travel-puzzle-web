@@ -22,7 +22,7 @@ export default async function PrimeraPiezaPage() {
     const p = primeraPiezaPage(await getDestinations(), siteUrl());
     return (
         <DestinationsLayout eyebrow="Colección de free tours" h1={p.h1} intro={BASE_FREE_NOTICE.es} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}>
-            {p.groups.length === 0 && <p className="mt-10 text-[#C9D6F5]">Pronto verás aquí los free tours por país. Mientras, <Link href="/tours" className="text-[#7CC4FF] underline">busca tu tour</Link>.</p>}
+            {p.groups.length === 0 && <p className="mt-10 text-[#C9D6F5]">Pronto verás aquí los free tours por país. Mientras, <Link href="/tours" className="text-[#7CC4FF] underline">busca tu experiencia</Link>.</p>}
             {p.groups.map((g) => (
                 <Section key={g.href} title={g.country} subtitle={`${g.total} ${g.total === 1 ? 'free tour' : 'free tours'}`}>
                     <TourGrid tours={g.tours} />
