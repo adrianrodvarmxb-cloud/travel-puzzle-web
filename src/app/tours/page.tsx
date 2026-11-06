@@ -111,6 +111,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
       showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
+      logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
   );
 }
