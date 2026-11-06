@@ -37,6 +37,6 @@ PO: Adrián Rodvar. Decisiones del 6 nov 2026 (06:14, 06:16 y 06:28). REQ-450 a 
 - Formato: es la regla mínima temporal `src/home/lib/experience-format.ts` (REQ-451). Se reemplaza por el clasificador de la taxonomía cuando llegue.
 - El SQL solo prefiltra (con la misma fórmula). El orden, el formato, la diversidad y el filtro de títulos los decide `src/home/lib/`.
 - Una fila inválida se descarta y se registra en el log. Si el medidor falla, «Los más elegidos» vuelve a la regla anterior y las excursiones no se muestran.
-- Filtro de títulos (REQ-454): `src/home/lib/provider-brand.ts` es provisional. Se une con la `mentionsProviderBrand` del otro PR (agente a41f4aa).
+- Filtro de títulos (REQ-454): unificado con REQ-219 en `src/home/lib/brand.ts` (#147).
 
 Firma: por recomendación, PO autopiloto 6-11 (vía coordinador).

@@ -7,13 +7,13 @@ import type { HomeDayTrip } from '@/home/load';
 import { OwnTripCard } from '@/components/trips/OwnTripCard';
 import { SectionHeading } from './SectionHeading';
 import { MobileRail } from './MobileRail';
-import { HomeTourCard } from './FeaturedTours';
+import { HomeTourCard, type PriceLabels } from './FeaturedTours';
 
 /**
  * REQ-453: «Excursiones de un día» de cualquier proveedor, ordenadas por el medidor de reseñas (REQ-450).
  * Sin inventario (o con CARRUSELES_HOME_ENABLED apagada) no se muestra.
  */
-export function DayTripsCarousel({ items }: { items: HomeDayTrip[] }) {
+export function DayTripsCarousel({ items, priceLabels = {} }: { items: HomeDayTrip[]; priceLabels?: PriceLabels }) {
   const { language } = useLanguage();
   if (!items.length) return null;
   const c = homeCopy(language);
@@ -24,7 +24,7 @@ export function DayTripsCarousel({ items }: { items: HomeDayTrip[] }) {
       <MobileRail gridClass="sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {items.map((d) =>
           d.type === 'tour'
-            ? <HomeTourCard key={`t-${d.tour.id}`} t={d.tour} language={language} c={c} />
+            ? <HomeTourCard key={`t-${d.tour.id}`} t={d.tour} language={language} c={c} priceLabel={priceLabels[d.tour.id]} />
             : <OwnTripCard key={`v-${d.trip.id}`} trip={d.trip} c={tc} lang={language} />,
         )}
       </MobileRail>
