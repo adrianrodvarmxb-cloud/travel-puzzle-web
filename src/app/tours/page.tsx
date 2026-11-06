@@ -9,6 +9,14 @@ import { parseDurationRange } from '@/tours/lib/duration';
 import { loadTripCards } from '@/trips/public-load';
 import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
+import type { Metadata } from 'next';
+import { catalogTitle } from '@/tours/lib/catalog-name';
+
+// REQ-174 (sitelinks-google): title = nombre del menú + marca («Experiencias | Travel Puzzle»).
+export async function generateMetadata(): Promise<Metadata> {
+  const title = catalogTitle(await getPreferredLanguage());
+  return { title: { absolute: title }, openGraph: { title } };
+}
 
 interface ToursPageProps {
   searchParams: Promise<{
@@ -102,6 +110,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       countryCodeById={countryCodeById}
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
+      showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
+      logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
   );
 }

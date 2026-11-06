@@ -1,3 +1,5 @@
+import { catalogClassifier, FORMATOS_PRESENCIALES, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { Prisma, type PrismaClient } from "@prisma/client";
 import { mixRecommendations } from "@/booking/lib/recommendations";
 import { pickDestinations, type CityRow, type DestinationCard } from "./lib/destinations";
@@ -68,6 +70,8 @@ export interface HomeDeps {
   highlights: HighlightRepo;
   includePaid: boolean;
   lang: string;
+  /** T3 (REQ-406, REQ-407): con TAXONOMY_PUBLISH_ENABLED, los destacados salen de la taxonomía; sin él, como hoy. */
+  taxonomy?: CatalogClassifier;
   /** REQ-450/453: CARRUSELES_HOME_ENABLED — medidor de reseñas en «Los más elegidos» y carrusel de excursiones. */
   carousels?: boolean;
   /** Viajes publicados y visibles (cualquier proveedor); ya cargados por la página. */
@@ -123,7 +127,7 @@ async function loadHero(prisma: PrismaClient): Promise<HeroSlide[]> {
   );
 }
 
-async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise<HomeTour[]> {
+async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy?: CatalogClassifier): Promise<HomeTour[]> {
   const base = {
     isActive: true,
     titleImageURL: { startsWith: "https://" },
@@ -132,6 +136,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
   };
   const select = {
     id: true, externalId: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
+    categoryId: true, durationMinutes: true,
     country: { select: { code: true } },
     city: { select: { translations: true } },
     translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
@@ -142,7 +147,11 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     prisma.tour.findMany({ where: { ...base, priceValue: 0 }, orderBy: order, take: 60, select }),
   ]);
   // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
-  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)));
+  // T3: free = formato pieza-libre; de pago = publicable, presencial y no Free tour (sin online, servicios ni traslados).
+  const fmt = (t: (typeof free)[number]) => taxonomy?.({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, title: t.translations.map((x) => x.title).join(" | ") }).formato;
+  const okFree = (t: (typeof free)[number]) => !taxonomy || fmt(t) === "pieza-libre";
+  const okPaid = (t: (typeof free)[number]) => !taxonomy || (FORMATOS_PRESENCIALES.includes(fmt(t)!) && fmt(t) !== "pieza-libre");
+  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)) && (Number(t.priceValue) === 0 ? okFree(t) : okPaid(t)));
   const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(clean(list).map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
   return mixRecommendations(vary(paid), vary(free), 6, includePaid).flatMap((t) => {
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
@@ -175,7 +184,7 @@ async function loadPrior(prisma: PrismaClient): Promise<Prior> {
  * Fuera desde aquí: 8 y 31 (fuera), 29 (traslado), 30 (transporte), 26 (alquiler). Sin PAID_TOURS_ENABLED, solo precio 0
  * (no se recomienda lo que no se puede reservar, recommendations.ts).
  */
-async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean): Promise<TourCandidate[]> {
+async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean, taxonomy?: CatalogClassifier): Promise<TourCandidate[]> {
   // Banderas como parámetros (no fragmentos Prisma.sql): la consulta no depende del cliente generado.
   const paid = includePaid ? 1 : 0;
   const day = dayTripsOnly ? 1 : 0;
@@ -192,7 +201,7 @@ async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePai
       AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
     ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
     LIMIT ${dayTripsOnly ? 600 : 300}`;
-  const { ok, dropped } = parseTourRankRows(rows); // REQ-219: también salta los títulos que dicen «free tour»
+  const { ok, dropped } = parseTourRankRows(rows, { taxonomy }); // REQ-219: también salta los títulos que dicen «free tour»; REQ-270: y lo que la taxonomía no publica
   if (dropped) console.error(`[home] ${dropped} fila(s) de tours descartadas por datos inválidos`);
   return ok;
 }
@@ -215,11 +224,11 @@ async function hydrateTours(prisma: PrismaClient, ids: string[]): Promise<Map<st
 }
 
 /** REQ-450 + REQ-453: «Los más elegidos» y «Excursiones de un día» con el medidor de reseñas. */
-async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[]): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[] }> {
+async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[], taxonomy?: CatalogClassifier): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[] }> {
   const prior = await loadPrior(prisma);
   const [all, days] = await Promise.all([
-    loadTourCandidates(prisma, prior, includePaid, false),
-    loadTourCandidates(prisma, prior, includePaid, true),
+    loadTourCandidates(prisma, prior, includePaid, false, taxonomy),
+    loadTourCandidates(prisma, prior, includePaid, true, taxonomy),
   ]);
   const trips: TripCandidate[] = ownTrips.filter((t) => t.image && !mentionsProviderBrand(t.title)).map((t) => tripCandidate(t)); // REQ-219
   // Lo que no se puede pintar (sin foto o título, o un título en otro idioma dice «free tour», REQ-219) se salta y se vuelve
@@ -325,20 +334,20 @@ const settle = <T>(r: PromiseSettledResult<T>, fallback: T): T => {
 };
 
 /** Todo lo que el home muestra, leído de nuestro catálogo. Si algo falla, esa sección no aparece. */
-export async function loadHomeData({ prisma, highlights, includePaid, lang, carousels = false, ownTrips = [] }: HomeDeps): Promise<HomeData> {
+export async function loadHomeData({ prisma, highlights, includePaid, lang, carousels = false, ownTrips = [], taxonomy }: HomeDeps): Promise<HomeData> {
   // Frase destacada de cada tour (si falla, salen sin frase)
   const withQuotes = async (tours: HomeTour[]) => {
     const quotes = await highlights.listFiveStarForTours(tours.map((t) => t.externalId)).then((r) => pickHighlights(r, lang)).catch(() => new Map());
     return tours.map((t) => ({ ...t, quote: quotes.get(t.externalId)?.text ?? null }));
   };
-  const ranked = carousels ? loadRankedCarousels(prisma, includePaid, ownTrips) : null;
+  const ranked = carousels ? loadRankedCarousels(prisma, includePaid, ownTrips, taxonomy) : null; // REQ-270
   const [hero, dest, feat, sc, reviews, days] = await Promise.allSettled([
     loadHero(prisma),
     loadDestinations(prisma),
     // Si el medidor falla, «Los más elegidos» vuelve a la regla anterior en vez de desaparecer.
     (ranked
-      ? ranked.then((r) => r.featured).catch((e) => { console.error("[home] medidor de reseñas sin datos:", e); return loadFeatured(prisma, includePaid); })
-      : loadFeatured(prisma, includePaid)
+      ? ranked.then((r) => r.featured).catch((e) => { console.error("[home] medidor de reseñas sin datos:", e); return loadFeatured(prisma, includePaid, taxonomy); })
+      : loadFeatured(prisma, includePaid, taxonomy)
     ).then(withQuotes),
     loadStatsAndContinents(prisma),
     loadReviews(prisma, highlights, lang),
@@ -359,4 +368,9 @@ export async function loadHomeData({ prisma, highlights, includePaid, lang, caro
     continents: statsC.continents,
     reviews: settle(reviews, []),
   };
+}
+
+/** T3: clasificador de la taxonomía para el inicio, solo con TAXONOMY_PUBLISH_ENABLED. */
+export function homeTaxonomy(enabled: boolean): CatalogClassifier | undefined {
+  return enabled ? catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS) : undefined;
 }
