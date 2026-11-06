@@ -285,3 +285,9 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T5 · REQ-433 (sin MSI, pagos, «guía en español» ni la marca en el copy de T5) | `copy.ts` | `copy.test.ts` | CUMPLIDO |
 | T5 · G-T9 = A (title «– Excursión desde {Ciudad}» en excursiones; cambia REQ-099 solo para ese formato) | `copy.ts` (`tourTitleByFormat`), `page-model.ts` | `copy.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
 | T5 · REQ-269 (chip de la ciudad y etiqueta de la ficha «Pieza libre») | `src/taxonomy/lib/copy.ts` (vía `FORMATO_LABEL`) | `copy.test.ts` | CUMPLIDO (apagado) |
+
+### Viajes propios: tarjetas con la caché fría (hallazgo del ensayo #178, 6 nov 2026)
+
+| REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
+|---|---|---|---|
+| REQ-268 | "Antes de encender T4, revisa el caché frío de loadTripCards" (coordinador, 6 nov 2026) | Dada la caché de tarjetas vacía (versión nueva), cuando D1 está saturada al armarla, entonces se reintenta con espera (REQ-029) antes de devolver una lista vacía; dado un viaje que no se pudo leer, cuando se arman las tarjetas, entonces los demás conservan sus traducciones y su fecha (unión por id, no por posición). | CUMPLIDO (src/trips/lib/cards.test.ts) |
