@@ -49,3 +49,14 @@ Inventario de todos los correos del repo (`origin/main` en c8f18e0) y dónde va 
 1. Cargar `EMAIL_NO_PUBLICIDAD` (variable: candado del PO), aunque esté vacía.
 2. PR que cambia `EMAIL_CROSS_SELL_ENABLED` a `"true"`, con preview, prueba de humo y una reserva de prueba que reciba el correo.
 3. Después de publicar, revisar 3 correos reales (confirmación, 48 h y cambio) y que el rechazo y la cancelación lleguen sin bloque.
+
+## 5. Decisiones (coordinador con el PO en autopiloto, 6 nov 2026)
+
+| # | Decisión | Resultado |
+|---|---|---|
+| 7 | Qué correos llevan el bloque (confirmación, 48 h, día, modificada, post-tour; pago recibido en una ola siguiente) | Firmado por recomendación |
+| 8 | En el correo no se exige que la primera tarjeta sea un tour (`requireTour: false`) | Firmado por recomendación |
+| 9 | Viajes propios de la misma ciudad o, si no hay, del mismo país | Firmado por recomendación |
+| 10 | Negativa «No publicidad»: variable `EMAIL_NO_PUBLICIDAD` o tabla de bajas | **Pendiente (candado del PO).** Mientras no exista una de las dos, el bloque no se muestra aunque la bandera esté encendida (falla cerrada, ya implementado). |
+| 11 | ¿Basta la negativa del aviso de privacidad o hace falta consentimiento expreso (REQ-084)? | **Pregunta para el abogado.** No se enciende la bandera sin su respuesta. |
+| 12 | Copy del bloque («Completa tu viaje a {ciudad}», intro y línea de negativa) | Firmado por recomendación |
