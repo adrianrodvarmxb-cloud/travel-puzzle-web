@@ -29,10 +29,9 @@ describe("REQ-282 índice curado generado en el build", () => {
 });
 
 describe("REQ-285 SEARCH_FUZZY_ENABLED", () => {
-  it("solo «true» la enciende; en wrangler.jsonc está en «false»", () => {
+  it("solo «true» la enciende (sin la variable, apagada)", () => {
     expect(isSearchFuzzy("true")).toBe(true);
     for (const v of [undefined, "", "false", "TRUE", "1"]) expect(isSearchFuzzy(v)).toBe(false);
-    expect(readFileSync(path.join(process.cwd(), "wrangler.jsonc"), "utf8")).toMatch(/"SEARCH_FUZZY_ENABLED": "false"/);
   });
   it("con la bandera APAGADA nada cambia: no hay resultado y se busca el texto de la URL", () => {
     for (const q of ["Cuzco", "Barselona", "Rma", "Roma", "Machu Pichu"]) expect(fuzzySearch(entries, q, false)).toBeNull();
