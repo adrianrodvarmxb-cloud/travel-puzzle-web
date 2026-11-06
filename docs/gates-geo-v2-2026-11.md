@@ -47,3 +47,9 @@ Base: informe aprobado «Identidad geográfica del catálogo». Este PR cubre lo
 - Overrides (G7): quitar o corregir la fila en `src/geo/data/city-overrides.csv` por PR; el ensayo siguiente lo refleja.
 - Corrida semanal (G6): quitar el bloque `schedule` del workflow.
 - Migración 0016 (si se aplicó): ver el encabezado del archivo (DROP de lo agregado), solo con OK del PO y bookmark de Time Travel.
+
+## G4: mecanismo de escritura (6 nov 2026, REQ-470…472)
+- SQL: `docs/datos/2026-11-06-geo-v2-geonameid.sql` = `geo-v2.sql` del ensayo #3 (run 42172320495), 224 filas, solo `UPDATE "City" SET "geonameid" = … WHERE "id" = … AND "geonameid" IS NULL`.
+- Workflow manual «Geo: escribir geonameid» (`geo-escribir-geonameid.yml`): bookmark de Time Travel → ensayo (SELECT equivalente) → con `escribir=true`, lotes de 25 con `--command` → verificación (conteo antes/después, repetidos) → humo en producción. Si algo falla después de escribir, restaura al bookmark.
+- Repetidos que el SQL crearía (ensayo local contra el export de control): **1819729** Hong Kong 4855 (HK) y 5835 (CN → HK) y **3687238** Cartagena 898 (`cartagena-co`) con 5948 (`cartagena-de-indias`, ya guardado). Ninguno está en `city-aliases.csv`: con `escribir=true` el workflow se detiene salvo que el PO los permita en `permitir_repetidos`. Ya existían antes y no se tocan: Taipei 4200/6172 (alias firmado) y Tenerife 4016/4040.
+- `geo-v2-0016.sql` (countryCode HK/FO, regionCode GB, CityAlias de Taipei) **no** va en este workflow.
