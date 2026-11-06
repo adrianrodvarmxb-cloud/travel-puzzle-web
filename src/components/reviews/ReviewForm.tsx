@@ -38,7 +38,7 @@ export function ReviewForm({ token, initialRate, initialContent = '', displayNam
         <p className="mt-2 text-[#A9B6D6]">
           {rate && rate <= 3
             ? 'Sentimos que no haya sido perfecto. Un asesor te escribirá para saber qué pasó.'
-            : 'Tu opinión ayuda a otros viajeros a elegir su próximo tour.'}
+            : 'Tu opinión ayuda a otros viajeros a elegir su próxima experiencia.'}
         </p>
         {rate && rate <= 3 && whatsappUrl && (
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-block rounded-full bg-[#EAF54F] px-5 py-3 font-semibold text-[#0A1330]">

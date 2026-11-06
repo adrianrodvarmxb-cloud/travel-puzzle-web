@@ -81,6 +81,10 @@
     // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
     // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
     "TAXONOMY_SYNC_ENABLED": "false",
+    // REQ-262…267: bloque de venta cruzada (sin FREETOUR, regla B3) en confirmación, recordatorios, cambio y post-tour.
+    // Nunca en rechazo ni cancelación. "true" con preview, prueba de humo y OK del PO. Decisión del PO (6-11 09:07):
+    // la única restricción es no promover FREETOUR; no se exige la lista «No publicidad».
+    "EMAIL_CROSS_SELL_ENABLED": "false",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).

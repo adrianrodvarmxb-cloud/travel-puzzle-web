@@ -40,7 +40,7 @@ const zFormato = base.extend({
   /** Nombre visible en pt/de/fr/it (plan §7.3). */
   nombres: z.object({ pt: texto.min(1), de: texto.min(1), fr: texto.min(1), it: texto.min(1) }).optional(),
   apoyo_es: z.string().optional(),
-  apoyo_estado: z.literal("por_firmar").optional(),
+  apoyo_estado: z.enum(["por_firmar", "firmado"]).optional(),
 });
 const zTema = base.extend({
   eje: z.literal("tema"),

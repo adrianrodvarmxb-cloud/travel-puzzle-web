@@ -86,8 +86,9 @@ describe("REQ-230 «Momentos de autor»", () => {
     expect(e.termino_es).toBe("Momentos de autor");
     expect(e.sinonimos).toEqual(expect.arrayContaining(["momentos de autor", "signature moments", "experiencia única"]));
   });
-  it("REQ-230 «Signature moments» y pt/de/fr/it de §7.3 firmados; el apoyo «Actividades únicas operadas por expertos locales» sigue por firmar", () => {
-    expect(e).toMatchObject({ termino_en: "Signature moments", termino_en_estado: "firmado", apoyo_es: "Actividades únicas operadas por expertos locales", apoyo_estado: "por_firmar" });
+  it("REQ-230 «Signature moments» y pt/de/fr/it de §7.3 firmados; el apoyo es la definición de §7.3, sin «expertos locales» (PO 6-11)", () => {
+    expect(e).toMatchObject({ termino_en: "Signature moments", termino_en_estado: "firmado", apoyo_es: "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.", apoyo_estado: "firmado" });
+    expect(`${e.apoyo_es} ${e.definicion_es}`).not.toMatch(/expert/i);
     expect(e.nombres).toEqual({ pt: "Momentos de autor", de: "Signature-Momente", fr: "Moments signature", it: "Momenti d'autore" });
   });
   it("REQ-230 ningún término visible se llama «Experiencia única»", () => {
