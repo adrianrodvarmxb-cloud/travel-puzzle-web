@@ -35,7 +35,7 @@ export const fr = {
   'home.whyChoose.support.title': 'Support 24/7',
   'home.whyChoose.support.subtitle': 'Notre équipe est disponible 24 heures sur 24 pour vous aider à tout moment.',
   'home.whyChoose.experience.title': '15 Ans d\'Expérience',
-  'home.whyChoose.experience.subtitle': 'Nous connaissons le Mexique comme personne. Découvrez des lieux uniques avec nos experts.',
+  'home.whyChoose.experience.subtitle': 'Nous connaissons le Mexique comme personne. Découvrez des lieux uniques avec nos conseillers voyage.',
   'home.whyChoose.instantBooking.title': 'Réservation Instantanée',
   'home.whyChoose.instantBooking.subtitle': 'Confirmez votre voyage instantanément avec notre système de réservation en ligne.',
   'home.whyChoose.metrics.happyTravelers': 'Voyageurs Heureux',
