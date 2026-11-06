@@ -120,3 +120,20 @@ describe("REQ-081 correo post-tour sin FREETOUR", () => {
     expect(send.mock.calls[0][0].text).toContain("Free tour Coyoacán");
   });
 });
+
+describe("sendBookingConfirmation con «Arma tu viaje»", () => {
+  const rec = { ...record, manageToken: "tok_abcdefgh12345678" };
+  it("REQ-182: con ARMA_TU_VIAJE_ENABLED el correo lleva el enlace al carrito de esa reserva", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "em_1");
+    await sendBookingConfirmation(rec, { enabled: true, lang: "es", siteUrl: "https://travelpuzzle.com.mx", getTour: async () => tour, send, armaTuViaje: true });
+    expect(send.mock.calls[0][0].html).toContain("https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh12345678");
+  });
+
+  it("REQ-182: con la bandera apagada (u omitida) no hay enlace", async () => {
+    const send = vi.fn(async (_e: { html: string; text: string }) => "em_1");
+    await sendBookingConfirmation(rec, { enabled: true, lang: "es", siteUrl: "https://travelpuzzle.com.mx", getTour: async () => tour, send });
+    await sendBookingConfirmation(rec, { enabled: true, lang: "es", siteUrl: "https://travelpuzzle.com.mx", getTour: async () => tour, send, armaTuViaje: false });
+    for (const [e] of send.mock.calls) expect(e.html).not.toContain("arma-tu-viaje");
+  });
+});
+
