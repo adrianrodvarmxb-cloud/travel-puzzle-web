@@ -249,3 +249,12 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-421 (tipo de grupo) · REQ-422 (dificultad 1–5) · REQ-423 (rangos de días) | `src/taxonomy/lib/circuits.ts` | `circuits.test.ts` | CUMPLIDO en lib (se muestra en T6) |
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
+
+### Taxonomía, fase T6b: facetas de circuitos en la ficha, tras `TAXONOMY_CIRCUITS_ENABLED="false"` (va después de #156)
+
+| Fase y REQ | Código | Test | Estado |
+|---|---|---|---|
+| T6b · REQ-421 (tipo de grupo: en grupo · privado · a la medida) | `src/taxonomy/lib/circuit-facts.ts`, `components/trips/TripDetailView.tsx` | `src/taxonomy/lib/circuit-facts.test.ts` | CUMPLIDO (apagado) |
+| T6b · REQ-422 (dificultad 1–5 con nombre y línea; sin dato, nada; G-T8 = A) | `circuit-facts.ts` (usa `difficulty` de hoy; `difficultyLevel` de la 0018 cuando esté aplicada) | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
+| T6b · REQ-423 (días 1–5 · 6–9 · 10–14 · 15+ con límites) | `circuit-facts.ts` | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
+| T6b · REQ-424 (confort, tipo de guía, perfil y altitud tras bandera) | `TAXONOMY_CIRCUIT_EXTRA_ENABLED="false"` en `wrangler.jsonc`; sin dato hoy, no se calcula nada | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
