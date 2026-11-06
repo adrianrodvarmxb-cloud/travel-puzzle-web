@@ -1,0 +1,222 @@
+/**
+ * Modelo de cada página de destinos (Olas 4, 5 y 6): title, H1, canonical, robots, migas, JSON-LD,
+ * «Actividades destacadas», FAQ y textos de la ficha. Puro: recibe el árbol de catalog.ts.
+ * FREETOUR nunca se menciona al cliente (regla del PO).
+ */
+import { allTours, type CityNode, type CountryNode, type TourCardModel } from "./catalog";
+import { ROUTES } from "./routes";
+import { canonicalUrl, featuredActivities } from "@/seo/lib/hub";
+import { freeToursCityTitle, hubTitle, tourTitle } from "@/seo/lib/titles";
+import { breadcrumbJsonLd, faqJsonLd, productJsonLd, touristDestinationJsonLd } from "@/seo/lib/jsonld";
+import { clip } from "@/seo/lib/meta";
+import { PRIMERA_PIEZA_LABEL } from "@/tours/lib/menu";
+import { tourHeading, type TourHeading } from "@/tours/lib/title";
+import { primeraPiezaBadge } from "@/tours/lib/badge";
+import { eventNotice } from "@/tours/lib/notice";
+import { operatedBy } from "@/tours/lib/favorite";
+import type { HubGroup } from "@/companions/lib/registry";
+import type { SitemapInput } from "@/seo/lib/sitemaps";
+
+// REQ-102: entrada de los sitemaps a partir del árbol (solo lo publicado; buildSitemaps filtra lo indexable).
+export function sitemapInput(tree: CountryNode[], siteUrl: string): SitemapInput {
+  return {
+    siteUrl,
+    countries: tree.map((c) => ({ slug: c.slug, indexable: c.indexable })),
+    cities: tree.flatMap((c) => c.cities.map((ci) => ({ countrySlug: c.slug, slug: ci.slug, indexable: ci.indexed, guideUpdatedAt: ci.guideUpdatedAt }))),
+    tours: tree.flatMap((c) =>
+      c.cities.flatMap((ci) => allTours(ci).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt })))
+    ),
+  };
+}
+
+export interface Crumb { name: string; href: string }
+export interface PageMeta { title: string; description: string; canonical: string; index: boolean }
+export type Featured = ReturnType<typeof featuredActivities>;
+
+const HOME: Crumb = { name: "Inicio", href: "/" };
+const DESTINOS: Crumb = { name: "Destinos", href: ROUTES.destinos };
+const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
+
+const crumbsLd = (site: string, crumbs: Crumb[]) => breadcrumbJsonLd(crumbs.map((c) => ({ name: c.name, url: canonicalUrl(site, c.href) })));
+const hubTours = (tours: TourCardModel[]) => tours.map((t) => ({ id: t.id, title: t.title, href: t.href, reviews: t.reviews, rating: t.rating, active: true }));
+const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+// REQ-088 REQ-099 REQ-100 REQ-101: hub de la colección, free tours agrupados por país.
+export function primeraPiezaPage(tree: CountryNode[], siteUrl: string, perCountry = 6) {
+  const groups = tree
+    .map((c) => {
+      const free = c.cities.flatMap((ci) => ci.freeTours).sort((a, b) => b.reviews - a.reviews);
+      return { country: c.name, href: c.href, indexable: c.indexable, total: free.length, tours: free.slice(0, perCountry) };
+    })
+    .filter((g) => g.total > 0);
+  const crumbs = [HOME, { name: PRIMERA_PIEZA_LABEL, href: ROUTES.primeraPieza }];
+  const countries = groups.length;
+  return {
+    meta: {
+      title: hubTitle(PRIMERA_PIEZA_LABEL),
+      description: clip(`Free tours con guías locales en ${plural(countries, "país", "países")}: reservar es gratis y al final le das al guía lo que consideres justo.`),
+      canonical: canonicalUrl(siteUrl, ROUTES.primeraPieza),
+      index: groups.some((g) => g.indexable),
+    } satisfies PageMeta,
+    h1: PRIMERA_PIEZA_LABEL,
+    crumbs,
+    featured: featuredActivities(hubTours(groups.flatMap((g) => g.tours))),
+    groups,
+    jsonLd: [crumbsLd(siteUrl, crumbs)],
+  };
+}
+
+// REQ-088 REQ-091 REQ-099 REQ-100 REQ-101: hub de los países indexables.
+export function destinosPage(tree: CountryNode[], siteUrl: string) {
+  const shown = tree.filter((c) => c.indexable);
+  const crumbs = [HOME, DESTINOS];
+  const tours = shown.flatMap((c) => c.cities.flatMap(allTours));
+  return {
+    meta: {
+      title: hubTitle(DESTINOS.name),
+      description: clip(`Free tours, tours y traslados en ${shown.length ? list(shown.slice(0, 5).map((c) => c.name)) : "todo el mundo"}, con guías locales y un asesor en español por WhatsApp.`),
+      canonical: canonicalUrl(siteUrl, ROUTES.destinos),
+      index: shown.length > 0,
+    } satisfies PageMeta,
+    h1: DESTINOS.name,
+    crumbs,
+    featured: featuredActivities(hubTours(tours)),
+    countries: shown.map((c) => ({ name: c.name, href: c.href, cities: c.cities.length, tours: c.cities.reduce((n, ci) => n + ci.activeTours, 0) })),
+    jsonLd: [crumbsLd(siteUrl, crumbs)],
+  };
+}
+
+// REQ-088 REQ-091 REQ-099 REQ-100 REQ-101
+export function countryPage(country: CountryNode, siteUrl: string) {
+  const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }];
+  return {
+    meta: {
+      title: hubTitle(country.name),
+      description: clip(`Free tours y tours en ${list(country.cities.slice(0, 3).map((c) => c.name))}${country.cities.length > 3 ? " y más ciudades" : ""} de ${country.name}, con guías locales.`),
+      canonical: canonicalUrl(siteUrl, country.href),
+      index: country.indexable,
+    } satisfies PageMeta,
+    h1: country.name,
+    crumbs,
+    featured: featuredActivities(hubTours(country.cities.flatMap(allTours))),
+    cities: country.cities.map((c) => ({ name: c.name, href: c.href, free: c.freeTours.length, tours: c.paidTours.length + c.ownTrips.length })),
+    jsonLd: [touristDestinationJsonLd({ name: country.name, url: canonicalUrl(siteUrl, country.href), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs)],
+  };
+}
+
+// REQ-100: 3 a 5 preguntas con datos reales de la ciudad (sin prometer lo que no existe).
+export function cityFaq(city: CityNode): { q: string; a: string }[] {
+  const free = city.freeTours.length;
+  const tours = city.paidTours.length + city.ownTrips.length;
+  return [
+    ...(free ? [{ q: `¿Qué es un free tour en ${city.name}?`, a: "Es un recorrido con un guía local en el que reservar es gratis; al final le das al guía lo que consideres justo." }] : []),
+    { q: `¿Cuántos tours hay en ${city.name}?`, a: `Hoy hay ${plural(free, "free tour", "free tours")} y ${plural(tours, "tour", "tours")} en ${city.name} en Travel Puzzle.` },
+    {
+      q: "¿Puedo cancelar mi reserva?",
+      a: "Los free tours se cancelan gratis en cualquier momento; si tu grupo paga tarifa fija, la cancelación con reembolso es hasta 24 h antes. Los tours de pago tienen cancelación con reembolso hasta 24 h antes.",
+    },
+    { q: "¿Me ayudan con el resto del viaje?", a: "Sí. Un asesor de Travel Puzzle te ayuda en español por WhatsApp con traslados y otros tours." },
+  ];
+}
+
+// REQ-088 REQ-089 REQ-099 REQ-100 REQ-101
+export function cityPage(country: CountryNode, city: CityNode, siteUrl: string) {
+  const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }];
+  const faq = cityFaq(city);
+  const sameAsCountry = fold(city.name) === fold(country.name);
+  const title = city.freeTours.length ? freeToursCityTitle(city.name) : hubTitle(sameAsCountry ? `${city.name}, ${country.name}` : city.name);
+  const tours = city.paidTours.length + city.ownTrips.length;
+  return {
+    meta: {
+      title,
+      description: clip(`${plural(city.freeTours.length, "free tour", "free tours")} y ${plural(tours, "tour", "tours")} en ${city.name}, ${country.name}, con guías locales. Reserva en línea o con un asesor por WhatsApp.`),
+      canonical: canonicalUrl(siteUrl, city.href),
+      index: city.indexed && country.indexable,
+    } satisfies PageMeta,
+    h1: city.name,
+    crumbs,
+    featured: featuredActivities(hubTours(allTours(city))),
+    faq,
+    jsonLd: [
+      touristDestinationJsonLd({ name: `${city.name}, ${country.name}`, url: canonicalUrl(siteUrl, city.href), countryCode: country.iso2 }),
+      crumbsLd(siteUrl, crumbs),
+      ...[faqJsonLd(faq)].filter((x): x is NonNullable<typeof x> => !!x),
+    ],
+  };
+}
+
+export interface TourPageModel {
+  meta: PageMeta;
+  crumbs: Crumb[];
+  heading: TourHeading;
+  badge: string | null;
+  notice: string[];
+  operatedBy: string;
+  jsonLd: unknown[];
+}
+
+// REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
+export function tourPage({ country, city, tour, siteUrl, lang, image }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null }): TourPageModel {
+  const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
+  // Dos tours con el mismo título real en la ciudad: el proveedor los distingue (title único, REQ-099).
+  const twins = allTours(city).filter((t) => t.id !== tour.id && fold(t.title) === fold(tour.title)).length > 0;
+  const shownTitle = twins && tour.provider ? `${tour.title} (${tour.provider})` : tour.title;
+  // Sin evento elegido: aviso y insignia del sync de hoy. La ficha los recalcula con el evento en vivo (REQ-095/096).
+  const notice = eventNotice({ fullPricePerGroup: tour.isFreeTour ? {} : { "1": tour.price }, currency: "EUR", rates: null, lang }).lines;
+  const by = operatedBy(tour.provider, lang);
+  return {
+    meta: {
+      title: tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }),
+      description: clip(`${tour.isFreeTour ? "Free tour" : "Tour"} en ${city.name} con un guía local. ${notice[0] ?? ""}`),
+      canonical: canonicalUrl(siteUrl, tour.href),
+      index: city.indexed && country.indexable,
+    },
+    crumbs,
+    heading: tourHeading({ title: tour.title, provider: tour.provider, isFreeTour: tour.isFreeTour }),
+    badge: primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 }),
+    notice,
+    operatedBy: by,
+    jsonLd: [
+      productJsonLd({ name: tour.title, url: canonicalUrl(siteUrl, tour.href), image: image ?? tour.image, provider: tour.provider, price: tour.isFreeTour ? 0 : tour.price, rating: tour.rating, reviews: tour.reviews }),
+      crumbsLd(siteUrl, crumbs),
+    ],
+  };
+}
+
+export interface TransportCard { id: string; title: string; description: string; chargedByLabel: string; price: string | null; href: string; label: string; external: boolean }
+
+// REQ-088: sección Traslados de la ciudad desde el registro de complementos (src/companions), sin código por proveedor.
+export function cityTransportCards(groups: HubGroup[], cityName: string, transfersVisible: boolean): TransportCard[] {
+  const here = fold(cityName);
+  return groups
+    .filter((g) => g.group === "transporte")
+    .flatMap((g) => g.cards)
+    .flatMap((c): TransportCard[] => {
+      if (c.cta.kind === "widget") return transfersVisible ? [{ ...pick(c), href: "/traslados", label: c.cta.label, external: false }] : [];
+      if (!c.cities.some((x) => fold(x) === here)) return [];
+      return [{ ...pick(c), href: c.cta.url, label: c.cta.label, external: true }];
+    });
+}
+const pick = (c: HubGroup["cards"][number]) => ({ id: c.id, title: c.title, description: c.description, chargedByLabel: c.chargedByLabel, price: c.price });
+
+export interface GoneView { title: string; cityName: string; cityHref: string }
+export const GONE_PATH = "/tour-retirado";
+const DEST_HREF = /^\/destinos(?:\/[a-z0-9]+(?:-[a-z0-9]+)*){0,2}$/;
+const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
+
+// REQ-092: a dónde reescribe el middleware un tour removed (la página lleva el header del sitio y responde 410).
+export function goneRewritePath(v: { title: string | null; cityName: string; cityHref: string }): string {
+  const q = new URLSearchParams({ t: v.title ?? "", c: v.cityName, h: v.cityHref });
+  return `${GONE_PATH}?${q.toString()}`;
+}
+
+// REQ-092: lo que muestra la página 410. Solo enlaza dentro de /destinos (sin redirección abierta).
+export function goneView(sp: Record<string, string | string[] | undefined>): GoneView {
+  const href = one(sp.h);
+  return {
+    title: one(sp.t).trim().slice(0, 160) || "Este tour",
+    cityName: one(sp.c).trim().slice(0, 120) || "otros destinos",
+    cityHref: DEST_HREF.test(href) ? href : ROUTES.destinos,
+  };
+}
