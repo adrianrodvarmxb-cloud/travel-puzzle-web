@@ -3,7 +3,8 @@
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
 
-export function ExpertCta({ whatsapp }: { whatsapp?: string }) {
+/** `eyebrow`: etiqueta numerada propia cuando se usa fuera del inicio (p. ej. /nosotros); sin ella, la del inicio. */
+export function ExpertCta({ whatsapp, eyebrow }: { whatsapp?: string; eyebrow?: string }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   const href = waLink(whatsapp, c.expertWa);
@@ -13,7 +14,7 @@ export function ExpertCta({ whatsapp }: { whatsapp?: string }) {
     <section id="asesor" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 py-24 md:px-8 md:py-28">
       <div className="grid grid-cols-1 items-center gap-6 rounded-3xl border border-[#008DFF]/45 bg-[#0E1A40] p-7 md:p-12 lg:grid-cols-12">
         <div className="lg:col-span-8">
-          <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.expertEyebrowN}</p>
+          <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{eyebrow ?? c.expertEyebrowN}</p>
           <h2 className="font-display mb-3 text-3xl font-bold leading-[1.08] text-white md:text-[44px]">{c.expertTitle}</h2>
           <p className="text-[17px] leading-relaxed text-[#C9D6F5]">{c.expertSub}</p>
         </div>

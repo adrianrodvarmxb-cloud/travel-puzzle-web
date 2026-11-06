@@ -3,14 +3,14 @@ import { SectionHeading } from '@/components/home/v2/SectionHeading';
 import { ProofStrip } from '@/components/home/v2/ProofStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { DarkCard } from '@/components/site/PageHeader';
-import type { AboutSection } from '@/about/lib/content';
+import { aboutSectionsToShow, type AboutSection } from '@/about/lib/content';
 import type { HomeStats } from '@/home/load';
 
 const n = (i: number) => String(i + 1).padStart(2, '0');
 
 /** REQ-243: pinta solo las secciones visibles (ya filtradas en el servidor); numera sin saltos. */
 export function AboutSections({ sections, stats }: { sections: AboutSection[]; stats: HomeStats | null }) {
-  const shown = sections.filter((s) => s.kind !== 'stats' || stats);
+  const shown = aboutSectionsToShow(sections, stats);
   return (
     <>
       {shown.map((s, i) => {

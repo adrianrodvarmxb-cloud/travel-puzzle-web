@@ -162,3 +162,13 @@ const EN = (): AboutContent => ({
 export function aboutContent(lang: string): AboutContent {
   return lang === "es" ? ES() : EN();
 }
+
+/** D8: hay cifras que mostrar (si no, la sección «Hoy en el sitio» no sale ni siquiera con su título). */
+export function hasLiveStats(s: { tours: number; cities: number; countries: number; rating: number | null } | null): boolean {
+  return !!s && (s.tours > 0 || s.cities > 0 || s.countries > 0 || (s.rating ?? 0) > 0);
+}
+
+/** REQ-243: secciones que se pintan, en orden, ya sin la de cifras si no hay datos. La numeración no salta. */
+export function aboutSectionsToShow(sections: AboutSection[], stats: Parameters<typeof hasLiveStats>[0]): AboutSection[] {
+  return sections.filter((s) => s.kind !== "stats" || hasLiveStats(stats));
+}
