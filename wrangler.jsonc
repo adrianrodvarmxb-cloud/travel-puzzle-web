@@ -97,7 +97,7 @@
     "PRIMERA_PIEZA_ENABLED": "true",
     // Carruseles del home (REQ-450, REQ-453): «Los más elegidos» por medidor de reseñas (bayesiano, cualquier proveedor)
     // y «Excursiones de un día». "true" con preview con la bandera encendida, prueba de humo y OK del PO.
-    "CARRUSELES_HOME_ENABLED": "false",
+    "CARRUSELES_HOME_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
