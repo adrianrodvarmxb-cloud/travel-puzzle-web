@@ -82,6 +82,9 @@
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
     "TAXONOMY_PUBLISH_ENABLED": "false",
+    // Taxonomía T4 (REQ-412, REQ-413): /tours con «Tipo de experiencia» (?formato=), sin chips en cero, noindex en combinaciones
+    // y ?tipo_act= traducido. "true" con preview, prueba de humo y OK del PO (después de TAXONOMY_PUBLISH_ENABLED).
+    "TAXONOMY_FILTERS_ENABLED": "false",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
     "ADULT_CONTACT_CHECK_ENABLED": "false",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).

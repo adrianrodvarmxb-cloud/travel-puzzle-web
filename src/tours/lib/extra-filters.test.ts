@@ -6,7 +6,7 @@ describe("REQ-056 filtros estilo Civitatis en la URL", () => {
   it("REQ-056: lee y escribe todos los filtros; descarta valores inválidos", () => {
     const q = new URLSearchParams("idioma=en&fecha=2026-11-10&tipo_act=barcos,gastronomia,xx&cancelacion=1&privado=1&recogida=1&novedad=1&durmin=60&durmax=240");
     const f = parseExtraFilters(q, today);
-    expect(f).toEqual({ guideLanguage: "en", date: "2026-11-10", groups: ["barcos", "gastronomia"], freeCancel: true, privateOnly: true, hotelPickup: true, novelty: true, durMin: 60, durMax: 240 });
+    expect(f).toEqual({ guideLanguage: "en", date: "2026-11-10", groups: ["barcos", "gastronomia"], freeCancel: true, privateOnly: true, hotelPickup: true, novelty: true, durMin: 60, durMax: 240, formatos: [] });
     expect(extraFiltersToParams(f).toString()).toBe("idioma=en&fecha=2026-11-10&tipo_act=barcos%2Cgastronomia&cancelacion=1&privado=1&recogida=1&novedad=1&durmin=60&durmax=240");
   });
   it("REQ-056: vacío no escribe nada y cuenta 0 filtros", () => {

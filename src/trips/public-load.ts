@@ -2,6 +2,8 @@
  * Viajes publicados para el sitio: tarjetas (/tours, home) y ficha (/viajes/...).
  * Usa traducciones (respaldo en español) y tipo de cambio de Banxico con caché diaria.
  */
+import { classify } from "@/taxonomy/lib/classify";
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { getPrisma } from "@/lib/prisma";
 import { createTripRepo } from "./repository";
 import { localized, type Translations } from "./lib/translation";
@@ -52,6 +54,8 @@ export interface TripCard {
   hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
   /** REQ-148: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
   agencyId?: string | null;
+  /** T4: formato de la taxonomía. */
+  formato?: string;
 }
 
 async function publishedRows() {
@@ -73,6 +77,8 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
     agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
+    // T4: formato de la taxonomía (solo lo usa /tours con TAXONOMY_FILTERS_ENABLED).
+    formato: classify({ proveedor: "propios", categoriaId: t.kind, fuentesTema: t.category ? [t.category] : [], precio: t.priceFrom, durationDays: t.durationDays, titulo: `${t.titleEs} | ${t.titleEn ?? ""}` }, DEFAULT_DICTIONARY, DEFAULT_MAPPINGS).formato,
   };
 }
 
