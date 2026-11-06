@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { loadManageView } from '@/booking/manage';
 import { manageDeps } from '@/booking/manage-deps';
 import { getTourSummary, contactFromEnv } from '@/booking/tour-summary';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { describeBooking } from '@/notifications/lib/booking-email';
 import { whatsappUrl } from '@/notifications/lib/email-layout';
 import { isBookingsEnabled } from '@/booking/lib/flags';
@@ -48,7 +49,7 @@ export default async function EditBookingPage({ params }: { params: Promise<{ to
     const events = allowed ? await upcomingEvents(record.tourExternalId!, record.language, new Date()) : [];
 
     return (
-        <EmailFrame wa={wa} socials={contact.socials} note="Este enlace es privado. No lo compartas.">
+        <EmailFrame wa={wa} socials={contact.socials} site={siteFooterFromEnv(env)} note="Este enlace es privado. No lo compartas.">
             <Hero status="Modificar reserva" dot="bg-[#008DFF]" statusText="text-[#9AAEE0]" title="Cambia tu fecha o personas" subtitle={<>Hola {record.firstName}: <span className="font-semibold text-white">{title}</span></>} />
             <div className="px-5 pt-6">
                 <BookingPass label="Tu reserva actual" value={record.refNumber} cells={[['Cuándo', when ?? '—'], ['Quiénes', people], ['Idioma', tourLang ?? '—']]} />
