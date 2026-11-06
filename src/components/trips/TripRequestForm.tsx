@@ -27,6 +27,8 @@ interface Props {
     /** REQ-059: título y nota del formulario para viajes con precio. */
     bookTitle?: string;
     bookNote?: string;
+    /** REQ-150: fecha y personas que manda el agente de WhatsApp en la liga (?fecha=&adultos=&ninos=). Opcional. */
+    prellenado?: { fecha?: string; adultos?: number; ninos?: number };
 }
 
 const field = 'w-full rounded-xl border border-white/15 bg-[#0A1330] px-3.5 py-2.5 text-sm text-white placeholder:text-[#5F73AD] focus:border-[#008DFF] focus:outline-none';
@@ -36,11 +38,11 @@ const label = 'mb-1 block text-xs font-semibold text-[#C9D6F5]';
 export function TripRequestForm(p: Props) {
     const c = tripCopy(p.lang);
     const router = useRouter();
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(p.custom ? '' : p.prellenado?.fecha ?? '');
     const [time, setTime] = useState('');
     const [optionId, setOptionId] = useState(p.options[0]?.id ?? '');
-    const [pax, setPax] = useState({ adults: 2, children: 0, infants: 0 });
-    const [ages, setAges] = useState<number[]>([]);
+    const [pax, setPax] = useState({ adults: p.prellenado?.adultos ?? 2, children: p.prellenado?.ninos ?? 0, infants: 0 });
+    const [ages, setAges] = useState<number[]>(() => Array.from({ length: p.prellenado?.ninos ?? 0 }, () => 7));
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -84,7 +86,7 @@ export function TripRequestForm(p: Props) {
             {!p.custom && p.bookNote && <p className="mt-1 text-sm font-semibold text-[#7EE2A8]">{p.bookNote}</p>}
             {p.custom ? (
                 <div className="grid grid-cols-2 gap-2">
-                    <label><span className={label}>{c.start}</span><input name="startDate" type="date" required className={field} /></label>
+                    <label><span className={label}>{c.start}</span><input name="startDate" type="date" required className={field} defaultValue={p.prellenado?.fecha} /></label>
                     <label><span className={label}>{c.end}</span><input name="endDate" type="date" required className={field} /></label>
                     <label className="col-span-2"><span className={label}>{c.serviceType}</span>
                         <select name="serviceType" className={field}><option value="group">{c.group}</option><option value="private">{c.private}</option></select></label>

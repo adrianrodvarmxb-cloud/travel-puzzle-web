@@ -50,6 +50,8 @@ export interface TripCard {
   /** REQ-049..056: datos para los filtros estilo Civitatis (mismo modelo que Freetour). */
   languages: string[]; dates: string[]; group: string; freeCancel: boolean; private: boolean;
   hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
+  /** REQ-148: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
+  agencyId?: string | null;
 }
 
 async function publishedRows() {
@@ -70,6 +72,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     freeCancel: policySummary(t.cancellation).kind === "free", private: t.options.some((o) => o.mode === "private"),
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
+    agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
   };
 }
 
@@ -80,7 +83,7 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   try {
     // REQ-047 (INC-004): con decenas de viajes, armar las tarjetas son ~N+2 consultas a D1 por visita a / y /tours.
     // Se cachean como el catálogo (REQ-032): una carga por ventana, compartida entre visitas; si falla, se sirve la última copia.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "2" }), POLICY.toursList, async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "3" }), POLICY.toursList, async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));

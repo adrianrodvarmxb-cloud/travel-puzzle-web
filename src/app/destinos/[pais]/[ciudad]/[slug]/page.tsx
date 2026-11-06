@@ -13,9 +13,10 @@ import { isTravelerFavorite } from '@/tours/lib/favorite';
 import { tourPriceLabel } from '@/tours/lib/price-label';
 import { loadTripBySlug, loadFx } from '@/trips/public-load';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { leerPrellenado } from '@/agente/lib/catalogo';
 
 export const dynamic = 'force-dynamic';
-type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }> };
+type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
 
 /** El tour (o viaje propio) de esta ciudad con ese slug. Un tour de FREETOUR gana si un viaje propio usa el mismo slug. */
 async function resolve(params: Props['params']): Promise<{ country: CountryNode; city: CityNode; tour: ReturnType<typeof allTours>[number] } | null> {
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * Los viajes propios (gate 4) usan su ficha de siempre con URL canónica aquí. Un tour removed lo responde
  * el middleware con 410 antes de llegar aquí.
  */
-export default async function DestinationTourPage({ params }: Props) {
+export default async function DestinationTourPage({ params, searchParams }: Props) {
     if (!primeraPiezaOn()) notFound();
     const r = await resolve(params);
     if (!r) notFound();
@@ -57,7 +58,7 @@ export default async function DestinationTourPage({ params }: Props) {
         return (
             <>
                 <JsonLd data={model.jsonLd.slice(1)} />
-                <TripDetailView data={data} path={tour.href} breadcrumbs={<Breadcrumbs items={model.crumbs} />} />
+                <TripDetailView data={data} path={tour.href} breadcrumbs={<Breadcrumbs items={model.crumbs} />} prellenado={leerPrellenado((await searchParams) ?? {})} /* REQ-150 */ />
             </>
         );
     }
