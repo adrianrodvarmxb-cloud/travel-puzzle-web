@@ -414,7 +414,7 @@ export function ToursPageClient({
                                     {tours.map((tour, i) => (
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
-                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} />
+                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} priceLabel={(currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }> } | undefined)?.priceLabels?.[tour.id] ?? null} />
                                         </div>
                                     ))}
                                 </div>

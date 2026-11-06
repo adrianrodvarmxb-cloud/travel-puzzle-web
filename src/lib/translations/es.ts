@@ -65,7 +65,7 @@ export const es = {
   'tours.filter.sortBy': 'Ordenar Por',
   'tours.filter.search': 'Buscar tours...',
   'tours.viewDetails': 'Ver Detalles',
-  'tours.bookNow': 'Reservar Ahora',
+  'tours.bookNow': 'Lo quiero',
   'tours.duration': 'Duración',
   'tours.includes': 'Incluye',
   'tours.meetingPoint': 'Punto de Encuentro',
