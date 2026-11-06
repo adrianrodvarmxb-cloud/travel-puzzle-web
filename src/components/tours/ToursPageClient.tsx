@@ -386,7 +386,7 @@ export function ToursPageClient({
                                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
                                     {tours.map(tour => (
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}>
-                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} />
+                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} priceLabel={(currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }> } | undefined)?.priceLabels?.[tour.id] ?? null} />
                                         </div>
                                     ))}
                                 </div>

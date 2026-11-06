@@ -5,15 +5,15 @@ import { HOME_SECTION_IDS } from "@/home/lib/sections";
 
 const base = [
   { href: "/", label: "Inicio" },
-  { href: "/tours", label: "Tours" },
+  { href: "/tours", label: "Experiencias" },
   { href: "/#como-funciona", label: "Cómo Funciona" },
 ];
 const menu = (pp: boolean, transfers: boolean, lang = "es") =>
   withPrimeraPiezaLinks(withTransfersLink(base, transfers, "Traslados"), pp, lang);
 
 describe("REQ-093: menú La Primera Pieza tras bandera", () => {
-  it("REQ-093: con la bandera encendida: Inicio · La Primera Pieza · Destinos · Tours · Traslados · Cómo Funciona", () => {
-    expect(menu(true, true).map((l) => l.label)).toEqual(["Inicio", "La Primera Pieza", "Destinos", "Tours", "Traslados", "Cómo Funciona"]);
+  it("REQ-093: con la bandera encendida: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona", () => {
+    expect(menu(true, true).map((l) => l.label)).toEqual(["Inicio", "La Primera Pieza", "Destinos", "Experiencias", "Traslados", "Cómo Funciona"]);
     expect(menu(true, true).map((l) => l.href)).toEqual(["/", "/la-primera-pieza", "/destinos", "/tours", "/traslados", "/#como-funciona"]);
   });
   it("REQ-093: con la bandera apagada el menú queda igual que hoy", () => {

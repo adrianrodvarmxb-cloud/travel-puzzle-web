@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
 import { sortOptions, type TourSort } from '@/tours/lib/sort';
+import { formatCount } from '@/home/lib/format';
 
 interface ToursHeaderProps {
   total: number;
@@ -13,18 +14,19 @@ interface ToursHeaderProps {
   onSort: (sort: TourSort) => void;
 }
 
-/** Encabezado oscuro de /tours: titular, buscador grande, conteo real y "Ordenar por". */
+/** Encabezado oscuro de /tours: H1 = nombre del menú (REQ-174), buscador grande, conteo real y "Ordenar por". */
 export function ToursHeader({ total, lastUpdated, search, onSearch, sort, onSort }: ToursHeaderProps) {
   const { t, language } = useLanguage();
   const [q, setQ] = useState(search);
   useEffect(() => setQ(search), [search]);
-  const count = new Intl.NumberFormat(language === 'en' ? 'en-US' : 'es-MX').format(total);
+  // REQ-173 (INC-001): separador fijo, sin Intl del navegador.
+  const count = formatCount(total, language === 'en' ? 'en' : 'es');
 
   return (
     <section className="border-b border-white/10">
       <div className="mx-auto max-w-[1280px] px-4 pb-10 pt-12 md:px-8 md:pt-16">
-        <p className="font-data mb-3 text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{t('tours.eyebrow', 'TOURS · {count} AVAILABLE').replace('{count}', count)}</p>
-        <h1 className="font-display mb-6 text-4xl font-bold leading-[1.05] text-white md:text-6xl">{t('tours.headline', 'Find your tour.')}</h1>
+        <p className="font-data mb-3 text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{t('tours.eyebrow', '{count} EXPERIENCES AVAILABLE').replace('{count}', count)}</p>
+        <h1 className="font-display mb-6 text-4xl font-bold leading-[1.05] text-white md:text-6xl">{t('tours.headline', 'Experiences')}</h1>
         <form
           role="search"
           onSubmit={(e) => { e.preventDefault(); onSearch(q.trim()); }}

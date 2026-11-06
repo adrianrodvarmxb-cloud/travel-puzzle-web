@@ -4,6 +4,7 @@ import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
 import { contactFromEnv } from '@/booking/tour-summary';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { whatsappUrl } from '@/notifications/lib/email-layout';
 
 interface EventDetailPageProps {
@@ -44,6 +45,7 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
             time={eventTime}
             bookingsEnabled={isBookingsEnabled(process.env.BOOKINGS_ENABLED)}
             contact={contactFor()}
+            site={siteFooterFromEnv(process.env as Record<string, string | undefined>)}
             paidEnabled={isBookingsEnabled(process.env.PAID_TOURS_ENABLED)}
             adultContactCheck={isAdultContactCheckEnabled(process.env.ADULT_CONTACT_CHECK_ENABLED)}
         />

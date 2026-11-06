@@ -91,7 +91,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-002 | Si una sección falla, el resto sigue | `src/components/common/SectionBoundary.tsx`, `src/app/page.tsx`, `ToursPageClient.tsx` | `SectionBoundary.test.ts` | CUMPLIDO |
 | REQ-003 | Ningún deploy llega a producción si el smoke falla | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO (deploy #60) |
 | REQ-004 | País de tarjetas calculado en el servidor | `src/trips/lib/geo.ts`, `src/trips/public-load.ts`, `OwnTripCard.tsx` | `OwnTripCard.test.ts`, `geo.test.ts` | CUMPLIDO |
-Detalle: `docs/incidentes/INC-001.md`.
+| REQ-221 | Errores del navegador a los logs del Worker (`client-error`, zod) | `src/ops/lib/clientError.ts`, `src/app/api/client-error/route.ts`, `src/ops/reportClientError.ts`, `ClientErrorListener.tsx`, `SectionBoundary.tsx`, `error.tsx`, `global-error.tsx`, `tours/error.tsx` | `clientError.test.ts` | CUMPLIDO (logs en producción: PENDIENTE tras merge) |
+| REQ-222 | Regreso a mano (Cloudflare o revert en GitHub) | `docs/runbooks/rollback.md` | (documento) | CUMPLIDO |
+| REQ-223 | Humo abre /ayuda y /admin/entrar (404 válido tras bandera) y detecta las pantallas de error | `tests/smoke/pages.json`, `src/scripts/smoke.ts`, `src/ops/lib/smoke.ts` | `smoke.test.ts` | CUMPLIDO |
+| REQ-224 | `tsc --noEmit` como gate en PR y deploy | `.github/workflows/prueba-humo.yml`, `.github/workflows/deploy-cloudflare.yml` | `tsc-gate-workflow.test.ts` | CUMPLIDO |
+Detalle: `docs/incidentes/INC-001.md`. Regreso a mano: `docs/runbooks/rollback.md`.
 
 ## Ola X2a — venta cruzada en fichas (3 nov 2026)
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -144,6 +148,12 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
+| REQ-305 | Prueba de humo con La Primera Pieza: destinos, ficha real de la ciudad, sitemap y URL vieja /tours/{id} (301/410); descubrimiento obligatorio con reintentos | `tests/smoke/pages.json`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `smoke-config.test.ts`, `smoke.test.ts` + humo del PR | CUMPLIDO |
+| REQ-500 | Prueba de humo con evidencia (INC-007): al fallar una página guarda HTML crudo, DOM tras hidratar y al error, errores con stack/componentStack, primera diferencia y captura; la recarga una vez y anota si es intermitente, sin dejar de fallar; artefacto en deploy y PR | `src/ops/lib/smoke-evidence.ts`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts`, `deploy-cloudflare.yml`, `prueba-humo.yml` | `smoke-evidence.test.ts`, `smoke-evidence-workflow.test.ts` + humo del PR | CUMPLIDO (test); INC-007 ABIERTO |
+| REQ-300 | Reservas, cancelación, modificar y eventos sin segundo encabezado: solo el del home; ayuda por burbuja de WhatsApp | `src/components/booking/email-ui.tsx` (EmailFrame, `cardHeader`), `email-ui.test.ts`, `site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
+| REQ-301 | Rutas exentas del header común solo con motivo (admin, moderación interna, auth apagado, api) | `src/layout/site-header.test.ts` | unitarias | CUMPLIDO |
+| REQ-302 | Correos con el encabezado y logo de Travel Puzzle, incluidos los avisos internos | `src/payments/lib/email.ts`, `src/notifications/lib/manual-cancel-email.ts`, `api/reserva/[token]/cancelar/route.ts` | `email.test.ts`, `manual-cancel-email.test.ts` | CUMPLIDO |
+| REQ-303 | Pie del home en reservas, modificar y eventos; pie de la tarjeta oculto (`cardFooter`) | `src/components/booking/email-ui.tsx`, `src/layout/lib/site-footer.ts` | `email-ui-footer.test.ts`, `site-footer.test.ts` + capturas 390/1366 | CUMPLIDO |
 | REQ-029 | D1 saturada: reintento | `src/tours/lib/d1-load.ts`, `src/actions/tours.ts` | `d1-load.test.ts` | CUMPLIDO |
 | REQ-030 | D1 saturada: caché 10 min | idem | `d1-load.test.ts` | REEMPLAZADO por REQ-032 |
 | REQ-032 | Caché compartida L1+L2, single-flight, stale-if-error | `src/cache/lib/shared-cache.ts`, `src/cache/edge.ts`, home, /tours, ficha, mapa, /api/tours | `shared-cache.test.ts` | CUMPLIDO |
@@ -164,6 +174,9 @@ Detalle: `docs/incidentes/INC-002.md`.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-155 | Secretos dentro de la versión que se prueba y despliega; reintento de subida; humo de producción siempre tras publicar; modo ensayo | `.github/workflows/deploy-cloudflare.yml`, `src/ops/lib/worker-secrets.ts`, `src/scripts/worker-secrets.ts` | `deploy-workflow.test.ts`, `worker-secrets.test.ts` | EN CURSO (falta el primer deploy con el workflow nuevo) |
+| REQ-226 | Los PR esperan a que main termine de publicar antes de subir su versión (antes REQ-153/186) | `.github/workflows/prueba-humo.yml` | `subidas-workflow.test.ts` | CUMPLIDO |
+| REQ-225 | Llave del catálogo del agente creada y cargada sin mostrarse (antes REQ-154/185) | `.github/workflows/llave-agente.yml` | `llave-agente-workflow.test.ts` | CUMPLIDO (corrida manual del workflow PENDIENTE, con OK del PO: es un secreto) |
+| REQ-227 | Ningún REQ en dos filas de `docs/requisitos.md` | `docs/requisitos.md` | `requisitos-unicos.test.ts` | CUMPLIDO |
 Detalle: `docs/incidentes/INC-006.md`.
 
 ## La Primera Pieza — Ola 7 «Arma tu viaje» y carrusel (5 nov 2026)
@@ -174,7 +187,7 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-105 | Interruptor automático api → deeplink → WhatsApp → oculto | `src/cart/lib/switch.ts`, `page-model.ts`, `src/cart/adapters/whatsapp.ts`, `CompanionCarousel.tsx` | `switch.test.ts`, `page-model.test.ts`, `deeplink.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
 | REQ-106 | Primera Pieza confirmada (costo 0) que sobrevive al abandono; sugerencias solo con un toque | `src/cart/lib/cart.ts`, `src/cart/load.ts`, `page-model.ts`, `app/arma-tu-viaje/page.tsx` | `cart.test.ts`, `load.test.ts`, `page-model.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
 | REQ-107 | Cobro dividido por proveedor, paymentUrl renovable, cancelación aislada, seguro solo deeplink | `src/cart/lib/split.ts`, `switch.ts`, `src/cart/adapters/freetour.ts` | `split.test.ts`, `switch.test.ts`, `freetour.test.ts` | EN CURSO (falta stage de FREETOUR y OK del PO) |
-| REQ-108 | Carrusel 3/4 tarjetas, primera un tour, quién cobra, orden base | `src/companions/lib/carousel.ts`, `CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
+| REQ-108 | Carrusel 3/4 tarjetas, primera un tour, quién cobra, orden base | `src/companions/lib/carousel.ts`, `CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) → **REEMPLAZADO** por REQ-429 (6-11-2026, plan de taxonomía; el código actual sigue vigente hasta que el nuevo esté CUMPLIDO) |
 | REQ-109 | Reglas por destino como datos; visa y ETIAS tras bandera | `src/companions/rules.json`, `carousel.ts` | `carousel.test.ts` | CUMPLIDO (apagado) |
 | REQ-110 | Eventos vista/agregada/reservada/WhatsApp por tipo y ciudad | `src/companions/lib/events.ts`, `app/api/arma-tu-viaje/eventos/route.ts`, `CompanionCarousel.tsx` | `events.test.ts` | EN CURSO («reservada» se emite cuando exista la reserva desde el carrito) |
 | REQ-111 | Métricas con metas firmadas | `src/ops/lib/metrics.ts`, este archivo | `metrics.test.ts` | EN CURSO (faltan valores de producción) |
@@ -185,7 +198,7 @@ Todo tras `ARMA_TU_VIAJE_ENABLED="false"` (apagada: `/arma-tu-viaje` y `/api/arm
 | REQ-145 | Rango de vigencia en el encabezado de la ficha (transporte) | `src/trips/lib/trip-facts.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
 | REQ-146 | «Audioguía en …» en hop-on hop-off | `src/trips/lib/trip-facts.ts`, `src/trips/lib/copy.ts`, `src/components/trips/TripDetailView.tsx` | `trip-facts.test.ts` | CUMPLIDO |
 | REQ-147 | «Disponible en» solo con viajes publicados | `src/companions/load.ts` | `load.test.ts` | CUMPLIDO |
-| REQ-153 | Sin transporte en el carrusel «Viajes armados por nuestros expertos» | `src/home/lib/carousel.ts`, `src/components/home/v2/OwnTripsCarousel.tsx` | `carousel.test.ts` | EN CURSO |
+| REQ-153 | Sin transporte en el carrusel de viajes del home (carrusel borrado) | — | — | SUSTITUIDO por REQ-452 |
 | REQ-154 | «Guía en español» solo con guía en vivo en español | `src/trips/lib/guarantees.ts`, `TripGuarantees.tsx`, `TripDetailView.tsx` | `guarantees.test.ts` | EN CURSO |
 | REQ-156 | «Opciones de pago» solo con pagos en línea | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
 | REQ-157 | «Asesores» siempre; «Itinerarios a tu medida» solo en personalizado | `src/trips/lib/guarantees.ts` | `guarantees.test.ts` | EN CURSO |
@@ -204,11 +217,11 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | Tasa de agregado del carrusel por categoría | se mide 4 semanas y luego se fija | sin medir (carrusel apagado) | logs `[carrusel-evento]` (`addRateByCategory`) |
 ## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
 | REQ-088 | Rutas /la-primera-pieza, /destinos, país, ciudad (free tours, tours + viajes propios, traslados) y ficha, desde los datos | `src/destinations/lib/catalog.ts`, `page-model.ts`, `repository.ts`, `load.ts`, `server.ts`, `src/app/la-primera-pieza`, `src/app/destinos/**` | `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (tras PRIMERA_PIEZA_ENABLED="false"; sin slugs en producción no aparece nada) |
-| REQ-089 | Regla de indexación de ciudad (noindex, fuera del sitemap) | `src/destinations/lib/indexing.ts`, `catalog.ts`, `page-model.ts` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-089 | Regla de indexación de ciudad (noindex, fuera del sitemap) | `src/destinations/lib/indexing.ts`, `catalog.ts`, `page-model.ts` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO → **REEMPLAZADO** por REQ-407 (6-11-2026, plan de taxonomía; el código actual sigue vigente hasta que el nuevo esté CUMPLIDO) |
 | REQ-090 | noindex tras 14 días seguidos; el sync blindado guarda City.indexableSince/failingSince al cerrar cada corrida exitosa | `src/destinations/lib/indexing.ts` (`planCityIndexing`), `src/catalog/guarded-sync.ts`, `guarded-repository.ts` (`createCityIndexRepo`), `lib/sql.ts` (`cityIndexStatements`), `src/destinations/lib/catalog.ts` | `indexing.test.ts`, `guarded-sync.test.ts`, `sql.test.ts`, `catalog.test.ts` | CUMPLIDO (lo escribe el sync con SYNC_GUARD_ENABLED; lo lee /destinos con PRIMERA_PIEZA_ENABLED) |
 | REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts`, `catalog.ts`, `app/destinos/[pais]/[ciudad]/page.tsx` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-092 | 301 desde /tours/{id}, /tours?countryId= y /viajes/... (solo con slug); 410 removidos | `src/destinations/lib/routes.ts`, `request-plan.ts`, `edge.ts`, `middleware.ts`, `src/middleware.ts` | `routes.test.ts`, `request-plan.test.ts`, `edge.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (301 y 410 reales desde el middleware, tras la bandera) |
-| REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) |
+| REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) → **REEMPLAZADO** por REQ-400 (menú con «Experiencias»; la etiqueta la implementa REQ-174, PR #141) (6-11-2026, plan de taxonomía; el código actual sigue vigente hasta que el nuevo esté CUMPLIDO) |
 | REQ-094 | H1 = título real | `src/tours/lib/title.ts`, `page-model.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `title.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-095 | Insignia solo con fullPricePerGroup = 0 (evento en vivo) | `src/tours/lib/badge.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `badge.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `notice.test.ts`, `live-notice.test.ts` | CUMPLIDO |
@@ -272,13 +285,25 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firmado por el PO el 6 nov 2026) |
 | REQ-142 | País propio por ciudad: Hong Kong → HK, Tórshavn → FO | `src/geo/lib/country.ts`, `dry-run-v2.ts`, `src/scripts/geo-cruce-v2.ts`, `src/geo/data/city-country-overrides.csv` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (se escribe con la 0016: G3/G4) |
 | REQ-143 | Las 5 dudosas decididas por el PO (Alajuela ADM1, SLP ADM1, La Palma sin geonameid, Diani Beach, Ao Nang) | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
-| REQ-170 | Ficha de tour de pago: EUR con MXN aproximado (FREETOUR D4), tras PRIMERA_PIEZA_ENABLED | `src/tours/lib/price-label.ts`, `TourSidebar.tsx`, `TourMobileBar.tsx`, `TourDetailClient.tsx`, `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `app/tours/[id]/page.tsx` | `price-label.test.ts` | CUMPLIDO |
-| REQ-171 | Ficha: reseñas que nombran la plataforma se ocultan al pintar (tras PRIMERA_PIEZA_ENABLED) | `src/reviews/lib/platform-mention.ts`, `src/tours/detail-props.ts` | `platform-mention.test.ts` | CUMPLIDO |
+| REQ-470 | SQL de G4 solo con UPDATE … WHERE id = … AND geonameid IS NULL (224 filas) | `docs/datos/2026-11-06-geo-v2-geonameid.sql`, `src/geo/lib/escritura.ts` | `escritura.test.ts` | EN CURSO (workflow sin correr) |
+| REQ-471 | Workflow manual: Time Travel, ensayo, lotes con --command | `.github/workflows/geo-escribir-geonameid.yml`, `src/scripts/geo-escribir.ts` | `geo-escribir-workflow.test.ts`, `escritura.test.ts` | EN CURSO |
+| REQ-472 | Verificación (conteo, repetidos), humo y restauración automática | `.github/workflows/geo-escribir-geonameid.yml`, `src/geo/lib/escritura.ts` | `escritura.test.ts`, `geo-escribir-workflow.test.ts` | EN CURSO |
+| REQ-473 | País/región propios y alias de Taipei (geo-v2-0016), corrida aparte con escribir_pais | `docs/datos/2026-11-06-geo-v2-0016-pais.sql`, `.github/workflows/geo-escribir-geonameid.yml`, `src/geo/lib/escritura.ts`, `src/scripts/geo-escribir.ts` | `escritura.test.ts`, `geo-escribir-workflow.test.ts` | EN CURSO |
+| REQ-170 | Ficha de tour de pago, tarjetas de ciudad, de /tours y destacadas del inicio: EUR con MXN aproximado (FREETOUR D4), tras PRIMERA_PIEZA_ENABLED | `src/tours/lib/price-label.ts`, `DestinationTourCard.tsx`, `app/destinos/[pais]/[ciudad]/page.tsx`, `TourSidebar.tsx`, `TourMobileBar.tsx`, `TourDetailClient.tsx`, `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `app/tours/[id]/page.tsx` | `price-label.test.ts`, `card-price.test.ts` | CUMPLIDO |
+| REQ-171 | Reseñas que nombran la plataforma se ocultan al pintar en ficha, frases destacadas e inicio (en producción, sin bandera) | `src/reviews/lib/platform-mention.ts`, `reviews.ts`, `highlights.ts`, `src/tours/detail-props.ts` | `platform-mention.test.ts`, `platform-everywhere.test.ts` | CUMPLIDO |
 | REQ-180 | Fecha y hora local de la Primera Pieza y del WhatsApp | `src/cart/lib/piece.ts`, `src/cart/lib/page-model.ts`, `src/cart/load.ts`, `app/arma-tu-viaje/page.tsx` | `piece.test.ts`, `page-model.test.ts`, `load.test.ts` | CUMPLIDO (apagado) |
 | REQ-181 | País y viajero de la reserva, no de la URL | `src/cart/lib/piece.ts`, `src/cart/load.ts`, `src/cart/lib/page-model.ts`, `app/arma-tu-viaje/page.tsx` | `piece.test.ts`, `page-model.test.ts`, `load.test.ts` | CUMPLIDO (apagado) |
 | REQ-182 | Enlace a «Arma tu viaje» en confirmación, /reserva/{token} y correo (tras bandera) | `src/cart/lib/links.ts`, `components/booking/TripLinkCard.tsx`, `EventBookingConfirm.tsx`, `BookingFormContext.tsx`, `app/reserva/[token]/*`, `api/freetour/booking/route.ts`, `booking/notify.ts`, `notifications/lib/booking-email.ts` | `links.test.ts`, `TripLinkCard.test.ts`, `BookingConfirmed.test.ts`, `notify.test.ts`, `booking-email.test.ts` | CUMPLIDO (apagado) |
 | REQ-183 | «Costo 0» solo sin tarifa fija | `src/cart/lib/piece.ts`, `src/cart/lib/page-model.ts` | `piece.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
 | REQ-184 | Carrusel en celular: proveedor real antes que cotización | `src/companions/lib/carousel.ts`, `components/companions/CompanionCarousel.tsx` | `carousel.test.ts`, `CompanionCarousel.test.ts` | CUMPLIDO (apagado) |
+| REQ-219 | Inicio sin títulos con «FreeTour» / «Free Tour» (favoritos, reseñas destacadas, carrusel de viajes) | `src/home/lib/brand.ts`, `src/home/load.ts`, `src/app/page.tsx` | `brand.test.ts`, `load.test.ts` | CUMPLIDO |
+| REQ-173 | Copy genérico del catálogo: «experiencias» en lugar de «tours» (buscador, contadores, tarjeta del hero, conteos de /destinos y del mapa, /tours, 6 idiomas); el menú y el H1/title de /tours no cambian (REQ-174) | `src/tours/lib/catalog-name.ts`, `src/home/lib/copy.ts`, `src/home/lib/format.ts`, `src/lib/translations/*.ts`, `ProofStrip.tsx`, `ToursHeader.tsx`, `app/page.tsx`, `app/destinos/page.tsx`, `app/la-primera-pieza/page.tsx`, `app/not-found.tsx`, `seo/lib/robots.ts` | `catalog-name.test.ts` | CUMPLIDO |
+| REQ-450 | «Los más elegidos» por medidor de reseñas (bayesiano m = 50, C del catálogo), cualquier proveedor, diversidad 2 ciudad / 3 formato, tras CARRUSELES_HOME_ENABLED="false" | `src/home/lib/review-score.ts`, `src/home/lib/carousels.ts`, `src/home/lib/rank-row.ts`, `src/home/load.ts` | `review-score.test.ts`, `carousels.test.ts`, `rank-row.test.ts`, `load.test.ts` | EN CURSO |
+| REQ-451 | Regla mínima de formato y excursión de un día (TEMPORAL hasta el clasificador de taxonomía) | `src/home/lib/experience-format.ts` | `experience-format.test.ts` | CUMPLIDO |
+| REQ-452 | Carrusel «viajes» borrado del home y del menú (OK del PO) | `src/app/page.tsx`, `src/home/lib/sections.ts`, `src/trips/lib/copy.ts` | `sections.test.ts`, `no-expert-claim.test.ts` | CUMPLIDO |
+| REQ-453 | Carrusel y sección «Excursiones de un día», tras CARRUSELES_HOME_ENABLED="false" | `src/components/home/v2/DayTripsCarousel.tsx`, `src/home/lib/carousels.ts`, `src/home/lib/sections.ts`, `src/home/lib/copy.ts` | `carousels.test.ts`, `sections.test.ts`, `copy.test.ts`, `load.test.ts` | EN CURSO |
+| REQ-454 | Fundido en REQ-219 (#147): los carruseles nuevos usan `mentionsProviderBrand`/`titlesMentionBrand` de `src/home/lib/brand.ts` | `src/home/load.ts`, `src/home/lib/rank-row.ts` | `load.test.ts`, `rank-row.test.ts`, `brand.test.ts` | CUMPLIDO |
+| REQ-174 | Menú, footer, H1 y title de /tours: «Experiencias» (6 idiomas); /tours no cambia de URL; «Tours» sigue como formato en filtros y chips (G1 firmado, 6 nov 2026) | `src/tours/lib/catalog-name.ts`, `src/lib/translations/*.ts`, `src/home/lib/copy.ts`, `ToursHeader.tsx`, `app/tours/page.tsx`, `seo/lib/robots.ts`, `src/tours/lib/menu.ts` | `catalog-menu.test.ts`, `menu.test.ts` | CUMPLIDO (falta OK del PO para publicar) |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.
 
@@ -291,3 +316,53 @@ Todo tras `AGENTE_API_ENABLED="false"` (apagada: `/api/agente/*` responde 404) y
 | REQ-150 | Liga prellenada (?fecha=&adultos=&ninos=) | `src/agente/lib/catalogo.ts`, `TripRequestForm.tsx`, `TripDetailView.tsx`, fichas `/viajes` y `/destinos` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
 | REQ-151 | Revisión en vivo de la fecha antes de la liga | `src/agente/lib/catalogo.ts`, `src/app/api/agente/viaje/route.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO (apagado) |
 | REQ-152 | Bandera y llave (404 / 401) | `src/agente/catalogo.ts`, `src/app/api/agente/respuesta.ts` | `catalogo.test.ts`, `rutas.test.ts` | CUMPLIDO |
+
+## Taxonomía del catálogo (plan del 6 nov 2026, `docs/plan-taxonomia.md`)
+Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test todavía; todos quedan PENDIENTE. Gates pendientes del PO: G-T1…G-T5 y G-T7…G-T11 (plan §7.2); G-T6 firmado («Momentos de autor», 06:22). G1 (menú «Experiencias» como paraguas) firmado por el PO el 6-11 (opción A, ~06:12).
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-400 | El concepto base es Experiencias; luego hay Tours, Circuitos, Caminatas… | `src/taxonomy/data/dictionary.ts`; etiqueta: REQ-174 (propuesto) | — | PENDIENTE (gate firmado; la etiqueta está escrita en la rama de REQ-174, en espera sobre #141) |
+| REQ-401 | Pasa taxonomia-diccionario.csv a un archivo versionado en lib/taxonomy/ (JSON o TS tipado) con: slug, eje, termino_es, termino_en… | `src/taxonomy/data/dictionary.ts`, `schemas/dictionary.ts` (propuesto) | — | PENDIENTE |
+| REQ-402 | Formato: 13 valores, un solo valor por producto, con orden de precedencia (gana la primera regla que se cumple). | `src/taxonomy/lib/format.ts` (propuesto) | — | PENDIENTE |
+| REQ-403 | Tema: 13 valores, de 1 a 3 por producto. Los 26 términos de 2024 quedan como sinónimos de búsqueda, no como categorías. | `src/taxonomy/lib/themes.ts`, `dictionary.ts` (propuesto) | — | PENDIENTE |
+| REQ-404 | Agregar un proveedor = agregar su mapeo en el diccionario, sin tocar el clasificador. | `src/taxonomy/data/mapping/*.ts` (propuesto) | — | PENDIENTE |
+| REQ-405 | Clasificador (una sola función pura en lib/, con test): Entrada: categoría del proveedor, precio, duración, título y kind del viaje.… | `src/taxonomy/lib/classify.ts` (propuesto) | — | PENDIENTE |
+| REQ-406 | Corrige la regla de La Primera Pieza: precio 0 → pieza-libre, salvo 8, 17, 20, 24, 26, 28, 29, 30, 31 y 35 (hoy faltan la 26 y la 31). | `src/taxonomy/lib/primera-pieza.ts`, `destinations/lib/catalog.ts` (propuesto) | — | PENDIENTE |
+| REQ-407 | Las categorías 8 (online) y 31 (servicios de viaje) → formato «fuera»: no salen en Destinos ni en el sitemap y no cuentan para la regla de… | `destinations/lib/catalog.ts`, `indexing.ts` (propuesto) | — | PENDIENTE |
+| REQ-408 | Los ids 1, 2, 6 y 9, o cualquier id nuevo, → «por-revisar»: no se publican y se registran en el log del sync. | `src/taxonomy/lib/format.ts`, `recompute.ts` (propuesto) | — | PENDIENTE |
+| REQ-409 | La clasificación se guarda en campos o en una tabla propia de Travel Puzzle, nunca sobre los campos del proveedor. Se recalcula en cada… | `src/taxonomy/recompute.ts`, `migrations/0017_taxonomia.sql` (propuesto) | — | PENDIENTE (migración 0017: candado) |
+| REQ-410 | Formato: activo desde el primer día. Tema: se publica solo si una muestra revisada a mano de 200 tours da ≥ 90 % de precisión… el estado de… | `src/taxonomy/lib/publish.ts` (propuesto) | — | PENDIENTE (muestra entregada para revisión) |
+| REQ-411 | «Ciudad y barrios» queda como base, no como filtro (marca el 70 % del catálogo). Revisar falsos positivos conocidos: «game» en… | `src/taxonomy/lib/themes.ts` (propuesto) | — | PENDIENTE |
+| REQ-412 | Regla dura: un formato, tema o atributo sin productos activos para esa ciudad o filtro no se muestra. Nunca un chip, conteo o sección en… | `src/taxonomy/lib/publish.ts` (propuesto) | — | PENDIENTE |
+| REQ-413 | /tours: filtros ?formato=, ?tema=, ?destino=, ?duracion= y atributos activos. Canonical a /tours y noindex en combinaciones de filtros. | `src/taxonomy/lib/filters.ts`, `tours/lib/extra-filters.ts` (propuesto) | — | PENDIENTE |
+| REQ-414 | /destinos/{pais}/{ciudad}: las 3 secciones firmadas (Free tours · Tours · Traslados). Dentro de «Tours», chips de formato y tema que… | `app/destinos/[pais]/[ciudad]/page.tsx` (propuesto) | — | PENDIENTE |
+| REQ-415 | Ficha: formato y temas como etiquetas debajo o al lado de la foto, nunca encima (C5). El H1 sigue siendo el título real (C4). | ficha de /destinos (propuesto) | — | PENDIENTE |
+| REQ-416 | Copy en es y en desde el diccionario; pt, de, fr e it con el flujo de traducción que ya existe. Términos mexicanos: «boletos y entradas»… | `src/taxonomy/lib/copy.ts` (propuesto) | — | PENDIENTE |
+| REQ-417 | Atributos activos con dato: privado, nocturno, cómo te mueves (a pie, bici, vehículo, barco), idioma español (solo si el evento o el viaje… | `src/taxonomy/lib/attributes.ts` (propuesto) | — | PENDIENTE |
+| REQ-418 | Tras bandera apagada (sin dato hoy): grupo pequeño, familias, solo adultos, parejas, accesible (nunca se infiere), sin filas, apto lluvia… | `src/taxonomy/lib/publish.ts` (propuesto) | — | PENDIENTE |
+| REQ-419 | Pares que se excluyen, validados por test: guiado/autoguiado, privado/grupo, familias/solo adultos. | `src/taxonomy/lib/attributes.ts` (propuesto) | — | PENDIENTE |
+| REQ-420 | Favorito de los viajeros: propón un criterio (calificación ≥ 4.7 y un mínimo de N reseñas) para que yo lo firme. | `src/tours/lib/favorite.ts` (propuesto) | — | PENDIENTE (gate G-T1) |
+| REQ-421 | Tipo de grupo: en grupo · privado · a la medida. Activo (sale de trip.ts). | `src/taxonomy/lib/circuits.ts` (propuesto) | — | PENDIENTE |
+| REQ-422 | Dificultad física: escala del 1 al 5 (Relajado, Ligero, Moderado, Exigente, Muy exigente), con una línea de descripción por nivel. Activa… | `src/taxonomy/lib/circuits.ts` (propuesto) | — | PENDIENTE (mapeo de los 3 valores de hoy: gate G-T8) |
+| REQ-423 | Duración en días: 1–5 · 6–9 · 10–14 · 15+ (reemplaza 1–5 / 6–14 / 15+). Límites con test. | `src/taxonomy/lib/circuits.ts` (propuesto) | — | PENDIENTE |
+| REQ-424 | Tras bandera: confort (Básico · Esencial · Confort · Premium…; absorbe la faceta de presupuesto; Genki queda como línea de Japón), tipo de… | `src/taxonomy/lib/publish.ts` (propuesto) | — | PENDIENTE |
+| REQ-425 | Migración de los campos nuevos de Trip (dificultad, confort, tipo de guía, perfil, accesibilidad sí/no): es candado; muéstrame el script y… | `migrations/0018_trip_facetas.sql` (propuesto) | — | PENDIENTE (candado) |
+| REQ-426 | Se mantienen los 6 continentes de continents.ts para agrupar /destinos, sin continente en la URL. Tras bandera, sin dato: región, atracción… | `destinations/lib/hub-groups.ts` (propuesto) | — | PENDIENTE |
+| REQ-427 | Gate pendiente: ¿México va como bloque propio en Destinos? Propón cómo quedaría y yo decido. | `destinations/lib/hub-groups.ts` (propuesto) | — | PENDIENTE (gate G-T2) |
+| REQ-428 | Mapeo formato → CartItem.tipo en lib/… Los circuitos y los viajes a la medida no entran al carrito (se cotizan). | `src/taxonomy/lib/cart-type.ts` (propuesto) | — | PENDIENTE |
+| REQ-429 | La regla «la primera tarjeta es un tour de pago o de día» usa tp_formato ∈ {caminata, tour, excursion-dia, experiencia-unica}. | `companions/lib/carousel.ts` (propuesto) | — | PENDIENTE |
+| REQ-430 | Los sinónimos del diccionario alimentan el buscador: «trekking» → montana-senderismo, «free walking tour» → pieza-libre. | `src/search/lib/synonyms.ts` (propuesto) | — | PENDIENTE |
+| REQ-431 | Buscar un continente o un tipo («Europa», «aventura») devuelve todo lo de ese continente o tipo, no solo coincidencias de texto. Revisa si… | `src/search/lib/scope.ts` (propuesto) | — | PENDIENTE |
+| REQ-432 | Métricas en STATUS.md, con la meta que propongas: % de tours con formato (100 %) y % sin tema; categoryIds por revisar (0); precisión por… | `src/taxonomy/lib/metrics.ts` (propuesto) | — | PENDIENTE (metas: gate G-T3) |
+| REQ-433 | FREETOUR: las etiquetas nunca van sobre la foto; el H1 es el título real; ningún texto de taxonomía promete pagos, MSI ni «guía en español»… | `src/taxonomy/lib/copy.ts` (propuesto) | — | PENDIENTE |
+| REQ-230 | Formato `experiencia-unica` = «Momentos de autor» (G-T6 firmado, 06:22); en «Signature moments» por firmar; slug sin cambio | `src/taxonomy/data/dictionary.ts`, `lib/copy.ts` (propuesto) | — | PENDIENTE |
+
+**Métricas de taxonomía (REQ-432; metas propuestas, gate G-T3):**
+| Métrica | Meta propuesta | Valor (ensayo del 5-11, sin producción) |
+|---|---|---|
+| % de tours con formato | 100 % | 100 % (8,018) |
+| % de tours presenciales sin tema | ≤ 5 % | 1.9 % (151 de 7,894) |
+| categoryIds por revisar | 0 | 0 |
+| Precisión por tema (última muestra) | ≥ 90 % para publicar | por medir (muestra de 200 entregada al PO) |
+| Chips, conteos o secciones en cero | 0 | no existen todavía |
+| Uso de filtros por formato y tema | medir 4 semanas y fijar meta | — |

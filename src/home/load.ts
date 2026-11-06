@@ -6,6 +6,11 @@ import { pickVaried } from "./lib/featured";
 import { pickHeroSlides, HERO_SEARCH_NAMES, type HeroSlide } from "./lib/hero";
 import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, pickDistinctTourReviews, pickHighlights } from "@/reviews/lib/highlights";
 import type { HighlightRepo } from "@/reviews/repository";
+import type { TripCard } from "@/trips/public-load";
+import { catalogPrior, REVIEW_PRIOR_M, type Prior } from "./lib/review-score";
+import { pickDayTrips, pickMostChosen, HOME_CAROUSEL_SIZE } from "./lib/carousels";
+import { mentionsProviderBrand, titlesMentionBrand } from "./lib/brand";
+import { parseTourRankRows, tripCandidate, type TourCandidate, type TripCandidate } from "./lib/rank-row";
 
 export interface HomeTour {
   id: string;
@@ -44,12 +49,17 @@ export interface HomeReview {
 
 export type HomeContinent = ContinentSummary & { names: Record<number, Record<string, string>>; images: string[] };
 
+/** REQ-453: tarjeta del carrusel «Excursiones de un día» (tour del catálogo o viaje de proveedor). */
+export type HomeDayTrip = { type: "tour"; tour: HomeTour } | { type: "trip"; trip: TripCard };
+
 export interface HomeData {
   stats: HomeStats;
   hero: HeroSlide[];
   destinations: DestinationCard[];
   continents: HomeContinent[];
   featured: HomeTour[];
+  /** REQ-453: vacío con CARRUSELES_HOME_ENABLED apagada o sin inventario (la sección se oculta). */
+  dayTrips: HomeDayTrip[];
   reviews: HomeReview[];
 }
 
@@ -58,6 +68,10 @@ export interface HomeDeps {
   highlights: HighlightRepo;
   includePaid: boolean;
   lang: string;
+  /** REQ-450/453: CARRUSELES_HOME_ENABLED — medidor de reseñas en «Los más elegidos» y carrusel de excursiones. */
+  carousels?: boolean;
+  /** Viajes publicados y visibles (cualquier proveedor); ya cargados por la página. */
+  ownTrips?: TripCard[];
 }
 
 const asNames = (j: unknown): Record<string, string> =>
@@ -127,7 +141,9 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
     includePaid ? prisma.tour.findMany({ where: { ...base, priceValue: { gt: 0 } }, orderBy: order, take: 60, select }) : Promise.resolve([]),
     prisma.tour.findMany({ where: { ...base, priceValue: 0 }, orderBy: order, take: 60, select }),
   ]);
-  const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(list.map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
+  // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
+  const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)));
+  const vary = <T extends (typeof free)[number]>(list: T[]) => pickVaried(clean(list).map((t) => ({ ...t, countryCode: t.country.code, reviews: t.reviewsNumber })), 6);
   return mixRecommendations(vary(paid), vary(free), 6, includePaid).flatMap((t) => {
     const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
     if (!https(t.titleImageURL) || !Object.keys(titles).length) return [];
@@ -137,6 +153,102 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean): Promise
       rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber,
     }];
   });
+}
+
+const TOUR_SELECT = {
+  id: true, externalId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
+  city: { select: { translations: true } },
+  translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
+} as const;
+
+/** REQ-450: C del medidor = promedio del catálogo ponderado por reseñas. */
+async function loadPrior(prisma: PrismaClient): Promise<Prior> {
+  const [r] = await prisma.$queryRaw<{ s: unknown; v: unknown }[]>`
+    SELECT SUM(CAST(rating AS REAL) * reviewsNumber) AS s, SUM(reviewsNumber) AS v
+    FROM Tour WHERE isActive = 1 AND reviewsNumber > 0 AND rating IS NOT NULL AND CAST(rating AS REAL) BETWEEN 1 AND 5`;
+  return { m: REVIEW_PRIOR_M, C: catalogPrior(Number(r?.s ?? 0), Number(r?.v ?? 0)) };
+}
+
+/**
+ * REQ-450/453: candidatas del catálogo de tours (cualquier providerId). El SQL solo PREFILTRA y preordena con la misma
+ * fórmula (lib/review-score.ts → bayesScore); el orden final, el formato y la diversidad los decide la lib.
+ * Fuera desde aquí: 8 y 31 (fuera), 29 (traslado), 30 (transporte), 26 (alquiler). Sin PAID_TOURS_ENABLED, solo precio 0
+ * (no se recomienda lo que no se puede reservar, recommendations.ts).
+ */
+async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean): Promise<TourCandidate[]> {
+  // Banderas como parámetros (no fragmentos Prisma.sql): la consulta no depende del cliente generado.
+  const paid = includePaid ? 1 : 0;
+  const day = dayTripsOnly ? 1 : 0;
+  const rows = await prisma.$queryRaw<unknown[]>`
+    SELECT t.id AS id, t.externalId AS externalId, t.cityId AS cityId, json_extract(c.translations, '$.en') AS cityName,
+      co.code AS countryCode, t.categoryId AS categoryId, t.durationMinutes AS durationMinutes,
+      CAST(t.priceValue AS REAL) AS price, CAST(t.rating AS REAL) AS rating, t.reviewsNumber AS reviews,
+      (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'es') AS titleEs,
+      (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'en') AS titleEn
+    FROM Tour t JOIN Country co ON co.id = t.countryId LEFT JOIN City c ON c.id = t.cityId
+    WHERE t.isActive = 1 AND t.titleImageURL LIKE 'https://%' AND t.reviewsNumber > 0 AND t.rating IS NOT NULL
+      AND t.categoryId NOT IN (8, 31, 29, 30, 26)
+      AND (${paid} = 1 OR CAST(t.priceValue AS REAL) = 0)
+      AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
+    ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
+    LIMIT ${dayTripsOnly ? 600 : 300}`;
+  const { ok, dropped } = parseTourRankRows(rows); // REQ-219: también salta los títulos que dicen «free tour»
+  if (dropped) console.error(`[home] ${dropped} fila(s) de tours descartadas por datos inválidos`);
+  return ok;
+}
+
+/** Tarjetas del home para los tours elegidos, en el orden dado. */
+async function hydrateTours(prisma: PrismaClient, ids: string[]): Promise<Map<string, HomeTour>> {
+  if (!ids.length) return new Map();
+  const rows = await prisma.tour.findMany({ where: { id: { in: ids } }, select: TOUR_SELECT });
+  const out = new Map<string, HomeTour>();
+  for (const t of rows) {
+    const titles = Object.fromEntries(t.translations.map((x) => [x.language, x.title]));
+    if (!https(t.titleImageURL) || !Object.keys(titles).length || titlesMentionBrand(titles)) continue; // REQ-219
+    out.set(t.id, {
+      id: t.id, externalId: t.externalId, titles, cityNames: asNames(t.city?.translations), image: t.titleImageURL,
+      isFree: Number(t.priceValue) === 0, price: Number(t.priceValue), currency: t.priceCurrency, duration: t.duration,
+      rating: t.rating ? Number(t.rating) : null, reviews: t.reviewsNumber,
+    });
+  }
+  return out;
+}
+
+/** REQ-450 + REQ-453: «Los más elegidos» y «Excursiones de un día» con el medidor de reseñas. */
+async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[]): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[] }> {
+  const prior = await loadPrior(prisma);
+  const [all, days] = await Promise.all([
+    loadTourCandidates(prisma, prior, includePaid, false),
+    loadTourCandidates(prisma, prior, includePaid, true),
+  ]);
+  const trips: TripCandidate[] = ownTrips.filter((t) => t.image && !mentionsProviderBrand(t.title)).map((t) => tripCandidate(t)); // REQ-219
+  // Lo que no se puede pintar (sin foto o título, o un título en otro idioma dice «free tour», REQ-219) se salta y se vuelve
+  // a elegir, para que entre la siguiente y la diversidad se respete. Máx. 3 vueltas.
+  const skip = new Set<string>();
+  let mostChosen: (TourCandidate | TripCandidate)[] = [];
+  let dayPicked: (TourCandidate | TripCandidate)[] = [];
+  let tours = new Map<string, HomeTour>();
+  for (let round = 0; round < 3; round++) {
+    const keep = <T extends TourCandidate | TripCandidate>(x: T) => !skip.has(x.key);
+    mostChosen = pickMostChosen<TourCandidate | TripCandidate>([...all, ...trips].filter(keep), prior, HOME_CAROUSEL_SIZE);
+    // REQ-453: lo que ya sale en «Los más elegidos» no se repite en las excursiones.
+    const shown = new Set(mostChosen.slice(0, HOME_CAROUSEL_SIZE).map((x) => x.key));
+    dayPicked = pickDayTrips<TourCandidate | TripCandidate>([...days, ...trips].filter((x) => keep(x) && !shown.has(x.key)), prior, HOME_CAROUSEL_SIZE);
+    const ids = [...new Set([...mostChosen, ...dayPicked].filter((x) => x.source === "tour").map((x) => x.id))].filter((id) => !tours.has(id));
+    const more = await hydrateTours(prisma, ids);
+    tours = new Map([...tours, ...more]);
+    const missing = [...mostChosen, ...dayPicked].filter((x) => x.source === "tour" && !tours.has(x.id));
+    if (!missing.length) break;
+    for (const x of missing) skip.add(x.key);
+  }
+  const tripById = new Map(ownTrips.map((t) => [t.id, t]));
+  // Hoy ningún viaje propio tiene reseñas: «Los más elegidos» solo puede traer tours; si un día las tienen, entran aquí.
+  const featured = mostChosen.flatMap((x) => (x.source === "tour" && tours.get(x.id) ? [tours.get(x.id)!] : []));
+  const dayTrips = dayPicked.flatMap((x): HomeDayTrip[] => {
+    if (x.source === "tour") { const t = tours.get(x.id); return t ? [{ type: "tour", tour: t }] : []; }
+    const t = tripById.get(x.id); return t ? [{ type: "trip", trip: t }] : [];
+  });
+  return { featured, dayTrips };
 }
 
 async function loadStatsAndContinents(prisma: PrismaClient) {
@@ -188,14 +300,16 @@ async function loadStatsAndContinents(prisma: PrismaClient) {
 
 /** Reseñas reales de 5 ★ de tours distintos, cada una con su tour. */
 async function loadReviews(prisma: PrismaClient, repo: HighlightRepo, lang: string): Promise<HomeReview[]> {
-  const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 6);
+  // REQ-219: se piden de más; la reseña cuyo tour lleva la marca en el título se descarta y entra la siguiente.
+  const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 30);
   if (!picked.length) return [];
   const tours = await prisma.tour.findMany({
     where: { externalId: { in: picked.map((r) => r.tourExternalId) } },
     select: { id: true, externalId: true, city: { select: { translations: true } }, translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } } },
   });
   const byExt = new Map(tours.map((t) => [t.externalId, t]));
-  return picked.map((r) => {
+  const shown = picked.filter((r) => { const t = byExt.get(r.tourExternalId); return !t || !titlesMentionBrand(t.translations.map((x) => x.title)); }).slice(0, 6);
+  return shown.map((r) => {
     const t = byExt.get(r.tourExternalId);
     return {
       id: r.id, reviewerName: r.reviewerName, title: r.title, content: r.content ?? "", rate: r.rate, addedAt: r.addedAt.toISOString(),
@@ -211,23 +325,36 @@ const settle = <T>(r: PromiseSettledResult<T>, fallback: T): T => {
 };
 
 /** Todo lo que el home muestra, leído de nuestro catálogo. Si algo falla, esa sección no aparece. */
-export async function loadHomeData({ prisma, highlights, includePaid, lang }: HomeDeps): Promise<HomeData> {
-  const [hero, dest, feat, sc, reviews] = await Promise.allSettled([
+export async function loadHomeData({ prisma, highlights, includePaid, lang, carousels = false, ownTrips = [] }: HomeDeps): Promise<HomeData> {
+  // Frase destacada de cada tour (si falla, salen sin frase)
+  const withQuotes = async (tours: HomeTour[]) => {
+    const quotes = await highlights.listFiveStarForTours(tours.map((t) => t.externalId)).then((r) => pickHighlights(r, lang)).catch(() => new Map());
+    return tours.map((t) => ({ ...t, quote: quotes.get(t.externalId)?.text ?? null }));
+  };
+  const ranked = carousels ? loadRankedCarousels(prisma, includePaid, ownTrips) : null;
+  const [hero, dest, feat, sc, reviews, days] = await Promise.allSettled([
     loadHero(prisma),
     loadDestinations(prisma),
-    loadFeatured(prisma, includePaid).then(async (tours) => {
-      // Frase destacada de cada favorito (si falla, salen sin frase)
-      const quotes = await highlights.listFiveStarForTours(tours.map((t) => t.externalId)).then((r) => pickHighlights(r, lang)).catch(() => new Map());
-      return tours.map((t) => ({ ...t, quote: quotes.get(t.externalId)?.text ?? null }));
-    }),
+    // Si el medidor falla, «Los más elegidos» vuelve a la regla anterior en vez de desaparecer.
+    (ranked
+      ? ranked.then((r) => r.featured).catch((e) => { console.error("[home] medidor de reseñas sin datos:", e); return loadFeatured(prisma, includePaid); })
+      : loadFeatured(prisma, includePaid)
+    ).then(withQuotes),
     loadStatsAndContinents(prisma),
     loadReviews(prisma, highlights, lang),
+    ranked
+      ? ranked.then(async (r) => {
+          const quoted = new Map((await withQuotes(r.dayTrips.flatMap((d) => (d.type === "tour" ? [d.tour] : [])))).map((t) => [t.id, t]));
+          return r.dayTrips.map((d): HomeDayTrip => (d.type === "tour" ? { type: "tour", tour: quoted.get(d.tour.id) ?? d.tour } : d));
+        })
+      : Promise.resolve([] as HomeDayTrip[]),
   ]);
   const statsC = settle(sc, { stats: { tours: 0, cities: 0, countries: 0, rating: null, reviews: 0 }, continents: [] as HomeContinent[] });
   return {
     hero: settle(hero, []),
     destinations: settle(dest, []),
     featured: settle(feat, []),
+    dayTrips: settle(days, []),
     stats: statsC.stats,
     continents: statsC.continents,
     reviews: settle(reviews, []),
