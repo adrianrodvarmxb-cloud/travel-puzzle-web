@@ -5,7 +5,7 @@ import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { runSyncStep } from '@/catalog/sync';
 import { createCatalogRepo } from '@/catalog/repository';
 import { runGuardedSyncStep } from '@/catalog/guarded-sync';
-import { createGuardedRepo } from '@/catalog/guarded-repository';
+import { createGuardedRepo, createCityIndexRepo } from '@/catalog/guarded-repository';
 import { isSyncGuardEnabled } from '@/catalog/lib/guard-plan';
 import { refreshStaleReviews } from '@/reviews/service';
 import { createReviewRepo } from '@/reviews/repository';
@@ -45,6 +45,8 @@ export async function GET(request: Request) {
         repo: createGuardedRepo(prisma, getD1() as never),
         countries: countries as never,
         now,
+        // REQ-090: al cerrar cada corrida exitosa guarda el estado de indexación de las ciudades (14 días reales).
+        indexing: createCityIndexRepo(getD1() as never),
         rebuildSearch: isSearchV2(process.env.SEARCH_V2_ENABLED) ? () => rebuildTourSearch(getD1() as unknown as D1Like) : undefined,
       });
       // REQ-078: alerta si pasan más de 26 h sin un sync exitoso (queda en los logs del Worker).

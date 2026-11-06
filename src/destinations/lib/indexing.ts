@@ -33,6 +33,26 @@ export function nextCityIndexState(prev: CityIndexState | null, meets: boolean, 
   return { indexed: days < NOINDEX_AFTER_DAYS, failingSince };
 }
 
+/** Lo guardado en City (migración 0015): indexableSince ≠ null = indexada; failingSince = primer día sin cumplir. */
+export interface CityIndexRow { id: number; activeTours: number; guide: string | null; indexableSince: string | null; failingSince: string | null }
+export interface CityIndexUpdate { id: number; indexableSince: string | null; failingSince: string | null }
+
+/**
+ * REQ-090: lo que el sync escribe al cerrar una corrida exitosa. failingSince se fija el primer día que deja de
+ * cumplir y se borra cuando vuelve a cumplir; indexableSince se vacía al día 14 sin cumplir. Solo devuelve cambios.
+ */
+// REQ-090
+export function planCityIndexing(cities: readonly CityIndexRow[], now: Date): CityIndexUpdate[] {
+  const out: CityIndexUpdate[] = [];
+  for (const c of cities) {
+    const meets = cityMeetsRule({ activeTours: c.activeTours, guide: c.guide });
+    const next = nextCityIndexState({ indexed: !!c.indexableSince, failingSince: c.failingSince }, meets, now);
+    const indexableSince = next.indexed ? c.indexableSince ?? now.toISOString() : null;
+    if (indexableSince !== c.indexableSince || next.failingSince !== c.failingSince) out.push({ id: c.id, indexableSince, failingSince: next.failingSince });
+  }
+  return out;
+}
+
 // REQ-091: una ciudad sin tours activos no genera página (404).
 export function cityHasPage(activeTours: number): boolean {
   return activeTours >= 1;
