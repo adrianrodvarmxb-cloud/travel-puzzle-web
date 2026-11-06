@@ -7,6 +7,8 @@ import { describeBooking, mapsUrlFor, meetingPointText, calendarLinks, daysUntil
 import { whatsappUrl } from '@/notifications/lib/email-layout';
 import { getPrisma } from '@/lib/prisma';
 import { BookingPageView } from './BookingPageView';
+import { cartFlags } from '@/cart/lib/flags';
+import { tripUrl } from '@/cart/lib/links';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Mi reserva', robots: { index: false, follow: false } };
@@ -49,6 +51,7 @@ export default async function ManageBookingPage({ params, searchParams }: { para
             status={status} canCancel={canCancel} canEdit={canEdit} changed={changed} offline={offline} days={days}
             imageUrl={tour?.imageUrl ?? null} rows={rows} when={when} people={people} tourLang={tourLang}
             maps={maps} cal={cal} wa={wa} socials={contact.socials}
+            tripUrl={tripUrl({ site: '', token, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status })}
         />
     );
 }
