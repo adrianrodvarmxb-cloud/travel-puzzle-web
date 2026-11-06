@@ -53,7 +53,7 @@ export interface TripCard {
   hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
   /** REQ-148: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
   agencyId?: string | null;
-  /** REQ-188: excursión de un día (regla mínima REQ-186 con el título en es y en), para el carrusel del home. */
+  /** REQ-233: excursión de un día (regla mínima REQ-231 con el título en es y en), para el carrusel del home. */
   dayTrip?: boolean;
 }
 
@@ -76,7 +76,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
     agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
-    dayTrip: isDayTripTrip({ kind: t.kind, durationDays: t.durationDays, titles: [t.titleEs, localized(tr, "en", "title", t.titleEs)] }), // REQ-188
+    dayTrip: isDayTripTrip({ kind: t.kind, durationDays: t.durationDays, titles: [t.titleEs, localized(tr, "en", "title", t.titleEs)] }), // REQ-233
   };
 }
 

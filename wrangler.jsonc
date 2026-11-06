@@ -87,7 +87,7 @@
     // REQ-139 (gate G5): atribución CC BY 4.0 de GeoNames, solo en /terminos (no en el pie). "true" cuando el geonameid
     // o datos de GeoNames se vean en el sitio (JSON-LD, hubs), con preview, prueba de humo y OK del PO.
     "GEO_ATTRIBUTION_ENABLED": "false",
-    // REQ-148..126: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). "true" solo con OK
+    // REQ-148..152: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). "true" solo con OK
     // del PO y con el secreto AGENTE_TOKEN (24+ caracteres) cargado con `wrangler secret put AGENTE_TOKEN`.
     "AGENTE_API_ENABLED": "false",
     "TRANSFERS_ENABLED": "true",
@@ -95,7 +95,7 @@
     // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
     // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
     "PRIMERA_PIEZA_ENABLED": "false",
-    // Carruseles del home (REQ-185, REQ-188): «Los más elegidos» por medidor de reseñas (bayesiano, cualquier proveedor)
+    // Carruseles del home (REQ-230, REQ-233): «Los más elegidos» por medidor de reseñas (bayesiano, cualquier proveedor)
     // y «Excursiones de un día». "true" con preview con la bandera encendida, prueba de humo y OK del PO.
     "CARRUSELES_HOME_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
