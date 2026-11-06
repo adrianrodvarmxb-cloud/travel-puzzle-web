@@ -1,0 +1,3766 @@
+{
+  "agency": {
+    "id": "ag-bbt",
+    "name": "Big Bus Tours",
+    "initials": "BBT",
+    "notes": "Partner B2B (bigbuspartners.com). Sin API: reservas bajo solicitud; Travel Puzzle compra el boleto en la plataforma del proveedor."
+  },
+  "keyStamp": 1762600000,
+  "seqStart": 1,
+  "trips": [
+    {
+      "ref": "NYC",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/new-york/new-york-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 4854718,
+          "alt": "Empire State Building y el skyline de Manhattan"
+        },
+        {
+          "src": "pixabay",
+          "id": 2835995,
+          "alt": "Times Square de día"
+        },
+        {
+          "src": "pixabay",
+          "id": 4352072,
+          "alt": "Central Park desde el aire"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Nueva York",
+        "summaryEs": "Recorre Nueva York en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 1 día, 2 días).",
+        "highlights": [
+          "Times Square",
+          "Quinta Avenida",
+          "Empire State Building",
+          "Central Park",
+          "Lower Manhattan"
+        ],
+        "descriptionEs": "Conoce Nueva York a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Times Square, Quinta Avenida, Empire State Building.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Nueva York"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "pt"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 1 día",
+            "mode": "group",
+            "adult": 58,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 1 día",
+            "mode": "group",
+            "adult": 77,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 2 días",
+            "mode": "group",
+            "adult": 97,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Times Square (zona de paradas)",
+            "address": "",
+            "lat": 40.758,
+            "lng": -73.9855,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "CHI",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/chicago/chicago-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1853632,
+          "alt": "Río Chicago entre rascacielos"
+        },
+        {
+          "src": "pixabay",
+          "id": 569412,
+          "alt": "Cloud Gate en Millennium Park"
+        },
+        {
+          "src": "pixabay",
+          "id": 8947753,
+          "alt": "Fuente de Buckingham y el skyline"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Chicago",
+        "summaryEs": "Recorre Chicago en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas).",
+        "highlights": [
+          "Willis Tower",
+          "Millennium Park",
+          "Field Museum y Adler Planetarium",
+          "Navy Pier",
+          "Wrigley Building"
+        ],
+        "descriptionEs": "Conoce Chicago a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Willis Tower, Millennium Park, Field Museum y Adler Planetarium.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Chicago"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en",
+          "es"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 49.5,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 59.5,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Willis Tower (zona de paradas)",
+            "address": "",
+            "lat": 41.8789,
+            "lng": -87.6359,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "BOS",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/boston",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 4476518,
+          "alt": "Skyline de Boston desde el río Charles"
+        },
+        {
+          "src": "pixabay",
+          "id": 9080010,
+          "alt": "Quincy Market en el centro de Boston"
+        },
+        {
+          "src": "pixabay",
+          "id": 286902,
+          "alt": "Casas de ladrillo en Back Bay"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Boston",
+        "summaryEs": "Recorre Boston en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (recorrido de 90 min, 1 día, 2 días).",
+        "highlights": [
+          "Massachusetts State House",
+          "Boston Common",
+          "Beacon Hill",
+          "USS Constitution"
+        ],
+        "descriptionEs": "Conoce Boston a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Massachusetts State House, Boston Common, Beacon Hill.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en varios idiomas (sin español confirmado).\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Boston"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · recorrido de 90 min",
+            "mode": "group",
+            "adult": 44.99,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 1 día",
+            "mode": "group",
+            "adult": 48.99,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 2 días",
+            "mode": "group",
+            "adult": 59.99,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: New England Aquarium",
+            "address": "",
+            "lat": 42.3591,
+            "lng": -71.0498,
+            "instructions": "Canjea tu boleto 15 minutos antes en la parada 1.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "WAS",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/washington-dc/washington-dc-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 281123,
+          "alt": "Capitolio de Estados Unidos"
+        },
+        {
+          "src": "pixabay",
+          "id": 222759,
+          "alt": "Estatua del Lincoln Memorial"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Washington DC",
+        "summaryEs": "Recorre Washington DC en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "highlights": [
+          "Capitolio",
+          "Casa Blanca",
+          "Lincoln Memorial",
+          "Jefferson Memorial",
+          "Museos del Smithsonian"
+        ],
+        "descriptionEs": "Conoce Washington DC a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Capitolio, Casa Blanca, Lincoln Memorial.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Washington DC"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "pt"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 49,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 59,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 72 horas",
+            "mode": "group",
+            "adult": 69,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "National Mall (zona de paradas)",
+            "address": "",
+            "lat": 38.8895,
+            "lng": -77.023,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "PHL",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/philadelphia/philadelphia-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 2811014,
+          "alt": "Independence Hall"
+        },
+        {
+          "src": "pixabay",
+          "id": 3273256,
+          "alt": "Ayuntamiento de Filadelfia"
+        },
+        {
+          "src": "pixabay",
+          "id": 70850,
+          "alt": "Skyline de Filadelfia sobre el río Schuylkill"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Filadelfia",
+        "summaryEs": "Recorre Filadelfia en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 3 días).",
+        "highlights": [
+          "Independence Hall",
+          "Campana de la Libertad",
+          "Ayuntamiento de Filadelfia",
+          "Museo de Arte de Filadelfia"
+        ],
+        "descriptionEs": "Conoce Filadelfia a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Independence Hall, Campana de la Libertad, Ayuntamiento de Filadelfia.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nComentario con guía en vivo en inglés.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Filadelfia"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "1 día",
+            "mode": "group",
+            "adult": 54,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "2 días",
+            "mode": "group",
+            "adult": 83,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "3 días",
+            "mode": "group",
+            "adult": 115,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Independence Hall (zona de paradas)",
+            "address": "",
+            "lat": 39.9489,
+            "lng": -75.15,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "SFO",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/san-francisco/san-francisco-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1956459,
+          "alt": "Golden Gate Bridge"
+        },
+        {
+          "src": "pixabay",
+          "id": 1206240,
+          "alt": "Tranvía de cable en el centro"
+        },
+        {
+          "src": "pixabay",
+          "id": 51004,
+          "alt": "Calles en pendiente de San Francisco"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en San Francisco",
+        "summaryEs": "Recorre San Francisco en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Golden Gate Bridge",
+          "Fisherman's Wharf",
+          "Chinatown",
+          "Painted Ladies",
+          "Union Square"
+        ],
+        "descriptionEs": "Conoce San Francisco a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Golden Gate Bridge, Fisherman's Wharf, Chinatown.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "San Francisco"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ko",
+          "pt"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 66,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas",
+            "mode": "group",
+            "adult": 71,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 81,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Fisherman's Wharf (zona de paradas)",
+            "address": "",
+            "lat": 37.808,
+            "lng": -122.4177,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "LAX",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/los-angeles/tickets-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1598473,
+          "alt": "Letrero de Hollywood"
+        },
+        {
+          "src": "pixabay",
+          "id": 3897616,
+          "alt": "Observatorio Griffith y el centro de Los Ángeles"
+        },
+        {
+          "src": "pixabay",
+          "id": 682851,
+          "alt": "Hollywood Boulevard"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Los Angeles",
+        "summaryEs": "Recorre Los Angeles en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "highlights": [
+          "Paseo de la Fama de Hollywood",
+          "Letrero de Hollywood",
+          "Beverly Hills",
+          "Muelle de Santa Mónica",
+          "Venice Beach"
+        ],
+        "descriptionEs": "Conoce Los Angeles a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Paseo de la Fama de Hollywood, Letrero de Hollywood, Beverly Hills.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en varios idiomas (sin español confirmado).\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Los Angeles"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 59,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 67.5,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 89.1,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Big Bus Visitor Center Hollywood, 6763 Hollywood Blvd",
+            "address": "",
+            "lat": 34.1016,
+            "lng": -118.3387,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "LAS",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/las-vegas/las-vegas-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 680953,
+          "alt": "The Strip de Las Vegas de noche"
+        },
+        {
+          "src": "pixabay",
+          "id": 932708,
+          "alt": "Letrero Welcome to Fabulous Las Vegas"
+        },
+        {
+          "src": "pixabay",
+          "id": 4856136,
+          "alt": "Fuentes del Bellagio"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Las Vegas",
+        "summaryEs": "Recorre Las Vegas en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 3 días, 3 días).",
+        "highlights": [
+          "The Strip",
+          "Letrero Welcome to Fabulous Las Vegas",
+          "Fremont Street",
+          "Fuentes del Bellagio",
+          "The Venetian"
+        ],
+        "descriptionEs": "Conoce Las Vegas a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por The Strip, Letrero Welcome to Fabulous Las Vegas, Fremont Street.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Las Vegas"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en",
+          "es"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 1 día",
+            "mode": "group",
+            "adult": 55,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 3 días",
+            "mode": "group",
+            "adult": 63.2,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 3 días",
+            "mode": "group",
+            "adult": 94.5,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "The Strip (zona de paradas)",
+            "address": "",
+            "lat": 36.1126,
+            "lng": -115.1767,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "MIA",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/miami/miami-tour-tickets-and-passes/bus-tours",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1198921,
+          "alt": "South Beach"
+        },
+        {
+          "src": "pixabay",
+          "id": 2573513,
+          "alt": "Edificios art déco en Ocean Drive"
+        },
+        {
+          "src": "pixabay",
+          "id": 5932835,
+          "alt": "Skyline del centro de Miami y la bahía"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Miami",
+        "summaryEs": "Recorre Miami en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 2 días).",
+        "highlights": [
+          "South Beach",
+          "Art Deco District",
+          "Little Havana",
+          "Wynwood",
+          "Bayside Marketplace"
+        ],
+        "descriptionEs": "Conoce Miami a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por South Beach, Art Deco District, Little Havana.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: boletos no reembolsables, salvo que Big Bus no pueda operar o se cancele tu transporte a la ciudad (con comprobante); sin reembolso por clima si el bus opera. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "US"
+        ],
+        "cities": [
+          "Miami"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "pt"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 1 día",
+            "mode": "group",
+            "adult": 53,
+            "child": 43,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 12
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 2 días",
+            "mode": "group",
+            "adult": 72,
+            "child": 62,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 12
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 2 días",
+            "mode": "group",
+            "adult": 93,
+            "child": 83,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 12
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Bayside Marketplace, 401 Biscayne Blvd",
+            "address": "",
+            "lat": 25.7784,
+            "lng": -80.1868,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "LON",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/london/london-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 8496195,
+          "alt": "Tower Bridge sobre el Támesis"
+        },
+        {
+          "src": "pixabay",
+          "id": 8830232,
+          "alt": "Palacio de Westminster desde el Támesis"
+        },
+        {
+          "src": "pixabay",
+          "id": 1869776,
+          "alt": "London Eye de noche"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Londres",
+        "summaryEs": "Recorre Londres en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (mismo día, 24 horas, 48 horas, 48 horas).",
+        "highlights": [
+          "Tower Bridge",
+          "Palacio de Westminster y Big Ben",
+          "Catedral de San Pablo",
+          "London Eye",
+          "Torre de Londres"
+        ],
+        "descriptionEs": "Conoce Londres a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Tower Bridge, Palacio de Westminster y Big Ben, Catedral de San Pablo.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nPrecio publicado en GBP y convertido a USD con el tipo de cambio del 6 nov 2026 (redondeado hacia arriba); se confirma al reservar.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "GB"
+        ],
+        "cities": [
+          "Londres"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "pt",
+          "zh"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Edad de niño: se confirma al reservar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "One Day · mismo día",
+            "mode": "group",
+            "adult": 52.0,
+            "child": 25.0,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 60.0,
+            "child": 24.0,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 73.0,
+            "child": 30.0,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o4",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 87.0,
+            "child": 37.0,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Westminster (zona de paradas)",
+            "address": "",
+            "lat": 51.5007,
+            "lng": -0.1246,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "EDI",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/edinburgh/edinburgh-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 6400018,
+          "alt": "Castillo de Edimburgo"
+        },
+        {
+          "src": "pixabay",
+          "id": 4984412,
+          "alt": "Catedral de St Giles"
+        },
+        {
+          "src": "pixabay",
+          "id": 5037397,
+          "alt": "Royal Mile"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Edimburgo",
+        "summaryEs": "Recorre Edimburgo en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "highlights": [
+          "Castillo de Edimburgo",
+          "Royal Mile",
+          "Catedral de St Giles",
+          "Parlamento escocés",
+          "Royal Yacht Britannia"
+        ],
+        "descriptionEs": "Conoce Edimburgo a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Castillo de Edimburgo, Royal Mile, Catedral de St Giles.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nPrecio publicado en GBP y convertido a USD con el tipo de cambio del 6 nov 2026 (redondeado hacia arriba); se confirma al reservar.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "GB"
+        ],
+        "cities": [
+          "Edimburgo"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ja",
+          "pt",
+          "zh"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 27.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 34.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas, todas las rutas",
+            "mode": "group",
+            "adult": 38.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: Waterloo Place",
+            "address": "",
+            "lat": 55.9536,
+            "lng": -3.188,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "DUB",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/dublin/dublin-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 4603945,
+          "alt": "Puente Ha'penny sobre el Liffey"
+        },
+        {
+          "src": "pixabay",
+          "id": 4945565,
+          "alt": "Pub en Temple Bar"
+        },
+        {
+          "src": "pixabay",
+          "id": 1049427,
+          "alt": "Castillo de Dublín"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Dublín",
+        "summaryEs": "Recorre Dublín en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "highlights": [
+          "Guinness Storehouse",
+          "Trinity College",
+          "Temple Bar",
+          "Kilmainham Gaol",
+          "Castillo de Dublín"
+        ],
+        "descriptionEs": "Conoce Dublín a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Guinness Storehouse, Trinity College, Temple Bar.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nComentario con guía en vivo en inglés.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "IE"
+        ],
+        "cities": [
+          "Dublín"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 29.75,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 34.85,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 72 horas",
+            "mode": "group",
+            "adult": 56.95,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: Upper O'Connell Street",
+            "address": "",
+            "lat": 53.352,
+            "lng": -6.2603,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "PAR",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/paris/paris-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 3349075,
+          "alt": "Torre Eiffel al atardecer"
+        },
+        {
+          "src": "pixabay",
+          "id": 701730,
+          "alt": "Arco del Triunfo"
+        },
+        {
+          "src": "pixabay",
+          "id": 4793193,
+          "alt": "El Sena de noche"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en París",
+        "summaryEs": "Recorre París en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Torre Eiffel",
+          "Museo del Louvre",
+          "Arco del Triunfo",
+          "Notre Dame",
+          "Campos Elíseos"
+        ],
+        "descriptionEs": "Conoce París a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Torre Eiffel, Museo del Louvre, Arco del Triunfo.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "FR"
+        ],
+        "cities": [
+          "París"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ko",
+          "pt",
+          "zh"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 39,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas",
+            "mode": "group",
+            "adult": 52,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 65,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Torre Eiffel (zona de paradas)",
+            "address": "",
+            "lat": 48.8584,
+            "lng": 2.2945,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "ROM",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/rome/rome-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 3550739,
+          "alt": "Coliseo de Roma"
+        },
+        {
+          "src": "pixabay",
+          "id": 2796710,
+          "alt": "Fontana di Trevi"
+        },
+        {
+          "src": "pixabay",
+          "id": 2030643,
+          "alt": "Foro Romano"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Roma",
+        "summaryEs": "Recorre Roma en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "highlights": [
+          "Coliseo",
+          "Ciudad del Vaticano",
+          "Foro Romano",
+          "Circo Máximo",
+          "Piazza Venezia"
+        ],
+        "descriptionEs": "Conoce Roma a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Coliseo, Ciudad del Vaticano, Foro Romano.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "IT"
+        ],
+        "cities": [
+          "Roma"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "pt",
+          "zh"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 30.6,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 37.8,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 72 horas",
+            "mode": "group",
+            "adult": 43.2,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Coliseo (zona de paradas)",
+            "address": "",
+            "lat": 41.8902,
+            "lng": 12.4922,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "MAD",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/madrid/madrid-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 968932,
+          "alt": "Gran Vía de Madrid"
+        },
+        {
+          "src": "pixabay",
+          "id": 3458820,
+          "alt": "Palacio Real de Madrid"
+        },
+        {
+          "src": "pixabay",
+          "id": 2137365,
+          "alt": "Edificio Metrópolis"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Madrid",
+        "summaryEs": "Recorre Madrid en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (un recorrido, 24 horas, 48 horas).",
+        "highlights": [
+          "Puerta del Sol",
+          "Gran Vía",
+          "Plaza de Cibeles",
+          "Museo del Prado",
+          "Palacio Real"
+        ],
+        "descriptionEs": "Conoce Madrid a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Puerta del Sol, Gran Vía, Plaza de Cibeles.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nComentario con guía en vivo en inglés.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "ES"
+        ],
+        "cities": [
+          "Madrid"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en",
+          "es"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · un recorrido",
+            "mode": "group",
+            "adult": 21,
+            "child": 17,
+            "infant": null,
+            "childAgeMin": 5,
+            "childAgeMax": 15
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas",
+            "mode": "group",
+            "adult": 25,
+            "child": 20,
+            "infant": null,
+            "childAgeMin": 5,
+            "childAgeMax": 15
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 30,
+            "child": 25,
+            "infant": null,
+            "childAgeMin": 5,
+            "childAgeMax": 15
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: Fuente de Neptuno, Paseo del Prado",
+            "address": "",
+            "lat": 40.4153,
+            "lng": -3.694,
+            "instructions": "Llega 15 minutos antes.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "PRG",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/prague/prague-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1845560,
+          "alt": "Puente de Carlos y el Castillo de Praga"
+        },
+        {
+          "src": "pixabay",
+          "id": 3698563,
+          "alt": "Plaza de la Ciudad Vieja e iglesia de Týn"
+        },
+        {
+          "src": "pixabay",
+          "id": 3010407,
+          "alt": "Castillo de Praga de noche"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Praga",
+        "summaryEs": "Recorre Praga en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Plaza de la Ciudad Vieja",
+          "Puente de Carlos",
+          "Castillo de Praga",
+          "Plaza de Wenceslao",
+          "Crucero por el Moldava"
+        ],
+        "descriptionEs": "Conoce Praga a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Plaza de la Ciudad Vieja, Puente de Carlos, Castillo de Praga.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en 24 idiomas.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "CZ"
+        ],
+        "cities": [
+          "Praga"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 33,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas, con crucero 1 h",
+            "mode": "group",
+            "adult": 37,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas, con crucero 1 h",
+            "mode": "group",
+            "adult": 43,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Plaza de la Ciudad Vieja (zona de paradas)",
+            "address": "",
+            "lat": 50.0875,
+            "lng": 14.4213,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "VIE",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/vienna/vienna-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 3203348,
+          "alt": "Palacio de Schönbrunn"
+        },
+        {
+          "src": "pixabay",
+          "id": 1567865,
+          "alt": "Catedral de San Esteban"
+        },
+        {
+          "src": "pixabay",
+          "id": 3652253,
+          "alt": "Glorieta de Schönbrunn"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Viena",
+        "summaryEs": "Recorre Viena en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "highlights": [
+          "Palacio de Schönbrunn",
+          "Catedral de San Esteban",
+          "Ópera Estatal",
+          "Ayuntamiento y Parlamento",
+          "Noria Riesenrad"
+        ],
+        "descriptionEs": "Conoce Viena a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Palacio de Schönbrunn, Catedral de San Esteban, Ópera Estatal.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "AT"
+        ],
+        "cities": [
+          "Viena"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "pt",
+          "zh"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 37,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 42.3,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 72 horas",
+            "mode": "group",
+            "adult": 51.3,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Ópera Estatal (zona de paradas)",
+            "address": "",
+            "lat": 48.2026,
+            "lng": 16.3687,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "BER",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/berlin/berlin-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1378067,
+          "alt": "Puerta de Brandeburgo"
+        },
+        {
+          "src": "pixabay",
+          "id": 2023785,
+          "alt": "Edificio del Reichstag"
+        },
+        {
+          "src": "pixabay",
+          "id": 4663539,
+          "alt": "Cúpula del Reichstag"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Berlín",
+        "summaryEs": "Recorre Berlín en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Puerta de Brandeburgo",
+          "Reichstag",
+          "Checkpoint Charlie",
+          "Isla de los Museos",
+          "Kurfürstendamm"
+        ],
+        "descriptionEs": "Conoce Berlín a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Puerta de Brandeburgo, Reichstag, Checkpoint Charlie.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en varios idiomas (sin español confirmado).\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "DE"
+        ],
+        "cities": [
+          "Berlín"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 28.8,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas",
+            "mode": "group",
+            "adult": 35.7,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 44.2,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Puerta de Brandeburgo (zona de paradas)",
+            "address": "",
+            "lat": 52.5163,
+            "lng": 13.3777,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "MUC",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/munich/munich-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 63268,
+          "alt": "Marienplatz y Frauenkirche desde lo alto"
+        },
+        {
+          "src": "pixabay",
+          "id": 3620496,
+          "alt": "Nuevo Ayuntamiento de Múnich"
+        },
+        {
+          "src": "pixabay",
+          "id": 321287,
+          "alt": "Torres de la Frauenkirche"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Múnich",
+        "summaryEs": "Recorre Múnich en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Marienplatz",
+          "Frauenkirche",
+          "Palacio de Nymphenburg",
+          "Olympiapark",
+          "Schwabing"
+        ],
+        "descriptionEs": "Conoce Múnich a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Marienplatz, Frauenkirche, Palacio de Nymphenburg.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en 9 idiomas.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "DE"
+        ],
+        "cities": [
+          "Múnich"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 24.44,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas, con Línea Naranja",
+            "mode": "group",
+            "adult": 29.14,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas, con Línea Naranja",
+            "mode": "group",
+            "adult": 34.78,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: Hauptbahnhof (Welcome Center)",
+            "address": "",
+            "lat": 48.1402,
+            "lng": 11.56,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "BUD",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/budapest/budapest-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 632851,
+          "alt": "Parlamento de Budapest junto al Danubio"
+        },
+        {
+          "src": "pixabay",
+          "id": 4089812,
+          "alt": "Puente de las Cadenas"
+        },
+        {
+          "src": "pixabay",
+          "id": 10498528,
+          "alt": "Vista de Budapest con la basílica de San Esteban"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Budapest",
+        "summaryEs": "Recorre Budapest en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 3 días).",
+        "highlights": [
+          "Parlamento de Budapest",
+          "Puente de las Cadenas",
+          "Bastión de los Pescadores",
+          "Baños Széchenyi",
+          "Crucero por el Danubio"
+        ],
+        "descriptionEs": "Conoce Budapest a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Parlamento de Budapest, Puente de las Cadenas, Bastión de los Pescadores.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "HU"
+        ],
+        "cities": [
+          "Budapest"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ko",
+          "pt"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 1 día, con crucero",
+            "mode": "group",
+            "adult": 34.2,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 2 días, con crucero",
+            "mode": "group",
+            "adult": 38.7,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 3 días, con crucero",
+            "mode": "group",
+            "adult": 43.2,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Tienda Big Bus, Bajcsy-Zsilinszky út 17",
+            "address": "",
+            "lat": 47.5008,
+            "lng": 19.0546,
+            "instructions": "Canjea tu boleto en la tienda antes de abordar.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "ATH",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/athens/athens-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 7402123,
+          "alt": "Acrópolis de Atenas al atardecer"
+        },
+        {
+          "src": "pixabay",
+          "id": 714497,
+          "alt": "Templo de Zeus Olímpico"
+        },
+        {
+          "src": "pixabay",
+          "id": 3411147,
+          "alt": "Cariátides del Erecteion"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Atenas",
+        "summaryEs": "Recorre Atenas en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (48 horas, 48 horas).",
+        "highlights": [
+          "Acrópolis",
+          "Templo de Zeus Olímpico",
+          "Ágora Antigua",
+          "Estadio Panathinaikó",
+          "Plaka"
+        ],
+        "descriptionEs": "Conoce Atenas a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Acrópolis, Templo de Zeus Olímpico, Ágora Antigua.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "GR"
+        ],
+        "cities": [
+          "Atenas"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ja",
+          "pt",
+          "zh"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 48 horas",
+            "mode": "group",
+            "adult": 21,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 25,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Plaza Syntagma (zona de paradas)",
+            "address": "",
+            "lat": 37.9755,
+            "lng": 23.7348,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "SKG",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/thessaloniki/thessaloniki-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1766013,
+          "alt": "Torre Blanca de Salónica"
+        },
+        {
+          "src": "pixabay",
+          "id": 2736426,
+          "alt": "Paseo marítimo de Salónica"
+        },
+        {
+          "src": "pixabay",
+          "id": 4881132,
+          "alt": "Estatua de Alejandro Magno al atardecer"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Salónica",
+        "summaryEs": "Recorre Salónica en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "highlights": [
+          "Torre Blanca",
+          "Arco de Galerio",
+          "Iglesia de San Demetrio",
+          "Paseo marítimo",
+          "Estatua de Alejandro Magno"
+        ],
+        "descriptionEs": "Conoce Salónica a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Torre Blanca, Arco de Galerio, Iglesia de San Demetrio.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "GR"
+        ],
+        "cities": [
+          "Salónica"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it"
+        ],
+        "currency": "EUR",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 17.1,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 21.6,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas, con tour nocturno",
+            "mode": "group",
+            "adult": 26.1,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: Torre Blanca",
+            "address": "",
+            "lat": 40.6264,
+            "lng": 22.9484,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "YVR",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/vancouver/vancouver-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 107348,
+          "alt": "Skyline de Vancouver con montañas"
+        },
+        {
+          "src": "pixabay",
+          "id": 52314,
+          "alt": "Tótem en Stanley Park"
+        },
+        {
+          "src": "pixabay",
+          "id": 210775,
+          "alt": "Science World"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Vancouver",
+        "summaryEs": "Recorre Vancouver en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas).",
+        "highlights": [
+          "Stanley Park",
+          "Granville Island",
+          "Gastown",
+          "Science World",
+          "Canada Place"
+        ],
+        "descriptionEs": "Conoce Vancouver a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Stanley Park, Granville Island, Gastown.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nPrecio publicado en CAD y convertido a USD con el tipo de cambio del 6 nov 2026 (redondeado hacia arriba); se confirma al reservar.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "CA"
+        ],
+        "cities": [
+          "Vancouver"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "ja",
+          "ko",
+          "zh"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 49.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 59.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 1: Canada Place, frente al Welcome Centre",
+            "address": "",
+            "lat": 49.2888,
+            "lng": -123.1111,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "DXB",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/dubai/dubai-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 1050418,
+          "alt": "Skyline de Dubái con el Burj Khalifa"
+        },
+        {
+          "src": "pixabay",
+          "id": 3161105,
+          "alt": "Rascacielos de Dubai Marina"
+        },
+        {
+          "src": "pixabay",
+          "id": 4045035,
+          "alt": "Barca tradicional frente a las torres de Dubái"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Dubai",
+        "summaryEs": "Recorre Dubai en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 5 días).",
+        "highlights": [
+          "Burj Khalifa",
+          "Dubai Mall",
+          "Dubai Marina",
+          "Burj Al Arab",
+          "Crucero en dhow por Dubai Creek"
+        ],
+        "descriptionEs": "Conoce Dubai a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Burj Khalifa, Dubai Mall, Dubai Marina.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "AE"
+        ],
+        "cities": [
+          "Dubai"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas, con crucero en dhow",
+            "mode": "group",
+            "adult": 72,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas, con dhow y acuario",
+            "mode": "group",
+            "adult": 87.2,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 5 días, con Dubai Frame y desierto",
+            "mode": "group",
+            "adult": 108.8,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Dubai Mall (zona de paradas)",
+            "address": "",
+            "lat": 25.1985,
+            "lng": 55.2796,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "AUH",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/abu-dhabi/tickets-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 4044175,
+          "alt": "Gran Mezquita Sheikh Zayed"
+        },
+        {
+          "src": "pixabay",
+          "id": 3667902,
+          "alt": "Skyline de Abu Dabi desde el mar"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Abu Dhabi",
+        "summaryEs": "Recorre Abu Dhabi en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 72 horas).",
+        "highlights": [
+          "Gran Mezquita Sheikh Zayed",
+          "Louvre Abu Dabi",
+          "Palacio Presidencial",
+          "La Corniche",
+          "Emirates Palace"
+        ],
+        "descriptionEs": "Conoce Abu Dhabi a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Gran Mezquita Sheikh Zayed, Louvre Abu Dabi, Palacio Presidencial.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en varios idiomas (sin español confirmado).\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "AE"
+        ],
+        "cities": [
+          "Abu Dhabi"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas, con Mezquita Sheikh Zayed",
+            "mode": "group",
+            "adult": 81,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas, con Louvre Abu Dabi",
+            "mode": "group",
+            "adult": 97,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 72 horas, con Palacio Presidencial",
+            "mode": "group",
+            "adult": 111,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Abu Dhabi Mall",
+            "address": "",
+            "lat": 24.496,
+            "lng": 54.3833,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "MCT",
+      "status": "draft",
+      "hold": "En la base la ciudad se llama «Moscatel» (traducción errónea de Muscat): corregir el nombre antes de publicar para que la ficha, la página del destino y el carrusel la empaten. Una sola foto.",
+      "source": "https://www.bigbustours.com/en/muscat/muscat-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 5963724,
+          "alt": "Gran Mezquita del Sultán Qaboos"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Mascate",
+        "summaryEs": "Recorre Mascate en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Gran Mezquita del Sultán Qaboos",
+          "Zoco de Mutrah",
+          "Corniche de Mutrah",
+          "Playa Qurum"
+        ],
+        "descriptionEs": "Conoce Mascate a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Gran Mezquita del Sultán Qaboos, Zoco de Mutrah, Corniche de Mutrah.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en varios idiomas (sin español confirmado).\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "OM"
+        ],
+        "cities": [
+          "Mascate"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Edad de niño: se confirma al reservar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 78,
+            "child": 45,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas",
+            "mode": "group",
+            "adult": 89,
+            "child": 54,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas",
+            "mode": "group",
+            "adult": 106,
+            "child": 61,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Corniche de Mutrah (zona de paradas)",
+            "address": "",
+            "lat": 23.6181,
+            "lng": 58.5677,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "SIN",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/singapore/tickets-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 218516,
+          "alt": "Marina Bay Sands"
+        },
+        {
+          "src": "pixabay",
+          "id": 458857,
+          "alt": "Superárboles de Gardens by the Bay"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Singapur",
+        "summaryEs": "Recorre Singapur en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (1 día, 2 días, 2 días).",
+        "highlights": [
+          "Marina Bay Sands",
+          "Gardens by the Bay",
+          "Chinatown",
+          "Little India",
+          "Orchard Road"
+        ],
+        "descriptionEs": "Conoce Singapur a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Marina Bay Sands, Gardens by the Bay, Chinatown.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en varios idiomas (sin español confirmado).\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "SG"
+        ],
+        "cities": [
+          "Singapur"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "fr",
+          "it",
+          "ja",
+          "ko",
+          "zh"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 1 día",
+            "mode": "group",
+            "adult": 53,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 2 días",
+            "mode": "group",
+            "adult": 55,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 2 días, con tour nocturno",
+            "mode": "group",
+            "adult": 84,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Parada 0: Suntec City Tourist Hub",
+            "address": "",
+            "lat": 1.295,
+            "lng": 103.859,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "HKG",
+      "status": "published",
+      "hold": "",
+      "source": "https://bigbustours.com/en/hong-kong/hong-kong-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 5403942,
+          "alt": "Bahía Victoria con el Star Ferry"
+        },
+        {
+          "src": "pixabay",
+          "id": 4424371,
+          "alt": "Junco tradicional en la bahía Victoria"
+        },
+        {
+          "src": "pixabay",
+          "id": 3327550,
+          "alt": "Hong Kong de noche desde Victoria Peak"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Hong Kong",
+        "summaryEs": "Recorre Hong Kong en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 24 horas, 48 horas).",
+        "highlights": [
+          "Bahía Victoria",
+          "Star Ferry",
+          "Victoria Peak",
+          "Stanley",
+          "Avenida de las Estrellas"
+        ],
+        "descriptionEs": "Conoce Hong Kong a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Bahía Victoria, Star Ferry, Victoria Peak.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en 9 idiomas.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "HK"
+        ],
+        "cities": [
+          "Hong Kong"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "en"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas, una ruta y Star Ferry",
+            "mode": "group",
+            "adult": 53,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 24 horas, tres rutas",
+            "mode": "group",
+            "adult": 73,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas, con Peak Tram u otra atracción",
+            "mode": "group",
+            "adult": 100,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Muelle 7 del Star Ferry, Central",
+            "address": "",
+            "lat": 22.2868,
+            "lng": 114.161,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    },
+    {
+      "ref": "SYD",
+      "status": "published",
+      "hold": "",
+      "source": "https://www.bigbustours.com/en/sydney/sydney-tour-tickets-and-passes",
+      "photos": [
+        {
+          "src": "pixabay",
+          "id": 719780,
+          "alt": "Ópera de Sídney"
+        },
+        {
+          "src": "pixabay",
+          "id": 1676597,
+          "alt": "Harbour Bridge de Sídney"
+        }
+      ],
+      "trip": {
+        "kind": "transporte",
+        "purchaseMode": "quote",
+        "category": "urbano",
+        "titleEs": "Bus turístico hop-on hop-off en Sydney",
+        "summaryEs": "Recorre Sydney en autobús panorámico de dos pisos y sube y baja en sus paradas con boletos de Big Bus (24 horas, 48 horas, 48 horas).",
+        "highlights": [
+          "Ópera de Sídney",
+          "Harbour Bridge",
+          "Bondi Beach",
+          "Darling Harbour",
+          "Circular Quay"
+        ],
+        "descriptionEs": "Conoce Sydney a tu ritmo a bordo del autobús panorámico de Big Bus Tours. Con tu boleto subes y bajas cuantas veces quieras en las paradas de la ruta durante su vigencia y pasas por Ópera de Sídney, Harbour Bridge, Bondi Beach.\n\nElige la opción que mejor te acomode; las de mayor vigencia suman rutas o actividades según la ciudad. Tu asesor de Travel Puzzle confirma la disponibilidad y compra el boleto por ti.",
+        "importantInfo": "Reserva bajo solicitud: confirmamos disponibilidad y precio con el operador en 24 a 48 horas hábiles antes de cualquier cobro.\nOperador local: Big Bus Tours.\nSube y baja en cualquier parada de la ruta durante la vigencia de tu boleto; tu asesor te comparte el mapa de paradas y los horarios.\nAudioguía en español.\nPrecio por persona publicado por Big Bus en su sitio el 5 nov 2026; puede cambiar por promociones o temporada.\nPrecio publicado en AUD y convertido a USD con el tipo de cambio del 6 nov 2026 (redondeado hacia arriba); se confirma al reservar.\nCancelación: sin reembolso, salvo que Big Bus no pueda prestar el servicio dentro de la vigencia del boleto. Los boletos Fully Flexible permiten cambiar la fecha sin costo.",
+        "whatToBring": "Boleto digital en tu celular o impreso.",
+        "accessibility": "",
+        "difficulty": "facil",
+        "countries": [
+          "AU"
+        ],
+        "cities": [
+          "Sydney"
+        ],
+        "durationDays": 1,
+        "flightsIncluded": false,
+        "languages": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ja",
+          "ko",
+          "zh"
+        ],
+        "currency": "USD",
+        "priceNote": "Precio por persona, desde. Precio de niño: a consultar.",
+        "options": [
+          {
+            "id": "o1",
+            "name": "Discover · 24 horas",
+            "mode": "group",
+            "adult": 53.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o2",
+            "name": "Essential · 48 horas",
+            "mode": "group",
+            "adult": 69.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          },
+          {
+            "id": "o3",
+            "name": "Explore · 48 horas, con crucero y tour nocturno",
+            "mode": "group",
+            "adult": 93.0,
+            "child": null,
+            "infant": null,
+            "childAgeMin": 3,
+            "childAgeMax": 11
+          }
+        ],
+        "availability": {
+          "weekdays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "minNoticeHours": 48,
+        "cancellation": {
+          "type": "none",
+          "tiers": []
+        },
+        "meetingPoints": [
+          {
+            "name": "Circular Quay (zona de paradas)",
+            "address": "",
+            "lat": -33.8611,
+            "lng": 151.2108,
+            "instructions": "Puedes subir en cualquier parada de la ruta.",
+            "photoKey": null
+          }
+        ],
+        "hotelPickup": false,
+        "endPoint": "Cualquier parada de la ruta.",
+        "itinerary": [],
+        "includes": [
+          "Boleto de autobús turístico hop-on hop-off según la opción elegida",
+          "Comentario a bordo (audioguía o guía en vivo, según la ciudad)",
+          "Extras de la opción elegida (crucero, tour nocturno o entradas) cuando su nombre los indica"
+        ],
+        "excludes": [
+          "Entradas a monumentos y museos no indicadas",
+          "Traslados a la primera parada",
+          "Comidas y bebidas",
+          "Propinas"
+        ],
+        "visaInfo": ""
+      }
+    }
+  ]
+}
