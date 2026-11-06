@@ -66,7 +66,7 @@
     "SEARCH_V2_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
-    "SYNC_GUARD_ENABLED": "false",
+    "SYNC_GUARD_ENABLED": "true",
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
     "STRIPE_HOLD_ENABLED": "false",
     // REQ-081: post-tour (correo o WhatsApp) que promueva tours de FREETOUR. "true" solo con autorización escrita en docs/freetour/autorizaciones.md.
