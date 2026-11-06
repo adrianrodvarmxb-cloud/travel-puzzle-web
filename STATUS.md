@@ -178,21 +178,21 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | Ciudades que cambian de indexación por semana | ≤ 5 | sin medir (Ola 4) | foto semanal de indexación (`indexingChanges`) |
 | Tasa de agregado del carrusel por categoría | se mide 4 semanas y luego se fija | sin medir (carrusel apagado) | logs `[carrusel-evento]` (`addRateByCategory`) |
 ## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
-| REQ-088 | URLs canónicas por destino | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (faltan páginas, Ola 3) |
-| REQ-089 | Regla de indexación de ciudad | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
+| REQ-088 | Rutas /la-primera-pieza, /destinos, país, ciudad (free tours, tours + viajes propios, traslados) y ficha, desde los datos | `src/destinations/lib/catalog.ts`, `page-model.ts`, `repository.ts`, `load.ts`, `server.ts`, `src/app/la-primera-pieza`, `src/app/destinos/**` | `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (tras PRIMERA_PIEZA_ENABLED="false"; sin slugs en producción no aparece nada) |
+| REQ-089 | Regla de indexación de ciudad (noindex, fuera del sitemap) | `src/destinations/lib/indexing.ts`, `catalog.ts`, `page-model.ts` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-090 | noindex tras 14 días seguidos; el sync blindado guarda City.indexableSince/failingSince al cerrar cada corrida exitosa | `src/destinations/lib/indexing.ts` (`planCityIndexing`), `src/catalog/guarded-sync.ts`, `guarded-repository.ts` (`createCityIndexRepo`), `lib/sql.ts` (`cityIndexStatements`), `src/destinations/lib/catalog.ts` | `indexing.test.ts`, `guarded-sync.test.ts`, `sql.test.ts`, `catalog.test.ts` | CUMPLIDO (lo escribe el sync con SYNC_GUARD_ENABLED; lo lee /destinos con PRIMERA_PIEZA_ENABLED) |
-| REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts` | `indexing.test.ts` | EN CURSO |
-| REQ-092 | 301 desde URLs viejas y viajes propios; 410 removidos | `src/destinations/lib/routes.ts` | `routes.test.ts` | EN CURSO (falta conectar, Ola 3) |
+| REQ-091 | País indexable; ciudad sin tours = 404 | `src/destinations/lib/indexing.ts`, `catalog.ts`, `app/destinos/[pais]/[ciudad]/page.tsx` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-092 | 301 desde /tours/{id}, /tours?countryId= y /viajes/... (solo con slug); 410 removidos | `src/destinations/lib/routes.ts`, `request-plan.ts`, `edge.ts`, `middleware.ts`, `src/middleware.ts` | `routes.test.ts`, `request-plan.test.ts`, `edge.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (301 y 410 reales desde el middleware, tras la bandera) |
 | REQ-093 | Menú La Primera Pieza tras bandera | `src/tours/lib/menu.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `wrangler.jsonc` | `menu.test.ts` | EN CURSO (bandera apagada) |
-| REQ-094 | H1 = título real | `src/tours/lib/title.ts` | `title.test.ts` | EN CURSO |
-| REQ-095 | Insignia solo con fullPricePerGroup = 0 | `src/tours/lib/badge.ts` | `badge.test.ts` | EN CURSO |
-| REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts` | `notice.test.ts` | EN CURSO |
-| REQ-097 | Tours de pago: 24 h y pago a la llegada; gate REQ-097: reembolso hasta 24 h, después o sin presentarse no hay (también sobre depósito o pago a la llegada) | `src/tours/lib/notice.ts`, `src/tours/lib/paid-policy.ts` | `notice.test.ts`, `paid-policy.test.ts` | EN CURSO (lógica verde; falta verlo en la ficha nueva, PR de páginas) |
+| REQ-094 | H1 = título real | `src/tours/lib/title.ts`, `page-model.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `title.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-095 | Insignia solo con fullPricePerGroup = 0 (evento en vivo) | `src/tours/lib/badge.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `badge.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-096 | Aviso con umbral calculado, EUR y MXN aprox. | `src/tours/lib/notice.ts`, `live-notice.ts`, `PrimeraPiezaInfo.tsx` | `notice.test.ts`, `live-notice.test.ts` | CUMPLIDO |
+| REQ-097 | Tours de pago: sin insignia, 24 h y pago a la llegada; gate REQ-097: reembolso hasta 24 h, después o sin presentarse no hay (también sobre depósito o pago a la llegada) | `src/tours/lib/notice.ts`, `src/tours/lib/paid-policy.ts`, `src/tours/lib/live-notice.ts`, ficha `app/destinos/[pais]/[ciudad]/[slug]` | `notice.test.ts`, `paid-policy.test.ts`, `live-notice.test.ts`, `page-model.test.ts` | CUMPLIDO (la política del sidebar se ve con PAID_TOURS_ENABLED) |
 | REQ-098 | Favorito ≥4.7 y ≥50 (también la etiqueta de /tours y el home); «Operado por un guía local · {proveedor}» | `src/tours/lib/favorite.ts`, `src/reviews/lib/highlights.ts`, `DestinationTourCard.tsx`, `PrimeraPiezaInfo.tsx` | `favorite.test.ts`, `highlights.test.ts`, `page-model.test.ts` | CUMPLIDO |
-| REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts` | `titles.test.ts` | EN CURSO |
-| REQ-100 | JSON-LD | `src/seo/lib/jsonld.ts` | `jsonld.test.ts` | EN CURSO |
-| REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts` | `hub.test.ts` | EN CURSO |
-| REQ-102 | Sitemaps por país con lastmod real | `src/seo/lib/sitemaps.ts` | `sitemaps.test.ts` | EN CURSO |
+| REQ-099 | Titles por tipo de página | `src/seo/lib/titles.ts`, `page-model.ts` | `titles.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-100 | JSON-LD y migas visibles | `src/seo/lib/jsonld.ts`, `page-model.ts`, `components/destinations/*` | `jsonld.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts`, `page-model.ts`, `DestinationsLayout.tsx` | `hub.test.ts`, `page-model.test.ts` | CUMPLIDO |
+| REQ-102 | Sitemaps por país con lastmod real | `src/seo/lib/sitemaps.ts`, `page-model.ts` (`sitemapInput`), `src/destinations/sitemaps.ts`, `app/sitemap-index.xml`, `app/sitemap-destinos.xml`, `app/sitemaps/tours/[pais]` | `sitemaps.test.ts`, `page-model.test.ts`, `edge.test.ts` | EN CURSO (route handlers tras la bandera; lastmod = Tour.updatedAt, que solo es el cambio real con SYNC_GUARD_ENABLED encendido) |
 | REQ-103 | robots.txt con buscadores de IA y llms.txt | `src/seo/lib/robots.ts`, `app/robots.txt/route.ts`, `app/llms.txt/route.ts` | `robots.test.ts` | EN CURSO |
 ## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
 Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
