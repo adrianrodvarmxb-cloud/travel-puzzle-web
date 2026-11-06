@@ -5,7 +5,7 @@
  * (la URL sigue funcionando como hoy).
  */
 import { planDestinationsRequest } from "./lib/request-plan";
-import { cityPath, legacyCountryResolution, legacyTourResolution, ownTripResolution, ROUTES, type Resolution } from "./lib/routes";
+import { legacyCountryResolution, legacyTourResolution, ownTripResolution, type Resolution } from "./lib/routes";
 import { ownTripPlace } from "./lib/catalog";
 import { goneRewritePath } from "./lib/page-model";
 import type { DestinationsRepo, TourPlaceRow } from "./repository";
@@ -22,9 +22,9 @@ export interface EdgeDeps {
   tripVisible(kind: string): boolean;
 }
 
+// REQ-092: la página 410 busca el tour por id y arma título y enlace a su ciudad desde la base.
 function gone(p: TourPlaceRow): EdgeDecision {
-  const live = p.cityLive && p.countrySlug && p.citySlug;
-  return { type: "gone", status: 410, path: goneRewritePath({ title: p.title || null, cityName: live ? p.cityName : "otros destinos", cityHref: live ? cityPath(p.countrySlug!, p.citySlug!) : ROUTES.destinos }) };
+  return { type: "gone", status: 410, path: goneRewritePath(p.id) };
 }
 
 function apply(r: Resolution, p: TourPlaceRow | null): EdgeDecision {
@@ -43,9 +43,11 @@ export async function decideDestinationsRequest(pathname: string, search: URLSea
         return { type: "rewrite", path: `/sitemaps/tours/${plan.pais}` };
       case "legacy-tour": {
         const p = await repo.tourPlaceById(plan.id);
-        // Sin país o ciudad con slug no hay a dónde mandar ni a qué ciudad enlazar: la URL vieja sigue igual.
-        if (!p || !p.countrySlug || !p.citySlug) return null;
+        if (!p) return null;
+        // Retirado (o isActive=0): 410 aunque no haya slugs; la página enlaza a su ciudad o a /destinos.
         if (p.status === "removed") return gone(p);
+        // Sin país o ciudad con slug no hay a dónde mandar: la URL vieja sigue igual.
+        if (!p.countrySlug || !p.citySlug) return null;
         return apply(legacyTourResolution({ countrySlug: p.countrySlug, citySlug: p.citySlug, slug: p.slug, status: p.status }), p);
       }
       case "legacy-country":

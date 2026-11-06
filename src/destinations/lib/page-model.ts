@@ -206,12 +206,38 @@ const DEST_HREF = /^\/destinos(?:\/[a-z0-9]+(?:-[a-z0-9]+)*){0,2}$/;
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
 
 // REQ-092: a dónde reescribe el middleware un tour removed (la página lleva el header del sitio y responde 410).
-export function goneRewritePath(v: { title: string | null; cityName: string; cityHref: string }): string {
-  const q = new URLSearchParams({ t: v.title ?? "", c: v.cityName, h: v.cityHref });
-  return `${GONE_PATH}?${q.toString()}`;
+// Solo el id: la página lee título y ciudad de la base (un texto en la URL lo podría armar cualquiera; preview PR #128).
+export function goneRewritePath(tourId: string): string {
+  return `${GONE_PATH}?${new URLSearchParams({ id: tourId }).toString()}`;
 }
 
-// REQ-092: lo que muestra la página 410. Solo enlaza dentro de /destinos (sin redirección abierta).
+export interface GonePlace {
+  status: "active" | "missing" | "removed";
+  title: string;
+  cityName: string;
+  countrySlug: string | null;
+  citySlug: string | null;
+  cityLive: boolean;
+}
+
+const GONE_FIXED: GoneView = { title: "Este tour", cityName: "otros destinos", cityHref: ROUTES.destinos };
+
+// REQ-092: lo que muestra la página 410, desde la fila de la base. Sin tour o si no está retirado: texto fijo.
+export function goneViewFromPlace(p: GonePlace | null): GoneView {
+  if (!p || p.status !== "removed") return GONE_FIXED;
+  const href = p.cityLive && p.countrySlug && p.citySlug ? `${ROUTES.destinos}/${p.countrySlug}/${p.citySlug}` : "";
+  const live = DEST_HREF.test(href);
+  return {
+    title: p.title.trim().slice(0, 160) || GONE_FIXED.title,
+    cityName: live ? p.cityName.trim().slice(0, 120) || GONE_FIXED.cityName : GONE_FIXED.cityName,
+    cityHref: live ? href : ROUTES.destinos,
+  };
+}
+
+/**
+ * Oculto (no se usa desde el preview del PR #128): leía título y ciudad de ?t= y ?c=, que cualquiera puede armar.
+ * Se conserva por la regla de no borrar código; la página usa goneViewFromPlace.
+ */
 export function goneView(sp: Record<string, string | string[] | undefined>): GoneView {
   const href = one(sp.h);
   return {

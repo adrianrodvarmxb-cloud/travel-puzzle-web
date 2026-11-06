@@ -10,6 +10,7 @@ import { toMetadata } from '@/destinations/metadata';
 import { getDestinations, primeraPiezaOn, siteUrl } from '@/destinations/server';
 import { loadTourDetailProps } from '@/tours/detail-props';
 import { isTravelerFavorite } from '@/tours/lib/favorite';
+import { tourPriceLabel } from '@/tours/lib/price-label';
 import { loadTripBySlug, loadFx } from '@/trips/public-load';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { leerPrellenado } from '@/agente/lib/catalogo';
@@ -71,6 +72,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 <JsonLd data={model.jsonLd} />
                 <TourDetailClient
                     {...props}
+                    priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null}
                     primeraPieza={{
                         crumbs: model.crumbs,
                         badge: model.badge,

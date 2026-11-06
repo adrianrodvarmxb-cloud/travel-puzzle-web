@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
 import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
 import { contactFromEnv } from '@/booking/tour-summary';
-import { goneView } from '@/destinations/lib/page-model';
-import { primeraPiezaOn } from '@/destinations/server';
+import { goneViewFromPlace } from '@/destinations/lib/page-model';
+import { getGonePlace, primeraPiezaOn } from '@/destinations/server';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: { absolute: 'Tour no disponible | Travel Puzzle' }, robots: { index: false, follow: true } };
@@ -15,10 +15,13 @@ type SP = Record<string, string | string[] | undefined>;
 /**
  * REQ-092: página útil de un tour retirado. No se visita directo: el middleware reescribe aquí la URL del tour
  * removed y responde 410 (el visitante ve su URL de siempre). Con el header y el footer del sitio (REQ-062).
+ * El título y la ciudad salen de la base por ?id=; nunca de un texto en la URL (preview PR #128).
  */
 export default async function TourRetiradoPage({ searchParams }: { searchParams: Promise<SP> }) {
     if (!primeraPiezaOn()) notFound();
-    const v = goneView(await searchParams);
+    const raw = (await searchParams).id;
+    const id = (Array.isArray(raw) ? raw[0] : raw) ?? '';
+    const v = goneViewFromPlace(await getGonePlace(id));
     const env = process.env as Record<string, string | undefined>;
     const contact = contactFromEnv(env);
     return (

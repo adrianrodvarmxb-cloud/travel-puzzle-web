@@ -3,12 +3,18 @@ import { getPrisma } from '@/lib/prisma';
 import { REQUEST_STATUSES, REQUEST_STATUS_LABEL, type RequestStatus } from '@/trips/lib/request';
 import { formatMoney } from '@/trips/lib/money';
 import { RequestStatusControl } from '@/components/admin/RequestStatusControl';
+import { PaymentLinkControl, PaymentList } from '@/components/admin/PaymentLinkControl';
+import { stripeEnabled, listPayments } from '@/payments/deps';
+import { formatMXN } from '@/payments/lib/email';
 
 /** Panel de solicitudes de cotización (gate M). */
 export default async function RequestsPage({ searchParams }: { searchParams: Promise<{ estado?: string }> }) {
     const q = await searchParams;
     const estado = (REQUEST_STATUSES as readonly string[]).includes(q.estado ?? '') ? (q.estado as RequestStatus) : null;
     const rows = await getPrisma().tripRequest.findMany({ where: estado ? { status: estado } : {}, orderBy: { createdAt: 'desc' }, take: 200 });
+    // REQ-118: sin STRIPE_ENABLED no se consulta ni se pinta nada de pagos.
+    const payOn = stripeEnabled();
+    const payments = payOn ? await listPayments(rows.map((r) => r.id)) : [];
     return (
         <>
             <h1 className="font-display text-4xl font-bold text-white">Solicitudes</h1>
@@ -35,6 +41,17 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
                             <p className="mt-1">{r.firstName} {r.lastName} · <a href={`mailto:${r.email}`} className="underline">{r.email}</a> · <a href={wa} target="_blank" rel="noopener" className="underline">{r.phone} (WhatsApp)</a></p>
                             {r.hotel && <p>Hotel: {r.hotel}</p>}
                             {r.comments && <p className="mt-1 whitespace-pre-line text-[#A9B6D6]">“{r.comments}”</p>}
+                            {payOn && (() => {
+                                const mine = payments.filter((p) => p.requestId === r.id);
+                                return (
+                                    <>
+                                        <PaymentList items={mine.map((p) => ({ ...p, amountText: formatMXN(p.amountCentavos), paidAt: p.paidAt ? p.paidAt.toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : null }))} />
+                                        {r.status !== 'paid' && r.status !== 'closed' && (
+                                            <PaymentLinkControl id={r.id} hasPending={mine.some((p) => p.status === 'pending')} defaultAmount={r.estimate} defaultCurrency={r.currency} />
+                                        )}
+                                    </>
+                                );
+                            })()}
                         </li>
                     );
                 })}
