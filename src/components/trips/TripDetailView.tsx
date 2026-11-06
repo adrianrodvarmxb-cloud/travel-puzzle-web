@@ -17,6 +17,7 @@ import { policySummary, policyText } from '@/trips/lib/cancel-policy';
 import { bookingSteps, isCardHoldEnabled } from '@/trips/lib/booking-steps';
 import { loadTripBySlug, toCard } from '@/trips/public-load';
 import { tripCopy } from '@/trips/lib/copy';
+import { durationLabel, isAudioGuided, languagesLabel } from '@/trips/lib/trip-facts';
 import { tripPath } from '@/trips/lib/public';
 import { countryName } from '@/trips/lib/geo';
 import { imageUrl } from '@/trips/lib/image';
@@ -51,6 +52,8 @@ export async function TripDetailView({ data, path, breadcrumbs }: { data: TripDa
     const lang = await getPreferredLanguage();
     const c = tripCopy(lang);
     const L = (key: string, es: string) => localized(tr, lang, key, es);
+    const duration = durationLabel(trip, c);
+    const isAudio = isAudioGuided(trip);
     const card = toCard({ ...trip, translations: tr }, lang, fx);
     const env = process.env as Record<string, string | undefined>;
     const contact = contactFromEnv(env);
@@ -80,7 +83,7 @@ export async function TripDetailView({ data, path, breadcrumbs }: { data: TripDa
                 <div className="mx-auto max-w-[1180px] px-4 pb-24 pt-10 md:px-8">
                     {breadcrumbs && <div className="mb-6">{breadcrumbs}</div>}
                     <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">
-                        {c.kinds[trip.kind]} · {trip.countries.map((x) => countryName(x, lang)).join(' · ')}{trip.durationDays ? ` · ${c.days(trip.durationDays)}` : ''}
+                        {c.kinds[trip.kind]} · {trip.countries.map((x) => countryName(x, lang)).join(' · ')}{/* REQ-145 */}{duration ? ` · ${duration}` : ''}
                     </p>
                     <h1 className="font-display mt-2 text-3xl font-bold leading-tight text-white md:text-5xl">{card.title}</h1>
                     {trip.cities.length > 0 && <p className="mt-2 text-[#C9D6F5]">{trip.cities.join(' · ')}</p>}
@@ -162,7 +165,7 @@ export async function TripDetailView({ data, path, breadcrumbs }: { data: TripDa
                                 policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} />
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5 text-sm text-[#D5DCEE]">
                                 <ul className="space-y-2">
-                                    {trip.languages.length > 0 && <li>🗣️ {c.languages}: {trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
+                                    {trip.languages.length > 0 && <li>{/* REQ-146 */}{isAudio ? '🎧' : '🗣️'} {languagesLabel(trip, c)}{isAudio ? ' ' : ': '}{trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
                                     {(trip.minPax || trip.maxPax) && <li>👥 {c.group_size(trip.minPax, trip.maxPax)}</li>}
                                     {trip.difficulty && <li>⛰️ {c.difficulty[trip.difficulty]}</li>}
                                     <li>✈️ {trip.flightsIncluded ? c.flights : c.noFlights}</li>
