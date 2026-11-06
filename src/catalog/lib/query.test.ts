@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalize, toEntry, queryCatalog, CATALOG_SHAPE, type CatalogEntry } from "./query";
+import { normalize, toEntry, queryCatalog, splitDestination, CATALOG_SHAPE, type CatalogEntry } from "./query";
 
 const e = (id: string, o: Partial<CatalogEntry> = {}): CatalogEntry => ({
   id, cityId: 1, countryId: 1, categoryId: 1, price: 0, rating: null, reviews: 0, durationMinutes: null,
@@ -177,5 +177,52 @@ describe("REQ-048 + REQ-057 relevancia FTS respeta la intención de destino", ()
     ];
     expect(queryCatalog(entries, { search: "Roma", ranked: ["leon", "roma"] }, {}).ids).toEqual(["roma"]);
     expect(queryCatalog(entries, { search: "murallas", ranked: ["leon"] }, {}).ids).toEqual(["leon"]);
+  });
+});
+
+// REQ-122 (gates búsqueda 5 nov 2026, Gate 1 = A): una palabra o par de palabras que es destino filtra a ese destino.
+describe("REQ-122 destino dentro del texto (como GetYourGuide/Civitatis)", () => {
+  const it_ = { countryNames: ["italia", "italy"] };
+  const entries = [
+    e("roma1", { text: "free tour por roma", cityNames: ["roma", "rome", "rom"], ...it_, reviews: 9 }),
+    e("roma2", { text: "visita guiada al coliseo", cityNames: ["roma", "rome", "rom"], ...it_, reviews: 5 }),
+    e("buc", { text: "free tour por bucarest", cityNames: ["bucarest", "bucharest"], countryNames: ["rumania", "romania"], reviews: 8 }),
+    e("leon", { text: "tour del jardin romantico de leon", cityNames: ["leon"], countryNames: ["mexico"], reviews: 2 }),
+    e("ny", { text: "free tour manhattan", cityNames: ["nueva york", "new york"], countryNames: ["estados unidos", "united states"] }),
+    e("flo", { text: "free tour florencia de roma a los medici", cityNames: ["florencia", "florence"], ...it_, reviews: 1 }),
+  ];
+  it("REQ-122: separa el destino (ciudad primero, luego país) y deja el resto del texto", () => {
+    expect(splitDestination(entries, "Roma tour")).toMatchObject({ kind: "city", name: "roma", rest: "tour" });
+    expect(splitDestination(entries, "free tour Roma")).toMatchObject({ name: "roma", rest: "free tour" });
+    expect(splitDestination(entries, "tours en Roma")).toMatchObject({ name: "roma", rest: "tours en" });
+    expect(splitDestination(entries, "Rome")).toMatchObject({ name: "rome", rest: "" });
+    expect(splitDestination(entries, "tour Italia")).toMatchObject({ kind: "country", name: "italia", rest: "tour" });
+  });
+  it("REQ-122: un par de palabras también es destino (Nueva York) y gana a una sola palabra", () => {
+    expect(splitDestination(entries, "free tour nueva york")).toMatchObject({ name: "nueva york", rest: "free tour" });
+  });
+  it("REQ-122: sin destino en el texto no hay separación (\"arte\", \"romantico\")", () => {
+    expect(splitDestination(entries, "arte")).toBeNull();
+    expect(splitDestination(entries, "romantico")).toBeNull();
+    expect(splitDestination(entries, "")).toBeNull();
+  });
+  const v2 = (search: string, ranked: string[] | null) => queryCatalog(entries, { search, ranked, searchV2: true }, {}).ids;
+  it("REQ-122: con la búsqueda nueva solo salen tours del destino, en el orden de relevancia del resto", () => {
+    // FTS (resto "tour" dentro de Roma) puede traer ids de otros lados: se descartan
+    expect(v2("Roma tour", ["buc", "roma1", "leon", "flo"])).toEqual(["roma1"]);
+    expect(v2("free tour Roma", ["flo", "roma1", "buc"])).toEqual(["roma1"]);
+  });
+  it("REQ-122: si el resto no encuentra nada dentro del destino, salen todos los tours del destino", () => {
+    expect(v2("Roma", null)).toEqual(["roma1", "roma2"]);
+    expect(v2("tours en Roma", ["buc"])).toEqual(["roma1", "roma2"]);
+  });
+  it("REQ-122: sin destino se usa la relevancia de FTS como antes", () => {
+    expect(v2("arte", ["flo", "roma2"])).toEqual(["flo", "roma2"]);
+  });
+  it("REQ-122: con la bandera APAGADA (searchV2 ausente) el resultado es el de siempre", () => {
+    const off = (search: string) => queryCatalog(entries, { search, ranked: null }, {}).ids;
+    expect(off("Roma")).toEqual(["roma1", "roma2"]);
+    expect(off("Roma tour")).toEqual(["flo", "roma1"]); // comportamiento previo (REQ-057), sin cambios
+    expect(off("tours en Roma")).toEqual([]);
   });
 });
