@@ -1,0 +1,221 @@
+# REQ-470…472 (gate G4, firmado por el PO): escribe en producción los geonameid v2 de docs/datos/2026-11-06-geo-v2-geonameid.sql.
+# Solo se dispara a mano. Siempre: valida el SQL línea por línea, anota el instante de Time Travel y corre el ENSAYO
+# (SELECT con el mismo WHERE: cuántas filas cambiarían y qué geonameid quedarían repetidos). No escribe nada.
+# Con escribir=true: lotes de 25 UPDATE con --command → verificación (conteo antes/después y repetidos) → prueba de humo
+# en producción. Si algo falla después de empezar a escribir, restaura D1 al instante anotado y el job queda en rojo.
+# Con escribir_pais=true (REQ-473, corrida APARTE y después de los geonameid): aplica geo-v2-0016 (countryCode/regionCode
+# vacíos y alias de Taipei) solo si FREETOUR sigue dando el país crudo firmado → verificación → humo; misma restauración.
+# Con restaurar_bookmark: solo restaura D1 a ese bookmark (regreso manual) y no hace nada más.
+# Candado: datos de producción. No corre si hay una publicación de main en curso o en fila.
+name: "Geo: escribir geonameid"
+on:
+  workflow_dispatch:
+    inputs:
+      escribir:
+        description: "Escribir en producción (candado: OK del PO). Sin marcar = solo ensayo"
+        type: boolean
+        default: false
+      escribir_pais:
+        description: "Corrida aparte, después de los geonameid: escribir país/región propios y alias (geo-v2-0016)"
+        type: boolean
+        default: false
+      permitir_repetidos:
+        description: "geonameid que el PO permite repetir (separados por coma), p. ej. 1819729"
+        type: string
+        default: ""
+      restaurar_bookmark:
+        description: "Solo regreso: bookmark de Time Travel al que restaurar D1 (vacío = no restaurar)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  SQL: docs/datos/2026-11-06-geo-v2-geonameid.sql
+  SQL_PAIS: docs/datos/2026-11-06-geo-v2-0016-pais.sql
+  DB: travel-puzzle
+jobs:
+  geo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-470…472
+        run: npx vitest run src/geo/lib/escritura.test.ts
+      - name: Un cambio por corrida
+        if: inputs.escribir && inputs.escribir_pais
+        run: |
+          echo "::error::escribir y escribir_pais van en corridas separadas (primero los geonameid, humo, luego el país)."; exit 1
+      - name: Sin publicación de main en curso
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for st in in_progress queued; do
+            c=$(gh api "repos/${{ github.repository }}/actions/workflows/deploy-cloudflare.yml/runs?status=$st&per_page=1" --jq '.total_count')
+            n=$((n + c))
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) de main en curso o en fila: no se toca la base."; exit 1; fi
+          echo "Sin publicación en curso."
+
+      - name: Restaurar D1 (solo con restaurar_bookmark)
+        if: inputs.restaurar_bookmark != ''
+        env:
+          BOOKMARK: ${{ inputs.restaurar_bookmark }}
+        run: |
+          [[ "$BOOKMARK" =~ ^[0-9a-f-]+$ ]] || { echo "::error::Bookmark con formato inesperado."; exit 1; }
+          yes | npx wrangler d1 time-travel restore "$DB" --bookmark="$BOOKMARK"
+          echo "D1 restaurada al bookmark $BOOKMARK." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Validar el SQL (solo UPDATE … WHERE id = … AND geonameid IS NULL)
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          mkdir -p geo
+          npx tsx src/scripts/geo-escribir.ts preparar "$SQL" geo | tee -a "$GITHUB_STEP_SUMMARY"
+          npx tsx src/scripts/geo-escribir.ts preparar-pais "$SQL_PAIS" geo | tee -a "$GITHUB_STEP_SUMMARY"
+          if grep -vE '^(--.*|UPDATE "City" SET "geonameid" = [0-9]+ WHERE "id" = [0-9]+ AND "geonameid" IS NULL;|)$' "$SQL"; then
+            echo "::error::El SQL trae líneas no permitidas."; exit 1
+          fi
+          if grep -vE "^(--.*|UPDATE \"City\" SET \"(countryCode|regionCode)\" = '[A-Z]{2}(-[A-Z]{3})?' WHERE \"id\" = [0-9]+ AND \"(countryCode|regionCode)\" IS NULL;|INSERT OR IGNORE INTO \"CityAlias\" \(\"provider\", \"providerCityId\", \"cityId\"\) VALUES \('freetour', [0-9]+, [0-9]+\);|)\$" "$SQL_PAIS"; then
+            echo "::error::El SQL de país trae líneas no permitidas."; exit 1
+          fi
+      - name: Instante para Time Travel
+        id: tt
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          date -u +%Y-%m-%dT%H:%M:%SZ > geo/instante.txt
+          npx wrangler d1 time-travel info "$DB" --json > geo/time-travel.json
+          bookmark=$(jq -r '.bookmark' geo/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "bookmark=$bookmark" >> "$GITHUB_OUTPUT"
+          echo "Instante: $(cat geo/instante.txt) · bookmark: \`$bookmark\`" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Ensayo (solo lectura)
+        id: ensayo
+        if: inputs.restaurar_bookmark == ''
+        env:
+          PERMITIR: ${{ inputs.permitir_repetidos }}
+          ESCRIBIR: ${{ inputs.escribir }}
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$1")"; }
+          q geo/ensayo.sql > geo/ensayo-antes.json
+          q geo/repetidos-hoy.sql > geo/repetidos-antes.json
+          q geo/repetidos-previstos.sql > geo/repetidos-previstos.json
+          r=$(jq -c '.[0].results[0]' geo/ensayo-antes.json); echo "Ensayo: $r" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "se_actualizarian=$(jq -r '.se_actualizarian' <<<"$r")" >> "$GITHUB_OUTPUT"
+          echo "con_geonameid=$(jq -r '.con_geonameid' <<<"$r")" >> "$GITHUB_OUTPUT"
+          [ "$(jq -r '.no_existen' <<<"$r")" = "0" ] || echo "::warning::Hay ids del SQL que ya no existen en City (no se tocan)."
+          [ "$(jq -r '.ya_distintos' <<<"$r")" = "0" ] || echo "::warning::Hay ciudades con otro geonameid guardado (no se tocan)."
+          if npx tsx src/scripts/geo-escribir.ts repetidos geo/repetidos-previstos.json "$PERMITIR" | tee -a "$GITHUB_STEP_SUMMARY"; then
+            echo "Repetidos previstos: ninguno sin firmar." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$ESCRIBIR" = "true" ]; then
+            echo "::error::Quedarían geonameid repetidos sin firmar: no se escribe."; exit 1
+          else
+            echo "::warning::Quedarían geonameid repetidos sin firmar (ver arriba). Con escribir=true el workflow se detendría aquí."
+          fi
+
+      - name: Ensayo de país y alias (solo lectura)
+        id: ensayo_pais
+        if: inputs.restaurar_bookmark == ''
+        env:
+          ESCRIBIR_PAIS: ${{ inputs.escribir_pais }}
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$1")"; }
+          q geo/ensayo-pais.sql > geo/pais-antes.json
+          q geo/ensayo-alias.sql > geo/alias-antes.json
+          if npx tsx src/scripts/geo-escribir.ts revisar-pais geo/pais-antes.json geo/alias-antes.json > geo/pais-antes.txt; then ok=1; else ok=0; fi
+          cat geo/pais-antes.txt | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "$(grep '^pendientes=' geo/pais-antes.txt)" >> "$GITHUB_OUTPUT"
+          if [ "$ok" = 0 ]; then
+            if [ "$ESCRIBIR_PAIS" = "true" ]; then echo "::error::El ensayo de país no cuadra: no se escribe."; exit 1; fi
+            echo "::warning::El ensayo de país no cuadra (ver arriba). Con escribir_pais=true el workflow se detendría aquí."
+          fi
+
+      - name: Escribir en lotes (solo con escribir=true)
+        id: escribir
+        if: inputs.escribir && inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          total=0
+          for f in geo/lote-*.sql; do
+            npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$f")" > "${f%.sql}.json"
+            c=$(jq '[.[].meta.changes] | add' "${f%.sql}.json")
+            total=$((total + c)); echo "$(basename "$f"): $c filas"
+          done
+          echo "cambios=$total" >> "$GITHUB_OUTPUT"
+          echo "Escritas: $total filas" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Verificar (conteo y repetidos)
+        if: inputs.escribir && inputs.restaurar_bookmark == ''
+        env:
+          PERMITIR: ${{ inputs.permitir_repetidos }}
+          ESPERADAS: ${{ steps.ensayo.outputs.se_actualizarian }}
+          ANTES: ${{ steps.ensayo.outputs.con_geonameid }}
+          CAMBIOS: ${{ steps.escribir.outputs.cambios }}
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$1")"; }
+          q geo/ensayo.sql > geo/ensayo-despues.json
+          q geo/repetidos-hoy.sql > geo/repetidos-despues.json
+          r=$(jq -c '.[0].results[0]' geo/ensayo-despues.json); echo "Después: $r" | tee -a "$GITHUB_STEP_SUMMARY"
+          despues=$(jq -r '.con_geonameid' <<<"$r")
+          echo "Ciudades con geonameid: antes $ANTES, después $despues (esperado $((ANTES + ESPERADAS)))" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$CAMBIOS" = "$ESPERADAS" ] || { echo "::error::Se escribieron $CAMBIOS filas y el ensayo esperaba $ESPERADAS."; exit 1; }
+          [ "$despues" = "$((ANTES + ESPERADAS))" ] || { echo "::error::El conteo no cuadra."; exit 1; }
+          [ "$(jq -r '.se_actualizarian' <<<"$r")" = "0" ] || { echo "::error::Quedaron filas del SQL sin escribir."; exit 1; }
+          npx tsx src/scripts/geo-escribir.ts repetidos geo/repetidos-despues.json "$PERMITIR" geo/repetidos-antes.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Escribir país y alias (solo con escribir_pais=true)
+        id: escribir_pais
+        if: inputs.escribir_pais && !inputs.escribir && inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute "$DB" --remote --json --command "$(cat geo/pais.sql)" > geo/pais-escritura.json
+          c=$(jq '[.[].meta.changes] | add' geo/pais-escritura.json)
+          echo "cambios=$c" >> "$GITHUB_OUTPUT"
+          echo "País y alias escritos: $c filas" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Verificar país y alias
+        if: inputs.escribir_pais && !inputs.escribir && inputs.restaurar_bookmark == ''
+        env:
+          ESPERADAS: ${{ steps.ensayo_pais.outputs.pendientes }}
+          CAMBIOS: ${{ steps.escribir_pais.outputs.cambios }}
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$1")"; }
+          q geo/ensayo-pais.sql > geo/pais-despues.json
+          q geo/ensayo-alias.sql > geo/alias-despues.json
+          npx tsx src/scripts/geo-escribir.ts revisar-pais geo/pais-despues.json geo/alias-despues.json despues | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$CAMBIOS" = "$ESPERADAS" ] || { echo "::error::Se escribieron $CAMBIOS filas y el ensayo esperaba $ESPERADAS."; exit 1; }
+      - name: Navegador
+        if: (inputs.escribir || inputs.escribir_pais) && inputs.restaurar_bookmark == ''
+        run: npx playwright install --with-deps chromium
+      - name: Prueba de humo (producción) y páginas de destinos
+        if: (inputs.escribir || inputs.escribir_pais) && inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
+          # /destinos, /destinos/mx y ciudades: una de control (Cancún) y cuatro que este SQL toca (4855, 5835, 6298, 898).
+          for p in /destinos /destinos/mx /destinos/mx/cancun /destinos/hk/hong-kong /destinos/cn/hong-kong /destinos/dk/torshavn /destinos/co/cartagena-co; do
+            c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "https://travelpuzzle.com.mx$p")
+            echo "$p → $c" | tee -a "$GITHUB_STEP_SUMMARY"
+            [ "$c" = "200" ] || { echo "::error::$p respondió $c"; exit 1; }
+          done
+      - name: Restaurar D1 al instante anotado si algo falló después de escribir
+        if: failure() && inputs.restaurar_bookmark == '' && steps.tt.outputs.bookmark != '' && ((inputs.escribir && steps.escribir.outcome != 'skipped') || (inputs.escribir_pais && steps.escribir_pais.outcome != 'skipped'))
+        env:
+          BOOKMARK: ${{ steps.tt.outputs.bookmark }}
+        run: |
+          yes | npx wrangler d1 time-travel restore "$DB" --bookmark="$BOOKMARK"
+          echo "::error::Algo falló después de escribir: D1 restaurada al bookmark $BOOKMARK. Avisar al PO."
+          echo "RESTAURADA al bookmark $BOOKMARK" >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: geo-escribir-geonameid, path: geo, retention-days: 90 }

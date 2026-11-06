@@ -1,7 +1,7 @@
 export const es = {
   // Navigation
   'nav.home': 'Inicio',
-  'nav.tours': 'Tours',
+  'nav.tours': 'Experiencias',
   'nav.howItWorks': 'Cómo Funciona',
   'nav.transfers': 'Traslados',
   'nav.login': 'Iniciar Sesión',
@@ -71,6 +71,8 @@ export const es = {
   'tours.meetingPoint': 'Punto de Encuentro',
   'tours.from': 'Desde',
   'tours.free': 'Free tour',
+  // REQ-480: insignia azul sobre la foto (el precio sigue con tours.free).
+  'tours.freeBadge': 'Pieza libre',
   'tours.noResults': "No se encontraron experiencias",
   'tours.description': 'Descripción',
   'tours.destination': 'Destino',
@@ -225,7 +227,7 @@ export const es = {
   "reviews.seeTour": "Ver experiencia",
   "tours.backToTours": "Volver a todas las experiencias",
   "tours.directions": "Cómo llegar",
-  "tours.headline": "Encuentra tu tour.",
+  "tours.headline": "Experiencias",
   "tours.eyebrow": "{count} EXPERIENCIAS DISPONIBLES",
   "tours.sort.label": "Ordenar por",
   "tours.sort.relevance": "Relevancia",
