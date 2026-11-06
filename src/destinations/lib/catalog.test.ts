@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { destinationTree, findCity, isListed, ownTripPlace, type TripRow } from "./catalog";
+import { allTours, destinationTree, findCity, isListed, ownTripPlace, type TripRow } from "./catalog";
 import { fx, tour, words } from "../fixtures/destinos";
 
 const now = new Date("2026-11-05T12:00:00Z");
@@ -46,6 +46,17 @@ describe("REQ-088: árbol de destinos generado desde los datos", () => {
     const hit = findCity(t, "mx", "ciudad-de-mexico")!;
     expect(hit.city.ownTrips.map((x) => x.href)).toEqual(["/destinos/mx/ciudad-de-mexico/teotihuacan-al-amanecer"]);
     expect(hit.city.activeTours).toBe(4);
+  });
+
+  it("REQ-172: un viaje de transporte va a Traslados de su ciudad, no a Tours, y su ficha sigue existiendo", () => {
+    const trips: TripRow[] = [
+      { id: "tr1", slug: "teotihuacan-al-amanecer", kind: "tour", title: "Teotihuacán al amanecer", image: null, countries: ["MX"], cities: ["Ciudad de Mexico"], priceLabel: null, updatedAt: "2026-11-03T00:00:00Z" },
+      { id: "bb1", slug: "bus-turistico-cdmx-bbt-mx-m01-001", kind: "transporte", title: "Bus turístico", image: null, countries: ["MX"], cities: ["Ciudad de Mexico"], priceLabel: null, updatedAt: "2026-11-03T00:00:00Z" },
+    ];
+    const hit = findCity(destinationTree({ ...fx, tours, trips, now }), "mx", "ciudad-de-mexico")!;
+    expect(hit.city.ownTrips.map((x) => x.id)).toEqual(["tr1"]);
+    expect(hit.city.transportTrips.map((x) => x.id)).toEqual(["bb1"]);
+    expect(allTours(hit.city).map((x) => x.id)).toContain("bb1");
   });
 });
 

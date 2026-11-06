@@ -7,6 +7,7 @@ import { parseSort, sortToPagination } from '@/tours/lib/sort';
 import { parseExtraFilters } from '@/tours/lib/extra-filters';
 import { parseDurationRange } from '@/tours/lib/duration';
 import { loadTripCards } from '@/trips/public-load';
+import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { catalogTitle } from '@/tours/lib/catalog-name';
@@ -71,8 +72,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     fetchCountries(language),
     // Fetch metadata
     fetchToursMetadata(),
-    // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado)
-    loadTripCards(language),
+    // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado).
+    // REQ-172: el transporte no es un tour; se lista en /traslados, no aquí (ni chips, ni conteos, ni buscador).
+    loadTripCards(language).then(toursTrips),
   ]);
   const countryCodeById: Record<number, string> = ownTrips.length
     ? Object.fromEntries((await getPrisma().country.findMany({ select: { id: true, code: true } })).map((c) => [c.id, c.code.toUpperCase()]))
