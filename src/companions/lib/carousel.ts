@@ -101,6 +101,11 @@ export function buildCarousel(input: {
   device: "mobile" | "desktop" | "both";
   rules: CarouselRule[];
   flags: CarouselFlags;
+  /**
+   * REQ-108: la primera tarjeta es un tour de pago o de día (por omisión). REQ-263: el bloque de venta cruzada
+   * de los correos lo apaga, porque ahí no hay tours de FREETOUR (B3) y casi nunca un tour propio en la misma ciudad.
+   */
+  requireTour?: boolean;
   /** T7 (REQ-429, TAXONOMY_CART_ENABLED): la primera tarjeta se elige por formato (caminata, tour, excursión, Momentos de autor). */
   firstByFormat?: boolean;
 }): CarouselCard[] {
@@ -127,11 +132,11 @@ export function buildCarousel(input: {
   const distinct = sorted.filter((c) => !seen.has(groupOf(c.category)) && seen.add(groupOf(c.category)));
 
   // REQ-429: con firstByFormat, una tarjeta con formato cuenta como primera solo si es un tour de pago o de día por su formato
-  // (un free tour o una audioguía no); sin formato, la categoría como hoy (REQ-108).
+  // (un free tour o una audioguía no); sin formato, la categoría como hoy (REQ-108). REQ-263: requireTour=false (correos) no la exige.
   const isFirst = (c: (typeof distinct)[number]) => input.firstByFormat && c.formato ? FORMATOS_PRIMERA_TARJETA.includes(c.formato as never) : TOUR_GROUP.has(c.category);
   const firstTour = distinct.findIndex(isFirst);
-  if (firstTour < 0) return [];
-  const ordered = [distinct[firstTour], ...distinct.filter((_, i) => i !== firstTour)];
+  if (firstTour < 0 && input.requireTour !== false) return [];
+  const ordered = firstTour < 0 ? distinct : [distinct[firstTour], ...distinct.filter((_, i) => i !== firstTour)];
 
   // REQ-184: escritorio = las 4 primeras. Celular = la primera (tour) y 2 más por este orden de reglas:
   // 1) lo que una regla del destino pone primero (China: eSIM), 2) lo que tiene proveedor real (api, deeplink o
@@ -139,7 +144,7 @@ export function buildCarousel(input: {
   const destinationFirst = new Set<CompanionCategory>(active.filter((r) => r.when.country).flatMap((r) => r.priority ?? []));
   const tier = (c: (typeof ordered)[number]) =>
     destinationFirst.has(c.category) ? 0 : c.action && c.action.kind !== "whatsapp" ? 1 : 2;
-  const mobileIdx = new Set<number>([0, ...ordered
+  const mobileIdx = new Set<number>([...(ordered.length ? [0] : []), ...ordered
     .map((c, i) => ({ c, i }))
     .slice(1)
     .sort((a, b) => tier(a.c) - tier(b.c) || a.i - b.i)
