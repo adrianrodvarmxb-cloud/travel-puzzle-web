@@ -1,7 +1,7 @@
 export const fr = {
   // Navigation
   'nav.home': 'Accueil',
-  'nav.tours': 'Tours',
+  'nav.tours': 'Expériences',
   'nav.howItWorks': 'Comment Ça Marche',
   'nav.transfers': 'Transferts',
   'nav.login': 'Se Connecter',
@@ -227,7 +227,7 @@ export const fr = {
   "reviews.seeTour": "Voir l'expérience",
   "tours.backToTours": "Retour à toutes les expériences",
   "tours.directions": "Itinéraire",
-  "tours.headline": "Trouvez votre visite.",
+  "tours.headline": "Expériences",
   "tours.eyebrow": "{count} EXPÉRIENCES DISPONIBLES",
   "tours.sort.label": "Trier par",
   "tours.sort.relevance": "Pertinence",
