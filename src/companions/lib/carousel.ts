@@ -53,6 +53,10 @@ export interface CarouselCard extends CarouselCandidate {
   category: CompanionCategory;
   chargedByLabel: string;
   selected: false;
+  /** REQ-184: se pinta en celular (máx. 3). */
+  mobile: boolean;
+  /** REQ-184: se pinta en escritorio (máx. 4). */
+  desktop: boolean;
 }
 
 export interface CarouselContext {
@@ -91,7 +95,7 @@ const groupOf = (c: CompanionCategory) => (TOUR_GROUP.has(c) ? "tour" : c);
 export function buildCarousel(input: {
   candidates: CarouselCandidate[];
   context: CarouselContext;
-  device: "mobile" | "desktop";
+  device: "mobile" | "desktop" | "both";
   rules: CarouselRule[];
   flags: CarouselFlags;
 }): CarouselCard[] {
@@ -121,5 +125,23 @@ export function buildCarousel(input: {
   if (firstTour < 0) return [];
   const ordered = [distinct[firstTour], ...distinct.filter((_, i) => i !== firstTour)];
 
-  return ordered.slice(0, MAX_CARDS[input.device]).map((c) => ({ ...c, chargedByLabel: chargedByLabel(c), selected: false as const }));
+  // REQ-184: escritorio = las 4 primeras. Celular = la primera (tour) y 2 más por este orden de reglas:
+  // 1) lo que una regla del destino pone primero (China: eSIM), 2) lo que tiene proveedor real (api, deeplink o
+  // solicitud: Kiwitaxi, Big Bus), 3) lo que solo cotiza el asesor; dentro de cada grupo, el orden de escritorio.
+  const destinationFirst = new Set<CompanionCategory>(active.filter((r) => r.when.country).flatMap((r) => r.priority ?? []));
+  const tier = (c: (typeof ordered)[number]) =>
+    destinationFirst.has(c.category) ? 0 : c.action && c.action.kind !== "whatsapp" ? 1 : 2;
+  const mobileIdx = new Set<number>([0, ...ordered
+    .map((c, i) => ({ c, i }))
+    .slice(1)
+    .sort((a, b) => tier(a.c) - tier(b.c) || a.i - b.i)
+    .slice(0, MAX_CARDS.mobile - 1)
+    .map(({ i }) => i)]);
+
+  const cards = ordered.map((c, i) => ({
+    ...c, chargedByLabel: chargedByLabel(c), selected: false as const, mobile: mobileIdx.has(i), desktop: i < MAX_CARDS.desktop,
+  }));
+  const device = input.device;
+  if (device === "both") return cards.filter((c) => c.mobile || c.desktop);
+  return cards.filter((c) => c[device]);
 }
