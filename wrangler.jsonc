@@ -62,7 +62,7 @@
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
     "DEPARTURES_SYNC_ENABLED": "true",
     // Mostrar filtros de idioma del guía y fecha (REQ-061). "true" cuando la lectura de salidas cubra el catálogo, con OK.
-    "DEPARTURE_FILTERS_ENABLED": "false",
+    "DEPARTURE_FILTERS_ENABLED": "true",
     // Buscador con relevancia (FTS5, REQ-048). "true" con vista previa y OK del PO, después de la migración 0011.
     "SEARCH_V2_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
@@ -102,6 +102,9 @@
     // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
     // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
     "PRIMERA_PIEZA_ENABLED": "true",
+    // Carruseles del home (REQ-450, REQ-453): «Los más elegidos» por medidor de reseñas (bayesiano, cualquier proveedor)
+    // y «Excursiones de un día». "true" con preview con la bandera encendida, prueba de humo y OK del PO.
+    "CARRUSELES_HOME_ENABLED": "false",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",

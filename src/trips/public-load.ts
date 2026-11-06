@@ -15,10 +15,13 @@ import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
 import { cached, cacheKey, POLICY } from "@/cache/edge";
+import { withRetry } from "@/tours/lib/d1-load";
+import { pairById } from "./lib/cards";
 import { ownTripDepartures } from "@/departures/sources/own-trips";
 import { summarize, HORIZON_DAYS } from "@/departures/lib/summary";
 import { policySummary } from "./lib/cancel-policy";
 import { ownTripGroup } from "@/tours/lib/extra-filters";
+import { isDayTripTrip } from "@/home/lib/experience-format";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
 /** Interruptores leídos del entorno (viajes propios y transporte por separado). */
@@ -56,6 +59,8 @@ export interface TripCard {
   agencyId?: string | null;
   /** T4: formato de la taxonomía. */
   formato?: string;
+  /** REQ-453: excursión de un día (regla mínima REQ-451 con el título en es y en), para el carrusel del home. */
+  dayTrip?: boolean;
 }
 
 async function publishedRows() {
@@ -79,6 +84,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
     // T4: formato de la taxonomía (solo lo usa /tours con TAXONOMY_FILTERS_ENABLED).
     formato: classify({ proveedor: "propios", categoriaId: t.kind, fuentesTema: t.category ? [t.category] : [], precio: t.priceFrom, durationDays: t.durationDays, titulo: `${t.titleEs} | ${t.titleEn ?? ""}` }, DEFAULT_DICTIONARY, DEFAULT_MAPPINGS).formato,
+    dayTrip: isDayTripTrip({ kind: t.kind, durationDays: t.durationDays, titles: [t.titleEs, localized(tr, "en", "title", t.titleEs)] }), // REQ-453
   };
 }
 
@@ -89,13 +95,17 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   try {
     // REQ-047 (INC-004): con decenas de viajes, armar las tarjetas son ~N+2 consultas a D1 por visita a / y /tours.
     // Se cachean como el catálogo (REQ-032): una carga por ventana, compartida entre visitas; si falla, se sirve la última copia.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "3" }), POLICY.toursList, async () => {
+    // T4: v5 = las tarjetas llevan formato (la copia v4 de producción no lo trae).
+    // REQ-268: con la caché fría no hay copia anterior que servir; si D1 está saturada (N+2 consultas), se reintenta
+    // con espera (como el catálogo, REQ-029) en vez de pintar /tours y el inicio sin viajes propios.
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "5" }), POLICY.toursList, () => withRetry(async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));
       const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
-      return trips.filter((t): t is StoredTrip => !!t).map((t, i) => toCard({ ...t, translations: rows[i].translations, createdAt: rows[i].createdAt }, lang, fx));
-    });
+      // REQ-268: cada viaje con su fila por id (antes, por posición: un null corría las traducciones).
+      return pairById(rows, trips as (StoredTrip | null)[]).map(({ row, trip }) => toCard({ ...trip, translations: row.translations, createdAt: row.createdAt }, lang, fx));
+    }));
   } catch (error) {
     console.error("[viajes] no se cargaron las tarjetas:", (error as Error).message);
     return [];
