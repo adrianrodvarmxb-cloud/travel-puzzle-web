@@ -6,21 +6,25 @@ import { formatRating } from '@/home/lib/format';
 import { waLink } from '@/home/lib/copy';
 import { advisorText, bookingCopy, priceText, type BookingMode } from '@/tours/lib/booking-cta';
 import type { Tour } from '@/types';
+import type { TourPriceLabel } from '@/tours/lib/price-label';
 
 /** Barra fija abajo en celular: precio, calificación y el botón para apartar (gate 3 de la auditoría de diseño). */
-export function TourMobileBar({ tour, mode, whatsapp, onAdvisorClick }: { tour: Tour; mode: BookingMode; whatsapp?: string; onAdvisorClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
+export function TourMobileBar({ tour, mode, whatsapp, onAdvisorClick, priceLabel = null }: { tour: Tour; priceLabel?: TourPriceLabel | null; mode: BookingMode; whatsapp?: string; onAdvisorClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
   const { t, language } = useLanguage();
   const copy = bookingCopy(language);
   const rating = formatRating(tour.rating);
   const wa = waLink(whatsapp, advisorText(tour.title, language));
   const href = mode === 'advisor' ? wa : '#disponibilidad';
   if (!href) return null;
+  // REQ-170: EUR con MXN aproximado (del servidor) si coincide con el precio que se pinta.
+  const label = priceLabel && tour.price > 0 && priceLabel.amount === tour.price ? priceLabel : null;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#0A1330]/95 px-4 pb-[calc(env(safe-area-inset-bottom)+12px)] pt-3 backdrop-blur lg:hidden">
       <div className="mx-auto flex max-w-xl items-center justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-display truncate text-lg font-bold leading-tight text-white">{priceText(tour.price, tour.currency, t('tours.free'))}</p>
+          <p className="font-display truncate text-lg font-bold leading-tight text-white">{label ? label.main : priceText(tour.price, tour.currency, t('tours.free'))}</p>
+          {label?.approx && <p className="text-xs text-[#C9D6F5]">{label.approx}</p>}
           {rating && <p className="text-xs text-[#A9B6D6]"><span className="text-[#F5B301]">★</span> {rating} · {t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString('es-MX'))}</p>}
         </div>
         <a

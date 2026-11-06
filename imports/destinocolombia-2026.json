@@ -1,0 +1,1976 @@
+{
+ "agency": {
+  "id": "ag-dco",
+  "name": "Destino Colombia",
+  "initials": "DCO",
+  "contactName": "Lina Marcela Bermúdez (reservas, 1 a 20 pasajeros)",
+  "email": "reservas5@destinocolombia.com",
+  "phone": "+57 316 0271600",
+  "notes": "Agencia receptiva en Colombia. Tarifas netas en USD por persona 2026-2027 (circuitos PC). Confirmar disponibilidad antes de cobrar; cierres por alta ocupación; respetar booking window (compras hasta 15 dic 2026) y travel window de cada plan. No hace falta mencionarlos como operador (correo de Paulina, 5 nov 2026)."
+ },
+ "keyStamp": 1762500000,
+ "seqStart": 1,
+ "trips": [
+  {
+   "ref": "PC-016",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 182337,
+     "alt": "Escultura de Botero frente al Palacio de la Cultura, Medellín"
+    },
+    {
+     "src": "pixabay",
+     "id": 4878720,
+     "alt": "Catedral Primada en la Plaza de Bolívar, Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 182327,
+     "alt": "Pueblito Paisa en el cerro Nutibara, Medellín"
+    },
+    {
+     "src": "pixabay",
+     "id": 2466516,
+     "alt": "Castillo de San Felipe de Barajas, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 4934628,
+     "alt": "Torre del Reloj, puerta de la ciudad amurallada de Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia Esencial: Bogotá, Medellín y Cartagena, 8 días",
+    "summaryEs": "8 días por las tres ciudades clave de Colombia: Bogotá y Monserrate, Medellín y la Plaza Botero, y Cartagena con su ciudad amurallada.",
+    "highlights": [
+     "Monserrate, Museo del Oro y La Candelaria en Bogotá",
+     "City tour por Medellín con Plaza Botero y Pueblito Paisa",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena",
+     "Salidas diarias y cuatro categorías de hotel"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 8 días por las tres ciudades clave de Colombia: Bogotá y Monserrate, Medellín y la Plaza Botero, y Cartagena con su ciudad amurallada. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Lujo); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 20 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1216 USD · Primera 1551 USD · Superior 1920 USD · Lujo 3605 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1372 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, First Class (Medellín), Cartagena Plaza | Primera: Bogotá Plaza, Diez Hotel Categoría Colombia, Capilla del Mar | Superior: DoubleTree by Hilton Parque 93, Novotel Medellín El Tesoro, Estelar Cartagena de Indias | Lujo: Sofitel Bogotá Victoria Regia, Marriott Medellín, Sofitel Legend Santa Clara.\nTambién disponible con hoteles Turista Superior (Best Western Plus 93 Park, Dix Hotel, Holiday Inn Express Bocagrande): desde 965 USD por persona en doble.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Medellín",
+     "Cartagena"
+    ],
+    "durationDays": 8,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno)",
+      "mode": "group",
+      "adult": 804,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno)",
+      "mode": "group",
+      "adult": 970,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno)",
+      "mode": "group",
+      "adult": 1200,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "lujo",
+      "name": "Hoteles Lujo (desayuno; sin desayuno en Bogotá)",
+      "mode": "group",
+      "adult": 2044,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Rafael Núñez, Cartagena (CTG)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá – Medellín",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional El Dorado (BOG) para tomar vuelo con destino a Medellín - Recepción y traslado desde el Aeropuerto José María Córdova (MDE) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Medellín",
+      "text": "Desayuno. City tour Medellín. Descubre los principales atractivos de la ciudad en un viaje panorámico con paradas estratégicas en sitios icónicos. Durante el trayecto conocerás proyectos urbanísticos icónicos como Parques del Río, uno de los desarrollos urbanos más modernos de Medellín, además de la reconocida Unidad Deportiva Atanasio Girardot, sede de importantes eventos deportivos y culturales. La experiencia continúa con una visita a la histórica Estación Medellín del Ferrocarril, seguida de un recorrido por la emblemática Plaza Botero, donde el arte y la arquitectura se mezclan con la esencia cultural de la ciudad. También se incluye la visita a uno de los palacios históricos más representativos de Medellín. Opcionalmente, podrás participar en un Turiwalking por Carabobo, una caminata guiada por una de las calles más tradicionales y auténticas del centro de Medellín. El recorrido continúa hacia el Parque de los Pies Descalzos, espacio diseñado para el descanso y la conexión urbana, y finaliza en el tradicional Pueblito Paisa, uno de los miradores más icónicos de la ciudad, ideal para fotografías, compras y vistas panorámicas. Antes de regresar, el tour atraviesa sectores modernos como la Milla de Oro y el área de Centro Comercial Santafé. Incluye: Transporte en bus turístico compartido, guía profesional, hidratación, degustación de dulce o bebida tradicional colombiana, Turiwalking por Carabobo (opcional) y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Medellín – Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional José María Córdova (MDE) para tomar vuelo con destino a Cartagena - Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 6 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 7 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 8 · Cartagena – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Rafael Núñez (CTG) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Bogotá, 2 en Medellín y 3 en Cartagena en hotel con plan alimenticio según la categoría elegida",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-017",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 105264,
+     "alt": "Playa de San Andrés"
+    },
+    {
+     "src": "pixabay",
+     "id": 180787,
+     "alt": "San Andrés y su mar desde lo alto"
+    },
+    {
+     "src": "pixabay",
+     "id": 4072371,
+     "alt": "Santuario de Monserrate, Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 4138422,
+     "alt": "Balcones y cúpula de la catedral, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 6968994,
+     "alt": "Murallas del Castillo de San Felipe, Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "sol-y-playa",
+    "titleEs": "Colombia Herencia y Mar: Bogotá, Cartagena y San Andrés",
+    "summaryEs": "9 días que unen la historia de Bogotá y Cartagena con el mar de siete colores de San Andrés, Johnny Cay y el Acuario.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena",
+     "Paseo en lancha a Johnny Cay y al Acuario en San Andrés",
+     "Tour por la isla de San Andrés con bebidas y snack"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 9 días que unen la historia de Bogotá y Cartagena con el mar de siete colores de San Andrés, Johnny Cay y el Acuario. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 3 categorías de hotel (de Turista Superior a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 14 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista Superior 2067 USD · Turista 1764 USD · Superior 3567 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 2153 USD en Turista Superior.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista Superior: Bogotá Plaza, Capilla del Mar, Sunrise (San Andrés) | Turista: Andes Plaza, Cartagena Plaza, Sol Caribe San Andrés | Superior: DoubleTree by Hilton Parque 93, Casa Don Luis by Faranda Boutique, Grand Sirenis San Andrés.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Cartagena",
+     "San Andrés"
+    ],
+    "durationDays": 9,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 1322,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (pensión completa en Cartagena y San Andrés)",
+      "mode": "group",
+      "adult": 1398,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (todo incluido en San Andrés)",
+      "mode": "group",
+      "adult": 2260,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Gustavo Rojas Pinilla, San Andrés (ADZ)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá – Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional El Dorado (BOG) para tomar vuelo con destino a Cartagena - Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 6 · Cartagena – San Andrés",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional Rafael Núñez (CTG) para tomar vuelo con destino a San Andrés - Recepción y traslado desde el Aeropuerto Gustavo Rojas Pinilla (ADZ) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 7 · San Andrés",
+      "text": "Desayuno. Tour de Ciudad Especial en San Andrés. una experiencia ideal para conocer los principales sitios turísticos de San Andrés acompañado de un guía local. Durante el recorrido visitarás tres (3) lugares emblemáticos, que pueden variar, entre ellos: First Baptist Church, West View, Casa Museo Isleño, Museo Naval o el famoso Hoyo Soplador. Este tour ofrece transporte en buseta, bus o chiva, dependiendo del número de pasajeros, asegurando comodidad y un recorrido auténtico por la isla. Incluye: Transporte en microbús o chiva, según el tamaño del grupo, guía profesional, entradas a los sitios turísticos visitados, bebidas nacionales, 1 snack durante el recorrido y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 8 · San Andrés",
+      "text": "Desayuno. Conoce Acuario Johnny Cay en San Andrés. Vive una experiencia inolvidable con este tour compartido en lancha por San Andrés visitando los cayos más famosos: Haynes Cay, Rose Cay (Acuario) y Johnny Cay. Comenzarás el recorrido hacia Haynes Cay, donde podrás cruzar por el puente flotante hacia Rose Cay (Acuario) y disfrutar de su abundante fauna marina en aguas cristalinas, ideales para nadar y hacer snorkel. Luego continuarás hacia Johnny Cay, un parque natural reconocido por sus playas de arena blanca, palmeras que ofrecen fresca sombra y piscinas naturales formadas por exóticos corales. Además, tendrás la oportunidad de observar las iguanas que habitan en este paraíso. Incluye: Transporte en lancha, impuesto ecológico de Johnny Cay y tarjeta de asistencia."
+     },
+     {
+      "title": "Día 9 · San Andrés – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Gustavo Rojas Pinilla (ADZ) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Bogotá, 3 en Cartagena y 3 en San Andrés en hotel con plan alimenticio según la categoría elegida",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tarjeta de turismo para entrar a San Andrés (se paga antes de volar a la isla)",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-018",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3977049,
+     "alt": "Palmas de cera en el Valle de Cocora"
+    },
+    {
+     "src": "pixabay",
+     "id": 4912318,
+     "alt": "Casas coloridas de Salento"
+    },
+    {
+     "src": "pixabay",
+     "id": 4072310,
+     "alt": "Capitolio Nacional en la Plaza de Bolívar, Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 1247674,
+     "alt": "Calle con balcones floridos, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 2695089,
+     "alt": "Castillo de San Felipe y el cerro de La Popa"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia de Autor: Bogotá, Eje Cafetero y Cartagena, 8 días",
+    "summaryEs": "8 días entre la capital, el Paisaje Cultural Cafetero con el Valle de Cocora y Salento, y la Cartagena colonial.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "Valle de Cocora y sus palmas de cera",
+     "Pueblo de Salento y su Calle Real",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 8 días entre la capital, el Paisaje Cultural Cafetero con el Valle de Cocora y Salento, y la Cartagena colonial. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 19 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1215 USD · Primera 1557 USD · Turista Superior 1737 USD · Superior 2493 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1479 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, Finca Hotel Los Girasoles (Eje Cafetero), Cartagena Plaza | Primera: Bogotá Plaza, Hotel Campestre Café-Café, Capilla del Mar | Turista Superior: Best Western Plus 93 Park, Hacienda Combia, Dann Cartagena | Superior: DoubleTree by Hilton Parque 93, Hotel Campestre Las Camelias, Estelar Cartagena de Indias.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nEje Cafetero: si llegas o sales por un aeropuerto distinto al de la ciudad donde te hospedas, el traslado lleva un cargo extra.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Eje Cafetero",
+     "Salento",
+     "Cartagena"
+    ],
+    "durationDays": 8,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno; cena en el Eje Cafetero)",
+      "mode": "group",
+      "adult": 897,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno)",
+      "mode": "group",
+      "adult": 1067,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 1133,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno; sin desayuno en Cartagena)",
+      "mode": "group",
+      "adult": 1478,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Rafael Núñez, Cartagena (CTG)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá – Paisaje Cultural Cafetero",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional El Dorado (BOG) para tomar vuelo con destino al Paisaje Cultural Cafetero. Recepción y traslado desde el Aeropuerto El Edén (AXM) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Paisaje Cultural Cafetero",
+      "text": "Desayuno. Tour Conoce las Palmas de Cera en Valle del Cocora y Pueblo de Salento. El recorrido inicia en Armenia con destino al majestuoso Valle de Cocora, cuna de la Palma de Cera, hogar del Loro Orejiamarillo y del Cóndor de los Andes. Durante la caminata guiada se ofrece interpretación ambiental sobre el bosque de niebla y los ecosistemas del valle, llegando hasta el río Quindío y recibiendo información sobre los distintos miradores disponibles (ingreso opcional no incluido). Luego, el tour continúa hacia Salento, donde se realiza un recorrido histórico por sus coloridas calles coloniales, incluida la tradicional Calle Real. Los viajeros cuentan con tiempo libre para compras y exploración personal antes del regreso a Armenia. Incluye: Transporte en vehículo climatizado, guía profesional, visita a la Calle Real en Salento, cortesía de café, souvenir, hidratación durante el recorrido y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Paisaje Cultural Cafetero – Cartagena",
+      "text": "Desayuno. Recogida y traslado al Aeropuerto El Edén (AXM) para tomar vuelo con destino a Cartagena - Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 6 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 7 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 8 · Cartagena – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Rafael Núñez (CTG) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslados aeropuerto - hotel - aeropuerto",
+     "2 noches en Bogotá, 2 en el Paisaje Cultural Cafetero y 3 en Cartagena en hotel y plan alimenticio según la categoría elegida",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entradas a los sitios especificados",
+     "Tarjeta de asistencia médica durante los tours"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-020",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4083263,
+     "alt": "Barranquilla al atardecer"
+    },
+    {
+     "src": "pixabay",
+     "id": 694771,
+     "alt": "Iglesia de torres rosadas en Barranquilla"
+    },
+    {
+     "src": "pixabay",
+     "id": 4928723,
+     "alt": "Catedral de Santa Marta"
+    },
+    {
+     "src": "pixabay",
+     "id": 85847,
+     "alt": "Playa del Parque Tayrona"
+    },
+    {
+     "src": "pixabay",
+     "id": 4934628,
+     "alt": "Torre del Reloj, puerta de la ciudad amurallada de Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 8297321,
+     "alt": "Palenquera con frutas en Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "sol-y-playa",
+    "titleEs": "Colombia Tres Perlas del Caribe, 8 días",
+    "summaryEs": "8 días por el Caribe colombiano: Cartagena, Barranquilla y su Carnaval, y Santa Marta con un día en el Parque Tayrona.",
+    "highlights": [
+     "Castillo de San Felipe y ciudad amurallada de Cartagena",
+     "City tour por Barranquilla y Museo del Carnaval",
+     "Parque Tayrona: Cabo San Juan o Playa Cristal",
+     "Traslados por carretera entre las tres ciudades"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 8 días por el Caribe colombiano: Cartagena, Barranquilla y su Carnaval, y Santa Marta con un día en el Parque Tayrona. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 20 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1391 USD · Primera 1541 USD · Turista Superior 1872 USD · Superior 2814 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1640 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Cartagena Plaza, Atrium Plaza (Barranquilla), Blu Hotel by Tamaca (Santa Marta) | Primera: Capilla del Mar, Dorado Plaza Alto Prado (Barranquilla), Hilton Garden Inn Santa Marta | Turista Superior: Dann Cartagena, BH Barranquilla, Estelar Santamar | Superior: Casa Don Luis by Faranda Boutique, Dann Carlton Barranquilla, Marriott Playa Dormida.\nParque Tayrona: sujeto al clima y a los cierres que fija Parques Nacionales; en fechas de cierre se sustituye por un paseo en velero al atardecer en Santa Marta.\nLos traslados por carretera compartidos entre ciudades no operan el 24, 25 y 31 de diciembre ni el 1 de enero.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Cartagena",
+     "Barranquilla",
+     "Santa Marta",
+     "Parque Tayrona"
+    ],
+    "durationDays": 8,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno)",
+      "mode": "group",
+      "adult": 989,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno solo en Cartagena)",
+      "mode": "group",
+      "adult": 1061,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno solo en Cartagena)",
+      "mode": "group",
+      "adult": 1204,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno)",
+      "mode": "group",
+      "adult": 1677,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto Rafael Núñez, Cartagena (llegada)",
+      "address": "",
+      "lat": 10.4424,
+      "lng": -75.513,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Simón Bolívar, Santa Marta (SMR)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Cartagena",
+      "text": "Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 4 · Cartagena – Barranquilla",
+      "text": "Desayuno. Recogida y traslado terrestre de aproximadamente dos horas y media. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 5 · Barranquilla",
+      "text": "Desayuno. Tour de Ciudad por Barranquilla + Museo del Carnaval. Recorrido por los sitios más emblemáticos de Barranquilla: Barrio El Prado, parque central, Catedral Metropolitana, Museo del Carnaval, Estadio Édgar Rentería, antiguo edificio de la Aduana, Estación Montoya, Intendencia Fluvial, Malecón Puerta de Oro, esculturas de Shakira y Sofía Vergara en el Malecón, La Ventana al Mundo y Aleta Tiburón. Ideal para conocer el patrimonio y cultura de Barranquilla de forma cómoda y personalizada. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Museo del Carnaval y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 6 · Barranquilla – Santa Marta",
+      "text": "Desayuno. Recogida y traslado terrestre de aproximadamente dos horas y media. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 7 · Santa Marta",
+      "text": "Desayuno. Tour al Parque Tayrona con un (1) tour a elección: Cabo San Juan o Playa Cristal. Cabo San Juan: Ideal para familias y grupos de amigos que desean conectarse con la naturaleza, observar flora y fauna y disfrutar de las playas y el mar del Parque Tayrona. Desde el punto de encuentro se viaja hasta la entrada El Zaino y luego al parqueadero de Cañaveral, donde inicia la caminata. El recorrido guiado lleva por senderos entre bosque tropical y playas como Arrecifes, Arenillas y La Piscina, hasta llegar al icónico Cabo San Juan. Allí podrás almorzar y disfrutar tiempo libre en una de las playas más paradisíacas del parque. El regreso se realiza por el mismo sendero hasta el parqueadero para retornar a Santa Marta. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Parque Tayrona y tarjeta de asistencia médica. Playa Cristal: Vive un día de relajación en Playa Cristal, una ensenada de arena blanca y aguas transparentes, perfecta para contemplar, descansar y practicar snorkel entre arrecifes coralinos. El recorrido atraviesa la ciudad rumbo al Parque Tayrona, ingresando por la entrada de Palangana. Tras adquirir los tiquetes, se continúa en vehículo hacia la playa Las Siete Olas, donde podrás apreciar el paisaje del bosque seco tropical y su fauna. Luego se llega a Neguanje para tomar una corta travesía en bote hasta Playa Cristal, donde disfrutarás del mar, el sol y la vida marina. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Parque Tayrona, transporte en bote y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 8 · Santa Marta – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Simón Bolívar (SMR) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto de Cartagena – hotel en servicio compartido",
+     "3 noches en Cartagena, 2 en Barranquilla y 2 en Santa Marta en hotel con plan alimenticio según la categoría elegida",
+     "Traslado terrestre Cartagena – Barranquilla – Santa Marta en servicio compartido",
+     "Traslado hotel en Santa Marta – aeropuerto en servicio compartido",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales",
+     "Almuerzo en el Parque Tayrona",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-021",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3752794,
+     "alt": "Bahía en el Parque Tayrona"
+    },
+    {
+     "src": "pixabay",
+     "id": 973935,
+     "alt": "Cerro de Monserrate sobre Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 182343,
+     "alt": "Escultura de Botero en la Plaza Botero, Medellín"
+    },
+    {
+     "src": "pixabay",
+     "id": 4138418,
+     "alt": "Calle colonial hacia la catedral de Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 4931171,
+     "alt": "Calle colonial con balcones, Santa Marta"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia Legendaria: de Bogotá a Santa Marta, 10 días",
+    "summaryEs": "10 días de los Andes al Caribe: Bogotá, Medellín, Cartagena y Santa Marta con un día en el Parque Tayrona.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "City tour por Medellín con Plaza Botero",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena",
+     "Parque Tayrona: Cabo San Juan o Playa Cristal"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 10 días de los Andes al Caribe: Bogotá, Medellín, Cartagena y Santa Marta con un día en el Parque Tayrona. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 20 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1725 USD · Primera 2076 USD · Turista Superior 2184 USD · Superior 2980 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1917 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, First Class, Cartagena Plaza, Blu Hotel by Tamaca | Primera: Bogotá Plaza, Diez Hotel Categoría Colombia, Capilla del Mar, Hilton Garden Inn Santa Marta | Turista Superior: Best Western Plus 93 Park, Dix Hotel, Holiday Inn Express Bocagrande, Estelar Santamar | Superior: DoubleTree by Hilton Parque 93, Novotel Medellín El Tesoro, Estelar Cartagena de Indias, Marriott Playa Dormida.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nParque Tayrona: sujeto al clima y a los cierres que fija Parques Nacionales; en fechas de cierre se sustituye por un paseo en velero al atardecer en Santa Marta.\nLos traslados por carretera compartidos entre ciudades no operan el 24, 25 y 31 de diciembre ni el 1 de enero.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "moderada",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Medellín",
+     "Cartagena",
+     "Santa Marta",
+     "Parque Tayrona"
+    ],
+    "durationDays": 10,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno)",
+      "mode": "group",
+      "adult": 1198,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno)",
+      "mode": "group",
+      "adult": 1364,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 1437,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno)",
+      "mode": "group",
+      "adult": 1846,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Simón Bolívar, Santa Marta (SMR)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá – Medellín",
+      "text": "Desayuno. Recogida y traslado al aeropuerto El Dorado (BOG) para tomar vuelo con destino a Medellín. Recepción y traslado desde el Aeropuerto José María Córdova (MDE) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Medellín",
+      "text": "Desayuno. City tour Medellín. Descubre los principales atractivos de la ciudad en un viaje panorámico con paradas estratégicas en sitios icónicos. Durante el trayecto conocerás proyectos urbanísticos icónicos como Parques del Río, uno de los desarrollos urbanos más modernos de Medellín, además de la reconocida Unidad Deportiva Atanasio Girardot, sede de importantes eventos deportivos y culturales. La experiencia continúa con una visita a la histórica Estación Medellín del Ferrocarril, seguida de un recorrido por la emblemática Plaza Botero, donde el arte y la arquitectura se mezclan con la esencia cultural de la ciudad. También se incluye la visita a uno de los palacios históricos más representativos de Medellín. Opcionalmente, podrás participar en un Turiwalking por Carabobo, una caminata guiada por una de las calles más tradicionales y auténticas del centro de Medellín. El recorrido continúa hacia el Parque de los Pies Descalzos, espacio diseñado para el descanso y la conexión urbana, y finaliza en el tradicional Pueblito Paisa, uno de los miradores más icónicos de la ciudad, ideal para fotografías, compras y vistas panorámicas. Antes de regresar, el tour atraviesa sectores modernos como la Milla de Oro y el área de Centro Comercial Santafé. Incluye: Transporte en bus turístico compartido, guía profesional, hidratación, degustación de dulce o bebida tradicional colombiana, Turiwalking por Carabobo (opcional) y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Medellín – Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto José María Córdova (MDE) para tomar vuelo con destino a Cartagena. Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 6 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 7 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 8 · Cartagena – Santa Marta",
+      "text": "Desayuno. Recogida y traslado terrestre de aproximadamente tres horas y media. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 9 · Santa Marta",
+      "text": "Desayuno. Tour al Parque Tayrona con un (1) tour a elección: Cabo San Juan o Playa Cristal. Cabo San Juan: Ideal para familias y grupos de amigos que desean conectarse con la naturaleza, observar flora y fauna y disfrutar de las playas y el mar del Parque Tayrona. Desde el punto de encuentro se viaja hasta la entrada El Zaino y luego al parqueadero de Cañaveral, donde inicia la caminata. El recorrido guiado lleva por senderos entre bosque tropical y playas como Arrecifes, Arenillas y La Piscina, hasta llegar al icónico Cabo San Juan. Allí podrás almorzar y disfrutar tiempo libre en una de las playas más paradisíacas del parque. El regreso se realiza por el mismo sendero hasta el parqueadero para retornar a Santa Marta. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Parque Tayrona y tarjeta de asistencia médica. Playa Cristal: Vive un día de relajación en Playa Cristal, una ensenada de arena blanca y aguas transparentes, perfecta para contemplar, descansar y practicar snorkel entre arrecifes coralinos. El recorrido atraviesa la ciudad rumbo al Parque Tayrona, ingresando por la entrada de Palangana. Tras adquirir los tiquetes, se continúa en vehículo hacia la playa Las Siete Olas, donde podrás apreciar el paisaje del bosque seco tropical y su fauna. Luego se llega a Neguanje para tomar una corta travesía en bote hasta Playa Cristal, donde disfrutarás del mar, el sol y la vida marina. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Parque Tayrona, transporte en bote y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 10 · Santa Marta – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Simón Bolívar (SMR) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Bogotá, 2 en Medellín, 3 en Cartagena y 2 en Santa Marta en hotel y plan alimenticio según la categoría elegida",
+     "Traslado terrestre hotel en Cartagena - hotel en Santa Marta en servicio compartido",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Almuerzo en el Parque Tayrona",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-023",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 1123547,
+     "alt": "Costa del Parque Tayrona"
+    },
+    {
+     "src": "pixabay",
+     "id": 54437,
+     "alt": "Calle colorida del barrio La Candelaria, Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 4788526,
+     "alt": "San Pedro Claver y Bocagrande al fondo, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 6968994,
+     "alt": "Murallas del Castillo de San Felipe, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 8297321,
+     "alt": "Palenquera con frutas en Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia Tesoros Escondidos: Bogotá, Cartagena y Tayrona",
+    "summaryEs": "8 días: Bogotá, la Cartagena colonial y dos noches de naturaleza y playa junto al Parque Nacional Tayrona.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena",
+     "Dos noches junto al Parque Tayrona",
+     "Traslado por carretera de Cartagena al Tayrona"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 8 días: Bogotá, la Cartagena colonial y dos noches de naturaleza y playa junto al Parque Nacional Tayrona. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 15 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1587 USD · Turista Superior 2169 USD · Primera 2234 USD · Superior 2540 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 2066 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, Cartagena Plaza, Masaya Tayrona | Turista Superior: Best Western Plus 93 Park, Holiday Inn Express Bocagrande, Cayena Beach by Masaya | Primera: Bogotá Plaza, Capilla del Mar, Casa Tayrona Los Naranjos | Superior: DoubleTree by Hilton Parque 93, Estelar Cartagena de Indias, Watapuy Experience.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nParque Tayrona: sujeto al clima y a los cierres que fija Parques Nacionales; en fechas de cierre se sustituye por un paseo en velero al atardecer en Santa Marta.\nLos traslados por carretera compartidos entre ciudades no operan el 24, 25 y 31 de diciembre ni el 1 de enero.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Cartagena",
+     "Parque Tayrona"
+    ],
+    "durationDays": 8,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno)",
+      "mode": "group",
+      "adult": 1134,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 1442,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno)",
+      "mode": "group",
+      "adult": 1473,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno; sin desayuno en Cartagena)",
+      "mode": "group",
+      "adult": 1629,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Simón Bolívar, Santa Marta (SMR)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá - Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto El Dorado (BOG) para tomar vuelo con destino a Cartagena. Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 6 · Cartagena – Tayrona",
+      "text": "Desayuno. Recogida y traslado terrestre de aproximadamente cinco horas. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 7 · Tayrona",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 8 · Tayrona – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Simón Bolívar (SMR) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Bogotá, 3 en Cartagena y 2 en la zona del Parque Tayrona en hotel con plan alimenticio según la categoría elegida",
+     "Traslado terrestre Cartagena – zona del Parque Tayrona",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-024",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2056892,
+     "alt": "Islote con cabañas en las Islas del Rosario"
+    },
+    {
+     "src": "pixabay",
+     "id": 4878721,
+     "alt": "Plaza de Bolívar y Catedral Primada de Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 1401221,
+     "alt": "Vía crucis del cerro de Monserrate"
+    },
+    {
+     "src": "pixabay",
+     "id": 4225683,
+     "alt": "Fachadas coloniales y torre de la catedral, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 2695089,
+     "alt": "Castillo de San Felipe y el cerro de La Popa"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "sol-y-playa",
+    "titleEs": "Colombia de los Andes al Caribe con islas, 9 días",
+    "summaryEs": "9 días: Bogotá, Cartagena y dos noches en una isla del Caribe frente a Cartagena, en Tierra Bomba, Barú o Islas del Rosario.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena",
+     "Dos noches en una isla frente a Cartagena",
+     "Hoteles de isla según categoría: Tierra Bomba, Barú o Islas del Rosario"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 9 días: Bogotá, Cartagena y dos noches en una isla del Caribe frente a Cartagena, en Tierra Bomba, Barú o Islas del Rosario. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Lujo); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 30 de noviembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1556 USD · Primera 2436 USD · Superior 2531 USD · Lujo 4713 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1655 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, Cartagena Plaza, Palmarito Beach (Tierra Bomba) | Primera: Bogotá Plaza, Capilla del Mar, Isla del Encanto (Barú) | Superior: DoubleTree by Hilton Parque 93, Estelar Cartagena de Indias, San Pedro de Majagua (Islas del Rosario) | Lujo: Sofitel Bogotá Victoria Regia, Sofitel Legend Santa Clara, Sofitel Barú Calablanca.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Cartagena",
+     "Islas del Rosario / Barú"
+    ],
+    "durationDays": 9,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno)",
+      "mode": "group",
+      "adult": 938,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno; pensión completa en la isla)",
+      "mode": "group",
+      "adult": 1452,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno)",
+      "mode": "group",
+      "adult": 1463,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "lujo",
+      "name": "Hoteles Lujo (desayuno)",
+      "mode": "group",
+      "adult": 2780,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Rafael Núñez, Cartagena (CTG)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 4 · Bogotá – Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto El Dorado (BOG) para tomar vuelo con destino a Cartagena. Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 5 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 6 · Cartagena – Isla",
+      "text": "Desayuno. Recogida y traslado desde Cartagena a una de las Islas cercanas según elección (Traslado en embarcaciones compartidas o en algunos casos aplica transporte 100% terrestre). Check-in y alojamiento."
+     },
+     {
+      "title": "Día 7 · Isla",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 8 · Isla – Cartagena",
+      "text": "Desayuno. Recogida y traslado a la ciudad de Cartagena (terrestre o marítimo según la isla seleccionada). En caso de que el servicio haya sido en lancha, recibimiento en el muelle indicado y traslado al hotel según elección. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 9 · Cartagena – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Rafael Núñez (CTG) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "3 noches en Bogotá, 3 en Cartagena (2 al inicio y 1 al final) y 2 en la Isla cercana, en hotel con plan alimenticio según la categoría elegida",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Impuestos de muelle",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-025",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 4909303,
+     "alt": "Bosque de palmas de cera, Valle de Cocora"
+    },
+    {
+     "src": "pixabay",
+     "id": 4911950,
+     "alt": "Calle Real de Salento"
+    },
+    {
+     "src": "pixabay",
+     "id": 881759,
+     "alt": "Metrocable sobre las laderas de Medellín"
+    },
+    {
+     "src": "pixabay",
+     "id": 3529143,
+     "alt": "Iglesia de Nuestra Señora del Carmen, Bogotá"
+    },
+    {
+     "src": "pixabay",
+     "id": 987986,
+     "alt": "Fachadas coloridas del centro histórico de Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 4947025,
+     "alt": "Casa colonial con balcones de madera, Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia Auténtica: Bogotá, Café, Medellín y Cartagena",
+    "summaryEs": "10 días por cuatro regiones: Bogotá, el Eje Cafetero con Cocora y Salento, Medellín y la Cartagena amurallada.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "Valle de Cocora y pueblo de Salento",
+     "City tour por Medellín con Plaza Botero",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 10 días por cuatro regiones: Bogotá, el Eje Cafetero con Cocora y Salento, Medellín y la Cartagena amurallada. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 19 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1590 USD · Primera 2060 USD · Turista Superior 2132 USD · Superior 3129 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1934 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, Finca Hotel Los Girasoles, Dix Hotel, Cartagena Plaza | Primera: Bogotá Plaza, Hotel Campestre Café-Café, Diez Hotel Categoría Colombia, Capilla del Mar | Turista Superior: Best Western Plus 93 Park, Hacienda Combia, First Class, Dann Cartagena | Superior: DoubleTree by Hilton Parque 93, Las Camelias, Novotel Medellín El Tesoro, Estelar Cartagena de Indias.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nEje Cafetero: si llegas o sales por un aeropuerto distinto al de la ciudad donde te hospedas, el traslado lleva un cargo extra.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Eje Cafetero",
+     "Salento",
+     "Medellín",
+     "Cartagena"
+    ],
+    "durationDays": 10,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno; cena en el Eje Cafetero)",
+      "mode": "group",
+      "adult": 1160,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno)",
+      "mode": "group",
+      "adult": 1378,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 1389,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno; sin desayuno en Cartagena)",
+      "mode": "group",
+      "adult": 1901,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Rafael Núñez, Cartagena (CTG)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá – Paisaje Cultural Cafetero",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional El Dorado (BOG) para tomar vuelo con destino al Paisaje Cultural Cafetero. Recepción y traslado desde el Aeropuerto El Edén (AXM) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Paisaje Cultural Cafetero",
+      "text": "Desayuno. Tour Conoce las Palmas de Cera en Valle del Cocora y Pueblo de Salento. El recorrido inicia en Armenia con destino al majestuoso Valle de Cocora, cuna de la Palma de Cera, hogar del Loro Orejiamarillo y del Cóndor de los Andes. Durante la caminata guiada se ofrece interpretación ambiental sobre el bosque de niebla y los ecosistemas del valle, llegando hasta el río Quindío y recibiendo información sobre los distintos miradores disponibles (ingreso opcional no incluido). Luego, el tour continúa hacia Salento, donde se realiza un recorrido histórico por sus coloridas calles coloniales, incluida la tradicional Calle Real. Los viajeros cuentan con tiempo libre para compras y exploración personal antes del regreso a Armenia. Incluye: Transporte en vehículo climatizado, guía profesional, visita a la Calle Real en Salento, cortesía de café, souvenir, hidratación durante el recorrido y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Paisaje Cultural Cafetero – Medellín",
+      "text": "Desayuno. Recogida y traslado al Aeropuerto El Edén (AXM) para tomar vuelo con destino a Medellín. Recepción y traslado desde el Aeropuerto José María Córdova (MDE) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 6 · Medellín",
+      "text": "Desayuno. City tour Medellín. Descubre los principales atractivos de la ciudad en un viaje panorámico con paradas estratégicas en sitios icónicos. Durante el trayecto conocerás proyectos urbanísticos icónicos como Parques del Río, uno de los desarrollos urbanos más modernos de Medellín, además de la reconocida Unidad Deportiva Atanasio Girardot, sede de importantes eventos deportivos y culturales. La experiencia continúa con una visita a la histórica Estación Medellín del Ferrocarril, seguida de un recorrido por la emblemática Plaza Botero, donde el arte y la arquitectura se mezclan con la esencia cultural de la ciudad. También se incluye la visita a uno de los palacios históricos más representativos de Medellín. Opcionalmente, podrás participar en un Turiwalking por Carabobo, una caminata guiada por una de las calles más tradicionales y auténticas del centro de Medellín. El recorrido continúa hacia el Parque de los Pies Descalzos, espacio diseñado para el descanso y la conexión urbana, y finaliza en el tradicional Pueblito Paisa, uno de los miradores más icónicos de la ciudad, ideal para fotografías, compras y vistas panorámicas. Antes de regresar, el tour atraviesa sectores modernos como la Milla de Oro y el área de Centro Comercial Santafé. Incluye: Transporte en bus turístico compartido, guía profesional, hidratación, degustación de dulce o bebida tradicional colombiana, Turiwalking por Carabobo (opcional) y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 7 · Medellín – Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto José María Córdova (MDE) para tomar vuelo con destino a Cartagena. Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 8 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 9 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 10 · Cartagena – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Rafael Núñez (CTG) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Bogotá, 2 en El Paisaje Cultural Cafetero, 2 en Medellín y 3 en Cartagena en hotel con plan alimenticio según la categoría elegida",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-028",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 3631740,
+     "alt": "Valle de Cocora con sus palmas de cera"
+    },
+    {
+     "src": "pixabay",
+     "id": 2472344,
+     "alt": "Granos de café maduros en la rama"
+    },
+    {
+     "src": "pixabay",
+     "id": 4912319,
+     "alt": "Fachada tradicional en Salento"
+    },
+    {
+     "src": "pixabay",
+     "id": 182352,
+     "alt": "Medellín en el valle de Aburrá"
+    },
+    {
+     "src": "pixabay",
+     "id": 182327,
+     "alt": "Pueblito Paisa en el cerro Nutibara, Medellín"
+    },
+    {
+     "src": "pixabay",
+     "id": 4941270,
+     "alt": "Casona colonial amarilla, Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 4046961,
+     "alt": "Calle colonial con balcones, Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia Imperdible: Medellín, Eje Cafetero y Cartagena",
+    "summaryEs": "9 días: Medellín, tres noches en el Paisaje Cultural Cafetero con Cocora y Salento, y la Cartagena colonial.",
+    "highlights": [
+     "City tour por Medellín con Plaza Botero y Pueblito Paisa",
+     "Valle de Cocora y pueblo de Salento",
+     "Tres noches en el Paisaje Cultural Cafetero",
+     "Castillo de San Felipe y ciudad amurallada de Cartagena"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 9 días: Medellín, tres noches en el Paisaje Cultural Cafetero con Cocora y Salento, y la Cartagena colonial. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 20 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 1384 USD · Turista Superior 1814 USD · Primera 1779 USD · Superior 3020 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 1682 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Dix Hotel, Finca Hotel Los Girasoles, Cartagena Plaza | Turista Superior: First Class, Hacienda Combia, Dann Cartagena | Primera: Diez Hotel Categoría Colombia, Hotel Campestre Café-Café, Capilla del Mar | Superior: Novotel Medellín El Tesoro, Las Camelias, Estelar Cartagena de Indias.\nEje Cafetero: si llegas o sales por un aeropuerto distinto al de la ciudad donde te hospedas, el traslado lleva un cargo extra.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Medellín",
+     "Eje Cafetero",
+     "Salento",
+     "Cartagena"
+    ],
+    "durationDays": 9,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno; cena en el Eje Cafetero)",
+      "mode": "group",
+      "adult": 998,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 1131,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno)",
+      "mode": "group",
+      "adult": 1181,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno; sin desayuno en Cartagena)",
+      "mode": "group",
+      "adult": 1760,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto José María Córdova, Medellín (llegada)",
+      "address": "",
+      "lat": 6.1645,
+      "lng": -75.4231,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Rafael Núñez, Cartagena (CTG)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Medellín",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional José María Córdova (MDE) al hotel elegido. Check - In y alojamiento."
+     },
+     {
+      "title": "Día 2 · Medellín",
+      "text": "Desayuno. City tour Medellín. Descubre los principales atractivos de la ciudad en un viaje panorámico con paradas estratégicas en sitios icónicos. Durante el trayecto conocerás proyectos urbanísticos icónicos como Parques del Río, uno de los desarrollos urbanos más modernos de Medellín, además de la reconocida Unidad Deportiva Atanasio Girardot, sede de importantes eventos deportivos y culturales. La experiencia continúa con una visita a la histórica Estación Medellín del Ferrocarril, seguida de un recorrido por la emblemática Plaza Botero, donde el arte y la arquitectura se mezclan con la esencia cultural de la ciudad. También se incluye la visita a uno de los palacios históricos más representativos de Medellín. Opcionalmente, podrás participar en un Turiwalking por Carabobo, una caminata guiada por una de las calles más tradicionales y auténticas del centro de Medellín. El recorrido continúa hacia el Parque de los Pies Descalzos, espacio diseñado para el descanso y la conexión urbana, y finaliza en el tradicional Pueblito Paisa, uno de los miradores más icónicos de la ciudad, ideal para fotografías, compras y vistas panorámicas. Antes de regresar, el tour atraviesa sectores modernos como la Milla de Oro y el área de Centro Comercial Santafé. Incluye: Transporte en bus turístico compartido, guía profesional, hidratación, degustación de dulce o bebida tradicional colombiana, Turiwalking por Carabobo (opcional) y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Medellín – Paisaje Cultural Cafetero",
+      "text": "Desayuno. Recogida y traslado al aeropuerto José María Córdova (MDE) para tomar vuelo con destino al Paisaje Cultural Cafetero. Recepción y traslado desde el Aeropuerto El Edén (AXM) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Paisaje Cultural Cafetero",
+      "text": "Desayuno. Tour Conoce las Palmas de Cera en Valle del Cocora y Pueblo de Salento. El recorrido inicia en Armenia con destino al majestuoso Valle de Cocora, cuna de la Palma de Cera, hogar del Loro Orejiamarillo y del Cóndor de los Andes. Durante la caminata guiada se ofrece interpretación ambiental sobre el bosque de niebla y los ecosistemas del valle, llegando hasta el río Quindío y recibiendo información sobre los distintos miradores disponibles (ingreso opcional no incluido). Luego, el tour continúa hacia Salento, donde se realiza un recorrido histórico por sus coloridas calles coloniales, incluida la tradicional Calle Real. Los viajeros cuentan con tiempo libre para compras y exploración personal antes del regreso a Armenia. Incluye: Transporte en vehículo climatizado, guía profesional, visita a la Calle Real en Salento, cortesía de café, souvenir, hidratación durante el recorrido y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Paisaje cultural Cafetero",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 6 · Paisaje Cultural Cafetero – Cartagena",
+      "text": "Desayuno. Recogida y traslado al Aeropuerto El Edén (AXM) para tomar vuelo con destino a Cartagena. Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 7 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 8 · Cartagena",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 9 · Cartagena – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Rafael Núñez (CTG) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Medellín, 3 en el Paisaje Cultural Cafetero y 3 en Cartagena en hotel con plan alimenticio según la categoría elegida",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "ref": "PC-030",
+   "status": "published",
+   "hold": "",
+   "photos": [
+    {
+     "src": "pixabay",
+     "id": 2056905,
+     "alt": "Casa sobre un islote, Islas del Rosario"
+    },
+    {
+     "src": "pixabay",
+     "id": 2549989,
+     "alt": "Barca en una bahía del Parque Tayrona"
+    },
+    {
+     "src": "pixabay",
+     "id": 4928725,
+     "alt": "Catedral Basílica de Santa Marta"
+    },
+    {
+     "src": "pixabay",
+     "id": 4909308,
+     "alt": "Palmas de cera entre montañas, Cocora"
+    },
+    {
+     "src": "pixabay",
+     "id": 2343953,
+     "alt": "Medellín al atardecer"
+    },
+    {
+     "src": "pixabay",
+     "id": 4457801,
+     "alt": "Bogotá vista desde los cerros"
+    },
+    {
+     "src": "pixabay",
+     "id": 4936995,
+     "alt": "Balcones coloridos en una plaza de Cartagena"
+    },
+    {
+     "src": "pixabay",
+     "id": 2466516,
+     "alt": "Castillo de San Felipe de Barajas, Cartagena"
+    }
+   ],
+   "trip": {
+    "kind": "circuito",
+    "purchaseMode": "quote",
+    "category": "cultural",
+    "titleEs": "Colombia Travel Collection: gran circuito de 14 días",
+    "summaryEs": "14 días para recorrer Colombia completa: Bogotá, Eje Cafetero, Medellín, Cartagena, una isla del Caribe, Santa Marta y el Tayrona.",
+    "highlights": [
+     "Monserrate y Museo del Oro en Bogotá",
+     "Valle de Cocora, Salento y City tour por Medellín",
+     "Cartagena amurallada y dos noches en una isla",
+     "Quinta de San Pedro Alejandrino y El Rodadero en Santa Marta",
+     "Dos noches junto al Parque Tayrona"
+    ],
+    "descriptionEs": "Circuito por Colombia con salidas diarias y servicios compartidos. 14 días para recorrer Colombia completa: Bogotá, Eje Cafetero, Medellín, Cartagena, una isla del Caribe, Santa Marta y el Tayrona. Incluye traslados, alojamiento con el plan de comidas de la categoría que elijas y las excursiones del itinerario con guía profesional en español. Eliges entre 4 categorías de hotel (de Turista a Superior); el precio cambia según la categoría y la fecha de viaje. Los vuelos internos entre ciudades no están incluidos; te ayudamos a cotizarlos.",
+    "importantInfo": "Salidas diarias. Antes de cobrar confirmamos disponibilidad en destino: puede haber cierres de venta por alta ocupación.\nPrecios para viajar en 2027 y comprar hasta el 15 de diciembre de 2026 (vigentes hasta el 20 de diciembre de 2027, según hotel). No aplican para grupos, ferias ni eventos de ciudad; en temporada alta, Semana Santa y fechas especiales la tarifa cambia y se cotiza.\nHabitación sencilla, por persona, desde: Turista 3399 USD · Turista Superior 4361 USD · Primera 4816 USD · Superior 5433 USD.\nSi viajas solo (1 pasajero) la tarifa es otra: desde 4503 USD en Turista.\nNiños compartiendo habitación con sus padres: tarifa especial; la edad máxima depende del hotel. A consultar.\nHoteles previstos o similares — Turista: Andes Plaza, Los Girasoles, Dix Hotel, Cartagena Plaza, Palmarito Beach, Masaya Tayrona | Turista Superior: Best Western Plus 93 Park, Hacienda Combia, First Class, Dann Cartagena, Cocoliso, Cayena Beach | Primera: Bogotá Plaza, Café-Café, Diez Hotel, Capilla del Mar, Isla del Encanto, Casa Tayrona Los Naranjos | Superior: DoubleTree Parque 93, Las Camelias, Novotel El Tesoro, Estelar Cartagena, San Pedro de Majagua, Watapuy.\nBogotá: el Museo del Oro cierra los lunes y el Museo Botero los martes (ese día se visita un solo museo). Domingos y festivos el ascenso a Monserrate lleva un suplemento de fila rápida.\nEje Cafetero: si llegas o sales por un aeropuerto distinto al de la ciudad donde te hospedas, el traslado lleva un cargo extra.\nParque Tayrona: sujeto al clima y a los cierres que fija Parques Nacionales; en fechas de cierre se sustituye por un paseo en velero al atardecer en Santa Marta.\nLos traslados por carretera compartidos entre ciudades no operan el 24, 25 y 31 de diciembre ni el 1 de enero.\nTraslados de aeropuerto con recargo de 20% si el vuelo llega entre 19:00 y 06:00 o sale entre 21:00 y 09:00, y los días 24, 25 y 31 de diciembre y 1 de enero. En llegadas se espera máximo 1 hora.\nAplican los términos y condiciones de operación del prestador en destino (cambios, cancelaciones y no presentación); te los enviamos junto con la cotización, antes de cualquier pago.",
+    "visaInfo": "Los mexicanos no necesitan visa para viajar a Colombia como turistas. Se requiere pasaporte vigente y registrar el formulario Check-MIG de Migración Colombia en línea antes del vuelo. Verifica los requisitos vigentes antes de viajar.",
+    "whatToBring": "",
+    "difficulty": "facil",
+    "countries": [
+     "CO"
+    ],
+    "cities": [
+     "Bogotá",
+     "Eje Cafetero",
+     "Salento",
+     "Medellín",
+     "Cartagena",
+     "Islas del Rosario / Barú",
+     "Barranquilla",
+     "Santa Marta",
+     "Parque Tayrona"
+    ],
+    "durationDays": 14,
+    "flightsIncluded": false,
+    "languages": [
+     "es"
+    ],
+    "minPax": null,
+    "maxPax": null,
+    "currency": "USD",
+    "priceNote": "Por persona en USD, habitación doble (mínimo 2 viajeros), temporada más baja de 2027. Sin vuelos. Varía por fecha y hotel; confirmamos disponibilidad antes de cobrar.",
+    "options": [
+     {
+      "id": "tur",
+      "name": "Hoteles Turista (desayuno)",
+      "mode": "group",
+      "adult": 2457,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "tsup",
+      "name": "Hoteles Turista Superior (desayuno)",
+      "mode": "group",
+      "adult": 2954,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "pri",
+      "name": "Hoteles Primera (desayuno; pensión completa en la isla)",
+      "mode": "group",
+      "adult": 3246,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     },
+     {
+      "id": "sup",
+      "name": "Hoteles Superior (desayuno)",
+      "mode": "group",
+      "adult": 3502,
+      "child": null,
+      "infant": null,
+      "childAgeMin": 3,
+      "childAgeMax": 11
+     }
+    ],
+    "minNoticeHours": 240,
+    "cancellation": {
+     "type": "none",
+     "tiers": []
+    },
+    "meetingPoints": [
+     {
+      "name": "Aeropuerto El Dorado, Bogotá (llegada)",
+      "address": "",
+      "lat": 4.7016,
+      "lng": -74.1469,
+      "instructions": "Recepción en el aeropuerto y traslado compartido a tu hotel; avísanos tu vuelo con anticipación.",
+      "photoKey": null
+     }
+    ],
+    "hotelPickup": false,
+    "endPoint": "Aeropuerto Simón Bolívar, Santa Marta (SMR)",
+    "itinerary": [
+     {
+      "title": "Día 1 · Llegada a Bogotá",
+      "text": "Recepción y traslado desde el Aeropuerto Internacional El Dorado (BOG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 2 · Bogotá",
+      "text": "Desayuno. Tour de Ciudad por Bogotá + Monserrate + Entrada a Museos. Asciende al Cerro de Monserrate y contempla la ciudad desde las alturas. Recorre el impresionante Museo del Oro y sumérgete en el mundo precolombino. Camina por La Candelaria y la Plaza de Bolívar, el corazón histórico de la capital. Finaliza con el arte de Fernando Botero y obras de maestros como Picasso y Dalí. Incluye: Transporte en vehículo climatizado, guía profesional, ingreso al Museo del Oro, ticket de Monserrate y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 3 · Bogotá – Paisaje Cultural Cafetero",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Internacional El Dorado (BOG) para tomar vuelo con destino al Paisaje Cultural Cafetero. Recepción y traslado desde el Aeropuerto El Edén (AXM) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 4 · Paisaje Cultural Cafetero",
+      "text": "Desayuno. Tour Conoce las Palmas de Cera en Valle del Cocora y Pueblo de Salento. El recorrido inicia en Armenia con destino al majestuoso Valle de Cocora, cuna de la Palma de Cera, hogar del Loro Orejiamarillo y del Cóndor de los Andes. Durante la caminata guiada se ofrece interpretación ambiental sobre el bosque de niebla y los ecosistemas del valle, llegando hasta el río Quindío y recibiendo información sobre los distintos miradores disponibles (ingreso opcional no incluido). Luego, el tour continúa hacia Salento, donde se realiza un recorrido histórico por sus coloridas calles coloniales, incluida la tradicional Calle Real. Los viajeros cuentan con tiempo libre para compras y exploración personal antes del regreso a Armenia. Incluye: Transporte en vehículo climatizado, guía profesional, visita a la Calle Real en Salento, cortesía de café, souvenir, hidratación durante el recorrido y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 5 · Paisaje Cultural Cafetero – Medellín",
+      "text": "Desayuno. Recogida y traslado al Aeropuerto El Edén (AXM) para tomar vuelo con destino a Medellín. Recepción y traslado desde el Aeropuerto José María Córdova (MDE) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 6 · Medellín",
+      "text": "Desayuno. City tour Medellín. Descubre los principales atractivos de la ciudad en un viaje panorámico con paradas estratégicas en sitios icónicos. Durante el trayecto conocerás proyectos urbanísticos icónicos como Parques del Río, uno de los desarrollos urbanos más modernos de Medellín, además de la reconocida Unidad Deportiva Atanasio Girardot, sede de importantes eventos deportivos y culturales. La experiencia continúa con una visita a la histórica Estación Medellín del Ferrocarril, seguida de un recorrido por la emblemática Plaza Botero, donde el arte y la arquitectura se mezclan con la esencia cultural de la ciudad. También se incluye la visita a uno de los palacios históricos más representativos de Medellín. Opcionalmente, podrás participar en un Turiwalking por Carabobo, una caminata guiada por una de las calles más tradicionales y auténticas del centro de Medellín. El recorrido continúa hacia el Parque de los Pies Descalzos, espacio diseñado para el descanso y la conexión urbana, y finaliza en el tradicional Pueblito Paisa, uno de los miradores más icónicos de la ciudad, ideal para fotografías, compras y vistas panorámicas. Antes de regresar, el tour atraviesa sectores modernos como la Milla de Oro y el área de Centro Comercial Santafé. Incluye: Transporte en bus turístico compartido, guía profesional, hidratación, degustación de dulce o bebida tradicional colombiana, Turiwalking por Carabobo (opcional) y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 7 · Medellín – Cartagena",
+      "text": "Desayuno. Recogida y traslado al aeropuerto José María Córdova (MDE) para tomar vuelo con destino a Cartagena. Recepción y traslado desde el Aeropuerto Rafael Núñez (CTG) al hotel elegido. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 8 · Cartagena",
+      "text": "Desayuno. Tour de Ciudad Cartagena + Castillo de San Felipe. Descubre la fascinante historia de Cartagena de Indias con este tour guiado. La experiencia comienza con un recorrido panorámico por la bahía de Cartagena, seguido del barrio Manga, famoso por su arquitectura republicana. Visita el majestuoso Castillo de San Felipe de Barajas, la fortaleza colonial más importante de América. Luego recorre a pie el centro histórico amurallado, con sus calles y plazas llenas de historia, y disfruta de tiempo libre para compras de artesanías y auténticas esmeraldas de la más alta calidad. Incluye: Transporte en vehículo climatizado, guía profesional, entrada al Castillo de San Felipe y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 9 · Cartagena – Isla",
+      "text": "Desayuno. Recogida y traslado desde Cartagena a una de las Islas cercanas según elección (Traslado en embarcaciones compartidas o en algunos casos aplica transporte 100% terrestre). Check-in y alojamiento."
+     },
+     {
+      "title": "Día 10 · Isla",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 11 · Isla – Cartagena",
+      "text": "Desayuno. Recogida y traslado a la ciudad de Cartagena (terrestre o marítimo según la isla seleccionada). En caso de que el servicio haya sido en lancha, recibimiento en el muelle indicado y traslado al hotel según elección. Check-in y alojamiento."
+     },
+     {
+      "title": "Día 12 · Cartagena – Tayrona",
+      "text": "Desayuno. Recogida y traslado terrestre de aproximadamente 4 horas. Disfruta de un hermoso panorama mientras pasas por diversas poblaciones, admirando el paisaje. Al llegar a Barranquilla, se realiza un recorrido panorámico por la ciudad, con una parada especial en un parador turístico donde se podrá disfrutar de una bebida refrescante o un delicioso snack (consumos no incluidos). Luego, continuamos hacia Santa Marta, donde te sorprenderá la historia y belleza de la ciudad. Visita la emblemática Quinta de San Pedro Alejandrino, última morada del Libertador Simón Bolívar, y sumérgete en su legado. Finalmente, se puede disfrutar de un relajante tiempo en las paradisíacas playas de El Rodadero, donde podrás darte un refrescante baño en sus aguas cristalinas. Al finalizar traslado al Tayrona o alrededores. Check-in y alojamiento. Incluye: Transporte en vehículo climatizado, guía profesional, hidratación, ingreso a la Quinta de San Pedro Alejandrino y tarjeta de asistencia médica."
+     },
+     {
+      "title": "Día 13 · Tayrona o alrededores",
+      "text": "Desayuno. Día libre para realizar actividades personales o tour opcional."
+     },
+     {
+      "title": "Día 14 · Tayrona – Ciudad de Origen",
+      "text": "Desayuno. Recogida y traslado al aeropuerto Simón Bolívar (SMR) para tomar vuelo con destino a su ciudad de origen."
+     }
+    ],
+    "includes": [
+     "Traslado aeropuerto – hotel – aeropuerto en servicio compartido",
+     "2 noches en Bogotá, 2 en El Paisaje Cultural Cafetero, 2 en Medellín, 3 en Cartagena (2 al inicio y 1 al final), 2 en una isla, 2 en Tayrona o alrededores en hotel con plan alimenticio según la categoría elegida",
+     "Traslado terrestre Cartagena – Santa Marta",
+     "Traslado Santa Marta – Tayrona o alrededores",
+     "Excursiones descritas en compartido con guía profesional en español",
+     "Entrada a los sitios especificados",
+     "Tarjeta de asistencia médica durante las excursiones"
+    ],
+    "excludes": [
+     "Vuelos internacionales y vuelos nacionales entre ciudades",
+     "Tours opcionales",
+     "Seguro hotelero (voluntario)",
+     "IVA del hospedaje (los extranjeros no residentes en Colombia están exentos)",
+     "Servicios y gastos no especificados en el programa",
+     "Propinas y gastos personales"
+    ],
+    "availability": {
+     "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   }
+  }
+ ]
+}
