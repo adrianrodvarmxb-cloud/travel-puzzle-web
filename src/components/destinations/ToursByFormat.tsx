@@ -28,7 +28,8 @@ export function ToursByFormat({ tours, chips, rates = null }: { tours: TourCardM
                     ))}
                 </div>
             )}
-            <TourGrid tours={shown} rates={rates} />
+            {/* REQ-416: en las tarjetas, «guía local» solo con guía en persona (solo se usa con TAXONOMY_LABELS_ENABLED). */}
+            <TourGrid tours={shown} rates={rates} guideCopy />
         </>
     );
 }
