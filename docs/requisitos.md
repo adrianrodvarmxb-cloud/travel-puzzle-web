@@ -263,3 +263,9 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T3 · REQ-407 (`fuera` fuera de /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; no cuenta para indexar) | `catalog.ts` (`destinationTree`), `destinations/load.ts`, `destinations/server.ts`, `home/load.ts`, `trips/cross-sell-deps.ts` | `publish.test.ts`, `catalog.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-408 (`por-revisar` no se publica, G-T10 = A) | `publish.ts` (`isPublishable`) | `publish.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-261 (traslados y transporte, también de FREETOUR, fuera de Experiencias) | `catalog.ts`: sección «traslados» → Traslados de la ciudad | `catalog.test.ts` | CUMPLIDO (apagado) |
+
+### Taxonomía en los carruseles del home (#148), tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #177)
+
+| REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
+|---|---|---|---|
+| REQ-270 | "Que los carruseles del home (#148) apliquen el filtro de la taxonomía (excluir fuera y por-revisar) cuando TAXONOMY_PUBLISH_ENABLED esté encendida; con la bandera apagada no cambia nada" (coordinador en autopiloto, 6 nov 2026) | Dada la bandera encendida, cuando se arman «Los más elegidos» y «Excursiones de un día» con el medidor de reseñas, entonces un tour cuyo formato de la taxonomía es `fuera` o `por-revisar` no entra y se cuenta; dada la bandera apagada, entonces los carruseles salen igual que hoy. | CUMPLIDO (apagado; src/home/lib/rank-row-taxonomia.test.ts, src/home/load.test.ts) |
