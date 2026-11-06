@@ -1,4 +1,4 @@
-# Identidad geográfica v2 (ensayo): gates para el PO (REQ-131…141)
+# Identidad geográfica v2 (ensayo): gates para el PO (REQ-131…143)
 
 Base: informe aprobado «Identidad geográfica del catálogo». Este PR cubre los pasos 1–5 y deja propuesto el 7. **No escribe en D1.**
 
@@ -29,6 +29,18 @@ Base: informe aprobado «Identidad geográfica del catálogo». Este PR cubre lo
 | G5 | **Atribución solo en la sección legal, no en el pie de página**, tras `GEO_ATTRIBUTION_ENABLED="false"`, 5 nov 2026. | REQ-139. El sitio no tiene ruta `/legal`: va al final de `/terminos` (página «TRAVEL PUZZLE · LEGAL»). Si el PO quiere una página `/legal` propia, es página nueva y va en otro PR. |
 | G6 | **Corrida semanal aprobada**, 5 nov 2026 (sigue siendo solo lectura). | REQ-140: `schedule` cada lunes 10:17 UTC. GitHub solo lo dispara desde `main`, así que empieza después del merge. |
 | G7 | **«Claude propone, el PO firma»**, 5 nov 2026. | REQ-141: de las 73 ciudades de `geo-v2-revisar.csv` (artefacto 13477662786), 68 quedan en `city-overrides.csv` (42 `asignar`, 26 `sin-geonameid` para islas, lagos, montañas, parques y regiones). 5 dudosas quedan fuera y se listan en el PR. La firma del PO es aprobar el PR. |
+
+## Firmas del PO (6 nov 2026)
+- **G7 firmado**: las 68 filas propuestas por Claude en `city-overrides.csv` quedan aprobadas (`revisado_por` = «Claude propuso; PO firmó 6 nov 2026»).
+- **Las 5 dudosas** (REQ-143), firmadas por el PO:
+  | Ciudad | Decisión | geonameid |
+  |---|---|---|
+  | Alajuela 936 | La provincia, no la ciudad | 3624953 (Provincia de Alajuela, ADM1) |
+  | San Luis Potosí 2960 | El estado, no la capital | 3985605 (Estado de San Luis Potosí, ADM1) |
+  | La Palma 3922 | `sin-geonameid`, nota «mal etiquetada en FREETOUR (el tour es en Palma de Mallorca), avisar» | — |
+  | Diani 2779 | Diani Beach | 8199180 |
+  | Krabi Ao Nang 4243 | Ao Nang | 1120400 |
+- **País por ciudad** (REQ-142), firmado por el PO: Hong Kong 5835 → HK y Tórshavn 6298 → FO, con la capa nueva `src/geo/data/city-country-overrides.csv`. Solo aplica si FREETOUR sigue dando CN o DK; si no, la ciudad va a revisión. Se escribe en `City.countryCode` con `geo-v2-0016.sql`, así que depende de G3.
 
 ## Plan de regreso
 - Código: revertir el PR. Solo toca `/terminos` tras bandera apagada (no se ve nada) y no toca Worker ni base.

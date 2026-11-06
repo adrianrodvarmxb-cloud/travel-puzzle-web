@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { planGeoV2, buildGeoV2Sql, buildGeoV2PendingSql, reviewCsvRows } from "./dry-run-v2";
 import { buildIndex, parseCityLine } from "./geonames-v2";
-import { parseCountryOverrides, parseAnCities } from "./country";
+import { parseCountryOverrides, parseAnCities, parseCityCountryOverrides } from "./country";
 import { parseCityAliases } from "./alias";
 import { parseCityOverrides } from "./resolve";
 
@@ -15,6 +15,7 @@ const index = buildIndex(
     line(264371, "Athens", 37.98, 23.72, "GR", 664046),
     line(264637, "Delfoi", 38.48, 22.49, "GR", 1000),
     line(3, "Ioannina", 39.66, 20.85, "GR", 65000),
+    line(1819729, "Hong Kong", 22.278, 114.175, "HK", 7396076),
   ].map((l) => parseCityLine(l)!),
   [{ geonameid: 264637, lang: "en", name: "Delphi" }],
 );
@@ -24,13 +25,14 @@ const overrides = {
   an: parseAnCities("provider,provider_city_id,nombre,country_code,estado,nota\n"),
   aliases: parseCityAliases("provider,provider_city_id,city_key,canonical_city_id,nota\nfreetour,4200,taipei,4200,\nfreetour,6172,taipei,4200,\n"),
   cities: parseCityOverrides("provider,provider_city_id,accion,geonameid,nota,revisado_por\n"),
+  cityCountries: parseCityCountryOverrides("provider,provider_city_id,codigo_crudo,country_code,nota,revisado_por\nfreetour,5835,CN,HK,Hong Kong,PO\n"),
 };
 
 const tr = (en: string, es = en) => JSON.stringify({ en, es });
 const ATHENS = "37.98417,23.72778";
 
 const plan = planGeoV2({
-  countries: [{ id: 177, code: "SCT" }, { id: 152, code: "TW" }, { id: 80, code: "GR" }, { id: 255, code: "XX" }],
+  countries: [{ id: 177, code: "SCT" }, { id: 152, code: "TW" }, { id: 80, code: "GR" }, { id: 255, code: "XX" }, { id: 46, code: "CN" }],
   cities: [
     { id: 4842, countryId: 177, translations: tr("Edinburgh", "Edimburgo") },
     { id: 4200, countryId: 152, translations: tr("Taipei") },
@@ -39,6 +41,7 @@ const plan = planGeoV2({
     { id: 1606, countryId: 80, translations: tr("Delphi") },
     { id: 1700, countryId: 80, translations: tr("Ioannina"), geonameid: 999 }, // control: el aproximado dirá 3
     { id: 2550, countryId: 255, translations: tr("Nowhere") },
+    { id: 5835, countryId: 46, translations: tr("Hong Kong") },
   ],
   tours: [
     { cityId: 4842, coords: "55.95,-3.19" },
@@ -47,6 +50,7 @@ const plan = planGeoV2({
     { cityId: 1600, coords: ATHENS },
     { cityId: 1606, coords: ATHENS },
     { cityId: 1700, coords: "39.66,20.85" },
+    { cityId: 5835, coords: "22.28,114.17" },
   ],
   index,
   overrides,
@@ -77,7 +81,7 @@ describe("planGeoV2", () => {
   });
 
   it("REQ-137: resumen con automáticas antes/después, revisar y sin candidato", () => {
-    expect(plan.summary).toMatchObject({ ciudades: 7, sinPagina: 1 });
+    expect(plan.summary).toMatchObject({ ciudades: 8, sinPagina: 1 });
     expect(plan.summary.despues.auto).toBe(plan.rows.filter((r) => r.status === "auto").length);
   });
 
@@ -101,5 +105,10 @@ describe("planGeoV2", () => {
     expect(r).toHaveProperty("c1_km");
     expect(r).toHaveProperty("c1_poblacion");
     expect(r).toHaveProperty("c3_geonameid");
+  });
+
+  it("REQ-142: Hong Kong (FREETOUR CN) se cruza contra HK y el SQL de la 0016 le pone countryCode HK", () => {
+    expect(row(5835)).toMatchObject({ countryCode: "HK", countrySource: "override", status: "auto", geonameid: 1819729 });
+    expect(buildGeoV2PendingSql(plan)).toContain(`UPDATE "City" SET "countryCode" = 'HK' WHERE "id" = 5835 AND "countryCode" IS NULL;`);
   });
 });

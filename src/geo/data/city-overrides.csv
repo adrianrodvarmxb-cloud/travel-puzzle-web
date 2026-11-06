@@ -1,74 +1,79 @@
 # REQ-136: decisiones humanas por ciudad; ganan sobre el id guardado y sobre el cruce automático. Se cambian solo por PR.
 # accion: asignar (con geonameid) | no-indexar (sin página) | sin-geonameid (se publica sin geonameid, p. ej. isla o región)
-# REQ-141 (gate G7, 5 nov 2026): «Claude propone, el PO firma». Revisión de las 73 ciudades de geo-v2-revisar.csv
+# REQ-141 (gate G7, 5 nov 2026): «Claude propone, el PO firma» (firmado el 6 nov 2026). Revisión de las 73 ciudades de geo-v2-revisar.csv
 # (artefacto geo-v2-ensayo 13477662786) con candidatos, km, población, Wikidata y los volcados de GeoNames por país.
-# Las dudosas (Alajuela 936, San Luis Potosí 2960, La Palma 3922, Diani 2779, Krabi Ao Nang 4243) quedan fuera.
+# Las 5 que eran dudosas (Alajuela 936, San Luis Potosí 2960, La Palma 3922, Diani 2779, Krabi Ao Nang 4243) las decidió el PO (REQ-143).
 provider,provider_city_id,accion,geonameid,nota,revisado_por
-freetour,270,asignar,7646709,Srimangal (Sylhet); nombre exacto único; el centroide es Dhaka (salida del tour),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,368,sin-geonameid,,Chapada Diamantina es meseta y parque nacional (GN 3464726 upland; Wikidata Q1062622),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,448,asignar,8556211,Praia do Rosa (aldea PPL) a 1.3 km; GN 7506756 es la playa,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,755,sin-geonameid,,Sal es isla de Cabo Verde; Palmeira y São João son pueblos de la isla,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,756,sin-geonameid,,Isla de Santiago (GN 3374199 island; Wikidata Q108448); centroide en Praia,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,764,sin-geonameid,,Isla de Pascua es isla; Hanga Roa (4030754) es el pueblo,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,792,asignar,1816705,Beihai (Guangxi) PPLA2 pob. 525 mil; Wikidata Q210365; el centroide cae en Lanzhou: revisar el tour,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,928,asignar,3667573,Taganga (PPL) a 0.2 km; corregimiento de Santa Marta,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,950,asignar,6943120,Manuel Antonio (PPL) a 2.4 km; el parque nacional es 6621167,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1165,sin-geonameid,,Oasis de Bahariya (GN 359360 oasis; Wikidata Q738878); pueblo principal Bawiti 361394,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1400,asignar,6616911,Le Mont-Saint-Michel (comuna ADM4); Wikidata Q20892,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1589,asignar,6942392,Agía Pelagía (Creta) PPL a 0.8 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1608,sin-geonameid,,Etolia-Acarnania es unidad regional; centroide en Atenas (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1691,sin-geonameid,,Santorini es isla (GN 252919; Wikidata Q129296); Firá 252920 es la capital,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1719,sin-geonameid,,Lago de Atitlán es lago (GN 3599628; Wikidata Q273276),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1896,asignar,1261481,New Delhi (PPLC) a 0.6 km; Wikidata coincide (Q987); Delhi 1273294 es otra entidad,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,1966,asignar,6693818,Seminyak (PPL) a 1.4 km; Wikidata Q1026424,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2363,sin-geonameid,,Lago de Como es lago (GN 3178228; Wikidata Q15523); centroide en Milán (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2407,asignar,3173524,Meta (comune de Meta di Sorrento) a 3.7 km; centroide en Sorrento,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2688,asignar,1863967,Fukuoka (PPLA); Wikidata coincide (Q26600); el centroide cae en Takaoka: revisar el tour,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2696,asignar,1853992,Onomichi (prefectura de Hiroshima) a 1.5 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2737,sin-geonameid,,Monte Fuji es volcán (GN 1864094; Wikidata Q39231); centroide en Tokio (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2778,asignar,609655,Karagandy (PPLA); Wikidata Q484706; centroide en Astana (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2783,sin-geonameid,,Masai Mara es reserva (GN 187536; Wikidata Q207724); centroide en Nairobi (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2865,asignar,1734759,Malacca (PPLA); centroide no confiable en Seremban,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2956,asignar,3818742,San Andrés Cholula (PPL) a 0.9 km; Wikidata P1566 = 3818742; Cholula 3530757 es San Pedro,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,2959,asignar,8858102,Teotihuacán de Arista (nombre oficial de San Juan Teotihuacán) PPL a 1.3 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3010,sin-geonameid,,Atlas es cordillera (GN 2556769; Wikidata Q130135),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3019,asignar,2546063,Imlil (PPL) a 1.0 km; Imelil 2546292 es caserío vecino,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3023,asignar,2542444,Merzouga (GN Marzouga PPL); Wikidata Q1922278; centroide no confiable,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3026,asignar,6545518,Ourika (comuna ADM3 del valle de Ourika); Wikidata Q7111281; centroide en Marrakech,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3027,sin-geonameid,,Cascadas de Ouzoud (atractivo natural); la aldea Ouzoud 2538514 queda a ~6 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3049,sin-geonameid,,Chitwan es distrito y parque nacional; centroide en Katmandú (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3050,asignar,1283378,Gorkha (PPL); Wikidata Q262223; centroide en Katmandú (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3053,asignar,12095978,Lumbini Sanskritik (municipio ADM3 actual); el 7801227 de Wikidata es una división histórica,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3165,sin-geonameid,,Ometepe es isla; Altagracia y Moyogalpa son sus pueblos,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3254,asignar,3940098,Huacachina (PPL); Wikidata Q1632715; centroide en Ica,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3266,asignar,3935636,Machupicchu (pueblo PPL); las ruinas son 3935634; centroide en Cusco (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3302,asignar,1709632,Kalibo (PPLA); centroide en Iloilo (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3318,sin-geonameid,,Siargao es isla; el centroide cae en Cavite: revisar el tour,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3413,sin-geonameid,,Madeira es isla (GN 2266874; Wikidata Q30188),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3487,asignar,683179,Bușteni (PPL); centroide en Bucarest (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,3949,sin-geonameid,,Menorca es isla (GN 2513925; Wikidata Q52636),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4072,asignar,1250935,Arugam Bay (PPL) a 1.0 km; 1250936 es la bahía,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4078,asignar,1247018,Embilipitiya (PPL); Wikidata Q4802021,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4081,asignar,1242089,Kalpitiya (PPL) a 3.5 km; Wikidata Q14220105,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4207,sin-geonameid,,Kilimanjaro es montaña y región (GN 157452; Wikidata Q7296); centroide en Moshi (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4241,sin-geonameid,,Koh Yao es archipiélago (Ko Yao Noi y Ko Yao Yai),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4341,asignar,302903,Pamukkale (PPL) a 0.4 km; Wikidata P1566 = 302903,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4624,sin-geonameid,,Maui es isla (GN 5850862; Wikidata Q188705),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4879,asignar,1245159,Habarana (PPL); Wikidata Q5636630; centroide no confiable,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4880,asignar,1250497,Balapitiya (PPL) a 0.7 km; Wikidata Q4076412,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4881,asignar,1239978,Kitulgala (PPL) a 1.4 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4882,asignar,1229323,Pussellawa (PPL) a 3.5 km; Wikidata Q7261927,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4885,asignar,10227170,Passikudah (PPLX) a 1.0 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4913,asignar,1226371,Tissamaharama (PPL); Wikidata Q1729871,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,4937,asignar,824288,Tsqaltubo (PPLA2) a 10.9 km; centroide en Kutaisi,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,5127,sin-geonameid,,Nosy Be es isla (Hell-Ville 1076105 es su pueblo); centroide de relleno en Greenwich,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,5199,asignar,2476028,Tipasa (PPLA); centroide en Argel (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,5303,sin-geonameid,,Karang Asem es regencia (GN 7086954 ADM2); su capital es Amlapura,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,5835,asignar,1819729,Hong Kong (PPLC); en GeoNames el país es HK y FREETOUR lo da como CN,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6120,asignar,3118822,Lastres (PPL); Wikidata Q1022266,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6143,sin-geonameid,,Pu Luong es reserva natural; centroide en Hanói (salida),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6169,asignar,3428113,San Telmo barrio de Buenos Aires (PPLX); Wikidata Q1026688,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6186,sin-geonameid,,Condado de Pingtung es condado (GN 1670479 ADM),Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6205,asignar,2267792,Fuzeta (PPL) a 0.3 km,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6235,sin-geonameid,,Azores es archipiélago,Claude (propuesta G7; firma el PO al aprobar el PR)
-freetour,6298,asignar,2611396,Tórshavn (PPLC); en GeoNames el país es FO y FREETOUR lo da como DK,Claude (propuesta G7; firma el PO al aprobar el PR)
+freetour,270,asignar,7646709,Srimangal (Sylhet); nombre exacto único; el centroide es Dhaka (salida del tour),Claude propuso; PO firmó 6 nov 2026
+freetour,368,sin-geonameid,,Chapada Diamantina es meseta y parque nacional (GN 3464726 upland; Wikidata Q1062622),Claude propuso; PO firmó 6 nov 2026
+freetour,448,asignar,8556211,Praia do Rosa (aldea PPL) a 1.3 km; GN 7506756 es la playa,Claude propuso; PO firmó 6 nov 2026
+freetour,755,sin-geonameid,,Sal es isla de Cabo Verde; Palmeira y São João son pueblos de la isla,Claude propuso; PO firmó 6 nov 2026
+freetour,756,sin-geonameid,,Isla de Santiago (GN 3374199 island; Wikidata Q108448); centroide en Praia,Claude propuso; PO firmó 6 nov 2026
+freetour,764,sin-geonameid,,Isla de Pascua es isla; Hanga Roa (4030754) es el pueblo,Claude propuso; PO firmó 6 nov 2026
+freetour,792,asignar,1816705,Beihai (Guangxi) PPLA2 pob. 525 mil; Wikidata Q210365; el centroide cae en Lanzhou: revisar el tour,Claude propuso; PO firmó 6 nov 2026
+freetour,928,asignar,3667573,Taganga (PPL) a 0.2 km; corregimiento de Santa Marta,Claude propuso; PO firmó 6 nov 2026
+freetour,950,asignar,6943120,Manuel Antonio (PPL) a 2.4 km; el parque nacional es 6621167,Claude propuso; PO firmó 6 nov 2026
+freetour,1165,sin-geonameid,,Oasis de Bahariya (GN 359360 oasis; Wikidata Q738878); pueblo principal Bawiti 361394,Claude propuso; PO firmó 6 nov 2026
+freetour,1400,asignar,6616911,Le Mont-Saint-Michel (comuna ADM4); Wikidata Q20892,Claude propuso; PO firmó 6 nov 2026
+freetour,1589,asignar,6942392,Agía Pelagía (Creta) PPL a 0.8 km,Claude propuso; PO firmó 6 nov 2026
+freetour,1608,sin-geonameid,,Etolia-Acarnania es unidad regional; centroide en Atenas (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,1691,sin-geonameid,,Santorini es isla (GN 252919; Wikidata Q129296); Firá 252920 es la capital,Claude propuso; PO firmó 6 nov 2026
+freetour,1719,sin-geonameid,,Lago de Atitlán es lago (GN 3599628; Wikidata Q273276),Claude propuso; PO firmó 6 nov 2026
+freetour,1896,asignar,1261481,New Delhi (PPLC) a 0.6 km; Wikidata coincide (Q987); Delhi 1273294 es otra entidad,Claude propuso; PO firmó 6 nov 2026
+freetour,1966,asignar,6693818,Seminyak (PPL) a 1.4 km; Wikidata Q1026424,Claude propuso; PO firmó 6 nov 2026
+freetour,2363,sin-geonameid,,Lago de Como es lago (GN 3178228; Wikidata Q15523); centroide en Milán (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,2407,asignar,3173524,Meta (comune de Meta di Sorrento) a 3.7 km; centroide en Sorrento,Claude propuso; PO firmó 6 nov 2026
+freetour,2688,asignar,1863967,Fukuoka (PPLA); Wikidata coincide (Q26600); el centroide cae en Takaoka: revisar el tour,Claude propuso; PO firmó 6 nov 2026
+freetour,2696,asignar,1853992,Onomichi (prefectura de Hiroshima) a 1.5 km,Claude propuso; PO firmó 6 nov 2026
+freetour,2737,sin-geonameid,,Monte Fuji es volcán (GN 1864094; Wikidata Q39231); centroide en Tokio (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,2778,asignar,609655,Karagandy (PPLA); Wikidata Q484706; centroide en Astana (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,2783,sin-geonameid,,Masai Mara es reserva (GN 187536; Wikidata Q207724); centroide en Nairobi (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,2865,asignar,1734759,Malacca (PPLA); centroide no confiable en Seremban,Claude propuso; PO firmó 6 nov 2026
+freetour,2956,asignar,3818742,San Andrés Cholula (PPL) a 0.9 km; Wikidata P1566 = 3818742; Cholula 3530757 es San Pedro,Claude propuso; PO firmó 6 nov 2026
+freetour,2959,asignar,8858102,Teotihuacán de Arista (nombre oficial de San Juan Teotihuacán) PPL a 1.3 km,Claude propuso; PO firmó 6 nov 2026
+freetour,3010,sin-geonameid,,Atlas es cordillera (GN 2556769; Wikidata Q130135),Claude propuso; PO firmó 6 nov 2026
+freetour,3019,asignar,2546063,Imlil (PPL) a 1.0 km; Imelil 2546292 es caserío vecino,Claude propuso; PO firmó 6 nov 2026
+freetour,3023,asignar,2542444,Merzouga (GN Marzouga PPL); Wikidata Q1922278; centroide no confiable,Claude propuso; PO firmó 6 nov 2026
+freetour,3026,asignar,6545518,Ourika (comuna ADM3 del valle de Ourika); Wikidata Q7111281; centroide en Marrakech,Claude propuso; PO firmó 6 nov 2026
+freetour,3027,sin-geonameid,,Cascadas de Ouzoud (atractivo natural); la aldea Ouzoud 2538514 queda a ~6 km,Claude propuso; PO firmó 6 nov 2026
+freetour,3049,sin-geonameid,,Chitwan es distrito y parque nacional; centroide en Katmandú (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,3050,asignar,1283378,Gorkha (PPL); Wikidata Q262223; centroide en Katmandú (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,3053,asignar,12095978,Lumbini Sanskritik (municipio ADM3 actual); el 7801227 de Wikidata es una división histórica,Claude propuso; PO firmó 6 nov 2026
+freetour,3165,sin-geonameid,,Ometepe es isla; Altagracia y Moyogalpa son sus pueblos,Claude propuso; PO firmó 6 nov 2026
+freetour,3254,asignar,3940098,Huacachina (PPL); Wikidata Q1632715; centroide en Ica,Claude propuso; PO firmó 6 nov 2026
+freetour,3266,asignar,3935636,Machupicchu (pueblo PPL); las ruinas son 3935634; centroide en Cusco (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,3302,asignar,1709632,Kalibo (PPLA); centroide en Iloilo (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,3318,sin-geonameid,,Siargao es isla; el centroide cae en Cavite: revisar el tour,Claude propuso; PO firmó 6 nov 2026
+freetour,3413,sin-geonameid,,Madeira es isla (GN 2266874; Wikidata Q30188),Claude propuso; PO firmó 6 nov 2026
+freetour,3487,asignar,683179,Bușteni (PPL); centroide en Bucarest (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,3949,sin-geonameid,,Menorca es isla (GN 2513925; Wikidata Q52636),Claude propuso; PO firmó 6 nov 2026
+freetour,4072,asignar,1250935,Arugam Bay (PPL) a 1.0 km; 1250936 es la bahía,Claude propuso; PO firmó 6 nov 2026
+freetour,4078,asignar,1247018,Embilipitiya (PPL); Wikidata Q4802021,Claude propuso; PO firmó 6 nov 2026
+freetour,4081,asignar,1242089,Kalpitiya (PPL) a 3.5 km; Wikidata Q14220105,Claude propuso; PO firmó 6 nov 2026
+freetour,4207,sin-geonameid,,Kilimanjaro es montaña y región (GN 157452; Wikidata Q7296); centroide en Moshi (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,4241,sin-geonameid,,Koh Yao es archipiélago (Ko Yao Noi y Ko Yao Yai),Claude propuso; PO firmó 6 nov 2026
+freetour,4341,asignar,302903,Pamukkale (PPL) a 0.4 km; Wikidata P1566 = 302903,Claude propuso; PO firmó 6 nov 2026
+freetour,4624,sin-geonameid,,Maui es isla (GN 5850862; Wikidata Q188705),Claude propuso; PO firmó 6 nov 2026
+freetour,4879,asignar,1245159,Habarana (PPL); Wikidata Q5636630; centroide no confiable,Claude propuso; PO firmó 6 nov 2026
+freetour,4880,asignar,1250497,Balapitiya (PPL) a 0.7 km; Wikidata Q4076412,Claude propuso; PO firmó 6 nov 2026
+freetour,4881,asignar,1239978,Kitulgala (PPL) a 1.4 km,Claude propuso; PO firmó 6 nov 2026
+freetour,4882,asignar,1229323,Pussellawa (PPL) a 3.5 km; Wikidata Q7261927,Claude propuso; PO firmó 6 nov 2026
+freetour,4885,asignar,10227170,Passikudah (PPLX) a 1.0 km,Claude propuso; PO firmó 6 nov 2026
+freetour,4913,asignar,1226371,Tissamaharama (PPL); Wikidata Q1729871,Claude propuso; PO firmó 6 nov 2026
+freetour,4937,asignar,824288,Tsqaltubo (PPLA2) a 10.9 km; centroide en Kutaisi,Claude propuso; PO firmó 6 nov 2026
+freetour,5127,sin-geonameid,,Nosy Be es isla (Hell-Ville 1076105 es su pueblo); centroide de relleno en Greenwich,Claude propuso; PO firmó 6 nov 2026
+freetour,5199,asignar,2476028,Tipasa (PPLA); centroide en Argel (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,5303,sin-geonameid,,Karang Asem es regencia (GN 7086954 ADM2); su capital es Amlapura,Claude propuso; PO firmó 6 nov 2026
+freetour,5835,asignar,1819729,Hong Kong (PPLC); en GeoNames el país es HK y FREETOUR lo da como CN,Claude propuso; PO firmó 6 nov 2026
+freetour,6120,asignar,3118822,Lastres (PPL); Wikidata Q1022266,Claude propuso; PO firmó 6 nov 2026
+freetour,6143,sin-geonameid,,Pu Luong es reserva natural; centroide en Hanói (salida),Claude propuso; PO firmó 6 nov 2026
+freetour,6169,asignar,3428113,San Telmo barrio de Buenos Aires (PPLX); Wikidata Q1026688,Claude propuso; PO firmó 6 nov 2026
+freetour,6186,sin-geonameid,,Condado de Pingtung es condado (GN 1670479 ADM),Claude propuso; PO firmó 6 nov 2026
+freetour,6205,asignar,2267792,Fuzeta (PPL) a 0.3 km,Claude propuso; PO firmó 6 nov 2026
+freetour,6235,sin-geonameid,,Azores es archipiélago,Claude propuso; PO firmó 6 nov 2026
+freetour,6298,asignar,2611396,Tórshavn (PPLC); en GeoNames el país es FO y FREETOUR lo da como DK,Claude propuso; PO firmó 6 nov 2026
+freetour,936,asignar,3624953,Provincia de Alajuela (ADM1): el tour es en Bijagua; la ciudad 3624955 no aplica,PO firmó 6 nov 2026
+freetour,2960,asignar,3985605,Estado de San Luis Potosí (ADM1): el tour es en la Huasteca; la capital 3985606 no aplica,PO firmó 6 nov 2026
+freetour,3922,sin-geonameid,,"mal etiquetada en FREETOUR (el tour es en Palma de Mallorca), avisar",PO firmó 6 nov 2026
+freetour,2779,asignar,8199180,Diani Beach (PPL); no Diani 8356717,PO firmó 6 nov 2026
+freetour,4243,asignar,1120400,Ao Nang (PPL); no Ban Ao Nang 1158377 ni el tambon 12641840,PO firmó 6 nov 2026

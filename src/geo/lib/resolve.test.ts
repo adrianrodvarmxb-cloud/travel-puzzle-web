@@ -43,7 +43,7 @@ describe("resolveCity: prioridad override > id exacto > aproximado", () => {
   });
 });
 
-describe("src/geo/data/city-overrides.csv (gate G7: Claude propone, el PO firma)", () => {
+describe("src/geo/data/city-overrides.csv (gate G7: Claude propuso, el PO firmó el 6 nov 2026)", () => {
   const text = readFileSync("src/geo/data/city-overrides.csv", "utf8");
   const rows = parseCsv(text);
   const parsed = parseCityOverrides(text);
@@ -54,7 +54,7 @@ describe("src/geo/data/city-overrides.csv (gate G7: Claude propone, el PO firma)
     for (const r of rows) {
       expect(r.provider).toBe("freetour");
       expect(r.nota.length).toBeGreaterThan(3);
-      expect(r.revisado_por).toMatch(/Claude/);
+      expect(r.revisado_por).toMatch(/PO firmó 6 nov 2026/);
     }
   });
 
@@ -66,7 +66,14 @@ describe("src/geo/data/city-overrides.csv (gate G7: Claude propone, el PO firma)
     }
   });
 
-  it("REQ-141: las dudosas quedan fuera (Alajuela, San Luis Potosí, La Palma, Diani, Krabi Ao Nang)", () => {
-    for (const id of [936, 2960, 3922, 2779, 4243]) expect(parsed.has(`freetour:${id}`)).toBe(false);
+  it("REQ-143: las 5 que eran dudosas llevan la decisión firmada por el PO (6 nov 2026)", () => {
+    const get = (id: number) => parsed.get(`freetour:${id}`);
+    expect(get(936)).toMatchObject({ action: "asignar", geonameid: 3624953 }); // Provincia de Alajuela (ADM1)
+    expect(get(2960)).toMatchObject({ action: "asignar", geonameid: 3985605 }); // Estado de San Luis Potosí (ADM1)
+    expect(get(3922)).toMatchObject({ action: "sin-geonameid", geonameid: null });
+    expect(get(3922)!.note).toBe("mal etiquetada en FREETOUR (el tour es en Palma de Mallorca), avisar");
+    expect(get(2779)).toMatchObject({ action: "asignar", geonameid: 8199180 }); // Diani Beach
+    expect(get(4243)).toMatchObject({ action: "asignar", geonameid: 1120400 }); // Ao Nang
+    expect(parsed.size).toBe(73);
   });
 });

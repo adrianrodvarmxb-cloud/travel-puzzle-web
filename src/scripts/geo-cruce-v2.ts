@@ -10,7 +10,7 @@ import { toCsv, cityName } from "../destinations/lib/dry-run";
 import { buildGeoIndex, centroid, matchCity, parseCoordinates, parseGeonamesLine, type Point as V1Point } from "../destinations/lib/geonames";
 import { iso2FromCountry } from "../destinations/lib/ids";
 import { parseCityAliases } from "../geo/lib/alias";
-import { parseAnCities, parseCountryOverrides, mapCountry } from "../geo/lib/country";
+import { parseAnCities, parseCityCountryOverrides, parseCountryOverrides, mapCountry } from "../geo/lib/country";
 import { buildGeoV2PendingSql, buildGeoV2Sql, planGeoV2, reviewCsvRows } from "../geo/lib/dry-run-v2";
 import { buildIndex, parseAltNameLine, parseCityLine, type AltName, type GeoPlace } from "../geo/lib/geonames-v2";
 import { parseCityOverrides } from "../geo/lib/resolve";
@@ -43,6 +43,7 @@ const overrides = {
   an: parseAnCities(read("an-cities.csv")),
   aliases: parseCityAliases(read("city-aliases.csv")),
   cities: parseCityOverrides(read("city-overrides.csv")),
+  cityCountries: parseCityCountryOverrides(read("city-country-overrides.csv")), // REQ-142
 };
 
 const countries = load<{ id: number; code: string }>(join(input, "countries.json"));
@@ -55,6 +56,7 @@ for (const c of countries) {
   const m = mapCountry(c, overrides.countries);
   if (m.countryCode) wanted.add(m.countryCode);
 }
+for (const o of overrides.cityCountries) wanted.add(o.countryCode); // REQ-142: HK, FO
 
 async function main() {
   const t0 = Date.now();

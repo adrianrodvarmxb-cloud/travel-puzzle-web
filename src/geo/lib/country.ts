@@ -70,13 +70,41 @@ export function parseAnCities(text: string): AnCity[] {
   });
 }
 
-/** REQ-134: país final de una ciudad. Para AN usa la tabla manual; sin fila aprobada no hay país ni página. */
+export interface CityCountryOverride {
+  provider: string;
+  providerCityId: number;
+  rawCode: string;
+  countryCode: string;
+}
+
+/** REQ-142: lee city-country-overrides.csv (país ISO propio de una ciudad, p. ej. Hong Kong CN → HK). Descarta filas sin id o sin ISO-2. */
+export function parseCityCountryOverrides(text: string): CityCountryOverride[] {
+  return parseCsv(text).flatMap((r) => {
+    const id = toId(r.provider_city_id);
+    const cc = (r.country_code ?? "").trim();
+    if (!id || !r.provider || !ISO2.test(cc)) return [];
+    return [{ provider: r.provider, providerCityId: id, rawCode: (r.codigo_crudo ?? "").toUpperCase(), countryCode: cc }];
+  });
+}
+
+/**
+ * REQ-134: país final de una ciudad. Para AN usa la tabla manual; sin fila aprobada no hay país ni página.
+ * REQ-142: antes, si la ciudad tiene override de país propio (y el país crudo coincide), manda ese ISO-2.
+ */
 export function mapCityCountry(
   cityId: number,
   country: CountryMapping,
   an: readonly AnCity[],
   provider = "freetour",
+  perCityCountry?: { rows: readonly CityCountryOverride[]; rawCode: string },
 ): CountryMapping & { reason?: string } {
+  const own = perCityCountry?.rows.find((r) => r.provider === provider && r.providerCityId === cityId);
+  if (own) {
+    const raw = (perCityCountry!.rawCode ?? "").toUpperCase().replace(/-\d+$/, "");
+    if (own.rawCode && own.rawCode !== raw)
+      return { ...country, countryCode: null, regionCode: null, indexable: false, perCity: false, source: "conflicto", reason: `override de país de la ciudad espera ${own.rawCode} y FREETOUR dice ${raw}` };
+    return { countryCode: own.countryCode, regionCode: null, indexable: true, perCity: false, source: "override" };
+  }
   if (!country.perCity) return country;
   const row = an.find((r) => r.provider === provider && r.providerCityId === cityId && r.estado === "aprobado");
   if (!row) return { ...country, countryCode: null, indexable: false, reason: "AN: falta decidir CW/SX/BQ para esta ciudad (an-cities.csv)" };

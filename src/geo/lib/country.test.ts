@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { parseCountryOverrides, parseAnCities, mapCountry, mapCityCountry } from "./country";
+import { readFileSync } from "node:fs";
+import { parseCountryOverrides, parseAnCities, mapCountry, mapCityCountry, parseCityCountryOverrides } from "./country";
 
 const COUNTRY_CSV = `provider,provider_country_id,codigo_crudo,country_code,region_code,indexable,por_ciudad,nota
 freetour,111,AN,,,si,si,Antillas Neerlandesas
@@ -62,5 +63,39 @@ describe("mapCityCountry (AN por ciudad)", () => {
 
   it("REQ-134: un país normal pasa igual", () => {
     expect(mapCityCountry(1, mapCountry({ id: 177, code: "SCT" }, overrides), an)).toMatchObject({ countryCode: "GB", regionCode: "GB-SCT" });
+  });
+});
+
+describe("país por ciudad (Hong Kong → HK, Tórshavn → FO; PO, 6 nov 2026)", () => {
+  const CSV = `provider,provider_city_id,codigo_crudo,country_code,nota,revisado_por
+freetour,5835,CN,HK,Hong Kong,PO
+freetour,6298,DK,FO,Tórshavn,PO
+freetour,7,CN,hkg,código mal formado,PO
+freetour,,CN,HK,sin id,PO
+`;
+  const rows = parseCityCountryOverrides(CSV);
+  const cn = mapCountry({ id: 46, code: "CN" }, overrides);
+  const dk = mapCountry({ id: 60, code: "DK" }, overrides);
+
+  it("REQ-142: lee el CSV y descarta filas sin id o con código que no es ISO-2", () => {
+    expect(rows.map((r) => r.providerCityId)).toEqual([5835, 6298]);
+  });
+
+  it("REQ-142: la ciudad toma su país ISO propio (HK, FO) con fuente «override»", () => {
+    expect(mapCityCountry(5835, cn, [], "freetour", { rows, rawCode: "CN" })).toMatchObject({ countryCode: "HK", source: "override", indexable: true });
+    expect(mapCityCountry(6298, dk, [], "freetour", { rows, rawCode: "DK" })).toMatchObject({ countryCode: "FO", source: "override" });
+  });
+
+  it("REQ-142: si el país crudo no coincide, no se aplica y la ciudad va a revisión (conflicto)", () => {
+    expect(mapCityCountry(5835, dk, [], "freetour", { rows, rawCode: "DK" })).toMatchObject({ countryCode: null, indexable: false, source: "conflicto" });
+  });
+
+  it("REQ-142: las demás ciudades del país no cambian", () => {
+    expect(mapCityCountry(1, cn, [], "freetour", { rows, rawCode: "CN" })).toMatchObject({ countryCode: "CN", source: "iso" });
+  });
+
+  it("REQ-142: el archivo real trae solo Hong Kong (HK) y Tórshavn (FO), firmados por el PO", () => {
+    const real = parseCityCountryOverrides(readFileSync("src/geo/data/city-country-overrides.csv", "utf8"));
+    expect(real.map((r) => [r.providerCityId, r.rawCode, r.countryCode])).toEqual([[5835, "CN", "HK"], [6298, "DK", "FO"]]);
   });
 });

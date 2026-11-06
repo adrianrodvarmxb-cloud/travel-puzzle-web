@@ -232,7 +232,7 @@ Notas:
 
 ## Identidad geográfica v2 — ensayo (5 nov 2026)
 Informe aprobado «Identidad geográfica del catálogo», pasos 1–5 (7 propuesto). Lógica en `src/geo/lib/`, tablas en `src/geo/data/`, ensayo en «Identidad geográfica v2 (ensayo)» (solo lectura). Gates: `docs/gates-geo-v2-2026-11.md`. Migración 0016 **sin aplicar**.
-Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porque REQ-122 ya es del PR #122 (buscador) y REQ-130 del PR #124 (Mascate). REQ-139…141 son los gates G5–G7. Gates firmados el 5 nov 2026: G1, G2, G5, G6 y G7 en este PR; **G3 (migración 0016) y G4 (escritura del geonameid) aprobados para el 6 nov**, después de la primera corrida del sync blindado, y siguen sin aplicar.
+Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porque REQ-122 ya es del PR #122 (buscador) y REQ-130 del PR #124 (Mascate). REQ-139…141 son los gates G5–G7 y REQ-142…143 son las firmas del PO del 6 nov 2026 (país por ciudad y las 5 dudosas). Gates firmados el 5 nov 2026: G1, G2, G5, G6 y G7 en este PR; **G3 (migración 0016) y G4 (escritura del geonameid) aprobados para el 6 nov**, después de la primera corrida del sync blindado, y siguen sin aplicar.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-131 | Normalización de nombres | `src/geo/lib/normalize.ts` | `normalize.test.ts` | CUMPLIDO |
@@ -245,6 +245,8 @@ Los REQ de este frente se renumeraron a REQ-131…138 (antes REQ-122…129) porq
 | REQ-138 | Atribución GeoNames CC BY 4.0 | `src/geo/lib/attribution.ts` | `attribution.test.ts` | CUMPLIDO |
 | REQ-139 | Atribución solo en /terminos, no en el pie, tras GEO_ATTRIBUTION_ENABLED="false" (G5) | `src/geo/lib/attribution.ts`, `src/components/legal/GeoAttribution.tsx`, `src/app/terminos/page.tsx`, `wrangler.jsonc` | `attribution.test.ts` | CUMPLIDO (bandera apagada) |
 | REQ-140 | Ensayo semanal cada lunes, solo lectura (G6) | `.github/workflows/geo-dry-run.yml` | `dry-run-workflow.test.ts` | CUMPLIDO (corre desde main tras el merge) |
-| REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firma del PO = aprobar el PR) |
+| REQ-141 | Overrides propuestos por Claude (G7): 68 de 73 | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO (firmado por el PO el 6 nov 2026) |
+| REQ-142 | País propio por ciudad: Hong Kong → HK, Tórshavn → FO | `src/geo/lib/country.ts`, `dry-run-v2.ts`, `src/scripts/geo-cruce-v2.ts`, `src/geo/data/city-country-overrides.csv` | `country.test.ts`, `dry-run-v2.test.ts` | CUMPLIDO (se escribe con la 0016: G3/G4) |
+| REQ-143 | Las 5 dudosas decididas por el PO (Alajuela ADM1, SLP ADM1, La Palma sin geonameid, Diani Beach, Ao Nang) | `src/geo/data/city-overrides.csv` | `resolve.test.ts` | CUMPLIDO |
 
 Ensayo #1 (6 nov 2026, id 42163176603): 1025 ciudades. Antes (v1, cities15000): 774 auto / 164 revisar / 87 sin candidato. Regla v2: 949 auto (92.6 %) / 70 / 6. Final con control: 952 auto, 67 revisar, 6 sin candidato; 178 geonameid nuevos por llenar (G4). Control: 774 de 774 coinciden (0 cambios). Wikidata: 73 consultadas, 0 lotes fallidos.

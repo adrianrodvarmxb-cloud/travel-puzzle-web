@@ -7,7 +7,7 @@ import { parseCoordinates } from "../../destinations/lib/geonames";
 import { cityName } from "../../destinations/lib/dry-run";
 import { resolveCityAlias, suggestAliases, type CityAlias } from "./alias";
 import { assessCentroids, type Point } from "./centroid";
-import { mapCityCountry, mapCountry, type AnCity, type CountryOverride } from "./country";
+import { mapCityCountry, mapCountry, type AnCity, type CityCountryOverride, type CountryOverride } from "./country";
 import { findCandidates, nearestInCountryKm, type GeoIndexV2 } from "./geonames-v2";
 import { resolveCity, type CityOverride, type ResolvedStatus, type Resolution } from "./resolve";
 import { decideMatch, type ScoredCandidate } from "./score";
@@ -18,7 +18,7 @@ export interface GeoV2Input {
   cities: ReadonlyArray<{ id: number; countryId: number; translations: unknown; geonameid?: number | null }>;
   tours: ReadonlyArray<{ cityId: number; coords?: string | null }>;
   index: GeoIndexV2;
-  overrides: { countries: readonly CountryOverride[]; an: readonly AnCity[]; aliases: readonly CityAlias[]; cities: ReadonlyMap<string, CityOverride> };
+  overrides: { countries: readonly CountryOverride[]; an: readonly AnCity[]; aliases: readonly CityAlias[]; cities: ReadonlyMap<string, CityOverride>; cityCountries?: readonly CityCountryOverride[] };
   wikidata?: ReadonlyMap<number, WdItem[]>;
   /** Estado del cruce v1 por ciudad (para «antes»); opcional. */
   baseline?: ReadonlyMap<number, string>;
@@ -96,7 +96,9 @@ export function planGeoV2(input: GeoV2Input) {
   const cityCountry = new Map(
     input.cities.map((c) => {
       const base = mapped.get(c.countryId) ?? { countryCode: null, regionCode: null, indexable: false, perCity: false, source: "pendiente" as const };
-      return [c.id, mapCityCountry(c.id, base, input.overrides.an, provider)];
+      // REQ-142: país propio por ciudad (Hong Kong → HK, Tórshavn → FO) antes del país de FREETOUR.
+      const rawCode = countryById.get(c.countryId)?.code ?? "";
+      return [c.id, mapCityCountry(c.id, base, input.overrides.an, provider, { rows: input.overrides.cityCountries ?? [], rawCode })];
     }),
   );
   const isoOfUnit = (u: number) => cityCountry.get(u)?.countryCode ?? cityCountry.get(units.get(u)!.members[0])?.countryCode ?? null;
