@@ -1,0 +1,44 @@
+# REQ-154 (PO, 6 nov 2026: "hazlo tú"): crea UNA llave aleatoria y la carga como secreto en los dos Workers, sin que
+# nadie la vea: AGENTE_TOKEN en travel-puzzle-web y CATALOGO_TRAVEL_PUZZLE en mila-zoefel. Solo se corre a mano.
+# Correrlo otra vez rota la llave en los dos lados al mismo tiempo.
+name: Llave del agente (catálogo)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Grupo propio: compartir el de deploy-cloudflare dejaría que esta corrida cancelara una publicación en fila.
+concurrency:
+  group: llave-agente
+  cancel-in-progress: false
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+
+jobs:
+  llave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Crear y cargar la llave (nunca se imprime)
+        run: |
+          set +x
+          llave=$(openssl rand -hex 32)
+          echo "::add-mask::$llave"
+          printf '%s' "$llave" | npx wrangler secret put AGENTE_TOKEN --name travel-puzzle-web > /dev/null
+          echo "Cargada en travel-puzzle-web (AGENTE_TOKEN)."
+          printf '%s' "$llave" | npx wrangler secret put CATALOGO_TRAVEL_PUZZLE --name mila-zoefel > /dev/null
+          echo "Cargada en mila-zoefel (CATALOGO_TRAVEL_PUZZLE)."
+          unset llave
+      - name: Comprobar que existen (solo nombres)
+        run: |
+          npx wrangler secret list --name travel-puzzle-web --format json | jq -r '.[].name' | grep -x AGENTE_TOKEN
+          npx wrangler secret list --name mila-zoefel --format json | jq -r '.[].name' | grep -x CATALOGO_TRAVEL_PUZZLE
