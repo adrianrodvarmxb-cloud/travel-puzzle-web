@@ -300,3 +300,9 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
 |---|---|---|---|
 | REQ-480 | "El nombre de la categoría es «Pieza libre»: chip «Free tours» de los filtros de /tours → «Pieza libre» e insignia azul «FREE TOUR» → «PIEZA LIBRE»" (PO, 6 nov 2026, 10:45; corrección 10:46: el precio verde «Free tour» de las tarjetas se queda) | Dado el sitio actual (sin bandera, solo texto), cuando se ven el chip de tipo en /tours y la insignia azul sobre la foto de las tarjetas (/tours, inicio y sus carruseles) y de la ficha, entonces dicen «Pieza libre» («Free tour» en inglés y demás idiomas, pendiente de firma); el precio «Free tour», el título real (FREETOUR C4) y la colección «La Primera Pieza» no cambian. | CUMPLIDO |
+
+## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24)
+
+| ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-530 | "[En /tours] los filtros no dan scroll hasta que pasan todas las opciones del medio" | Dado /tours en escritorio (≥1024 px), cuando el visitante baja la página o gira la rueda sobre la columna de filtros, entonces la columna queda fija bajo el header (sticky, `top` 6rem), cabe en la ventana (`max-height: calc(100vh - 7rem)`) y se recorre con su propio scroll hasta el último filtro sin mover la página ni esperar a que pase la cuadrícula. En celular no cambia: el botón «Filtros» abre la hoja a pantalla completa (REQ-056). | CUMPLIDO (falta OK del PO para publicar) |

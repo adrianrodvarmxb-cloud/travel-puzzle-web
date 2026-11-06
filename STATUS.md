@@ -368,3 +368,8 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | Precisión por tema (última muestra) | ≥ 90 % para publicar | por medir (muestra de 200 entregada al PO) |
 | Chips, conteos o secciones en cero | 0 | no existen todavía |
 | Uso de filtros por formato y tema | medir 4 semanas y fijar meta | — |
+
+## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-530 | Columna de filtros sticky bajo el header con scroll propio; celular sin cambio | `src/tours/lib/filters-layout.ts`, `src/components/tours/filters/FiltersSheet.tsx` | `src/tours/lib/filters-layout.test.ts`; navegador real: `npx tsx src/scripts/filters-scroll-check.ts <url>` | CUMPLIDO (falta OK del PO) |
