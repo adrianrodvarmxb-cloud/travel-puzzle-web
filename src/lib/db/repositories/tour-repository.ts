@@ -1,8 +1,9 @@
 import { prisma } from '@/lib/prisma';
 import { paginatedQuery, buildPaginationLinks, PaginationParams, PaginatedResponse } from '../pagination';
 import { loadCatalog } from '@/catalog/snapshot';
-import { queryCatalog } from '@/catalog/lib/query';
+import { queryCatalog, splitDestination, type CatalogEntry } from '@/catalog/lib/query';
 import { rankedTourIds } from '@/search/ranked';
+import { isSearchV2 } from '@/search/lib/fts-query';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
@@ -107,7 +108,17 @@ export async function getToursFromCatalog(
   baseUrl: string = '/api/tours'
 ): Promise<PaginatedResponse<TourWithRelations>> {
   const language = filters.language || 'en';
-  const [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
+  // REQ-122: con SEARCH_V2_ENABLED="true", el destino dentro del texto se separa y el resto se busca dentro de él.
+  // Con la bandera apagada, exactamente lo de antes (rankedTourIds devuelve null).
+  const searchV2 = isSearchV2(process.env.SEARCH_V2_ENABLED);
+  let entries: CatalogEntry[], ranked: string[] | null;
+  if (searchV2) {
+    entries = await loadCatalog(language);
+    const split = splitDestination(entries, pagination.searchValue);
+    ranked = split ? (split.rest ? await rankedTourIds(language, split.rest, split.name) : null) : await rankedTourIds(language, pagination.searchValue);
+  } else {
+    [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
+  }
   const { ids, total, page, limit } = queryCatalog(entries, {
     countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
     minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
@@ -116,6 +127,7 @@ export async function getToursFromCatalog(
     privateOnly: filters.privateOnly, hotelPickup: filters.hotelPickup, novelty: filters.novelty,
     durMin: filters.durMin, durMax: filters.durMax,
     ranked, // REQ-048: relevancia FTS5 (null = búsqueda por palabras)
+    searchV2, // REQ-122
   }, pagination);
   const rows = ids.length
     ? await prisma.tour.findMany({
