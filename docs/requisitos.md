@@ -265,3 +265,9 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-421 (tipo de grupo) · REQ-422 (dificultad 1–5) · REQ-423 (rangos de días) | `src/taxonomy/lib/circuits.ts` | `circuits.test.ts` | CUMPLIDO en lib (se muestra en T6) |
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
+
+### «Pieza libre» en la ciudad, los pines del mapa y los asuntos de los correos (decisión del PO, 6 nov 2026)
+
+| REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
+|---|---|---|---|
+| REQ-271 | "El nombre de la categoría es «Pieza libre» en TODO lo que la nombre; la única excepción es el texto verde «Free tour» del precio en las tarjetas. Inglés: «Free tour»" (PO, vía coordinador, 6 nov 2026; la pestaña de /tours y la insignia van en #189) | Dada la página de una ciudad, cuando se pinta, entonces la sección se llama «Pieza libre (La Primera Pieza)» y la intro dice «N en Pieza libre y M tours con guías locales en {ciudad}»; dado el mapa de /tours, entonces el pin de un tour gratis dice «Pieza libre» (en: «Free tour») y su tarjeta conserva el precio verde «Free tour»; dado un correo sin el título del tour, entonces el asunto dice «Pieza libre {id}» (en: «Free tour {id}»). | CUMPLIDO (src/destinations/lib/pieza-libre-copy.test.ts) |

@@ -1,3 +1,4 @@
+import { cityFreeIntro, freeSectionTitle } from '@/destinations/lib/pieza-libre-copy';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -49,9 +50,9 @@ export default async function CityPage({ params }: Props) {
     const rates = city.paidTours.length ? await loadFx().catch(() => null) : null;
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
-            intro={`${city.freeTours.length} free tours y ${tours.length} tours con guías locales en ${city.name}.`}>
+            intro={cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
             {city.freeTours.length > 0 && (
-                <Section id="free-tours" title={`Free tours (${PRIMERA_PIEZA_LABEL})`} subtitle="Reservar es gratis; al final le das al guía lo que consideres justo.">
+                <Section id="free-tours" title={freeSectionTitle()} subtitle="Reservar es gratis; al final le das al guía lo que consideres justo.">
                     <TourGrid tours={city.freeTours} />
                 </Section>
             )}
