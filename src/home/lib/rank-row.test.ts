@@ -19,6 +19,12 @@ describe("REQ-185: filas de la base validadas antes de rankear", () => {
     expect(ok.map((x) => x.id)).toEqual(["t2"]);
   });
 
+  it("REQ-189: se salta la experiencia cuyo título (es o en) dice FreeTour o «free tour»", () => {
+    const { ok, branded } = parseTourRankRows([row({ id: "a", titleEs: "Free Tour de Budapest" }), row({ id: "b", titleEn: "FREETOUR Lima" }), row({ id: "c" })]);
+    expect(ok.map((x) => x.id)).toEqual(["c"]);
+    expect(branded).toBe(2);
+  });
+
   it("REQ-185: sin nombre de ciudad usa el id (la diversidad no se rompe)", () => {
     expect(parseTourRankRows([row({ cityName: null })]).ok[0].city).toBe("city:5");
   });

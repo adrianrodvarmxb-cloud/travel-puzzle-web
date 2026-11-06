@@ -26,19 +26,19 @@ describe("datos del inicio", () => {
     const review = { id: 1, tourExternalId: 99, reviewerName: "Ana", language: "Spanish", title: null, content: "Excelente recorrido por la ciudad", rate: 5, addedAt: new Date("2026-10-30") };
     const prisma = fakePrisma({
       tour: {
-        findMany: async () => [{ id: "t99", externalId: 99, city: { translations: { en: "Budapest", es: "Budapest" } }, translations: [{ language: "es", title: "Free Tour de Budapest" }] }],
+        findMany: async () => [{ id: "t99", externalId: 99, city: { translations: { en: "Budapest", es: "Budapest" } }, translations: [{ language: "es", title: "Recorrido por Budapest" }] }],
       },
     });
     const out = await loadHomeData({ prisma, highlights: { ...noHighlights, listRecentFiveStar: async () => [review] }, includePaid: false, lang: "es" });
     expect(out.reviews).toHaveLength(1);
-    expect(out.reviews[0].tour).toEqual({ id: "t99", titles: { es: "Free Tour de Budapest" }, cityNames: { en: "Budapest", es: "Budapest" } });
+    expect(out.reviews[0].tour).toEqual({ id: "t99", titles: { es: "Recorrido por Budapest" }, cityNames: { en: "Budapest", es: "Budapest" } });
   });
 });
 
 describe("REQ-185/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_ENABLED)", () => {
   const tourRow = (id: string, o: Record<string, unknown> = {}) => ({
     id, externalId: Number(id.slice(1)), cityId: Number(id.slice(1)), cityName: `City ${id}`, countryCode: "es", categoryId: 12, durationMinutes: 120,
-    price: 0, rating: 4.8, reviews: 400, titleEs: `Free tour ${id}`, titleEn: `Free tour ${id}`, ...o,
+    price: 0, rating: 4.8, reviews: 400, titleEs: `Tour ${id}`, titleEn: `Tour ${id}`, ...o,
   });
   const hydrated = (id: string) => ({
     id, externalId: Number(id.slice(1)), titleImageURL: `https://img/${id}.jpg`, priceValue: 0, priceCurrency: "EUR", duration: "2:00", rating: 4.8, reviewsNumber: 400,
@@ -46,12 +46,12 @@ describe("REQ-185/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
   });
   const trip = { id: "v1", path: "/viajes/paracas", code: "IWP-LIM-08", kind: "tour", title: "Paracas e Islas Ballestas desde Lima", summary: "", image: "https://img/v1.jpg", countries: ["PE"], places: "Perú", cities: ["Lima"], durationDays: 1, price: null, priceFrom: null, languages: [], dates: [], group: "excursiones", freeCancel: false, private: false, hotelPickup: false, createdAt: 0, durationMinutes: 1440, dayTrip: true } as unknown as import("@/trips/public-load").TripCard;
 
-  function prismaWith(rows: { all: unknown[]; day: unknown[] }) {
+  function prismaWith(rows: { all: unknown[]; day: unknown[] }, titleOf: (id: string) => string = (id) => `Tour ${id}`) {
     const $queryRaw = async (strings: TemplateStringsArray, ...values: unknown[]) => {
       if (strings.join("?").includes("SUM(")) return [{ s: 4800, v: 1000 }];
       return values.includes(600) ? rows.day : rows.all; // LIMIT 600 = consulta de excursiones
     };
-    const p = fakePrisma({ tour: { findMany: async (q: { where: { id: { in: string[] } } }) => q.where.id.in.map(hydrated) } }) as unknown as Record<string, unknown>;
+    const p = fakePrisma({ tour: { findMany: async (q: { where: { id: { in: string[] } } }) => q.where.id.in.map((id) => ({ ...hydrated(id), translations: [{ language: "es", title: titleOf(id) }] })) } }) as unknown as Record<string, unknown>;
     return { ...p, $queryRaw } as unknown as PrismaClient;
   }
 
@@ -80,5 +80,37 @@ describe("REQ-185/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
     const out = await loadHomeData({ prisma: fakePrisma(), highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
     expect(out.dayTrips).toEqual([]);
     expect(out.featured).toEqual([]);
+  });
+
+  it("REQ-189: si un título en otro idioma dice «free tour», se salta y entra la siguiente", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.99 }), tourRow("t2", { rating: 4.9 }), tourRow("t3", { rating: 4.85 })], day: [] }, (id) => (id === "t1" ? "Il miglior free tour di Roma" : `Tour ${id}`));
+    const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
+    expect(out.featured.map((t) => t.id)).toEqual(["t2", "t3"]);
+  });
+});
+
+describe("REQ-189: reseñas y favoritos sin títulos que digan FreeTour (sin depender de la bandera)", () => {
+  it("REQ-189: la reseña de un tour cuyo título dice «free tour» se salta", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const rev = (id: number) => ({ id, tourExternalId: id, reviewerName: "Ana", language: "Spanish", title: null, content: "Excelente recorrido por la ciudad", rate: 5, addedAt: new Date("2026-10-30") });
+    const prisma = fakePrisma({
+      tour: {
+        findMany: async () => [
+          { id: "a", externalId: 1, city: { translations: { es: "Roma" } }, translations: [{ language: "es", title: "Free Tour de Roma" }] },
+          { id: "b", externalId: 2, city: { translations: { es: "Lima" } }, translations: [{ language: "es", title: "Lima colonial" }] },
+        ],
+      },
+    });
+    const out = await loadHomeData({ prisma, highlights: { ...noHighlights, listRecentFiveStar: async () => [rev(1), rev(2)] }, includePaid: false, lang: "es" });
+    expect(out.reviews.map((r) => r.tour?.id)).toEqual(["b"]);
+  });
+
+  it("REQ-189: «Los más elegidos» con la regla anterior también se salta esos títulos", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const t = (id: string, title: string) => ({ id, externalId: 1, cityId: id.charCodeAt(0), titleImageURL: "https://i/x.jpg", priceValue: 0, priceCurrency: "EUR", duration: "2:00", rating: 4.9, reviewsNumber: 900, country: { code: "IT" }, city: { translations: {} }, translations: [{ language: "es", title }] });
+    const prisma = fakePrisma({ tour: { findMany: async () => [t("a", "Free Tour de Roma"), t("b", "Roma antigua")] } });
+    const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es" });
+    expect(out.featured.map((x) => x.id)).toEqual(["b"]);
   });
 });
