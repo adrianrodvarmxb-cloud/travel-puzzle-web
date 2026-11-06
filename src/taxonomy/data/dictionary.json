@@ -269,8 +269,8 @@
         "fr": "Moments signature",
         "it": "Momenti d'autore"
       },
-      "apoyo_es": "Actividades únicas operadas por expertos locales",
-      "apoyo_estado": "por_firmar",
+      "apoyo_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
+      "apoyo_estado": "firmado",
       "palabras": [
         "class",
         "classes",
@@ -281,7 +281,7 @@
         "cooking",
         "cocina"
       ],
-      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3): firmado por recomendación, PO 6-11 07:04 (vía coordinador). Apoyo: por firmar."
+      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto)."
     },
     {
       "slug": "tour",
