@@ -10,6 +10,11 @@ on:
     branches: [feat/ola3-slugs]
     paths: [src/destinations/lib/**, src/scripts/slugs-ensayo.ts, src/scripts/geonames-cruce.ts, .github/workflows/identidad-ensayo.yml]
   workflow_dispatch:
+    inputs:
+      escribir:
+        description: "Escribir en producción: llena ISO-2, slugs y geonameid SOLO donde están vacíos (candado: OK del PO)"
+        type: boolean
+        default: false
 permissions:
   contents: read
 env:
@@ -58,6 +63,19 @@ jobs:
           unzip -o -q geonames/cities15000.zip -d geonames
       - name: Cruce con GeoNames (ensayo)
         run: npx tsx src/scripts/geonames-cruce.ts geonames/cities15000.txt export salida
+      - name: Escribir en producción (solo con escribir=true)
+        if: github.event_name == 'workflow_dispatch' && inputs.escribir
+        run: |
+          set -euo pipefail
+          # Respaldo: export/ (países, ciudades y tours antes de escribir) va en el artefacto.
+          # Los .sql solo llenan columnas vacías (WHERE … IS NULL): correrlo dos veces no cambia nada.
+          npx wrangler d1 execute travel-puzzle --remote --file salida/identidad.sql
+          npx wrangler d1 execute travel-puzzle --remote --file salida/geonames.sql
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1" | jq -r '.[0].results[0].n'; }
+          echo "Tours con slug: $(q 'SELECT COUNT(*) AS n FROM "Tour" WHERE "slug" IS NOT NULL')"
+          echo "Ciudades con slug: $(q 'SELECT COUNT(*) AS n FROM "City" WHERE "slug" IS NOT NULL')"
+          echo "Países con ISO-2: $(q 'SELECT COUNT(*) AS n FROM "Country" WHERE "iso2" IS NOT NULL')"
+          echo "Ciudades con geonameid: $(q 'SELECT COUNT(*) AS n FROM "City" WHERE "geonameid" IS NOT NULL')"
       - name: Resumen
         if: always()
         run: |
@@ -65,4 +83,4 @@ jobs:
           [ -f salida/geonames-resumen.json ] && cat salida/geonames-resumen.json || true
       - uses: actions/upload-artifact@v4
         if: always()
-        with: { name: identidad-ensayo, path: salida, retention-days: 14 }
+        with: { name: identidad-ensayo, path: "salida\nexport", retention-days: 30 }
