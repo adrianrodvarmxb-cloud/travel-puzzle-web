@@ -73,6 +73,7 @@ type PlacesRepo = Pick<CatalogRepo, "existingCityIds" | "existingCountryIds" | "
  * Antes de guardar tours, sus países y ciudades deben existir (llaves foráneas).
  * Solo agrega lo que falta; las ciudades se piden a la API solo si aún no existen.
  * La usan el sync de hoy y el sync blindado.
+ * REQ-130: una ciudad que ya existe nunca se reescribe; un nombre corregido a mano (Moscatel → Mascate) sobrevive al sync.
  */
 export async function ensurePlaces({ api, repo, tours, allCountries }: {
   api: Deps["api"];
