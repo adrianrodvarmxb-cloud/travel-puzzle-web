@@ -147,6 +147,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
+| REQ-302 | Correos con el encabezado y logo de Travel Puzzle, incluidos los avisos internos | `src/payments/lib/email.ts`, `src/notifications/lib/manual-cancel-email.ts`, `api/reserva/[token]/cancelar/route.ts` | `email.test.ts`, `manual-cancel-email.test.ts` | CUMPLIDO |
 | REQ-300 | Reservas, cancelación, modificar y eventos sin segundo encabezado: solo el del home; ayuda por burbuja de WhatsApp | `src/components/booking/email-ui.tsx` (EmailFrame, `cardHeader`), `email-ui.test.ts`, `site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-301 | Rutas exentas del header común solo con motivo (admin, moderación interna, auth apagado, api) | `src/layout/site-header.test.ts` | unitarias | CUMPLIDO |
 | REQ-029 | D1 saturada: reintento | `src/tours/lib/d1-load.ts`, `src/actions/tours.ts` | `d1-load.test.ts` | CUMPLIDO |
