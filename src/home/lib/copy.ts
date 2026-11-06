@@ -72,6 +72,10 @@ const es = {
   reviewsSub: "Lo que cuentan quienes ya recorrieron estas ciudades.",
   avgLabel: "CALIFICACIÓN PROMEDIO",
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
+  // REQ-188: carrusel «Excursiones de un día» (definición del diccionario de taxonomía; sin promesas ni proveedor)
+  dayEyebrow: "EXCURSIONES DE UN DÍA",
+  dayHeadline: "Excursiones de un día.",
+  daySub: "Sales de la ciudad y vuelves el mismo día.",
 };
 
 type Copy = typeof es;
@@ -148,6 +152,9 @@ const en: Copy = {
   reviewsSub: "What people who already explored these cities have to say.",
   avgLabel: "AVERAGE RATING",
   expertEyebrowN: "07 — PERSONAL ADVICE",
+  dayEyebrow: "DAY TRIPS",
+  dayHeadline: "Day trips.",
+  daySub: "Leave the city and be back the same day.",
 };
 
 export function homeCopy(lang: string): Copy {

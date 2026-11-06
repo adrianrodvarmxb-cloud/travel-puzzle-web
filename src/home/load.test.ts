@@ -34,3 +34,51 @@ describe("datos del inicio", () => {
     expect(out.reviews[0].tour).toEqual({ id: "t99", titles: { es: "Free Tour de Budapest" }, cityNames: { en: "Budapest", es: "Budapest" } });
   });
 });
+
+describe("REQ-185/188: carruseles con el medidor de reseñas (CARRUSELES_HOME_ENABLED)", () => {
+  const tourRow = (id: string, o: Record<string, unknown> = {}) => ({
+    id, externalId: Number(id.slice(1)), cityId: Number(id.slice(1)), cityName: `City ${id}`, countryCode: "es", categoryId: 12, durationMinutes: 120,
+    price: 0, rating: 4.8, reviews: 400, titleEs: `Free tour ${id}`, titleEn: `Free tour ${id}`, ...o,
+  });
+  const hydrated = (id: string) => ({
+    id, externalId: Number(id.slice(1)), titleImageURL: `https://img/${id}.jpg`, priceValue: 0, priceCurrency: "EUR", duration: "2:00", rating: 4.8, reviewsNumber: 400,
+    city: { translations: { es: `City ${id}` } }, translations: [{ language: "es", title: `Tour ${id}` }],
+  });
+  const trip = { id: "v1", path: "/viajes/paracas", code: "IWP-LIM-08", kind: "tour", title: "Paracas e Islas Ballestas desde Lima", summary: "", image: "https://img/v1.jpg", countries: ["PE"], places: "Perú", cities: ["Lima"], durationDays: 1, price: null, priceFrom: null, languages: [], dates: [], group: "excursiones", freeCancel: false, private: false, hotelPickup: false, createdAt: 0, durationMinutes: 1440, dayTrip: true } as unknown as import("@/trips/public-load").TripCard;
+
+  function prismaWith(rows: { all: unknown[]; day: unknown[] }) {
+    const $queryRaw = async (strings: TemplateStringsArray, ...values: unknown[]) => {
+      if (strings.join("?").includes("SUM(")) return [{ s: 4800, v: 1000 }];
+      return values.includes(600) ? rows.day : rows.all; // LIMIT 600 = consulta de excursiones
+    };
+    const p = fakePrisma({ tour: { findMany: async (q: { where: { id: { in: string[] } } }) => q.where.id.in.map(hydrated) } }) as unknown as Record<string, unknown>;
+    return { ...p, $queryRaw } as unknown as PrismaClient;
+  }
+
+  it("REQ-185: «Los más elegidos» sale del medidor (bayesiano) y excluye traslados y online", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.6, reviews: 20000 }), tourRow("t2", { rating: 4.95, reviews: 900 }), tourRow("t3", { categoryId: 8, rating: 5, reviews: 9000 })], day: [] });
+    const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
+    expect(out.featured.map((t) => t.id)).toEqual(["t2", "t1"]);
+  });
+
+  it("REQ-188: «Excursiones de un día» mezcla tours con reseñas y viajes de proveedores sin reseñas (al final)", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const prisma = prismaWith({ all: [], day: [tourRow("t4", { categoryId: 4, durationMinutes: 600 }), tourRow("t5", { categoryId: 19, durationMinutes: 480 })] });
+    const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true, ownTrips: [trip] });
+    expect(out.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["t4", "v1"]);
+  });
+
+  it("REQ-188: con la bandera apagada no hay excursiones y «Los más elegidos» usa la regla anterior", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const out = await loadHomeData({ prisma: fakePrisma(), highlights: noHighlights, includePaid: false, lang: "es", ownTrips: [trip] });
+    expect(out.dayTrips).toEqual([]);
+  });
+
+  it("REQ-185: si el medidor falla, el inicio no se cae (excursiones vacías)", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const out = await loadHomeData({ prisma: fakePrisma(), highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
+    expect(out.dayTrips).toEqual([]);
+    expect(out.featured).toEqual([]);
+  });
+});

@@ -2,7 +2,7 @@
 import { createContext, useContext } from 'react';
 
 /** Banderas que el servidor decide y la UI de cliente solo lee (DIP: el menú no lee process.env). */
-export interface FeatureFlags { transfers: boolean; ownTrips?: boolean; primeraPieza?: boolean }
+export interface FeatureFlags { transfers: boolean; ownTrips?: boolean; primeraPieza?: boolean; /** REQ-188 */ dayTrips?: boolean }
 const Ctx = createContext<FeatureFlags>({ transfers: false, ownTrips: false, primeraPieza: false });
 
 export function FeatureFlagsProvider({ flags, children }: { flags: FeatureFlags; children: React.ReactNode }) {

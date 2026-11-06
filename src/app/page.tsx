@@ -18,7 +18,8 @@ import { cached, cacheKey, POLICY } from "@/cache/edge";
 import { withRetry } from "@/tours/lib/d1-load";
 import { createHighlightRepo } from "@/reviews/repository";
 import { HashScroll } from "@/components/home/v2/HashScroll";
-import { OwnTripsCarousel } from "@/components/home/v2/OwnTripsCarousel";
+import { DayTripsCarousel } from "@/components/home/v2/DayTripsCarousel";
+import { isHomeCarouselsEnabled } from "@/home/lib/flags";
 import { loadTripCards } from "@/trips/public-load";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
@@ -34,9 +35,11 @@ export default async function Home() {
   const lang = await getPreferredLanguage();
   const ownTrips = await loadTripCards(lang);
   const includePaid = env.PAID_TOURS_ENABLED === "true";
+  // REQ-185/188: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
+  const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
-  const data = await cached(cacheKey("home", { lang, includePaid }), POLICY.home, () =>
-    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang })),
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels) }), POLICY.home, () =>
+    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips })),
   );
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
@@ -50,7 +53,8 @@ export default async function Home() {
         <ProofStrip stats={data.stats} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
         <FeaturedTours tours={data.featured} />
-        <SectionBoundary name="carrusel-viajes"><OwnTripsCarousel trips={ownTrips} /></SectionBoundary>
+        {/* REQ-187: el carrusel «Viajes armados por nuestros expertos» se borró (PO, 6 nov 2026: la frase era falsa). */}
+        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} /></SectionBoundary>
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />
         <MapSection />

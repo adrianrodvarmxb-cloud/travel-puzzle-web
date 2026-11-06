@@ -17,6 +17,7 @@ import { ownTripDepartures } from "@/departures/sources/own-trips";
 import { summarize, HORIZON_DAYS } from "@/departures/lib/summary";
 import { policySummary } from "./lib/cancel-policy";
 import { ownTripGroup } from "@/tours/lib/extra-filters";
+import { isDayTripTrip } from "@/home/lib/experience-format";
 
 export const isOwnToursEnabled = (v: string | undefined) => v === "true";
 /** Interruptores leídos del entorno (viajes propios y transporte por separado). */
@@ -52,6 +53,8 @@ export interface TripCard {
   hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
   /** REQ-148: agencia dueña del viaje (null = Travel Puzzle), para el interruptor por proveedor del agente. */
   agencyId?: string | null;
+  /** REQ-188: excursión de un día (regla mínima REQ-186 con el título en es y en), para el carrusel del home. */
+  dayTrip?: boolean;
 }
 
 async function publishedRows() {
@@ -73,6 +76,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
     agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
+    dayTrip: isDayTripTrip({ kind: t.kind, durationDays: t.durationDays, titles: [t.titleEs, localized(tr, "en", "title", t.titleEs)] }), // REQ-188
   };
 }
 
@@ -83,7 +87,7 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   try {
     // REQ-047 (INC-004): con decenas de viajes, armar las tarjetas son ~N+2 consultas a D1 por visita a / y /tours.
     // Se cachean como el catálogo (REQ-032): una carga por ventana, compartida entre visitas; si falla, se sirve la última copia.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "3" }), POLICY.toursList, async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "4" }), POLICY.toursList, async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));

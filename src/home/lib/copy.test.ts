@@ -35,3 +35,11 @@ describe("línea de comunicación", () => {
     expect(homeCopy("es").footerSlogan).toBe("Te armamos tu viaje");
   });
 });
+
+describe("REQ-188: copy de «Excursiones de un día»", () => {
+  it("REQ-188: título y subtítulo en es y en, sin nombrar al proveedor", () => {
+    expect([homeCopy("es").dayHeadline, homeCopy("es").daySub]).toEqual(["Excursiones de un día.", "Sales de la ciudad y vuelves el mismo día."]);
+    expect([homeCopy("en").dayHeadline, homeCopy("en").daySub]).toEqual(["Day trips.", "Leave the city and be back the same day."]);
+    expect(homeCopy("fr").dayEyebrow).toBe("DAY TRIPS");
+  });
+});
