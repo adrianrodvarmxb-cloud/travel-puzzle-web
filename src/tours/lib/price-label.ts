@@ -40,3 +40,15 @@ export function cardPrice(t: CardPriceInput, rates: FxRates | null): { main: str
   if (!label) return { main: `Desde ${t.currency} ${Number.isInteger(t.price) ? t.price : t.price.toFixed(2)}`, approx: null };
   return { main: `Desde ${label.main}`, approx: label.approx };
 }
+
+export type CardPriceLabels = Record<string, { main: string; approx: string | null }>;
+
+/** REQ-170: etiquetas de precio por id para tarjetas de cliente (/tours, destacadas del inicio); se arman en el servidor (INC-001). */
+export function priceLabelsFor(items: readonly { id: string; price: number | string | null | undefined; currency: string | null | undefined }[], rates: FxRates | null, lang: string): CardPriceLabels {
+  const out: CardPriceLabels = {};
+  for (const it of items) {
+    const label = tourPriceLabel(Number(it.price ?? 0), String(it.currency ?? ""), rates, lang);
+    if (label) out[it.id] = { main: label.main, approx: label.approx };
+  }
+  return out;
+}

@@ -64,6 +64,8 @@ export function buildPaidTeamEmail(i: PayMailInput, adminUrl: string) {
   const subject = `Pago recibido ${i.ref} · ${kindLabel(i.kind)} ${formatMXN(i.centavos)}`;
   const lines = [`Folio: ${i.ref}`, `Viaje: ${i.tripTitle}`, `Concepto: ${kindLabel(i.kind)}`, `Monto: ${formatMXN(i.centavos)}`, "", `Panel: ${adminUrl}`];
   const text = lines.join("\n");
-  const html = `<pre style="font-family:Arial,sans-serif;font-size:14px">${esc(text)}</pre>`;
+  // REQ-302: el aviso interno también lleva el encabezado con el logo (antes era un <pre> suelto).
+  const body = `<tr><td style="padding:26px"><h1 style="margin:0 0 10px;font-size:22px;color:${UI.N9}">${esc(subject)}</h1><pre style="font-family:inherit;font-size:14px;line-height:1.6;color:${UI.N9};white-space:pre-wrap;margin:0">${esc(text)}</pre></td></tr>`;
+  const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · ${kindLabel(i.kind)}`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
   return { subject, html, text };
 }
