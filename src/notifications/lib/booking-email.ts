@@ -242,6 +242,8 @@ export function meetingPointText(mp: unknown, lang: EmailLang): string | null {
   return typeof v === "string" && v.trim() ? v : null;
 }
 
+// REQ-079: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
+// idioma, adultos y niños, refNumber, punto de encuentro y enlace de cancelación).
 export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const t = T[d.lang];
   const B = BRAND;
