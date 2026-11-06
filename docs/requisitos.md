@@ -273,3 +273,4 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T4 · REQ-412 (nunca un chip en cero) | conteos por formato de la consulta (`facets.formato`) + viajes propios | `filters.test.ts` | CUMPLIDO (apagado) |
 | T4 · REQ-410 (temas en muestra no se muestran) | `?tema=` no filtra hasta la firma de la muestra | — | Pendiente de la firma de la muestra |
 | T4 · REQ-261 (traslado, transporte y renta fuera de /tours) | `queryCatalog` con la taxonomía | `filters.test.ts` | CUMPLIDO (apagado) |
+| T4 · REQ-269 (chip «Pieza libre»; EN «Free tour» por ahora) | `src/taxonomy/lib/filters.ts` (`FORMATO_LABEL`) | `filters.test.ts` | CUMPLIDO (apagado) |
