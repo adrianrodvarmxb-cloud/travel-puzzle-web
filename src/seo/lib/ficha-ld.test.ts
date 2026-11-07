@@ -125,3 +125,26 @@ describe("REQ-577: «En breve» (respuesta primero)", () => {
     expect(enBreve({ ...base, provider: "freetour" })).toBeNull();
   });
 });
+
+describe("REQ-820: Product con image (Rich Results: «Fichas de comerciantes»)", () => {
+  it("REQ-820: las rutas relativas del sitio salen como URL absolutas del mismo origen", () => {
+    const n = fichaJsonLd({ ...base, images: ["/api/viajes/foto/trips/a.jpg", "/api/viajes/foto/trips/b.jpg"] });
+    expect(n.image).toEqual(["https://travelpuzzle.com.mx/api/viajes/foto/trips/a.jpg", "https://travelpuzzle.com.mx/api/viajes/foto/trips/b.jpg"]);
+  });
+  it("REQ-820: la principal y hasta 3 más, sin repetidas, vacías, http ni data:", () => {
+    const n = fichaJsonLd({ ...base, images: ["https://cdn.x/1.jpg", "https://cdn.x/1.jpg", "", null, "http://inseguro/2.jpg", "data:image/png;base64,AA", "//cdn.x/3.jpg", "https://cdn.x/4.jpg", "https://cdn.x/5.jpg", "https://cdn.x/6.jpg"] });
+    expect(n.image).toEqual(["https://cdn.x/1.jpg", "https://cdn.x/4.jpg", "https://cdn.x/5.jpg", "https://cdn.x/6.jpg"]);
+  });
+});
+
+describe("REQ-823: Offer sin datos que no existen", () => {
+  it("REQ-823: availability solo si se conoce; nunca shippingDetails ni hasMerchantReturnPolicy", () => {
+    const sin = fichaJsonLd({ ...base, availability: null });
+    expect((sin.offers as Record<string, unknown>).availability).toBeUndefined();
+    const con = fichaJsonLd({ ...base, availability: "InStock" });
+    expect((con.offers as Record<string, unknown>).availability).toBe("https://schema.org/InStock");
+    const all = JSON.stringify([sin, con]);
+    expect(all).not.toContain("shippingDetails");
+    expect(all).not.toContain("hasMerchantReturnPolicy");
+  });
+});

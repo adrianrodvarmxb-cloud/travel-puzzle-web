@@ -4,7 +4,7 @@ import { fichaFacets } from "./taxonomy-facets";
 describe("REQ-581: tipo principal y etiquetas desde la lib de taxonomía", () => {
   it("REQ-581: un circuito propio da su tipo y solo etiquetas activas del diccionario", () => {
     const f = fichaFacets({ proveedor: "propios", categoriaId: "circuito", precio: 1200, durationDays: 8, titulo: "Francia esencial en tren", idiomas: ["es"], modos: ["private"], vueloIncluido: false }, "es");
-    expect(f.tipo).toBe("Circuito (varios días)");
+    expect(f.tipo).toBe("Circuito"); // REQ-822: etiqueta corta de la tarjeta
     expect(f.etiquetas).toContain("Privado");
     expect(f.etiquetas).toContain("En español");
     // Ni calificación ni favorito: salen de reseñas, no describen el producto.

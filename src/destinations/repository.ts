@@ -86,7 +86,7 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
       const rows = await all(
         `SELECT t."id", t."externalId", t."slug", t."cityId", t."countryId", ${TITLE} AS "title", t."providerTitle", t."priceValue", t."priceCurrency",
          t."rating", t."reviewsNumber", t."titleImageURL", t."duration", t."syncStatus", t."isActive", t."updatedAt",
-         t."categoryId", t."durationMinutes"
+         t."categoryId", t."durationMinutes", t."providerId"
          FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" ${JOIN_TITLES} WHERE ${LISTED} AND c."slug" IS NOT NULL`
       );
       return rows.map((r) => ({
@@ -97,6 +97,7 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
         isActive: bool(r.isActive), updatedAt: iso(r.updatedAt) ?? new Date(0).toISOString(),
         categoryId: r.categoryId === null || r.categoryId === undefined ? null : Number(r.categoryId),
         durationMinutes: r.durationMinutes === null || r.durationMinutes === undefined ? null : Number(r.durationMinutes),
+        providerId: (r.providerId as string | null) ?? null, // REQ-831
       }));
     },
     async trips() {

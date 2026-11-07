@@ -1,6 +1,7 @@
 /**
  * REQ-274, REQ-275: metadatos, JSON-LD, compartir y sitemap del blog. Puro.
- * BlogPosting + Person + BreadcrumbList, coherentes con el texto visible; sin FAQPage (no da resultado enriquecido).
+ * BlogPosting + Person/Organization (REQ-971) + BreadcrumbList, coherentes con el texto visible; sin FAQPage (no da resultado enriquecido).
+ * REQ-973, REQ-974, REQ-976: entradas para llms.txt, IndexNow y la prueba de humo.
  */
 import type { Post } from "./schema";
 import type { Author } from "../content/authors";
@@ -31,12 +32,15 @@ export function blogPostingJsonLd(p: Post, author: Author, siteUrl: string) {
     mainEntityOfPage: url,
     url,
     ...(p.cover?.src ? { image: p.cover.src.startsWith("/") ? `${site}${p.cover.src}` : p.cover.src } : {}),
-    author: {
-      "@type": "Person",
-      name: author.name,
-      ...(author.jobTitle ? { jobTitle: author.jobTitle } : {}),
-      ...(author.sameAs.length ? { sameAs: author.sameAs } : {}),
-    },
+    // REQ-971: el equipo editorial es Organization ligada a la organización del sitio; nunca una persona inventada.
+    author: author.kind === "Organization"
+      ? { "@type": "Organization", name: author.name, url: `${site}/`, parentOrganization: { "@id": ORG_ID(site) } }
+      : {
+          "@type": "Person",
+          name: author.name,
+          ...(author.jobTitle ? { jobTitle: author.jobTitle } : {}),
+          ...(author.sameAs.length ? { sameAs: author.sameAs } : {}),
+        },
     publisher: { "@id": ORG_ID(site) },
   };
 }
@@ -62,4 +66,28 @@ export function blogSitemapUrls(posts: Post[], siteUrl: string): UrlEntry[] {
     ...pillarsWithPosts(pub).map((pl) => ({ loc: `${site}${pillarPath(pl.slug)}`, lastmod: last(pub.filter((p) => p.pillar === pl.slug)) })),
     ...pub.map((p) => ({ loc: `${site}${postPath(p)}`, lastmod: p.updatedAt ?? p.publishedAt })),
   ];
+}
+
+const byNewest = (a: Post, b: Post) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : a.slug.localeCompare(b.slug));
+const live = (posts: Post[]) => posts.filter((p) => !p.draft && pillarBySlug(p.pillar)?.status === "activo").sort(byNewest);
+
+// REQ-974: URL que se avisan a IndexNow justo después de publicar una entrada.
+export function blogIndexNowUrls(p: Post, siteUrl: string): string[] {
+  const site = base(siteUrl);
+  return [`${site}${postPath(p)}`, `${site}/blog`, `${site}${pillarPath(p.pillar)}`];
+}
+
+// REQ-973: las 20 entradas publicadas más recientes para llms.txt.
+export const LLMS_BLOG_MAX = 20;
+export function blogLlmsEntries(posts: Post[], siteUrl: string): { name: string; url: string }[] {
+  const site = base(siteUrl);
+  return live(posts).slice(0, LLMS_BLOG_MAX).map((p) => ({ name: p.title, url: `${site}${postPath(p)}` }));
+}
+
+// REQ-976: páginas del blog que la prueba de humo exige con BLOG_ENABLED encendida.
+export const SMOKE_BLOG_POSTS = 5;
+export function blogSmokePaths(posts: Post[]): string[] {
+  const pub = live(posts);
+  if (!pub.length) return [];
+  return ["/blog", ...pillarsWithPosts(pub).map((pl) => pillarPath(pl.slug)), ...pub.slice(0, SMOKE_BLOG_POSTS).map(postPath)];
 }

@@ -21,11 +21,26 @@ describe("placeBooking", () => {
     expect(gateway.createBooking).not.toHaveBeenCalled();
   });
 
+  it("REQ-011: con el piloto encendido, el tour de pago se reserva por lo que se cobra hoy", async () => {
+    const gateway = { createBooking: vi.fn(async () => ({ ...booking, status: "unpaid" })) };
+    const paid = vi.fn(async () => ({ ...event, fullPricePerGroup: { "2": 100 }, payableNowPricePerGroup: { "2": 20 }, isPartiallyPaid: true }));
+    const out = await placeBooking(dto, { gateway, getEvent: paid, enabled: true, paidEnabled: true });
+    expect(gateway.createBooking).toHaveBeenCalledWith(expect.objectContaining({ price: 20 }));
+    expect(out).toMatchObject({ price: 20, fullPrice: 100, isPaid: true });
+  });
+
+  it("REQ-010: tour de pago con niños se rechaza sin llamar a la pasarela", async () => {
+    const gateway = { createBooking: vi.fn() };
+    const paid = vi.fn(async () => ({ ...event, fullPricePerGroup: { "2": 50 }, payableNowPricePerGroup: { "2": 50 } }));
+    await expect(placeBooking({ ...dto, children: 1 }, { gateway, getEvent: paid, enabled: true, paidEnabled: true })).rejects.toMatchObject({ code: "children_not_allowed" });
+    expect(gateway.createBooking).not.toHaveBeenCalled();
+  });
+
   it("REQ-802: reserva y devuelve la reserva; sin isPhoneRequired el teléfono NO se manda a FREETOUR (G2)", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
     const out = await placeBooking(dto, { gateway, getEvent, enabled: true });
     expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { email: "ana@example.com", firstName: "Ana", lastName: "Pérez" } });
-    expect(out).toEqual({ booking, price: 0 });
+    expect(out).toEqual({ booking, price: 0, fullPrice: 0, isPaid: false });
   });
 
   it("REQ-802: con isPhoneRequired el teléfono va normalizado", async () => {
@@ -121,7 +136,7 @@ describe("REQ-083 placeBooking: contacto adulto", () => {
   });
   it("REQ-083: con la bandera apagada se comporta como hoy", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
-    await expect(placeBooking(dto, { gateway, getEvent, enabled: true })).resolves.toEqual({ booking, price: 0 });
+    await expect(placeBooking(dto, { gateway, getEvent, enabled: true })).resolves.toEqual({ booking, price: 0, fullPrice: 0, isPaid: false });
   });
 });
 
