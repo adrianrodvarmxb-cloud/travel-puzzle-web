@@ -32,6 +32,9 @@ import { isHelpVisible } from "@/help/lib/faq";
 import { getPreferredLanguage } from "@/lib/utils/cookies";
 import { formatCount } from "@/home/lib/format";
 import { withToursText } from "@/home/lib/hero";
+import { JsonLd } from "@/components/destinations/JsonLd";
+import { homeJsonLd } from "@/seo/lib/home-jsonld";
+import { siteUrl } from "@/destinations/server";
 
 // Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
@@ -66,6 +69,8 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* REQ-575: WebSite (SearchAction) y Organization en el HTML servido. */}
+      <JsonLd data={homeJsonLd(siteUrl(), contact.socials)} />
       {/* Header y footer se conservan como están (decisión del PO) */}
       <Navbar />
       <main className="tp-dark">

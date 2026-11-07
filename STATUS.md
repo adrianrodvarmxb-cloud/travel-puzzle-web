@@ -426,26 +426,44 @@ Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-li
 
 Efecto en el catálogo (respaldo de producción del 5-11, 8,018 tours activos de FREETOUR): pieza-libre sin cambio (3,464); autoguiado 29 → 635; excursión de un día 1,222 → 1,048; caminata 1,515 → 1,239; tour 1,253 → 1,193; Momentos de autor 344 → 230; traslado 8 → 26.
 
-## Criterio de pendientes de tipos (PO, 6 nov 2026, 21:14) — matriz de trazabilidad
+
+## Fichas legibles para buscadores e IA — PR 1: marcado y SSR (PO, 6 nov 2026) — matriz de trazabilidad
+
+Decisiones: FREETOUR C2 (interruptor `indexableEnrichment`), Gate 2 (sin reseñas de terceros en el JSON-LD), Gate 3 pendiente (URL por idioma: las funciones ya reciben `lang` y canonical), tipo y etiquetas (PO 21:14). Contrato de fichas también en la prueba de humo (`src/scripts/smoke.ts`).
+
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-570 | Interruptor de enriquecimiento por proveedor (freetour = false) | `src/seo/lib/enrichment.ts`, `ficha-ld.ts`, `destinations/lib/page-model.ts` | `src/seo/lib/enrichment.test.ts`, `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-571 | Nodo `["Product","TouristTrip"]`, Offer con moneda real, 0 en pieza libre, availability si se conoce | `src/seo/lib/ficha-ld.ts`, `page-model.ts` (`tourPage`) | `ficha-ld.test.ts`, `page-model.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-572 | provider/brand = operador real, nunca FREETOUR | `ficha-ld.ts` | `ficha-ld.test.ts`, `page-model.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-573 | Duración, idiomas, cancelación (si se ve) y punto de encuentro | `ficha-ld.ts`, `trip-ficha.ts` | `ficha-ld.test.ts`, `page-model.test.ts`, `trip-ficha.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-574 | Sin AggregateRating/review de terceros; solo reseñas propias | `ficha-ld.ts` | `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-575 | Home con WebSite (SearchAction) y Organization | `src/seo/lib/home-jsonld.ts`, `src/app/page.tsx` | `home-jsonld.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-576 | Fichas de viaje (/destinos y /viajes) con el mismo marcado | `src/seo/lib/trip-ficha.ts`, `components/trips/TripDetailView.tsx` | `trip-ficha.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-577 | «En breve» 40–80 palabras, plantilla pura, no FREETOUR | `ficha-ld.ts` (`enBreve`), `components/seo/FichaEnBreve.tsx`, `components/trips/TripHeader.tsx`, `TourHeroSection.tsx` | `ficha-ld.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-578 | Idioma del guía y duración legible en el HTML del servidor | `ficha-ld.ts` (`guideLanguagesLabel`), `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `TourHeroSection.tsx` | `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-579 | Canonical de /tours/[id] = ficha final de /destinos | `src/seo/lib/legacy-canonical.ts`, `app/tours/[id]/page.tsx` | `legacy-canonical.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-580 | Test de contrato por tipo de ficha y proveedor (+ prueba de humo) | `src/seo/lib/ficha-contract.ts`, `src/scripts/smoke.ts` | `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-581 | Tipo principal y etiquetas visibles y en el JSON-LD (additionalProperty y keywords) | `src/seo/lib/taxonomy-facets.ts`, `ficha-ld.ts`, `FichaEnBreve.tsx` | `taxonomy-facets.test.ts`, `ficha-ld.test.ts`, `trip-ficha.test.ts` | CUMPLIDO (falta OK del PO) |
+
+Pendientes y notas:
+- Cancelación: fuera del marcado y de «En breve» de los viajes mientras REQ-060 (PO, 5 nov) la oculte de la página. Si el PO la quiere visible, basta con `SHOW_POLICY_ON_PAGE = true` en `TripDetailView`.
+- Reseñas propias (CustomerReview): `fichaJsonLd` acepta `ownReviews`, pero hoy no hay cargador que las agregue por producto. Queda para cuando haya reseñas recogidas en Travel Puzzle.
+- Dato raro visto en la D1 local: viajes de Extime de una hora con `durationDays` = 1 («1 día» en la ficha y el marcado). Es dato de la importación (no se tocó).
+- `productJsonLd` de `src/seo/lib/jsonld.ts` queda sin uso (no se borra).
+## Criterio de pendientes de tipos (PO, 6 nov 2026, 21:14) — matriz de trazabilidad
 | REQ-540 | Visita guiada con entrada = tour + «entrada-incluida»; boletos solo sin guía | `src/taxonomy/lib/format.ts`, `attributes.ts`, `dictionary.json` (`palabrasConGuia`), `mapping/propios.json` | `src/taxonomy/lib/criterio-pendientes.test.ts`, `format.test.ts`, `gates.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-541 | Food tour = caminata + gastronomía; Momentos de autor solo talleres, clases, catas sentadas, espectáculos | `format.ts`, `dictionary.json` (`palabrasRecorrido`, `palabrasFuertes`, tema gastronomía) | `criterio-pendientes.test.ts`, `recompute.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-542 | Día completo en la ciudad = tour + «dia-completo»; excursión solo si sale | `format.ts`, `attributes.ts`, `dictionary.json` (`palabrasEnCiudad`, `palabrasSaleSiempre`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-543 | Atributos nuevos en el diccionario y facetas listas para el filtro | `dictionary.json`, `src/taxonomy/lib/filters.ts` (`ATRIBUTOS_FACETA`) | `criterio-pendientes.test.ts` | CUMPLIDO |
 | REQ-544 | Chips de atributos en la ficha (fuera de la foto); no en la tarjeta | `src/taxonomy/lib/copy.ts` (`tourLabels`), `src/taxonomy/lib/publish.ts`, `src/destinations/lib/catalog.ts`, `page-model.ts` | `criterio-pendientes.test.ts` | CUMPLIDO en la ficha (tras TAXONOMY_LABELS_ENABLED) |
 | REQ-545 | «Excursiones en Kampala» no es excursión | `dictionary.json` (`palabrasNoEnTitulo`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
-
 ## Menú sin «La Primera Pieza» (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
 | REQ-600 | «La Primera Pieza» fuera del menú (escritorio y celular, 6 idiomas); reversible con `MENU_PRIMERA_PIEZA` | `src/tours/lib/menu.ts`, `src/components/layout/Navbar.tsx` | `src/tours/lib/menu.test.ts`, `src/tours/lib/catalog-menu.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-601 | El pie enlaza /la-primera-pieza (no queda huérfana) solo con PRIMERA_PIEZA_ENABLED | `src/tours/lib/menu.ts` (`footerHubLinks`), `src/components/home/v2/SiteFooter.tsx` | `src/tours/lib/menu.test.ts` | CUMPLIDO (falta OK del PO) |
 Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
-
 ## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
-| ID | Requisito | Archivo(s) | Test | Estado |
-|---|---|---|---|---|
 | REQ-546 | Chips = Todo, Pieza libre y tipos con resultados por cantidad, etiquetas cortas | `src/tours/lib/format-chips.ts`, `src/components/tours/FormatChips.tsx`, `ToursPageClient.tsx` | `src/tours/lib/format-chips.test.ts` | CUMPLIDO tras TAXONOMY_FILTERS_ENABLED (apagada) |
 | REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
-

@@ -99,9 +99,9 @@ describe("REQ-100: JSON-LD y migas", () => {
     expect(types(primeraPiezaPage(tree, site).jsonLd)).toEqual(["BreadcrumbList"]);
   });
 
-  it("REQ-100: ficha = Product + Offer en EUR (0 en free tour) + BreadcrumbList con URLs absolutas", () => {
+  it("REQ-100 / REQ-571: ficha = Product+TouristTrip + Offer en la moneda del tour (0 en free tour) + BreadcrumbList con URLs absolutas", () => {
     const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
-    expect(types(p.jsonLd)).toEqual(["Product", "BreadcrumbList"]);
+    expect(types(p.jsonLd)).toEqual([["Product", "TouristTrip"], "BreadcrumbList"]);
     expect((p.jsonLd[0] as { offers: { price: number; priceCurrency: string } }).offers).toMatchObject({ price: 0, priceCurrency: "EUR" });
     const crumbs = (p.jsonLd[1] as { itemListElement: { item: string }[] }).itemListElement;
     expect(crumbs.at(-1)!.item).toBe(`${site}/destinos/mx/ciudad-de-mexico/${cdmx.city.freeTours[0].href.split("/").pop()}`);
@@ -153,6 +153,47 @@ describe("REQ-094/095/097/098: ficha", () => {
     expect(p.operatedBy).toBe("Operado por un guía local · Guía Ana");
     const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], provider: "FREETOUR.com" }, siteUrl: site, lang: "es" });
     expect(ft.operatedBy).toBe("Operado por un guía local");
+  });
+});
+
+describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la ficha de tour", () => {
+  const detail = { providerId: "freetour", guideLanguages: '["en","sp"]', departureDates: ["2026-11-09"], departuresSyncedAt: "2026-11-05T03:00:00Z", meetingPoint: { title: "Zócalo, frente a la Catedral", lat: 19.4326, lng: -99.1332 } };
+  const ld = (p: ReturnType<typeof tourPage>) => p.jsonLd[0] as Record<string, unknown>;
+  it("REQ-571: moneda real del tour (no fija en EUR) y availability con salida futura", () => {
+    const paid = { ...cdmx.city.paidTours[0], currency: "USD" };
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail, today: "2026-11-06" });
+    expect(ld(p).offers).toMatchObject({ price: 25, priceCurrency: "USD", availability: "https://schema.org/InStock" });
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail: { ...detail, departureDates: [] }, today: "2026-11-06" }).jsonLd[0]).not.toHaveProperty("offers.availability");
+    // Resumen de salidas viejo (o sin fecha de sync): no se afirma disponibilidad.
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail: { ...detail, departuresSyncedAt: "2026-09-01T00:00:00Z" }, today: "2026-11-06" }).jsonLd[0]).not.toHaveProperty("offers.availability");
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail: { ...detail, departuresSyncedAt: null }, today: "2026-11-06" }).jsonLd[0]).not.toHaveProperty("offers.availability");
+  });
+  it("REQ-572 / REQ-574: operador real y sin AggregateRating del proveedor aunque tenga reseñas", () => {
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es", detail });
+    expect(ld(p).provider).toEqual({ "@type": "Organization", name: "Guía Ana" });
+    expect(cdmx.city.freeTours[0].reviews).toBeGreaterThan(0);
+    expect(ld(p).aggregateRating).toBeUndefined();
+    const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], provider: "Don freetour" }, siteUrl: site, lang: "es", detail });
+    expect(JSON.stringify(ft.jsonLd).toLowerCase()).not.toContain("freetour");
+  });
+  it("REQ-573 / REQ-578: duración «2 h 30 min», idioma del guía y punto de encuentro, calculados en el servidor", () => {
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], duration: "2:30" }, siteUrl: site, lang: "es", detail });
+    expect(p.facts).toEqual({ duration: "2 h 30 min", guideLanguages: "Inglés, Español" });
+    expect(ld(p).additionalProperty).toEqual([
+      { "@type": "PropertyValue", name: "Duración", value: "2 h 30 min" },
+      { "@type": "PropertyValue", name: "Idiomas del guía", value: "Inglés, Español" },
+    ]);
+    expect(ld(p).tripOrigin).toMatchObject({ "@type": "Place", name: "Zócalo, frente a la Catedral" });
+  });
+  it("REQ-570: FREETOUR no lleva «En breve», descripción, tipo ni keywords; un proveedor nuevo sí", () => {
+    const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es", detail });
+    expect(ft.enBreve).toBeNull();
+    expect(ld(ft).keywords).toBeUndefined();
+    const sinDetalle = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
+    expect(sinDetalle.enBreve).toBeNull(); // sin proveedor conocido se asume el más restrictivo
+    const otro = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.paidTours[0], siteUrl: site, lang: "es", detail: { ...detail, providerId: "bemyguest" } });
+    expect(otro.enBreve).toMatch(/^.+ en Ciudad de México, México\./);
+    expect(otro.enrichment).toBe(true);
   });
 });
 
