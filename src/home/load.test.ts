@@ -68,12 +68,12 @@ describe("REQ-450/453: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
     id, externalId: Number(id.slice(1)), titleImageURL: `https://img/${id}.jpg`, priceValue: 0, priceCurrency: "EUR", duration: "2:00", rating: 4.8, reviewsNumber: 400,
     city: { translations: { es: `City ${id}` } }, translations: [{ language: "es", title: `Tour ${id}` }],
   });
-  const trip = { id: "v1", path: "/viajes/paracas", code: "IWP-LIM-08", kind: "tour", title: "Paracas e Islas Ballestas desde Lima", summary: "", image: "https://img/v1.jpg", countries: ["PE"], places: "Perú", cities: ["Lima"], durationDays: 1, price: null, priceFrom: null, languages: [], dates: [], group: "excursiones", freeCancel: false, private: false, hotelPickup: false, createdAt: 0, durationMinutes: 1440, dayTrip: true } as unknown as import("@/trips/public-load").TripCard;
+  const trip = { id: "v1", path: "/viajes/paracas", code: "IWP-LIM-08", kind: "tour", title: "Paracas e Islas Ballestas desde Lima", summary: "", image: "https://img/v1.jpg", countries: ["PE"], places: "Perú", cities: ["Lima"], durationDays: 1, price: null, priceFrom: null, languages: [], dates: [], group: "excursiones", freeCancel: false, private: false, hotelPickup: false, createdAt: 0, durationMinutes: 1440, dayTrip: true, formato: "excursion-dia" } as unknown as import("@/trips/public-load").TripCard;
 
   function prismaWith(rows: { all: unknown[]; day: unknown[] }, titleOf: (id: string) => string = (id) => `Tour ${id}`) {
     const $queryRaw = async (strings: TemplateStringsArray, ...values: unknown[]) => {
       if (strings.join("?").includes("SUM(")) return [{ s: 4800, v: 1000 }];
-      return values.includes(600) ? rows.day : rows.all; // LIMIT 600 = consulta de excursiones
+      return values.includes(1500) ? rows.day : rows.all; // LIMIT 1500 = consulta de excursiones (REQ-852)
     };
     const p = fakePrisma({ tour: { findMany: async (q: { where: { id: { in: string[] } } }) => q.where.id.in.map((id) => ({ ...hydrated(id), translations: [{ language: "es", title: titleOf(id) }] })) } }) as unknown as Record<string, unknown>;
     return { ...p, $queryRaw } as unknown as PrismaClient;
@@ -83,14 +83,15 @@ describe("REQ-450/453: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
     vi.spyOn(console, "error").mockImplementation(() => {});
     const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.6, reviews: 20000 }), tourRow("t2", { rating: 4.95, reviews: 900 }), tourRow("t3", { categoryId: 8, rating: 5, reviews: 9000 })], day: [] });
     const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
-    expect(out.featured.map((t) => t.id)).toEqual(["t2", "t1"]);
+    // REQ-850 (PO 6-11 22:05): solo Favoritos (≥4.9 y ≥180); t1 (4.6) ya no entra.
+    expect(out.featured.map((t) => t.id)).toEqual(["t2"]);
   });
 
   it("REQ-270: con la taxonomía (TAXONOMY_PUBLISH_ENABLED), lo que no se publica no entra a los carruseles; sin ella, como hoy", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const { homeTaxonomy } = await import("./load");
     const stub = ((t: { title: string }) => ({ formato: /t1|t4/.test(t.title) ? "por-revisar" : "caminata", seccion: "experiencias", guiaEnPersona: true })) as unknown as NonNullable<ReturnType<typeof homeTaxonomy>>;
-    const rows = { all: [tourRow("t1", { rating: 5, reviews: 9000 }), tourRow("t2")], day: [tourRow("t4", { categoryId: 4, durationMinutes: 600 }), tourRow("t5", { categoryId: 4, durationMinutes: 600 })] };
+    const rows = { all: [tourRow("t1", { rating: 5, reviews: 9000 }), tourRow("t2", { rating: 4.9 })], day: [tourRow("t4", { categoryId: 4, durationMinutes: 600 }), tourRow("t5", { categoryId: 4, durationMinutes: 600 })] };
     const off = await loadHomeData({ prisma: prismaWith(rows), highlights: noHighlights, includePaid: false, lang: "es", carousels: true, taxonomy: homeTaxonomy(false) });
     expect(off.featured.map((t) => t.id)).toEqual(["t1", "t2"]);
     expect(off.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["t4", "t5"]);
@@ -121,7 +122,7 @@ describe("REQ-450/453: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
 
   it("REQ-454: si un título en otro idioma dice «free tour», se salta y entra la siguiente", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
-    const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.99 }), tourRow("t2", { rating: 4.9 }), tourRow("t3", { rating: 4.85 })], day: [] }, (id) => (id === "t1" ? "Il miglior free tour di Roma" : `Tour ${id}`));
+    const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.99 }), tourRow("t2", { rating: 4.95 }), tourRow("t3", { rating: 4.9 })], day: [] }, (id) => (id === "t1" ? "Il miglior free tour di Roma" : `Tour ${id}`));
     const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
     expect(out.featured.map((t) => t.id)).toEqual(["t2", "t3"]);
   });
@@ -158,7 +159,7 @@ describe("REQ-453: «Excursiones de un día» no repite lo que ya está en «Los
     const row = (id: string, o: Record<string, unknown> = {}) => ({ id, externalId: Number(id.slice(1)), cityId: Number(id.slice(1)), cityName: `C${id}`, countryCode: "jp", categoryId: 4, durationMinutes: 600, price: 0, rating: 4.9, reviews: 500, titleEs: `Excursión ${id}`, titleEn: `Day trip ${id}`, ...o });
     const $queryRaw = async (strings: TemplateStringsArray, ...values: unknown[]) => {
       if (strings.join("?").includes("SUM(")) return [{ s: 4800, v: 1000 }];
-      return values.includes(600) ? [row("t1"), row("t2")] : [row("t1")];
+      return values.includes(1500) ? [row("t1"), row("t2")] : [row("t1")];
     };
     const hydrated = (id: string) => ({ id, externalId: Number(id.slice(1)), titleImageURL: `https://img/${id}.jpg`, priceValue: 0, priceCurrency: "EUR", duration: "10:00", rating: 4.9, reviewsNumber: 500, city: { translations: {} }, translations: [{ language: "es", title: `Excursión ${id}` }] });
     const base = fakePrisma({ tour: { findMany: async (q: { where: { id: { in: string[] } } }) => q.where.id.in.map(hydrated) } }) as unknown as Record<string, unknown>;
