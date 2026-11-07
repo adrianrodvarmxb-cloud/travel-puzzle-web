@@ -934,3 +934,9 @@ Petición literal (coordinador): «Aplica escudrinar-error-iso como INC-009, con
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — | EN CURSO (test verde; falta el siguiente deploy de main) |
+
+## REQ-1359: copia anterior al cambiar la versión de la caché (coordinador, 7 nov 2026; de INC-009)
+Petición literal (coordinador): «primera petición en frío de /destinos de 11 a 18 s después de un cambio de versión de la caché. La idea es servir la copia anterior mientras se arma la nueva (stale-while-revalidate)».
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1359 | CÓDIGO | Dado un cambio de versión de la llave `destinos`, cuando llega la primera petición y la llave nueva no tiene copia, entonces se sirve al instante la copia de la versión anterior (dentro de `staleSec` y con la forma de hoy, `isDestinationTree`) y el árbol nuevo se arma en segundo plano (waitUntil), una sola vez por isolate; sin waitUntil o sin copia válida, como antes. Medición: antes 11–18 s y un 503 (INC-009); después, el paso «Calentar» del deploy de este PR (llave v9 → v10) | agente | — | EN CURSO (test verde; falta la medición del deploy) |
