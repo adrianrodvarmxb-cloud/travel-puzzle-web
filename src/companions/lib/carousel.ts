@@ -4,6 +4,7 @@
  * de pago o de día; cada tarjeta dice quién cobra; alojamiento al final; nada preseleccionado.
  * Las reglas por destino son datos (rules.json), sin código por país. Visa y ETIAS tras bandera. Puro.
  */
+import { FORMATOS_PRIMERA_TARJETA } from "@/taxonomy/lib/cart-type";
 import { z } from "zod";
 import type { CartItemType } from "@/cart/lib/item";
 import type { CardAction } from "@/cart/lib/switch";
@@ -53,6 +54,8 @@ export const DEFAULT_RULES: CarouselRule[] = parseRules(defaultRules);
 
 export interface CarouselCandidate {
   type: CartItemType;
+  /** T7 (REQ-429): formato de la taxonomía de la tarjeta, si se sabe. */
+  formato?: string;
   /** Por defecto = type. ETIAS es categoría propia aunque su pieza sea de tipo visa. */
   category?: CompanionCategory;
   title: string;
@@ -119,6 +122,8 @@ export function buildCarousel(input: {
    * de los correos lo apaga, porque ahí no hay tours de FREETOUR (B3) y casi nunca un tour propio en la misma ciudad.
    */
   requireTour?: boolean;
+  /** T7 (REQ-429, TAXONOMY_CART_ENABLED): la primera tarjeta se elige por formato (caminata, tour, excursión, Momentos de autor). */
+  firstByFormat?: boolean;
 }): CarouselCard[] {
   const active = input.rules.filter((r) => matches(r, input.context));
   const hidden = new Set<CompanionCategory>(active.flatMap((r) => r.hide ?? []));
@@ -142,7 +147,10 @@ export function buildCarousel(input: {
   const seen = new Set<string>();
   const distinct = sorted.filter((c) => !seen.has(groupOf(c.category)) && seen.add(groupOf(c.category)));
 
-  const firstTour = distinct.findIndex((c) => TOUR_GROUP.has(c.category));
+  // REQ-429: con firstByFormat, una tarjeta con formato cuenta como primera solo si es un tour de pago o de día por su formato
+  // (un free tour o una audioguía no); sin formato, la categoría como hoy (REQ-108). REQ-263: requireTour=false (correos) no la exige.
+  const isFirst = (c: (typeof distinct)[number]) => input.firstByFormat && c.formato ? FORMATOS_PRIMERA_TARJETA.includes(c.formato as never) : TOUR_GROUP.has(c.category);
+  const firstTour = distinct.findIndex(isFirst);
   if (firstTour < 0 && input.requireTour !== false) return [];
   const ordered = firstTour < 0 ? distinct : [distinct[firstTour], ...distinct.filter((_, i) => i !== firstTour)];
 

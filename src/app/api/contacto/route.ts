@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { inboundMessageSchema } from '@/contact/schemas/message';
 import { formAllowed } from '@/contact/lib/route-gate';
+import { contactMessageSchema } from '@/contact/schemas/message';
 import { submitContact } from '@/contact/send';
 import { contactDeps } from '@/contact/deps';
 import { sitePagesFromEnv } from '@/site/lib/pages';

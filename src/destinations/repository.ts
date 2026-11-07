@@ -100,7 +100,8 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
       }));
     },
     async trips() {
-      const rows = await all('SELECT "id", "slug", "kind", "titleEs", "countries", "cities", "images", "priceFrom", "currency", "updatedAt" FROM "Trip" WHERE "status" = \'published\'');
+      // REQ-523/524: agencia, días y resumen para la tarjeta única.
+      const rows = await all('SELECT tr."id", tr."slug", tr."kind", tr."titleEs", tr."summaryEs", tr."durationDays", tr."agencyId", a."name" AS "agencyName", tr."countries", tr."cities", tr."images", tr."priceFrom", tr."currency", tr."updatedAt" FROM "Trip" tr LEFT JOIN "Agency" a ON a."id" = tr."agencyId" WHERE tr."status" = \'published\'');
       return rows.map((r) => {
         const images = json(r.images);
         const first = Array.isArray(images) && images[0] && typeof (images[0] as { key?: unknown }).key === "string" ? (images[0] as { key: string }).key : null;
@@ -108,6 +109,9 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
           id: String(r.id), slug: String(r.slug), kind: String(r.kind), title: String(r.titleEs ?? ""), image: first ? opts.tripImage(first) : null,
           countries: strs(r.countries), cities: strs(r.cities), priceLabel: opts.tripPrice(r.priceFrom === null ? null : Number(r.priceFrom), String(r.currency ?? "MXN")),
           updatedAt: iso(r.updatedAt) ?? new Date(0).toISOString(),
+          agencyId: (r.agencyId as string | null) ?? null, agency: (r.agencyName as string | null) ?? null,
+          durationDays: r.durationDays === null || r.durationDays === undefined ? null : Number(r.durationDays), summary: (r.summaryEs as string | null) ?? null,
+          priceFrom: r.priceFrom === null || r.priceFrom === undefined ? null : Number(r.priceFrom),
         };
       });
     },

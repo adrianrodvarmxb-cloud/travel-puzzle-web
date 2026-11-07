@@ -8,7 +8,9 @@ import { formatCount, formatRating } from '@/home/lib/format';
 import type { HomeTour } from '@/home/load';
 import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
 import { SectionHeading } from './SectionHeading';
-import { MobileRail } from './MobileRail';
+import { CardRail } from '@/components/tours/CardRail';
+import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { fromHomeTour } from '@/tours/lib/card-sources';
 
 export type PriceLabels = Record<string, { main: string; approx: string | null }>;
 
@@ -25,14 +27,15 @@ export function FeaturedTours({ tours, priceLabels = {} }: { tours: HomeTour[]; 
   return (
     <section id="favoritos" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
       <SectionHeading eyebrow={c.featEyebrow} title={c.featHeadline} action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>} />
-      <MobileRail gridClass="sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        {tours.map((t) => <HomeTourCard key={t.id} t={t} language={language} c={c} priceLabel={priceLabels[t.id]} />)}
-      </MobileRail>
+      {/* REQ-520, REQ-527: tarjeta única en carrusel con flechas (HomeTourCard queda sin uso, no se borra). */}
+      <CardRail label={c.featHeadline}>
+        {tours.map((t) => <ExperienceCard key={t.id} card={fromHomeTour(t, { lang: language, priceLabel: priceLabels[t.id] })} />)}
+      </CardRail>
     </section>
   );
 }
 
-/** Tarjeta de tour del home (también la usa «Excursiones de un día», REQ-453). */
+/** Tarjeta de tour del home. Sin uso desde REQ-520 (la reemplaza ExperienceCard); se conserva por la regla de no borrar código. */
 export function HomeTourCard({ t, language, c, priceLabel }: { t: HomeTour; language: string; c: ReturnType<typeof homeCopy>; priceLabel?: PriceLabels[string] }) {
   const title = nameIn(t.titles, language);
   const rating = formatRating(t.rating);

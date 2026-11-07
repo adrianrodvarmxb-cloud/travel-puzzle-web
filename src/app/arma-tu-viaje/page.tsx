@@ -1,3 +1,4 @@
+import { taxonomyCartEnabled } from '@/taxonomy/lib/cart-type';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -94,6 +95,8 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
         experiences: nearby.items,
         // REQ-324: Big Bus ya en la tarjeta de tour → su solicitud no se repite.
         coveredAdapterIds: coveredRequestEntries(DEFAULT_REGISTRY, nearby.items),
+        // T7 (REQ-429): primera tarjeta por formato, tras TAXONOMY_CART_ENABLED.
+        firstByFormat: taxonomyCartEnabled(env),
     });
     const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
