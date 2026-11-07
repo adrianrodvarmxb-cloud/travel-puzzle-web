@@ -3,7 +3,7 @@
  * bajo /destinos o /viajes. Puro: recibe lo que TripDetailView ya calculó en el servidor (textos visibles) y arma
  * la FichaInput. Los viajes son de otros proveedores (no FREETOUR), así que sí se enriquecen (REQ-570).
  */
-import { FORMATOS_FILTRO, formatoLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
+import { FORMATOS_FILTRO, formatoCardLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
 import type { FichaInput } from "./ficha-ld";
 import { fichaFacets } from "./taxonomy-facets";
 
@@ -21,7 +21,7 @@ export function tripProviderKey(agencyId: string | null | undefined, agencyName:
   return `agencia:${slug || agencyId}`;
 }
 
-// REQ-576 REQ-577 REQ-581
+// REQ-576 REQ-577 REQ-581 REQ-822 (tipo = etiqueta corta de la tarjeta)
 export function tripFichaInput(o: {
   trip: TripFichaTrip; lang: string; url: string;
   /** Lo que la página muestra, ya en el idioma de la página. */
@@ -35,7 +35,7 @@ export function tripFichaInput(o: {
     idiomas: trip.languages, modos: trip.options.map((x) => x.mode), vueloIncluido: trip.flightsIncluded,
   }, lang);
   // El tipo es el mismo de la tarjeta (incluye la regla de excursión de un día, REQ-451/453): no se contradicen.
-  const tipo = o.formato && (FORMATOS_FILTRO as readonly string[]).includes(o.formato) ? formatoLabel(o.formato as FormatoFiltro, lang) : facets.tipo;
+  const tipo = o.formato && (FORMATOS_FILTRO as readonly string[]).includes(o.formato) ? formatoCardLabel(o.formato as FormatoFiltro, lang) : facets.tipo;
   const mp = trip.meetingPoints[0];
   return {
     provider: tripProviderKey(trip.agencyId, o.operator), lang, url: o.url, name: o.title, images: [],

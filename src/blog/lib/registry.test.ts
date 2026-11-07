@@ -4,7 +4,7 @@ import { samplePost } from "./fixtures";
 import { parsePost } from "./schema";
 import { visiblePosts, duplicates, related, pillarSummaries, blogNavVisible, BLOG_NAV_MIN_POSTS, linkProblems } from "./registry";
 import { PILLARS, pillarBySlug, commercialHref } from "./pillars";
-import { POSTS } from "../content";
+import { POSTS, MANUAL_POSTS } from "../content";
 import { PROHIBIDAS_SITIO, textsOf } from "@/site/lib/vocab";
 import { wranglerVars } from "@/site/lib/pages";
 
@@ -19,15 +19,17 @@ describe("registro de artículos", () => {
     expect(visiblePosts([pub, draft, blocked], { showDrafts: true }).map((p) => p.slug)).toEqual(["articulo-de-prueba", "borrador"]);
   });
 
-  it("REQ-256: cero artículos publicados en el repo; el ejemplo está marcado draft: true", () => {
-    expect(POSTS.length).toBeGreaterThan(0);
-    expect(POSTS.every((p) => p.draft === true)).toBe(true);
-    expect(visiblePosts(POSTS.map((p) => { const r = parsePost(p); if (!r.ok) throw new Error(r.error); return r.post; }), { showDrafts: false })).toEqual([]);
+  // REQ-984: «cero publicados» aplica a los artículos a mano; los del diario los publica el workflow (gate del 6 nov 2026).
+  it("REQ-256: cero artículos a mano publicados en el repo; el ejemplo está marcado draft: true", () => {
+    expect(MANUAL_POSTS.length).toBeGreaterThan(0);
+    expect(MANUAL_POSTS.every((p) => p.draft === true)).toBe(true);
+    expect(visiblePosts(MANUAL_POSTS.map((p) => { const r = parsePost(p); if (!r.ok) throw new Error(r.error); return r.post; }), { showDrafts: false })).toEqual([]);
   });
 
-  it("REQ-256: wrangler.jsonc trae BLOG_ENABLED y BLOG_SHOW_DRAFTS en \"false\"", () => {
+  // REQ-982 reemplaza la parte «BLOG_ENABLED en false» (gate «Publica solo cada día»); BLOG_SHOW_DRAFTS sigue en "false".
+  it("REQ-256 + REQ-982: wrangler.jsonc trae BLOG_ENABLED en \"true\" y BLOG_SHOW_DRAFTS en \"false\"", () => {
     const v = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-    expect(v.BLOG_ENABLED).toBe("false");
+    expect(v.BLOG_ENABLED).toBe("true");
     expect(v.BLOG_SHOW_DRAFTS).toBe("false");
   });
 
@@ -74,7 +76,8 @@ describe("registro de artículos", () => {
 
   it("REQ-272: la página comercial del pilar cambia con PRIMERA_PIEZA_ENABLED (sin enlazar 404)", () => {
     expect(commercialHref(pillarBySlug("china")!, false)).toBe("/tours?search=China");
-    expect(commercialHref(pillarBySlug("china")!, true)).toBe("/destinos/china");
+    // REQ-977: la ruta de país es por código; /destinos/china daba 404 (REEMPLAZA el valor anterior de este test).
+    expect(commercialHref(pillarBySlug("china")!, true)).toBe("/destinos/cn");
     expect(pillarBySlug("free-tours")!.status).toBe("bloqueado");
   });
 

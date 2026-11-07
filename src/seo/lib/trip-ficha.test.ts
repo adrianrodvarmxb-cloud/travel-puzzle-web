@@ -26,8 +26,9 @@ describe("REQ-576: la ficha de viaje lleva el mismo marcado que el tour", () => 
     expect(tripProviderKey(null, null)).toBe("propios");
     expect(enBreve(input)).toContain("Lo opera Extime Travel");
   });
-  it("REQ-581: el tipo es el de la tarjeta y las etiquetas salen del clasificador", () => {
-    expect(input.tipo).toBe("Tour");
+  it("REQ-581 REQ-822: el tipo es la etiqueta corta de la tarjeta (FORMATO_CARD_LABEL) y las etiquetas salen del clasificador", () => {
+    expect(input.tipo).toBe("Visita guiada");
+    expect(fichaJsonLd(input).additionalProperty).toEqual(expect.arrayContaining([{ "@type": "PropertyValue", name: "Tipo de experiencia", value: "Visita guiada" }]));
     expect(input.etiquetas).toContain("Privado");
     expect(fichaJsonLd(input).keywords).toContain("Privado");
   });
