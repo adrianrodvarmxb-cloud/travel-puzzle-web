@@ -44,6 +44,7 @@ import { JsonLd } from "@/components/destinations/JsonLd";
 import { homeJsonLd } from "@/seo/lib/home-jsonld";
 import { siteUrl } from "@/destinations/server";
 import { withFinalHref } from "@/tours/lib/card-sources";
+import { slimDayTrip, slimHomeTour } from "@/home/lib/slim";
 
 // Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
@@ -69,7 +70,7 @@ export default async function Home() {
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
   // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
   const taxonomyOn = taxonomyPublishEnabled(env);
-  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "tipos-540" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "carruseles-610" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
     withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.
@@ -102,9 +103,9 @@ export default async function Home() {
         <HeroSearch slides={hero} quickCities={data.destinations.slice(0, 5)} />
         <ProofStrip stats={data.stats} counts={counts} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
-        <FeaturedTours tours={featured} priceLabels={priceLabels} />
+        <FeaturedTours tours={featured.map((t) => slimHomeTour(t, lang)) /* REQ-857; REQ-668 conserva href */} priceLabels={priceLabels} hasMore={data.carouselMore?.elegidos ?? false} />
         {/* REQ-452: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
-        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={dayTrips} priceLabels={priceLabels} /></SectionBoundary>
+        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={dayTrips.map((d) => slimDayTrip(d, lang)) /* REQ-857; REQ-668 */} priceLabels={priceLabels} hasMore={data.carouselMore?.excursiones ?? false} /></SectionBoundary>
         {carouselLists.length > 0 && <ListJsonLd data={carouselLists} />}
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />

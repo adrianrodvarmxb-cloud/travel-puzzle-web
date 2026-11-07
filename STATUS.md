@@ -629,9 +629,20 @@ Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
 
-## Rich Results Test en fichas (6 nov 2026, 22:38) — matriz de trazabilidad
+
+## Carruseles del inicio completos (PO, 6 nov 2026, 22:05) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-850 | «Los más elegidos» = todos los Favoritos en orden del medidor | `src/home/lib/carousel-pages.ts`, `src/home/load.ts` | `src/home/lib/carousel-pages.test.ts`, `src/home/load.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-851 | 12 del servidor + páginas de 12 al acercarse al final | `carousel-pages.ts`, `src/home/carousel-load.ts`, `src/app/api/home/carrusel/route.ts`, `src/components/home/v2/useCarouselPages.ts`, `CardRail.tsx` | `carousel-pages.test.ts` + navegador (rail 12 → 18, sin duplicados) | CUMPLIDO (falta OK del PO) |
+| REQ-852 | «Excursiones de un día» = todas, sin repetir elegidos | `carousel-pages.ts` | `carousel-pages.test.ts`, `load.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-853 | Sin marca del proveedor en ninguna página | `carousel-pages.ts` (`carouselOrder`) | `carousel-pages.test.ts` | CUMPLIDO |
+| REQ-854 | Tarjeta final «Ver todas las experiencias →» | `carousel-pages.ts` (`SEE_ALL_HREF`), `HomeCarousel.tsx` | `carousel-pages.test.ts` + navegador | CUMPLIDO (falta OK del PO) |
+| REQ-855 | Tarjeta vitrina 4:5 + primera destacada (variante A) | `ExperienceCard.tsx` (`look`), `CardRail.tsx`, `HomeCarousel.tsx` | capturas `docs/capturas/home-carruseles/` (390/1366) | CUMPLIDO (falta OK del PO) |
+| REQ-856 | Endpoint valida parámetros (400) y falla en vacío | `carousel-pages.ts` (`parseCarouselQuery`), `route.ts` | `carousel-pages.test.ts` | CUMPLIDO |
+| REQ-857 | HTML del inicio sin crecer > 10 % | `src/home/lib/slim.ts`, `src/app/page.tsx` | `src/home/lib/slim.test.ts` + medición (−1.9 %) | CUMPLIDO |
+| REQ-858 | Excursiones solo con etiqueta «Excursión de un día» / «Pieza libre» | `src/home/lib/day-trip.ts`, `rank-row.ts`, `load.ts` | `carousel-pages.test.ts` | CUMPLIDO |
+## Rich Results Test en fichas (6 nov 2026, 22:38) — matriz de trazabilidad
 | REQ-820 | `image` en el Product: principal + hasta 3, absolutas | `src/seo/lib/ficha-ld.ts` (`fichaImages`), `src/destinations/lib/page-model.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-contract.ts` | `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
 | REQ-821 | Duración real en horas de un viaje de un día | `src/trips/lib/trip-facts.ts` (`infoDurationMinutes`) | `trip-facts.test.ts` | CUMPLIDO (falta corregir el import: ver PR) |
 | REQ-822 | «Tipo de experiencia» con `FORMATO_CARD_LABEL` | `src/seo/lib/trip-ficha.ts`, `src/seo/lib/taxonomy-facets.ts` | `trip-ficha.test.ts`, `taxonomy-facets.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
