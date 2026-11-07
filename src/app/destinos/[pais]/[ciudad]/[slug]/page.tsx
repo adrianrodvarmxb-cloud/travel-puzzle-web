@@ -84,7 +84,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
-        const guide = guideLanguagesLabel(row?.guideLanguages, language);
+        // REQ-587: solo si el modelo lo permite (no en FREETOUR, donde antes solo salía en el cliente).
+        const guide = full.facts.guideLanguages ? guideLanguagesLabel(row?.guideLanguages, language) : [];
         return (
             <>
                 <JsonLd data={full.jsonLd} />

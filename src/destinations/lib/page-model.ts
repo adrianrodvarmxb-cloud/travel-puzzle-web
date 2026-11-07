@@ -203,7 +203,9 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const provider = detail?.providerId?.trim() || "freetour";
   const enrichment = indexableEnrichment(provider);
   const duration = cardDuration({ raw: tour.duration }, lang);
-  const langs = guideLanguagesLabel(detail?.guideLanguages, lang);
+  // REQ-587 (auditoría FREETOUR, #212): sin enriquecimiento no se suma nada indexable que la página no tuviera antes
+  // del #204: ni idiomas del guía (antes solo salían en el cliente) ni punto de encuentro en el marcado.
+  const langs = enrichment ? guideLanguagesLabel(detail?.guideLanguages, lang) : [];
   const facets = enrichment ? fichaFacets({ proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title }, lang) : { tipo: null, etiquetas: [] };
   const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
   const ficha: FichaInput = {
@@ -211,7 +213,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     operator: tour.provider, free: tour.isFreeTour, price: tour.isFreeTour ? 0 : tour.price, currency: tour.currency,
     availability: today && fresh(detail?.departuresSyncedAt, today) ? nextAvailability(detail?.departureDates, today) : null,
     duration, languages: langs, place: `${city.name}, ${country.name}`,
-    meetingPoint: mp ? { name: mp.title!.trim(), address: mp.address ?? null, lat: mp.lat ?? null, lng: mp.lng ?? null } : null,
+    meetingPoint: mp && enrichment ? { name: mp.title!.trim(), address: mp.address ?? null, lat: mp.lat ?? null, lng: mp.lng ?? null } : null,
     tipo: facets.tipo, etiquetas: facets.etiquetas,
   };
   return {

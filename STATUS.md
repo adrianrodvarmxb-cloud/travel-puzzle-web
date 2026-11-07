@@ -445,6 +445,7 @@ Decisiones: FREETOUR C2 (interruptor `indexableEnrichment`), Gate 2 (sin reseña
 | REQ-579 | Canonical de /tours/[id] = ficha final de /destinos | `src/seo/lib/legacy-canonical.ts`, `app/tours/[id]/page.tsx` | `legacy-canonical.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-580 | Test de contrato por tipo de ficha y proveedor (+ prueba de humo) | `src/seo/lib/ficha-contract.ts`, `src/scripts/smoke.ts` | `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-581 | Tipo principal y etiquetas visibles y en el JSON-LD (additionalProperty y keywords) | `src/seo/lib/taxonomy-facets.ts`, `ficha-ld.ts`, `FichaEnBreve.tsx` | `taxonomy-facets.test.ts`, `ficha-ld.test.ts`, `trip-ficha.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-587 | Sin enriquecimiento (FREETOUR): ni idiomas ni Place en el JSON-LD, ni «Idioma del guía» en el HTML del servidor (auditoría #212) | `destinations/lib/page-model.ts` (`tourPage`), `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-contract.ts` | `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
 
 Pendientes y notas:
 - Cancelación: fuera del marcado y de «En breve» de los viajes mientras REQ-060 (PO, 5 nov) la oculte de la página. Si el PO la quiere visible, basta con `SHOW_POLICY_ON_PAGE = true` en `TripDetailView`.

@@ -96,6 +96,9 @@ export function fichaContractFailures(html: string, o: ContractOptions): string[
   if (!o.enrichment) {
     if (/data-seo="en-breve"/.test(html)) f.push("«En breve» en un proveedor sin enriquecimiento (REQ-570)");
     if (p.description || p.keywords) f.push("descripción o keywords en un proveedor sin enriquecimiento (REQ-570)");
+    // REQ-587: ni idiomas ni punto de encuentro (no estaban en la página antes del #204).
+    if (p.tripOrigin || p.inLanguage || p.availableLanguage || props.some((x) => /idioma|language|audiogu/i.test(String(x.name))))
+      f.push("idiomas o punto de encuentro en el marcado de un proveedor sin enriquecimiento (REQ-587)");
   }
   return f;
 }

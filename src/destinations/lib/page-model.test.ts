@@ -176,14 +176,22 @@ describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la f
     const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], provider: "Don freetour" }, siteUrl: site, lang: "es", detail });
     expect(JSON.stringify(ft.jsonLd).toLowerCase()).not.toContain("freetour");
   });
-  it("REQ-573 / REQ-578: duración «2 h 30 min», idioma del guía y punto de encuentro, calculados en el servidor", () => {
-    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], duration: "2:30" }, siteUrl: site, lang: "es", detail });
+  it("REQ-573 / REQ-578: con enriquecimiento, duración «2 h 30 min», idioma del guía y punto de encuentro, calculados en el servidor", () => {
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], duration: "2:30" }, siteUrl: site, lang: "es", detail: { ...detail, providerId: "bemyguest" } });
     expect(p.facts).toEqual({ duration: "2 h 30 min", guideLanguages: "Inglés, Español" });
     expect(ld(p).additionalProperty).toEqual([
       { "@type": "PropertyValue", name: "Duración", value: "2 h 30 min" },
       { "@type": "PropertyValue", name: "Idiomas del guía", value: "Inglés, Español" },
     ]);
     expect(ld(p).tripOrigin).toMatchObject({ "@type": "Place", name: "Zócalo, frente a la Catedral" });
+  });
+  it("REQ-587: FREETOUR (sin enriquecimiento) no suma idiomas ni punto de encuentro al marcado ni «Idioma del guía» al HTML", () => {
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], duration: "2:30" }, siteUrl: site, lang: "es", detail });
+    expect(p.enrichment).toBe(false);
+    expect(p.facts).toEqual({ duration: "2 h 30 min", guideLanguages: null });
+    expect(ld(p).additionalProperty).toEqual([{ "@type": "PropertyValue", name: "Duración", value: "2 h 30 min" }]);
+    expect(ld(p).tripOrigin).toBeUndefined();
+    expect(ld(p)).not.toHaveProperty("inLanguage");
   });
   it("REQ-570: FREETOUR no lleva «En breve», descripción, tipo ni keywords; un proveedor nuevo sí", () => {
     const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es", detail });
