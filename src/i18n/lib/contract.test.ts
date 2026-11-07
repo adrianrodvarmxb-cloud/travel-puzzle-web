@@ -11,6 +11,11 @@ describe("contrato hreflang/canonical (REQ-676)", () => {
     expect(parseLocaleHead(head({ lang: "en", canonical: "/en/destinos/mx", alts: set }))).toEqual({ lang: "en", canonical: "/en/destinos/mx", noindex: false, alternates: set });
   });
 
+  it("REQ-676: lee también los metadatos transmitidos al final del <body> (streaming de Next 15)", () => {
+    const streamed = head({ lang: "es", canonical: "/destinos/mx", alts: set }).replace(/<head>(.*)<\/head><body>/, "<head></head><body><div hidden>$1</div>");
+    expect(parseLocaleHead(streamed)).toEqual({ lang: "es", canonical: "/destinos/mx", noindex: false, alternates: set });
+  });
+
   it("REQ-676: un par recíproco con x-default pasa", () => {
     expect(hreflangContractFailures({ "/destinos/mx": head({ lang: "es", canonical: "/destinos/mx", alts: set }), "/en/destinos/mx": head({ lang: "en", canonical: "/en/destinos/mx", alts: set }) })).toEqual([]);
   });
