@@ -1,0 +1,25 @@
+freetour.html enriquecimiento false []
+freetour-pago.html enriquecimiento false []
+extime.html enriquecimiento true []
+viaje-viajes.html enriquecimiento true []
+
+== home.html: 2 bloque(s) JSON-LD
+  ✓ "WebSite" · 4 propiedades
+  ✓ "Organization" · 4 propiedades
+
+== freetour.html: 2 bloque(s) JSON-LD
+  ✓ ["Product", "TouristTrip"] · 8 propiedades
+  ✓ "BreadcrumbList" · 1 propiedades
+
+== freetour-pago.html: 2 bloque(s) JSON-LD
+  ✓ ["Product", "TouristTrip"] · 8 propiedades
+  ✓ "BreadcrumbList" · 1 propiedades
+
+== extime.html: 2 bloque(s) JSON-LD
+  ✓ "BreadcrumbList" · 1 propiedades
+  ✓ ["Product", "TouristTrip"] · 9 propiedades
+
+== viaje-viajes.html: 1 bloque(s) JSON-LD
+  ✓ ["Product", "TouristTrip"] · 9 propiedades
+
+RESULTADO: VÁLIDO contra schema.org
