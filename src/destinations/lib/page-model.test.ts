@@ -185,7 +185,7 @@ describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la f
     ]);
     expect(ld(p).tripOrigin).toMatchObject({ "@type": "Place", name: "Zócalo, frente a la Catedral" });
   });
-  it("REQ-587: FREETOUR (sin enriquecimiento) no suma idiomas ni punto de encuentro al marcado ni «Idioma del guía» al HTML", () => {
+  it("REQ-588: FREETOUR (sin enriquecimiento) no lleva idiomas ni punto de encuentro en el marcado ni «Idioma del guía» en el HTML del servidor", () => {
     const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], duration: "2:30" }, siteUrl: site, lang: "es", detail });
     expect(p.enrichment).toBe(false);
     expect(p.facts).toEqual({ duration: "2 h 30 min", guideLanguages: null });

@@ -203,8 +203,8 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const provider = detail?.providerId?.trim() || "freetour";
   const enrichment = indexableEnrichment(provider);
   const duration = cardDuration({ raw: tour.duration }, lang);
-  // REQ-587 (auditoría FREETOUR, #212): sin enriquecimiento no se suma nada indexable que la página no tuviera antes
-  // del #204: ni idiomas del guía (antes solo salían en el cliente) ni punto de encuentro en el marcado.
+  // REQ-588 (auditoría FREETOUR #212 y PO 22:29): sin enriquecimiento, ni idiomas ni punto de encuentro en el marcado,
+  // y el idioma del guía no sale del servidor (la ficha lo pinta en el cliente con data-nosnippet).
   const langs = enrichment ? guideLanguagesLabel(detail?.guideLanguages, lang) : [];
   const facets = enrichment ? fichaFacets({ proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title }, lang) : { tipo: null, etiquetas: [] };
   const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
