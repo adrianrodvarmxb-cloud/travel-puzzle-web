@@ -35,14 +35,27 @@ import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
 import { getRouteLanguage } from '@/i18n/server';
+import { hubLocaleMetadata } from '@/i18n/metadata';
+import { pageCopy } from '@/i18n/lib/copy';
+import type { Metadata } from "next";
 import { formatCount } from "@/home/lib/format";
 import { withToursText } from "@/home/lib/hero";
 import { JsonLd } from "@/components/destinations/JsonLd";
 import { homeJsonLd } from "@/seo/lib/home-jsonld";
 import { siteUrl } from "@/destinations/server";
+import { withFinalHref } from "@/tours/lib/card-sources";
+import { slimDayTrip, slimHomeTour } from "@/home/lib/slim";
 
 // Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
+
+// REQ-660…665 (Gate 3): con LOCALE_URLS_ENABLED, title, canonical y hreflang del idioma de la URL; sin ella, {} (los del layout, como hoy).
+export async function generateMetadata(): Promise<Metadata> {
+  const loc = await hubLocaleMetadata("/");
+  if (!loc) return {};
+  const c = pageCopy(loc.lang).home;
+  return { title: { absolute: c.title }, description: c.description, ...loc.meta, openGraph: { title: c.title, description: c.description, ...loc.meta.openGraph } };
+}
 
 export default async function Home() {
   const env = process.env as Record<string, string | undefined>;
@@ -57,7 +70,7 @@ export default async function Home() {
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
   // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
   const taxonomyOn = taxonomyPublishEnabled(env);
-  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "tipos-540" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "carruseles-610" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
     withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.
@@ -74,6 +87,10 @@ export default async function Home() {
   // REQ-582: ItemList de los carruseles con la URL canónica de cada tarjeta. Si el árbol falla, sin resolver (nunca tumba el inicio).
   const resolve = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? canonicalHrefs(await getDestinations().catch(() => null)) : undefined;
   const carouselLists = homeItemLists({ siteUrl: siteBase(), lang, featured: data.featured, dayTrips: data.dayTrips, resolve });
+  // REQ-668 (Gate 3): las tarjetas enlazan la ficha final (LocalizedLink le pone el prefijo del idioma), sin el 301 de /tours/{id}.
+  const fin = withFinalHref(resolve);
+  const featured = data.featured.map(fin);
+  const dayTrips = data.dayTrips.map((d) => (d.type === "tour" ? { ...d, tour: fin(d.tour) } : d));
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
   return (
@@ -86,9 +103,9 @@ export default async function Home() {
         <HeroSearch slides={hero} quickCities={data.destinations.slice(0, 5)} />
         <ProofStrip stats={data.stats} counts={counts} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
-        <FeaturedTours tours={data.featured} priceLabels={priceLabels} />
+        <FeaturedTours tours={featured.map((t) => slimHomeTour(t, lang)) /* REQ-857; REQ-668 conserva href */} priceLabels={priceLabels} hasMore={data.carouselMore?.elegidos ?? false} />
         {/* REQ-452: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
-        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} priceLabels={priceLabels} /></SectionBoundary>
+        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={dayTrips.map((d) => slimDayTrip(d, lang)) /* REQ-857; REQ-668 */} priceLabels={priceLabels} hasMore={data.carouselMore?.excursiones ?? false} /></SectionBoundary>
         {carouselLists.length > 0 && <ListJsonLd data={carouselLists} />}
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />

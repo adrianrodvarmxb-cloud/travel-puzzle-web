@@ -245,7 +245,7 @@
         "dia completo",
         "full[- ]day"
       ],
-      "nota": "REQ-535 (auditoría 6-11): un viaje de un día también es excursión si el resumen dice que sale de la ciudad base (palabrasEnResumen). REQ-542 (PO 6-11 21:14): solo salidas desde la ciudad base; «día completo» dentro de la ciudad es tour con el atributo dia-completo. REQ-545: «excursiones en {ciudad}» no cuenta.",
+      "nota": "REQ-535 (auditoría 6-11): un viaje de un día también es excursión si el resumen dice que sale de la ciudad base (palabrasEnResumen). REQ-542 (PO 6-11 21:14): solo salidas desde la ciudad base; «día completo» dentro de la ciudad es tour con el atributo dia-completo. REQ-545: «excursiones en {ciudad}» no cuenta. REQ-865/866 (PO 6-11 22:36, como GetYourGuide): una base «excursión» de 6 h o más solo sigue como excursión con señal de salida (palabrasSalidaTitulo / palabrasSalidaResumen); sin ella es visita guiada con «dia-completo».",
       "palabrasSinDuracion": [
         "excursion de (un|1) dia",
         "day trip"
@@ -267,6 +267,51 @@
         "from ",
         "excursion de (un|1) dia (a|al) ",
         "day trip to "
+      ],
+      "palabrasSalidaTitulo": [
+        "desde ",
+        "from ",
+        "day trip",
+        "trip to ",
+        "excursion de (un|1) dia",
+        "excursion( [\\w-]+){0,4} (a|al|hacia) ",
+        "excursion to ",
+        "viaje( [\\w-]+){0,3} (a|al|hacia) ",
+        "escapada (a|al) ",
+        "tour to ",
+        "pick[- ]?up",
+        "recogida (en|del) hotel",
+        "transporte incluido",
+        "transport included",
+        "(dia completo|full[- ]day)( [\\w-]+){0,2} (a|al|hacia|to) (?!pie)",
+        "dia completo en (el|la|los|las) ",
+        "(tour|recorrido|visita|ruta|paseo)( [\\w-]+){0,2} (a|al|hacia|to) (?!pie\\b|la ciudad\\b|the city\\b)"
+      ],
+      "palabrasSalidaResumen": [
+        "transporte (incluido|de ida y vuelta|ida y vuelta)",
+        "transport(ation)? (is )?included",
+        "round[- ]trip transport",
+        "recogida (en|del|de) (el |tu |su )?(hotel|alojamiento)",
+        "(hotel|accommodation) pick[- ]?up",
+        "pick(ed)?[- ]?up (from|at) (your )?(hotel|accommodation)",
+        "transporte (de )?(ida y vuelta )?desde",
+        "salida desde",
+        "sal(e|es|imos|dremos|iendo)? (de madrugada |temprano )?desde",
+        "round[- ]trip (transport(ation)? )?from",
+        "day trip (from|to)",
+        "excursion( [\\w-]+){0,4} (a|al|hacia|desde) ",
+        "viaje( [\\w-]+){0,3} (a|al|hacia) ",
+        "(viajaremos|viajamos|nos dirigiremos|conduciremos|drive|travel|head|we will go) (a|al|hasta|hacia|to) ",
+        "a las afueras de",
+        "outside (the city|of )",
+        "\\d+ ?km (de|from|al)",
+        "kilometros (de|al)",
+        "(alejate|sal|salimos|saldremos) de la ciudad",
+        "leave the city",
+        "fuera de la ciudad",
+        "out of the city",
+        "cerca de ",
+        "near "
       ]
     },
     {
@@ -338,7 +383,7 @@
         "cabaret",
         "cena[- ]espectaculo"
       ],
-      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto). REQ-541 (PO 6-11 21:14): solo talleres, clases, catas sentadas y espectáculos; un recorrido con degustación es caminata o tour con tema gastronomía.",
+      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto). REQ-541 (PO 6-11 21:14): solo talleres, clases, catas sentadas y espectáculos; un recorrido con degustación es caminata o tour con tema gastronomía. REQ-867…869 (PO 6-11 22:36): en un título con dos actividades (combinado), lo gastronómico nunca domina (va como tema) y entre recorrido, espectáculo y clase domina lo que abre el título.",
       "palabrasRecorrido": [
         "ruta de (tapas|bares|vinos?|cata|sabores|comida)",
         "ruta gastronomica",
@@ -360,7 +405,85 @@
         "espectaculo*",
         "show",
         "cabaret"
-      ]
+      ],
+      "combinado": {
+        "separadores": [
+          "\\s+(y|e|con|and|with|plus|mas)\\s+",
+          "\\s*[+&]\\s*"
+        ],
+        "espectaculo": [
+          "espectaculo*",
+          "show",
+          "shows",
+          "flamenco",
+          "cabaret",
+          "concierto*",
+          "concert*",
+          "opera",
+          "tango",
+          "fado",
+          "musical",
+          "teatro",
+          "danza",
+          "dance",
+          "dancing"
+        ],
+        "clase": [
+          "clase",
+          "clases",
+          "taller",
+          "talleres",
+          "workshop",
+          "masterclass",
+          "cooking class",
+          "curso"
+        ],
+        "gastronomia": [
+          "tapas",
+          "pintxos?",
+          "sabor(es)?",
+          "flavou?rs?",
+          "degustacion(es)?",
+          "cata",
+          "catas",
+          "vinos?",
+          "wines?",
+          "tasting",
+          "food",
+          "cervezas?",
+          "beers?",
+          "gastronomi*",
+          "culinari*",
+          "chocolates?",
+          "quesos?",
+          "comida callejera",
+          "street food",
+          "mercado",
+          "market"
+        ],
+        "recorrido": [
+          "tour",
+          "recorrido*",
+          "paseo",
+          "ruta",
+          "visita",
+          "caminata",
+          "walking",
+          "walk",
+          "a pie",
+          "crucero",
+          "cruise",
+          "barco",
+          "boat",
+          "bici*",
+          "bike",
+          "excursion*",
+          "senderismo",
+          "hike",
+          "safari",
+          "navegacion"
+        ]
+      }
     },
     {
       "slug": "tour",

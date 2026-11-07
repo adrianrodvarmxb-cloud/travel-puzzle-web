@@ -25,12 +25,13 @@ describe("calendario del blog diario", () => {
     expect(new Set(CALENDARIO.map((c) => c.id)).size).toBe(CALENDARIO.length);
   });
 
-  it("REQ-961 + REQ-970: un término por ID, sin términos casi iguales entre sí, con los pilares ni con los artículos", () => {
-    const others = [
-      ...PILLARS.map((p) => ({ term: p.term, label: `pilar ${p.slug}` })),
-      ...POSTS.map((p) => ({ term: p.targetTerm, label: p.slug })),
-    ];
+  // REQ-1041: el artículo publicado de un tema del calendario (mismo clusterId) no cuenta como choque con su propio tema.
+  it("REQ-961 + REQ-970 + REQ-1041: un término por ID, sin términos casi iguales entre sí, con los pilares ni con otros artículos", () => {
     CALENDARIO.forEach((c, i) => {
+      const others = [
+        ...PILLARS.map((p) => ({ term: p.term, label: `pilar ${p.slug}` })),
+        ...POSTS.filter((p) => (p as { tema?: { clusterId?: string } }).tema?.clusterId !== c.id).map((p) => ({ term: p.targetTerm, label: p.slug })),
+      ];
       const rest = CALENDARIO.filter((_, j) => j !== i).map((x) => ({ term: x.term, label: x.id }));
       expect(termConflicts(c.term, [...rest, ...others]), c.id).toEqual([]);
       expect(normalizeTerm(c.term).length, c.id).toBeGreaterThan(1);

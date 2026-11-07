@@ -1,6 +1,9 @@
 import { ToursPageClient } from '@/components/tours/ToursPageClient';
+import { SiteFooter } from '@/components/home/v2';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { fetchTours, fetchCountries, fetchToursMetadata } from '@/actions/tours';
 import { getRouteLanguage } from '@/i18n/server';
+import { hubLocaleMetadata } from '@/i18n/metadata';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
 import { parseSort, sortToPagination } from '@/tours/lib/sort';
@@ -28,6 +31,9 @@ const toQuery = (params: Record<string, string | undefined>) =>
 export async function generateMetadata({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }): Promise<Metadata> {
   const title = catalogTitle(await getRouteLanguage());
   const r = toursRobots(toQuery(await searchParams), taxonomyOn());
+  // REQ-660 REQ-661 REQ-670 (Gate 3): con LOCALE_URLS_ENABLED, canonical del idioma y hreflang; con filtro, noindex y sin hreflang.
+  const loc = await hubLocaleMetadata('/tours', { filtered: !!r.robots });
+  if (loc) return { title: { absolute: title }, ...loc.meta, openGraph: { title, ...loc.meta.openGraph } };
   return { title: { absolute: title }, openGraph: { title }, ...(r.robots ? { robots: r.robots, alternates: { canonical: r.canonical } } : {}) };
 }
 
@@ -136,6 +142,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
       logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
+    {/* REQ-1100 (D07): el mismo pie del home que el resto del sitio. */}
+    <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
     </>
   );
 }

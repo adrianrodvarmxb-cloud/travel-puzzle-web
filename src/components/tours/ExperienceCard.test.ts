@@ -24,16 +24,25 @@ describe("ExperienceCard", () => {
     expect(h).toContain("París Paso a Paso Tours");
   });
 
-  it("REQ-521 REQ-526: sobre la foto solo «★ Favorito» (izquierda) y la categoría (derecha); ni logos ni otro texto", () => {
+  // REQ-526 (parte de «★ Favorito») REEMPLAZADO por REQ-860 (PO, 6-11 22:36: «Quítalo» de encima de la foto; C5 de FREETOUR).
+  it("REQ-860 REQ-526: sobre la foto solo va la categoría; «★ Favorito» ya no va encima de la foto", () => {
     const h = html();
     const photo = h.slice(h.indexOf("aspect-[4/3]"), h.indexOf("card-meta"));
-    expect(photo).toContain("left-3 top-3");
-    expect(photo).toContain("Favorito");
     expect(photo).toContain("right-3 top-3");
     expect(photo).toContain("Pieza libre");
-    expect(photo.match(/data-testid="card-(favorite|category)"/g)).toHaveLength(2);
-    expect(photo).not.toMatch(/Free tour|reseñas|freetour|Recomendado|<svg/i);
+    expect(photo.match(/data-testid="card-(favorite|category)"/g)).toEqual(['data-testid="card-category"']);
+    expect(photo).not.toMatch(/Favorito|left-3 top-3|Free tour|reseñas|freetour|Recomendado|<svg/i);
     expect(h).not.toContain("de los viajeros");
+  });
+
+  it("REQ-860: «★ Favorito» va bajo la foto, en la fila de ciudad · duración y antes del título; sin él la tarjeta no cambia", () => {
+    const h = html();
+    const fav = h.indexOf('data-testid="card-favorite"');
+    expect(fav).toBeGreaterThan(h.indexOf("card-meta"));
+    expect(fav).toBeLessThan(h.indexOf("<h3"));
+    expect(h.slice(fav, h.indexOf("<h3"))).toContain("Favorito");
+    const plain = experienceCard({ key: "t2", href: "/tours/t2", title: "Otra", image: "https://img/o.jpg", city: "París", duration: "2 h", formato: "pieza-libre", rating: 4.5, reviews: 20, provider: "X", price: { text: "Free tour", free: true } }, "es");
+    expect(renderToStaticMarkup(createElement(ExperienceCard, { card: plain }))).not.toContain("card-favorite");
   });
 
   it("REQ-520: sin Intl en el navegador (INC-001)", () => {

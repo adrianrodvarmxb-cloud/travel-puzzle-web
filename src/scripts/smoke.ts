@@ -8,7 +8,8 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { chromium, devices, type BrowserContext, type Page } from "playwright";
-import { discoverPages, isErrorScreen, isHydrationError, legacyFailures, parseSmokeConfig, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
+import { discoverPages, flaggedDiscoverRules, isErrorScreen, isHydrationError, legacyFailures, localeContractPages, parseSmokeConfig, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
+import { hreflangContractFailures, parseLocaleHead } from "../i18n/lib/contract";
 import { evidenceSlug, firstDifference, loadFailed } from "../ops/lib/smoke-evidence";
 import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
 import { fichaContractFailures, isFichaPath } from "../seo/lib/ficha-contract";
@@ -47,12 +48,16 @@ const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
 // REQ-976: con BLOG_ENABLED encendida, /blog, los pilares con artículos y las 5 entradas más recientes son fijas.
 const blogOn = (process.env.BLOG_ENABLED ?? vars.BLOG_ENABLED) === "true";
 const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env), ...(blogOn ? blogSmokePaths(loadPosts()) : [])])];
+// REQ-675: con LOCALE_URLS_ENABLED también se descubre una ficha en inglés.
+const discoverRules = [...config.discover, ...flaggedDiscoverRules(config, vars, process.env)];
+// REQ-676: el contrato de idioma lee el HTML como lo recibe un buscador.
+const BOT_UA = "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)";
 
 (async () => {
   const browser = await chromium.launch();
   // REQ-305: cada página de origen se reintenta (recién publicada puede tardar en traer el catálogo).
   const linksByPage: Record<string, string[]> = {};
-  for (const rule of config.discover) {
+  for (const rule of discoverRules) {
     const re = new RegExp(rule.pattern);
     for (let attempt = 1; attempt <= 3; attempt++) {
       const discover = await browser.newPage();
@@ -66,7 +71,7 @@ const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged,
       if (attempt < 3) await new Promise((r) => setTimeout(r, 15_000));
     }
   }
-  const discovered = discoverPages(config.discover, linksByPage);
+  const discovered = discoverPages(discoverRules, linksByPage);
   const pages = withOptionalPages([...new Set([...fixed, ...discovered.pages])], optional);
 
   // REQ-305: URL viejas sin seguir la redirección (301/410 esperados; 5xx nunca).
@@ -76,6 +81,32 @@ const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged,
     const r = await req.request.get(`${base}${l.path}`, { maxRedirects: 0, timeout: 60_000 }).catch(() => null);
     legacyStatus[l.path] = r?.status() ?? null;
     console.log(`${legacyStatus[l.path] ?? "---"} (sin seguir) ${l.path} → ${r?.headers()["location"] ?? ""}`);
+  }
+
+  // REQ-676 (Gate 3): contrato hreflang/canonical sobre el <head> crudo (sin cookie, sin JS), más las alternas que anuncian.
+  const localeFailures: string[] = [];
+  const contractPages = localeContractPages(config, vars, process.env, discovered.pages);
+  if (contractPages.length) {
+    const html: Record<string, string> = {};
+    const fetchRaw = async (p: string, headers: Record<string, string> = {}) => {
+      // Como Bingbot (htmlLimitedBots): Next 15 le manda los metadatos en el <head>; a los demás (Googlebot incluido) los transmite al final.
+      const r = await req.request.get(`${base}${p}`, { maxRedirects: 0, timeout: 60_000, headers: { "user-agent": BOT_UA, ...headers } }).catch(() => null);
+      return { status: r?.status() ?? null, body: r ? await r.text().catch(() => "") : "" };
+    };
+    for (const p of contractPages) { const r = await fetchRaw(p); if (r.status === 200) html[p] = r.body; else localeFailures.push(`contrato de idioma ${p}: estado ${r.status}`); }
+    const extra = new Set(Object.values(html).flatMap((h) => Object.values(parseLocaleHead(h).alternates)).filter((p) => !(p in html) && !(`${p}/` in html)));
+    for (const p of extra) { const r = await fetchRaw(p); if (r.status === 200) html[p] = r.body; }
+    const fails = hreflangContractFailures(html);
+    console.log(`${fails.length ? "✗" : "✓"} contrato hreflang/canonical: ${Object.keys(html).length} páginas`);
+    localeFailures.push(...fails.map((x) => `contrato de idioma ${x}`));
+    // Plan §6: una URL vieja (sin prefijo) con la cookie en inglés no redirige ni se rompe: 200, español y canonical propio.
+    for (const p of contractPages.filter((x) => !/^\/[a-z]{2}(\/|$)/.test(x))) {
+      const r = await fetchRaw(p, { cookie: "preferredLanguage=en" });
+      const h = parseLocaleHead(r.body);
+      const okCookie = r.status === 200 && h.lang === "es" && (h.canonical ?? "") === (p.length > 1 ? p.replace(/\/+$/, "") : p);
+      console.log(`${okCookie ? "✓" : "✗"} cookie en inglés ${p}: ${r.status} lang=${h.lang} canonical=${h.canonical}`);
+      if (!okCookie) localeFailures.push(`cookie en inglés ${p}: estado ${r.status}, lang ${h.lang}, canonical ${h.canonical}`);
+    }
   }
   await req.close();
 
@@ -116,7 +147,7 @@ const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged,
   await browser.close();
 
   for (const r of results) console.log(`${r.status ?? "---"} @${r.viewport} ${r.path}${r.appError || r.pageErrors.length ? "  ✗" : "  ✓"}`);
-  const v = smokeVerdict(results, [...discovered.failures, ...legacyFailures(config.legacy, legacyStatus), ...contractFailures]);
+  const v = smokeVerdict(results, [...discovered.failures, ...legacyFailures(config.legacy, legacyStatus), ...contractFailures, ...localeFailures]);
   if (!v.ok) {
     console.error(`\nPRUEBA DE HUMO FALLIDA (${v.failures.length}):\n- ${v.failures.join("\n- ")}`);
     if (savedEvidence > 0) console.error(`\nEvidencia (REQ-500): ${savedEvidence} carga(s) guardada(s) en ${EVIDENCE_DIR}/ (artefacto del job).`);

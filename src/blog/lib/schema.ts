@@ -14,6 +14,26 @@ import { textsOf } from "@/site/lib/vocab";
 
 const DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 const txt = (max: number) => z.string().trim().min(1).max(max);
+const https = z.string().regex(/^https:\/\/\S+$/);
+
+/** REQ-1050: formatos de imagen del cuerpo (skill blog-metodo-referentes, §Imágenes con formato). */
+export const IMAGE_BLOCKS = ["banner", "ancho", "columna", "dos", "collage", "galeria"] as const;
+export const IMAGE_LICENSES = ["Unsplash License", "Pexels License", "Pixabay Content License", "Permiso del proveedor"] as const;
+export const IMAGE_BANKS = ["unsplash", "pexels", "pixabay", "proveedor"] as const;
+
+/**
+ * REQ-1050: imagen con texto alternativo, crédito visible, licencia y origen (banco, id, página, autor).
+ * `src` es la base de los archivos optimizados del sitio (/blog/img/{slug}/{nombre} → -800/-1600 .avif/.webp/.jpg)
+ * o una URL https (solo artículos a mano). La licencia y el origen los exige el validador del diario.
+ */
+export const imageSchema = z.object({
+  src: z.string().regex(/^(\/|https:\/\/)\S+$/),
+  alt: txt(160),
+  credit: txt(160),
+  license: z.object({ name: z.enum(IMAGE_LICENSES), url: https }).optional(),
+  origen: z.object({ banco: z.enum(IMAGE_BANKS), id: txt(120), pagina: https, autor: txt(120), descarga: https.optional() }).optional(),
+});
+export type BlogImage = z.output<typeof imageSchema>;
 
 export const postSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -32,7 +52,14 @@ export const postSchema = z.object({
     clusterId: z.string().regex(/^[A-Z0-9-]{2,20}$/).optional(),
     fuentes: z.array(z.object({ label: txt(160), url: z.string().regex(/^https:\/\/\S+$/), fecha: z.string().regex(DATE) })).default([]),
   }).optional(),
-  cover: z.object({ src: z.string().regex(/^(\/|https:\/\/)/), alt: txt(160), credit: txt(160) }).optional(),
+  cover: imageSchema.optional(),
+  // REQ-1050: imágenes del cuerpo en los formatos de la skill (banner, ancho, columna, dos, collage, galería).
+  imagenes: z.array(z.object({
+    formato: z.enum(IMAGE_BLOCKS),
+    despues: z.number().int().min(0).max(7),
+    fotos: z.array(imageSchema).min(1).max(5),
+    pie: txt(200).optional(),
+  })).max(4).optional(),
   enBreve: txt(800),
   entrada: txt(800),
   sections: z.array(z.object({ h2: txt(120), answer: txt(400), body: z.array(txt(3000)).default([]), list: z.array(txt(400)).optional() })).min(4).max(8),

@@ -45,6 +45,8 @@ export interface TourRow {
   /** T3 y REQ-522: categoría y duración del proveedor, para el clasificador de la taxonomía y la categoría de la tarjeta. */
   categoryId?: number | null;
   durationMinutes?: number | null;
+  /** REQ-662/REQ-665 (Gate 3): título del proveedor en inglés ("" o null = no hay). */
+  titleEn?: string | null;
   /** REQ-831: proveedor de la fila (Tour.providerId; en la base el valor por defecto es "freetour"). */
   providerId?: string | null;
 }
@@ -53,6 +55,8 @@ export interface TripRow {
   id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string;
   /** REQ-524: agencia (null = Travel Puzzle). REQ-523: días y resumen. Opcionales. */
   agency?: string | null; agencyId?: string | null; durationDays?: number | null; summary?: string | null; priceFrom?: number | null;
+  /** REQ-662/REQ-665: título en inglés del gestor ("" = sin traducir). */
+  titleEn?: string | null;
 }
 
 export interface TourCardModel {
@@ -80,6 +84,8 @@ export interface TourCardModel {
   city?: string | null;
   durationDays?: number | null;
   summary?: string | null;
+  /** REQ-662/REQ-665: título en inglés (del proveedor o del gestor); vacío = la ficha no tiene versión indexable en inglés. */
+  titleEn?: string | null;
   /** REQ-831: proveedor del tour del catálogo (para robots y sitemap). Los viajes no lo llevan: siempre se indexan. */
   providerId?: string;
 }
@@ -98,8 +104,18 @@ export interface CityNode {
   ownTrips: TourCardModel[];
   /** REQ-172: viajes de tipo transporte (Big Bus…): sección Traslados de la ciudad, no Tours. */
   transportTrips: TourCardModel[];
+  /** REQ-665: nombre por idioma (traducciones de la base). */
+  names?: Record<string, string>;
 }
-export interface CountryNode { id: number; iso2: string; slug: string; name: string; href: string; indexable: boolean; cities: CityNode[] }
+export interface CountryNode { id: number; iso2: string; slug: string; name: string; href: string; indexable: boolean; cities: CityNode[]; /** REQ-665 */ names?: Record<string, string> }
+
+/** REQ-665: traducciones de un país o ciudad como mapa idioma → nombre (solo textos no vacíos). */
+export function placeNames(translations: unknown): Record<string, string> {
+  let t: unknown = translations;
+  if (typeof t === "string") { try { t = JSON.parse(t); } catch { t = null; } }
+  if (!t || typeof t !== "object") return {};
+  return Object.fromEntries(Object.entries(t as Record<string, unknown>).filter((e): e is [string, string] => typeof e[1] === "string" && !!e[1].trim()).map(([k, v]) => [k, v.trim()]));
+}
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
@@ -135,6 +151,7 @@ export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxo
     isFreeTour, price: Number(t.price), currency: t.currency, rating: t.rating, reviews: t.reviews, duration: t.duration,
     kind: isFreeTour ? "free" : "paid", updatedAt: t.updatedAt,
     city: cityName, // REQ-523
+    ...(t.titleEn !== undefined && { titleEn: t.titleEn ?? null }), // REQ-662
     providerId: t.providerId?.trim() || "freetour", // REQ-831: sin dato, el valor por defecto de la base
   };
 }
@@ -188,6 +205,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
           ...(tr.kind ? { formato: tripFormat({ kind: tr.kind, priceFrom: tr.priceFrom ?? null, durationDays: tr.durationDays ?? null, titles: [tr.title], resumen: tr.summary ?? null }) } : taxonomy ? { formato: ownKindFormato(tr.kind) } : {}),
           ...(taxonomy && { guiaEnPersona: tr.kind !== "transporte" }),
           city: cityLabel, durationDays: tr.durationDays ?? null, summary: tr.summary ?? null, // REQ-523
+          ...(tr.titleEn !== undefined && { titleEn: tr.titleEn ?? null }), // REQ-662
         }));
       // REQ-172: el transporte no es un tour; cuenta para que la ciudad tenga página, pero se lista en Traslados.
       const transportIds = new Set(trips.filter((tr) => tr.kind === "transporte").map((tr) => tr.id));
@@ -204,11 +222,12 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),
         ownTrips: own,
         transportTrips: [...transport, ...freetourTransfers],
+        names: placeNames(city.translations), // REQ-665
       });
     }
     if (!nodes.length) continue;
     nodes.sort((a, b) => b.activeTours - a.activeTours || a.name.localeCompare(b.name, "es"));
-    out.push({ id: c.id, iso2, slug, name: placeName(c.translations, iso2), href: countryPath(slug), indexable: countryIndexable(nodes), cities: nodes });
+    out.push({ id: c.id, iso2, slug, name: placeName(c.translations, iso2), href: countryPath(slug), indexable: countryIndexable(nodes), cities: nodes, names: placeNames(c.translations) });
   }
   return out.sort((a, b) => a.name.localeCompare(b.name, "es"));
 }
