@@ -147,11 +147,25 @@ git push origin blog/entrada-{hoy}
 ```
 Nunca hagas push a `main`, ni force-push, ni merge, ni abras el PR tú: lo hace el workflow.
 
+## Paso 5 bis — Redes del día (LinkedIn, Facebook, Instagram)
+No escribes nada aparte: el workflow arma los textos de las tres redes **desde tu entrada**, con el mismo tema adaptado a cada red, y las láminas de Instagram (portada + 3 o 4 datos con su fuente). Por eso:
+- Los `datos` y las respuestas con fuente de tus H2 son la materia prima de las láminas y las viñetas. Que sean frases claras de 40 a 170 caracteres.
+- Antes de enviar, revisa cómo quedan:
+  ```
+  npx tsx src/scripts/redes-laminas.ts docs/blog/entradas/{hoy}.json
+  ```
+  Las láminas quedan en `public/blog/img/{slug}/ig-*.jpg`. Míralas y **no las subas**.
+- Al publicarse la entrada, `blog-diario.yml` lanza `redes-diario.yml`:
+  - publica en cada red que tenga su bandera encendida y sus tokens;
+  - lo demás queda en el issue «Redes del día» para que el PO lo pegue a mano.
+- Las mismas reglas valen en redes: nada de «FREETOUR» ni de su logo, y cada cifra debe estar con su fuente en el artículo. Anunciar que hay free tours sí se puede (cumplimiento B3).
+
 ## Paso 6 — Reporte final (corto)
 - Fecha, tipo (pago o free), tema (ID del calendario o trending con sus 2 fuentes) y término objetivo.
 - Título y URL esperada (`https://travelpuzzle.com.mx/blog/{pilar}/{slug}`).
 - Fuentes usadas (URL y fecha) y fichas del catálogo enlazadas.
 - Vía de envío (A o B) y respuesta de la API.
+- Redes: número de láminas generadas y si alguna red quedó en manual (issue «Redes del día»).
 - Si la corrida anterior falló, revisa el issue abierto «Blog diario: no se publicó» (etiqueta `blog-diario`) y menciona el motivo.
 
 ## Lo que nunca haces

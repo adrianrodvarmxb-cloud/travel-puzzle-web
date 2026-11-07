@@ -9,6 +9,7 @@ import { inlineLinks } from "./lib/inline";
 import { FREE_TOUR_POSTS_B1, planDelDia, type Plan } from "./lib/mix";
 import { CALENDARIO } from "./content/calendario";
 import { allImages, imageFiles } from "./lib/images";
+import { socialPack, socialProblems } from "@/redes/lib/textos";
 import { POSTS } from "./content";
 
 type Fetch = (url: string) => Promise<{ ok: boolean; status: number; text: () => Promise<string> }>;
@@ -67,7 +68,10 @@ export function missingImageFiles(p: Post, exists: (path: string) => boolean): s
 // REQ-975: valida una entrada contra producción (rutas y fichas) y el registro actual.
 // REQ-1055: con `exists`, exige además los archivos optimizados de cada imagen.
 export async function validateAgainstSite(input: PostInput, o: { siteUrl: string; fetch: Fetch; now: Date; today?: string; primeraPieza: boolean; source?: PostInput[]; exists?: (path: string) => boolean }): Promise<DailyResult> {
-  const r = await validateSiteOnly(input, o);
+  const r0 = await validateSiteOnly(input, o);
+  // REQ-1074: los textos de redes que salen de la entrada pasan las mismas reglas; si no, la entrada no se publica.
+  const redes = r0.ok ? socialProblems(socialPack(r0.post, o.siteUrl), r0.post, o.siteUrl).map((x) => `redes: ${x}`) : [];
+  const r: DailyResult = redes.length ? { ok: false, problems: redes } : r0;
   if (!r.ok || !o.exists) return r;
   const missing = missingImageFiles(r.post, o.exists);
   return missing.length ? { ok: false, problems: [`faltan ${missing.length} archivos de imagen optimizados (corre src/scripts/blog-imagenes.ts): ${missing.slice(0, 3).join(", ")}`] } : r;
