@@ -801,4 +801,11 @@ Petición literal (coordinador, 7 nov 2026): «URGENTE (D31): quitar «FREETOUR�
 | REQ-1244 | (misma petición) inicio | NUEVO | Dadas las tarjetas del inicio (destacados y excursiones), cuando se recortan al idioma de la visita, entonces título y resumen salen limpios. | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1245 | (misma petición) /destinos | NUEVO | Dados los tours del árbol de /destinos (ciudad, breadcrumbs, sitemaps, ItemList), entonces el título en es y en sale limpio. | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1246 | (misma petición) correos | NUEVO | Dado un correo al cliente (resumen del tour y «más tours»), entonces el título sale limpio. | EN CURSO (test verde; falta humo del PR y OK del PO) |
+
+## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14)
+Petición literal (coordinador): «"★ Favorito" usa en todo el sitio ≥4.9 estrellas y ≥180 reseñas (D13). Reemplaza el gate "A" de 4.7 y 50. Unifica `gates.ts` y `favorite.ts` en una sola regla, con su REQ de reemplazo y su test.»
+| ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|---|
+| REQ-1290 | «≥4.9 estrellas y ≥180 reseñas en todo el sitio» — **reemplaza el gate G-T1 «A» (≥4.7 y ≥50) de REQ-260 y docs/plan-taxonomia.md §7.1 bis** | REEMPLAZO | Dado un producto, cuando la tarjeta, las reseñas destacadas o el clasificador de la taxonomía deciden si es «★ Favorito», entonces los tres usan la misma regla de `src/tours/lib/favorite.ts` (≥4.9 y ≥180): G-T1 = «D», que toma esos valores de ahí; 4.7 con 50 reseñas ya no lo es. | EN CURSO (test verde; falta humo del PR y OK del PO) |
+
 | REQ-1248 | «10:00 a 14:00 y 16:00 a 20:00» (horario real de atención, PO 7 nov 2026; el sitio decía 9:00 a 19:00) | Dado cualquier texto del sitio con el horario de atención (contacto, ayuda, nosotros, asesores y términos, en español e inglés), cuando se publica, entonces dice de 10:00 a 14:00 y de 16:00 a 20:00; ningún texto dice 9:00 a 19:00. | CUMPLIDO (src/contact/lib/horario.test.ts) |
