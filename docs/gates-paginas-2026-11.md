@@ -47,3 +47,20 @@ Huecos que siguen abiertos (no se publican): días de atención y zona horaria (
 | E4 | Personas | El bloque «Quiénes te atienden» no sale hasta tener nombres, destinos que conocen, fotos y permiso escrito | Publicar sin nombres | [ ] |
 
 Hallazgo fuera de alcance (no se tocó): el inicio en producción todavía dice «Viajes armados por nuestros expertos» (src/trips/lib/copy.ts) y el menú del celular «Viajes armados por expertos» (src/home/lib/sections.ts). Choca con lo que el PO rechazó hoy; va en un PR aparte si el PO lo pide.
+
+## Blog (PR de /blog)
+
+Gate A del plan del blog (`paginas-nuevas/blog-plan.md`). Se construyó con lo recomendado; nada se publica.
+
+| # | Decisión | Opción aplicada (recomendada) | Alternativa | Firma |
+|---|---|---|---|---|
+| B1 | Pilares | China, Perú y Machu Picchu, Colombia y Europa activos; Free tours **bloqueado** hasta la autorización B1 de FREETOUR por escrito; Asia fuera hasta publicar su inventario; transporte como satélite, no pilar | Otros pilares | [ ] |
+| B2 | Almacenamiento | Opción A: artículos como datos tipados en `src/blog/content/` validados con Zod; sin base nueva ni migración | B (MDX) o C (tabla D1 + panel, fase 2) | [ ] |
+| B3 | Rutas | `/blog`, `/blog/{pilar}`, `/blog/{pilar}/{slug}`; slug fijo | Otras | [ ] |
+| B4 | Página comercial del pilar | `/destinos/{pais}` con PRIMERA_PIEZA_ENABLED; apagada, `/tours?search={país}` (nunca un 404) | Esperar a PRIMERA_PIEZA | [ ] |
+| B5 | Enlace «Blog» en el pie | Con BLOG_ENABLED y al menos 3 artículos visibles | Desde el primer artículo | [ ] |
+| B6 | Borradores en preview | `BLOG_SHOW_DRAFTS` (solo preview, con aviso rojo y noindex); en producción siempre "false" | No mostrar borradores nunca | [ ] |
+| B7 | Autora | Claudia Leticia Rodríguez Laveaga (nombre de /terminos). Sin cargo, biografía, foto ni LinkedIn hasta confirmarlos; la firma enlaza a /nosotros si está encendida (no hay página de autora todavía) | Página `/blog/autores/claudia-rodriguez` | [ ] |
+| B8 | Encendido | BLOG_ENABLED va después de PRIMERA_PIEZA_ENABLED (otro PR y otro deploy) y con ≥3 artículos aprobados por Claudia y por el PO | — | [ ] |
+
+No construido en este PR (se reporta, no se hace de paso): «Del blog» en el inicio y en los hubs (no aplica con cero publicados; tocaría la home, que tiene PR abiertos), tarjetas del inventario dentro de la página pilar, página de autora, GA4 y `content_group` (bloqueado: no hay analítica ni política de cookies), `docs/blog/` (calendario, guía de entrevista, checklist; van en el PR de documentos del Gate A).

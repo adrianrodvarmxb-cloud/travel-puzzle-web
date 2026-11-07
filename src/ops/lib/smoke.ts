@@ -78,8 +78,8 @@ const SmokeConfigSchema = z.object({
   optional: z.array(z.string().startsWith("/")).default([]), // REQ-223
   discover: z.array(z.object({ from: z.string().startsWith("/"), pattern: regex, take: z.number().int().positive(), required: z.boolean().default(false) })).default([]),
   legacy: z.array(z.object({ path: z.string().startsWith("/"), expect: z.array(z.number().int()).min(1) })).default([]),
-  // REQ-242: bandera → páginas que solo se prueban si esa bandera está en "true".
-  flagged: z.record(z.string().regex(/^[A-Z][A-Z0-9_]*$/), z.array(z.string().startsWith("/"))).default({}),
+  // REQ-242: bandera → páginas que solo se prueban si esa bandera está en "true" ("A+B" = las dos).
+  flagged: z.record(z.string().regex(/^[A-Z][A-Z0-9_]*(\+[A-Z][A-Z0-9_]*)*$/), z.array(z.string().startsWith("/"))).default({}),
 });
 export type SmokeConfig = z.infer<typeof SmokeConfigSchema>;
 export type DiscoverRule = SmokeConfig["discover"][number];
