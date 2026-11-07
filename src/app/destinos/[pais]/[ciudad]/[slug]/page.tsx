@@ -7,7 +7,7 @@ import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { TripDetailView, tripMetadata } from '@/components/trips/TripDetailView';
-import { allTours, findCity, type CityNode, type CountryNode } from '@/destinations/lib/catalog';
+import { allTours, fichaTours, findCity, type CityNode, type CountryNode } from '@/destinations/lib/catalog';
 import { tourPage } from '@/destinations/lib/page-model';
 import { toMetadata } from '@/destinations/metadata';
 import { destinosLanguage, getDestinationsIn, primeraPiezaOn, siteUrl } from '@/destinations/server';
@@ -31,7 +31,7 @@ async function resolve(params: Props['params'], lang: SupportedLanguage): Promis
     const hit = findCity(await getDestinationsIn(lang), pais, ciudad);
     if (!hit) return null;
     const href = `/destinos/${pais}/${ciudad}/${slug}`;
-    const tour = allTours(hit.city).find((t) => t.href === href);
+    const tour = fichaTours(hit.city).find((t) => t.href === href); // REQ-1262: también las experiencias en línea
     return tour ? { ...hit, tour } : null;
 }
 

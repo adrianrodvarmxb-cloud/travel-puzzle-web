@@ -29,6 +29,15 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 |---|---|---|---|---|
 | REQ-1256 | Tipos principales de /tours desde el diccionario | `src/taxonomy/lib/format-defs.ts`, `src/taxonomy/schemas/dictionary.ts`, `src/taxonomy/data/dictionary.json`, `src/tours/lib/format-chips.ts`, `src/taxonomy/lib/filters.ts`, `src/catalog/lib/query.ts`, `src/lib/db/repositories/tour-repository.ts`, `src/app/tours/page.tsx`, `ToursPageClient.tsx`, `MoreFilters.tsx` | `src/taxonomy/lib/format-defs.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## FREETOUR cat. 8 por su tipo real (PO, 7 nov 2026, 11:3x) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1260 | Cat. 8 app/audioguía → Autoguiado (reemplaza §4.1 #0 para la 8) | `src/taxonomy/data/mapping/freetour.json`, `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/format.ts` | `src/taxonomy/lib/categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1261 | Cat. 8 presencial → su tipo normal | `format.ts`, `freetour.json` | `categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1262 | «Experiencias en línea» | `src/taxonomy/lib/types.ts`, `dictionary.json`, `format.ts`, `publish.ts`, `filters.ts`, `cart-type.ts`, `src/destinations/lib/catalog.ts` (`onlineTours`, `fichaTours`), `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx` | `categoria-8-tipo-real.test.ts`, `src/destinations/lib/catalog.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1263 | Cat. 31 «Esenciales de viaje», tras bandera | `types.ts`, `dictionary.json`, `freetour.json`, `format.ts`, `publish.ts`, `themes.ts`, `attributes.ts` | `categoria-8-tipo-real.test.ts`, `freetour.test.ts` | EN CURSO |
+| REQ-1264 | SCT/NIR/WLS → GB | `src/destinations/lib/ids.ts` (`countryIso2`, `ISO2_SQL`), `src/destinations/lib/catalog.ts`, `src/destinations/repository.ts` | `categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Rango de precio en EUR con MXN aproximado (7 nov 2026) — matriz de trazabilidad
 | REQ-1254 | Deslizador «€X · aprox. MXN $Y», sin «US$» | `src/tours/lib/price-filter.ts`, `src/components/tours/filters/PriceSlider.tsx`, `MoreFilters.tsx`, `ToursPageClient.tsx`, `src/app/tours/page.tsx` | `src/tours/lib/price-filter.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1255 | Viajes en USD o MXN se comparan en EUR | `src/tours/lib/price-filter.ts`, `src/trips/lib/public.ts`, `src/trips/public-load.ts` | `price-filter.test.ts` | EN CURSO (falta humo del PR y OK del PO) |

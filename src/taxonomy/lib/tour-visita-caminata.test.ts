@@ -93,12 +93,12 @@ describe("REQ-1257 las cachés que guardan el formato cambian de llave con la re
   it("REQ-1257 índice del catálogo, lista de /tours, API, viajes, /destinos e inicio", async () => {
     const { readFileSync } = await import("node:fs");
     const has = (f: string, s: string) => expect(readFileSync(f, "utf8"), f).toContain(s);
-    has("src/catalog/snapshot.ts", "v: 4");
-    has("src/actions/tours.ts", "v: 'tipos-1250'");
-    has("src/app/api/tours/route.ts", "v: 'tipos-1250'");
+    has("src/catalog/snapshot.ts", "v: 5"); // REQ-1260
+    has("src/actions/tours.ts", "v: 'tipos-1260'");
+    has("src/app/api/tours/route.ts", "v: 'tipos-1260'");
     has("src/trips/public-load.ts", 'v: "9"');
-    has("src/destinations/server.ts", 'cacheKey("destinos", { v: "6"');
-    has("src/app/page.tsx", 'v: "carruseles-610-tipos-1250"');
-    has("src/home/carousel-load.ts", "v: 3 /* REQ-668 href final; REQ-1250 tipos */");
+    has("src/destinations/server.ts", 'cacheKey("destinos", { v: "7"');
+    has("src/app/page.tsx", 'v: "carruseles-610-tipos-1260"');
+    has("src/home/carousel-load.ts", "v: 4 /* REQ-668 href final; REQ-1250 tipos; REQ-1260 cat. 8 */");
   });
 });

@@ -22,6 +22,58 @@
       "nota": "FREETOUR 8 (online) y 31 (servicios de viaje). No cuenta para indexar una ciudad."
     },
     {
+      "slug": "en-linea",
+      "eje": "formato",
+      "termino_es": "Experiencias en línea",
+      "termino_en": "Online experiences",
+      "definicion_es": "Se vive a distancia: un tour virtual en vivo o una asesoría por videollamada o chat. No es una actividad en la ciudad.",
+      "sinonimos": [
+        "en línea",
+        "online",
+        "virtual",
+        "tour virtual",
+        "asesoría"
+      ],
+      "estado": "activo",
+      "precedencia": 14,
+      "seccion": "experiencias",
+      "guiaEnPersona": false,
+      "palabras": [
+        "virtual*",
+        "online",
+        "en linea",
+        "en vivo",
+        "live",
+        "zoom",
+        "videollamada*",
+        "video call",
+        "asesor*",
+        "chat",
+        "whatsapp"
+      ],
+      "etiqueta_corta_es": "En línea",
+      "etiqueta_corta_en": "Online",
+      "orden_chip": 11,
+      "nota": "REQ-1262 (PO, 7-11 11:3x): sección propia en /tours; no cuenta para indexar una ciudad ni se lista como «cosas que hacer» en ella. Solo se detecta en categorías que lo permiten (FREETOUR 8)."
+    },
+    {
+      "slug": "esenciales-viaje",
+      "eje": "formato",
+      "termino_es": "Esenciales de viaje",
+      "termino_en": "Travel essentials",
+      "definicion_es": "Servicios para el viaje (eSIM, seguros, trámites); no son experiencias.",
+      "sinonimos": [
+        "esim",
+        "sim",
+        "servicios de viaje"
+      ],
+      "estado": "tras_bandera",
+      "precedencia": 15,
+      "seccion": "ninguna",
+      "guiaEnPersona": false,
+      "nota": "REQ-1263 (PO, 7-11 11:3x): FREETOUR cat. 31; hoy 0 activos. Se publica solo cuando un PR lo pase a «activo» con su sección."
+    },
+    {
       "slug": "traslado",
       "eje": "formato",
       "termino_es": "Traslado",
@@ -68,7 +120,8 @@
       "palabras": [
         "hop[- ]on",
         "hop on hop off",
-        "bus turistico"
+        "bus turistico",
+        "autobus turistico"
       ],
       "nota": "TRANSPORT_ENABLED=true desde #127; vive en /traslados, fuera de Experiencias (REQ-172; firmado 6-11)."
     },
@@ -158,7 +211,10 @@
         "auto[- ]guiad*",
         "por tu cuenta",
         "app audioguia*",
-        "audio guided"
+        "audio guided",
+        "autoguia*",
+        "audio app",
+        "\\bapp\\b"
       ],
       "nota": "Copy sin «con un guía local» (REQ-416, REQ-433).",
       "etiqueta_corta_es": "Autoguiado",
