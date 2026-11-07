@@ -19,3 +19,16 @@ export async function sitemapResponse(file: string): Promise<Response> {
     const body = file === 'sitemap-index.xml' ? index : files[file];
     return body ? new Response(body, { headers: XML }) : notFound();
 }
+
+/** REQ-586: los archivos de sitemap que lista el índice, ya armados (para IndexNow). Apagada PRIMERA_PIEZA: ninguno. */
+export async function sitemapFiles(): Promise<Record<string, string>> {
+    const index = await sitemapResponse('sitemap-index.xml');
+    if (!index.ok) return {};
+    const names = [...(await index.text()).matchAll(/<loc>[^<]*\/([^/<]+\.xml)<\/loc>/g)].map((m) => m[1]);
+    const out: Record<string, string> = {};
+    for (const name of names) {
+        const r = await sitemapResponse(name).catch(() => null);
+        if (r?.ok) out[name] = await r.text();
+    }
+    return out;
+}

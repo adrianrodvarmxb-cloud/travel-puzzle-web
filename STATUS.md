@@ -408,6 +408,14 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 
 Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-libre 3,464 · caminata 1,515 · tour 1,253 · excursion-dia 1,222 · experiencia-unica 344 · circuito 30 · autoguiado 29 · entradas 28 · traslado 8 · transporte 1 · `fuera` 124 (llevan el respaldo «Experiencia»). Operador: 0 vacíos; 32 tours con «freetour» en el nombre del operador (p. ej. «Don freetour», «MontpellierFreeTour») quedan con el espacio vacío por la regla dura. Componentes que quedan sin uso (no se borran): `TourCard`, `HomeTourCard`, `DestinationTourCard`, `OwnTripCard` (solo su test).
 
+## Fichas legibles para buscadores e IA — PR 3: IndexNow tras `INDEXNOW_ENABLED="false"` — matriz de trazabilidad
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-586 | IndexNow diario (URLs con lastmod de ayer u hoy), clave en /indexnow-key.txt, apagado | `src/seo/lib/indexnow.ts`, `src/seo/indexnow-run.ts`, `app/api/cron/indexnow/route.ts`, `app/indexnow-key.txt/route.ts`, `destinations/sitemaps.ts` (`sitemapFiles`), `worker.ts` (12:10 UTC), `wrangler.jsonc` | `src/seo/lib/indexnow.test.ts`, `src/seo/indexnow-run.test.ts` | CUMPLIDO (apagado) |
+
+Para encender (paso a paso del PO, uno por uno): 1) crear la clave (8–128 caracteres a-z, 0-9, guion) y cargarla como variable `INDEXNOW_KEY` del Worker; 2) PR que cambie `INDEXNOW_ENABLED` a "true", con preview y prueba de humo (exige /indexnow-key.txt en 200); 3) OK del PO y merge; 4) en Bing Webmaster Tools, revisar «IndexNow Insights» al día siguiente.
+
 ## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
