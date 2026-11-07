@@ -30,7 +30,7 @@ const base = z.object({
 const zFormato = base.extend({
   eje: z.literal("formato"),
   slug: z.enum(FORMATO_O_ESTADO),
-  precedencia: z.number().int().min(0).max(13).nullable(), // REQ-1250: 13 = visita-guiada (parte de #11)
+  precedencia: z.number().int().min(0).max(15).nullable(), // REQ-1250: 13 = visita-guiada (parte de #11)
   seccion: z.enum(SECCIONES),
   guiaEnPersona: z.boolean(),
   /** REQ-1256: nombre corto (tarjeta y chips) y orden en /tours; obligatorio en los activos de Experiencias. */
@@ -135,7 +135,7 @@ const zCategoria = z.object({
   temas: z.array(z.enum(TEMAS)).max(3),
   atributos: z.array(z.string().regex(/^(nocturno|medio:(bici|barco|vehiculo|a-pie))$/)),
   /** Reglas por palabra que esta categoría permite (FREETOUR 13/14: traslado y entradas; 5: clase o taller). */
-  reglasPorPalabra: z.array(z.enum(["traslado", "entradas", "experiencia-unica"])),
+  reglasPorPalabra: z.array(z.enum(["traslado", "entradas", "experiencia-unica", "en-linea"])), // REQ-1262: «en-linea» solo en la cat. 8
   estado: z.enum(["activo", "tras_bandera", "oculto", "historico"]),
   /** El formato base gana de inmediato (viajes propios con kind explícito). */
   fijo: z.boolean().optional(),

@@ -38,7 +38,7 @@ describe("REQ-403 temas: de 0 a 3, de los 13", () => {
     expect(own.reglasTemas.find((r) => r.valor === "naturaleza")?.regla).toBe("fuente ecoturismo");
   });
   it("REQ-403 fuera y por-revisar no llevan tema", () => {
-    expect(temas(ft(8, "Online cooking class"))).toEqual([]);
+    expect(temas(ft(31, "Online cooking class"))).toEqual([]); // REQ-1263: la 31 (esenciales, tras bandera) no lleva tema; la 8 ya se clasifica por lo que es
     expect(temas(ft(999, "Cata de vinos"))).toEqual([]);
   });
 });

@@ -9,7 +9,7 @@ describe("REQ-428 formato → CartItem.tipo", () => {
     expect(tabla).toEqual({
       "pieza-libre": "free_tour", caminata: "tour", tour: "tour", "visita-guiada": "tour" /* REQ-1250 */, "experiencia-unica": "tour", autoguiado: "tour",
       "excursion-dia": "day_trip", entradas: "tickets", traslado: "transfer", transporte: "transport", alquiler: "car_rental",
-      circuito: null, "a-la-medida": null, crucero: null, fuera: null, "por-revisar": null,
+      circuito: null, "a-la-medida": null, crucero: null, fuera: null, "por-revisar": null, "en-linea": null, "esenciales-viaje": null, // REQ-1262/1263
     });
     for (const t of Object.values(tabla)) if (t) expect(CART_ITEM_TYPES).toContain(t);
   });

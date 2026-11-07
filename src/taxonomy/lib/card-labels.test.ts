@@ -25,6 +25,7 @@ describe("REQ-531: nombres cortos solo en la etiqueta de la foto de la tarjeta (
       autoguiado: { es: "Autoguiado", en: "Self-guided" },
       circuito: { es: "Circuito", en: "Multi-day tour" },
       "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made" },
+      "en-linea": { es: "En línea", en: "Online" }, // REQ-1262
     });
   });
 

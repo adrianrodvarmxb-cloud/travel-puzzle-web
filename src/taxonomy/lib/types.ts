@@ -7,7 +7,9 @@
 export const FORMATOS = [
   "pieza-libre", "caminata", "tour", "excursion-dia", "circuito", "experiencia-unica", "entradas", "autoguiado",
   "transporte", "traslado", "a-la-medida", "alquiler", "crucero",
-  "visita-guiada", // REQ-1250 (decisión B del PO, 7-11 08:01): el «tour» de #11 se parte en Tour y Visita guiada
+  "visita-guiada", // REQ-1250
+  "en-linea", // REQ-1262 (PO, 7-11 11:3x): experiencias realmente en línea (FREETOUR cat. 8)
+  "esenciales-viaje", // REQ-1263: FREETOUR cat. 31 (servicios de viaje), tras bandera (decisión B del PO, 7-11 08:01): el «tour» de #11 se parte en Tour y Visita guiada
 ] as const;
 export const ESTADOS_FORMATO = ["fuera", "por-revisar"] as const;
 export type Formato = (typeof FORMATOS)[number];
