@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
 import { SiteFooter } from '@/components/home/v2';
@@ -7,7 +7,7 @@ import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
 import { tripCopy } from '@/trips/lib/copy';
 import { anyTripsVisible } from '@/trips/public-load';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 
 export const metadata: Metadata = { title: 'Gracias · Travel Puzzle', robots: { index: false, follow: false } };
 
@@ -17,7 +17,7 @@ export default async function ThanksPage({ searchParams }: { searchParams: Promi
     const q = await searchParams;
     const folio = /^SOL-\d{8}-[A-Z0-9]{4}$/.test(q.folio ?? '') ? q.folio! : null;
     const back = q.volver?.startsWith('/viajes/') ? q.volver : '/tours';
-    const c = tripCopy(await getPreferredLanguage());
+    const c = tripCopy(await getRouteLanguage());
     const wa = process.env.WHATSAPP_NUMBER ? `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola Travel Puzzle, mi folio es ${folio ?? ''}.`)}` : null;
     return (
         <div className="min-h-screen bg-background">

@@ -3,18 +3,24 @@ import type { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { destinationsMiddleware } from '@/destinations/middleware';
 import { toursKindRedirect } from '@/trips/lib/public';
+import { localeStep } from '@/i18n/middleware';
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  // REQ-650…653 (Gate 3): con LOCALE_URLS_ENABLED, /en/... se reescribe a la ruta sin prefijo con el idioma en x-tp-lang.
+  // Apagada: `pathname` es la de siempre, `localize` no cambia nada y `finish()` es null (todo como hoy).
+  const loc = localeStep(request, process.env as Record<string, string | undefined>);
+  if (loc.redirect) return loc.redirect;
+  const { pathname } = loc;
 
   // REQ-172: el transporte no es un tour. /tours?tipo=transporte → 301 a la sección de transporte de /traslados.
   const toTransport = toursKindRedirect(pathname, request.nextUrl.searchParams, process.env.TRANSPORT_ENABLED === 'true');
-  if (toTransport) return NextResponse.redirect(new URL(toTransport, request.url), 301);
+  if (toTransport) return NextResponse.redirect(new URL(loc.localize(toTransport), request.url), 301);
 
   // REQ-092 / REQ-102: 301 desde URLs viejas (solo si ya hay slug), 410 de tours retirados y sitemaps por país.
   // Solo con PRIMERA_PIEZA_ENABLED="true"; apagada, el middleware queda igual que hoy.
+  // REQ-658: con idioma en la URL, las 301 conservan el prefijo.
   if (process.env.PRIMERA_PIEZA_ENABLED === 'true') {
-    const res = await destinationsMiddleware(request);
+    const res = await destinationsMiddleware(request, { pathname, localize: loc.localize, headers: loc.headers });
     if (res) return res;
   }
 
@@ -32,7 +38,7 @@ export async function middleware(request: NextRequest) {
       console.error('Auth check error in middleware:', error);
     }
     // Allow access to auth pages
-    return NextResponse.next();
+    return loc.finish() ?? NextResponse.next();
   }
 
   // Try to get session for protected routes
@@ -72,7 +78,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return loc.finish() ?? NextResponse.next();
 }
 
 export const config = {
