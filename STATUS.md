@@ -83,6 +83,24 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
+## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…748)
+- Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-744).
+- Los imports guardan el item completo (con `source`, `hold`, `taxonomia`) y el documento original si el workflow lo recibe (`source/<agencia>/…`).
+- Índice `ProviderRecord` + `ProviderDocument`: migración PROPUESTA `docs/migraciones-propuestas/0022_provider_record.sql` (sin aplicar).
+- Todo tras `RAW_ARCHIVE_ENABLED="false"`. Pasos con candado en `docs/runbooks/copia-exacta.md`: bucket, binding, migración, bandera.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-740 | Huella sin volátiles por proveedor | src/ingest/lib/raw-hash.ts | raw-hash.test.ts | CUMPLIDO |
+| REQ-741 | Claves raw/ y source/ | src/ingest/lib/raw-keys.ts | raw-keys.test.ts | CUMPLIDO |
+| REQ-742 | Puerto RawArchive, versión solo si cambia | src/ingest/raw-archive.ts, lib/archive-plan.ts | raw-archive.test.ts | CUMPLIDO |
+| REQ-743 | FREETOUR crudo antes de transformar | src/catalog/guarded-sync.ts, src/ingest/lib/freetour-raw.ts, deps.ts, lib/flags.ts, cron sync-tours | guarded-sync.test.ts, flags.test.ts | CUMPLIDO (apagado) |
+| REQ-744 | El archivo crudo no tumba el sync | src/ingest/raw-archive.ts, guarded-sync.ts | raw-archive.test.ts, guarded-sync.test.ts | CUMPLIDO |
+| REQ-745 | Imports: item completo + documento original | src/ingest/lib/import-archive.ts, src/scripts/import-trips.ts, importar-viajes.yml | import-archive.test.ts | CUMPLIDO (apagado) |
+| REQ-746 | Índice D1 (migración propuesta 0022) | docs/migraciones-propuestas/0022_provider_record.sql | migration-0022.test.ts | CUMPLIDO (sin aplicar) |
+| REQ-747 | Ninguna ruta pública sirve raw/ | src/ingest/* | privacy.test.ts | CUMPLIDO |
+| REQ-748 | Netos y copias fuera del repo | imports/*.json | privacy.test.ts | CUMPLIDO |
+
 ## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
 - La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
 - eSIM: sin proveedor integrado se oculta salvo en China (`ESIM_ADVISOR_COUNTRIES`). Seguro: oculto hasta tener deeplink de afiliado (`INSURANCE_ADVISOR_COUNTRIES = []`, REQ-326).
