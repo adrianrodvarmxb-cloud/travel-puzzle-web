@@ -178,7 +178,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
           id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: tripProvider(tr), image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
           // REQ-522: el formato del viaje sale del clasificador oficial (como T4 en /tours); T5 conserva guiaEnPersona.
-          ...(tr.kind ? { formato: tripFormat({ kind: tr.kind, priceFrom: tr.priceFrom ?? null, durationDays: tr.durationDays ?? null, titles: [tr.title] }) } : taxonomy ? { formato: ownKindFormato(tr.kind) } : {}),
+          ...(tr.kind ? { formato: tripFormat({ kind: tr.kind, priceFrom: tr.priceFrom ?? null, durationDays: tr.durationDays ?? null, titles: [tr.title], resumen: tr.summary ?? null }) } : taxonomy ? { formato: ownKindFormato(tr.kind) } : {}),
           ...(taxonomy && { guiaEnPersona: tr.kind !== "transporte" }),
           city: cityLabel, durationDays: tr.durationDays ?? null, summary: tr.summary ?? null, // REQ-523
         }));

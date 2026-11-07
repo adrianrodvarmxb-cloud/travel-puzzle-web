@@ -94,7 +94,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     provider: (t as { agencyId?: string | null }).agencyId ? (t.agencyName?.trim() || null) : OWN_PROVIDER, // REQ-524
     // T4 y REQ-522: formato de la taxonomía (clasificador oficial, mapeo «propios»); lo usan el filtro ?formato= de /tours
     // y la categoría de la tarjeta. Un viaje que REQ-451 ya pone en «Excursiones de un día» es excursión, no «Tour».
-    formato: tripFormat({ kind: t.kind, priceFrom: t.priceFrom, durationDays: t.durationDays, titles: [t.titleEs, t.titleEn || titles[1]], dayTrip }),
+    formato: tripFormat({ kind: t.kind, priceFrom: t.priceFrom, durationDays: t.durationDays, titles: [t.titleEs, t.titleEn || titles[1]], dayTrip, resumen: t.summaryEs ?? "" }), // REQ-535: el resumen dice si sale de la ciudad
   };
 }
 
@@ -108,7 +108,7 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
     // T4: v5 = las tarjetas llevan formato (la copia v4 de producción no lo trae). REQ-524: v6 = también el proveedor.
     // REQ-268: con la caché fría no hay copia anterior que servir; si D1 está saturada (N+2 consultas), se reintenta
     // con espera (como el catálogo, REQ-029) en vez de pintar /tours y el inicio sin viajes propios.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "6" /* REQ-524: con proveedor */ }), POLICY.toursList, () => withRetry(async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "7" /* REQ-524 con proveedor; REQ-535 formato con el resumen */ }), POLICY.toursList, () => withRetry(async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));

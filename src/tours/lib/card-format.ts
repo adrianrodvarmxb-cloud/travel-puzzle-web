@@ -34,6 +34,8 @@ export interface TripFormatInput {
   titles: readonly (string | null | undefined)[];
   /** REQ-453: el viaje ya entra a «Excursiones de un día» por la regla REQ-451. */
   dayTrip?: boolean;
+  /** REQ-535: resumen (y descripción) del viaje: dice si sale de la ciudad base. */
+  resumen?: string | null;
 }
 
 /**
@@ -43,7 +45,7 @@ export interface TripFormatInput {
  */
 export function tripFormat(t: TripFormatInput): FormatoOEstado {
   const f = classifyFormato(
-    { proveedor: "propios", categoriaId: t.kind, precio: t.priceFrom ?? null, durationDays: t.durationDays ?? null, titulo: joinTitles(t.titles) },
+    { proveedor: "propios", categoriaId: t.kind, precio: t.priceFrom ?? null, durationDays: t.durationDays ?? null, titulo: joinTitles(t.titles), resumen: t.resumen ?? undefined },
     DEFAULT_DICTIONARY, DEFAULT_MAPPINGS.propios, DEFAULT_GATES,
   ).valor;
   return f === "tour" && t.dayTrip ? "excursion-dia" : f;

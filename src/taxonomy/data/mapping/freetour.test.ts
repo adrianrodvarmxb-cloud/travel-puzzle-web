@@ -40,8 +40,8 @@ const CSV: [id: number, nombre: string, formato: string, temas: string[], precio
   [35, "Zoológicos y acuarios", "entradas", ["naturaleza", "parques-ocio"], false, "tickets"],
 ];
 const ft = M.freetour;
-/** Título sin palabras clave: solo deciden la categoría, el precio y la duración. */
-const product = (categoriaId: number, precio: number) => ({ proveedor: "freetour", categoriaId, precio, durationMinutes: 120, titulo: "Visita Alfa | Alfa visit" });
+/** Título sin palabras clave: solo deciden la categoría, el precio y la duración. REQ-534: la 4 (excursión) va con 8 h. */
+const product = (categoriaId: number, precio: number) => ({ proveedor: "freetour", categoriaId, precio, durationMinutes: categoriaId === 4 ? 480 : 120, titulo: "Visita Alfa | Alfa visit" });
 
 describe("REQ-404 mapeo FREETOUR: los 29 categoryIds una sola vez", () => {
   it("REQ-404 los 29 ids vivos de categorias.csv, sin repetir, más los 4 históricos", () => {

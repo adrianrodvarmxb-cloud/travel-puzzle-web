@@ -105,7 +105,8 @@
       "atributos": [],
       "reglasPorPalabra": [
         "traslado",
-        "entradas"
+        "entradas",
+        "experiencia-unica"
       ],
       "estado": "activo"
     },
@@ -118,7 +119,8 @@
       "atributos": [],
       "reglasPorPalabra": [
         "traslado",
-        "entradas"
+        "entradas",
+        "experiencia-unica"
       ],
       "estado": "activo"
     },
@@ -167,7 +169,9 @@
       "atributos": [
         "medio:vehiculo"
       ],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "traslado"
+      ],
       "estado": "activo"
     },
     {
