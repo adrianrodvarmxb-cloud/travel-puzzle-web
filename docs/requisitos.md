@@ -745,6 +745,26 @@ Petición literal: «dile al agente que todos los días publique también en Lin
 | REQ-1083 | Prompt del agente con el paso de redes | Dado `docs/blog/agente-diario.md`, entonces explica el paso de redes y cómo revisar las láminas | CUMPLIDO |
 | REQ-1084 | Cumplimiento FREETOUR B3 en redes | Dados los textos y los hashtags, entonces no mencionan «FREETOUR» ni usan su logo; anunciar free tours sí | CUMPLIDO |
 
+## Guías propias de ciudad (PO, 7 nov 2026, 06:17, opción c)
+Petición (vía coordinador): «escribir guías propias de 300 palabras o más por ciudad, con fuentes públicas, empezando por las 37 ciudades que ya tienen un viaje propio; con una guía propia, la ciudad vuelve a ser indexable aunque sus tours sean de FREETOUR». Gate G5 en `docs/gates-blog-diario-2026-11-06.md`.
+| ID | Petición | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-1220 | Plantilla del blog adaptada a ciudad | Dada una guía, entonces trae «En breve» (40–80 palabras), de 3 a 6 H2 en pregunta con su respuesta, «Cómo lo sabemos» con IA, autor editorial y origen agente-diario | CUMPLIDO |
+| REQ-1221 | «Si se puede guardar en el repo… prefiere eso» | Dadas las guías, entonces viven en `src/destinations/content/guias.json`, versionadas; ningún paso escribe en D1 | CUMPLIDO |
+| REQ-1222 | «300 palabras o más» | Dada una guía con menos de 300 palabras en texto plano, entonces se rechaza; su texto plano cumple `cityMeetsRule` con 1 tour | CUMPLIDO |
+| REQ-1223 | «fuentes enlazadas» | Dada una guía sin 2 fuentes externas de dominios distintos, o con cifra o requisito sin enlace en su unidad de texto, entonces se rechaza | CUMPLIDO |
+| REQ-1224 | «sin FREETOUR», cero datos inventados | Dada una guía con vocabulario prohibido, experiencia propia o 12 palabras copiadas de la página de la ciudad (C2), entonces se rechaza | CUMPLIDO |
+| REQ-1225 | «enlaces internos que respondan» | Dada una guía con un enlace interno que no está publicado, una ciudad sin página o una ciudad que ya tiene guía, entonces se rechaza | CUMPLIDO |
+| REQ-1226 | «sin duplicar el término de los artículos del blog» | Dada una guía cuyo término es igual o casi igual al de un artículo, pilar, ID del calendario u otra guía, entonces se rechaza | CUMPLIDO |
+| REQ-1227 | Fecha real y «2 guías por día» | Dada una guía con fecha distinta de hoy (CDMX) o cuando ya hay 2 publicadas ese día, entonces se rechaza | CUMPLIDO |
+| REQ-1228 | «lee la guía del campo que ya existe en la ciudad» | Dada una guía del repo, cuando se carga /destinos, entonces su texto plano se superpone a `City.guide` (y `guideUpdatedAt` a su fecha) por país ISO-2 y slug; una inválida se descarta con log | CUMPLIDO |
+| REQ-1229 | «en el orden de las 37 primero y luego por número de experiencias» | Dado el orden, entonces empieza por las 37 ciudades con viaje propio publicado (no transporte) y sigue por fichas publicadas por ciudad, sin repetir ciudades con guía | CUMPLIDO |
+| REQ-1230 | Página de la ciudad | Dada una ciudad con guía del repo (en español), entonces la sección «guía» pinta «En breve», las preguntas, los enlaces a las fuentes y «Cómo lo sabemos»; sin guía del repo, el texto de D1 como hoy | CUMPLIDO |
+| REQ-1231 | Humo | Dadas guías publicadas, entonces la prueba de humo exige las páginas de ciudad de las 2 más recientes | CUMPLIDO |
+| REQ-1232 | «Se publican con el workflow, igual que el blog» | Dado `guias-ciudad.yml`, entonces valida, abre un PR que solo cambia `guias.json`, corre suite, tsc, build y humo del preview, fusiona, lanza el deploy y deja un issue si algo falla | EN CURSO (tests de estructura en verde; falta la primera corrida real) |
+| REQ-1233 | «Primera tanda: escribe 2 guías reales» | Dadas las guías de París y Pekín (las 2 primeras de las 37), entonces pasan el validador con su fecha (también contra producción) | CUMPLIDO |
+| REQ-1234 | «Actualiza docs/blog/agente-diario.md» | Dado el prompt, entonces incluye el Paso 7: 2 guías por día, orden, validación y envío | CUMPLIDO |
+| REQ-1235 | Autorización de publicación diaria sin revisión | Dado el gate, entonces G5 está registrado y firmado | CUMPLIDO |
 ## «Free Puzzle»: la categoría de los free tours en inglés (PO, 7 nov 2026, 06:06)
 Petición literal: «Pieza libre es la categoría que Travel Puzzle le da a los free tours, por lo tanto en la página en inglés debe decir Categoría: Free Puzzle». Reemplaza la regla «en inglés se queda Free tour» (REQ-1102 y la parte EN de REQ-269, REQ-271, REQ-480 y REQ-531). La línea de precio «Free tour» de la tarjeta no cambia (decisión de las 14:02); el operador abajo a la derecha sigue siendo el real, nunca «FREETOUR» (C3/D31); la colección «La Primera Pieza» no cambia.
 | ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |

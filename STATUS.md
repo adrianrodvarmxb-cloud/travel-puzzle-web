@@ -42,6 +42,20 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | — | REEMPLAZADO por REQ-1103 |
 | REQ-1103 | Categoría «Free Puzzle» en inglés (tarjeta, /tours, ciudad, pines, insignia, marcado, correos, diccionario); reemplaza a REQ-1102 | `src/tours/lib/pieza-libre.ts`, `src/taxonomy/lib/filters.ts`, `src/tours/lib/extra-filters.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/destinations/lib/hub-copy.ts`, `src/destinations/lib/pieza-libre-copy.ts`, `src/lib/translations/{en,pt,de,fr,it}.ts`, `src/taxonomy/data/dictionary.json` | `src/tours/lib/free-puzzle.test.ts`, `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## Guías propias de ciudad (PO, 7 nov 2026, 06:17) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1220…1227 | Plantilla, 300 palabras, fuentes, vocabulario, C2, enlaces, término, fecha y 2 por día | `src/destinations/lib/guia.ts` | `src/destinations/lib/guia.test.ts` | CUMPLIDO |
+| REQ-1221 | En el repo, nunca en D1 | `src/destinations/content/guias.json`, `.github/workflows/guias-ciudad.yml` | `src/destinations/workflow-guias.test.ts` | CUMPLIDO |
+| REQ-1228 | Superposición a `City.guide` | `src/destinations/load.ts`, `src/destinations/guias.ts`, `guia.ts` | `src/destinations/guias.test.ts`, `guia.test.ts` | CUMPLIDO |
+| REQ-1229 | Orden (37 primero) | `src/destinations/content/guias-orden.ts`, `src/destinations/guias-run.ts` | `guias.test.ts`, `guias-run.test.ts`, `guia.test.ts` | CUMPLIDO |
+| REQ-1230 | Guía en la página de la ciudad | `src/components/destinations/CityGuideView.tsx`, `src/app/destinos/[pais]/[ciudad]/page.tsx` | `CityGuideView.test.ts` | CUMPLIDO |
+| REQ-1231 | Humo con las ciudades de las guías | `src/scripts/smoke.ts`, `guia.ts` | `guia.test.ts` | CUMPLIDO |
+| REQ-1232 | Workflow de publicación | `.github/workflows/guias-ciudad.yml`, `src/scripts/guias-ciudad.ts`, `guias-run.ts` | `workflow-guias.test.ts`, `guias-run.test.ts` | EN CURSO (falta corrida real) |
+| REQ-1233 | París y Pekín | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` | `src/destinations/guias-ejemplo.test.ts` | CUMPLIDO |
+| REQ-1234 | Prompt, Paso 7 | `docs/blog/agente-diario.md` | `guias-ejemplo.test.ts` | CUMPLIDO |
+| REQ-1235 | Gate G5 | `docs/gates-blog-diario-2026-11-06.md` | `workflow-guias.test.ts` | CUMPLIDO |
+
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
 
