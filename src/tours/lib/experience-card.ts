@@ -61,7 +61,7 @@ export const CARD_COPY: Record<CardLang, CardCopy> = {
   it: { favorite: "Preferito", reviews: (n) => `${n} recensioni`, free: "Free tour", from: "Da", days: (n) => `${n} ${n === 1 ? "giorno" : "giorni"}` },
 };
 
-// REQ-616: el mismo detector que la línea del operador y las reseñas (REQ-171): también «free tour .com».
+// REQ-806: el mismo detector que la línea del operador y las reseñas (REQ-171): también «free tour .com».
 const MENTIONS_FREETOUR = { test: (s: string) => mentionsPlatform(s) };
 
 /**

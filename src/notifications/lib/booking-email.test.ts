@@ -288,11 +288,11 @@ describe("Correo de confirmación: «Arma el resto de tu viaje»", () => {
   });
 });
 
-// REQ-610: A2 es OBLIGATORIO. Si el resumen del tour no llega (getTour falla o el dato viene vacío), la fila no
+// REQ-800: A2 es OBLIGATORIO. Si el resumen del tour no llega (getTour falla o el dato viene vacío), la fila no
 // desaparece: sale con «Por confirmar» y remite a la página de la reserva. Auditoría FREETOUR 6 nov 2026.
-describe("REQ-610 los 9 campos de A2 aunque falte el dato", () => {
+describe("REQ-800 los 9 campos de A2 aunque falte el dato", () => {
   const sinDatos = { ...data, provider: null, duration: null, tourLanguage: null, meetingPoint: null, eventDate: null };
-  it("REQ-610: con proveedor, duración, idioma, fecha y punto de encuentro vacíos, las 9 filas siguen en HTML y texto", () => {
+  it("REQ-800: con proveedor, duración, idioma, fecha y punto de encuentro vacíos, las 9 filas siguen en HTML y texto", () => {
     for (const variant of ["confirmation", "reminder48", "dayOf"] as const) {
       const { html, text } = buildBookingConfirmationEmail({ ...sinDatos, variant });
       for (const label of ["Número de reserva", "Tour", "Organiza", "Fecha y hora", "Duración", "Idioma del tour", "Personas", "Punto de encuentro"]) {
@@ -304,7 +304,7 @@ describe("REQ-610 los 9 campos de A2 aunque falte el dato", () => {
       expect(text).toMatch(/Organiza: Un guía local/);
     }
   });
-  it("REQ-610: en inglés también", () => {
+  it("REQ-800: en inglés también", () => {
     const { text } = buildBookingConfirmationEmail({ ...sinDatos, lang: "en" });
     for (const label of ["Booking number", "Tour", "Organized by", "Date and time", "Duration", "Tour language", "People", "Meeting point"]) expect(text).toContain(`${label}:`);
     expect(text).toContain("Duration: To be confirmed");
@@ -312,9 +312,9 @@ describe("REQ-610 los 9 campos de A2 aunque falte el dato", () => {
   });
 });
 
-// REQ-611: el nombre del proveedor del correo nunca menciona FREETOUR (regla del PO; C3). Si lo menciona, «Un guía local».
-describe("REQ-611 el correo no nombra a FREETOUR como proveedor", () => {
-  it.each(["FREETOUR.com", "Freetour Lima", "free tour .com"])("REQ-611: proveedor «%s» → «Un guía local»", (provider) => {
+// REQ-801: el nombre del proveedor del correo nunca menciona FREETOUR (regla del PO; C3). Si lo menciona, «Un guía local».
+describe("REQ-801 el correo no nombra a FREETOUR como proveedor", () => {
+  it.each(["FREETOUR.com", "Freetour Lima", "free tour .com"])("REQ-801: proveedor «%s» → «Un guía local»", (provider) => {
     const { html, text, subject } = buildBookingConfirmationEmail({ ...data, provider });
     expect(text).toContain("Organiza: Un guía local");
     expect(`${subject}\n${text}`).not.toMatch(/freetour|free tour \.com/i);
@@ -322,15 +322,15 @@ describe("REQ-611 el correo no nombra a FREETOUR como proveedor", () => {
   });
 });
 
-// REQ-622 (D1, D3): la confirmación de un tour de pago no habla de propina y trae la política de cancelación de 24 h.
-describe("REQ-622 confirmación de un tour de pago", () => {
+// REQ-812 (D1, D3): la confirmación de un tour de pago no habla de propina y trae la política de cancelación de 24 h.
+describe("REQ-812 confirmación de un tour de pago", () => {
   const paid = { ...data, isFree: false, paidPolicy: { cancel: "Cancelación gratis con reembolso de lo pagado hasta 24 h antes del tour, desde el enlace de tu correo de confirmación.", noShow: "Si cancelas con menos de 24 h o no te presentas, no hay reembolso." } };
-  it("REQ-622: sin consejo de propina y con la política de 24 h, en HTML y texto", () => {
+  it("REQ-812: sin consejo de propina y con la política de 24 h, en HTML y texto", () => {
     const { html, text } = buildBookingConfirmationEmail(paid);
     expect(`${html}\n${text}`).not.toMatch(/propina/i);
     for (const s of [paid.paidPolicy.cancel, paid.paidPolicy.noShow]) { expect(text).toContain(s); expect(html).toContain(s); }
   });
-  it("REQ-622: sigue con los 9 campos de A2", () => {
+  it("REQ-812: sigue con los 9 campos de A2", () => {
     const { text } = buildBookingConfirmationEmail(paid);
     for (const v of [data.tourTitle, "Mpika Tours", "2:30", "Francés", "2 adultos, 1 niño", data.refNumber, data.meetingPoint, data.manageUrl]) expect(text).toContain(v);
   });

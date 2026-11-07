@@ -57,7 +57,7 @@ export interface ProductInput {
 }
 
 // REQ-100: Product + Offer en EUR.
-// REQ-615 (Gate 2, PO 6 nov 2026): `rating` y `reviews` son del proveedor (FREETOUR): nunca van al marcado como
+// REQ-805 (Gate 2, PO 6 nov 2026): `rating` y `reviews` son del proveedor (FREETOUR): nunca van al marcado como
 // AggregateRating ni review. Las estrellas siguen visibles en la página. Se reciben para no romper a quien llama.
 export function productJsonLd(p: ProductInput) {
   return {

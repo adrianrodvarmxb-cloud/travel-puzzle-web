@@ -25,7 +25,7 @@ export function DestinationTourCard({ tour, rates = null, guideCopy = false }: {
     const p = cardPrice(tour, rates);
     const rating = formatRating(tour.rating);
     const favorite = isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews });
-    // REQ-614 (D2): la insignia de propina solo por primeraPiezaBadge (oculta si fullPricePerGroup > 0). Sin evento elegido, como la ficha.
+    // REQ-804 (D2): la insignia de propina solo por primeraPiezaBadge (oculta si fullPricePerGroup > 0). Sin evento elegido, como la ficha.
     const badge = primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 });
     return (
         <Link href={tour.href} className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#121D45] text-white transition-colors hover:border-[#008DFF]/60">

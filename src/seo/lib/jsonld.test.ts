@@ -25,9 +25,9 @@ describe("REQ-100: JSON-LD", () => {
     expect(p.brand).toEqual({ "@type": "Brand", name: "Lima Walking Tours" });
     expect(p).not.toHaveProperty("aggregateRating");
   });
-  // REQ-615 (Gate 2, PO 6 nov 2026): reemplaza la parte «AggregateRating solo con reseñas reales» de REQ-100.
+  // REQ-805 (Gate 2, PO 6 nov 2026): reemplaza la parte «AggregateRating solo con reseñas reales» de REQ-100.
   // La calificación y el conteo de productJsonLd son del proveedor (FREETOUR): nunca van al marcado.
-  it("REQ-615: nunca AggregateRating ni review de terceros, aunque el tour tenga reseñas", () => {
+  it("REQ-805: nunca AggregateRating ni review de terceros, aunque el tour tenga reseñas", () => {
     const withReviews = productJsonLd({ name: "T", url: site, image: "https://x/y.jpg", provider: null, price: 25, rating: "4.83", reviews: 120 });
     expect(withReviews).not.toHaveProperty("aggregateRating");
     expect(JSON.stringify(withReviews)).not.toMatch(/aggregateRating|"review"/i);

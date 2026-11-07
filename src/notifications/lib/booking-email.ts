@@ -53,7 +53,7 @@ export interface BookingEmailData {
   isFree?: boolean;
   /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED); sin él no se menciona el carrito. */
   tripUrl?: string | null;
-  /** REQ-622: reserva con precio (tour de pago o free tour con tarifa fija): cancelación de 24 h; sin propina. */
+  /** REQ-812: reserva con precio (tour de pago o free tour con tarifa fija): cancelación de 24 h; sin propina. */
   paidPolicy?: { cancel: string; noShow: string } | null;
   /** REQ-264: bloque de venta cruzada (sin FREETOUR), ya armado; null o ausente = no se pinta. */
   crossSell?: CrossSellBlock | null;
@@ -259,7 +259,7 @@ export function meetingPointText(mp: unknown, lang: EmailLang): string | null {
   return typeof v === "string" && v.trim() ? v : null;
 }
 
-// REQ-079 REQ-610 REQ-611: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
+// REQ-079 REQ-800 REQ-801: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
 // idioma, adultos y niños, refNumber, punto de encuentro y enlace de cancelación).
 export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const t = T[d.lang];
@@ -283,9 +283,9 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const w = d.weather ?? null;
   const trip = d.tripUrl && /^https?:\/\//.test(d.tripUrl) ? d.tripUrl : null; // REQ-182
 
-  // REQ-610: A2 es obligatorio; si un dato no llegó, la fila sale «Por confirmar» (el enlace de la reserva va abajo).
-  // REQ-611: el proveedor nunca nombra a FREETOUR; sin nombre utilizable, «Un guía local».
-  // REQ-622 (D1, D3): con política de pago no hay consejo de propina y van las líneas de 24 h.
+  // REQ-800: A2 es obligatorio; si un dato no llegó, la fila sale «Por confirmar» (el enlace de la reserva va abajo).
+  // REQ-801: el proveedor nunca nombra a FREETOUR; sin nombre utilizable, «Un guía local».
+  // REQ-812 (D1, D3): con política de pago no hay consejo de propina y van las líneas de 24 h.
   const tips = d.paidPolicy ? [...t.tips(false), d.paidPolicy.cancel, d.paidPolicy.noShow] : t.tips(!!d.isFree);
   const orTbc = (v: string | null | undefined) => (v && v.trim() ? v.trim() : t.tbc);
   const rows: [string, string][] = [

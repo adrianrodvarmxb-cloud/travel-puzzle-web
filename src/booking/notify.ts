@@ -143,7 +143,7 @@ export async function sendBookingConfirmation(
       heroImageUrl: tour?.imageUrl ?? null,
       galleryUrls: tour?.galleryUrls ?? [],
       reviews,
-      // REQ-622: lo cobrado manda; un free tour que pasó a tarifa fija ya no es «a propina».
+      // REQ-812: lo cobrado manda; un free tour que pasó a tarifa fija ya no es «a propina».
       isFree: record.price > 0 ? false : (tour?.isFree ?? true),
       paidPolicy: record.price > 0 ? (({ cancel, noShow }) => ({ cancel, noShow }))(paidPolicy({ fullPrice: record.price, payNow: record.price, isPartiallyPaid: false, currency: "EUR" }, deps.lang)) : null,
       contact: deps.contact,
@@ -163,7 +163,7 @@ export async function sendBookingConfirmation(
 
 type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo" | "crossSell" | "now">;
 
-/** REQ-621 (D3): con 24 h o más antes del tour, reembolso; menos, no. Sin fecha UTC no se afirma nada. */
+/** REQ-811 (D3): con 24 h o más antes del tour, reembolso; menos, no. Sin fecha UTC no se afirma nada. */
 export function refundFor(eventUtcDate: string | null | undefined, now: Date): "full" | "none" | null {
   const t = eventUtcDate ? Date.parse(`${eventUtcDate.trim().replace(" ", "T")}${/[zZ]|[+-]\d\d:?\d\d$/.test(eventUtcDate.trim()) ? "" : "Z"}`) : NaN;
   if (!Number.isFinite(t)) return null;
@@ -207,7 +207,7 @@ export async function sendStatusEmail(
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
       crossSell,
-      // REQ-621
+      // REQ-811
       paid: record.price > 0,
       refund: record.price > 0 && kind === "canceled" ? refundFor(record.eventUtcDate, deps.now?.() ?? new Date()) : null,
     });

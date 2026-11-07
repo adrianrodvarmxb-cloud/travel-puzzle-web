@@ -76,7 +76,7 @@ export async function placeBooking(input: BookingRequest, { gateway, getEvent, e
   }
   if (check.price > 0) throw new BookingRejected("paid_not_available", "El pago en línea estará disponible muy pronto.");
 
-  // REQ-612 (G2): a FREETOUR solo va lo que pide la reserva (no hay DPA): email, nombre, apellido y el teléfono
+  // REQ-802 (G2): a FREETOUR solo va lo que pide la reserva (no hay DPA): email, nombre, apellido y el teléfono
   // solo si el evento lo exige. El teléfono que dio el cliente se queda en Travel Puzzle (recordBooking).
   const customer: Customer = {
     email: req.customer.email,

@@ -19,7 +19,7 @@ export function isTravelerFavorite({ rating, reviews }: { rating: number | strin
   return Number.isFinite(r) && r >= FAVORITE_MIN_RATING && reviews >= FAVORITE_MIN_REVIEWS;
 }
 
-// REQ-616: un solo detector para operador, tarjeta y correos (el de REQ-171: también «free tour .com», sin acentos).
+// REQ-806: un solo detector para operador, tarjeta y correos (el de REQ-171: también «free tour .com», sin acentos).
 const MENTIONS_FREETOUR = { test: (s: string) => mentionsPlatform(s) };
 
 // REQ-098: «Operado por un guía local · {proveedor}», sin FREETOUR ni logo.

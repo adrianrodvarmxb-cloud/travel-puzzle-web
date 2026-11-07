@@ -44,9 +44,9 @@ describe("REQ-453: copy de «Excursiones de un día»", () => {
   });
 });
 
-// REQ-613 (C7): el promedio del inicio es de los tours (calificaciones de sus proveedores), no de Travel Puzzle.
-describe("REQ-613 el promedio del inicio dice que es de las experiencias", () => {
-  it("REQ-613: es y en", () => {
+// REQ-803 (C7): el promedio del inicio es de los tours (calificaciones de sus proveedores), no de Travel Puzzle.
+describe("REQ-803 el promedio del inicio dice que es de las experiencias", () => {
+  it("REQ-803: es y en", () => {
     expect(homeCopy("es").avgLabel).toBe("CALIFICACIÓN PROMEDIO DE LAS EXPERIENCIAS");
     expect(homeCopy("en").avgLabel).toBe("AVERAGE EXPERIENCE RATING");
   });

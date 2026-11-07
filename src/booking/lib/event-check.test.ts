@@ -29,28 +29,28 @@ describe("checkEvent", () => {
   });
 });
 
-// REQ-620 (D2, E9): la tabla de precios se lee por adultos (formulario y PR #62, REQ-010) o por adultos + niños
+// REQ-810 (D2, E9): la tabla de precios se lee por adultos (formulario y PR #62, REQ-010) o por adultos + niños
 // (servidor). Hasta que api@freetour.com lo confirme, el servidor toma la lectura más cara: nunca reserva gratis
 // un grupo que alguna de las dos lecturas marca como de pago.
-describe("REQ-620 umbral por evento: lectura conservadora de fullPricePerGroup", () => {
+describe("REQ-810 umbral por evento: lectura conservadora de fullPricePerGroup", () => {
   const table = { ...ev, fullPricePerGroup: { "1": 0, "2": 0, "3": 0, "4": 0, "5": 40, "6": 48 } };
-  it("REQ-620: 5 adultos y 0 niños → de pago (40)", () => {
+  it("REQ-810: 5 adultos y 0 niños → de pago (40)", () => {
     expect(checkEvent(table, { adults: 5, children: 0, hasPhone: false })).toEqual({ ok: true, price: 40 });
   });
-  it("REQ-620: 4 adultos y 1 niño → de pago (la lectura por grupo marca 40), no gratis", () => {
+  it("REQ-810: 4 adultos y 1 niño → de pago (la lectura por grupo marca 40), no gratis", () => {
     expect(checkEvent(table, { adults: 4, children: 1, hasPhone: false })).toEqual({ ok: true, price: 40 });
   });
-  it("REQ-620: si por adultos es de pago aunque la clave del grupo falte → de pago, no «sin lugares»", () => {
+  it("REQ-810: si por adultos es de pago aunque la clave del grupo falte → de pago, no «sin lugares»", () => {
     const t = { ...ev, fullPricePerGroup: { "1": 0, "2": 30 } };
     expect(checkEvent(t, { adults: 2, children: 1, hasPhone: false })).toEqual({ ok: true, price: 30 });
   });
-  it("REQ-620: 3 adultos y 1 niño, ambas lecturas en 0 → gratis", () => {
+  it("REQ-810: 3 adultos y 1 niño, ambas lecturas en 0 → gratis", () => {
     expect(checkEvent(table, { adults: 3, children: 1, hasPhone: false })).toEqual({ ok: true, price: 0 });
   });
-  it("REQ-620: sin ninguna de las dos claves → no_availability", () => {
+  it("REQ-810: sin ninguna de las dos claves → no_availability", () => {
     expect(checkEvent({ ...ev, fullPricePerGroup: { "1": 25 } }, { adults: 3, children: 0, hasPhone: false })).toEqual({ ok: false, code: "no_availability" });
   });
-  it("REQ-620: respeta minAdultsPerBooking, plazas e isPhoneRequired antes del precio", () => {
+  it("REQ-810: respeta minAdultsPerBooking, plazas e isPhoneRequired antes del precio", () => {
     expect(checkEvent({ ...table, minAdultsPerBooking: 6 }, { adults: 5, children: 0, hasPhone: false })).toEqual({ ok: false, code: "no_availability" });
     expect(checkEvent({ ...table, availableChildrenPlaces: 0 }, { adults: 2, children: 1, hasPhone: false })).toEqual({ ok: false, code: "no_availability" });
     expect(checkEvent({ ...table, isPhoneRequired: true }, { adults: 5, children: 0, hasPhone: false })).toEqual({ ok: false, code: "phone_required" });

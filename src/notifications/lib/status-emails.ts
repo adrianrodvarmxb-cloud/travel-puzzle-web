@@ -40,13 +40,13 @@ export interface StatusEmailData {
   contact?: ContactInfo;
   /** REQ-262 / REQ-264: venta cruzada; solo se pinta en «modified», nunca en rechazo ni cancelación. */
   crossSell?: CrossSellBlock | null;
-  /** REQ-621: la reserva tenía precio (tour de pago o free tour con tarifa fija). */
+  /** REQ-811: la reserva tenía precio (tour de pago o free tour con tarifa fija). */
   paid?: boolean;
-  /** REQ-621: en una cancelación pagada, si toca reembolso (≥ 24 h antes) o no; null = no se sabe, no se afirma. */
+  /** REQ-811: en una cancelación pagada, si toca reembolso (≥ 24 h antes) o no; null = no se sabe, no se afirma. */
   refund?: "full" | "none" | null;
 }
 
-// REQ-621 (D3): qué pasa con lo pagado. Rechazo = reembolso automático (términos §12; soporte, 4 nov 2026).
+// REQ-811 (D3): qué pasa con lo pagado. Rechazo = reembolso automático (términos §12; soporte, 4 nov 2026).
 const PAID_COPY = {
   es: {
     rejected: (n: string) => `Hola ${n}: el organizador del tour no pudo aceptar tu reserva. Como el tour era de pago, el reembolso de lo que pagaste es automático; puede tardar unos días en verse según tu banco.`,
@@ -163,7 +163,7 @@ export function buildStatusEmail(d: StatusEmailData) {
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
   const reason = d.kind === "rejected" && d.reason?.trim() ? d.reason.trim().slice(0, 400) : null;
   const subject = k.subject(d.tourTitle);
-  // REQ-621
+  // REQ-811
   const pc = PAID_COPY[d.lang];
   const intro = d.paid && d.kind === "rejected" ? pc.rejected(d.firstName) : k.intro(d.firstName);
   const refundLine = d.paid && d.kind === "canceled" && d.refund ? pc[d.refund] : null;
