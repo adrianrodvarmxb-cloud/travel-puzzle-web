@@ -10,12 +10,19 @@ import { loadTripCards } from '@/trips/public-load';
 import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
+import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
 import { catalogTitle } from '@/tours/lib/catalog-name';
 
+const taxonomyOn = () => taxonomyFiltersEnabled(process.env as Record<string, string | undefined>);
+const toQuery = (params: Record<string, string | undefined>) =>
+  new URLSearchParams(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]);
+
 // REQ-174 (sitelinks-google): title = nombre del menú + marca («Experiencias | Travel Puzzle»).
-export async function generateMetadata(): Promise<Metadata> {
+/** T4 (REQ-413): con un filtro de la taxonomía, noindex,follow y canonical a /tours; sin él (o apagada), nada cambia. */
+export async function generateMetadata({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }): Promise<Metadata> {
   const title = catalogTitle(await getPreferredLanguage());
-  return { title: { absolute: title }, openGraph: { title } };
+  const r = toursRobots(toQuery(await searchParams), taxonomyOn());
+  return { title: { absolute: title }, openGraph: { title }, ...(r.robots ? { robots: r.robots, alternates: { canonical: r.canonical } } : {}) };
 }
 
 interface ToursPageProps {
@@ -41,7 +48,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   
   // REQ-049..056: "hoy" se calcula en el servidor (render determinista, INC-001)
   const today = new Date().toISOString().slice(0, 10);
-  const extra = parseExtraFilters(new URLSearchParams(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), today);
+  const taxonomy = taxonomyOn();
+  const extra = parseExtraFilters(toQuery(params), today, { taxonomy });
   // Build filters from URL params
   const filters: TourFilters = {
     language,
@@ -51,6 +59,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     maxPrice: params.maxPrice ? parseFloat(params.maxPrice) : undefined,
     durationRange: parseDurationRange(params.duracion),
     ...extra,
+    taxonomy,
   };
   
   // Build pagination from URL params
@@ -110,6 +119,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       countryCodeById={countryCodeById}
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
+      taxonomy={taxonomy}
+      showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
+      logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
   );
 }

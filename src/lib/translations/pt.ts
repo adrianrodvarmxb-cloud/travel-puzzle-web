@@ -73,6 +73,8 @@ export const pt = {
   'tours.free': 'Free tour',
   // REQ-271: pines del mapa de /tours (el precio verde sigue con tours.free).
   'tours.freePin': 'Free tour',
+  // REQ-480: insignia azul sobre la foto (el precio sigue con tours.free).
+  'tours.freeBadge': 'Free tour',
   'tours.noResults': "Nenhuma experiência encontrada",
   'tours.description': 'Descrição',
   'tours.destination': 'Destino',
