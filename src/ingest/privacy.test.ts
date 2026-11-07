@@ -39,9 +39,7 @@ describe("REQ-747 ninguna ruta pública sirve el archivo crudo (raw/ ni source/)
     expect(w.match(/"RAW_ARCHIVE"/g)?.length).toBe(1);
     expect(w).not.toMatch(/raw\.travelpuzzle|r2\.dev/);
   });
-  it("REQ-771 con el binding, la bandera sigue apagada (se enciende en su propio PR)", () => {
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"RAW_ARCHIVE_ENABLED":\s*"false"/);
-  });
+  // El «la bandera sigue apagada» de REQ-771 quedó REEMPLAZADO por REQ-774 (src/ingest/lib/flags.test.ts).
 });
 
 describe("REQ-748 netos, comisiones y copias exactas nunca en el repo", () => {
