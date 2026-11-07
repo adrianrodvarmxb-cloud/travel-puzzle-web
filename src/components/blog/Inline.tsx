@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { parseInline } from '@/blog/lib/inline';
 
 /** REQ-255: pinta el mini-formato como nodos (sin HTML crudo). Sin hooks. */

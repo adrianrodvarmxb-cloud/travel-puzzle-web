@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { DestinationsLayout } from '@/components/destinations/DestinationsLayout';
 import { destinosPage } from '@/destinations/lib/page-model';

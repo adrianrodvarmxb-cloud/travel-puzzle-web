@@ -1,6 +1,6 @@
 import { ToursPageClient } from '@/components/tours/ToursPageClient';
 import { fetchTours, fetchCountries, fetchToursMetadata } from '@/actions/tours';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import type { TourFilters } from '@/lib/db/repositories/tour-repository';
 import type { PaginationParams } from '@/lib/db/pagination';
 import { parseSort, sortToPagination } from '@/tours/lib/sort';
@@ -26,7 +26,7 @@ const toQuery = (params: Record<string, string | undefined>) =>
 // REQ-174 (sitelinks-google): title = nombre del menú + marca («Experiencias | Travel Puzzle»).
 /** T4 (REQ-413): con un filtro de la taxonomía, noindex,follow y canonical a /tours; sin él (o apagada), nada cambia. */
 export async function generateMetadata({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }): Promise<Metadata> {
-  const title = catalogTitle(await getPreferredLanguage());
+  const title = catalogTitle(await getRouteLanguage());
   const r = toursRobots(toQuery(await searchParams), taxonomyOn());
   return { title: { absolute: title }, openGraph: { title }, ...(r.robots ? { robots: r.robots, alternates: { canonical: r.canonical } } : {}) };
 }
@@ -47,7 +47,7 @@ interface ToursPageProps {
 
 export default async function ToursPage({ searchParams }: ToursPageProps) {
   // Get language from cookies, default to 'en'
-  const language = await getPreferredLanguage();
+  const language = await getRouteLanguage();
   
   // Parse URL search params
   const params = await searchParams;

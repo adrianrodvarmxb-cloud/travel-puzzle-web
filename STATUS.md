@@ -10,6 +10,25 @@ Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog
 | REQ-960 | Gate «Publica solo cada día» registrado | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
 | REQ-961…984 | Calendario, mezcla, validador, marcado, indexación, workflow, prompt, ejemplo y encendido | ver `docs/requisitos.md` | — | PENDIENTE (PR 2 a 4) |
 
+## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
+
+- Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
+- Olas 1–3 parten de `main` cuando #204 y #208 estén fusionados. Todo tras `LOCALE_URLS_ENABLED="false"`; lo enciende el PO con su protocolo.
+- **Ola 1 (rutas y middleware)** en PR apilado sobre la Ola 0: `src/i18n/` (lib pura + middleware + server), `LocalizedLink`, selector y aviso. El contenido de hubs (title/H1 de país y ciudad) sigue en español hasta la Ola 2.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-650 | Bandera apagada = como hoy | `src/i18n/lib/flags.ts`, `src/i18n/middleware.ts`, `src/i18n/server.ts` | `src/i18n/lib/path.test.ts`, `src/i18n/middleware.test.ts`, `src/i18n/server.test.ts` | CUMPLIDO (apagado) |
+| REQ-651 | /{lang}/{ruta en alcance} | `src/i18n/lib/path.ts`, `src/middleware.ts` | `path.test.ts`, `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-652 | /es → 301; fuera de alcance → 302 | `src/i18n/lib/path.ts` | `path.test.ts`, `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-653 | Idioma de la URL en servidor | `src/i18n/server.ts`, `src/i18n/middleware.ts` | `server.test.ts`, `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-654 | Idioma de la URL en cliente | `src/lib/language-context.tsx`, `src/app/layout.tsx`, `AppProviders.tsx` | `src/components/i18n/i18n-client.test.ts` | CUMPLIDO (apagado) |
+| REQ-655 | Enlaces conservan el idioma | `src/i18n/lib/path.ts`, `src/components/i18n/LocalizedLink.tsx`, `useLocalizedHref.ts` | `path.test.ts`, `i18n-client.test.ts` | CUMPLIDO (apagado) |
+| REQ-656 | Selector navega a la URL del idioma | `src/i18n/lib/path.ts`, `LanguageSwitcher.tsx` | `path.test.ts` | CUMPLIDO (apagado) |
+| REQ-657 | Aviso no intrusivo, sin redirigir | `src/i18n/lib/suggest.ts`, `src/components/i18n/LanguageSuggestion.tsx` | `src/i18n/lib/suggest.test.ts`, `i18n-client.test.ts` | CUMPLIDO (apagado) |
+| REQ-658 | 301 con prefijo | `src/i18n/middleware.ts`, `src/destinations/middleware.ts` | `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-659 | Fuera de alcance sin cambio | `src/i18n/lib/path.ts`, `src/i18n/server.ts` | `path.test.ts`, `server.test.ts` | CUMPLIDO (apagado) |
+
 ## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
 Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
 
@@ -30,6 +49,7 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 | REQ-812 | Tours de pago: confirmación sin propina y con 24 h | `booking-email.ts`, `notify.ts` | `booking-email.test.ts`, `notify.test.ts` | CUMPLIDO |
 
 **Pendiente del PO:** pedir por escrito (correo borrador; filas 12, 13, 16, 17, 18, 41, 48, y la clave de precios de la fila 55 a api@freetour.com); encender `ADULT_CONTACT_CHECK_ENABLED`; rotar la API key; aviso de privacidad y política de cookies (REQ-084); PR #62: sesión de pago vencida y regla de 24 h en la pantalla de cancelar.
+
 
 ## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
 
@@ -70,6 +90,24 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 **Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
+
+## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…748)
+- Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-744).
+- Los imports guardan el item completo (con `source`, `hold`, `taxonomia`) y el documento original si el workflow lo recibe (`source/<agencia>/…`).
+- Índice `ProviderRecord` + `ProviderDocument`: migración PROPUESTA `docs/migraciones-propuestas/0022_provider_record.sql` (sin aplicar).
+- Todo tras `RAW_ARCHIVE_ENABLED="false"`. Pasos con candado en `docs/runbooks/copia-exacta.md`: bucket, binding, migración, bandera.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-740 | Huella sin volátiles por proveedor | src/ingest/lib/raw-hash.ts | raw-hash.test.ts | CUMPLIDO |
+| REQ-741 | Claves raw/ y source/ | src/ingest/lib/raw-keys.ts | raw-keys.test.ts | CUMPLIDO |
+| REQ-742 | Puerto RawArchive, versión solo si cambia | src/ingest/raw-archive.ts, lib/archive-plan.ts | raw-archive.test.ts | CUMPLIDO |
+| REQ-743 | FREETOUR crudo antes de transformar | src/catalog/guarded-sync.ts, src/ingest/lib/freetour-raw.ts, deps.ts, lib/flags.ts, cron sync-tours | guarded-sync.test.ts, flags.test.ts | CUMPLIDO (apagado) |
+| REQ-744 | El archivo crudo no tumba el sync | src/ingest/raw-archive.ts, guarded-sync.ts | raw-archive.test.ts, guarded-sync.test.ts | CUMPLIDO |
+| REQ-745 | Imports: item completo + documento original | src/ingest/lib/import-archive.ts, src/scripts/import-trips.ts, importar-viajes.yml | import-archive.test.ts | CUMPLIDO (apagado) |
+| REQ-746 | Índice D1 (migración propuesta 0022) | docs/migraciones-propuestas/0022_provider_record.sql | migration-0022.test.ts | CUMPLIDO (sin aplicar) |
+| REQ-747 | Ninguna ruta pública sirve raw/ | src/ingest/* | privacy.test.ts | CUMPLIDO |
+| REQ-748 | Netos y copias fuera del repo | imports/*.json | privacy.test.ts | CUMPLIDO |
 
 ## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
 - La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
@@ -493,6 +531,8 @@ Decisiones: FREETOUR C2 (interruptor `indexableEnrichment`), Gate 2 (sin reseña
 | REQ-579 | Canonical de /tours/[id] = ficha final de /destinos | `src/seo/lib/legacy-canonical.ts`, `app/tours/[id]/page.tsx` | `legacy-canonical.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-580 | Test de contrato por tipo de ficha y proveedor (+ prueba de humo) | `src/seo/lib/ficha-contract.ts`, `src/scripts/smoke.ts` | `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-581 | Tipo principal y etiquetas visibles y en el JSON-LD (additionalProperty y keywords) | `src/seo/lib/taxonomy-facets.ts`, `ficha-ld.ts`, `FichaEnBreve.tsx` | `taxonomy-facets.test.ts`, `ficha-ld.test.ts`, `trip-ficha.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-587 | (REEMPLAZADO por REQ-588) Sin enriquecimiento: ni idiomas ni Place en el JSON-LD, ni «Idioma del guía» en el HTML | — | — | REEMPLAZADO |
+| REQ-588 | FREETOUR: idioma del guía (pintado en el cliente) y punto de encuentro visibles con `data-nosnippet`; fuera del JSON-LD | `src/tours/lib/hero-facts.ts`, `components/tours/one/TourHeroSection.tsx`, `destinations/lib/page-model.ts`, `app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-contract.ts` | `src/tours/lib/hero-facts.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO (falta OK del PO para publicar) |
 
 Pendientes y notas:
 - Cancelación: fuera del marcado y de «En breve» de los viajes mientras REQ-060 (PO, 5 nov) la oculte de la página. Si el PO la quiere visible, basta con `SHOW_POLICY_ON_PAGE = true` en `TripDetailView`.
