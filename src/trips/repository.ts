@@ -7,7 +7,8 @@ import { availabilitySchema, cancellationSchema } from "./schemas/trip";
 type Row = Prisma.TripGetPayload<object>;
 const arr = <T>(v: unknown) => (Array.isArray(v) ? (v as T[]) : []);
 
-const toTrip = (r: Row): StoredTrip => ({
+/** REQ-1344: también arma las tarjetas desde la fila ya leída (sin releer cada viaje). */
+export const toTrip = (r: Row): StoredTrip => ({
   ...r,
   kind: r.kind as StoredTrip["kind"],
   purchaseMode: r.purchaseMode as StoredTrip["purchaseMode"],
