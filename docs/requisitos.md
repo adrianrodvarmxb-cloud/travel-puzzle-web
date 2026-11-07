@@ -441,3 +441,15 @@ Petición: "Aplica a todo lo actual y a todo lo que se cargue después: un tipo 
 Petición: "quita la primera pieza de ahí, basta con que salga dentro de experiencias con las demás categorías principales" (captura del menú «Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona»). El chip «Pieza libre» dentro de Experiencias (/tours) lo lleva otro frente.
 | REQ-600 | "quita la primera pieza de ahí" (del menú principal) | Dado PRIMERA_PIEZA_ENABLED="true", cuando se pinta el menú (escritorio y celular, 6 idiomas), entonces dice Inicio · Destinos · Experiencias · Traslados · Cómo Funciona, sin «La Primera Pieza». Reversible: `MENU_PRIMERA_PIEZA = true` en `src/tours/lib/menu.ts` regresa el orden de REQ-093/REQ-174. La página /la-primera-pieza, sus sitemaps y robots no cambian. | CUMPLIDO (falta OK del PO para publicar) |
 | REQ-601 | "basta con que salga dentro de experiencias" (sin dejar huérfano el hub; regla sitelinks-google) | Dado PRIMERA_PIEZA_ENABLED="true", cuando se pinta el pie del sitio, entonces enlaza /la-primera-pieza con el nombre «La Primera Pieza» junto a «Experiencias»; con la bandera apagada no la enlaza. | CUMPLIDO (falta OK del PO para publicar) |
+
+## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16)
+
+Petición literal: «aquí que se vean las etiquetas principales y se actualicen cada vez que hay nuevos» (la fila «Todo · Pieza libre · Tours · Circuitos · Momentos de autor» de /tours; en su captura el chip «Tours» estaba activo y la tarjeta decía «Excursión de un día»).
+
+| ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-546 | "que se vean las etiquetas principales" | Dado /tours con TAXONOMY_FILTERS_ENABLED, cuando se pinta la fila de chips, entonces son «Todo», luego «Pieza libre» si tiene resultados y después los tipos principales con resultados ordenados por cantidad, con las etiquetas cortas de la tarjeta; «Tours» deja de existir como chip genérico (el tipo «tour» se llama «Visita guiada»). Sin la bandera quedan los chips viejos por Trip.kind (ocultos, no borrados). | CUMPLIDO (falta encender TAXONOMY_FILTERS_ENABLED con OK del PO) |
+| REQ-547 | "y se actualicen cada vez que hay nuevos" | Dado un formato de /tours, cuando tiene al menos 1 resultado (catálogo + viajes, con los demás filtros), entonces tiene chip sin tocar código; con 0 resultados no hay chip; traslado, transporte, fuera y por revisar nunca son chip. | CUMPLIDO (falta encender la bandera) |
+| REQ-548 | "el chip y la etiqueta no coinciden" (captura del PO) | Dado un chip elegido, cuando se filtra (?formato= de T4, noindex con canonical a /tours), entonces todas las tarjetas mostradas (tours del catálogo y viajes) llevan esa misma etiqueta: la tarjeta toma el formato del mismo índice que filtra. | CUMPLIDO (falta encender la bandera) |
+| REQ-549 | "con las mismas etiquetas cortas de la tarjeta" (coordinador) | Dado cualquier formato, entonces la etiqueta del chip es la de la tarjeta (`categoryLabel` → `FORMATO_CARD_LABEL`), sin tabla propia. | CUMPLIDO |
+
