@@ -2,6 +2,11 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
+
+- Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
+- Olas 1–3 parten de `main` cuando #204 y #208 estén fusionados. Todo tras `LOCALE_URLS_ENABLED="false"`; lo enciende el PO con su protocolo.
+
 ## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
 
 - 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-276.
