@@ -44,6 +44,16 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
 | REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## REQ-1330 verde de free tour (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1330 | Token verde #4ADE80 para precio e insignia de free tour | `src/styles/design-system/colors.css`, `src/app/globals.css`, `src/styles/lib/contrast.ts`, `src/components/tours/ExperienceCard.tsx`, `src/components/tours/one/TourHeroSection.tsx`, `src/components/tours/one/TourMobileBar.tsx`, `src/components/tours/TourCard.tsx`, `src/components/home/v2/FeaturedTours.tsx` | `src/styles/lib/free-token.test.ts` | CUMPLIDO (PO 15:39 «B»; falta humo del PR) |
+
+## REQ-1329 Free Puzzle en inglés (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1329 | Free Puzzle en EN: title, encabezado y primera línea, JSON-LD, sin la marca | `src/destinations/lib/hub-copy.ts`, `src/app/destinos/[pais]/[ciudad]/page.tsx`, `src/seo/lib/ficha-ld.ts` | `src/destinations/lib/free-puzzle-en.test.ts` | CUMPLIDO (PO 15:29 «sí»; falta humo del PR) |
+
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

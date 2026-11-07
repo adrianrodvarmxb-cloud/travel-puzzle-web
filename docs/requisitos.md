@@ -876,8 +876,8 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1326 | TAREA-PO | Rotar la llave de la API de FREETOUR enviada en 2024 (cumplimiento E7) | PO | — | PENDIENTE |
 | REQ-1327 | TAREA-PO | Revisar la versión de la pasarela en Namecheap | PO | — | PENDIENTE |
 | REQ-1328 | VALIDACIÓN | Muestra de 30 dudosos de la reclasificación (docs/taxonomia/reclasificacion-2026-11-07/muestra-30-dudosos.csv) | PO | — | PENDIENTE |
-| REQ-1329 | DEFINICIÓN | En los títulos en inglés, ¿«Free tours» pasa a «Free Puzzle»? | PO | — | PENDIENTE |
-| REQ-1330 | DEFINICIÓN | Color del precio «Free tour» (lima o verde) | PO | — | PENDIENTE |
+| REQ-1329 | DEFINICIÓN | En los títulos en inglés, ¿«Free tours» pasa a «Free Puzzle»? | PO | — | CUMPLIDO (PO 7-11 15:29: «sí», tras la revisión cumplimiento-freetour; regla aplicada y probada en `src/destinations/lib/free-puzzle-en.test.ts`) |
+| REQ-1330 | DEFINICIÓN | Color del precio «Free tour» (lima o verde) | PO | — | CUMPLIDO (PO 7-11 15:39: «B» = verde #4ADE80; token `--tp-free` / `text-free` en tarjeta y ficha; AA 9.2:1 y 10.4:1; `src/styles/lib/free-token.test.ts`) |
 | REQ-1331 | DEFINICIÓN | /trenes responde 404 | PO | — | PENDIENTE |
 | REQ-1332 | DEFINICIÓN | «Los más elegidos» muestra 47 | PO | — | PENDIENTE |
 | REQ-1333 | DEFINICIÓN | Lo que la taxonomía original pedía y la homologada dejó fuera: Extensiones, Experiencia local, categoría de tren y hotel de «A tu aire» | PO | — | PENDIENTE |
@@ -904,3 +904,11 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1354 | CÓDIGO | Inca World: 75 viajes en D1 contra 76 importados; falta explicar la diferencia | agente | — | SIN VERIFICAR |
 | REQ-1355 | CÓDIGO | El sync blindado lee la guía de ciudad solo de D1; su `failingSince` no ve las guías del repo (`loadGuides()`) | agente | — | PENDIENTE |
 | REQ-1356 | VALIDACIÓN | Verificación de la empresa por LinkedIn (correo de Microsoft Vetting Services a Claudia) y paso 1 de Instagram: cuenta de Empresa | PO | REQ-1322 | PENDIENTE |
+
+## REQ-1329: «Free Puzzle» en inglés (detalle; folio del tablero)
+Petición literal: el PO respondió «sí» (7 nov 2026, 15:29 CDMX), tras la revisión cumplimiento-freetour.
+- **REQ-1329** — Criterio (Dado / Cuando / Entonces): Dada una página en inglés, cuando muestra free tours, entonces: lo que ve el cliente dice «Free Puzzle» (REQ-1103); el `<title>` de la ficha es «{título real} – Free tour in {Ciudad} | Travel Puzzle» con el título real primero y sin cambios (C4); la sección de la ciudad se titula «Free Puzzle: free walking tours in {Ciudad}» y la primera línea es «Free Puzzle is our collection of free tours: book for free and tip your guide what you think is fair. Large groups may have a fixed rate.» (D2); el JSON-LD lleva `category: "Free tour"` y sin AggregateRating (D27); ningún texto de copy dice FREETOUR/Freetour y «free tour» va en dos palabras (C3); las fichas de FREETOUR siguen en noindex (D30). En español no cambia: «Pieza libre» y «Free tour en {Ciudad}». · Estado: CUMPLIDO (test verde; falta humo del PR)
+
+## REQ-1330: verde de free tour (detalle; folio del tablero)
+Petición literal: el PO respondió «B» (7 nov 2026, 15:39 CDMX): precio e insignia «Free tour» / «Pieza libre» / «Free Puzzle» en verde #4ADE80, con el mismo token en todo el sitio.
+- **Criterio (folio REQ-1330):** dado un free tour, cuando se pinta la tarjeta (`card-price`), la insignia de la ficha (`TourHeroSection`), la barra móvil (`TourMobileBar`) o las insignias de `TourCard` y del inicio, entonces usan el token `--tp-free` (#4ADE80; Tailwind `text-free` / `border-free`) y ningún hex suelto; contraste AA ≥ 4.5:1 sobre #121F45 (9.2:1) y #0B1530 (10.4:1).

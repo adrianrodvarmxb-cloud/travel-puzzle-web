@@ -131,13 +131,15 @@ export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
   const keywords = rich ? [...new Set([tipo, ...(i.etiquetas ?? []).map(clean)].filter(Boolean))] : [];
   const mp = i.meetingPoint && clean(i.meetingPoint.name) ? i.meetingPoint : null;
   const geo = mp && Number.isFinite(mp.lat) && Number.isFinite(mp.lng) && mp.lat !== null && mp.lng !== null ? { "@type": "GeoCoordinates", latitude: mp.lat, longitude: mp.lng } : null;
-  const own = i.ownReviews && i.ownReviews.reviewCount > 0 && i.ownReviews.ratingValue > 0 ? i.ownReviews : null;
+  // REQ-1329 (D27): un free tour no lleva AggregateRating.
+  const own = !i.free && i.ownReviews && i.ownReviews.reviewCount > 0 && i.ownReviews.ratingValue > 0 ? i.ownReviews : null;
   const description = rich ? clean(i.description) : "";
   return {
     "@context": CTX,
     "@type": ["Product", "TouristTrip"],
     name: clean(i.name),
     url: i.url,
+    ...(i.free ? { category: "Free tour" } : {}), // REQ-1329: término genérico, nunca la marca (C3)
     ...(images.length ? { image: images } : {}),
     ...(description ? { description: description.slice(0, 500) } : {}),
     ...(operator ? { brand: { "@type": "Brand", name: operator }, provider: { "@type": "Organization", name: operator } } : {}),

@@ -30,6 +30,9 @@ export interface HubCopy {
   cityFreeIntro: (city: string, free: number, tours: number) => string;
   freeSection: string;
   freeSubtitle: string;
+  /** REQ-1329: encabezado y primera línea de la sección de free tours (EN: «Free Puzzle: free walking tours in …»). */
+  freeHeading: (city: string) => string;
+  freeLead: string;
   toursSection: string;
   toursSubtitle: string;
   transfersSection: string;
@@ -62,6 +65,8 @@ const ES: HubCopy = {
   cityFreeIntro: (city, free, tours) => `${free} en Pieza libre y ${tours} ${tours === 1 ? "tour" : "tours"} con guías locales en ${city}.`,
   freeSection: `Pieza libre (${PRIMERA_PIEZA_LABEL})`,
   freeSubtitle: "Reservar es gratis; al final le das al guía lo que consideres justo.",
+  freeHeading: () => `Pieza libre (${PRIMERA_PIEZA_LABEL})`, // REQ-1329: en español, igual que hoy
+  freeLead: "Reservar es gratis; al final le das al guía lo que consideres justo.",
   toursSection: "Tours",
   toursSubtitle: "Tours con precio y viajes de Travel Puzzle.",
   transfersSection: "Traslados",
@@ -103,6 +108,9 @@ const EN: HubCopy = {
   cityFreeIntro: (city, free, tours) => `${free} in ${FREE_PUZZLE_LABEL} and ${plural(tours, "tour", "tours")} with local guides in ${city}.`,
   freeSection: `${FREE_PUZZLE_LABEL} (${PRIMERA_PIEZA_LABEL})`,
   freeSubtitle: "Booking is free; at the end you give the guide what you think is fair.",
+  // REQ-1329 (PO 7-11 15:29): texto propio; la última frase es obligatoria (D2: un grupo grande puede pagar tarifa fija).
+  freeHeading: (city) => `${FREE_PUZZLE_LABEL}: free walking tours in ${city.trim()}`,
+  freeLead: `${FREE_PUZZLE_LABEL} is our collection of free tours: book for free and tip your guide what you think is fair. Large groups may have a fixed rate.`,
   toursSection: "Tours",
   toursSubtitle: "Priced tours and Travel Puzzle trips.",
   transfersSection: "Transfers",
