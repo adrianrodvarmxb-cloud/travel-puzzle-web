@@ -2,9 +2,12 @@
  * Viajes publicados para el sitio: tarjetas (/tours, home) y ficha (/viajes/...).
  * Usa traducciones (respaldo en español) y tipo de cambio de Banxico con caché diaria.
  */
+import { cache } from "react";
 import { classify } from "@/taxonomy/lib/classify";
 import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { getPrisma } from "@/lib/prisma";
+import { withRetry } from "@/tours/lib/d1-load";
+import { createTripBySlugLoader, loadPublishedTripBySlug } from "./lib/trip-by-slug";
 import { createTripRepo } from "./repository";
 import { localized, type Translations } from "./lib/translation";
 import { tripPath } from "./lib/public";
@@ -15,7 +18,6 @@ import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
 import { cached, cacheKey, POLICY } from "@/cache/edge";
-import { withRetry } from "@/tours/lib/d1-load";
 import { pairById } from "./lib/cards";
 import { ownTripDepartures } from "@/departures/sources/own-trips";
 import { summarize, HORIZON_DAYS } from "@/departures/lib/summary";
@@ -112,18 +114,38 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
   }
 }
 
-/** Ficha: solo publicados y con el interruptor encendido. */
-export async function loadTripBySlug(slug: string) {
+/**
+ * REQ-306: núcleo de la ficha con reintento ante D1 saturada y caché compartida corta (mismo patrón que el
+ * árbol de destinos). La llave lleva los interruptores para que apagar un tipo no sirva una copia vieja.
+ */
+const tripBySlug = createTripBySlugLoader({
+  load: (slug) => {
+    const prisma = getPrisma();
+    const repo = createTripRepo(prisma);
+    return loadPublishedTripBySlug(slug, {
+      vis: siteVisibility(),
+      isKindVisible,
+      findRowBySlug: (s) => prisma.trip.findUnique({ where: { slug: s } }),
+      findTripById: (id) => repo.findById(id),
+      findAgencyName: async (id) => (await prisma.agency.findUnique({ where: { id }, select: { name: true } }))?.name ?? null,
+    });
+  },
+  key: (slug) => { const vis = siteVisibility(); return cacheKey("tripBySlug", { slug, own: String(vis.own), transport: String(vis.transport), v: "1" }); },
+  cache: (key, load) => cached(key, POLICY.ownTrip, load),
+  retry: (fn) => withRetry(fn),
+});
+
+/**
+ * Ficha: solo publicados y con el interruptor encendido.
+ * REQ-306: `cache` de React = una sola carga por petición, compartida entre generateMetadata y la página.
+ */
+export const loadTripBySlug = cache(async (slug: string) => {
   const vis = siteVisibility();
   if (!anyVisible(vis)) return null;
-  const prisma = getPrisma();
-  const row = await prisma.trip.findUnique({ where: { slug } });
-  if (!row || row.status !== "published" || !isKindVisible(row.kind, vis)) return null;
-  const trip = await createTripRepo(prisma).findById(row.id);
-  if (!trip) return null;
-  const agency = row.agencyId ? await prisma.agency.findUnique({ where: { id: row.agencyId }, select: { name: true } }) : null;
-  return { trip, translations: (row.translations ?? {}) as Translations, agencyName: agency?.name ?? null, fx: await loadFx() };
-}
+  const data = await tripBySlug(slug);
+  if (!data) return null;
+  return { ...data, fx: await loadFx() };
+});
 
 
 /** Dependencias reales de las solicitudes (D1 + Resend). */
