@@ -22,15 +22,18 @@ describe("agente diario", () => {
     expect(prompt).toContain("Publica solo cada día");
   });
 
-  it("REQ-981: la primera entrada real pasa el validador con su fecha y no está publicada (fuera de diario.json)", () => {
+  // REQ-1040: el test ya no depende de que la entrada siga sin publicar; si el agente diario la publica,
+  // se valida contra los demás artículos (sin compararla consigo misma) y la copia publicada debe ser la misma.
+  it("REQ-981 + REQ-1040: la primera entrada real pasa el validador con su fecha, publicada o no", () => {
     // Rutas del catálogo que enlaza, verificadas en sitemap-destinos.xml de producción el 6 nov 2026.
     const knownPaths = new Set([...FIXED_PATHS, "/destinos/fr/paris", "/destinos/es/sevilla", "/destinos/cz/praga", "/destinos/pt/lisboa"]);
-    const r = validateDailyEntry(ejemplo, { today: "2026-11-07", existing: registryPosts(), knownPaths, primeraPieza: true, b1FreeTours: FREE_TOUR_POSTS_B1, calendar: CALENDARIO });
+    const r = validateDailyEntry(ejemplo, { today: "2026-11-07", existing: registryPosts().filter((p) => p.slug !== ejemplo.slug), knownPaths, primeraPieza: true, b1FreeTours: FREE_TOUR_POSTS_B1, calendar: CALENDARIO });
     expect(r.ok ? [] : r.problems).toEqual([]);
     expect(ejemplo.tema).toEqual({ tipo: "calendario", clusterId: "EU-01", fuentes: [] });
     expect(ejemplo.author).toBe("editorial");
     expect(ejemplo).not.toHaveProperty("minicaso");
     expect(ejemplo).not.toHaveProperty("citas");
-    expect(DIARIO_POSTS.some((p) => p.slug === ejemplo.slug)).toBe(false);
+    const publicada = DIARIO_POSTS.find((p) => p.slug === ejemplo.slug);
+    if (publicada) expect([publicada.title, publicada.targetTerm, publicada.pillar]).toEqual([ejemplo.title, ejemplo.targetTerm, ejemplo.pillar]);
   });
 });
