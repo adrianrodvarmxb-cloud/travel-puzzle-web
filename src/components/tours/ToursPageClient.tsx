@@ -3,6 +3,7 @@ import { SectionBoundary } from '@/components/common/SectionBoundary';
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { useLanguage } from '@/lib/language-context';
 import { Navbar } from '@/components/layout/Navbar';
 import { ExperienceCard } from '@/components/tours/ExperienceCard';
@@ -79,6 +80,7 @@ export function ToursPageClient({
     const { t, language } = useLanguage();
     const router = useRouter();
     const pathname = usePathname();
+    const localize = useLocalizedHref();
     const searchParams = useSearchParams();
 
     // Parse filters and pagination from URL params
@@ -118,7 +120,7 @@ export function ToursPageClient({
         setKind(k);
         const q = new URLSearchParams(searchParams.toString());
         if (k === 'all') q.delete('tipo'); else q.set('tipo', k);
-        router.replace(`${pathname}${q.toString() ? `?${q}` : ''}`, { scroll: false });
+        router.replace(localize(`${pathname}${q.toString() ? `?${q}` : ''}`), { scroll: false }); // REQ-655
     };
     const [uiFilters, setUiFilters] = useState<UITourFilters>(() => {
         const { filters } = parseUrlParams();
@@ -271,9 +273,9 @@ export function ToursPageClient({
 
             // Update URL without causing a page reload
             const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-            router.replace(newUrl, { scroll: false });
+            router.replace(localize(newUrl), { scroll: false }); // REQ-655: con rewrite, pathname puede venir sin prefijo
         },
-        [pathname, router]
+        [pathname, router, localize]
     );
 
     // Track if we're updating from URL (to prevent loops)
