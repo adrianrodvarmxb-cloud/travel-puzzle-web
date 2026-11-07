@@ -34,7 +34,7 @@ import { tripCopy } from "@/trips/lib/copy";
 import { enBreve, fichaJsonLd, guideLanguagesLabel } from "./ficha-ld";
 import { indexableEnrichment } from "./enrichment";
 import { tripFichaInput } from "./trip-ficha";
-import { fichaContractFailures, isFichaPath } from "./ficha-contract";
+import { fichaContractFailures, isFichaPath, robotsMeta } from "./ficha-contract";
 import type { Tour } from "@/types";
 
 const site = "https://travelpuzzle.com.mx";
@@ -141,6 +141,13 @@ describe("REQ-580: el contrato detecta lo que no cumple", () => {
   it("REQ-580: precio y duración del marcado deben verse en la página", () => {
     expect(fichaContractFailures(good.replace(/EUR €1,890/g, ""), { enrichment: true }).join(" ")).toMatch(/precio 1890/);
     expect(fichaContractFailures(good.replace('"value":"8 días"', '"value":"9 días"'), { enrichment: true }).join(" ")).toMatch(/duración «9 días»/);
+  });
+  it("REQ-834: una ficha que debe ir en noindex falla sin «noindex, follow»", () => {
+    expect(fichaContractFailures(good, { enrichment: true, noindex: true }).join(" ")).toMatch(/noindex, follow/);
+    const conMeta = `<meta name="robots" content="noindex, follow"/>${good}`;
+    expect(robotsMeta(conMeta)).toBe("noindex,follow");
+    expect(fichaContractFailures(conMeta, { enrichment: true, noindex: true })).toEqual([]);
+    expect(fichaContractFailures(`<meta name="robots" content="noindex, nofollow"/>${good}`, { enrichment: true, noindex: true }).join(" ")).toMatch(/noindex,nofollow/);
   });
   it("REQ-580: la prueba de humo revisa solo las fichas de producto", () => {
     expect(isFichaPath("/viajes/francia/louvre-ext-fr-t01-085")).toBe(true);
