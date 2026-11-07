@@ -29,7 +29,7 @@ Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog
 | REQ-979 | Autor editorial, fecha real, lectura calculada | `diario.ts`, `view.ts` | `diario.test.ts`, `indexacion.test.ts` | CUMPLIDO |
 | REQ-980 | Prompt del agente diario | `docs/blog/agente-diario.md` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
 | REQ-981 | Primera entrada real (EU-01) validada, sin publicar | `docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
-| REQ-982 | Encender `BLOG_ENABLED` | `wrangler.jsonc` | — | PENDIENTE (PR 4, OK del PO) |
+| REQ-982 | Encender `BLOG_ENABLED` | `wrangler.jsonc` | `src/blog/lib/registry.test.ts` | EN CURSO (falta el OK del PO) |
 | REQ-983 | Free tours bloqueados por B1 | `src/blog/lib/mix.ts`, `diario.ts` | `mix.test.ts`, `diario.test.ts` | CUMPLIDO |
 | REQ-984 | «Cero publicados» solo para los artículos a mano | `src/blog/content/index.ts` | `indexacion.test.ts`, `registry.test.ts` | CUMPLIDO |
 | REQ-980…982 | Prompt diario, entrada de ejemplo y encendido | — | — | PENDIENTE (PR 3 y 4) |
