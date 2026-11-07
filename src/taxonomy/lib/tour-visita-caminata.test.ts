@@ -86,3 +86,19 @@ describe("REQ-1252 sin señal: tipo por defecto de la categoría y a la lista de
     expect(r.reglaFormato.startsWith(DUDA)).toBe(false);
   });
 });
+
+describe("REQ-1257 las cachés que guardan el formato cambian de llave con la reclasificación", () => {
+  // Evidencia del preview de #259: la Cache API es la misma para todas las versiones del worker; sin llave nueva, la
+  // tarjeta pintaba «Tour» (nombre nuevo) sobre un formato `tour` calculado con la regla vieja.
+  it("REQ-1257 índice del catálogo, lista de /tours, API, viajes, /destinos e inicio", async () => {
+    const { readFileSync } = await import("node:fs");
+    const has = (f: string, s: string) => expect(readFileSync(f, "utf8"), f).toContain(s);
+    has("src/catalog/snapshot.ts", "v: 4");
+    has("src/actions/tours.ts", "v: 'tipos-1250'");
+    has("src/app/api/tours/route.ts", "v: 'tipos-1250'");
+    has("src/trips/public-load.ts", 'v: "9"');
+    has("src/destinations/server.ts", 'cacheKey("destinos", { v: "6"');
+    has("src/app/page.tsx", 'v: "carruseles-610-tipos-1250"');
+    has("src/home/carousel-load.ts", "v: 3 /* REQ-668 href final; REQ-1250 tipos */");
+  });
+});

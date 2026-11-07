@@ -71,7 +71,7 @@ export async function fetchTours(
   const filters: TourFilters = { ...clientFilters, taxonomy, formatos: taxonomy ? clientFilters.formatos ?? [] : [] };
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
-    const list = await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {
+    const list = await cached(cacheKey('tours', { ...filters, ...pagination, v: 'tipos-1250' /* REQ-1250: las filas traen el formato del índice */ }), POLICY.toursList, async () => {
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
