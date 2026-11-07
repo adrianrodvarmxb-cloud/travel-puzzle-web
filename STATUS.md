@@ -6,6 +6,14 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-1247 | Respaldo de solo lectura de las tablas de la 0017 | `.github/workflows/respaldo-taxonomia.yml` | `src/ops/respaldo-taxonomia-workflow.test.ts` | EN CURSO (falta la corrida tras el merge) |
+## Sin FREETOUR en los textos del proveedor (D31; INC-008, 7 nov 2026) — matriz de trazabilidad
+| REQ-1240 | Descripciones y resúmenes sin la plataforma | `src/tours/lib/provider-text.ts` | `src/tours/lib/provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1241 | Títulos: se quita solo el nombre | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1242 | «Incluye» sin la plataforma | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1243 | Repositorio de tours (lista, ficha, JSON-LD, dato del cliente) | `src/lib/db/repositories/tour-repository.ts` | `src/lib/db/repositories/tour-repository-sin-plataforma.test.ts`, `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1244 | Tarjetas del inicio | `src/home/lib/slim.ts` | `src/home/lib/slim.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1245 | Árbol de /destinos | `src/destinations/repository.ts` | `src/destinations/repository-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1246 | Correos | `src/booking/tour-summary.ts` | `src/booking/tour-summary-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -60,6 +68,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1233 | París y Pekín | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` | `src/destinations/guias-ejemplo.test.ts` | CUMPLIDO |
 | REQ-1234 | Prompt, Paso 7 | `docs/blog/agente-diario.md` | `guias-ejemplo.test.ts` | CUMPLIDO |
 | REQ-1235 | Gate G5 | `docs/gates-blog-diario-2026-11-06.md` | `workflow-guias.test.ts` | CUMPLIDO |
+| REQ-1236 | 5 guías por día (reemplaza «2 por día» de REQ-1227) | `src/destinations/lib/guia.ts`, `guias-run.ts`, `guias-ciudad.yml`, `docs/blog/agente-diario.md`, gate G5.1 | `guia.test.ts`, `guias-run.test.ts`, `guias-ejemplo.test.ts`, `workflow-guias.test.ts` | CUMPLIDO |
 
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.

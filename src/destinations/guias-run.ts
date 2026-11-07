@@ -2,7 +2,7 @@
  * Raíz con I/O de las guías de ciudad (REQ-1225, REQ-1226, REQ-1229, REQ-1232). La lógica vive en lib/guia.ts; aquí se
  * juntan rutas publicadas (sitemaps de producción), texto de la página de la ciudad (C2), términos del blog y fecha.
  */
-import { guideProblems, guideCityPath, nextGuideCities, type CityGuide, type CityGuideInput } from "./lib/guia";
+import { guideProblems, guideCityPath, nextGuideCities, GUIDES_PER_DAY, type CityGuide, type CityGuideInput } from "./lib/guia";
 import { loadGuides } from "./guias";
 import { ORDEN_GUIAS } from "./content/guias-orden";
 import { knownPathsFromSitemaps, visibleText, todayCdmx, registryPosts } from "@/blog/diario-run";
@@ -20,10 +20,10 @@ export function blogTerms(): { term: string; label: string }[] {
   ];
 }
 
-// REQ-1232: valida 1 o 2 guías contra el sitio y entre sí (la segunda ve a la primera como existente).
+// REQ-1232 + REQ-1236: valida de 1 a 5 guías contra el sitio y entre sí (cada una ve a las anteriores como existentes).
 export async function validateGuidesAgainstSite(inputs: CityGuideInput[], o: { siteUrl: string; fetch: Fetch; now: Date; today?: string; existing?: CityGuide[] }): Promise<{ ok: true; guides: CityGuide[] } | { ok: false; problems: string[] }> {
   const site = o.siteUrl.replace(/\/+$/, "");
-  if (!Array.isArray(inputs) || inputs.length < 1 || inputs.length > 2) return { ok: false, problems: ["el archivo trae de 1 a 2 guías (arreglo JSON)"] };
+  if (!Array.isArray(inputs) || inputs.length < 1 || inputs.length > GUIDES_PER_DAY) return { ok: false, problems: [`el archivo trae de 1 a ${GUIDES_PER_DAY} guías (arreglo JSON)`] };
   const knownPaths = await knownPathsFromSitemaps(site, o.fetch);
   const today = o.today ?? todayCdmx(o.now);
   const existing = [...(o.existing ?? loadGuides())];
@@ -47,7 +47,7 @@ export function citiesByExperiences(paths: Set<string>): string[] {
   return [...n.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([k]) => k);
 }
 
-// REQ-1229: las 2 ciudades que tocan hoy.
+// REQ-1229 + REQ-1236: las 5 ciudades que tocan hoy.
 export async function guidesForToday(o: { siteUrl: string; fetch: Fetch }): Promise<{ ciudades: string[]; publicadas: number }> {
   const paths = await knownPathsFromSitemaps(o.siteUrl, o.fetch);
   const existing = loadGuides();
