@@ -19,7 +19,7 @@ import { operatedBy } from "@/tours/lib/favorite";
 import type { HubGroup } from "@/companions/lib/registry";
 import type { SitemapInput } from "@/seo/lib/sitemaps";
 import { enBreve, fichaJsonLd, guideLanguagesLabel, nextAvailability, type FichaInput } from "@/seo/lib/ficha-ld";
-import { indexableEnrichment } from "@/seo/lib/enrichment";
+import { indexableEnrichment, indexableProvider } from "@/seo/lib/enrichment";
 import { fichaFacets } from "@/seo/lib/taxonomy-facets";
 import { cardDuration } from "@/tours/lib/experience-card";
 import { freshSummary } from "@/departures/lib/summary";
@@ -28,14 +28,15 @@ import { freshSummary } from "@/departures/lib/summary";
 const fresh = (syncedAt: string | Date | null | undefined, today: string) =>
   !!syncedAt && freshSummary({ languages: [], dates: [] }, syncedAt instanceof Date ? syncedAt.toISOString() : String(syncedAt), new Date(`${today}T12:00:00Z`)) !== null;
 
-// REQ-102: entrada de los sitemaps a partir del árbol (solo lo publicado; buildSitemaps filtra lo indexable).
+// REQ-102 REQ-832: entrada de los sitemaps a partir del árbol (solo lo publicado; buildSitemaps filtra lo indexable).
 export function sitemapInput(tree: CountryNode[], siteUrl: string): SitemapInput {
   return {
     siteUrl,
     countries: tree.map((c) => ({ slug: c.slug, indexable: c.indexable })),
     cities: tree.flatMap((c) => c.cities.map((ci) => ({ countrySlug: c.slug, slug: ci.slug, indexable: ci.indexed, guideUpdatedAt: ci.guideUpdatedAt }))),
     tours: tree.flatMap((c) =>
-      c.cities.flatMap((ci) => allTours(ci).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt })))
+      // REQ-832: las fichas de un proveedor sin permiso de indexar (FREETOUR) no van al sitemap; la ciudad sí.
+      c.cities.flatMap((ci) => allTours(ci).filter((t) => t.kind === "own" || indexableProvider(t.providerId ?? "freetour")).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt })))
     ),
   };
 }
@@ -197,6 +198,7 @@ export interface TourDetailFacts {
 }
 
 // REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
+// REQ-831: noindex por proveedor (FREETOUR hasta su permiso).
 // REQ-570…578, REQ-581: marcado ["Product","TouristTrip"], datos de servidor, «En breve» y facetas según el interruptor del proveedor.
 export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false, detail = null, today = null }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean; detail?: TourDetailFacts | null; today?: string | null }): TourPageModel {
   const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
@@ -208,7 +210,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   // T5 (REQ-415, REQ-416, G-T9): con TAXONOMY_LABELS_ENABLED y formato, el copy y el title dependen del formato.
   const tax = labels && tour.formato ? { formato: tour.formato, guia: tour.guiaEnPersona !== false } : null;
   const by = tax ? operatedByFor(tour.provider, tax.guia, operatedBy(tour.provider, lang)) : operatedBy(tour.provider, lang);
-  const provider = detail?.providerId?.trim() || "freetour";
+  const provider = detail?.providerId?.trim() || tour.providerId?.trim() || "freetour";
   const enrichment = indexableEnrichment(provider);
   const duration = cardDuration({ raw: tour.duration }, lang);
   // REQ-588 (auditoría FREETOUR #212 y PO 22:29): sin enriquecimiento, ni idiomas ni punto de encuentro en el marcado,
@@ -233,7 +235,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
       title: (tax && tourTitleByFormat({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour, formato: tax.formato })) || tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }),
       description: clip(tax ? tourDescription({ formato: tax.formato, guiaEnPersona: tax.guia, isFreeTour: tour.isFreeTour, city: city.name, notice: notice[0] ?? null }) : `${tour.isFreeTour ? "Free tour" : "Tour"} en ${city.name} con un guía local. ${notice[0] ?? ""}`),
       canonical: canonicalUrl(siteUrl, tour.href),
-      index: city.indexed && country.indexable,
+      index: city.indexed && country.indexable && indexableProvider(provider), // REQ-831
     },
     crumbs,
     heading: tourHeading({ title: tour.title, provider: tour.provider, isFreeTour: tour.isFreeTour }),
