@@ -15,7 +15,8 @@ describe("workflow blog-diario.yml", () => {
   // REQ-1055 reemplaza «solo diario.json» por «diario.json + imágenes de la entrada» (gate G4, 7 nov 2026).
   it("REQ-975 (G2) + REQ-1055: el PR solo cambia diario.json y las imágenes de esa entrada; nunca push a main ni force-push", () => {
     expect(wf).toContain('grep -vxF "src/blog/content/diario.json"');
-    expect(wf).toContain('grep -vE "^public/blog/img/$slug/[a-z0-9-]+-(800|1600)\\.(avif|webp|jpg)$"');
+    // REQ-1073: también las láminas de Instagram de la entrada (ig-1…5.jpg)
+    expect(wf).toContain('grep -vE "^public/blog/img/$slug/([a-z0-9-]+-(800|1600)\\.(avif|webp|jpg)|ig-[1-5]\\.jpg)$"');
     expect(wf).toContain('git add src/blog/content/diario.json "public/blog/img/$SLUG"');
     expect(wf).not.toMatch(/git push[^\n]*(main|--force|-f\b)/);
   });

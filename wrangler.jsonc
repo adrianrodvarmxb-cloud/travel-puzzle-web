@@ -159,6 +159,12 @@
     "BLOG_ENABLED": "true",
     // Solo para el preview: muestra los borradores (draft: true) con aviso y noindex. Nunca "true" en producción.
     "BLOG_SHOW_DRAFTS": "false",
+    // Redes del día (REQ-1076): publicación automática por red desde .github/workflows/redes-diario.yml. Apagadas = el
+    // workflow deja los textos y láminas en el issue «Redes del día» para publicarlos a mano. "true" solo con los
+    // tokens del PO como secretos de GitHub (docs/redes/conexion.md), una red por PR y con su OK.
+    "SOCIAL_LINKEDIN_ENABLED": "false",
+    "SOCIAL_FACEBOOK_ENABLED": "false",
+    "SOCIAL_INSTAGRAM_ENABLED": "false",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.

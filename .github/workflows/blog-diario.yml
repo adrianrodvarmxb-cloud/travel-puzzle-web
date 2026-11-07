@@ -84,6 +84,12 @@ jobs:
             sed 's/^/- /' "$B/imagenes.log" > "$B/motivo"; exit 1
           fi
 
+      # REQ-1073: láminas de Instagram (1080×1350) junto a las imágenes, para que se publiquen con la entrada.
+      - name: Láminas de Instagram
+        run: |
+          B="$RUNNER_TEMP/blog"; echo "Láminas de Instagram" > "$B/paso"
+          npx tsx src/scripts/redes-laminas.ts "$B/entrada.json" 2> "$B/laminas.log" || { sed 's/^/- /' "$B/laminas.log" > "$B/motivo"; exit 1; }
+
       - name: Validar y agregar a diario.json
         id: validar
         run: |
@@ -95,7 +101,7 @@ jobs:
           node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));for(const k of ["slug","pillar","title","mix","fecha","path","url"])console.log(k+"="+String(r[k]).replace(/\n/g," "))' "$B/resultado.json" >> "$GITHUB_OUTPUT"
           # G2 (+ G4, REQ-1055): solo cambian diario.json y las imágenes de ESTA entrada en public/blog/img/{slug}/.
           slug=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).slug)' "$B/resultado.json")
-          fuera=$(git status --porcelain --untracked-files=all | awk '{print $2}' | grep -vxF "src/blog/content/diario.json" | grep -vE "^public/blog/img/$slug/[a-z0-9-]+-(800|1600)\.(avif|webp|jpg)$" || true)
+          fuera=$(git status --porcelain --untracked-files=all | awk '{print $2}' | grep -vxF "src/blog/content/diario.json" | grep -vE "^public/blog/img/$slug/([a-z0-9-]+-(800|1600)\.(avif|webp|jpg)|ig-[1-5]\.jpg)$" || true)
           if [ -n "$fuera" ]; then echo "- cambios fuera de diario.json y public/blog/img/$slug/: $fuera" > "$B/motivo"; exit 1; fi
 
       - name: Rama y PR
@@ -226,6 +232,11 @@ jobs:
       - name: Registrar la publicación
         run: |
           gh api "repos/$REPO/issues/${{ steps.pr.outputs.number }}/comments" -f body="Publicado: ${{ steps.validar.outputs.url }} (merge squash por el gate «Publica solo cada día»; deploy y humo de producción en verde)." > /dev/null
+
+      # REQ-1075: redes del día (LinkedIn, Facebook, Instagram) con el mismo tema, ya publicada la entrada.
+      - name: Lanzar las redes del día
+        continue-on-error: true
+        run: gh api -X POST "repos/$REPO/actions/workflows/redes-diario.yml/dispatches" -f ref=main -f "inputs[ruta]=${{ steps.validar.outputs.path }}"
 
       - name: Dejar el motivo en un issue (NO PUBLICADO)
         if: failure()
