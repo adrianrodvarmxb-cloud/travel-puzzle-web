@@ -32,12 +32,12 @@ export function createLineageRepo(db: TaxonomyD1): LineageRepo {
       return (await all(
         `SELECT t."id", t."categoryId", t."priceValue", t."durationMinutes", t."guideLanguages", t."rating", t."reviewsNumber",
                 es."title" AS "titleEs", en."title" AS "titleEn", es."brief" AS "briefEs", en."brief" AS "briefEn",
-                (SELECT pr."rawHash" FROM "ProviderRecord" pr WHERE pr."provider"='freetour' AND pr."externalId"=CAST(t."externalId" AS TEXT)
+                (SELECT pr."rawHash" FROM "ProviderRecord" pr WHERE pr."provider"=? AND pr."externalId"=CAST(t."externalId" AS TEXT)
                   ORDER BY pr."lastSeenAt" DESC LIMIT 1) AS "rawHash"
            FROM "Tour" t
            LEFT JOIN "TourTranslation" es ON es."tourId" = t."id" AND es."language" = 'es'
            LEFT JOIN "TourTranslation" en ON en."tourId" = t."id" AND en."language" = 'en'
-          WHERE t."isActive" = 1 AND t."id" > ? ORDER BY t."id" LIMIT ?`, cursor, limit,
+          WHERE t."isActive" = 1 AND t."id" > ? ORDER BY t."id" LIMIT ?`, "freetour", cursor, limit, // REQ-806: id del proveedor como parámetro, no como literal de SQL
       )) as unknown as TourWithRaw[];
     },
     async publishedTrips() {

@@ -6,9 +6,10 @@
 import { operatedByFor, tourDescription, tourLabels, tourTitleByFormat } from "@/taxonomy/lib/copy";
 import { allTours, type CityNode, type CountryNode, type TourCardModel } from "./catalog";
 import { ROUTES } from "./routes";
+import { itemListJsonLd } from "@/seo/lib/itemlist";
 import { canonicalUrl, featuredActivities } from "@/seo/lib/hub";
 import { freeToursCityTitle, hubTitle, tourTitle } from "@/seo/lib/titles";
-import { breadcrumbJsonLd, faqJsonLd, productJsonLd, touristDestinationJsonLd } from "@/seo/lib/jsonld";
+import { breadcrumbJsonLd, faqJsonLd, touristDestinationJsonLd } from "@/seo/lib/jsonld";
 import { clip } from "@/seo/lib/meta";
 import { PRIMERA_PIEZA_LABEL } from "@/tours/lib/menu";
 import { tourHeading, type TourHeading } from "@/tours/lib/title";
@@ -17,6 +18,15 @@ import { eventNotice } from "@/tours/lib/notice";
 import { operatedBy } from "@/tours/lib/favorite";
 import type { HubGroup } from "@/companions/lib/registry";
 import type { SitemapInput } from "@/seo/lib/sitemaps";
+import { enBreve, fichaJsonLd, guideLanguagesLabel, nextAvailability, type FichaInput } from "@/seo/lib/ficha-ld";
+import { indexableEnrichment } from "@/seo/lib/enrichment";
+import { fichaFacets } from "@/seo/lib/taxonomy-facets";
+import { cardDuration } from "@/tours/lib/experience-card";
+import { freshSummary } from "@/departures/lib/summary";
+
+/** REQ-571: el resumen de salidas solo cuenta si es reciente (misma regla que los filtros, freshSummary). */
+const fresh = (syncedAt: string | Date | null | undefined, today: string) =>
+  !!syncedAt && freshSummary({ languages: [], dates: [] }, syncedAt instanceof Date ? syncedAt.toISOString() : String(syncedAt), new Date(`${today}T12:00:00Z`)) !== null;
 
 // REQ-102: entrada de los sitemaps a partir del árbol (solo lo publicado; buildSitemaps filtra lo indexable).
 export function sitemapInput(tree: CountryNode[], siteUrl: string): SitemapInput {
@@ -42,6 +52,10 @@ const crumbsLd = (site: string, crumbs: Crumb[]) => breadcrumbJsonLd(crumbs.map(
 const hubTours = (tours: TourCardModel[]) => tours.map((t) => ({ id: t.id, title: t.title, href: t.href, reviews: t.reviews, rating: t.rating, active: true }));
 const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+// REQ-582: ItemList de lo que lista la página (null si no hay nada; se filtra abajo).
+const listLd = (site: string, name: string, items: { title?: string; name?: string; href: string }[]) =>
+  itemListJsonLd({ siteUrl: site, name, items: items.map((i) => ({ name: i.title ?? i.name ?? "", href: i.href })) });
+const present = <T,>(xs: (T | null)[]): T[] => xs.filter((x): x is T => x !== null);
 
 // REQ-088 REQ-099 REQ-100 REQ-101: hub de la colección, free tours agrupados por país.
 export function primeraPiezaPage(tree: CountryNode[], siteUrl: string, perCountry = 6) {
@@ -64,7 +78,7 @@ export function primeraPiezaPage(tree: CountryNode[], siteUrl: string, perCountr
     crumbs,
     featured: featuredActivities(hubTours(groups.flatMap((g) => g.tours))),
     groups,
-    jsonLd: [crumbsLd(siteUrl, crumbs)],
+    jsonLd: present([crumbsLd(siteUrl, crumbs), listLd(siteUrl, PRIMERA_PIEZA_LABEL, groups.flatMap((g) => g.tours))]),
   };
 }
 
@@ -84,7 +98,7 @@ export function destinosPage(tree: CountryNode[], siteUrl: string) {
     crumbs,
     featured: featuredActivities(hubTours(tours)),
     countries: shown.map((c) => ({ name: c.name, href: c.href, cities: c.cities.length, tours: c.cities.reduce((n, ci) => n + ci.activeTours, 0) })),
-    jsonLd: [crumbsLd(siteUrl, crumbs)],
+    jsonLd: present([crumbsLd(siteUrl, crumbs), listLd(siteUrl, DESTINOS.name, shown)]),
   };
 }
 
@@ -102,7 +116,7 @@ export function countryPage(country: CountryNode, siteUrl: string) {
     crumbs,
     featured: featuredActivities(hubTours(country.cities.flatMap(allTours))),
     cities: country.cities.map((c) => ({ name: c.name, href: c.href, free: c.freeTours.length, tours: c.paidTours.length + c.ownTrips.length })),
-    jsonLd: [touristDestinationJsonLd({ name: country.name, url: canonicalUrl(siteUrl, country.href), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs)],
+    jsonLd: present([touristDestinationJsonLd({ name: country.name, url: canonicalUrl(siteUrl, country.href), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs), listLd(siteUrl, `Destinos en ${country.name}`, country.cities)]),
   };
 }
 
@@ -143,6 +157,7 @@ export function cityPage(country: CountryNode, city: CityNode, siteUrl: string) 
       touristDestinationJsonLd({ name: `${city.name}, ${country.name}`, url: canonicalUrl(siteUrl, city.href), countryCode: country.iso2 }),
       crumbsLd(siteUrl, crumbs),
       ...[faqJsonLd(faq)].filter((x): x is NonNullable<typeof x> => !!x),
+      ...present([listLd(siteUrl, `Experiencias en ${city.name}`, [...city.freeTours, ...city.paidTours, ...city.ownTrips])]),
     ],
   };
 }
@@ -157,10 +172,31 @@ export interface TourPageModel {
   jsonLd: unknown[];
   /** T5 (REQ-415): etiquetas de formato fuera de la foto; vacío con TAXONOMY_LABELS_ENABLED apagada. */
   labels: string[];
+  /** REQ-578: datos clave calculados en el servidor (el HTML inicial los trae sin JS). */
+  facts: { duration: string | null; guideLanguages: string | null };
+  /** REQ-570: el proveedor permite contenido indexable nuevo. */
+  enrichment: boolean;
+  /** REQ-577: «En breve» (null en FREETOUR). */
+  enBreve: string | null;
+  /** REQ-581: tipo principal y etiquetas visibles (vacío en FREETOUR). */
+  facets: { tipo: string | null; etiquetas: string[] };
+}
+
+/** REQ-571…578: datos de la fila del tour que la ficha ya carga (Prisma). Sin ellos, el proveedor se asume FREETOUR (lo más restrictivo). */
+export interface TourDetailFacts {
+  providerId?: string | null;
+  guideLanguages?: unknown;
+  departureDates?: unknown;
+  /** Fecha del último sync de salidas: con un resumen viejo no se afirma disponibilidad (REQ-049). */
+  departuresSyncedAt?: string | Date | null;
+  meetingPoint?: { title?: string | null; address?: string | null; lat?: number | null; lng?: number | null } | null;
+  categoryId?: number | null;
+  durationMinutes?: number | null;
 }
 
 // REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
-export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean }): TourPageModel {
+// REQ-570…578, REQ-581: marcado ["Product","TouristTrip"], datos de servidor, «En breve» y facetas según el interruptor del proveedor.
+export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false, detail = null, today = null }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean; detail?: TourDetailFacts | null; today?: string | null }): TourPageModel {
   const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
   // Dos tours con el mismo título real en la ciudad: el proveedor los distingue (title único, REQ-099).
   const twins = allTours(city).filter((t) => t.id !== tour.id && fold(t.title) === fold(tour.title)).length > 0;
@@ -170,7 +206,25 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   // T5 (REQ-415, REQ-416, G-T9): con TAXONOMY_LABELS_ENABLED y formato, el copy y el title dependen del formato.
   const tax = labels && tour.formato ? { formato: tour.formato, guia: tour.guiaEnPersona !== false } : null;
   const by = tax ? operatedByFor(tour.provider, tax.guia, operatedBy(tour.provider, lang)) : operatedBy(tour.provider, lang);
+  const provider = detail?.providerId?.trim() || "freetour";
+  const enrichment = indexableEnrichment(provider);
+  const duration = cardDuration({ raw: tour.duration }, lang);
+  const langs = guideLanguagesLabel(detail?.guideLanguages, lang);
+  const facets = enrichment ? fichaFacets({ proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title }, lang) : { tipo: null, etiquetas: [] };
+  const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
+  const ficha: FichaInput = {
+    provider, lang, url: canonicalUrl(siteUrl, tour.href), name: tour.title, images: [image ?? tour.image],
+    operator: tour.provider, free: tour.isFreeTour, price: tour.isFreeTour ? 0 : tour.price, currency: tour.currency,
+    availability: today && fresh(detail?.departuresSyncedAt, today) ? nextAvailability(detail?.departureDates, today) : null,
+    duration, languages: langs, place: `${city.name}, ${country.name}`,
+    meetingPoint: mp ? { name: mp.title!.trim(), address: mp.address ?? null, lat: mp.lat ?? null, lng: mp.lng ?? null } : null,
+    tipo: facets.tipo, etiquetas: facets.etiquetas,
+  };
   return {
+    facts: { duration, guideLanguages: langs.length ? langs.join(", ") : null },
+    enrichment,
+    enBreve: enBreve(ficha),
+    facets,
     meta: {
       title: (tax && tourTitleByFormat({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour, formato: tax.formato })) || tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }),
       description: clip(tax ? tourDescription({ formato: tax.formato, guiaEnPersona: tax.guia, isFreeTour: tour.isFreeTour, city: city.name, notice: notice[0] ?? null }) : `${tour.isFreeTour ? "Free tour" : "Tour"} en ${city.name} con un guía local. ${notice[0] ?? ""}`),
@@ -184,7 +238,8 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     operatedBy: by,
     labels: tax ? tourLabels(tax.formato, lang, tour.atributos ?? []) : [], // REQ-544: chips de atributos fuera de la foto
     jsonLd: [
-      productJsonLd({ name: tour.title, url: canonicalUrl(siteUrl, tour.href), image: image ?? tour.image, provider: tour.provider, price: tour.isFreeTour ? 0 : tour.price, rating: tour.rating, reviews: tour.reviews }),
+      // REQ-571…574: reemplaza a productJsonLd (EUR fijo y AggregateRating del proveedor); productJsonLd queda sin uso, no se borra.
+      fichaJsonLd(ficha),
       crumbsLd(siteUrl, crumbs),
     ],
   };

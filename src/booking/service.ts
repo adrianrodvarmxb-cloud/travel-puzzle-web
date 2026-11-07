@@ -76,11 +76,21 @@ export async function placeBooking(input: BookingRequest, { gateway, getEvent, e
   }
   if (check.price > 0) throw new BookingRejected("paid_not_available", "El pago en línea estará disponible muy pronto.");
 
-  const customer = { ...req.customer, ...(phone ? { phone } : {}) };
-  if (!phone) delete (customer as Partial<Customer>).phone;
+  // REQ-802 (G2): a FREETOUR solo va lo que pide la reserva (no hay DPA): email, nombre, apellido y el teléfono
+  // solo si el evento lo exige. El teléfono que dio el cliente se queda en Travel Puzzle (recordBooking).
+  const customer: Customer = {
+    email: req.customer.email,
+    firstName: req.customer.firstName,
+    lastName: req.customer.lastName,
+    ...(phone && event.isPhoneRequired ? { phone } : {}),
+  };
+  const payload: BookingRequest = {
+    eventId: req.eventId, adults: req.adults, children: req.children, price: check.price, customer,
+    ...(req.idempotencyKey ? { idempotencyKey: req.idempotencyKey } : {}),
+  };
 
   try {
-    const booking = await gateway.createBooking({ ...req, price: check.price, customer });
+    const booking = await gateway.createBooking(payload);
     return { booking, price: check.price };
   } catch (error) {
     if (error instanceof GatewayError && error.status === 404) {
