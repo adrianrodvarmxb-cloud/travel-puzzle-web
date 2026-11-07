@@ -36,6 +36,19 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
+## 6 nov 2026 — Copia exacta retroactiva, Ola R4 (REQ-566…569), SOLO preparada
+- `src/scripts/raw-backfill.ts` (ensayo por omisión; nunca sube nada) y workflow manual `respaldo-crudo.yml` (`escribir=false` por omisión).
+- FREETOUR no necesita script: al encender `RAW_ARCHIVE_ENABLED`, el sync diario guarda la versión 1 de los ~8,000 tours.
+- Ensayo con los PDF compartidos: 371 viajes + 33 documentos (~50 MB). Faltan: Extime (179, sin documento) y Big Bus (29 páginas web por guardar). Sin página: Fantástica China 51, Inca 2, Turismo Asiático 2, Exotic 1.
+- Candados en orden: `docs/runbooks/copia-exacta.md` (10 pasos, cada uno con OK del PO).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-566 | Documento y página de cada viaje | src/ingest/lib/backfill-plan.ts | backfill-plan.test.ts | CUMPLIDO |
+| REQ-567 | Script de respaldo (ensayo) | src/scripts/raw-backfill.ts | backfill.test.ts | CUMPLIDO (sin ejecutar) |
+| REQ-568 | Workflow de respaldo | .github/workflows/respaldo-crudo.yml | backfill.test.ts | CUMPLIDO (sin ejecutar) |
+| REQ-569 | Runbook con candados | docs/runbooks/copia-exacta.md | backfill.test.ts | CUMPLIDO |
+
 ## 6 nov 2026 — Contrato obligatorio de ingesta, Ola R3 (REQ-560…564; cierra REQ-404)
 - `IngestAdapter` (esquema del crudo + `normalize()` puro + mapeo + volátiles + denominación original) para FREETOUR y las 7 agencias.
 - Prueba de contrato sobre cada adaptador y cada `imports/*.json`; huecos de linaje de hoy en `src/ingest/data/contrato-huecos.json` (206 de 371 viajes: Extime 179, Exotic Escapes 15, Turismo Asiático 11, Big Bus 1). La lista solo puede achicarse.
