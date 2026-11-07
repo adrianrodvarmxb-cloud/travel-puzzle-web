@@ -136,6 +136,101 @@
     "cta": {
       "kind": "comercial",
       "label": "Ver tours en Europa"
-    }
+    },
+    "cover": {
+      "src": "/blog/img/requisitos-para-entrar-a-europa-2026/portada-praga",
+      "alt": "Puente de Carlos y el castillo de Praga reflejados en el río Moldava al atardecer",
+      "credit": "Foto: Pierre Blaché / Pexels",
+      "license": {
+        "name": "Pexels License",
+        "url": "https://www.pexels.com/license/"
+      },
+      "origen": {
+        "banco": "pexels",
+        "id": "2598484",
+        "pagina": "https://www.pexels.com/photo/2598484/",
+        "autor": "Pierre Blaché"
+      }
+    },
+    "imagenes": [
+      {
+        "formato": "columna",
+        "despues": 2,
+        "pie": "Con el EES, el sello en el pasaporte dejó de usarse en las fronteras del espacio Schengen.",
+        "fotos": [
+          {
+            "src": "/blog/img/requisitos-para-entrar-a-europa-2026/pasaporte",
+            "alt": "Pasaporte abierto con sellos de entrada de varios países",
+            "credit": "Foto: Henry Thong / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "htQznS-Rx7w",
+              "pagina": "https://unsplash.com/photos/passport-with-multiple-ink-stamps-htQznS-Rx7w",
+              "autor": "Henry Thong",
+              "descarga": "https://images.unsplash.com/photo-1581553673739-c4906b5d0de8"
+            }
+          }
+        ]
+      },
+      {
+        "formato": "collage",
+        "despues": 7,
+        "pie": "París, Sevilla y Lisboa: tres ciudades del espacio Schengen con experiencias en el catálogo.",
+        "fotos": [
+          {
+            "src": "/blog/img/requisitos-para-entrar-a-europa-2026/paris",
+            "alt": "Techos de París con la Torre Eiffel bajo un cielo nublado",
+            "credit": "Foto: Ruben Christen / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "SkHzK7WVWPI",
+              "pagina": "https://unsplash.com/photos/the-eiffel-tower-towering-over-the-city-of-paris-SkHzK7WVWPI",
+              "autor": "Ruben Christen",
+              "descarga": "https://images.unsplash.com/photo-1636204439084-b77059f0b79c"
+            }
+          },
+          {
+            "src": "/blog/img/requisitos-para-entrar-a-europa-2026/sevilla",
+            "alt": "Plaza de España de Sevilla con su fuente, sus puentes y sus farolas",
+            "credit": "Foto: Marwan Aboul-Zelof / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "tSs3IryfyoA",
+              "pagina": "https://unsplash.com/photos/a-large-building-with-a-bridge-over-it-tSs3IryfyoA",
+              "autor": "Marwan Aboul-Zelof",
+              "descarga": "https://images.unsplash.com/photo-1715463065537-25facb747b85"
+            }
+          },
+          {
+            "src": "/blog/img/requisitos-para-entrar-a-europa-2026/lisboa",
+            "alt": "Funicular amarillo del Elevador da Glória, en Lisboa, de noche",
+            "credit": "Foto: Timur Seyfelmlyukov / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "CY7k0cnexGQ",
+              "pagina": "https://unsplash.com/photos/yellow-tram-on-lisbon-cobblestone-tracks-CY7k0cnexGQ",
+              "autor": "Timur Seyfelmlyukov",
+              "descarga": "https://images.unsplash.com/photo-1785951470200-5f08a19ea863"
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
