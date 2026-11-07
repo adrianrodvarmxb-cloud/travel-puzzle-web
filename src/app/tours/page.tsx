@@ -11,7 +11,13 @@ import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
-import { catalogTitle } from '@/tours/lib/catalog-name';
+import { catalogName, catalogTitle } from '@/tours/lib/catalog-name';
+import { JsonLd } from '@/components/destinations/JsonLd';
+import { toursItemList } from '@/seo/lib/listing-ld';
+import { canonicalHrefs } from '@/seo/lib/itemlist';
+import { getDestinations, primeraPiezaOn, siteUrl } from '@/destinations/server';
+import { transformDBToursToUITours } from '@/lib/db/tour-transformer';
+import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 
 const taxonomyOn = () => taxonomyFiltersEnabled(process.env as Record<string, string | undefined>);
 const toQuery = (params: Record<string, string | undefined>) =>
@@ -106,7 +112,14 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     })
     : null;
 
+  // REQ-582: ItemList de lo que lista la página (tours de esta página y viajes), con la URL canónica final.
+  const resolve = primeraPiezaOn() ? canonicalHrefs(await getDestinations().catch(() => null)) : undefined;
+  const pageTours = transformDBToursToUITours(((toursData as { data?: unknown[] } | null)?.data ?? []) as TourWithRelations[], language);
+  const list = toursItemList({ siteUrl: siteUrl(), name: catalogName(language), tours: pageTours, trips: ownTrips, resolve });
+
   return (
+    <>
+    {list && <JsonLd data={[list]} />}
     <ToursPageClient
       initialToursData={toursData}
       initialCountriesData={countriesData}
@@ -123,5 +136,6 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
       logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
+    </>
   );
 }

@@ -34,3 +34,14 @@ export async function getGonePlace(id: string): Promise<TourPlaceRow | null> {
     return null;
   }
 }
+
+/** REQ-584: viajes publicados (para sitemap-viajes.xml). Caché como el árbol; si D1 falla, lista vacía (el sitemap sigue). */
+export async function getPublishedTripRows() {
+  try {
+    return await cached(cacheKey("viajes-sitemap", { v: "1" }), POLICY.toursList, () =>
+      withRetry(() => destinationsRepo(getD1() as unknown as D1Read).trips()));
+  } catch (error) {
+    console.error("[sitemap] viajes sin datos:", (error as Error).message);
+    return [];
+  }
+}
