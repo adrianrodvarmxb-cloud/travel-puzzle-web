@@ -9,13 +9,13 @@ import { tripCopy } from "@/trips/lib/copy";
 import { groupLabel } from "./extra-filters";
 
 const LANGS = ["es", "en", "pt", "de", "fr", "it"] as const;
-const menu = (lang: (typeof LANGS)[number], pp: boolean) => {
+const menu = (lang: (typeof LANGS)[number], pp: boolean, showPP = false) => {
   const t = translations[lang];
   return withPrimeraPiezaLinks(withTransfersLink([
     { href: "/", label: t["nav.home"] },
     { href: "/tours", label: t["nav.tours"] },
     { href: "/#como-funciona", label: t["nav.howItWorks"] },
-  ], true, t["nav.transfers"]), pp, lang);
+  ], true, t["nav.transfers"]), pp, lang, showPP);
 };
 
 describe("REQ-174: «Experiencias» reemplaza a «Tours» en el menú, el H1 y el title de /tours (G1 firmado, 6 nov 2026)", () => {
@@ -30,8 +30,10 @@ describe("REQ-174: «Experiencias» reemplaza a «Tours» en el menú, el H1 y e
     expect(menu("es", false).map((l) => l.href)).toEqual(["/", "/tours", "/traslados", "/#como-funciona"]);
   });
 
-  it("REQ-174: con La Primera Pieza encendida: Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona", () => {
-    expect(menu("es", true).map((l) => l.label)).toEqual(["Inicio", "La Primera Pieza", "Destinos", "Experiencias", "Traslados", "Cómo Funciona"]);
+  it("REQ-174 + REQ-600: con La Primera Pieza encendida: Inicio · Destinos · Experiencias · Traslados · Cómo Funciona", () => {
+    expect(menu("es", true).map((l) => l.label)).toEqual(["Inicio", "Destinos", "Experiencias", "Traslados", "Cómo Funciona"]);
+    // Reversible (MENU_PRIMERA_PIEZA = true): vuelve el orden de REQ-174.
+    expect(menu("es", true, true).map((l) => l.label)).toEqual(["Inicio", "La Primera Pieza", "Destinos", "Experiencias", "Traslados", "Cómo Funciona"]);
   });
 
   it.each(LANGS)("REQ-174 (sitelinks): en %s el menú (escritorio y celular), el H1 y el title de /tours dicen lo mismo", (lang) => {
