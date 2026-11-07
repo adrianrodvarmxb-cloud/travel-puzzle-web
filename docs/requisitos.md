@@ -441,3 +441,25 @@ Petición: "Aplica a todo lo actual y a todo lo que se cargue después: un tipo 
 Petición: "quita la primera pieza de ahí, basta con que salga dentro de experiencias con las demás categorías principales" (captura del menú «Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona»). El chip «Pieza libre» dentro de Experiencias (/tours) lo lleva otro frente.
 | REQ-600 | "quita la primera pieza de ahí" (del menú principal) | Dado PRIMERA_PIEZA_ENABLED="true", cuando se pinta el menú (escritorio y celular, 6 idiomas), entonces dice Inicio · Destinos · Experiencias · Traslados · Cómo Funciona, sin «La Primera Pieza». Reversible: `MENU_PRIMERA_PIEZA = true` en `src/tours/lib/menu.ts` regresa el orden de REQ-093/REQ-174. La página /la-primera-pieza, sus sitemaps y robots no cambian. | CUMPLIDO (falta OK del PO para publicar) |
 | REQ-601 | "basta con que salga dentro de experiencias" (sin dejar huérfano el hub; regla sitelinks-google) | Dado PRIMERA_PIEZA_ENABLED="true", cuando se pinta el pie del sitio, entonces enlaza /la-primera-pieza con el nombre «La Primera Pieza» junto a «Experiencias»; con la bandera apagada no la enlaza. | CUMPLIDO (falta OK del PO para publicar) |
+
+## Encendido de banderas pendientes (PO, 6 nov 2026, 21:53)
+Petición: "ok de todo lo pendiente". Gate: `docs/gates-encendido-2026-11-06.md` (lista, orden y prerrequisitos). Una bandera por PR; cada fila se cierra en su PR de encendido.
+
+| ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-610 | "ok de todo lo pendiente" → `STRIPE_ENABLED` | Dado el preview con `STRIPE_ENABLED="true"` (0013 aplicada y llaves de Stripe en la versión), cuando corre la prueba de humo a 390 y 1366, entonces todo responde 200 sin errores; se publica por la fila | PENDIENTE |
+| REQ-611 | "ok de todo lo pendiente" → `SEARCH_FUZZY_ENABLED` | Dado el preview con la bandera encendida (sobre `SEARCH_V2_ENABLED`), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-612 | "ok de todo lo pendiente" → `SEARCH_SUGGEST_ENABLED` | Dado el preview con la bandera encendida, cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-613 | "ok de todo lo pendiente" → `SEARCH_LOG_ENABLED` | Dado el aviso de privacidad aprobado y publicado en `privacidad.ts`, cuando el preview con la bandera pasa el humo, entonces se publica | BLOQUEADO (aviso de privacidad sin aprobar ni publicar) |
+| REQ-614 | "ok de todo lo pendiente" → `SEARCH_STEM_ENABLED` y alias de `destino_alias` | Dadas las migraciones 0020 y 0021 aplicadas, cuando el preview pasa el humo, entonces se publica | BLOQUEADO (migraciones 0020/0021 solo propuestas; candado) |
+| REQ-615 | "ok de todo lo pendiente" → `TAXONOMY_SYNC_ENABLED` | Dado el preview con la bandera encendida (0017 aplicada), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-616 | "ok de todo lo pendiente" → `TAXONOMY_PUBLISH_ENABLED` | Dado el preview con la bandera encendida (sobre `PRIMERA_PIEZA_ENABLED`), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-617 | "ok de todo lo pendiente" → `TAXONOMY_FILTERS_ENABLED` | Dado el preview con la bandera encendida (después de REQ-616), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-618 | "ok de todo lo pendiente" → `TAXONOMY_LABELS_ENABLED` | Dado el preview con la bandera encendida (requiere REQ-616), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-619 | "ok de todo lo pendiente" → `TAXONOMY_CIRCUITS_ENABLED` | Dado el preview con la bandera encendida (0018 aplicada), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-620 | "ok de todo lo pendiente" → `TAXONOMY_CART_ENABLED` | Dado `ARMA_TU_VIAJE_ENABLED="true"` en producción, cuando el preview con la bandera pasa el humo, entonces se publica | BLOQUEADO (va después de REQ-625) |
+| REQ-621 | "ok de todo lo pendiente" → `NOSOTROS_ENABLED` | Dado el preview con la bandera encendida, cuando corre la prueba de humo con `/nosotros`, entonces está en verde y solo salen bloques aprobados | PENDIENTE |
+| REQ-622 | "ok de todo lo pendiente" → `CONTACTO_ENABLED` | Dado el preview con la bandera encendida y `EMAIL_REPLY_TO` configurado, cuando corre la prueba de humo con `/contacto`, entonces está en verde | PENDIENTE |
+| REQ-623 | "ok de todo lo pendiente" → `EXPERTOS_ENABLED` | Dado el preview con la bandera encendida, cuando corre la prueba de humo con `/asesores`, entonces está en verde | PENDIENTE |
+| REQ-624 | "ok de todo lo pendiente" → `BLOG_ENABLED` | Dados ≥ 3 artículos aprobados y publicados, cuando el preview pasa el humo, entonces se publica | BLOQUEADO (0 artículos publicados; 1 borrador) |
+| REQ-625 | "ok de todo lo pendiente" → `ARMA_TU_VIAJE_ENABLED` (PR #135) | Dado el PR al día con main y el humo del preview en verde, cuando el PO hace la reserva de prueba real, entonces se publica | EN CURSO (falta la reserva de prueba del PO) |
