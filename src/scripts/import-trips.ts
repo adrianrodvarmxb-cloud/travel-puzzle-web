@@ -4,7 +4,7 @@
  * Baja las fotos (Pixabay por id con PIXABAY_API_KEY, o archivos del operador), valida cada viaje con el
  * mismo esquema del gestor y escribe import.sql + fotos/<llave> + reporte.json. No toca producción.
  * Variables: PIXABAY_API_KEY, NOW_SAMPLE (fecha de una fila existente para copiar su formato).
- * REQ-545 (Ola R1, copia exacta): además escribe en CRUDO_DIR (por omisión `crudo/`, fuera de la carpeta de salida para
+ * REQ-745 (Ola R1, copia exacta): además escribe en CRUDO_DIR (por omisión `crudo/`, fuera de la carpeta de salida para
  * que NO se suba como artefacto) cada item COMPLETO del archivo (con source, hold y taxonomia) como objeto
  * raw/<proveedor>/<ref>/<huella>.json, el documento original si viene en ORIGINAL_DOC (source/<agencia>/…) y el SQL
  * del índice ProviderRecord. No sube nada: eso lo hace el workflow con escribir=true y RAW_ARCHIVE_ENABLED="true".
@@ -17,7 +17,7 @@ import { IMAGE_KEY_RE } from "../trips/lib/image";
 import { documentFor, planImportArchive, recordSql } from "../ingest/lib/import-archive";
 
 type Photo = { src: "pixabay"; id: number; alt: string } | { src: "inca"; file: string; alt: string };
-// REQ-545: el item se conserva COMPLETO para la copia exacta; el gestor solo usa ref, status, photos y trip.
+// REQ-745: el item se conserva COMPLETO para la copia exacta; el gestor solo usa ref, status, photos y trip.
 interface Entry {
   ref: string; status: "draft" | "published"; photos: Photo[]; trip: Record<string, unknown>;
   source?: string; hold?: string; taxonomia?: Record<string, unknown>; original?: { pagina?: number };
@@ -96,7 +96,7 @@ async function main() {
   errors.forEach((x) => console.log(`ERROR ${x}`));
   if (errors.length) process.exit(1);
 }
-/** REQ-545: objetos de la copia exacta + SQL del índice, en una carpeta local que no se publica. */
+/** REQ-745: objetos de la copia exacta + SQL del índice, en una carpeta local que no se publica. */
 async function writeRawCopy() {
   const dir = process.env.CRUDO_DIR || "crudo";
   const when = new Date();

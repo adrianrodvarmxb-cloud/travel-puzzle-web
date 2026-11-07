@@ -1,10 +1,10 @@
 /**
- * REQ-543: items crudos de una página de GET /tours, tal cual llegaron, ANTES de transformarlos (toTourRows) y antes
+ * REQ-743: items crudos de una página de GET /tours, tal cual llegaron, ANTES de transformarlos (toTourRows) y antes
  * de descartar los que no traen id (la copia exacta no se filtra). Puro.
  */
 import type { RawItem } from "./archive-plan";
 
-// REQ-543
+// REQ-743
 export function freetourRawItems(body: unknown, page: number): RawItem[] {
   const tours = (body as { data?: { tours?: unknown } } | null)?.data?.tours;
   if (!Array.isArray(tours)) return [];

@@ -155,7 +155,7 @@
     // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
     "VISA_ENABLED": "false",
     "ETIAS_ENABLED": "false",
-    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-540…548, Ola R1). Requiere, en este orden y cada paso
+    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-740…548, Ola R1). Requiere, en este orden y cada paso
     // con OK del PO: bucket privado travel-puzzle-raw, binding RAW_ARCHIVE en r2_buckets y migración 0022 aplicada
     // (docs/runbooks/copia-exacta.md). "true" con preview encendido y prueba de humo. Si falla, el sync sigue.
     "RAW_ARCHIVE_ENABLED": "false",

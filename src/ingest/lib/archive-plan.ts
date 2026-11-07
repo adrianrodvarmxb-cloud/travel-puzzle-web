@@ -1,5 +1,5 @@
 /**
- * REQ-542: qué se escribe del archivo crudo en una corrida. Puro (sin red, base ni reloj: todo llega por parámetro).
+ * REQ-742: qué se escribe del archivo crudo en una corrida. Puro (sin red, base ni reloj: todo llega por parámetro).
  * - huella nueva para ese externalId → objeto R2 nuevo + fila ProviderRecord nueva;
  * - misma huella que la versión vigente → nada;
  * - vuelve a una versión ya vista (A → B → A) → no se reescribe el objeto (es inmutable), solo se actualiza lastSeenAt.
@@ -37,7 +37,7 @@ export interface ArchivePlan {
 
 export const EXTERNAL_ID_SIN_ID = "_sin-id";
 
-// REQ-542
+// REQ-742
 export async function planArchive(
   provider: string, items: RawItem[], known: Map<string, KnownVersions>, ctx: { runId: string; now: string },
 ): Promise<ArchivePlan> {
