@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { DestinationsLayout, Section } from '@/components/destinations/DestinationsLayout';
 import { TourGrid } from '@/components/destinations/DestinationTourCard';

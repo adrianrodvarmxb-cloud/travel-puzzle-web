@@ -33,7 +33,7 @@ import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
-import { getPreferredLanguage } from "@/lib/utils/cookies";
+import { getRouteLanguage } from '@/i18n/server';
 import { formatCount } from "@/home/lib/format";
 import { withToursText } from "@/home/lib/hero";
 import { JsonLd } from "@/components/destinations/JsonLd";
@@ -47,7 +47,7 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const env = process.env as Record<string, string | undefined>;
   const prisma = getPrisma();
-  const lang = await getPreferredLanguage();
+  const lang = await getRouteLanguage();
   // REQ-219 (y REQ-454): ningún carrusel del inicio muestra títulos con «FreeTour» / «Free Tour».
   const ownTrips = (await loadTripCards(lang)).filter((t) => !mentionsProviderBrand(t.title));
   const includePaid = env.PAID_TOURS_ENABLED === "true";
