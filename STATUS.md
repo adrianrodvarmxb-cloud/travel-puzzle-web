@@ -69,6 +69,14 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 |---|---|---|---|---|
 | REQ-1348 | Contrato fila por fila diccionario ↔ código; proveedor nuevo sin formato no se publica | `src/taxonomy/data/contrato-diccionario.json`, `docs/taxonomia/contrato-diccionario.md`, `src/trips/lib/bulk-import.ts`, `src/tours/lib/card-format.ts`, `src/scripts/import-trips.ts` | `src/taxonomy/lib/contrato-diccionario.test.ts`, `src/trips/lib/bulk-import-formato.test.ts` | EN CURSO (15 faltas con folio) |
 | REQ-1357 | Sinónimos del diccionario y legado en el buscador, tras bandera | `src/search/lib/taxonomy-terms.ts`, `src/search/lib/synonyms.ts`, `src/search/synonyms.ts`, `wrangler.jsonc` | `src/search/taxonomy-synonyms.test.ts` | EN CURSO (bandera en false; OK del PO) |
+## REQ-1330 verde de free tour (7 nov 2026) — matriz de trazabilidad
+| REQ-1330 | Token verde #4ADE80 para precio e insignia de free tour | `src/styles/design-system/colors.css`, `src/app/globals.css`, `src/styles/lib/contrast.ts`, `src/components/tours/ExperienceCard.tsx`, `src/components/tours/one/TourHeroSection.tsx`, `src/components/tours/one/TourMobileBar.tsx`, `src/components/tours/TourCard.tsx`, `src/components/home/v2/FeaturedTours.tsx` | `src/styles/lib/free-token.test.ts` | CUMPLIDO (PO 15:39 «B»; falta humo del PR) |
+## REQ-1329 Free Puzzle en inglés (7 nov 2026) — matriz de trazabilidad
+| REQ-1329 | Free Puzzle en EN: title, encabezado y primera línea, JSON-LD, sin la marca | `src/destinations/lib/hub-copy.ts`, `src/app/destinos/[pais]/[ciudad]/page.tsx`, `src/seo/lib/ficha-ld.ts` | `src/destinations/lib/free-puzzle-en.test.ts` | CUMPLIDO (PO 15:29 «sí»; falta humo del PR) |
+## REQ-1349 URL canónica de viajes (7 nov 2026) — matriz de trazabilidad
+| REQ-1349 | Una URL canónica por viaje (ciudad de inicio), 301 de las alternativas, sitemap sin repetidos, itinerary en JSON-LD | `src/destinations/lib/catalog.ts`, `src/destinations/lib/page-model.ts`, `src/destinations/edge.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-ld.ts`, `src/seo/lib/trip-ficha.ts`, `src/destinations/server.ts` | `src/destinations/lib/viaje-canonico.test.ts` | EN CURSO (falta humo del PR) |
+## INC-009 (7 nov 2026) — matriz de trazabilidad
+| REQ-1358 | Calentar la caché de producción antes del humo | `.github/workflows/deploy-cloudflare.yml`, `docs/incidentes/INC-009.md` | `src/ops/deploy-calentar-workflow.test.ts` | EN CURSO (falta el siguiente deploy) |
 
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |

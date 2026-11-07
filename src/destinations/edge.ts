@@ -60,8 +60,13 @@ export async function decideDestinationsRequest(pathname: string, search: URLSea
       }
       case "tour-slug": {
         const p = await repo.tourPlaceBySlug(plan.slug);
-        if (!p || p.status !== "removed" || p.countrySlug !== plan.pais || p.citySlug !== plan.ciudad) return null;
-        return gone(p);
+        if (p) return p.status !== "removed" || p.countrySlug !== plan.pais || p.citySlug !== plan.ciudad ? null : gone(p);
+        // REQ-1349: un viaje propio en una ciudad que no es la suya (la de inicio) → 301 a su URL canónica.
+        const trip = await repo.tripBySlug(plan.slug);
+        if (!trip || !tripVisible(trip.kind)) return null;
+        const at = ownTripPlace(trip, await repo.citiesOf(trip.countries));
+        if (!at || (at.countrySlug === plan.pais && at.citySlug === plan.ciudad)) return null;
+        return apply(ownTripResolution(at), null);
       }
     }
   } catch (error) {

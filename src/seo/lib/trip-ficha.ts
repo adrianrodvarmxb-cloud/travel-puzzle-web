@@ -43,5 +43,6 @@ export function tripFichaInput(o: {
     duration: o.duration, languages: o.languageNames, languagesTitle: o.languagesTitle ?? null, place: o.places,
     meetingPoint: mp ? { name: mp.name, address: mp.address || null, lat: mp.lat, lng: mp.lng } : null,
     priceText: o.priceText, description: o.summary, tipo, etiquetas: facets.etiquetas, includes: o.includes,
+    itinerary: trip.cities, // REQ-1349
   };
 }

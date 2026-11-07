@@ -34,7 +34,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel 
           <span className="flex h-full items-center justify-center text-4xl opacity-50" aria-hidden>🌍</span>
         )}
         {tour.price === 0 && (
-          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{freeBadge}</span>
+          <span className="font-data absolute bottom-3 left-3 rounded-md border border-free bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-free">{freeBadge}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
