@@ -309,10 +309,15 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
 
-### Taxonomía, fase T6a: migración 0018 (columnas nuevas de Trip), en su propio PR. CANDADO: no se aplica aquí
+### Taxonomía, fase T6b: facetas de circuitos en la ficha, tras `TAXONOMY_CIRCUITS_ENABLED="false"` (va después de #156)
 
 | Fase y REQ | Código | Test | Estado |
 |---|---|---|---|
+| T6b · REQ-421 (tipo de grupo: en grupo · privado · a la medida) | `src/taxonomy/lib/circuit-facts.ts`, `components/trips/TripDetailView.tsx` | `src/taxonomy/lib/circuit-facts.test.ts` | CUMPLIDO (apagado) |
+| T6b · REQ-422 (dificultad 1–5 con nombre y línea; sin dato, nada; G-T8 = A) | `circuit-facts.ts` (usa `difficulty` de hoy; `difficultyLevel` de la 0018 cuando esté aplicada) | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
+| T6b · REQ-423 (días 1–5 · 6–9 · 10–14 · 15+ con límites) | `circuit-facts.ts` | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
+| T6b · REQ-424 (confort, tipo de guía, perfil y altitud tras bandera) | `TAXONOMY_CIRCUIT_EXTRA_ENABLED="false"` en `wrangler.jsonc`; sin dato hoy, no se calcula nada | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
+### Taxonomía, fase T6a: migración 0018 (columnas nuevas de Trip), en su propio PR. CANDADO: no se aplica aquí
 | T6a · REQ-425 (migración de los campos nuevos de Trip: solo agrega; `difficulty` y `accessibility` se conservan) | `migrations/0018_trip_facetas.sql` | `src/trips/migration-0018.test.ts` (SQLite real) | Escrita y probada; **sin aplicar**. Prisma y el gestor la usan en un PR posterior, ya aplicada |
 ### Taxonomía, fase T3: publicación tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #156)
 | REQ | Código | Test | Estado |
