@@ -23,6 +23,7 @@
   ],
   "flagged": {
     "NOSOTROS_ENABLED": ["/nosotros"],
-    "CONTACTO_ENABLED": ["/contacto"]
+    "CONTACTO_ENABLED": ["/contacto"],
+    "EXPERTOS_ENABLED": ["/asesores"]
   }
 }
