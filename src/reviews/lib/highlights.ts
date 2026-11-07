@@ -4,15 +4,15 @@ import { mentionsPlatform } from "./platform-mention";
 
 export type TourReview = Review & { tourExternalId: number };
 
-import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS } from "@/tours/lib/favorite";
+import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, isTravelerFavorite as favoriteRule } from "@/tours/lib/favorite";
 
 // REQ-098: la regla vive en un solo lugar (src/tours/lib/favorite.ts); aquí solo se reexporta.
 export { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS };
 
 /** El tour se gana la etiqueta solo con datos reales (regla de src/tours/lib/favorite.ts). */
+// REQ-1248: delega en la regla única (no repite los umbrales).
 export function isTravelerFavorite(rating: number | string | null | undefined, reviews: number): boolean {
-  const n = Number(rating);
-  return rating !== null && rating !== undefined && Number.isFinite(n) && n >= FAVORITE_MIN_RATING && reviews >= FAVORITE_MIN_REVIEWS;
+  return rating !== null && rating !== undefined && favoriteRule({ rating, reviews });
 }
 
 /** Una frase corta de la reseña: la primera oración, o un corte limpio sin romper palabras. */
