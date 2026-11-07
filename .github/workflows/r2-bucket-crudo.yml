@@ -1,0 +1,53 @@
+# REQ-770 (Ola R1, paso 1 del runbook docs/runbooks/copia-exacta.md): crea UNA vez el bucket PRIVADO travel-puzzle-raw
+# para la copia exacta del proveedor (lleva netos: nunca público, nunca artefactos).
+# Solo a mano. Sin marcar «crear» = solo comprueba el permiso del token y si el bucket ya existe.
+# Candado: crear el bucket requiere el gate firmado docs/gates-copia-exacta-2026-11-07.md.
+# Regreso: el bucket vacío se borra en el panel de Cloudflare (R2 → travel-puzzle-raw → Settings → Delete).
+name: "R2: crear bucket de la copia exacta"
+on:
+  workflow_dispatch:
+    inputs:
+      crear:
+        description: "Crear el bucket (candado: gate firmado). Sin marcar = solo comprobar"
+        type: boolean
+        default: false
+      confirmar:
+        description: "Escribe el nombre exacto del bucket para confirmar: travel-puzzle-raw"
+        type: string
+        default: ""
+permissions:
+  contents: read
+concurrency: { group: r2-bucket-crudo, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  BUCKET: travel-puzzle-raw
+jobs:
+  bucket:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-770
+        run: npx vitest run src/ops/r2-bucket-crudo-workflow.test.ts
+      - name: Permiso del token (listar buckets)
+        id: lista
+        run: |
+          npx wrangler r2 bucket list > lista.txt 2>&1 || { cat lista.txt; echo "::error::El token no puede listar buckets de R2 (falta permiso «Workers R2 Storage: Edit»)"; exit 1; }
+          if grep -q "name:[[:space:]]*$BUCKET\$" lista.txt; then echo "existe=true" >> "$GITHUB_OUTPUT"; echo "El bucket $BUCKET ya existe"; else echo "existe=false" >> "$GITHUB_OUTPUT"; echo "El bucket $BUCKET no existe"; fi
+      - name: Crear el bucket (solo con crear=true y el nombre confirmado)
+        if: inputs.crear && inputs.confirmar == 'travel-puzzle-raw'
+        run: |
+          if [ "${{ steps.lista.outputs.existe }}" = "true" ]; then echo "ya existe: no se recrea"; exit 0; fi
+          npx wrangler r2 bucket create "$BUCKET"
+      - name: Verificar que es privado
+        if: inputs.crear && inputs.confirmar == 'travel-puzzle-raw'
+        run: |
+          npx wrangler r2 bucket dev-url get "$BUCKET" 2>&1 | tee devurl.txt
+          if grep -qi "enabled" devurl.txt && ! grep -qi "disabled\|not enabled" devurl.txt; then echo "::error::r2.dev está encendido: el bucket debe ser privado"; exit 1; fi
+          npx wrangler r2 bucket domain list "$BUCKET" 2>&1 | tee dominios.txt
+          if grep -qiE "^[[:space:]]*domain:" dominios.txt; then echo "::error::El bucket tiene dominio propio: debe ser privado"; exit 1; fi
+          echo "OK: $BUCKET sin r2.dev y sin dominio propio"
