@@ -63,7 +63,7 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [] }: Tour
             <div className="mt-8 flex flex-wrap gap-2">
                 {!primeraPieza && <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} />}
                 {tour.price === 0 && (
-                    <span className="font-data rounded-md border border-[#7CC4FF] px-2 py-0.5 text-[11px] uppercase tracking-[0.15em] text-[#7CC4FF]">{t('tours.free')}</span>
+                    <span className="font-data rounded-md border border-[#7CC4FF] px-2 py-0.5 text-[11px] uppercase tracking-[0.15em] text-[#7CC4FF]">{t('tours.freeBadge', 'Free tour')}</span>
                 )}
             </div>
             <h1 className="font-display mb-4 mt-3 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{tour.title}</h1>

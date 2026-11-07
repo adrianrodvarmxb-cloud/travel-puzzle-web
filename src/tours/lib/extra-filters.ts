@@ -3,13 +3,16 @@
  * recogida en hotel, novedad y duración) — un solo modelo, leído y escrito en la URL. Puro.
  */
 import { parseGuideLanguage, parseTripDate } from "@/departures/lib/params";
+import { parseFormatos } from "@/taxonomy/lib/filters";
 
 export interface ExtraFilters {
   guideLanguage: string | null; date: string | null; groups: string[];
   freeCancel: boolean; privateOnly: boolean; hotelPickup: boolean; novelty: boolean;
   durMin: number | null; durMax: number | null; // minutos
+  /** T4 (REQ-413): ?formato= de la taxonomía; vacío con TAXONOMY_FILTERS_ENABLED apagada. */
+  formatos: string[];
 }
-export const EMPTY_EXTRA: ExtraFilters = { guideLanguage: null, date: null, groups: [], freeCancel: false, privateOnly: false, hotelPickup: false, novelty: false, durMin: null, durMax: null };
+export const EMPTY_EXTRA: ExtraFilters = { guideLanguage: null, date: null, groups: [], freeCancel: false, privateOnly: false, hotelPickup: false, novelty: false, durMin: null, durMax: null, formatos: [] };
 
 type L = Record<"es" | "en" | "pt" | "de" | "fr" | "it", string>;
 /** Grupos de "Tipo de actividad" (como Civitatis) a partir de las 29 categorías de Freetour (archivo del PO, 4 nov 2026). */
@@ -38,13 +41,15 @@ export const groupLabel = (id: string, lang: string): string => {
 const int = (v: string | null) => (v && /^\d{1,6}$/.test(v) ? Number(v) : null);
 
 // REQ-056
-export function parseExtraFilters(q: URLSearchParams, today: string): ExtraFilters {
+export function parseExtraFilters(q: URLSearchParams, today: string, opts: { taxonomy?: boolean } = {}): ExtraFilters {
   let durMin = int(q.get("durmin")), durMax = int(q.get("durmax"));
   if (durMin !== null && durMax !== null && durMin > durMax) durMin = durMax = null;
   return {
     guideLanguage: parseGuideLanguage(q.get("idioma")),
     date: parseTripDate(q.get("fecha"), today),
-    groups: [...new Set((q.get("tipo_act") ?? "").split(",").filter((g) => GROUP_IDS.has(g)))],
+    // T4: con la taxonomía, ?tipo_act= se traduce a ?formato= y los grupos viejos quedan ocultos (no se borran).
+    groups: opts.taxonomy ? [] : [...new Set((q.get("tipo_act") ?? "").split(",").filter((g) => GROUP_IDS.has(g)))],
+    formatos: opts.taxonomy ? parseFormatos(q) : [],
     freeCancel: q.get("cancelacion") === "1", privateOnly: q.get("privado") === "1",
     hotelPickup: q.get("recogida") === "1", novelty: q.get("novedad") === "1",
     durMin, durMax,
@@ -56,6 +61,7 @@ export function extraFiltersToParams(f: ExtraFilters, into = new URLSearchParams
   if (f.guideLanguage) into.set("idioma", f.guideLanguage);
   if (f.date) into.set("fecha", f.date);
   if (f.groups.length) into.set("tipo_act", f.groups.join(","));
+  if (f.formatos?.length) into.set("formato", f.formatos.join(","));
   if (f.freeCancel) into.set("cancelacion", "1");
   if (f.privateOnly) into.set("privado", "1");
   if (f.hotelPickup) into.set("recogida", "1");
@@ -66,7 +72,7 @@ export function extraFiltersToParams(f: ExtraFilters, into = new URLSearchParams
 }
 
 export function countActive(f: ExtraFilters): number {
-  return (f.guideLanguage ? 1 : 0) + (f.date ? 1 : 0) + f.groups.length + [f.freeCancel, f.privateOnly, f.hotelPickup, f.novelty].filter(Boolean).length + (f.durMin !== null || f.durMax !== null ? 1 : 0);
+  return (f.guideLanguage ? 1 : 0) + (f.date ? 1 : 0) + f.groups.length + (f.formatos?.length ?? 0) + [f.freeCancel, f.privateOnly, f.hotelPickup, f.novelty].filter(Boolean).length + (f.durMin !== null || f.durMax !== null ? 1 : 0);
 }
 
 /** REQ-051: grupo de los viajes propios a partir de su tipo y su categoría del gestor. */

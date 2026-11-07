@@ -4,12 +4,14 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 // El Navbar real necesita sesión e idioma; aquí basta saber que el marco lo monta una sola vez.
 vi.mock("@/components/layout/Navbar", () => ({ Navbar: () => createElement("nav", { "data-testid": "site-navbar" }) }));
+vi.mock("@/components/home/v2/SiteFooter", () => ({ SiteFooter: () => createElement("footer", { "data-testid": "site-footer" }) }));
 
 import { EmailFrame } from "./email-ui";
 
 const WA = "https://wa.me/5215555555555?text=Hola";
+const site = { contact: { socials: [] }, helpEnabled: false };
 const render = (props: { wa?: string | null; cardHeader?: boolean } = {}) =>
-  renderToStaticMarkup(createElement(EmailFrame, { wa: WA, socials: [], children: createElement("p", null, "cuerpo"), ...props }));
+  renderToStaticMarkup(createElement(EmailFrame, { wa: WA, socials: [], site, children: createElement("p", null, "cuerpo"), ...props }));
 
 describe("Marco de reservas y eventos (EmailFrame) con el header del home", () => {
   it("REQ-062: monta el header del home (Navbar con el logo animado) una sola vez", () => {
