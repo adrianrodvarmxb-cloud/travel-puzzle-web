@@ -8,6 +8,7 @@ import { parsePost, type Post, type PostInput } from "./lib/schema";
 import { inlineLinks } from "./lib/inline";
 import { FREE_TOUR_POSTS_B1, planDelDia, type Plan } from "./lib/mix";
 import { CALENDARIO } from "./content/calendario";
+import { allImages, imageFiles } from "./lib/images";
 import { POSTS } from "./content";
 
 type Fetch = (url: string) => Promise<{ ok: boolean; status: number; text: () => Promise<string> }>;
@@ -58,8 +59,21 @@ export function registryPosts(source: PostInput[] = POSTS): Post[] {
   return source.flatMap((raw) => { const r = parsePost(raw); return r.ok ? [r.post] : []; });
 }
 
+// REQ-1055: archivos optimizados que faltan en public/ (los genera src/scripts/blog-imagenes.ts).
+export function missingImageFiles(p: Post, exists: (path: string) => boolean): string[] {
+  return allImages(p).flatMap(({ img }) => imageFiles(img.src)).filter((f) => !exists(f));
+}
+
 // REQ-975: valida una entrada contra producción (rutas y fichas) y el registro actual.
-export async function validateAgainstSite(input: PostInput, o: { siteUrl: string; fetch: Fetch; now: Date; today?: string; primeraPieza: boolean; source?: PostInput[] }): Promise<DailyResult> {
+// REQ-1055: con `exists`, exige además los archivos optimizados de cada imagen.
+export async function validateAgainstSite(input: PostInput, o: { siteUrl: string; fetch: Fetch; now: Date; today?: string; primeraPieza: boolean; source?: PostInput[]; exists?: (path: string) => boolean }): Promise<DailyResult> {
+  const r = await validateSiteOnly(input, o);
+  if (!r.ok || !o.exists) return r;
+  const missing = missingImageFiles(r.post, o.exists);
+  return missing.length ? { ok: false, problems: [`faltan ${missing.length} archivos de imagen optimizados (corre src/scripts/blog-imagenes.ts): ${missing.slice(0, 3).join(", ")}`] } : r;
+}
+
+async function validateSiteOnly(input: PostInput, o: { siteUrl: string; fetch: Fetch; now: Date; today?: string; primeraPieza: boolean; source?: PostInput[] }): Promise<DailyResult> {
   const [knownPaths, fichaTexts] = await Promise.all([knownPathsFromSitemaps(o.siteUrl, o.fetch), fichaTextsFor(input, o.siteUrl, o.fetch)]);
   return validateDailyEntry(input, {
     today: o.today ?? todayCdmx(o.now),
