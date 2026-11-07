@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import dictionary from "@/taxonomy/data/dictionary.json";
-import { FORMATO_LABEL, FORMATOS_FILTRO } from "@/taxonomy/lib/filters";
+import { FORMATO_CARD_LABEL, FORMATOS_FILTRO } from "@/taxonomy/lib/filters";
 import { CARD_COPY, CARD_LANGS, CATEGORY_FALLBACK, OTHER_FORMAT_LABELS, cardDuration, cardPrice, cardProvider, categoryLabel, experienceCard, type CardInput } from "./experience-card";
 import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS } from "./favorite";
 
@@ -25,7 +25,7 @@ describe("tarjeta única de experiencia", () => {
     expect(categoryLabel("pieza-libre", "en")).toBe("Free tour");
     expect(categoryLabel("excursion-dia", "es")).toBe("Excursión de un día");
     expect(categoryLabel("experiencia-unica", "es")).toBe("Momentos de autor");
-    expect(categoryLabel("caminata", "es")).toBe("Caminata (tour a pie)");
+    expect(categoryLabel("caminata", "es")).toBe("Caminata"); // REQ-531: corto en la foto
     expect(categoryLabel("transporte", "es")).toBe("Transporte turístico");
   });
 
@@ -37,11 +37,11 @@ describe("tarjeta única de experiencia", () => {
     for (const l of CARD_LANGS) expect(CATEGORY_FALLBACK[l]).not.toMatch(/^tour$/i);
   });
 
-  it("REQ-522: misma etiqueta que el filtro de T4 y las etiquetas de T5 (sin duplicar); los de /traslados del diccionario", () => {
+  it("REQ-522 REQ-531: misma lib que el filtro de T4 y T5, con el nombre corto de la tarjeta; los de /traslados del diccionario", () => {
     for (const f of FORMATOS_FILTRO) {
-      expect(categoryLabel(f, "es")).toBe(FORMATO_LABEL[f].es);
-      expect(categoryLabel(f, "en")).toBe(FORMATO_LABEL[f].en);
-      expect(categoryLabel(f, "pt")).toBe(FORMATO_LABEL[f].en); // como T4: inglés hasta que T5 firme pt/de/fr/it
+      expect(categoryLabel(f, "es")).toBe(FORMATO_CARD_LABEL[f].es);
+      expect(categoryLabel(f, "en")).toBe(FORMATO_CARD_LABEL[f].en);
+      expect(categoryLabel(f, "pt")).toBe(FORMATO_CARD_LABEL[f].en); // como T4: inglés hasta que T5 firme pt/de/fr/it
     }
     const terms = (dictionary.terminos as { eje: string; slug: string; termino_es: string; termino_en: string }[]).filter((t) => t.eje === "formato");
     for (const [f, l] of Object.entries(OTHER_FORMAT_LABELS)) {

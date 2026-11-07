@@ -29,6 +29,25 @@ export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = 
 };
 export const formatoLabel = (f: FormatoFiltro, lang: string) => FORMATO_LABEL[f][lang === "es" ? "es" : "en"];
 
+/**
+ * REQ-531 (opción A, firmada por el PO 6-11 20:30): nombres cortos SOLO para la etiqueta sobre la foto de la tarjeta.
+ * El filtro «Tipo de experiencia», los chips de la ciudad y la ficha siguen con FORMATO_LABEL (nombres largos).
+ * Misma lista de formatos (el tipo obliga a tener uno por cada FORMATOS_FILTRO); sin paréntesis.
+ */
+export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
+  "pieza-libre": { es: "Pieza libre", en: "Free tour" },
+  caminata: { es: "Caminata", en: "Walking tour" },
+  tour: { es: "Visita guiada", en: "Guided tour" },
+  "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
+  "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
+  entradas: { es: "Boletos", en: "Tickets" },
+  autoguiado: { es: "Autoguiado", en: "Self-guided" },
+  circuito: { es: "Circuito", en: "Multi-day tour" },
+  "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made" },
+};
+// REQ-531
+export const formatoCardLabel = (f: FormatoFiltro, lang: string) => FORMATO_CARD_LABEL[f][lang === "es" ? "es" : "en"];
+
 /** Enlaces viejos ?tipo_act= (REQ-051) → formato equivalente; los grupos que son tema o transporte se ignoran. */
 export const TIPO_ACT_A_FORMATO: Record<string, FormatoFiltro[]> = {
   visitas: ["pieza-libre", "caminata", "tour", "autoguiado"],

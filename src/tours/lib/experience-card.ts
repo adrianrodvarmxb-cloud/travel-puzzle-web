@@ -12,7 +12,7 @@
  * Determinista (INC-001): sin Intl, toLocale*, Date.now ni Math.random; los números se forman con formatCount
  * y los precios llegan ya formateados del servidor.
  */
-import { FORMATOS_FILTRO, formatoLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
+import { FORMATOS_FILTRO, formatoCardLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
 import { formatCount, formatRating } from "@/home/lib/format";
 import { isTravelerFavorite } from "./favorite";
 import { durationMinutes as parseDuration } from "./duration";
@@ -22,8 +22,8 @@ export type CardLang = (typeof CARD_LANGS)[number];
 export const cardLang = (lang: string): CardLang => ((CARD_LANGS as readonly string[]).includes(lang) ? (lang as CardLang) : "en");
 
 /**
- * REQ-522: la categoría de la tarjeta usa la MISMA etiqueta que el filtro «Tipo de experiencia» (T4) y las etiquetas de
- * la ciudad y la ficha (T5): `FORMATO_LABEL` de src/taxonomy/lib/filters.ts (es/en del diccionario; pt/de/fr/it en
+ * REQ-522 / REQ-531: la categoría de la tarjeta sale de la misma lib que el filtro «Tipo de experiencia» (T4) y las
+ * etiquetas de T5, con su nombre corto `FORMATO_CARD_LABEL` (opción A del PO) de src/taxonomy/lib/filters.ts (es/en del diccionario; pt/de/fr/it en
  * inglés hasta que el flujo de traducción de T5 las firme). Aquí solo se agregan los formatos que no son de /tours
  * (viven en /traslados, REQ-261), con el término del diccionario; un test los compara.
  */
@@ -42,7 +42,8 @@ export const CATEGORY_FALLBACK: Record<CardLang, string> = { es: "Experiencia", 
 
 // REQ-522
 export function categoryLabel(formato: string | null | undefined, lang: string): string {
-  if (formato && (FORMATOS_FILTRO as readonly string[]).includes(formato)) return formatoLabel(formato as FormatoFiltro, lang);
+  // REQ-531: en la foto, el nombre corto (FORMATO_CARD_LABEL); el filtro conserva el largo.
+  if (formato && (FORMATOS_FILTRO as readonly string[]).includes(formato)) return formatoCardLabel(formato as FormatoFiltro, lang);
   const other = formato ? (OTHER_FORMAT_LABELS as Record<string, { es: string; en: string }>)[formato] : undefined;
   if (other) return other[lang === "es" ? "es" : "en"];
   return CATEGORY_FALLBACK[cardLang(lang)];
