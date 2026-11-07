@@ -170,7 +170,7 @@
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // REQ-586: IndexNow (Bing y demás; Google no participa). "true" solo con INDEXNOW_KEY cargada como variable
     // (la crea el PO; es pública por diseño), preview con la bandera encendida, prueba de humo y OK del PO.
-    "INDEXNOW_ENABLED": "false",
+    "INDEXNOW_ENABLED": "true",
     // REQ-626: clave de IndexNow (pública por diseño: se sirve en /indexnow-key.txt solo con INDEXNOW_ENABLED="true").
     // Variable NO secreta, a pedido del PO («hazlo tú», 6 nov 2026 22:37). Regreso: quitar la variable (con la bandera apagada no se usa).
     "INDEXNOW_KEY": "08fccf385745e822f4ea759d05a50ad6",
