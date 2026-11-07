@@ -46,11 +46,17 @@ export interface TripFormatInput {
  * la tarjeta dice «Excursión de un día»: la insignia no puede contradecir al carrusel (caso «Versalles esencial»).
  */
 export function tripFormat(t: TripFormatInput): FormatoOEstado {
-  const f = classifyFormato(
+  return tripFormatDecision(t).valor;
+}
+
+/** REQ-1348: el mismo formato con su regla (una regla «duda:» va a la lista de dudas del PO). */
+export function tripFormatDecision(t: TripFormatInput): { valor: FormatoOEstado; regla: string } {
+  const d = classifyFormato(
     { proveedor: "propios", categoriaId: t.kind, precio: t.priceFrom ?? null, durationDays: t.durationDays ?? null, titulo: joinTitles(t.titles), resumen: t.resumen ?? undefined },
     DEFAULT_DICTIONARY, DEFAULT_MAPPINGS.propios, DEFAULT_GATES,
-  ).valor;
-  return (f === "tour" || f === "visita-guiada" || f === "caminata") && t.dayTrip ? "excursion-dia" : f; // REQ-1250
+  );
+  const f = d.valor;
+  return { valor: (f === "tour" || f === "visita-guiada" || f === "caminata") && t.dayTrip ? "excursion-dia" : f, regla: d.regla }; // REQ-1250
 }
 
 /** REQ-522: formato por id para las tarjetas de /tours (lo arma la acción del servidor, como los precios). */

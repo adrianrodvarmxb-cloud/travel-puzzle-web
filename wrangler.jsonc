@@ -81,6 +81,9 @@
     // Raíz (plurales y género, Snowball) y sinónimos en el índice FTS (REQ-360…366). "true" solo DESPUÉS de aplicar la
     // migración propuesta docs/migraciones-propuestas/0021_tour_search_stem.sql, con preview, humo y OK del PO.
     "SEARCH_STEM_ENABLED": "false",
+    // REQ-1357: sinónimos del diccionario de taxonomía y términos fusionados (legado) en el buscador. Solo se usan con
+    // SEARCH_STEM_ENABLED. "true" con preview, humo y OK del PO.
+    "SEARCH_TAXONOMY_SYNONYMS_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
     "SYNC_GUARD_ENABLED": "true",
