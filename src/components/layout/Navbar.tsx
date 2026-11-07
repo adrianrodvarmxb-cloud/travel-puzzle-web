@@ -38,7 +38,8 @@ export const Navbar = () => {
 
   // Navigation links based on auth state
   const { transfers, primeraPieza, dayTrips } = useFeatureFlags();
-  // REQ-093: La Primera Pieza y Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
+  // REQ-093: Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
+  // REQ-600: «La Primera Pieza» fuera del menú (MENU_PRIMERA_PIEZA en src/tours/lib/menu.ts).
   const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },

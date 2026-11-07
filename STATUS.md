@@ -2,6 +2,12 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
+
+- 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-276.
+- Formularios con Zod y anti-spam; envían con Resend a info@ (sin base ni migración). Blog con datos en el repo, cero publicados y un borrador de ejemplo.
+- Falta: firma de las decisiones en `docs/gates-paginas-2026-11.md`, material del cliente para los bloques en borrador, preview en Cloudflare con banderas encendidas y OK del PO para encender (una bandera por PR).
+
 ## Resumen del 5 nov 2026
 
 **Publicado hoy (cada uno con deploy y prueba de humo en producción en verde):**
@@ -430,3 +436,7 @@ Efecto en el catálogo (respaldo de producción del 5-11, 8,018 tours activos de
 | REQ-544 | Chips de atributos en la ficha (fuera de la foto); no en la tarjeta | `src/taxonomy/lib/copy.ts` (`tourLabels`), `src/taxonomy/lib/publish.ts`, `src/destinations/lib/catalog.ts`, `page-model.ts` | `criterio-pendientes.test.ts` | CUMPLIDO en la ficha (tras TAXONOMY_LABELS_ENABLED) |
 | REQ-545 | «Excursiones en Kampala» no es excursión | `dictionary.json` (`palabrasNoEnTitulo`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
 
+## Menú sin «La Primera Pieza» (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| REQ-600 | «La Primera Pieza» fuera del menú (escritorio y celular, 6 idiomas); reversible con `MENU_PRIMERA_PIEZA` | `src/tours/lib/menu.ts`, `src/components/layout/Navbar.tsx` | `src/tours/lib/menu.test.ts`, `src/tours/lib/catalog-menu.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-601 | El pie enlaza /la-primera-pieza (no queda huérfana) solo con PRIMERA_PIEZA_ENABLED | `src/tours/lib/menu.ts` (`footerHubLinks`), `src/components/home/v2/SiteFooter.tsx` | `src/tours/lib/menu.test.ts` | CUMPLIDO (falta OK del PO) |
+Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.

@@ -7,6 +7,8 @@
 export const PAGE_FLAGS = {
   nosotros: "NOSOTROS_ENABLED",
   contacto: "CONTACTO_ENABLED",
+  expertos: "EXPERTOS_ENABLED",
+  blog: "BLOG_ENABLED",
 } as const;
 
 export type SitePageKey = keyof typeof PAGE_FLAGS;
@@ -15,11 +17,16 @@ export type SitePages = Record<SitePageKey, boolean>;
 export const PAGE_PATHS: Record<SitePageKey, string> = {
   nosotros: "/nosotros",
   contacto: "/contacto",
+  expertos: "/asesores",
+  blog: "/blog",
 };
 
 const LABELS: Record<SitePageKey, { es: string; en: string }> = {
   nosotros: { es: "Nosotros", en: "About us" },
   contacto: { es: "Contacto", en: "Contact" },
+  // «Habla con nuestros viajeros expertos» del encargo, sin prometer expertos (PO, 6 nov 2026): asesores de viaje.
+  expertos: { es: "Habla con un asesor de viaje", en: "Talk to a travel advisor" },
+  blog: { es: "Blog", en: "Blog" },
 };
 
 // REQ-240
@@ -45,8 +52,9 @@ export function wranglerVars(jsonc: string): Record<string, string> {
   return out;
 }
 
-// REQ-242: páginas de la prueba de humo que dependen de una bandera. El entorno del runner manda sobre wrangler.
+// REQ-242: páginas de la prueba de humo que dependen de una bandera ("A+B" = las dos). El entorno del runner manda sobre wrangler.
 export function flaggedSmokePages(flagged: Record<string, string[]> | undefined, vars: Record<string, string>, env: Record<string, string | undefined>): string[] {
   if (!flagged) return [];
-  return Object.entries(flagged).filter(([flag]) => (env[flag] ?? vars[flag]) === "true").flatMap(([, paths]) => paths);
+  const on = (flag: string) => (env[flag] ?? vars[flag]) === "true";
+  return Object.entries(flagged).filter(([key]) => key.split("+").every(on)).flatMap(([, paths]) => paths);
 }
