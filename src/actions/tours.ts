@@ -21,6 +21,9 @@ import { priceLabelsFor, type CardPriceLabels } from '@/tours/lib/price-label';
 import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
 import { cardFormatsFor } from '@/tours/lib/card-format';
 import { loadFx } from '@/trips/public-load';
+import { getDestinations } from '@/destinations/server';
+import { canonicalHrefs } from '@/seo/lib/itemlist';
+import { withFinalHref } from '@/tours/lib/card-sources';
 
 /**
  * Serialize Prisma Decimals and Dates to plain values for client components
@@ -78,10 +81,14 @@ export async function fetchTours(
     const cardFormats = { ...cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title) }))), ...Object.fromEntries(rows.filter((t) => t.formato).map((t) => [t.id, t.formato as string])) };
     // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR + «aprox. MXN» de cada tarjeta, armado aquí (servidor, idioma fijo; INC-001).
     if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return { ...list, cardFormats };
+    // REQ-668 (Gate 3): ficha final de cada tarjeta (sin el 301 de /tours/{id}); si el árbol falla, sin resolver.
+    const resolve = canonicalHrefs(await getDestinations().catch(() => null));
+    const fin = withFinalHref(resolve);
+    const cardHrefs: Record<string, string> = Object.fromEntries(rows.map((t) => [t.id, fin(t).href]));
     const paid = rows.filter((t) => Number(t.priceValue ?? 0) > 0);
     const rates = paid.length ? await loadFx().catch(() => null) : null;
     const priceLabels: CardPriceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.priceValue, currency: t.priceCurrency })), rates, filters.language === 'es' ? 'es' : 'en');
-    return { ...list, priceLabels, cardFormats };
+    return { ...list, priceLabels, cardFormats, cardHrefs };
   } catch (error) {
     console.error('Error fetching tours:', error);
     throw new Error('Failed to fetch tours');

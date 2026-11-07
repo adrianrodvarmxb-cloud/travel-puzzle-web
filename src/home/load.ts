@@ -36,6 +36,8 @@ export interface HomeTour {
   durationMinutes?: number | null;
   /** REQ-523: descripción breve por idioma (si no hay frase de reseña). */
   briefs?: Record<string, string>;
+  /** REQ-668: ficha final bajo /destinos (sin el 301 de /tours/{id}); vacío = /tours/{id}. La pone la página. */
+  href?: string;
 }
 
 export interface HomeStats {
@@ -338,7 +340,8 @@ async function loadReviews(prisma: PrismaClient, repo: HighlightRepo, lang: stri
     select: { id: true, externalId: true, city: { select: { translations: true } }, translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } } },
   });
   const byExt = new Map(tours.map((t) => [t.externalId, t]));
-  const shown = picked.filter((r) => { const t = byExt.get(r.tourExternalId); return !t || !titlesMentionBrand(t.translations.map((x) => x.title)); }).slice(0, 6);
+  // REQ-803 (C7): sin su tour, la reseña no sale (quedaría como reseña suelta del sitio).
+  const shown = picked.filter((r) => { const t = byExt.get(r.tourExternalId); return !!t && !titlesMentionBrand(t.translations.map((x) => x.title)); }).slice(0, 6);
   return shown.map((r) => {
     const t = byExt.get(r.tourExternalId);
     return {

@@ -2,7 +2,7 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
-## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
+## URL por idioma (Gate 3, 6 nov 2026) — Olas 0–3 en PR
 
 - Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
 - Olas 1–3 parten de `main` cuando #204 y #208 estén fusionados. Todo tras `LOCALE_URLS_ENABLED="false"`; lo enciende el PO con su protocolo.
@@ -20,6 +20,41 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-657 | Aviso no intrusivo, sin redirigir | `src/i18n/lib/suggest.ts`, `src/components/i18n/LanguageSuggestion.tsx` | `src/i18n/lib/suggest.test.ts`, `i18n-client.test.ts` | CUMPLIDO (apagado) |
 | REQ-658 | 301 con prefijo | `src/i18n/middleware.ts`, `src/destinations/middleware.ts` | `middleware.test.ts` | CUMPLIDO (apagado) |
 | REQ-659 | Fuera de alcance sin cambio | `src/i18n/lib/path.ts`, `src/i18n/server.ts` | `path.test.ts`, `server.test.ts` | CUMPLIDO (apagado) |
+| REQ-660 | hreflang recíproco + x-default (es) | `src/i18n/lib/alternates.ts`, `src/destinations/lib/page-model.ts`, `src/destinations/metadata.ts`, `src/i18n/metadata.ts` | `alternates.test.ts`, `page-model-locale.test.ts`, `src/destinations/metadata.test.ts` | CUMPLIDO (apagado) |
+| REQ-661 | Canonical a sí misma por idioma | `src/i18n/lib/alternates.ts`, `page-model.ts` | `alternates.test.ts`, `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-662 | Indexable por idioma (es y en en v1) | `src/i18n/lib/alternates.ts`, `src/destinations/lib/locale.ts` | `alternates.test.ts`, `locale.test.ts`, `page-model-locale.test.ts`, `metadata.test.ts` | CUMPLIDO (apagado) |
+| REQ-663 | Sitemaps con xhtml:link | `src/seo/lib/sitemaps.ts`, `page-model.ts` (`sitemapInput`), `src/destinations/sitemaps.ts` | `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-664 | `<html lang>` y og:locale | `src/i18n/lib/locales.ts`, `src/app/layout.tsx`, `metadata.ts` | `src/i18n/lib/locales.test.ts`, `metadata.test.ts` | CUMPLIDO (apagado) |
+| REQ-665 | Title, description y H1 del idioma | `src/destinations/lib/hub-copy.ts`, `locale.ts`, `src/i18n/lib/copy.ts`, páginas de `/destinos` | `locale.test.ts`, `page-model-locale.test.ts`, `card-sources.test.ts` | CUMPLIDO (apagado) |
+| REQ-666 | JSON-LD del idioma y su URL | `page-model.ts` | `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-667 | `tourPage` recibe `lang` de la ruta | `page-model.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/destinations/server.ts` | `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-668 | Tarjetas a la ficha final | `src/tours/lib/card-sources.ts`, `src/actions/tours.ts`, `src/app/page.tsx` | `card-sources.test.ts` | CUMPLIDO |
+| REQ-669 | Moneda del proveedor en todos los idiomas | `page-model.ts` (sin cambio de regla) | `page-model-locale.test.ts` | CUMPLIDO |
+| REQ-670 | Filtros: noindex, canonical del mismo idioma, sin hreflang | `src/i18n/lib/alternates.ts` (`hubAlternates`), `src/app/tours/page.tsx` | `alternates.test.ts` | CUMPLIDO (apagado) |
+| REQ-675 | Humo con /en/ y ficha en inglés tras la bandera | `tests/smoke/pages.json`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `src/ops/lib/smoke.test.ts` + humo del ensayo (#216) | CUMPLIDO |
+| REQ-676 | Contrato hreflang recíproco / canonical del mismo idioma | `src/i18n/lib/contract.ts`, `src/scripts/smoke.ts` | `src/i18n/lib/contract.test.ts` + humo del ensayo (#216) | CUMPLIDO |
+
+## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
+Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-800 | Confirmación y recordatorios con los 9 campos de A2 aunque falte el dato | `src/notifications/lib/booking-email.ts` | `booking-email.test.ts` | CUMPLIDO |
+| REQ-801 | El correo no nombra a FREETOUR como proveedor | `booking-email.ts` | `booking-email.test.ts` | CUMPLIDO |
+| REQ-802 | A FREETOUR solo email, nombre, apellido y teléfono si `isPhoneRequired` (G2) | `src/booking/service.ts` | `src/booking/service.test.ts` | CUMPLIDO |
+| REQ-803 | Reseñas del inicio ligadas a su tour; promedio «de las experiencias» (C7) | `src/home/load.ts`, `src/home/lib/copy.ts` | `src/home/load.test.ts`, `src/home/lib/copy.test.ts` | CUMPLIDO |
+| REQ-804 | Insignia de propina solo por `primeraPiezaBadge` | `src/components/destinations/DestinationTourCard.tsx` | `src/freetour/lib/cumplimiento.test.ts` | CUMPLIDO |
+| REQ-805 | Sin AggregateRating ni review de terceros en el JSON-LD (Gate 2) | `src/seo/lib/jsonld.ts` | `src/seo/lib/jsonld.test.ts`, `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-806 | Sin «FREETOUR» en el copy visible; un solo detector | `src/tours/lib/favorite.ts`, `src/tours/lib/experience-card.ts` | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-807 | `/booking/messages` solo con el filtro de enlaces | — (escaneo) | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-808 | Recompensas y venta cruzada sin FREETOUR; tests existentes protegidos | — (escaneo) | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-809 | Tabla de auditoría legible y completa | `docs/freetour/auditoria-2026-11-06.md` | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-810 | Tours de pago: precio del grupo con la lectura más cara (D2, provisional) | `src/booking/lib/event-check.ts` | `src/booking/lib/event-check.test.ts` | CUMPLIDO |
+| REQ-811 | Tours de pago: reembolso en rechazo y cancelación (D3, A3) | `src/notifications/lib/status-emails.ts`, `src/booking/notify.ts` | `status-emails.test.ts`, `src/booking/notify.test.ts` | CUMPLIDO |
+| REQ-812 | Tours de pago: confirmación sin propina y con 24 h | `booking-email.ts`, `notify.ts` | `booking-email.test.ts`, `notify.test.ts` | CUMPLIDO |
+
+**Pendiente del PO:** pedir por escrito (correo borrador; filas 12, 13, 16, 17, 18, 41, 48, y la clave de precios de la fila 55 a api@freetour.com); encender `ADULT_CONTACT_CHECK_ENABLED`; rotar la API key; aviso de privacidad y política de cookies (REQ-084); PR #62: sesión de pago vencida y regla de 24 h en la pantalla de cancelar.
+
 
 ## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
 
@@ -437,6 +472,14 @@ Notas: las tarjetas de /tours y del inicio siguen enlazando a /tours/{id} (301 a
 | REQ-527 | Carruseles con flechas y tarjetas redondeadas (mix de referentes) | `src/components/tours/CardRail.tsx`, `ExperienceCard.tsx`, `FeaturedTours.tsx`, `DayTripsCarousel.tsx` | `ExperienceCard.test.ts` | CUMPLIDO (falta OK visual del PO) |
 
 Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-libre 3,464 · caminata 1,515 · tour 1,253 · excursion-dia 1,222 · experiencia-unica 344 · circuito 30 · autoguiado 29 · entradas 28 · traslado 8 · transporte 1 · `fuera` 124 (llevan el respaldo «Experiencia»). Operador: 0 vacíos; 32 tours con «freetour» en el nombre del operador (p. ej. «Don freetour», «MontpellierFreeTour») quedan con el espacio vacío por la regla dura. Componentes que quedan sin uso (no se borran): `TourCard`, `HomeTourCard`, `DestinationTourCard`, `OwnTripCard` (solo su test).
+
+## Fichas legibles para buscadores e IA — PR 3: IndexNow tras `INDEXNOW_ENABLED="false"` — matriz de trazabilidad
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-586 | IndexNow diario (URLs con lastmod de ayer u hoy), clave en /indexnow-key.txt, apagado | `src/seo/lib/indexnow.ts`, `src/seo/indexnow-run.ts`, `app/api/cron/indexnow/route.ts`, `app/indexnow-key.txt/route.ts`, `destinations/sitemaps.ts` (`sitemapFiles`), `worker.ts` (12:10 UTC), `wrangler.jsonc` | `src/seo/lib/indexnow.test.ts`, `src/seo/indexnow-run.test.ts` | CUMPLIDO (apagado) |
+
+Para encender (paso a paso del PO, uno por uno): 1) crear la clave (8–128 caracteres a-z, 0-9, guion) y cargarla como variable `INDEXNOW_KEY` del Worker; 2) PR que cambie `INDEXNOW_ENABLED` a "true", con preview y prueba de humo (exige /indexnow-key.txt en 200); 3) OK del PO y merge; 4) en Bing Webmaster Tools, revisar «IndexNow Insights» al día siguiente.
 
 ## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |

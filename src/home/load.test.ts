@@ -168,3 +168,16 @@ describe("REQ-453: «Excursiones de un día» no repite lo que ya está en «Los
   });
 });
 
+
+// REQ-803 (C7): las reseñas de FREETOUR se muestran como reseñas de ese tour, nunca como reseñas de Travel Puzzle.
+describe("REQ-803 reseñas del inicio siempre ligadas a su tour", () => {
+  it("REQ-803: la reseña cuyo tour no se encuentra no sale (no queda como reseña suelta del sitio)", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const rv = (id: number, ext: number) => ({ id, tourExternalId: ext, reviewerName: "R" + id, language: "Spanish", title: null, content: "Excelente recorrido por la ciudad", rate: 5, addedAt: new Date("2026-10-30") });
+    const tours = [{ id: "t2", externalId: 2, city: { translations: { es: "Lima" } }, translations: [{ language: "es", title: "Recorrido por el centro de Lima" }] }];
+    const prisma = fakePrisma({ tour: { findMany: async () => tours } });
+    const out = await loadHomeData({ prisma, highlights: { ...noHighlights, listRecentFiveStar: async () => [rv(1, 1), rv(2, 2)] }, includePaid: false, lang: "es" });
+    expect(out.reviews.map((r) => r.id)).toEqual([2]);
+    expect(out.reviews.every((r) => r.tour !== null)).toBe(true);
+  });
+});

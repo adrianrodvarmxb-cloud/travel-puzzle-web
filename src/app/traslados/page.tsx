@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { hubLocaleMetadata } from '@/i18n/metadata';
+import { pageCopy } from '@/i18n/lib/copy';
 import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
@@ -20,11 +22,12 @@ import { fromTripCard } from '@/tours/lib/card-sources';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Traslados del aeropuerto a tu hotel',
-  description: 'Reserva tu traslado privado del aeropuerto a tu hotel en cientos de ciudades del mundo.',
-  alternates: { canonical: '/traslados' },
-};
+// REQ-660…665 (Gate 3): con LOCALE_URLS_ENABLED, título, canonical y hreflang del idioma de la URL; sin ella, como hoy.
+export async function generateMetadata(): Promise<Metadata> {
+  const loc = await hubLocaleMetadata('/traslados');
+  const c = pageCopy(loc?.lang ?? 'es');
+  return { title: c.traslados.title, description: c.traslados.description, alternates: { canonical: '/traslados' }, ...loc?.meta };
+}
 
 /**
  * REQ-028: visible solo con TRANSFERS_ENABLED="true".

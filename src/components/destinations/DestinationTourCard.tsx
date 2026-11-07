@@ -3,7 +3,7 @@ import type { TourCardModel } from '@/destinations/lib/catalog';
 import { formatRating } from '@/home/lib/format';
 import { isTravelerFavorite, operatedBy } from '@/tours/lib/favorite';
 import { operatedByFor } from '@/taxonomy/lib/copy';
-import { PRIMERA_PIEZA_BADGE } from '@/tours/lib/badge';
+import { primeraPiezaBadge } from '@/tours/lib/badge';
 import { cardPrice } from '@/tours/lib/price-label';
 import type { FxRates } from '@/trips/lib/money';
 import { ExperienceCard } from '@/components/tours/ExperienceCard';
@@ -25,6 +25,8 @@ export function DestinationTourCard({ tour, rates = null, guideCopy = false }: {
     const p = cardPrice(tour, rates);
     const rating = formatRating(tour.rating);
     const favorite = isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews });
+    // REQ-804 (D2): la insignia de propina solo por primeraPiezaBadge (oculta si fullPricePerGroup > 0). Sin evento elegido, como la ficha.
+    const badge = primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 });
     return (
         <Link href={tour.href} className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#121D45] text-white transition-colors hover:border-[#008DFF]/60">
             <div className="aspect-[16/10] bg-[#1B2A5E]">
@@ -36,9 +38,9 @@ export function DestinationTourCard({ tour, rates = null, guideCopy = false }: {
                 )}
             </div>
             <div className="flex flex-1 flex-col gap-2 p-4">
-                {(tour.isFreeTour || favorite) && (
+                {(badge || favorite) && (
                     <div className="flex flex-wrap gap-1.5">
-                        {tour.isFreeTour && <span className="rounded-md border border-[#7CC4FF]/60 px-2 py-0.5 text-[11px] font-semibold text-[#7CC4FF]">{PRIMERA_PIEZA_BADGE}</span>}
+                        {badge && <span className="rounded-md border border-[#7CC4FF]/60 px-2 py-0.5 text-[11px] font-semibold text-[#7CC4FF]">{badge}</span>}
                         {favorite && <span className="rounded-md bg-[#EAF54F] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#0A1330]">★ Favorito de los viajeros</span>}
                     </div>
                 )}
@@ -58,13 +60,13 @@ export function DestinationTourCard({ tour, rates = null, guideCopy = false }: {
     );
 }
 
-export function TourGrid({ tours, rates = null }: { tours: TourCardModel[]; rates?: FxRates | null; /** T5 (REQ-416): la tarjeta única no dice «guía local»; se acepta para no romper ToursByFormat. */ guideCopy?: boolean }) {
+export function TourGrid({ tours, rates = null, lang = 'es' }: { tours: TourCardModel[]; rates?: FxRates | null; /** REQ-665 (Gate 3): idioma de la página (servidor). */ lang?: string; /** T5 (REQ-416): la tarjeta única no dice «guía local»; se acepta para no romper ToursByFormat. */ guideCopy?: boolean }) {
     return (
         <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {/* REQ-520: tarjeta única (guideCopy de T5 no aplica: la tarjeta nombra al operador sin «guía local»); el precio de pago (REQ-170, D4) se arma aquí en el servidor con idioma fijo. */}
             {tours.map((t) => {
-                const label = t.kind === 'own' || t.isFreeTour ? null : tourPriceLabel(t.price, t.currency, rates, 'es');
-                return <li key={t.id}><ExperienceCard card={fromDestinationTour(t, { price: label ? { main: label.main, approx: label.approx } : null })} /></li>;
+                const label = t.kind === 'own' || t.isFreeTour ? null : tourPriceLabel(t.price, t.currency, rates, lang);
+                return <li key={t.id}><ExperienceCard card={fromDestinationTour(t, { price: label ? { main: label.main, approx: label.approx } : null, lang })} /></li>;
             })}
         </ul>
     );
