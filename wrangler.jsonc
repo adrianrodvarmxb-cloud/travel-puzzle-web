@@ -161,6 +161,9 @@
     "RAW_ARCHIVE_ENABLED": "false",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
+    // REQ-586: IndexNow (Bing y demás; Google no participa). "true" solo con INDEXNOW_KEY cargada como variable
+    // (la crea el PO; es pública por diseño), preview con la bandera encendida, prueba de humo y OK del PO.
+    "INDEXNOW_ENABLED": "false",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
     "SITE_URL": "https://travelpuzzle.com.mx",
     // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)

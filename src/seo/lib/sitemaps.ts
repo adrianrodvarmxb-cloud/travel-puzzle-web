@@ -10,6 +10,8 @@ export interface SitemapInput {
   countries: { slug: string; indexable: boolean }[];
   cities: { countrySlug: string; slug: string; indexable: boolean; guideUpdatedAt: string | null }[];
   tours: { countrySlug: string; citySlug: string; slug: string | null; status: TourStatus; contentUpdatedAt: string }[];
+  /** REQ-584: fichas /viajes canónicas (ver sitemaps-viajes.ts), con el updatedAt del viaje. */
+  trips?: { path: string; updatedAt: string }[];
 }
 export interface UrlEntry { loc: string; lastmod: string | null }
 
@@ -32,7 +34,7 @@ export function sitemapIndexXml(entries: UrlEntry[]): string {
 
 // REQ-102
 // REQ-276: `extraIndex` suma otros sitemaps al índice (p. ej. sitemap-paginas.xml); vacío = igual que antes.
-export function buildSitemaps({ siteUrl, countries, cities, tours }: SitemapInput, extraIndex: UrlEntry[] = []): { index: string; files: Record<string, string> } {
+export function buildSitemaps({ siteUrl, countries, cities, tours, trips = [] }: SitemapInput, extraIndex: UrlEntry[] = []): { index: string; files: Record<string, string> } {
   const site = siteUrl.replace(/\/+$/, "");
   const abs = (p: string) => `${site}${p}`;
   const countryOk = new Set(countries.filter((c) => c.indexable).map((c) => c.slug));
@@ -68,5 +70,10 @@ export function buildSitemaps({ siteUrl, countries, cities, tours }: SitemapInpu
     index.push({ loc: abs(`/${name}`), lastmod: day(latest(mine.map((t) => t.contentUpdatedAt))) });
   }
   index.push(...extraIndex);
+  // REQ-584: viajes con ficha canónica en /viajes, lastmod = updatedAt del viaje.
+  if (trips.length) {
+    files["sitemap-viajes.xml"] = urlsetXml(trips.map((t) => ({ loc: abs(t.path), lastmod: day(t.updatedAt) })));
+    index.push({ loc: abs("/sitemap-viajes.xml"), lastmod: day(latest(trips.map((t) => t.updatedAt))) });
+  }
   return { index: sitemapIndexXml(index), files };
 }
