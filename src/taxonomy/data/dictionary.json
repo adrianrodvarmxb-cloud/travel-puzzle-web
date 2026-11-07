@@ -119,7 +119,15 @@
         "sin colas",
         "pass "
       ],
-      "nota": "Término mexicano «boletos y entradas» (pedido del PO, punto 4); «Entradas y pases» queda como sinónimo."
+      "nota": "Término mexicano «boletos y entradas» (pedido del PO, punto 4); «Entradas y pases» queda como sinónimo. REQ-540 (PO 6-11 21:14): con guía en el título o el resumen es visita guiada con el atributo entrada-incluida; boletos solo sin guía.",
+      "palabrasConGuia": [
+        "guiad*",
+        "guide*",
+        "guia",
+        "tour",
+        "recorrido*",
+        "visita guiada"
+      ]
     },
     {
       "slug": "autoguiado",
@@ -219,10 +227,10 @@
       "palabras": [
         "day trip",
         "excursion*",
-        "full day",
-        "dia completo",
         "desde ",
-        "from "
+        "from ",
+        "full day",
+        "dia completo"
       ],
       "palabrasEnResumen": [
         "transporte (de )?(ida y vuelta )?desde",
@@ -230,16 +238,35 @@
         "sal(e|es|imos)? (de madrugada )?desde",
         "sal de ",
         "salida desde",
-        "dia completo",
-        "full[- ]day",
         "day trip",
         "excursion",
-        "round[- ]trip (transport )?from"
+        "round[- ]trip (transport )?from",
+        "full[- ]day (trip )?to ",
+        "dia completo",
+        "full[- ]day"
       ],
-      "nota": "REQ-535 (auditoría 6-11): un viaje de un día también es excursión si el resumen dice que sale de la ciudad base (palabrasEnResumen).",
+      "nota": "REQ-535 (auditoría 6-11): un viaje de un día también es excursión si el resumen dice que sale de la ciudad base (palabrasEnResumen). REQ-542 (PO 6-11 21:14): solo salidas desde la ciudad base; «día completo» dentro de la ciudad es tour con el atributo dia-completo. REQ-545: «excursiones en {ciudad}» no cuenta.",
       "palabrasSinDuracion": [
         "excursion de (un|1) dia",
         "day trip"
+      ],
+      "palabrasNoEnTitulo": [
+        "excursiones en "
+      ],
+      "palabrasEnCiudad": [
+        "city tour",
+        "por la ciudad de ",
+        "visita a la ciudad",
+        "dia completo (en|por) (?!el |la |los |las )",
+        "full[- ]day (city )?tour (of|in) ",
+        "en un dia",
+        "in one day"
+      ],
+      "palabrasSaleSiempre": [
+        "desde ",
+        "from ",
+        "excursion de (un|1) dia (a|al) ",
+        "day trip to "
       ]
     },
     {
@@ -311,7 +338,29 @@
         "cabaret",
         "cena[- ]espectaculo"
       ],
-      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto)."
+      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto). REQ-541 (PO 6-11 21:14): solo talleres, clases, catas sentadas y espectáculos; un recorrido con degustación es caminata o tour con tema gastronomía.",
+      "palabrasRecorrido": [
+        "ruta de (tapas|bares|vinos?|cata|sabores|comida)",
+        "ruta gastronomica",
+        "recorrido*",
+        "walking",
+        "walk",
+        "paseo",
+        "a pie",
+        "food tour",
+        "street food",
+        "tour gastronomico"
+      ],
+      "palabrasFuertes": [
+        "clase*",
+        "taller*",
+        "masterclass",
+        "workshop",
+        "cooking class",
+        "espectaculo*",
+        "show",
+        "cabaret"
+      ]
     },
     {
       "slug": "tour",
@@ -411,7 +460,9 @@
         "coffee",
         "cafe ",
         "mercado",
-        "market"
+        "market",
+        "degustacion*",
+        "food tour"
       ]
     },
     {
@@ -898,7 +949,8 @@
             "bike",
             "bici*",
             "cycling*",
-            "e-bike"
+            "e-bike",
+            "ecobike"
           ]
         },
         {
@@ -995,6 +1047,52 @@
       "definicion_es": "El precio incluye el vuelo.",
       "sinonimos": [],
       "estado": "activo"
+    },
+    {
+      "slug": "entrada-incluida",
+      "eje": "atributo",
+      "termino_es": "Entrada incluida",
+      "termino_en": "Admission included",
+      "definicion_es": "La visita guiada incluye el boleto de entrada a la atracción.",
+      "sinonimos": [
+        "entrada incluida",
+        "con entrada",
+        "boleto incluido",
+        "ticket included"
+      ],
+      "estado": "activo",
+      "palabras": [
+        "entrada*",
+        "ticket*",
+        "boleto*",
+        "admission",
+        "entrance"
+      ],
+      "nota": "REQ-540/543 (PO 6-11 21:14): solo en formatos con guía en persona; faceta del filtro «Tipo de experiencia»."
+    },
+    {
+      "slug": "dia-completo",
+      "eje": "atributo",
+      "termino_es": "Día completo",
+      "termino_en": "Full day",
+      "definicion_es": "Recorrido de un día entero sin salir de la ciudad.",
+      "sinonimos": [
+        "dia completo",
+        "full day",
+        "todo el dia",
+        "en un dia"
+      ],
+      "estado": "activo",
+      "palabras": [
+        "dia completo",
+        "full[- ]day",
+        "en un dia",
+        "en 1 dia",
+        "todo el dia",
+        "whole day",
+        "all day"
+      ],
+      "nota": "REQ-542/543 (PO 6-11 21:14): solo tour y caminata (≥ 6 h o la frase); faceta del filtro «Tipo de experiencia»."
     },
     {
       "slug": "guiado",
