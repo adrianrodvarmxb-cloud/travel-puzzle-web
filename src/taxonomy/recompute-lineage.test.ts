@@ -5,7 +5,7 @@ import { createLineageRepo } from "./lineage-repository";
 import { runTaxonomyStep } from "./recompute";
 import { asD1, sqlite, MIGRATION_0022, type Sqlite } from "@/ingest/test-utils";
 
-// Datos inventados (REQ-548).
+// Datos inventados (REQ-748).
 function db() {
   const d = sqlite("migrations/0017_taxonomia.sql", MIGRATION_0022, "docs/migraciones-propuestas/0023_taxonomia_linaje.sql");
   d.exec(`CREATE TABLE "Tour"("id" TEXT PRIMARY KEY, "externalId" INTEGER, "categoryId" INTEGER, "priceValue" TEXT, "durationMinutes" INTEGER, "isActive" BOOLEAN, "guideLanguages" TEXT DEFAULT '[]', "rating" TEXT, "reviewsNumber" INTEGER DEFAULT 0)`);
@@ -40,23 +40,23 @@ async function fullRun(d: Sqlite) {
 }
 const row = (d: Sqlite, id: string, axis: string) => d.prepare(`SELECT "term","ruleId","origin","sourceField","sourceValue","matchedTerm","sourceRawHash" FROM "ExperienceTaxonomy" WHERE "experienceId"=? AND "axis"=?`).all(id, axis) as Record<string, string | null>[];
 
-describe("REQ-556 recálculo con linaje (SQLite real con 0017 + 0022 + 0023)", () => {
-  it("REQ-556 cada término queda con su origen, campo, valor original y la huella vigente del crudo", async () => {
+describe("REQ-756 recálculo con linaje (SQLite real con 0017 + 0022 + 0023)", () => {
+  it("REQ-756 cada término queda con su origen, campo, valor original y la huella vigente del crudo", async () => {
     const d = db();
     expect((await fullRun(d)).action).toBe("publish");
     expect(row(d, "a", "formato")[0]).toMatchObject({ term: "pieza-libre", origin: "regla", sourceField: "price.value", sourceValue: "0", sourceRawHash: "h-new" });
   });
-  it("REQ-553 el viaje con denominación original se clasifica con el mapeo de su agencia", async () => {
+  it("REQ-753 el viaje con denominación original se clasifica con el mapeo de su agencia", async () => {
     const d = db();
     await fullRun(d);
     expect(row(d, "fch-fch-r1", "formato")[0]).toMatchObject({ term: "circuito", ruleId: "fijo fantasticachina:TOUR REGULAR", sourceField: "ref", sourceValue: "TOUR REGULAR", sourceRawHash: "h-fch" });
   });
-  it("REQ-554 el override manual gana y queda marcado como manual", async () => {
+  it("REQ-754 el override manual gana y queda marcado como manual", async () => {
     const d = db();
     await fullRun(d);
     expect(row(d, "b", "tema").find((r) => r.term === "cultural")).toMatchObject({ origin: "manual", ruleId: "manual: po · vino y cultura" });
   });
-  it("REQ-553 sin denominación original cae al mapeo propio y sigue ligado a su crudo", async () => {
+  it("REQ-753 sin denominación original cae al mapeo propio y sigue ligado a su crudo", async () => {
     const d = db();
     await fullRun(d);
     expect(row(d, "ext-vam", "formato")[0]).toMatchObject({ sourceField: "trip.kind", sourceValue: "tour", sourceRawHash: "h-ext", origin: "regla" });

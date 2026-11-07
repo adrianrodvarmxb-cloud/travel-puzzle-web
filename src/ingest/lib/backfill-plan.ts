@@ -1,5 +1,5 @@
 /**
- * Ola R4 · respaldo retroactivo, SOLO preparado (REQ-566). Puro.
+ * Ola R4 · respaldo retroactivo, SOLO preparado (REQ-766). Puro.
  * Qué documento original le corresponde a cada viaje importado y en qué página está, a partir de los nombres de los
  * archivos que el PO compartió (PDF) o de la URL del producto (página web). Lo que no se encuentra se lista como hueco.
  */
@@ -29,7 +29,7 @@ const RULES: Record<string, Rule[]> = {
   incaworld: [{ ref: /^[A-Z]+(-[A-Z]+)?-\d+$/, doc: /^TARIFARIO_B2B.*INCA_WORLD/, pageToken: (r) => r }],
 };
 
-// REQ-566
+// REQ-766
 export function matchDocument(provider: string, entry: { ref: string; source?: unknown }, files: string[]): DocMatch {
   if (provider === "bigbus") {
     const url = typeof entry.source === "string" && /^https?:\/\//.test(entry.source) ? entry.source : null;
@@ -48,7 +48,7 @@ export function matchDocument(provider: string, entry: { ref: string; source?: u
 }
 
 /** Página (1-based) del primer texto de página que contiene el token; un PDF de una sola ficha es la página 1. */
-// REQ-566
+// REQ-766
 export function pageOf(pages: string[], token: string | null): number | null {
   if (!token) return pages.length > 0 && pages.length <= 12 ? 1 : null;
   const i = pages.findIndex((p) => p.includes(token));

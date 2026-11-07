@@ -1,5 +1,5 @@
 /**
- * REQ-545: copia exacta de los imports por archivo (imports/*.json) y de su documento original. Puro.
+ * REQ-745: copia exacta de los imports por archivo (imports/*.json) y de su documento original. Puro.
  * Guarda el item COMPLETO tal cual está en el archivo (ref, status, hold, source, taxonomia, photos, trip, …), no solo lo
  * que el gestor acepta. Lo corre src/scripts/import-trips.ts: escribe los objetos y el SQL del índice en una carpeta
  * local que NO se sube como artefacto; el workflow solo los sube a R2 privado con escribir=true y la bandera encendida.
@@ -34,7 +34,7 @@ export interface SourceDocument { key: string; provider: string; fileName: strin
 
 const TYPES: Record<string, string> = { ".pdf": "application/pdf", ".html": "text/html", ".htm": "text/html", ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".json": "application/json", ".txt": "text/plain" };
 
-// REQ-545
+// REQ-745
 export async function documentFor(provider: string, fileName: string, data: Uint8Array, now: Date): Promise<SourceDocument> {
   const sha256 = await sha256Hex(data);
   const key = sourceKey(provider, fileName, sha256);
@@ -42,7 +42,7 @@ export async function documentFor(provider: string, fileName: string, data: Uint
   return { key, provider, fileName, sha256, bytes: data.length, contentType: TYPES[ext] ?? "application/octet-stream", receivedAt: now.toISOString(), data };
 }
 
-// REQ-545
+// REQ-745
 export async function planImportArchive(
   bundle: ImportBundleLike, ctx: { runId: string; now: Date; doc?: SourceDocument | null; docsByRef?: Map<string, { key: string; page: number | null }> },
 ): Promise<ArchivePlan & { provider: string }> {
@@ -53,11 +53,11 @@ export async function planImportArchive(
     body: e,
     experience: { kind: "trip" as const, id: idFor(bundle.agency.initials, e.ref) },
     sourceRef: typeof e.source === "string" ? e.source : null,
-    // REQ-566: en el respaldo retroactivo cada viaje apunta a SU documento (y página) si se encontró.
+    // REQ-766: en el respaldo retroactivo cada viaje apunta a SU documento (y página) si se encontró.
     sourceDocKey: ctx.docsByRef?.get(e.ref)?.key ?? ctx.doc?.key ?? null,
     sourcePage: typeof e.original?.pagina === "number" ? e.original.pagina : ctx.docsByRef?.get(e.ref)?.page ?? null,
-    original: originalOf(provider, e), // REQ-553
-    declared: declaredOf(e), // REQ-554
+    original: originalOf(provider, e), // REQ-753
+    declared: declaredOf(e), // REQ-754
   }));
   // Sin leer D1: el SQL es idempotente (ON CONFLICT) y una versión que vuelve solo actualiza lastSeenAt.
   const plan = await planArchive(provider, items, new Map(), { runId: ctx.runId, now: ctx.now.toISOString() });
@@ -68,7 +68,7 @@ const q = (v: unknown): string => (v === null || v === undefined ? "NULL" : type
 const COLS = ["id", "provider", "externalId", "experienceKind", "experienceId", "rawHash", "r2Key", "bytes", "schemaOk", "fetchedAt", "lastSeenAt", "providerUpdatedAt", "sourceRef", "sourceDocKey", "sourcePage", "originalField", "originalCategory", "declaredTaxonomy", "runId"] as const;
 
 /** SQL del índice (tabla ProviderRecord de la migración propuesta 0022). Idempotente. */
-// REQ-545
+// REQ-745
 export function recordSql(rows: ProviderRecordRow[], doc?: SourceDocument | null): string[] {
   const out: string[] = [];
   if (doc) {

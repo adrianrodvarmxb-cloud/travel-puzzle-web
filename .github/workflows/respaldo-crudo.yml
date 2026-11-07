@@ -1,4 +1,4 @@
-# REQ-568 (Ola R4): respaldo RETROACTIVO de la copia exacta de un archivo de carga ya importado (imports/<archivo>.json).
+# REQ-768 (Ola R4): respaldo RETROACTIVO de la copia exacta de un archivo de carga ya importado (imports/<archivo>.json).
 # Por omisión es ENSAYO: corre el contrato, arma el plan y mide; no escribe nada. No re-importa viajes ni fotos.
 # Escribir (R2 privado travel-puzzle-raw + índice ProviderRecord) solo con workflow_dispatch, escribir=true,
 # RAW_ARCHIVE_ENABLED="true" en wrangler.jsonc y OK del PO (candados en docs/runbooks/copia-exacta.md).

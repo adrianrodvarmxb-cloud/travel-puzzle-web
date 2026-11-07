@@ -1,5 +1,5 @@
 /**
- * REQ-563: compuerta del contrato de ingesta para un archivo de carga (lo corre el workflow «Importar viajes» ANTES de
+ * REQ-763: compuerta del contrato de ingesta para un archivo de carga (lo corre el workflow «Importar viajes» ANTES de
  * preparar nada). Sale con 1 si el archivo no cumple: sin adaptador, mapeo o volátiles; un item que no pasa el esquema,
  * no se normaliza o no tiene clave de archivo crudo; o un viaje sin denominación original que no está en la línea base.
  *   npx tsx src/scripts/ingest-contract.ts imports/<archivo>.json

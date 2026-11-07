@@ -7,6 +7,7 @@ import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
 import { HELP_PATH, helpCopy } from '@/help/lib/faq';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
 import { footerPageLinks } from '@/site/lib/pages';
+import { footerHubLinks } from '@/tours/lib/menu';
 
 export interface FooterContact {
   whatsapp?: string;
@@ -26,7 +27,7 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
   const wa = waLink(contact.whatsapp, c.expertWa);
   const legal = legalLabels(language);
   // REQ-241: Nosotros, Contacto, Blog… solo con su bandera. D9: el año llega del servidor (INC-001).
-  const { pages, year } = useFeatureFlags();
+  const { pages, year, primeraPieza } = useFeatureFlags();
   const pageLinks = footerPageLinks(pages, language);
 
   return (
@@ -41,6 +42,8 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
         <div className="space-y-2 text-sm">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{c.footerContact}</p>
           <Link href="/tours" className="block hover:text-white">{c.footerTours}</Link>
+          {/* REQ-601: La Primera Pieza salió del menú (REQ-600); el pie la mantiene enlazada. */}
+          {footerHubLinks(!!primeraPieza).map((l) => <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
           {helpEnabled && <Link href={HELP_PATH} className="block hover:text-white">{helpCopy(language).footerLink}</Link>}
           {pageLinks.map((l) => <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
           {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="block hover:text-white">WhatsApp</a>}

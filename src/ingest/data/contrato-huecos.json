@@ -1,5 +1,5 @@
 {
-  "nota": "REQ-562: viajes sin denominación original del proveedor al 6 nov 2026. Esta lista solo puede ACHICARSE: capturar original.categoria desde el documento original y quitar el ref de aquí.",
+  "nota": "REQ-762: viajes sin denominación original del proveedor al 6 nov 2026. Esta lista solo puede ACHICARSE: capturar original.categoria desde el documento original y quitar el ref de aquí.",
   "huecos": {
     "bigbus": [
       "BOS"

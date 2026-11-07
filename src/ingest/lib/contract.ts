@@ -1,5 +1,5 @@
 /**
- * Ola R3 · contrato obligatorio de ingesta (REQ-560, REQ-561, REQ-562). Puro.
+ * Ola R3 · contrato obligatorio de ingesta (REQ-760, REQ-761, REQ-762). Puro.
  * Ningún proveedor escribe en Travel Puzzle sin: esquema Zod del crudo (tolerante a campos nuevos), `normalize()` puro,
  * mapeo de taxonomía, campos volátiles declarados, clave del archivo crudo y linaje (denominación original o el hueco
  * registrado en la línea base). `ProviderAdapter` (src/cart) es del carrito; esto es solo la ingesta.
@@ -29,7 +29,7 @@ export interface IngestAdapter<Raw = unknown, Out = unknown> {
   volatileFields: readonly string[] | undefined;
 }
 
-// REQ-560: esquemas del crudo
+// REQ-760: esquemas del crudo
 export const freetourRawSchema = z.object({
   id: z.number(),
   categoryId: z.number(),
@@ -52,7 +52,7 @@ export const importEntrySchema = z.object({
 }).passthrough();
 export type ImportEntry = z.infer<typeof importEntrySchema>;
 
-// REQ-561: adaptadores
+// REQ-761: adaptadores
 export const freetourAdapter: IngestAdapter<z.infer<typeof freetourRawSchema>, ReturnType<typeof toTourRows>> = {
   provider: "freetour",
   kind: "api",
@@ -88,8 +88,8 @@ export interface ContractIssue { provider: string; externalId: string | null; ki
 
 const H = "0".repeat(64);
 
-/** REQ-562: revisa el adaptador y cada muestra. `linaje` es el único hueco tolerable (y solo si está en la línea base). */
-// REQ-562
+/** REQ-762: revisa el adaptador y cada muestra. `linaje` es el único hueco tolerable (y solo si está en la línea base). */
+// REQ-762
 export function checkContract(adapter: IngestAdapter | undefined, provider: string, samples: unknown[]): ContractIssue[] {
   if (!adapter) return [{ provider, externalId: null, kind: "adaptador", detail: "proveedor sin adaptador de ingesta (src/ingest/lib/contract.ts)" }];
   const out: ContractIssue[] = [];
@@ -115,7 +115,7 @@ export function checkContract(adapter: IngestAdapter | undefined, provider: stri
 export type GapBaseline = Record<string, string[]>;
 
 /** Huecos que bloquean: todo lo que no sea linaje, y el linaje que no está en la línea base. */
-// REQ-562
+// REQ-762
 export function blockingIssues(issues: ContractIssue[], baseline: GapBaseline): ContractIssue[] {
   return issues.filter((i) => i.kind !== "linaje" || !(baseline[i.provider] ?? []).includes(i.externalId ?? ""));
 }

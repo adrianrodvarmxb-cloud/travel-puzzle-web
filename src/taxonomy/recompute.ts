@@ -25,7 +25,7 @@ export interface TaxonomyStepDeps {
   newId?: () => string;
   gates?: Gates;
   batch?: number;
-  /** REQ-551/553/554 (Ola R2): recálculo con linaje, tras TAXONOMY_LINEAGE_ENABLED (apagada). Sin esto, todo sigue igual. */
+  /** REQ-751/553/554 (Ola R2): recálculo con linaje, tras TAXONOMY_LINEAGE_ENABLED (apagada). Sin esto, todo sigue igual. */
   lineage?: { repo: LineageRepo; agencyMappings: Record<string, Mapping> };
 }
 
@@ -67,7 +67,7 @@ export async function runTaxonomyStep(d: TaxonomyStepDeps) {
     case "tours": {
       const batch = d.batch ?? TAXONOMY_BATCH;
       if (lin) {
-        // REQ-551 / REQ-554 / REQ-556
+        // REQ-751 / REQ-754 / REQ-756
         const tours = await lin.repo.toursAfter(plan.run.cursor, batch);
         const ov = overridesByExperience(await lin.repo.overrides());
         const rows = tours.flatMap((t) => applyPrecedence(lineageForTour(t, dict, mappings, { rawHash: t.rawHash, gates }), dict, { overrides: ov.get(`tour:${t.id}`) }));
@@ -85,7 +85,7 @@ export async function runTaxonomyStep(d: TaxonomyStepDeps) {
     }
     case "trips": {
       if (lin) {
-        // REQ-553 / REQ-556: primero la denominación original del proveedor (ProviderRecord), luego el mapeo propio.
+        // REQ-753 / REQ-756: primero la denominación original del proveedor (ProviderRecord), luego el mapeo propio.
         const trips = await lin.repo.publishedTrips();
         const ov = overridesByExperience(await lin.repo.overrides());
         const rows = trips.flatMap((t) => {

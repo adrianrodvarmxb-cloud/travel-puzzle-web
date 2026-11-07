@@ -1,5 +1,5 @@
 /**
- * REQ-567 (Ola R4): respaldo RETROACTIVO de la copia exacta, SOLO preparado. Por omisión es ENSAYO: no escribe nada,
+ * REQ-767 (Ola R4): respaldo RETROACTIVO de la copia exacta, SOLO preparado. Por omisión es ENSAYO: no escribe nada,
  * solo calcula el plan, mide tamaños y lista los documentos originales que faltan. Nunca sube nada a R2 ni a D1.
  *
  *   npx tsx src/scripts/raw-backfill.ts [--docs <carpeta de PDF>] [--reporte <archivo.json>]
@@ -102,7 +102,7 @@ async function main() {
     for (const o of objects) { const p = join(out, "objetos", o.key); mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, o.data); }
     writeFileSync(join(out, "crudo.sql"), sql.join("\n") + "\n");
     writeFileSync(join(out, "subir.sh"), [
-      "#!/usr/bin/env bash", "# REQ-567: NO correr sin OK del PO (candados: bucket travel-puzzle-raw, binding, migración 0022, RAW_ARCHIVE_ENABLED).",
+      "#!/usr/bin/env bash", "# REQ-767: NO correr sin OK del PO (candados: bucket travel-puzzle-raw, binding, migración 0022, RAW_ARCHIVE_ENABLED).",
       "# Orden: primero R2 privado, luego el índice en D1. Ver docs/runbooks/copia-exacta.md.", "set -euo pipefail", 'cd "$(dirname "$0")/objetos"',
       ...objects.map((o) => `npx wrangler r2 object put "travel-puzzle-raw/${o.key}" --file "${o.key}" --remote`),
       "cd ..", "npx wrangler d1 execute travel-puzzle --remote --file crudo.sql", "",

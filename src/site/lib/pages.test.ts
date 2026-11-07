@@ -31,6 +31,10 @@ describe("páginas institucionales tras bandera", () => {
     expect(flaggedSmokePages(flagged, { NOSOTROS_ENABLED: "false" }, {})).toEqual([]);
     expect(flaggedSmokePages(flagged, { NOSOTROS_ENABLED: "true" }, {})).toEqual(["/nosotros"]);
     expect(flaggedSmokePages(flagged, { NOSOTROS_ENABLED: "false" }, { NOSOTROS_ENABLED: "true" })).toEqual(["/nosotros"]);
+    // "A+B": las dos banderas (el blog solo tiene páginas con un borrador visible en preview).
+    const both = { "BLOG_ENABLED+BLOG_SHOW_DRAFTS": ["/blog"] };
+    expect(flaggedSmokePages(both, { BLOG_ENABLED: "true" }, {})).toEqual([]);
+    expect(flaggedSmokePages(both, { BLOG_ENABLED: "true", BLOG_SHOW_DRAFTS: "true" }, {})).toEqual(["/blog"]);
   });
 
   it("REQ-242: tests/smoke/pages.json declara /nosotros bajo su bandera y no en las fijas", () => {

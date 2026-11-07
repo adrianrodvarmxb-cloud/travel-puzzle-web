@@ -1,4 +1,4 @@
-/** REQ-543: arma el archivo crudo real (R2 privado RAW_ARCHIVE + D1) para el cron, o undefined si no aplica. */
+/** REQ-743: arma el archivo crudo real (R2 privado RAW_ARCHIVE + D1) para el cron, o undefined si no aplica. */
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { createR2RawArchive, type R2PutLike, type RawArchive, type RawArchiveD1 } from "./raw-archive";
 import { pickRawArchiveBindings } from "./lib/flags";

@@ -1,5 +1,5 @@
 /**
- * REQ-553, REQ-554: denominación ORIGINAL del proveedor de cada registro importado y lo que el registro declara en
+ * REQ-753, REQ-754: denominación ORIGINAL del proveedor de cada registro importado y lo que el registro declara en
  * vocabulario de Travel Puzzle. Puro. Solo se lee de campos que vienen del proveedor (códigos, URL del producto o
  * `original.categoria` capturada del documento); si no hay, devuelve null: nunca se inventa una categoría.
  */
@@ -17,7 +17,7 @@ const RULES: Record<string, { field: "ref" | "source"; rx: RegExp; value: string
   incaworld: [{ field: "ref", rx: /^PROG-/, value: "PROGRAMA" }, { field: "ref", rx: /^(LIM|CUS|MP|PUN|AQP|NAZ|CHH)-\d/, value: "SERVICIO" }],
 };
 
-// REQ-553
+// REQ-753
 export function originalOf(provider: string, entry: EntryLike): Original | null {
   const explicit = entry.original?.categoria;
   if (typeof explicit === "string" && explicit.trim()) return { field: "original.categoria", value: explicit.trim(), matchedTerm: null };
@@ -30,7 +30,7 @@ export function originalOf(provider: string, entry: EntryLike): Original | null 
   return null;
 }
 
-// REQ-554
+// REQ-754
 export function declaredOf(entry: EntryLike): string | null {
   const t = entry.taxonomia as { formato?: unknown; temas?: unknown } | undefined;
   if (!t || typeof t !== "object") return null;

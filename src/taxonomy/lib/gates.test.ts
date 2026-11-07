@@ -28,7 +28,7 @@ describe("REQ-260 gates abiertos: una constante por gate con la recomendación d
     expect(classify(i, D, M, { ...G.DEFAULT_GATES, favorito: "B" }).atributos).toContain("favorito");
   });
   it("REQ-260 D-T1: con palabrasAntesDeFree=false un free de la 13 con «ticket» es Free tour (REQ-406 literal)", () => {
-    const i = { proveedor: "freetour", categoriaId: 13, precio: 0, titulo: "Free tour with ticket info" };
+    const i = { proveedor: "freetour", categoriaId: 13, precio: 0, titulo: "Museum ticket info" }; // REQ-540: sin palabra de guía
     expect(classify(i, D, M).formato).toBe("entradas");
     expect(classify(i, D, M, { ...G.DEFAULT_GATES, palabrasAntesDeFree: false }).formato).toBe("pieza-libre");
   });

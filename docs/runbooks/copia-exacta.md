@@ -1,6 +1,6 @@
 # Runbook — Copia exacta del proveedor y reclasificación con linaje (Olas R1 a R4)
 
-Pedido del PO del 6 nov 2026 (REQ-540…569). **Cada paso es un candado**: se hace uno a la vez, con OK explícito del
+Pedido del PO del 6 nov 2026 (REQ-740…769). **Cada paso es un candado**: se hace uno a la vez, con OK explícito del
 PO, en su propio PR o publicación, y no se pasa al siguiente sin prueba de humo verde. Si un paso falla: detenerse,
 revertir ese paso y avisar; nunca improvisar. Nada de esto se ejecutó al preparar las olas.
 
@@ -9,7 +9,7 @@ revertir ese paso y avisar; nunca improvisar. Nada de esto se ejecutó al prepar
 | # | Paso | Quién | Comando o acción | Verificación | Regreso |
 |---|---|---|---|---|---|
 | 1 | **Bucket** PRIVADO `travel-puzzle-raw` (sin dominio propio, sin `r2.dev`, sin acceso público) | PO / coordinador | `npx wrangler r2 bucket create travel-puzzle-raw`; en el panel, «Public access» apagado | `npx wrangler r2 bucket list` lo muestra; una URL pública no responde | Borrar el bucket vacío |
-| 2 | **Binding** en `wrangler.jsonc` → `r2_buckets`: `{ "binding": "RAW_ARCHIVE", "bucket_name": "travel-puzzle-raw" }` | Agente, PR propio | Preview + prueba de humo (el sitio no cambia: bandera apagada). Ajustar el test REQ-547 que hoy exige que el binding no exista | Humo verde | Revertir el PR |
+| 2 | **Binding** en `wrangler.jsonc` → `r2_buckets`: `{ "binding": "RAW_ARCHIVE", "bucket_name": "travel-puzzle-raw" }` | Agente, PR propio | Preview + prueba de humo (el sitio no cambia: bandera apagada). Ajustar el test REQ-747 que hoy exige que el binding no exista | Humo verde | Revertir el PR |
 | 3 | **Migración 0022** (`ProviderRecord`, `ProviderDocument`) | Coordinador, con respaldo | PR que la mueva de `docs/migraciones-propuestas/` a `migrations/` con el siguiente número libre; publicación a mano con la casilla «migraciones» | `SELECT name FROM sqlite_master WHERE name LIKE 'Provider%'` | Tablas nuevas y vacías: con la bandera apagada nadie las usa |
 | 4 | **Bandera `RAW_ARCHIVE_ENABLED="true"`** | Agente, PR propio | Preview con la bandera encendida, humo verde, OK del PO | Logs del cron: campo `raw` por página (`written`, `same`, `failed`) | Volver a `"false"`: el sync sigue igual |
 | 5 | **Respaldo retroactivo de FREETOUR** | Automático | No hay script aparte: el siguiente sync diario (3:00 CDMX) recorre `/tours` completo y guarda la versión 1 de cada tour. Sin otro login ni más carga a la API (FREETOUR E4) | `SELECT COUNT(*) FROM "ProviderRecord" WHERE "provider"='freetour'` ≈ tours activos (~8,000) | Apagar la bandera; los objetos quedan privados |
