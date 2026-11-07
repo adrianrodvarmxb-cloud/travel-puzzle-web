@@ -1,12 +1,15 @@
 /** Prueba social a partir de reseñas reales: etiqueta "Favorito de los viajeros" y frases destacadas. */
 import { languageCode, type Review } from "./reviews";
+import { mentionsPlatform } from "./platform-mention";
 
 export type TourReview = Review & { tourExternalId: number };
 
-export const FAVORITE_MIN_RATING = 4.7;
-export const FAVORITE_MIN_REVIEWS = 50; // REQ-098 (gate 2): ≥4.7 y ≥50 reseñas
+import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS } from "@/tours/lib/favorite";
 
-/** El tour se gana la etiqueta solo con datos reales: 4.7 ★ o más y 50 reseñas o más. */
+// REQ-098: la regla vive en un solo lugar (src/tours/lib/favorite.ts); aquí solo se reexporta.
+export { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS };
+
+/** El tour se gana la etiqueta solo con datos reales (regla de src/tours/lib/favorite.ts). */
 export function isTravelerFavorite(rating: number | string | null | undefined, reviews: number): boolean {
   const n = Number(rating);
   return rating !== null && rating !== undefined && Number.isFinite(n) && n >= FAVORITE_MIN_RATING && reviews >= FAVORITE_MIN_REVIEWS;
@@ -28,7 +31,8 @@ const MIN_LENGTH = 20;
 /** Reseñas de 5 ★ con texto útil, primero las del idioma del visitante y las más recientes. */
 function usable(reviews: TourReview[], lang: string): TourReview[] {
   const ok = reviews
-    .filter((r) => r.rate >= 5 && (r.content ?? "").trim().length >= MIN_LENGTH)
+    // REQ-171: ni frases destacadas ni reseñas del inicio que nombran la plataforma.
+    .filter((r) => r.rate >= 5 && (r.content ?? "").trim().length >= MIN_LENGTH && !mentionsPlatform(r.title) && !mentionsPlatform(r.content))
     .sort((a, b) => b.addedAt.getTime() - a.addedAt.getTime());
   return [...ok.filter((r) => languageCode(r.language) === lang), ...ok.filter((r) => languageCode(r.language) !== lang)];
 }

@@ -19,6 +19,8 @@ interface ToursMapProps {
 export function ToursMap({ pins, activeId }: ToursMapProps) {
   const { t } = useLanguage();
   const free = t('tours.free', 'Free');
+  // REQ-271: el pin dice «Pieza libre»; la tarjeta del pin conserva el precio verde «Free tour».
+  const pin = t('tours.freePin', 'Free tour');
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import('maplibre-gl').Map | null>(null);
   const libRef = useRef<typeof import('maplibre-gl') | null>(null);
@@ -78,7 +80,7 @@ export function ToursMap({ pins, activeId }: ToursMapProps) {
       const el = document.createElement('button');
       el.type = 'button';
       el.className = 'tp-pin';
-      el.textContent = priceText(p.price, p.currency, free);
+      el.textContent = priceText(p.price, p.currency, pin);
       el.setAttribute('aria-label', p.title);
       el.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -89,7 +91,7 @@ export function ToursMap({ pins, activeId }: ToursMapProps) {
       bounds.extend([p.lng, p.lat]);
     }
     m.fitBounds(bounds, { padding: 60, maxZoom: 14, duration: 600 });
-  }, [pins, ready, free]);
+  }, [pins, ready, pin]);
 
   // Resalta el pin del tour activo o seleccionado.
   useEffect(() => {

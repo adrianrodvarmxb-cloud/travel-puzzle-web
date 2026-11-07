@@ -4,6 +4,7 @@
  * enlace para cancelar o cambiar. Función pura.
  */
 import type { Weather, WeatherKind } from "@/notifications/weather";
+import { cardProvider } from "@/tours/lib/experience-card";
 
 export type EmailLang = "es" | "en";
 
@@ -50,6 +51,12 @@ export interface BookingEmailData {
   variant?: "confirmation" | "reminder48" | "dayOf";
   /** Free tour (recordar la propina). */
   isFree?: boolean;
+  /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED); sin él no se menciona el carrito. */
+  tripUrl?: string | null;
+  /** REQ-812: reserva con precio (tour de pago o free tour con tarifa fija): cancelación de 24 h; sin propina. */
+  paidPolicy?: { cancel: string; noShow: string } | null;
+  /** REQ-264: bloque de venta cruzada (sin FREETOUR), ya armado; null o ausente = no se pinta. */
+  crossSell?: CrossSellBlock | null;
   /** Canales de Travel Puzzle; cada uno aparece solo si está configurado. */
   contact?: {
     /** Número de WhatsApp en formato internacional, solo dígitos (52155...). */
@@ -62,6 +69,7 @@ export interface BookingEmailData {
 
 import { BRAND } from "./brand";
 import { esc, renderShell, kit, supportCard, UI, MONO } from "./email-layout";
+import { crossSellText, renderCrossSellHtml, type CrossSellBlock } from "./cross-sell";
 export { BRAND };
 
 
@@ -77,6 +85,7 @@ const T = {
     intro: "Tu lugar está reservado. Estos son los detalles:",
     ref: "Número de reserva", tour: "Tour", provider: "Organiza", date: "Fecha y hora", duration: "Duración",
     language: "Idioma del tour", people: "Personas", meeting: "Punto de encuentro",
+    tbc: "Por confirmar", localGuide: "Un guía local",
     manage: "Ver, cambiar o cancelar mi reserva",
     maps: "Cómo llegar",
     hero: "¡Tu lugar está apartado!",
@@ -87,6 +96,10 @@ const T = {
     tips: (free: boolean) => ["Llega 10 minutos antes al punto de encuentro.", "Guarda este correo: aquí está tu número de reserva y tu enlace.", ...(free ? ["Es un free tour: al final, deja a tu guía la propina que consideres justa, en efectivo. Lleva billetes chicos o cambio."] : [])],
     slogan: "Te armamos tu viaje",
     manageNote: "Si no puedes asistir, cancela desde este enlace para liberar el lugar. Guárdalo: es privado.",
+    // REQ-182: solo complementos (traslado, eSIM, transporte); nunca promueve tours (regla B3).
+    tripTitle: "Arma el resto de tu viaje",
+    tripSub: (city: string | null) => `Traslado del aeropuerto, eSIM y transporte${city ? ` en ${city}` : ""}, con tu fecha ya escrita. Cada pieza dice quién la cobra.`,
+    tripCta: "Armar mi viaje",
     people_: (a: number, c: number) => [`${a} ${a === 1 ? "adulto" : "adultos"}`, c ? `${c} ${c === 1 ? "niño" : "niños"}` : ""].filter(Boolean).join(", "),
     locale: "es-MX",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
@@ -122,6 +135,7 @@ const T = {
     intro: "Your spot is booked. Here are the details:",
     ref: "Booking number", tour: "Tour", provider: "Organized by", date: "Date and time", duration: "Duration",
     language: "Tour language", people: "People", meeting: "Meeting point",
+    tbc: "To be confirmed", localGuide: "A local guide",
     manage: "View, change or cancel my booking",
     maps: "Get directions",
     hero: "Your spot is booked!",
@@ -132,6 +146,9 @@ const T = {
     tips: (free: boolean) => ["Arrive 10 minutes early at the meeting point.", "Keep this email: it has your booking number and private link.", ...(free ? ["It's a free tour: at the end, give your guide what you think is fair, in cash. Bring small bills or change."] : [])],
     slogan: "Te armamos tu viaje",
     manageNote: "If you can't make it, please cancel from this link to free up the spot. Keep it safe: it's private.",
+    tripTitle: "Build the rest of your trip",
+    tripSub: (city: string | null) => `Airport transfer, eSIM and getting around${city ? ` in ${city}` : ""}, with your date already filled in. Each piece says who charges for it.`,
+    tripCta: "Build my trip",
     people_: (a: number, c: number) => [`${a} ${a === 1 ? "adult" : "adults"}`, c ? `${c} ${c === 1 ? "child" : "children"}` : ""].filter(Boolean).join(", "),
     locale: "en-US",
     footer: "Travel Puzzle México · travelpuzzle.com.mx",
@@ -242,7 +259,7 @@ export function meetingPointText(mp: unknown, lang: EmailLang): string | null {
   return typeof v === "string" && v.trim() ? v : null;
 }
 
-// REQ-079: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
+// REQ-079 REQ-800 REQ-801: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
 // idioma, adultos y niños, refNumber, punto de encuentro y enlace de cancelación).
 export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const t = T[d.lang];
@@ -264,16 +281,22 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
   const SKY: Record<WeatherKind, string> = { sun: "☀️", partly: "⛅", cloud: "☁️", rain: "🌧️", storm: "⛈️", snow: "❄️", fog: "🌫️" };
   const w = d.weather ?? null;
+  const trip = d.tripUrl && /^https?:\/\//.test(d.tripUrl) ? d.tripUrl : null; // REQ-182
 
+  // REQ-800: A2 es obligatorio; si un dato no llegó, la fila sale «Por confirmar» (el enlace de la reserva va abajo).
+  // REQ-801: el proveedor nunca nombra a FREETOUR; sin nombre utilizable, «Un guía local».
+  // REQ-812 (D1, D3): con política de pago no hay consejo de propina y van las líneas de 24 h.
+  const tips = d.paidPolicy ? [...t.tips(false), d.paidPolicy.cancel, d.paidPolicy.noShow] : t.tips(!!d.isFree);
+  const orTbc = (v: string | null | undefined) => (v && v.trim() ? v.trim() : t.tbc);
   const rows: [string, string][] = [
     [t.ref, d.refNumber],
     [t.tour, d.tourTitle],
-    ...(d.provider ? [[t.provider, d.provider] as [string, string]] : []),
-    ...(when ? [[t.date, when] as [string, string]] : []),
-    ...(d.duration ? [[t.duration, d.duration] as [string, string]] : []),
-    ...(tourLang ? [[t.language, tourLang] as [string, string]] : []),
+    [t.provider, cardProvider(d.provider) ?? t.localGuide],
+    [t.date, orTbc(when)],
+    [t.duration, orTbc(d.duration)],
+    [t.language, orTbc(tourLang)],
     [t.people, people],
-    ...(d.meetingPoint ? [[t.meeting, d.meetingPoint] as [string, string]] : []),
+    [t.meeting, orTbc(d.meetingPoint)],
   ];
   const v = d.variant && d.variant !== "confirmation" ? t.variants[d.variant] : null;
   const badge = v?.badge ?? t.badge, hero = v?.hero ?? t.hero;
@@ -331,6 +354,14 @@ ${cal ? `<div style="font-family:${mono};font-size:10px;letter-spacing:1.5px;tex
 <p style="margin:14px 0 0;font-size:12px;line-height:1.5;color:${B.muted}">${esc(t.manageNote)}</p>
 </td></tr>
 
+${trip ? `<tr><td style="padding:22px 22px 0">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${SOFT};border:1px solid ${LINE};border-radius:16px"><tr><td style="padding:18px 18px 20px">
+<div style="font-size:18px;font-weight:700;color:${N9}">${esc(t.tripTitle)}</div>
+<p style="margin:6px 0 14px;font-size:14px;line-height:1.5;color:${B.darkBlue}">${esc(t.tripSub(d.cityName ?? null))}</p>
+${ghost(trip, `${esc(t.tripCta)} →`)}
+</td></tr></table>
+</td></tr>` : ""}
+
 ${gallery.length ? `<tr><td style="padding:22px 20px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${gallery.map((u) => `<td style="padding:0 6px" width="${Math.floor(100 / gallery.length)}%"><img src="${esc(u)}" alt="${esc(d.tourTitle)}" width="270" style="display:block;width:100%;height:auto;border-radius:14px;border:0"></td>`).join("")}</tr></table></td></tr>` : ""}
 
 ${reviews.length ? `<tr><td style="padding:30px 26px 0">
@@ -343,10 +374,12 @@ ${reviews.map((r) => `<div style="border:1px solid ${LINE};border-radius:14px;pa
 
 <tr><td style="padding:30px 26px 0">
 ${eyebrow(t.secTips)}${h2(t.tipsTitle)}
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${t.tips(!!d.isFree).map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${tips.map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
 </td></tr>
 
 ${waUrl || assistantUrl ? supportCard({ eyebrow: eyebrow(t.secHelp, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl, assistant: assistantUrl ? { url: assistantUrl, label: t.assistant } : null }) : ""}
+
+${renderCrossSellHtml(d.crossSell, eyebrow)}
 
 ${more.length ? `<tr><td style="padding:30px 26px 0">
 ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
@@ -385,12 +418,14 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
     "",
     `${t.manage}: ${d.manageUrl}`,
     t.manageNote,
+    ...(trip ? ["", `${t.tripTitle}: ${trip}`, t.tripSub(d.cityName ?? null)] : []),
     ...(reviews.length ? ["", t.reviewsTitle, ...reviews.map((r) => `${stars(r.rate)} "${r.text}" — ${r.name}`)] : []),
     "",
     t.tipsTitle,
-    ...t.tips(!!d.isFree).map((x) => `- ${x}`),
+    ...tips.map((x) => `- ${x}`),
     ...(waUrl ? ["", `${t.whatsapp}: ${waUrl}`] : []),
     ...(assistantUrl ? [`${t.assistant}: ${assistantUrl}`] : []),
+    ...crossSellText(d.crossSell),
     ...(more.length ? ["", t.more(d.cityName ?? null), ...more.map((x) => `- ${x.title}: ${x.url}`)] : []),
     ...(socials.length ? ["", `${t.follow}: ${socials.map((x) => `${x.name} ${x.url}`).join(" · ")}`] : []),
     "",

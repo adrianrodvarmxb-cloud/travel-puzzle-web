@@ -4,6 +4,7 @@ import { createBookingRepo } from '@/booking/repository';
 import { createGatewayClient } from '@/booking/gateway-client';
 import { runAutoEmails } from '@/booking/auto-emails';
 import { sendBookingConfirmation, sendReviewRequest } from '@/booking/notify';
+import { crossSellDepsFromEnv } from '@/notifications/cross-sell-deps';
 import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { sendEmail } from '@/notifications/resend';
@@ -36,6 +37,8 @@ export async function GET(request: Request) {
         // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
         freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
         contact: contactFromEnv(process.env as Record<string, string | undefined>),
+        // REQ-264: venta cruzada sin FREETOUR en recordatorios y post-tour, tras EMAIL_CROSS_SELL_ENABLED (apagada).
+        crossSell: crossSellDepsFromEnv(process.env as Record<string, string | undefined>),
         send: (email: { to: string; subject: string; html: string; text: string }) =>
             sendEmail({ apiKey: process.env.RESEND_API_KEY ?? '', fetch }, { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }),
     };

@@ -11,14 +11,18 @@ interface TourCardProps {
   tour: Tour;
   /** Frase de una reseña real de 5 ★ en el idioma del visitante (opcional). */
   highlight?: string | null;
+  /** REQ-170: EUR + «aprox. MXN» armado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
+  priceLabel?: { main: string; approx: string | null } | null;
 }
 
 /** Tarjeta de tour con el diseño tecnológico (fondo azul marino). */
-export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
+export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel = null }) => {
   const { t } = useLanguage();
   const imageUrl = tour.images.find((img) => img && img.trim() !== '');
   const rating = formatRating(tour.rating);
   const free = t('tours.free', 'Free');
+  // REQ-480: la insignia sobre la foto dice «Pieza libre»; el precio sigue diciendo «Free tour».
+  const freeBadge = t('tours.freeBadge', 'Free tour');
 
   return (
     <Link href={`/tours/${tour.id}`} className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#121D45] text-white transition-transform duration-300 hover:-translate-y-1 hover:border-[#008DFF]/60">
@@ -31,7 +35,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
         )}
         <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute left-3 top-3" />
         {tour.price === 0 && (
-          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{free}</span>
+          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{freeBadge}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
@@ -50,7 +54,14 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight }) => {
               <span className="text-[#7C8DBA]">—</span>
             )}
           </span>
-          <span className="font-semibold text-[#EAF54F]">{tour.price > 0 ? `${tour.currency} ${tour.price}` : free}</span>
+          {priceLabel && tour.price > 0 ? (
+            <span className="text-right">
+              <span className="block font-semibold text-[#EAF54F]">{priceLabel.main}</span>
+              {priceLabel.approx && <span className="block text-[11px] text-[#A9B6D6]">{priceLabel.approx}</span>}
+            </span>
+          ) : (
+            <span className="font-semibold text-[#EAF54F]">{tour.price > 0 ? `${tour.currency} ${tour.price}` : free}</span>
+          )}
         </div>
       </div>
     </Link>

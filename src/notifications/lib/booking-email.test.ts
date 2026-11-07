@@ -267,3 +267,71 @@ describe("REQ-079 correos de Modo 2", () => {
     }
   });
 });
+
+describe("Correo de confirmación: «Arma el resto de tu viaje»", () => {
+  it("REQ-182: con enlace al carrito, el correo lo ofrece sin promover tours (solo complementos; regla B3)", () => {
+    const e = buildBookingConfirmationEmail({ ...data, cityName: "Ciudad de México", tripUrl: "https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123" });
+    expect(e.html).toContain("https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123");
+    expect(e.html).toContain("Arma el resto de tu viaje");
+    expect(e.text).toContain("Arma el resto de tu viaje: https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123");
+    const block = e.text.split("\n").filter((l) => l.includes("resto de tu viaje") || l.includes("eSIM"));
+    expect(block.join(" ").toLowerCase()).not.toMatch(/tour|freetour/);
+    const en = buildBookingConfirmationEmail({ ...data, lang: "en", tripUrl: "https://travelpuzzle.com.mx/arma-tu-viaje?reserva=tok_abcdefgh123" });
+    expect(en.html).toContain("Build the rest of your trip");
+  });
+
+  it("REQ-182: sin enlace (bandera apagada) el correo no menciona el carrito", () => {
+    const e = buildBookingConfirmationEmail({ ...data });
+    expect(e.html).not.toContain("arma-tu-viaje");
+    expect(e.html).not.toContain("Arma el resto de tu viaje");
+    expect(buildBookingConfirmationEmail({ ...data, tripUrl: "javascript:alert(1)" }).html).not.toContain("javascript:");
+  });
+});
+
+// REQ-800: A2 es OBLIGATORIO. Si el resumen del tour no llega (getTour falla o el dato viene vacío), la fila no
+// desaparece: sale con «Por confirmar» y remite a la página de la reserva. Auditoría FREETOUR 6 nov 2026.
+describe("REQ-800 los 9 campos de A2 aunque falte el dato", () => {
+  const sinDatos = { ...data, provider: null, duration: null, tourLanguage: null, meetingPoint: null, eventDate: null };
+  it("REQ-800: con proveedor, duración, idioma, fecha y punto de encuentro vacíos, las 9 filas siguen en HTML y texto", () => {
+    for (const variant of ["confirmation", "reminder48", "dayOf"] as const) {
+      const { html, text } = buildBookingConfirmationEmail({ ...sinDatos, variant });
+      for (const label of ["Número de reserva", "Tour", "Organiza", "Fecha y hora", "Duración", "Idioma del tour", "Personas", "Punto de encuentro"]) {
+        expect(text, `${variant}: texto sin «${label}»`).toContain(`${label}:`);
+        expect(html, `${variant}: HTML sin «${label}»`).toContain(label);
+      }
+      expect(text).toContain("Ver, cambiar o cancelar mi reserva: https://travelpuzzle.com.mx/reserva/abc");
+      expect(text).toMatch(/Duración: Por confirmar/);
+      expect(text).toMatch(/Organiza: Un guía local/);
+    }
+  });
+  it("REQ-800: en inglés también", () => {
+    const { text } = buildBookingConfirmationEmail({ ...sinDatos, lang: "en" });
+    for (const label of ["Booking number", "Tour", "Organized by", "Date and time", "Duration", "Tour language", "People", "Meeting point"]) expect(text).toContain(`${label}:`);
+    expect(text).toContain("Duration: To be confirmed");
+    expect(text).toContain("Organized by: A local guide");
+  });
+});
+
+// REQ-801: el nombre del proveedor del correo nunca menciona FREETOUR (regla del PO; C3). Si lo menciona, «Un guía local».
+describe("REQ-801 el correo no nombra a FREETOUR como proveedor", () => {
+  it.each(["FREETOUR.com", "Freetour Lima", "free tour .com"])("REQ-801: proveedor «%s» → «Un guía local»", (provider) => {
+    const { html, text, subject } = buildBookingConfirmationEmail({ ...data, provider });
+    expect(text).toContain("Organiza: Un guía local");
+    expect(`${subject}\n${text}`).not.toMatch(/freetour|free tour \.com/i);
+    expect(html).not.toMatch(/>[^<]*(freetour|free tour \.com)[^<]*</i);
+  });
+});
+
+// REQ-812 (D1, D3): la confirmación de un tour de pago no habla de propina y trae la política de cancelación de 24 h.
+describe("REQ-812 confirmación de un tour de pago", () => {
+  const paid = { ...data, isFree: false, paidPolicy: { cancel: "Cancelación gratis con reembolso de lo pagado hasta 24 h antes del tour, desde el enlace de tu correo de confirmación.", noShow: "Si cancelas con menos de 24 h o no te presentas, no hay reembolso." } };
+  it("REQ-812: sin consejo de propina y con la política de 24 h, en HTML y texto", () => {
+    const { html, text } = buildBookingConfirmationEmail(paid);
+    expect(`${html}\n${text}`).not.toMatch(/propina/i);
+    for (const s of [paid.paidPolicy.cancel, paid.paidPolicy.noShow]) { expect(text).toContain(s); expect(html).toContain(s); }
+  });
+  it("REQ-812: sigue con los 9 campos de A2", () => {
+    const { text } = buildBookingConfirmationEmail(paid);
+    for (const v of [data.tourTitle, "Mpika Tours", "2:30", "Francés", "2 adultos, 1 niño", data.refNumber, data.meetingPoint, data.manageUrl]) expect(text).toContain(v);
+  });
+});

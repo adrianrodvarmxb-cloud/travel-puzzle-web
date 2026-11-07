@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cartFlags } from '@/cart/lib/flags';
+import { tripUrl } from '@/cart/lib/links';
 import { zFTBookingDTO } from '@/lib/api/schemas/FTBooking.Schema';
 import { createGatewayClient } from '@/booking/gateway-client';
 import { placeBooking, recordBooking, BookingRejected, type BookingRejectionCode } from '@/booking/service';
@@ -82,7 +84,9 @@ export async function POST(request: NextRequest) {
             const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
             await sendConfirmationFor(record, lang);
         }
-        return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null });
+        // REQ-182: la pantalla de confirmación enlaza al carrito solo con la bandera encendida.
+        const trip = tripUrl({ site: '', token: record?.manageToken, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status: record?.status ?? '' });
+        return NextResponse.json({ success: true, booking, manageToken: record?.manageToken ?? null, tripUrl: trip });
     } catch (error) {
         if (error instanceof BookingRejected) {
             return NextResponse.json({ error: error.code, message: error.message }, { status: STATUS[error.code] });

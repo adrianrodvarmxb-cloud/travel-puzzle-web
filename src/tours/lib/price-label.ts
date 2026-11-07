@@ -29,3 +29,26 @@ export function tourPriceLabel(price: number, currency: string, rates: FxRates |
   const note = currency === "EUR" ? t.note(approx !== null) : (approx ? (lang === "es" ? "La conversión a pesos es aproximada." : "The peso conversion is approximate.") : "");
   return { amount: price, main: formatMoney(price, currency, fmt), approx, note };
 }
+
+export interface CardPriceInput { kind: "free" | "paid" | "own"; isFreeTour: boolean; price: number; currency: string; priceLabel?: string | null }
+
+/** REQ-170: precio de la tarjeta en la lista de ciudad (servidor, idioma fijo «es»). Igual que hoy salvo el MXN aproximado. */
+export function cardPrice(t: CardPriceInput, rates: FxRates | null): { main: string; approx: string | null } {
+  if (t.kind === "own") return { main: t.priceLabel ?? "A cotizar", approx: null };
+  if (t.isFreeTour) return { main: "Gratis", approx: null };
+  const label = tourPriceLabel(t.price, t.currency, rates, "es");
+  if (!label) return { main: `Desde ${t.currency} ${Number.isInteger(t.price) ? t.price : t.price.toFixed(2)}`, approx: null };
+  return { main: `Desde ${label.main}`, approx: label.approx };
+}
+
+export type CardPriceLabels = Record<string, { main: string; approx: string | null }>;
+
+/** REQ-170: etiquetas de precio por id para tarjetas de cliente (/tours, destacadas del inicio); se arman en el servidor (INC-001). */
+export function priceLabelsFor(items: readonly { id: string; price: number | string | null | undefined; currency: string | null | undefined }[], rates: FxRates | null, lang: string): CardPriceLabels {
+  const out: CardPriceLabels = {};
+  for (const it of items) {
+    const label = tourPriceLabel(Number(it.price ?? 0), String(it.currency ?? ""), rates, lang);
+    if (label) out[it.id] = { main: label.main, approx: label.approx };
+  }
+  return out;
+}

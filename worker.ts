@@ -40,6 +40,19 @@ export default {
       const payments = new Request("https://internal/api/cron/payments", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
       ctx.waitUntil(handler.fetch(payments, env, ctx).then(async (res: Response) => console.log(`[cron] payments → ${res.status} ${await res.text()}`)));
     }
+    // REQ-586: una vez al día (12:10 UTC, ya cerrado el sync de las 3:00 de CDMX), IndexNow. La ruta no hace nada
+    // mientras INDEXNOW_ENABLED no sea "true".
+    const now = new Date();
+    if (now.getUTCHours() === 12 && now.getUTCMinutes() === 10) {
+      const indexnow = new Request("https://internal/api/cron/indexnow", {
+        headers: { authorization: `Bearer ${env.CRON_SECRET}` },
+      });
+      ctx.waitUntil(
+        handler.fetch(indexnow, env, ctx).then(async (res: Response) => {
+          console.log(`[cron] indexnow → ${res.status} ${await res.text()}`);
+        })
+      );
+    }
     // Cada 5 minutos: recordatorios y reseña post-tour.
     if (new Date().getUTCMinutes() % 5 === 0) {
       const emails = new Request("https://internal/api/cron/booking-emails", {

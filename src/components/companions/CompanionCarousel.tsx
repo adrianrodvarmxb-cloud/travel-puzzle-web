@@ -4,6 +4,14 @@ import type { CarouselCard } from '@/companions/lib/carousel';
 import type { CarouselEventName } from '@/companions/lib/events';
 import { TransferPanel } from './TransferPanel';
 
+/** REQ-184: dónde se pinta la tarjeta. Sin marca (datos viejos), las 3 primeras en celular. */
+function visibility(card: CarouselCard, i: number): string {
+    const mobile = card.mobile ?? i < 3;
+    const desktop = card.desktop ?? true;
+    if (mobile && desktop) return 'flex';
+    return mobile ? 'flex md:hidden' : 'hidden md:flex';
+}
+
 /** REQ-110: manda el evento sin bloquear la navegación (sin datos personales). */
 function track(name: CarouselEventName, card: CarouselCard, cityCode: string) {
     try {
@@ -17,14 +25,15 @@ function track(name: CarouselEventName, card: CarouselCard, cityCode: string) {
 
 /**
  * REQ-108: carrusel «Ya tienes tu primera pieza. ¿Armamos las demás?».
- * Recibe hasta 4 tarjetas ya ordenadas en el servidor; en celular solo se ven las 3 primeras.
+ * Recibe las tarjetas ya ordenadas en el servidor; cada una dice si se pinta en celular (máx. 3) y en
+ * escritorio (máx. 4) (REQ-184).
  * Nada viene preseleccionado: cada acción es un toque del cliente. Cada tarjeta dice quién cobra.
  */
 export function CompanionCarousel({ cards, cityCode, transferWidgetSrc }: { cards: CarouselCard[]; cityCode: string; transferWidgetSrc?: string }) {
     const [panel, setPanel] = useState<CarouselCard | null>(null);
     useEffect(() => {
-        const visible = window.matchMedia('(min-width: 768px)').matches ? 4 : 3;
-        cards.slice(0, visible).forEach((c) => track('card_viewed', c, cityCode));
+        const desktop = window.matchMedia('(min-width: 768px)').matches;
+        cards.filter((c) => (desktop ? c.desktop !== false : c.mobile !== false)).forEach((c) => track('card_viewed', c, cityCode));
     }, [cards, cityCode]);
 
     if (cards.length === 0) return null;
@@ -37,10 +46,34 @@ export function CompanionCarousel({ cards, cityCode, transferWidgetSrc }: { card
                     // REQ-105: sin inventario real no hay botón de reserva; la reserva directa se conecta en otra ola.
                     if (!a || a.kind === 'book') return null;
                     return (
-                        <li key={`${card.category}-${i}`} className={`${i >= 3 ? 'hidden md:flex' : 'flex'} flex-col rounded-2xl border border-white/10 bg-white/5 p-4`}>
+                        <li key={`${card.category}-${i}`} className={`${visibility(card, i)} flex-col rounded-2xl border border-white/10 bg-white/5 p-4`}>
                             <p className="text-base font-semibold text-white">{card.title}</p>
                             <p className="mt-1 text-sm text-slate-300">{card.chargedByLabel}</p>
                             {card.priceLabel ? <p className="mt-1 text-sm font-semibold text-sky-300">{card.priceLabel}</p> : null}
+                            {/* REQ-320: experiencias ya cargadas cerca (foto, nombre real, precio y su ficha). */}
+                            {a.kind === 'catalog' && card.experiences?.length ? (
+                                <ul className="mt-3 flex flex-col gap-3">
+                                    {card.experiences.map((e) => (
+                                        <li key={e.id}>
+                                            <a
+                                                href={e.path}
+                                                onClick={() => track('card_added', card, cityCode)}
+                                                className="flex items-center gap-3 rounded-xl p-1 hover:bg-white/10"
+                                            >
+                                                {e.image ? (
+                                                    <img src={e.image} alt="" loading="lazy" className="h-14 w-20 shrink-0 rounded-lg object-cover" />
+                                                ) : (
+                                                    <span aria-hidden="true" className="h-14 w-20 shrink-0 rounded-lg bg-white/10" />
+                                                )}
+                                                <span className="min-w-0">
+                                                    <span className="block text-sm font-semibold leading-snug text-white">{e.title}</span>
+                                                    <span className="block text-xs text-sky-300">{e.price}</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
                             <a
                                 href={a.url}
                                 target="_blank"
@@ -50,6 +83,7 @@ export function CompanionCarousel({ cards, cityCode, transferWidgetSrc }: { card
                             >
                                 {a.label}
                             </a>
+                            )}
                             {/* REQ-120: el buscador de traslados vive dentro del carrito, en un panel; nunca como sección suelta. */}
                             {card.type === 'transfer' && a.kind === 'deeplink' && transferWidgetSrc ? (
                                 <button

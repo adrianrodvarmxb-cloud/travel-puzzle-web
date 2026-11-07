@@ -161,7 +161,7 @@ export function TourDetailClient({
                     className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
                 >
                     <ChevronLeftIcon className="w-4 h-4" />
-                    {t('tours.backToTours', 'Back to all tours')}
+                    {t('tours.backToTours', 'Back to all experiences')}
                 </Button>
                 )}
 

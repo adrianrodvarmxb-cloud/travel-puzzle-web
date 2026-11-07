@@ -1,1 +1,31 @@
-{ "fixed": ["/", "/tours", "/terminos", "/privacidad", "/robots.txt"] }
+{
+  "fixed": [
+    "/",
+    "/tours",
+    "/traslados",
+    "/viajes/reino-unido/bus-turistico-hop-on-hop-off-en-londres-bbt-gb-m01-010",
+    "/terminos",
+    "/privacidad",
+    "/robots.txt",
+    "/la-primera-pieza",
+    "/destinos",
+    "/destinos/mx",
+    "/destinos/mx/ciudad-de-mexico",
+    "/sitemap-index.xml"
+  ],
+  "discover": [
+    { "from": "/tours", "pattern": "^/viajes/[^/]+/[^/?#]+$", "take": 2, "required": true },
+    { "from": "/destinos/mx/ciudad-de-mexico", "pattern": "^/destinos/mx/ciudad-de-mexico/[^/?#]+$", "take": 1, "required": true }
+  ],
+  "optional": ["/ayuda", "/admin/entrar"],
+  "legacy": [
+    { "path": "/tours/cmvuuv0qz0000psp7xrmovnmv", "expect": [301, 410] }
+  ],
+  "flagged": {
+    "NOSOTROS_ENABLED": ["/nosotros"],
+    "CONTACTO_ENABLED": ["/contacto"],
+    "EXPERTOS_ENABLED": ["/asesores"],
+    "BLOG_ENABLED+BLOG_SHOW_DRAFTS": ["/blog", "/blog/china", "/blog/china/visa-china-para-mexicanos"],
+    "INDEXNOW_ENABLED": ["/indexnow-key.txt"]
+  }
+}

@@ -10,6 +10,7 @@ import { zFTEventDetail } from "@/lib/api/schemas/FTEvent.Schema";
 import { checkEvent } from "@/booking/lib/event-check";
 import type { CartItem } from "../lib/item";
 import type { Availability, ChargeResult, ChargeUrls, Offer, ProviderAdapter, ReserveResult, SearchQuery } from "../lib/adapter";
+import { cartTypeFor } from "@/taxonomy/lib/cart-type";
 
 /** Los precios de FREETOUR vienen en euros. */
 const CURRENCY = "EUR";
@@ -23,6 +24,11 @@ export interface FreetourAdapterDeps {
   cancelBooking?: (refNumber: string) => Promise<boolean>;
   /** Búsqueda de horarios en el catálogo local (sin precio: el precio sale en vivo). */
   findEvents?: (q: SearchQuery) => Promise<Offer[]>;
+  /**
+   * T7 (REQ-428, TAXONOMY_CART_ENABLED): el adaptador también ofrece excursiones de un día (day_trip) y entradas (tickets),
+   * y cada oferta va al tipo que le toca por su formato. Apagada, como hoy: free_tour y tour.
+   */
+  taxonomy?: boolean;
 }
 
 const zPayment = z.object({ paymentUrl: z.string().url(), expiresAt: z.string() });
@@ -36,19 +42,22 @@ export function createFreetourAdapter(deps: FreetourAdapterDeps): ProviderAdapte
   return {
     id: "freetour",
     mode: "api",
-    types: ["free_tour", "tour"],
+    types: deps.taxonomy ? ["free_tour", "tour", "day_trip", "tickets"] : ["free_tour", "tour"],
     chargedBy: "Travel Puzzle",
 
     async search(q) {
-      return deps.findEvents ? deps.findEvents(q) : [];
+      const offers = deps.findEvents ? await deps.findEvents(q) : [];
+      // T7: con la taxonomía, solo las ofertas cuyo formato corresponde al tipo pedido (una excursión no sale como «tour»).
+      // Sin formato (no clasificada): como hoy, solo en free_tour y tour; nunca se repite en day_trip ni tickets.
+      if (!deps.taxonomy) return offers;
+      return offers.filter((o) => (o.formato ? cartTypeFor(o.formato as never) === q.type : q.type === "free_tour" || q.type === "tour"));
     },
 
     async availability(externalId, q): Promise<Availability> {
       const ev = await liveEvent(externalId);
       const check = checkEvent(ev, { ...q.people, hasPhone: true });
       if (!check.ok) return { available: false };
-      // REQ-104 + REQ-010: el carrito muestra el total del grupo (fullPrice); `check.price` ahora es lo que se cobra hoy.
-      return { available: true, price: { amount: check.fullPrice, currency: CURRENCY }, places: ev.availableAdultPlaces };
+      return { available: true, price: { amount: check.price, currency: CURRENCY }, places: ev.availableAdultPlaces };
     },
 
     async reserve(item: CartItem): Promise<ReserveResult> {
@@ -56,9 +65,8 @@ export function createFreetourAdapter(deps: FreetourAdapterDeps): ProviderAdapte
       const check = checkEvent(ev, { ...item.people, hasPhone: true });
       if (!check.ok) throw new Error("Este horario ya no está disponible.");
       if (!deps.book) throw new Error("Reservas del carrito no conectadas.");
-      // REQ-104 + REQ-010: mismo total que antes de REQ-010 (sin cambio de comportamiento del carrito, apagado).
-      const { refNumber } = await deps.book({ eventId: Number(item.externalId), ...item.people, price: check.fullPrice });
-      return { kind: "reserved", externalRef: refNumber, price: { amount: check.fullPrice, currency: CURRENCY } };
+      const { refNumber } = await deps.book({ eventId: Number(item.externalId), ...item.people, price: check.price });
+      return { kind: "reserved", externalRef: refNumber, price: { amount: check.price, currency: CURRENCY } };
     },
 
     async cancel(item) {

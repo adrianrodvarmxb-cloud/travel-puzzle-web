@@ -6,12 +6,17 @@ import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { TransfersWidget } from '@/components/transfers/TransfersWidget';
 import { transfersWidgetUrl } from '@/transfers/lib/widget';
-import { trasladosMode } from '@/transfers/lib/page-mode';
+import { trasladosView } from '@/transfers/lib/page-mode';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { ComplementsHub } from '@/components/companions/ComplementsHub';
 import { DEFAULT_REGISTRY, hubModel } from '@/companions/lib/registry';
 import { providerCities, type TripCitiesDb } from '@/companions/load';
 import { getPrisma } from '@/lib/prisma';
+import { loadTripCards } from '@/trips/public-load';
+import { TRANSPORT_SECTION_ID, transportTrips } from '@/trips/lib/public';
+import { tripCopy } from '@/trips/lib/copy';
+import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { fromTripCard } from '@/tours/lib/card-sources';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,9 +43,14 @@ async function loadHub(env: Record<string, string | undefined>) {
 
 export default async function TrasladosPage() {
   const env = process.env as Record<string, string | undefined>;
-  const mode = trasladosMode(env);
-  if (mode === 'hidden') notFound();
+  const { mode, transport, found } = trasladosView(env);
+  if (!found) notFound();
   const hub = mode === 'cart-entry' ? await loadHub(env) : null;
+  // REQ-172: viajes de tipo transporte publicados (Big Bus…), con TRANSPORT_ENABLED y sin depender de ARMA_TU_VIAJE_ENABLED.
+  // loadTripCards ya respeta el interruptor y, si la base falla, devuelve [] (la sección no sale y el resto sigue).
+  const transportList = transport ? transportTrips(await loadTripCards('es')) : [];
+  if (mode === 'hidden' && !transportList.length) notFound();
+  const tc = tripCopy('es');
   const contact = contactFromEnv(env);
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
@@ -69,7 +79,7 @@ export default async function TrasladosPage() {
                 </Link>
               </div>
             </>
-          ) : (
+          ) : mode === 'widget' ? (
             <>
               <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Del aeropuerto a tu hotel, sin preocupaciones</h1>
               <p className="mt-3 max-w-2xl text-slate-300">
@@ -80,8 +90,25 @@ export default async function TrasladosPage() {
                 <TransfersWidget src={transfersWidgetUrl('es')} />
               </div>
             </>
+          ) : (
+            <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">Transporte turístico</h1>
           )}
         </section>
+        {transportList.length > 0 && (
+          <SectionBoundary name="transporte-turistico">
+            {/* REQ-172: el transporte no es un tour; es una categoría propia, aquí y no en /tours. */}
+            <section id={TRANSPORT_SECTION_ID} aria-label="Transporte turístico" className="mx-auto max-w-5xl scroll-mt-24 px-4 pb-14 md:pb-20">
+              {mode !== 'hidden' && <h2 className="text-2xl font-bold text-white md:text-3xl">Transporte turístico</h2>}
+              <p className="mt-3 max-w-2xl text-slate-300">
+                Buses turísticos para moverte por la ciudad a tu ritmo. Se piden bajo solicitud desde su ficha: confirmamos
+                disponibilidad y precio con el operador y no te cobramos nada hasta confirmar.
+              </p>
+              <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {transportList.map((t) => <ExperienceCard key={t.id} card={fromTripCard(t, 'es', tc.from)} />) /* REQ-520 */}
+              </div>
+            </section>
+          </SectionBoundary>
+        )}
       </main>
       <SiteFooter contact={footer} />
       <WhatsAppBubble whatsapp={contact.whatsapp} />

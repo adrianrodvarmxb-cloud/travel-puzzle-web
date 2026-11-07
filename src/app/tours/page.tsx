@@ -7,7 +7,29 @@ import { parseSort, sortToPagination } from '@/tours/lib/sort';
 import { parseExtraFilters } from '@/tours/lib/extra-filters';
 import { parseDurationRange } from '@/tours/lib/duration';
 import { loadTripCards } from '@/trips/public-load';
+import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
+import type { Metadata } from 'next';
+import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
+import { catalogName, catalogTitle } from '@/tours/lib/catalog-name';
+import { JsonLd } from '@/components/destinations/JsonLd';
+import { toursItemList } from '@/seo/lib/listing-ld';
+import { canonicalHrefs } from '@/seo/lib/itemlist';
+import { getDestinations, primeraPiezaOn, siteUrl } from '@/destinations/server';
+import { transformDBToursToUITours } from '@/lib/db/tour-transformer';
+import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
+
+const taxonomyOn = () => taxonomyFiltersEnabled(process.env as Record<string, string | undefined>);
+const toQuery = (params: Record<string, string | undefined>) =>
+  new URLSearchParams(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]);
+
+// REQ-174 (sitelinks-google): title = nombre del menú + marca («Experiencias | Travel Puzzle»).
+/** T4 (REQ-413): con un filtro de la taxonomía, noindex,follow y canonical a /tours; sin él (o apagada), nada cambia. */
+export async function generateMetadata({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }): Promise<Metadata> {
+  const title = catalogTitle(await getPreferredLanguage());
+  const r = toursRobots(toQuery(await searchParams), taxonomyOn());
+  return { title: { absolute: title }, openGraph: { title }, ...(r.robots ? { robots: r.robots, alternates: { canonical: r.canonical } } : {}) };
+}
 
 interface ToursPageProps {
   searchParams: Promise<{
@@ -32,7 +54,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   
   // REQ-049..056: "hoy" se calcula en el servidor (render determinista, INC-001)
   const today = new Date().toISOString().slice(0, 10);
-  const extra = parseExtraFilters(new URLSearchParams(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), today);
+  const taxonomy = taxonomyOn();
+  const extra = parseExtraFilters(toQuery(params), today, { taxonomy });
   // Build filters from URL params
   const filters: TourFilters = {
     language,
@@ -42,6 +65,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     maxPrice: params.maxPrice ? parseFloat(params.maxPrice) : undefined,
     durationRange: parseDurationRange(params.duracion),
     ...extra,
+    taxonomy,
   };
   
   // Build pagination from URL params
@@ -63,8 +87,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     fetchCountries(language),
     // Fetch metadata
     fetchToursMetadata(),
-    // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado)
-    loadTripCards(language),
+    // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado).
+    // REQ-172: el transporte no es un tour; se lista en /traslados, no aquí (ni chips, ni conteos, ni buscador).
+    loadTripCards(language).then(toursTrips),
   ]);
   const countryCodeById: Record<number, string> = ownTrips.length
     ? Object.fromEntries((await getPrisma().country.findMany({ select: { id: true, code: true } })).map((c) => [c.id, c.code.toUpperCase()]))
@@ -87,7 +112,14 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     })
     : null;
 
+  // REQ-582: ItemList de lo que lista la página (tours de esta página y viajes), con la URL canónica final.
+  const resolve = primeraPiezaOn() ? canonicalHrefs(await getDestinations().catch(() => null)) : undefined;
+  const pageTours = transformDBToursToUITours(((toursData as { data?: unknown[] } | null)?.data ?? []) as TourWithRelations[], language);
+  const list = toursItemList({ siteUrl: siteUrl(), name: catalogName(language), tours: pageTours, trips: ownTrips, resolve });
+
   return (
+    <>
+    {list && <JsonLd data={[list]} />}
     <ToursPageClient
       initialToursData={toursData}
       initialCountriesData={countriesData}
@@ -100,6 +132,10 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       countryCodeById={countryCodeById}
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
+      taxonomy={taxonomy}
+      showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
+      logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
+    </>
   );
 }

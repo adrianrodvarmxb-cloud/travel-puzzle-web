@@ -5,6 +5,9 @@ import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
 import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
 import { HELP_PATH, helpCopy } from '@/help/lib/faq';
+import { useFeatureFlags } from '@/components/providers/FeatureFlags';
+import { footerPageLinks } from '@/site/lib/pages';
+import { footerHubLinks } from '@/tours/lib/menu';
 
 export interface FooterContact {
   whatsapp?: string;
@@ -23,6 +26,9 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
   const c = homeCopy(language);
   const wa = waLink(contact.whatsapp, c.expertWa);
   const legal = legalLabels(language);
+  // REQ-241: Nosotros, Contacto, Blog… solo con su bandera. D9: el año llega del servidor (INC-001).
+  const { pages, year, primeraPieza } = useFeatureFlags();
+  const pageLinks = footerPageLinks(pages, language);
 
   return (
     <footer className="bg-[#0A1330] px-4 pb-24 pt-12 text-white/80 md:pb-12">
@@ -36,7 +42,10 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
         <div className="space-y-2 text-sm">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{c.footerContact}</p>
           <Link href="/tours" className="block hover:text-white">{c.footerTours}</Link>
+          {/* REQ-601: La Primera Pieza salió del menú (REQ-600); el pie la mantiene enlazada. */}
+          {footerHubLinks(!!primeraPieza).map((l) => <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
           {helpEnabled && <Link href={HELP_PATH} className="block hover:text-white">{helpCopy(language).footerLink}</Link>}
+          {pageLinks.map((l) => <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
           {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="block hover:text-white">WhatsApp</a>}
           {contact.email && <a href={`mailto:${contact.email}`} className="block hover:text-white">{contact.email}</a>}
         </div>
@@ -55,7 +64,7 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
         )}
       </div>
       <p className="container mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-xs text-white/50">
-        {c.footerRights(new Date().getFullYear())} · travelpuzzle.com.mx
+        {c.footerRights(year ?? new Date().getFullYear())} · travelpuzzle.com.mx
         {' · '}<Link href={LEGAL_PATHS.terms} className="hover:text-white">{legal.terms}</Link>
         {' · '}<Link href={LEGAL_PATHS.privacy} className="hover:text-white">{legal.privacy}</Link>
       </p>

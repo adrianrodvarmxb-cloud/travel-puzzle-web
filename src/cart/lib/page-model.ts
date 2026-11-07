@@ -5,15 +5,38 @@
  */
 import type { CartItemType, People } from "./item";
 import { chooseAction, shortDate, type AdapterProbe, type Advisor } from "./switch";
-import { buildCarousel, DEFAULT_RULES, type CarouselCard, type CarouselFlags, type CompanionCategory } from "@/companions/lib/carousel";
+import { buildCarousel, DEFAULT_RULES, ESIM_ADVISOR_COUNTRIES, INSURANCE_ADVISOR_COUNTRIES, type CarouselCard, type CarouselFlags, type CompanionCategory } from "@/companions/lib/carousel";
+import type { NearbyExperience } from "@/companions/lib/nearby";
+import { pieceCost, pieceDay, pieceWhen } from "./piece";
+import { tourPriceLabel } from "@/tours/lib/price-label";
+import type { FxRates } from "@/trips/lib/money";
 
-export interface TripPiece { title: string; date: string; cityName: string; people: People }
+export interface TripPiece {
+  title: string;
+  /** Inicio en UTC (o la fecha disponible): para la regla de <72 h. */
+  date: string;
+  cityName: string;
+  people: People;
+  /** REQ-180: `date` de FREETOUR, en la zona horaria de la ciudad del tour. */
+  localDate?: string | null;
+  /** REQ-181: ISO-2 del destino, de la reserva (tour → país del catálogo). */
+  country?: string | null;
+  /** REQ-181: slug de la ciudad del catálogo. */
+  cityCode?: string | null;
+  /** REQ-181: país del viajero (prefijo del teléfono de la reserva); null si no se sabe. */
+  travelerCountry?: string | null;
+  /** REQ-183: precio del grupo en EUR guardado en la reserva (0 = sin tarifa fija). */
+  price?: number | null;
+}
 export interface TripQuery { country: string | null; cityCode: string | null; travelerCountry: string | null }
 
 const ISO2 = /^[A-Za-z]{2}$/;
 const CITY_CODE = /^[a-z0-9-]{2,80}$/;
 
-/** Lee y limpia los parámetros de la URL; lo inválido se descarta. */
+/**
+ * Lee y limpia los parámetros de la URL; lo inválido se descarta.
+ * REQ-181: `country` y `travelerCountry` ya no deciden las reglas (salen de la reserva); se conservan solo por compatibilidad.
+ */
 export function parseTripQuery(sp: Record<string, string | string[] | undefined>): TripQuery {
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string).trim() : "");
   const iso = (v: string) => (ISO2.test(v) ? v.toUpperCase() : null);
@@ -43,6 +66,11 @@ export const CATEGORY_TITLES: Record<CompanionCategory, string> = {
   transport: "Transporte entre ciudades", car_rental: "Renta de auto", lodging: "Alojamiento",
   visa: "Asesoría de visa", etias: "Trámite ETIAS",
 };
+/**
+ * REQ-320 / REQ-325: título de la tarjeta de tour cuando solo hay viajes de varios días cerca (no promete «completar
+ * el día»). Son viajes de proveedores: nunca se promete autoría («expertos» está prohibido por el PO, 6 nov 2026).
+ */
+export const multiDayTitle = (cityName: string) => (cityName.trim() ? `Circuitos cerca de ${cityName.trim()}` : "Viajes de varios días cerca de tu destino");
 const CANDIDATE_TYPES: { type: CartItemType; category: CompanionCategory }[] = (
   ["tour", "day_trip", "transfer", "esim", "tickets", "insurance", "transport", "car_rental", "lodging", "visa"] as const
 ).map((t) => ({ type: t, category: t as CompanionCategory })).concat([{ type: "visa", category: "etias" }]);
@@ -50,8 +78,8 @@ const CANDIDATE_TYPES: { type: CartItemType; category: CompanionCategory }[] = (
 const slug = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export interface ArmaTuViajeModel {
-  piece: { title: string; when: string; cityName: string; status: "Confirmada"; cost: "Costo 0" } | null;
-  /** Tarjetas de escritorio (4); en móvil se pintan solo las 3 primeras. */
+  piece: { title: string; when: string; cityName: string; status: "Confirmada"; cost: string } | null;
+  /** REQ-184: tarjetas de escritorio y de celular; cada una dice dónde se pinta (`mobile`, `desktop`). */
   cards: CarouselCard[];
   cityCode: string | null;
 }
@@ -63,17 +91,45 @@ export function buildArmaTuViajeModel(input: {
   probes: Partial<Record<CompanionCategory, AdapterProbe[]>>;
   flags: CarouselFlags;
   now: number;
+  /** REQ-183: tipo de cambio para el MXN aproximado de una tarifa fija (null = solo EUR). */
+  fx?: FxRates | null;
+  /** REQ-320: experiencias ya cargadas cerca de la pieza (nearbyExperiences, sin FREETOUR). */
+  experiences?: NearbyExperience[];
+  /** REQ-324: adaptadores de solicitud cuyo proveedor ya sale en la tarjeta de tour (no se repiten). */
+  coveredAdapterIds?: string[];
+  /** REQ-323: países donde la eSIM sale con el asesor aunque no haya proveedor. */
+  esimAdvisorCountries?: readonly string[];
+  /** T7 (REQ-429): primera tarjeta por formato (TAXONOMY_CART_ENABLED). */
+  firstByFormat?: boolean;
 }): ArmaTuViajeModel {
   const { piece, query } = input;
   if (!piece) return { piece: null, cards: [], cityCode: null };
-  const cityCode = query.cityCode ?? (slug(piece.cityName) || null);
-  const day = piece.date.slice(0, 10);
+  const cityCode = piece.cityCode ?? query.cityCode ?? (slug(piece.cityName) || null);
+  // REQ-180: el día y la hora son los de la ciudad del tour.
+  const day = pieceDay(piece.localDate, piece.date) ?? piece.date.slice(0, 10);
   const quoteCtx = { cityName: piece.cityName, dateFrom: day, people: piece.people };
 
+  const experiences = (input.experiences ?? []).filter((e) => e.path.startsWith("/"));
+  const covered = new Set(input.coveredAdapterIds ?? []);
+  const esimCountries = (input.esimAdvisorCountries ?? ESIM_ADVISOR_COUNTRIES).map((c) => c.toUpperCase());
+  const country = (piece.country ?? "").toUpperCase();
+
   const candidates = CANDIDATE_TYPES.map(({ type, category }) => {
-    const probes = input.probes[category] ?? [];
-    const action = chooseAction(category, probes, input.advisor, quoteCtx);
-    const chosen = action && action.kind !== "whatsapp" ? probes.find((p) => p.adapterId === action.adapterId) : undefined;
+    // REQ-320: tour o excursión con experiencias cercanas → las recomienda; el asesor queda como último recurso.
+    if ((category === "tour" || category === "day_trip") && experiences.length) {
+      return {
+        type, category, title: experiences.every((e) => e.multiDay) ? multiDayTitle(piece.cityName) : CATEGORY_TITLES[category], chargedBy: "Travel Puzzle",
+        action: { kind: "catalog" as const, label: "Ver experiencia" as const, url: experiences[0].path }, experiences,
+      };
+    }
+    // REQ-324: lo que ya ofrece la tarjeta de tour no se pide otra vez por solicitud.
+    const probes = (input.probes[category] ?? []).filter((p) => !covered.has(p.adapterId));
+    let action = chooseAction(category, probes, input.advisor, quoteCtx);
+    // REQ-323: sin proveedor de eSIM, «con el asesor» solo donde la regla lo pide (China).
+    if (category === "esim" && action?.kind === "whatsapp" && !esimCountries.includes(country)) action = null;
+    // REQ-326: sin deeplink de afiliado registrado, el seguro no sale «con el asesor» (riesgo CNSF).
+    if (category === "insurance" && action?.kind === "whatsapp" && !INSURANCE_ADVISOR_COUNTRIES.includes(country)) action = null;
+    const chosen = action && action.kind !== "whatsapp" && action.kind !== "catalog" ? probes.find((p) => p.adapterId === action.adapterId) : undefined;
     return {
       type, category, title: CATEGORY_TITLES[category], chargedBy: chosen?.chargedBy ?? "Travel Puzzle", action,
       ...(action?.kind === "request" ? { priceLabel: "A cotizar" } : {}),
@@ -82,14 +138,23 @@ export function buildArmaTuViajeModel(input: {
 
   const cards = buildCarousel({
     candidates,
-    context: { country: query.country ?? "", cityCode: cityCode ?? "", travelerCountry: query.travelerCountry ?? undefined, freeTourAt: piece.date, now: input.now },
-    device: "desktop",
+    // REQ-181: país y viajero de la reserva, nunca de ?pais= / ?viajero=.
+    context: { country: piece.country ?? "", cityCode: cityCode ?? "", travelerCountry: piece.travelerCountry ?? undefined, freeTourAt: piece.date, now: input.now },
+    device: "both",
     rules: DEFAULT_RULES,
     flags: input.flags,
+    firstByFormat: input.firstByFormat,
   });
 
   return {
-    piece: { title: piece.title, when: shortDate(piece.date), cityName: piece.cityName, status: "Confirmada", cost: "Costo 0" },
+    piece: {
+      title: piece.title,
+      when: pieceWhen(piece.localDate, piece.date) ?? shortDate(piece.date),
+      cityName: piece.cityName,
+      status: "Confirmada",
+      // REQ-183
+      cost: pieceCost(piece.price, piece.price && piece.price > 0 ? tourPriceLabel(piece.price, "EUR", input.fx ?? null, "es") : null),
+    },
     cards,
     cityCode,
   };

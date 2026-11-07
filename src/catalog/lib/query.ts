@@ -3,9 +3,11 @@
  * compacto del catálogo (una lectura por idioma cada 30 min), en vez de COUNT + LIKE en D1 en cada
  * visita. D1 solo entrega los 20 tours de la página por id. Puro.
  */
+import { FORMATOS_FILTRO } from "@/taxonomy/lib/filters";
 import { durationRangeWhere, type DurationRange } from "@/tours/lib/duration";
 import { freshSummary } from "@/departures/lib/summary";
 import { categoryGroupOf } from "@/tours/lib/extra-filters";
+import { GENERIC, searchTokens, STOPWORDS } from "@/search/lib/words";
 
 /** REQ-055: el catálogo se cargó completo el 30-31 oct 2026; antes de esa fecha "alta" no significa "novedad". */
 export const CATALOG_LOADED_AT = Date.parse("2026-11-01T00:00:00Z");
@@ -19,6 +21,8 @@ export interface CatalogEntry {
   languages?: string[] | null; dates?: string[] | null;
   /** REQ-057: nombres del destino en todos los idiomas (normalizados), para reconocer búsquedas por destino. */
   cityNames?: string[]; countryNames?: string[];
+  /** T4: formato de la taxonomía (lo calcula el cargador del índice). */
+  formato?: string;
 }
 export interface CatalogFilters {
   countryId?: number; cityId?: number; categoryId?: number; minPrice?: number; maxPrice?: number;
@@ -30,6 +34,11 @@ export interface CatalogFilters {
   durMin?: number | null; durMax?: number | null;
   /** REQ-048: ids por relevancia (FTS5). Si viene, reemplaza la búsqueda por palabras y da el orden por defecto. */
   ranked?: string[] | null;
+  /** REQ-122: búsqueda nueva (SEARCH_V2_ENABLED="true"): el destino dentro del texto filtra y el resto se busca dentro. */
+  searchV2?: boolean;
+  /** T4 (TAXONOMY_FILTERS_ENABLED): /tours solo con formatos de Experiencias y ?formato= filtra. */
+  taxonomy?: boolean;
+  formatos?: string[];
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -79,6 +88,40 @@ export function destinationMatcher(entries: CatalogEntry[], search: string | und
   return null;
 }
 
+/** REQ-122: destino encontrado dentro del texto y lo que queda para buscar dentro de él. */
+export interface DestinationSplit { kind: "city" | "country"; name: string; rest: string; match: (x: CatalogEntry) => boolean }
+
+const nameKey = (n: string) => searchTokens(n).join(" ");
+const keysOf = (names: string[] | undefined) => (names ?? []).map(nameKey);
+/** Nombres de destino de hasta 3 palabras ("nueva york", "rio de janeiro"); se prueba primero el más largo. */
+export const MAX_DESTINATION_WORDS = 3;
+
+/**
+ * REQ-122 (gates 5 nov 2026, Gate 1 = A; Gate 3 = A): si una palabra o grupo de palabras del texto es una ciudad o
+ * un país (en cualquiera de las traducciones que ya existen), se filtra a ese destino y el resto del texto se busca
+ * dentro de él. Ciudad antes que país; el nombre más largo gana; una palabra sola vacía o genérica no cuenta.
+ */
+// REQ-122
+export function splitDestination(entries: CatalogEntry[], search: string | undefined): DestinationSplit | null {
+  const words = searchTokens(search);
+  if (!words.length) return null;
+  const cities = new Set(entries.flatMap((x) => keysOf(x.cityNames)));
+  const countries = new Set(entries.flatMap((x) => keysOf(x.countryNames)));
+  for (let n = Math.min(MAX_DESTINATION_WORDS, words.length); n >= 1; n--) {
+    for (const [kind, set] of [["city", cities], ["country", countries]] as const) {
+      for (let i = 0; i + n <= words.length; i++) {
+        const gram = words.slice(i, i + n);
+        if (n === 1 && (gram[0].length < 3 || STOPWORDS.has(gram[0]) || GENERIC.has(gram[0]))) continue;
+        const name = gram.join(" ");
+        if (!set.has(name)) continue;
+        const pick = kind === "city" ? (x: CatalogEntry) => x.cityNames : (x: CatalogEntry) => x.countryNames;
+        return { kind, name, rest: [...words.slice(0, i), ...words.slice(i + n)].join(" "), match: (x) => keysOf(pick(x)).includes(name) };
+      }
+    }
+  }
+  return null;
+}
+
 export function searchMatcher(entries: CatalogEntry[], search: string | undefined): (x: CatalogEntry) => boolean {
   const q = search ? normalize(search) : "";
   if (!q) return () => true;
@@ -104,8 +147,17 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
   const textMatch = searchMatcher(entries, f.search);
   // REQ-048 + REQ-057: con relevancia FTS se respeta igual la intención de destino ("Roma" = solo Roma)
   const dest = rank ? destinationMatcher(entries, f.search) : null;
+  // REQ-122: con la búsqueda nueva, el destino dentro del texto manda; si el resto no encuentra nada en él, todo el destino
+  const split = f.searchV2 ? splitDestination(entries, f.search) : null;
+  const narrow = !!(split && rank && entries.some((x) => rank.has(x.id) && split.match(x)));
+  const useRank = !!rank && (!split || narrow);
   const dur = f.durationRange ? durationRangeWhere(f.durationRange) : null;
-  const hit = entries.filter((x) =>
+  // T4 (REQ-413, REQ-261, REQ-407): con la taxonomía, /tours solo lista formatos de Experiencias (sin online,
+  // por revisar ni traslados) y ?formato= filtra; los conteos por formato ignoran ese filtro (REQ-412: sin chips en cero).
+  const inTours = (x: CatalogEntry) => !f.taxonomy || (FORMATOS_FILTRO as readonly string[]).includes(x.formato ?? "");
+  const formatOk = (x: CatalogEntry) => !f.taxonomy || !f.formatos?.length || f.formatos.includes(x.formato ?? "");
+  const base = entries.filter((x) =>
+    inTours(x) &&
     (!f.countryId || x.countryId === f.countryId) &&
     (!f.cityId || x.cityId === f.cityId) &&
     (!f.categoryId || x.categoryId === f.categoryId) &&
@@ -120,12 +172,16 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (!f.novelty || x.createdAt > newSince) && // REQ-055
     (f.durMin == null || (x.durationMinutes !== null && x.durationMinutes >= f.durMin)) && // REQ-056
     (f.durMax == null || (x.durationMinutes !== null && x.durationMinutes <= f.durMax)) &&
-    (rank ? rank.has(x.id) && (!dest || dest(x)) : textMatch(x)));
-  if (rank && !(p.sortBy && SORT[p.sortBy])) hit.sort((a, b) => rank.get(a.id)! - rank.get(b.id)!); // REQ-048: relevancia
+    (split ? split.match(x) && (!narrow || rank!.has(x.id))
+      : rank ? rank.has(x.id) && (!dest || dest(x)) : textMatch(x)));
+  const formatCounts: Record<string, number> | undefined = f.taxonomy ? {} : undefined;
+  if (formatCounts) for (const x of base) formatCounts[x.formato ?? ""] = (formatCounts[x.formato ?? ""] ?? 0) + 1;
+  const hit = base.filter(formatOk);
+  if (useRank && !(p.sortBy && SORT[p.sortBy])) hit.sort((a, b) => rank.get(a.id)! - rank.get(b.id)!); // REQ-048: relevancia
   else sortBy(hit, p.sortBy === "relevance" ? { sortBy: "reviewsNumber", sortOrder: "desc" } : p); // sin FTS: más reseñas
   const limit = Math.min(100, Math.max(1, p.limit || 20));
   const page = Math.max(1, p.page || 1);
-  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
+  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit, formatCounts };
 }
 
 function sortBy(hit: CatalogEntry[], p: CatalogPage) {

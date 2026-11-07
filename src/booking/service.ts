@@ -1,6 +1,7 @@
 import { normalizePhone } from "./lib/phone";
 import { checkAdultContact } from "./lib/adult-contact";
 import { checkEvent } from "./lib/event-check";
+import { paidTerms } from "./lib/paid-price";
 import { buildBookingRecord, tourIdFromRef, type BookingRecord } from "./lib/booking-record";
 import type { EventInfo } from "./lib/event-info";
 import { GatewayError, type Booking, type Customer } from "./gateway-client";
@@ -73,20 +74,32 @@ export async function placeBooking(input: BookingRequest, { gateway, getEvent, e
   if (!event) throw new BookingRejected("no_availability", "Este horario ya no está disponible. Elige otro.");
   const check = checkEvent(event, { adults: req.adults, children: req.children, hasPhone: !!phone });
   if (!check.ok) {
-    if (check.code === "children_not_allowed") throw new BookingRejected("children_not_allowed", "Este tour con costo no admite niños en la reserva; regístralos como adultos o elige otro horario.");
     throw check.code === "phone_required"
       ? new BookingRejected("phone_required", "Para este tour el teléfono es obligatorio.")
       : new BookingRejected("no_availability", "Este horario ya no está disponible para ese número de personas. Elige otro.");
   }
+  // REQ-930: precio del grupo conservador (REQ-810) + lo que se cobra hoy y la regla de niños (REQ-010).
+  const terms = paidTerms(event, req.adults, req.children, check.price);
+  if (!terms.ok) throw new BookingRejected("children_not_allowed", "Este tour con costo no admite niños en la reserva; regístralos como adultos o elige otro horario.");
   // REQ-014: tours de pago solo con el piloto encendido; el cobro lo hace el checkout de Freetour (REQ-011).
-  if (check.isPaid && !paidEnabled) throw new BookingRejected("paid_not_available", "El pago en línea estará disponible muy pronto.");
+  if (terms.isPaid && !paidEnabled) throw new BookingRejected("paid_not_available", "El pago en línea estará disponible muy pronto.");
 
-  const customer = { ...req.customer, ...(phone ? { phone } : {}) };
-  if (!phone) delete (customer as Partial<Customer>).phone;
+  // REQ-802 (G2): a FREETOUR solo va lo que pide la reserva (no hay DPA): email, nombre, apellido y el teléfono
+  // solo si el evento lo exige. El teléfono que dio el cliente se queda en Travel Puzzle (recordBooking).
+  const customer: Customer = {
+    email: req.customer.email,
+    firstName: req.customer.firstName,
+    lastName: req.customer.lastName,
+    ...(phone && event.isPhoneRequired ? { phone } : {}),
+  };
+  const payload: BookingRequest = {
+    eventId: req.eventId, adults: req.adults, children: req.children, price: terms.payNow, customer,
+    ...(req.idempotencyKey ? { idempotencyKey: req.idempotencyKey } : {}),
+  };
 
   try {
-    const booking = await gateway.createBooking({ ...req, price: check.price, customer });
-    return { booking, price: check.price, fullPrice: check.fullPrice, isPaid: check.isPaid };
+    const booking = await gateway.createBooking(payload);
+    return { booking, price: terms.payNow, fullPrice: terms.fullPrice, isPaid: terms.isPaid };
   } catch (error) {
     if (error instanceof GatewayError && error.status === 404) {
       throw new BookingRejected("no_availability", "Este horario ya no está disponible. Elige otro.");

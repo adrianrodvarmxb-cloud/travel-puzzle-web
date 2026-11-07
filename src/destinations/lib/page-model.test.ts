@@ -3,6 +3,8 @@ import { destinationTree, findCity } from "./catalog";
 import { fx, tour } from "../fixtures/destinos";
 import { cityPage, countryPage, destinosPage, primeraPiezaPage, tourPage, cityTransportCards, goneRewritePath, goneViewFromPlace, sitemapInput } from "./page-model";
 import { buildSitemaps } from "@/seo/lib/sitemaps";
+import { catalogClassifier } from "@/taxonomy/lib/publish";
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { findDuplicateTitles } from "@/seo/lib/titles";
 
 const site = "https://travelpuzzle.com.mx";
@@ -23,6 +25,8 @@ describe("REQ-099: titles y H1 por página", () => {
   it("REQ-099: hubs empiezan por la sección; ciudad con free tours usa el patrón firmado", () => {
     expect(primeraPiezaPage(tree, site).meta.title).toBe("La Primera Pieza | Travel Puzzle");
     expect(destinosPage(tree, site).meta.title).toBe("Destinos | Travel Puzzle");
+    // REQ-173 (PO, 6 nov 2026): description SEO de /destinos.
+    expect(destinosPage(tree, site).meta.description).toMatch(/^Free tours, experiencias y traslados en /);
     expect(countryPage(tree[0], site).meta.title).toBe("México | Travel Puzzle");
     expect(cityPage(cdmx.country, cdmx.city, site).meta.title).toBe("Free tours en Ciudad de México: tú decides cuánto vale | Travel Puzzle");
     expect(cityPage(cdmx.country, cdmx.city, site).h1).toBe("Ciudad de México");
@@ -82,7 +86,7 @@ describe("REQ-100: JSON-LD y migas", () => {
 
   it("REQ-100: ciudad = TouristDestination (ISO-2) + BreadcrumbList + FAQPage con 3 a 5 preguntas", () => {
     const p = cityPage(cdmx.country, cdmx.city, site);
-    expect(types(p.jsonLd)).toEqual(["TouristDestination", "BreadcrumbList", "FAQPage"]);
+    expect(types(p.jsonLd)).toEqual(["TouristDestination", "BreadcrumbList", "FAQPage", "ItemList"]); // REQ-582
     expect((p.jsonLd[0] as { address: { addressCountry: string } }).address.addressCountry).toBe("MX");
     expect(p.faq.length).toBeGreaterThanOrEqual(3);
     expect(p.faq.length).toBeLessThanOrEqual(5);
@@ -90,14 +94,14 @@ describe("REQ-100: JSON-LD y migas", () => {
   });
 
   it("REQ-100: país = TouristDestination + BreadcrumbList; hubs = BreadcrumbList", () => {
-    expect(types(countryPage(tree[0], site).jsonLd)).toEqual(["TouristDestination", "BreadcrumbList"]);
-    expect(types(destinosPage(tree, site).jsonLd)).toEqual(["BreadcrumbList"]);
-    expect(types(primeraPiezaPage(tree, site).jsonLd)).toEqual(["BreadcrumbList"]);
+    expect(types(countryPage(tree[0], site).jsonLd)).toEqual(["TouristDestination", "BreadcrumbList", "ItemList"]); // REQ-582
+    expect(types(destinosPage(tree, site).jsonLd)).toEqual(["BreadcrumbList", "ItemList"]);
+    expect(types(primeraPiezaPage(tree, site).jsonLd)).toEqual(["BreadcrumbList", "ItemList"]);
   });
 
-  it("REQ-100: ficha = Product + Offer en EUR (0 en free tour) + BreadcrumbList con URLs absolutas", () => {
+  it("REQ-100 / REQ-571: ficha = Product+TouristTrip + Offer en la moneda del tour (0 en free tour) + BreadcrumbList con URLs absolutas", () => {
     const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
-    expect(types(p.jsonLd)).toEqual(["Product", "BreadcrumbList"]);
+    expect(types(p.jsonLd)).toEqual([["Product", "TouristTrip"], "BreadcrumbList"]);
     expect((p.jsonLd[0] as { offers: { price: number; priceCurrency: string } }).offers).toMatchObject({ price: 0, priceCurrency: "EUR" });
     const crumbs = (p.jsonLd[1] as { itemListElement: { item: string }[] }).itemListElement;
     expect(crumbs.at(-1)!.item).toBe(`${site}/destinos/mx/ciudad-de-mexico/${cdmx.city.freeTours[0].href.split("/").pop()}`);
@@ -105,6 +109,19 @@ describe("REQ-100: JSON-LD y migas", () => {
 
   it("REQ-100: las respuestas del FAQ no mencionan a FREETOUR", () => {
     for (const { q, a } of cityPage(cdmx.country, cdmx.city, site).faq) expect(`${q} ${a}`).not.toMatch(/freetour/i);
+  });
+});
+
+describe("REQ-582: ItemList en los hubs con las URLs de las tarjetas", () => {
+  const list = (ld: unknown[]) => ld.find((x) => (x as { "@type": string })["@type"] === "ItemList") as { itemListElement: { url: string; name: string }[] };
+  it("REQ-582: la ciudad lista sus experiencias con la URL de la tarjeta (absoluta)", () => {
+    const urls = list(cityPage(cdmx.country, cdmx.city, site).jsonLd).itemListElement.map((i) => i.url);
+    expect(urls).toEqual([...cdmx.city.freeTours, ...cdmx.city.paidTours].map((t) => `${site}${t.href}`));
+  });
+  it("REQ-582: el país lista sus ciudades; /destinos sus países; La Primera Pieza sus free tours", () => {
+    expect(list(countryPage(tree[0], site).jsonLd).itemListElement.map((i) => i.name)).toEqual(tree[0].cities.map((c) => c.name));
+    expect(list(destinosPage(tree, site).jsonLd).itemListElement[0].url).toBe(`${site}/destinos/mx`);
+    expect(list(primeraPiezaPage(tree, site).jsonLd).itemListElement.every((i) => i.url.startsWith(`${site}/destinos/`))).toBe(true);
   });
 });
 
@@ -152,6 +169,47 @@ describe("REQ-094/095/097/098: ficha", () => {
   });
 });
 
+describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la ficha de tour", () => {
+  const detail = { providerId: "freetour", guideLanguages: '["en","sp"]', departureDates: ["2026-11-09"], departuresSyncedAt: "2026-11-05T03:00:00Z", meetingPoint: { title: "Zócalo, frente a la Catedral", lat: 19.4326, lng: -99.1332 } };
+  const ld = (p: ReturnType<typeof tourPage>) => p.jsonLd[0] as Record<string, unknown>;
+  it("REQ-571: moneda real del tour (no fija en EUR) y availability con salida futura", () => {
+    const paid = { ...cdmx.city.paidTours[0], currency: "USD" };
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail, today: "2026-11-06" });
+    expect(ld(p).offers).toMatchObject({ price: 25, priceCurrency: "USD", availability: "https://schema.org/InStock" });
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail: { ...detail, departureDates: [] }, today: "2026-11-06" }).jsonLd[0]).not.toHaveProperty("offers.availability");
+    // Resumen de salidas viejo (o sin fecha de sync): no se afirma disponibilidad.
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail: { ...detail, departuresSyncedAt: "2026-09-01T00:00:00Z" }, today: "2026-11-06" }).jsonLd[0]).not.toHaveProperty("offers.availability");
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: paid, siteUrl: site, lang: "es", detail: { ...detail, departuresSyncedAt: null }, today: "2026-11-06" }).jsonLd[0]).not.toHaveProperty("offers.availability");
+  });
+  it("REQ-572 / REQ-574: operador real y sin AggregateRating del proveedor aunque tenga reseñas", () => {
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es", detail });
+    expect(ld(p).provider).toEqual({ "@type": "Organization", name: "Guía Ana" });
+    expect(cdmx.city.freeTours[0].reviews).toBeGreaterThan(0);
+    expect(ld(p).aggregateRating).toBeUndefined();
+    const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], provider: "Don freetour" }, siteUrl: site, lang: "es", detail });
+    expect(JSON.stringify(ft.jsonLd).toLowerCase()).not.toContain("freetour");
+  });
+  it("REQ-573 / REQ-578: duración «2 h 30 min», idioma del guía y punto de encuentro, calculados en el servidor", () => {
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], duration: "2:30" }, siteUrl: site, lang: "es", detail });
+    expect(p.facts).toEqual({ duration: "2 h 30 min", guideLanguages: "Inglés, Español" });
+    expect(ld(p).additionalProperty).toEqual([
+      { "@type": "PropertyValue", name: "Duración", value: "2 h 30 min" },
+      { "@type": "PropertyValue", name: "Idiomas del guía", value: "Inglés, Español" },
+    ]);
+    expect(ld(p).tripOrigin).toMatchObject({ "@type": "Place", name: "Zócalo, frente a la Catedral" });
+  });
+  it("REQ-570: FREETOUR no lleva «En breve», descripción, tipo ni keywords; un proveedor nuevo sí", () => {
+    const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es", detail });
+    expect(ft.enBreve).toBeNull();
+    expect(ld(ft).keywords).toBeUndefined();
+    const sinDetalle = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
+    expect(sinDetalle.enBreve).toBeNull(); // sin proveedor conocido se asume el más restrictivo
+    const otro = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.paidTours[0], siteUrl: site, lang: "es", detail: { ...detail, providerId: "bemyguest" } });
+    expect(otro.enBreve).toMatch(/^.+ en Ciudad de México, México\./);
+    expect(otro.enrichment).toBe(true);
+  });
+});
+
 describe("REQ-088: traslados en la ciudad desde el registro de complementos", () => {
   const groups = [{ group: "transporte", title: "Transporte", cards: [
     { id: "kiwitaxi", title: "Traslado", description: "d", chargedByLabel: "Lo reservas con Kiwitaxi", price: null, cta: { kind: "widget" as const, label: "Buscar traslado" as const }, cities: [] },
@@ -177,7 +235,7 @@ describe("REQ-092: página 410 (con el header del sitio)", () => {
     expect(goneViewFromPlace(removed)).toEqual({ title: "Tour viejo", cityName: "Ciudad de México", cityHref: "/destinos/mx/ciudad-de-mexico" });
   });
   it("REQ-092: sin tour, o si el tour sigue activo, se usa el texto fijo (nunca un parámetro)", () => {
-    const fixed = { title: "Este tour", cityName: "otros destinos", cityHref: "/destinos" };
+    const fixed = { title: "Esta experiencia", cityName: "otros destinos", cityHref: "/destinos" };
     expect(goneViewFromPlace(null)).toEqual(fixed);
     expect(goneViewFromPlace({ ...removed, status: "active" })).toEqual(fixed);
     expect(goneViewFromPlace({ ...removed, status: "missing" })).toEqual(fixed);
@@ -185,7 +243,7 @@ describe("REQ-092: página 410 (con el header del sitio)", () => {
   it("REQ-092: si la ciudad ya no tiene tours o no tiene slug, enlaza a /destinos; título vacío o largo con respaldo", () => {
     expect(goneViewFromPlace({ ...removed, cityLive: false })).toMatchObject({ cityName: "otros destinos", cityHref: "/destinos" });
     expect(goneViewFromPlace({ ...removed, citySlug: null })).toMatchObject({ cityHref: "/destinos" });
-    expect(goneViewFromPlace({ ...removed, title: "  " }).title).toBe("Este tour");
+    expect(goneViewFromPlace({ ...removed, title: "  " }).title).toBe("Esta experiencia");
     expect(goneViewFromPlace({ ...removed, title: "x".repeat(500) }).title).toHaveLength(160);
   });
 });
@@ -199,5 +257,35 @@ describe("REQ-102: sitemaps desde el árbol", () => {
     expect(files["sitemap-destinos.xml"]).not.toContain("/destinos/mx/oaxaca<");
     expect(files["sitemap-tours-mx.xml"]).not.toContain("/oaxaca/");
     expect(files["sitemap-tours-mx.xml"]).toContain("<lastmod>2026-11-02</lastmod>");
+  });
+});
+
+describe("T5 ficha con etiquetas y copy por formato (TAXONOMY_LABELS_ENABLED)", () => {
+  const tax = catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS);
+  const t5 = [
+    tour(10, 1, { title: "Audioguía del Centro", price: 9, categoryId: 17, provider: "Audio MX" }),
+    tour(10, 1, { title: "Excursión a Teotihuacán", price: 60, categoryId: 4, provider: "Guía Luis" }),
+    tour(10, 1, { title: "Free tour Zócalo", price: 0, categoryId: 12, provider: "Guía Ana" }),
+  ];
+  const hit = findCity(destinationTree({ ...fx, tours: t5, trips: [], now, taxonomy: tax }), "mx", "ciudad-de-mexico")!;
+  const page = (title: string, labels = true) => {
+    const t = [...hit.city.freeTours, ...hit.city.paidTours].find((x) => x.title === title)!;
+    return tourPage({ country: hit.country, city: hit.city, tour: t, siteUrl: site, lang: "es", labels });
+  };
+  it("REQ-415 / REQ-416 audioguía: etiqueta de formato, sin «guía local» en «operado por» ni en la descripción", () => {
+    const p = page("Audioguía del Centro");
+    expect(p.labels).toEqual(["Autoguiado (audioguía)"]);
+    expect(p.operatedBy).toBe("Operado por Audio MX");
+    expect(p.meta.description).not.toMatch(/guía local/);
+  });
+  it("G-T9 excursión: title «– Excursión desde {Ciudad}»; el H1 sigue siendo el título real (REQ-415)", () => {
+    const p = page("Excursión a Teotihuacán");
+    expect(p.meta.title).toMatch(/^Excursión a Teotihuacán – Excursión desde Ciudad de México \| /);
+    expect(p.heading.h1).toBe("Excursión a Teotihuacán");
+  });
+  it("REQ-415 con la bandera apagada la ficha es la de hoy (sin etiquetas, copy de siempre)", () => {
+    const p = page("Audioguía del Centro", false);
+    expect(p.labels).toEqual([]);
+    expect(p.operatedBy).toBe("Operado por un guía local · Audio MX");
   });
 });

@@ -1,0 +1,1748 @@
+{
+  "version": "2026-11-06",
+  "fuente": "docs/taxonomia-diccionario.csv y docs/plan-taxonomia.md (PR #143), decisiones del PO del 6-11-2026",
+  "raiz": {
+    "slug": "experiencias",
+    "termino_es": "Experiencias",
+    "termino_en": "Experiences",
+    "nota": "Paraguas del eje Formato y etiqueta del menú (gate G1 firmado)."
+  },
+  "terminos": [
+    {
+      "slug": "fuera",
+      "eje": "formato",
+      "termino_es": "(no se muestra)",
+      "termino_en": "Not an on-site experience",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "oculto",
+      "precedencia": 0,
+      "seccion": "ninguna",
+      "guiaEnPersona": false,
+      "nota": "FREETOUR 8 (online) y 31 (servicios de viaje). No cuenta para indexar una ciudad."
+    },
+    {
+      "slug": "traslado",
+      "eje": "formato",
+      "termino_es": "Traslado",
+      "termino_en": "Transfer",
+      "definicion_es": "Te llevan del aeropuerto, la estación o el puerto a tu hotel.",
+      "sinonimos": [
+        "traslado",
+        "transfer",
+        "aeropuerto",
+        "shuttle",
+        "taxi"
+      ],
+      "estado": "activo",
+      "precedencia": 1,
+      "seccion": "traslados",
+      "guiaEnPersona": false,
+      "palabras": [
+        "airport transfer",
+        "traslado",
+        "transfer ",
+        "shuttle"
+      ],
+      "palabrasNoEnTitulo": [
+        "tour*"
+      ],
+      "nota": "Vive en /traslados, fuera de Experiencias (firmado 6-11)."
+    },
+    {
+      "slug": "transporte",
+      "eje": "formato",
+      "termino_es": "Transporte turístico",
+      "termino_en": "Hop-on hop-off & transport",
+      "definicion_es": "Bus turístico o transporte para moverte por la ciudad; subes y bajas cuando quieras.",
+      "sinonimos": [
+        "hop on hop off",
+        "bus turístico",
+        "big bus",
+        "transporte"
+      ],
+      "estado": "activo",
+      "precedencia": 2,
+      "seccion": "traslados",
+      "guiaEnPersona": false,
+      "palabras": [
+        "hop[- ]on",
+        "hop on hop off",
+        "bus turistico"
+      ],
+      "nota": "TRANSPORT_ENABLED=true desde #127; vive en /traslados, fuera de Experiencias (REQ-172; firmado 6-11)."
+    },
+    {
+      "slug": "alquiler",
+      "eje": "formato",
+      "termino_es": "Renta",
+      "termino_en": "Rentals",
+      "definicion_es": "Renta de bici, moto o auto.",
+      "sinonimos": [
+        "renta",
+        "alquiler",
+        "rent a car",
+        "bike rental"
+      ],
+      "estado": "tras_bandera",
+      "precedencia": 3,
+      "seccion": "traslados",
+      "guiaEnPersona": false,
+      "nota": "0 tours hoy. Término mexicano «renta» (pedido del PO, punto 4)."
+    },
+    {
+      "slug": "entradas",
+      "eje": "formato",
+      "termino_es": "Boletos y entradas",
+      "termino_en": "Tickets & passes",
+      "definicion_es": "Boleto o pase para entrar a una atracción, un museo o varias atracciones.",
+      "sinonimos": [
+        "entradas",
+        "boletos",
+        "tickets",
+        "sin colas",
+        "skip the line",
+        "city pass",
+        "pase",
+        "entradas y pases",
+        "boletos de entrada"
+      ],
+      "estado": "activo",
+      "precedencia": 4,
+      "seccion": "experiencias",
+      "guiaEnPersona": false,
+      "palabras": [
+        "skip[- ]the[- ]line",
+        "entrada",
+        "ticket",
+        "admission",
+        "sin colas",
+        "pass "
+      ],
+      "nota": "Término mexicano «boletos y entradas» (pedido del PO, punto 4); «Entradas y pases» queda como sinónimo. REQ-540 (PO 6-11 21:14): con guía en el título o el resumen es visita guiada con el atributo entrada-incluida; boletos solo sin guía.",
+      "palabrasConGuia": [
+        "guiad*",
+        "guide*",
+        "guia",
+        "tour",
+        "recorrido*",
+        "visita guiada"
+      ]
+    },
+    {
+      "slug": "autoguiado",
+      "eje": "formato",
+      "termino_es": "Autoguiado (audioguía)",
+      "termino_en": "Self-guided / audio guide",
+      "definicion_es": "Recorres a tu ritmo con una audioguía o una app; no hay guía en persona.",
+      "sinonimos": [
+        "audioguía",
+        "audio guide",
+        "autoguiado",
+        "self-guided"
+      ],
+      "estado": "activo",
+      "precedencia": 5,
+      "seccion": "experiencias",
+      "guiaEnPersona": false,
+      "palabras": [
+        "autoguiad*",
+        "self-guided",
+        "self guided",
+        "audioguia*",
+        "audio guide*",
+        "audio-guide*",
+        "auto[- ]guiad*",
+        "por tu cuenta",
+        "app audioguia*",
+        "audio guided"
+      ],
+      "nota": "Copy sin «con un guía local» (REQ-416, REQ-433)."
+    },
+    {
+      "slug": "pieza-libre",
+      "eje": "formato",
+      "termino_es": "Pieza libre",
+      "termino_en": "Free tour",
+      "definicion_es": "Recorrido con guía local en el que reservar es gratis; al final le das al guía lo que consideres justo. Si el grupo es grande, el proveedor puede aplicar una tarifa fija y te avisamos antes de reservar.",
+      "sinonimos": [
+        "free tour",
+        "tour gratis",
+        "tour gratuito",
+        "free walking tour",
+        "visita gratuita",
+        "tour a propina",
+        "tip tour",
+        "la primera pieza"
+      ],
+      "estado": "activo",
+      "precedencia": 6,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "coleccion_es": "La Primera Pieza",
+      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4). Etiqueta pública «Pieza libre» (PO 6-11 10:43, REQ-269); EN «Free tour» por ahora, propuesta «Free piece» para firma; «free tour» y «tour gratis» quedan como sinónimos de búsqueda."
+    },
+    {
+      "slug": "circuito",
+      "eje": "formato",
+      "termino_es": "Circuito (varios días)",
+      "termino_en": "Multi-day tour",
+      "definicion_es": "Viaje de varios días con itinerario y noches incluidas.",
+      "sinonimos": [
+        "circuito",
+        "paquete",
+        "viaje de varios días",
+        "multi-day",
+        "tour de x días"
+      ],
+      "estado": "activo",
+      "precedencia": 7,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "palabras": [
+        "\\d+ ?(dias|days|noches|nights)",
+        "multi-?day",
+        "overnight",
+        "pernocta",
+        "([2-9]|\\d\\d+)-day"
+      ]
+    },
+    {
+      "slug": "excursion-dia",
+      "eje": "formato",
+      "termino_es": "Excursión de un día",
+      "termino_en": "Day trip",
+      "definicion_es": "Sales de la ciudad y vuelves el mismo día.",
+      "sinonimos": [
+        "excursión",
+        "excursiones",
+        "day trip",
+        "full day",
+        "viaje de un día"
+      ],
+      "estado": "activo",
+      "precedencia": 8,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "palabras": [
+        "day trip",
+        "excursion*",
+        "desde ",
+        "from ",
+        "full day",
+        "dia completo"
+      ],
+      "palabrasEnResumen": [
+        "transporte (de )?(ida y vuelta )?desde",
+        "transporte ida y vuelta",
+        "sal(e|es|imos)? (de madrugada )?desde",
+        "sal de ",
+        "salida desde",
+        "day trip",
+        "excursion",
+        "round[- ]trip (transport )?from",
+        "full[- ]day (trip )?to ",
+        "dia completo",
+        "full[- ]day"
+      ],
+      "nota": "REQ-535 (auditoría 6-11): un viaje de un día también es excursión si el resumen dice que sale de la ciudad base (palabrasEnResumen). REQ-542 (PO 6-11 21:14): solo salidas desde la ciudad base; «día completo» dentro de la ciudad es tour con el atributo dia-completo. REQ-545: «excursiones en {ciudad}» no cuenta.",
+      "palabrasSinDuracion": [
+        "excursion de (un|1) dia",
+        "day trip"
+      ],
+      "palabrasNoEnTitulo": [
+        "excursiones en "
+      ],
+      "palabrasEnCiudad": [
+        "city tour",
+        "por la ciudad de ",
+        "visita a la ciudad",
+        "dia completo (en|por) (?!el |la |los |las )",
+        "full[- ]day (city )?tour (of|in) ",
+        "en un dia",
+        "in one day"
+      ],
+      "palabrasSaleSiempre": [
+        "desde ",
+        "from ",
+        "excursion de (un|1) dia (a|al) ",
+        "day trip to "
+      ]
+    },
+    {
+      "slug": "caminata",
+      "eje": "formato",
+      "termino_es": "Caminata (tour a pie)",
+      "termino_en": "Walking tour",
+      "definicion_es": "Recorrido guiado a pie con precio fijo.",
+      "sinonimos": [
+        "walking tour",
+        "tour a pie",
+        "recorrido a pie",
+        "paseo guiado",
+        "visita a pie"
+      ],
+      "estado": "activo",
+      "precedencia": 9,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "nota": "Gate G2 opción A: solo tours a pie de pago; los free tours a pie son Free tour. «Hikes» va al tema montana-senderismo."
+    },
+    {
+      "slug": "experiencia-unica",
+      "eje": "formato",
+      "termino_es": "Momentos de autor",
+      "termino_en": "Signature moments",
+      "definicion_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
+      "sinonimos": [
+        "momentos de autor",
+        "signature moments",
+        "experiencia única",
+        "experiencia",
+        "actividad",
+        "clase",
+        "taller",
+        "pub crawl",
+        "show"
+      ],
+      "estado": "activo",
+      "precedencia": 10,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "definicion_en": "Something to do, not just to see: workshops, classes, shows, adventure or nightlife.",
+      "termino_en_estado": "firmado",
+      "nombres": {
+        "pt": "Momentos de autor",
+        "de": "Signature-Momente",
+        "fr": "Moments signature",
+        "it": "Momenti d'autore"
+      },
+      "apoyo_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
+      "apoyo_estado": "firmado",
+      "palabras": [
+        "class",
+        "classes",
+        "clase",
+        "clases",
+        "taller",
+        "workshop",
+        "cooking",
+        "cocina",
+        "cata",
+        "catas",
+        "espectaculo*",
+        "show",
+        "shows",
+        "masterclass",
+        "clase magistral",
+        "cabaret",
+        "cena[- ]espectaculo"
+      ],
+      "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto). REQ-541 (PO 6-11 21:14): solo talleres, clases, catas sentadas y espectáculos; un recorrido con degustación es caminata o tour con tema gastronomía.",
+      "palabrasRecorrido": [
+        "ruta de (tapas|bares|vinos?|cata|sabores|comida)",
+        "ruta gastronomica",
+        "recorrido*",
+        "walking",
+        "walk",
+        "paseo",
+        "a pie",
+        "food tour",
+        "street food",
+        "tour gastronomico"
+      ],
+      "palabrasFuertes": [
+        "clase*",
+        "taller*",
+        "masterclass",
+        "workshop",
+        "cooking class",
+        "espectaculo*",
+        "show",
+        "cabaret"
+      ]
+    },
+    {
+      "slug": "tour",
+      "eje": "formato",
+      "termino_es": "Tour",
+      "termino_en": "Guided tour",
+      "definicion_es": "Visita guiada con precio, en vehículo, bici, barco o mixta, que dura menos de un día.",
+      "sinonimos": [
+        "tour",
+        "visita guiada",
+        "city tour",
+        "recorrido"
+      ],
+      "estado": "activo",
+      "precedencia": 11,
+      "seccion": "experiencias",
+      "guiaEnPersona": true
+    },
+    {
+      "slug": "a-la-medida",
+      "eje": "formato",
+      "termino_es": "Viaje a la medida",
+      "termino_en": "Tailor-made trip",
+      "definicion_es": "Lo armamos contigo; tu asesor te cotiza.",
+      "sinonimos": [
+        "a la medida",
+        "personalizado",
+        "cotizar"
+      ],
+      "estado": "activo",
+      "precedencia": 12,
+      "seccion": "experiencias",
+      "guiaEnPersona": true
+    },
+    {
+      "slug": "crucero",
+      "eje": "formato",
+      "termino_es": "Crucero",
+      "termino_en": "Cruise",
+      "definicion_es": "Crucero de varios días.",
+      "sinonimos": [
+        "crucero",
+        "cruise"
+      ],
+      "estado": "tras_bandera",
+      "precedencia": null,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "nota": "Sin regla ni inventario: ningún producto lo recibe hasta que un proveedor lo mapee."
+    },
+    {
+      "slug": "por-revisar",
+      "eje": "formato",
+      "termino_es": "(categoría sin mapear)",
+      "termino_en": "Unmapped",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "oculto",
+      "precedencia": null,
+      "seccion": "ninguna",
+      "guiaEnPersona": false,
+      "nota": "categoryId nuevo o histórico (1, 2, 6, 9): no se publica en ningún lado (gate G-T10 A) y se registra en el log del sync."
+    },
+    {
+      "slug": "gastronomia",
+      "eje": "tema",
+      "termino_es": "Gastronomía",
+      "termino_en": "Food & drink",
+      "definicion_es": "Comida, bebida, mercados y catas.",
+      "sinonimos": [
+        "gastronomía",
+        "food tour",
+        "tapas",
+        "cata de vinos",
+        "cerveza",
+        "comida callejera",
+        "experiencias gastronómicas"
+      ],
+      "estado": "muestra",
+      "prioridad": 1,
+      "chip": true,
+      "palabras": [
+        "food",
+        "gastronom*",
+        "tapas",
+        "wine",
+        "vino",
+        "cerveza",
+        "beer",
+        "cata",
+        "tasting",
+        "street food",
+        "comida",
+        "cocina",
+        "cooking",
+        "chocolate",
+        "coffee",
+        "cafe ",
+        "mercado",
+        "market",
+        "degustacion*",
+        "food tour"
+      ]
+    },
+    {
+      "slug": "naturaleza",
+      "eje": "tema",
+      "termino_es": "Naturaleza",
+      "termino_en": "Nature",
+      "definicion_es": "Parques, lagos, selva, fauna y paisajes.",
+      "sinonimos": [
+        "naturaleza",
+        "ecoturismo",
+        "avistamiento de aves",
+        "birdwatching",
+        "safari",
+        "parque nacional"
+      ],
+      "estado": "muestra",
+      "prioridad": 2,
+      "chip": true,
+      "palabras": [
+        "nature",
+        "naturaleza",
+        "park",
+        "parque natural",
+        "national park",
+        "parque nacional",
+        "lago",
+        "lake",
+        "cascada",
+        "waterfall",
+        "selva",
+        "jungle",
+        "bosque",
+        "forest",
+        "volcan",
+        "glaciar",
+        "glacier",
+        "safari",
+        "wildlife",
+        "fauna",
+        "birdwatch*",
+        "aves",
+        "jardin",
+        "garden",
+        "ecotur*",
+        "ecolog*"
+      ]
+    },
+    {
+      "slug": "montana-senderismo",
+      "eje": "tema",
+      "termino_es": "Montaña y senderismo",
+      "termino_en": "Mountains & hiking",
+      "definicion_es": "Caminatas en naturaleza, rutas y montaña.",
+      "sinonimos": [
+        "senderismo",
+        "trekking",
+        "trekks",
+        "hikes",
+        "caminata en montaña",
+        "trail"
+      ],
+      "estado": "muestra",
+      "prioridad": 3,
+      "chip": true,
+      "palabras": [
+        "hik*",
+        "trek*",
+        "senderismo",
+        "caminata por",
+        "montana",
+        "mountain",
+        "sierra",
+        "cumbre",
+        "summit",
+        "trail",
+        "sendero"
+      ]
+    },
+    {
+      "slug": "aventura",
+      "eje": "tema",
+      "termino_es": "Aventura",
+      "termino_en": "Adventure",
+      "definicion_es": "Actividades con adrenalina: kayak, rafting, tirolesa, escalada, cuevas.",
+      "sinonimos": [
+        "aventura",
+        "escalada",
+        "escalada en roca",
+        "rappel",
+        "espeleísmo",
+        "rafting",
+        "tirolesa",
+        "aventura extrema"
+      ],
+      "estado": "muestra",
+      "prioridad": 4,
+      "chip": true,
+      "palabras": [
+        "adventure*",
+        "aventura",
+        "kayak",
+        "rafting",
+        "zipline",
+        "tirolesa",
+        "canopy",
+        "climb*",
+        "escalada",
+        "cave",
+        "cueva",
+        "espele*",
+        "paraglid*",
+        "parapente",
+        "quad",
+        "atv",
+        "buggy",
+        "bungee",
+        "sandboard",
+        "canyon",
+        "barranquismo",
+        "jeep"
+      ],
+      "excluir": [
+        "casa cueva"
+      ]
+    },
+    {
+      "slug": "playa-mar",
+      "eje": "tema",
+      "termino_es": "Playa y mar",
+      "termino_en": "Beach & sea",
+      "definicion_es": "Playas, islas, barcos, snorkel y buceo.",
+      "sinonimos": [
+        "playa",
+        "buceo",
+        "snorkel",
+        "paseo en barco",
+        "islas",
+        "catamarán"
+      ],
+      "estado": "muestra",
+      "prioridad": 5,
+      "chip": true,
+      "palabras": [
+        "beach",
+        "playa",
+        "snorkel*",
+        "diving*",
+        "buceo",
+        "boat",
+        "barco",
+        "cruise",
+        "crucero",
+        "sail*",
+        "velero",
+        "catamaran",
+        "isla",
+        "island",
+        "surf"
+      ]
+    },
+    {
+      "slug": "cultural",
+      "eje": "tema",
+      "termino_es": "Cultural e historia",
+      "termino_en": "Culture & history",
+      "definicion_es": "Historia, arte, arquitectura, museos, leyendas y patrimonio.",
+      "sinonimos": [
+        "cultural",
+        "historia",
+        "museos",
+        "arte",
+        "patrimonio",
+        "leyendas",
+        "misterio"
+      ],
+      "estado": "muestra",
+      "prioridad": 6,
+      "chip": true,
+      "palabras": [
+        "histor*",
+        "museo",
+        "museum",
+        "art",
+        "arte",
+        "arquitect*",
+        "architect*",
+        "patrimonio",
+        "heritage",
+        "castle",
+        "castillo",
+        "palace",
+        "palacio",
+        "ruinas",
+        "ruins",
+        "medieval",
+        "jewish",
+        "judio",
+        "communis*",
+        "guerra",
+        "war",
+        "gaudi",
+        "cathedral",
+        "catedral",
+        "old town",
+        "casco antiguo",
+        "ciudad vieja",
+        "unesco",
+        "legend*",
+        "leyenda",
+        "mister*",
+        "myster*",
+        "ghost",
+        "fantasma"
+      ]
+    },
+    {
+      "slug": "religioso",
+      "eje": "tema",
+      "termino_es": "Religioso y espiritual",
+      "termino_en": "Religious & spiritual",
+      "definicion_es": "Templos, iglesias, santuarios y rutas de peregrinación.",
+      "sinonimos": [
+        "religioso",
+        "peregrinación",
+        "templos",
+        "iglesias",
+        "espiritual"
+      ],
+      "estado": "muestra",
+      "prioridad": 7,
+      "chip": true,
+      "palabras": [
+        "church",
+        "iglesia",
+        "temple",
+        "templo",
+        "monaster*",
+        "mosque",
+        "mezquita",
+        "sinagoga",
+        "synagogue",
+        "pilgrim*",
+        "peregrin*",
+        "santuario",
+        "shrine",
+        "vatican",
+        "basilica",
+        "religio*",
+        "sacred",
+        "sagrad*",
+        "espiritual*"
+      ]
+    },
+    {
+      "slug": "urbano",
+      "eje": "tema",
+      "termino_es": "Ciudad y barrios",
+      "termino_en": "City & neighbourhoods",
+      "definicion_es": "Para conocer una ciudad, sus barrios y lo imprescindible.",
+      "sinonimos": [
+        "city tour",
+        "barrios",
+        "centro histórico",
+        "imprescindibles",
+        "street art"
+      ],
+      "estado": "muestra",
+      "prioridad": 8,
+      "chip": false,
+      "palabras": [
+        "city",
+        "ciudad",
+        "barrio",
+        "neighbo*",
+        "street art*",
+        "arte urbano*",
+        "graffiti*",
+        "downtown",
+        "centro",
+        "highlights*",
+        "imprescindible*",
+        "esencial*"
+      ],
+      "nota": "Base, no filtro: marca ~70 % del catálogo (REQ-411). Sale como etiqueta y para búsqueda."
+    },
+    {
+      "slug": "noche-espectaculos",
+      "eje": "tema",
+      "termino_es": "Noche y espectáculos",
+      "termino_en": "Nightlife & shows",
+      "definicion_es": "Tours nocturnos, bares y espectáculos en vivo.",
+      "sinonimos": [
+        "tour nocturno",
+        "vida nocturna",
+        "pub crawl",
+        "flamenco",
+        "tango",
+        "espectáculo"
+      ],
+      "estado": "muestra",
+      "prioridad": 9,
+      "chip": true,
+      "palabras": [
+        "night",
+        "noche",
+        "nocturn*",
+        "pub crawl",
+        "bar ",
+        "bares",
+        "tango",
+        "flamenco",
+        "show",
+        "espectaculo",
+        "concert",
+        "concierto"
+      ]
+    },
+    {
+      "slug": "bienestar",
+      "eje": "tema",
+      "termino_es": "Bienestar",
+      "termino_en": "Wellness",
+      "definicion_es": "Spa, termas, yoga, masajes y temazcal.",
+      "sinonimos": [
+        "bienestar",
+        "spa",
+        "yoga",
+        "aguas termales",
+        "relax"
+      ],
+      "estado": "muestra",
+      "prioridad": 10,
+      "chip": true,
+      "palabras": [
+        "wellness",
+        "bienestar",
+        "spa",
+        "yoga",
+        "termal*",
+        "hot spring",
+        "massage",
+        "masaje",
+        "meditac*",
+        "temazcal",
+        "relax"
+      ]
+    },
+    {
+      "slug": "talleres-aprendizaje",
+      "eje": "tema",
+      "termino_es": "Talleres y aprendizaje",
+      "termino_en": "Classes & workshops",
+      "definicion_es": "Clases y talleres para aprender algo del lugar.",
+      "sinonimos": [
+        "taller",
+        "clase de cocina",
+        "workshop",
+        "curso"
+      ],
+      "estado": "muestra",
+      "prioridad": 11,
+      "chip": true,
+      "palabras": [
+        "workshop",
+        "taller",
+        "class",
+        "classes",
+        "clase",
+        "clases",
+        "lesson",
+        "leccion",
+        "curso"
+      ]
+    },
+    {
+      "slug": "deportivo",
+      "eje": "tema",
+      "termino_es": "Deportes",
+      "termino_en": "Sports",
+      "definicion_es": "Deporte, estadios, running, bici y motor.",
+      "sinonimos": [
+        "deportes",
+        "estadio",
+        "running tour",
+        "bici",
+        "golf"
+      ],
+      "estado": "muestra",
+      "prioridad": 12,
+      "chip": true,
+      "palabras": [
+        "stadium",
+        "estadio",
+        "football",
+        "futbol",
+        "soccer",
+        "running",
+        "bike",
+        "bici",
+        "cycling*",
+        "golf",
+        "ski",
+        "esqui",
+        "f1",
+        "sport*",
+        "deport*"
+      ]
+    },
+    {
+      "slug": "parques-ocio",
+      "eje": "tema",
+      "termino_es": "Parques y ocio",
+      "termino_en": "Theme parks & leisure",
+      "definicion_es": "Parques temáticos, zoológicos, acuarios y juegos.",
+      "sinonimos": [
+        "parques temáticos",
+        "zoológico",
+        "acuario",
+        "escape room"
+      ],
+      "estado": "muestra",
+      "prioridad": 13,
+      "chip": true,
+      "palabras": [
+        "theme park",
+        "parque tematico",
+        "zoo",
+        "aquarium",
+        "acuario",
+        "escape room",
+        "game",
+        "juego",
+        "disney",
+        "universal studios"
+      ],
+      "excluir": [
+        "game of thrones",
+        "juego de tronos"
+      ]
+    },
+    {
+      "slug": "privado",
+      "eje": "atributo",
+      "termino_es": "Privado",
+      "termino_en": "Private",
+      "definicion_es": "Solo tu grupo y el guía.",
+      "sinonimos": [],
+      "estado": "activo",
+      "palabras": [
+        "private",
+        "privad*"
+      ]
+    },
+    {
+      "slug": "nocturno",
+      "eje": "atributo",
+      "termino_es": "Nocturno",
+      "termino_en": "At night",
+      "definicion_es": "Se realiza de noche.",
+      "sinonimos": [],
+      "estado": "activo",
+      "palabras": [
+        "night",
+        "nightlife",
+        "noche",
+        "nocturn*"
+      ]
+    },
+    {
+      "slug": "medio",
+      "eje": "atributo",
+      "termino_es": "Cómo te mueves",
+      "termino_en": "Getting around",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "valores": [
+        {
+          "slug": "bici",
+          "termino_es": "En bici",
+          "termino_en": "By bike",
+          "palabras": [
+            "bike",
+            "bici*",
+            "cycling*",
+            "e-bike",
+            "ecobike"
+          ]
+        },
+        {
+          "slug": "barco",
+          "termino_es": "En barco",
+          "termino_en": "By boat",
+          "palabras": [
+            "boat",
+            "barco",
+            "cruise",
+            "crucero",
+            "kayak",
+            "catamaran"
+          ]
+        },
+        {
+          "slug": "vehiculo",
+          "termino_es": "En vehículo",
+          "termino_en": "By vehicle",
+          "palabras": [
+            "bus",
+            "tuk",
+            "van",
+            "car ",
+            "coche",
+            "jeep",
+            "segway",
+            "scooter",
+            "vespa",
+            "tram",
+            "tranvia",
+            "moto*",
+            "teleferico",
+            "cable car",
+            "tren",
+            "train",
+            "carrito",
+            "carriage",
+            "carruaje",
+            "quad",
+            "4x4"
+          ]
+        },
+        {
+          "slug": "a-pie",
+          "termino_es": "A pie",
+          "termino_en": "On foot",
+          "palabras": [
+            "walk",
+            "walking",
+            "a pie",
+            "paseo",
+            "caminata"
+          ]
+        }
+      ],
+      "nota": "Un solo valor. Gana la palabra del título (bici, barco, vehículo, a pie); sin palabra, el de la categoría."
+    },
+    {
+      "slug": "idioma-es",
+      "eje": "atributo",
+      "termino_es": "En español",
+      "termino_en": "In Spanish",
+      "definicion_es": "Guía o audio en español.",
+      "sinonimos": [],
+      "estado": "activo",
+      "nota": "Solo si el evento o el viaje lo declaran; nunca como garantía fija."
+    },
+    {
+      "slug": "calificacion",
+      "eje": "atributo",
+      "termino_es": "Calificación",
+      "termino_en": "Rating",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "nota": "Solo reseñas reales (REQ-100)."
+    },
+    {
+      "slug": "favorito",
+      "eje": "atributo",
+      "termino_es": "Favorito de los viajeros",
+      "termino_en": "Travellers' favourite",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "nota": "Gate G-T1: criterio en src/taxonomy/lib/gates.ts."
+    },
+    {
+      "slug": "vuelo-incluido",
+      "eje": "atributo",
+      "termino_es": "Con vuelo",
+      "termino_en": "Flight included",
+      "definicion_es": "El precio incluye el vuelo.",
+      "sinonimos": [],
+      "estado": "activo"
+    },
+    {
+      "slug": "entrada-incluida",
+      "eje": "atributo",
+      "termino_es": "Entrada incluida",
+      "termino_en": "Admission included",
+      "definicion_es": "La visita guiada incluye el boleto de entrada a la atracción.",
+      "sinonimos": [
+        "entrada incluida",
+        "con entrada",
+        "boleto incluido",
+        "ticket included"
+      ],
+      "estado": "activo",
+      "palabras": [
+        "entrada*",
+        "ticket*",
+        "boleto*",
+        "admission",
+        "entrance"
+      ],
+      "nota": "REQ-540/543 (PO 6-11 21:14): solo en formatos con guía en persona; faceta del filtro «Tipo de experiencia»."
+    },
+    {
+      "slug": "dia-completo",
+      "eje": "atributo",
+      "termino_es": "Día completo",
+      "termino_en": "Full day",
+      "definicion_es": "Recorrido de un día entero sin salir de la ciudad.",
+      "sinonimos": [
+        "dia completo",
+        "full day",
+        "todo el dia",
+        "en un dia"
+      ],
+      "estado": "activo",
+      "palabras": [
+        "dia completo",
+        "full[- ]day",
+        "en un dia",
+        "en 1 dia",
+        "todo el dia",
+        "whole day",
+        "all day"
+      ],
+      "nota": "REQ-542/543 (PO 6-11 21:14): solo tour y caminata (≥ 6 h o la frase); faceta del filtro «Tipo de experiencia»."
+    },
+    {
+      "slug": "guiado",
+      "eje": "atributo",
+      "termino_es": "Con guía en persona",
+      "termino_en": "Guided",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "oculto",
+      "nota": "Interno: solo para el par excluyente guiado/autoguiado."
+    },
+    {
+      "slug": "autoguiado",
+      "eje": "atributo",
+      "termino_es": "A tu ritmo",
+      "termino_en": "Self-guided",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "oculto",
+      "nota": "Interno: par excluyente con guiado.",
+      "palabras": [
+        "autoguiad*",
+        "self-guided",
+        "self guided",
+        "audioguia*",
+        "audio guide*",
+        "audio-guide*"
+      ]
+    },
+    {
+      "slug": "franja-horaria",
+      "eje": "atributo",
+      "termino_es": "Mañana · tarde · noche",
+      "termino_en": "Time of day",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "grupo-pequeno",
+      "eje": "atributo",
+      "termino_es": "Grupo pequeño",
+      "termino_en": "Small group",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "familias",
+      "eje": "atributo",
+      "termino_es": "Familias",
+      "termino_en": "Family friendly",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "solo-adultos",
+      "eje": "atributo",
+      "termino_es": "Solo adultos",
+      "termino_en": "Adults only",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "parejas",
+      "eje": "atributo",
+      "termino_es": "Parejas",
+      "termino_en": "Romantic",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "accesible",
+      "eje": "atributo",
+      "termino_es": "Accesible",
+      "termino_en": "Accessible",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "sin-filas",
+      "eje": "atributo",
+      "termino_es": "Sin filas",
+      "termino_en": "Skip the line",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "apto-lluvia",
+      "eje": "atributo",
+      "termino_es": "Apto para lluvia",
+      "termino_en": "Indoor",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "cancelacion-gratis",
+      "eje": "atributo",
+      "termino_es": "Cancelación gratuita",
+      "termino_en": "Free cancellation",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "confirmacion-inmediata",
+      "eje": "atributo",
+      "termino_es": "Confirmación inmediata",
+      "termino_en": "Instant confirmation",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "sostenible",
+      "eje": "atributo",
+      "termino_es": "Sostenible",
+      "termino_en": "Sustainable",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "vip",
+      "eje": "atributo",
+      "termino_es": "VIP",
+      "termino_en": "VIP",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "dur-horas",
+      "eje": "faceta",
+      "termino_es": "Duración (horas)",
+      "termino_en": "Duration (hours)",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "nota": "<2 h · 2–4 h · 4–8 h · >8 h; REQ-056 sin cambio."
+    },
+    {
+      "slug": "precio",
+      "eje": "faceta",
+      "termino_es": "Precio",
+      "termino_en": "Price",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "nota": "Propina o rango en EUR con MXN aproximado (D4)."
+    },
+    {
+      "slug": "temporada",
+      "eje": "faceta",
+      "termino_es": "Temporada",
+      "termino_en": "Season",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera"
+    },
+    {
+      "slug": "eventos",
+      "eje": "faceta",
+      "termino_es": "Eventos especiales",
+      "termino_en": "Special events",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera"
+    },
+    {
+      "slug": "presupuesto",
+      "eje": "faceta",
+      "termino_es": "Presupuesto",
+      "termino_en": "Budget",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "descartado",
+      "nota": "Se funde en la faceta de confort de circuitos."
+    },
+    {
+      "slug": "modalidad",
+      "eje": "faceta",
+      "termino_es": "Modalidad",
+      "termino_en": "Travel style",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "descartado",
+      "nota": "Se divide en tipo de grupo, tipo de guía y perfil del viajero."
+    },
+    {
+      "slug": "circuito-grupo",
+      "eje": "faceta-circuito",
+      "termino_es": "Tipo de grupo",
+      "termino_en": "Group type",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "valores": [
+        {
+          "slug": "en-grupo",
+          "termino_es": "En grupo",
+          "termino_en": "Group"
+        },
+        {
+          "slug": "privado",
+          "termino_es": "Privado",
+          "termino_en": "Private"
+        },
+        {
+          "slug": "a-la-medida",
+          "termino_es": "A la medida",
+          "termino_en": "Tailor-made"
+        }
+      ]
+    },
+    {
+      "slug": "circuito-dificultad",
+      "eje": "faceta-circuito",
+      "termino_es": "Dificultad física",
+      "termino_en": "Physical rating",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "niveles": [
+        {
+          "nivel": 1,
+          "termino_es": "Relajado",
+          "termino_en": "Relaxed",
+          "definicion_es": "Casi sin caminar; apto para casi todos."
+        },
+        {
+          "nivel": 2,
+          "termino_es": "Ligero",
+          "termino_en": "Light",
+          "definicion_es": "Caminatas cortas en terreno plano."
+        },
+        {
+          "nivel": 3,
+          "termino_es": "Moderado",
+          "termino_en": "Moderate",
+          "definicion_es": "Varias horas a pie o algo de altura."
+        },
+        {
+          "nivel": 4,
+          "termino_es": "Exigente",
+          "termino_en": "Demanding",
+          "definicion_es": "Caminatas largas, desnivel o altura."
+        },
+        {
+          "nivel": 5,
+          "termino_es": "Muy exigente",
+          "termino_en": "Very demanding",
+          "definicion_es": "Trekking de varios días o gran altitud; requiere buena condición."
+        }
+      ],
+      "nota": "Escala propuesta en plan §7.2 G-T8 (por firmar). Sin dato no se muestra."
+    },
+    {
+      "slug": "dur-dias",
+      "eje": "faceta-circuito",
+      "termino_es": "Duración (días)",
+      "termino_en": "Duration (days)",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "activo",
+      "valores": [
+        {
+          "slug": "1-5",
+          "termino_es": "1 a 5 días",
+          "termino_en": "1–5 days",
+          "min": 1,
+          "max": 5
+        },
+        {
+          "slug": "6-9",
+          "termino_es": "6 a 9 días",
+          "termino_en": "6–9 days",
+          "min": 6,
+          "max": 9
+        },
+        {
+          "slug": "10-14",
+          "termino_es": "10 a 14 días",
+          "termino_en": "10–14 days",
+          "min": 10,
+          "max": 14
+        },
+        {
+          "slug": "15-mas",
+          "termino_es": "15 días o más",
+          "termino_en": "15+ days",
+          "min": 15,
+          "max": null
+        }
+      ]
+    },
+    {
+      "slug": "circuito-confort",
+      "eje": "faceta-circuito",
+      "termino_es": "Confort",
+      "termino_en": "Comfort level",
+      "definicion_es": "Nivel definido por lo que incluye (hotel, transporte, traslados).",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "circuito-guia",
+      "eje": "faceta-circuito",
+      "termino_es": "Tipo de guía",
+      "termino_en": "Guide type",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "circuito-perfil",
+      "eje": "faceta-circuito",
+      "termino_es": "Perfil del viajero",
+      "termino_en": "Traveller profile",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "circuito-altitud",
+      "eje": "faceta-circuito",
+      "termino_es": "Altitud",
+      "termino_en": "Altitude",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "extra": true
+    },
+    {
+      "slug": "region",
+      "eje": "entorno",
+      "termino_es": "Región",
+      "termino_en": "Region",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera"
+    },
+    {
+      "slug": "atraccion-icono",
+      "eje": "entorno",
+      "termino_es": "Atracción ícono",
+      "termino_en": "Landmark",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera"
+    },
+    {
+      "slug": "pueblos-magicos",
+      "eje": "entorno",
+      "termino_es": "Pueblos Mágicos",
+      "termino_en": "Pueblos Mágicos",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera"
+    },
+    {
+      "slug": "playa-islas",
+      "eje": "entorno",
+      "termino_es": "Playa e islas",
+      "termino_en": "Beach & islands",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "sinonimo_de": [
+        "playa-mar"
+      ]
+    },
+    {
+      "slug": "montana",
+      "eje": "entorno",
+      "termino_es": "Montaña",
+      "termino_en": "Mountains",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "sinonimo_de": [
+        "montana-senderismo"
+      ]
+    },
+    {
+      "slug": "grutas",
+      "eje": "entorno",
+      "termino_es": "Grutas",
+      "termino_en": "Caves",
+      "definicion_es": "",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "sinonimo_de": [
+        "aventura",
+        "naturaleza"
+      ]
+    }
+  ],
+  "legado": [
+    {
+      "termino": "Aventura",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "aventura"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Relax",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "bienestar"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Cultural",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "cultural"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Playa",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "playa-mar"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Naturaleza",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "naturaleza"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Urbano",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "urbano"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Montaña",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "montana-senderismo"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Educativo",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "talleres-aprendizaje"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Deportivo",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "deportivo"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Salud",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "bienestar"
+      ],
+      "nota": "Solo spa, termas y yoga; sin turismo médico (riesgo de promesa)."
+    },
+    {
+      "termino": "Parques Temáticos",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "parques-ocio"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Ecoturismo",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "naturaleza"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Ecoturismo-Cultural",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "naturaleza",
+        "cultural"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Senderismo",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "montana-senderismo"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Escalada en Roca",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "aventura"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Escalada",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "aventura"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Espeleísmo",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "aventura"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Avistamiento de Aves",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "naturaleza"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Hikes (caminatas)",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "montana-senderismo"
+      ],
+      "nota": "No es el formato caminata (gate G2)."
+    },
+    {
+      "termino": "Trekks (pistas)",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "montana-senderismo"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Buceo",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "playa-mar"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Trekking",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "montana-senderismo"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Experiencias Gastronómicas",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "gastronomia"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Religioso",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "religioso"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Temática",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "cultural",
+        "parques-ocio"
+      ],
+      "nota": "Leyendas en cultural, cine en parques-ocio."
+    },
+    {
+      "termino": "Bienestar",
+      "fuente": "taxonomia-2024",
+      "sinonimo_de": [
+        "bienestar"
+      ],
+      "nota": ""
+    },
+    {
+      "termino": "Idiomático",
+      "fuente": "categorias-2023",
+      "sinonimo_de": [],
+      "estado": "tras_bandera",
+      "nota": "Sin inventario."
+    },
+    {
+      "termino": "De temporada",
+      "fuente": "categorias-2023",
+      "sinonimo_de": [],
+      "estado": "tras_bandera",
+      "nota": "Ver faceta temporada."
+    },
+    {
+      "termino": "Estético",
+      "fuente": "categorias-2023",
+      "sinonimo_de": [],
+      "estado": "descartado",
+      "nota": "Riesgo de promesa médica."
+    }
+  ]
+}

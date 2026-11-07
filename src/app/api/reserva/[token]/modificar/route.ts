@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { editByToken, type EditResult } from '@/booking/edit';
 import { manageDeps } from '@/booking/manage-deps';
 import { sendStatusEmail } from '@/booking/notify';
+import { crossSellDepsFromEnv } from '@/notifications/cross-sell-deps';
 import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
 import { sendEmail } from '@/notifications/resend';
 import { isBookingsEnabled, paidInRecommendations } from '@/booking/lib/flags';
@@ -51,6 +52,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
                 freetourPostTourPromo: freetourPromoFlags(env as Record<string, string | undefined>).postTourPromo,
                 contact: contactFromEnv(env),
                 calendar: calendarFromEnv(env),
+                // REQ-264: venta cruzada sin FREETOUR, tras EMAIL_CROSS_SELL_ENABLED (apagada).
+                crossSell: crossSellDepsFromEnv(env),
                 send: (email) => sendEmail({ apiKey: env.RESEND_API_KEY ?? '', fetch }, { ...email, from: env.EMAIL_FROM ?? '', replyTo: env.EMAIL_REPLY_TO }),
             }),
     });

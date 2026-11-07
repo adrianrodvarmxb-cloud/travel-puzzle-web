@@ -60,7 +60,7 @@ function Steps({ language, languageDisplayName, languageFlag, date, time, eventI
         <>
             <div className="px-5 pt-4">
                 <BookingPass
-                    label="Fecha del tour"
+                    label="Fecha de la experiencia"
                     value={CalendarAvailabilityService.formatDateDisplay(date, uiLanguage)}
                     cells={[['Hora', time], ['Idioma', `${languageFlag} ${languageDisplayName}`], ['Quiénes', `${people} ${people === 1 ? 'persona' : 'personas'}`]]}
                 />

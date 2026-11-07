@@ -106,3 +106,46 @@ describe("Carrusel de acompañamiento", () => {
     expect(types(d)).toEqual(["tour"]);
   });
 });
+
+describe("Carrusel en celular (3 tarjetas)", () => {
+  const req = (type: CartItemType): CarouselCandidate => ({ type, title: `T ${type}`, chargedBy: "Travel Puzzle", action: { kind: "request", label: "Pedir a Travel Puzzle", adapterId: "bigbus", url: "https://wa.me/x" } });
+  const both = (o: Partial<CarouselContext>, candidates: CarouselCandidate[]) => buildCarousel({ candidates, context: ctx(o), device: "both", rules: DEFAULT_RULES, flags: {} });
+  const on = (cards: { type: string; mobile: boolean; desktop: boolean }[], k: "mobile" | "desktop") => cards.filter((c) => c[k]).map((c) => c.type);
+
+  it("REQ-184: una tarjeta con proveedor real (Big Bus en solicitud, Kiwitaxi) no queda oculta en celular por una que solo cotiza el asesor", () => {
+    const cards = both({ country: "GB", cityCode: "londres" }, [cand("tour", "whatsapp"), cand("transfer"), cand("esim", "whatsapp"), req("tickets")]);
+    expect(on(cards, "desktop")).toEqual(["tour", "transfer", "esim", "tickets"]);
+    expect(on(cards, "mobile")).toEqual(["tour", "transfer", "tickets"]);
+    expect(types(buildCarousel({ candidates: [cand("tour", "whatsapp"), cand("transfer"), cand("esim", "whatsapp"), req("tickets")], context: ctx({ country: "GB" }), device: "mobile", rules: DEFAULT_RULES, flags: {} })))
+      .toEqual(["tour", "transfer", "tickets"]);
+  });
+
+  it("REQ-184: la regla firmada del destino gana en celular (China: tour 1.º y eSIM 2.ª aunque la eSIM la cotice el asesor)", () => {
+    const cards = both({ country: "CN", cityCode: "shanghai" }, [cand("tour", "whatsapp"), cand("transfer"), cand("esim", "whatsapp"), req("tickets")]);
+    expect(on(cards, "mobile")).toEqual(["tour", "esim", "transfer"]);
+    expect(on(cards, "desktop")).toEqual(["tour", "esim", "transfer", "tickets"]);
+  });
+
+  it("REQ-184: sin proveedores reales el celular es el inicio del escritorio; el tope de 3 y 4 se respeta", () => {
+    const all = both({}, ["tour", "transfer", "esim", "tickets", "insurance"].map((t) => cand(t as CartItemType, "whatsapp")));
+    expect(on(all, "mobile")).toEqual(["tour", "transfer", "esim"]);
+    expect(on(all, "desktop")).toEqual(["tour", "transfer", "esim", "tickets"]);
+    // Una 5.ª categoría con proveedor real entra en celular aunque no quepa en escritorio.
+    const fifth = both({}, [...["tour", "transfer", "esim", "tickets"].map((t) => cand(t as CartItemType, "whatsapp")), cand("insurance")]);
+    expect(on(fifth, "mobile")).toEqual(["tour", "transfer", "insurance"]);
+    expect(on(fifth, "desktop")).toEqual(["tour", "transfer", "esim", "tickets"]);
+    expect(fifth.filter((c) => c.mobile).length).toBeLessThanOrEqual(3);
+  });
+});
+
+describe("REQ-263 requireTour (correos)", () => {
+  const c = (type: CartItemType): CarouselCandidate => ({ type, title: `T ${type}`, chargedBy: "X", action: { kind: "deeplink", label: "Ver opciones", adapterId: "x", url: "https://x" } });
+  const ctx = { country: "PE", cityCode: "lima", now: 0 };
+  it("REQ-263 por omisión, sin tour no hay carrusel (REQ-108 sin cambio)", () => {
+    expect(buildCarousel({ candidates: [c("transfer"), c("transport")], context: ctx, device: "mobile", rules: [], flags: {} })).toEqual([]);
+  });
+  it("REQ-263 con requireTour=false se arma igual, con las mismas reglas de orden y máximo", () => {
+    const out = buildCarousel({ candidates: [c("transport"), c("transfer"), c("esim"), c("tickets")], context: ctx, device: "mobile", rules: [], flags: {}, requireTour: false });
+    expect(out.map((x) => x.category)).toEqual(["transfer", "esim", "tickets"]);
+  });
+});
