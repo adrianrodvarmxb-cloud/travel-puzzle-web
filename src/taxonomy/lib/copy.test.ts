@@ -8,10 +8,10 @@ const c = catalogClassifier(D, M);
 const PROHIBIDO = /\bmsi\b|meses sin intereses|paga despu[eé]s|opciones de pago|gu[ií]a en espa[nñ]ol|freetour/i;
 
 describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G-T9)", () => {
-  it("REQ-415 bandera TAXONOMY_LABELS_ENABLED: solo con \"true\" y con la publicación (T3) encendida; wrangler.jsonc en \"false\"", () => {
+  it("REQ-415 bandera TAXONOMY_LABELS_ENABLED: solo con \"true\" y con la publicación (T3) encendida; wrangler.jsonc en \"true\" (REQ-618, gate de encendido)", () => {
     expect(taxonomyLabelsEnabled({ TAXONOMY_LABELS_ENABLED: "true" })).toBe(false);
     expect(taxonomyLabelsEnabled({ TAXONOMY_LABELS_ENABLED: "true", TAXONOMY_PUBLISH_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_LABELS_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_LABELS_ENABLED":\s*"true"/);
   });
   it("REQ-416 decisión del PO: con «autoguiado» o «self-guided» en el título no hay guía en persona aunque la categoría sea guiada", () => {
     expect(c({ categoryId: 13, price: 20, title: "Juego de exploración autoguiado" }).guiaEnPersona).toBe(false);

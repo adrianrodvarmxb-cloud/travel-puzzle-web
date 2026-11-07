@@ -103,17 +103,17 @@
     // Taxonomía T3 (REQ-406…408, REQ-261): Free tour = formato pieza-libre (sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35), sin online,
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
-    "TAXONOMY_PUBLISH_ENABLED": "false",
+    "TAXONOMY_PUBLISH_ENABLED": "true",
     // Reclasificación con linaje (REQ-750…756, Ola R2): procedencia por término, mapeos por agencia desde la denominación
     // original y overrides manuales. Requiere TAXONOMY_SYNC_ENABLED y las migraciones 0022 y 0023 aplicadas (con OK del PO).
     // "true" con preview, prueba de humo y OK del PO.
     "TAXONOMY_LINEAGE_ENABLED": "false",
     // Taxonomía T4 (REQ-412, REQ-413): /tours con «Tipo de experiencia» (?formato=), sin chips en cero, noindex en combinaciones
     // y ?tipo_act= traducido. "true" con preview, prueba de humo y OK del PO (después de TAXONOMY_PUBLISH_ENABLED).
-    "TAXONOMY_FILTERS_ENABLED": "false",
+    "TAXONOMY_FILTERS_ENABLED": "true",
     // Taxonomía T5 (REQ-414…416, REQ-433, G-T9): chips de formato en la ciudad, etiqueta en la ficha y copy por formato
     // («con un guía local» solo con guía en persona). Requiere TAXONOMY_PUBLISH_ENABLED. "true" con preview, humo y OK del PO.
-    "TAXONOMY_LABELS_ENABLED": "false",
+    "TAXONOMY_LABELS_ENABLED": "true",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
     "TAXONOMY_CIRCUITS_ENABLED": "false",

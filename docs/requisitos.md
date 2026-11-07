@@ -491,9 +491,8 @@ Petición: "ok de todo lo pendiente". Gate: `docs/gates-encendido-2026-11-06.md`
 | REQ-613 | "ok de todo lo pendiente" → `SEARCH_LOG_ENABLED` | Dado el aviso de privacidad aprobado y publicado en `privacidad.ts`, cuando el preview con la bandera pasa el humo, entonces se publica | BLOQUEADO (aviso de privacidad sin aprobar ni publicar) |
 | REQ-614 | "ok de todo lo pendiente" → `SEARCH_STEM_ENABLED` y alias de `destino_alias` | Dadas las migraciones 0020 y 0021 aplicadas, cuando el preview pasa el humo, entonces se publica | BLOQUEADO (migraciones 0020/0021 solo propuestas; candado) |
 | REQ-615 | "ok de todo lo pendiente" → `TAXONOMY_SYNC_ENABLED` | Dado el preview con la bandera encendida (0017 aplicada), cuando corre la prueba de humo, entonces está en verde | EN CURSO (encendida en su PR; CUMPLIDO tras el humo en producción) |
-| REQ-616 | "ok de todo lo pendiente" → `TAXONOMY_PUBLISH_ENABLED` | Dado el preview con la bandera encendida (sobre `PRIMERA_PIEZA_ENABLED`), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
-| REQ-617 | "ok de todo lo pendiente" → `TAXONOMY_FILTERS_ENABLED` | Dado el preview con la bandera encendida (después de REQ-616 y del PR #205 en main), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
-| REQ-618 | "ok de todo lo pendiente" → `TAXONOMY_LABELS_ENABLED` | Dado el preview con la bandera encendida (requiere REQ-616), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
+| REQ-616 | "ok de todo lo pendiente" → `TAXONOMY_PUBLISH_ENABLED` | Dado el preview con la bandera encendida (sobre `PRIMERA_PIEZA_ENABLED`), cuando corre la prueba de humo, entonces está en verde | EN CURSO (encendida en su PR; CUMPLIDO tras el humo en producción) |
+| REQ-618 | "ok de todo lo pendiente" → `TAXONOMY_LABELS_ENABLED` | Dado el preview con la bandera encendida (requiere REQ-616), cuando corre la prueba de humo, entonces está en verde | EN CURSO (encendida en su PR; CUMPLIDO tras el humo en producción) |
 | REQ-619 | "ok de todo lo pendiente" → `TAXONOMY_CIRCUITS_ENABLED` | Dado el preview con la bandera encendida (0018 aplicada), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
 | REQ-620 | "ok de todo lo pendiente" → `TAXONOMY_CART_ENABLED` | Dado `ARMA_TU_VIAJE_ENABLED="true"` en producción, cuando el preview con la bandera pasa el humo, entonces se publica | BLOQUEADO (va después de REQ-625) |
 | REQ-621 | "ok de todo lo pendiente" → `NOSOTROS_ENABLED` | Dado el preview con la bandera encendida, cuando corre la prueba de humo con `/nosotros`, entonces está en verde y solo salen bloques aprobados | PENDIENTE |
@@ -844,3 +843,51 @@ Petición literal (coordinador): «el H1 de /destinos/gb dice "Inglaterra" … e
 |---|---|---|---|---|
 | REQ-1265 | «"Reino Unido" / "United Kingdom" en todos los idiomas … sin escribir en D1» | NUEVO | Dado el país GB (fila con «Inglaterra» / «England»), cuando se arma /destinos (nombre y nombres por idioma del nodo: H1, title, breadcrumbs, JSON-LD, sitemap, hreflang) o el filtro de país de /tours, entonces dice el nombre ISO de `ISO_COUNTRY_NAMES` en es, en, pt, de, fr e it; los demás países no cambian; D1 no se escribe; llaves de caché nuevas (`destinos v8`, `countries iso-1265`). | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1266 | «404 de Edimburgo: reprodúcelo, dime la causa raíz … y corrígelo con un test de regresión» | BUG | Dado `/destinos/gb/edimburgo/top-edimburgo-experiencia-auto-guia` (falso 404: el stream RSC parte la cadena `…auto-guia"])</script><script>…"da-por-aplicacion`; la URL real `…-auto-guiada-por-aplicacion` da 200 y los 41 enlaces de la ciudad dan 200), cuando corre el humo, entonces `/destinos/gb`, `/destinos/gb/edimburgo` y una ficha real descubierta del DOM de Edimburgo (obligatoria) responden 200. | EN CURSO (test verde; falta humo del PR) |
+## Tablero de pendientes con folio (PO, 7 nov 2026, 13:06)
+Petición literal: «La semana pasada aplicamos un ISO para que cada requerimiento generara un folio y así asegurar que se hiciera… lo vamos a aplicar ahorita» y «se tendría que estar aplicando siempre». Hasta hoy, los pendientes que no eran código (banderas por encender, definiciones, validaciones y tareas del PO) solo vivían en el chat. Desde aquí cada uno tiene folio. Tipos: CÓDIGO · BANDERA · DEFINICIÓN · VALIDACIÓN · TAREA-PO · DATOS. Una BANDERA se cierra solo encendida en producción y con humo verde; una DEFINICIÓN o VALIDACIÓN, solo con la respuesta literal del PO citada.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1300 | BANDERA | `TAXONOMY_PUBLISH_ENABLED` (REQ-616; #257) | agente | — | EN CURSO |
+| REQ-1301 | BANDERA | `TAXONOMY_FILTERS_ENABLED`: filtro nuevo, sin «Visitas guiadas y Pieza libre» (D22, decisión 3 del 7-11) | agente | REQ-1300 | EN CURSO |
+| REQ-1302 | BANDERA | `TAXONOMY_LABELS_ENABLED`: etiquetas nuevas en ciudad y ficha | agente | REQ-1301 | EN CURSO |
+| REQ-1303 | BANDERA | `TAXONOMY_CIRCUITS_ENABLED` y `TAXONOMY_CIRCUIT_EXTRA_ENABLED` (REQ-424): facetas de circuitos | agente | REQ-1302, REQ-1317 | PENDIENTE |
+| REQ-1304 | BANDERA | `TAXONOMY_CART_ENABLED`: carrito por tipo | agente | REQ-1306 | PENDIENTE |
+| REQ-1305 | BANDERA | `TAXONOMY_LINEAGE_ENABLED`: vínculo con la denominación original (D25) | agente | REQ-1316 | PENDIENTE |
+| REQ-1306 | VALIDACIÓN | `ARMA_TU_VIAJE_ENABLED` y `CART_PAYMENTS_ENABLED` (REQ-120, REQ-156; PR #135) | PO | — | PENDIENTE |
+| REQ-1307 | TAREA-PO | `PAID_TOURS_ENABLED` (REQ-013): prueba real con la tarjeta del PO | PO | — | PENDIENTE |
+| REQ-1308 | BANDERA | `CONTACTO_ENABLED` y `EXPERTOS_ENABLED` (REQ-240) | agente | REQ-1320 | BLOQUEADO |
+| REQ-1309 | VALIDACIÓN | `NOSOTROS_ENABLED` (REQ-240): OK del PO al texto | PO | — | PENDIENTE |
+| REQ-1310 | BANDERA | `SOCIAL_LINKEDIN/FACEBOOK/INSTAGRAM_ENABLED` (REQ-1076), una por una | agente | REQ-1321, REQ-1322 | BLOQUEADO |
+| REQ-1311 | BANDERA | `SEARCH_LOG_ENABLED` (REQ-340) | agente | REQ-1323 | BLOQUEADO |
+| REQ-1312 | BANDERA | `SEARCH_STEM_ENABLED` (REQ-363): búsqueda por raíz | agente | — | PENDIENTE (sin iniciar) |
+| REQ-1313 | BANDERA | `REVIEW_EMAILS_ENABLED`, `EMAIL_CROSS_SELL_ENABLED` (REQ-264), `MARKETING_CONSENT_ENABLED`, `COOKIES_POLICY_ENABLED` | agente | REQ-1323 | BLOQUEADO |
+| REQ-1314 | DEFINICIÓN | `ADULT_CONTACT_CHECK_ENABLED`, `STRIPE_HOLD_ENABLED` (REQ-059), `GEO_ATTRIBUTION_ENABLED` (REQ-355): ¿se encienden? | PO | — | PENDIENTE |
+| REQ-1315 | BANDERA | Apagadas a propósito: `FREETOUR_CHATBOT_ENABLED`, `FREETOUR_POSTTOUR_PROMO_ENABLED` (cumplimiento B3/B4), `VISA_ENABLED`, `ETIAS_ENABLED`, «Esenciales de viaje» (sin inventario) | — | Autorización escrita de FREETOUR / inventario | BLOQUEADO (a propósito) |
+| REQ-1316 | DATOS | Copia exacta (D25): ensayo del backfill → revisión de cifras por el PO → backfill real, un archivo a la vez | agente + PO | — | EN CURSO |
+| REQ-1317 | DATOS | Revisión a mano de todo el catálogo: tipo, temas y atributos (decisión 2 del PO, 7-11 08:03: «Revisar todo a mano»), unos 43 lotes | agente | REQ-1301 | PENDIENTE |
+| REQ-1318 | VALIDACIÓN | Primera publicación real del blog diario y de las guías (7-11 12:37) | coordinador | — | SIN VERIFICAR |
+| REQ-1319 | CÓDIGO | INC-007: prueba de humo intermitente en producción, sin causa raíz | agente | — | EN CURSO |
+| REQ-1320 | TAREA-PO | Confirmar el buzón info@ | PO | — | PENDIENTE |
+| REQ-1321 | TAREA-PO | Tokens de Meta (Facebook e Instagram) según docs/redes/conexion.md; LinkedIn pasos 1 a 4 hechos el 7-11 | PO | — | PENDIENTE |
+| REQ-1322 | TAREA-PO | Aprobación de LinkedIn de la Community Management API (solicitud y formulario enviados el 7-11) | tercero | — | EN CURSO |
+| REQ-1323 | TAREA-PO | Revisión del abogado: aviso de privacidad, registro de búsquedas, cookies y consentimiento | tercero | — | PENDIENTE |
+| REQ-1324 | TAREA-PO | Cobro de prueba de $10 en Stripe y su reembolso | PO | — | PENDIENTE |
+| REQ-1325 | TAREA-PO | Enviar desde claulet@ el borrador a Extime (idioma del guía de 46 productos) | PO | — | PENDIENTE |
+| REQ-1326 | TAREA-PO | Rotar la llave de la API de FREETOUR enviada en 2024 (cumplimiento E7) | PO | — | PENDIENTE |
+| REQ-1327 | TAREA-PO | Revisar la versión de la pasarela en Namecheap | PO | — | PENDIENTE |
+| REQ-1328 | VALIDACIÓN | Muestra de 30 dudosos de la reclasificación (docs/taxonomia/reclasificacion-2026-11-07/muestra-30-dudosos.csv) | PO | — | PENDIENTE |
+| REQ-1329 | DEFINICIÓN | En los títulos en inglés, ¿«Free tours» pasa a «Free Puzzle»? | PO | — | PENDIENTE |
+| REQ-1330 | DEFINICIÓN | Color del precio «Free tour» (lima o verde) | PO | — | PENDIENTE |
+| REQ-1331 | DEFINICIÓN | /trenes responde 404 | PO | — | PENDIENTE |
+| REQ-1332 | DEFINICIÓN | «Los más elegidos» muestra 47 | PO | — | PENDIENTE |
+| REQ-1333 | DEFINICIÓN | Lo que la taxonomía original pedía y la homologada dejó fuera: Extensiones, Experiencia local, categoría de tren y hotel de «A tu aire» | PO | — | PENDIENTE |
+| REQ-1334 | DEFINICIÓN | Mapeos de las 7 agencias; 208 viajes sin documento original y 56 PDF sin página | PO | — | PENDIENTE |
+| REQ-1335 | DEFINICIÓN | Extime: 8 viajes sin duración | PO | — | PENDIENTE |
+| REQ-1336 | DEFINICIÓN | Datos de 2024: teléfono, correo, LinkedIn/X, punto de encuentro y pasaporte | PO | — | PENDIENTE |
+| REQ-1337 | VALIDACIÓN | Plan de integración de BeMyGuest (#150) para firma | PO | — | PENDIENTE |
+| REQ-1338 | CÓDIGO | 53 REQ sin test (auditoría del 7-11) | agente | — | PENDIENTE |
+| REQ-1339 | DEFINICIÓN | Propuesta: alerta en el sync cuando un país o una ciudad se descarten (lección de REQ-1264 y regla 8 de CLAUDE.md) | PO | — | PENDIENTE |
+| REQ-1340 | CÓDIGO | /destinos/gb/edimburgo/top-edimburgo-experiencia-auto-guia da 404 y el H1 de /destinos/gb dice «Inglaterra» en vez de «Reino Unido» | agente | — | EN CURSO |
+| REQ-1341 | CÓDIGO | El índice de sitemaps marca lastmod 2026-11-06 aunque el contenido cambió el 7-11 | agente | — | PENDIENTE |
+| REQ-1342 | VALIDACIÓN | Cifras del ensayo de la carga histórica de la copia exacta, antes del backfill real (parte de REQ-1316) | PO | REQ-1316 (ensayo) | PENDIENTE |
+| REQ-1343 | TAREA-PO | Revisión automática de estatus cada 6 horas (PO 7-11 13:08: «cada 6 horas revisa estatus»): tarea programada que lee este tablero, PR, workflows y producción y notifica al PO | coordinador | — | EN CURSO |
