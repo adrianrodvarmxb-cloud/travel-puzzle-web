@@ -932,3 +932,11 @@ Petición literal: el PO respondió «sí» (7 nov 2026, 15:29 CDMX), tras la re
 ## REQ-1330: verde de free tour (detalle; folio del tablero)
 Petición literal: el PO respondió «B» (7 nov 2026, 15:39 CDMX): precio e insignia «Free tour» / «Pieza libre» / «Free Puzzle» en verde #4ADE80, con el mismo token en todo el sitio.
 - **Criterio (folio REQ-1330):** dado un free tour, cuando se pinta la tarjeta (`card-price`), la insignia de la ficha (`TourHeroSection`), la barra móvil (`TourMobileBar`) o las insignias de `TourCard` y del inicio, entonces usan el token `--tp-free` (#4ADE80; Tailwind `text-free` / `border-free`) y ningún hex suelto; contraste AA ≥ 4.5:1 sobre #121F45 (9.2:1) y #0B1530 (10.4:1).
+## REQ-1349: una sola URL canónica por viaje (detalle; folio del tablero)
+Petición literal (PO, 7 nov 2026, 15:21 CDMX): «sí, aplica las mejores prácticas de referentes». Referentes: Civitatis cuelga «Excursión a Brujas» bajo /paris/; GetYourGuide y Viator, una URL de producto bajo su destino principal, y las demás ciudades enlazan a esa misma URL.
+- **REQ-1349** — Criterio (Dado / Cuando / Entonces): Dado un viaje con varias ciudades (p. ej. `brujas-belgica-guiado-desde-paris…`: París, Brujas; un circuito de Fantástica China con 6 ciudades), cuando se arma /destinos, entonces su URL canónica es la de su ciudad de INICIO (la primera del viaje con página), todas sus ciudades lo listan con esa URL, las URLs alternativas responden 301 a la canónica (middleware y, si no decide, la ficha), el sitemap y el hreflang solo llevan la canónica (ningún sitemap repite una URL) y el JSON-LD lleva `itinerary` con todas sus ciudades en orden. · Estado: EN CURSO (test verde; falta humo del PR)
+## INC-009: 503 en /destinos al publicar #277 (coordinador, 7 nov 2026)
+Petición literal (coordinador): «Aplica escudrinar-error-iso como INC-009, con su folio REQ-1358».
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — | EN CURSO (test verde; falta el siguiente deploy de main) |

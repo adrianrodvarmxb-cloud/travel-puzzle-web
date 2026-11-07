@@ -24,6 +24,8 @@ const CTX = "https://schema.org";
 const ISO_4217 = /^[A-Z]{3}$/;
 
 export interface FichaInput {
+  /** REQ-1349: ciudades del viaje, en orden (itinerary del JSON-LD). */
+  itinerary?: string[] | null;
   /** Id del proveedor para el interruptor (REQ-570): `freetour`, `propios`, `agencia:extime-travel`… */
   provider: string;
   lang: string;
@@ -134,6 +136,7 @@ export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
   // REQ-1329 (D27): un free tour no lleva AggregateRating.
   const own = !i.free && i.ownReviews && i.ownReviews.reviewCount > 0 && i.ownReviews.ratingValue > 0 ? i.ownReviews : null;
   const description = rich ? clean(i.description) : "";
+  const itinerary = (i.itinerary ?? []).map(clean).filter(Boolean);
   return {
     "@context": CTX,
     "@type": ["Product", "TouristTrip"],
@@ -147,6 +150,8 @@ export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
       ? { offers: { "@type": "Offer", price, priceCurrency: currency, url: i.url, ...(i.availability ? { availability: `${CTX}/${i.availability}` } : {}) } }
       : {}),
     ...(props.length ? { additionalProperty: props } : {}),
+    // REQ-1349: el viaje de varias ciudades tiene una sola URL; el itinerario dice todas sus ciudades, en orden.
+    ...(itinerary.length ? { itinerary: { "@type": "ItemList", itemListElement: itinerary.map((name, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": "Place", name } })) } } : {}),
     ...(mp ? { tripOrigin: { "@type": "Place", name: clean(mp.name), ...(clean(mp.address) ? { address: clean(mp.address) } : {}), ...(geo ? { geo } : {}) } } : {}),
     ...(keywords.length ? { keywords: keywords.join(", ") } : {}),
     ...(own ? { aggregateRating: { "@type": "AggregateRating", ratingValue: own.ratingValue, reviewCount: own.reviewCount, bestRating: 5 } } : {}),
