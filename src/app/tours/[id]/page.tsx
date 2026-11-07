@@ -7,7 +7,8 @@ import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import type { Metadata } from 'next';
 import { tourMeta } from '@/seo/lib/meta';
 import { loadTourDetailProps } from '@/tours/detail-props';
-import { primeraPiezaOn } from '@/destinations/server';
+import { getDestinations, primeraPiezaOn } from '@/destinations/server';
+import { legacyTourCanonical } from '@/seo/lib/legacy-canonical';
 import { tourPriceLabel } from '@/tours/lib/price-label';
 import { loadFx } from '@/trips/public-load';
 
@@ -24,11 +25,13 @@ export async function generateMetadata({ params }: TourDetailPageProps): Promise
         if (!data) return {};
         const tour = transformDBTourToUITour(data as unknown as TourWithRelations, language);
         const m = tourMeta({ title: tour.title, brief: tour.brief, rating: tour.rating, reviews: tour.reviewsNumber, image: tour.titleImageURL ?? tour.images[0] ?? null }, language);
+        // REQ-579: con PRIMERA_PIEZA_ENABLED esta URL redirige (301) a su ficha de /destinos; el canonical es ese destino final.
+        const canonical = primeraPiezaOn() ? legacyTourCanonical(await getDestinations().catch(() => null), id) : `/tours/${id}`;
         return {
             title: { absolute: m.title },
             description: m.description,
-            alternates: { canonical: `/tours/${id}` },
-            openGraph: { type: 'website', title: m.title, description: m.description, url: `/tours/${id}`, images: [{ url: m.image }] },
+            alternates: { canonical },
+            openGraph: { type: 'website', title: m.title, description: m.description, url: canonical, images: [{ url: m.image }] },
             twitter: { card: 'summary_large_image', title: m.title, description: m.description, images: [m.image] },
         };
     } catch {
