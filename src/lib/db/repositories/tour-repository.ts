@@ -1,10 +1,11 @@
-import { prisma } from '@/lib/prisma';
+import { prisma, getD1 } from '@/lib/prisma';
 import { paginatedQuery, buildPaginationLinks, PaginationParams, PaginatedResponse } from '../pagination';
 import { loadCatalog } from '@/catalog/snapshot';
 import { queryCatalog, splitDestination, type CatalogEntry } from '@/catalog/lib/query';
 import { rankedTourIds } from '@/search/ranked';
 import { isSearchV2 } from '@/search/lib/fts-query';
 import { fuzzySearch, isSearchFuzzy } from '@/search/fuzzy';
+import { loadDbAliases, type D1Read } from '@/search/db-aliases';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
@@ -30,6 +31,8 @@ export interface TourFilters {
   guideLanguage?: string | null; date?: string | null; groups?: string[];
   freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
   durMin?: number | null; durMax?: number | null;
+  /** T4 (REQ-413): formatos de la taxonomía (?formato=); solo cuentan con `taxonomy`. */
+  formatos?: string[]; taxonomy?: boolean;
 }
 
 export async function getToursWithFilters(
@@ -118,13 +121,16 @@ export async function getToursFromCatalog(
     entries = await loadCatalog(language);
     // REQ-285: con SEARCH_FUZZY_ENABLED="true", alias curados y erratas se resuelven antes de buscar
     // (Cuzco → Cusco, Barselona → Barcelona). Apagada (o si falla), el texto tal cual.
-    search = fuzzySearch(entries, search, isSearchFuzzy(process.env.SEARCH_FUZZY_ENABLED))?.text ?? search;
+    const fuzzyOn = isSearchFuzzy(process.env.SEARCH_FUZZY_ENABLED);
+    // REQ-354: alias de destino_alias (S5) si la tabla existe; si no, [] y solo los curados
+    const dbAliases = fuzzyOn ? await loadDbAliases(() => getD1() as unknown as D1Read) : undefined;
+    search = fuzzySearch(entries, search, fuzzyOn, dbAliases)?.text ?? search;
     const split = splitDestination(entries, search);
     ranked = split ? (split.rest ? await rankedTourIds(language, split.rest, split.name) : null) : await rankedTourIds(language, search);
   } else {
     [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
   }
-  const { ids, total, page, limit } = queryCatalog(entries, {
+  const { ids, total, page, limit, formatCounts } = queryCatalog(entries, {
     countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
     minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
     search, // REQ-285: el texto resuelto (igual al de la URL si la bandera está apagada)
@@ -133,6 +139,7 @@ export async function getToursFromCatalog(
     durMin: filters.durMin, durMax: filters.durMax,
     ranked, // REQ-048: relevancia FTS5 (null = búsqueda por palabras)
     searchV2, // REQ-122
+    taxonomy: filters.taxonomy, formatos: filters.formatos, // T4
   }, pagination);
   const rows = ids.length
     ? await prisma.tour.findMany({
@@ -146,6 +153,7 @@ export async function getToursFromCatalog(
   return {
     data,
     pagination: { total, count: data.length, currentPage: page, perPage: limit, totalPages, links: buildPaginationLinks(baseUrl, pagination, page, totalPages) },
+    ...(formatCounts && { facets: { formato: formatCounts } }),
   };
 }
 

@@ -1,5 +1,6 @@
 'use server';
 
+import { taxonomyFiltersEnabled } from '@/taxonomy/lib/filters';
 import { loadTourHighlights } from '@/reviews/load';
 import {
   getToursWithFilters,
@@ -58,9 +59,12 @@ function serializeDecimals<T>(obj: T): T {
  * Fetch tours with filters and pagination
  */
 export async function fetchTours(
-  filters: TourFilters = {},
+  clientFilters: TourFilters = {},
   pagination: PaginationParams = {}
 ) {
+  // T4 (REQ-413): la bandera la decide el servidor, nunca el cliente; apagada, ?formato= no filtra nada.
+  const taxonomy = taxonomyFiltersEnabled(process.env as Record<string, string | undefined>);
+  const filters: TourFilters = { ...clientFilters, taxonomy, formatos: taxonomy ? clientFilters.formatos ?? [] : [] };
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
     const list = await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {

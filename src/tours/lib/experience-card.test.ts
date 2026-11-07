@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import dictionary from "@/taxonomy/data/dictionary.json";
-import { FORMATOS } from "@/taxonomy/lib/types";
-import { CARD_COPY, CARD_LANGS, CATEGORY_FALLBACK, FORMAT_LABELS, cardDuration, cardPrice, cardProvider, categoryLabel, experienceCard, type CardInput } from "./experience-card";
+import { FORMATO_LABEL, FORMATOS_FILTRO } from "@/taxonomy/lib/filters";
+import { CARD_COPY, CARD_LANGS, CATEGORY_FALLBACK, OTHER_FORMAT_LABELS, cardDuration, cardPrice, cardProvider, categoryLabel, experienceCard, type CardInput } from "./experience-card";
 import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS } from "./favorite";
 
 const base: CardInput = {
@@ -25,6 +25,7 @@ describe("tarjeta única de experiencia", () => {
     expect(categoryLabel("pieza-libre", "en")).toBe("Free tour");
     expect(categoryLabel("excursion-dia", "es")).toBe("Excursión de un día");
     expect(categoryLabel("experiencia-unica", "es")).toBe("Momentos de autor");
+    expect(categoryLabel("caminata", "es")).toBe("Caminata (tour a pie)");
     expect(categoryLabel("transporte", "es")).toBe("Transporte turístico");
   });
 
@@ -36,15 +37,16 @@ describe("tarjeta única de experiencia", () => {
     for (const l of CARD_LANGS) expect(CATEGORY_FALLBACK[l]).not.toMatch(/^tour$/i);
   });
 
-  it("REQ-522: es/en son los términos del diccionario sin paréntesis; hay etiqueta para cada formato y los 6 idiomas", () => {
-    const terms = (dictionary.terminos as { eje: string; slug: string; termino_es: string; termino_en: string; nombres?: Record<string, string> }[]).filter((t) => t.eje === "formato");
-    const strip = (s: string) => s.replace(/\s*\(.*\)\s*$/, "").trim();
-    for (const f of FORMATOS) {
+  it("REQ-522: misma etiqueta que el filtro de T4 y las etiquetas de T5 (sin duplicar); los de /traslados del diccionario", () => {
+    for (const f of FORMATOS_FILTRO) {
+      expect(categoryLabel(f, "es")).toBe(FORMATO_LABEL[f].es);
+      expect(categoryLabel(f, "en")).toBe(FORMATO_LABEL[f].en);
+      expect(categoryLabel(f, "pt")).toBe(FORMATO_LABEL[f].en); // como T4: inglés hasta que T5 firme pt/de/fr/it
+    }
+    const terms = (dictionary.terminos as { eje: string; slug: string; termino_es: string; termino_en: string }[]).filter((t) => t.eje === "formato");
+    for (const [f, l] of Object.entries(OTHER_FORMAT_LABELS)) {
       const t = terms.find((x) => x.slug === f)!;
-      expect(FORMAT_LABELS[f].es, f).toBe(strip(t.termino_es));
-      expect(FORMAT_LABELS[f].en, f).toBe(strip(t.termino_en));
-      if (t.nombres) for (const l of ["pt", "de", "fr", "it"] as const) expect(FORMAT_LABELS[f][l]).toBe(t.nombres[l]);
-      for (const l of CARD_LANGS) expect(FORMAT_LABELS[f][l]).toBeTruthy();
+      expect(l).toEqual({ es: t.termino_es, en: t.termino_en });
     }
   });
 

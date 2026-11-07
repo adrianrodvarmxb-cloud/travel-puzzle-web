@@ -35,6 +35,12 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
+## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
+- La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
+- eSIM: sin proveedor integrado se oculta salvo en China (`ESIM_ADVISOR_COUNTRIES`). Seguro: oculto hasta tener deeplink de afiliado (`INSURANCE_ADVISOR_COUNTRIES = []`, REQ-326).
+- Solo circuitos cerca → «Circuitos cerca de {ciudad}»; nunca «expertos» (REQ-325).
+- Todo tras `ARMA_TU_VIAJE_ENABLED` (apagada). Decisiones 1 a 5 (radios 300/800 km, orden, eSIM, no repetir Big Bus, «Lo reservas con Travel Puzzle») firmadas por recomendación, PO autopiloto (6 nov 2026).
+
 ## En producción (travelpuzzle.com.mx, Cloudflare Workers + D1)
 - Catálogo de Freetour sincronizado a diario (~8,000 tours) y reseñas reales en caché (7 días, top 300 tours).
 - Home con secciones rescatadas del sitio anterior, datos reales y prueba social (ver `docs/gates-home-2026-11.md`).
@@ -50,6 +56,9 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 ## Banderas (wrangler.jsonc, 5 nov 2026)
 - Encendidas: `BOOKINGS_ENABLED`, `EDIT_ENABLED`, `EMAILS_ENABLED`, `OWN_TOURS_ENABLED`, `TRANSFERS_ENABLED`, `AFFILIATES_ENABLED`, `DEPARTURES_SYNC_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`, `SEARCH_LOG_ENABLED`, `SEARCH_STEM_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`, `SEARCH_LOG_ENABLED`.
+- Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`, `SEARCH_SUGGEST_ENABLED`.
 - Apagadas: `PAID_TOURS_ENABLED`, `REVIEW_EMAILS_ENABLED`, `TRANSPORT_ENABLED`, `STRIPE_HOLD_ENABLED`, `DEPARTURE_FILTERS_ENABLED`, `SEARCH_V2_ENABLED`, `SEARCH_FUZZY_ENABLED`.
 - `PRIMERA_PIEZA_ENABLED=false` — menú con La Primera Pieza y Destinos, y /llms.txt. No encender antes de que existan /la-primera-pieza y /destinos (Olas 3 y 4).
 - `SYNC_GUARD_ENABLED=false`: sync blindado de FREETOUR (Ola 1). Se enciende solo después de aplicar la migración 0014, con preview, prueba de humo y OK del PO.
@@ -131,6 +140,10 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-057 | Búsqueda por destino y palabra completa (INC-005) | `src/catalog/lib/query.ts`, `src/trips/lib/public.ts` | `query.test.ts`, `public.test.ts` | CUMPLIDO |
 | REQ-122 | Búsqueda por destino dentro del texto y palabra exacta primero (gates 5 nov 2026) | `src/catalog/lib/query.ts`, `src/search/lib/fts-query.ts`, `src/search/lib/words.ts`, `src/search/fts-search.ts`, `src/search/ranked.ts`, `tour-repository.ts` | `query.test.ts`, `fts-query.test.ts`, `fts-search.test.ts`, `busqueda-destino.test.ts` | CUMPLIDO (apagado) |
 | REQ-280…285 | Buscador tolerante S2: normalize, damerau, umbrales, SymSpell (índice curado en el build), esMetaphone con seseo, alias curados y nombres que chocan (gates 6 nov 2026) | `src/search/lib/{normalize,damerau,threshold,symspell,es-metaphone,aliases,fuzzy}.ts`, `src/search/fuzzy.ts`, `data/search-aliases.json`, `src/scripts/search-index.ts`, `tour-repository.ts` | `fuzzy-parts.test.ts`, `fuzzy.test.ts`, `src/search/fuzzy.test.ts` | CUMPLIDO (apagado: `SEARCH_FUZZY_ENABLED="false"`) |
+| REQ-290…294 | Buscador S3: autocompletado agrupado con «¿Quisiste decir…?», teclado y cero resultados con salida y WhatsApp | `src/search/lib/suggest.ts`, `src/search/lib/suggest-copy.ts`, `src/search/suggest.ts`, `src/app/api/search/{suggest,recover}`, `src/components/search/*`, `ToursHeader.tsx`, `ToursPageClient.tsx` | `suggest.test.ts` (lib y raíz) | CUMPLIDO (apagado: `SEARCH_SUGGEST_ENABLED="false"`) |
+| REQ-340…344 | Buscador S4: analítica anónima agregada por día (búsquedas, cero resultados, clics y posición), sin datos personales | `src/search/lib/search-log.ts`, `src/search/log.ts`, `src/app/api/search/event/route.ts`, `src/components/search/useSearchLog.ts`, `migrations/0019_search_log_daily.sql`, `docs/legal/propuesta-aviso-busquedas-2026-11.md` | `search-log.test.ts` (con la migración en node:sqlite) | CUMPLIDO (apagado: `SEARCH_LOG_ENABLED="false"`; migración y aviso sin aplicar) |
+| REQ-350…355 | Buscador S5: alias multilingües GeoNames + Wikidata → `destino_alias` (ensayo que solo genera CSV/SQL) y su uso en el buscador | `src/search/lib/alias-ingest.ts`, `src/search/lib/db-aliases.ts`, `src/search/db-aliases.ts`, `src/scripts/alias-ingesta.ts`, `.github/workflows/alias-ensayo.yml`, `docs/migraciones-propuestas/0020_destino_alias.sql` | `alias-ingest.test.ts` (con la migración en node:sqlite) | CUMPLIDO (apagado; migración, geonameid y escritura en D1 pendientes de OK) |
+| REQ-360…366 | Buscador S6: raíz Snowball (columna `stem`) y sinónimos en TourSearch, con pesos bm25 | `src/search/lib/{stem,synonyms,fts-stem}.ts`, `src/search/{fts-search,ranked,rebuild,synonyms}.ts`, `data/search-synonyms.json`, cron sync, `docs/migraciones-propuestas/0021_tour_search_stem.sql` | `stem-search.test.ts` (FTS5 real en node:sqlite) | CUMPLIDO (apagado: `SEARCH_STEM_ENABLED="false"`; migración sin aplicar) |
 | REQ-058 | Llave de caché del catálogo con firma de forma | `src/catalog/lib/query.ts`, `src/catalog/snapshot.ts` | `query.test.ts` | CUMPLIDO |
 | REQ-059 | "Cómo funciona tu reserva" según lo que existe (Stripe tras bandera) | `src/trips/lib/booking-steps.ts`, ficha `/viajes` | `booking-steps.test.ts` | CUMPLIDO |
 | REQ-060 | Política de cancelación solo desde la casilla de aceptación | ficha `/viajes`, `PolicyLink.tsx`, `TripRequestForm.tsx` | revisión visual 390/1366 | CUMPLIDO (validar con abogado) |
@@ -148,6 +161,9 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
+| REQ-306 | Ficha de viaje propio con reintento ante D1 saturada, una carga por petición y caché corta | `src/trips/lib/trip-by-slug.ts`, `src/trips/public-load.ts`, `src/cache/edge.ts` | `trip-by-slug.test.ts` | CUMPLIDO |
+| REQ-307 | Importaciones grandes nunca a la par de una publicación | `docs/incidentes/OBS-2026-11-06-ficha-viaje-500.md` | regla de operación | EN CURSO |
+| REQ-302 | Correos con el encabezado y logo de Travel Puzzle, incluidos los avisos internos | `src/payments/lib/email.ts`, `src/notifications/lib/manual-cancel-email.ts`, `api/reserva/[token]/cancelar/route.ts` | `email.test.ts`, `manual-cancel-email.test.ts` | CUMPLIDO |
 | REQ-304 | Página 404 con el pie del home | `src/app/not-found.tsx` | `src/app/not-found.test.ts` + capturas 390/1366 | CUMPLIDO |
 | REQ-305 | Prueba de humo con La Primera Pieza: destinos, ficha real de la ciudad, sitemap y URL vieja /tours/{id} (301/410); descubrimiento obligatorio con reintentos | `tests/smoke/pages.json`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `smoke-config.test.ts`, `smoke.test.ts` + humo del PR | CUMPLIDO |
 | REQ-500 | Prueba de humo con evidencia (INC-007): al fallar una página guarda HTML crudo, DOM tras hidratar y al error, errores con stack/componentStack, primera diferencia y captura; la recarga una vez y anota si es intermitente, sin dejar de fallar; artefacto en deploy y PR | `src/ops/lib/smoke-evidence.ts`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts`, `deploy-cloudflare.yml`, `prueba-humo.yml` | `smoke-evidence.test.ts`, `smoke-evidence-workflow.test.ts` + humo del PR | CUMPLIDO (test); INC-007 ABIERTO |
@@ -375,7 +391,7 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 |---|---|---|---|---|
 | REQ-520 | Una sola tarjeta para todos los proveedores en /tours, inicio, /destinos, /la-primera-pieza y /traslados | `src/components/tours/ExperienceCard.tsx`, `src/tours/lib/experience-card.ts`, `src/tours/lib/card-sources.ts` | `experience-card.test.ts`, `card-sources.test.ts`, `ExperienceCard.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-521 | «★ Favorito» arriba a la izquierda, 6 idiomas, regla de favorite.ts | `experience-card.ts` | `experience-card.test.ts`, `ExperienceCard.test.ts` | CUMPLIDO (falta OK del PO) |
-| REQ-522 | Categoría = formato de la taxonomía; EN pieza libre «Free tour»; respaldo «Experiencia» | `src/tours/lib/card-format.ts`, `experience-card.ts`, `src/actions/tours.ts`, `src/home/load.ts`, `src/destinations/lib/catalog.ts`, `src/trips/public-load.ts` | `card-format.test.ts`, `experience-card.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-522 | Categoría = formato de la taxonomía con la etiqueta de T4/T5 (`FORMATO_LABEL`); EN pieza libre «Free tour»; respaldo «Experiencia» | `src/tours/lib/card-format.ts`, `experience-card.ts`, `src/taxonomy/lib/filters.ts`, `src/actions/tours.ts`, `src/home/load.ts`, `src/destinations/lib/catalog.ts`, `src/trips/public-load.ts` | `card-format.test.ts`, `experience-card.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-523 | Ciudad · duración, título, descripción breve | `experience-card.ts`, `card-sources.ts` | `experience-card.test.ts`, `card-sources.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-524 | ★ calificación · reseñas \| proveedor real; FREETOUR nunca | `experience-card.ts` (`cardProvider`), `src/destinations/repository.ts`, `src/trips/public-load.ts` | `experience-card.test.ts`, `card-sources.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-525 | Línea de precio: «Desde aprox. MXN $X · EUR €Y» / «Free tour» | `experience-card.ts` (`cardPrice`), `DestinationTourCard.tsx` (TourGrid) | `experience-card.test.ts`, `card-sources.test.ts` | CUMPLIDO (falta OK del PO) |
@@ -383,3 +399,8 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | REQ-527 | Carruseles con flechas y tarjetas redondeadas (mix de referentes) | `src/components/tours/CardRail.tsx`, `ExperienceCard.tsx`, `FeaturedTours.tsx`, `DayTripsCarousel.tsx` | `ExperienceCard.test.ts` | CUMPLIDO (falta OK visual del PO) |
 
 Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-libre 3,464 · caminata 1,515 · tour 1,253 · excursion-dia 1,222 · experiencia-unica 344 · circuito 30 · autoguiado 29 · entradas 28 · traslado 8 · transporte 1 · `fuera` 124 (llevan el respaldo «Experiencia»). Operador: 0 vacíos; 32 tours con «freetour» en el nombre del operador (p. ej. «Don freetour», «MontpellierFreeTour») quedan con el espacio vacío por la regla dura. Componentes que quedan sin uso (no se borran): `TourCard`, `HomeTourCard`, `DestinationTourCard`, `OwnTripCard` (solo su test).
+
+## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-530 | Columna de filtros sticky bajo el header con scroll propio; celular sin cambio | `src/tours/lib/filters-layout.ts`, `src/components/tours/filters/FiltersSheet.tsx` | `src/tours/lib/filters-layout.test.ts`; navegador real: `npx tsx src/scripts/filters-scroll-check.ts <url>` | CUMPLIDO (falta OK del PO) |

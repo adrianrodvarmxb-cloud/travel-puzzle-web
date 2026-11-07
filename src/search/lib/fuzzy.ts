@@ -123,11 +123,15 @@ export function resolveFuzzy(text: string | undefined | null, dict: FuzzyDict, c
   const exists = (name: string) => dict.names.has(name);
   const changes: FuzzyChange[] = [];
 
-  // 1) alias curado exacto, el grupo más largo primero
+  // 1) alias curado exacto, el grupo más largo primero; nunca dentro de un destino exacto («den haag» no se parte)
+  const exactAt = new Set<number>();
+  for (let n = Math.min(MAX_GRAM, words.length); n >= 2; n--)
+    for (let i = 0; i + n <= words.length; i++) if (isDestinationGram(dict, words.slice(i, i + n))) for (let k = i; k < i + n; k++) exactAt.add(k);
   const out: string[] = [];
   for (let i = 0; i < words.length;) {
     let done = false;
     for (let n = Math.min(MAX_GRAM, words.length - i); n >= 1 && !done; n--) {
+      if ([...Array(n).keys()].some((k) => exactAt.has(i + k))) continue;
       const gram = words.slice(i, i + n).join(" ");
       const target = aliasTarget(curated, gram, exists);
       if (!target) continue;

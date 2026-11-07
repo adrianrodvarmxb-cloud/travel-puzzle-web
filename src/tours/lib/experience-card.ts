@@ -12,7 +12,7 @@
  * Determinista (INC-001): sin Intl, toLocale*, Date.now ni Math.random; los números se forman con formatCount
  * y los precios llegan ya formateados del servidor.
  */
-import type { FormatoOEstado } from "@/taxonomy/lib/types";
+import { FORMATOS_FILTRO, formatoLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
 import { formatCount, formatRating } from "@/home/lib/format";
 import { isTravelerFavorite } from "./favorite";
 import { durationMinutes as parseDuration } from "./duration";
@@ -22,24 +22,16 @@ export type CardLang = (typeof CARD_LANGS)[number];
 export const cardLang = (lang: string): CardLang => ((CARD_LANGS as readonly string[]).includes(lang) ? (lang as CardLang) : "en");
 
 /**
- * REQ-522: nombre corto de cada formato en la insignia. es/en = término del diccionario de la taxonomía sin el
- * paréntesis (el test lo compara con src/taxonomy/data/dictionary.json); «Momentos de autor» en pt/de/fr/it viene del
- * diccionario; el resto de pt/de/fr/it es traducción propia, por firmar.
+ * REQ-522: la categoría de la tarjeta usa la MISMA etiqueta que el filtro «Tipo de experiencia» (T4) y las etiquetas de
+ * la ciudad y la ficha (T5): `FORMATO_LABEL` de src/taxonomy/lib/filters.ts (es/en del diccionario; pt/de/fr/it en
+ * inglés hasta que el flujo de traducción de T5 las firme). Aquí solo se agregan los formatos que no son de /tours
+ * (viven en /traslados, REQ-261), con el término del diccionario; un test los compara.
  */
-export const FORMAT_LABELS: Record<Exclude<FormatoOEstado, "fuera" | "por-revisar">, Record<CardLang, string>> = {
-  "pieza-libre": { es: "Pieza libre", en: "Free tour", pt: "Free tour", de: "Free tour", fr: "Free tour", it: "Free tour" },
-  caminata: { es: "Caminata", en: "Walking tour", pt: "Passeio a pé", de: "Rundgang", fr: "Visite à pied", it: "Tour a piedi" },
-  tour: { es: "Tour", en: "Guided tour", pt: "Visita guiada", de: "Führung", fr: "Visite guidée", it: "Visita guidata" },
-  "excursion-dia": { es: "Excursión de un día", en: "Day trip", pt: "Passeio de um dia", de: "Tagesausflug", fr: "Excursion d'une journée", it: "Escursione di un giorno" },
-  circuito: { es: "Circuito", en: "Multi-day tour", pt: "Circuito", de: "Rundreise", fr: "Circuit", it: "Tour di più giorni" },
-  "experiencia-unica": { es: "Momentos de autor", en: "Signature moments", pt: "Momentos de autor", de: "Signature-Momente", fr: "Moments signature", it: "Momenti d'autore" },
-  entradas: { es: "Boletos y entradas", en: "Tickets & passes", pt: "Ingressos", de: "Tickets & Pässe", fr: "Billets et pass", it: "Biglietti e pass" },
-  autoguiado: { es: "Autoguiado", en: "Self-guided / audio guide", pt: "Autoguiado", de: "Audioguide", fr: "Audioguide", it: "Audioguida" },
-  transporte: { es: "Transporte turístico", en: "Hop-on hop-off & transport", pt: "Transporte turístico", de: "Hop-on-Hop-off", fr: "Bus touristique", it: "Bus turistico" },
-  traslado: { es: "Traslado", en: "Transfer", pt: "Traslado", de: "Transfer", fr: "Transfert", it: "Trasferimento" },
-  "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made trip", pt: "Viagem sob medida", de: "Maßgeschneiderte Reise", fr: "Voyage sur mesure", it: "Viaggio su misura" },
-  alquiler: { es: "Renta", en: "Rentals", pt: "Aluguel", de: "Verleih", fr: "Location", it: "Noleggio" },
-  crucero: { es: "Crucero", en: "Cruise", pt: "Cruzeiro", de: "Kreuzfahrt", fr: "Croisière", it: "Crociera" },
+export const OTHER_FORMAT_LABELS: Record<"traslado" | "transporte" | "alquiler" | "crucero", { es: string; en: string }> = {
+  traslado: { es: "Traslado", en: "Transfer" },
+  transporte: { es: "Transporte turístico", en: "Hop-on hop-off & transport" },
+  alquiler: { es: "Renta", en: "Rentals" },
+  crucero: { es: "Crucero", en: "Cruise" },
 };
 
 /**
@@ -50,9 +42,10 @@ export const CATEGORY_FALLBACK: Record<CardLang, string> = { es: "Experiencia", 
 
 // REQ-522
 export function categoryLabel(formato: string | null | undefined, lang: string): string {
-  const l = cardLang(lang);
-  const row = formato ? (FORMAT_LABELS as Record<string, Record<CardLang, string>>)[formato] : undefined;
-  return row ? row[l] : CATEGORY_FALLBACK[l];
+  if (formato && (FORMATOS_FILTRO as readonly string[]).includes(formato)) return formatoLabel(formato as FormatoFiltro, lang);
+  const other = formato ? (OTHER_FORMAT_LABELS as Record<string, { es: string; en: string }>)[formato] : undefined;
+  if (other) return other[lang === "es" ? "es" : "en"];
+  return CATEGORY_FALLBACK[cardLang(lang)];
 }
 
 interface CardCopy { favorite: string; reviews: (n: string) => string; free: string; from: string; days: (n: number) => string }

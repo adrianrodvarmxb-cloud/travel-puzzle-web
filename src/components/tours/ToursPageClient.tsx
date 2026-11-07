@@ -13,6 +13,8 @@ import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trip
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
+import { SearchNote, SearchRecovery } from '@/components/search/SearchRecovery';
+import { useSearchLog } from '@/components/search/useSearchLog';
 import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
 import { DurationFilter } from '@/components/tours/DurationFilter';
 import { MoreFilters } from '@/components/tours/filters/MoreFilters';
@@ -51,6 +53,12 @@ interface ToursPageClientProps {
     today: string;
     /** REQ-061: mostrar filtros de idioma y fecha (DEPARTURE_FILTERS_ENABLED). */
     showDepartures?: boolean;
+    /** T4 (TAXONOMY_FILTERS_ENABLED): filtro «Tipo de experiencia» por formato en lugar de los grupos viejos. */
+    taxonomy?: boolean;
+    /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
+    showSuggest?: boolean;
+    /** REQ-340…342: analítica anónima de búsquedas (SEARCH_LOG_ENABLED). */
+    logSearches?: boolean;
 }
 
 export function ToursPageClient({
@@ -62,6 +70,9 @@ export function ToursPageClient({
     countryCodeById = {},
     today,
     showDepartures = false,
+    taxonomy = false,
+    showSuggest = false,
+    logSearches = false,
 }: ToursPageClientProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
@@ -128,7 +139,7 @@ export function ToursPageClient({
     // Duración (?duracion=short|mid|long)
     const [duration, setDuration] = useState<DurationRange | null>(() => parseDurationRange(searchParams.get('duracion')));
     // REQ-049..056: filtros estilo Civitatis en un solo estado; "hoy" llega del servidor (render determinista)
-    const [extra, setExtra] = useState<ExtraFilters>(() => parseExtraFilters(new URLSearchParams(searchParams.toString()), today));
+    const [extra, setExtra] = useState<ExtraFilters>(() => parseExtraFilters(new URLSearchParams(searchParams.toString()), today, { taxonomy }));
     const extraKey = extraFiltersToParams(extra).toString();
     const changeExtra = (next: ExtraFilters) => { setExtra(next); setPagination((p) => ({ ...p, page: 1 })); };
     // Lista o mapa (celular y tablet) y tour resaltado en el mapa
@@ -183,7 +194,7 @@ export function ToursPageClient({
         paginationWithSearch.page === serverPage &&
         sort === parseSort(searchParams.get('sort'), !!searchParams.get('search')) &&
         duration === parseDurationRange(searchParams.get('duracion')) &&
-        extraKey === extraFiltersToParams(parseExtraFilters(new URLSearchParams(searchParams.toString()), today)).toString() &&
+        extraKey === extraFiltersToParams(parseExtraFilters(new URLSearchParams(searchParams.toString()), today, { taxonomy })).toString() &&
         language === initialLanguage;
 
     // Fetch tours with filters and pagination
@@ -304,11 +315,20 @@ export function ToursPageClient({
         }
     }, [searchParams, parseUrlParams]);
 
+    // REQ-292: búsqueda original cuando la alternativa única se aplicó sola («no había resultados para…»)
+    const [recoveredFrom, setRecoveredFrom] = useState<string | null>(null);
     const handleFilterChange = (newFilters: Partial<UITourFilters>) => {
+        if ('search' in newFilters) setRecoveredFrom(null);
         setUiFilters(prev => ({ ...prev, ...newFilters }));
         // Reset to page 1 when filters change
         setPagination(prev => ({ ...prev, page: 1 }));
     };
+
+    const applyRecovery = useCallback((alt: string, from: string) => {
+        setUiFilters(prev => ({ ...prev, search: alt }));
+        setPagination(prev => ({ ...prev, page: 1 }));
+        setRecoveredFrom(from);
+    }, []);
 
     const handleDurationChange = (next: DurationRange | null) => {
         setDuration(next);
@@ -321,6 +341,11 @@ export function ToursPageClient({
     };
 
     // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N actividades")
+    // T4 (REQ-412): conteos por formato = catálogo (del servidor) + viajes propios con los mismos filtros salvo el formato.
+    const formatCounts: Record<string, number> | null = taxonomy ? { ...((currentToursData as { facets?: { formato: Record<string, number> } } | undefined)?.facets?.formato ?? {}) } : null;
+    if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
+        if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
+    }
     const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
@@ -335,6 +360,8 @@ export function ToursPageClient({
     };
 
     const pageInfo = currentToursData?.pagination;
+    // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
+    const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
     // REQ-170 / REQ-522: etiquetas de precio y formato armadas en el servidor (fetchTours).
     const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string> } | undefined;
 
@@ -350,6 +377,7 @@ export function ToursPageClient({
                     onSearch={(value) => handleFilterChange({ search: value || undefined })}
                     sort={sort}
                     onSort={handleSortChange}
+                    suggest={showSuggest}
                 />
 
                 <div id="tours-results" className="mx-auto grid max-w-[1600px] scroll-mt-20 grid-cols-1 gap-6 px-4 pt-8 md:px-8 lg:grid-cols-4 xl:grid-cols-12">
@@ -367,7 +395,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters showDepartures={showDepartures} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
@@ -379,6 +407,10 @@ export function ToursPageClient({
                         )}
                         {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />
+                        ) : tours.length === 0 && showSuggest && uiFilters.search ? (
+                            <SectionBoundary name="busqueda-sin-resultados">
+                                <SearchRecovery q={uiFilters.search} language={language} onApply={applyRecovery} />
+                            </SectionBoundary>
                         ) : tours.length === 0 ? (
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] px-6 py-14 text-center">
                                 <p className="font-display text-2xl font-semibold text-white">{t('tours.noResults')}</p>
@@ -386,9 +418,13 @@ export function ToursPageClient({
                             </div>
                         ) : (
                             <>
+                                {showSuggest && uiFilters.search && (
+                                    <SectionBoundary name="busqueda-nota"><SearchNote q={uiFilters.search} language={language} recoveredFrom={recoveredFrom} /></SectionBoundary>
+                                )}
                                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
-                                    {tours.map(tour => (
-                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}>
+                                    {tours.map((tour, i) => (
+                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
+                                            onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
                                             <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null })} />
                                         </div>

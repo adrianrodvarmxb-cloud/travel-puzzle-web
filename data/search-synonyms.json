@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "comment": "REQ-361. Sinónimos de vocabulario del buscador (no de destinos), revisados por PR. 'equivalente': cualquiera de los términos busca todos. 'un-sentido': buscar 'desde' también busca 'hacia', pero no al revés (un tour a pie no siempre es gratis: el copy no promete lo que no hay). Nunca la marca del proveedor. Los términos del diccionario de taxonomía (T1) se suman en tiempo de ejecución cuando esté fusionado.",
+  "groups": [
+    { "mode": "equivalente", "terms": ["free tour", "tour gratis", "tour gratuito", "visita gratuita", "tour a propina"] },
+    { "mode": "un-sentido", "from": ["free walking tour"], "to": ["free tour", "tour a pie", "walking tour"] },
+    { "mode": "equivalente", "terms": ["tour a pie", "walking tour", "recorrido a pie", "paseo a pie"] },
+    { "mode": "equivalente", "terms": ["traslado", "transfer", "transfers", "traslados"] },
+    { "mode": "equivalente", "terms": ["excursion", "excursiones", "day trip", "excursion de un dia"] },
+    { "mode": "equivalente", "terms": ["entrada", "entradas", "boleto", "boletos", "ticket", "tickets"] },
+    { "mode": "equivalente", "terms": ["paseo en barco", "boat tour", "crucero por el rio", "paseo en lancha"] },
+    { "mode": "equivalente", "terms": ["tour en bici", "bike tour", "tour en bicicleta", "recorrido en bicicleta"] },
+    { "mode": "equivalente", "terms": ["degustacion", "cata", "tasting"] },
+    { "mode": "equivalente", "terms": ["nocturno", "de noche", "night tour"] }
+  ]
+}

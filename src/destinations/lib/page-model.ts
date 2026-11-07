@@ -3,6 +3,7 @@
  * «Actividades destacadas», FAQ y textos de la ficha. Puro: recibe el árbol de catalog.ts.
  * FREETOUR nunca se menciona al cliente (regla del PO).
  */
+import { operatedByFor, tourDescription, tourLabels, tourTitleByFormat } from "@/taxonomy/lib/copy";
 import { allTours, type CityNode, type CountryNode, type TourCardModel } from "./catalog";
 import { ROUTES } from "./routes";
 import { canonicalUrl, featuredActivities } from "@/seo/lib/hub";
@@ -154,21 +155,25 @@ export interface TourPageModel {
   notice: string[];
   operatedBy: string;
   jsonLd: unknown[];
+  /** T5 (REQ-415): etiquetas de formato fuera de la foto; vacío con TAXONOMY_LABELS_ENABLED apagada. */
+  labels: string[];
 }
 
 // REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
-export function tourPage({ country, city, tour, siteUrl, lang, image }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null }): TourPageModel {
+export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean }): TourPageModel {
   const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
   // Dos tours con el mismo título real en la ciudad: el proveedor los distingue (title único, REQ-099).
   const twins = allTours(city).filter((t) => t.id !== tour.id && fold(t.title) === fold(tour.title)).length > 0;
   const shownTitle = twins && tour.provider ? `${tour.title} (${tour.provider})` : tour.title;
   // Sin evento elegido: aviso y insignia del sync de hoy. La ficha los recalcula con el evento en vivo (REQ-095/096).
   const notice = eventNotice({ fullPricePerGroup: tour.isFreeTour ? {} : { "1": tour.price }, currency: "EUR", rates: null, lang }).lines;
-  const by = operatedBy(tour.provider, lang);
+  // T5 (REQ-415, REQ-416, G-T9): con TAXONOMY_LABELS_ENABLED y formato, el copy y el title dependen del formato.
+  const tax = labels && tour.formato ? { formato: tour.formato, guia: tour.guiaEnPersona !== false } : null;
+  const by = tax ? operatedByFor(tour.provider, tax.guia, operatedBy(tour.provider, lang)) : operatedBy(tour.provider, lang);
   return {
     meta: {
-      title: tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }),
-      description: clip(`${tour.isFreeTour ? "Free tour" : "Tour"} en ${city.name} con un guía local. ${notice[0] ?? ""}`),
+      title: (tax && tourTitleByFormat({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour, formato: tax.formato })) || tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }),
+      description: clip(tax ? tourDescription({ formato: tax.formato, guiaEnPersona: tax.guia, isFreeTour: tour.isFreeTour, city: city.name, notice: notice[0] ?? null }) : `${tour.isFreeTour ? "Free tour" : "Tour"} en ${city.name} con un guía local. ${notice[0] ?? ""}`),
       canonical: canonicalUrl(siteUrl, tour.href),
       index: city.indexed && country.indexable,
     },
@@ -177,6 +182,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image }: { countr
     badge: primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 }),
     notice,
     operatedBy: by,
+    labels: tax ? tourLabels(tax.formato, lang) : [],
     jsonLd: [
       productJsonLd({ name: tour.title, url: canonicalUrl(siteUrl, tour.href), image: image ?? tour.image, provider: tour.provider, price: tour.isFreeTour ? 0 : tour.price, rating: tour.rating, reviews: tour.reviews }),
       crumbsLd(siteUrl, crumbs),
