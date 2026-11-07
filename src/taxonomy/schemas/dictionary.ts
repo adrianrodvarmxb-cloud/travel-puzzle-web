@@ -30,7 +30,7 @@ const base = z.object({
 const zFormato = base.extend({
   eje: z.literal("formato"),
   slug: z.enum(FORMATO_O_ESTADO),
-  precedencia: z.number().int().min(0).max(12).nullable(),
+  precedencia: z.number().int().min(0).max(13).nullable(), // REQ-1250: 13 = visita-guiada (parte de #11)
   seccion: z.enum(SECCIONES),
   guiaEnPersona: z.boolean(),
   palabras: z.array(palabra).optional(),
@@ -131,6 +131,8 @@ const zCategoria = z.object({
   estado: z.enum(["activo", "tras_bandera", "oculto", "historico"]),
   /** El formato base gana de inmediato (viajes propios con kind explícito). */
   fijo: z.boolean().optional(),
+  /** REQ-1252: si un recorrido guiado de pago no da señal de transporte, a pie ni sitio, el tipo que se asume (y va a la lista de dudas). */
+  porDefecto: z.enum(["tour", "visita-guiada", "caminata"]).optional(),
   nota: z.string().optional(),
 });
 export type Categoria = z.infer<typeof zCategoria>;

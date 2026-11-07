@@ -32,7 +32,7 @@ describe("T3 publicación con la taxonomía (REQ-406, REQ-407, REQ-408, REQ-261)
     expect(c(row(12, 15)).seccion).toBe("experiencias");
   });
   it("REQ-407 la venta cruzada solo sugiere formatos presenciales", () => {
-    expect([...FORMATOS_PRESENCIALES]).toEqual(["pieza-libre", "caminata", "tour", "excursion-dia", "experiencia-unica"]);
+    expect([...FORMATOS_PRESENCIALES]).toEqual(["pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica"]); // REQ-1250
     for (const id of [8, 17, 29]) expect(FORMATOS_PRESENCIALES).not.toContain(c(row(id, 10)).formato);
   });
   it("REQ-407 memoiza por fila: la misma fila no se clasifica dos veces", () => {

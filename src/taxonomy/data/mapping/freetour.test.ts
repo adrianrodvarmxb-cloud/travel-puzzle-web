@@ -11,23 +11,23 @@ import { piezaLibreExcepciones } from "../../lib/primera-pieza";
 const CSV: [id: number, nombre: string, formato: string, temas: string[], precio0EsPieza: boolean, carrito: string | null][] = [
   [3, "Cruceros y barcos", "tour", ["playa-mar"], true, "tour"],
   [4, "Viajes de 1 Día", "excursion-dia", [], true, "day_trip"],
-  [5, "Tour Gastronómico", "tour", ["gastronomia"], true, "tour"],
+  [5, "Tour Gastronómico", "caminata", ["gastronomia"], true, "tour"], // REQ-1252: «Visita Alfa» sin señal → por defecto caminata
   [7, "Vida Nocturna", "experiencia-unica", ["noche-espectaculos"], true, "tour"],
   [8, "Tour Online", "fuera", [], false, null],
   [10, "Tour Corriendo", "caminata", ["deportivo", "urbano"], true, "tour"],
   [12, "Tour a Pie", "caminata", ["urbano"], true, "tour"],
-  [13, "Otros", "tour", [], true, "tour"],
-  [14, "Top selección", "tour", [], true, "tour"],
+  [13, "Otros", "visita-guiada", [], true, "tour"], // REQ-1252: por defecto visita-guiada
+  [14, "Top selección", "visita-guiada", [], true, "tour"], // REQ-1252
   [16, "Tours de aventura", "experiencia-unica", ["aventura"], true, "tour"],
   [17, "Audioguías", "autoguiado", [], false, "tour"],
   [18, "Aviación", "experiencia-unica", ["aventura"], true, "tour"],
   [19, "Tours en vehículo por la ciudad", "tour", ["urbano"], true, "tour"],
   [20, "Entradas", "entradas", [], false, "tickets"],
   [21, "Juegos y ocio", "experiencia-unica", ["parques-ocio"], true, "tour"],
-  [22, "Sitios históricos", "tour", ["cultural"], true, "tour"],
+  [22, "Sitios históricos", "visita-guiada", ["cultural"], true, "tour"], // REQ-1251
   [23, "Deportes de motor", "experiencia-unica", ["aventura", "deportivo"], true, "tour"],
   [24, "Museos", "entradas", ["cultural"], false, "tickets"],
-  [25, "Naturaleza y parques", "tour", ["naturaleza"], true, "tour"],
+  [25, "Naturaleza y parques", "caminata", ["naturaleza"], true, "tour"], // REQ-1252: por defecto caminata
   [26, "Alquileres", "alquiler", [], false, "car_rental"],
   [27, "Espectáculos en vivo", "experiencia-unica", ["cultural", "noche-espectaculos"], true, "tour"],
   [28, "Pases urbanos", "entradas", [], false, "tickets"],

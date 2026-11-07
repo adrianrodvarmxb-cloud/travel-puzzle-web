@@ -40,7 +40,7 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
   });
   it("REQ-414 / REQ-412 chips de la ciudad: solo formatos con tours, en orden, con conteo; nada de traslados ni online", () => {
     const chips = cityFormatChips([{ formato: "tour" }, { formato: "caminata" }, { formato: "tour" }, { formato: "traslado" }, { formato: "fuera" }, {}]);
-    expect(chips).toEqual([{ slug: "caminata", label: "Caminata (tour a pie)", count: 1 }, { slug: "tour", label: "Tour", count: 2 }]);
+    expect(chips).toEqual([{ slug: "caminata", label: "Caminata", count: 1 }, { slug: "tour", label: "Tour", count: 2 }]); // REQ-1250
     expect(cityFormatChips([])).toEqual([]);
   });
   it("REQ-415 la etiqueta de la ficha es el nombre del formato; Momentos de autor con su nombre firmado", () => {

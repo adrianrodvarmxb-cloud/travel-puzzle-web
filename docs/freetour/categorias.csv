@@ -1,23 +1,23 @@
 ﻿ID_Categoria,Nombre_ES,Nombre_EN,Formato_TP,Formato_secundario,Temas_TP,Precio0_es_La_Primera_Pieza,CartItem_tipo,Estado
-3,Cruceros y barcos,Cruises & Boat,tour,excursion-dia si ≥ 6 h,playa-mar,sí,tour,activo
+3,Cruceros y barcos,Cruises & Boat,tour,excursion-dia si ≥ 6 h; tour = transporte en la ciudad (la categoría ya dice el medio; REQ-1250),playa-mar,sí,tour,activo
 4,Viajes de 1 Día,Day Trips,excursion-dia,circuito si ≥ 1440 min,(por palabras),sí,day_trip,activo
-5,Tour Gastronómico,Food & Drink,tour,experiencia-unica con clase/taller,gastronomia,sí,tour,activo
+5,Tour Gastronómico,Food & Drink,tour,"experiencia-unica con clase/taller; tour solo con transporte, caminata a pie, visita-guiada con sitio; sin señal, caminata (REQ-1250…1252)",gastronomia,sí,tour,activo
 7,Vida Nocturna,Night Life,experiencia-unica,,noche-espectaculos,sí,tour,activo
 8,Tour Online,Online Tour,fuera,,—,no,(no aplica),oculto
 10,Tour Corriendo,Running Tour,caminata,,deportivo; urbano,sí,tour,activo
 12,Tour a Pie,Walking Tour,caminata,,urbano,sí,tour,activo
-13,Otros,Other,tour,traslado/entradas/excursion-dia por palabras,(por palabras),sí,tour,activo
-14,Top selección,Top Picks,tour,entradas/excursion-dia por palabras,(por palabras),sí,tour,activo
+13,Otros,Other,tour,"traslado/entradas/excursion-dia por palabras; tour solo con transporte, caminata a pie, visita-guiada con sitio; sin señal, visita-guiada (REQ-1250…1252)",(por palabras),sí,tour,activo
+14,Top selección,Top Picks,tour,"entradas/excursion-dia por palabras; tour solo con transporte, caminata a pie, visita-guiada con sitio; sin señal, visita-guiada (REQ-1250…1252)",(por palabras),sí,tour,activo
 16,Tours de aventura,Adventure Tours,experiencia-unica,,aventura,sí,tour,activo
 17,Audioguías,Audio guides,autoguiado,,(por palabras),no,tickets,activo
 18,Aviación,Aviation,experiencia-unica,,aventura,sí,tour,activo
-19,Tours en vehículo por la ciudad,City Ride Tours,tour,,urbano,sí,tour,activo
+19,Tours en vehículo por la ciudad,City Ride Tours,tour,tour = transporte en la ciudad (la categoría ya dice el medio; REQ-1250),urbano,sí,tour,activo
 20,Entradas,Entrance tickets,entradas,,(por palabras),no,tickets,activo
 21,Juegos y ocio,Games & Leisure,experiencia-unica,,parques-ocio,sí,tour,activo
-22,Sitios históricos,Historic Sites,tour,,cultural,sí,tour,activo
+22,Sitios históricos,Historic Sites,visita-guiada,tour con transporte en el título; caminata a pie (REQ-1251),cultural,sí,tour,activo
 23,Deportes de motor,Motorsports,experiencia-unica,,aventura; deportivo,sí,tour,activo
-24,Museos,Museums,entradas,,cultural,no,tickets,activo
-25,Naturaleza y parques,Nature & Parks,tour,excursion-dia si ≥ 6 h,naturaleza,sí,tour,activo
+24,Museos,Museums,entradas,visita-guiada con guía (REQ-1251),cultural,no,tickets,activo
+25,Naturaleza y parques,Nature & Parks,tour,"excursion-dia si ≥ 6 h; tour solo con transporte, caminata a pie, visita-guiada con sitio; sin señal, caminata (REQ-1250…1252)",naturaleza,sí,tour,activo
 26,Alquileres,Rentals,alquiler,,—,no,car_rental,tras bandera
 27,Espectáculos en vivo,Live Shows,experiencia-unica,,cultural; noche-espectaculos,sí,tour,activo
 28,Pases urbanos,City Passes,entradas,,(por palabras),no,tickets,activo

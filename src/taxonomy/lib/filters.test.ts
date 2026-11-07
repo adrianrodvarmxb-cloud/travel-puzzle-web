@@ -30,7 +30,7 @@ describe("T4 filtro ?formato= en /tours (REQ-412, REQ-413)", () => {
   it("REQ-413 ?formato= con slugs válidos, sin repetir y en orden; ?tipo_act= viejo se traduce o se ignora", () => {
     expect(parseFormatos(q("formato=tour,caminata,tour,12,traslado"))).toEqual(["caminata", "tour"]);
     expect(parseFormatos(q("tipo_act=excursiones,gastronomia,transporte"))).toEqual(["excursion-dia"]);
-    expect(parseFormatos(q("tipo_act=visitas"))).toEqual(["pieza-libre", "caminata", "tour", "autoguiado"]);
+    expect(parseFormatos(q("tipo_act=visitas"))).toEqual(["pieza-libre", "caminata", "visita-guiada", "tour", "autoguiado"]); // REQ-1250
   });
   it("REQ-413 noindex,follow y canonical /tours solo con filtro de formato y la bandera encendida", () => {
     expect(toursRobots(q("formato=tour"), true)).toEqual({ robots: { index: false, follow: true }, canonical: "/tours" });
