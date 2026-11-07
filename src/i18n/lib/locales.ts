@@ -17,3 +17,6 @@ export const ogLocale = (lang: SupportedLanguage): string => OG[lang];
 
 /** Nombre de cada idioma en su propio idioma (selector y aviso). */
 export const LOCALE_NAME: Record<SupportedLanguage, string> = { es: "español", en: "English", pt: "português", fr: "français", it: "italiano", de: "Deutsch" };
+
+// REQ-664: <html lang> = idioma de la URL solo en rutas en alcance con la bandera (locked); si no, español como hoy.
+export const htmlLang = (route: { lang: SupportedLanguage; locked: boolean } | null): SupportedLanguage => (route?.locked ? route.lang : DEFAULT_LOCALE);

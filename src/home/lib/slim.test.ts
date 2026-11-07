@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { slimDayTrip, slimHomeTour } from "./slim";
-import { fromHomeTour, fromTripCard } from "@/tours/lib/card-sources";
+import { fromHomeTour, fromTripCard, withFinalHref } from "@/tours/lib/card-sources";
 import type { HomeTour } from "../load";
 import type { TripCard } from "@/trips/public-load";
 
@@ -21,5 +21,15 @@ describe("REQ-857: al cliente solo viaja lo que pinta la tarjeta", () => {
     const s = slimDayTrip({ type: "trip", trip }, "es");
     expect(s.type === "trip" && s.trip.dates).toEqual([]);
     expect(JSON.stringify(slimDayTrip({ type: "trip", trip }, "es")).length).toBeLessThan(JSON.stringify(trip).length / 3);
+  });
+});
+
+describe("REQ-668 con REQ-857", () => {
+  it("REQ-668: recortar la tarjeta del inicio conserva la ficha final", () => {
+    const t = { id: "t1", externalId: 1, titles: { es: "A", en: "B" }, cityNames: { es: "París" }, image: "", isFree: true, price: 0, currency: "EUR", duration: "2:00", rating: null, reviews: 0 } as HomeTour;
+    const fin = withFinalHref(new Map([["tour:t1", "/destinos/fr/paris/a"]]));
+    expect(fromHomeTour(slimHomeTour(fin(t), "en"), { lang: "en" }).href).toBe("/destinos/fr/paris/a");
+    const d = slimDayTrip({ type: "tour", tour: fin(t) }, "es");
+    expect(d.type === "tour" && d.tour.href).toBe("/destinos/fr/paris/a");
   });
 });

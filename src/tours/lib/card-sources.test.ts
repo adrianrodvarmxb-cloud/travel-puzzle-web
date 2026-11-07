@@ -3,7 +3,7 @@ import type { Tour } from "@/types";
 import type { HomeTour } from "@/home/load";
 import type { TourCardModel } from "@/destinations/lib/catalog";
 import type { TripCard } from "@/trips/public-load";
-import { fromCatalogTour, fromDestinationTour, fromHomeTour, fromTripCard } from "./card-sources";
+import { fromCatalogTour, fromDestinationTour, fromHomeTour, fromTripCard, withFinalHref } from "./card-sources";
 
 const tour = {
   id: "t1", externalId: 1, title: "Free tour por Montmartre", brief: "Barrio de artistas.", description: null, destination: "París", provider: "FREETOUR.com",
@@ -47,5 +47,24 @@ describe("REQ-520: todas las fuentes dan la misma tarjeta", () => {
       cities: ["París"], durationDays: 1, price: { main: "MXN $1,050", original: "EUR €49", rateNote: null }, priceFrom: 49, languages: [], dates: [], group: "", freeCancel: false, private: false,
       hotelPickup: false, createdAt: 0, durationMinutes: 1440, provider: "Big Bus Tours", formato: "transporte" } as unknown as TripCard;
     expect(fromTripCard(t, "es", "Desde")).toMatchObject({ category: "Transporte turístico", meta: "París · 1 día", provider: "Big Bus Tours", price: { text: "Desde MXN $1,050 · EUR €49", free: false }, rating: null });
+  });
+});
+
+describe("REQ-668: las tarjetas enlazan la ficha final", () => {
+  const resolve = new Map([["tour:t1", "/destinos/fr/paris/free-tour-montmartre"]]);
+  it("REQ-668: /tours e inicio usan la ficha final cuando existe; si no, /tours/{id} como antes", () => {
+    expect(fromCatalogTour(tour, { lang: "es", href: resolve.get("tour:t1") }).href).toBe("/destinos/fr/paris/free-tour-montmartre");
+    expect(fromCatalogTour(tour, { lang: "es" }).href).toBe("/tours/t1");
+    const fin = withFinalHref(resolve);
+    expect(fin({ id: "t1" }).href).toBe("/destinos/fr/paris/free-tour-montmartre");
+    expect(fin({ id: "t9" }).href).toBe("/tours/t9");
+    expect(withFinalHref(undefined)({ id: "t1" }).href).toBe("/tours/t1");
+    const h = { id: "t1", externalId: 1, titles: { es: "A" }, cityNames: { es: "París" }, image: "", isFree: true, price: 0, currency: "EUR", duration: "2:00", rating: null, reviews: 0 } as HomeTour;
+    expect(fromHomeTour(fin(h), { lang: "en" }).href).toBe("/destinos/fr/paris/free-tour-montmartre");
+  });
+  it("REQ-665: la tarjeta de /destinos en el idioma de la página", () => {
+    const d: TourCardModel = { id: "d1", href: "/destinos/fr/paris/x", title: "Louvre", provider: "Ana", image: null, isFreeTour: true, price: 0, currency: "EUR",
+      rating: null, reviews: 0, duration: "1:30", kind: "free", updatedAt: "", formato: "pieza-libre", city: "Paris" };
+    expect(fromDestinationTour(d, { price: null, lang: "en" }).category).toBe("Free tour");
   });
 });

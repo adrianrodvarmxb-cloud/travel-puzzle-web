@@ -37,6 +37,8 @@ export interface HomeTour {
   durationMinutes?: number | null;
   /** REQ-523: descripción breve por idioma (si no hay frase de reseña). */
   briefs?: Record<string, string>;
+  /** REQ-668: ficha final bajo /destinos (sin el 301 de /tours/{id}); vacío = /tours/{id}. La pone la página. */
+  href?: string;
 }
 
 export interface HomeStats {

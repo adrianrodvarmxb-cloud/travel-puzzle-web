@@ -367,7 +367,7 @@ export function ToursPageClient({
     // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
     const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
     // REQ-170 / REQ-522: etiquetas de precio y formato armadas en el servidor (fetchTours).
-    const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string> } | undefined;
+    const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string>; cardHrefs?: Record<string, string> } | undefined;
 
     return (
         <div className="min-h-screen bg-background">
@@ -434,7 +434,7 @@ export function ToursPageClient({
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
-                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null })} />
+                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null, href: cardExtras?.cardHrefs?.[tour.id] })} />
                                         </div>
                                     ))}
                                 </div>
