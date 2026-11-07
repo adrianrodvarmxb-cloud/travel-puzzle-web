@@ -885,3 +885,5 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1339 | DEFINICIÓN | Propuesta: alerta en el sync cuando un país o una ciudad se descarten (lección de REQ-1264 y regla 8 de CLAUDE.md) | PO | — | PENDIENTE |
 | REQ-1340 | CÓDIGO | /destinos/gb/edimburgo/top-edimburgo-experiencia-auto-guia da 404 y el H1 de /destinos/gb dice «Inglaterra» en vez de «Reino Unido» | agente | — | EN CURSO |
 | REQ-1341 | CÓDIGO | El índice de sitemaps marca lastmod 2026-11-06 aunque el contenido cambió el 7-11 | agente | — | PENDIENTE |
+| REQ-1342 | VALIDACIÓN | Cifras del ensayo de la carga histórica de la copia exacta, antes del backfill real (parte de REQ-1316) | PO | REQ-1316 (ensayo) | PENDIENTE |
+| REQ-1343 | TAREA-PO | Revisión automática de estatus cada 6 horas (PO 7-11 13:08: «cada 6 horas revisa estatus»): tarea programada que lee este tablero, PR, workflows y producción y notifica al PO | coordinador | — | EN CURSO |
