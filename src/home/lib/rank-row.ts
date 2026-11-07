@@ -34,7 +34,7 @@ export type TourCandidate = RankCandidate & { source: "tour"; id: string; extern
 // REQ-270: con `taxonomy` (TAXONOMY_PUBLISH_ENABLED), lo que la taxonomía no publica (fuera, por-revisar) no entra y se cuenta.
 export function parseTourRankRows(
   rows: readonly unknown[],
-  opts: { taxonomy?: CatalogClassifier } = {},
+  opts: { taxonomy?: CatalogClassifier; /** REQ-858: qué es excursión de un día (por defecto, la regla REQ-451). */ isDayTrip?: (input: { categoryId: number; price: number; durationMinutes: number | null; titles: string[] }) => boolean } = {},
 ): { ok: TourCandidate[]; dropped: number; branded: number; untaxed: number } {
   const ok: TourCandidate[] = [];
   let dropped = 0;
@@ -51,7 +51,7 @@ export function parseTourRankRows(
     ok.push({
       source: "tour", id: t.id, externalId: t.externalId, key: `tour:${t.id}`,
       city: t.cityName ? normKey(t.cityName) : `city:${t.cityId}`, country: t.countryCode.toUpperCase(),
-      format: freetourFormat(input), rating: t.rating, reviews: t.reviews, hasReviewSystem: true, dayTrip: isDayTripTour(input),
+      format: freetourFormat(input), rating: t.rating, reviews: t.reviews, hasReviewSystem: true, dayTrip: opts.isDayTrip ? opts.isDayTrip(input) : isDayTripTour(input),
     });
   }
   return { ok, dropped, branded, untaxed };
