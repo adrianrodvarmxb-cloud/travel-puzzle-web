@@ -23,6 +23,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1252 | Sin señal: tipo por defecto de la categoría y lista de dudas | `format.ts`, `src/taxonomy/schemas/dictionary.ts` (`porDefecto`), `docs/taxonomia/reclasificacion-2026-11-07/` | `tour-visita-caminata.test.ts` | EN CURSO (falta la revisión del PO) |
 | REQ-1253 | Corrige REQ-865: «Viajes de 1 día» solo dejan de ser excursión con señal de quedarse | `format.ts`, `src/taxonomy/lib/text.ts` (`namesCity`), ciudad base en `snapshot.ts`, `card-format.ts`, `publish.ts`, `destinations/lib/catalog.ts`, `home/load.ts`, `actions/tours.ts`, `trips/cross-sell-deps.ts`, `taxonomy/repository.ts`, `run-plan.ts` | `src/taxonomy/lib/tipos-dudosos.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## Chips y filtro de /tours desde el diccionario (D21) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1256 | Tipos principales de /tours desde el diccionario | `src/taxonomy/lib/format-defs.ts`, `src/taxonomy/schemas/dictionary.ts`, `src/taxonomy/data/dictionary.json`, `src/tours/lib/format-chips.ts`, `src/taxonomy/lib/filters.ts`, `src/catalog/lib/query.ts`, `src/lib/db/repositories/tour-repository.ts`, `src/app/tours/page.tsx`, `ToursPageClient.tsx`, `MoreFilters.tsx` | `src/taxonomy/lib/format-defs.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

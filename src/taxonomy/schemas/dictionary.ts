@@ -33,6 +33,10 @@ const zFormato = base.extend({
   precedencia: z.number().int().min(0).max(13).nullable(), // REQ-1250: 13 = visita-guiada (parte de #11)
   seccion: z.enum(SECCIONES),
   guiaEnPersona: z.boolean(),
+  /** REQ-1256: nombre corto (tarjeta y chips) y orden en /tours; obligatorio en los activos de Experiencias. */
+  etiqueta_corta_es: texto.min(1).optional(),
+  etiqueta_corta_en: texto.min(1).optional(),
+  orden_chip: z.number().int().min(1).optional(),
   palabras: z.array(palabra).optional(),
   palabrasNoEnTitulo: z.array(palabra).optional(),
   /** REQ-535: frases del resumen que también cuentan para el formato (hoy, «sale de la ciudad base» en excursion-dia). */
@@ -115,6 +119,10 @@ export const zDictionary = z.object({
   for (const f of TEMAS) if (!vistos.has(`tema:${f}`)) ctx.addIssue({ code: "custom", message: `falta el tema ${f}` });
   const prec = d.terminos.flatMap((t) => (t.eje === "formato" && t.precedencia !== null ? [t.precedencia] : []));
   if (new Set(prec).size !== prec.length) ctx.addIssue({ code: "custom", message: "dos formatos con la misma precedencia" });
+  // REQ-1256: un tipo principal de /tours sale del diccionario: sin nombre corto no se puede pintar su chip.
+  for (const t of d.terminos) if (t.eje === "formato" && t.estado === "activo" && t.seccion === "experiencias" && (!t.etiqueta_corta_es || !t.etiqueta_corta_en)) {
+    ctx.addIssue({ code: "custom", message: `falta la etiqueta corta del formato ${t.slug}` });
+  }
 });
 export type Dictionary = z.infer<typeof zDictionary>;
 

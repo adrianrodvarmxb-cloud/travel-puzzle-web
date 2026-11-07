@@ -10,6 +10,11 @@ import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
 import { scrubTourRow } from '@/tours/lib/provider-text';
+import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
+import { formatDefs } from '@/taxonomy/lib/format-defs';
+
+/** REQ-1256: tipos principales de /tours, del diccionario. */
+const TOURS_FORMATOS = formatDefs(DEFAULT_DICTIONARY).map((d) => d.slug);
 
 export type TourWithRelations = Prisma.TourGetPayload<{
   include: {
@@ -143,6 +148,7 @@ export async function getToursFromCatalog(
     ranked, // REQ-048: relevancia FTS5 (null = búsqueda por palabras)
     searchV2, // REQ-122
     taxonomy: filters.taxonomy, formatos: filters.formatos, // T4
+    formatosTours: TOURS_FORMATOS, // REQ-1256: del diccionario
   }, pagination);
   const rows = ids.length
     ? await prisma.tour.findMany({

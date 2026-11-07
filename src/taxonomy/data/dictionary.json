@@ -127,7 +127,10 @@
         "tour",
         "recorrido*",
         "visita guiada"
-      ]
+      ],
+      "etiqueta_corta_es": "Boletos",
+      "etiqueta_corta_en": "Tickets",
+      "orden_chip": 7
     },
     {
       "slug": "autoguiado",
@@ -157,7 +160,10 @@
         "app audioguia*",
         "audio guided"
       ],
-      "nota": "Copy sin «con un guía local» (REQ-416, REQ-433)."
+      "nota": "Copy sin «con un guía local» (REQ-416, REQ-433).",
+      "etiqueta_corta_es": "Autoguiado",
+      "etiqueta_corta_en": "Self-guided",
+      "orden_chip": 8
     },
     {
       "slug": "pieza-libre",
@@ -180,7 +186,10 @@
       "seccion": "experiencias",
       "guiaEnPersona": true,
       "coleccion_es": "La Primera Pieza",
-      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4). Etiqueta pública «Pieza libre» (PO 6-11 10:43, REQ-269); EN «Free Puzzle» (PO 7-11 06:06, REQ-1103); «free tour» y «tour gratis» quedan como sinónimos de búsqueda."
+      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4). Etiqueta pública «Pieza libre» (PO 6-11 10:43, REQ-269); EN «Free Puzzle» (PO 7-11 06:06, REQ-1103); «free tour» y «tour gratis» quedan como sinónimos de búsqueda.",
+      "etiqueta_corta_es": "Pieza libre",
+      "etiqueta_corta_en": "Free Puzzle",
+      "orden_chip": 1
     },
     {
       "slug": "circuito",
@@ -205,7 +214,10 @@
         "overnight",
         "pernocta",
         "([2-9]|\\d\\d+)-day"
-      ]
+      ],
+      "etiqueta_corta_es": "Circuito",
+      "etiqueta_corta_en": "Multi-day tour",
+      "orden_chip": 9
     },
     {
       "slug": "excursion-dia",
@@ -318,7 +330,10 @@
         "out of the city",
         "cerca de ",
         "near "
-      ]
+      ],
+      "etiqueta_corta_es": "Excursión de un día",
+      "etiqueta_corta_en": "Day trip",
+      "orden_chip": 5
     },
     {
       "slug": "caminata",
@@ -337,7 +352,10 @@
       "precedencia": 9,
       "seccion": "experiencias",
       "guiaEnPersona": true,
-      "nota": "Gate G2 opción A: solo tours a pie de pago; los free tours a pie son Free tour. «Hikes» va al tema montana-senderismo."
+      "nota": "Gate G2 opción A: solo tours a pie de pago; los free tours a pie son Free tour. «Hikes» va al tema montana-senderismo.",
+      "etiqueta_corta_es": "Caminata",
+      "etiqueta_corta_en": "Walking tour",
+      "orden_chip": 2
     },
     {
       "slug": "experiencia-unica",
@@ -489,7 +507,10 @@
           "safari",
           "navegacion"
         ]
-      }
+      },
+      "etiqueta_corta_es": "Momentos de autor",
+      "etiqueta_corta_en": "Signature moments",
+      "orden_chip": 6
     },
     {
       "slug": "tour",
@@ -512,7 +533,10 @@
       "precedencia": 11,
       "seccion": "experiencias",
       "guiaEnPersona": true,
-      "nota": "Decisión B del PO (7-11 08:01) y respuesta de las 08:10: Tour = transporte dentro de la ciudad; el hop-on hop-off sigue como Transporte turístico (REQ-1250)."
+      "nota": "Decisión B del PO (7-11 08:01) y respuesta de las 08:10: Tour = transporte dentro de la ciudad; el hop-on hop-off sigue como Transporte turístico (REQ-1250).",
+      "etiqueta_corta_es": "Tour",
+      "etiqueta_corta_en": "Tour",
+      "orden_chip": 4
     },
     {
       "slug": "visita-guiada",
@@ -638,7 +662,10 @@
         "guided visit",
         "interior"
       ],
-      "nota": "Decisión B del PO (7-11 08:01): en un sitio o museo con guía. Se distingue de Tour (transporte) y de Caminata (a pie). REQ-1250, REQ-1251."
+      "nota": "Decisión B del PO (7-11 08:01): en un sitio o museo con guía. Se distingue de Tour (transporte) y de Caminata (a pie). REQ-1250, REQ-1251.",
+      "etiqueta_corta_es": "Visita guiada",
+      "etiqueta_corta_en": "Guided visit",
+      "orden_chip": 3
     },
     {
       "slug": "a-la-medida",
@@ -654,7 +681,10 @@
       "estado": "activo",
       "precedencia": 12,
       "seccion": "experiencias",
-      "guiaEnPersona": true
+      "guiaEnPersona": true,
+      "etiqueta_corta_es": "Viaje a la medida",
+      "etiqueta_corta_en": "Tailor-made",
+      "orden_chip": 10
     },
     {
       "slug": "crucero",

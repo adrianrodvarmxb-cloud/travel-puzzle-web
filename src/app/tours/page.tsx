@@ -14,6 +14,8 @@ import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
+import { formatDefs } from '@/taxonomy/lib/format-defs';
+import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
 import { catalogName, catalogTitle } from '@/tours/lib/catalog-name';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { toursItemList } from '@/seo/lib/listing-ld';
@@ -139,6 +141,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
       taxonomy={taxonomy}
+      formatDefs={taxonomy ? formatDefs(DEFAULT_DICTIONARY) : undefined /* REQ-1256: chips y filtro desde el diccionario */}
       showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
       logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />

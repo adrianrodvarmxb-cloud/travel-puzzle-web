@@ -95,7 +95,9 @@ export function toursRobots(q: URLSearchParams, enabled: boolean): { robots?: { 
 }
 
 /** REQ-412: opciones del filtro: solo formatos con resultados en el contexto, más los que ya estén marcados. */
-export function formatoOptions(counts: Partial<Record<string, number>> | null | undefined, selected: readonly string[], lang: string) {
-  return FORMATOS_FILTRO.filter((f) => (counts?.[f] ?? 0) > 0 || selected.includes(f))
-    .map((f) => ({ slug: f, label: formatoLabel(f, lang), count: counts?.[f] ?? 0 }));
+// REQ-1256: con `defs` (del diccionario, armadas en el servidor) los tipos y sus nombres largos salen de ahí.
+export function formatoOptions(counts: Partial<Record<string, number>> | null | undefined, selected: readonly string[], lang: string, defs?: readonly { slug: string; largo: { es: string; en: string } }[]) {
+  const list = defs ?? FORMATOS_FILTRO.map((f) => ({ slug: f as string, largo: FORMATO_LABEL[f] }));
+  return list.filter((d) => (counts?.[d.slug] ?? 0) > 0 || selected.includes(d.slug))
+    .map((d) => ({ slug: d.slug, label: lang === "es" ? d.largo.es : d.largo.en, count: counts?.[d.slug] ?? 0 }));
 }
