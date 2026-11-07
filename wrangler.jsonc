@@ -84,7 +84,7 @@
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
     "STRIPE_HOLD_ENABLED": "false",
     // Enlace de pago de Stripe para solicitudes (REQ-114..119). "true" solo tras migración 0013, webhook creado y OK del PO.
-    "STRIPE_ENABLED": "false",
+    "STRIPE_ENABLED": "true",
     // Colchón de tipo de cambio para cobros en USD/EUR (gate B1).
     "STRIPE_FX_CUSHION_PCT": "3",
     // REQ-081: post-tour (correo o WhatsApp) que promueva tours de FREETOUR. "true" solo con autorización escrita en docs/freetour/autorizaciones.md.
