@@ -1,7 +1,7 @@
 export const it = {
   // Navigation
   'nav.home': 'Home',
-  'nav.tours': 'Tour',
+  'nav.tours': 'Esperienze',
   'nav.howItWorks': 'Come Funziona',
   'nav.transfers': 'Transfer',
   'nav.login': 'Accedi',
@@ -19,8 +19,8 @@ export const it = {
   
   // Hero Section
   'hero.title': 'Scopri la Tua Prossima Avventura',
-  'hero.subtitle': "Tour con guide locali in tutto il mondo",
-  'hero.cta.browse': 'Esplora i Tour',
+  'hero.subtitle': "Esperienze con guide locali in tutto il mondo",
+  'hero.cta.browse': "Esplora le esperienze",
   'hero.cta.howItWorks': 'Come Funziona',
   
   // Home
@@ -35,7 +35,7 @@ export const it = {
   'home.whyChoose.support.title': 'Supporto 24/7',
   'home.whyChoose.support.subtitle': 'Il nostro team è disponibile 24 ore su 24 per aiutarvi in qualsiasi momento.',
   'home.whyChoose.experience.title': '15 Anni di Esperienza',
-  'home.whyChoose.experience.subtitle': 'Conosciamo il Messico come nessun altro. Scoprite luoghi unici con i nostri esperti.',
+  'home.whyChoose.experience.subtitle': 'Conosciamo il Messico come nessun altro. Scoprite luoghi unici con i nostri consulenti di viaggio.',
   'home.whyChoose.instantBooking.title': 'Prenotazione Istantanea',
   'home.whyChoose.instantBooking.subtitle': 'Confermate il vostro viaggio istantaneamente con il nostro sistema di prenotazione online.',
   'home.whyChoose.metrics.happyTravelers': 'Viaggiatori Felici',
@@ -54,16 +54,16 @@ export const it = {
   'home.topDestinations.book': 'Prenota',
   
   // Tours
-  'tours.title': 'Tutti i Tour',
-  'tours.subtitle': 'tour disponibili',
+  'tours.title': "Tutte le esperienze",
+  'tours.subtitle': "esperienze disponibili",
   'tours.lastUpdated': 'Ultimo aggiornamento',
-  'tours.featuredTitle': 'Tour in Evidenza',
-  'tours.viewAll': 'Vedi Tutti i Tour',
+  'tours.featuredTitle': "Esperienze in evidenza",
+  'tours.viewAll': "Vedi tutte le esperienze",
   'tours.filter.destination': 'Destinazione',
   'tours.filter.priceRange': 'Fascia di Prezzo',
   'tours.filter.provider': 'Fornitore',
   'tours.filter.sortBy': 'Ordina Per',
-  'tours.filter.search': 'Cerca tour...',
+  'tours.filter.search': "Cerca esperienze...",
   'tours.viewDetails': 'Vedi Dettagli',
   'tours.bookNow': 'Lo voglio',
   'tours.duration': 'Durata',
@@ -71,7 +71,11 @@ export const it = {
   'tours.meetingPoint': 'Punto di Incontro',
   'tours.from': 'Da',
   'tours.free': 'Free tour',
-  'tours.noResults': 'Nessun tour trovato',
+  // REQ-271: pines del mapa de /tours (el precio verde sigue con tours.free).
+  'tours.freePin': 'Free tour',
+  // REQ-480: insignia azul sobre la foto (el precio sigue con tours.free).
+  'tours.freeBadge': 'Free tour',
+  'tours.noResults': "Nessuna esperienza trovata",
   'tours.description': 'Descrizione',
   'tours.destination': 'Destinazione',
   'tours.provider': 'Fornitore',
@@ -79,7 +83,7 @@ export const it = {
   'tours.noAvailability': 'Nessuna disponibilità al momento',
   'tours.filters.title': 'Filtri',
   'tours.filters.search': 'Cerca',
-  'tours.filters.searchPlaceholder': 'Cerca tour...',
+  'tours.filters.searchPlaceholder': "Dove vai? Città, paese o esperienza",
   'tours.filters.country': 'Paese',
   'tours.filters.allCountries': 'Tutti i Paesi',
   'tours.filters.city': 'Città',
@@ -93,10 +97,10 @@ export const it = {
   
   // How It Works
   'howItWorks.title': 'Come Funziona',
-  'howItWorks.step1.title': 'Esplora i Tour',
+  'howItWorks.step1.title': "Esplora le esperienze",
   'howItWorks.step1.description': 'Scopri destinazioni e attività da fornitori affidabili',
   'howItWorks.step2.title': 'Prenota in Sicurezza',
-  'howItWorks.step2.description': 'Scegli il tuo tour e completa la prenotazione con i nostri partner',
+  'howItWorks.step2.description': "Scegli la tua esperienza e completa la prenotazione con i nostri partner",
   'howItWorks.step3.title': 'Goditi il Tuo Viaggio',
   'howItWorks.step3.description': 'Ricevi la conferma e preparati per la tua avventura',
   
@@ -106,7 +110,7 @@ export const it = {
   'booking.status.confirmed': 'Confermato',
   'booking.status.cancelled': 'Annullato',
   'booking.empty': 'Ancora nessuna prenotazione',
-  'booking.viewTour': 'Vedi Tour',
+  'booking.viewTour': "Vedi esperienza",
   'booking.totalAmount': 'Importo Totale',
   'booking.bookingDate': 'Data di Prenotazione',
   
@@ -217,16 +221,16 @@ export const it = {
   // Reviews
   'reviews.tourTitle': 'Recensioni dei viaggiatori',
   'reviews.total': '{count} recensioni in totale',
-  'reviews.source': "Opinioni di chi ha già fatto il tour",
+  'reviews.source': "Opinioni di chi ha già vissuto l'esperienza",
   'home.recentReviews.title': 'Cosa dicono i viaggiatori',
   "reviews.count": "{count} recensioni",
   "reviews.showMore": "Mostra altre recensioni",
   "tours.favorite": "Preferito dai viaggiatori",
-  "reviews.seeTour": "Vedi il tour",
-  "tours.backToTours": "Torna a tutti i tour",
+  "reviews.seeTour": "Vedi l'esperienza",
+  "tours.backToTours": "Torna a tutte le esperienze",
   "tours.directions": "Indicazioni",
-  "tours.headline": "Trova il tuo tour.",
-  "tours.eyebrow": "TOUR · {count} DISPONIBILI",
+  "tours.headline": "Esperienze",
+  "tours.eyebrow": "{count} ESPERIENZE DISPONIBILI",
   "tours.sort.label": "Ordina per",
   "tours.sort.relevance": "Rilevanza",
   "tours.sort.reviews": "Più recensioni",
@@ -239,13 +243,13 @@ export const it = {
   "tours.duration.long": "Oltre 4 h",
   "tours.map.loading": "Caricamento mappa…",
   "tours.map.error": "Impossibile caricare la mappa.",
-  "tours.map.empty": "I tour di questa pagina non hanno un punto di incontro sulla mappa.",
-  "tours.map.view": "Vedi tour",
+  "tours.map.empty": "Le esperienze di questa pagina non hanno un punto di incontro sulla mappa.",
+  "tours.map.view": "Vedi esperienza",
   "tours.map.show": "Mappa",
   "tours.map.list": "Elenco",
   "tours.filters.toggle": "Filtri",
   "tours.noResultsHelp": "Prova un'altra città o scrivici su WhatsApp.",
   "pagination.pageOf": "Pagina {current} di {total}",
   "tours.searchCta": "Cerca",
-  "tours.tipNote": "Alla fine del tour, lascia alla guida la mancia che ritieni giusta.",
+  "tours.tipNote": "Alla fine dell'esperienza, lascia alla guida la mancia che ritieni giusta.",
 };

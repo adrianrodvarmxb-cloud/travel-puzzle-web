@@ -1,3 +1,4 @@
+import { fallbackTourTitle } from "@/destinations/lib/pieza-libre-copy";
 import { tripUrl } from "@/cart/lib/links";
 import { buildStatusEmail, type StatusKind } from "@/notifications/lib/status-emails";
 import { buildReviewRequestEmail } from "@/notifications/lib/review-email";
@@ -7,6 +8,8 @@ import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type Email
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
 import { filterPostTourOffers, type OfferSource } from "@/freetour/lib/promo-policy";
+import { paidPolicy } from "@/tours/lib/paid-policy";
+import { loadEmailCrossSell, type CrossSellLoaderDeps } from "@/notifications/cross-sell";
 
 export interface TourSummary {
   title: string;
@@ -62,6 +65,8 @@ interface Deps {
   freetourPostTourPromo?: boolean;
   /** REQ-182: ARMA_TU_VIAJE_ENABLED; con "true" la confirmación enlaza a «Arma tu viaje» de esa reserva. */
   armaTuViaje?: boolean;
+  /** REQ-264: venta cruzada sin FREETOUR (EMAIL_CROSS_SELL_ENABLED); sin esto, el correo sale igual que hoy. */
+  crossSell?: CrossSellLoaderDeps;
   send(email: { to: string; subject: string; html: string; text: string; attachments?: { filename: string; content: string; contentType?: string }[] }): Promise<string>;
 }
 
@@ -86,7 +91,7 @@ function calendarAttachment(
     refNumber: record.refNumber,
     startUtc: record.eventUtcDate,
     durationMinutes: durationMinutes(tour?.duration),
-    title: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+    title: tour?.title ?? fallbackTourTitle(record.tourExternalId, "es"),
     location: meetingPointText(tour?.meetingPoint, "es"),
     description: `Reserva ${record.refNumber}\nVer, cambiar o cancelar: ${site}/reserva/${record.manageToken}`,
     url: `${site}/reserva/${record.manageToken}`,
@@ -111,11 +116,12 @@ export async function sendBookingConfirmation(
     const reviews = record.tourExternalId && deps.getReviews ? await deps.getReviews(record.tourExternalId, deps.lang).catch(() => []) : [];
     const moreTours = await offersFor(record, deps, site); // REQ-081
     const weather = tour && record.eventDate && deps.getWeather ? await deps.getWeather(tour.meetingPoint, record.eventDate).catch(() => null) : null;
+    const crossSell = await loadEmailCrossSell(opts.variant ?? "confirmation", record, deps.lang, site, deps.crossSell); // REQ-264
     const email = buildBookingConfirmationEmail({
       lang: deps.lang,
       refNumber: record.refNumber,
       firstName: record.firstName,
-      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      tourTitle: tour?.title ?? fallbackTourTitle(record.tourExternalId, deps.lang),
       provider: tour?.provider ?? null,
       eventDate: record.eventDate,
       eventUtcDate: record.eventUtcDate,
@@ -137,11 +143,14 @@ export async function sendBookingConfirmation(
       heroImageUrl: tour?.imageUrl ?? null,
       galleryUrls: tour?.galleryUrls ?? [],
       reviews,
-      isFree: tour?.isFree ?? record.price === 0,
+      // REQ-812: lo cobrado manda; un free tour que pasó a tarifa fija ya no es «a propina».
+      isFree: record.price > 0 ? false : (tour?.isFree ?? true),
+      paidPolicy: record.price > 0 ? (({ cancel, noShow }) => ({ cancel, noShow }))(paidPolicy({ fullPrice: record.price, payNow: record.price, isPartiallyPaid: false, currency: "EUR" }, deps.lang)) : null,
       contact: deps.contact,
       variant: opts.variant,
       // REQ-182
       tripUrl: tripUrl({ site, token: record.manageToken, enabled: deps.armaTuViaje === true, status: record.status }),
+      crossSell,
     });
     const attachments = !opts.variant || opts.variant === "confirmation" ? calendarAttachment("REQUEST", record, tour, site, deps.calendar) : [];
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
@@ -152,7 +161,14 @@ export async function sendBookingConfirmation(
   }
 }
 
-type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo">;
+type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo" | "crossSell" | "now">;
+
+/** REQ-811 (D3): con 24 h o más antes del tour, reembolso; menos, no. Sin fecha UTC no se afirma nada. */
+export function refundFor(eventUtcDate: string | null | undefined, now: Date): "full" | "none" | null {
+  const t = eventUtcDate ? Date.parse(`${eventUtcDate.trim().replace(" ", "T")}${/[zZ]|[+-]\d\d:?\d\d$/.test(eventUtcDate.trim()) ? "" : "Z"}`) : NaN;
+  if (!Number.isFinite(t)) return null;
+  return t - now.getTime() >= 24 * 3600 * 1000 ? "full" : "none";
+}
 
 /** Correo de rechazo, cancelación o cambio de una reserva guardada. Nunca lanza. */
 export async function sendStatusEmail(
@@ -166,12 +182,14 @@ export async function sendStatusEmail(
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const moreTours = await offersFor(record, deps, site); // REQ-081
+    // REQ-262: nunca en rechazo ni cancelación; solo el cambio de una reserva que sigue activa.
+    const crossSell = kind === "modified" ? await loadEmailCrossSell("modified", record, deps.lang, site, deps.crossSell) : null;
     const email = buildStatusEmail({
       kind,
       lang: deps.lang,
       refNumber: record.refNumber,
       firstName: record.firstName,
-      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      tourTitle: tour?.title ?? fallbackTourTitle(record.tourExternalId, deps.lang),
       eventDate: record.eventDate,
       eventUtcDate: record.eventUtcDate,
       duration: tour?.duration ?? null,
@@ -188,6 +206,10 @@ export async function sendStatusEmail(
       animatedLogoUrl: `${site}/brand/logo-animado-tp-oscuro.gif`,
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
+      crossSell,
+      // REQ-811
+      paid: record.price > 0,
+      refund: record.price > 0 && kind === "canceled" ? refundFor(record.eventUtcDate, deps.now?.() ?? new Date()) : null,
     });
     const attachments = calendarAttachment(kind === "modified" ? "REQUEST" : "CANCEL", record, tour, site, deps.calendar);
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
@@ -212,11 +234,12 @@ export async function sendReviewRequest(
     const site = deps.siteUrl.replace(/\/+$/, "");
     const tour = record.tourExternalId ? await deps.getTour(record.tourExternalId, deps.lang).catch(() => null) : null;
     const moreTours = await offersFor(record, deps, site); // REQ-081
+    const crossSell = await loadEmailCrossSell("review", record, deps.lang, site, deps.crossSell); // REQ-264
     const email = buildReviewRequestEmail({
       lang: deps.lang,
       refNumber: record.refNumber,
       firstName: record.firstName,
-      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      tourTitle: tour?.title ?? fallbackTourTitle(record.tourExternalId, deps.lang),
       reviewUrl: `${site}/reserva/${record.manageToken}/resena`,
       cityName: tour?.cityName ?? null,
       moreTours,
@@ -224,6 +247,7 @@ export async function sendReviewRequest(
       animatedLogoUrl: `${site}/brand/logo-animado-tp-oscuro.gif`,
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
+      crossSell,
     });
     await deps.send({ to: record.email, ...email });
     return "sent";

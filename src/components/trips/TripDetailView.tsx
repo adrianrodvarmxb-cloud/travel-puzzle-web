@@ -3,6 +3,8 @@
  * app/viajes/[destino]/[slug]/page.tsx para que la use también /destinos/{pais}/{ciudad}/{slug} (gate 4).
  * `path` es la URL canónica de la ficha (la de /viajes hoy, o la de /destinos con PRIMERA_PIEZA_ENABLED).
  */
+import { circuitFacts, taxonomyCircuitsEnabled } from '@/taxonomy/lib/circuit-facts';
+import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
 import type { Metadata } from 'next';
 import type React from 'react';
 import { Navbar } from '@/components/layout';
@@ -26,17 +28,24 @@ import { localized } from '@/trips/lib/translation';
 import { priceDisplay, formatMoney, optionPrice } from '@/trips/lib/money';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { toursForPlace } from '@/trips/cross-sell';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import { crossSellCopy } from '@/trips/lib/cross-sell-copy';
+import { JsonLd } from '@/components/destinations/JsonLd';
+import { TripHeader } from '@/components/trips/TripHeader';
+import { enBreve, fichaJsonLd } from '@/seo/lib/ficha-ld';
+import { tripFichaInput } from '@/seo/lib/trip-ficha';
+import { OWN_PROVIDER } from '@/trips/public-load';
+import { canonicalUrl } from '@/seo/lib/hub';
+import { SITE_URL_DEFAULT } from '@/destinations/load';
 
 export type TripData = NonNullable<Awaited<ReturnType<typeof loadTripBySlug>>>;
 
 export async function tripMetadata(data: TripData, path: string): Promise<Metadata> {
-    const lang = await getPreferredLanguage();
+    const lang = await getRouteLanguage();
     const title = localized(data.translations, lang, 'title', data.trip.titleEs);
     const description = localized(data.translations, lang, 'summary', data.trip.summaryEs);
     const image = data.trip.images[0] ? imageUrl(data.trip.images[0].key) : undefined;
@@ -50,13 +59,14 @@ export async function tripMetadata(data: TripData, path: string): Promise<Metada
 
 export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { data: TripData; path: string; breadcrumbs?: React.ReactNode; prellenado?: { fecha?: string; adultos?: number; ninos?: number } }) {
     const { trip, translations: tr, fx } = data;
-    const lang = await getPreferredLanguage();
+    const lang = await getRouteLanguage();
     const c = tripCopy(lang);
     const L = (key: string, es: string) => localized(tr, lang, key, es);
     const duration = durationLabel(trip, c);
     const isAudio = isAudioGuided(trip);
     const card = toCard({ ...trip, translations: tr }, lang, fx);
     const env = process.env as Record<string, string | undefined>;
+    const facts = taxonomyCircuitsEnabled(env as Record<string, string | undefined>) ? circuitFacts({ kind: trip.kind, difficulty: trip.difficulty, durationDays: trip.durationDays, options: trip.options }, DEFAULT_DICTIONARY, lang) : null;
     const contact = contactFromEnv(env);
     const wa = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(`Hola Travel Puzzle, quiero cotizar "${trip.titleEs}" (${trip.code}).`)}` : null;
     // REQ-112: opciones en la moneda original del operador con pesos aproximados (decisión del PO, 5 nov 2026). Reversible: false vuelve a pesos primero.
@@ -76,18 +86,32 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     // REQ-059: "Cómo funciona tu reserva" solo promete lo que existe (retención en tarjeta tras STRIPE_HOLD_ENABLED).
     const steps = bookingSteps(lang, { cardHold: isCardHoldEnabled(env.STRIPE_HOLD_ENABLED) });
     const cancel = trip.cancellation.type === 'standard' ? [c.cancelStandard] : trip.cancellation.type === 'none' ? [c.cancelNone] : trip.cancellation.tiers.map((t) => c.cancelTier(t.daysBefore, t.refundPct));
+    // REQ-576/577/581: marcado Product+TouristTrip, «En breve», tipo y etiquetas, con los mismos textos que se ven aquí.
+    // Idiomas: los mismos nombres de la lista visible (Intl en el servidor, como hoy). La cancelación no entra mientras
+    // REQ-060 la oculte de la página (SHOW_POLICY_ON_PAGE): el marcado y «En breve» solo dicen lo visible.
+    const languageNames = trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l) ?? l);
+    const agencyId = (trip as { agencyId?: string | null }).agencyId ?? null;
+    const operator = data.agencyName?.trim() || (agencyId ? null : OWN_PROVIDER);
+    const ficha = {
+        ...tripFichaInput({
+            trip: { ...trip, agencyId }, lang, url: canonicalUrl(process.env.SITE_URL || SITE_URL_DEFAULT, path), title: card.title, summary: card.summary || null,
+            operator, duration, languageNames, languagesTitle: isAudio ? (lang === 'es' ? 'Audioguía' : 'Audio guide') : null, priceText: card.price ? `${c.from} ${card.price.main}${card.price.original ? ` · ${card.price.original}` : ''}` : null,
+            places: [trip.cities.join(', '), trip.countries.map((x) => countryName(x, lang)).join(', ')].filter(Boolean).join(' · ') || null,
+            includes: trip.includes.map((x, i) => L(`includes.${i}`, x)), formato: card.formato ?? null,
+        }),
+        images: trip.images.map((im) => imageUrl(im.key)),
+        cancellation: SHOW_POLICY_ON_PAGE ? policy.text : null,
+    };
+    const breve = enBreve(ficha);
 
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
-            <main className="tp-dark">
+            <JsonLd data={[fichaJsonLd(ficha)]} />
+            <main className="tp-dark" data-enriquecimiento="true">
                 <div className="mx-auto max-w-[1180px] px-4 pb-24 pt-10 md:px-8">
                     {breadcrumbs && <div className="mb-6">{breadcrumbs}</div>}
-                    <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">
-                        {c.kinds[trip.kind]} · {trip.countries.map((x) => countryName(x, lang)).join(' · ')}{/* REQ-145 */}{duration ? ` · ${duration}` : ''}
-                    </p>
-                    <h1 className="font-display mt-2 text-3xl font-bold leading-tight text-white md:text-5xl">{card.title}</h1>
-                    {trip.cities.length > 0 && <p className="mt-2 text-[#C9D6F5]">{trip.cities.join(' · ')}</p>}
+                    <TripHeader eyebrow={`${c.kinds[trip.kind]} · ${trip.countries.map((x) => countryName(x, lang)).join(' · ')}${duration ? ` · ${duration}` : ''}`} title={card.title} cities={trip.cities} breve={breve} tipo={ficha.tipo} etiquetas={ficha.etiquetas} lang={lang} />
 
                     <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_340px]">
                         <div className="min-w-0 space-y-8">
@@ -166,9 +190,16 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
                                 policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} prellenado={prellenado} />
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5 text-sm text-[#D5DCEE]">
                                 <ul className="space-y-2">
-                                    {trip.languages.length > 0 && <li>{/* REQ-146 */}{isAudio ? '🎧' : '🗣️'} {languagesLabel(trip, c)}{isAudio ? ' ' : ': '}{trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
+                                    {trip.languages.length > 0 && <li>{/* REQ-146 */}{isAudio ? '🎧' : '🗣️'} {languagesLabel(trip, c)}{isAudio ? ' ' : ': '}{languageNames.join(', ')}</li>}
                                     {(trip.minPax || trip.maxPax) && <li>👥 {c.group_size(trip.minPax, trip.maxPax)}</li>}
-                                    {trip.difficulty && <li>⛰️ {c.difficulty[trip.difficulty]}</li>}
+                                    {/* T6b (REQ-421…423): con TAXONOMY_CIRCUITS_ENABLED, dificultad 1–5, tipo de grupo y rango de días; apagada, la línea de hoy. */}
+                                    {facts ? (
+                                        <>
+                                            {facts.dificultad && <li data-faceta="dificultad">⛰️ {facts.dificultad}</li>}
+                                            {facts.grupo && <li data-faceta="grupo">🧭 {facts.grupo}</li>}
+                                            {facts.dias && <li data-faceta="dias">🗓️ {facts.dias}</li>}
+                                        </>
+                                    ) : trip.difficulty && <li>⛰️ {c.difficulty[trip.difficulty]}</li>}
                                     <li>✈️ {trip.flightsIncluded ? c.flights : c.noFlights}</li>
                                     <li className="font-data text-[11px] uppercase tracking-wider text-[#7F8DB0]">{trip.code}</li>
                                 </ul>

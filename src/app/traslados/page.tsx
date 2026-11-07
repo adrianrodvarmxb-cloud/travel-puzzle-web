@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
 import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
@@ -15,7 +15,8 @@ import { getPrisma } from '@/lib/prisma';
 import { loadTripCards } from '@/trips/public-load';
 import { TRANSPORT_SECTION_ID, transportTrips } from '@/trips/lib/public';
 import { tripCopy } from '@/trips/lib/copy';
-import { OwnTripCard } from '@/components/trips/OwnTripCard';
+import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { fromTripCard } from '@/tours/lib/card-sources';
 
 export const dynamic = 'force-dynamic';
 
@@ -103,7 +104,7 @@ export default async function TrasladosPage() {
                 disponibilidad y precio con el operador y no te cobramos nada hasta confirmar.
               </p>
               <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {transportList.map((t) => <OwnTripCard key={t.id} trip={t} c={tc} lang="es" />)}
+                {transportList.map((t) => <ExperienceCard key={t.id} card={fromTripCard(t, 'es', tc.from)} />) /* REQ-520 */}
               </div>
             </section>
           </SectionBoundary>

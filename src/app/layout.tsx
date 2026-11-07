@@ -10,6 +10,13 @@ import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
 import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
+import { sitePagesFromEnv } from "@/site/lib/pages";
+import { blogEnv, loadVisiblePosts } from "@/blog/load";
+import { blogNavVisible } from "@/blog/lib/registry";
+import { isHomeCarouselsEnabled } from "@/home/lib/flags";
+import { ClientErrorListener } from "@/components/common/ClientErrorListener";
+import { localeUrlsEnabled } from "@/i18n/lib/flags";
+import { routeLanguageState } from "@/i18n/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,22 +46,31 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: SITE_META.title, description: SITE_META.description, images: [SITE_META.image] },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   // REQ-027: afiliados (Travelpayouts) apagados por defecto y solo en rutas elegidas.
   const drive = driveConfig(process.env as Record<string, string | undefined>);
+  // REQ-241, REQ-257: «Blog» en el pie solo con BLOG_ENABLED y al menos 3 artículos visibles.
+  const env = process.env as Record<string, string | undefined>;
+  const be = blogEnv(env);
+  const pages = { ...sitePagesFromEnv(env), blog: blogNavVisible(be.enabled, loadVisiblePosts(be)) };
+  // REQ-654 (Gate 3): con LOCALE_URLS_ENABLED, el idioma de la URL llega al cliente. Apagada no se leen encabezados
+  // (las páginas estáticas siguen estáticas) y el provider arranca como hoy.
+  const route = localeUrlsEnabled(env) ? await routeLanguageState() : null;
   return (
     <html lang="es" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}
+        <ClientErrorListener />
         <SessionProvider>
-          <AppProviders>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) }}>
+          <AppProviders language={route?.lang} locked={route?.locked ?? false}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear() }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

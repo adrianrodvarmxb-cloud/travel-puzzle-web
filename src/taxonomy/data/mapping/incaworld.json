@@ -1,0 +1,33 @@
+{
+  "proveedor": "incaworld",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "PROGRAMA",
+      "nombre_es": "Programa",
+      "nombre_en": "Program",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Columna «PROGRAMA» del TARIFARIO B2B 2026-2027 (códigos PROG-…); no es fijo: el clasificador decide por días."
+    },
+    {
+      "id": "SERVICIO",
+      "nombre_es": "Servicio",
+      "nombre_en": "Service",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Columna «SERVICIO» del TARIFARIO B2B 2026-2027 (códigos LIM-, CUS-, MP-, PUN-, AQP-, NAZ-, CHH-); no es fijo: excursión de un día o circuito según duración y palabras."
+    }
+  ]
+}

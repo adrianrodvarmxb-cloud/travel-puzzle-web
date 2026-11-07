@@ -4,8 +4,10 @@ import { withTransfersLink } from '@/transfers/lib/nav';
 import { withPrimeraPiezaLinks } from '@/tours/lib/menu';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { usePathname, useRouter } from 'next/navigation';
+import { splitLocale } from '@/i18n/lib/path';
+import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { useSession, signOut } from 'next-auth/react';
 import { useLanguage } from '@/lib/language-context';
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
@@ -26,19 +28,22 @@ export const Navbar = () => {
   const { t, language } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
+  const localize = useLocalizedHref();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (path: string) => isActiveLink(pathname ?? '', path); // REQ-068
+  // REQ-068; REQ-655: se compara sin el prefijo de idioma.
+  const isActive = (path: string) => isActiveLink(splitLocale(pathname ?? '').rest, path);
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
-    router.push('/');
+    router.push(localize('/'));
     router.refresh();
   };
 
   // Navigation links based on auth state
-  const { transfers, ownTrips, primeraPieza } = useFeatureFlags();
-  // REQ-093: La Primera Pieza y Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
+  const { transfers, primeraPieza, dayTrips } = useFeatureFlags();
+  // REQ-093: Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
+  // REQ-600: «La Primera Pieza» fuera del menú (MENU_PRIMERA_PIEZA en src/tours/lib/menu.ts).
   const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
@@ -203,7 +208,7 @@ export const Navbar = () => {
 
             {/* Secciones del inicio (decisión del PO, 3 nov 2026); REQ-068: se derivan de la lista única */}
             <div className="mb-4 border-t border-white/15 pt-3">
-              {homeSections(language, { ownTrips }).map((s) => (
+              {homeSections(language, { dayTrips }).map((s) => (
                 <Link
                   key={s.id}
                   href={s.href}

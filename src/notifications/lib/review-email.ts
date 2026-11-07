@@ -5,6 +5,7 @@
 import { BRAND as B } from "./brand";
 import { esc, kit, renderShell, supportCard, whatsappUrl, UI, MONO, type ContactInfo } from "./email-layout";
 import type { EmailLang } from "./booking-email";
+import { crossSellText, renderCrossSellHtml, type CrossSellBlock } from "./cross-sell";
 
 export interface ReviewEmailData {
   lang: EmailLang;
@@ -19,6 +20,8 @@ export interface ReviewEmailData {
   animatedLogoUrl?: string;
   iconsBaseUrl?: string;
   contact?: ContactInfo;
+  /** REQ-264: bloque de venta cruzada (sin FREETOUR); null o ausente = no se pinta. */
+  crossSell?: CrossSellBlock | null;
 }
 
 const T = {
@@ -93,6 +96,8 @@ ${status(t.status, "#3DDC84", "#7CE3A1")}
 <p style="margin:14px 6px 0;font-size:13px;line-height:1.5;color:${B.muted};text-align:center">${esc(t.tip)}</p>
 </td></tr>
 
+${renderCrossSellHtml(d.crossSell, eyebrow)}
+
 ${more.length ? `<tr><td style="padding:30px 26px 0">
 ${eyebrow(t.next)}${h2(t.nextTitle(d.cityName ?? null))}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${more.map((x) => `<td valign="top" width="${Math.floor(100 / more.length)}%" style="padding:0 5px">
@@ -127,6 +132,7 @@ ${supportCard({ eyebrow: eyebrow(t.support, DIM), title: t.help, subtitle: t.waS
     `${t.writeCta}: ${writeUrl}`,
     "",
     t.tip,
+    ...crossSellText(d.crossSell),
     ...(more.length ? ["", t.nextTitle(d.cityName ?? null), ...more.map((x) => `- ${x.title}: ${x.url}`)] : []),
     ...(waUrl ? ["", `${t.whatsapp}: ${waUrl}`] : []),
     "",

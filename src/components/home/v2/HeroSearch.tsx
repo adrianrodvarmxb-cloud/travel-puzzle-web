@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
+import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
@@ -17,6 +18,7 @@ const SHOW_HERO_EYEBROW = false;
 
 export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quickCities: DestinationCard[] }) {
   const { language } = useLanguage();
+  const localize = useLocalizedHref();
   const c = homeCopy(language);
   const router = useRouter();
   const [q, setQ] = useState('');
@@ -35,7 +37,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const v = q.trim();
-    router.push(v ? `/tours?search=${encodeURIComponent(v)}` : '/tours');
+    router.push(localize(v ? `/tours?search=${encodeURIComponent(v)}` : '/tours')); // REQ-655
   };
 
   return (
@@ -59,9 +61,11 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
           <h1 className="font-display mb-7 text-[42px] font-bold leading-[1.02] text-white md:text-7xl">{c.heroHeadline}</h1>
           <form onSubmit={submit} role="search" className="flex max-w-2xl flex-col gap-2 rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur-xl sm:flex-row">
             <label htmlFor="home-search" className="sr-only">{c.searchPlaceholder}</label>
-            <div className="flex min-w-0 flex-1 items-center gap-3 rounded-xl bg-white px-4">
+            <div className="relative flex min-w-0 flex-1 items-center gap-3 rounded-xl bg-white px-4">
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#304A9F" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
-              <input id="home-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={c.searchPlaceholder} className="min-w-0 flex-1 bg-transparent py-4 text-base text-[#0A1330] outline-none placeholder:text-gray-500" />
+              <input id="home-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={c.searchPlaceholder} className="peer min-w-0 flex-1 bg-transparent py-4 text-base text-[#0A1330] outline-none placeholder:text-transparent sm:placeholder:text-gray-500" />
+              {/* REQ-173: en celular, frase corta para que no se corte; solo CSS, mismo HTML en servidor y navegador (INC-001). */}
+              <span aria-hidden="true" data-testid="home-search-short" className="pointer-events-none absolute left-[48px] hidden text-base text-gray-500 peer-placeholder-shown:block sm:peer-placeholder-shown:hidden">{c.searchPlaceholderShort}</span>
             </div>
             <button type="submit" className="rounded-xl bg-[#C12909] px-7 py-4 font-semibold text-white transition-opacity hover:opacity-90">{c.searchCta} →</button>
           </form>
@@ -81,7 +85,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
             <div className="rounded-2xl border border-white/20 bg-[#0A1330]/55 px-5 py-4 backdrop-blur-xl">
               <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{c.onScreen(n + 1, list.length)}</p>
               <p className="font-display mt-2 text-2xl font-semibold text-white">{city}</p>
-              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(String(current.tours))}</p>
+              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(current.toursText ?? String(current.tours))}</p>
               <Link href={current.href} className="text-sm font-semibold text-[#EAF54F] hover:text-white">{c.seeToursIn(city)}</Link>
             </div>
             {list.length > 1 && (

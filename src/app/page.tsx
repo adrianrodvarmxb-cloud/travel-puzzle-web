@@ -1,3 +1,9 @@
+import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
+import { JsonLd as ListJsonLd } from "@/components/destinations/JsonLd";
+import { homeItemLists } from "@/seo/lib/listing-ld";
+import { canonicalHrefs } from "@/seo/lib/itemlist";
+import { getDestinations, siteUrl as siteBase } from "@/destinations/server";
+import { homeTaxonomy } from "@/home/load";
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { Navbar } from "@/components/layout";
 import {
@@ -14,16 +20,25 @@ import {
   WhatsAppBubble,
 } from "@/components/home/v2";
 import { loadHomeData } from "@/home/load";
+import { mentionsProviderBrand } from "@/home/lib/brand";
 import { cached, cacheKey, POLICY } from "@/cache/edge";
 import { withRetry } from "@/tours/lib/d1-load";
 import { createHighlightRepo } from "@/reviews/repository";
 import { HashScroll } from "@/components/home/v2/HashScroll";
-import { OwnTripsCarousel } from "@/components/home/v2/OwnTripsCarousel";
-import { loadTripCards } from "@/trips/public-load";
+import { DayTripsCarousel } from "@/components/home/v2/DayTripsCarousel";
+import { isHomeCarouselsEnabled } from "@/home/lib/flags";
+import { loadFx, loadTripCards } from "@/trips/public-load";
+import { priceLabelsFor } from "@/tours/lib/price-label";
+import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
-import { getPreferredLanguage } from "@/lib/utils/cookies";
+import { getRouteLanguage } from '@/i18n/server';
+import { formatCount } from "@/home/lib/format";
+import { withToursText } from "@/home/lib/hero";
+import { JsonLd } from "@/components/destinations/JsonLd";
+import { homeJsonLd } from "@/seo/lib/home-jsonld";
+import { siteUrl } from "@/destinations/server";
 
 // Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
@@ -31,26 +46,48 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const env = process.env as Record<string, string | undefined>;
   const prisma = getPrisma();
-  const lang = await getPreferredLanguage();
-  const ownTrips = await loadTripCards(lang);
+  const lang = await getRouteLanguage();
+  // REQ-219 (y REQ-454): ningún carrusel del inicio muestra títulos con «FreeTour» / «Free Tour».
+  const ownTrips = (await loadTripCards(lang)).filter((t) => !mentionsProviderBrand(t.title));
   const includePaid = env.PAID_TOURS_ENABLED === "true";
+  // REQ-450/453: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
+  const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
-  const data = await cached(cacheKey("home", { lang, includePaid }), POLICY.home, () =>
-    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang })),
+  // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
+  const taxonomyOn = taxonomyPublishEnabled(env);
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "tipos-540" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
+    withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
+  // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.
+  const numLang = lang === "en" ? "en" : "es";
+  const counts = { tours: formatCount(data.stats.tours, numLang), cities: formatCount(data.stats.cities, numLang), countries: formatCount(data.stats.countries, numLang) };
+  const hero = withToursText(data.hero, numLang);
+  // REQ-170: EUR + «aprox. MXN» en las destacadas de pago (servidor, idioma fijo; INC-001), solo con PRIMERA_PIEZA_ENABLED.
+  // REQ-453: también los tours de pago de «Excursiones de un día».
+  const homeTours = [...data.featured, ...data.dayTrips.flatMap((d) => (d.type === "tour" ? [d.tour] : []))];
+  const paid = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? homeTours.filter((t) => !t.isFree && t.price > 0) : [];
+  const rates = paid.length ? await loadFx().catch(() => null) : null;
+  const priceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.price, currency: t.currency })), rates, lang === "es" ? "es" : "en");
   const contact = contactFromEnv(env);
+  // REQ-582: ItemList de los carruseles con la URL canónica de cada tarjeta. Si el árbol falla, sin resolver (nunca tumba el inicio).
+  const resolve = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? canonicalHrefs(await getDestinations().catch(() => null)) : undefined;
+  const carouselLists = homeItemLists({ siteUrl: siteBase(), lang, featured: data.featured, dayTrips: data.dayTrips, resolve });
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
   return (
     <div className="min-h-screen bg-background">
+      {/* REQ-575: WebSite (SearchAction) y Organization en el HTML servido. */}
+      <JsonLd data={homeJsonLd(siteUrl(), contact.socials)} />
       {/* Header y footer se conservan como están (decisión del PO) */}
       <Navbar />
       <main className="tp-dark">
-        <HeroSearch slides={data.hero} quickCities={data.destinations.slice(0, 5)} />
-        <ProofStrip stats={data.stats} />
+        <HeroSearch slides={hero} quickCities={data.destinations.slice(0, 5)} />
+        <ProofStrip stats={data.stats} counts={counts} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
-        <FeaturedTours tours={data.featured} />
-        <SectionBoundary name="carrusel-viajes"><OwnTripsCarousel trips={ownTrips} /></SectionBoundary>
+        <FeaturedTours tours={data.featured} priceLabels={priceLabels} />
+        {/* REQ-452: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
+        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} priceLabels={priceLabels} /></SectionBoundary>
+        {carouselLists.length > 0 && <ListJsonLd data={carouselLists} />}
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />
         <MapSection />

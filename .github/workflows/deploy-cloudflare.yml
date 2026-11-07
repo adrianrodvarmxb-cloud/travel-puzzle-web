@@ -58,6 +58,10 @@ jobs:
         env:
           DATABASE_URL: file:./dev.db
 
+      # REQ-224 (INC-001): un error de tipos detiene el deploy antes de migraciones y build.
+      - name: Tipos (tsc)
+        run: npx tsc --noEmit
+
       - name: Migraciones D1
         if: github.event_name == 'workflow_dispatch' && inputs.migraciones && !inputs.ensayo
         run: npx wrangler d1 migrations apply travel-puzzle --remote
@@ -114,7 +118,10 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       # 2) Prueba de humo contra esa versión: 390 y 1366 px, sin excepciones ni "Application error".
+      # REQ-500 (INC-007): si una página falla, guarda HTML crudo, DOM, errores y captura, y la recarga una vez.
       - name: Prueba de humo (antes de publicar)
+        env:
+          SMOKE_EVIDENCE_DIR: smoke-evidencia/antes-de-publicar
         run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
 
       # 3) Solo si pasó: se le da el 100% del tráfico (nunca en ensayo).
@@ -164,6 +171,8 @@ jobs:
         id: smoke_prod
         if: always() && steps.publicar.outcome == 'success'
         continue-on-error: true
+        env:
+          SMOKE_EVIDENCE_DIR: smoke-evidencia/produccion
         run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
 
       - name: Regresar a la versión anterior si falló
@@ -172,3 +181,13 @@ jobs:
           yes | npx wrangler rollback --message "rollback automatico: prueba de humo fallida ${{ github.sha }}"
           echo "::error::La prueba de humo en producción falló; se regresó a la versión anterior."
           exit 1
+
+      # REQ-500 (INC-007): la evidencia de cualquier falla de humo queda como artefacto del job (solo páginas públicas).
+      - name: Evidencia de la prueba de humo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-humo-${{ github.run_id }}-${{ github.run_attempt }}
+          path: smoke-evidencia/
+          if-no-files-found: ignore
+          retention-days: 30

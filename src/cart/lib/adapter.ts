@@ -27,6 +27,8 @@ export interface Offer {
   title: string;
   price?: Money;
   url?: string;
+  /** T7 (REQ-428): formato de la taxonomía, si el adaptador lo sabe (FREETOUR desde el catálogo). */
+  formato?: string;
 }
 
 export interface Availability { available: boolean; price?: Money; places?: number }

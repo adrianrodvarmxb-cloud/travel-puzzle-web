@@ -35,3 +35,19 @@ describe("línea de comunicación", () => {
     expect(homeCopy("es").footerSlogan).toBe("Te armamos tu viaje");
   });
 });
+
+describe("REQ-453: copy de «Excursiones de un día»", () => {
+  it("REQ-453: título y subtítulo en es y en, sin nombrar al proveedor", () => {
+    expect([homeCopy("es").dayHeadline, homeCopy("es").daySub]).toEqual(["Excursiones de un día.", "Sales de la ciudad y vuelves el mismo día."]);
+    expect([homeCopy("en").dayHeadline, homeCopy("en").daySub]).toEqual(["Day trips.", "Leave the city and be back the same day."]);
+    expect(homeCopy("fr").dayEyebrow).toBe("DAY TRIPS");
+  });
+});
+
+// REQ-803 (C7): el promedio del inicio es de los tours (calificaciones de sus proveedores), no de Travel Puzzle.
+describe("REQ-803 el promedio del inicio dice que es de las experiencias", () => {
+  it("REQ-803: es y en", () => {
+    expect(homeCopy("es").avgLabel).toBe("CALIFICACIÓN PROMEDIO DE LAS EXPERIENCIAS");
+    expect(homeCopy("en").avgLabel).toBe("AVERAGE EXPERIENCE RATING");
+  });
+});

@@ -18,6 +18,10 @@ export function checkEvent(
   const isFree = prices.every((p) => p === 0);
   if (isFree) return { ok: true, price: 0 };
 
-  const price = ev.fullPricePerGroup[String(adults + children)];
-  return price === undefined ? { ok: false, code: "no_availability" } : { ok: true, price };
+  // REQ-810 (D2, E9): por adultos (formulario, REQ-010 del PR #62) o por adultos + niños; se toma la más cara
+  // hasta que api@freetour.com confirme cuál vale. Nunca se reserva gratis un grupo que una lectura marca de pago.
+  const readings = [ev.fullPricePerGroup[String(adults)], ev.fullPricePerGroup[String(adults + children)]].filter(
+    (p): p is number => typeof p === "number" && Number.isFinite(p)
+  );
+  return readings.length ? { ok: true, price: Math.max(...readings) } : { ok: false, code: "no_availability" };
 }

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { heroFacts } from '@/tours/lib/hero-facts';
 import { useLanguage } from '@/lib/language-context';
 import { Tour } from '@/types';
 import { ReviewSummary } from './ReviewSummary';
 import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
 import type { TourEvent } from '@/lib/api/freetour-client';
 import { PrimeraPiezaInfo, type PrimeraPiezaView } from './PrimeraPiezaInfo';
+import { FichaEnBreve } from '@/components/seo/FichaEnBreve';
 
 interface TourHeroSectionProps {
     tour: Tour;
@@ -17,20 +19,22 @@ interface TourHeroSectionProps {
 
 /** Galería en mosaico + título, etiquetas, resumen de reseñas y datos clave del tour. */
 export function TourHeroSection({ tour, primeraPieza = null, events = [] }: TourHeroSectionProps) {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const images = tour.images.filter((img) => img && img.trim() !== '');
     const [showAll, setShowAll] = useState(false);
     const [main, ...rest] = images;
     const side = rest.slice(0, 4);
-    const facts: [string, string | null | undefined][] = [
-        [t('tours.duration'), tour.duration],
-        [t('tours.destination'), tour.destination],
-        [t('tours.meetingPoint'), tour.meetingPoint?.title],
-        [t('tours.provider'), tour.provider],
-    ];
+    // REQ-578 / REQ-588: la tira de datos sale de una función pura; en FREETOUR el idioma del guía se pinta al montar.
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    const shown = heroFacts({
+        labels: { duration: t('tours.duration'), destination: t('tours.destination'), meetingPoint: t('tours.meetingPoint'), provider: t('tours.provider') },
+        tour: { duration: tour.duration, destination: tour.destination, meetingPoint: tour.meetingPoint?.title, provider: tour.provider },
+        view: primeraPieza, mounted, lang: language,
+    });
 
     return (
-        <section className="mb-10">
+        <section className="mb-10" {...(primeraPieza ? { 'data-enriquecimiento': String(primeraPieza.enrichment ?? false) } : {})}>
             {main ? (
                 <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-3xl md:grid-cols-4 md:grid-rows-[220px_220px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -63,19 +67,22 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [] }: Tour
             <div className="mt-8 flex flex-wrap gap-2">
                 {!primeraPieza && <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} />}
                 {tour.price === 0 && (
-                    <span className="font-data rounded-md border border-[#7CC4FF] px-2 py-0.5 text-[11px] uppercase tracking-[0.15em] text-[#7CC4FF]">{t('tours.free')}</span>
+                    <span className="font-data rounded-md border border-[#7CC4FF] px-2 py-0.5 text-[11px] uppercase tracking-[0.15em] text-[#7CC4FF]">{t('tours.freeBadge', 'Free tour')}</span>
                 )}
             </div>
             <h1 className="font-display mb-4 mt-3 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{tour.title}</h1>
             <ReviewSummary rating={tour.rating} reviews={tour.reviewsNumber} dark withBadge={false} />
+            {/* REQ-577 / REQ-581: «En breve» bajo el H1 solo si el proveedor permite enriquecimiento (nunca FREETOUR). */}
+            {primeraPieza?.enrichment && <FichaEnBreve text={primeraPieza.enBreve ?? null} tipo={primeraPieza.facets?.tipo} etiquetas={primeraPieza.facets?.etiquetas} />}
             {primeraPieza && <PrimeraPiezaInfo view={primeraPieza} events={events} />}
             {tour.brief && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{tour.brief}</p>}
 
-            <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
-                {facts.filter(([, v]) => v).map(([label, value]) => (
-                    <div key={label} className="bg-[#0A1330] p-4 md:p-5">
-                        <dt className="font-data text-[10px] uppercase tracking-[0.2em] text-[#A9B6D6]">{label}</dt>
-                        <dd className="font-display mt-1.5 line-clamp-2 text-lg font-semibold text-white">{value}</dd>
+            <dl className={`mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 ${shown.length > 4 ? 'md:grid-cols-3 lg:grid-cols-5' : 'md:grid-cols-4'}`}>
+                {shown.map((f) => (
+                    // REQ-588: data-nosnippet en FREETOUR (punto de encuentro e idioma del guía): se ven, pero no van a fragmentos.
+                    <div key={f.key} data-hecho={f.key} {...(f.nosnippet ? { 'data-nosnippet': '' } : {})} className="bg-[#0A1330] p-4 md:p-5">
+                        <dt className="font-data text-[10px] uppercase tracking-[0.2em] text-[#A9B6D6]">{f.label}</dt>
+                        <dd className="font-display mt-1.5 line-clamp-2 text-lg font-semibold text-white">{f.value}</dd>
                     </div>
                 ))}
             </dl>
