@@ -328,6 +328,18 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T4 · REQ-261 (traslado, transporte y renta fuera de /tours) | `queryCatalog` con la taxonomía | `filters.test.ts` | CUMPLIDO (apagado) |
 | T4 · REQ-269 (chip «Pieza libre»; EN «Free tour» por ahora) | `src/taxonomy/lib/filters.ts` (`FORMATO_LABEL`) | `filters.test.ts` | CUMPLIDO (apagado) |
 
+### Taxonomía, fase T5: etiquetas y copy por formato, tras `TAXONOMY_LABELS_ENABLED="false"` (requiere T3; va después de #156, #177 y #179)
+
+| Fase y REQ | Código | Test | Estado |
+|---|---|---|---|
+| T5 · REQ-414 (chips de formato en «Tours» de la ciudad, sin cambiar la URL, nunca en cero) | `src/taxonomy/lib/copy.ts` (`cityFormatChips`), `components/destinations/ToursByFormat.tsx`, `app/destinos/[pais]/[ciudad]/page.tsx` | `src/taxonomy/lib/copy.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-415 (etiqueta de formato fuera de la foto; H1 = título real) | `destinations/lib/page-model.ts` (`labels`), `components/tours/one/PrimeraPiezaInfo.tsx` | `copy.test.ts`, `destinations/lib/page-model.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-416 («con un guía local» solo con guía en persona; decisión del PO: no si el título dice autoguiado o self-guided) | `taxonomy/lib/publish.ts` (`guiaEnPersona`), `copy.ts` (`cityIntro`, `operatedByFor`, `tourDescription`), tarjetas de la ciudad (`DestinationTourCard`, `guideCopy`) | `copy.test.ts`, `page-model.test.ts`, `components/destinations/tour-card-guia.test.ts` | CUMPLIDO (apagado); pt/de/fr/it de los nombres de formato: flujo de traducción pendiente (hoy en inglés) |
+| T5 · REQ-433 (sin MSI, pagos, «guía en español» ni la marca en el copy de T5) | `copy.ts` | `copy.test.ts` | CUMPLIDO |
+| T5 · G-T9 = A (title «– Excursión desde {Ciudad}» en excursiones; cambia REQ-099 solo para ese formato) | `copy.ts` (`tourTitleByFormat`), `page-model.ts` | `copy.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-269 (chip de la ciudad y etiqueta de la ficha «Pieza libre») | `src/taxonomy/lib/copy.ts` (vía `FORMATO_LABEL`) | `copy.test.ts` | CUMPLIDO (apagado) |
+| T5 · REQ-271 (intro de la ciudad «N en Pieza libre y…»; el resto de REQ-271 va en #195) | `src/taxonomy/lib/copy.ts` (`cityIntro`) | `copy.test.ts` | CUMPLIDO (apagado) |
+
 ### Viajes propios: tarjetas con la caché fría (hallazgo del ensayo #178, 6 nov 2026)
 
 | REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
@@ -338,9 +350,7 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T2b · REQ-409 (se recalcula en cada sync exitoso, en tabla propia, sin tocar Tour ni el content_hash; si la corrida falla se sigue leyendo la anterior) | `src/taxonomy/recompute.ts`, `src/taxonomy/repository.ts`, `src/taxonomy/lib/run-plan.ts`, hook en `src/app/api/cron/sync-tours/route.ts` (minutos libres del cron) | `src/taxonomy/recompute.test.ts` (SQLite real con la 0017) | CUMPLIDO (apagado) |
 | T2b · REQ-408 (por-revisar en el log de la corrida; el sync no se aborta) | `TaxonomyRun.unmapped` y `console.warn` al cerrar | `recompute.test.ts` | CUMPLIDO (apagado) |
 | REQ-174 | "«Experiencias» REEMPLAZA a «Tours» en el menú (Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona)" (Gate G1 de taxonomía firmado por el PO, 6 nov 2026, 05:57: «Experiencias» es el concepto paraguas; dentro van Tours, Circuitos, Caminatas, etc.) | Dado el sitio en cualquier idioma, cuando se ve el menú (escritorio y celular), el footer, el H1 y el title de /tours y la etiqueta de llms.txt, entonces dicen «Experiencias» («Experiences» en inglés), el H1 es igual al nombre del menú y el title es «Experiencias \| Travel Puzzle» (sitelinks-google); la URL sigue siendo /tours y no se crea /experiencias; «Tours» sigue existiendo como formato dentro de Experiencias (filtros, chips y la sección «Tours» de la ciudad no cambian). El chip de formato de viajes únicos pasa de «Experiencias» a «Momentos de autor» («Signature moments» en inglés; firmado por el PO a las 06:22) para que no repita el nombre del paraguas. | CUMPLIDO (falta OK del PO para publicar) |
-
 ### «Pieza libre» en la ciudad, los pines del mapa y los asuntos de los correos (decisión del PO, 6 nov 2026)
-
 | REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
 |---|---|---|---|
 | REQ-271 | "El nombre de la categoría es «Pieza libre» en TODO lo que la nombre; la única excepción es el texto verde «Free tour» del precio en las tarjetas. Inglés: «Free tour»" (PO, vía coordinador, 6 nov 2026; la pestaña de /tours y la insignia van en #189) | Dada la página de una ciudad, cuando se pinta, entonces la sección se llama «Pieza libre (La Primera Pieza)» y la intro dice «N en Pieza libre y M tours con guías locales en {ciudad}»; dado el mapa de /tours, entonces el pin de un tour gratis dice «Pieza libre» (en: «Free tour») y su tarjeta conserva el precio verde «Free tour»; dado un correo sin el título del tour, entonces el asunto dice «Pieza libre {id}» (en: «Free tour {id}»). Dado el filtro «Tipo de actividad» de /tours, entonces el grupo viejo dice «Visitas guiadas y Pieza libre» (en: «Guided tours & free tours»). | CUMPLIDO (src/destinations/lib/pieza-libre-copy.test.ts) |

@@ -1,3 +1,5 @@
+import { ToursByFormat } from '@/components/destinations/ToursByFormat';
+import { cityFormatChips, cityIntro, taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import { cityFreeIntro, freeSectionTitle } from '@/destinations/lib/pieza-libre-copy';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -48,9 +50,11 @@ export default async function CityPage({ params }: Props) {
     const tours = [...city.paidTours, ...city.ownTrips];
     // REQ-170: tipo de cambio para el «aprox. MXN» de las tarjetas de pago; si falla, solo EUR.
     const rates = city.paidTours.length ? await loadFx().catch(() => null) : null;
+    // T5 (REQ-414, REQ-416): chips de formato e intro sin prometer «guías locales» a lo autoguiado, tras TAXONOMY_LABELS_ENABLED.
+    const labels = taxonomyLabelsEnabled(env);
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
-            intro={cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
+            intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
             {city.freeTours.length > 0 && (
                 <Section id="free-tours" title={freeSectionTitle()} subtitle="Reservar es gratis; al final le das al guía lo que consideres justo.">
                     <TourGrid tours={city.freeTours} />
@@ -58,7 +62,7 @@ export default async function CityPage({ params }: Props) {
             )}
             {tours.length > 0 && (
                 <Section id="tours" title="Tours" subtitle="Tours con precio y viajes de Travel Puzzle.">
-                    <TourGrid tours={tours} rates={rates} />
+                    {labels ? <ToursByFormat tours={tours} chips={cityFormatChips(tours)} rates={rates} /> : <TourGrid tours={tours} rates={rates} />}
                 </Section>
             )}
             {(transport.length > 0 || city.transportTrips.length > 0) && (
