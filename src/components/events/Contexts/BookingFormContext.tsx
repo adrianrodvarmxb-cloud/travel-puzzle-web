@@ -1,5 +1,6 @@
 'use client';
 
+import { nextStepAfterBooking } from '@/booking/lib/after-booking';
 import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { buildFTBookingDTO, FTBookingErrorsMap, FTBookingHandlers } from '@/lib/api/schemas/FTBooking.Schema';
@@ -121,6 +122,12 @@ export function BookingFormProvider({ children, eventId, bookingsEnabled, adultC
                 throw new Error(result.message || 'No pudimos confirmar tu reserva. Intenta de nuevo.');
             }
 
+            // REQ-011: tour de pago → checkout de pago; free tour → confirmación aquí.
+            const next = nextStepAfterBooking(result);
+            if (next.kind === 'pay') {
+                window.location.assign(next.url);
+                return;
+            }
             setTripUrl(typeof result.tripUrl === 'string' && result.tripUrl.startsWith('/arma-tu-viaje?') ? result.tripUrl : null);
             setBooking(result.booking);
         } catch (error) {
