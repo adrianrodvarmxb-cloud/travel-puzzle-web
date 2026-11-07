@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import type { TourCardModel } from '@/destinations/lib/catalog';
 import { formatRating } from '@/home/lib/format';
 import { isTravelerFavorite, operatedBy } from '@/tours/lib/favorite';
