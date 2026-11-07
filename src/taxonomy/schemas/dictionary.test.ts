@@ -23,7 +23,7 @@ describe("REQ-401 diccionario versionado (JSON + Zod)", () => {
   });
   it("REQ-401 14 formatos (REQ-1250: + visita-guiada) + fuera y por-revisar, 13 temas, slugs únicos por eje", () => {
     expect(formatos.map((f) => f.slug).sort()).toEqual([...FORMATOS, "fuera", "por-revisar"].sort());
-    expect(FORMATOS).toHaveLength(14); // REQ-1250
+    expect(FORMATOS).toHaveLength(16); // REQ-1250; REQ-1262/1263: en-linea y esenciales-viaje
     expect(temas.map((t) => t.slug).sort()).toEqual([...TEMAS].sort());
     expect(TEMAS).toHaveLength(13);
     const keys = D.terminos.map((t) => `${t.eje}:${t.slug}`);
@@ -45,7 +45,7 @@ describe("REQ-401 diccionario versionado (JSON + Zod)", () => {
   });
   it("REQ-402 la precedencia 0–12 es única y sigue §4.1", () => {
     const orden = formatos.filter((f) => f.precedencia !== null).sort((a, b) => a.precedencia! - b.precedencia!).map((f) => f.slug);
-    expect(orden).toEqual(["fuera", "traslado", "transporte", "alquiler", "entradas", "autoguiado", "pieza-libre", "circuito", "excursion-dia", "caminata", "experiencia-unica", "tour", "a-la-medida", "visita-guiada"]); // REQ-1250: 13 = parte de #11
+    expect(orden).toEqual(["fuera", "traslado", "transporte", "alquiler", "entradas", "autoguiado", "pieza-libre", "circuito", "excursion-dia", "caminata", "experiencia-unica", "tour", "a-la-medida", "visita-guiada", "en-linea", "esenciales-viaje"]); // REQ-1250: 13 = parte de #11; REQ-1262/1263: 14 y 15
   });
 });
 

@@ -138,6 +138,6 @@ describe("REQ-409 lógica pura del recálculo", () => {
     expect(unmappedFrom([{ ruleId: "sin mapeo: freetour:99", n: 3 }, { ruleId: "#3 base freetour:26", n: 1 }])).toEqual([{ provider: "freetour", categoryId: "99", tours: 3 }]);
   });
   it("REQ-409 la versión del mapeo junta diccionario y proveedores", () => {
-    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07|propios:2026-11-06"); // REQ-1250: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida
+    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07b|propios:2026-11-06"); // REQ-1250; REQ-1260: mapeo de FREETOUR nuevo: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida
   });
 });

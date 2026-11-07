@@ -16,7 +16,7 @@ export function cartTypeFor(formato: FormatoOEstado, gate: Gates["autoguiadoCarr
     case "traslado": return "transfer";
     case "transporte": return "transport";
     case "alquiler": return "car_rental";
-    case "circuito": case "a-la-medida": case "crucero": case "fuera": case "por-revisar": return null;
+    case "circuito": case "a-la-medida": case "crucero": case "fuera": case "por-revisar": case "en-linea": case "esenciales-viaje": return null; // REQ-1262/1263
   }
 }
 

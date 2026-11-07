@@ -1,6 +1,6 @@
 {
   "proveedor": "freetour",
-  "version": "2026-11-07",
+  "version": "2026-11-07b",
   "revisado": "docs/freetour/categorias.csv homologado (PO, 6-11-2026)",
   "precioCeroEsPiezaLibre": true,
   "permiteConfirmacionInmediata": false,
@@ -62,11 +62,18 @@
       "id": "8",
       "nombre_es": "Tour Online",
       "nombre_en": "Online Tour",
-      "formato": "fuera",
+      "formato": "tour",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
-      "estado": "oculto"
+      "reglasPorPalabra": [
+        "en-linea",
+        "entradas",
+        "traslado",
+        "experiencia-unica"
+      ],
+      "estado": "oculto",
+      "porDefecto": "visita-guiada",
+      "nota": "REQ-1260…1262 (PO, 7-11 11:3x, «cada una a su tipo real»): ya no es `fuera`. App o audioguía → Autoguiado; en línea → Experiencias en línea; lo demás, su tipo normal."
     },
     {
       "id": "10",
@@ -309,11 +316,12 @@
       "id": "31",
       "nombre_es": "Servicios de viaje",
       "nombre_en": "Travel services",
-      "formato": "fuera",
+      "formato": "esenciales-viaje",
       "temas": [],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "oculto"
+      "estado": "oculto",
+      "nota": "REQ-1263: «Esenciales de viaje», tras bandera (0 activos hoy)."
     },
     {
       "id": "32",

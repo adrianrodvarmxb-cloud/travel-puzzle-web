@@ -11,7 +11,7 @@ import type { FormatoOEstado } from "./types";
 
 /** Formatos que se pueden filtrar en /tours (sección Experiencias y estado activo), en orden de chips. */
 export const FORMATOS_FILTRO = [
-  "pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica", "entradas", "autoguiado", "circuito", "a-la-medida",
+  "pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica", "entradas", "autoguiado", "circuito", "a-la-medida", "en-linea", // REQ-1262
 ] as const satisfies readonly FormatoOEstado[];
 export type FormatoFiltro = (typeof FORMATOS_FILTRO)[number];
 
@@ -28,6 +28,7 @@ export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = 
   autoguiado: { es: "Autoguiado (audioguía)", en: "Self-guided / audio guide" },
   circuito: { es: "Circuito (varios días)", en: "Multi-day tour" },
   "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made trip" },
+  "en-linea": { es: "Experiencias en línea", en: "Online experiences" }, // REQ-1262
 };
 export const formatoLabel = (f: FormatoFiltro, lang: string) => FORMATO_LABEL[f][lang === "es" ? "es" : "en"];
 
@@ -47,6 +48,7 @@ export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string 
   autoguiado: { es: "Autoguiado", en: "Self-guided" },
   circuito: { es: "Circuito", en: "Multi-day tour" },
   "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made" },
+  "en-linea": { es: "En línea", en: "Online" }, // REQ-1262
 };
 /**
  * REQ-543 (PO 6-11 21:14): atributos que complementan el tipo principal y quedan listos como facetas del filtro

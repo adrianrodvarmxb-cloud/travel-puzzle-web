@@ -10,7 +10,7 @@ import { combinado } from "./combined";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
-const ANTES_DE_FREE: ReadonlySet<FormatoOEstado> = new Set(["fuera", "traslado", "transporte", "alquiler", "entradas", "autoguiado"]);
+const ANTES_DE_FREE: ReadonlySet<FormatoOEstado> = new Set(["fuera", "esenciales-viaje", "traslado", "transporte", "alquiler", "entradas", "autoguiado"]);
 
 export function formatoTerm(dict: Dictionary, slug: FormatoOEstado): TerminoFormato {
   const t = dict.terminos.find((x): x is TerminoFormato => x.eje === "formato" && x.slug === slug);
@@ -29,6 +29,9 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   let b: FormatoOEstado = cat.formato;
   const id = `${mapping.proveedor}:${cat.id}`;
   if (b === "fuera") return { valor: "fuera", regla: `#0 base ${id}` };
+  if (b === "esenciales-viaje") return { valor: "esenciales-viaje", regla: `#0 base ${id} (REQ-1263, tras bandera)` };
+  // REQ-1262: experiencia realmente en línea (tour virtual en vivo, asesoría por chat), solo donde la categoría lo permite.
+  if (cat.reglasPorPalabra.includes("en-linea") && matches(formatoTerm(dict, "en-linea").palabras, norm(input.titulo))) return { valor: "en-linea", regla: `#0 en línea en el título (${id})` };
   if (cat.fijo) return { valor: b, regla: `fijo ${id}` };
 
   const titulo = norm(input.titulo);
@@ -55,7 +58,8 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   const conGuia = matches(formatoTerm(dict, "entradas").palabrasConGuia, todo);
   if (b === "entradas" && !conGuia) return { valor: "entradas", regla: `#4 base ${id}` };
   if (b === "entradas") b = "visita-guiada"; // REQ-1251: museo o sitio con guía = Visita guiada (antes «tour»)
-  if (palabrasPermitidas && cat.reglasPorPalabra.includes("entradas") && kw("entradas", titulo) && !conGuia) return { valor: "entradas", regla: `#4 palabra entrada en ${id}` };
+  // REQ-1260: una app o audioguía «(sin entrada)» es Autoguiado, no Boletos.
+  if (palabrasPermitidas && cat.reglasPorPalabra.includes("entradas") && kw("entradas", titulo) && !conGuia && !kw("autoguiado", titulo)) return { valor: "entradas", regla: `#4 palabra entrada en ${id}` };
   // 5 autoguiado
   if (b === "autoguiado") return { valor: "autoguiado", regla: `#5 base ${id}` };
   // REQ-533: audioguía, app, «auto guiado» o «por tu cuenta» en el título = sin guía en persona, de cualquier categoría.

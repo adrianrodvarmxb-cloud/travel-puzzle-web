@@ -67,7 +67,7 @@ describe("REQ-402 precedencia del Eje A (gana la primera regla)", () => {
 describe("REQ-406 La Primera Pieza corregida", () => {
   it("REQ-406 precio 0 en 26 y 31 no da Free tour", () => {
     expect(f(ft(26, 0, "Bike rental")).formato).toBe("alquiler");
-    expect(f(ft(31, 0, "SIM")).formato).toBe("fuera");
+    expect(f(ft(31, 0, "SIM")).formato).toBe("esenciales-viaje"); // REQ-1263
   });
   it("REQ-406 precio null (sin dato) no es Free tour", () => {
     expect(f(ft(12, null as unknown as number, "x")).formato).toBe("caminata");

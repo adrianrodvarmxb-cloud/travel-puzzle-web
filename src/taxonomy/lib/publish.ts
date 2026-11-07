@@ -38,7 +38,9 @@ export function catalogClassifier(dict: Dictionary, mappings: Record<string, Map
 
 /** ¿Sale en las páginas públicas (y cuenta para indexar)? `fuera` nunca; `por-revisar` según G-T10. */
 export function isPublishable(formato: FormatoOEstado, where: "/destinos" | "/tours" = "/destinos", gate: Gates["porRevisar"] = DEFAULT_GATES.porRevisar): boolean {
-  if (formato === "fuera") return false;
+  if (formato === "fuera" || formato === "esenciales-viaje") return false; // REQ-1263: tras bandera
+  // REQ-1262: «Experiencias en línea» tiene su sección en /tours, pero no es «cosas que hacer» en la ciudad ni cuenta para indexarla.
+  if (formato === "en-linea") return where === "/tours";
   if (formato === "por-revisar") return porRevisarVisibleEn(gate).includes(where);
   return true;
 }

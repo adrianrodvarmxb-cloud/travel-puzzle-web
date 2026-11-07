@@ -15,10 +15,11 @@ describe("T3 publicación con la taxonomía (REQ-406, REQ-407, REQ-408, REQ-261)
   });
   it("REQ-406 Free tour: precio 0 salvo las 10 categorías que ganan antes", () => {
     expect(c(row(12, 0)).formato).toBe("pieza-libre");
-    for (const id of [8, 17, 20, 24, 26, 28, 29, 30, 31, 35]) expect(c(row(id, 0)).formato).not.toBe("pieza-libre");
+    // REQ-1261: la 8 ya no está en la lista (un free tour presencial de la 8 es Pieza libre)
+    for (const id of [17, 20, 24, 26, 28, 29, 30, 31, 35]) expect(c(row(id, 0)).formato).not.toBe("pieza-libre");
   });
   it("REQ-407 / REQ-408 fuera y por-revisar no se publican (G-T10 A); sin categoría, por-revisar (falla cerrada)", () => {
-    expect(isPublishable(c(row(8, 5)).formato)).toBe(false);
+    expect(isPublishable(c({ ...row(8, 5), title: "Tour virtual en vivo" }).formato)).toBe(false); // REQ-1262: en línea no va a /destinos
     expect(isPublishable(c(row(31, 5)).formato)).toBe(false);
     expect(isPublishable(c(row(999, 5)).formato)).toBe(false);
     expect(c(row(null, 5)).formato).toBe("por-revisar");
@@ -33,7 +34,8 @@ describe("T3 publicación con la taxonomía (REQ-406, REQ-407, REQ-408, REQ-261)
   });
   it("REQ-407 la venta cruzada solo sugiere formatos presenciales", () => {
     expect([...FORMATOS_PRESENCIALES]).toEqual(["pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica"]); // REQ-1250
-    for (const id of [8, 17, 29]) expect(FORMATOS_PRESENCIALES).not.toContain(c(row(id, 10)).formato);
+    for (const id of [17, 29]) expect(FORMATOS_PRESENCIALES).not.toContain(c(row(id, 10)).formato);
+    expect(FORMATOS_PRESENCIALES).not.toContain(c({ ...row(8, 10), title: "Asesoramiento por chat" }).formato); // REQ-1262
   });
   it("REQ-407 memoiza por fila: la misma fila no se clasifica dos veces", () => {
     const r = row(12, 0);
