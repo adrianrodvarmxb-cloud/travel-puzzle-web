@@ -1,0 +1,137 @@
+# REQ-1347 (DATOS): publica los viajes en draft de UNA agencia que pasen la revisión (título, precio, destino, foto y
+# la lista del gestor). Solo a mano. Por omisión es ENSAYO: lee D1, revisa, prueba las fotos y arma el SQL; no escribe.
+# Con escribir=true y la frase de confirmación exacta: sin deploy ni importación en curso (REQ-307) → bookmark de Time
+# Travel → respaldo de las filas (artefacto privado del job) → UPDATE por id → verificación en D1 → humo en producción →
+# cada ficha 200. Si algo falla después de escribir, aplica regreso.sql (solo esas filas) y el job queda en rojo.
+# Candado: datos de producción (OK del PO).
+name: "Publicar viajes de una agencia"
+on:
+  workflow_dispatch:
+    inputs:
+      agencia:
+        description: "Nombre exacto de la agencia (Agency.name)"
+        required: true
+        default: "Turismo Asiático"
+      esperados:
+        description: "Cuántos viajes en draft se esperan (si no coincide, no escribe)"
+        required: true
+        default: "11"
+      escribir:
+        description: "Escribir en producción (candado: OK del PO). Sin marcar = solo ensayo"
+        type: boolean
+        default: false
+      confirmar:
+        description: "Para escribir, teclea: PUBLICAR <esperados> <agencia>  (p. ej. PUBLICAR 11 Turismo Asiático)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  DB: travel-puzzle
+  BASE: https://travelpuzzle.com.mx
+  AGENCIA: ${{ inputs.agencia }}
+  ESPERADOS: ${{ inputs.esperados }}
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-1347
+        run: npx vitest run src/trips/lib/publish-batch.test.ts
+      - name: Confirmación
+        if: inputs.escribir
+        env:
+          CONFIRMAR: ${{ inputs.confirmar }}
+        run: |
+          [ "$CONFIRMAR" = "PUBLICAR $ESPERADOS $AGENCIA" ] || { echo "::error::La confirmación no coincide con «PUBLICAR $ESPERADOS $AGENCIA»: no se escribe."; exit 1; }
+      - name: Leer las filas en draft (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p pub
+          [[ "$AGENCIA" =~ ^[[:alnum:][:space:]áéíóúÁÉÍÓÚñÑ.\&-]+$ ]] || { echo "::error::Nombre de agencia con caracteres no permitidos."; exit 1; }
+          [[ "$ESPERADOS" =~ ^[0-9]+$ ]] || { echo "::error::esperados no es un número."; exit 1; }
+          npx wrangler d1 execute "$DB" --remote --json --command "SELECT t.* FROM \"Trip\" t JOIN \"Agency\" a ON a.\"id\" = t.\"agencyId\" WHERE a.\"name\" = '$AGENCIA' AND t.\"status\" = 'draft' ORDER BY t.\"id\"" > pub/filas.json
+          n=$(jq '.[0].results | length' pub/filas.json)
+          echo "Filas en draft de $AGENCIA: $n (esperadas: $ESPERADOS)" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$n" = "$ESPERADOS" ] || { echo "::error::Hay $n filas en draft y se esperaban $ESPERADOS: no se sigue."; exit 1; }
+      - name: Revisión previa y plan (ensayo)
+        run: |
+          set -euo pipefail
+          npx tsx src/scripts/publicar-viajes.ts preparar pub/filas.json pub "$BASE" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```sql' >> "$GITHUB_STEP_SUMMARY"; cat pub/publicar.sql >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"
+          grep -vE "^(UPDATE \"Trip\" SET \"status\" = 'published', \"codeLocked\" = 1, \"updatedAt\" = '[0-9T:.+-]+' WHERE \"id\" = '[A-Za-z0-9_-]+' AND \"agencyId\" = '[A-Za-z0-9_-]+' AND \"status\" = 'draft';|)$" pub/publicar.sql && { echo "::error::El SQL trae líneas no permitidas."; exit 1; } || true
+      - name: Respaldo de las filas (artefacto privado del job)
+        uses: actions/upload-artifact@v4
+        with:
+          name: respaldo-viajes-${{ github.run_id }}
+          path: pub/
+          retention-days: 90
+      - name: Sin publicación ni importación en curso (REQ-307)
+        if: inputs.escribir
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for wfile in deploy-cloudflare.yml importar-viajes.yml; do
+            for st in in_progress queued; do
+              c=$(gh api "repos/${{ github.repository }}/actions/workflows/$wfile/runs?status=$st&per_page=1" --jq '.total_count')
+              n=$((n + c))
+            done
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) o importación(es) en curso o en fila: no se escribe (REQ-307)."; exit 1; fi
+          echo "Sin publicación ni importación en curso."
+      - name: Bookmark de Time Travel
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          npx wrangler d1 time-travel info "$DB" --json > pub/time-travel.json
+          bookmark=$(jq -r '.bookmark' pub/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "Instante $(date -u +%Y-%m-%dT%H:%M:%SZ) · bookmark \`$bookmark\` (regreso total: wrangler d1 time-travel restore $DB --bookmark=$bookmark)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Escribir (UPDATE por id)
+        id: escribir
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          [ -s pub/publicar.sql ] && grep -q UPDATE pub/publicar.sql || { echo "::error::No hay viajes que pasen la revisión: no se escribe."; exit 1; }
+          npx wrangler d1 execute "$DB" --remote --file pub/publicar.sql > /dev/null
+          echo "escrito=true" >> "$GITHUB_OUTPUT"
+      - name: Verificar en D1
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          ids=$(jq -r '[.publicar[].id | "'"'"'\(.)'"'"'"] | join(",")' pub/plan.json)
+          npx wrangler d1 execute "$DB" --remote --json --command "SELECT \"id\", \"status\" FROM \"Trip\" WHERE \"id\" IN ($ids)" > pub/despues.json
+          npx tsx src/scripts/publicar-viajes.ts verificar pub/despues.json pub/plan.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Prueba de humo en producción
+        if: inputs.escribir
+        run: npx playwright install --with-deps chromium && npx tsx src/scripts/smoke.ts "$BASE"
+      - name: Cada ficha responde 200
+        if: inputs.escribir
+        run: |
+          set -uo pipefail
+          mal=0
+          while read -r p; do
+            [ -z "$p" ] && continue
+            code=000
+            for i in 1 2 3 4 5 6; do
+              code=$(curl -s -L -o /dev/null -w '%{http_code}' "$BASE$p")
+              [ "$code" = "200" ] && break; sleep 30
+            done
+            echo "- $p → $code" | tee -a "$GITHUB_STEP_SUMMARY"
+            [ "$code" = "200" ] || mal=$((mal + 1))
+          done < pub/rutas.txt
+          [ "$mal" -eq 0 ] || { echo "::error::$mal ficha(s) sin 200."; exit 1; }
+      - name: Regreso (solo esas filas) si algo falló después de escribir
+        if: failure() && steps.escribir.outputs.escrito == 'true'
+        run: |
+          npx wrangler d1 execute "$DB" --remote --file pub/regreso.sql > /dev/null
+          echo "::error::Se aplicó regreso.sql: las filas volvieron a su estado del respaldo." | tee -a "$GITHUB_STEP_SUMMARY"
