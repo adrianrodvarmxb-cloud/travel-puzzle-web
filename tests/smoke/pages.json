@@ -22,6 +22,7 @@
     { "path": "/tours/cmvuuv0qz0000psp7xrmovnmv", "expect": [301, 410] }
   ],
   "flagged": {
-    "NOSOTROS_ENABLED": ["/nosotros"]
+    "NOSOTROS_ENABLED": ["/nosotros"],
+    "CONTACTO_ENABLED": ["/contacto"]
   }
 }

@@ -48,3 +48,6 @@ function webPage(type: string, siteUrl: string, path: string, name: string) {
 
 // REQ-245
 export const aboutPageJsonLd = (siteUrl: string, name: string) => webPage("AboutPage", siteUrl, "/nosotros", name);
+
+// REQ-249
+export const contactPageJsonLd = (siteUrl: string, name: string) => webPage("ContactPage", siteUrl, "/contacto", name);
