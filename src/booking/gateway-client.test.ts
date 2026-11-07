@@ -55,4 +55,21 @@ describe("cliente de la pasarela", () => {
     await gw.createBooking(p);
     expect(JSON.parse(fetch.mock.calls[0][1].body as string).payload.idempotencyKey).toBe("abcdefghijklmnop1234");
   });
+
+  it("REQ-011: createPayment manda refNumber y URLs de regreso y devuelve el checkout", async () => {
+    const fetch = fetchReturning(200, { status: 200, data: { paymentUrl: "https://checkout.stripe.com/x", checkoutSessionId: "cs_1", createdAt: "a", expiresAt: "b" } });
+    const gw = createGatewayClient({ url: "https://x.mx/p", secret: "s", fetch, now });
+    const out = await gw.createPayment({ refNumber: "R1", successUrl: "https://t/ok", cancelUrl: "https://t/no" });
+    expect(out.paymentUrl).toBe("https://checkout.stripe.com/x");
+    expect(JSON.parse(fetch.mock.calls[0][1].body as string)).toEqual({ op: "createPayment", payload: { refNumber: "R1", successUrl: "https://t/ok", cancelUrl: "https://t/no" } });
+  });
+
+  it("REQ-012: getPaymentStatus sin pagar lanza GatewayError 63 (lo traduce payment-state)", async () => {
+    const fetch = fetchReturning(400, { status: 400, data: { errorMessage: "Not paid yet", errorCode: 63 } });
+    const gw = createGatewayClient({ url: "https://x.mx/p", secret: "s", fetch, now });
+    const err = await gw.getPaymentStatus("cs_1").catch((e) => e);
+    expect(err).toMatchObject({ errorCode: 63 });
+    expect(JSON.parse(fetch.mock.calls[0][1].body as string)).toEqual({ op: "getPaymentStatus", payload: { checkoutSessionId: "cs_1" } });
+  });
 });
+

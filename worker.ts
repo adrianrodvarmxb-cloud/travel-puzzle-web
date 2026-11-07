@@ -35,6 +35,11 @@ export default {
         console.log(`[cron] sync-tours → ${res.status} ${await res.text()}`);
       })
     );
+    // Cada 10 minutos: pagos pendientes de tours de pago (REQ-012; la ruta no hace nada con PAID_TOURS_ENABLED apagado).
+    if (new Date().getUTCMinutes() % 10 === 0) {
+      const payments = new Request("https://internal/api/cron/payments", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
+      ctx.waitUntil(handler.fetch(payments, env, ctx).then(async (res: Response) => console.log(`[cron] payments → ${res.status} ${await res.text()}`)));
+    }
     // REQ-586: una vez al día (12:10 UTC, ya cerrado el sync de las 3:00 de CDMX), IndexNow. La ruta no hace nada
     // mientras INDEXNOW_ENABLED no sea "true".
     const now = new Date();

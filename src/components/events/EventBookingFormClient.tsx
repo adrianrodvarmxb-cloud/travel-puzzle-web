@@ -8,7 +8,8 @@ import { BookingPass, SupportCard } from '@/components/booking/email-ui';
 import { EventBookingForm } from './EventBookingForm';
 import { EventBookingConfirm } from './EventBookingConfirm';
 import { BookingFormProvider, useBookingForm } from './Contexts';
-import { paidPolicy } from '@/tours/lib/paid-policy';
+import { paidPolicyConfirmed } from '@/tours/lib/paid-policy';
+import { groupIsPaid } from '@/booking/lib/paid-price';
 
 interface EventDetailData {
     id: number;
@@ -53,8 +54,10 @@ function Steps({ language, languageDisplayName, languageFlag, date, time, eventI
     const full = eventDetailData?.fullPricePerGroup?.[String(form.adults)];
     const now = eventDetailData?.payableNowPricePerGroup?.[String(form.adults)];
     const policy = paidEnabled && full !== undefined && full > 0
-        ? paidPolicy({ fullPrice: full, payNow: now ?? full, isPartiallyPaid: !!eventDetailData?.isPartiallyPaid, currency: 'EUR' }, uiLanguage)
+        ? paidPolicyConfirmed({ fullPrice: full, payNow: now ?? full, isPartiallyPaid: !!eventDetailData?.isPartiallyPaid, currency: 'EUR' }, uiLanguage)
         : null;
+    // REQ-935: el formulario no guarda el precio (form.price queda en 0); se decide con la tabla del evento.
+    const isPaid = groupIsPaid(eventDetailData?.fullPricePerGroup, form.adults, form.children);
 
     return (
         <>
@@ -74,7 +77,7 @@ function Steps({ language, languageDisplayName, languageFlag, date, time, eventI
                     onNext={() => setStep(2)}
                 />
             ) : (
-                <EventBookingConfirm onBack={() => setStep(1)} policy={policy} />
+                <EventBookingConfirm onBack={() => setStep(1)} policy={policy} isPaid={isPaid} paidEnabled={paidEnabled} />
             )}
             {wa && <SupportCard n={step === 1 ? 3 : 4} wa={wa} text="¿Dudas antes de reservar? Escríbenos por WhatsApp y te ayudamos." />}
         </>

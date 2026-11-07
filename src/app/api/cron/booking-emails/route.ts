@@ -8,7 +8,7 @@ import { crossSellDepsFromEnv } from '@/notifications/cross-sell-deps';
 import { getTourSummary, getMoreTours, contactFromEnv } from '@/booking/tour-summary';
 import { getWeather, coordsOf } from '@/notifications/weather';
 import { sendEmail } from '@/notifications/resend';
-import { isBookingsEnabled } from '@/booking/lib/flags';
+import { isBookingsEnabled, paidInRecommendations } from '@/booking/lib/flags';
 import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
         lang: 'es' as const,
         siteUrl: process.env.SITE_URL ?? '',
         getTour: (id: number, l: 'es' | 'en') => getTourSummary(prisma, id, l),
-        getMoreTours: (id: number, l: 'es' | 'en', site: string) => getMoreTours(prisma, id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
+        getMoreTours: (id: number, l: 'es' | 'en', site: string) => getMoreTours(prisma, id, l, site, { includePaid: paidInRecommendations(process.env) }),
         // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
         freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
         contact: contactFromEnv(process.env as Record<string, string | undefined>),

@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 
-/** Botón de cancelar con confirmación (Freetour solo pide que el cliente confirme su intención). */
-export function CancelBooking({ token }: { token: string }) {
+/**
+ * Botón de cancelar con confirmación (Freetour solo pide que el cliente confirme su intención).
+ * REQ-934: en tours de pago, `confirmNotice` (calculado en el servidor) dice antes de confirmar si hay reembolso.
+ */
+export function CancelBooking({ token, confirmNotice = null }: { token: string; confirmNotice?: string | null }) {
     const [step, setStep] = useState<'idle' | 'confirm' | 'sending' | 'done' | 'requested' | 'error'>('idle');
 
     async function cancel() {
@@ -32,6 +35,7 @@ export function CancelBooking({ token }: { token: string }) {
             )}
             {(step === 'confirm' || step === 'sending') && (
                 <div className="rounded-xl border border-[#E6EBF5] border-l-4 border-l-[#C12909] bg-white p-4">
+                    {confirmNotice && <p data-testid="cancel-refund-rule" className="mb-2 text-sm font-semibold text-[#0A1330]">{confirmNotice}</p>}
                     <p className="text-sm text-[#0A1330]">¿Seguro que quieres cancelar? Tu lugar se libera para otro viajero y no se puede deshacer.</p>
                     <div className="mt-3 flex flex-col gap-2 sm:flex-row">
                         <button onClick={cancel} disabled={step === 'sending'} className="flex-1 rounded-xl bg-[#C12909] px-4 py-3.5 font-bold text-white disabled:opacity-60">

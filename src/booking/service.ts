@@ -1,6 +1,7 @@
 import { normalizePhone } from "./lib/phone";
 import { checkAdultContact } from "./lib/adult-contact";
 import { checkEvent } from "./lib/event-check";
+import { paidTerms } from "./lib/paid-price";
 import { buildBookingRecord, tourIdFromRef, type BookingRecord } from "./lib/booking-record";
 import type { EventInfo } from "./lib/event-info";
 import { GatewayError, type Booking, type Customer } from "./gateway-client";
@@ -9,6 +10,7 @@ import type { IzFTEventDetail } from "@/lib/api/schemas/FTEvent.Schema";
 export type BookingRejectionCode =
   | "bookings_disabled"
   | "paid_not_available"
+  | "children_not_allowed"
   | "invalid_phone"
   | "phone_required"
   | "no_availability"
@@ -42,6 +44,8 @@ interface Deps {
   getEvent(eventId: number): Promise<IzFTEventDetail>;
   /** Interruptor BOOKINGS_ENABLED. */
   enabled: boolean;
+  /** REQ-011/014: PAID_TOURS_ENABLED (piloto de tours de pago con checkout de Freetour). */
+  paidEnabled?: boolean;
   /** ¿Ya hay una reserva activa de este correo en este horario? */
   hasActiveBooking?(eventId: number, email: string): Promise<boolean>;
   /** REQ-083: interruptor ADULT_CONTACT_CHECK_ENABLED. */
@@ -49,7 +53,7 @@ interface Deps {
 }
 
 /** Reserva un free tour en Freetour a través de la pasarela. */
-export async function placeBooking(input: BookingRequest, { gateway, getEvent, enabled, hasActiveBooking, adultContactRequired = false }: Deps): Promise<{ booking: Booking; price: number }> {
+export async function placeBooking(input: BookingRequest, { gateway, getEvent, enabled, paidEnabled = false, hasActiveBooking, adultContactRequired = false }: Deps): Promise<{ booking: Booking; price: number; fullPrice: number; isPaid: boolean }> {
   if (!enabled) throw new BookingRejected("bookings_disabled", "Las reservas en línea abren muy pronto.");
 
   // REQ-083: el contacto debe declararse adulto; la declaración se queda en Travel Puzzle (G2).
@@ -74,7 +78,11 @@ export async function placeBooking(input: BookingRequest, { gateway, getEvent, e
       ? new BookingRejected("phone_required", "Para este tour el teléfono es obligatorio.")
       : new BookingRejected("no_availability", "Este horario ya no está disponible para ese número de personas. Elige otro.");
   }
-  if (check.price > 0) throw new BookingRejected("paid_not_available", "El pago en línea estará disponible muy pronto.");
+  // REQ-930: precio del grupo conservador (REQ-810) + lo que se cobra hoy y la regla de niños (REQ-010).
+  const terms = paidTerms(event, req.adults, req.children, check.price);
+  if (!terms.ok) throw new BookingRejected("children_not_allowed", "Este tour con costo no admite niños en la reserva; regístralos como adultos o elige otro horario.");
+  // REQ-014: tours de pago solo con el piloto encendido; el cobro lo hace el checkout de Freetour (REQ-011).
+  if (terms.isPaid && !paidEnabled) throw new BookingRejected("paid_not_available", "El pago en línea estará disponible muy pronto.");
 
   // REQ-802 (G2): a FREETOUR solo va lo que pide la reserva (no hay DPA): email, nombre, apellido y el teléfono
   // solo si el evento lo exige. El teléfono que dio el cliente se queda en Travel Puzzle (recordBooking).
@@ -85,13 +93,13 @@ export async function placeBooking(input: BookingRequest, { gateway, getEvent, e
     ...(phone && event.isPhoneRequired ? { phone } : {}),
   };
   const payload: BookingRequest = {
-    eventId: req.eventId, adults: req.adults, children: req.children, price: check.price, customer,
+    eventId: req.eventId, adults: req.adults, children: req.children, price: terms.payNow, customer,
     ...(req.idempotencyKey ? { idempotencyKey: req.idempotencyKey } : {}),
   };
 
   try {
     const booking = await gateway.createBooking(payload);
-    return { booking, price: check.price };
+    return { booking, price: terms.payNow, fullPrice: terms.fullPrice, isPaid: terms.isPaid };
   } catch (error) {
     if (error instanceof GatewayError && error.status === 404) {
       throw new BookingRejected("no_availability", "Este horario ya no está disponible. Elige otro.");
