@@ -11,6 +11,7 @@ import { fromCatalogTour } from '@/tours/lib/card-sources';
 import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
 import { FormatChips } from '@/components/tours/FormatChips';
 import { formatChips } from '@/tours/lib/format-chips';
+import type { FormatDef } from '@/taxonomy/lib/format-defs';
 import type { TripCard } from '@/trips/public-load';
 import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trips/lib/public';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
@@ -58,6 +59,8 @@ interface ToursPageClientProps {
     showDepartures?: boolean;
     /** T4 (TAXONOMY_FILTERS_ENABLED): filtro «Tipo de experiencia» por formato en lugar de los grupos viejos. */
     taxonomy?: boolean;
+    /** REQ-1256: tipos principales del diccionario (servidor); con ellos, chips y filtro se actualizan solos. */
+    formatDefs?: FormatDef[];
     /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
     showSuggest?: boolean;
     /** REQ-1254: MXN por EUR del día (servidor), para el rango de precio aproximado. */
@@ -75,6 +78,7 @@ export function ToursPageClient({
     countryCodeById = {},
     today,
     showDepartures = false,
+    formatDefs,
     mxnPerEur = null,
     taxonomy = false,
     showSuggest = false,
@@ -402,7 +406,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters formatDefs={formatDefs} mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
@@ -411,7 +415,7 @@ export function ToursPageClient({
                         {/* REQ-546…549: con TAXONOMY_FILTERS_ENABLED, los chips son los tipos principales (mismas etiquetas que la
                             tarjeta, desde los datos) y filtran con ?formato=; sin ella quedan los chips viejos por Trip.kind (ocultos, no borrados). */}
                         {taxonomy
-                            ? <FormatChips chips={formatChips(formatCounts, language)} value={extra.formatos.length === 1 ? extra.formatos[0] : null} onChange={(slug) => changeExtra({ ...extra, formatos: slug ? [slug] : [] })} />
+                            ? <FormatChips chips={formatChips(formatCounts, language, formatDefs)} value={extra.formatos.length === 1 ? extra.formatos[0] : null} onChange={(slug) => changeExtra({ ...extra, formatos: slug ? [slug] : [] })} />
                             : ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
                             <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={taxonomy ? 'all' : kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} extra={extra} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
