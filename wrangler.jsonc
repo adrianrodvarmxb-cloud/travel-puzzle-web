@@ -100,7 +100,7 @@
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
     "TAXONOMY_PUBLISH_ENABLED": "false",
-    // Reclasificación con linaje (REQ-750…757, Ola R2): procedencia por término, mapeos por agencia desde la denominación
+    // Reclasificación con linaje (REQ-750…756, Ola R2): procedencia por término, mapeos por agencia desde la denominación
     // original y overrides manuales. Requiere TAXONOMY_SYNC_ENABLED y las migraciones 0022 y 0023 aplicadas (con OK del PO).
     // "true" con preview, prueba de humo y OK del PO.
     "TAXONOMY_LINEAGE_ENABLED": "false",
