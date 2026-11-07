@@ -44,13 +44,16 @@ export function HomeTourCard({ t, language, c, priceLabel }: { t: HomeTour; lang
       <div className="relative aspect-[16/10] bg-[#1B2A5E]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={t.image} alt={title} loading="lazy" className="h-full w-full object-cover" />
-        <TravelerFavoriteBadge rating={t.rating} reviews={t.reviews} className="absolute left-3 top-3" />
         {t.isFree && (
           <span className="font-data absolute right-3 top-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{c.freeBadge}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{nameIn(t.cityNames, language)} · {t.duration}</p>
+        {/* REQ-861: «★ Favorito» fuera de la foto (C5 de FREETOUR). */}
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-data min-w-0 truncate text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{nameIn(t.cityNames, language)} · {t.duration}</p>
+          <TravelerFavoriteBadge rating={t.rating} reviews={t.reviews} className="shrink-0" />
+        </div>
         <h3 className="font-display line-clamp-2 text-xl font-semibold leading-snug">{title}</h3>
         {t.quote && <p className="line-clamp-2 text-sm italic leading-relaxed text-[#C9D6F5]">“{t.quote}”</p>}
         <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-3.5 text-sm">

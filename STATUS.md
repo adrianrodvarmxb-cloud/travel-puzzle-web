@@ -507,3 +507,10 @@ Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
 | REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
+
+## «★ Favorito» fuera de la foto (PO, 6 nov 2026, 22:36) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-860 | «★ Favorito» bajo la foto, en la fila de ciudad · duración | `src/components/tours/ExperienceCard.tsx` | `src/components/tours/ExperienceCard.test.ts` + capturas `docs/capturas/favorito-fuera/` | CUMPLIDO (falta OK del PO) |
+| REQ-861 | Ninguna tarjeta pone «★ Favorito» sobre la foto | `ExperienceCard.tsx`, `TourCard.tsx`, `home/v2/FeaturedTours.tsx` (`HomeTourCard`) | `src/components/tours/favorite-off-photo.test.ts` | CUMPLIDO |
+
