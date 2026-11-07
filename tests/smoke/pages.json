@@ -58,6 +58,10 @@
     "INDEXNOW_ENABLED": [
       "/indexnow-key.txt"
     ],
+    "PAID_TOURS_ENABLED": [
+      "/reserva/humo-sin-reserva-0000/pago/cancelado",
+      "/reserva/humo-sin-reserva-0000/pago/exito"
+    ],
     "LOCALE_URLS_ENABLED": [
       "/en/",
       "/en/tours",

@@ -30,10 +30,21 @@ describe("REQ-586: corrida diaria de IndexNow", () => {
 import { readFileSync } from "node:fs";
 import { wranglerVars } from "@/site/lib/pages";
 
-describe("REQ-586: la bandera queda apagada y la clave no vive en el repo", () => {
-  it("REQ-586: wrangler.jsonc trae INDEXNOW_ENABLED=\"false\" y ninguna INDEXNOW_KEY", () => {
+// REQ-626 reemplaza la parte «la clave no vive en el repo» de REQ-586: el PO pidió cargarla («hazlo tú», 6 nov 2026 22:37).
+const APPROVED_KEY = "08fccf385745e822f4ea759d05a50ad6";
+
+describe("REQ-626: INDEXNOW_KEY es la clave aprobada, como variable no secreta", () => {
+  it("REQ-626: wrangler.jsonc trae exactamente la clave aprobada, una sola vez y con formato de IndexNow", () => {
     const raw = readFileSync("wrangler.jsonc", "utf8");
-    expect(wranglerVars(raw).INDEXNOW_ENABLED).toBe("false");
-    expect(raw).not.toMatch(/"INDEXNOW_KEY"\s*:/);
+    expect(raw.match(/"INDEXNOW_KEY"\s*:/g)).toHaveLength(1);
+    expect(wranglerVars(raw).INDEXNOW_KEY).toBe(APPROVED_KEY);
+    expect(APPROVED_KEY).toMatch(/^[A-Za-z0-9-]{8,128}$/);
+  });
+  it("REQ-627: INDEXNOW_ENABLED en \"true\" y la clave publicada es la aprobada", async () => {
+    const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
+    expect(vars.INDEXNOW_ENABLED).toBe("true");
+    const res = keyFileResponse({ INDEXNOW_ENABLED: vars.INDEXNOW_ENABLED, INDEXNOW_KEY: vars.INDEXNOW_KEY });
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe(APPROVED_KEY);
   });
 });
