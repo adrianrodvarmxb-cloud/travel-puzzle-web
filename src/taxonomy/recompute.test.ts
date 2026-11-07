@@ -49,10 +49,10 @@ async function fullRun(d: Db, now: string, over = {}) {
 }
 
 describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => {
-  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"false\"", () => {
+  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"true\" (REQ-615, gate de encendido)", () => {
     expect(taxonomySyncEnabled({})).toBe(false);
     expect(taxonomySyncEnabled({ TAXONOMY_SYNC_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"true"/);
   });
   it("REQ-409 una corrida completa: arranca, clasifica activos por tandas, luego viajes publicados, y publica", async () => {
     const d = db();
