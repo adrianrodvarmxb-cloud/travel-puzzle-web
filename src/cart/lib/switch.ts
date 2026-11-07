@@ -24,7 +24,9 @@ export type CardAction =
   | { kind: "deeplink"; label: "Ver opciones"; adapterId: string; url: string }
   /** REQ-121: solicitud a Travel Puzzle (compra el asesor); nunca es pago directo. */
   | { kind: "request"; label: "Pedir a Travel Puzzle"; adapterId: string; url: string }
-  | { kind: "whatsapp"; label: "Te lo cotiza tu asesor por WhatsApp"; url: string };
+  | { kind: "whatsapp"; label: "Te lo cotiza tu asesor por WhatsApp"; url: string }
+  /** REQ-320: experiencia ya cargada en el catálogo (gestor de viajes); enlace a su ficha. */
+  | { kind: "catalog"; label: "Ver experiencia"; url: string };
 
 export interface QuoteContext { cityName: string; dateFrom: string; dateTo?: string; people: People }
 export interface Advisor { whatsapp: string | null | undefined }

@@ -11,15 +11,18 @@ import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
+import { catalogTitle } from '@/tours/lib/catalog-name';
 
 const taxonomyOn = () => taxonomyFiltersEnabled(process.env as Record<string, string | undefined>);
 const toQuery = (params: Record<string, string | undefined>) =>
   new URLSearchParams(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]);
 
+// REQ-174 (sitelinks-google): title = nombre del menú + marca («Experiencias | Travel Puzzle»).
 /** T4 (REQ-413): con un filtro de la taxonomía, noindex,follow y canonical a /tours; sin él (o apagada), nada cambia. */
 export async function generateMetadata({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }): Promise<Metadata> {
+  const title = catalogTitle(await getPreferredLanguage());
   const r = toursRobots(toQuery(await searchParams), taxonomyOn());
-  return r.robots ? { robots: r.robots, alternates: { canonical: r.canonical } } : {};
+  return { title: { absolute: title }, openGraph: { title }, ...(r.robots ? { robots: r.robots, alternates: { canonical: r.canonical } } : {}) };
 }
 
 interface ToursPageProps {
@@ -117,6 +120,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
       taxonomy={taxonomy}
+      showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
+      logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
   );
 }

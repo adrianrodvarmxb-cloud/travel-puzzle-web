@@ -73,5 +73,16 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
       - name: Navegador
         run: npx playwright install --with-deps chromium
+      # REQ-500 (INC-007): si una página falla, guarda HTML crudo, DOM, errores y captura, y la recarga una vez.
       - name: Prueba de humo
+        env:
+          SMOKE_EVIDENCE_DIR: smoke-evidencia/pr
         run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
+      - name: Evidencia de la prueba de humo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-humo-pr-${{ github.event.pull_request.number }}-${{ github.run_attempt }}
+          path: smoke-evidencia/
+          if-no-files-found: ignore
+          retention-days: 30

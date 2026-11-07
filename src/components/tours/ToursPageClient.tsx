@@ -12,6 +12,8 @@ import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trip
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
 import { TourGridSkeleton } from '@/components/tours/TourGridSkeleton';
 import { ToursHeader } from '@/components/tours/ToursHeader';
+import { SearchNote, SearchRecovery } from '@/components/search/SearchRecovery';
+import { useSearchLog } from '@/components/search/useSearchLog';
 import { MobileFiltersToggle } from '@/components/tours/MobileFiltersToggle';
 import { DurationFilter } from '@/components/tours/DurationFilter';
 import { MoreFilters } from '@/components/tours/filters/MoreFilters';
@@ -52,6 +54,10 @@ interface ToursPageClientProps {
     showDepartures?: boolean;
     /** T4 (TAXONOMY_FILTERS_ENABLED): filtro «Tipo de experiencia» por formato en lugar de los grupos viejos. */
     taxonomy?: boolean;
+    /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
+    showSuggest?: boolean;
+    /** REQ-340…342: analítica anónima de búsquedas (SEARCH_LOG_ENABLED). */
+    logSearches?: boolean;
 }
 
 export function ToursPageClient({
@@ -64,6 +70,8 @@ export function ToursPageClient({
     today,
     showDepartures = false,
     taxonomy = false,
+    showSuggest = false,
+    logSearches = false,
 }: ToursPageClientProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
@@ -306,11 +314,20 @@ export function ToursPageClient({
         }
     }, [searchParams, parseUrlParams]);
 
+    // REQ-292: búsqueda original cuando la alternativa única se aplicó sola («no había resultados para…»)
+    const [recoveredFrom, setRecoveredFrom] = useState<string | null>(null);
     const handleFilterChange = (newFilters: Partial<UITourFilters>) => {
+        if ('search' in newFilters) setRecoveredFrom(null);
         setUiFilters(prev => ({ ...prev, ...newFilters }));
         // Reset to page 1 when filters change
         setPagination(prev => ({ ...prev, page: 1 }));
     };
+
+    const applyRecovery = useCallback((alt: string, from: string) => {
+        setUiFilters(prev => ({ ...prev, search: alt }));
+        setPagination(prev => ({ ...prev, page: 1 }));
+        setRecoveredFrom(from);
+    }, []);
 
     const handleDurationChange = (next: DurationRange | null) => {
         setDuration(next);
@@ -342,6 +359,8 @@ export function ToursPageClient({
     };
 
     const pageInfo = currentToursData?.pagination;
+    // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
+    const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
 
     return (
         <div className="min-h-screen bg-background">
@@ -355,6 +374,7 @@ export function ToursPageClient({
                     onSearch={(value) => handleFilterChange({ search: value || undefined })}
                     sort={sort}
                     onSort={handleSortChange}
+                    suggest={showSuggest}
                 />
 
                 <div id="tours-results" className="mx-auto grid max-w-[1600px] scroll-mt-20 grid-cols-1 gap-6 px-4 pt-8 md:px-8 lg:grid-cols-4 xl:grid-cols-12">
@@ -384,6 +404,10 @@ export function ToursPageClient({
                         )}
                         {isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />
+                        ) : tours.length === 0 && showSuggest && uiFilters.search ? (
+                            <SectionBoundary name="busqueda-sin-resultados">
+                                <SearchRecovery q={uiFilters.search} language={language} onApply={applyRecovery} />
+                            </SectionBoundary>
                         ) : tours.length === 0 ? (
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] px-6 py-14 text-center">
                                 <p className="font-display text-2xl font-semibold text-white">{t('tours.noResults')}</p>
@@ -391,9 +415,13 @@ export function ToursPageClient({
                             </div>
                         ) : (
                             <>
+                                {showSuggest && uiFilters.search && (
+                                    <SectionBoundary name="busqueda-nota"><SearchNote q={uiFilters.search} language={language} recoveredFrom={recoveredFrom} /></SectionBoundary>
+                                )}
                                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
-                                    {tours.map(tour => (
-                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}>
+                                    {tours.map((tour, i) => (
+                                        <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
+                                            onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} priceLabel={(currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }> } | undefined)?.priceLabels?.[tour.id] ?? null} />
                                         </div>
                                     ))}

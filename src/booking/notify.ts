@@ -1,3 +1,4 @@
+import { fallbackTourTitle } from "@/destinations/lib/pieza-libre-copy";
 import { tripUrl } from "@/cart/lib/links";
 import { buildStatusEmail, type StatusKind } from "@/notifications/lib/status-emails";
 import { buildReviewRequestEmail } from "@/notifications/lib/review-email";
@@ -89,7 +90,7 @@ function calendarAttachment(
     refNumber: record.refNumber,
     startUtc: record.eventUtcDate,
     durationMinutes: durationMinutes(tour?.duration),
-    title: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+    title: tour?.title ?? fallbackTourTitle(record.tourExternalId, "es"),
     location: meetingPointText(tour?.meetingPoint, "es"),
     description: `Reserva ${record.refNumber}\nVer, cambiar o cancelar: ${site}/reserva/${record.manageToken}`,
     url: `${site}/reserva/${record.manageToken}`,
@@ -119,7 +120,7 @@ export async function sendBookingConfirmation(
       lang: deps.lang,
       refNumber: record.refNumber,
       firstName: record.firstName,
-      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      tourTitle: tour?.title ?? fallbackTourTitle(record.tourExternalId, deps.lang),
       provider: tour?.provider ?? null,
       eventDate: record.eventDate,
       eventUtcDate: record.eventUtcDate,
@@ -178,7 +179,7 @@ export async function sendStatusEmail(
       lang: deps.lang,
       refNumber: record.refNumber,
       firstName: record.firstName,
-      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      tourTitle: tour?.title ?? fallbackTourTitle(record.tourExternalId, deps.lang),
       eventDate: record.eventDate,
       eventUtcDate: record.eventUtcDate,
       duration: tour?.duration ?? null,
@@ -225,7 +226,7 @@ export async function sendReviewRequest(
       lang: deps.lang,
       refNumber: record.refNumber,
       firstName: record.firstName,
-      tourTitle: tour?.title ?? `Free tour ${record.tourExternalId ?? ""}`.trim(),
+      tourTitle: tour?.title ?? fallbackTourTitle(record.tourExternalId, deps.lang),
       reviewUrl: `${site}/reserva/${record.manageToken}/resena`,
       cityName: tour?.cityName ?? null,
       moreTours,

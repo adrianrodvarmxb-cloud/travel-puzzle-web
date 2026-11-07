@@ -1,7 +1,7 @@
 export const en = {
   // Navigation
   'nav.home': 'Home',
-  'nav.tours': 'Tours',
+  'nav.tours': 'Experiences',
   'nav.howItWorks': 'How It Works',
   'nav.transfers': 'Transfers',
   'nav.login': 'Login',
@@ -71,6 +71,10 @@ export const en = {
   'tours.meetingPoint': 'Meeting Point',
   'tours.from': 'From',
   'tours.free': 'Free tour',
+  // REQ-271: pines del mapa de /tours (el precio verde sigue con tours.free).
+  'tours.freePin': 'Free tour',
+  // REQ-480: insignia azul sobre la foto (el precio sigue con tours.free).
+  'tours.freeBadge': 'Free tour',
   'tours.noResults': "No experiences found",
   'tours.description': 'Description',
   'tours.destination': 'Destination',
@@ -225,7 +229,7 @@ export const en = {
   "reviews.seeTour": "See experience",
   "tours.backToTours": "Back to all experiences",
   "tours.directions": "Get directions",
-  "tours.headline": "Find your tour.",
+  "tours.headline": "Experiences",
   "tours.eyebrow": "{count} EXPERIENCES AVAILABLE",
   "tours.sort.label": "Sort by",
   "tours.sort.relevance": "Relevance",

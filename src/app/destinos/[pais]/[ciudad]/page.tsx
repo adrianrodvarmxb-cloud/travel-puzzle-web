@@ -1,5 +1,6 @@
 import { ToursByFormat } from '@/components/destinations/ToursByFormat';
 import { cityFormatChips, cityIntro, taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
+import { cityFreeIntro, freeSectionTitle } from '@/destinations/lib/pieza-libre-copy';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -53,9 +54,9 @@ export default async function CityPage({ params }: Props) {
     const labels = taxonomyLabelsEnabled(env);
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
-            intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : `${city.freeTours.length} free tours y ${tours.length} tours con guías locales en ${city.name}.`}>
+            intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
             {city.freeTours.length > 0 && (
-                <Section id="free-tours" title={`Free tours (${PRIMERA_PIEZA_LABEL})`} subtitle="Reservar es gratis; al final le das al guía lo que consideres justo.">
+                <Section id="free-tours" title={freeSectionTitle()} subtitle="Reservar es gratis; al final le das al guía lo que consideres justo.">
                     <TourGrid tours={city.freeTours} />
                 </Section>
             )}
