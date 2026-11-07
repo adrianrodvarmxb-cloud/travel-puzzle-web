@@ -11,6 +11,10 @@ import { destinationsRepo, loadTree, SITE_URL_DEFAULT } from "./load";
 import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
 import type { D1Read, TourPlaceRow } from "./repository";
 import type { CountryNode } from "./lib/catalog";
+import type { SupportedLanguage } from "@/types";
+import { routeLanguageState } from "@/i18n/server";
+import { localeUrlsEnabled } from "@/i18n/lib/flags";
+import { localizeTree } from "./lib/locale";
 
 export const primeraPiezaOn = () => isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED);
 export const siteUrl = () => process.env.SITE_URL || SITE_URL_DEFAULT;
@@ -19,9 +23,24 @@ export const siteUrl = () => process.env.SITE_URL || SITE_URL_DEFAULT;
 export function getDestinations(): Promise<CountryNode[]> {
   const vis = visibilityFromEnv(process.env as Record<string, string | undefined>);
   const taxonomy = taxonomyPublishEnabled(process.env as Record<string, string | undefined>);
-  return cached(cacheKey("destinos", { v: "4" /* REQ-520; REQ-532…545 formato y atributos recalculados */, own: String(vis.own), transport: String(vis.transport), tax: String(taxonomy) }), POLICY.toursList, () =>
+  return cached(cacheKey("destinos", { v: "5" /* REQ-520; REQ-532…545 formato y atributos recalculados; REQ-662 titleEn y nombres por idioma */, own: String(vis.own), transport: String(vis.transport), tax: String(taxonomy) }), POLICY.toursList, () =>
     withRetry(() => loadTree(destinationsRepo(getD1() as unknown as D1Read), new Date(), vis, { taxonomy }))
   );
+}
+
+/**
+ * REQ-667 (Gate 3): idioma de las páginas de /destinos. Con LOCALE_URLS_ENABLED y ruta en alcance, el de la URL;
+ * sin la bandera, español fijo (como hoy: estas páginas no seguían la cookie). `hreflang` = se pintan los alternates.
+ */
+export async function destinosLanguage(): Promise<{ lang: SupportedLanguage; hreflang: boolean }> {
+  if (!localeUrlsEnabled(process.env as Record<string, string | undefined>)) return { lang: "es", hreflang: false };
+  const s = await routeLanguageState();
+  return s.locked ? { lang: s.lang, hreflang: true } : { lang: "es", hreflang: false };
+}
+
+/** REQ-665: el árbol (en caché, en español) traducido al idioma de la página, sin mutarlo. */
+export async function getDestinationsIn(lang: SupportedLanguage): Promise<CountryNode[]> {
+  return localizeTree(await getDestinations(), lang);
 }
 
 /** REQ-092: el tour de la página 410, leído de D1 por id. Si la base falla, null (la página usa su texto fijo). */

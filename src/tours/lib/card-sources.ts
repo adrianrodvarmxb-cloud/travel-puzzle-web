@@ -10,9 +10,10 @@ import { nameIn } from "@/home/lib/destinations";
 import { cardDuration, cardPrice, experienceCard, type ExperienceCardModel, type PriceParts } from "./experience-card";
 
 /** /tours: el formato y la etiqueta de precio llegan armados de la acción del servidor (fetchTours). */
-export function fromCatalogTour(t: Tour, o: { lang: string; formato?: string | null; priceLabel?: PriceParts | null; highlight?: string | null }): ExperienceCardModel {
+// REQ-668: `href` = ficha final que manda el servidor (cardHrefs de fetchTours); sin ella, /tours/{id} como antes.
+export function fromCatalogTour(t: Tour, o: { lang: string; formato?: string | null; priceLabel?: PriceParts | null; highlight?: string | null; href?: string | null }): ExperienceCardModel {
   return experienceCard({
-    key: t.id, href: `/tours/${t.id}`, title: t.title, image: t.images.find((x) => x && x.trim()) ?? t.titleImageURL ?? null,
+    key: t.id, href: o.href || `/tours/${t.id}`, title: t.title, image: t.images.find((x) => x && x.trim()) ?? t.titleImageURL ?? null,
     city: t.destination, duration: cardDuration({ raw: t.duration }, o.lang), description: o.highlight ? `“${o.highlight}”` : t.brief,
     formato: o.formato, rating: t.rating, reviews: t.reviewsNumber, provider: t.provider,
     price: cardPrice({ free: t.price === 0, label: o.priceLabel ?? null, price: t.price, currency: t.currency }, o.lang),
@@ -22,7 +23,7 @@ export function fromCatalogTour(t: Tour, o: { lang: string; formato?: string | n
 /** Inicio («Los más elegidos», «Excursiones de un día»). */
 export function fromHomeTour(t: HomeTour, o: { lang: string; priceLabel?: PriceParts | null }): ExperienceCardModel {
   return experienceCard({
-    key: t.id, href: `/tours/${t.id}`, title: nameIn(t.titles, o.lang), image: t.image,
+    key: t.id, href: t.href || `/tours/${t.id}` /* REQ-668 */, title: nameIn(t.titles, o.lang), image: t.image,
     city: nameIn(t.cityNames, o.lang), duration: cardDuration({ minutes: t.durationMinutes ?? null, raw: t.duration }, o.lang),
     description: t.quote ? `“${t.quote}”` : t.briefs ? nameIn(t.briefs, o.lang) || null : null,
     formato: t.formato, rating: t.rating, reviews: t.reviews, provider: t.provider ?? null,
@@ -31,8 +32,9 @@ export function fromHomeTour(t: HomeTour, o: { lang: string; priceLabel?: PriceP
 }
 
 /** /destinos y /la-primera-pieza (componente de servidor, español; el precio ya viene armado). */
-export function fromDestinationTour(t: TourCardModel, o: { price: PriceParts | null; city?: string | null }): ExperienceCardModel {
-  const lang = "es";
+// REQ-665 (Gate 3): `lang` = idioma de la página; sin él, español como antes.
+export function fromDestinationTour(t: TourCardModel, o: { price: PriceParts | null; city?: string | null; lang?: string }): ExperienceCardModel {
+  const lang = o.lang ?? "es";
   // Viajes: priceLabel ya dice «Desde MXN $…» (src/destinations/load.ts).
   const price = t.kind === "own"
     ? (t.priceLabel ? { text: t.priceLabel, free: false } : null)
@@ -52,4 +54,10 @@ export function fromTripCard(t: TripCard, lang: string, from: string): Experienc
     duration: cardDuration({ days: t.durationDays }, lang), description: t.summary || null,
     formato: t.formato, rating: null, reviews: 0, provider: t.provider ?? null, price,
   }, lang);
+}
+
+/** REQ-668: pone a cada tour del inicio la ficha final (sin resolver, /tours/{id} como antes). Puro. */
+export function withFinalHref(resolve?: Map<string, string>) {
+  // Misma clave que canonicalHrefs (seo/lib/itemlist.ts); sin importarlo, para no llevar el catálogo al navegador.
+  return <T extends { id: string }>(t: T): T & { href: string } => ({ ...t, href: resolve?.get(`tour:${t.id}`) ?? `/tours/${t.id}` });
 }

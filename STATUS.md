@@ -2,7 +2,7 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
-## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
+## URL por idioma (Gate 3, 6 nov 2026) — Olas 0–2 en PR
 
 - Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
 - Olas 1–3 parten de `main` cuando #204 y #208 estén fusionados. Todo tras `LOCALE_URLS_ENABLED="false"`; lo enciende el PO con su protocolo.
@@ -20,6 +20,17 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-657 | Aviso no intrusivo, sin redirigir | `src/i18n/lib/suggest.ts`, `src/components/i18n/LanguageSuggestion.tsx` | `src/i18n/lib/suggest.test.ts`, `i18n-client.test.ts` | CUMPLIDO (apagado) |
 | REQ-658 | 301 con prefijo | `src/i18n/middleware.ts`, `src/destinations/middleware.ts` | `middleware.test.ts` | CUMPLIDO (apagado) |
 | REQ-659 | Fuera de alcance sin cambio | `src/i18n/lib/path.ts`, `src/i18n/server.ts` | `path.test.ts`, `server.test.ts` | CUMPLIDO (apagado) |
+| REQ-660 | hreflang recíproco + x-default (es) | `src/i18n/lib/alternates.ts`, `src/destinations/lib/page-model.ts`, `src/destinations/metadata.ts`, `src/i18n/metadata.ts` | `alternates.test.ts`, `page-model-locale.test.ts`, `src/destinations/metadata.test.ts` | CUMPLIDO (apagado) |
+| REQ-661 | Canonical a sí misma por idioma | `src/i18n/lib/alternates.ts`, `page-model.ts` | `alternates.test.ts`, `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-662 | Indexable por idioma (es y en en v1) | `src/i18n/lib/alternates.ts`, `src/destinations/lib/locale.ts` | `alternates.test.ts`, `locale.test.ts`, `page-model-locale.test.ts`, `metadata.test.ts` | CUMPLIDO (apagado) |
+| REQ-663 | Sitemaps con xhtml:link | `src/seo/lib/sitemaps.ts`, `page-model.ts` (`sitemapInput`), `src/destinations/sitemaps.ts` | `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-664 | `<html lang>` y og:locale | `src/i18n/lib/locales.ts`, `src/app/layout.tsx`, `metadata.ts` | `src/i18n/lib/locales.test.ts`, `metadata.test.ts` | CUMPLIDO (apagado) |
+| REQ-665 | Title, description y H1 del idioma | `src/destinations/lib/hub-copy.ts`, `locale.ts`, `src/i18n/lib/copy.ts`, páginas de `/destinos` | `locale.test.ts`, `page-model-locale.test.ts`, `card-sources.test.ts` | CUMPLIDO (apagado) |
+| REQ-666 | JSON-LD del idioma y su URL | `page-model.ts` | `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-667 | `tourPage` recibe `lang` de la ruta | `page-model.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/destinations/server.ts` | `page-model-locale.test.ts` | CUMPLIDO (apagado) |
+| REQ-668 | Tarjetas a la ficha final | `src/tours/lib/card-sources.ts`, `src/actions/tours.ts`, `src/app/page.tsx` | `card-sources.test.ts` | CUMPLIDO |
+| REQ-669 | Moneda del proveedor en todos los idiomas | `page-model.ts` (sin cambio de regla) | `page-model-locale.test.ts` | CUMPLIDO |
+| REQ-670 | Filtros: noindex, canonical del mismo idioma, sin hreflang | `src/i18n/lib/alternates.ts` (`hubAlternates`), `src/app/tours/page.tsx` | `alternates.test.ts` | CUMPLIDO (apagado) |
 
 ## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
 Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
