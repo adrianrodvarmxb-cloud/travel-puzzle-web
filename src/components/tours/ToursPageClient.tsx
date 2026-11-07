@@ -60,6 +60,8 @@ interface ToursPageClientProps {
     taxonomy?: boolean;
     /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
     showSuggest?: boolean;
+    /** REQ-1254: MXN por EUR del día (servidor), para el rango de precio aproximado. */
+    mxnPerEur?: number | null;
     /** REQ-340…342: analítica anónima de búsquedas (SEARCH_LOG_ENABLED). */
     logSearches?: boolean;
 }
@@ -73,6 +75,7 @@ export function ToursPageClient({
     countryCodeById = {},
     today,
     showDepartures = false,
+    mxnPerEur = null,
     taxonomy = false,
     showSuggest = false,
     logSearches = false,
@@ -399,7 +402,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
