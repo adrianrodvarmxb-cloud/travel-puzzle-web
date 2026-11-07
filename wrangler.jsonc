@@ -53,6 +53,7 @@
     "REVIEW_EMAILS_ENABLED": "false",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
     "PAID_TOURS_ENABLED": "false",
+    "PAID_TOURS_IN_RECOMMENDATIONS": "false",
     // Modificar reserva en línea (/reserva/[token]/modificar): "true" cuando Freetour dé el permiso de editar.
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.

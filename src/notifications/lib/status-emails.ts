@@ -3,6 +3,7 @@
  * - rejected: el organizador rechazó la reserva (obligatorio en Modo 2 de Freetour).
  * - canceled: el cliente canceló desde su enlace.
  * - modified: el cliente cambió fecha, hora, idioma o personas (solo free tours).
+ * - expired: la sesión de pago de un tour de pago venció sin pago y la reserva se canceló (REQ-932).
  * Funciones puras, con el mismo marco visual que la confirmación.
  */
 import { BRAND as B } from "./brand";
@@ -10,7 +11,7 @@ import { esc, kit, renderShell, supportCard, whatsappUrl, UI, MONO, type Contact
 import { describeBooking, calendarLinks, type EmailLang } from "./booking-email";
 import { crossSellText, renderCrossSellHtml, type CrossSellBlock } from "./cross-sell";
 
-export type StatusKind = "rejected" | "canceled" | "modified";
+export type StatusKind = "rejected" | "canceled" | "modified" | "expired";
 
 export interface StatusEmailData {
   kind: StatusKind;
@@ -89,6 +90,16 @@ const T = {
       cta: "Ver, cambiar o cancelar mi reserva",
       moreTitle: (c: string | null) => (c ? `Más planes en ${c}` : "Más planes para tu viaje"),
     },
+    // REQ-932
+    expired: {
+      subject: (t: string) => `Tu reserva se canceló: no se completó el pago – ${t}`,
+      status: "Reserva cancelada",
+      hero: "Tu reserva se canceló",
+      intro: (n: string) => `Hola ${n}: el enlace de pago venció y no recibimos el pago, así que cancelamos la reserva y liberamos el lugar. No se te cobró nada. Si todavía quieres ir, puedes reservar de nuevo.`,
+      reason: "",
+      cta: "Reservar de nuevo",
+      moreTitle: (c: string | null) => (c ? `Otros planes en ${c}` : "Otros planes para tu viaje"),
+    },
     ref: "Número de reserva", when: "Cuándo", who: "Quiénes", lang: "Idioma", tour: "Tour",
     calendar: "Actualiza tu calendario",
     help: "¿Dudas? Estamos para ayudarte",
@@ -128,6 +139,16 @@ const T = {
       cta: "View, change or cancel my booking",
       moreTitle: (c: string | null) => (c ? `More things to do in ${c}` : "More ideas for your trip"),
     },
+    // REQ-932
+    expired: {
+      subject: (t: string) => `Your booking was canceled: the payment wasn't completed – ${t}`,
+      status: "Booking canceled",
+      hero: "Your booking was canceled",
+      intro: (n: string) => `Hi ${n}, the payment link expired and we didn't receive the payment, so we canceled the booking and released the spot. You haven't been charged. If you still want to go, you can book again.`,
+      reason: "",
+      cta: "Book again",
+      moreTitle: (c: string | null) => (c ? `Other things to do in ${c}` : "Other ideas for your trip"),
+    },
     ref: "Booking number", when: "When", who: "Who", lang: "Language", tour: "Tour",
     calendar: "Update your calendar",
     help: "Questions? We're here to help",
@@ -145,6 +166,7 @@ const STATUS_COLOR: Record<StatusKind, { dot: string; text: string }> = {
   rejected: { dot: "#FF6B5A", text: "#FFB3A8" },
   canceled: { dot: B.yellow, text: "#F3F8B0" },
   modified: { dot: B.lightBlue, text: "#9FD3FF" },
+  expired: { dot: B.yellow, text: "#F3F8B0" },
 };
 
 // REQ-079: correos de cancelación y rechazo de Modo 2.

@@ -7,28 +7,25 @@ import { placeBooking, recordBooking, BookingRejected, type BookingRejectionCode
 import { createBookingRepo } from '@/booking/repository';
 import { findEventInfo } from '@/booking/lib/event-info';
 import { newManageToken } from '@/booking/lib/token';
-import { getPrisma, getD1 } from '@/lib/prisma';
-import { sendBookingConfirmation } from '@/booking/notify';
-import { crossSellDepsFromEnv } from '@/notifications/cross-sell-deps';
-import { getTourSummary, getMoreTours, contactFromEnv, calendarFromEnv } from '@/booking/tour-summary';
-import { getWeather, coordsOf } from '@/notifications/weather';
-import { createReviewRepo } from '@/reviews/repository';
-import { pickReviews } from '@/reviews/lib/reviews';
-import { sendEmail } from '@/notifications/resend';
+import { getPrisma } from '@/lib/prisma';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
+import { startPayment } from '@/booking/payment';
+import { needsCheckout } from '@/booking/lib/after-booking';
+import { isRefundPolicyConfirmed } from '@/tours/lib/paid-policy';
+import { sendConfirmationFor } from '@/booking/confirmation-send';
 import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
-import { freetourPromoFlags } from '@/freetour/lib/promo-policy';
 
 export const dynamic = 'force-dynamic';
 
 const STATUS: Record<BookingRejectionCode, number> = {
     bookings_disabled: 503,
     paid_not_available: 400,
+    children_not_allowed: 400,
     invalid_phone: 400,
     phone_required: 400,
     no_availability: 409,
@@ -51,8 +48,10 @@ export async function POST(request: NextRequest) {
     try {
         const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
         const repo = createBookingRepo(getPrisma());
-        const { booking, price } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey), contactIsAdult: raw?.contactIsAdult === true }, {
+        const { booking, price, fullPrice, isPaid } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey), contactIsAdult: raw?.contactIsAdult === true }, {
             enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
+            // REQ-013: sin el texto de reembolso confirmado por Freetour no se cobra.
+            paidEnabled: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) && isRefundPolicyConfirmed(),
             // REQ-083: contacto adulto, tras ADULT_CONTACT_CHECK_ENABLED (apagada).
             adultContactRequired: isAdultContactCheckEnabled(process.env.ADULT_CONTACT_CHECK_ENABLED),
             hasActiveBooking: async (eventId, email) => isOverlap(await repo.findByEventAndEmail(eventId, email), { eventId, email }),
@@ -72,36 +71,21 @@ export async function POST(request: NextRequest) {
                 now: new Date(),
             }
         );
+        if (record && needsCheckout({ isPaid, payNow: price })) {
+            // REQ-011: tour de pago → checkout de Freetour; la confirmación sale al quedar pagado (REQ-012).
+            const gw = createGatewayClient({ url: process.env.GATEWAY_URL ?? '', secret: process.env.GATEWAY_SECRET ?? '', fetch });
+            const paymentUrl = await startPayment(record, {
+                createPayment: (p) => gw.createPayment(p),
+                savePayment: (ref, p) => repo.savePayment(ref, { ...p, fullPrice }),
+                siteUrl: process.env.SITE_URL ?? '',
+            });
+            return NextResponse.json({ success: true, booking, manageToken: record.manageToken, paymentUrl });
+        }
         if (record) {
             const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
-            await sendBookingConfirmation(record, {
-                enabled: isBookingsEnabled(process.env.EMAILS_ENABLED),
-                lang,
-                siteUrl: process.env.SITE_URL ?? '',
-                getTour: (id, l) => getTourSummary(getPrisma(), id, l),
-                getMoreTours: (id, l, site) => getMoreTours(getPrisma(), id, l, site, { includePaid: isBookingsEnabled(process.env.PAID_TOURS_ENABLED) }),
-                // REQ-081: «Más planes» sin FREETOUR mientras FREETOUR_POSTTOUR_PROMO_ENABLED esté apagada.
-                freetourPostTourPromo: freetourPromoFlags(process.env as Record<string, string | undefined>).postTourPromo,
-                // REQ-182: enlace a «Arma tu viaje» en la confirmación, solo con ARMA_TU_VIAJE_ENABLED.
-                armaTuViaje: cartFlags(process.env as Record<string, string | undefined>).enabled,
-                // REQ-264: venta cruzada sin FREETOUR, tras EMAIL_CROSS_SELL_ENABLED (apagada).
-                crossSell: crossSellDepsFromEnv(process.env as Record<string, string | undefined>),
-                getWeather: async (mp, eventDate) => {
-                    const c = coordsOf(mp);
-                    return c ? getWeather({ fetch, userAgent: 'TravelPuzzle/1.0 (+https://travelpuzzle.com.mx; info@travelpuzzle.com.mx)' }, { ...c, eventDate }) : null;
-                },
-                getReviews: async (id, l) =>
-                    pickReviews(await createReviewRepo(getPrisma(), getD1()).listByTour(id), { lang: l, limit: 2 })
-                        .filter((r) => r.content && r.content.length <= 280)
-                        .map((r) => ({ name: r.reviewerName, rate: r.rate, text: r.content as string })),
-                contact: contactFromEnv(process.env as Record<string, string | undefined>),
-                calendar: calendarFromEnv(process.env as Record<string, string | undefined>),
-                send: (email) =>
-                    sendEmail(
-                        { apiKey: process.env.RESEND_API_KEY ?? '', fetch },
-                        { ...email, from: process.env.EMAIL_FROM ?? '', replyTo: process.env.EMAIL_REPLY_TO }
-                    ),
-            });
+            // REQ-938 (D7): pago a la llegada → sin checkout; la confirmación sale ya, como tour de pago.
+            if (isPaid) await repo.markArrival(record.refNumber, fullPrice).catch((e: unknown) => console.error('[reservas] no se guardó el pago a la llegada', (e as Error)?.message));
+            await sendConfirmationFor(isPaid ? ({ ...record, fullPrice, paymentStatus: 'arrival' } as typeof record) : record, lang);
         }
         // REQ-182: la pantalla de confirmación enlaza al carrito solo con la bandera encendida.
         const trip = tripUrl({ site: '', token: record?.manageToken, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status: record?.status ?? '' });
