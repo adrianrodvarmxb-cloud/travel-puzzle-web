@@ -2,7 +2,7 @@
  * REQ-250: copy de /asesores, «Habla con un asesor de viaje» (es/en). Puro.
  * El encargo lo llamó «Habla con nuestros viajeros expertos»; el PO pidió no prometer expertos que no existan:
  * aquí son asesores de viaje de Travel Puzzle, y solo se dice lo que hacen hoy (proponer tours y horarios por WhatsApp,
- * de 9:00 a 19:00). El bloque de personas queda en borrador hasta tener nombres, fotos y permisos.
+ * de 10:00 a 14:00 y de 16:00 a 20:00). El bloque de personas queda en borrador hasta tener nombres, fotos y permisos.
  */
 import { textsOf } from "@/site/lib/vocab";
 
@@ -37,7 +37,7 @@ const ES: AdvisorCopy = {
     text: "Es la forma más rápida de hablar con un asesor.",
     cta: "Hablar con un asesor",
     prefill: "Hola Travel Puzzle, quiero hablar con un asesor de viaje. Voy a: ",
-    hours: "De 9:00 a 19:00 horas.",
+    hours: "De 10:00 a 14:00 y de 16:00 a 20:00 horas.",
   },
   blocks: [
     {
@@ -69,7 +69,7 @@ const ES: AdvisorCopy = {
     send: "Enviar",
     sending: "Enviando…",
     sent: "Recibimos tus datos.",
-    sentText: "Un asesor de Travel Puzzle te escribe de 9:00 a 19:00 horas.",
+    sentText: "Un asesor de Travel Puzzle te escribe de 10:00 a 14:00 y de 16:00 a 20:00 horas.",
     errorGeneric: "No se pudo enviar. Revisa los datos o escríbenos por WhatsApp.",
     errorUnavailable: "El formulario no está disponible ahora. Escríbenos por WhatsApp.",
     fallback: "Escríbenos por WhatsApp",
@@ -87,7 +87,7 @@ const EN: AdvisorCopy = {
     text: "The fastest way to talk to an advisor.",
     cta: "Talk to an advisor",
     prefill: "Hi Travel Puzzle, I'd like to talk to a travel advisor. I'm going to: ",
-    hours: "From 9:00 to 19:00.",
+    hours: "From 10:00 to 14:00 and 16:00 to 20:00.",
   },
   blocks: [
     {

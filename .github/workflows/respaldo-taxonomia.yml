@@ -1,0 +1,31 @@
+# REQ-1247: respaldo de SOLO LECTURA de las tablas propias de la taxonomía (migración 0017) antes de encender
+# TAXONOMY_SYNC_ENABLED (REQ-615): el recálculo escribe en ellas y limpia corridas viejas. Exporta cada tabla
+# completa a JSON y la sube como artefacto (90 días). No escribe en D1, no publica y no toca banderas.
+name: Respaldo de la taxonomía (solo lectura)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  respaldo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Exportar las tablas de la 0017 (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p respaldo
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          q "SELECT * FROM \"ExperienceTaxonomy\"" > respaldo/ExperienceTaxonomy.json
+          q "SELECT * FROM \"ExperienceTaxonomyOverride\"" > respaldo/ExperienceTaxonomyOverride.json
+          q "SELECT * FROM \"TaxonomyRun\"" > respaldo/TaxonomyRun.json
+          for f in respaldo/*.json; do echo "$(basename "$f" .json): $(jq '.[0].results | length' "$f") filas"; done | tee respaldo/conteos.txt
+      - uses: actions/upload-artifact@v4
+        with: { name: respaldo-taxonomia, path: respaldo, retention-days: 90 }
