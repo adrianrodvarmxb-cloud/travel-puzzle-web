@@ -193,6 +193,8 @@ export interface TourDetailFacts {
   meetingPoint?: { title?: string | null; address?: string | null; lat?: number | null; lng?: number | null } | null;
   categoryId?: number | null;
   durationMinutes?: number | null;
+  /** REQ-820: galería del tour (portada primero). */
+  images?: (string | null | undefined)[] | null;
 }
 
 // REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
@@ -217,7 +219,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const facets = enrichment ? fichaFacets({ proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title }, lang) : { tipo: null, etiquetas: [] };
   const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
   const ficha: FichaInput = {
-    provider, lang, url: canonicalUrl(siteUrl, tour.href), name: tour.title, images: [image ?? tour.image],
+    provider, lang, url: canonicalUrl(siteUrl, tour.href), name: tour.title, images: [image ?? tour.image, ...(detail?.images ?? [])], // REQ-820: fichaImages quita repetidas y deja 4
     operator: tour.provider, free: tour.isFreeTour, price: tour.isFreeTour ? 0 : tour.price, currency: tour.currency,
     availability: today && fresh(detail?.departuresSyncedAt, today) ? nextAvailability(detail?.departureDates, today) : null,
     duration, languages: langs, place: `${city.name}, ${country.name}`,

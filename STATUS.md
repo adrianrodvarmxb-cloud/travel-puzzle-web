@@ -595,9 +595,14 @@ Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
 
-## Fichas de FREETOUR en noindex (6 nov 2026, 22:36) — matriz de trazabilidad
+## Rich Results Test en fichas (6 nov 2026, 22:38) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-820 | `image` en el Product: principal + hasta 3, absolutas | `src/seo/lib/ficha-ld.ts` (`fichaImages`), `src/destinations/lib/page-model.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-contract.ts` | `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
+| REQ-821 | Duración real en horas de un viaje de un día | `src/trips/lib/trip-facts.ts` (`infoDurationMinutes`) | `trip-facts.test.ts` | CUMPLIDO (falta corregir el import: ver PR) |
+| REQ-822 | «Tipo de experiencia» con `FORMATO_CARD_LABEL` | `src/seo/lib/trip-ficha.ts`, `src/seo/lib/taxonomy-facets.ts` | `trip-ficha.test.ts`, `taxonomy-facets.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
+| REQ-823 | Offer: availability solo si se sabe; sin shippingDetails ni hasMerchantReturnPolicy | `src/seo/lib/ficha-ld.ts` | `ficha-ld.test.ts` | CUMPLIDO |
+## Fichas de FREETOUR en noindex (6 nov 2026, 22:36) — matriz de trazabilidad
 | REQ-830 | `PROVIDER_INDEXABLE` (`freetour: false`), `indexableProvider`, `providerRobots` | `src/seo/lib/enrichment.ts` | `enrichment.test.ts` | CUMPLIDO |
 | REQ-831 | Ficha de FREETOUR con `noindex, follow` (/destinos y /tours/[id]) | `src/destinations/lib/page-model.ts` (`tourPage`), `src/destinations/lib/catalog.ts` (`providerId` en la tarjeta), `src/destinations/repository.ts`, `src/app/tours/[id]/page.tsx` | `page-model.test.ts` | CUMPLIDO |
 | REQ-832 | Fichas de FREETOUR fuera de los sitemaps | `src/destinations/lib/page-model.ts` (`sitemapInput`) | `page-model.test.ts` | CUMPLIDO |
