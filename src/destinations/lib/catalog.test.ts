@@ -64,7 +64,9 @@ describe("REQ-088: árbol de destinos generado desde los datos", () => {
 
 describe("REQ-089/090/091: indexación en el árbol", () => {
   it("REQ-089: ≥3 tours activos se indexa; 1 tour sin guía queda en noindex; 1 tour + guía de 300 palabras se indexa", () => {
-    const tree = destinationTree({ ...fx, tours: [tour(10, 1), tour(10, 1), tour(10, 1), tour(11, 1), tour(20, 2)], trips: [], now });
+    // REQ-1200: con tours de un proveedor con permiso de indexar (los de FREETOUR ya no cuentan; ver REQ-1200…1204).
+    const bm = (t: ReturnType<typeof tour>) => ({ ...t, providerId: "bemyguest" });
+    const tree = destinationTree({ ...fx, tours: [tour(10, 1), tour(10, 1), tour(10, 1), tour(11, 1), tour(20, 2)].map(bm), trips: [], now });
     expect(findCity(tree, "mx", "ciudad-de-mexico")!.city.indexed).toBe(true);
     expect(findCity(tree, "mx", "oaxaca")!.city.indexed).toBe(false);
     expect(findCity(tree, "pe", "cusco")!.city.indexed).toBe(true);
@@ -132,5 +134,38 @@ describe("T3 árbol de destinos con la taxonomía (TAXONOMY_PUBLISH_ENABLED)", (
   it("REQ-407 encendida, una ciudad solo con tours online no tiene página ni cuenta para indexar", () => {
     expect(findCity(on, "mx", "oaxaca")).toBeNull();
     expect(findCity(on, "mx", "ciudad-de-mexico")!.city.activeTours).toBe(6);
+  });
+});
+
+describe("REQ-1200 / REQ-1201 / REQ-1204: indexación de ciudad y país en el árbol sin FREETOUR", () => {
+  const W = (n: number) => Array.from({ length: n }, (_, i) => `w${i}`).join(" ");
+  const city = (id: number, slug: string, es: string, guide: string | null = null) => ({ id, countryId: 1, translations: { es }, slug, guide, guideUpdatedAt: null, indexableSince: null, failingSince: null });
+  const ft = (cityId: number, n: number) => Array.from({ length: n }, (_, i) => tour(cityId, 1, { slug: `ft-${cityId}-${i}`, providerId: "freetour" }));
+  const trip = (i: number, city: string) => ({ id: `tr${city}${i}`, slug: `viaje-${i}-ext-mx-t01-00${i}`, kind: "tour", title: `Viaje ${i}`, image: null, countries: ["MX"], cities: [city], priceLabel: null, updatedAt: "2026-11-01T00:00:00Z", agency: "Extime Travel", agencyId: "ag1" });
+  const t = destinationTree({
+    countries: [{ id: 1, code: "mx", iso2: "MX", translations: { es: "México" } }],
+    cities: [city(41, "solo-freetour", "Solo Freetour"), city(42, "con-guia", "Con Guía", W(300)), city(43, "tres-viajes", "Tres Viajes"), city(44, "un-viaje-y-guia", "Un Viaje Y Guía", W(300))],
+    tours: [...ft(41, 10), ...ft(42, 4), ...ft(43, 2), ...ft(44, 1)],
+    trips: [1, 2, 3].map((i) => trip(i, "Tres Viajes")).concat([trip(4, "Un Viaje Y Guía")]),
+    now: new Date("2026-11-07T12:00:00Z"),
+  });
+  const get = (slug: string) => findCity(t, "mx", slug)!.city;
+  it("REQ-1200: 10 tours de FREETOUR sin guía ya no indexan la ciudad (la página y sus tarjetas siguen)", () => {
+    expect(get("solo-freetour").indexed).toBe(false);
+    expect(get("solo-freetour").freeTours.length + get("solo-freetour").paidTours.length).toBe(10);
+    expect(get("solo-freetour").indexableTours).toBe(0);
+  });
+  it("REQ-1200: 3 viajes de agencia indexan la ciudad; 1 viaje + guía también", () => {
+    expect(get("tres-viajes").indexableTours).toBe(3);
+    expect(get("tres-viajes").indexed).toBe(true);
+    expect(get("un-viaje-y-guia").indexed).toBe(true);
+  });
+  it("REQ-1201: la guía propia del campo City.guide indexa aunque solo haya FREETOUR", () => {
+    expect(get("con-guia").indexed).toBe(true);
+  });
+  it("REQ-1204: el país se indexa con ≥1 ciudad indexada; sin ninguna, noindex", () => {
+    expect(t[0].indexable).toBe(true);
+    const solo = destinationTree({ countries: [{ id: 1, code: "mx", iso2: "MX", translations: { es: "México" } }], cities: [city(41, "solo-freetour", "Solo Freetour")], tours: ft(41, 10), trips: [], now: new Date("2026-11-07T12:00:00Z") });
+    expect(solo[0].indexable).toBe(false);
   });
 });

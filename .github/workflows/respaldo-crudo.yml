@@ -1,0 +1,41 @@
+# REQ-768 (Ola R4): respaldo RETROACTIVO de la copia exacta de un archivo de carga ya importado (imports/<archivo>.json).
+# Por omisión es ENSAYO: corre el contrato, arma el plan y mide; no escribe nada. No re-importa viajes ni fotos.
+# Escribir (R2 privado travel-puzzle-raw + índice ProviderRecord) solo con workflow_dispatch, escribir=true,
+# RAW_ARCHIVE_ENABLED="true" en wrangler.jsonc y OK del PO (candados en docs/runbooks/copia-exacta.md).
+# Los PDF originales NO están en GitHub: se suben desde la máquina del PO con subir.sh (paso 6 del runbook).
+name: Respaldo de la copia exacta (retroactivo)
+on:
+  workflow_dispatch:
+    inputs:
+      archivo:
+        description: "Archivo en imports/ (p. ej. extime-2026-27.json)"
+        required: true
+      escribir:
+        description: "Escribir en R2 privado + D1 (candado)"
+        type: boolean
+        default: false
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  ARCHIVO: imports/${{ inputs.archivo }}
+jobs:
+  respaldo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Contrato de ingesta (obligatorio)
+        run: npx tsx src/scripts/ingest-contract.ts "$ARCHIVO"
+      - name: Plan de la copia exacta (ensayo; nada se sube)
+        run: |
+          npx tsx src/scripts/raw-backfill.ts --solo "$ARCHIVO" --salida tmp/crudo --reporte tmp/crudo-reporte.json
+      - name: Bandera de la copia exacta
+        id: crudo
+        run: |
+          if grep -Eq '"RAW_ARCHIVE_ENABLED":[[:space:]]*"true"' wrangler.jsonc; then echo "on=true" >> "$GITHUB_OUTPUT"; else echo "on=false" >> "$GITHUB_OUTPUT"; echo "RAW_ARCHIVE_ENABLED apagada: solo ensayo"; fi
+      - name: Subir a R2 privado + índice
+        if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}
+        run: bash tmp/crudo/subir.sh

@@ -168,9 +168,45 @@ No escribes nada aparte: el workflow arma los textos de las tres redes **desde t
 - Redes: número de láminas generadas y si alguna red quedó en manual (issue «Redes del día»).
 - Si la corrida anterior falló, revisa el issue abierto «Blog diario: no se publicó» (etiqueta `blog-diario`) y menciona el motivo.
 
+## Paso 7 — Dos guías de ciudad (además de la entrada del blog)
+Cada día escribes también **2 guías propias de ciudad** (gate G5). Con una guía propia de 300 palabras o más, la ciudad cumple la regla de indexación aunque sus tours sean del proveedor de free tours. Las guías viven en el repo; no se escribe en la base.
+1. **Qué ciudades toca hoy:**
+   ```
+   npx tsx src/scripts/guias-tema.ts
+   ```
+   Te da `ciudadesDeHoy`: primero las 37 ciudades con viaje propio (`src/destinations/content/guias-orden.ts`), luego por número de experiencias. También te da los `terminosUsados`.
+2. **Investiga cada ciudad** con el mismo método del Paso 2: 2 o 3 búsquedas, fuentes primarias (gobiernos, sitios oficiales de museos y monumentos, oficinas de turismo, UNESCO), leídas por ti, con fecha. Mínimo **2 fuentes externas de dominios distintos** por guía. Abre la página de la ciudad en el sitio para saber qué experiencias hay. **No copies** su texto (C2).
+3. **Escribe** las 2 guías en `docs/guias/entradas/{hoy}.json`, como un arreglo de 2 objetos:
+   ```json
+   { "pais": "fr", "ciudad": "paris", "nombre": "París", "targetTerm": "…", "titulo": "Guía de …",
+     "publishedAt": "{hoy}", "author": "editorial", "origen": "agente-diario",
+     "enBreve": "40 a 80 palabras, respuesta primero",
+     "sections": [{ "h2": "¿Pregunta?", "answer": "respuesta en 1 o 2 frases", "body": ["…"], "list": ["…"] }],
+     "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el …) y del catálogo del sitio." }
+   ```
+   - De 3 a 6 H2 en forma de pregunta. **300 palabras o más** por guía.
+   - Cada cifra, horario, precio o requisito lleva su enlace **en la misma frase o párrafo**. Si la fuente es vieja, dilo («página publicada en julio de 2024»).
+   - Valen las mismas reglas de la entrada del blog:
+     - mismo vocabulario prohibido;
+     - nada de «FREETOUR» ni de experiencia propia («nuestros clientes»);
+     - nada de lo que no leíste: sin «se llena de…» ni «es muy popular» si no hay fuente;
+     - el término objetivo no puede repetir el de un artículo del blog ni el de otra guía.
+4. **Valida:**
+   ```
+   npx tsx src/scripts/guias-ciudad.ts validar docs/guias/entradas/{hoy}.json
+   ```
+   Hasta 3 intentos, corrigiendo cada motivo sin inventar. Si no pasa, **NO PUBLICAR** las guías y repórtalo. La entrada del blog sigue su camino aparte.
+5. **Envía:**
+   ```
+   gh api -X POST repos/adrianrodvarmxb-cloud/travel-puzzle-web/actions/workflows/guias-ciudad.yml/dispatches \
+     -f ref=main -f "inputs[guias]=$(base64 -w0 docs/guias/entradas/{hoy}.json)"
+   ```
+   Si responde 403 o 404, haz push de una rama `guias/entrada-{hoy}` con **solo** ese archivo, igual que en el Paso 5.
+   El workflow valida, abre el PR que solo cambia `src/destinations/content/guias.json`, corre el humo con las páginas de ciudad, fusiona y publica. Si falla, deja el motivo en el issue «Guías de ciudad: no se publicó».
+
 ## Lo que nunca haces
 - Crear, cambiar o borrar tareas programadas, banderas (`wrangler.jsonc`), secretos, migraciones, DNS o pagos.
-- Escribir en `src/` o en cualquier archivo fuera de `docs/blog/entradas/` (las imágenes que genera `blog-imagenes.ts` en `public/blog/img/` se quedan en tu copia y no se suben).
+- Escribir en `src/` o en cualquier archivo fuera de `docs/blog/entradas/` y `docs/guias/entradas/` (las imágenes que genera `blog-imagenes.ts` en `public/blog/img/` se quedan en tu copia y no se suben).
 - Publicar una entrada de free tour mientras el paso 1 no lo permita.
 - Inventar datos, casos, citas, testimonios, autores, fechas o reseñas.
 - Copiar texto de las fichas o de las fuentes: resume con tus palabras y enlaza.

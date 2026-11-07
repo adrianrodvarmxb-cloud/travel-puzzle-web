@@ -33,10 +33,11 @@ export function localizeTree(tree: CountryNode[], lang: SupportedLanguage): Coun
 /** REQ-662: home, /destinos, /tours y /traslados existen en todos los idiomas (alternates filtra los indexables). */
 export const HUB_LANGS: readonly SupportedLanguage[] = LOCALES;
 
-// REQ-662: la ciudad cuenta tours igual en todos los idiomas; la guía propia (en español) solo indexa en español.
+// REQ-662 REQ-1205: la ciudad cuenta tours igual en todos los idiomas; la guía propia (en español) solo indexa en español.
 export function cityLangs(city: CityNode, country: CountryNode): SupportedLanguage[] {
   if (!city.indexed || !country.indexable) return [];
-  return cityMeetsRule({ activeTours: city.activeTours, guide: null }) ? ["es", "en"] : ["es"];
+  // REQ-1205: en inglés, solo con ≥3 tours indexables (la guía, en español, no cuenta fuera del español).
+  return cityMeetsRule({ activeTours: city.activeTours, indexableTours: city.indexableTours, guide: null }) ? ["es", "en"] : ["es"];
 }
 
 // REQ-662: país indexable en un idioma con ≥1 ciudad indexable en ese idioma.

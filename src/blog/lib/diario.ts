@@ -56,14 +56,20 @@ function units(p: Post): [string, string][] {
 
 // REQ-966
 export function factProblems(p: Post): string[] {
+  const out = unitsFactProblems(units(p));
+  if (p.visual && p.visual.rows.some((r) => r.some((c) => /\d/.test(c))) && !p.visual.source) out.push("la tabla trae cifras: falta visual.source con su fuente");
+  return out;
+}
+
+/** REQ-966 (y REQ-1224 para las guías de ciudad): cada unidad de texto con cifra o requisito trae su enlace. */
+export function unitsFactProblems(list: [string, string][]): string[] {
   const out: string[] = [];
-  for (const [where, text] of units(p)) {
+  for (const [where, text] of list) {
     const plain = plainText(text);
     if (!/\d/.test(plain) && !FACT_RE.test(plain)) continue;
     if (inlineLinks(text).some((l) => SOURCE_HREF.test(l.href))) continue;
     out.push(`cifra o afirmación sin fuente enlazada en ${where}: «${plain.length > 90 ? `${plain.slice(0, 90)}…` : plain}»`);
   }
-  if (p.visual && p.visual.rows.some((r) => r.some((c) => /\d/.test(c))) && !p.visual.source) out.push("la tabla trae cifras: falta visual.source con su fuente");
   return out;
 }
 

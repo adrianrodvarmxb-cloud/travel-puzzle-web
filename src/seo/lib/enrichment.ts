@@ -21,6 +21,8 @@ export function indexableEnrichment(provider: string | null | undefined): boolea
  * enlaces internos siguen, y la regla de indexación de la ciudad (REQ-089/REQ-407) no cambia.
  * - FREETOUR: false hasta tener el permiso escrito (guardarlo en docs/freetour/autorizaciones.md).
  *   Para revertir: quitar `freetour: false` de esta tabla (y su prueba REQ-830).
+ * REQ-1200…1205: la misma tabla decide qué tours cuentan para indexar una ciudad (y en cascada su país, sitemaps,
+ * hreflang e IndexNow). Quitar `freetour: false` revierte todo en un solo cambio.
  */
 export const PROVIDER_INDEXABLE: Readonly<Record<string, boolean>> = Object.freeze({ freetour: false });
 
@@ -33,4 +35,9 @@ export function indexableProvider(provider: string | null | undefined): boolean 
 // REQ-830: robots de la ficha según el proveedor (null = lo decide la página, como hoy).
 export function providerRobots(provider: string | null | undefined): { index: false; follow: true } | null {
   return indexableProvider(provider) ? null : { index: false, follow: true };
+}
+
+// REQ-1203: proveedores sin permiso de indexar (para contar en SQL los tours indexables de una ciudad).
+export function nonIndexableProviders(): string[] {
+  return Object.keys(PROVIDER_INDEXABLE).filter((k) => PROVIDER_INDEXABLE[k] === false);
 }

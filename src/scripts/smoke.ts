@@ -15,6 +15,8 @@ import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
 import { fichaContractFailures, isFichaPath } from "../seo/lib/ficha-contract";
 import { blogSmokePaths } from "../blog/lib/seo";
 import { loadPosts } from "../blog/load";
+import { guideSmokePaths } from "../destinations/lib/guia";
+import { loadGuides } from "../destinations/guias";
 
 /** REQ-500: carpeta de evidencia (el workflow la sube como artefacto). */
 const EVIDENCE_DIR = process.env.SMOKE_EVIDENCE_DIR || "smoke-evidencia";
@@ -47,7 +49,9 @@ const optional = config.optional;
 const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
 // REQ-976: con BLOG_ENABLED encendida, /blog, los pilares con artículos y las 5 entradas más recientes son fijas.
 const blogOn = (process.env.BLOG_ENABLED ?? vars.BLOG_ENABLED) === "true";
-const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env), ...(blogOn ? blogSmokePaths(loadPosts()) : [])])];
+// REQ-1231: con PRIMERA_PIEZA encendida, las páginas de ciudad de las 2 guías más recientes son fijas.
+const guidesOn = (process.env.PRIMERA_PIEZA_ENABLED ?? vars.PRIMERA_PIEZA_ENABLED) === "true";
+const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env), ...(blogOn ? blogSmokePaths(loadPosts()) : []), ...(guidesOn ? guideSmokePaths(loadGuides()) : [])])];
 // REQ-675: con LOCALE_URLS_ENABLED también se descubre una ficha en inglés.
 const discoverRules = [...config.discover, ...flaggedDiscoverRules(config, vars, process.env)];
 // REQ-676: el contrato de idioma lee el HTML como lo recibe un buscador.
