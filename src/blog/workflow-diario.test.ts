@@ -12,9 +12,12 @@ describe("workflow blog-diario.yml", () => {
     expect(wf).toContain("blog-diario.ts validar");
   });
 
-  it("REQ-975 (G2): el PR solo cambia diario.json; nunca push a main ni force-push", () => {
-    expect(wf).toContain('if [ "$cambios" != "src/blog/content/diario.json" ]');
-    expect(wf).toContain("git add src/blog/content/diario.json");
+  // REQ-1055 reemplaza «solo diario.json» por «diario.json + imágenes de la entrada» (gate G4, 7 nov 2026).
+  it("REQ-975 (G2) + REQ-1055: el PR solo cambia diario.json y las imágenes de esa entrada; nunca push a main ni force-push", () => {
+    expect(wf).toContain('grep -vxF "src/blog/content/diario.json"');
+    // REQ-1073: también las láminas de Instagram de la entrada (ig-1…5.jpg)
+    expect(wf).toContain('grep -vE "^public/blog/img/$slug/([a-z0-9-]+-(800|1600)\\.(avif|webp|jpg)|ig-[1-5]\\.jpg)$"');
+    expect(wf).toContain('git add src/blog/content/diario.json "public/blog/img/$SLUG"');
     expect(wf).not.toMatch(/git push[^\n]*(main|--force|-f\b)/);
   });
 
@@ -32,5 +35,11 @@ describe("workflow blog-diario.yml", () => {
     expect(wf).toMatch(/- name: Dejar el motivo en un issue \(NO PUBLICADO\)\s+if: failure\(\)/);
     expect(wf).toContain('title="Blog diario: no se publicó"');
     expect(wf).toContain("blog-indexnow.ts");
+  });
+
+  it("REQ-1054 + REQ-1055: baja y optimiza las imágenes antes de validar, y el validador exige los archivos", () => {
+    expect(step("Imágenes del blog (bajar y optimizar)")).toBeLessThan(step("Validar y agregar a diario.json"));
+    expect(wf).toContain("PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}");
+    expect(wf).toContain("blog-diario.ts validar \"$B/entrada.json\" --agregar --archivos");
   });
 });

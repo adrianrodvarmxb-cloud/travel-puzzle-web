@@ -32,10 +32,10 @@ describe("sendBookingConfirmation", () => {
     expect(await sendBookingConfirmation(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send })).toBe("failed");
   });
 
-  it("sin datos del tour usa el número de reserva como referencia", async () => {
+  it("sin datos del tour usa el número de reserva como referencia; REQ-1103: en inglés «Free Puzzle»", async () => {
     const send = vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em_1");
     await sendBookingConfirmation(record, { enabled: true, lang: "en", siteUrl: "https://x", getTour: async () => null, send });
-    expect(send.mock.calls[0][0].subject).toContain("Free tour 6782");
+    expect(send.mock.calls[0][0].subject).toContain("Free Puzzle 6782");
   });
 });
 

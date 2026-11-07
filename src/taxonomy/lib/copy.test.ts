@@ -58,9 +58,9 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
 });
 
 describe("REQ-269 «Pieza libre» en la ciudad y junto a la insignia (PO 6-11 10:43)", () => {
-  it("el chip de la sección de la ciudad dice «Pieza libre» (en: «Free tour»)", () => {
+  it("el chip de la sección de la ciudad dice «Pieza libre» (en: «Free Puzzle», REQ-1103)", () => {
     expect(cityFormatChips([{ formato: "pieza-libre" }, { formato: "pieza-libre" }])).toEqual([{ slug: "pieza-libre", label: "Pieza libre", count: 2 }]);
-    expect(cityFormatChips([{ formato: "pieza-libre" }], "en")[0].label).toBe("Free tour");
+    expect(cityFormatChips([{ formato: "pieza-libre" }], "en")[0].label).toBe("Free Puzzle");
   });
   it("la etiqueta de formato de la ficha dice «Pieza libre»; ningún chip ni etiqueta dice «Free tour» en español", () => {
     expect(tourLabels("pieza-libre")).toEqual(["Pieza libre"]);

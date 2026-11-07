@@ -6,10 +6,12 @@
  * - Un país entra solo con ISO-2 guardado (su slug es el ISO-2 en minúsculas). Una ciudad, solo con slug.
  *   Un tour, solo con slug, activo y no removed. Lo que no tiene slug (hoy, todo en producción) no aparece.
  * - Los viajes propios publicados (tabla Trip, gate 4) entran a la sección Tours de su ciudad.
- * - Indexación: cityMeetsRule + la gracia de 14 días con el estado guardado (REQ-089/090/091).
+ * - Indexación: cityMeetsRule + la gracia de 14 días con el estado guardado (REQ-089/090/091); solo cuentan los tours
+ *   indexables (REQ-1200) y la guía propia indexa por sí sola (REQ-1201).
  */
 import { cityName } from "./dry-run";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
+import { indexableProvider } from "@/seo/lib/enrichment";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
 import { isPublishable, ownKindFormato, type CatalogClassifier } from "@/taxonomy/lib/publish";
 import { catalogTourFormat, tripFormat } from "@/tours/lib/card-format";
@@ -98,6 +100,8 @@ export interface CityNode {
   guide: string | null;
   guideUpdatedAt: string | null;
   activeTours: number;
+  /** REQ-1200: tours activos de proveedores con permiso de indexar (viajes propios y de agencia siempre cuentan). */
+  indexableTours: number;
   indexed: boolean;
   freeTours: TourCardModel[];
   paidTours: TourCardModel[];
@@ -213,11 +217,13 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
       const transport = here.filter((t) => transportIds.has(t.id));
       const activeTours = mine.length + freetourTransfers.length + here.length;
       if (!cityHasPage(activeTours)) continue;
-      const meets = cityMeetsRule({ activeTours, guide: city.guide });
+      // REQ-1200 REQ-1201: solo cuentan los tours indexables; la guía propia (City.guide) indexa por sí sola.
+      const indexableTours = [...mine, ...freetourTransfers].filter((t) => indexableProvider(t.providerId ?? "freetour")).length + here.length;
+      const meets = cityMeetsRule({ activeTours, indexableTours, guide: city.guide });
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
       nodes.push({
         id: city.id, slug: citySlug, name: cityLabel, href: cityPath(slug, citySlug), guide: city.guide,
-        guideUpdatedAt: city.guideUpdatedAt, activeTours, indexed,
+        guideUpdatedAt: city.guideUpdatedAt, activeTours, indexableTours, indexed,
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),
         ownTrips: own,

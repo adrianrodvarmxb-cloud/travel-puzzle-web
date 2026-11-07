@@ -15,7 +15,7 @@ describe("REQ-531: nombres cortos solo en la etiqueta de la foto de la tarjeta (
 
   it("REQ-531: la tabla firmada por el PO", () => {
     expect(FORMATO_CARD_LABEL).toEqual({
-      "pieza-libre": { es: "Pieza libre", en: "Free tour" },
+      "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-1103
       caminata: { es: "Caminata", en: "Walking tour" },
       tour: { es: "Visita guiada", en: "Guided tour" },
       "excursion-dia": { es: "Excursión de un día", en: "Day trip" },

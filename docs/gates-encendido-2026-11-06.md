@@ -33,6 +33,10 @@ La firma **no** cubre: aplicar migraciones, cargar datos, crear buckets, cambiar
 
 Siguen apagadas, fuera de esta firma: `STRIPE_HOLD_ENABLED` (no existe el cobro diferido) y `CART_PAYMENTS_ENABLED` (candado de pagos del carrito; requiere el carrito encendido).
 
+## Adenda — `LOCALE_URLS_ENABLED` (REQ-677), 7 nov 2026
+
+Firma del PO: Gate 3 «URL por idioma ya» (6 nov 2026), con OK de encendido comunicado por el coordinador. Prerrequisitos: Olas 0–3 en `main` (#213, #215, #223, #225) y ensayo #216 (bandera en "true") con humo verde: /en/, /en/tours, /en/destinos, ciudad y ficha en inglés, contrato hreflang/canonical sobre el `<head>` crudo y URL viejas con la cookie `preferredLanguage=en` en 200 y en español. Sin migraciones ni datos. Regreso: volver a `"false"`.
+
 ## Plan de regreso (cada bandera)
 
 Volver la bandera a `"false"` en `wrangler.jsonc` en un PR propio (o revertir el commit del PR de encendido) y publicar. Ninguna de estas banderas tiene migración ni datos que deshacer; `TAXONOMY_SYNC_ENABLED` deja filas en sus tablas propias, que nadie lee con la bandera apagada.

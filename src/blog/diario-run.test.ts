@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { knownPathsFromSitemaps, visibleText, fichaTextsFor, todayCdmx, validateAgainstSite, planForToday } from "./diario-run";
 import { sampleDaily } from "./lib/fixtures";
@@ -30,9 +31,26 @@ describe("raíz del blog diario (I/O inyectado)", () => {
     expect(todayCdmx(new Date("2026-11-08T07:00:00Z"))).toBe("2026-11-08");
   });
 
-  it("REQ-975: valida contra el sitio y el registro con todo inyectado", async () => {
-    const r = await validateAgainstSite(sampleDaily({ tema: { tipo: "calendario", clusterId: "EU-01", fuentes: [] }, targetTerm: "requisitos para entrar a europa 2026 mexicanos" }), { siteUrl: SITE, fetch: fakeFetch, now: new Date("2026-11-07T18:00:00Z"), primeraPieza: true, source: [] });
+  it("REQ-975 + REQ-1074: valida contra el sitio y el registro con todo inyectado, incluidos los textos de redes", async () => {
+    const eu01 = JSON.parse(readFileSync("docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json", "utf8"));
+    const site: Record<string, string> = { ...pages, [`${SITE}/sitemap-tours-fr.xml`]: `<urlset>${["/destinos/fr/paris", "/destinos/es/sevilla", "/destinos/cz/praga", "/destinos/pt/lisboa"].map((u) => `<url><loc>${SITE}${u}</loc></url>`).join("")}</urlset>` };
+    const f = async (u: string) => ({ ok: u in site, status: u in site ? 200 : 404, text: async () => site[u] ?? "" });
+    const r = await validateAgainstSite(eu01, { siteUrl: SITE, fetch: f, now: new Date("2026-11-07T18:00:00Z"), primeraPieza: true, source: [] });
     expect(r.ok ? [] : r.problems).toEqual([]);
+    const corto = await validateAgainstSite(sampleDaily({ tema: { tipo: "calendario", clusterId: "EU-01", fuentes: [] }, targetTerm: "requisitos para entrar a europa 2026 mexicanos" }), { siteUrl: SITE, fetch: fakeFetch, now: new Date("2026-11-07T18:00:00Z"), primeraPieza: true, source: [] });
+    expect(corto.ok ? [] : corto.problems.join(" ")).toMatch(/redes: linkedin: debe tener de 1200 a 1800 caracteres/);
     expect(planForToday(new Date("2026-11-07T18:00:00Z"), [])).toMatchObject({ today: "2026-11-07", kind: "pago", item: { id: "EU-01" } });
+  });
+});
+
+describe("archivos de imagen", () => {
+  it("REQ-1055: exige las 6 variantes de cada imagen en public/ (portada + 2 fotos = 18)", async () => {
+    const { missingImageFiles } = await import("./diario-run");
+    const { parsePost } = await import("./lib/schema");
+    const r = parsePost(sampleDaily());
+    if (!r.ok) throw new Error(r.error);
+    expect(missingImageFiles(r.post, () => false)).toHaveLength(18);
+    expect(missingImageFiles(r.post, () => true)).toEqual([]);
+    expect(missingImageFiles(r.post, (f) => !f.endsWith("portada-1600.avif"))).toEqual(["public/blog/img/entrada-diaria-de-prueba/portada-1600.avif"]);
   });
 });

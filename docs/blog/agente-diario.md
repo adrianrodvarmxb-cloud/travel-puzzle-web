@@ -68,6 +68,8 @@ Archivo JSON con estos campos (el esquema está en `src/blog/lib/schema.ts`):
 | `visual` (bloque 10) | tabla que se entienda sola (`caption`, `head`, `rows`); si trae cifras, `source` con su fuente |
 | `faq` (bloque 12) | opcional, máximo 4, con fuente si hay cifras |
 | `cta` (bloque 13) | `{ "kind": "comercial", "label": "Ver …" }` (el botón lleva a la página comercial del pilar) |
+| `cover` (portada) | **obligatoria**: foto de banco para el hero a todo el ancho (21:9). Ver «Imágenes» abajo |
+| `imagenes` | **2 a 4 fotos** en el cuerpo, en 1 o 2 bloques: `{ "formato", "despues": índice del H2 tras el que va, "pie"?, "fotos": [...] }` |
 | `minicaso`, `citas` | **NO se incluyen** (requieren material del cliente) |
 
 Formato de texto: `[texto descriptivo](/ruta)` o `[texto](https://…)`, y `**negrita**`. Nada de HTML. Texto de enlace descriptivo, nunca «aquí» ni «clic».
@@ -94,13 +96,38 @@ Formato de texto: `[texto descriptivo](/ruta)` o `[texto](https://…)`, y `**ne
 - en un free tour, reservar es gratis y al final cada quien le da al guía lo que considere justo. No prometas precio, cupo ni idioma que la ficha no diga.
 - Los precios de tours de pago son aproximados y en EUR, como la ficha. No digas que se pagan en línea.
 
+**Imágenes (premium, REQ-1050…1057):**
+- Portada y 2 a 4 fotos en el cuerpo, del destino o del tema del día (ciudad, monumento, documento de viaje…). Formatos:
+  - `banner` (1 foto, 21:9, a todo el ancho), `ancho` (1, 16:9) o `columna` (1, 3:2, con pie);
+  - `dos` (2 fotos, 4:5);
+  - `collage` o `galeria` (3 a 5 fotos, 4:3).
+- Bancos permitidos, con su licencia exacta:
+  - **Unsplash** → `"Unsplash License"`, `https://unsplash.com/license`. **Nunca Unsplash+** (plus.unsplash.com).
+  - **Pexels** → `"Pexels License"`, `https://www.pexels.com/license/`.
+  - **Pixabay** → `"Pixabay Content License"`, `https://pixabay.com/service/license-summary/`. El `id` es el número de la foto; el workflow la baja con la API.
+- Proveedores: solo los que estén en `PROVEEDORES_FOTOS_CON_PERMISO` (`src/blog/lib/images.ts`; hoy, ninguno). **Nunca fotos de FREETOUR ni de las fichas del catálogo** (C2/C5).
+- Abre la página de la foto, confirma qué muestra, el autor y que la licencia es la libre del banco. Anota la URL directa de la imagen (en Unsplash, `https://images.unsplash.com/photo-…`, obligatoria).
+- Cada foto lleva todos estos campos:
+  ```json
+  { "src": "/blog/img/{slug}/{nombre}", "alt": "qué se ve, en una frase", "credit": "Foto: {autor} / {Unsplash|Pexels|Pixabay}",
+    "license": { "name": "…", "url": "…" },
+    "origen": { "banco": "unsplash|pexels|pixabay", "id": "…", "pagina": "https://…", "autor": "…", "descarga": "https://…" } }
+  ```
+  - `{nombre}` en minúsculas y guiones (p. ej. `portada-praga`).
+  - El `alt` describe la foto, no repite el título.
+- No se pone texto, logo ni marca de agua sobre las fotos. El sitio agrega el velo de marca a la portada.
+
 **Antes de guardar, Godin y Handley:** borra toda frase que no responda «¿para qué le sirve esto al viajero?», y deja un solo punto clave.
 
 ## Paso 4 — Valida en local (máximo 3 intentos)
 Guarda el archivo en `docs/blog/entradas/{hoy}.json` y corre:
 ```
-npx tsx src/scripts/blog-diario.ts validar docs/blog/entradas/{hoy}.json
+npx tsx src/scripts/blog-imagenes.ts docs/blog/entradas/{hoy}.json
+npx tsx src/scripts/blog-diario.ts validar docs/blog/entradas/{hoy}.json --archivos
 ```
+- El primero baja y optimiza las fotos (AVIF, WebP y JPG a 800 y 1600 px) en `public/blog/img/{slug}/`.
+- Si no puede bajar de un banco (red o falta de `PIXABAY_API_KEY` en local), valida sin `--archivos`: el workflow las vuelve a bajar con su llave y exige los archivos.
+- No subas esas imágenes: el workflow las genera de nuevo.
 - `ok: true` → sigue al paso 5.
 - `ok: false` → corrige **cada** motivo de `problems` sin inventar nada: si falta la fuente de un dato, quita el dato o busca su fuente. Vuelve a validar.
 - Si después de 3 intentos sigue fallando: **NO PUBLICAR**. Reporta los motivos y termina.
@@ -120,16 +147,66 @@ git push origin blog/entrada-{hoy}
 ```
 Nunca hagas push a `main`, ni force-push, ni merge, ni abras el PR tú: lo hace el workflow.
 
+## Paso 5 bis — Redes del día (LinkedIn, Facebook, Instagram)
+No escribes nada aparte: el workflow arma los textos de las tres redes **desde tu entrada**, con el mismo tema adaptado a cada red, y las láminas de Instagram (portada + 3 o 4 datos con su fuente). Por eso:
+- Los `datos` y las respuestas con fuente de tus H2 son la materia prima de las láminas y las viñetas. Que sean frases claras de 40 a 170 caracteres.
+- Antes de enviar, revisa cómo quedan:
+  ```
+  npx tsx src/scripts/redes-laminas.ts docs/blog/entradas/{hoy}.json
+  ```
+  Las láminas quedan en `public/blog/img/{slug}/ig-*.jpg`. Míralas y **no las subas**.
+- Al publicarse la entrada, `blog-diario.yml` lanza `redes-diario.yml`:
+  - publica en cada red que tenga su bandera encendida y sus tokens;
+  - lo demás queda en el issue «Redes del día» para que el PO lo pegue a mano.
+- Las mismas reglas valen en redes: nada de «FREETOUR» ni de su logo, y cada cifra debe estar con su fuente en el artículo. Anunciar que hay free tours sí se puede (cumplimiento B3).
+
 ## Paso 6 — Reporte final (corto)
 - Fecha, tipo (pago o free), tema (ID del calendario o trending con sus 2 fuentes) y término objetivo.
 - Título y URL esperada (`https://travelpuzzle.com.mx/blog/{pilar}/{slug}`).
 - Fuentes usadas (URL y fecha) y fichas del catálogo enlazadas.
 - Vía de envío (A o B) y respuesta de la API.
+- Redes: número de láminas generadas y si alguna red quedó en manual (issue «Redes del día»).
 - Si la corrida anterior falló, revisa el issue abierto «Blog diario: no se publicó» (etiqueta `blog-diario`) y menciona el motivo.
+
+## Paso 7 — Dos guías de ciudad (además de la entrada del blog)
+Cada día escribes también **2 guías propias de ciudad** (gate G5). Con una guía propia de 300 palabras o más, la ciudad cumple la regla de indexación aunque sus tours sean del proveedor de free tours. Las guías viven en el repo; no se escribe en la base.
+1. **Qué ciudades toca hoy:**
+   ```
+   npx tsx src/scripts/guias-tema.ts
+   ```
+   Te da `ciudadesDeHoy`: primero las 37 ciudades con viaje propio (`src/destinations/content/guias-orden.ts`), luego por número de experiencias. También te da los `terminosUsados`.
+2. **Investiga cada ciudad** con el mismo método del Paso 2: 2 o 3 búsquedas, fuentes primarias (gobiernos, sitios oficiales de museos y monumentos, oficinas de turismo, UNESCO), leídas por ti, con fecha. Mínimo **2 fuentes externas de dominios distintos** por guía. Abre la página de la ciudad en el sitio para saber qué experiencias hay. **No copies** su texto (C2).
+3. **Escribe** las 2 guías en `docs/guias/entradas/{hoy}.json`, como un arreglo de 2 objetos:
+   ```json
+   { "pais": "fr", "ciudad": "paris", "nombre": "París", "targetTerm": "…", "titulo": "Guía de …",
+     "publishedAt": "{hoy}", "author": "editorial", "origen": "agente-diario",
+     "enBreve": "40 a 80 palabras, respuesta primero",
+     "sections": [{ "h2": "¿Pregunta?", "answer": "respuesta en 1 o 2 frases", "body": ["…"], "list": ["…"] }],
+     "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el …) y del catálogo del sitio." }
+   ```
+   - De 3 a 6 H2 en forma de pregunta. **300 palabras o más** por guía.
+   - Cada cifra, horario, precio o requisito lleva su enlace **en la misma frase o párrafo**. Si la fuente es vieja, dilo («página publicada en julio de 2024»).
+   - Valen las mismas reglas de la entrada del blog:
+     - mismo vocabulario prohibido;
+     - nada de «FREETOUR» ni de experiencia propia («nuestros clientes»);
+     - nada de lo que no leíste: sin «se llena de…» ni «es muy popular» si no hay fuente;
+     - el término objetivo no puede repetir el de un artículo del blog ni el de otra guía.
+4. **Valida:**
+   ```
+   npx tsx src/scripts/guias-ciudad.ts validar docs/guias/entradas/{hoy}.json
+   ```
+   Hasta 3 intentos, corrigiendo cada motivo sin inventar. Si no pasa, **NO PUBLICAR** las guías y repórtalo. La entrada del blog sigue su camino aparte.
+5. **Envía:**
+   ```
+   gh api -X POST repos/adrianrodvarmxb-cloud/travel-puzzle-web/actions/workflows/guias-ciudad.yml/dispatches \
+     -f ref=main -f "inputs[guias]=$(base64 -w0 docs/guias/entradas/{hoy}.json)"
+   ```
+   Si responde 403 o 404, haz push de una rama `guias/entrada-{hoy}` con **solo** ese archivo, igual que en el Paso 5.
+   El workflow valida, abre el PR que solo cambia `src/destinations/content/guias.json`, corre el humo con las páginas de ciudad, fusiona y publica. Si falla, deja el motivo en el issue «Guías de ciudad: no se publicó».
 
 ## Lo que nunca haces
 - Crear, cambiar o borrar tareas programadas, banderas (`wrangler.jsonc`), secretos, migraciones, DNS o pagos.
-- Escribir en `src/` o en cualquier archivo fuera de `docs/blog/entradas/`.
+- Escribir en `src/` o en cualquier archivo fuera de `docs/blog/entradas/` y `docs/guias/entradas/` (las imágenes que genera `blog-imagenes.ts` en `public/blog/img/` se quedan en tu copia y no se suben).
 - Publicar una entrada de free tour mientras el paso 1 no lo permita.
 - Inventar datos, casos, citas, testimonios, autores, fechas o reseñas.
 - Copiar texto de las fichas o de las fuentes: resume con tus palabras y enlaza.

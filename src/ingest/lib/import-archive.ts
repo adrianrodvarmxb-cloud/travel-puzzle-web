@@ -44,7 +44,7 @@ export async function documentFor(provider: string, fileName: string, data: Uint
 
 // REQ-745
 export async function planImportArchive(
-  bundle: ImportBundleLike, ctx: { runId: string; now: Date; doc?: SourceDocument | null },
+  bundle: ImportBundleLike, ctx: { runId: string; now: Date; doc?: SourceDocument | null; docsByRef?: Map<string, { key: string; page: number | null }> },
 ): Promise<ArchivePlan & { provider: string }> {
   const provider = providerOfAgency(bundle.agency.id);
   if (!provider) throw new Error(`agencia ${bundle.agency.id} sin proveedor declarado (src/ingest/lib/import-archive.ts)`);
@@ -53,8 +53,9 @@ export async function planImportArchive(
     body: e,
     experience: { kind: "trip" as const, id: idFor(bundle.agency.initials, e.ref) },
     sourceRef: typeof e.source === "string" ? e.source : null,
-    sourceDocKey: ctx.doc?.key ?? null,
-    sourcePage: typeof e.original?.pagina === "number" ? e.original.pagina : null,
+    // REQ-766: en el respaldo retroactivo cada viaje apunta a SU documento (y página) si se encontró.
+    sourceDocKey: ctx.docsByRef?.get(e.ref)?.key ?? ctx.doc?.key ?? null,
+    sourcePage: typeof e.original?.pagina === "number" ? e.original.pagina : ctx.docsByRef?.get(e.ref)?.page ?? null,
     original: originalOf(provider, e), // REQ-753
     declared: declaredOf(e), // REQ-754
   }));

@@ -2,6 +2,8 @@ import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
 import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
+import { SiteFooter } from '@/components/home/v2';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { TripDetailView, tripMetadata } from '@/components/trips/TripDetailView';
@@ -119,6 +121,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         facets: full.facets,
                     }}
                 />
+                {/* REQ-1101 (D07): el mismo pie del home que el resto del sitio (la ficha de viaje ya lo trae en TripDetailView). */}
+                <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
             </>
         );
     } catch (error) {

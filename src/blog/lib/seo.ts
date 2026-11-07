@@ -6,6 +6,7 @@
 import type { Post } from "./schema";
 import type { Author } from "../content/authors";
 import { pillarBySlug } from "./pillars";
+import { imageUrl, imageVariants } from "./images";
 import { postPath, pillarPath, pillarsWithPosts } from "./registry";
 import { ORG_ID } from "@/seo/lib/pages-jsonld";
 import type { UrlEntry } from "@/seo/lib/sitemaps";
@@ -31,7 +32,8 @@ export function blogPostingJsonLd(p: Post, author: Author, siteUrl: string) {
     articleSection: pillarBySlug(p.pillar)?.name ?? p.pillar,
     mainEntityOfPage: url,
     url,
-    ...(p.cover?.src ? { image: p.cover.src.startsWith("/") ? `${site}${p.cover.src}` : p.cover.src } : {}),
+    // REQ-1058: la portada en JPG de 1600 px (URL absoluta)
+    ...(p.cover?.src ? { image: imageVariants(p.cover.src).local ? imageUrl(p.cover.src, site) : p.cover.src.startsWith("/") ? `${site}${p.cover.src}` : p.cover.src } : {}),
     // REQ-971: el equipo editorial es Organization ligada a la organización del sitio; nunca una persona inventada.
     author: author.kind === "Organization"
       ? { "@type": "Organization", name: author.name, url: `${site}/`, parentOrganization: { "@id": ORG_ID(site) } }

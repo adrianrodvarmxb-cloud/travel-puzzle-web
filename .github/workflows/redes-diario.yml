@@ -1,0 +1,97 @@
+# REQ-1075: redes del día. Pedido del PO (7 nov 2026, 04:28): «que todos los días publique también en LinkedIn,
+# Facebook e IG el mismo tema, pero adaptado a cada red social».
+# Lo lanza blog-diario.yml después de publicar la entrada (o a mano con la ruta del artículo).
+# - Cada red va tras su bandera en wrangler.jsonc (SOCIAL_LINKEDIN_ENABLED, SOCIAL_FACEBOOK_ENABLED,
+#   SOCIAL_INSTAGRAM_ENABLED, todas en "false") y con sus secretos. Los tokens los crea el PO (candado; ver
+#   docs/redes/conexion.md). Nunca viven en el repo.
+# - Sin bandera o sin tokens: genera los textos y las láminas como artefacto y abre el issue «Redes del día» listo
+#   para copiar y pegar (REQ-1081).
+# - Si una red falla, las demás siguen y el motivo queda en el issue «Redes: no se publicó» (REQ-1080).
+name: Redes del día
+
+on:
+  workflow_dispatch:
+    inputs:
+      ruta:
+        description: "Ruta del artículo publicado (p. ej. /blog/europa/mi-entrada)"
+        required: true
+        type: string
+
+concurrency:
+  group: redes-diario
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  redes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Textos, validación y publicación por red
+        id: redes
+        continue-on-error: true
+        env:
+          RUTA: ${{ inputs.ruta }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          LINKEDIN_ORG_ID: ${{ secrets.LINKEDIN_ORG_ID }}
+          LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
+          META_GRAPH_VERSION: ${{ vars.META_GRAPH_VERSION }}
+          LINKEDIN_API_VERSION: ${{ vars.LINKEDIN_API_VERSION }}
+        run: npx tsx src/scripts/redes-diario.ts "$RUTA" --salida redes-salida
+
+      - name: Láminas de Instagram al artefacto
+        if: always()
+        env:
+          RUTA: ${{ inputs.ruta }}
+        run: |
+          slug=$(basename "$RUTA")
+          mkdir -p redes-salida/laminas
+          cp public/blog/img/"$slug"/ig-*.jpg redes-salida/laminas/ 2>/dev/null || echo "sin láminas en public/blog/img/$slug"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: redes-del-dia-${{ github.run_id }}
+          path: redes-salida/
+          retention-days: 30
+
+      - name: Issue «Redes del día» (lo que no se publicó solo, listo para copiar y pegar)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          [ -f redes-salida/resultado.json ] || { echo "Sin resultado."; exit 0; }
+          manual=$(node -e 'const r=require("./redes-salida/resultado.json");console.log(r.resultados.filter(x=>x.estado!=="publicado").length+r.problemas.length)')
+          [ "$manual" -gt 0 ] || { echo "Las 3 redes se publicaron solas."; exit 0; }
+          titulo=$(node -e 'const r=require("./redes-salida/resultado.json");console.log(`Redes del día: ${r.fecha} — ${r.titulo}`)')
+          printf '\n\nCorrida y artefacto (textos y láminas): %s\n' "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> redes-salida/issue.md
+          gh api "repos/$REPO/labels" -f name=redes-diario -f color=1d76db -f description="Redes del día" > /dev/null 2>&1 || true
+          gh api "repos/$REPO/issues" -f title="$titulo" -F body=@redes-salida/issue.md -f "labels[]=redes-diario" > /dev/null
+
+      - name: "Issue «Redes: no se publicó» (motivo por red)"
+        if: steps.redes.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          motivo=$(node -e 'try{const r=require("./redes-salida/resultado.json");console.log([...r.problemas.map(p=>"- "+p),...r.resultados.filter(x=>x.estado==="fallo").map(x=>`- ${x.red}: ${x.detalle}`)].join("\n"))}catch{console.log("- el script falló antes de escribir el resultado")}')
+          printf '%s\n' "**Redes: no se publicó** — ${{ inputs.ruta }}" "" "$motivo" "" "Corrida: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" > fallo.md
+          gh api "repos/$REPO/labels" -f name=redes-fallo -f color=d93f0b -f description="Fallas de las redes del día" > /dev/null 2>&1 || true
+          n=$(gh api "repos/$REPO/issues?state=open&labels=redes-fallo&per_page=1" --jq '.[0].number // empty')
+          if [ -n "$n" ]; then gh api "repos/$REPO/issues/$n/comments" -F body=@fallo.md > /dev/null
+          else gh api "repos/$REPO/issues" -f title="Redes: no se publicó" -F body=@fallo.md -f "labels[]=redes-fallo" > /dev/null; fi

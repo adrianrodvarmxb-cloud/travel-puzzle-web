@@ -2,6 +2,60 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1100 | Pie del home en /tours | `src/app/tours/page.tsx` | `src/layout/lib/site-footer-pages.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1101 | Pie del home en las fichas de tour | `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/app/tours/[id]/page.tsx` | `src/layout/lib/site-footer-pages.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
+## Redes del día (PO, 7 nov 2026, 04:28) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1070…1072 | Textos de LinkedIn, Facebook e Instagram | `src/redes/lib/textos.ts` | `src/redes/lib/textos.test.ts` | CUMPLIDO |
+| REQ-1073 | Láminas 1080×1350 | `src/redes/lib/laminas.ts`, `src/scripts/redes-laminas.ts` | `laminas.test.ts`, `textos.test.ts` | CUMPLIDO |
+| REQ-1074 | Mismas reglas del blog en redes | `textos.ts`, `src/blog/diario-run.ts` | `textos.test.ts`, `src/blog/diario-run.test.ts` | CUMPLIDO |
+| REQ-1075 | Workflow tras publicar | `.github/workflows/redes-diario.yml`, `blog-diario.yml`, `src/scripts/redes-diario.ts` | `src/redes/workflow-redes.test.ts` | CUMPLIDO (falta corrida real) |
+| REQ-1076 | Banderas y secretos | `wrangler.jsonc`, `src/redes/lib/api.ts` | `api.test.ts`, `workflow-redes.test.ts` | CUMPLIDO |
+| REQ-1077…1079 | Graph API (FB, IG) y LinkedIn Posts API | `api.ts`, `src/redes/run.ts` | `api.test.ts`, `run.test.ts` | CUMPLIDO (sin tokens: no probado contra las API) |
+| REQ-1080…1081 | Fallas aisladas; issue «Redes del día» | `run.ts`, `redes-diario.yml` | `run.test.ts`, `workflow-redes.test.ts` | CUMPLIDO |
+| REQ-1082 | Guía de tokens del PO | `docs/redes/conexion.md` | `src/redes/conexion.test.ts` | CUMPLIDO |
+| REQ-1083 | Prompt con el paso de redes | `docs/blog/agente-diario.md` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
+| REQ-1084 | B3: sin FREETOUR en redes | `textos.ts` | `textos.test.ts` | CUMPLIDO |
+
+## Imágenes premium en el blog (PO, 7 nov 2026, 04:28) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1050 | Esquema de imagen y formatos | `src/blog/lib/schema.ts` | `src/blog/lib/images.test.ts` | CUMPLIDO |
+| REQ-1051 | Portada + 2 a 4 fotos | `src/blog/lib/images.ts`, `src/blog/lib/diario.ts` | `images.test.ts`, `diario.test.ts` | CUMPLIDO |
+| REQ-1052 | Licencia, origen, sin FREETOUR ni Unsplash+ | `images.ts` | `images.test.ts` | CUMPLIDO |
+| REQ-1053 | Hero con velo, picture AVIF/WebP/JPG, créditos | `src/components/blog/BlogPicture.tsx`, `BlogImages.tsx`, `ArticleView.tsx`, `images.ts` | `images.test.ts` | CUMPLIDO |
+| REQ-1054 | Bajar y optimizar | `src/scripts/blog-imagenes.ts`, `images.ts` | `images.test.ts`, `workflow-diario.test.ts` | CUMPLIDO |
+| REQ-1055 | Workflow con imágenes; G2 ampliado | `.github/workflows/blog-diario.yml`, `src/blog/diario-run.ts`, `src/scripts/blog-diario.ts` | `workflow-diario.test.ts`, `diario-run.test.ts` | CUMPLIDO |
+| REQ-1056 | EU-01 con imágenes | `docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json`, `public/blog/img/requisitos-para-entrar-a-europa-2026/` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
+| REQ-1057 | Prompt: elegir imágenes | `docs/blog/agente-diario.md` | `agente-diario.test.ts` | CUMPLIDO |
+| REQ-1058 | Imagen en JSON-LD, OG y tarjeta | `src/blog/lib/seo.ts`, `view.ts`, `src/app/blog/[pilar]/[slug]/page.tsx` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-1059 | Gate G4 firmado (7 nov 2026, 06:09) | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
+
+## «Free tour» → «Free Puzzle» en inglés (auditoría 7 nov 2026, D10; PO 7-11 06:06) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | — | REEMPLAZADO por REQ-1103 |
+| REQ-1103 | Categoría «Free Puzzle» en inglés (tarjeta, /tours, ciudad, pines, insignia, marcado, correos, diccionario); reemplaza a REQ-1102 | `src/tours/lib/pieza-libre.ts`, `src/taxonomy/lib/filters.ts`, `src/tours/lib/extra-filters.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/destinations/lib/hub-copy.ts`, `src/destinations/lib/pieza-libre-copy.ts`, `src/lib/translations/{en,pt,de,fr,it}.ts`, `src/taxonomy/data/dictionary.json` | `src/tours/lib/free-puzzle.test.ts`, `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
+## Guías propias de ciudad (PO, 7 nov 2026, 06:17) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1220…1227 | Plantilla, 300 palabras, fuentes, vocabulario, C2, enlaces, término, fecha y 2 por día | `src/destinations/lib/guia.ts` | `src/destinations/lib/guia.test.ts` | CUMPLIDO |
+| REQ-1221 | En el repo, nunca en D1 | `src/destinations/content/guias.json`, `.github/workflows/guias-ciudad.yml` | `src/destinations/workflow-guias.test.ts` | CUMPLIDO |
+| REQ-1228 | Superposición a `City.guide` | `src/destinations/load.ts`, `src/destinations/guias.ts`, `guia.ts` | `src/destinations/guias.test.ts`, `guia.test.ts` | CUMPLIDO |
+| REQ-1229 | Orden (37 primero) | `src/destinations/content/guias-orden.ts`, `src/destinations/guias-run.ts` | `guias.test.ts`, `guias-run.test.ts`, `guia.test.ts` | CUMPLIDO |
+| REQ-1230 | Guía en la página de la ciudad | `src/components/destinations/CityGuideView.tsx`, `src/app/destinos/[pais]/[ciudad]/page.tsx` | `CityGuideView.test.ts` | CUMPLIDO |
+| REQ-1231 | Humo con las ciudades de las guías | `src/scripts/smoke.ts`, `guia.ts` | `guia.test.ts` | CUMPLIDO |
+| REQ-1232 | Workflow de publicación | `.github/workflows/guias-ciudad.yml`, `src/scripts/guias-ciudad.ts`, `guias-run.ts` | `workflow-guias.test.ts`, `guias-run.test.ts` | EN CURSO (falta corrida real) |
+| REQ-1233 | París y Pekín | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` | `src/destinations/guias-ejemplo.test.ts` | CUMPLIDO |
+| REQ-1234 | Prompt, Paso 7 | `docs/blog/agente-diario.md` | `guias-ejemplo.test.ts` | CUMPLIDO |
+| REQ-1235 | Gate G5 | `docs/gates-blog-diario-2026-11-06.md` | `workflow-guias.test.ts` | CUMPLIDO |
+
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
 
@@ -66,6 +120,7 @@ Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog
 | REQ-670 | Filtros: noindex, canonical del mismo idioma, sin hreflang | `src/i18n/lib/alternates.ts` (`hubAlternates`), `src/app/tours/page.tsx` | `alternates.test.ts` | CUMPLIDO (apagado) |
 | REQ-675 | Humo con /en/ y ficha en inglés tras la bandera | `tests/smoke/pages.json`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `src/ops/lib/smoke.test.ts` + humo del ensayo (#216) | CUMPLIDO |
 | REQ-676 | Contrato hreflang recíproco / canonical del mismo idioma | `src/i18n/lib/contract.ts`, `src/scripts/smoke.ts` | `src/i18n/lib/contract.test.ts` + humo del ensayo (#216) | CUMPLIDO |
+| REQ-677 | Encender `LOCALE_URLS_ENABLED` | `wrangler.jsonc`, `docs/gates-encendido-2026-11-06.md` | humo del preview con la bandera (#216 y este PR) | EN CURSO |
 
 ## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
 Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
@@ -143,6 +198,19 @@ Todo tras `PAID_TOURS_ENABLED=false`. Requiere la migración 0009 (pendiente; se
 **Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
+
+## 6 nov 2026 — Copia exacta retroactiva, Ola R4 (REQ-766…769), SOLO preparada
+- `src/scripts/raw-backfill.ts` (ensayo por omisión; nunca sube nada) y workflow manual `respaldo-crudo.yml` (`escribir=false` por omisión).
+- FREETOUR no necesita script: al encender `RAW_ARCHIVE_ENABLED`, el sync diario guarda la versión 1 de los ~8,000 tours.
+- Ensayo con los PDF compartidos: 371 viajes + 33 documentos (~50 MB). Faltan: Extime (179, sin documento) y Big Bus (29 páginas web por guardar). Sin página: Fantástica China 51, Inca 2, Turismo Asiático 2, Exotic 1.
+- Candados en orden: `docs/runbooks/copia-exacta.md` (10 pasos, cada uno con OK del PO).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-766 | Documento y página de cada viaje | src/ingest/lib/backfill-plan.ts | backfill-plan.test.ts | CUMPLIDO |
+| REQ-767 | Script de respaldo (ensayo) | src/scripts/raw-backfill.ts | backfill.test.ts | CUMPLIDO (sin ejecutar) |
+| REQ-768 | Workflow de respaldo | .github/workflows/respaldo-crudo.yml | backfill.test.ts | CUMPLIDO (sin ejecutar) |
+| REQ-769 | Runbook con candados | docs/runbooks/copia-exacta.md | backfill.test.ts | CUMPLIDO |
 
 ## 6 nov 2026 — Contrato obligatorio de ingesta, Ola R3 (REQ-760…764; cierra REQ-404)
 - `IngestAdapter` (esquema del crudo + `normalize()` puro + mapeo + volátiles + denominación original) para FREETOUR y las 7 agencias.
@@ -680,5 +748,15 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-830 | `PROVIDER_INDEXABLE` (`freetour: false`), `indexableProvider`, `providerRobots` | `src/seo/lib/enrichment.ts` | `enrichment.test.ts` | CUMPLIDO |
 | REQ-831 | Ficha de FREETOUR con `noindex, follow` (/destinos y /tours/[id]) | `src/destinations/lib/page-model.ts` (`tourPage`), `src/destinations/lib/catalog.ts` (`providerId` en la tarjeta), `src/destinations/repository.ts`, `src/app/tours/[id]/page.tsx` | `page-model.test.ts` | CUMPLIDO |
 | REQ-832 | Fichas de FREETOUR fuera de los sitemaps | `src/destinations/lib/page-model.ts` (`sitemapInput`) | `page-model.test.ts` | CUMPLIDO |
-| REQ-833 | Tarjetas, enlaces y regla de ciudad sin cambios | `src/destinations/lib/catalog.ts` | `page-model.test.ts` | CUMPLIDO (decisión de ciudades pendiente del PO) |
+| REQ-833 | Tarjetas, enlaces y regla de ciudad sin cambios | `src/destinations/lib/catalog.ts` | `page-model.test.ts` | REEMPLAZADO (regla de ciudad) por REQ-1200…1204 |
 | REQ-834 | Prueba de humo exige noindex en fichas de FREETOUR | `src/seo/lib/ficha-contract.ts`, `src/scripts/smoke.ts` | `ficha-contract.test.ts`, `enrichment.test.ts` | CUMPLIDO |
+
+## Ciudades indexables sin FREETOUR (7 nov 2026, 06:17) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1200 | Solo cuentan los tours indexables (≥3, o ≥1 + guía) | `src/destinations/lib/indexing.ts` (`cityMeetsRule`), `src/destinations/lib/catalog.ts` (`indexableTours`) | `indexing.test.ts`, `catalog.test.ts` | CUMPLIDO |
+| REQ-1201 | Guía propia ≥300 indexa aunque solo haya FREETOUR | `src/destinations/lib/indexing.ts` | `indexing.test.ts`, `catalog.test.ts` | CUMPLIDO |
+| REQ-1202 | Transición de 14 días | `src/destinations/lib/indexing.ts` (`planCityIndexing`) | `indexing.test.ts` | CUMPLIDO |
+| REQ-1203 | Sync cuenta indexables en D1 | `src/destinations/lib/indexing.ts` (`cityIndexInputsSql`), `src/catalog/guarded-repository.ts`, `src/seo/lib/enrichment.ts` (`nonIndexableProviders`) | `indexing.test.ts` | CUMPLIDO |
+| REQ-1204 | País en cascada | `src/destinations/lib/catalog.ts` | `catalog.test.ts` | CUMPLIDO |
+| REQ-1205 | Misma regla en sitemaps por idioma, hreflang e IndexNow | `src/destinations/lib/locale.ts` (`cityLangs`) | `locale.test.ts` | CUMPLIDO |
