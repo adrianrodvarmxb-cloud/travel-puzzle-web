@@ -20,9 +20,9 @@ describe("tarjeta única de experiencia", () => {
     for (const l of CARD_LANGS) expect(CARD_COPY[l].favorite).not.toMatch(/viajeros|travel/i); // sin «de los viajeros»
   });
 
-  it("REQ-522: la categoría sale del formato de la taxonomía; pieza libre = «Free tour» en inglés", () => {
+  it("REQ-522: la categoría sale del formato de la taxonomía; pieza libre = «Free Puzzle» en inglés (REQ-1103)", () => {
     expect(categoryLabel("pieza-libre", "es")).toBe("Pieza libre");
-    expect(categoryLabel("pieza-libre", "en")).toBe("Free tour");
+    expect(categoryLabel("pieza-libre", "en")).toBe("Free Puzzle");
     expect(categoryLabel("excursion-dia", "es")).toBe("Excursión de un día");
     expect(categoryLabel("experiencia-unica", "es")).toBe("Momentos de autor");
     expect(categoryLabel("caminata", "es")).toBe("Caminata"); // REQ-531: corto en la foto

@@ -17,7 +17,7 @@ export const EMPTY_EXTRA: ExtraFilters = { guideLanguage: null, date: null, grou
 type L = Record<"es" | "en" | "pt" | "de" | "fr" | "it", string>;
 /** Grupos de "Tipo de actividad" (como Civitatis) a partir de las 29 categorías de Freetour (archivo del PO, 4 nov 2026). */
 export const CATEGORY_GROUPS: { id: string; ids: number[]; label: L }[] = [
-  { id: "visitas", ids: [12, 10, 19, 17, 22], label: { es: "Visitas guiadas y Pieza libre", en: "Guided tours & free tours", pt: "Visitas guiadas e free tours", de: "Führungen & Free Tours", fr: "Visites guidées et free tours", it: "Visite guidate e free tour" } },
+  { id: "visitas", ids: [12, 10, 19, 17, 22], label: { es: "Visitas guiadas y Pieza libre", en: "Guided tours & Free Puzzle", pt: "Visitas guiadas e Free Puzzle", de: "Führungen & Free Puzzle", fr: "Visites guidées et Free Puzzle", it: "Visite guidate e Free Puzzle" } /* REQ-1103 */ },
   { id: "barcos", ids: [3, 32], label: { es: "Paseos en barco y actividades acuáticas", en: "Boat trips & water activities", pt: "Passeios de barco e atividades aquáticas", de: "Bootsfahrten & Wasseraktivitäten", fr: "Balades en bateau et activités nautiques", it: "Gite in barca e attività acquatiche" } },
   { id: "entradas", ids: [20, 24, 35, 28], label: { es: "Entradas, museos y pases", en: "Tickets, museums & passes", pt: "Ingressos, museus e passes", de: "Tickets, Museen & Pässe", fr: "Billets, musées et pass", it: "Biglietti, musei e pass" } },
   { id: "excursiones", ids: [4, 25], label: { es: "Excursiones de un día y naturaleza", en: "Day trips & nature", pt: "Excursões de um dia e natureza", de: "Tagesausflüge & Natur", fr: "Excursions d'une journée et nature", it: "Escursioni di un giorno e natura" } },
