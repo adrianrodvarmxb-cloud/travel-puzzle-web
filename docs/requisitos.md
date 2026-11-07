@@ -847,9 +847,9 @@ Petición literal (coordinador): «el H1 de /destinos/gb dice "Inglaterra" … e
 Petición literal: «La semana pasada aplicamos un ISO para que cada requerimiento generara un folio y así asegurar que se hiciera… lo vamos a aplicar ahorita» y «se tendría que estar aplicando siempre». Hasta hoy, los pendientes que no eran código (banderas por encender, definiciones, validaciones y tareas del PO) solo vivían en el chat. Desde aquí cada uno tiene folio. Tipos: CÓDIGO · BANDERA · DEFINICIÓN · VALIDACIÓN · TAREA-PO · DATOS. Una BANDERA se cierra solo encendida en producción y con humo verde; una DEFINICIÓN o VALIDACIÓN, solo con la respuesta literal del PO citada.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
-| REQ-1300 | BANDERA | `TAXONOMY_PUBLISH_ENABLED` (REQ-616; #257) | agente | — | EN CURSO |
-| REQ-1301 | BANDERA | `TAXONOMY_FILTERS_ENABLED`: filtro nuevo, sin «Visitas guiadas y Pieza libre» (D22, decisión 3 del 7-11) | agente | REQ-1300 | EN CURSO |
-| REQ-1302 | BANDERA | `TAXONOMY_LABELS_ENABLED`: etiquetas nuevas en ciudad y ficha | agente | REQ-1301 | EN CURSO |
+| REQ-1300 | BANDERA | `TAXONOMY_PUBLISH_ENABLED` (REQ-616; #257) | agente | — | CUMPLIDO (en true en main; deploy 42407350959 con humo verde, 7-11) |
+| REQ-1301 | BANDERA | `TAXONOMY_FILTERS_ENABLED`: filtro nuevo, sin «Visitas guiadas y Pieza libre» (D22, decisión 3 del 7-11) | agente | REQ-1300 | CUMPLIDO (#268; deploy 42408494550 con humo verde; captura del PO de las 14:50 con «Tipo de experiencia») |
+| REQ-1302 | BANDERA | `TAXONOMY_LABELS_ENABLED`: etiquetas nuevas en ciudad y ficha | agente | REQ-1301 | CUMPLIDO (#269; deploy 42409559569 con humo verde) |
 | REQ-1303 | BANDERA | `TAXONOMY_CIRCUITS_ENABLED` y `TAXONOMY_CIRCUIT_EXTRA_ENABLED` (REQ-424): facetas de circuitos | agente | REQ-1302, REQ-1317 | PENDIENTE |
 | REQ-1304 | BANDERA | `TAXONOMY_CART_ENABLED`: carrito por tipo | agente | REQ-1306 | PENDIENTE |
 | REQ-1305 | BANDERA | `TAXONOMY_LINEAGE_ENABLED`: vínculo con la denominación original (D25) | agente | REQ-1316 | PENDIENTE |
@@ -865,7 +865,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1315 | BANDERA | Apagadas a propósito: `FREETOUR_CHATBOT_ENABLED`, `FREETOUR_POSTTOUR_PROMO_ENABLED` (cumplimiento B3/B4), `VISA_ENABLED`, `ETIAS_ENABLED`, «Esenciales de viaje» (sin inventario) | — | Autorización escrita de FREETOUR / inventario | BLOQUEADO (a propósito) |
 | REQ-1316 | DATOS | Copia exacta (D25): ensayo del backfill → revisión de cifras por el PO → backfill real, un archivo a la vez | agente + PO | — | EN CURSO |
 | REQ-1317 | DATOS | Revisión a mano de todo el catálogo: tipo, temas y atributos (decisión 2 del PO, 7-11 08:03: «Revisar todo a mano»), unos 43 lotes | agente | REQ-1301 | PENDIENTE |
-| REQ-1318 | VALIDACIÓN | Primera publicación real del blog diario y de las guías (7-11 12:37) | coordinador | — | SIN VERIFICAR |
+| REQ-1318 | VALIDACIÓN | Primera publicación real del blog diario y de las guías (7-11 12:37) | coordinador | — | CUMPLIDO (Blog diario run 42403574334 success; /blog/europa/requisitos-para-entrar-a-europa-2026 responde 200; guías #270 publicadas, deploy 42404516289) |
 | REQ-1319 | CÓDIGO | INC-007: prueba de humo intermitente en producción, sin causa raíz | agente | — | EN CURSO |
 | REQ-1320 | TAREA-PO | Confirmar el buzón info@ | PO | — | PENDIENTE |
 | REQ-1321 | TAREA-PO | Tokens de Meta (Facebook e Instagram) según docs/redes/conexion.md; LinkedIn pasos 1 a 4 hechos el 7-11 | PO | — | PENDIENTE |
@@ -887,10 +887,23 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1337 | VALIDACIÓN | Plan de integración de BeMyGuest (#150) para firma | PO | — | PENDIENTE |
 | REQ-1338 | CÓDIGO | 53 REQ sin test (auditoría del 7-11) | agente | — | PENDIENTE |
 | REQ-1339 | DEFINICIÓN | Propuesta: alerta en el sync cuando un país o una ciudad se descarten (lección de REQ-1264 y regla 8 de CLAUDE.md) | PO | — | PENDIENTE |
-| REQ-1340 | CÓDIGO | /destinos/gb/edimburgo/top-edimburgo-experiencia-auto-guia da 404 y el H1 de /destinos/gb dice «Inglaterra» en vez de «Reino Unido» | agente | — | EN CURSO |
+| REQ-1340 | CÓDIGO | /destinos/gb/edimburgo/top-edimburgo-experiencia-auto-guia da 404 y el H1 de /destinos/gb dice «Inglaterra» en vez de «Reino Unido» | agente | — | CUMPLIDO: el 404 fue una lectura cortada del coordinador (la URL real responde 200; REQ-1266 la vigila en el humo) y «Reino Unido» quedó con REQ-1265 (#272, deploy 42410750699 verde) |
 | REQ-1341 | CÓDIGO | El índice de sitemaps marca lastmod 2026-11-06 aunque el contenido cambió el 7-11 | agente | — | PENDIENTE |
 | REQ-1342 | VALIDACIÓN | Cifras del ensayo de la carga histórica de la copia exacta, antes del backfill real (parte de REQ-1316) | PO | REQ-1316 (ensayo) | PENDIENTE |
 | REQ-1343 | TAREA-PO | Revisión automática de estatus cada 6 horas (PO 7-11 13:08: «cada 6 horas revisa estatus»): tarea programada que lee este tablero, PR, workflows y producción y notifica al PO | coordinador | — | EN CURSO |
+| REQ-1344 | CÓDIGO | INC-008: /tours carga como máximo 200 viajes publicados (`take: 200`); 69 se pierden, entre ellos los 44 de Fantástica China (PO 7-11 15:03: «cuáles 165 son viajes propios») | agente | — | EN CURSO |
+| REQ-1345 | CÓDIGO | Regla: todo viaje publicado que no sea transporte tiene URL en algún sitemap (hoy se cumple; sitemap-viajes con 14 es por diseño, REQ-584) | agente | — | EN CURSO |
+| REQ-1346 | CÓDIGO | Un solo total de «experiencias disponibles» en inicio, encabezado y filtro = tours sin transporte + viajes sin transporte (PO 15:13: «OK» a 8,260) | agente | — | EN CURSO |
+| REQ-1347 | DATOS | Publicar los 11 viajes de Turismo Asiático en draft (PO 15:14: «Sí, publícalos»), con respaldo, bookmark de D1 y humo | agente | REQ-1344 | PENDIENTE |
+| REQ-1348 | CÓDIGO | Test de contrato diccionario ↔ código, fila por fila, y ningún proveedor nuevo publica sin formato del diccionario (PO 15:20: «confirma que todo el diccionario se consideró… y que se considere en lo posterior ambos documentos») | agente | REQ-1344 | PENDIENTE |
+| REQ-1349 | CÓDIGO | Una sola URL canónica por viaje en la ciudad de inicio; las demás ciudades enlazan a ella y las URLs viejas redirigen con 301 (PO 15:21: «sí, aplica las mejores prácticas de referentes») | agente | REQ-1344 | PENDIENTE |
+| REQ-1350 | DEFINICIÓN | Los 9 ajustes del reporte de referentes (docs/taxonomia-referentes.md): cuáles ya se aplicaron y cuáles esperan firma, presentados uno por uno | PO | REQ-1348 | PENDIENTE |
+| REQ-1351 | CÓDIGO | Filtros «Cómo te mueves» y «Nocturno»: activos en el diccionario y sin filtro en /tours | agente | REQ-1348 | PENDIENTE |
+| REQ-1352 | TAREA-PO | Subir los 33 PDF originales de proveedores a la copia exacta (`raw-backfill.ts --docs` y `subir.sh`) desde una máquina con los PDF y credenciales de Cloudflare | PO | REQ-1316 | PENDIENTE |
+| REQ-1353 | VALIDACIÓN | Borrar la rama de diagnóstico `diag/viajes-conteo` y cerrar los PR de ensayo #216, #229, #238 y #249 (borrar es candado del PO) | PO | — | PENDIENTE |
+| REQ-1354 | CÓDIGO | Inca World: 75 viajes en D1 contra 76 importados; falta explicar la diferencia | agente | — | SIN VERIFICAR |
+| REQ-1355 | CÓDIGO | El sync blindado lee la guía de ciudad solo de D1; su `failingSince` no ve las guías del repo (`loadGuides()`) | agente | — | PENDIENTE |
+| REQ-1356 | VALIDACIÓN | Verificación de la empresa por LinkedIn (correo de Microsoft Vetting Services a Claudia) y paso 1 de Instagram: cuenta de Empresa | PO | REQ-1322 | PENDIENTE |
 
 ## REQ-1349: una sola URL canónica por viaje (detalle; folio del tablero)
 Petición literal (PO, 7 nov 2026, 15:21 CDMX): «sí, aplica las mejores prácticas de referentes». Referentes: Civitatis cuelga «Excursión a Brujas» bajo /paris/; GetYourGuide y Viator, una URL de producto bajo su destino principal, y las demás ciudades enlazan a esa misma URL.
