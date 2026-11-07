@@ -43,3 +43,10 @@ export function paidTerms(ev: EventPrices, adults: number, children: number, ful
   const payNow = typeof raw === "number" && Number.isFinite(raw) && raw >= 0 ? Math.min(raw, fullPrice) : fullPrice;
   return { ok: true, isPaid: true, isPartial: Boolean(ev.isPartiallyPaid) && payNow > 0 && payNow < fullPrice, fullPrice, payNow };
 }
+
+/** ¿El grupo paga? Misma lectura conservadora que `checkEvent` (REQ-810): por adultos o por adultos + niños. */
+// REQ-935
+export function groupIsPaid(table: Record<string, number> | undefined, adults: number, children: number): boolean {
+  if (!table) return false;
+  return [table[String(adults)], table[String(adults + children)]].some((p) => typeof p === "number" && p > 0);
+}

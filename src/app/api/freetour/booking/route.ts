@@ -15,6 +15,7 @@ import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
 import { startPayment } from '@/booking/payment';
+import { needsCheckout } from '@/booking/lib/after-booking';
 import { isRefundPolicyConfirmed } from '@/tours/lib/paid-policy';
 import { sendConfirmationFor } from '@/booking/confirmation-send';
 import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
@@ -70,7 +71,7 @@ export async function POST(request: NextRequest) {
                 now: new Date(),
             }
         );
-        if (record && isPaid) {
+        if (record && needsCheckout({ isPaid, payNow: price })) {
             // REQ-011: tour de pago → checkout de Freetour; la confirmación sale al quedar pagado (REQ-012).
             const gw = createGatewayClient({ url: process.env.GATEWAY_URL ?? '', secret: process.env.GATEWAY_SECRET ?? '', fetch });
             const paymentUrl = await startPayment(record, {
@@ -82,7 +83,9 @@ export async function POST(request: NextRequest) {
         }
         if (record) {
             const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
-            await sendConfirmationFor(record, lang);
+            // REQ-938 (D7): pago a la llegada → sin checkout; la confirmación sale ya, como tour de pago.
+            if (isPaid) await repo.markArrival(record.refNumber, fullPrice).catch((e: unknown) => console.error('[reservas] no se guardó el pago a la llegada', (e as Error)?.message));
+            await sendConfirmationFor(isPaid ? ({ ...record, fullPrice, paymentStatus: 'arrival' } as typeof record) : record, lang);
         }
         // REQ-182: la pantalla de confirmación enlaza al carrito solo con la bandera encendida.
         const trip = tripUrl({ site: '', token: record?.manageToken, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status: record?.status ?? '' });

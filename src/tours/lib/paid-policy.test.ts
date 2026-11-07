@@ -71,3 +71,14 @@ describe("política confirmada por Freetour (gate B)", () => {
     expect(paidPolicyConfirmed(null, "en", { es: "x", en: "Confirmed text." }).noShow).toBe("Confirmed text.");
   });
 });
+
+// REQ-937 (D4): el cargo es en EUR; si la tarjeta es de otra moneda, la conversión es aproximada y el banco puede cobrar comisión.
+describe("REQ-937 nota de cargo en EUR", () => {
+  const p = { fullPrice: 40, payNow: 40, isPartiallyPaid: false, currency: "EUR" };
+  it("REQ-937: es", () => {
+    expect(paidPolicyConfirmed(p, "es").chargeNote).toBe("El cargo se hace en euros (EUR) en una plataforma de pago segura. Si tu tarjeta es en pesos u otra moneda, la conversión es aproximada y tu banco puede cobrar comisión.");
+  });
+  it("REQ-937: en", () => {
+    expect(paidPolicyConfirmed(p, "en").chargeNote).toBe("You are charged in euros (EUR) on a secure payment platform. If your card is in another currency, the conversion is approximate and your bank may charge a fee.");
+  });
+});

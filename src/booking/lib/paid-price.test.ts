@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { paidTerms, pricesFor } from "./paid-price";
+import { groupIsPaid, paidTerms, pricesFor } from "./paid-price";
 
 // Ejemplo del PDF de la API v2.0: gratis de 1 a 4 adultos; de pago desde 5 (pago parcial).
 const ev = { fullPricePerGroup: { "1": 0, "2": 0, "3": 0, "4": 0, "5": 100, "6": 120 }, payableNowPricePerGroup: { "1": 0, "2": 0, "3": 0, "4": 0, "5": 20, "6": 24 }, isPartiallyPaid: true };
@@ -47,5 +47,18 @@ describe("REQ-930 paidTerms", () => {
   });
   it("REQ-930: pago a la llegada (payableNow 0) se respeta (D7)", () => {
     expect(paidTerms({ ...table, payableNowPricePerGroup: { "5": 0 }, isPartiallyPaid: false }, 5, 0, 40)).toEqual({ ok: true, isPaid: true, isPartial: false, fullPrice: 40, payNow: 0 });
+  });
+});
+
+// REQ-935: el formulario sabe si el grupo paga con la misma lectura conservadora que el servidor (REQ-810).
+describe("REQ-935 groupIsPaid", () => {
+  const t = { "1": 0, "4": 0, "5": 40 };
+  it("REQ-935: por adultos o por adultos + niños, la más cara", () => {
+    expect(groupIsPaid(t, 5, 0)).toBe(true);
+    expect(groupIsPaid(t, 4, 1)).toBe(true);
+    expect(groupIsPaid(t, 4, 0)).toBe(false);
+  });
+  it("REQ-935: sin tabla → free", () => {
+    expect(groupIsPaid(undefined, 2, 0)).toBe(false);
   });
 });

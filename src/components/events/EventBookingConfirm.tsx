@@ -5,20 +5,26 @@ import { useBookingForm } from './Contexts';
 import { TripLinkCard } from '@/components/booking/TripLinkCard';
 import { PaidPolicyNotice } from '@/components/tours/PaidPolicyNotice';
 import type { ShownPolicy as PaidPolicy } from '@/tours/lib/paid-policy';
+import { confirmMode } from '@/booking/lib/confirm-mode';
 
 interface EventBookingConfirmProps {
   onBack: () => void;
   /** Pago, cancelación y no presentarse (tours con costo, con PAID_TOURS_ENABLED). */
   policy?: PaidPolicy | null;
+  /** REQ-935: el grupo paga (tabla del evento, lectura conservadora). */
+  isPaid?: boolean;
+  /** REQ-935: PAID_TOURS_ENABLED. */
+  paidEnabled?: boolean;
 }
 
 /** Paso 2: 03 Confirmar (resumen y reserva real de free tours). */
-export function EventBookingConfirm({ onBack, policy }: EventBookingConfirmProps) {
+export function EventBookingConfirm({ onBack, policy, isPaid: paidGroup = false, paidEnabled = false }: EventBookingConfirmProps) {
   const { form, submitBooking, isSubmitting, submitError, bookingsEnabled, booking, tripUrl } = useBookingForm();
 
   if (booking) return <BookingConfirmed refNumber={booking.refNumber} canBeCanceled={!!booking.canBeCanceled} tripUrl={tripUrl} />;
 
-  const isPaid = form.price > 0;
+  const isPaid = paidGroup || form.price > 0;
+  const mode = confirmMode({ bookingsEnabled, isPaid, paidEnabled }); // REQ-935
   const people = form.adults + form.children;
   const rows: [string, string][] = [
     ['Personas', `${people} (${form.adults} adultos${form.children ? `, ${form.children} niños` : ''})`],
@@ -41,15 +47,17 @@ export function EventBookingConfirm({ onBack, policy }: EventBookingConfirmProps
 
       {isPaid && policy && <PaidPolicyNotice policy={policy} className="mt-5 text-[#0A1330]" />}
       <div className="mt-5">
-        {!bookingsEnabled ? (
+        {mode === 'closed' ? (
           <Notice>Las reservas en línea abren muy pronto.</Notice>
-        ) : isPaid ? (
+        ) : mode === 'paid_soon' ? (
           <Notice>Esta experiencia es de pago. El pago en línea estará disponible muy pronto.</Notice>
         ) : (
           <>
             {submitError && <p role="alert" className="mb-3 rounded-xl border border-[#C12909]/30 bg-[#C12909]/5 px-4 py-3 text-sm text-[#0A1330]">{submitError}</p>}
+            {/* REQ-935 (D6): el pago de FREETOUR va siempre aparte, en su página segura; no se suma a otras compras. */}
+            {mode === 'pay' && <p className="mb-3 text-xs text-gray-600">El pago de este tour se hace aparte, en una página segura de pago; no se suma a otras compras de tu viaje.</p>}
             <button type="button" onClick={submitBooking} disabled={isSubmitting} className="block w-full rounded-xl bg-[#C12909] px-5 py-4 text-center text-base font-bold text-white hover:opacity-90 disabled:opacity-50">
-              {isSubmitting ? 'Confirmando…' : 'Confirmar reserva  →'}
+              {isSubmitting ? 'Confirmando…' : mode === 'pay' ? 'Reservar e ir a pagar  →' : 'Confirmar reserva  →'}
             </button>
           </>
         )}

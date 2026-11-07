@@ -23,6 +23,22 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 
 **Pendiente del PO:** pedir por escrito (correo borrador; filas 12, 13, 16, 17, 18, 41, 48, y la clave de precios de la fila 55 a api@freetour.com); encender `ADULT_CONTACT_CHECK_ENABLED`; rotar la API key; aviso de privacidad y política de cookies (REQ-084); PR #62: sesión de pago vencida y regla de 24 h en la pantalla de cancelar.
 
+## Tours de pago de FREETOUR — PR #62 (PO, 6 nov 2026, 22:36: «Termina») — matriz de trazabilidad
+Todo tras `PAID_TOURS_ENABLED=false`. Requiere la migración 0009 (pendiente; se aplica con `deploy-cloudflare.yml`, migraciones=true, cuando #62 esté en main). Gate de la gracia: `docs/gates-pago-vencido-2026-11.md` (PENDIENTE de firma).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-930 | REQ-810 + REQ-010 unidos: precio conservador del grupo y cobro de hoy | `src/booking/lib/paid-price.ts`, `src/booking/service.ts` | `paid-price.test.ts`, `service.test.ts` | CUMPLIDO |
+| REQ-931 | Sesión vencida: enlace nuevo si el cliente vuelve (gracia 60 min) | `src/booking/payment.ts`, `lib/payment-state.ts`, `lib/payment-urls.ts`, `app/reserva/[token]/pago/continuar/route.ts`, `pago/cancelado/page.tsx`, `BookingPageView.tsx` | `payment.test.ts`, `payment-state.test.ts`, `payment-urls.test.ts` | CUMPLIDO |
+| REQ-932 | Sin pago: cancelar en FREETOUR (4 campos) y correo «pago vencido» | `payment.ts`, `payment-deps.ts`, `api/cron/payments/route.ts`, `repository.ts`, `notifications/lib/status-emails.ts` | `payment.test.ts`, `payment-state.test.ts`, `status-emails.test.ts` | CUMPLIDO |
+| REQ-933 | Error 63: GET /payment como máximo cada 10 min | `payment.ts`, `lib/payment-state.ts` | `payment.test.ts`, `payment-state.test.ts` | CUMPLIDO |
+| REQ-934 | Regla de 24 h antes de confirmar la cancelación | `src/booking/lib/cancel-policy.ts`, `app/reserva/[token]/page.tsx`, `CancelBooking.tsx` | `cancel-policy.test.ts` | CUMPLIDO |
+| REQ-935 | «Confirmar» permite pagar con el piloto; aviso de pago visible; pago aparte (D6) | `src/booking/lib/confirm-mode.ts`, `paid-price.ts`, `EventBookingConfirm.tsx`, `EventBookingFormClient.tsx` | `confirm-mode.test.ts`, `paid-price.test.ts` | CUMPLIDO |
+| REQ-936 | Rechazo sin pagar no promete reembolso | `src/booking/notify.ts` | `notify.test.ts` | CUMPLIDO |
+| REQ-937 | EUR con conversión aproximada y comisión del banco (D4) | `src/tours/lib/paid-policy.ts` | `paid-policy.test.ts` | CUMPLIDO |
+| REQ-938 | Pago a la llegada sin checkout (D7) | `lib/after-booking.ts`, `api/freetour/booking/route.ts`, `repository.ts`, `notify.ts` | `after-booking.test.ts`, `notify.test.ts` | CUMPLIDO |
+| REQ-939 | Migración 0009 aditiva y sin choque de número | `migrations/0009_freetour_payments.sql` | `src/booking/migration-0009.test.ts` | CUMPLIDO |
+
 ## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
 
 - 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-276.

@@ -87,7 +87,10 @@ export function isRefundPolicyConfirmed(text: RefundText | null = CONFIRMED_REFU
 export function paidPolicyConfirmed(price: PaidPrice | null, lang: string, text: RefundText | null = CONFIRMED_REFUND_TEXT): Omit<PaidPolicy, "noShow"> & { noShow: string | null; chargeNote: string } {
   const base = paidPolicy(price, lang);
   // REQ-014 (gate C, piloto): el cargo es en euros.
-  const chargeNote = lang === "es" ? "El cargo se hace en euros (EUR) en una plataforma de pago segura." : "You are charged in euros (EUR) on a secure payment platform.";
+  // REQ-937 (D4, términos §6–7): conversión aproximada y posibles comisiones del banco.
+  const chargeNote = lang === "es"
+    ? "El cargo se hace en euros (EUR) en una plataforma de pago segura. Si tu tarjeta es en pesos u otra moneda, la conversión es aproximada y tu banco puede cobrar comisión."
+    : "You are charged in euros (EUR) on a secure payment platform. If your card is in another currency, the conversion is approximate and your bank may charge a fee.";
   return { ...base, noShow: isRefundPolicyConfirmed(text) ? (text![lang as keyof RefundText] ?? text!.en) : null, chargeNote };
 }
 
