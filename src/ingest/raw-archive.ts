@@ -1,5 +1,5 @@
 /**
- * REQ-542, REQ-544: puerto RawArchive (archivo crudo en R2 PRIVADO + índice ProviderRecord en D1) y la orquestación
+ * REQ-742, REQ-744: puerto RawArchive (archivo crudo en R2 PRIVADO + índice ProviderRecord en D1) y la orquestación
  * de una corrida. Las dependencias llegan por parámetro; la lógica de qué escribir es pura (lib/archive-plan.ts).
  * Orden: primero R2 y luego D1. No es atómico, pero la clave lleva la huella: reintentar es idempotente y un objeto
  * huérfano en R2 es inofensivo. Si algo falla se registra y se devuelve en el reporte: NUNCA lanza (el sync sigue).
@@ -20,7 +20,7 @@ export interface ArchiveReport { written: number; revisited: number; same: numbe
 /** Puts en paralelo, de a pocos (límite de subpeticiones del Worker). */
 const PUT_CONCURRENCY = 10;
 
-// REQ-542, REQ-544
+// REQ-742, REQ-744
 export async function archiveRawItems(
   archive: RawArchive, input: { provider: string; items: RawItem[]; runId: string; now: Date },
 ): Promise<ArchiveReport> {
@@ -63,7 +63,7 @@ export const PROVIDER_RECORD_COLUMNS = [
 ] as const;
 
 /** Implementación real: bucket R2 privado (binding RAW_ARCHIVE) + tabla ProviderRecord (migración propuesta 0022). */
-// REQ-542
+// REQ-742
 export function createR2RawArchive({ bucket, db }: { bucket: R2PutLike; db: RawArchiveD1 }): RawArchive {
   return {
     async knownVersions(provider, externalIds) {

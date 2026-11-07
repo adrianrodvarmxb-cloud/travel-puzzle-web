@@ -1,5 +1,5 @@
 /**
- * REQ-540: huella del crudo de un proveedor (Ola R1, copia exacta). Pura.
+ * REQ-740: huella del crudo de un proveedor (Ola R1, copia exacta). Pura.
  * Se calcula sobre el JSON canónico (llaves ordenadas) SIN los campos volátiles que declara cada proveedor;
  * esos campos salen solo del cálculo, nunca de la copia: el objeto que se guarda en R2 es el item íntegro.
  * Decisión firmada del PO (6 nov 2026): versión nueva solo cuando cambia la huella.
@@ -24,7 +24,7 @@ export const VOLATILE_FIELDS: Record<string, readonly string[]> = {
 };
 
 /** Copia superficial del item sin los volátiles del proveedor (solo para hashear). */
-// REQ-540
+// REQ-740
 export function hashView(provider: string, item: unknown): unknown {
   const volatile = VOLATILE_FIELDS[provider];
   if (!volatile) throw new Error(`proveedor ${provider} sin campos volátiles declarados (src/ingest/lib/raw-hash.ts)`);
@@ -41,7 +41,7 @@ export async function sha256Hex(text: string | Uint8Array): Promise<string> {
 }
 
 /** sha-256 hex del JSON canónico del item sin volátiles. */
-// REQ-540
+// REQ-740
 export async function rawHash(provider: string, item: unknown): Promise<string> {
   return sha256Hex(canonicalJson(hashView(provider, item)));
 }

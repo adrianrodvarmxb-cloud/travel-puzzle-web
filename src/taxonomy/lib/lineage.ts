@@ -1,10 +1,10 @@
 /**
- * Ola R2 · reclasificación con linaje (REQ-551, REQ-553, REQ-554). Puro: sin red, base, reloj ni azar.
- * - REQ-551: cada término lleva su procedencia estructurada: campo del proveedor, valor original, palabra o código que
+ * Ola R2 · reclasificación con linaje (REQ-751, REQ-753, REQ-754). Puro: sin red, base, reloj ni azar.
+ * - REQ-751: cada término lleva su procedencia estructurada: campo del proveedor, valor original, palabra o código que
  *   coincidió y huella del crudo (ProviderRecord.rawHash). Los términos son exactamente los del clasificador de hoy.
- * - REQ-553: los viajes importados se clasifican PRIMERO con la denominación original del proveedor (mapeo de la
+ * - REQ-753: los viajes importados se clasifican PRIMERO con la denominación original del proveedor (mapeo de la
  *   agencia); si no hay o el mapeo no la conoce, con el mapeo propio (trip.kind), y el linaje lo dice.
- * - REQ-554: precedencia manual (ExperienceTaxonomyOverride) > regla (clasificador) > valor que declara el registro.
+ * - REQ-754: precedencia manual (ExperienceTaxonomyOverride) > regla (clasificador) > valor que declara el registro.
  * Nunca escribe en campos del proveedor (REQ-409): esto solo arma filas de la tabla propia ExperienceTaxonomy.
  */
 import type { Dictionary, Mapping, TerminoAtributo, TerminoFormato, TerminoTema } from "../schemas/dictionary";
@@ -20,7 +20,7 @@ export interface LineageRow extends TaxonomyRow {
   origin: Origen; sourceField: string | null; sourceValue: string | null; matchedTerm: string | null; sourceRawHash: string | null;
 }
 
-/** REQ-554: bandera del recálculo con linaje (requiere TAXONOMY_SYNC_ENABLED y las migraciones 0022 y 0023). */
+/** REQ-754: bandera del recálculo con linaje (requiere TAXONOMY_SYNC_ENABLED y las migraciones 0022 y 0023). */
 export function taxonomyLineageEnabled(env: { TAXONOMY_LINEAGE_ENABLED?: string }): boolean {
   return env.TAXONOMY_LINEAGE_ENABLED === "true";
 }
@@ -37,7 +37,7 @@ const TRIP_CAMPOS: Campos = {
 };
 
 /** La primera palabra clave (tal cual está en el diccionario) que coincide con el texto normalizado. */
-// REQ-551
+// REQ-751
 export function firstKeyword(words: readonly string[] | undefined, normalizedText: string): string | null {
   for (const w of words ?? []) { const rx = keywordRegex([w]); if (rx && rx.test(normalizedText)) return w; }
   return null;
@@ -94,7 +94,7 @@ function withLineage(rows: TaxonomyRow[], input: ClassifyInput, dict: Dictionary
   return rows.map((row) => ({ ...row, origin: "regla" as const, ...provenance(row, input, dict, c, category), sourceRawHash: rawHash }));
 }
 
-// REQ-551
+// REQ-751
 export function lineageForTour(t: TourRowForTaxonomy, dict: Dictionary, mappings: Record<string, Mapping>, o: { rawHash?: string | null; gates?: Gates }): LineageRow[] {
   const input = tourToInput(t);
   const rows = rowsFor("tour", t.id, classify(input, dict, mappings, o.gates ?? DEFAULT_GATES));
@@ -103,7 +103,7 @@ export function lineageForTour(t: TourRowForTaxonomy, dict: Dictionary, mappings
 
 export interface TripOriginal { provider: string; field: string; value: string; matchedTerm: string | null; rawHash: string | null }
 
-// REQ-551, REQ-553
+// REQ-751, REQ-753
 export function lineageForTrip(
   t: TripRowForTaxonomy, original: TripOriginal | null, dict: Dictionary, mappings: Record<string, Mapping>, agency: Record<string, Mapping>, o: { gates?: Gates },
 ): LineageRow[] {
@@ -130,8 +130,8 @@ export interface Declared { formato?: string; temas?: string[] }
 const isFormato = (s: string) => (FORMATOS as readonly string[]).includes(s);
 const isTema = (s: string) => (TEMAS as readonly string[]).includes(s);
 
-/** REQ-554: aplica lo que declara el registro (si no hubo regla) y luego los overrides manuales. */
-// REQ-554
+/** REQ-754: aplica lo que declara el registro (si no hubo regla) y luego los overrides manuales. */
+// REQ-754
 export function applyPrecedence(rows: LineageRow[], dict: Dictionary, o: { declared?: Declared | null; overrides?: OverrideLike[] }): LineageRow[] {
   if (rows.length === 0) return rows;
   const head = rows[0];

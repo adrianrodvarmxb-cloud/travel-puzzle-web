@@ -1,7 +1,7 @@
-# Diccionario de campos por proveedor (REQ-555, Ola R2)
+# Diccionario de campos por proveedor (REQ-755, Ola R2)
 
 Para cada campo de Travel Puzzle: de qué campo del proveedor sale y qué transformación se le aplica. La copia exacta
-del proveedor vive en R2 privado (`raw/<proveedor>/<externalId>/<huella>.json`, REQ-541) y el índice en
+del proveedor vive en R2 privado (`raw/<proveedor>/<externalId>/<huella>.json`, REQ-741) y el índice en
 `ProviderRecord` (migración propuesta 0022); cualquier valor de abajo se rastrea hasta ese objeto por `rawHash`.
 La clasificación vive en la tabla propia `ExperienceTaxonomy` con su procedencia (migración propuesta 0023) y nunca
 se escribe sobre campos del proveedor (REQ-409).
@@ -64,7 +64,7 @@ viaje apunta a él (`sourceDocKey`, `sourcePage`). Volátiles fuera de la huella
 | `ProviderRecord.originalCategory` / `originalField` | ver tabla siguiente | `originalOf()` (`src/ingest/lib/originals.ts`) |
 | `ProviderRecord.declaredTaxonomy` | `taxonomia` | `declaredOf()`: solo formatos y temas válidos del diccionario |
 | — (solo copia exacta) | `hold`, `photos[].alt`, cualquier campo extra | No se publican; quedan en la copia |
-| Taxonomía: formato | denominación original (si hay) y si no `trip.kind`; `trip.durationDays`; títulos | REQ-553: primero `mapping/<agencia>.json`, si no `mapping/propios.json` |
+| Taxonomía: formato | denominación original (si hay) y si no `trip.kind`; `trip.durationDays`; títulos | REQ-753: primero `mapping/<agencia>.json`, si no `mapping/propios.json` |
 | Taxonomía: temas | `trip.category` + títulos | `temasPorFuente` de `propios` y palabras del diccionario |
 | Taxonomía: atributos | `trip.options[].mode`, `trip.languages`, `trip.flightsIncluded`, títulos | `classifyAtributos()` |
 

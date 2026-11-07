@@ -1,4 +1,4 @@
--- PROPUESTA, SIN APLICAR (REQ-546, Ola R1 «copia exacta»; gate 1 firmado por el PO el 6 nov 2026). Fuera de migrations/
+-- PROPUESTA, SIN APLICAR (REQ-746, Ola R1 «copia exacta»; gate 1 firmado por el PO el 6 nov 2026). Fuera de migrations/
 -- a propósito. Para aplicarla: PR aparte que la mueva a migrations/ con el siguiente número libre, OK del PO y publicación
 -- a mano con la casilla «migraciones» (runbook docs/runbooks/copia-exacta.md, paso 3).
 --

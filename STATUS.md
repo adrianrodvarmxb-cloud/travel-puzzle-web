@@ -2,6 +2,12 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
+
+- 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-276.
+- Formularios con Zod y anti-spam; envían con Resend a info@ (sin base ni migración). Blog con datos en el repo, cero publicados y un borrador de ejemplo.
+- Falta: firma de las decisiones en `docs/gates-paginas-2026-11.md`, material del cliente para los bloques en borrador, preview en Cloudflare con banderas encendidas y OK del PO para encender (una bandera por PR).
+
 ## Resumen del 5 nov 2026
 
 **Publicado hoy (cada uno con deploy y prueba de humo en producción en verde):**
@@ -36,7 +42,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
-## 6 nov 2026 — Reclasificación con linaje, Ola R2 (REQ-550…556)
+## 6 nov 2026 — Reclasificación con linaje, Ola R2 (REQ-750…756)
 - Cada término de `ExperienceTaxonomy` guarda origen (manual/regla/proveedor), campo y valor original del proveedor, palabra o código que coincidió y huella del crudo (migración PROPUESTA 0023, sin aplicar).
 - Mapeos por agencia (7) desde la denominación original (código, URL o documento), **pendientes de firma del PO**; los viajes se clasifican primero con ellos y si no, con `propios`.
 - Hoy solo 4 agencias tienen denominación derivable de sus datos (Big Bus, Fantástica China, Destino Colombia, Inca World). Extime, Exotic Escapes y Turismo Asiático necesitan capturar `original.categoria` desde su documento.
@@ -45,31 +51,31 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-550 | Columnas de procedencia (0023 propuesta) | docs/migraciones-propuestas/0023_taxonomia_linaje.sql | migration-0023.test.ts | CUMPLIDO (sin aplicar) |
-| REQ-551 | Procedencia estructurada por término | src/taxonomy/lib/lineage.ts | lineage.test.ts | CUMPLIDO (apagado) |
-| REQ-552 | Mapeos Zod por agencia | src/taxonomy/data/mapping/{7 agencias}.json, data/index.ts | agencias.test.ts | CUMPLIDO (falta firma) |
-| REQ-553 | Clasificar primero con la denominación original | src/ingest/lib/originals.ts, lineage.ts | originals.test.ts, lineage.test.ts | CUMPLIDO (apagado) |
-| REQ-554 | Overrides: manual > regla > proveedor | lineage.ts (`applyPrecedence`), recompute.ts | lineage.test.ts, recompute-lineage.test.ts | CUMPLIDO (apagado) |
-| REQ-555 | Diccionario de campos | docs/datos/diccionario-campos.md | agencias.test.ts | CUMPLIDO |
-| REQ-556 | Recálculo con linaje | src/taxonomy/recompute.ts, lineage-repository.ts, cron sync-tours | recompute-lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-750 | Columnas de procedencia (0023 propuesta) | docs/migraciones-propuestas/0023_taxonomia_linaje.sql | migration-0023.test.ts | CUMPLIDO (sin aplicar) |
+| REQ-751 | Procedencia estructurada por término | src/taxonomy/lib/lineage.ts | lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-752 | Mapeos Zod por agencia | src/taxonomy/data/mapping/{7 agencias}.json, data/index.ts | agencias.test.ts | CUMPLIDO (falta firma) |
+| REQ-753 | Clasificar primero con la denominación original | src/ingest/lib/originals.ts, lineage.ts | originals.test.ts, lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-754 | Overrides: manual > regla > proveedor | lineage.ts (`applyPrecedence`), recompute.ts | lineage.test.ts, recompute-lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-755 | Diccionario de campos | docs/datos/diccionario-campos.md | agencias.test.ts | CUMPLIDO |
+| REQ-756 | Recálculo con linaje | src/taxonomy/recompute.ts, lineage-repository.ts, cron sync-tours | recompute-lineage.test.ts | CUMPLIDO (apagado) |
 
-## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-540…548)
-- Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-544).
+## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…748)
+- Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-744).
 - Los imports guardan el item completo (con `source`, `hold`, `taxonomia`) y el documento original si el workflow lo recibe (`source/<agencia>/…`).
 - Índice `ProviderRecord` + `ProviderDocument`: migración PROPUESTA `docs/migraciones-propuestas/0022_provider_record.sql` (sin aplicar).
 - Todo tras `RAW_ARCHIVE_ENABLED="false"`. Pasos con candado en `docs/runbooks/copia-exacta.md`: bucket, binding, migración, bandera.
 
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-540 | Huella sin volátiles por proveedor | src/ingest/lib/raw-hash.ts | raw-hash.test.ts | CUMPLIDO |
-| REQ-541 | Claves raw/ y source/ | src/ingest/lib/raw-keys.ts | raw-keys.test.ts | CUMPLIDO |
-| REQ-542 | Puerto RawArchive, versión solo si cambia | src/ingest/raw-archive.ts, lib/archive-plan.ts | raw-archive.test.ts | CUMPLIDO |
-| REQ-543 | FREETOUR crudo antes de transformar | src/catalog/guarded-sync.ts, src/ingest/lib/freetour-raw.ts, deps.ts, lib/flags.ts, cron sync-tours | guarded-sync.test.ts, flags.test.ts | CUMPLIDO (apagado) |
-| REQ-544 | El archivo crudo no tumba el sync | src/ingest/raw-archive.ts, guarded-sync.ts | raw-archive.test.ts, guarded-sync.test.ts | CUMPLIDO |
-| REQ-545 | Imports: item completo + documento original | src/ingest/lib/import-archive.ts, src/scripts/import-trips.ts, importar-viajes.yml | import-archive.test.ts | CUMPLIDO (apagado) |
-| REQ-546 | Índice D1 (migración propuesta 0022) | docs/migraciones-propuestas/0022_provider_record.sql | migration-0022.test.ts | CUMPLIDO (sin aplicar) |
-| REQ-547 | Ninguna ruta pública sirve raw/ | src/ingest/* | privacy.test.ts | CUMPLIDO |
-| REQ-548 | Netos y copias fuera del repo | imports/*.json | privacy.test.ts | CUMPLIDO |
+| REQ-740 | Huella sin volátiles por proveedor | src/ingest/lib/raw-hash.ts | raw-hash.test.ts | CUMPLIDO |
+| REQ-741 | Claves raw/ y source/ | src/ingest/lib/raw-keys.ts | raw-keys.test.ts | CUMPLIDO |
+| REQ-742 | Puerto RawArchive, versión solo si cambia | src/ingest/raw-archive.ts, lib/archive-plan.ts | raw-archive.test.ts | CUMPLIDO |
+| REQ-743 | FREETOUR crudo antes de transformar | src/catalog/guarded-sync.ts, src/ingest/lib/freetour-raw.ts, deps.ts, lib/flags.ts, cron sync-tours | guarded-sync.test.ts, flags.test.ts | CUMPLIDO (apagado) |
+| REQ-744 | El archivo crudo no tumba el sync | src/ingest/raw-archive.ts, guarded-sync.ts | raw-archive.test.ts, guarded-sync.test.ts | CUMPLIDO |
+| REQ-745 | Imports: item completo + documento original | src/ingest/lib/import-archive.ts, src/scripts/import-trips.ts, importar-viajes.yml | import-archive.test.ts | CUMPLIDO (apagado) |
+| REQ-746 | Índice D1 (migración propuesta 0022) | docs/migraciones-propuestas/0022_provider_record.sql | migration-0022.test.ts | CUMPLIDO (sin aplicar) |
+| REQ-747 | Ninguna ruta pública sirve raw/ | src/ingest/* | privacy.test.ts | CUMPLIDO |
+| REQ-748 | Netos y copias fuera del repo | imports/*.json | privacy.test.ts | CUMPLIDO |
 
 ## 6 nov 2026 — «Arma tu viaje»: experiencias cercanas en la tarjeta de tour (REQ-320…324)
 - La tarjeta de tour/excursión recomienda hasta 3 viajes ya cargados (propios, agencias y Big Bus) por cercanía: ciudad → país → 300 km → 800 km. Nunca FREETOUR (B3). Asesor solo si no hay nada; sin asesor, no hay tarjeta.
@@ -454,4 +460,27 @@ Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-li
 | REQ-538 | Import de Fantástica China: Macao = tour de 1 día | `imports/fantasticachina-2027.json` | `auditoria-tipos.test.ts` | CUMPLIDO en repo; falta aplicar en D1 |
 
 Efecto en el catálogo (respaldo de producción del 5-11, 8,018 tours activos de FREETOUR): pieza-libre sin cambio (3,464); autoguiado 29 → 635; excursión de un día 1,222 → 1,048; caminata 1,515 → 1,239; tour 1,253 → 1,193; Momentos de autor 344 → 230; traslado 8 → 26.
+
+## Criterio de pendientes de tipos (PO, 6 nov 2026, 21:14) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-540 | Visita guiada con entrada = tour + «entrada-incluida»; boletos solo sin guía | `src/taxonomy/lib/format.ts`, `attributes.ts`, `dictionary.json` (`palabrasConGuia`), `mapping/propios.json` | `src/taxonomy/lib/criterio-pendientes.test.ts`, `format.test.ts`, `gates.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-541 | Food tour = caminata + gastronomía; Momentos de autor solo talleres, clases, catas sentadas, espectáculos | `format.ts`, `dictionary.json` (`palabrasRecorrido`, `palabrasFuertes`, tema gastronomía) | `criterio-pendientes.test.ts`, `recompute.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-542 | Día completo en la ciudad = tour + «dia-completo»; excursión solo si sale | `format.ts`, `attributes.ts`, `dictionary.json` (`palabrasEnCiudad`, `palabrasSaleSiempre`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-543 | Atributos nuevos en el diccionario y facetas listas para el filtro | `dictionary.json`, `src/taxonomy/lib/filters.ts` (`ATRIBUTOS_FACETA`) | `criterio-pendientes.test.ts` | CUMPLIDO |
+| REQ-544 | Chips de atributos en la ficha (fuera de la foto); no en la tarjeta | `src/taxonomy/lib/copy.ts` (`tourLabels`), `src/taxonomy/lib/publish.ts`, `src/destinations/lib/catalog.ts`, `page-model.ts` | `criterio-pendientes.test.ts` | CUMPLIDO en la ficha (tras TAXONOMY_LABELS_ENABLED) |
+| REQ-545 | «Excursiones en Kampala» no es excursión | `dictionary.json` (`palabrasNoEnTitulo`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
+
+## Menú sin «La Primera Pieza» (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| REQ-600 | «La Primera Pieza» fuera del menú (escritorio y celular, 6 idiomas); reversible con `MENU_PRIMERA_PIEZA` | `src/tours/lib/menu.ts`, `src/components/layout/Navbar.tsx` | `src/tours/lib/menu.test.ts`, `src/tours/lib/catalog-menu.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-601 | El pie enlaza /la-primera-pieza (no queda huérfana) solo con PRIMERA_PIEZA_ENABLED | `src/tours/lib/menu.ts` (`footerHubLinks`), `src/components/home/v2/SiteFooter.tsx` | `src/tours/lib/menu.test.ts` | CUMPLIDO (falta OK del PO) |
+Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
+
+## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-546 | Chips = Todo, Pieza libre y tipos con resultados por cantidad, etiquetas cortas | `src/tours/lib/format-chips.ts`, `src/components/tours/FormatChips.tsx`, `ToursPageClient.tsx` | `src/tours/lib/format-chips.test.ts` | CUMPLIDO tras TAXONOMY_FILTERS_ENABLED (apagada) |
+| REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
+| REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
+| REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
 

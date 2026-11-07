@@ -21,7 +21,7 @@ export const DEFAULT_MAPPINGS: Record<string, Mapping> = Object.fromEntries(
 );
 
 /**
- * REQ-552 (Ola R2): mapeos por agencia desde la denominación ORIGINAL del proveedor (documento o código). Solo los usa
+ * REQ-752 (Ola R2): mapeos por agencia desde la denominación ORIGINAL del proveedor (documento o código). Solo los usa
  * el recálculo con linaje (TAXONOMY_LINEAGE_ENABLED, apagada); con la bandera apagada todo sigue con DEFAULT_MAPPINGS.
  */
 export const AGENCY_MAPPINGS: Record<string, Mapping> = Object.fromEntries(

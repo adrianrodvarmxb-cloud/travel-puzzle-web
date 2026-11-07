@@ -78,7 +78,7 @@ interface Deps {
   indexing?: CityIndexRepo;
   /** Filas que se publican por minuto. */
   chunkSize?: number;
-  /** REQ-543: archivo crudo (R2 privado + ProviderRecord). Solo viene con RAW_ARCHIVE_ENABLED="true" y el binding. */
+  /** REQ-743: archivo crudo (R2 privado + ProviderRecord). Solo viene con RAW_ARCHIVE_ENABLED="true" y el binding. */
   rawArchive?: RawArchive;
 }
 
@@ -147,7 +147,7 @@ async function stagePage({ api, repo, countries, now, run, page, start, rawArchi
     return { action: "retry" as const, runId: run.id, page, status: err.status ?? 0, notBefore: retry.notBefore.toISOString() };
   }
 
-  // REQ-543 / REQ-544: copia exacta de cada item ANTES de validarlo o transformarlo; si falla, se registra y se sigue.
+  // REQ-743 / REQ-744: copia exacta de cada item ANTES de validarlo o transformarlo; si falla, se registra y se sigue.
   let raw: ArchiveReport | null = null;
   if (rawArchive) raw = await archiveRawItems(rawArchive, { provider: "freetour", items: freetourRawItems(body, page), runId: run.id, now });
   const rawField = raw ? { raw: { written: raw.written, revisited: raw.revisited, same: raw.same, failed: raw.failed } } : {};
