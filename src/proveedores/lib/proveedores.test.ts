@@ -138,6 +138,7 @@ describe("REQ-1298/REQ-1299: integración por prioridad y cobro", () => {
     expect(todo[3]).toMatch(/con quién nos dirigimos.*cuánto tiempo/);
     expect(pedidosDeIntegracion("portal")).toHaveLength(2);
     expect(pedidosDeIntegracion("api")).toEqual([]);
+    expect(pedidosDeIntegracion("manual")[3]).toMatch(/cuánto tiempo/);
   });
   it("REQ-1299: primero que cobre el proveedor (liga de pago) y solo después la cuenta bancaria", () => {
     const c = pedidosDeCobro("desconocido");
@@ -151,7 +152,7 @@ describe("REQ-1298/REQ-1299: integración por prioridad y cobro", () => {
     expect(b.cc).toEqual(["comercial@travelpuzzle.com.mx", "claulet@travelpuzzle.com.mx"]);
     expect(b.cuerpo).toMatch(/^Hola, César:\nLes saluda Adrián/);
     expect(b.cuerpo).toContain("1. Si tienen API");
-    expect(b.cuerpo).toContain("4. Para el pago, preferimos que ustedes cobren directo");
+    expect(b.cuerpo).toContain("5. Para el pago, preferimos que ustedes cobren directo");
     expect(b.cuerpo).toContain("Gracias por el tarifario 2027 y las fotos.");
     expect(b.cuerpo.trim().endsWith("Adrián Rodvar\nTravel Puzzle")).toBe(true);
   });

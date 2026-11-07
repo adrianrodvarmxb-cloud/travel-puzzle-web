@@ -25,7 +25,8 @@ const ORDEN: Exclude<Integracion, "desconocida">[] = ["api", "plugin", "portal",
 export function pedidosDeIntegracion(actual: Integracion, idioma: "es" | "en" = "es"): string[] {
   const t = idioma === "en" ? EN : ES;
   if (actual === "api") return [];
-  const hasta = actual === "desconocida" ? ORDEN.length : ORDEN.indexOf(actual);
+  // Con «manual» también se pide la persona, el canal y el tiempo de respuesta (P9): eso va al directorio.
+  const hasta = actual === "desconocida" || actual === "manual" ? ORDEN.length : ORDEN.indexOf(actual);
   return ORDEN.slice(0, hasta).map((k) => t[k]);
 }
 
