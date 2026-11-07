@@ -32,6 +32,8 @@ Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog
 | REQ-982 | Encender `BLOG_ENABLED` | `wrangler.jsonc` | — | PENDIENTE (PR 4, OK del PO) |
 | REQ-983 | Free tours bloqueados por B1 | `src/blog/lib/mix.ts`, `diario.ts` | `mix.test.ts`, `diario.test.ts` | CUMPLIDO |
 | REQ-984 | «Cero publicados» solo para los artículos a mano | `src/blog/content/index.ts` | `indexacion.test.ts`, `registry.test.ts` | CUMPLIDO |
+| REQ-980…982 | Prompt diario, entrada de ejemplo y encendido | — | — | PENDIENTE (PR 3 y 4) |
+| REQ-961…984 | Calendario, mezcla, validador, marcado, indexación, workflow, prompt, ejemplo y encendido | ver `docs/requisitos.md` | — | PENDIENTE (PR 2 a 4) |
 
 ## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
 
@@ -113,6 +115,23 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 **Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
+
+## 6 nov 2026 — Reclasificación con linaje, Ola R2 (REQ-750…756)
+- Cada término de `ExperienceTaxonomy` guarda origen (manual/regla/proveedor), campo y valor original del proveedor, palabra o código que coincidió y huella del crudo (migración PROPUESTA 0023, sin aplicar).
+- Mapeos por agencia (7) desde la denominación original (código, URL o documento), **pendientes de firma del PO**; los viajes se clasifican primero con ellos y si no, con `propios`.
+- Hoy solo 4 agencias tienen denominación derivable de sus datos (Big Bus, Fantástica China, Destino Colombia, Inca World). Extime, Exotic Escapes y Turismo Asiático necesitan capturar `original.categoria` desde su documento.
+- Overrides manuales conectados (manual > regla > valor declarado). Todo tras `TAXONOMY_LINEAGE_ENABLED="false"`.
+- Diccionario de campos por proveedor: `docs/datos/diccionario-campos.md`.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-750 | Columnas de procedencia (0023 propuesta) | docs/migraciones-propuestas/0023_taxonomia_linaje.sql | migration-0023.test.ts | CUMPLIDO (sin aplicar) |
+| REQ-751 | Procedencia estructurada por término | src/taxonomy/lib/lineage.ts | lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-752 | Mapeos Zod por agencia | src/taxonomy/data/mapping/{7 agencias}.json, data/index.ts | agencias.test.ts | CUMPLIDO (falta firma) |
+| REQ-753 | Clasificar primero con la denominación original | src/ingest/lib/originals.ts, lineage.ts | originals.test.ts, lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-754 | Overrides: manual > regla > proveedor | lineage.ts (`applyPrecedence`), recompute.ts | lineage.test.ts, recompute-lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-755 | Diccionario de campos | docs/datos/diccionario-campos.md | agencias.test.ts | CUMPLIDO |
+| REQ-756 | Recálculo con linaje | src/taxonomy/recompute.ts, lineage-repository.ts, cron sync-tours | recompute-lineage.test.ts | CUMPLIDO (apagado) |
 
 ## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…748)
 - Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-744).
@@ -578,3 +597,17 @@ Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
 | REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
+
+## Rich Results Test en fichas (6 nov 2026, 22:38) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-820 | `image` en el Product: principal + hasta 3, absolutas | `src/seo/lib/ficha-ld.ts` (`fichaImages`), `src/destinations/lib/page-model.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-contract.ts` | `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
+| REQ-821 | Duración real en horas de un viaje de un día | `src/trips/lib/trip-facts.ts` (`infoDurationMinutes`) | `trip-facts.test.ts` | CUMPLIDO (falta corregir el import: ver PR) |
+| REQ-822 | «Tipo de experiencia» con `FORMATO_CARD_LABEL` | `src/seo/lib/trip-ficha.ts`, `src/seo/lib/taxonomy-facets.ts` | `trip-ficha.test.ts`, `taxonomy-facets.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
+| REQ-823 | Offer: availability solo si se sabe; sin shippingDetails ni hasMerchantReturnPolicy | `src/seo/lib/ficha-ld.ts` | `ficha-ld.test.ts` | CUMPLIDO |
+## Fichas de FREETOUR en noindex (6 nov 2026, 22:36) — matriz de trazabilidad
+| REQ-830 | `PROVIDER_INDEXABLE` (`freetour: false`), `indexableProvider`, `providerRobots` | `src/seo/lib/enrichment.ts` | `enrichment.test.ts` | CUMPLIDO |
+| REQ-831 | Ficha de FREETOUR con `noindex, follow` (/destinos y /tours/[id]) | `src/destinations/lib/page-model.ts` (`tourPage`), `src/destinations/lib/catalog.ts` (`providerId` en la tarjeta), `src/destinations/repository.ts`, `src/app/tours/[id]/page.tsx` | `page-model.test.ts` | CUMPLIDO |
+| REQ-832 | Fichas de FREETOUR fuera de los sitemaps | `src/destinations/lib/page-model.ts` (`sitemapInput`) | `page-model.test.ts` | CUMPLIDO |
+| REQ-833 | Tarjetas, enlaces y regla de ciudad sin cambios | `src/destinations/lib/catalog.ts` | `page-model.test.ts` | CUMPLIDO (decisión de ciudades pendiente del PO) |
+| REQ-834 | Prueba de humo exige noindex en fichas de FREETOUR | `src/seo/lib/ficha-contract.ts`, `src/scripts/smoke.ts` | `ficha-contract.test.ts`, `enrichment.test.ts` | CUMPLIDO |

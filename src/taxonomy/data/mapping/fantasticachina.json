@@ -1,0 +1,33 @@
+{
+  "proveedor": "fantasticachina",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "TOUR REGULAR",
+      "nombre_es": "Tour regular",
+      "nombre_en": "Regular tour",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Título del PDF «TOUR REGULAR 2027-2028 FANTÁSTICA CHINA»; programas FCH-R<n> (incluye extensiones como «EXTENSION NO.19»)."
+    },
+    {
+      "id": "TOUR GRAN LUJO",
+      "nombre_es": "Tour gran lujo",
+      "nombre_en": "Grand luxury tour",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Título del PDF «TOUR GRAN LUJO USD 2027-2028 FANTÁSTICA CHINA»; programas FCH-L<n>."
+    }
+  ]
+}

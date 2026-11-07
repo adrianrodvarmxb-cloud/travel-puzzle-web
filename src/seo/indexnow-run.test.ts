@@ -40,7 +40,11 @@ describe("REQ-626: INDEXNOW_KEY es la clave aprobada, como variable no secreta",
     expect(wranglerVars(raw).INDEXNOW_KEY).toBe(APPROVED_KEY);
     expect(APPROVED_KEY).toMatch(/^[A-Za-z0-9-]{8,128}$/);
   });
-  it("REQ-586: INDEXNOW_ENABLED sigue en \"false\" (se enciende en su propio PR, REQ-627)", () => {
-    expect(wranglerVars(readFileSync("wrangler.jsonc", "utf8")).INDEXNOW_ENABLED).toBe("false");
+  it("REQ-627: INDEXNOW_ENABLED en \"true\" y la clave publicada es la aprobada", async () => {
+    const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
+    expect(vars.INDEXNOW_ENABLED).toBe("true");
+    const res = keyFileResponse({ INDEXNOW_ENABLED: vars.INDEXNOW_ENABLED, INDEXNOW_KEY: vars.INDEXNOW_KEY });
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe(APPROVED_KEY);
   });
 });

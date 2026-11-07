@@ -11,6 +11,9 @@
  * - REQ-574 (Gate 2): nunca aggregateRating ni review de terceros; solo reseñas propias de Travel Puzzle.
  * - REQ-570 / REQ-581: descripción, tipo principal y keywords solo si el proveedor permite enriquecimiento.
  * - REQ-577: «En breve» (respuesta primero), plantilla de 40–80 palabras con los mismos datos.
+ * - REQ-820: `image` obligatorio para Google (Fichas de comerciantes): la principal y hasta 3 más, en URL absolutas.
+ * - REQ-823: nunca shippingDetails (no hay envío) ni hasMerchantReturnPolicy (es una política de devolución de
+ *   mercancía; la cancelación de un tour no cabe fielmente en returnPolicyCategory/merchantReturnDays/returnMethod).
  */
 import { cardProvider } from "@/tours/lib/experience-card";
 import { guideLanguageName } from "@/tours/lib/filters-copy";
@@ -64,6 +67,23 @@ const copy = (lang: string) => (lang === "es" ? COPY.es : COPY.en);
 const clean = (s: string | null | undefined) => (s ?? "").replace(/\s+/g, " ").trim();
 const prop = (name: string, value: string) => ({ "@type": "PropertyValue", name, value });
 
+/** REQ-820: la principal y hasta 3 más. */
+export const MAX_FICHA_IMAGES = 4;
+
+// REQ-820: rutas del sitio («/api/viajes/foto/…») a URL absoluta con el origen de la ficha; solo https, sin repetidas.
+export function fichaImages(images: (string | null | undefined)[], pageUrl: string): string[] {
+  let origin = "";
+  try { origin = new URL(pageUrl).origin; } catch { origin = ""; }
+  const out: string[] = [];
+  for (const raw of images) {
+    const u = typeof raw === "string" ? raw.trim() : "";
+    const abs = u.startsWith("https://") ? u : u.startsWith("/") && !u.startsWith("//") && origin.startsWith("https://") ? `${origin}${u}` : "";
+    if (abs && !out.includes(abs)) out.push(abs);
+    if (out.length === MAX_FICHA_IMAGES) break;
+  }
+  return out;
+}
+
 /** «a, b y c» (es: «e» ante i-/hi-). */
 function list(xs: string[], lang: string): string {
   if (xs.length <= 1) return xs.join("");
@@ -92,14 +112,14 @@ export function nextAvailability(dates: unknown, today: string): "InStock" | nul
   return dates.some((d) => typeof d === "string" && d.slice(0, 10) >= today) ? "InStock" : null;
 }
 
-// REQ-571 REQ-572 REQ-573 REQ-574 REQ-570 REQ-581
+// REQ-571 REQ-572 REQ-573 REQ-574 REQ-570 REQ-581 REQ-820 REQ-823
 export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
   const c = copy(i.lang);
   const rich = indexableEnrichment(i.provider);
   const operator = cardProvider(i.operator);
   const currency = clean(i.currency).toUpperCase();
   const price = i.free ? 0 : i.price;
-  const images = i.images.filter((u): u is string => typeof u === "string" && u.startsWith("https://"));
+  const images = fichaImages(i.images, i.url);
   const langs = (i.languages ?? []).map(clean).filter(Boolean);
   const tipo = rich ? clean(i.tipo) : "";
   const props = [

@@ -103,7 +103,8 @@ const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged,
       }
       if (viewport === 1366 && result.status === 200 && first.raw && isFichaPath(path)) {
         const enrichment = /data-enriquecimiento="true"/.test(first.raw);
-        const fails = fichaContractFailures(first.raw, { enrichment });
+        // REQ-834: hoy las dos tablas por proveedor apagan a los mismos (FREETOUR); su test REQ-834 falla si se separan.
+        const fails = fichaContractFailures(first.raw, { enrichment, noindex: !enrichment });
         console.log(`${fails.length ? "✗" : "✓"} contrato de ficha (enriquecimiento ${enrichment}) ${path}`);
         contractFailures.push(...fails.map((x) => `contrato de ficha ${path}: ${x}`));
       }

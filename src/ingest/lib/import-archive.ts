@@ -8,6 +8,7 @@ import { planArchive, type ArchivePlan, type ProviderRecordRow } from "./archive
 import { sha256Hex } from "./raw-hash";
 import { sourceKey } from "./raw-keys";
 import { idFor } from "@/trips/lib/bulk-import";
+import { declaredOf, originalOf } from "./originals";
 
 /** Agency.id del archivo de carga → proveedor (mapeo de taxonomía y prefijo de R2). */
 export const AGENCY_PROVIDER: Record<string, string> = {
@@ -26,7 +27,7 @@ export function providerOfAgency(agencyId: string): string | null {
 
 export interface ImportBundleLike {
   agency: { id: string; initials: string };
-  trips: { ref: string; source?: unknown; original?: { pagina?: unknown } }[];
+  trips: { ref: string; source?: unknown; taxonomia?: unknown; original?: { pagina?: unknown; categoria?: unknown } }[];
 }
 
 export interface SourceDocument { key: string; provider: string; fileName: string; sha256: string; bytes: number; contentType: string; receivedAt: string; data: Uint8Array }
@@ -54,6 +55,8 @@ export async function planImportArchive(
     sourceRef: typeof e.source === "string" ? e.source : null,
     sourceDocKey: ctx.doc?.key ?? null,
     sourcePage: typeof e.original?.pagina === "number" ? e.original.pagina : null,
+    original: originalOf(provider, e), // REQ-753
+    declared: declaredOf(e), // REQ-754
   }));
   // Sin leer D1: el SQL es idempotente (ON CONFLICT) y una versión que vuelve solo actualiza lastSeenAt.
   const plan = await planArchive(provider, items, new Map(), { runId: ctx.runId, now: ctx.now.toISOString() });
