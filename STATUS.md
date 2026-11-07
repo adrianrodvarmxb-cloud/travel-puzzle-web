@@ -2,6 +2,14 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
+Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-960 | Gate «Publica solo cada día» registrado | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
+| REQ-961…984 | Calendario, mezcla, validador, marcado, indexación, workflow, prompt, ejemplo y encendido | ver `docs/requisitos.md` | — | PENDIENTE (PR 2 a 4) |
+
 ## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
 
 - Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
