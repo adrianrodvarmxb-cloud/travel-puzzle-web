@@ -2,6 +2,12 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1100 | Pie del home en /tours | `src/app/tours/page.tsx` | `src/layout/lib/site-footer-pages.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1101 | Pie del home en las fichas de tour | `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/app/tours/[id]/page.tsx` | `src/layout/lib/site-footer-pages.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Imágenes premium en el blog (PO, 7 nov 2026, 04:28) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
