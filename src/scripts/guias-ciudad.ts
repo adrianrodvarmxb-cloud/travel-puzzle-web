@@ -1,7 +1,7 @@
 /**
  * REQ-1232: CLI de guias-ciudad.yml.
  *   npx tsx src/scripts/guias-ciudad.ts validar <guias.json> [--agregar] [--hoy AAAA-MM-DD] [--salida resultado.json]
- * El archivo trae un arreglo de 1 o 2 guías. Valida contra producción (sitemaps y página de la ciudad) y el registro;
+ * El archivo trae un arreglo de 1 a 5 guías (REQ-1236). Valida contra producción (sitemaps y página de la ciudad) y el registro;
  * con --agregar las suma a src/destinations/content/guias.json (único archivo que cambia).
  */
 import { readFileSync, writeFileSync } from "node:fs";
