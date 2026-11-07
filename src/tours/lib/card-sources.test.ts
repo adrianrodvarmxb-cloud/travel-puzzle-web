@@ -15,7 +15,7 @@ describe("REQ-520: todas las fuentes dan la misma tarjeta", () => {
   it("REQ-520 REQ-524: /tours — pieza libre de FREETOUR sin la marca y con su categoría", () => {
     const m = fromCatalogTour(tour, { lang: "es", formato: "pieza-libre" });
     expect(m).toMatchObject({ category: "Pieza libre", meta: "París · 2 h", provider: null, favorite: "Favorito", price: { text: "Free tour", free: true }, description: "Barrio de artistas." });
-    expect(fromCatalogTour({ ...tour, provider: "Montmartre Walks" }, { lang: "en", formato: "pieza-libre" })).toMatchObject({ category: "Free tour", provider: "Montmartre Walks", favorite: "Favorite" });
+    expect(fromCatalogTour({ ...tour, provider: "Montmartre Walks" }, { lang: "en", formato: "pieza-libre" })).toMatchObject({ category: "Free Puzzle" /* REQ-1103 */, provider: "Montmartre Walks", favorite: "Favorite" });
   });
 
   it("REQ-523: la frase de reseña real ocupa el lugar de la descripción cuando existe", () => {
@@ -65,6 +65,6 @@ describe("REQ-668: las tarjetas enlazan la ficha final", () => {
   it("REQ-665: la tarjeta de /destinos en el idioma de la página", () => {
     const d: TourCardModel = { id: "d1", href: "/destinos/fr/paris/x", title: "Louvre", provider: "Ana", image: null, isFreeTour: true, price: 0, currency: "EUR",
       rating: null, reviews: 0, duration: "1:30", kind: "free", updatedAt: "", formato: "pieza-libre", city: "Paris" };
-    expect(fromDestinationTour(d, { price: null, lang: "en" }).category).toBe("Free tour");
+    expect(fromDestinationTour(d, { price: null, lang: "en" }).category).toBe("Free Puzzle") // REQ-1103;
   });
 });

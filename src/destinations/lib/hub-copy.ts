@@ -6,6 +6,7 @@
  */
 import { SITE_META } from "@/seo/lib/meta";
 import { PRIMERA_PIEZA_LABEL } from "@/tours/lib/menu";
+import { FREE_PUZZLE_LABEL } from "@/tours/lib/pieza-libre";
 
 const BRAND = SITE_META.name;
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
@@ -98,9 +99,9 @@ const EN: HubCopy = {
   cityList: (city) => `Experiences in ${city}`,
   freeToursCityTitle: (city) => `Free tours in ${city.trim()}: you decide what it's worth | ${BRAND}`,
   cityDescription: (free, tours, city, country) => `${plural(free, "free tour", "free tours")} and ${plural(tours, "tour", "tours")} in ${city}, ${country}, with local guides. Book online or with an advisor on WhatsApp.`,
-  // REQ-1102 (D10): en inglés la categoría se llama «Free tour»; «Pieza libre» es solo para español.
-  cityFreeIntro: (city, free, tours) => `${plural(free, "free tour", "free tours")} and ${plural(tours, "tour", "tours")} with local guides in ${city}.`,
-  freeSection: `Free tour (${PRIMERA_PIEZA_LABEL})`,
+  // REQ-1103 (PO 7-11 06:06, reemplaza REQ-1102): en inglés la categoría es «Free Puzzle»; «La Primera Pieza» no cambia.
+  cityFreeIntro: (city, free, tours) => `${free} in ${FREE_PUZZLE_LABEL} and ${plural(tours, "tour", "tours")} with local guides in ${city}.`,
+  freeSection: `${FREE_PUZZLE_LABEL} (${PRIMERA_PIEZA_LABEL})`,
   freeSubtitle: "Booking is free; at the end you give the guide what you think is fair.",
   toursSection: "Tours",
   toursSubtitle: "Priced tours and Travel Puzzle trips.",

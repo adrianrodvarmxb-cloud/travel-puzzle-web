@@ -100,7 +100,7 @@ const en: Copy = {
   featTitle: "Travelers' favorites",
   featSub: "The experiences with the most reviews",
   free: "Free tour",
-  freeBadge: "Free tour",
+  freeBadge: "Free Puzzle", // REQ-1103
   reviews: (n) => `${n} reviews`,
   seeAll: "See all experiences",
   whyTitle: "Why Travel Puzzle?",

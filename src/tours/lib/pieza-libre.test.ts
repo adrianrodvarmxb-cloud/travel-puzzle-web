@@ -8,16 +8,16 @@ import { PRIMERA_PIEZA_LABEL } from "./menu";
 const LANGS = ["es", "en", "pt", "de", "fr", "it"] as const;
 
 describe("REQ-480: la categoría de los free tours se llama «Pieza libre» (PO, 6 nov 2026, 10:45 y 10:46)", () => {
-  it("REQ-480: nombre de la categoría; EN «Free tour» (pendiente de firma)", () => {
+  it("REQ-480: nombre de la categoría; EN «Free Puzzle» (REQ-1103, PO 7-11 06:06)", () => {
     expect(PIEZA_LIBRE_LABEL).toBe("Pieza libre");
     expect(freeBadgeLabel("es")).toBe("Pieza libre");
-    expect(freeBadgeLabel("en")).toBe("Free tour");
-    expect(freeBadgeLabel("fr")).toBe("Free tour");
+    expect(freeBadgeLabel("en")).toBe("Free Puzzle");
+    expect(freeBadgeLabel("fr")).toBe("Free Puzzle");
   });
 
   it("REQ-480: chip de filtros de /tours: «Free tours» → «Pieza libre»", () => {
     expect(tripCopy("es").filterFree).toBe("Pieza libre");
-    expect(tripCopy("en").filterFree).toBe("Free tour");
+    expect(tripCopy("en").filterFree).toBe("Free Puzzle"); // REQ-1103
   });
 
   it.each(LANGS)("REQ-480: insignia azul sobre la foto en %s (tarjetas de /tours, carruseles y ficha)", (lang) => {
@@ -26,7 +26,7 @@ describe("REQ-480: la categoría de los free tours se llama «Pieza libre» (PO,
 
   it("REQ-480: insignia de las tarjetas del inicio", () => {
     expect(homeCopy("es").freeBadge).toBe("Pieza libre");
-    expect(homeCopy("en").freeBadge).toBe("Free tour");
+    expect(homeCopy("en").freeBadge).toBe("Free Puzzle"); // REQ-1103
   });
 
   it.each(LANGS)("REQ-480 (corrección 10:46): el precio verde «Free tour» de las tarjetas no cambia en %s", (lang) => {

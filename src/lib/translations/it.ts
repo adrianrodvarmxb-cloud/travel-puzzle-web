@@ -72,9 +72,9 @@ export const it = {
   'tours.from': 'Da',
   'tours.free': 'Free tour',
   // REQ-271: pines del mapa de /tours (el precio verde sigue con tours.free).
-  'tours.freePin': 'Free tour',
+  'tours.freePin': 'Free Puzzle', // REQ-1103
   // REQ-480: insignia azul sobre la foto (el precio sigue con tours.free).
-  'tours.freeBadge': 'Free tour',
+  'tours.freeBadge': 'Free Puzzle', // REQ-1103
   'tours.noResults': "Nessuna esperienza trovata",
   'tours.description': 'Descrizione',
   'tours.destination': 'Destinazione',

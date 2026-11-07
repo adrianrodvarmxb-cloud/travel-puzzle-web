@@ -34,12 +34,13 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1056 | EU-01 con imágenes | `docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json`, `public/blog/img/requisitos-para-entrar-a-europa-2026/` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
 | REQ-1057 | Prompt: elegir imágenes | `docs/blog/agente-diario.md` | `agente-diario.test.ts` | CUMPLIDO |
 | REQ-1058 | Imagen en JSON-LD, OG y tarjeta | `src/blog/lib/seo.ts`, `view.ts`, `src/app/blog/[pilar]/[slug]/page.tsx` | `indexacion.test.ts` | CUMPLIDO |
-| REQ-1059 | Gate G4 | `docs/gates-blog-diario-2026-11-06.md` | — | PENDIENTE (firma del PO) |
+| REQ-1059 | Gate G4 firmado (7 nov 2026, 06:09) | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
 
-## «Free tour» en inglés en la página de ciudad (auditoría 7 nov 2026, D10) — matriz de trazabilidad
+## «Free tour» → «Free Puzzle» en inglés (auditoría 7 nov 2026, D10; PO 7-11 06:06) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | — | REEMPLAZADO por REQ-1103 |
+| REQ-1103 | Categoría «Free Puzzle» en inglés (tarjeta, /tours, ciudad, pines, insignia, marcado, correos, diccionario); reemplaza a REQ-1102 | `src/tours/lib/pieza-libre.ts`, `src/taxonomy/lib/filters.ts`, `src/tours/lib/extra-filters.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/destinations/lib/hub-copy.ts`, `src/destinations/lib/pieza-libre-copy.ts`, `src/lib/translations/{en,pt,de,fr,it}.ts`, `src/taxonomy/data/dictionary.json` | `src/tours/lib/free-puzzle.test.ts`, `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
 ## Guías propias de ciudad (PO, 7 nov 2026, 06:17) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -197,6 +198,19 @@ Todo tras `PAID_TOURS_ENABLED=false`. Requiere la migración 0009 (pendiente; se
 **Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
+
+## 6 nov 2026 — Copia exacta retroactiva, Ola R4 (REQ-766…769), SOLO preparada
+- `src/scripts/raw-backfill.ts` (ensayo por omisión; nunca sube nada) y workflow manual `respaldo-crudo.yml` (`escribir=false` por omisión).
+- FREETOUR no necesita script: al encender `RAW_ARCHIVE_ENABLED`, el sync diario guarda la versión 1 de los ~8,000 tours.
+- Ensayo con los PDF compartidos: 371 viajes + 33 documentos (~50 MB). Faltan: Extime (179, sin documento) y Big Bus (29 páginas web por guardar). Sin página: Fantástica China 51, Inca 2, Turismo Asiático 2, Exotic 1.
+- Candados en orden: `docs/runbooks/copia-exacta.md` (10 pasos, cada uno con OK del PO).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-766 | Documento y página de cada viaje | src/ingest/lib/backfill-plan.ts | backfill-plan.test.ts | CUMPLIDO |
+| REQ-767 | Script de respaldo (ensayo) | src/scripts/raw-backfill.ts | backfill.test.ts | CUMPLIDO (sin ejecutar) |
+| REQ-768 | Workflow de respaldo | .github/workflows/respaldo-crudo.yml | backfill.test.ts | CUMPLIDO (sin ejecutar) |
+| REQ-769 | Runbook con candados | docs/runbooks/copia-exacta.md | backfill.test.ts | CUMPLIDO |
 
 ## 6 nov 2026 — Contrato obligatorio de ingesta, Ola R3 (REQ-760…764; cierra REQ-404)
 - `IngestAdapter` (esquema del crudo + `normalize()` puro + mapeo + volátiles + denominación original) para FREETOUR y las 7 agencias.

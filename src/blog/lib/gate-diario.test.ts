@@ -12,4 +12,8 @@ describe("gate del blog diario", () => {
     expect(gate).toContain("se OMITEN, no se rellenan");
     expect(gate).toContain("Equipo editorial de Travel Puzzle");
   });
+
+  it("REQ-1059: G4 (texto y fotos con licencia de la entrada, nada más) firmado por el PO el 7 nov 2026", () => {
+    expect(gate).toMatch(/\| G4 \|[^\n]*public\/blog\/img\/\{slug\}\/[^\n]*\[x\] PO, 7 nov 2026, 06:09: [^\n]*«Sí, autorizo»/);
+  });
 });
