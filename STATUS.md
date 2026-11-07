@@ -34,7 +34,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1056 | EU-01 con imágenes | `docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json`, `public/blog/img/requisitos-para-entrar-a-europa-2026/` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
 | REQ-1057 | Prompt: elegir imágenes | `docs/blog/agente-diario.md` | `agente-diario.test.ts` | CUMPLIDO |
 | REQ-1058 | Imagen en JSON-LD, OG y tarjeta | `src/blog/lib/seo.ts`, `view.ts`, `src/app/blog/[pilar]/[slug]/page.tsx` | `indexacion.test.ts` | CUMPLIDO |
-| REQ-1059 | Gate G4 | `docs/gates-blog-diario-2026-11-06.md` | — | PENDIENTE (firma del PO) |
+| REQ-1059 | Gate G4 firmado (7 nov 2026, 06:09) | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
 
 ## «Free tour» en inglés en la página de ciudad (auditoría 7 nov 2026, D10) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
