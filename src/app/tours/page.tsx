@@ -1,4 +1,6 @@
 import { ToursPageClient } from '@/components/tours/ToursPageClient';
+import { SiteFooter } from '@/components/home/v2';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { fetchTours, fetchCountries, fetchToursMetadata } from '@/actions/tours';
 import { getRouteLanguage } from '@/i18n/server';
 import { hubLocaleMetadata } from '@/i18n/metadata';
@@ -140,6 +142,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
       logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
+    {/* REQ-1100 (D07): el mismo pie del home que el resto del sitio. */}
+    <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
     </>
   );
 }

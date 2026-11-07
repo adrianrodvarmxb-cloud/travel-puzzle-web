@@ -703,6 +703,13 @@ Petición literal: «está muy bien, pero agrega imágenes que se vea premium».
 | REQ-1058 | Imagen en el marcado | Dada una portada del sitio, entonces el JSON-LD y Open Graph usan el JPG de 1600 px en URL absoluta, la tarjeta usa el de 800 y el tiempo de lectura no cuenta créditos ni alt | CUMPLIDO |
 | REQ-1059 | Gate G4 (ampliación de G2) | Dado el gate, entonces registra G4 con el pedido literal; la firma del PO queda pendiente | PENDIENTE (firma del PO) |
 
+## Pie del home en /tours y en las fichas de tour (auditoría del 7 nov 2026, D07)
+Petición literal (PO, 7 nov 2026, 04:01): «compara la documentación que te entregué + lo que definí en este chat vs Código vs lo vivo en producción». Definición D07 del chat: «Mismo header (logo animado) y footer en todas las páginas (reserva, cancelación, 404…)». Hallazgo: en producción /tours y las fichas de tour (p. ej. /destinos/mx/ciudad-de-mexico/free-tour-coyoacan) no traen el pie del home (`<footer>` ausente en el HTML y en la captura). REQ-303/304 solo cubrían reservas, eventos y 404.
+| ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|---|
+| REQ-1100 | D07 — footer en todas las páginas: /tours | NUEVO | Dado /tours (Experiencias) en cualquier idioma, cuando se abre, entonces abajo está el mismo pie del home (SiteFooter con logo animado, contacto, redes, términos y privacidad), con los datos de `siteFooterFromEnv`. | EN CURSO (test verde; falta humo del PR y OK del PO) |
+| REQ-1101 | D07 — footer en todas las páginas: fichas de tour | NUEVO | Dada una ficha de tour (bajo /destinos o la ruta vieja /tours/[id]), cuando se abre, entonces abajo está el mismo pie del home, una sola vez; la ficha de viaje propio no cambia (ya lo trae en TripDetailView). | EN CURSO (test verde; falta humo del PR y OK del PO) |
+
 ## Redes del día: LinkedIn, Facebook e Instagram (PO, 7 nov 2026, 04:28)
 Petición literal: «dile al agente que todos los días publique también en LinkedIn, Facebook e IG el mismo tema, pero adaptado a cada red social». Guía del PO: `docs/redes/conexion.md`.
 | ID | Petición | Criterio (Dado / Cuando / Entonces) | Estado |
