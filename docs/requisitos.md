@@ -707,7 +707,7 @@ Petición literal: «está muy bien, pero agrega imágenes que se vea premium».
 | REQ-1056 | «Agrega imágenes a la entrada EU-01 de hoy» | Dada la entrada EU-01, entonces trae portada (Praga) y 4 fotos (pasaporte, París, Sevilla y Lisboa) con sus archivos optimizados | CUMPLIDO |
 | REQ-1057 | «que el agente diario las elija cada día» | Dado `docs/blog/agente-diario.md`, entonces pide portada y 2 a 4 fotos de bancos con licencia, sin FREETOUR, y corre `blog-imagenes.ts` antes de validar | CUMPLIDO |
 | REQ-1058 | Imagen en el marcado | Dada una portada del sitio, entonces el JSON-LD y Open Graph usan el JPG de 1600 px en URL absoluta, la tarjeta usa el de 800 y el tiempo de lectura no cuenta créditos ni alt | CUMPLIDO |
-| REQ-1059 | Gate G4 (ampliación de G2) | Dado el gate, entonces registra G4 con el pedido literal; la firma del PO queda pendiente | PENDIENTE (firma del PO) |
+| REQ-1059 | Gate G4 (ampliación de G2) | Dado el gate, entonces registra G4 con el pedido literal y la firma del PO («Sí, autorizo», 7 nov 2026, 06:09) | CUMPLIDO |
 
 ## Pie del home en /tours y en las fichas de tour (auditoría del 7 nov 2026, D07)
 Petición literal (PO, 7 nov 2026, 04:01): «compara la documentación que te entregué + lo que definí en este chat vs Código vs lo vivo en producción». Definición D07 del chat: «Mismo header (logo animado) y footer en todas las páginas (reserva, cancelación, 404…)». Hallazgo: en producción /tours y las fichas de tour (p. ej. /destinos/mx/ciudad-de-mexico/free-tour-coyoacan) no traen el pie del home (`<footer>` ausente en el HTML y en la captura). REQ-303/304 solo cubrían reservas, eventos y 404.
