@@ -10,7 +10,7 @@ import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, isTravelerFavorite as favori
 export { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS };
 
 /** El tour se gana la etiqueta solo con datos reales (regla de src/tours/lib/favorite.ts). */
-// REQ-1248: delega en la regla única (no repite los umbrales).
+// REQ-1290: delega en la regla única (no repite los umbrales).
 export function isTravelerFavorite(rating: number | string | null | undefined, reviews: number): boolean {
   return rating !== null && rating !== undefined && favoriteRule({ rating, reviews });
 }

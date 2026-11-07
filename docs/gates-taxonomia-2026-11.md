@@ -5,7 +5,7 @@ Fuente: avisos del coordinador con el PO en autopiloto (6-11, 07:04 y posterior)
 
 ## Gates del plan (firmados por recomendación, PO 6-11 07:04)
 
-G2 Caminata = A · Lista de temas = A (13) · G-T1 = ~~A (≥4.7 y ≥50)~~ **D (≥4.9 y ≥180, PO 7-11 08:14, REQ-1248)** · G-T2 = A (México como bloque) · G-T3 = metas propuestas ·
+G2 Caminata = A · Lista de temas = A (13) · G-T1 = ~~A (≥4.7 y ≥50)~~ **D (≥4.9 y ≥180, PO 7-11 08:14, REQ-1290)** · G-T2 = A (México como bloque) · G-T3 = metas propuestas ·
 G-T4 = A (franja tras bandera) · G-T5 = A (tablas 0017) · G-T7 = A (≥360 min con palabra de salida) · G-T8 = A (2/3/4) ·
 G-T9 = A (title «– Excursión desde {Ciudad}», T5) · G-T10 = A (por-revisar no se publica) · G-T11 = A (autoguiado → tour) ·
 «Signature moments» y pt/de/fr/it de §7.3.

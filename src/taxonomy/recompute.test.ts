@@ -20,7 +20,7 @@ function db() {
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
   d.exec(readFileSync("migrations/0017_taxonomia.sql", "utf8"));
   const tour = (id: string, cat: number, price: number, title: string, active = 1, minutes = 120) => {
-    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1248: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
+    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
     d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(id, "es", title, "");
   };
   tour("a", 12, 0, "Free tour por el casco antiguo");

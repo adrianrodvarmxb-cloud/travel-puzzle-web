@@ -12,12 +12,12 @@ export const GATE_G2_CAMINATA: "A" | "B" | "C" = "A";
 /** G3 · Lista de temas. A: los 13 temas depurados (§4.2). B: los 26 términos de 2024 tal cual. C: 8 temas mínimos. El diccionario trae la A. */
 export const GATE_G3_TEMAS: "A" | "B" | "C" = "A";
 
-/** G-T1 · Favorito de los viajeros. A: ≥4.7 y ≥50 (reemplazada). B: ≥4.7 y ≥20. C: ≥4.7 y ≥100. D: la regla única del sitio (REQ-1248). */
-/** REQ-1248 (PO, 7 nov 2026, 08:14): D = la regla única del sitio (src/tours/lib/favorite.ts, ≥4.9 y ≥180; D13). Reemplaza a A. */
+/** G-T1 · Favorito de los viajeros. A: ≥4.7 y ≥50 (reemplazada). B: ≥4.7 y ≥20. C: ≥4.7 y ≥100. D: la regla única del sitio (REQ-1290). */
+/** REQ-1290 (PO, 7 nov 2026, 08:14): D = la regla única del sitio (src/tours/lib/favorite.ts, ≥4.9 y ≥180; D13). Reemplaza a A. */
 export const GATE_GT1_FAVORITO: "A" | "B" | "C" | "D" = "D";
 export const FAVORITO_CRITERIO = {
   A: { minCalificacion: 4.7, minResenas: 50 }, B: { minCalificacion: 4.7, minResenas: 20 }, C: { minCalificacion: 4.7, minResenas: 100 },
-  D: { minCalificacion: FAVORITE_MIN_RATING, minResenas: FAVORITE_MIN_REVIEWS }, // REQ-1248
+  D: { minCalificacion: FAVORITE_MIN_RATING, minResenas: FAVORITE_MIN_REVIEWS }, // REQ-1290
 } as const;
 
 /** G-T2 · México en /destinos. A: bloque propio antes de América del Norte. B: dentro de América del Norte (como hoy). C: Nacional/Internacional. Sin efecto en T1. */
@@ -68,7 +68,7 @@ type AB = "A" | "B";
 type ABC = "A" | "B" | "C";
 export interface Gates {
   caminata: ABC;
-  favorito: ABC | "D"; // REQ-1248
+  favorito: ABC | "D"; // REQ-1290
   excursion: AB;
   dificultad: AB;
   porRevisar: AB;

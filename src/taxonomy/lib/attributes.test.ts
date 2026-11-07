@@ -34,7 +34,7 @@ describe("REQ-417 atributos activos solo con dato", () => {
     expect(at(ft(12, "Free tour en español"))).not.toContain("idioma-es");
     expect(at(ft(12, "Visita", { idiomas: ["en", "es"] }))).toContain("idioma-es");
   });
-  it("REQ-417 calificación solo con reseñas reales; favorito según G-T1 D (≥4.9 y ≥180, REQ-1248 reemplaza la A)", () => {
+  it("REQ-417 calificación solo con reseñas reales; favorito según G-T1 D (≥4.9 y ≥180, REQ-1290 reemplaza la A)", () => {
     expect(at(ft(12, "x", { calificacion: 4.9, resenas: 0 }))).not.toContain("calificacion");
     expect(at(ft(12, "x", { calificacion: 4.6, resenas: 10 }))).toContain("calificacion");
     expect(at(ft(12, "x", { calificacion: 4.9, resenas: 180 }))).toContain("favorito");
