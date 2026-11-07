@@ -7,7 +7,7 @@ import type { Correo } from "./lib/correo";
 
 const base = (x: Partial<ProveedorFila>): ProveedorFila => ({
   id: "p", nombre: "P", tipo: "dmc", publicado: false, bloqueado: false, agencyId: null, canal: "correo", idioma: "es", contacto: "",
-  correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", correosInvalidos: [], ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
+  correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", correosInvalidos: [], zonaHoraria: "America/Mexico_City", ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
 });
 
 function memoria(lista: ProveedorFila[]) {
@@ -105,5 +105,32 @@ describe("REQ-1330: respuestas automáticas y rebotes", () => {
     await procesarEntrante({ messageId: "<p@x>", fecha: "2026-11-09T12:00:00Z", de: "erika@tangol.com", para: [], cc: [], asunto: "Re: Travel Puzzle", texto: "Con gusto", adjuntos: [] },
       { repo: m.repo, subir: async () => {} });
     expect(m.lista[0].etapa).toBe("respondio");
+  });
+});
+
+import { enVentana, fechaLocal, zonaPorDestino } from "./lib/horario";
+describe("REQ-1331: horario hábil del proveedor", () => {
+  it("REQ-1331: 15:00 UTC es 9:00 en México (sí) y 23:00 en Kuala Lumpur (no); sábado nunca", () => {
+    expect(enVentana("2026-11-09T15:00:00Z", "America/Mexico_City")).toBe(true);
+    expect(enVentana("2026-11-09T15:00:00Z", "Asia/Kuala_Lumpur")).toBe(false);
+    expect(enVentana("2026-11-09T01:00:00Z", "Asia/Kuala_Lumpur")).toBe(true); // 9:00 del lunes en KL
+    expect(enVentana("2026-11-07T15:00:00Z", "America/Mexico_City")).toBe(false); // sábado
+    expect(enVentana("2026-11-09T15:00:00Z", "zona/rota")).toBe(true); // sin zona válida, México
+  });
+  it("REQ-1331: la fecha se cuenta en la zona del proveedor y la zona sale del destino", () => {
+    expect(fechaLocal("2026-11-09T20:00:00Z", "Asia/Shanghai")).toBe("2026-11-10");
+    expect(zonaPorDestino("Malasia, Singapur y Borneo")).toBe("Asia/Kuala_Lumpur");
+    expect(zonaPorDestino("Perú")).toBe("America/Lima");
+    expect(zonaPorDestino("Marte")).toBe("America/Mexico_City");
+  });
+  it("REQ-1331: la revisión solo le escribe al proveedor de Asia en su mañana", async () => {
+    const asia = base({ id: "ta", correos: ["r@ta.com"], zonaHoraria: "Asia/Kuala_Lumpur", etapa: "contactado", ultimoNuestro: "2026-11-02T01:00:00Z", ultimoAsunto: "X" });
+    const m = memoria([asia]);
+    const enviados: Correo[] = [];
+    const enviar = async (c: Correo) => { enviados.push(c); return "<1@r>"; };
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar }); // 23:00 en KL
+    expect(enviados).toHaveLength(0);
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-10T01:00:00Z", enviar }); // 9:00 del martes en KL
+    expect(enviados).toHaveLength(1);
   });
 });

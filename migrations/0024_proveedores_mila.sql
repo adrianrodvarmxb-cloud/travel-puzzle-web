@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "Proveedor" (
   "correosInvalidos"  TEXT NOT NULL DEFAULT '[]',   -- JSON: direcciones que rebotaron (REQ-1330); Mila ya no les escribe
   "telefono"          TEXT NOT NULL DEFAULT '',
   "destinos"          TEXT NOT NULL DEFAULT '',
+  "zonaHoraria"       TEXT NOT NULL DEFAULT 'America/Mexico_City', -- REQ-1331: IANA (Asia/Kuala_Lumpur, Europe/Paris…)
   "ultimoSuyo"        TEXT,
   "ultimoNuestro"     TEXT,
   "ultimoAsunto"      TEXT,

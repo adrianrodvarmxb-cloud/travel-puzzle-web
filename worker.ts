@@ -67,9 +67,9 @@ export default {
         })
       );
     }
-    // REQ-1293: una vez al día, a las 15:00 UTC (9:00 a. m. CDMX), la revisión de Mila con los proveedores.
+    // REQ-1293, REQ-1331: cada hora en punto; a cada proveedor solo se le escribe en su horario hábil.
     const ahora = new Date();
-    if (ahora.getUTCHours() === 15 && ahora.getUTCMinutes() === 0) {
+    if (ahora.getUTCMinutes() === 0) {
       const proveedores = new Request("https://internal/api/cron/proveedores", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
       ctx.waitUntil(handler.fetch(proveedores, env, ctx).then(async (res: Response) => console.log(`[cron] proveedores → ${res.status} ${await res.text()}`)));
     }

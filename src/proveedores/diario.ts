@@ -6,6 +6,7 @@ import { armarCorreo, rellenar, type Correo } from "./lib/correo";
 import { plantilla, type TipoCorreo } from "./lib/plantillas";
 import type { ProveedorFila, ProveedoresRepo } from "./repository";
 import { pedidosDeCobro, pedidosDeIntegracion, numerar } from "./lib/integracion";
+import { enVentana, fechaLocal } from "./lib/horario";
 
 export interface DepsDiario { repo: ProveedoresRepo; enviar: (c: Correo) => Promise<string>; hoy: string; log?: (m: string) => void }
 // REQ-1297: «porPresentar» = los proveedores de la tanda del día cuyo primer correo manda Adri (Mila no lo envía).
@@ -33,7 +34,11 @@ export async function revisionDiaria(deps: DepsDiario): Promise<Reporte> {
     try { if (await mandar(p, tipo, deps)) r.enviados++; } catch (e) { r.errores.push(`${p.id}: ${(e as Error).message}`); }
   };
   for (const p of todos) {
-    const a = siguienteAccion(p, deps.hoy);
+    // REQ-1331: solo en horario hábil del proveedor, y los días hábiles con su calendario.
+    if (!enVentana(deps.hoy, p.zonaHoraria)) continue;
+    const local = { ...p, ultimoNuestro: p.ultimoNuestro && fechaLocal(p.ultimoNuestro, p.zonaHoraria), ultimoSuyo: p.ultimoSuyo && fechaLocal(p.ultimoSuyo, p.zonaHoraria),
+      sinRespuestaDesde: p.sinRespuestaDesde && fechaLocal(p.sinRespuestaDesde, p.zonaHoraria) };
+    const a = siguienteAccion(local, fechaLocal(deps.hoy, p.zonaHoraria));
     if (a === "recordatorio") await intentar(p, "recordatorio");
     else if (a === "reintento") await intentar(p, "reintento");
     else if (a === "marcar_sin_respuesta") { await deps.repo.guardarEstado(p.id, aplicarEvento(p, "sin_respuesta", deps.hoy), deps.hoy); r.sinRespuesta++; }

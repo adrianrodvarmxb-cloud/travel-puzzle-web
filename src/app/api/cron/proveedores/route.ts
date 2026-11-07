@@ -4,7 +4,7 @@ import { revisionDiaria } from '@/proveedores/diario';
 
 export const dynamic = 'force-dynamic';
 
-/** REQ-1293: revisión diaria de Mila con los proveedores. La llama el cron del Worker una vez al día. */
+/** REQ-1293, REQ-1331: revisión de Mila con los proveedores. La llama el cron del Worker cada hora; cada proveedor, en su horario. */
 export async function GET(request: Request) {
     if (!process.env.CRON_SECRET || request.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

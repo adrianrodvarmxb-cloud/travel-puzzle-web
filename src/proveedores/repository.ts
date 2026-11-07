@@ -13,6 +13,7 @@ export interface ProveedorFila extends EstadoProveedor {
   ultimoAsunto: string | null; hiloId: string | null; notas: string;
   integracion: Integracion; cobro: Cobro; tiempoRespuesta: string; // REQ-1298, REQ-1299
   correosInvalidos: string[]; // REQ-1330
+  zonaHoraria: string; // REQ-1331
 }
 
 type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos"> & {
