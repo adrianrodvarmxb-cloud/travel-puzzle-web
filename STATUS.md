@@ -48,6 +48,10 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-1347 | Publicar en lote los viajes en draft de una agencia, con revisión, respaldo y regreso | `src/trips/lib/publish-batch.ts`, `src/scripts/publicar-viajes.ts`, `.github/workflows/publicar-viajes-agencia.yml` | `src/trips/lib/publish-batch.test.ts` | EN CURSO (falta merge, ensayo y escritura) |
+## INC-008 viajes y total de experiencias (7 nov 2026) — matriz de trazabilidad
+| REQ-1344 | Todos los viajes publicados, por páginas, sin 1 + N | `src/trips/lib/published-pages.ts`, `src/trips/public-load.ts`, `src/trips/repository.ts` | `src/trips/lib/published-pages.test.ts` | EN CURSO (falta humo del PR) |
+| REQ-1345 | Todo viaje visible tiene URL en algún sitemap | `src/seo/lib/sitemaps-viajes.ts` (sin cambio) | `src/seo/lib/sitemaps-viajes-regla.test.ts` | EN CURSO (test de regla) |
+| REQ-1346 | Un solo total de experiencias | `src/tours/lib/available.ts`, `src/tours/lib/available-catalog.ts`, `src/app/page.tsx`, `src/components/tours/ToursPageClient.tsx` | `src/tours/lib/available.test.ts` | EN CURSO (criterio confirmado por el PO el 7 nov; falta humo del PR) |
 
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
