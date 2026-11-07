@@ -10,6 +10,8 @@ import type { PublishInput, StagedRow } from "./lib/sql";
 import { assignTourSlugs, type ExistingTour } from "@/destinations/lib/assign-slugs";
 import { DEFAULT_PROVIDER, naturalKey } from "@/destinations/lib/ids";
 import { planCityIndexing, type CityIndexRow, type CityIndexUpdate } from "@/destinations/lib/indexing";
+import { archiveRawItems, type ArchiveReport, type RawArchive } from "@/ingest/raw-archive";
+import { freetourRawItems } from "@/ingest/lib/freetour-raw";
 
 /** REQ-090: estado de indexación de las ciudades (City.indexableSince / failingSince, migración 0015). */
 export interface CityIndexRepo {
@@ -76,6 +78,8 @@ interface Deps {
   indexing?: CityIndexRepo;
   /** Filas que se publican por minuto. */
   chunkSize?: number;
+  /** REQ-743: archivo crudo (R2 privado + ProviderRecord). Solo viene con RAW_ARCHIVE_ENABLED="true" y el binding. */
+  rawArchive?: RawArchive;
 }
 
 export const PUBLISH_CHUNK = 100;
@@ -91,7 +95,7 @@ export async function runGuardedSyncStep(deps: Deps) {
   return { ...result, health: syncHealth(last?.finishedAt ?? null, deps.now) };
 }
 
-async function step({ api, repo, countries, now, newId = () => crypto.randomUUID(), rebuildSearch, indexing, chunkSize = PUBLISH_CHUNK }: Deps) {
+async function step({ api, repo, countries, now, newId = () => crypto.randomUUID(), rebuildSearch, indexing, chunkSize = PUBLISH_CHUNK, rawArchive }: Deps) {
   const latest = await repo.latestRun();
   const plan = planGuardedStep(latest, now);
 
@@ -116,10 +120,10 @@ async function step({ api, repo, countries, now, newId = () => crypto.randomUUID
       };
       await repo.createRun({ id: run.id, startedAt: now, baseline });
       await repo.cleanupStages(KEEP_STAGED_RUNS);
-      return stagePage({ api, repo, countries, now, run, page: 1, start: true });
+      return stagePage({ api, repo, countries, now, run, page: 1, start: true, rawArchive });
     }
     case "page":
-      return stagePage({ api, repo, countries, now, run: latest!, page: plan.page, start: false });
+      return stagePage({ api, repo, countries, now, run: latest!, page: plan.page, start: false, rawArchive });
   }
 }
 
@@ -129,8 +133,8 @@ async function abort(repo: GuardedRepo, run: RunState, now: Date, reason: string
   return { action: "abort" as const, runId: run.id, reason, detail };
 }
 
-async function stagePage({ api, repo, countries, now, run, page, start }: {
-  api: Deps["api"]; repo: GuardedRepo; countries: Deps["countries"]; now: Date; run: RunState; page: number; start: boolean;
+async function stagePage({ api, repo, countries, now, run, page, start, rawArchive }: {
+  api: Deps["api"]; repo: GuardedRepo; countries: Deps["countries"]; now: Date; run: RunState; page: number; start: boolean; rawArchive?: RawArchive;
 }) {
   let body: unknown;
   try {
@@ -142,6 +146,11 @@ async function stagePage({ api, repo, countries, now, run, page, start }: {
     await repo.updateRun(run.id, { failures: run.failures + 1, notBefore: retry.notBefore }, now);
     return { action: "retry" as const, runId: run.id, page, status: err.status ?? 0, notBefore: retry.notBefore.toISOString() };
   }
+
+  // REQ-743 / REQ-744: copia exacta de cada item ANTES de validarlo o transformarlo; si falla, se registra y se sigue.
+  let raw: ArchiveReport | null = null;
+  if (rawArchive) raw = await archiveRawItems(rawArchive, { provider: "freetour", items: freetourRawItems(body, page), runId: run.id, now });
+  const rawField = raw ? { raw: { written: raw.written, revisited: raw.revisited, same: raw.same, failed: raw.failed } } : {};
 
   const read = readPage<TourAPI>(body);
   if (!read.ok) return abort(repo, run, now, read.reason, `página ${page}: ${read.detail}`);
@@ -166,7 +175,7 @@ async function stagePage({ api, repo, countries, now, run, page, start }: {
   return {
     action: start ? ("start" as const) : ("page" as const),
     runId: run.id, page, totalPages: read.totalPages, tours: staged.length, dropped: read.dropped,
-    new: count("new"), changed: count("changed"), rating: count("rating"),
+    new: count("new"), changed: count("changed"), rating: count("rating"), ...rawField,
   };
 }
 

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 
 /** REQ-100: migas visibles (acompañan al BreadcrumbList del JSON-LD). Sin hooks: sirve en servidor y cliente. */
 export function Breadcrumbs({ items }: { items: { name: string; href: string }[] }) {

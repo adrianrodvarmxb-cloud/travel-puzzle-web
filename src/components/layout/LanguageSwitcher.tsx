@@ -4,6 +4,7 @@ import { useLanguage } from '@/lib/language-context';
 import { SupportedLanguage } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
+import { languageSwitchUrl } from '@/i18n/lib/path';
 
 const languages = [
   { code: 'en' as SupportedLanguage, label: 'EN', flag: '🇬🇧', name: 'English' },
@@ -15,7 +16,14 @@ const languages = [
 ];
 
 export function LanguageSwitcher() {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, locked } = useLanguage();
+  // REQ-656: con el idioma en la URL, elegir otro idioma guarda la preferencia y abre la misma página en ese idioma.
+  const choose = (code: SupportedLanguage) => {
+    const { pathname, search, hash } = window.location;
+    const next = languageSwitchUrl(`${pathname}${search}${hash}`, code, { locked, current: language });
+    setLanguage(code);
+    if (next) window.location.assign(next);
+  };
   const currentLanguage = languages.find(l => l.code === language) || languages[0];
 
   return (
@@ -34,7 +42,7 @@ export function LanguageSwitcher() {
           key={code}
           variant="ghost"
           size="sm"
-          onClick={() => setLanguage(code)}
+          onClick={() => choose(code)}
           className={`w-full justify-start gap-3 rounded-none hover:bg-muted ${
             language === code ? 'bg-muted font-semibold' : ''
           }`}
