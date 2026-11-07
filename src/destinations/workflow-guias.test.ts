@@ -28,4 +28,10 @@ describe("gate G5", () => {
     const gate = readFileSync("docs/gates-blog-diario-2026-11-06.md", "utf8");
     expect(gate).toMatch(/\| G5 \|[^\n]*no se escribe en D1[^\n]*\[x\] PO, 7 nov 2026, 06:17/);
   });
+
+  it("REQ-1236: G5 registra el cambio de 2 a 5 guías por día con la petición literal", () => {
+    const gate = readFileSync("docs/gates-blog-diario-2026-11-06.md", "utf8");
+    expect(gate).toMatch(/\| G5\.1 \|[^\n]*5 guías por día[^\n]*\[x\] PO, 7 nov 2026, 07:50/);
+    expect(wf).toContain("Arreglo JSON con 1 a 5 guías");
+  });
 });

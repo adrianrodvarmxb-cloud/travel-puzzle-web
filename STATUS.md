@@ -55,6 +55,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1233 | París y Pekín | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` | `src/destinations/guias-ejemplo.test.ts` | CUMPLIDO |
 | REQ-1234 | Prompt, Paso 7 | `docs/blog/agente-diario.md` | `guias-ejemplo.test.ts` | CUMPLIDO |
 | REQ-1235 | Gate G5 | `docs/gates-blog-diario-2026-11-06.md` | `workflow-guias.test.ts` | CUMPLIDO |
+| REQ-1236 | 5 guías por día (reemplaza «2 por día» de REQ-1227) | `src/destinations/lib/guia.ts`, `guias-run.ts`, `guias-ciudad.yml`, `docs/blog/agente-diario.md`, gate G5.1 | `guia.test.ts`, `guias-run.test.ts`, `guias-ejemplo.test.ts`, `workflow-guias.test.ts` | CUMPLIDO |
 
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
