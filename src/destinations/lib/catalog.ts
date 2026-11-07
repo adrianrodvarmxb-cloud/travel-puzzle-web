@@ -144,10 +144,12 @@ export function isListed(t: Pick<TourRow, "slug" | "isActive" | "status">): bool
 
 export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxonomy?: CatalogClassifier, cityName: string | null = null): TourCardModel {
   // REQ-406 (T3, tras TAXONOMY_PUBLISH_ENABLED): Free tour = formato pieza-libre; apagada, precio 0 como hoy.
-  const isFreeTour = taxonomy ? taxonomy(t).formato === "pieza-libre" : Number(t.price) === 0;
-  const cls = taxonomy?.(t);
+  // REQ-1253: con el nombre de la ciudad base (un «Viaje de 1 día» que la nombra y no sale se queda en la ciudad).
+  const ct = cityName ? { ...t, cities: [cityName] } : t;
+  const cls = taxonomy?.(ct);
+  const isFreeTour = cls ? cls.formato === "pieza-libre" : Number(t.price) === 0;
   // REQ-522: con T3 apagada la tarjeta usa el mismo clasificador por defecto (sin guiaEnPersona, que es de T5).
-  const formato = cls?.formato ?? (t.categoryId === undefined || t.categoryId === null ? undefined : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title] }));
+  const formato = cls?.formato ?? (t.categoryId === undefined || t.categoryId === null ? undefined : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title], cities: cityName ? [cityName] : undefined }));
   return {
     ...(cls && { guiaEnPersona: cls.guiaEnPersona, atributos: cls.atributos ?? [] }),
     ...(formato && { formato }),

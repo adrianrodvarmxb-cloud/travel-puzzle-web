@@ -28,6 +28,31 @@ export function matches(words: readonly string[] | undefined, normalizedText: st
   return rx !== null && rx.test(normalizedText);
 }
 
+/** REQ-1253: nombres de ciudad de un JSON de traducciones ({ es, en, … }) o de una lista; sin vacíos ni repetidos. */
+export function cityNamesOf(v: unknown): string[] {
+  const raw = typeof v === "string" ? (() => { try { return JSON.parse(v); } catch { return [v]; } })() : v;
+  const list = Array.isArray(raw) ? raw : raw && typeof raw === "object" ? Object.values(raw as Record<string, unknown>) : [];
+  return [...new Set(list.filter((x): x is string => typeof x === "string" && x.trim().length > 0).map((x) => x.trim()))];
+}
+
+const escapeRx = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const CITY_TOUR_BEFORE = "(?:tour|recorrido|visita|sightseeing|city tour|lo mejor|lo esencial|la esencia|highlights|best|descubre|discover|explora|explore)";
+const CITY_TOUR_ADJ = "(?:turistic[oa]s?|guiad[oa]s?|privad[oa]s?|cultural|completa?|historic[oa]|urban[oa]|panoramic[oa]|esencial)";
+
+/**
+ * REQ-1253: ¿el título es un recorrido POR la ciudad base? Solo con la forma de un city tour que nombra la ciudad:
+ * «Recorrido turístico por Dubái», «Tour de Bogotá», «Lo mejor de Lima», «Pekín Tour», «Lima en un día». Nombrar la
+ * ciudad sin esa forma («Visita a Pérgamo en Esmirna», «Safari a Chitwan») no basta: muchos proveedores ponen como
+ * ciudad el destino de la excursión.
+ */
+export function namesCity(normalizedText: string, cities: readonly string[] | undefined): boolean {
+  return (cities ?? []).map(norm).filter((c) => c.length >= 3).some((c) => {
+    const city = escapeRx(c);
+    return new RegExp(`\\b${CITY_TOUR_BEFORE}(?: ${CITY_TOUR_ADJ})? (?:por|de|en|of|in|around)(?: la ciudad de| the city of)? ${city}\\b`).test(normalizedText)
+      || new RegExp(`(?:^|[|:·-] ?)${city}(?: city)? (?:tour|city tour|en un dia|in one day|highlights|esencial)\\b`).test(normalizedText);
+  });
+}
+
 /** Quita frases excluidas (p. ej. «game of thrones») antes de buscar las palabras de un tema. */
 export function without(normalizedText: string, phrases: readonly string[] | undefined): string {
   let out = normalizedText;

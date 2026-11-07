@@ -3,10 +3,11 @@
  * Solo tipos y listas cerradas: sin I/O.
  */
 
-/** Eje A. 13 formatos + 2 estados (`fuera`, `por-revisar`). El orden NO es la precedencia (esa vive en el diccionario). */
+/** Eje A. 14 formatos + 2 estados (`fuera`, `por-revisar`). El orden NO es la precedencia (esa vive en el diccionario). */
 export const FORMATOS = [
   "pieza-libre", "caminata", "tour", "excursion-dia", "circuito", "experiencia-unica", "entradas", "autoguiado",
   "transporte", "traslado", "a-la-medida", "alquiler", "crucero",
+  "visita-guiada", // REQ-1250 (decisión B del PO, 7-11 08:01): el «tour» de #11 se parte en Tour y Visita guiada
 ] as const;
 export const ESTADOS_FORMATO = ["fuera", "por-revisar"] as const;
 export type Formato = (typeof FORMATOS)[number];
@@ -46,6 +47,8 @@ export interface ClassifyInput {
   /** Títulos en los idiomas que haya (es | en), tal cual los da el proveedor. */
   titulo: string;
   resumen?: string;
+  /** REQ-1253: nombres de la ciudad base (es, en…), para saber si un «Viaje de 1 día» se queda en la ciudad. */
+  ciudades?: readonly string[];
   /** Idiomas declarados por el evento o el viaje (ISO-639-1). */
   idiomas?: string[];
   /** Modos de las opciones del viaje propio. */

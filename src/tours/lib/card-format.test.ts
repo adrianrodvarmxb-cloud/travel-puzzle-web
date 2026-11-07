@@ -23,7 +23,7 @@ describe("REQ-522: categoría de la tarjeta = formato de la taxonomía", () => {
     expect(tripFormat({ kind: "circuito", priceFrom: 1500, durationDays: 8, titles: ["Triángulo de Oro"] })).toBe("circuito");
     expect(tripFormat({ kind: "unica", priceFrom: 90, durationDays: 1, titles: ["Cena en la Torre"] })).toBe("experiencia-unica");
     expect(tripFormat({ kind: "tour", priceFrom: 99, durationDays: 1, titles: ["Versalles esencial"], dayTrip: true })).toBe("excursion-dia");
-    expect(tripFormat({ kind: "tour", priceFrom: 99, durationDays: 1, titles: ["Versalles esencial"], dayTrip: false })).toBe("tour");
+    expect(tripFormat({ kind: "tour", priceFrom: 99, durationDays: 1, titles: ["Versalles esencial"], dayTrip: false })).toBe("visita-guiada"); // REQ-1252: sin señal (duda)
   });
 
   it("REQ-522: cardFormatsFor arma el mapa id → formato para /tours", () => {

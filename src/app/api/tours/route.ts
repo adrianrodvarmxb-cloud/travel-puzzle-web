@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch tours with filters and pagination
     // REQ-032: misma caché compartida que la página /tours.
-    const toursData = await cached(cacheKey('api-tours', { ...filters, ...pagination, baseUrl }), POLICY.toursList,
+    const toursData = await cached(cacheKey('api-tours', { ...filters, ...pagination, baseUrl, v: 'tipos-1250' /* REQ-1250 */ }), POLICY.toursList,
       async () => JSON.parse(JSON.stringify(await withRetry(() => getToursFromCatalog(filters, pagination, baseUrl)))));
     const metadata = await cached('tours-metadata', POLICY.metadata, () => withRetry(() => getToursMetadata()));
 
