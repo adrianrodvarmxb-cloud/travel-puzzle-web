@@ -16,6 +16,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1058 | Imagen en JSON-LD, OG y tarjeta | `src/blog/lib/seo.ts`, `view.ts`, `src/app/blog/[pilar]/[slug]/page.tsx` | `indexacion.test.ts` | CUMPLIDO |
 | REQ-1059 | Gate G4 | `docs/gates-blog-diario-2026-11-06.md` | — | PENDIENTE (firma del PO) |
 
+## «Free tour» en inglés en la página de ciudad (auditoría 7 nov 2026, D10) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
 
