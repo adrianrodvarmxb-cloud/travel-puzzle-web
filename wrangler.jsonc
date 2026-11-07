@@ -32,7 +32,10 @@
   ],
   // Fotos de los viajes propios y de agencias (punto 17). Bucket creado en el panel de Cloudflare.
   "r2_buckets": [
-    { "binding": "TRIP_IMAGES", "bucket_name": "travel-puzzle-trips" }
+    { "binding": "TRIP_IMAGES", "bucket_name": "travel-puzzle-trips" },
+    // REQ-771: copia exacta del proveedor (lleva netos). Bucket PRIVADO, sin r2.dev ni dominio propio (run 42373825524).
+    // Solo lo usan src/ingest y el cron del sync (REQ-747); no escribe nada mientras RAW_ARCHIVE_ENABLED="false".
+    { "binding": "RAW_ARCHIVE", "bucket_name": "travel-puzzle-raw" }
   ],
   // IA de Cloudflare para traducir los viajes del gestor (punto 17, gate I). Cobro por uso.
   "ai": { "binding": "AI" },
