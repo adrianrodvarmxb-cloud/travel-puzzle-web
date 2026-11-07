@@ -2,6 +2,8 @@
  * «★ Favorito de los viajeros» con criterio real (gate 2) y la línea del operador. Pura.
  * Regla del PO: FREETOUR nunca se menciona al cliente.
  */
+import { mentionsPlatform } from "@/reviews/lib/platform-mention";
+
 /**
  * REQ-098: única fuente de la regla (también la usan src/reviews/lib/highlights.ts y el inicio).
  * Gate actualizado por el PO (6 nov 2026, 14:02): que solo lo tengan unos 140 tours. Con el catálogo
@@ -17,7 +19,8 @@ export function isTravelerFavorite({ rating, reviews }: { rating: number | strin
   return Number.isFinite(r) && r >= FAVORITE_MIN_RATING && reviews >= FAVORITE_MIN_REVIEWS;
 }
 
-const MENTIONS_FREETOUR = /freetour/i;
+// REQ-806: un solo detector para operador, tarjeta y correos (el de REQ-171: también «free tour .com», sin acentos).
+const MENTIONS_FREETOUR = { test: (s: string) => mentionsPlatform(s) };
 
 // REQ-098: «Operado por un guía local · {proveedor}», sin FREETOUR ni logo.
 export function operatedBy(provider: string | null | undefined, lang: string): string {

@@ -2,6 +2,27 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
+Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-800 | Confirmación y recordatorios con los 9 campos de A2 aunque falte el dato | `src/notifications/lib/booking-email.ts` | `booking-email.test.ts` | CUMPLIDO |
+| REQ-801 | El correo no nombra a FREETOUR como proveedor | `booking-email.ts` | `booking-email.test.ts` | CUMPLIDO |
+| REQ-802 | A FREETOUR solo email, nombre, apellido y teléfono si `isPhoneRequired` (G2) | `src/booking/service.ts` | `src/booking/service.test.ts` | CUMPLIDO |
+| REQ-803 | Reseñas del inicio ligadas a su tour; promedio «de las experiencias» (C7) | `src/home/load.ts`, `src/home/lib/copy.ts` | `src/home/load.test.ts`, `src/home/lib/copy.test.ts` | CUMPLIDO |
+| REQ-804 | Insignia de propina solo por `primeraPiezaBadge` | `src/components/destinations/DestinationTourCard.tsx` | `src/freetour/lib/cumplimiento.test.ts` | CUMPLIDO |
+| REQ-805 | Sin AggregateRating ni review de terceros en el JSON-LD (Gate 2) | `src/seo/lib/jsonld.ts` | `src/seo/lib/jsonld.test.ts`, `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-806 | Sin «FREETOUR» en el copy visible; un solo detector | `src/tours/lib/favorite.ts`, `src/tours/lib/experience-card.ts` | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-807 | `/booking/messages` solo con el filtro de enlaces | — (escaneo) | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-808 | Recompensas y venta cruzada sin FREETOUR; tests existentes protegidos | — (escaneo) | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-809 | Tabla de auditoría legible y completa | `docs/freetour/auditoria-2026-11-06.md` | `cumplimiento.test.ts` | CUMPLIDO |
+| REQ-810 | Tours de pago: precio del grupo con la lectura más cara (D2, provisional) | `src/booking/lib/event-check.ts` | `src/booking/lib/event-check.test.ts` | CUMPLIDO |
+| REQ-811 | Tours de pago: reembolso en rechazo y cancelación (D3, A3) | `src/notifications/lib/status-emails.ts`, `src/booking/notify.ts` | `status-emails.test.ts`, `src/booking/notify.test.ts` | CUMPLIDO |
+| REQ-812 | Tours de pago: confirmación sin propina y con 24 h | `booking-email.ts`, `notify.ts` | `booking-email.test.ts`, `notify.test.ts` | CUMPLIDO |
+
+**Pendiente del PO:** pedir por escrito (correo borrador; filas 12, 13, 16, 17, 18, 41, 48, y la clave de precios de la fila 55 a api@freetour.com); encender `ADULT_CONTACT_CHECK_ENABLED`; rotar la API key; aviso de privacidad y política de cookies (REQ-084); PR #62: sesión de pago vencida y regla de 24 h en la pantalla de cancelar.
+
 ## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
 
 - 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-276.
