@@ -42,6 +42,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | — | REEMPLAZADO por REQ-1103 |
 | REQ-1103 | Categoría «Free Puzzle» en inglés (tarjeta, /tours, ciudad, pines, insignia, marcado, correos, diccionario); reemplaza a REQ-1102 | `src/tours/lib/pieza-libre.ts`, `src/taxonomy/lib/filters.ts`, `src/tours/lib/extra-filters.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/destinations/lib/hub-copy.ts`, `src/destinations/lib/pieza-libre-copy.ts`, `src/lib/translations/{en,pt,de,fr,it}.ts`, `src/taxonomy/data/dictionary.json` | `src/tours/lib/free-puzzle.test.ts`, `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## Motivo exacto al crear el PR (7 nov 2026)
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1237 | Error exacto e indicación de la opción en el issue; rama por intento | `.github/workflows/blog-diario.yml`, `.github/workflows/guias-ciudad.yml` | `src/ops/workflows-motivo-pr.test.ts` | CUMPLIDO |
+
 ## Guías propias de ciudad (PO, 7 nov 2026, 06:17) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

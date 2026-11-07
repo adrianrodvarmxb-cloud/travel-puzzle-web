@@ -780,3 +780,8 @@ Petición literal (coordinador): «(b) Las ciudades pasan a noindex mientras no 
 | REQ-1203 | (misma petición) el estado que guarda el sync | Dado el sync blindado, cuando calcula las ciudades en D1, entonces cuenta aparte los tours indexables excluyendo los proveedores en false de `PROVIDER_INDEXABLE` (una sola tabla); sin proveedores excluidos, indexables = activos. | CUMPLIDO |
 | REQ-1204 | "El país es indexable si tiene al menos 1 ciudad indexada" | Dado un país, cuando ninguna de sus ciudades queda indexada por la regla nueva, entonces es noindex y sale del sitemap; con ≥1, sigue indexable. | CUMPLIDO |
 | REQ-1205 | "Sitemaps, hreflang y IndexNow siguen la misma regla en todos los idiomas" | Dada una ciudad, cuando se calculan sus idiomas indexables (sitemap por idioma, hreflang, IndexNow que lee los sitemaps), entonces usa la misma cuenta de tours indexables: indexada solo por su guía (en español) = solo `es`; con ≥3 indexables = `es` y `en`. | CUMPLIDO |
+
+## Motivo exacto cuando el workflow no puede crear el PR (coordinador, 7 nov 2026)
+| ID | Petición | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-1237 | «que el paso Rama y PR de blog-diario.yml y de guias-ciudad.yml escriba en el issue el error exacto, por ejemplo el 403 «GitHub Actions is not permitted…», con la indicación de qué opción encender» | Dado que GitHub rechaza crear el PR (o subir la rama), cuando falla el paso, entonces el issue lleva el error exacto de la API y, si es el 403 de Actions, la ruta de la opción «Allow GitHub Actions to create and approve pull requests»; la rama lleva el número de intento para que «Re-run jobs» funcione | CUMPLIDO |

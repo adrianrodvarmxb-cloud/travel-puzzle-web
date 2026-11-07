@@ -89,14 +89,25 @@ jobs:
           URLS: ${{ steps.validar.outputs.urls }}
         run: |
           B="$RUNNER_TEMP/guias"; echo "Rama y PR" > "$B/paso"
-          rama="guias/diario-$FECHA-${{ github.run_id }}"
+          # REQ-1237: con el número de intento, «Re-run jobs» no choca con la rama del intento anterior.
+          rama="guias/diario-$FECHA-${{ github.run_id }}-${{ github.run_attempt }}"
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$rama"
           git add src/destinations/content/guias.json
           git commit -q -m "guias(ciudad): $CIUDADES ($FECHA) — REQ-1232" -m "Guías propias del agente diario, publicadas por el gate G5 (docs/gates-blog-diario-2026-11-06.md)."
-          git push -q origin "$rama"
+          git push -q origin "$rama" 2> "$B/push-error.log" || { echo "- no se pudo subir la rama $rama: $(tr '\n' ' ' < "$B/push-error.log" | head -c 600)" > "$B/motivo"; exit 1; }
           printf '%s\n' "Guías de ciudad del agente diario: **$CIUDADES** ($FECHA)." "" "- Páginas: $URLS" "- Solo cambia \`src/destinations/content/guias.json\` (no se escribe en D1)." "- Se fusiona solo si pasan el validador, la suite, tsc, el build y la prueba de humo del preview (gate G5)." "- Corrida: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" > "$B/pr.md"
-          n=$(gh api "repos/$REPO/pulls" -f title="guias(ciudad): $CIUDADES ($FECHA)" -f head="$rama" -f base=main -F body=@"$B/pr.md" --jq .number)
+          # REQ-1237: si GitHub no deja crear el PR, el issue lleva el error exacto y, si es el 403 de Actions, qué opción encender.
+          if ! n=$(gh api "repos/$REPO/pulls" -f title="guias(ciudad): $CIUDADES ($FECHA)" -f head="$rama" -f base=main -F body=@"$B/pr.md" --jq .number 2> "$B/pr-error.log"); then
+            printf '%s\n' "$n" >> "$B/pr-error.log"
+            {
+              echo "- no se pudo crear el PR (rama \`$rama\` ya subida): $(tr '\n' ' ' < "$B/pr-error.log" | head -c 600)"
+              if grep -qi "not permitted to create or approve pull requests" "$B/pr-error.log"; then
+                echo "- Falta encender en GitHub: Settings → Actions → General → Workflow permissions → «Allow GitHub Actions to create and approve pull requests». Después, vuelve a lanzar esta corrida (Re-run jobs)."
+              fi
+            } > "$B/motivo"
+            exit 1
+          fi
           echo "number=$n" >> "$GITHUB_OUTPUT"; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"; echo "$n" > "$B/pr"
 
       - name: Pruebas
