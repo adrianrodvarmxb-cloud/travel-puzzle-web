@@ -8,6 +8,20 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1100 | Pie del home en /tours | `src/app/tours/page.tsx` | `src/layout/lib/site-footer-pages.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1101 | Pie del home en las fichas de tour | `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/app/tours/[id]/page.tsx` | `src/layout/lib/site-footer-pages.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## Redes del día (PO, 7 nov 2026, 04:28) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1070…1072 | Textos de LinkedIn, Facebook e Instagram | `src/redes/lib/textos.ts` | `src/redes/lib/textos.test.ts` | CUMPLIDO |
+| REQ-1073 | Láminas 1080×1350 | `src/redes/lib/laminas.ts`, `src/scripts/redes-laminas.ts` | `laminas.test.ts`, `textos.test.ts` | CUMPLIDO |
+| REQ-1074 | Mismas reglas del blog en redes | `textos.ts`, `src/blog/diario-run.ts` | `textos.test.ts`, `src/blog/diario-run.test.ts` | CUMPLIDO |
+| REQ-1075 | Workflow tras publicar | `.github/workflows/redes-diario.yml`, `blog-diario.yml`, `src/scripts/redes-diario.ts` | `src/redes/workflow-redes.test.ts` | CUMPLIDO (falta corrida real) |
+| REQ-1076 | Banderas y secretos | `wrangler.jsonc`, `src/redes/lib/api.ts` | `api.test.ts`, `workflow-redes.test.ts` | CUMPLIDO |
+| REQ-1077…1079 | Graph API (FB, IG) y LinkedIn Posts API | `api.ts`, `src/redes/run.ts` | `api.test.ts`, `run.test.ts` | CUMPLIDO (sin tokens: no probado contra las API) |
+| REQ-1080…1081 | Fallas aisladas; issue «Redes del día» | `run.ts`, `redes-diario.yml` | `run.test.ts`, `workflow-redes.test.ts` | CUMPLIDO |
+| REQ-1082 | Guía de tokens del PO | `docs/redes/conexion.md` | `src/redes/conexion.test.ts` | CUMPLIDO |
+| REQ-1083 | Prompt con el paso de redes | `docs/blog/agente-diario.md` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
+| REQ-1084 | B3: sin FREETOUR en redes | `textos.ts` | `textos.test.ts` | CUMPLIDO |
+
 ## Imágenes premium en el blog (PO, 7 nov 2026, 04:28) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
