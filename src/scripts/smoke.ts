@@ -11,6 +11,7 @@ import { chromium, devices, type BrowserContext, type Page } from "playwright";
 import { discoverPages, isErrorScreen, isHydrationError, legacyFailures, parseSmokeConfig, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
 import { evidenceSlug, firstDifference, loadFailed } from "../ops/lib/smoke-evidence";
 import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
+import { fichaContractFailures, isFichaPath } from "../seo/lib/ficha-contract";
 
 /** REQ-500: carpeta de evidencia (el workflow la sube como artefacto). */
 const EVIDENCE_DIR = process.env.SMOKE_EVIDENCE_DIR || "smoke-evidencia";
@@ -74,6 +75,8 @@ const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, wranglerVar
   await req.close();
 
   const results: SmokeResult[] = [];
+  // REQ-580: contrato de las fichas de producto sobre el HTML crudo del servidor (lo que leen los bots sin JS).
+  const contractFailures: string[] = [];
   for (const [viewport, opts] of [[390, { ...devices["Pixel 7"] }], [1366, { viewport: { width: 1366, height: 900 } }]] as const) {
     const ctx = await browser.newContext({ ...opts, locale: "es-MX" });
     // INC-001: el navegador del cliente puede traducir países distinto que el servidor.
@@ -93,6 +96,12 @@ const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, wranglerVar
         await saveEvidence(path, viewport, second, "2-reintento");
         await second.page.close();
       }
+      if (viewport === 1366 && result.status === 200 && first.raw && isFichaPath(path)) {
+        const enrichment = /data-enriquecimiento="true"/.test(first.raw);
+        const fails = fichaContractFailures(first.raw, { enrichment });
+        console.log(`${fails.length ? "✗" : "✓"} contrato de ficha (enriquecimiento ${enrichment}) ${path}`);
+        contractFailures.push(...fails.map((x) => `contrato de ficha ${path}: ${x}`));
+      }
       await first.page.close();
       results.push(result);
     }
@@ -101,7 +110,7 @@ const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, wranglerVar
   await browser.close();
 
   for (const r of results) console.log(`${r.status ?? "---"} @${r.viewport} ${r.path}${r.appError || r.pageErrors.length ? "  ✗" : "  ✓"}`);
-  const v = smokeVerdict(results, [...discovered.failures, ...legacyFailures(config.legacy, legacyStatus)]);
+  const v = smokeVerdict(results, [...discovered.failures, ...legacyFailures(config.legacy, legacyStatus), ...contractFailures]);
   if (!v.ok) {
     console.error(`\nPRUEBA DE HUMO FALLIDA (${v.failures.length}):\n- ${v.failures.join("\n- ")}`);
     if (savedEvidence > 0) console.error(`\nEvidencia (REQ-500): ${savedEvidence} carga(s) guardada(s) en ${EVIDENCE_DIR}/ (artefacto del job).`);
