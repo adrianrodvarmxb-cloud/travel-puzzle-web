@@ -780,3 +780,9 @@ Petición literal (coordinador): «(b) Las ciudades pasan a noindex mientras no 
 | REQ-1203 | (misma petición) el estado que guarda el sync | Dado el sync blindado, cuando calcula las ciudades en D1, entonces cuenta aparte los tours indexables excluyendo los proveedores en false de `PROVIDER_INDEXABLE` (una sola tabla); sin proveedores excluidos, indexables = activos. | CUMPLIDO |
 | REQ-1204 | "El país es indexable si tiene al menos 1 ciudad indexada" | Dado un país, cuando ninguna de sus ciudades queda indexada por la regla nueva, entonces es noindex y sale del sitemap; con ≥1, sigue indexable. | CUMPLIDO |
 | REQ-1205 | "Sitemaps, hreflang y IndexNow siguen la misma regla en todos los idiomas" | Dada una ciudad, cuando se calculan sus idiomas indexables (sitemap por idioma, hreflang, IndexNow que lee los sitemaps), entonces usa la misma cuenta de tours indexables: indexada solo por su guía (en español) = solo `es`; con ≥3 indexables = `es` y `en`. | CUMPLIDO |
+
+## Respaldo antes de encender TAXONOMY_SYNC_ENABLED (coordinador, 7 nov 2026)
+Petición literal: «si alguna escribe en datos de producción, haz respaldo y avísame antes de encolarla». `TAXONOMY_SYNC_ENABLED` (REQ-615, #237) escribe en las 3 tablas propias de la 0017 y limpia corridas viejas de esas tablas; no toca Tour, TourTranslation ni Trip.
+| ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|---|
+| REQ-1247 | «haz respaldo» antes de encender el recálculo | NUEVO | Dado el workflow manual «Respaldo de la taxonomía (solo lectura)», cuando corre, entonces exporta completas `ExperienceTaxonomy`, `ExperienceTaxonomyOverride` y `TaxonomyRun` con SELECT, sube el artefacto `respaldo-taxonomia` (90 días) con los conteos, y no escribe en D1 ni publica. | EN CURSO (test verde; falta la corrida tras el merge) |
