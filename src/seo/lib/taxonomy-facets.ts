@@ -7,7 +7,7 @@
  */
 import { classify } from "@/taxonomy/lib/classify";
 import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
-import { FORMATOS_FILTRO, formatoLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
+import { FORMATOS_FILTRO, formatoCardLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
 import type { ClassifyInput } from "@/taxonomy/lib/types";
 
 const NOT_A_TAG = new Set(["calificacion", "favorito"]);
@@ -17,7 +17,7 @@ const termName = (t: { termino_es?: string; termino_en?: string }, lang: string)
 
 export interface FichaFacets { tipo: string | null; etiquetas: string[] }
 
-// REQ-581
+// REQ-581 REQ-822 (tipo = etiqueta corta de la tarjeta, FORMATO_CARD_LABEL)
 export function fichaFacets(input: ClassifyInput, lang: string, dict = DEFAULT_DICTIONARY, mappings = DEFAULT_MAPPINGS): FichaFacets {
   if (!mappings[input.proveedor]) return { tipo: null, etiquetas: [] };
   const r = classify(input, dict, mappings);
@@ -26,7 +26,7 @@ export function fichaFacets(input: ClassifyInput, lang: string, dict = DEFAULT_D
   const find = (eje: string, slug: string) => terms.find((t) => t.eje === eje && t.slug === slug);
   const fmt = find("formato", r.formato);
   const tipo = (FORMATOS_FILTRO as readonly string[]).includes(r.formato)
-    ? formatoLabel(r.formato as FormatoFiltro, lang)
+    ? formatoCardLabel(r.formato as FormatoFiltro, lang)
     : fmt && fmt.estado === "activo" ? termName(fmt, lang) : null;
   const etiquetas: string[] = [];
   for (const slug of r.temas) { const t = find("tema", slug); if (t?.estado === "activo") etiquetas.push(termName(t, lang)); }
