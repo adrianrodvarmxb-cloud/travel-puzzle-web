@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cityMeetsRule, nextCityIndexState, cityHasPage, countryIndexable, wordCount, planCityIndexing, type CityIndexState, type CityIndexRow } from "./indexing";
+import { cityIndexInputsSql, cityMeetsRule, nextCityIndexState, cityHasPage, countryIndexable, wordCount, planCityIndexing, type CityIndexState, type CityIndexRow } from "./indexing";
 
 const guide = (words: number) => Array.from({ length: words }, (_, i) => `palabra${i}`).join(" ");
 const day = (n: number) => new Date(Date.UTC(2026, 10, 1 + n, 9));
@@ -90,5 +90,38 @@ describe("REQ-090: estado guardado por ciudad (City.indexableSince / failingSinc
   });
   it("REQ-090: sin cambios no escribe nada", () => {
     expect(planCityIndexing([city({ indexableSince: day(-1).toISOString() })], day(0))).toEqual([]);
+  });
+});
+
+describe("REQ-1200…1203: la ciudad se indexa sin FREETOUR (PO, 7 nov 2026, 06:17: (b) + (c))", () => {
+  it("REQ-1200: solo cuentan los tours indexables: 3 de FREETOUR y 0 propios ya no bastan", () => {
+    expect(cityMeetsRule({ activeTours: 40, indexableTours: 0, guide: null })).toBe(false);
+    expect(cityMeetsRule({ activeTours: 5, indexableTours: 2, guide: null })).toBe(false);
+    expect(cityMeetsRule({ activeTours: 5, indexableTours: 3, guide: null })).toBe(true);
+    expect(cityMeetsRule({ activeTours: 3, indexableTours: 3, guide: null })).toBe(true);
+  });
+  it("REQ-1200: 1 tour indexable más guía propia de ≥300 palabras se indexa; con 299 no", () => {
+    expect(cityMeetsRule({ activeTours: 1, indexableTours: 1, guide: guide(300) })).toBe(true);
+    expect(cityMeetsRule({ activeTours: 1, indexableTours: 1, guide: guide(299) })).toBe(false);
+  });
+  it("REQ-1201: con guía propia de ≥300 palabras se indexa aunque todos sus tours sean de FREETOUR", () => {
+    expect(cityMeetsRule({ activeTours: 12, indexableTours: 0, guide: guide(300) })).toBe(true);
+    expect(cityMeetsRule({ activeTours: 12, indexableTours: 0, guide: guide(299) })).toBe(false);
+    expect(cityMeetsRule({ activeTours: 0, indexableTours: 0, guide: guide(1000) })).toBe(false); // sin página no hay nada que indexar
+  });
+  it("REQ-1202: transición de 14 días: una ciudad indexada que deja de cumplir por la regla nueva sigue 13 días y sale al 14", () => {
+    const row = { id: 7, activeTours: 30, indexableTours: 0, guide: null, indexableSince: day(-60).toISOString(), failingSince: null };
+    expect(planCityIndexing([row], day(0))).toEqual([{ id: 7, indexableSince: row.indexableSince, failingSince: day(0).toISOString() }]);
+    expect(planCityIndexing([{ ...row, failingSince: day(0).toISOString() }], day(13))).toEqual([]);
+    expect(planCityIndexing([{ ...row, failingSince: day(0).toISOString() }], day(14))).toEqual([{ id: 7, indexableSince: null, failingSince: day(0).toISOString() }]);
+  });
+  it("REQ-1203: el sync cuenta los tours indexables en D1 excluyendo los proveedores sin permiso (una sola tabla)", () => {
+    const q = cityIndexInputsSql(["freetour"]);
+    expect(q.sql).toContain('"indexableTours"');
+    expect(q.sql).toContain('lower(trim(t."providerId")) NOT IN (?)');
+    expect(q.params).toEqual(["freetour"]);
+    const sin = cityIndexInputsSql([]);
+    expect(sin.params).toEqual([]);
+    expect(sin.sql).not.toContain("NOT IN");
   });
 });

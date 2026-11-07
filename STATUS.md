@@ -720,5 +720,15 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-830 | `PROVIDER_INDEXABLE` (`freetour: false`), `indexableProvider`, `providerRobots` | `src/seo/lib/enrichment.ts` | `enrichment.test.ts` | CUMPLIDO |
 | REQ-831 | Ficha de FREETOUR con `noindex, follow` (/destinos y /tours/[id]) | `src/destinations/lib/page-model.ts` (`tourPage`), `src/destinations/lib/catalog.ts` (`providerId` en la tarjeta), `src/destinations/repository.ts`, `src/app/tours/[id]/page.tsx` | `page-model.test.ts` | CUMPLIDO |
 | REQ-832 | Fichas de FREETOUR fuera de los sitemaps | `src/destinations/lib/page-model.ts` (`sitemapInput`) | `page-model.test.ts` | CUMPLIDO |
-| REQ-833 | Tarjetas, enlaces y regla de ciudad sin cambios | `src/destinations/lib/catalog.ts` | `page-model.test.ts` | CUMPLIDO (decisión de ciudades pendiente del PO) |
+| REQ-833 | Tarjetas, enlaces y regla de ciudad sin cambios | `src/destinations/lib/catalog.ts` | `page-model.test.ts` | REEMPLAZADO (regla de ciudad) por REQ-1200…1204 |
 | REQ-834 | Prueba de humo exige noindex en fichas de FREETOUR | `src/seo/lib/ficha-contract.ts`, `src/scripts/smoke.ts` | `ficha-contract.test.ts`, `enrichment.test.ts` | CUMPLIDO |
+
+## Ciudades indexables sin FREETOUR (7 nov 2026, 06:17) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1200 | Solo cuentan los tours indexables (≥3, o ≥1 + guía) | `src/destinations/lib/indexing.ts` (`cityMeetsRule`), `src/destinations/lib/catalog.ts` (`indexableTours`) | `indexing.test.ts`, `catalog.test.ts` | CUMPLIDO |
+| REQ-1201 | Guía propia ≥300 indexa aunque solo haya FREETOUR | `src/destinations/lib/indexing.ts` | `indexing.test.ts`, `catalog.test.ts` | CUMPLIDO |
+| REQ-1202 | Transición de 14 días | `src/destinations/lib/indexing.ts` (`planCityIndexing`) | `indexing.test.ts` | CUMPLIDO |
+| REQ-1203 | Sync cuenta indexables en D1 | `src/destinations/lib/indexing.ts` (`cityIndexInputsSql`), `src/catalog/guarded-repository.ts`, `src/seo/lib/enrichment.ts` (`nonIndexableProviders`) | `indexing.test.ts` | CUMPLIDO |
+| REQ-1204 | País en cascada | `src/destinations/lib/catalog.ts` | `catalog.test.ts` | CUMPLIDO |
+| REQ-1205 | Misma regla en sitemaps por idioma, hreflang e IndexNow | `src/destinations/lib/locale.ts` (`cityLangs`) | `locale.test.ts` | CUMPLIDO |
