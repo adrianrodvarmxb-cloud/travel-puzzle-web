@@ -426,3 +426,11 @@ Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-li
 
 Efecto en el catálogo (respaldo de producción del 5-11, 8,018 tours activos de FREETOUR): pieza-libre sin cambio (3,464); autoguiado 29 → 635; excursión de un día 1,222 → 1,048; caminata 1,515 → 1,239; tour 1,253 → 1,193; Momentos de autor 344 → 230; traslado 8 → 26.
 
+## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-546 | Chips = Todo, Pieza libre y tipos con resultados por cantidad, etiquetas cortas | `src/tours/lib/format-chips.ts`, `src/components/tours/FormatChips.tsx`, `ToursPageClient.tsx` | `src/tours/lib/format-chips.test.ts` | CUMPLIDO tras TAXONOMY_FILTERS_ENABLED (apagada) |
+| REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
+| REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
+| REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
+

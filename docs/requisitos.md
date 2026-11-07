@@ -424,3 +424,14 @@ Petición: "El PO ve tarjetas que son excursiones de un día con tipo «Tour». 
 | REQ-537 | "Corrige la causa en el diccionario o mappings" (traslados que salían como tour) | Dada la categoría «Tours en vehículo» de FREETOUR (19), cuando el título dice traslado/transfer/shuttle y no «tour», entonces es «traslado» (va a /traslados, REQ-261). | CUMPLIDO (falta OK del PO para publicar) |
 | REQ-538 | "o en el mapeo de cada import (campo de formato o duración mal leído)" | Dado `imports/fantasticachina-2027.json`, cuando se lee «Excursión de un día a Macao» (FCH-R23, borrador), entonces su kind es «tour» con 1 día (antes «circuito» sin días) y se clasifica como excursión de un día. Aplicarlo en D1 requiere reimportar o editarlo en el gestor (no se ejecutó). | CUMPLIDO en el repo (falta aplicar en D1 con OK del PO) |
 
+## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16)
+
+Petición literal: «aquí que se vean las etiquetas principales y se actualicen cada vez que hay nuevos» (la fila «Todo · Pieza libre · Tours · Circuitos · Momentos de autor» de /tours; en su captura el chip «Tours» estaba activo y la tarjeta decía «Excursión de un día»).
+
+| ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-546 | "que se vean las etiquetas principales" | Dado /tours con TAXONOMY_FILTERS_ENABLED, cuando se pinta la fila de chips, entonces son «Todo», luego «Pieza libre» si tiene resultados y después los tipos principales con resultados ordenados por cantidad, con las etiquetas cortas de la tarjeta; «Tours» deja de existir como chip genérico (el tipo «tour» se llama «Visita guiada»). Sin la bandera quedan los chips viejos por Trip.kind (ocultos, no borrados). | CUMPLIDO (falta encender TAXONOMY_FILTERS_ENABLED con OK del PO) |
+| REQ-547 | "y se actualicen cada vez que hay nuevos" | Dado un formato de /tours, cuando tiene al menos 1 resultado (catálogo + viajes, con los demás filtros), entonces tiene chip sin tocar código; con 0 resultados no hay chip; traslado, transporte, fuera y por revisar nunca son chip. | CUMPLIDO (falta encender la bandera) |
+| REQ-548 | "el chip y la etiqueta no coinciden" (captura del PO) | Dado un chip elegido, cuando se filtra (?formato= de T4, noindex con canonical a /tours), entonces todas las tarjetas mostradas (tours del catálogo y viajes) llevan esa misma etiqueta: la tarjeta toma el formato del mismo índice que filtra. | CUMPLIDO (falta encender la bandera) |
+| REQ-549 | "con las mismas etiquetas cortas de la tarjeta" (coordinador) | Dado cualquier formato, entonces la etiqueta del chip es la de la tarjeta (`categoryLabel` → `FORMATO_CARD_LABEL`), sin tabla propia. | CUMPLIDO |
+

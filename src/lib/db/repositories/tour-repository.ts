@@ -148,7 +148,9 @@ export async function getToursFromCatalog(
       })
     : [];
   const byId = new Map(rows.map((r) => [r.id, r]));
-  const data = ids.map((id) => byId.get(id)).filter((x): x is TourWithRelations => !!x);
+  // REQ-548: cada fila lleva el formato del índice (el mismo que filtra ?formato= y cuenta los chips), para la tarjeta.
+  const formatoById = new Map(entries.map((e) => [e.id, e.formato]));
+  const data = ids.map((id) => byId.get(id)).filter((x): x is TourWithRelations => !!x).map((r) => Object.assign(r, { formato: formatoById.get(r.id) }));
   const totalPages = Math.max(1, Math.ceil(total / limit));
   return {
     data,
