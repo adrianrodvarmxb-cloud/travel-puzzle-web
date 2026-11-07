@@ -2,6 +2,14 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
+Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-960 | Gate «Publica solo cada día» registrado | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
+| REQ-961…984 | Calendario, mezcla, validador, marcado, indexación, workflow, prompt, ejemplo y encendido | ver `docs/requisitos.md` | — | PENDIENTE (PR 2 a 4) |
+
 ## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
 
 - Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
@@ -82,6 +90,23 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 **Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
+
+## 6 nov 2026 — Reclasificación con linaje, Ola R2 (REQ-750…756)
+- Cada término de `ExperienceTaxonomy` guarda origen (manual/regla/proveedor), campo y valor original del proveedor, palabra o código que coincidió y huella del crudo (migración PROPUESTA 0023, sin aplicar).
+- Mapeos por agencia (7) desde la denominación original (código, URL o documento), **pendientes de firma del PO**; los viajes se clasifican primero con ellos y si no, con `propios`.
+- Hoy solo 4 agencias tienen denominación derivable de sus datos (Big Bus, Fantástica China, Destino Colombia, Inca World). Extime, Exotic Escapes y Turismo Asiático necesitan capturar `original.categoria` desde su documento.
+- Overrides manuales conectados (manual > regla > valor declarado). Todo tras `TAXONOMY_LINEAGE_ENABLED="false"`.
+- Diccionario de campos por proveedor: `docs/datos/diccionario-campos.md`.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-750 | Columnas de procedencia (0023 propuesta) | docs/migraciones-propuestas/0023_taxonomia_linaje.sql | migration-0023.test.ts | CUMPLIDO (sin aplicar) |
+| REQ-751 | Procedencia estructurada por término | src/taxonomy/lib/lineage.ts | lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-752 | Mapeos Zod por agencia | src/taxonomy/data/mapping/{7 agencias}.json, data/index.ts | agencias.test.ts | CUMPLIDO (falta firma) |
+| REQ-753 | Clasificar primero con la denominación original | src/ingest/lib/originals.ts, lineage.ts | originals.test.ts, lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-754 | Overrides: manual > regla > proveedor | lineage.ts (`applyPrecedence`), recompute.ts | lineage.test.ts, recompute-lineage.test.ts | CUMPLIDO (apagado) |
+| REQ-755 | Diccionario de campos | docs/datos/diccionario-campos.md | agencias.test.ts | CUMPLIDO |
+| REQ-756 | Recálculo con linaje | src/taxonomy/recompute.ts, lineage-repository.ts, cron sync-tours | recompute-lineage.test.ts | CUMPLIDO (apagado) |
 
 ## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…748)
 - Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-744).
