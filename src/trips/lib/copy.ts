@@ -31,7 +31,7 @@ const EN: Copy = {
   cta: "Get a quote on WhatsApp", ctaHelp: "An advisor replies and puts your booking together.", guarantees: "Travel Puzzle guarantees",
   g1: "Spanish-speaking guide", g2: "Experienced advisors", g3: "Tailor-made itineraries", g4: "Payment options", video: "Video", seeMap: "See on map",
   difficulty: { facil: "Easy", moderada: "Moderate", exigente: "Challenging" }, kinds: { tour: "Tour", circuito: "Multi-day tour", unica: "Unique experience", personalizado: "Tailor-made trip", transporte: "Transport" },
-  filterAll: "All", filterFree: "Free tour", filterTour: "Tours", filterCircuit: "Multi-day", filterExp: "Signature moments", filterTransport: "Transport",
+  filterAll: "All", filterFree: "Free Puzzle" /* REQ-1103 */, filterTour: "Tours", filterCircuit: "Multi-day", filterExp: "Signature moments", filterTransport: "Transport",
   formTitle: "Request a quote", formTitleCustom: "Plan your tailor-made trip", date: "Date", time: "Time", chooseDate: "Choose an available date", noTimes: "Not available that day; choose another date.",
   option: "Option", adults: "Adults", children: "Children", infants: "Infants", childAge: (n) => `Age of child ${n}`, start: "Start", end: "End", serviceType: "Service type",
   firstName: "First name", lastName: "Last name", email: "Email", phone: "Mobile (with country code)", hotelName: "Your hotel name (for pickup)", comments: "Comments",
