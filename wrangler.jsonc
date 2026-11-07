@@ -67,7 +67,7 @@
     "SEARCH_V2_ENABLED": "true",
     // Buscador tolerante a erratas y alias curados (REQ-280…285). Requiere SEARCH_V2_ENABLED. "true" solo con preview
     // con la bandera encendida, prueba de humo y OK del PO, en su propio PR. Regreso: "false".
-    "SEARCH_FUZZY_ENABLED": "false",
+    "SEARCH_FUZZY_ENABLED": "true",
     // Autocompletado agrupado y cero resultados con salida (REQ-290…294). "true" solo con preview con la bandera
     // encendida, prueba de humo y OK del PO, en su propio PR. Regreso: "false" (el buscador de siempre).
     "SEARCH_SUGGEST_ENABLED": "false",
