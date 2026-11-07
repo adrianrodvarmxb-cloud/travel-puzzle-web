@@ -95,7 +95,9 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
-        const guide = guideLanguagesLabel(row?.guideLanguages, language);
+        // REQ-588: con enriquecimiento, del servidor; en FREETOUR se pinta en el cliente (como antes del #204), con data-nosnippet.
+        const guide = full.facts.guideLanguages ? guideLanguagesLabel(row?.guideLanguages, language) : [];
+        const guideClientOnly = !full.enrichment ? { label: filtersCopy(language).language, codes: row?.guideLanguages ?? null } : null;
         return (
             <>
                 <JsonLd data={full.jsonLd} />
@@ -111,7 +113,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         favorite: isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews }),
                         rates,
                         labels: model.labels,
-                        facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [] },
+                        facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [], clientOnly: guideClientOnly },
                         enrichment: full.enrichment,
                         enBreve: full.enBreve,
                         facets: full.facets,
