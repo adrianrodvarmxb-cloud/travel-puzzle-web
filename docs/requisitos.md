@@ -309,10 +309,16 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
 
-### Taxonomía, fase T6b: facetas de circuitos en la ficha, tras `TAXONOMY_CIRCUITS_ENABLED="false"` (va después de #156)
+### Taxonomía, fase T7 (carrito y carrusel por formato, tras `TAXONOMY_CART_ENABLED=false`)
 
-| Fase y REQ | Código | Test | Estado |
+Sin REQ nuevos: esta fase implementa REQ-428 y REQ-429 detrás de la bandera. Con la bandera apagada todo sigue igual (REQ-108). Sin cambio visible mientras «Arma tu viaje» (`ARMA_TU_VIAJE_ENABLED`) siga apagado.
+
+| Requisito | Código | Prueba | Estado |
 |---|---|---|---|
+| T7 · REQ-428 (adaptador de FREETOUR: free_tour, tour, day_trip, tickets según `cartTypeFor(formato)`) | `src/cart/adapters/freetour.ts`, `src/cart/lib/adapter.ts` (`Offer.formato`), `src/taxonomy/lib/cart-type.ts` (`taxonomyCartEnabled`) | `src/taxonomy/lib/cart-t7.test.ts` | CUMPLIDO (apagado) |
+| T7 · REQ-429 (primera tarjeta por formato ∈ {caminata, tour, excursion-dia, experiencia-unica}; sin formato, regla REQ-108) | `src/companions/lib/carousel.ts` (`firstByFormat`), `src/cart/lib/page-model.ts`, `src/app/arma-tu-viaje/page.tsx` | `src/taxonomy/lib/cart-t7.test.ts` | CUMPLIDO (apagado) |
+### Taxonomía, fase T6b: facetas de circuitos en la ficha, tras `TAXONOMY_CIRCUITS_ENABLED="false"` (va después de #156)
+| Fase y REQ | Código | Test | Estado |
 | T6b · REQ-421 (tipo de grupo: en grupo · privado · a la medida) | `src/taxonomy/lib/circuit-facts.ts`, `components/trips/TripDetailView.tsx` | `src/taxonomy/lib/circuit-facts.test.ts` | CUMPLIDO (apagado) |
 | T6b · REQ-422 (dificultad 1–5 con nombre y línea; sin dato, nada; G-T8 = A) | `circuit-facts.ts` (usa `difficulty` de hoy; `difficultyLevel` de la 0018 cuando esté aplicada) | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
 | T6b · REQ-423 (días 1–5 · 6–9 · 10–14 · 15+ con límites) | `circuit-facts.ts` | `circuit-facts.test.ts` | CUMPLIDO (apagado) |
@@ -358,9 +364,6 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T3 · REQ-261 (traslados y transporte, también de FREETOUR, fuera de Experiencias) | `catalog.ts`: sección «traslados» → Traslados de la ciudad | `catalog.test.ts` | CUMPLIDO (apagado) |
 ### Taxonomía en los carruseles del home (#148), tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #177)
 | REQ-480 | "El nombre de la categoría es «Pieza libre»: chip «Free tours» de los filtros de /tours → «Pieza libre» e insignia azul «FREE TOUR» → «PIEZA LIBRE»" (PO, 6 nov 2026, 10:45; corrección 10:46: el precio verde «Free tour» de las tarjetas se queda) | Dado el sitio actual (sin bandera, solo texto), cuando se ven el chip de tipo en /tours y la insignia azul sobre la foto de las tarjetas (/tours, inicio y sus carruseles) y de la ficha, entonces dicen «Pieza libre» («Free tour» en inglés y demás idiomas, pendiente de firma); el precio «Free tour», el título real (FREETOUR C4) y la colección «La Primera Pieza» no cambian. | CUMPLIDO |
-
 ## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24)
-
 | ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
-|---|---|---|---|
 | REQ-530 | "[En /tours] los filtros no dan scroll hasta que pasan todas las opciones del medio" | Dado /tours en escritorio (≥1024 px), cuando el visitante baja la página o gira la rueda sobre la columna de filtros, entonces la columna queda fija bajo el header (sticky, `top` 6rem), cabe en la ventana (`max-height: calc(100vh - 7rem)`) y se recorre con su propio scroll hasta el último filtro sin mover la página ni esperar a que pase la cuadrícula. En celular no cambia: el botón «Filtros» abre la hoja a pantalla completa (REQ-056). | CUMPLIDO (falta OK del PO para publicar) |
