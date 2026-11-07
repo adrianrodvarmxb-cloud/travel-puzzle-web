@@ -46,6 +46,8 @@ const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
 const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env)];
 // REQ-675: con LOCALE_URLS_ENABLED también se descubre una ficha en inglés.
 const discoverRules = [...config.discover, ...flaggedDiscoverRules(config, vars, process.env)];
+// REQ-676: el contrato de idioma lee el HTML como lo recibe un buscador.
+const BOT_UA = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
 
 (async () => {
   const browser = await chromium.launch();
@@ -83,7 +85,8 @@ const discoverRules = [...config.discover, ...flaggedDiscoverRules(config, vars,
   if (contractPages.length) {
     const html: Record<string, string> = {};
     const fetchRaw = async (p: string, headers: Record<string, string> = {}) => {
-      const r = await req.request.get(`${base}${p}`, { maxRedirects: 0, timeout: 60_000, headers }).catch(() => null);
+      // Como Googlebot: Next 15 manda los metadatos en el <head> (bloqueantes) solo a los bots; a otros los transmite al final.
+      const r = await req.request.get(`${base}${p}`, { maxRedirects: 0, timeout: 60_000, headers: { "user-agent": BOT_UA, ...headers } }).catch(() => null);
       return { status: r?.status() ?? null, body: r ? await r.text().catch(() => "") : "" };
     };
     for (const p of contractPages) { const r = await fetchRaw(p); if (r.status === 200) html[p] = r.body; else localeFailures.push(`contrato de idioma ${p}: estado ${r.status}`); }

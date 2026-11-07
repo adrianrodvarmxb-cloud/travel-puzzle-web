@@ -78,7 +78,7 @@
   "localeContract": {
     "LOCALE_URLS_ENABLED": [
       "/",
-      "/en/",
+      "/en",
       "/tours",
       "/en/tours",
       "/destinos",
