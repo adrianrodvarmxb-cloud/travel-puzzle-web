@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
 import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';

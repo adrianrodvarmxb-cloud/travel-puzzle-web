@@ -1,7 +1,7 @@
 import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
 import { fetchTourById } from '@/actions/tours';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import type { Metadata } from 'next';
@@ -19,7 +19,7 @@ interface TourDetailPageProps {
 /** Vista previa al compartir el tour: su foto, título con ★ y reseñas, y su descripción corta. */
 export async function generateMetadata({ params }: TourDetailPageProps): Promise<Metadata> {
     const { id } = await params;
-    const language = await getPreferredLanguage();
+    const language = await getRouteLanguage();
     try {
         const data = await fetchTourById(id, language);
         if (!data) return {};
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: TourDetailPageProps): Promise
 
 export default async function TourDetailPage({ params }: TourDetailPageProps) {
     // Get language from cookies, default to 'en'
-    const language = await getPreferredLanguage();
+    const language = await getRouteLanguage();
 
     // Get tour ID from params
     const { id } = await params;
