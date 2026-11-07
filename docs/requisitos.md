@@ -412,3 +412,12 @@ Petición: "El PO ve tarjetas que son excursiones de un día con tipo «Tour». 
 | REQ-537 | "Corrige la causa en el diccionario o mappings" (traslados que salían como tour) | Dada la categoría «Tours en vehículo» de FREETOUR (19), cuando el título dice traslado/transfer/shuttle y no «tour», entonces es «traslado» (va a /traslados, REQ-261). | CUMPLIDO (falta OK del PO para publicar) |
 | REQ-538 | "o en el mapeo de cada import (campo de formato o duración mal leído)" | Dado `imports/fantasticachina-2027.json`, cuando se lee «Excursión de un día a Macao» (FCH-R23, borrador), entonces su kind es «tour» con 1 día (antes «circuito» sin días) y se clasifica como excursión de un día. Aplicarlo en D1 requiere reimportar o editarlo en el gestor (no se ejecutó). | CUMPLIDO en el repo (falta aplicar en D1 con OK del PO) |
 
+
+## Menú sin «La Primera Pieza» (PO, 6 nov 2026, 21:16)
+
+Petición: "quita la primera pieza de ahí, basta con que salga dentro de experiencias con las demás categorías principales" (captura del menú «Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona»). El chip «Pieza libre» dentro de Experiencias (/tours) lo lleva otro frente.
+
+| ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-600 | "quita la primera pieza de ahí" (del menú principal) | Dado PRIMERA_PIEZA_ENABLED="true", cuando se pinta el menú (escritorio y celular, 6 idiomas), entonces dice Inicio · Destinos · Experiencias · Traslados · Cómo Funciona, sin «La Primera Pieza». Reversible: `MENU_PRIMERA_PIEZA = true` en `src/tours/lib/menu.ts` regresa el orden de REQ-093/REQ-174. La página /la-primera-pieza, sus sitemaps y robots no cambian. | CUMPLIDO (falta OK del PO para publicar) |
+| REQ-601 | "basta con que salga dentro de experiencias" (sin dejar huérfano el hub; regla sitelinks-google) | Dado PRIMERA_PIEZA_ENABLED="true", cuando se pinta el pie del sitio, entonces enlaza /la-primera-pieza con el nombre «La Primera Pieza» junto a «Experiencias»; con la bandera apagada no la enlaza. | CUMPLIDO (falta OK del PO para publicar) |
