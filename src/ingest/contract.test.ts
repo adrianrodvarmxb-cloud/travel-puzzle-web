@@ -54,7 +54,7 @@ describe("REQ-562 prueba de contrato sobre cada adaptador y cada imports/*.json"
     expect(blockingIssues(checkContract(importAdapter("exoticescapes"), "exoticescapes", [e]), baseline).map((i) => i.kind)).toEqual(["linaje"]);
     expect(blockingIssues(checkContract(importAdapter("exoticescapes"), "exoticescapes", [{ ...e, original: { categoria: "Extensión", pagina: 2 } }]), baseline)).toEqual([]);
   });
-  it("REQ-562 cada agencia de los imports tiene adaptador", () => {
+  it("REQ-561 cada agencia de los imports tiene adaptador", () => {
     for (const p of Object.values(AGENCY_PROVIDER)) expect(adapterFor(p), p).toBeTruthy();
   });
 });
