@@ -22,7 +22,8 @@ describe("REQ-402 precedencia del Eje A (gana la primera regla)", () => {
     expect(f(ft(3, 30, "Hop on hop off boat")).formato).toBe("transporte");
   });
   it("REQ-402 #4 entradas por palabra en el título de 13/14", () => {
-    expect(f(ft(14, 30, "Recorrido a pie por Mdina con entrada a las catacumbas")).formato).toBe("entradas");
+    expect(f(ft(14, 30, "Recorrido a pie por Mdina con entrada a las catacumbas")).formato).toBe("caminata"); // REQ-540: con guía, la entrada es atributo
+    expect(f(ft(14, 30, "Entrada a las catacumbas de Mdina")).formato).toBe("entradas");
     expect(f(ft(13, 30, "Skip-the-line museum")).formato).toBe("entradas");
     expect(f(ft(22, 30, "Castillo con entrada")).formato).toBe("tour");
   });

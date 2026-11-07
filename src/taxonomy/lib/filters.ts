@@ -45,6 +45,19 @@ export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string 
   circuito: { es: "Circuito", en: "Multi-day tour" },
   "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made" },
 };
+/**
+ * REQ-543 (PO 6-11 21:14): atributos que complementan el tipo principal y quedan listos como facetas del filtro
+ * «Tipo de experiencia» (es/en del diccionario; un test los compara). Todavía no se pintan en /tours.
+ */
+export const ATRIBUTOS_FACETA = ["entrada-incluida", "dia-completo"] as const;
+export type AtributoFaceta = (typeof ATRIBUTOS_FACETA)[number];
+export const ATRIBUTO_FACETA_LABEL: Record<AtributoFaceta, { es: string; en: string }> = {
+  "entrada-incluida": { es: "Entrada incluida", en: "Admission included" },
+  "dia-completo": { es: "Día completo", en: "Full day" },
+};
+// REQ-543
+export const atributoFacetaLabel = (a: AtributoFaceta, lang: string) => ATRIBUTO_FACETA_LABEL[a][lang === "es" ? "es" : "en"];
+
 // REQ-531
 export const formatoCardLabel = (f: FormatoFiltro, lang: string) => FORMATO_CARD_LABEL[f][lang === "es" ? "es" : "en"];
 
