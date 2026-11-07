@@ -52,7 +52,7 @@ describe("REQ-174: «Experiencias» reemplaza a «Tours» en el menú, el H1 y e
   it("REQ-174: «Tours» sigue como formato dentro de Experiencias: chips y filtros no cambian", () => {
     expect(tripCopy("es").filterTour).toBe("Tours");
     expect(tripCopy("en").filterTour).toBe("Tours");
-    expect(groupLabel("visitas", "es")).toBe("Visitas guiadas y free tours");
+    expect(groupLabel("visitas", "es")).toBe("Visitas guiadas y Pieza libre"); // REQ-271 (PO 6-11): la categoría se llama «Pieza libre»; «Tours» no cambia
   });
 
   it("REQ-174 (PO, 06:22): el chip de formato de viajes únicos se llama «Momentos de autor» y ya no repite «Experiencias»", () => {

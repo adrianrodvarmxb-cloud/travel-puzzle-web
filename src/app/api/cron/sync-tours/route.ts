@@ -12,8 +12,7 @@ import { createReviewRepo } from '@/reviews/repository';
 import { runDeparturesStep } from '@/departures/sync';
 import { createDeparturesRepo } from '@/departures/repository';
 import { freetourSource } from '@/departures/sources/freetour';
-import { rebuildTourSearch, type D1Like } from '@/search/fts-search';
-import { isSearchV2 } from '@/search/lib/fts-query';
+import { searchRebuilder } from '@/search/rebuild';
 import { runTaxonomyStep } from '@/taxonomy/recompute';
 import { createTaxonomyRepo } from '@/taxonomy/repository';
 import { taxonomySyncEnabled } from '@/taxonomy/lib/run-plan';
@@ -52,7 +51,7 @@ export async function GET(request: Request) {
         now,
         // REQ-090: al cerrar cada corrida exitosa guarda el estado de indexación de las ciudades (14 días reales).
         indexing: createCityIndexRepo(getD1() as never),
-        rebuildSearch: isSearchV2(process.env.SEARCH_V2_ENABLED) ? () => rebuildTourSearch(getD1() as unknown as D1Like) : undefined,
+        rebuildSearch: searchRebuilder(process.env, getD1), // REQ-048/365
       });
       // REQ-078: alerta si pasan más de 26 h sin un sync exitoso (queda en los logs del Worker).
       if (guarded.health.alert) console.error('[alerta-sync] sin sync exitoso:', JSON.stringify(guarded.health));
@@ -83,7 +82,7 @@ export async function GET(request: Request) {
       countries: countries as never,
       now,
       // REQ-048: solo con el buscador nuevo encendido (la migración 0011 ya creó y llenó el índice).
-      rebuildSearch: isSearchV2(process.env.SEARCH_V2_ENABLED) ? () => rebuildTourSearch(getD1() as unknown as D1Like) : undefined,
+      rebuildSearch: searchRebuilder(process.env, getD1), // REQ-048/365
     });
     if (result.action === 'idle') {
       const reviews = await refreshStaleReviews({ batch: REVIEWS_PER_TICK }, { api, repo: createReviewRepo(prisma, getD1()), now });

@@ -22,3 +22,8 @@ export function cartTypeFor(formato: FormatoOEstado, gate: Gates["autoguiadoCarr
 
 /** REQ-429 (T7): la primera tarjeta del carrusel es un tour de pago o de día. */
 export const FORMATOS_PRIMERA_TARJETA: readonly FormatoOEstado[] = ["caminata", "tour", "excursion-dia", "experiencia-unica"];
+
+/** T7: solo "true" exacto la enciende. */
+export function taxonomyCartEnabled(env: { TAXONOMY_CART_ENABLED?: string }): boolean {
+  return env.TAXONOMY_CART_ENABLED === "true";
+}

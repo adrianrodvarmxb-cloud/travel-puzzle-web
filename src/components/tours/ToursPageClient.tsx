@@ -5,7 +5,8 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { Navbar } from '@/components/layout/Navbar';
-import { TourCard } from '@/components/tours/TourCard';
+import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { fromCatalogTour } from '@/tours/lib/card-sources';
 import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
 import type { TripCard } from '@/trips/public-load';
 import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trips/lib/public';
@@ -52,6 +53,8 @@ interface ToursPageClientProps {
     today: string;
     /** REQ-061: mostrar filtros de idioma y fecha (DEPARTURE_FILTERS_ENABLED). */
     showDepartures?: boolean;
+    /** T4 (TAXONOMY_FILTERS_ENABLED): filtro «Tipo de experiencia» por formato en lugar de los grupos viejos. */
+    taxonomy?: boolean;
     /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
     showSuggest?: boolean;
     /** REQ-340…342: analítica anónima de búsquedas (SEARCH_LOG_ENABLED). */
@@ -67,6 +70,7 @@ export function ToursPageClient({
     countryCodeById = {},
     today,
     showDepartures = false,
+    taxonomy = false,
     showSuggest = false,
     logSearches = false,
 }: ToursPageClientProps) {
@@ -135,7 +139,7 @@ export function ToursPageClient({
     // Duración (?duracion=short|mid|long)
     const [duration, setDuration] = useState<DurationRange | null>(() => parseDurationRange(searchParams.get('duracion')));
     // REQ-049..056: filtros estilo Civitatis en un solo estado; "hoy" llega del servidor (render determinista)
-    const [extra, setExtra] = useState<ExtraFilters>(() => parseExtraFilters(new URLSearchParams(searchParams.toString()), today));
+    const [extra, setExtra] = useState<ExtraFilters>(() => parseExtraFilters(new URLSearchParams(searchParams.toString()), today, { taxonomy }));
     const extraKey = extraFiltersToParams(extra).toString();
     const changeExtra = (next: ExtraFilters) => { setExtra(next); setPagination((p) => ({ ...p, page: 1 })); };
     // Lista o mapa (celular y tablet) y tour resaltado en el mapa
@@ -190,7 +194,7 @@ export function ToursPageClient({
         paginationWithSearch.page === serverPage &&
         sort === parseSort(searchParams.get('sort'), !!searchParams.get('search')) &&
         duration === parseDurationRange(searchParams.get('duracion')) &&
-        extraKey === extraFiltersToParams(parseExtraFilters(new URLSearchParams(searchParams.toString()), today)).toString() &&
+        extraKey === extraFiltersToParams(parseExtraFilters(new URLSearchParams(searchParams.toString()), today, { taxonomy })).toString() &&
         language === initialLanguage;
 
     // Fetch tours with filters and pagination
@@ -337,6 +341,11 @@ export function ToursPageClient({
     };
 
     // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N actividades")
+    // T4 (REQ-412): conteos por formato = catálogo (del servidor) + viajes propios con los mismos filtros salvo el formato.
+    const formatCounts: Record<string, number> | null = taxonomy ? { ...((currentToursData as { facets?: { formato: Record<string, number> } } | undefined)?.facets?.formato ?? {}) } : null;
+    if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
+        if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
+    }
     const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
@@ -353,6 +362,8 @@ export function ToursPageClient({
     const pageInfo = currentToursData?.pagination;
     // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
     const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
+    // REQ-170 / REQ-522: etiquetas de precio y formato armadas en el servidor (fetchTours).
+    const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string> } | undefined;
 
     return (
         <div className="min-h-screen bg-background">
@@ -384,7 +395,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters showDepartures={showDepartures} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
@@ -414,7 +425,8 @@ export function ToursPageClient({
                                     {tours.map((tour, i) => (
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
-                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} priceLabel={(currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }> } | undefined)?.priceLabels?.[tour.id] ?? null} />
+                                            {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
+                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null })} />
                                         </div>
                                     ))}
                                 </div>
