@@ -25,6 +25,7 @@
     "NOSOTROS_ENABLED": ["/nosotros"],
     "CONTACTO_ENABLED": ["/contacto"],
     "EXPERTOS_ENABLED": ["/asesores"],
-    "BLOG_ENABLED+BLOG_SHOW_DRAFTS": ["/blog", "/blog/china", "/blog/china/visa-china-para-mexicanos"]
+    "BLOG_ENABLED+BLOG_SHOW_DRAFTS": ["/blog", "/blog/china", "/blog/china/visa-china-para-mexicanos"],
+    "INDEXNOW_ENABLED": ["/indexnow-key.txt"]
   }
 }
