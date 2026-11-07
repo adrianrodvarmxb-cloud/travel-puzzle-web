@@ -66,7 +66,7 @@ describe("REQ-404 agregar un proveedor = agregar su mapeo, sin tocar el clasific
     const r = classify({ proveedor: "demo", categoriaId: "BOAT", precio: 30, durationMinutes: 120, titulo: "Paseo en barco" }, DEFAULT_DICTIONARY, { ...DEFAULT_MAPPINGS, demo });
     expect(r.formato).toBe("tour");
     expect(r.temas).toContain("playa-mar");
-    expect(r.reglaFormato).toBe("#11 base demo:BOAT");
+    expect(r.reglaFormato).toBe("#11 transporte en el título; base demo:BOAT"); // REQ-1250: la regla dice por qué es Tour
   });
 });
 

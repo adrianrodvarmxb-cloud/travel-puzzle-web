@@ -8,6 +8,7 @@
 import { FORMATOS_FILTRO } from "@/taxonomy/lib/filters";
 import { tripCopy } from "@/trips/lib/copy";
 import { categoryLabel } from "./experience-card";
+import { defLabel, type FormatDef } from "@/taxonomy/lib/format-defs";
 
 export interface FormatChip {
   /** null = «Todo». */
@@ -17,15 +18,18 @@ export interface FormatChip {
 }
 
 // REQ-546 REQ-547 REQ-549
-export function formatChips(counts: Readonly<Record<string, number>> | null | undefined, lang: string): FormatChip[] {
-  const shown = FORMATOS_FILTRO.map((slug) => ({ slug, count: counts?.[slug] ?? 0 })).filter((c) => c.count > 0);
+// REQ-1256: con `defs` (del diccionario, armadas en el servidor) los tipos y sus nombres salen de ahí; sin ellas, la lista del código.
+export function formatChips(counts: Readonly<Record<string, number>> | null | undefined, lang: string, defs?: readonly FormatDef[]): FormatChip[] {
+  const slugs: readonly string[] = defs ? defs.map((d) => d.slug) : FORMATOS_FILTRO;
+  const shown = slugs.map((slug) => ({ slug, count: counts?.[slug] ?? 0 })).filter((c) => c.count > 0);
   if (!shown.length) return [];
-  const order = (s: string) => FORMATOS_FILTRO.indexOf(s as (typeof FORMATOS_FILTRO)[number]);
+  const order = (s: string) => slugs.indexOf(s);
+  const label = (s: string) => { const d = defs?.find((x) => x.slug === s); return d ? defLabel(d.corto, lang) : categoryLabel(s, lang); };
   shown.sort((a, b) =>
     (a.slug === "pieza-libre" ? -1 : b.slug === "pieza-libre" ? 1 : 0) || b.count - a.count || order(a.slug) - order(b.slug));
   const total = shown.reduce((s, c) => s + c.count, 0);
   return [
     { slug: null, label: tripCopy(lang).filterAll, count: total },
-    ...shown.map((c) => ({ slug: c.slug, label: categoryLabel(c.slug, lang), count: c.count })),
+    ...shown.map((c) => ({ slug: c.slug, label: label(c.slug), count: c.count })),
   ];
 }

@@ -14,6 +14,8 @@ export interface CatalogTourFormatInput {
   durationMinutes: number | null | undefined;
   /** Títulos que haya (es, en…); se juntan para las reglas por palabra. */
   titles: readonly (string | null | undefined)[];
+  /** REQ-1253: nombres de la ciudad base. */
+  cities?: readonly string[];
 }
 
 const joinTitles = (titles: readonly (string | null | undefined)[]) => titles.filter((t): t is string => !!t && !!t.trim()).join(" · ");
@@ -22,7 +24,7 @@ const joinTitles = (titles: readonly (string | null | undefined)[]) => titles.fi
 export function catalogTourFormat(t: CatalogTourFormatInput, provider = "freetour"): FormatoOEstado {
   const price = t.price === null || t.price === undefined ? null : Number(t.price);
   return classifyFormato(
-    { proveedor: provider, categoriaId: t.categoryId ?? null, precio: Number.isFinite(price) ? price : null, durationMinutes: t.durationMinutes ?? null, titulo: joinTitles(t.titles) },
+    { proveedor: provider, categoriaId: t.categoryId ?? null, precio: Number.isFinite(price) ? price : null, durationMinutes: t.durationMinutes ?? null, titulo: joinTitles(t.titles), ciudades: t.cities },
     DEFAULT_DICTIONARY, DEFAULT_MAPPINGS[provider], DEFAULT_GATES,
   ).valor;
 }
@@ -48,7 +50,7 @@ export function tripFormat(t: TripFormatInput): FormatoOEstado {
     { proveedor: "propios", categoriaId: t.kind, precio: t.priceFrom ?? null, durationDays: t.durationDays ?? null, titulo: joinTitles(t.titles), resumen: t.resumen ?? undefined },
     DEFAULT_DICTIONARY, DEFAULT_MAPPINGS.propios, DEFAULT_GATES,
   ).valor;
-  return f === "tour" && t.dayTrip ? "excursion-dia" : f;
+  return (f === "tour" || f === "visita-guiada" || f === "caminata") && t.dayTrip ? "excursion-dia" : f; // REQ-1250
 }
 
 /** REQ-522: formato por id para las tarjetas de /tours (lo arma la acción del servidor, como los precios). */

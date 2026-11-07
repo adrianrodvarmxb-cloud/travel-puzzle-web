@@ -1,6 +1,6 @@
 {
   "proveedor": "freetour",
-  "version": "2026-11-06",
+  "version": "2026-11-07",
   "revisado": "docs/freetour/categorias.csv homologado (PO, 6-11-2026)",
   "precioCeroEsPiezaLibre": true,
   "permiteConfirmacionInmediata": false,
@@ -41,7 +41,8 @@
       "reglasPorPalabra": [
         "experiencia-unica"
       ],
-      "estado": "activo"
+      "estado": "activo",
+      "porDefecto": "caminata"
     },
     {
       "id": "7",
@@ -108,7 +109,8 @@
         "entradas",
         "experiencia-unica"
       ],
-      "estado": "activo"
+      "estado": "activo",
+      "porDefecto": "visita-guiada"
     },
     {
       "id": "14",
@@ -122,7 +124,8 @@
         "entradas",
         "experiencia-unica"
       ],
-      "estado": "activo"
+      "estado": "activo",
+      "porDefecto": "visita-guiada"
     },
     {
       "id": "16",
@@ -200,13 +203,14 @@
       "id": "22",
       "nombre_es": "Sitios históricos",
       "nombre_en": "Historic Sites",
-      "formato": "tour",
+      "formato": "visita-guiada",
       "temas": [
         "cultural"
       ],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "activo"
+      "estado": "activo",
+      "nota": "REQ-1251: Sitios históricos = visita guiada (decisión B); con transporte en el título, Tour; a pie, Caminata."
     },
     {
       "id": "23",
@@ -243,7 +247,8 @@
       ],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "activo"
+      "estado": "activo",
+      "porDefecto": "caminata"
     },
     {
       "id": "26",

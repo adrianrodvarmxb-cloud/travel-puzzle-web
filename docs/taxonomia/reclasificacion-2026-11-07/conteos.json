@@ -1,0 +1,328 @@
+{
+ "fecha": "2026-11-07",
+ "fuente": "catálogo público /api/tours (8,051 tours, es) + imports/*.json (371 viajes); solo lectura; clasificador de feat/tipos-tour-visita-caminata contra origin/main (título; FREETOUR sin resumen, como en producción)",
+ "total": 8422,
+ "cambios": 1055,
+ "dudas": 883,
+ "por_tipo": {
+  "a-la-medida": {
+   "antes": 4,
+   "despues": 4
+  },
+  "autoguiado": {
+   "antes": 658,
+   "despues": 658
+  },
+  "caminata": {
+   "antes": 1311,
+   "despues": 1633
+  },
+  "circuito": {
+   "antes": 152,
+   "despues": 152
+  },
+  "entradas": {
+   "antes": 29,
+   "despues": 29
+  },
+  "excursion-dia": {
+   "antes": 759,
+   "despues": 1026
+  },
+  "experiencia-unica": {
+   "antes": 283,
+   "despues": 283
+  },
+  "fuera": {
+   "antes": 124,
+   "despues": 124
+  },
+  "pieza-libre": {
+   "antes": 3472,
+   "despues": 3472
+  },
+  "tour": {
+   "antes": 1565,
+   "despues": 519
+  },
+  "transporte": {
+   "antes": 42,
+   "despues": 42
+  },
+  "traslado": {
+   "antes": 23,
+   "despues": 23
+  },
+  "visita-guiada": {
+   "antes": 0,
+   "despues": 457
+  }
+ },
+ "por_proveedor": {
+  "FREETOUR": {
+   "autoguiado": {
+    "antes": 640,
+    "despues": 640
+   },
+   "caminata": {
+    "antes": 1310,
+    "despues": 1630
+   },
+   "circuito": {
+    "antes": 26,
+    "despues": 26
+   },
+   "entradas": {
+    "antes": 21,
+    "despues": 21
+   },
+   "excursion-dia": {
+    "antes": 728,
+    "despues": 995
+   },
+   "experiencia-unica": {
+    "antes": 230,
+    "despues": 230
+   },
+   "fuera": {
+    "antes": 124,
+    "despues": 124
+   },
+   "pieza-libre": {
+    "antes": 3472,
+    "despues": 3472
+   },
+   "tour": {
+    "antes": 1476,
+    "despues": 494
+   },
+   "transporte": {
+    "antes": 1,
+    "despues": 1
+   },
+   "traslado": {
+    "antes": 23,
+    "despues": 23
+   },
+   "visita-guiada": {
+    "antes": 0,
+    "despues": 395
+   }
+  },
+  "bigbus": {
+   "transporte": {
+    "antes": 29,
+    "despues": 29
+   }
+  },
+  "destinocolombia": {
+   "circuito": {
+    "antes": 10,
+    "despues": 10
+   }
+  },
+  "exoticescapes": {
+   "circuito": {
+    "antes": 15,
+    "despues": 15
+   }
+  },
+  "extime": {
+   "autoguiado": {
+    "antes": 18,
+    "despues": 18
+   },
+   "caminata": {
+    "antes": 1,
+    "despues": 2
+   },
+   "circuito": {
+    "antes": 18,
+    "despues": 18
+   },
+   "entradas": {
+    "antes": 8,
+    "despues": 8
+   },
+   "excursion-dia": {
+    "antes": 12,
+    "despues": 12
+   },
+   "experiencia-unica": {
+    "antes": 52,
+    "despues": 52
+   },
+   "tour": {
+    "antes": 58,
+    "despues": 23
+   },
+   "transporte": {
+    "antes": 12,
+    "despues": 12
+   },
+   "visita-guiada": {
+    "antes": 0,
+    "despues": 34
+   }
+  },
+  "fantasticachina": {
+   "circuito": {
+    "antes": 50,
+    "despues": 50
+   },
+   "excursion-dia": {
+    "antes": 1,
+    "despues": 1
+   }
+  },
+  "incaworld-etapa1": {
+   "caminata": {
+    "antes": 0,
+    "despues": 1
+   },
+   "circuito": {
+    "antes": 5,
+    "despues": 5
+   },
+   "excursion-dia": {
+    "antes": 15,
+    "despues": 15
+   },
+   "experiencia-unica": {
+    "antes": 1,
+    "despues": 1
+   },
+   "tour": {
+    "antes": 24,
+    "despues": 2
+   },
+   "visita-guiada": {
+    "antes": 0,
+    "despues": 21
+   }
+  },
+  "incaworld-etapa2": {
+   "a-la-medida": {
+    "antes": 4,
+    "despues": 4
+   },
+   "circuito": {
+    "antes": 25,
+    "despues": 25
+   },
+   "tour": {
+    "antes": 1,
+    "despues": 0
+   },
+   "visita-guiada": {
+    "antes": 0,
+    "despues": 1
+   }
+  },
+  "incaworld-mp01-precio": {
+   "excursion-dia": {
+    "antes": 1,
+    "despues": 1
+   }
+  },
+  "turismoasiatico": {
+   "circuito": {
+    "antes": 3,
+    "despues": 3
+   },
+   "excursion-dia": {
+    "antes": 2,
+    "despues": 2
+   },
+   "tour": {
+    "antes": 6,
+    "despues": 0
+   },
+   "visita-guiada": {
+    "antes": 0,
+    "despues": 6
+   }
+  }
+ },
+ "movimientos": [
+  {
+   "proveedor": "FREETOUR",
+   "antes": "tour",
+   "despues": "visita-guiada",
+   "n": 394
+  },
+  {
+   "proveedor": "FREETOUR",
+   "antes": "tour",
+   "despues": "caminata",
+   "n": 326
+  },
+  {
+   "proveedor": "FREETOUR",
+   "antes": "tour",
+   "despues": "excursion-dia",
+   "n": 262
+  },
+  {
+   "proveedor": "extime",
+   "antes": "tour",
+   "despues": "visita-guiada",
+   "n": 34
+  },
+  {
+   "proveedor": "incaworld-etapa1",
+   "antes": "tour",
+   "despues": "visita-guiada",
+   "n": 21
+  },
+  {
+   "proveedor": "FREETOUR",
+   "antes": "caminata",
+   "despues": "excursion-dia",
+   "n": 7
+  },
+  {
+   "proveedor": "turismoasiatico",
+   "antes": "tour",
+   "despues": "visita-guiada",
+   "n": 6
+  },
+  {
+   "proveedor": "FREETOUR",
+   "antes": "excursion-dia",
+   "despues": "visita-guiada",
+   "n": 1
+  },
+  {
+   "proveedor": "FREETOUR",
+   "antes": "excursion-dia",
+   "despues": "caminata",
+   "n": 1
+  },
+  {
+   "proveedor": "extime",
+   "antes": "tour",
+   "despues": "caminata",
+   "n": 1
+  },
+  {
+   "proveedor": "incaworld-etapa1",
+   "antes": "tour",
+   "despues": "caminata",
+   "n": 1
+  },
+  {
+   "proveedor": "incaworld-etapa2",
+   "antes": "tour",
+   "despues": "visita-guiada",
+   "n": 1
+  }
+ ],
+ "revision_req865": {
+  "movimientos_auditoria_2026_11_06": 207,
+  "hoy": {
+   "excursion-dia": 194,
+   "visita-guiada": 13
+  }
+ }
+}

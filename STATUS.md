@@ -15,6 +15,20 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1245 | Árbol de /destinos | `src/destinations/repository.ts` | `src/destinations/repository-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1246 | Correos | `src/booking/tour-summary.ts` | `src/booking/tour-summary-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## Tour, Visita guiada y Caminata (decisión B del PO, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1250 | Tour = transporte en la ciudad; nombres Tour · Visita guiada · Caminata (reemplaza la fila «Tour → Visita guiada» de REQ-531) | `src/taxonomy/lib/format.ts` (`recorridoGuiado`), `src/taxonomy/lib/filters.ts`, `src/taxonomy/lib/types.ts`, `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/cart-type.ts`, `src/taxonomy/lib/publish.ts` | `src/taxonomy/lib/tour-visita-caminata.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1251 | Visita guiada = sitio o museo con guía; cat. 22 y 24 con guía | `src/taxonomy/data/dictionary.json`, `src/taxonomy/data/mapping/freetour.json`, `format.ts` | `tour-visita-caminata.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1252 | Sin señal: tipo por defecto de la categoría y lista de dudas | `format.ts`, `src/taxonomy/schemas/dictionary.ts` (`porDefecto`), `docs/taxonomia/reclasificacion-2026-11-07/` | `tour-visita-caminata.test.ts` | EN CURSO (falta la revisión del PO) |
+| REQ-1253 | Corrige REQ-865: «Viajes de 1 día» solo dejan de ser excursión con señal de quedarse | `format.ts`, `src/taxonomy/lib/text.ts` (`namesCity`), ciudad base en `snapshot.ts`, `card-format.ts`, `publish.ts`, `destinations/lib/catalog.ts`, `home/load.ts`, `actions/tours.ts`, `trips/cross-sell-deps.ts`, `taxonomy/repository.ts`, `run-plan.ts` | `src/taxonomy/lib/tipos-dudosos.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1257 | Llaves nuevas de caché para todo lo que guarda el formato | `src/catalog/snapshot.ts`, `src/actions/tours.ts`, `src/app/api/tours/route.ts`, `src/trips/public-load.ts`, `src/destinations/server.ts`, `src/app/page.tsx`, `src/home/carousel-load.ts` | `tour-visita-caminata.test.ts` | EN CURSO (falta humo del PR) |
+
+## Chips y filtro de /tours desde el diccionario (D21) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1256 | Tipos principales de /tours desde el diccionario | `src/taxonomy/lib/format-defs.ts`, `src/taxonomy/schemas/dictionary.ts`, `src/taxonomy/data/dictionary.json`, `src/tours/lib/format-chips.ts`, `src/taxonomy/lib/filters.ts`, `src/catalog/lib/query.ts`, `src/lib/db/repositories/tour-repository.ts`, `src/app/tours/page.tsx`, `ToursPageClient.tsx`, `MoreFilters.tsx` | `src/taxonomy/lib/format-defs.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

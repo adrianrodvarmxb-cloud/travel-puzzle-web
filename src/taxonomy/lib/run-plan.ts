@@ -4,6 +4,7 @@
  * barrera de cordura. El I/O vive en ../recompute.ts y ../repository.ts.
  */
 import type { Dictionary, Mapping } from "../schemas/dictionary";
+import { cityNamesOf } from "./text";
 import type { ClassifyInput, ClassifyResult } from "./types";
 
 /** Tours clasificados por minuto (una consulta de lectura y unos cuantos INSERT en lote). */
@@ -61,6 +62,8 @@ export interface TourRowForTaxonomy {
   id: string; categoryId: number; priceValue: number | string | null; durationMinutes: number | null;
   titleEs: string | null; titleEn: string | null; briefEs: string | null; briefEn: string | null;
   guideLanguages: string | null; rating: number | string | null; reviewsNumber: number | null;
+  /** REQ-1253: traducciones de la ciudad base (JSON). */
+  cityTr?: unknown;
 }
 
 const jsonList = (raw: unknown): string[] => {
@@ -80,6 +83,7 @@ export function tourToInput(t: TourRowForTaxonomy): ClassifyInput {
     idiomas: jsonList(t.guideLanguages).map((l) => ISO_LANG[l.toLowerCase()] ?? l.toLowerCase()),
     calificacion: t.rating === null ? null : Number(t.rating),
     resenas: t.reviewsNumber ?? 0,
+    ciudades: cityNamesOf(t.cityTr), // REQ-1253
   };
 }
 

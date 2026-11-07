@@ -108,7 +108,7 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
     // T4: v5 = las tarjetas llevan formato (la copia v4 de producción no lo trae). REQ-524: v6 = también el proveedor.
     // REQ-268: con la caché fría no hay copia anterior que servir; si D1 está saturada (N+2 consultas), se reintenta
     // con espera (como el catálogo, REQ-029) en vez de pintar /tours y el inicio sin viajes propios.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "8" /* REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "9" /* REQ-1250 Tour / Visita guiada / Caminata; REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));
