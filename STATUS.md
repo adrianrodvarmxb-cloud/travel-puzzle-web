@@ -131,6 +131,20 @@ Todo tras `PAID_TOURS_ENABLED=false`. Requiere la migración 0009 (pendiente; se
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
+## 6 nov 2026 — Contrato obligatorio de ingesta, Ola R3 (REQ-760…764; cierra REQ-404)
+- `IngestAdapter` (esquema del crudo + `normalize()` puro + mapeo + volátiles + denominación original) para FREETOUR y las 7 agencias.
+- Prueba de contrato sobre cada adaptador y cada `imports/*.json`; huecos de linaje de hoy en `src/ingest/data/contrato-huecos.json` (206 de 371 viajes: Extime 179, Exotic Escapes 15, Turismo Asiático 11, Big Bus 1). La lista solo puede achicarse.
+- Compuerta en `importar-viajes.yml`: sin contrato no se prepara ni escribe nada (no depende de bandera: hoy todos los archivos pasan).
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-760 | Interfaz IngestAdapter | src/ingest/lib/contract.ts | contract.test.ts | CUMPLIDO |
+| REQ-761 | Adaptadores registrados | src/ingest/lib/contract.ts | contract.test.ts | CUMPLIDO |
+| REQ-762 | Prueba de contrato + línea base | src/ingest/lib/contract.ts, src/ingest/data/contrato-huecos.json | contract.test.ts | CUMPLIDO |
+| REQ-763 | Compuerta del workflow | src/scripts/ingest-contract.ts, importar-viajes.yml | contract.test.ts | CUMPLIDO |
+| REQ-764 | schemaOk en el crudo de FREETOUR | src/ingest/lib/freetour-raw.ts | freetour-raw.test.ts | CUMPLIDO |
+| REQ-404 | Proveedor nuevo = solo su mapeo | src/taxonomy/data/mapping/*.json | freetour.test.ts, contract.test.ts | CUMPLIDO |
+
 ## 6 nov 2026 — Reclasificación con linaje, Ola R2 (REQ-750…756)
 - Cada término de `ExperienceTaxonomy` guarda origen (manual/regla/proveedor), campo y valor original del proveedor, palabra o código que coincidió y huella del crudo (migración PROPUESTA 0023, sin aplicar).
 - Mapeos por agencia (7) desde la denominación original (código, URL o documento), **pendientes de firma del PO**; los viajes se clasifican primero con ellos y si no, con `propios`.
