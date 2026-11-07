@@ -309,29 +309,24 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T1 · REQ-428 (formato → CartItem.tipo) · REQ-429 (formatos de la primera tarjeta) | `src/taxonomy/lib/cart-type.ts` | `cart-type.test.ts` | Tabla CUMPLIDA; carrusel en T7 |
 | T1 · REQ-230 («Momentos de autor»; apoyo = definición de §7.3, sin «expertos locales» (PO 6-11); «Signature moments» y §7.3 firmados por recomendación) | diccionario | `dictionary.test.ts` | CUMPLIDO |
 
-### Taxonomía, fase T3: publicación tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #156)
+### Taxonomía, fase T6a: migración 0018 (columnas nuevas de Trip), en su propio PR. CANDADO: no se aplica aquí
 
-| REQ | Código | Test | Estado |
+| Fase y REQ | Código | Test | Estado |
 |---|---|---|---|
+| T6a · REQ-425 (migración de los campos nuevos de Trip: solo agrega; `difficulty` y `accessibility` se conservan) | `migrations/0018_trip_facetas.sql` | `src/trips/migration-0018.test.ts` (SQLite real) | Escrita y probada; **sin aplicar**. Prisma y el gestor la usan en un PR posterior, ya aplicada |
+### Taxonomía, fase T3: publicación tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #156)
+| REQ | Código | Test | Estado |
 | T3 · REQ-406 (Free tour = `pieza-libre`, sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35) | `src/taxonomy/lib/publish.ts`, `destinations/lib/catalog.ts` (`tourCard`), `home/load.ts` | `publish.test.ts`, `destinations/lib/catalog.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-407 (`fuera` fuera de /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; no cuenta para indexar) | `catalog.ts` (`destinationTree`), `destinations/load.ts`, `destinations/server.ts`, `home/load.ts`, `trips/cross-sell-deps.ts` | `publish.test.ts`, `catalog.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-408 (`por-revisar` no se publica, G-T10 = A) | `publish.ts` (`isPublishable`) | `publish.test.ts` | CUMPLIDO (apagado) |
 | T3 · REQ-261 (traslados y transporte, también de FREETOUR, fuera de Experiencias) | `catalog.ts`: sección «traslados» → Traslados de la ciudad | `catalog.test.ts` | CUMPLIDO (apagado) |
-
 ### Taxonomía, fase T4: filtro «Tipo de experiencia» en /tours, tras `TAXONOMY_FILTERS_ENABLED="false"` (va después de #156 y #177)
-
-| Fase y REQ | Código | Test | Estado |
-|---|---|---|---|
 | T4 · REQ-413 (?formato= con slugs TP; canonical /tours y noindex,follow con filtro; ?tipo_act= traducido) | `src/taxonomy/lib/filters.ts`, `tours/lib/extra-filters.ts`, `catalog/lib/query.ts`, `catalog/snapshot.ts`, `actions/tours.ts` (la bandera la decide el servidor), `app/tours/page.tsx` (`generateMetadata`), `trips/lib/public.ts`, `trips/public-load.ts`, `components/tours/filters/MoreFilters.tsx`, `components/tours/ToursPageClient.tsx` | `src/taxonomy/lib/filters.test.ts` | CUMPLIDO (apagado) |
 | T4 · REQ-412 (nunca un chip en cero) | conteos por formato de la consulta (`facets.formato`) + viajes propios | `filters.test.ts` | CUMPLIDO (apagado) |
 | T4 · REQ-410 (temas en muestra no se muestran) | `?tema=` no filtra hasta la firma de la muestra | — | Pendiente de la firma de la muestra |
 | T4 · REQ-261 (traslado, transporte y renta fuera de /tours) | `queryCatalog` con la taxonomía | `filters.test.ts` | CUMPLIDO (apagado) |
 | T4 · REQ-269 (chip «Pieza libre»; EN «Free tour» por ahora) | `src/taxonomy/lib/filters.ts` (`FORMATO_LABEL`) | `filters.test.ts` | CUMPLIDO (apagado) |
-
 ### Taxonomía, fase T5: etiquetas y copy por formato, tras `TAXONOMY_LABELS_ENABLED="false"` (requiere T3; va después de #156, #177 y #179)
-
-| Fase y REQ | Código | Test | Estado |
-|---|---|---|---|
 | T5 · REQ-414 (chips de formato en «Tours» de la ciudad, sin cambiar la URL, nunca en cero) | `src/taxonomy/lib/copy.ts` (`cityFormatChips`), `components/destinations/ToursByFormat.tsx`, `app/destinos/[pais]/[ciudad]/page.tsx` | `src/taxonomy/lib/copy.test.ts` | CUMPLIDO (apagado) |
 | T5 · REQ-415 (etiqueta de formato fuera de la foto; H1 = título real) | `destinations/lib/page-model.ts` (`labels`), `components/tours/one/PrimeraPiezaInfo.tsx` | `copy.test.ts`, `destinations/lib/page-model.test.ts` | CUMPLIDO (apagado) |
 | T5 · REQ-416 («con un guía local» solo con guía en persona; decisión del PO: no si el título dice autoguiado o self-guided) | `taxonomy/lib/publish.ts` (`guiaEnPersona`), `copy.ts` (`cityIntro`, `operatedByFor`, `tourDescription`), tarjetas de la ciudad (`DestinationTourCard`, `guideCopy`) | `copy.test.ts`, `page-model.test.ts`, `components/destinations/tour-card-guia.test.ts` | CUMPLIDO (apagado); pt/de/fr/it de los nombres de formato: flujo de traducción pendiente (hoy en inglés) |
@@ -339,11 +334,8 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | T5 · G-T9 = A (title «– Excursión desde {Ciudad}» en excursiones; cambia REQ-099 solo para ese formato) | `copy.ts` (`tourTitleByFormat`), `page-model.ts` | `copy.test.ts`, `page-model.test.ts` | CUMPLIDO (apagado) |
 | T5 · REQ-269 (chip de la ciudad y etiqueta de la ficha «Pieza libre») | `src/taxonomy/lib/copy.ts` (vía `FORMATO_LABEL`) | `copy.test.ts` | CUMPLIDO (apagado) |
 | T5 · REQ-271 (intro de la ciudad «N en Pieza libre y…»; el resto de REQ-271 va en #195) | `src/taxonomy/lib/copy.ts` (`cityIntro`) | `copy.test.ts` | CUMPLIDO (apagado) |
-
 ### Viajes propios: tarjetas con la caché fría (hallazgo del ensayo #178, 6 nov 2026)
-
 | REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
-|---|---|---|---|
 | REQ-268 | "Antes de encender T4, revisa el caché frío de loadTripCards" (coordinador, 6 nov 2026) | Dada la caché de tarjetas vacía (versión nueva), cuando D1 está saturada al armarla, entonces se reintenta con espera (REQ-029) antes de devolver una lista vacía; dado un viaje que no se pudo leer, cuando se arman las tarjetas, entonces los demás conservan sus traducciones y su fecha (unión por id, no por posición). | CUMPLIDO (src/trips/lib/cards.test.ts) |
 ### Taxonomía, fase T2b: recálculo al cerrar el sync, tras `TAXONOMY_SYNC_ENABLED="false"` (requiere 0017 aplicada; va después de #156 y #162)
 | REQ | Código | Test | Estado |
@@ -352,7 +344,6 @@ Trazabilidad de T1 (REQ del plan, numeración nueva):
 | REQ-174 | "«Experiencias» REEMPLAZA a «Tours» en el menú (Inicio · La Primera Pieza · Destinos · Experiencias · Traslados · Cómo Funciona)" (Gate G1 de taxonomía firmado por el PO, 6 nov 2026, 05:57: «Experiencias» es el concepto paraguas; dentro van Tours, Circuitos, Caminatas, etc.) | Dado el sitio en cualquier idioma, cuando se ve el menú (escritorio y celular), el footer, el H1 y el title de /tours y la etiqueta de llms.txt, entonces dicen «Experiencias» («Experiences» en inglés), el H1 es igual al nombre del menú y el title es «Experiencias \| Travel Puzzle» (sitelinks-google); la URL sigue siendo /tours y no se crea /experiencias; «Tours» sigue existiendo como formato dentro de Experiencias (filtros, chips y la sección «Tours» de la ciudad no cambian). El chip de formato de viajes únicos pasa de «Experiencias» a «Momentos de autor» («Signature moments» en inglés; firmado por el PO a las 06:22) para que no repita el nombre del paraguas. | CUMPLIDO (falta OK del PO para publicar) |
 ### «Pieza libre» en la ciudad, los pines del mapa y los asuntos de los correos (decisión del PO, 6 nov 2026)
 | REQ | Requisito | Criterio de aceptación (Dado/Cuando/Entonces) | Estado |
-|---|---|---|---|
 | REQ-271 | "El nombre de la categoría es «Pieza libre» en TODO lo que la nombre; la única excepción es el texto verde «Free tour» del precio en las tarjetas. Inglés: «Free tour»" (PO, vía coordinador, 6 nov 2026; la pestaña de /tours y la insignia van en #189) | Dada la página de una ciudad, cuando se pinta, entonces la sección se llama «Pieza libre (La Primera Pieza)» y la intro dice «N en Pieza libre y M tours con guías locales en {ciudad}»; dado el mapa de /tours, entonces el pin de un tour gratis dice «Pieza libre» (en: «Free tour») y su tarjeta conserva el precio verde «Free tour»; dado un correo sin el título del tour, entonces el asunto dice «Pieza libre {id}» (en: «Free tour {id}»). Dado el filtro «Tipo de actividad» de /tours, entonces el grupo viejo dice «Visitas guiadas y Pieza libre» (en: «Guided tours & free tours»). | CUMPLIDO (src/destinations/lib/pieza-libre-copy.test.ts) |
 ### Taxonomía, fase T3: publicación tras `TAXONOMY_PUBLISH_ENABLED="false"` (va después de #156)
 | REQ | Código | Test | Estado |
