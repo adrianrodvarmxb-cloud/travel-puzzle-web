@@ -113,7 +113,7 @@
     "TAXONOMY_FILTERS_ENABLED": "true",
     // Taxonomía T5 (REQ-414…416, REQ-433, G-T9): chips de formato en la ciudad, etiqueta en la ficha y copy por formato
     // («con un guía local» solo con guía en persona). Requiere TAXONOMY_PUBLISH_ENABLED. "true" con preview, humo y OK del PO.
-    "TAXONOMY_LABELS_ENABLED": "false",
+    "TAXONOMY_LABELS_ENABLED": "true",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
     "TAXONOMY_CIRCUITS_ENABLED": "false",
