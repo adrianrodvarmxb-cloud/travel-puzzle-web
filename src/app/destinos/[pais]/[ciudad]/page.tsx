@@ -9,7 +9,8 @@ import { TourGrid } from '@/components/destinations/DestinationTourCard';
 import { findCity } from '@/destinations/lib/catalog';
 import { cityPage, cityTransportCards } from '@/destinations/lib/page-model';
 import { toMetadata } from '@/destinations/metadata';
-import { getDestinations, primeraPiezaOn, siteUrl } from '@/destinations/server';
+import { destinosLanguage, getDestinationsIn, primeraPiezaOn, siteUrl } from '@/destinations/server';
+import { hubCopy } from '@/destinations/lib/hub-copy';
 import { DEFAULT_REGISTRY, hubModel } from '@/companions/lib/registry';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { trasladosMode } from '@/transfers/lib/page-mode';
@@ -24,8 +25,9 @@ type Props = { params: Promise<{ pais: string; ciudad: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!primeraPiezaOn()) return {};
     const { pais, ciudad } = await params;
-    const hit = findCity(await getDestinations(), pais, ciudad);
-    return hit ? toMetadata(cityPage(hit.country, hit.city, siteUrl()).meta) : {};
+    const { lang, hreflang } = await destinosLanguage(); // REQ-660…665
+    const hit = findCity(await getDestinationsIn(lang), pais, ciudad);
+    return hit ? toMetadata(cityPage(hit.country, hit.city, siteUrl(), lang).meta, null, { hreflang }) : {};
 }
 
 /**
@@ -35,10 +37,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CityPage({ params }: Props) {
     if (!primeraPiezaOn()) notFound();
     const { pais, ciudad } = await params;
-    const hit = findCity(await getDestinations(), pais, ciudad);
+    const { lang } = await destinosLanguage();
+    const k = hubCopy(lang);
+    const hit = findCity(await getDestinationsIn(lang), pais, ciudad);
     if (!hit) notFound();
     const { country, city } = hit;
-    const p = cityPage(country, city, siteUrl());
+    const p = cityPage(country, city, siteUrl(), lang);
     const env = process.env as Record<string, string | undefined>;
     // Solo lo que tiene forma real de pedirse en esta ciudad; con Traslados apagado, el traslado general no sale.
     // REQ-121: ciudades de los complementos en modo solicitud (Big Bus…) desde el gestor de viajes; si falla, lista vacía.
@@ -51,23 +55,25 @@ export default async function CityPage({ params }: Props) {
     // REQ-170: tipo de cambio para el «aprox. MXN» de las tarjetas de pago; si falla, solo EUR.
     const rates = city.paidTours.length ? await loadFx().catch(() => null) : null;
     // T5 (REQ-414, REQ-416): chips de formato e intro sin prometer «guías locales» a lo autoguiado, tras TAXONOMY_LABELS_ENABLED.
-    const labels = taxonomyLabelsEnabled(env);
+    // REQ-665: las etiquetas por formato (T5) solo existen en español; en otro idioma, las plantillas traducidas.
+    const labels = taxonomyLabelsEnabled(env) && lang === 'es';
+    const es = lang === 'es';
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
-            intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
+            intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : es ? cityFreeIntro(city.name, city.freeTours.length, tours.length) : k.cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
             {city.freeTours.length > 0 && (
-                <Section id="free-tours" title={freeSectionTitle()} subtitle="Reservar es gratis; al final le das al guía lo que consideres justo.">
-                    <TourGrid tours={city.freeTours} />
+                <Section id="free-tours" title={es ? freeSectionTitle() : k.freeSection} subtitle={k.freeSubtitle}>
+                    <TourGrid tours={city.freeTours} lang={lang} />
                 </Section>
             )}
             {tours.length > 0 && (
-                <Section id="tours" title="Tours" subtitle="Tours con precio y viajes de Travel Puzzle.">
-                    {labels ? <ToursByFormat tours={tours} chips={cityFormatChips(tours)} rates={rates} /> : <TourGrid tours={tours} rates={rates} />}
+                <Section id="tours" title={k.toursSection} subtitle={k.toursSubtitle}>
+                    {labels ? <ToursByFormat tours={tours} chips={cityFormatChips(tours)} rates={rates} /> : <TourGrid tours={tours} rates={rates} lang={lang} />}
                 </Section>
             )}
             {(transport.length > 0 || city.transportTrips.length > 0) && (
-                <Section id="traslados" title="Traslados" subtitle="Cada tarjeta dice quién lo cobra.">
-                    {city.transportTrips.length > 0 && <TourGrid tours={city.transportTrips} />}
+                <Section id="traslados" title={k.transfersSection} subtitle={k.transfersSubtitle}>
+                    {city.transportTrips.length > 0 && <TourGrid tours={city.transportTrips} lang={lang} />}
                     {transport.length > 0 && <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {transport.map((c) => (
                             <li key={c.id} className="flex flex-col rounded-2xl border border-white/10 bg-[#121D45] p-5 text-white">
@@ -85,11 +91,11 @@ export default async function CityPage({ params }: Props) {
                 </Section>
             )}
             {city.guide && (
-                <Section id="guia" title={`Guía de ${city.name}`}>
+                <Section id="guia" title={k.guide(city.name)}>
                     <div className="mt-4 max-w-3xl whitespace-pre-line leading-relaxed text-[#D5DCEE]">{city.guide}</div>
                 </Section>
             )}
-            <Section id="preguntas" title="Preguntas frecuentes">
+            <Section id="preguntas" title={k.faqTitle}>
                 <dl className="mt-4 max-w-3xl space-y-5">
                     {p.faq.map((f) => (
                         <div key={f.q}>

@@ -16,6 +16,7 @@ import { blogNavVisible } from "@/blog/lib/registry";
 import { isHomeCarouselsEnabled } from "@/home/lib/flags";
 import { ClientErrorListener } from "@/components/common/ClientErrorListener";
 import { localeUrlsEnabled } from "@/i18n/lib/flags";
+import { htmlLang } from "@/i18n/lib/locales";
 import { routeLanguageState } from "@/i18n/server";
 
 const geistSans = Geist({
@@ -61,7 +62,8 @@ export default async function RootLayout({
   // (las páginas estáticas siguen estáticas) y el provider arranca como hoy.
   const route = localeUrlsEnabled(env) ? await routeLanguageState() : null;
   return (
-    <html lang="es" suppressHydrationWarning>
+    // REQ-664: <html lang> del idioma de la URL en las rutas en alcance; en lo demás (y sin la bandera), español como hoy.
+    <html lang={htmlLang(route)} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
