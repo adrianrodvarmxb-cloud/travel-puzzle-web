@@ -19,15 +19,15 @@ function db() {
   d.exec(`CREATE TABLE "TourTranslation"("tourId" TEXT, "language" TEXT, "title" TEXT, "brief" TEXT)`);
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
   d.exec(readFileSync("migrations/0017_taxonomia.sql", "utf8"));
-  const tour = (id: string, cat: number, price: number, title: string, active = 1) => {
-    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.8',60,?)`).run(id, cat, String(price), 120, active, `h-${id}`);
+  const tour = (id: string, cat: number, price: number, title: string, active = 1, minutes = 120) => {
+    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.8',60,?)`).run(id, cat, String(price), minutes, active, `h-${id}`);
     d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(id, "es", title, "");
   };
   tour("a", 12, 0, "Free tour por el casco antiguo");
   tour("b", 12, 15, "Barrio gótico a pie");
   tour("c", 5, 40, "Tapas y vino");
   tour("d", 99, 10, "Algo nuevo");
-  tour("e", 4, 60, "Excursión a Toledo");
+  tour("e", 4, 60, "Excursión a Toledo", 1, 480); // REQ-534: la excursión de FREETOUR exige ≥ 6 h
   tour("z", 12, 0, "Inactivo", 0);
   d.prepare(`INSERT INTO "Trip" VALUES ('t1','circuito','cultural',8,'Perú esencial','Essential Peru',1500,'["es"]','[{"mode":"private"}]',0,'published')`).run();
   d.prepare(`INSERT INTO "Trip" VALUES ('t2','tour','urbano',1,'Borrador','Draft',10,'[]','[]',0,'draft')`).run();

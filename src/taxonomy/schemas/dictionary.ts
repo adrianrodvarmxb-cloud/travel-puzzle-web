@@ -35,6 +35,10 @@ const zFormato = base.extend({
   guiaEnPersona: z.boolean(),
   palabras: z.array(palabra).optional(),
   palabrasNoEnTitulo: z.array(palabra).optional(),
+  /** REQ-535: frases del resumen que también cuentan para el formato (hoy, «sale de la ciudad base» en excursion-dia). */
+  palabrasEnResumen: z.array(palabra).optional(),
+  /** REQ-535: frases del título que bastan aunque la duración no lo diga (p. ej. «Excursión de un día» con 2:30 h mal cargado). */
+  palabrasSinDuracion: z.array(palabra).optional(),
   coleccion_es: z.string().optional(),
   termino_en_estado: z.enum(["por_firmar", "firmado"]).optional(),
   /** Nombre visible en pt/de/fr/it (plan §7.3). */

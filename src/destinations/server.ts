@@ -19,7 +19,7 @@ export const siteUrl = () => process.env.SITE_URL || SITE_URL_DEFAULT;
 export function getDestinations(): Promise<CountryNode[]> {
   const vis = visibilityFromEnv(process.env as Record<string, string | undefined>);
   const taxonomy = taxonomyPublishEnabled(process.env as Record<string, string | undefined>);
-  return cached(cacheKey("destinos", { v: "2" /* REQ-520 */, own: String(vis.own), transport: String(vis.transport), tax: String(taxonomy) }), POLICY.toursList, () =>
+  return cached(cacheKey("destinos", { v: "3" /* REQ-520; REQ-532…537 formato recalculado */, own: String(vis.own), transport: String(vis.transport), tax: String(taxonomy) }), POLICY.toursList, () =>
     withRetry(() => loadTree(destinationsRepo(getD1() as unknown as D1Read), new Date(), vis, { taxonomy }))
   );
 }

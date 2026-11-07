@@ -12,10 +12,12 @@
       "formato": "tour",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "experiencia-unica"
+      ],
       "estado": "activo",
       "fijo": false,
-      "nota": "Pasa a circuito con 2+ días y a excursión de un día con palabra de salida."
+      "nota": "Pasa a circuito con 2+ días y a excursión de un día con palabra de salida. REQ-536: taller, clase, cata o espectáculo en el título o resumen → Momentos de autor."
     },
     {
       "id": "circuito",

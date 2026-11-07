@@ -405,3 +405,17 @@ Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-li
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-530 | Columna de filtros sticky bajo el header con scroll propio; celular sin cambio | `src/tours/lib/filters-layout.ts`, `src/components/tours/filters/FiltersSheet.tsx` | `src/tours/lib/filters-layout.test.ts`; navegador real: `npx tsx src/scripts/filters-scroll-check.ts <url>` | CUMPLIDO (falta OK del PO) |
+
+## Auditoría de tipos (PO, 6 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-532 | Caminata solo a pie; barco/bici/vehículo = visita guiada | `src/taxonomy/lib/format.ts`, `src/taxonomy/data/dictionary.json` (medio) | `src/taxonomy/lib/auditoria-tipos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-533 | Audioguía/app/«por tu cuenta» = autoguiado | `format.ts`, `dictionary.json` (autoguiado) | `auditoria-tipos.test.ts`, `attributes.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-534 | FREETOUR cat. 4 de menos de 6 h no es excursión | `format.ts` | `auditoria-tipos.test.ts`, `freetour.test.ts`, `recompute.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-535 | Excursión por resumen («transporte desde…») o «Excursión de un día» en el título | `format.ts`, `dictionary.json` (`palabrasEnResumen`, `palabrasSinDuracion`), `src/taxonomy/schemas/dictionary.ts`, `src/tours/lib/card-format.ts`, `src/trips/public-load.ts`, `src/destinations/lib/catalog.ts` | `auditoria-tipos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-536 | Clase, taller, cata, espectáculo = Momentos de autor | `dictionary.json`, `mapping/freetour.json` (13, 14), `mapping/propios.json` (tour) | `auditoria-tipos.test.ts`, `format.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-537 | Traslados en FREETOUR cat. 19 | `mapping/freetour.json` (19) | `auditoria-tipos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-538 | Import de Fantástica China: Macao = tour de 1 día | `imports/fantasticachina-2027.json` | `auditoria-tipos.test.ts` | CUMPLIDO en repo; falta aplicar en D1 |
+
+Efecto en el catálogo (respaldo de producción del 5-11, 8,018 tours activos de FREETOUR): pieza-libre sin cambio (3,464); autoguiado 29 → 635; excursión de un día 1,222 → 1,048; caminata 1,515 → 1,239; tour 1,253 → 1,193; Momentos de autor 344 → 230; traslado 8 → 26.
+

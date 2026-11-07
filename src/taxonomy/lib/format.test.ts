@@ -54,7 +54,8 @@ describe("REQ-402 precedencia del Eje A (gana la primera regla)", () => {
   it("REQ-402 #10 Momentos de autor: base o clase/taller en la 5", () => {
     expect(f(ft(5, 50, "Clase de cocina mexicana")).formato).toBe("experiencia-unica");
     expect(f(ft(5, 50, "Tapas por el centro")).formato).toBe("tour");
-    expect(f(ft(13, 50, "Clase de cocina")).formato).toBe("tour");
+    expect(f(ft(13, 50, "Clase de cocina")).formato).toBe("experiencia-unica"); // REQ-536: la 13 ya admite clase/taller
+    expect(f(ft(22, 50, "Clase de historia en el castillo")).formato).toBe("tour"); // las que no lo admiten, igual
   });
   it("REQ-402 la regla que decidió viaja con el resultado", () => {
     expect(f(ft(12, 0, "x")).reglaFormato).toBe("#6 precio 0 en freetour:12");

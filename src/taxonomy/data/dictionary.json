@@ -143,7 +143,11 @@
         "self guided",
         "audioguia*",
         "audio guide*",
-        "audio-guide*"
+        "audio-guide*",
+        "auto[- ]guiad*",
+        "por tu cuenta",
+        "app audioguia*",
+        "audio guided"
       ],
       "nota": "Copy sin «con un guía local» (REQ-416, REQ-433)."
     },
@@ -214,11 +218,28 @@
       "guiaEnPersona": true,
       "palabras": [
         "day trip",
-        "excursion",
+        "excursion*",
         "full day",
         "dia completo",
         "desde ",
         "from "
+      ],
+      "palabrasEnResumen": [
+        "transporte (de )?(ida y vuelta )?desde",
+        "transporte ida y vuelta",
+        "sal(e|es|imos)? (de madrugada )?desde",
+        "sal de ",
+        "salida desde",
+        "dia completo",
+        "full[- ]day",
+        "day trip",
+        "excursion",
+        "round[- ]trip (transport )?from"
+      ],
+      "nota": "REQ-535 (auditoría 6-11): un viaje de un día también es excursión si el resumen dice que sale de la ciudad base (palabrasEnResumen).",
+      "palabrasSinDuracion": [
+        "excursion de (un|1) dia",
+        "day trip"
       ]
     },
     {
@@ -279,7 +300,16 @@
         "taller",
         "workshop",
         "cooking",
-        "cocina"
+        "cocina",
+        "cata",
+        "catas",
+        "espectaculo*",
+        "show",
+        "shows",
+        "masterclass",
+        "clase magistral",
+        "cabaret",
+        "cena[- ]espectaculo"
       ],
       "nota": "Nombre firmado por el PO (6-11, 06:22); el slug y kind=unica no cambian. EN y pt/de/fr/it (plan §7.3) firmados por recomendación (6-11 07:04). Apoyo = definición de §7.3 (PO, 6-11: sin «expertos locales», que no es cierto)."
     },
@@ -899,7 +929,17 @@
             "scooter",
             "vespa",
             "tram",
-            "tranvia"
+            "tranvia",
+            "moto*",
+            "teleferico",
+            "cable car",
+            "tren",
+            "train",
+            "carrito",
+            "carriage",
+            "carruaje",
+            "quad",
+            "4x4"
           ]
         },
         {
