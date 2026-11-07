@@ -3,12 +3,14 @@
  * Uso: npx tsx src/scripts/smoke.ts <url-base>   → sale con código 1 si algo falla.
  * Páginas: tests/smoke/pages.json (REQ-305): fijas + fichas reales descubiertas en las páginas de `discover`
  * + URL viejas (`legacy`) que se piden sin seguir la redirección.
+ * REQ-242: las de `flagged` entran como fijas solo si su bandera está en "true" (en el entorno del runner o en wrangler.jsonc).
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { chromium, devices, type BrowserContext, type Page } from "playwright";
 import { discoverPages, isErrorScreen, isHydrationError, legacyFailures, parseSmokeConfig, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
 import { evidenceSlug, firstDifference, loadFailed } from "../ops/lib/smoke-evidence";
+import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
 
 /** REQ-500: carpeta de evidencia (el workflow la sube como artefacto). */
 const EVIDENCE_DIR = process.env.SMOKE_EVIDENCE_DIR || "smoke-evidencia";
@@ -37,6 +39,8 @@ if (!/^https?:\/\//.test(base)) { console.error("Uso: npx tsx src/scripts/smoke.
 // REQ-223: `optional` = páginas tras bandera; un 404 ahí es válido (bandera apagada). REQ-305: discover y legacy.
 const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")));
 const optional = config.optional;
+// REQ-242: páginas institucionales tras bandera; con la bandera encendida se exigen como fijas (200, sin errores).
+const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, wranglerVars(readFileSync("wrangler.jsonc", "utf8")), process.env)];
 
 (async () => {
   const browser = await chromium.launch();
@@ -57,7 +61,7 @@ const optional = config.optional;
     }
   }
   const discovered = discoverPages(config.discover, linksByPage);
-  const pages = withOptionalPages([...new Set([...config.fixed, ...discovered.pages])], optional);
+  const pages = withOptionalPages([...new Set([...fixed, ...discovered.pages])], optional);
 
   // REQ-305: URL viejas sin seguir la redirección (301/410 esperados; 5xx nunca).
   const legacyStatus: Record<string, number | null> = {};

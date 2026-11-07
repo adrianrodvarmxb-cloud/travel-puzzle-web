@@ -9,6 +9,14 @@ describe("Lista de la prueba de humo con La Primera Pieza encendida (REQ-305)", 
     expect(config.optional).toEqual(["/ayuda", "/admin/entrar"]);
   });
 
+  it("REQ-242: el formato nuevo conserva `flagged` (bandera → páginas) y no las mete en fijas ni opcionales", () => {
+    expect(config.flagged.NOSOTROS_ENABLED).toContain("/nosotros");
+    expect(config.fixed).not.toContain("/nosotros");
+    expect(config.optional).not.toContain("/nosotros");
+    expect(parseSmokeConfig({ fixed: ["/"] }).flagged).toEqual({});
+    expect(() => parseSmokeConfig({ fixed: ["/"], flagged: { NOSOTROS_ENABLED: ["nosotros"] } })).toThrow();
+  });
+
   it("REQ-305: revisa La Primera Pieza, destinos, país, ciudad y el sitemap", () => {
     for (const p of ["/la-primera-pieza", "/destinos", "/destinos/mx", "/destinos/mx/ciudad-de-mexico", "/sitemap-index.xml"]) expect(config.fixed, p).toContain(p);
   });
@@ -79,6 +87,6 @@ describe("parseSmokeConfig (REQ-305)", () => {
     expect(() => parseSmokeConfig({ fixed: ["/"], discover: [{ from: "/x", pattern: "(", take: 1 }] })).toThrow();
   });
   it("REQ-305: la lista anterior (solo fixed) sigue siendo válida", () => {
-    expect(parseSmokeConfig({ fixed: ["/"] })).toEqual({ fixed: ["/"], optional: [], discover: [], legacy: [] });
+    expect(parseSmokeConfig({ fixed: ["/"] })).toEqual({ fixed: ["/"], optional: [], discover: [], legacy: [], flagged: {} });
   });
 });

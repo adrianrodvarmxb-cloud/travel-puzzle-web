@@ -20,5 +20,8 @@
   "optional": ["/ayuda", "/admin/entrar"],
   "legacy": [
     { "path": "/tours/cmvuuv0qz0000psp7xrmovnmv", "expect": [301, 410] }
-  ]
+  ],
+  "flagged": {
+    "NOSOTROS_ENABLED": ["/nosotros"]
+  }
 }
