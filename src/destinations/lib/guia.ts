@@ -14,7 +14,8 @@ import { PROHIBIDAS_SITIO, textsOf } from "@/site/lib/vocab";
 import { wordCount } from "./indexing";
 
 export const GUIDE_MIN_WORDS_REPO = 300;
-export const GUIDES_PER_DAY = 2;
+// REQ-1236 (reemplaza la parte «2 por día» de REQ-1227): PO, 7 nov 2026, 07:50, opción B.
+export const GUIDES_PER_DAY = 5;
 const DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const txt = (max: number) => z.string().trim().min(1).max(max);
@@ -80,7 +81,7 @@ export function guideProblems(input: unknown, ctx: GuideCtx): { ok: true; guide:
   if (!parsed.ok) return { ok: false, problems: [parsed.error] };
   const g = parsed.guide;
   const out: string[] = [];
-  // REQ-1227
+  // REQ-1227 + REQ-1236
   if (g.publishedAt !== ctx.today) out.push(`publishedAt debe ser la fecha de hoy (${ctx.today})`);
   const sameDay = ctx.existing.filter((x) => x.publishedAt === g.publishedAt && guideKey(x) !== guideKey(g)).length;
   if (sameDay >= GUIDES_PER_DAY) out.push(`ya hay ${GUIDES_PER_DAY} guías publicadas el ${g.publishedAt}`);
@@ -141,7 +142,7 @@ export function nextGuideCities(o: { order: string[]; byExperiences: string[]; e
   return [...new Set([...o.order, ...o.byExperiences])].filter((k) => !done.has(k)).slice(0, o.n ?? GUIDES_PER_DAY);
 }
 
-// REQ-1231: páginas de ciudad de las 2 guías más recientes (para la prueba de humo).
+// REQ-1231 + REQ-1236: páginas de ciudad de las guías más recientes, hasta las de un día (para la prueba de humo).
 export function guideSmokePaths(guides: CityGuide[]): string[] {
-  return [...guides].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)).slice(0, 2).map(guideCityPath);
+  return [...guides].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)).slice(0, GUIDES_PER_DAY).map(guideCityPath);
 }

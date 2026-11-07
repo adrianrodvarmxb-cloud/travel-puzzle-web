@@ -22,8 +22,9 @@ describe("primera tanda de guías", () => {
     expect(ejemplos.every((g: unknown) => parseGuide(g).ok)).toBe(true);
   });
 
-  it("REQ-1234: el prompt del agente diario incluye las 2 guías por día, su orden y su validación", () => {
-    expect(prompt).toContain("## Paso 7 — Dos guías de ciudad");
+  it("REQ-1234 + REQ-1236: el prompt del agente diario incluye las 5 guías por día, su orden y su validación", () => {
+    expect(prompt).toContain("## Paso 7 — Cinco guías de ciudad");
+    expect(prompt).toContain("**5 guías propias de ciudad**");
     expect(prompt).toContain("npx tsx src/scripts/guias-tema.ts");
     expect(prompt).toContain("npx tsx src/scripts/guias-ciudad.ts validar docs/guias/entradas/{hoy}.json");
     expect(prompt).toContain("actions/workflows/guias-ciudad.yml/dispatches");

@@ -5,6 +5,7 @@
  */
 import type { CityRow, CountryRow, TourRow, TripRow } from "./lib/catalog";
 import { placeStatus, type TourStatus } from "./lib/routes";
+import { scrubName } from "@/tours/lib/provider-text";
 
 export interface D1Read {
   prepare(sql: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } };
@@ -65,7 +66,7 @@ const PLACE = `SELECT t."id", t."slug", t."syncStatus", t."isActive", ${TITLE} A
 function placeRow(r: Record<string, unknown> | undefined, cityName: (tr: unknown) => string): TourPlaceRow | null {
   if (!r) return null;
   return {
-    id: String(r.id), slug: (r.slug as string | null) ?? null, status: placeStatus(r.syncStatus, r.isActive), title: String(r.title ?? ""),
+    id: String(r.id), slug: (r.slug as string | null) ?? null, status: placeStatus(r.syncStatus, r.isActive), title: scrubName(String(r.title ?? "")), // REQ-1245
     countrySlug: typeof r.iso2 === "string" && r.iso2 ? r.iso2.toLowerCase() : null, citySlug: (r.citySlug as string | null) ?? null,
     cityName: cityName(json(r.cityTr)), cityLive: bool(r.cityLive),
   };
@@ -91,13 +92,13 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
       );
       return rows.map((r) => ({
         id: String(r.id), externalId: Number(r.externalId), slug: (r.slug as string | null) ?? null, cityId: Number(r.cityId), countryId: Number(r.countryId),
-        title: String(r.title ?? ""), provider: (r.providerTitle as string | null) ?? null, price: Number(r.priceValue ?? 0), currency: String(r.priceCurrency ?? "EUR"),
+        title: scrubName(String(r.title ?? "")), provider: (r.providerTitle as string | null) ?? null, price: Number(r.priceValue ?? 0), currency: String(r.priceCurrency ?? "EUR"),
         rating: r.rating === null || r.rating === undefined ? null : Number(r.rating), reviews: Number(r.reviewsNumber ?? 0),
         image: (r.titleImageURL as string | null) ?? null, duration: (r.duration as string | null) ?? null, status: status(r.syncStatus),
         isActive: bool(r.isActive), updatedAt: iso(r.updatedAt) ?? new Date(0).toISOString(),
         categoryId: r.categoryId === null || r.categoryId === undefined ? null : Number(r.categoryId),
         durationMinutes: r.durationMinutes === null || r.durationMinutes === undefined ? null : Number(r.durationMinutes),
-        titleEn: (r.titleEn as string | null) ?? null, // REQ-662
+        titleEn: r.titleEn ? scrubName(String(r.titleEn)) || null : null, // REQ-662 REQ-1245
         providerId: (r.providerId as string | null) ?? null, // REQ-831
       }));
     },

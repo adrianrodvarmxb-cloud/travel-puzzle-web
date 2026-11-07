@@ -1,5 +1,5 @@
 /**
- * REQ-1229: CLI del agente diario para las guías: las 2 ciudades que tocan hoy (primero las 37 con viaje propio, luego por
+ * REQ-1229 + REQ-1236: CLI del agente diario para las guías: las 5 ciudades que tocan hoy (primero las 37 con viaje propio, luego por
  * número de experiencias) y los términos que no se pueden repetir.
  *   npx tsx src/scripts/guias-tema.ts
  */
