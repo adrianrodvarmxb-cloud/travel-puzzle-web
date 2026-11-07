@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import type { TripCopy } from '@/trips/lib/copy';
 import type { TripCard } from '@/trips/public-load';
 

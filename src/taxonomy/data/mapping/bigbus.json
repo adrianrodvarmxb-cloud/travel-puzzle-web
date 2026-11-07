@@ -1,0 +1,21 @@
+{
+  "proveedor": "bigbus",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "tour-tickets-and-passes",
+      "nombre_es": "Boletos y pases del bus turístico",
+      "nombre_en": "Tour tickets and passes",
+      "formato": "transporte",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Segmento de la URL del producto en bigbustours.com (campo source del import: …/<ciudad>-tour-tickets-and-passes o …/tickets-passes)."
+    }
+  ]
+}

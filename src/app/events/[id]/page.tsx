@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { EventDetailClient } from '@/components/events/EventDetailClient';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isAdultContactCheckEnabled } from '@/booking/lib/adult-contact';
 import { contactFromEnv } from '@/booking/tour-summary';
@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function EventDetailPage({ params, searchParams }: EventDetailPageProps) {
     // Get language from cookies, default to 'en'
-    const language = await getPreferredLanguage();
+    const language = await getRouteLanguage();
 
     // Get event ID from params
     const { id } = await params;

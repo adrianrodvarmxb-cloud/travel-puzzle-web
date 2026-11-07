@@ -1,0 +1,33 @@
+{
+  "proveedor": "turismoasiatico",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "SIC",
+      "nombre_es": "SIC (servicio compartido)",
+      "nombre_en": "SIC (seat-in-coach)",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Prefijo de los PDF «SIC_BORNEO», «SIC_Malasia_Esencial», «SIC_PRE-Ext_Singapur» (programas de varios días)."
+    },
+    {
+      "id": "Hoteles & Tours",
+      "nombre_es": "Hoteles y tours",
+      "nombre_en": "Hotels & Tours",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "PDF «2027 - USD - Singapur/Kuala Lumpur - Hoteles & Tours»."
+    }
+  ]
+}

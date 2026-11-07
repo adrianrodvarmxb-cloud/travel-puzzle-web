@@ -1,0 +1,21 @@
+{
+  "proveedor": "exoticescapes",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "Extensión",
+      "nombre_es": "Extensión",
+      "nombre_en": "Extension",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Título de los PDF «Extensión Mumbai 2027» y «Extensión Amritsar 2027». Los demás programas no traen denominación de categoría: hay que capturarla en original.categoria."
+    }
+  ]
+}

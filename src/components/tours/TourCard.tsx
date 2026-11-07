@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { Tour } from '@/types';
 import { useLanguage } from '@/lib/language-context';
 import { formatRating } from '@/home/lib/format';

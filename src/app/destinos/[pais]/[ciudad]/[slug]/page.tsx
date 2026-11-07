@@ -13,7 +13,7 @@ import { loadTourDetailProps } from '@/tours/detail-props';
 import { isTravelerFavorite } from '@/tours/lib/favorite';
 import { tourPriceLabel } from '@/tours/lib/price-label';
 import { loadTripBySlug, loadFx } from '@/trips/public-load';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { leerPrellenado } from '@/agente/lib/catalogo';
 import { guideLanguagesLabel } from '@/seo/lib/ficha-ld';
 import { filtersCopy } from '@/tours/lib/filters-copy';
@@ -71,7 +71,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
     }
 
     try {
-        const language = await getPreferredLanguage();
+        const language = await getRouteLanguage();
         const [props, rates] = await Promise.all([loadTourDetailProps(tour.id, language), loadFx().catch(() => null)]);
         if (!props) notFound();
         // REQ-571…578: el marcado y los datos clave usan la fila del tour (moneda, proveedor, idiomas, salidas, punto de encuentro).
@@ -84,7 +84,9 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
-        const guide = guideLanguagesLabel(row?.guideLanguages, language);
+        // REQ-588: con enriquecimiento, del servidor; en FREETOUR se pinta en el cliente (como antes del #204), con data-nosnippet.
+        const guide = full.facts.guideLanguages ? guideLanguagesLabel(row?.guideLanguages, language) : [];
+        const guideClientOnly = !full.enrichment ? { label: filtersCopy(language).language, codes: row?.guideLanguages ?? null } : null;
         return (
             <>
                 <JsonLd data={full.jsonLd} />
@@ -100,7 +102,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         favorite: isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews }),
                         rates,
                         labels: model.labels,
-                        facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [] },
+                        facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [], clientOnly: guideClientOnly },
                         enrichment: full.enrichment,
                         enBreve: full.enBreve,
                         facets: full.facets,

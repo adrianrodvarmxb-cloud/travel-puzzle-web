@@ -1,0 +1,21 @@
+{
+  "proveedor": "extime",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "por-revisar",
+      "nombre_es": "Sin denominación",
+      "nombre_en": "No category",
+      "formato": "por-revisar",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "No hay documento original en el repo ni en el scratchpad (programa Extime invierno 2026-27 / verano 2027): falta la categoría del proveedor."
+    }
+  ]
+}

@@ -4,8 +4,10 @@ import { withTransfersLink } from '@/transfers/lib/nav';
 import { withPrimeraPiezaLinks } from '@/tours/lib/menu';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { usePathname, useRouter } from 'next/navigation';
+import { splitLocale } from '@/i18n/lib/path';
+import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { useSession, signOut } from 'next-auth/react';
 import { useLanguage } from '@/lib/language-context';
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
@@ -26,13 +28,15 @@ export const Navbar = () => {
   const { t, language } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
+  const localize = useLocalizedHref();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (path: string) => isActiveLink(pathname ?? '', path); // REQ-068
+  // REQ-068; REQ-655: se compara sin el prefijo de idioma.
+  const isActive = (path: string) => isActiveLink(splitLocale(pathname ?? '').rest, path);
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
-    router.push('/');
+    router.push(localize('/'));
     router.refresh();
   };
 
