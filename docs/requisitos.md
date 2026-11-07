@@ -891,3 +891,9 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1341 | CÓDIGO | El índice de sitemaps marca lastmod 2026-11-06 aunque el contenido cambió el 7-11 | agente | — | PENDIENTE |
 | REQ-1342 | VALIDACIÓN | Cifras del ensayo de la carga histórica de la copia exacta, antes del backfill real (parte de REQ-1316) | PO | REQ-1316 (ensayo) | PENDIENTE |
 | REQ-1343 | TAREA-PO | Revisión automática de estatus cada 6 horas (PO 7-11 13:08: «cada 6 horas revisa estatus»): tarea programada que lee este tablero, PR, workflows y producción y notifica al PO | coordinador | — | EN CURSO |
+
+## Publicar los viajes de Turismo Asiático (PO, 7 nov 2026)
+Petición literal: el PO respondió «Sí, publícalos» (7 nov 2026, 15:14 CDMX) a publicar los 11 viajes de Turismo Asiático que están en draft (hallazgo de INC-008).
+| ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|---|
+| REQ-1347 | «Sí, publícalos» (11 viajes de Turismo Asiático en draft) | DATOS | Dados los viajes en draft de una agencia, cuando corre el workflow «Publicar viajes de una agencia», entonces el ensayo revisa título, precio, destino (país ISO-2 y ciudad), fotos (llave válida y responde imagen) y la lista del gestor, y no publica los que fallen (los reporta). Con `escribir` y la frase de confirmación: sin deploy ni importación en curso (REQ-307), bookmark de Time Travel, respaldo de las filas, UPDATE por id solo de esa agencia y en draft, verificación en D1, humo en producción y cada ficha 200; si algo falla después de escribir, `regreso.sql` deja esas filas como estaban. | EN CURSO (test verde; falta merge del workflow, ensayo y escritura) |
