@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS "ProviderRecord" (
   "sourcePage"        INTEGER,                    -- página del PDF original donde está el viaje
   "originalField"     TEXT,                       -- campo del proveedor con su denominación (lo llena la Ola R2)
   "originalCategory"  TEXT,                       -- denominación original tal cual (lo llena la Ola R2)
+  "declaredTaxonomy"  TEXT,                       -- JSON {formato, temas} que el registro declara en vocabulario de Travel Puzzle (imports: campo taxonomia)
   "runId"             TEXT NOT NULL,              -- corrida del sync o de la importación
   UNIQUE ("provider","externalId","rawHash")
 );

@@ -23,7 +23,7 @@ export interface ProviderRecordRow {
   id: string; provider: string; externalId: string; experienceKind: "tour" | "trip" | null; experienceId: string | null;
   rawHash: string; r2Key: string; bytes: number; schemaOk: 0 | 1; fetchedAt: string; lastSeenAt: string;
   providerUpdatedAt: string | null; sourceRef: string | null; sourceDocKey: string | null; sourcePage: number | null;
-  originalField: string | null; originalCategory: string | null; runId: string;
+  originalField: string | null; originalCategory: string | null; declaredTaxonomy: string | null; runId: string;
 }
 
 export interface KnownVersions { latest: string | null; all: Set<string> }
@@ -57,7 +57,7 @@ export async function planArchive(
       id: key, provider, externalId: ext, experienceKind: it.experience?.kind ?? null, experienceId: it.experience?.id ?? null,
       rawHash: hash, r2Key: key, bytes: new TextEncoder().encode(body).length, schemaOk: it.schemaOk === false ? 0 : 1,
       fetchedAt: ctx.now, lastSeenAt: ctx.now, providerUpdatedAt: it.providerUpdatedAt ?? null, sourceRef: it.sourceRef ?? null,
-      sourceDocKey: it.sourceDocKey ?? null, sourcePage: it.sourcePage ?? null, originalField: null, originalCategory: null, runId: ctx.runId,
+      sourceDocKey: it.sourceDocKey ?? null, sourcePage: it.sourcePage ?? null, originalField: null, originalCategory: null, declaredTaxonomy: null, runId: ctx.runId,
     };
     if (k?.all.has(hash)) plan.revisits.push(row);
     else plan.writes.push({ key, body, row });

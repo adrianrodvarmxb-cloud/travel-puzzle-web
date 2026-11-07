@@ -61,7 +61,7 @@ export async function planImportArchive(
 }
 
 const q = (v: unknown): string => (v === null || v === undefined ? "NULL" : typeof v === "number" ? String(v) : `'${String(v).replace(/'/g, "''")}'`);
-const COLS = ["id", "provider", "externalId", "experienceKind", "experienceId", "rawHash", "r2Key", "bytes", "schemaOk", "fetchedAt", "lastSeenAt", "providerUpdatedAt", "sourceRef", "sourceDocKey", "sourcePage", "originalField", "originalCategory", "runId"] as const;
+const COLS = ["id", "provider", "externalId", "experienceKind", "experienceId", "rawHash", "r2Key", "bytes", "schemaOk", "fetchedAt", "lastSeenAt", "providerUpdatedAt", "sourceRef", "sourceDocKey", "sourcePage", "originalField", "originalCategory", "declaredTaxonomy", "runId"] as const;
 
 /** SQL del índice (tabla ProviderRecord de la migración propuesta 0022). Idempotente. */
 // REQ-545

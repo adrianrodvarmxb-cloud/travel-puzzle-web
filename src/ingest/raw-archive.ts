@@ -59,7 +59,7 @@ export interface RawArchiveD1 extends D1Like { prepare(sql: string): Stmt & Retu
 
 export const PROVIDER_RECORD_COLUMNS = [
   "id", "provider", "externalId", "experienceKind", "experienceId", "rawHash", "r2Key", "bytes", "schemaOk", "fetchedAt", "lastSeenAt",
-  "providerUpdatedAt", "sourceRef", "sourceDocKey", "sourcePage", "originalField", "originalCategory", "runId",
+  "providerUpdatedAt", "sourceRef", "sourceDocKey", "sourcePage", "originalField", "originalCategory", "declaredTaxonomy", "runId",
 ] as const;
 
 /** Implementación real: bucket R2 privado (binding RAW_ARCHIVE) + tabla ProviderRecord (migración propuesta 0022). */
