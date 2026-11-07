@@ -16,7 +16,7 @@ export interface EstadoProveedor {
 const SIGUIENTE: Record<Evento, (e: Etapa) => Etapa> = {
   enviamos: (e) => (e === "por_contactar" || e === "sin_respuesta" ? "contactado" : e),
   contestaron: (e) => (e === "en_alta" || e === "activo" ? e : "respondio"),
-  acepto: (e) => (e === "activo" ? e : "en_alta"),
+  acepto: (e) => (e === "activo" ? e : "en_alta"), // REQ-1295
   listo: () => "activo",
   sin_respuesta: (e) => (e === "contactado" ? "sin_respuesta" : e),
 };

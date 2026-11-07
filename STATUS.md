@@ -2,6 +2,20 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Mila administra proveedores (PO, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0024 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1292 | Directorio de ~200 hilos, aprobado por el PO | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (VALIDACIÓN REQ-1320) | EN CURSO |
+| REQ-1293 | Seguimiento diario y tandas | NUEVO | src/proveedores/lib/seguimiento.ts, tandas.ts, diario.ts, worker.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1294 | Correos de Mila (recordatorio, reintento, alta) | NUEVO | src/proveedores/lib/correo.ts, plantillas.ts, deps.ts, src/notifications/resend.ts | proveedores.test.ts | EN CURSO |
+| REQ-1295 | Alta del proveedor que acepta | NUEVO | src/proveedores/lib/etapas.ts | proveedores.test.ts | EN CURSO |
+| REQ-1296 | Documentos en cPanel fuera de public_html | NUEVO | src/proveedores/lib/documentos.ts, cpanel.ts, entrante.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1297 | Primer correo lo manda Adri con copia a Mila | NUEVO | src/proveedores/lib/borrador.ts, plantillas.ts, diario.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1298 | Integración por prioridad API > plugin > portal > manual | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
+| REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
+| REQ-1300 a REQ-1329 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1327 NO CUMPLIDO |
+
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

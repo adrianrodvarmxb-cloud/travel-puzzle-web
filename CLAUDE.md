@@ -37,3 +37,13 @@ Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un 
 11. Primero contener (revertir), luego diagnosticar (reproducir con el error exacto y el stack, bisect, 5 porqués), luego corregir con test rojo → verde que reproduzca la falla, y verificar en producción. Registro en `docs/incidentes/INC-###.md` con causa raíz y por qué ningún test lo detectó.
 - En este repo: prueba de humo `npx tsx src/scripts/smoke.ts <url>` (páginas en `tests/smoke/pages.json`); requisitos en `docs/requisitos.md`; incidentes en `docs/incidentes/`.
 - Render determinista: un componente de cliente no formatea con `Intl`/`toLocale*` sin idioma fijo ni usa `Date.now()`/`Math.random()` al pintar; lo que dependa del idioma se calcula en el servidor (INC-001).
+
+## Protocolo de trazabilidad (ISO/IEC/IEEE 29148)
+1. Toda petición, decisión, bandera, validación o tarea a mano del PO recibe un REQ-### en `docs/requisitos.md` antes del código, con petición literal, origen (NUEVO/RETRO), tipo (CÓDIGO, BANDERA, DEFINICIÓN, VALIDACIÓN, TAREA-PO, DATOS), responsable, criterio Dado/Cuando/Entonces y estado (PENDIENTE, EN CURSO, CUMPLIDO, SIN VERIFICAR, NO CUMPLIDO, BLOQUEADO, REEMPLAZADO). Si es ambigua, se pregunta.
+2. Tests primero; cada test con el ID en el nombre (`it('REQ-014: …')`) y `// REQ-014` en la función que lo implementa.
+3. Matriz ID | Requisito | Origen | Archivo(s) | Test | Estado en STATUS.md, en el mismo commit que el código.
+4. Prohibido: CUMPLIDO sin test verde corrido en la sesión, `.skip`, tests debilitados, mocks que oculten la lógica, fachadas.
+5. Cierre: lista de REQ con estado, `npx vitest run -t "REQ-"`, cruce con `grep -r "REQ-" src` (huérfanos) y lo no cumplido.
+6. Cambio de alcance: el REQ viejo queda REEMPLAZADO y se crea uno nuevo que lo cite.
+7. PENDIENTES: banderas apagadas, sin iniciar, a medias, validaciones, definiciones y tareas del PO, una por una. AUDITA: el punto 5 completo, sin recortar.
+8. Lo anterior al protocolo entra como RETRO y SIN VERIFICAR hasta tener su test de caracterización.
