@@ -17,6 +17,10 @@ export interface RawItem {
   sourceDocKey?: string | null;
   sourcePage?: number | null;
   schemaOk?: boolean;
+  /** REQ-553: denominación original del proveedor y el campo de donde salió. */
+  original?: { field: string; value: string } | null;
+  /** REQ-554: lo que el registro declara en vocabulario de Travel Puzzle (JSON), ya validado. */
+  declared?: string | null;
 }
 
 export interface ProviderRecordRow {
@@ -57,7 +61,7 @@ export async function planArchive(
       id: key, provider, externalId: ext, experienceKind: it.experience?.kind ?? null, experienceId: it.experience?.id ?? null,
       rawHash: hash, r2Key: key, bytes: new TextEncoder().encode(body).length, schemaOk: it.schemaOk === false ? 0 : 1,
       fetchedAt: ctx.now, lastSeenAt: ctx.now, providerUpdatedAt: it.providerUpdatedAt ?? null, sourceRef: it.sourceRef ?? null,
-      sourceDocKey: it.sourceDocKey ?? null, sourcePage: it.sourcePage ?? null, originalField: null, originalCategory: null, declaredTaxonomy: null, runId: ctx.runId,
+      sourceDocKey: it.sourceDocKey ?? null, sourcePage: it.sourcePage ?? null, originalField: it.original?.field ?? null, originalCategory: it.original?.value ?? null, declaredTaxonomy: it.declared ?? null, runId: ctx.runId,
     };
     if (k?.all.has(hash)) plan.revisits.push(row);
     else plan.writes.push({ key, body, row });

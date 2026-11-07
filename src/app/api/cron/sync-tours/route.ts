@@ -16,7 +16,9 @@ import { searchRebuilder } from '@/search/rebuild';
 import { runTaxonomyStep } from '@/taxonomy/recompute';
 import { createTaxonomyRepo } from '@/taxonomy/repository';
 import { taxonomySyncEnabled } from '@/taxonomy/lib/run-plan';
-import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from '@/taxonomy/data';
+import { AGENCY_MAPPINGS, DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from '@/taxonomy/data';
+import { taxonomyLineageEnabled } from '@/taxonomy/lib/lineage';
+import { createLineageRepo } from '@/taxonomy/lineage-repository';
 import { rawArchiveFromEnv } from '@/ingest/deps';
 import countries from '../../../../../data/countries.json';
 
@@ -73,6 +75,10 @@ export async function GET(request: Request) {
               mappings: DEFAULT_MAPPINGS,
               lastSyncAt: (await guardedRepo.lastSuccess())?.finishedAt.toISOString() ?? null,
               now,
+              // REQ-551/553/554 (Ola R2): linaje y overrides, tras TAXONOMY_LINEAGE_ENABLED (apagada; requiere 0022 y 0023).
+              lineage: taxonomyLineageEnabled(process.env as Record<string, string | undefined>)
+                ? { repo: createLineageRepo(getD1() as never), agencyMappings: AGENCY_MAPPINGS }
+                : undefined,
             }).catch((e) => ({ error: (e as Error).message }))
           : 'off';
         return NextResponse.json({ success: true, ...guarded, reviews, departures, taxonomy });
