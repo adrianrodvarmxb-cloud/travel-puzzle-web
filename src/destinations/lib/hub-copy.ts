@@ -98,8 +98,9 @@ const EN: HubCopy = {
   cityList: (city) => `Experiences in ${city}`,
   freeToursCityTitle: (city) => `Free tours in ${city.trim()}: you decide what it's worth | ${BRAND}`,
   cityDescription: (free, tours, city, country) => `${plural(free, "free tour", "free tours")} and ${plural(tours, "tour", "tours")} in ${city}, ${country}, with local guides. Book online or with an advisor on WhatsApp.`,
-  cityFreeIntro: (city, free, tours) => `${free} in Pieza libre and ${tours} ${tours === 1 ? "tour" : "tours"} with local guides in ${city}.`,
-  freeSection: `Pieza libre (${PRIMERA_PIEZA_LABEL})`,
+  // REQ-1102 (D10): en inglés la categoría se llama «Free tour»; «Pieza libre» es solo para español.
+  cityFreeIntro: (city, free, tours) => `${plural(free, "free tour", "free tours")} and ${plural(tours, "tour", "tours")} with local guides in ${city}.`,
+  freeSection: `Free tour (${PRIMERA_PIEZA_LABEL})`,
   freeSubtitle: "Booking is free; at the end you give the guide what you think is fair.",
   toursSection: "Tours",
   toursSubtitle: "Priced tours and Travel Puzzle trips.",

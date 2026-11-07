@@ -688,6 +688,12 @@ Petición literal: «noindex hasta su permiso» para las fichas de FREETOUR. Pre
 | REQ-1040 | «Publica solo cada día» (PO, 6-11): la primera publicación del agente diario no debe romper la suite. | NUEVO | Dado que el agente diario publica la entrada de ejemplo (EU-01), cuando corre la suite, entonces REQ-981 la valida sin compararla consigo misma y exige que la copia publicada coincida (título, término, pilar). | CUMPLIDO |
 | REQ-1041 | Idem: el calendario no choca con el artículo publicado de su propio tema. | NUEVO | Dado un artículo publicado con `tema.clusterId` = ID del calendario, cuando se revisa la canibalización (REQ-961/970), entonces ese artículo no cuenta como choque de su propio tema; sí contra los demás. | CUMPLIDO |
 
+## «Free tour» en inglés en la página de ciudad (auditoría del 7 nov 2026, D10)
+Petición literal (PO, 7 nov 2026, 04:01): «compara la documentación que te entregué + lo que definí en este chat vs Código vs lo vivo en producción». Definición D10 del chat: «El nombre del tipo es «Pieza libre» (chip, insignia, pestaña, pines del mapa, sección de ciudad, intro, asuntos de correo). En inglés: «Free tour»». Hallazgo: con LOCALE_URLS_ENABLED encendida, https://travelpuzzle.com.mx/en/destinos/mx/ciudad-de-mexico muestra la sección «Pieza libre (La Primera Pieza)» y la intro «38 in Pieza libre and 39 tours with local guides in Mexico City.»; las tarjetas y el chip de /en/tours ya dicen «Free tour».
+| ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|---|
+| REQ-1102 | D10 — en inglés la categoría se llama «Free tour» | NUEVO | Dada la página de una ciudad en inglés (y pt/de/fr/it, que usan el texto en inglés), cuando se pinta, entonces la sección se llama «Free tour (La Primera Pieza)» y la intro dice «N free tours and M tours with local guides in {city}.» (singular con 1); ningún texto en inglés de los hubs dice «Pieza libre»; el español no cambia (REQ-271). | EN CURSO (test verde; falta humo del PR y OK del PO) |
+
 ## Imágenes premium en el blog (PO, 7 nov 2026, 04:28)
 Petición literal: «está muy bien, pero agrega imágenes que se vea premium». Aplica a todas las entradas, hoy y futuras (skill blog-metodo-referentes, §Diseño premium e §Imágenes con formato). Gate G4 en `docs/gates-blog-diario-2026-11-06.md`.
 | ID | Petición | Criterio (Dado / Cuando / Entonces) | Estado |
