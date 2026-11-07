@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 
 export interface PostCardModel { href: string; pillar: string; title: string; summary: string; date: string; draft: boolean; cover?: { src: string; alt: string } }
 

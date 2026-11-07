@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/components/layout';
 import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';

@@ -1,6 +1,6 @@
 import { taxonomyCartEnabled } from '@/taxonomy/lib/cart-type';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
 import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';

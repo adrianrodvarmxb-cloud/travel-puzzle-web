@@ -13,7 +13,7 @@ import { loadTourDetailProps } from '@/tours/detail-props';
 import { isTravelerFavorite } from '@/tours/lib/favorite';
 import { tourPriceLabel } from '@/tours/lib/price-label';
 import { loadTripBySlug, loadFx } from '@/trips/public-load';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { leerPrellenado } from '@/agente/lib/catalogo';
 import { guideLanguagesLabel } from '@/seo/lib/ficha-ld';
 import { filtersCopy } from '@/tours/lib/filters-copy';
@@ -71,7 +71,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
     }
 
     try {
-        const language = await getPreferredLanguage();
+        const language = await getRouteLanguage();
         const [props, rates] = await Promise.all([loadTourDetailProps(tour.id, language), loadFx().catch(() => null)]);
         if (!props) notFound();
         // REQ-571…578: el marcado y los datos clave usan la fila del tour (moneda, proveedor, idiomas, salidas, punto de encuentro).
