@@ -66,7 +66,8 @@ describe("REQ-419 pares excluyentes", () => {
     const r = classify(ft(13, "Juego de exploración autoguiado"), D, M);
     expect(r.atributos).toContain("autoguiado");
     expect(r.atributos).not.toContain("guiado");
-    expect(r.avisos).toContain("choque autoguiado/guiado: queda autoguiado");
+    // REQ-533: desde la auditoría, el formato ya es autoguiado (palabra en el título), así que no hay choque que avisar.
+    expect(r.formato).toBe("autoguiado");
     expect(at(ft(17, "Audioguía de Roma"))).not.toContain("guiado");
     expect(at(ft(12, "Visita"))).toContain("guiado");
   });

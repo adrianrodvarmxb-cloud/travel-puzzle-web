@@ -3952,7 +3952,7 @@
     }
    ],
    "trip": {
-    "kind": "circuito",
+    "kind": "tour",
     "purchaseMode": "quote",
     "category": "cultural",
     "titleEs": "Excursión de un día a Macao",
@@ -3971,7 +3971,7 @@
      "CN"
     ],
     "cities": [],
-    "durationDays": null,
+    "durationDays": 1,
     "languages": [
      "es",
      "en"

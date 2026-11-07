@@ -18,7 +18,8 @@ export function taxonomyPublishEnabled(env: { TAXONOMY_PUBLISH_ENABLED?: string 
 }
 
 export interface CatalogTour { categoryId?: number | null; price: number | null; durationMinutes?: number | null; title: string }
-export interface CatalogClass { formato: FormatoOEstado; seccion: Seccion }
+/** `guiaEnPersona`: el formato tiene guía en persona y el título no dice autoguiado o self-guided (decisión del PO, 6-11). */
+export interface CatalogClass { formato: FormatoOEstado; seccion: Seccion; guiaEnPersona: boolean }
 export type CatalogClassifier = (t: CatalogTour) => CatalogClass;
 
 /** Clasificador de filas de FREETOUR del catálogo (sin categoría = por-revisar: falla cerrada). */
@@ -28,7 +29,8 @@ export function catalogClassifier(dict: Dictionary, mappings: Record<string, Map
     const hit = memo.get(t);
     if (hit) return hit;
     const r = classify({ proveedor: "freetour", categoriaId: t.categoryId ?? null, precio: t.price, durationMinutes: t.durationMinutes ?? null, titulo: t.title }, dict, mappings, gates);
-    const out: CatalogClass = { formato: r.formato, seccion: r.seccion };
+    const term = dict.terminos.find((x) => x.eje === "formato" && x.slug === r.formato) as { guiaEnPersona?: boolean } | undefined;
+    const out: CatalogClass = { formato: r.formato, seccion: r.seccion, guiaEnPersona: !!term?.guiaEnPersona && !r.atributos.includes("autoguiado") };
     memo.set(t, out);
     return out;
   };
@@ -43,3 +45,8 @@ export function isPublishable(formato: FormatoOEstado, where: "/destinos" | "/to
 
 /** Formatos presenciales que puede sugerir la venta cruzada de las fichas (docs/taxonomia.md §8 #14). */
 export const FORMATOS_PRESENCIALES: readonly FormatoOEstado[] = ["pieza-libre", "caminata", "tour", "excursion-dia", "experiencia-unica"];
+
+/** Formato de un viaje propio desde su kind (sin título ni días: el de la tarjeta de /destinos). */
+export function ownKindFormato(kind: string | undefined): FormatoOEstado {
+  return ({ circuito: "circuito", unica: "experiencia-unica", personalizado: "a-la-medida", transporte: "transporte" } as Record<string, FormatoOEstado>)[kind ?? ""] ?? "tour";
+}

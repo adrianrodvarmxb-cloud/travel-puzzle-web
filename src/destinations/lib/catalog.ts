@@ -11,7 +11,8 @@
 import { cityName } from "./dry-run";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
-import { isPublishable, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { isPublishable, ownKindFormato, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { catalogTourFormat, tripFormat } from "@/tours/lib/card-format";
 
 export interface CountryRow { id: number; code: string; iso2: string | null; translations: unknown }
 export interface CityRow {
@@ -41,12 +42,16 @@ export interface TourRow {
   status: TourStatus;
   isActive: boolean;
   updatedAt: string;
-  /** T3: categoría y duración del proveedor, para el clasificador de la taxonomía. */
+  /** T3 y REQ-522: categoría y duración del proveedor, para el clasificador de la taxonomía y la categoría de la tarjeta. */
   categoryId?: number | null;
   durationMinutes?: number | null;
 }
 /** Viaje propio publicado: países ISO-2 y ciudades por nombre, tal como se capturan en el gestor. */
-export interface TripRow { id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string }
+export interface TripRow {
+  id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string;
+  /** REQ-524: agencia (null = Travel Puzzle). REQ-523: días y resumen. Opcionales. */
+  agency?: string | null; agencyId?: string | null; durationDays?: number | null; summary?: string | null; priceFrom?: number | null;
+}
 
 export interface TourCardModel {
   id: string;
@@ -63,6 +68,14 @@ export interface TourCardModel {
   kind: "free" | "paid" | "own";
   priceLabel?: string | null;
   updatedAt: string;
+  /** T3/T5 y REQ-522: formato de la taxonomía (el de T3 si está encendida; si no, el mismo clasificador por defecto). */
+  formato?: string;
+  /** T5: si hay guía en persona (solo con TAXONOMY_PUBLISH_ENABLED). */
+  guiaEnPersona?: boolean;
+  /** REQ-523: ciudad, días y resumen para la tarjeta única. */
+  city?: string | null;
+  durationDays?: number | null;
+  summary?: string | null;
 }
 
 export interface CityNode {
@@ -103,15 +116,24 @@ export function isListed(t: Pick<TourRow, "slug" | "isActive" | "status">): bool
   return !!t.slug && SLUG.test(t.slug) && t.isActive && t.status !== "removed";
 }
 
-export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxonomy?: CatalogClassifier): TourCardModel {
+export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxonomy?: CatalogClassifier, cityName: string | null = null): TourCardModel {
   // REQ-406 (T3, tras TAXONOMY_PUBLISH_ENABLED): Free tour = formato pieza-libre; apagada, precio 0 como hoy.
   const isFreeTour = taxonomy ? taxonomy(t).formato === "pieza-libre" : Number(t.price) === 0;
+  const cls = taxonomy?.(t);
+  // REQ-522: con T3 apagada la tarjeta usa el mismo clasificador por defecto (sin guiaEnPersona, que es de T5).
+  const formato = cls?.formato ?? (t.categoryId === undefined || t.categoryId === null ? undefined : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title] }));
   return {
+    ...(cls && { guiaEnPersona: cls.guiaEnPersona }),
+    ...(formato && { formato }),
     id: t.id, href: tourPath(countrySlug, citySlug, t.slug!), title: t.title, provider: t.provider, image: t.image,
     isFreeTour, price: Number(t.price), currency: t.currency, rating: t.rating, reviews: t.reviews, duration: t.duration,
     kind: isFreeTour ? "free" : "paid", updatedAt: t.updatedAt,
+    city: cityName, // REQ-523
   };
 }
+
+/** REQ-524: un viaje sin agencia es de Travel Puzzle (REQ-148). */
+const tripProvider = (tr: TripRow) => (tr.agencyId ? tr.agency?.trim() || null : tr.agency === undefined ? null : "Travel Puzzle");
 
 const byReviews = (a: TourCardModel, b: TourCardModel) => b.reviews - a.reviews || Number(b.rating ?? 0) - Number(a.rating ?? 0) || a.title.localeCompare(b.title, "es");
 
@@ -146,14 +168,19 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
     const nodes: CityNode[] = [];
     for (const city of cities.filter((x) => x.countryId === c.id && x.slug && SLUG.test(x.slug))) {
       const citySlug = city.slug!;
+      const cityLabel = placeName(city.translations, citySlug);
       const listed = toursByCity.get(city.id) ?? [];
-      const mine = listed.filter((t) => !inTransfers(t)).map((t) => tourCard(t, slug, citySlug, taxonomy));
-      const freetourTransfers = listed.filter(inTransfers).map((t) => tourCard(t, slug, citySlug, taxonomy));
+      const mine = listed.filter((t) => !inTransfers(t)).map((t) => tourCard(t, slug, citySlug, taxonomy, cityLabel));
+      const freetourTransfers = listed.filter(inTransfers).map((t) => tourCard(t, slug, citySlug, taxonomy, cityLabel));
       const here = trips
         .filter((tr) => SLUG.test(tr.slug) && tripInCity(tr, iso2, city.translations))
         .map((tr): TourCardModel => ({
-          id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: null, image: tr.image, isFreeTour: false,
+          id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: tripProvider(tr), image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
+          // REQ-522: el formato del viaje sale del clasificador oficial (como T4 en /tours); T5 conserva guiaEnPersona.
+          ...(tr.kind ? { formato: tripFormat({ kind: tr.kind, priceFrom: tr.priceFrom ?? null, durationDays: tr.durationDays ?? null, titles: [tr.title], resumen: tr.summary ?? null }) } : taxonomy ? { formato: ownKindFormato(tr.kind) } : {}),
+          ...(taxonomy && { guiaEnPersona: tr.kind !== "transporte" }),
+          city: cityLabel, durationDays: tr.durationDays ?? null, summary: tr.summary ?? null, // REQ-523
         }));
       // REQ-172: el transporte no es un tour; cuenta para que la ciudad tenga página, pero se lista en Traslados.
       const transportIds = new Set(trips.filter((tr) => tr.kind === "transporte").map((tr) => tr.id));
@@ -164,7 +191,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
       const meets = cityMeetsRule({ activeTours, guide: city.guide });
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
       nodes.push({
-        id: city.id, slug: citySlug, name: placeName(city.translations, citySlug), href: cityPath(slug, citySlug), guide: city.guide,
+        id: city.id, slug: citySlug, name: cityLabel, href: cityPath(slug, citySlug), guide: city.guide,
         guideUpdatedAt: city.guideUpdatedAt, activeTours, indexed,
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),

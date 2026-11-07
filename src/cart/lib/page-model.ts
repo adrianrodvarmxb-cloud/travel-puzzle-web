@@ -99,6 +99,8 @@ export function buildArmaTuViajeModel(input: {
   coveredAdapterIds?: string[];
   /** REQ-323: países donde la eSIM sale con el asesor aunque no haya proveedor. */
   esimAdvisorCountries?: readonly string[];
+  /** T7 (REQ-429): primera tarjeta por formato (TAXONOMY_CART_ENABLED). */
+  firstByFormat?: boolean;
 }): ArmaTuViajeModel {
   const { piece, query } = input;
   if (!piece) return { piece: null, cards: [], cityCode: null };
@@ -141,6 +143,7 @@ export function buildArmaTuViajeModel(input: {
     device: "both",
     rules: DEFAULT_RULES,
     flags: input.flags,
+    firstByFormat: input.firstByFormat,
   });
 
   return {
