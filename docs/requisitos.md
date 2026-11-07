@@ -478,7 +478,7 @@ Petición: "ok de todo lo pendiente". Gate: `docs/gates-encendido-2026-11-06.md`
 
 | ID | Petición literal del PO | Criterio (Dado / Cuando / Entonces) | Estado |
 |---|---|---|---|
-| REQ-610 | "ok de todo lo pendiente" → `STRIPE_ENABLED` | Dado el preview con `STRIPE_ENABLED="true"` (0013 aplicada y llaves de Stripe en la versión), cuando corre la prueba de humo a 390 y 1366, entonces todo responde 200 sin errores; se publica por la fila | PENDIENTE |
+| REQ-610 | "ok de todo lo pendiente" → `STRIPE_ENABLED` | Dado el preview con `STRIPE_ENABLED="true"` (0013 aplicada y llaves de Stripe en la versión), cuando corre la prueba de humo a 390 y 1366, entonces todo responde 200 sin errores; se publica por la fila | EN CURSO (encendida en su PR; CUMPLIDO tras el humo en producción) |
 | REQ-611 | "ok de todo lo pendiente" → `SEARCH_FUZZY_ENABLED` | Dado el preview con la bandera encendida (sobre `SEARCH_V2_ENABLED`), cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
 | REQ-612 | "ok de todo lo pendiente" → `SEARCH_SUGGEST_ENABLED` | Dado el preview con la bandera encendida, cuando corre la prueba de humo, entonces está en verde | PENDIENTE |
 | REQ-613 | "ok de todo lo pendiente" → `SEARCH_LOG_ENABLED` | Dado el aviso de privacidad aprobado y publicado en `privacidad.ts`, cuando el preview con la bandera pasa el humo, entonces se publica | BLOQUEADO (aviso de privacidad sin aprobar ni publicar) |
