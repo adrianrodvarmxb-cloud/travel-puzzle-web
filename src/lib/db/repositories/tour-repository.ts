@@ -9,6 +9,7 @@ import { loadDbAliases, type D1Read } from '@/search/db-aliases';
 import { Prisma } from '@prisma/client';
 import { durationRangeWhere, type DurationRange } from '@/tours/lib/duration';
 import { countriesWithCounts } from '@/tours/lib/d1-load';
+import { scrubTourRow } from '@/tours/lib/provider-text';
 
 export type TourWithRelations = Prisma.TourGetPayload<{
   include: {
@@ -94,7 +95,8 @@ export async function getToursWithFilters(
     updatedAt: (order: 'asc' | 'desc') => ({ updatedAt: order }),
   };
 
-  return paginatedQuery<TourWithRelations>(
+  // REQ-1243 (D31): los textos del proveedor salen sin la plataforma; la base no cambia.
+  const page = await paginatedQuery<TourWithRelations>(
     prisma.tour,
     where,
     include,
@@ -102,6 +104,7 @@ export async function getToursWithFilters(
     baseUrl,
     orderByMapping
   );
+  return { ...page, data: page.data.map(scrubTourRow) };
 }
 
 // REQ-035 (INC-003): misma respuesta que getToursWithFilters, pero filtro/orden/conteo en memoria
@@ -150,7 +153,7 @@ export async function getToursFromCatalog(
   const byId = new Map(rows.map((r) => [r.id, r]));
   // REQ-548: cada fila lleva el formato del índice (el mismo que filtra ?formato= y cuenta los chips), para la tarjeta.
   const formatoById = new Map(entries.map((e) => [e.id, e.formato]));
-  const data = ids.map((id) => byId.get(id)).filter((x): x is TourWithRelations => !!x).map((r) => Object.assign(r, { formato: formatoById.get(r.id) }));
+  const data = ids.map((id) => byId.get(id)).filter((x): x is TourWithRelations => !!x).map((r) => scrubTourRow(Object.assign(r, { formato: formatoById.get(r.id) }))); // REQ-1243 (D31)
   const totalPages = Math.max(1, Math.ceil(total / limit));
   return {
     data,
@@ -161,7 +164,7 @@ export async function getToursFromCatalog(
 
 // Helper function to get a single tour by ID
 export async function getTourById(tourId: string, language: string = 'en') {
-  return prisma.tour.findUnique({
+  const row = await prisma.tour.findUnique({
     where: { id: tourId },
     include: {
       translations: { where: { language } },
@@ -169,11 +172,12 @@ export async function getTourById(tourId: string, language: string = 'en') {
       country: true, // Country now has translations as JSON field
     },
   });
+  return row && scrubTourRow(row); // REQ-1243 (D31): ficha, su JSON-LD y el dato que viaja al cliente
 }
 
 // Helper function to get a single tour by external ID
 export async function getTourByExternalId(externalId: number, language: string = 'en') {
-  return prisma.tour.findUnique({
+  const row = await prisma.tour.findUnique({
     where: { externalId },
     include: {
       translations: { where: { language } },
@@ -181,6 +185,7 @@ export async function getTourByExternalId(externalId: number, language: string =
       country: true, // Country now has translations as JSON field
     },
   });
+  return row && scrubTourRow(row); // REQ-1243 (D31): ficha, su JSON-LD y el dato que viaja al cliente
 }
 
 // Helper functions for dropdown filters

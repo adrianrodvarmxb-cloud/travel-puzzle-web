@@ -2,6 +2,17 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Sin FREETOUR en los textos del proveedor (D31; INC-008, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1240 | Descripciones y resúmenes sin la plataforma | `src/tours/lib/provider-text.ts` | `src/tours/lib/provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1241 | Títulos: se quita solo el nombre | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1242 | «Incluye» sin la plataforma | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1243 | Repositorio de tours (lista, ficha, JSON-LD, dato del cliente) | `src/lib/db/repositories/tour-repository.ts` | `src/lib/db/repositories/tour-repository-sin-plataforma.test.ts`, `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1244 | Tarjetas del inicio | `src/home/lib/slim.ts` | `src/home/lib/slim.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1245 | Árbol de /destinos | `src/destinations/repository.ts` | `src/destinations/repository-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1246 | Correos | `src/booking/tour-summary.ts` | `src/booking/tour-summary-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
