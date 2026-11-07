@@ -8,6 +8,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { ExperienceCard } from '@/components/tours/ExperienceCard';
 import { fromCatalogTour } from '@/tours/lib/card-sources';
 import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
+import { FormatChips } from '@/components/tours/FormatChips';
+import { formatChips } from '@/tours/lib/format-chips';
 import type { TripCard } from '@/trips/public-load';
 import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trips/lib/public';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
@@ -346,7 +348,7 @@ export function ToursPageClient({
     if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
         if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
     }
-    const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
+    const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
         setDuration(null);
@@ -401,11 +403,15 @@ export function ToursPageClient({
 
                     {/* Tours (en celular y tablet se oculta cuando se ve el mapa) */}
                     <div className={`lg:col-span-3 xl:col-span-5 ${view === 'map' ? 'hidden xl:block' : ''}`}>
-                        {ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
+                        {/* REQ-546…549: con TAXONOMY_FILTERS_ENABLED, los chips son los tipos principales (mismas etiquetas que la
+                            tarjeta, desde los datos) y filtran con ?formato=; sin ella quedan los chips viejos por Trip.kind (ocultos, no borrados). */}
+                        {taxonomy
+                            ? <FormatChips chips={formatChips(formatCounts, language)} value={extra.formatos.length === 1 ? extra.formatos[0] : null} onChange={(slug) => changeExtra({ ...extra, formatos: slug ? [slug] : [] })} />
+                            : ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
-                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} extra={extra} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
+                            <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={taxonomy ? 'all' : kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} extra={extra} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
                         )}
-                        {isOwnKindFilter(kind) ? null : isLoadingTours ? (
+                        {!taxonomy && isOwnKindFilter(kind) ? null : isLoadingTours ? (
                             <TourGridSkeleton count={6} />
                         ) : tours.length === 0 && showSuggest && uiFilters.search ? (
                             <SectionBoundary name="busqueda-sin-resultados">

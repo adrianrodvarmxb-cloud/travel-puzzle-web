@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { ExperienceCardModel } from '@/tours/lib/experience-card';
 
 /**
+ * REQ-583: es un <a href> real con título, ciudad · duración, precio y operador en texto (se lee sin JS).
  * REQ-520…527: la única tarjeta de experiencia del sitio (/tours, inicio, /destinos, La Primera Pieza, viajes de agencias).
  * Presentacional: recibe el modelo ya resuelto (src/tours/lib/experience-card.ts) y solo pinta. Sin hooks ni Intl,
  * así sirve igual en componentes de servidor y de cliente (INC-001).

@@ -71,10 +71,11 @@ export async function fetchTours(
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
-    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[] };
+    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[]; formato?: string };
     const rows = ((list as { data?: Row[] }).data ?? []);
     // REQ-522: formato de la taxonomía de cada tarjeta, calculado aquí (el diccionario no viaja al navegador).
-    const cardFormats = cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title) })));
+    // REQ-548: si la fila trae el formato del índice del catálogo (el que filtran los chips), ese manda.
+    const cardFormats = { ...cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title) }))), ...Object.fromEntries(rows.filter((t) => t.formato).map((t) => [t.id, t.formato as string])) };
     // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR + «aprox. MXN» de cada tarjeta, armado aquí (servidor, idioma fijo; INC-001).
     if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return { ...list, cardFormats };
     const paid = rows.filter((t) => Number(t.priceValue ?? 0) > 0);
