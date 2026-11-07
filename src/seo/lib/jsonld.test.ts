@@ -23,14 +23,17 @@ describe("REQ-100: JSON-LD", () => {
     const p = productJsonLd({ name: "Free Tour Lima", url: `${site}/destinos/peru/lima/free-tour-lima`, image: null, provider: "Lima Walking Tours", price: 0, rating: null, reviews: 0 });
     expect(p.offers).toEqual({ "@type": "Offer", price: 0, priceCurrency: "EUR", url: `${site}/destinos/peru/lima/free-tour-lima`, availability: "https://schema.org/InStock" });
     expect(p.brand).toEqual({ "@type": "Brand", name: "Lima Walking Tours" });
-    expect(p.aggregateRating).toBeUndefined();
+    expect(p).not.toHaveProperty("aggregateRating");
   });
-  it("REQ-100: AggregateRating solo con reseñas reales", () => {
+  // REQ-805 (Gate 2, PO 6 nov 2026): reemplaza la parte «AggregateRating solo con reseñas reales» de REQ-100.
+  // La calificación y el conteo de productJsonLd son del proveedor (FREETOUR): nunca van al marcado.
+  it("REQ-805: nunca AggregateRating ni review de terceros, aunque el tour tenga reseñas", () => {
     const withReviews = productJsonLd({ name: "T", url: site, image: "https://x/y.jpg", provider: null, price: 25, rating: "4.83", reviews: 120 });
-    expect(withReviews.aggregateRating).toEqual({ "@type": "AggregateRating", ratingValue: 4.83, reviewCount: 120, bestRating: 5 });
+    expect(withReviews).not.toHaveProperty("aggregateRating");
+    expect(JSON.stringify(withReviews)).not.toMatch(/aggregateRating|"review"/i);
     expect(withReviews.offers.price).toBe(25);
-    expect(productJsonLd({ name: "T", url: site, image: null, provider: null, price: 0, rating: 4.9, reviews: 0 }).aggregateRating).toBeUndefined();
-    expect(productJsonLd({ name: "T", url: site, image: null, provider: null, price: 0, rating: null, reviews: 30 }).aggregateRating).toBeUndefined();
+    expect(productJsonLd({ name: "T", url: site, image: null, provider: null, price: 0, rating: 4.9, reviews: 0 })).not.toHaveProperty("aggregateRating");
+    expect(productJsonLd({ name: "T", url: site, image: null, provider: null, price: 0, rating: null, reviews: 30 })).not.toHaveProperty("aggregateRating");
   });
   it("REQ-100: BreadcrumbList con posiciones 1..n", () => {
     const b = breadcrumbJsonLd([{ name: "Destinos", url: `${site}/destinos` }, { name: "Perú", url: `${site}/destinos/peru` }]);

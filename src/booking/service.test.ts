@@ -21,11 +21,27 @@ describe("placeBooking", () => {
     expect(gateway.createBooking).not.toHaveBeenCalled();
   });
 
-  it("reserva con el teléfono normalizado y devuelve la reserva", async () => {
+  it("REQ-802: reserva y devuelve la reserva; sin isPhoneRequired el teléfono NO se manda a FREETOUR (G2)", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
     const out = await placeBooking(dto, { gateway, getEvent, enabled: true });
-    expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { ...dto.customer, phone: "+525512345678" } });
+    expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { email: "ana@example.com", firstName: "Ana", lastName: "Pérez" } });
     expect(out).toEqual({ booking, price: 0 });
+  });
+
+  it("REQ-802: con isPhoneRequired el teléfono va normalizado", async () => {
+    const gateway = { createBooking: vi.fn(async () => booking) };
+    const required = vi.fn(async () => ({ ...event, isPhoneRequired: true }));
+    await placeBooking(dto, { gateway, getEvent: required, enabled: true });
+    expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { ...dto.customer, phone: "+525512345678" } });
+  });
+
+  it("REQ-802: a FREETOUR solo van email, nombre y apellido (y teléfono si lo pide); nada más del cliente", async () => {
+    const gateway = { createBooking: vi.fn(async () => booking) };
+    const extra = { ...dto, customer: { ...dto.customer, marketingConsent: true, birthDate: "1990-01-01" } } as unknown as typeof dto;
+    await placeBooking(extra, { gateway, getEvent, enabled: true });
+    const sent = (gateway.createBooking.mock.calls[0] as unknown as [{ customer: Record<string, unknown> }])[0];
+    expect(Object.keys(sent.customer).sort()).toEqual(["email", "firstName", "lastName"]);
+    expect(Object.keys(sent).sort()).toEqual(["adults", "children", "customer", "eventId", "price"]);
   });
 
   it("teléfono inválido: error claro sin llamar a la pasarela", async () => {
@@ -100,7 +116,8 @@ describe("REQ-083 placeBooking: contacto adulto", () => {
   it("REQ-083: declarado adulto reserva, y la declaración no se envía a FREETOUR", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
     await placeBooking({ ...dto, contactIsAdult: true }, { gateway, getEvent, enabled: true, adultContactRequired: true });
-    expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { ...dto.customer, phone: "+525512345678" } });
+    // REQ-802: sin isPhoneRequired tampoco va el teléfono (G2).
+    expect(gateway.createBooking).toHaveBeenCalledWith({ ...dto, customer: { email: "ana@example.com", firstName: "Ana", lastName: "Pérez" } });
   });
   it("REQ-083: con la bandera apagada se comporta como hoy", async () => {
     const gateway = { createBooking: vi.fn(async () => booking) };
