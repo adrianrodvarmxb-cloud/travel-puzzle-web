@@ -1,8 +1,7 @@
--- PROPUESTA, SIN APLICAR (REQ-746, Ola R1 «copia exacta»; gate 1 firmado por el PO el 6 nov 2026). Fuera de migrations/
--- a propósito. Para aplicarla: PR aparte que la mueva a migrations/ con el siguiente número libre, OK del PO y publicación
--- a mano con la casilla «migraciones» (runbook docs/runbooks/copia-exacta.md, paso 3).
+-- REQ-746 / REQ-772 (Ola R1 «copia exacta»; candado 3 del gate docs/gates-copia-exacta-2026-11-07.md). Se aplica con
+-- «Publicar en Cloudflare» y la casilla «migraciones», como línea MIGRAR de la fila, sola en su deploy.
 --
--- Índice en D1 del archivo crudo. La copia exacta vive en R2 PRIVADO (binding propuesto RAW_ARCHIVE); aquí solo van la
+-- Índice en D1 del archivo crudo. La copia exacta vive en R2 PRIVADO (binding RAW_ARCHIVE); aquí solo van la
 -- huella, la clave R2 y los metadatos para ligar cada experiencia con el registro original del proveedor.
 -- Solo crea tablas e índices nuevos: no toca Tour, TourTranslation, Trip ni la taxonomía. Con RAW_ARCHIVE_ENABLED="false"
 -- nadie las lee ni las escribe. Plan de regreso: apagar la bandera; las tablas pueden quedarse vacías (no hace falta borrarlas).
