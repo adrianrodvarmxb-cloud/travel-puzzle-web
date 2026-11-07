@@ -17,7 +17,7 @@ export interface PrimeraPiezaView {
     /** T5 (REQ-415): formato como etiqueta, fuera de la foto (vacío o ausente = como hoy). */
     labels?: string[];
     /** REQ-578: datos clave calculados en el servidor (duración legible e idioma del guía). */
-    facts?: { duration: string | null; extra: { label: string; value: string }[] };
+    facts?: { duration: string | null; extra: { label: string; value: string }[]; clientOnly?: { label: string; codes: unknown } | null };
     /** REQ-570: el proveedor permite contenido indexable nuevo (FREETOUR = false). */
     enrichment?: boolean;
     /** REQ-577 / REQ-581: «En breve», tipo y etiquetas (solo con enriquecimiento). */
