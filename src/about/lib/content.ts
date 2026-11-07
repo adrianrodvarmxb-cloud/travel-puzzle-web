@@ -100,7 +100,7 @@ const ES = (): AboutContent => ({
       cards: [
         { title: "Tú eliges la ciudad y el tour", text: "Busca por ciudad y elige tu tour. Si quieres ayuda, un asesor de Travel Puzzle te propone tours y horarios para los días que tienes." },
         { title: "Guías locales en cada destino", text: "Los tours los operan guías y agencias de cada ciudad. Nosotros te ayudamos a elegirlos y a reservarlos." },
-        { title: "Hablas con Travel Puzzle", text: "Toda la comunicación sobre tus reservas es con nosotros, por WhatsApp o en info@travelpuzzle.com.mx, de 9:00 a 19:00 horas." },
+        { title: "Hablas con Travel Puzzle", text: "Toda la comunicación sobre tus reservas es con nosotros, por WhatsApp o en info@travelpuzzle.com.mx, de 10:00 a 14:00 y de 16:00 a 20:00 horas." },
         { title: "Reglas a la vista", text: "Las condiciones de reserva y cancelación están publicadas antes de que reserves.", link: { label: "Términos y condiciones", href: "/terminos" } },
       ],
     },
@@ -143,7 +143,7 @@ const EN = (): AboutContent => ({
       cards: [
         { title: "You choose the city and the tour", text: "Search by city and pick your tour. If you want help, a Travel Puzzle advisor will suggest tours and times for the days you have." },
         { title: "Local guides at every destination", text: "Tours are run by guides and agencies in each city. We help you choose and book them." },
-        { title: "You talk to Travel Puzzle", text: "All communication about your bookings is with us, on WhatsApp or at info@travelpuzzle.com.mx, from 9:00 to 19:00." },
+        { title: "You talk to Travel Puzzle", text: "All communication about your bookings is with us, on WhatsApp or at info@travelpuzzle.com.mx, from 10:00 to 14:00 and 16:00 to 20:00." },
         { title: "Clear rules", text: "Booking and cancellation conditions are published before you book.", link: { label: "Terms and conditions", href: "/terminos" } },
       ],
     },
