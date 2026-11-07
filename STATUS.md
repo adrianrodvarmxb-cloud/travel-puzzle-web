@@ -2,9 +2,11 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
-## Sin FREETOUR en los textos del proveedor (D31; INC-008, 7 nov 2026) — matriz de trazabilidad
+## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-1247 | Respaldo de solo lectura de las tablas de la 0017 | `.github/workflows/respaldo-taxonomia.yml` | `src/ops/respaldo-taxonomia-workflow.test.ts` | EN CURSO (falta la corrida tras el merge) |
+## Sin FREETOUR en los textos del proveedor (D31; INC-008, 7 nov 2026) — matriz de trazabilidad
 | REQ-1240 | Descripciones y resúmenes sin la plataforma | `src/tours/lib/provider-text.ts` | `src/tours/lib/provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1241 | Títulos: se quita solo el nombre | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1242 | «Incluye» sin la plataforma | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
