@@ -1,6 +1,6 @@
 # REQ-1232: guías propias de ciudad, publicadas sin revisión diaria del PO (gate G5, docs/gates-blog-diario-2026-11-06.md;
 # pedido del PO del 7 nov 2026, 06:17, opción c). Viven en el repo (src/destinations/content/guias.json): NO se escribe en D1.
-# Entrada: workflow_dispatch con un arreglo JSON de 1 o 2 guías (o su base64), o push a guias/entrada-* con
+# Entrada: workflow_dispatch con un arreglo JSON de 1 a 5 guías (o su base64; REQ-1236), o push a guias/entrada-* con
 # docs/guias/entradas/AAAA-MM-DD.json. Pasos: valida (src/scripts/guias-ciudad.ts) → rama y PR que SOLO cambia guias.json →
 # pruebas, tsc, build y prueba de humo del preview (con las páginas de ciudad de las guías) → merge squash → deploy.
 # Si algo falla NO publica y deja el motivo en el issue «Guías de ciudad: no se publicó».
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       guias:
-        description: "Arreglo JSON con 1 o 2 guías (o su base64)"
+        description: "Arreglo JSON con 1 a 5 guías (o su base64)"
         required: true
         type: string
   push:
@@ -157,7 +157,7 @@ jobs:
       - name: Navegador
         run: npx playwright install --with-deps chromium
 
-      # REQ-1231: el humo incluye las páginas de ciudad de las 2 guías más recientes (smoke.ts las suma solo).
+      # REQ-1231 + REQ-1236: el humo incluye las páginas de ciudad de las guías más recientes, hasta 5 (smoke.ts las suma solo).
       - name: Prueba de humo (preview con las guías)
         env:
           SMOKE_EVIDENCE_DIR: smoke-evidencia/guias

@@ -54,12 +54,15 @@ describe("guías propias de ciudad", () => {
     expect(problems({ targetTerm: "free tours en París en español" }).join(" ")).toMatch(/término repetido o casi igual: FT-EU-01/);
   });
 
-  it("REQ-1227: fecha real, autor editorial y máximo 2 guías por día", () => {
-    expect(GUIDES_PER_DAY).toBe(2);
+  // REQ-1236 reemplaza la parte «2 por día» de REQ-1227 (PO, 7 nov 2026, 07:50: «de 2 a 5 por día», opción B).
+  it("REQ-1236 (reemplaza a REQ-1227): fecha real, autor editorial y máximo 5 guías por día", () => {
+    expect(GUIDES_PER_DAY).toBe(5);
     expect(problems({ publishedAt: "2026-11-06" })).toContain("publishedAt debe ser la fecha de hoy (2026-11-07)");
     expect(problems({ author: "claudia" }).join(" ")).toMatch(/author/);
     const g = (c: string) => { const r = parseGuide(sampleGuide({ ciudad: c, targetTerm: `guia ${c}` })); if (!r.ok) throw new Error(r.error); return r.guide; };
-    expect(problems({ ciudad: "pekin", pais: "cn", targetTerm: "guia pekin" }, { existing: [g("lyon"), g("niza")] })).toContain("ya hay 2 guías publicadas el 2026-11-07");
+    const cuatro = ["lyon", "niza", "lille", "nantes"].map(g);
+    expect(problems({ ciudad: "pekin", pais: "cn", targetTerm: "guia pekin" }, { existing: cuatro })).toEqual([]);
+    expect(problems({ ciudad: "pekin", pais: "cn", targetTerm: "guia pekin" }, { existing: [...cuatro, g("burdeos")] })).toContain("ya hay 5 guías publicadas el 2026-11-07");
   });
 
   it("REQ-1228: la guía del repo se superpone al campo `guide` de la ciudad (por país ISO-2 y slug), sin tocar D1", () => {
@@ -86,8 +89,10 @@ describe("guías propias de ciudad", () => {
     expect(nextGuideCities({ order: [], byExperiences: ["es/sevilla", "fr/paris", "gb/londres"], existing: [r.guide], n: 2 })).toEqual(["es/sevilla", "gb/londres"]);
   });
 
-  it("REQ-1231: el humo prueba las páginas de ciudad de las 2 guías más recientes", () => {
+  it("REQ-1231 + REQ-1236: el humo prueba las páginas de ciudad de las guías más recientes (hasta 5)", () => {
     const g = (c: string, d: string) => { const r = parseGuide(sampleGuide({ ciudad: c, targetTerm: `guia ${c}`, publishedAt: d })); if (!r.ok) throw new Error(r.error); return r.guide; };
-    expect(guideSmokePaths([g("a", "2026-11-05"), g("b", "2026-11-07"), g("c", "2026-11-06")])).toEqual(["/destinos/fr/b", "/destinos/fr/c"]);
+    expect(guideSmokePaths([g("a", "2026-11-05"), g("b", "2026-11-07"), g("c", "2026-11-06")])).toEqual(["/destinos/fr/b", "/destinos/fr/c", "/destinos/fr/a"]);
+    const seis = ["a", "b", "c", "d", "e", "f"].map((c, i) => g(c, `2026-11-0${i + 1}`));
+    expect(guideSmokePaths(seis)).toEqual(["/destinos/fr/f", "/destinos/fr/e", "/destinos/fr/d", "/destinos/fr/c", "/destinos/fr/b"]);
   });
 });

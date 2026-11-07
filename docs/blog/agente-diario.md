@@ -168,15 +168,15 @@ No escribes nada aparte: el workflow arma los textos de las tres redes **desde t
 - Redes: número de láminas generadas y si alguna red quedó en manual (issue «Redes del día»).
 - Si la corrida anterior falló, revisa el issue abierto «Blog diario: no se publicó» (etiqueta `blog-diario`) y menciona el motivo.
 
-## Paso 7 — Dos guías de ciudad (además de la entrada del blog)
-Cada día escribes también **2 guías propias de ciudad** (gate G5). Con una guía propia de 300 palabras o más, la ciudad cumple la regla de indexación aunque sus tours sean del proveedor de free tours. Las guías viven en el repo; no se escribe en la base.
+## Paso 7 — Cinco guías de ciudad (además de la entrada del blog)
+Cada día escribes también **5 guías propias de ciudad** (gate G5; eran 2 hasta el 7 nov 2026, 07:50). Con una guía propia de 300 palabras o más, la ciudad cumple la regla de indexación aunque sus tours sean del proveedor de free tours. Las guías viven en el repo; no se escribe en la base.
 1. **Qué ciudades toca hoy:**
    ```
    npx tsx src/scripts/guias-tema.ts
    ```
-   Te da `ciudadesDeHoy`: primero las 37 ciudades con viaje propio (`src/destinations/content/guias-orden.ts`), luego por número de experiencias. También te da los `terminosUsados`.
+   Te da las 5 `ciudadesDeHoy`: primero las 37 ciudades con viaje propio (`src/destinations/content/guias-orden.ts`), luego por número de experiencias. También te da los `terminosUsados`.
 2. **Investiga cada ciudad** con el mismo método del Paso 2: 2 o 3 búsquedas, fuentes primarias (gobiernos, sitios oficiales de museos y monumentos, oficinas de turismo, UNESCO), leídas por ti, con fecha. Mínimo **2 fuentes externas de dominios distintos** por guía. Abre la página de la ciudad en el sitio para saber qué experiencias hay. **No copies** su texto (C2).
-3. **Escribe** las 2 guías en `docs/guias/entradas/{hoy}.json`, como un arreglo de 2 objetos:
+3. **Escribe** las 5 guías en `docs/guias/entradas/{hoy}.json`, como un arreglo de 5 objetos (si una no pasa la investigación, manda las que sí, de 1 a 5):
    ```json
    { "pais": "fr", "ciudad": "paris", "nombre": "París", "targetTerm": "…", "titulo": "Guía de …",
      "publishedAt": "{hoy}", "author": "editorial", "origen": "agente-diario",
