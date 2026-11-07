@@ -618,12 +618,22 @@ Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
 
-## «★ Favorito» fuera de la foto (PO, 6 nov 2026, 22:36) — matriz de trazabilidad
+## Tipos dudosos «como los referentes» (PO, 6 nov 2026, 22:36) — matriz de trazabilidad
+Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 productos): 225 cambian, todos de FREETOUR. «Viajes de 1 día» de 6 h o más sin señal de salida: 207 (202 → visita guiada, 5 → caminata, todos con «dia-completo»). Combinados decididos por la regla nueva: 89; cambian 18 (10 → Momentos de autor, 8 → visita guiada). Agencias: 0 cambios. FREETOUR (pago): excursión 1,071 → 864 · visita guiada 1,115 → 1,317 · caminata 1,282 → 1,285 · Momentos de autor 259 → 261.
+
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-865 | Base excursión ≥ 6 h sin salida → visita guiada + dia-completo | `src/taxonomy/lib/format.ts` | `src/taxonomy/lib/tipos-dudosos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-866 | Señales de salida en título y resumen | `src/taxonomy/data/dictionary.json`, `schemas/dictionary.ts`, `format.ts` | `tipos-dudosos.test.ts`, `criterio-pendientes.test.ts`, `format.test.ts`, `mapping/freetour.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-867 | Espectáculo/clase + gastronomía → Momentos de autor + tema | `src/taxonomy/lib/combined.ts`, `format.ts`, `themes.ts` | `tipos-dudosos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-868 | Recorrido + cata → caminata/visita guiada + gastronomía | `combined.ts`, `format.ts`, `themes.ts` | `tipos-dudosos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-869 | Recorrido vs espectáculo/clase: domina lo que abre el título | `combined.ts`, `format.ts`, `themes.ts` | `tipos-dudosos.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-870 | Precedencias anteriores intactas | `format.ts` | `tipos-dudosos.test.ts` | CUMPLIDO |
+| REQ-871 | Auditoría antes/después por proveedor | `src/taxonomy/lib/audit-diff.ts`, `src/scripts/auditoria-tipos.ts` | `src/taxonomy/lib/audit-diff.test.ts` | CUMPLIDO |
+
+## «★ Favorito» fuera de la foto (PO, 6 nov 2026, 22:36) — matriz de trazabilidad
 | REQ-860 | «★ Favorito» bajo la foto, en la fila de ciudad · duración | `src/components/tours/ExperienceCard.tsx` | `src/components/tours/ExperienceCard.test.ts` + capturas `docs/capturas/favorito-fuera/` | CUMPLIDO (falta OK del PO) |
 | REQ-861 | Ninguna tarjeta pone «★ Favorito» sobre la foto | `ExperienceCard.tsx`, `TourCard.tsx`, `home/v2/FeaturedTours.tsx` (`HomeTourCard`) | `src/components/tours/favorite-off-photo.test.ts` | CUMPLIDO |
-
 ## Carruseles del inicio completos (PO, 6 nov 2026, 22:05) — matriz de trazabilidad
 | REQ-850 | «Los más elegidos» = todos los Favoritos en orden del medidor | `src/home/lib/carousel-pages.ts`, `src/home/load.ts` | `src/home/lib/carousel-pages.test.ts`, `src/home/load.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-851 | 12 del servidor + páginas de 12 al acercarse al final | `carousel-pages.ts`, `src/home/carousel-load.ts`, `src/app/api/home/carrusel/route.ts`, `src/components/home/v2/useCarouselPages.ts`, `CardRail.tsx` | `carousel-pages.test.ts` + navegador (rail 12 → 18, sin duplicados) | CUMPLIDO (falta OK del PO) |

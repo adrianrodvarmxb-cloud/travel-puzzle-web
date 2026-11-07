@@ -6,6 +6,7 @@
 import type { Categoria, Dictionary, Mapping, TerminoFormato } from "../schemas/dictionary";
 import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, type Gates } from "./gates";
 import { matches, norm } from "./text";
+import { combinado } from "./combined";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
@@ -77,19 +78,38 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   // REQ-542 (PO 6-11 21:14): solo salidas desde la ciudad base; «city tour», «en {ciudad}», «París en un día» no salen.
   const enCiudad = matches(exc.palabrasEnCiudad, titulo) && !matches(exc.palabrasSaleSiempre, titulo);
   const tituloSale = kw("excursion-dia", titulo) && !matches(exc.palabrasNoEnTitulo, titulo) && !enCiudad;
+  // REQ-865/866 (PO 6-11 22:36, como GetYourGuide: excursión = sale de la ciudad base): una base «excursión» de 6 h o
+  // más solo sigue como excursión si el título o el resumen dicen que sale («desde», «excursión … a X», «day trip»,
+  // transporte o recogida incluidos, «cerca de X»). Sin señal es visita guiada (o caminata si es a pie) con «dia-completo».
+  const salida = (matches(exc.palabrasSalidaTitulo, titulo) && !enCiudad) || matches(exc.palabrasSalidaResumen, resumen);
+  const largaSinSalida = b === "excursion-dia" && min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS && !salida;
   // Si el título lo dice («Excursión…», «desde…»), la duración corta se toma como dato mal cargado.
-  if (b === "excursion-dia" && !enCiudad && (!corta || tituloSale)) return { valor: "excursion-dia", regla: `#8 base ${id}` };
+  if (b === "excursion-dia" && !enCiudad && !largaSinSalida && (!corta || tituloSale)) return { valor: "excursion-dia", regla: `#8 base ${id}` };
   // REQ-535: «Excursión de un día» o «day trip» en el título bastan aunque la duración no lo diga.
   const fuerte = matches(exc.palabrasSinDuracion, titulo);
   const diaCompleto = fuerte || (min !== null && min >= EXCURSION_MIN_MINUTOS) || (min === null && dias === 1);
   // REQ-535: además del título, el resumen puede decir que sale de la ciudad base («transporte desde París», «Sal de…»).
   const sale = tituloSale || (!enCiudad && matches(exc.palabrasEnResumen, resumen));
-  if (diaCompleto && (gates.excursion === "B" || sale)) {
+  if (diaCompleto && !largaSinSalida && (gates.excursion === "B" || sale)) {
     return { valor: "excursion-dia", regla: gates.excursion === "B" ? "#8 ≥360 min (G-T7 B)" : "#8 ≥360 min y palabra de salida (G-T7 A)" };
   }
   // 9 caminata (gate G2 A: solo de pago; el free a pie ya salió en #6)
   // REQ-532: solo si es a pie: con barco, bici o vehículo en el título es visita guiada.
   const otroMedio = enOtroMedio(dict, titulo);
+  // REQ-865: base excursión de 6 h o más sin señal de salida → visita guiada (caminata si es a pie, REQ-541/542).
+  if (largaSinSalida) {
+    return matches(medioPalabras(dict, "a-pie"), titulo) && !otroMedio
+      ? { valor: "caminata", regla: `#9 base excursión ≥6 h sin salida y a pie (${id})` }
+      : { valor: "tour", regla: `#11 base excursión ≥6 h sin salida de la ciudad (${id})` };
+  }
+  // REQ-867…869: dos actividades en el título. Espectáculo o clase al frente (o con solo gastronomía al lado) = Momentos
+  // de autor; un recorrido al frente = caminata (a pie) o visita guiada, aunque la base o una palabra digan otra cosa.
+  const comb = combinado(input.titulo, dict);
+  if (comb && comb.principal !== "recorrido") return { valor: "experiencia-unica", regla: `#10 combinado: domina ${comb.principal} (${comb.secundarias.join(", ")})` };
+  if (comb) {
+    const aPie = (b === "caminata" || matches(medioPalabras(dict, "a-pie"), titulo)) && !otroMedio;
+    return aPie ? { valor: "caminata", regla: `#9 combinado: domina el recorrido a pie (${comb.secundarias.join(", ")})` } : { valor: "tour", regla: `#11 combinado: domina el recorrido (${comb.secundarias.join(", ")})` };
+  }
   if (b === "caminata" && !otroMedio) return { valor: "caminata", regla: `#9 base ${id}` };
   if (b === "caminata") return { valor: "tour", regla: `#9 base caminata con otro medio en el título (${id})` };
   if (b === "excursion-dia" && (corta || enCiudad)) {
