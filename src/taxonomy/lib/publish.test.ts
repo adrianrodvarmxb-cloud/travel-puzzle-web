@@ -7,11 +7,11 @@ const c = catalogClassifier(D, M);
 const row = (categoryId: number | null, price: number, title = "Visita Alfa", durationMinutes = 120) => ({ categoryId, price, title, durationMinutes });
 
 describe("T3 publicación con la taxonomía (REQ-406, REQ-407, REQ-408, REQ-261)", () => {
-  it("REQ-407 bandera TAXONOMY_PUBLISH_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"false\"", () => {
+  it("REQ-407 bandera TAXONOMY_PUBLISH_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"true\" (REQ-616, gate de encendido)", () => {
     expect(taxonomyPublishEnabled({})).toBe(false);
     expect(taxonomyPublishEnabled({ TAXONOMY_PUBLISH_ENABLED: "1" })).toBe(false);
     expect(taxonomyPublishEnabled({ TAXONOMY_PUBLISH_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_PUBLISH_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_PUBLISH_ENABLED":\s*"true"/);
   });
   it("REQ-406 Free tour: precio 0 salvo las 10 categorías que ganan antes", () => {
     expect(c(row(12, 0)).formato).toBe("pieza-libre");
