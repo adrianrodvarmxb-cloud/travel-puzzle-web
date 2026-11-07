@@ -24,6 +24,7 @@ import { DurationFilter } from '@/components/tours/DurationFilter';
 import { MoreFilters } from '@/components/tours/filters/MoreFilters';
 import { FiltersSheet } from '@/components/tours/filters/FiltersSheet';
 import { matchesToursFilter } from '@/trips/lib/public';
+import { experienciasDisponibles } from '@/tours/lib/available';
 import { parseExtraFilters, extraFiltersToParams, countActive, EMPTY_EXTRA, type ExtraFilters } from '@/tours/lib/extra-filters';
 import { ToursMap } from '@/components/tours/ToursMap';
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
@@ -357,6 +358,9 @@ export function ToursPageClient({
     if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
         if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
     }
+    // REQ-1346 (INC-008): viajes que coinciden con los filtros en cualquier página; el encabezado suma catálogo + viajes
+    // (el mismo total que el inicio y que la suma del filtro).
+    const ownMatches = ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra }));
     const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
@@ -382,7 +386,7 @@ export function ToursPageClient({
 
             <main className="tp-dark min-h-screen pb-24">
                 <ToursHeader
-                    total={pageInfo?.total || 0}
+                    total={experienciasDisponibles(pageInfo?.total || 0, ownMatches)}
                     lastUpdated={initialMetadata?.lastUpdatedFormatted ?? undefined}
                     search={uiFilters.search || ''}
                     onSearch={(value) => handleFilterChange({ search: value || undefined })}

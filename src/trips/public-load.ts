@@ -6,7 +6,8 @@ import { cache } from "react";
 import { getPrisma } from "@/lib/prisma";
 import { withRetry } from "@/tours/lib/d1-load";
 import { createTripBySlugLoader, loadPublishedTripBySlug } from "./lib/trip-by-slug";
-import { createTripRepo } from "./repository";
+import { createTripRepo, toTrip } from "./repository";
+import { readAllPages, rowsToTrips } from "./lib/published-pages";
 import { localized, type Translations } from "./lib/translation";
 import { tripPath } from "./lib/public";
 import { cardPlaces } from "./lib/geo";
@@ -72,9 +73,14 @@ export interface TripCard {
 /** REQ-524: viaje sin agencia = de Travel Puzzle (REQ-148). */
 export const OWN_PROVIDER = "Travel Puzzle";
 
+// REQ-1344 (INC-008): todos los publicados, en páginas de 100 con cursor (antes un tope fijo de 200 dejaba fuera 69 de 269).
 async function publishedRows() {
   const prisma = getPrisma();
-  return prisma.trip.findMany({ where: { status: "published" }, orderBy: { updatedAt: "desc" }, take: 200, include: { agency: { select: { name: true } } } }); // REQ-524
+  return readAllPages((cursor, size) => prisma.trip.findMany({
+    where: { status: "published" }, orderBy: [{ updatedAt: "desc" }, { id: "asc" }], take: size,
+    ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+    include: { agency: { select: { name: true } } }, // REQ-524
+  }));
 }
 
 export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Date | string; agencyName?: string | null }, lang: string, fx: FxRates | null, now: Date = new Date()): TripCard {
@@ -111,11 +117,11 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
     // T4: v5 = las tarjetas llevan formato (la copia v4 de producción no lo trae). REQ-524: v6 = también el proveedor.
     // REQ-268: con la caché fría no hay copia anterior que servir; si D1 está saturada (N+2 consultas), se reintenta
     // con espera (como el catálogo, REQ-029) en vez de pintar /tours y el inicio sin viajes propios.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "9" /* REQ-1250 Tour / Visita guiada / Caminata; REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
-      const repo = createTripRepo(getPrisma());
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "10" /* REQ-1344 todos los publicados (sin tope de 200); REQ-1250 Tour / Visita guiada / Caminata; REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));
-      const trips = await Promise.all(rows.map((r) => repo.findById(r.id)));
+      // REQ-1344: el viaje se arma de la fila ya leída (antes 1 + N consultas); un registro malo se descarta y se registra.
+      const trips = rowsToTrips(rows, (r) => toTrip(r), (id, m) => console.error(`[viajes] viaje ${id} descartado:`, m));
       // REQ-268: cada viaje con su fila por id (antes, por posición: un null corría las traducciones).
       return pairById(rows, trips as (StoredTrip | null)[]).map(({ row, trip }) => toCard({ ...trip, translations: row.translations, createdAt: row.createdAt, agencyName: row.agency?.name ?? null }, lang, fx));
     }));
