@@ -210,6 +210,19 @@ describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la f
   });
 });
 
+describe("REQ-820: image del Product en la ficha de tour", () => {
+  const ld = (p: ReturnType<typeof tourPage>) => p.jsonLd[0] as Record<string, unknown>;
+  it("REQ-820: la principal y hasta 3 más de la galería del tour, en URL absolutas", () => {
+    const t = { ...cdmx.city.freeTours[0], image: "https://img.x/portada.jpg" };
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: t, siteUrl: site, lang: "es", detail: { providerId: "freetour", images: ["https://img.x/portada.jpg", "https://img.x/2.jpg", "/fotos/3.jpg", "https://img.x/4.jpg", "https://img.x/5.jpg"] } });
+    expect(ld(p).image).toEqual(["https://img.x/portada.jpg", "https://img.x/2.jpg", "https://travelpuzzle.com.mx/fotos/3.jpg", "https://img.x/4.jpg"]);
+  });
+  it("REQ-820: sin galería queda la foto de la tarjeta", () => {
+    const t = { ...cdmx.city.freeTours[0], image: "https://img.x/portada.jpg" };
+    expect(ld(tourPage({ country: cdmx.country, city: cdmx.city, tour: t, siteUrl: site, lang: "es" })).image).toEqual(["https://img.x/portada.jpg"]);
+  });
+});
+
 describe("REQ-088: traslados en la ciudad desde el registro de complementos", () => {
   const groups = [{ group: "transporte", title: "Transporte", cards: [
     { id: "kiwitaxi", title: "Traslado", description: "d", chargedByLabel: "Lo reservas con Kiwitaxi", price: null, cta: { kind: "widget" as const, label: "Buscar traslado" as const }, cities: [] },
