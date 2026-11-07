@@ -9,7 +9,7 @@ const tours = [
   tour(10, 1, { title: "Coyoacán", titleEn: "" }),
   tour(10, 1, { title: "Xochimilco", titleEn: "Xochimilco boats" }),
   tour(20, 2, { title: "Cusco colonial", titleEn: "Colonial Cusco" }),
-];
+].map((t) => ({ ...t, providerId: "bemyguest" })); // REQ-1200: tours que cuentan para indexar la ciudad
 const tree = destinationTree({ ...fx, tours, trips: [{ id: "v1", slug: "viaje-cdmx", title: "Viaje CDMX", titleEn: "CDMX trip", image: null, countries: ["MX"], cities: ["Ciudad de México"], priceLabel: null, updatedAt: "2026-11-01T00:00:00Z" }], now });
 
 describe("árbol por idioma", () => {
@@ -51,5 +51,18 @@ describe("árbol por idioma", () => {
   it("REQ-662: ciudad o país sin indexar = ningún idioma", () => {
     const oax = findCity(destinationTree({ ...fx, tours: [tour(11, 1, {})], trips: [], now }), "mx", "oaxaca")!;
     expect(cityLangs(oax.city, oax.country)).toEqual([]);
+  });
+});
+
+describe("REQ-1205: hreflang y sitemaps por idioma con la misma regla", () => {
+  it("REQ-1205: una ciudad indexada solo por su guía (español) no se indexa en inglés; con 3 tours indexables sí", () => {
+    const W = Array.from({ length: 300 }, (_, i) => `w${i}`).join(" ");
+    const base = { countries: [{ id: 1, code: "mx", iso2: "MX", translations: { es: "México", en: "Mexico" } }], trips: [], now: new Date("2026-11-07T12:00:00Z") };
+    const g = destinationTree({ ...base, cities: [{ id: 41, countryId: 1, translations: { es: "Guía" }, slug: "guia", guide: W, guideUpdatedAt: null, indexableSince: null, failingSince: null }], tours: [1, 2, 3, 4].map((i) => tour(41, 1, { slug: `g-${i}`, providerId: "freetour" })) });
+    const c = findCity(g, "mx", "guia")!;
+    expect(cityLangs(c.city, c.country)).toEqual(["es"]);
+    const o = destinationTree({ ...base, cities: [{ id: 42, countryId: 1, translations: { es: "Otro" }, slug: "otro", guide: null, guideUpdatedAt: null, indexableSince: null, failingSince: null }], tours: [1, 2, 3].map((i) => tour(42, 1, { slug: `o-${i}`, providerId: "bemyguest" })) });
+    const d = findCity(o, "mx", "otro")!;
+    expect(cityLangs(d.city, d.country)).toEqual(["es", "en"]);
   });
 });

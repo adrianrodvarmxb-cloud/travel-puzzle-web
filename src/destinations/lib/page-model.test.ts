@@ -16,7 +16,9 @@ const tours = [
   tour(10, 1, { title: "Lucha libre", reviews: 50 }),
   tour(11, 1, { title: "Oaxaca mágico", reviews: 40 }),
   tour(20, 2, { title: "Cusco colonial", reviews: 700 }),
-];
+// REQ-1200: los hubs se prueban con tours que cuentan para indexar la ciudad (un proveedor con permiso);
+// las fichas de FREETOUR se prueban pasando `detail.providerId: "freetour"` o en los bloques REQ-831…833.
+].map((t) => ({ ...t, providerId: "bemyguest" }));
 const tree = destinationTree({ ...fx, tours, trips: [], now });
 const cdmx = findCity(tree, "mx", "ciudad-de-mexico")!;
 const oax = findCity(tree, "mx", "oaxaca")!;
@@ -210,7 +212,7 @@ describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la f
     const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es", detail });
     expect(ft.enBreve).toBeNull();
     expect(ld(ft).keywords).toBeUndefined();
-    const sinDetalle = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
+    const sinDetalle = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], providerId: undefined }, siteUrl: site, lang: "es" });
     expect(sinDetalle.enBreve).toBeNull(); // sin proveedor conocido se asume el más restrictivo
     const otro = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.paidTours[0], siteUrl: site, lang: "es", detail: { ...detail, providerId: "bemyguest" } });
     expect(otro.enBreve).toMatch(/^.+ en Ciudad de México, México\./);
@@ -303,17 +305,17 @@ describe("REQ-092: página 410 (con el header del sitio)", () => {
 describe("REQ-102: sitemaps desde el árbol", () => {
   it("REQ-102: solo ciudades indexadas y sus fichas, por país, con lastmod del contenido", () => {
     // REQ-832: las fichas de FREETOUR ya no van al sitemap; la regla de REQ-102 se prueba con otro proveedor.
-    const other = destinationTree({ ...fx, tours: tours.map((t) => ({ ...t, providerId: "bemyguest" })), trips: [], now });
-    const { index, files } = buildSitemaps(sitemapInput(other, site));
+    const { index, files } = buildSitemaps(sitemapInput(tree, site));
     expect(index).toContain(`${site}/sitemap-destinos.xml`);
     expect(index).toContain(`${site}/sitemap-tours-mx.xml`);
     expect(files["sitemap-destinos.xml"]).toContain(`${site}/destinos/mx/ciudad-de-mexico</loc>`);
     expect(files["sitemap-destinos.xml"]).not.toContain("/destinos/mx/oaxaca<");
     expect(files["sitemap-tours-mx.xml"]).not.toContain("/oaxaca/");
     expect(files["sitemap-tours-mx.xml"]).toContain("<lastmod>2026-11-02</lastmod>");
-    // REQ-832: con los mismos tours de FREETOUR, la ciudad sigue en el sitemap y sus fichas no.
-    const ft = buildSitemaps(sitemapInput(tree, site));
-    expect(ft.files["sitemap-destinos.xml"]).toContain(`${site}/destinos/mx/ciudad-de-mexico</loc>`);
+    // REQ-832 + REQ-1200: con los mismos tours de FREETOUR (sin guía), ni la ciudad ni sus fichas van al sitemap.
+    const ftTree = destinationTree({ ...fx, tours: tours.map((t) => ({ ...t, providerId: "freetour" })), trips: [], now });
+    const ft = buildSitemaps(sitemapInput(ftTree, site));
+    expect(ft.files["sitemap-destinos.xml"] ?? "").not.toContain("/destinos/mx/ciudad-de-mexico<");
     expect(Object.values(ft.files).join("\n")).not.toContain("/destinos/mx/ciudad-de-mexico/");
   });
 });
