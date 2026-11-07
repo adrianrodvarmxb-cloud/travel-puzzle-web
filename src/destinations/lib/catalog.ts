@@ -203,6 +203,13 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
     const iso = countryIso2(c);
     if (iso) groups.set(iso, [...(groups.get(iso) ?? []), c]);
   }
+  // REQ-1349: una sola URL por viaje, bajo su ciudad de inicio; las demás ciudades lo listan con esa misma URL.
+  const isoByCountry = new Map([...groups].flatMap(([iso, rows]) => rows.map((r) => [r.id, iso] as const)));
+  const placeable = cities.flatMap((x) => (isoByCountry.has(x.countryId) ? [{ ...x, iso2: isoByCountry.get(x.countryId)! }] : []));
+  const canonicalHref = new Map(trips.map((tr) => {
+    const at = ownTripPlace(tr, placeable);
+    return [tr.id, at ? tourPath(at.countrySlug, at.citySlug, at.slug) : null] as const;
+  }));
   for (const [iso2, rows] of groups) {
     const c = rows.find((r) => (r.iso2 ?? "").trim().toUpperCase() === iso2) ?? rows[0];
     const ids = new Set(rows.map((r) => r.id));
@@ -217,7 +224,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
       const here = trips
         .filter((tr) => SLUG.test(tr.slug) && tripInCity(tr, iso2, city.translations))
         .map((tr): TourCardModel => ({
-          id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: tripProvider(tr), image: tr.image, isFreeTour: false,
+          id: tr.id, href: canonicalHref.get(tr.id) ?? tourPath(slug, citySlug, tr.slug) /* REQ-1349 */, title: tr.title, provider: tripProvider(tr), image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
           // REQ-522: el formato del viaje sale del clasificador oficial (como T4 en /tours); T5 conserva guiaEnPersona.
           ...(tr.kind ? { formato: tripFormat({ kind: tr.kind, priceFrom: tr.priceFrom ?? null, durationDays: tr.durationDays ?? null, titles: [tr.title], resumen: tr.summary ?? null }) } : taxonomy ? { formato: ownKindFormato(tr.kind) } : {}),
@@ -259,11 +266,16 @@ function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, c
   return trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase()) && trip.cities.some((n) => cityNames.has(fold(n)));
 }
 
-// REQ-092 (gate 4): a qué ciudad de /destinos entra un viaje propio (el primer país y ciudad que coincidan).
+// REQ-092 (gate 4): a qué ciudad de /destinos entra un viaje propio.
+// REQ-1349: su URL canónica = la ciudad de INICIO (la primera del viaje que tenga página), no el orden de la base;
+// la usan el árbol (tarjetas de todas sus ciudades), el sitemap y el 301 de las URLs alternativas.
 export function ownTripPlace(trip: Pick<TripRow, "slug" | "countries" | "cities">, cities: readonly (CityRow & { iso2: string })[]): { countrySlug: string; citySlug: string; slug: string } | null {
   if (!SLUG.test(trip.slug)) return null;
-  const city = cities.find((c) => c.slug && SLUG.test(c.slug) && tripInCity(trip, c.iso2, c.translations));
-  return city ? { countrySlug: city.iso2.toLowerCase(), citySlug: city.slug!, slug: trip.slug } : null;
+  for (const name of trip.cities) {
+    const city = cities.find((c) => c.slug && SLUG.test(c.slug) && tripInCity({ countries: trip.countries, cities: [name] }, c.iso2, c.translations));
+    if (city) return { countrySlug: city.iso2.toLowerCase(), citySlug: city.slug!, slug: trip.slug };
+  }
+  return null;
 }
 
 export function findCountry(tree: CountryNode[], pais: string): CountryNode | null {
