@@ -80,6 +80,10 @@ const SmokeConfigSchema = z.object({
   legacy: z.array(z.object({ path: z.string().startsWith("/"), expect: z.array(z.number().int()).min(1) })).default([]),
   // REQ-242: bandera → páginas que solo se prueban si esa bandera está en "true" ("A+B" = las dos).
   flagged: z.record(z.string().regex(/^[A-Z][A-Z0-9_]*(\+[A-Z][A-Z0-9_]*)*$/), z.array(z.string().startsWith("/"))).default({}),
+  // REQ-675 (Gate 3): reglas de descubrimiento que solo corren con su bandera en "true" (ficha en inglés).
+  flaggedDiscover: z.record(z.string().regex(/^[A-Z][A-Z0-9_]*$/), z.array(z.object({ from: z.string().startsWith("/"), pattern: regex, take: z.number().int().positive(), required: z.boolean().default(false) }))).default({}),
+  // REQ-675/REQ-676: con la bandera, páginas cuyo <head> crudo pasa por el contrato hreflang/canonical (más las fichas descubiertas).
+  localeContract: z.record(z.string().regex(/^[A-Z][A-Z0-9_]*$/), z.array(z.string().startsWith("/"))).default({}),
 });
 export type SmokeConfig = z.infer<typeof SmokeConfigSchema>;
 export type DiscoverRule = SmokeConfig["discover"][number];
@@ -107,4 +111,17 @@ export function legacyFailures(legacy: SmokeConfig["legacy"], statusByPath: Reco
     const s = statusByPath[l.path] ?? null;
     return s !== null && l.expect.includes(s) ? [] : [`${l.path}: URL vieja respondió ${s ?? "sin respuesta"} (se esperaba ${l.expect.join(" o ")})`];
   });
+}
+
+// REQ-675: reglas `flaggedDiscover` de las banderas encendidas (entorno del runner o wrangler.jsonc).
+export function flaggedDiscoverRules(cfg: SmokeConfig, vars: Record<string, string>, env: Record<string, string | undefined>): DiscoverRule[] {
+  return Object.entries(cfg.flaggedDiscover).filter(([f]) => (env[f] ?? vars[f]) === "true").flatMap(([, r]) => r);
+}
+
+// REQ-676: páginas del contrato de idioma: las fijas de la bandera + cada ficha descubierta en /{lang}/ y su versión en español.
+export function localeContractPages(cfg: SmokeConfig, vars: Record<string, string>, env: Record<string, string | undefined>, discovered: string[]): string[] {
+  const on = Object.entries(cfg.localeContract).filter(([f]) => (env[f] ?? vars[f]) === "true");
+  if (!on.length) return [];
+  const fichas = discovered.filter((p) => /^\/[a-z]{2}\/destinos\/[^/]+\/[^/]+\/[^/?#]+$/.test(p));
+  return [...new Set([...on.flatMap(([, ps]) => ps), ...fichas, ...fichas.map((p) => p.replace(/^\/[a-z]{2}(?=\/)/, ""))])];
 }

@@ -14,19 +14,81 @@
     "/sitemap-index.xml"
   ],
   "discover": [
-    { "from": "/tours", "pattern": "^/viajes/[^/]+/[^/?#]+$", "take": 2, "required": true },
-    { "from": "/destinos/mx/ciudad-de-mexico", "pattern": "^/destinos/mx/ciudad-de-mexico/[^/?#]+$", "take": 1, "required": true }
+    {
+      "from": "/tours",
+      "pattern": "^/viajes/[^/]+/[^/?#]+$",
+      "take": 2,
+      "required": true
+    },
+    {
+      "from": "/destinos/mx/ciudad-de-mexico",
+      "pattern": "^/destinos/mx/ciudad-de-mexico/[^/?#]+$",
+      "take": 1,
+      "required": true
+    }
   ],
-  "optional": ["/ayuda", "/admin/entrar"],
+  "optional": [
+    "/ayuda",
+    "/admin/entrar"
+  ],
   "legacy": [
-    { "path": "/tours/cmvuuv0qz0000psp7xrmovnmv", "expect": [301, 410] }
+    {
+      "path": "/tours/cmvuuv0qz0000psp7xrmovnmv",
+      "expect": [
+        301,
+        410
+      ]
+    }
   ],
   "flagged": {
-    "NOSOTROS_ENABLED": ["/nosotros"],
-    "CONTACTO_ENABLED": ["/contacto"],
-    "EXPERTOS_ENABLED": ["/asesores"],
-    "BLOG_ENABLED+BLOG_SHOW_DRAFTS": ["/blog", "/blog/china", "/blog/china/visa-china-para-mexicanos"],
-    "INDEXNOW_ENABLED": ["/indexnow-key.txt"],
-    "PAID_TOURS_ENABLED": ["/reserva/humo-sin-reserva-0000/pago/cancelado", "/reserva/humo-sin-reserva-0000/pago/exito"]
+    "NOSOTROS_ENABLED": [
+      "/nosotros"
+    ],
+    "CONTACTO_ENABLED": [
+      "/contacto"
+    ],
+    "EXPERTOS_ENABLED": [
+      "/asesores"
+    ],
+    "BLOG_ENABLED+BLOG_SHOW_DRAFTS": [
+      "/blog",
+      "/blog/china",
+      "/blog/china/visa-china-para-mexicanos"
+    ],
+    "INDEXNOW_ENABLED": [
+      "/indexnow-key.txt"
+    ],
+    "PAID_TOURS_ENABLED": [
+      "/reserva/humo-sin-reserva-0000/pago/cancelado",
+      "/reserva/humo-sin-reserva-0000/pago/exito"
+    ],
+    "LOCALE_URLS_ENABLED": [
+      "/en/",
+      "/en/tours",
+      "/en/destinos",
+      "/en/destinos/mx/ciudad-de-mexico"
+    ]
+  },
+  "flaggedDiscover": {
+    "LOCALE_URLS_ENABLED": [
+      {
+        "from": "/en/destinos/mx/ciudad-de-mexico",
+        "pattern": "^/en/destinos/mx/ciudad-de-mexico/[^/?#]+$",
+        "take": 1,
+        "required": true
+      }
+    ]
+  },
+  "localeContract": {
+    "LOCALE_URLS_ENABLED": [
+      "/",
+      "/en",
+      "/tours",
+      "/en/tours",
+      "/destinos",
+      "/en/destinos",
+      "/destinos/mx/ciudad-de-mexico",
+      "/en/destinos/mx/ciudad-de-mexico"
+    ]
   }
 }

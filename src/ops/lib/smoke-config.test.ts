@@ -89,6 +89,6 @@ describe("parseSmokeConfig (REQ-305)", () => {
     expect(() => parseSmokeConfig({ fixed: ["/"], discover: [{ from: "/x", pattern: "(", take: 1 }] })).toThrow();
   });
   it("REQ-305: la lista anterior (solo fixed) sigue siendo válida", () => {
-    expect(parseSmokeConfig({ fixed: ["/"] })).toEqual({ fixed: ["/"], optional: [], discover: [], legacy: [], flagged: {} });
+    expect(parseSmokeConfig({ fixed: ["/"] })).toEqual({ fixed: ["/"], optional: [], discover: [], legacy: [], flagged: {}, flaggedDiscover: {}, localeContract: {} }); // REQ-675: nuevas claves con valor vacío por defecto
   });
 });
