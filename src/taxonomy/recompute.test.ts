@@ -31,6 +31,9 @@ function db() {
   tour("z", 12, 0, "Inactivo", 0);
   d.prepare(`INSERT INTO "Trip" VALUES ('t1','circuito','cultural',8,'Perú esencial','Essential Peru',1500,'["es"]','[{"mode":"private"}]',0,'published')`).run();
   d.prepare(`INSERT INTO "Trip" VALUES ('t2','tour','urbano',1,'Borrador','Draft',10,'[]','[]',0,'draft')`).run();
+  // REQ-1253: el recálculo lee el nombre de la ciudad base (Tour.cityId → City.translations), como en producción.
+  d.exec(`ALTER TABLE "Tour" ADD COLUMN "cityId" INTEGER`);
+  d.exec(`CREATE TABLE "City"("id" INTEGER PRIMARY KEY, "translations" TEXT)`);
   return d;
 }
 const SYNC = "2026-11-06T05:00:00.000Z";
@@ -59,7 +62,7 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
     const actions = (await fullRun(d, "2026-11-06T06:00:00.000Z")).map((r) => r.action);
     expect(actions).toEqual(["start", "tours", "tours", "tours", "trips", "publish"]);
     const formatos = Object.fromEntries((d.prepare(`SELECT "experienceId","term" FROM "ExperienceTaxonomy" WHERE "axis"='formato'`).all() as { experienceId: string; term: string }[]).map((r) => [r.experienceId, r.term]));
-    expect(formatos).toEqual({ a: "pieza-libre", b: "caminata", c: "tour", d: "por-revisar", e: "excursion-dia", t1: "circuito" });
+    expect(formatos).toEqual({ a: "pieza-libre", b: "caminata", c: "caminata" /* REQ-1252: cat. 5 sin señal, por defecto caminata */, d: "por-revisar", e: "excursion-dia", t1: "circuito" });
     expect(d.prepare(`SELECT "term" FROM "ExperienceTaxonomy" WHERE "experienceId"='a' AND "axis"='atributo' ORDER BY "term"`).all()).toEqual(expect.arrayContaining([{ term: "idioma-es" }, { term: "favorito" }]));
   });
   it("REQ-409 no escribe en Tour, TourTranslation ni Trip (ni el content_hash)", async () => {
@@ -85,13 +88,13 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
   it("REQ-409 barrera: si un formato cae más de 30 %, la corrida se aborta y se sigue leyendo la anterior", async () => {
     const d = db();
     for (let i = 0; i < 30; i++) {
-      d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h')`).run(`w${String(i).padStart(2, "0")}`);
+      d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
       d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", ""); // REQ-541: «Caminata» en el título ya es a pie en cualquier categoría
     }
     await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
     d.exec(`UPDATE "Tour" SET "categoryId"=19 WHERE "id" LIKE 'w%'`);
     const last = (await fullRun(d, "2026-11-07T06:00:00.000Z", { batch: 50, lastSyncAt: "2026-11-07T05:00:00.000Z" })).at(-1)!;
-    expect(last).toMatchObject({ action: "abort", reason: expect.stringContaining("caminata cae de 31 a 1") });
+    expect(last).toMatchObject({ action: "abort", reason: expect.stringContaining("caminata cae de 32 a 2") /* REQ-1252: «Tapas y vino» también es caminata */ });
     const runs = d.prepare(`SELECT "status" FROM "TaxonomyRun" ORDER BY "startedAt"`).all();
     expect(runs).toEqual([{ status: "published" }, { status: "aborted" }]);
   });

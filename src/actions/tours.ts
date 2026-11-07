@@ -19,6 +19,7 @@ import { withRetry } from '@/tours/lib/d1-load';
 import { cached, cacheKey, POLICY } from '@/cache/edge';
 import { priceLabelsFor, type CardPriceLabels } from '@/tours/lib/price-label';
 import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
+import { cityNamesOf } from '@/taxonomy/lib/text';
 import { cardFormatsFor } from '@/tours/lib/card-format';
 import { loadFx } from '@/trips/public-load';
 import { getDestinations } from '@/destinations/server';
@@ -74,11 +75,11 @@ export async function fetchTours(
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
-    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[]; formato?: string };
+    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[]; formato?: string; city?: { translations?: unknown } };
     const rows = ((list as { data?: Row[] }).data ?? []);
     // REQ-522: formato de la taxonomía de cada tarjeta, calculado aquí (el diccionario no viaja al navegador).
     // REQ-548: si la fila trae el formato del índice del catálogo (el que filtran los chips), ese manda.
-    const cardFormats = { ...cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title) }))), ...Object.fromEntries(rows.filter((t) => t.formato).map((t) => [t.id, t.formato as string])) };
+    const cardFormats = { ...cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title), cities: cityNamesOf(t.city?.translations) }))), ...Object.fromEntries(rows.filter((t) => t.formato).map((t) => [t.id, t.formato as string])) };
     // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR + «aprox. MXN» de cada tarjeta, armado aquí (servidor, idioma fijo; INC-001).
     if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return { ...list, cardFormats };
     // REQ-668 (Gate 3): ficha final de cada tarjeta (sin el 301 de /tours/{id}); si el árbol falla, sin resolver.

@@ -13,11 +13,12 @@ const entry = (id: string, formato: string, reviews = 10): CatalogEntry => ({
 describe("chips de tipos principales en /tours (PO, 6-11 21:16)", () => {
   it("REQ-546: «Todo» primero, luego Pieza libre si existe y después los demás por cantidad; con las etiquetas cortas de la tarjeta", () => {
     const chips = formatChips({ caminata: 40, "pieza-libre": 12, tour: 90, "excursion-dia": 55 }, "es");
-    expect(chips.map((c) => c.label)).toEqual(["Todo", "Pieza libre", "Visita guiada", "Excursión de un día", "Caminata"]);
+    expect(chips.map((c) => c.label)).toEqual(["Todo", "Pieza libre", "Tour", "Excursión de un día", "Caminata"]); // REQ-1250: «tour» se llama Tour
     expect(chips.map((c) => c.slug)).toEqual([null, "pieza-libre", "tour", "excursion-dia", "caminata"]);
     expect(chips[0].count).toBe(197);
     expect(chips.map((c) => c.label)).not.toContain("Tours");
-    expect(formatChips({ tour: 3 }, "en").map((c) => c.label)).toEqual(["All", "Guided tour"]);
+    expect(formatChips({ tour: 3 }, "en").map((c) => c.label)).toEqual(["All", "Tour"]); // REQ-1250
+    expect(formatChips({ "visita-guiada": 4, tour: 3 }, "es").map((c) => c.label)).toEqual(["Todo", "Visita guiada", "Tour"]); // REQ-1250
   });
 
   it("REQ-547: un formato nuevo con resultados genera su chip solo; con cero resultados no hay chip", () => {

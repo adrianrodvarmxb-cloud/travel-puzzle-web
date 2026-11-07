@@ -40,8 +40,9 @@ export function createTaxonomyRepo(db: TaxonomyD1): TaxonomyRepo {
     async toursAfter(cursor, limit) {
       return (await all(
         `SELECT t."id", t."categoryId", t."priceValue", t."durationMinutes", t."guideLanguages", t."rating", t."reviewsNumber",
-                es."title" AS "titleEs", en."title" AS "titleEn", es."brief" AS "briefEs", en."brief" AS "briefEn"
+                es."title" AS "titleEs", en."title" AS "titleEn", es."brief" AS "briefEs", en."brief" AS "briefEn", c."translations" AS "cityTr"
            FROM "Tour" t
+           LEFT JOIN "City" c ON c."id" = t."cityId"
            LEFT JOIN "TourTranslation" es ON es."tourId" = t."id" AND es."language" = 'es'
            LEFT JOIN "TourTranslation" en ON en."tourId" = t."id" AND en."language" = 'en'
           WHERE t."isActive" = 1 AND t."id" > ? ORDER BY t."id" LIMIT ?`, cursor, limit,
