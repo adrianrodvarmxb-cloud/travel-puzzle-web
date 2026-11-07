@@ -7,7 +7,7 @@ import type { Correo } from "./lib/correo";
 
 const base = (x: Partial<ProveedorFila>): ProveedorFila => ({
   id: "p", nombre: "P", tipo: "dmc", publicado: false, bloqueado: false, agencyId: null, canal: "correo", idioma: "es", contacto: "",
-  correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
+  correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", correosInvalidos: [], ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
 });
 
 function memoria(lista: ProveedorFila[]) {
@@ -19,6 +19,7 @@ function memoria(lista: ProveedorFila[]) {
     registrarMensaje: async (m) => { mensajes.push(m); },
     yaRegistrado: async (id) => mensajes.some((m) => m.id === id),
     registrarDocumento: async (d) => { documentos.push(d); },
+    marcarInvalidos: async (id, correos) => { lista.find((x) => x.id === id)!.correosInvalidos = correos; },
   };
   return { repo, mensajes, documentos, lista };
 }
@@ -69,5 +70,40 @@ describe("REQ-1297: el primer correo de Adri llega con copia a Mila", () => {
       { repo: m.repo, subir: async () => {} });
     expect(r).toEqual({ estado: "nuestro" });
     expect(m.lista[0]).toMatchObject({ etapa: "contactado", ultimoNuestro: "2026-11-09T16:00:00Z", hiloId: "<adri@x>" });
+  });
+});
+
+describe("REQ-1330: respuestas automáticas y rebotes", () => {
+  const enviado = { etapa: "contactado" as const, ultimoNuestro: "2026-11-09T10:00:00Z" };
+  it("REQ-1330: «fuera de la oficina» queda en el historial y no cuenta como respuesta", async () => {
+    const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
+    const r = await procesarEntrante({ messageId: "<oo@x>", fecha: "2026-11-09T11:00:00Z", de: "erika@tangol.com", para: ["comercial@travelpuzzle.com.mx"], cc: [],
+      asunto: "Respuesta automática: Fuera de la oficina", texto: "Regreso el lunes", adjuntos: [] }, { repo: m.repo, subir: async () => {} });
+    expect(r).toEqual({ estado: "automatica", proveedorId: "tangol" });
+    expect(m.lista[0].etapa).toBe("contactado");
+    expect(m.lista[0].ultimoSuyo).toBeUndefined();
+    expect(m.mensajes[0].tipo).toBe("automatica");
+  });
+  it("REQ-1330: la cabecera Auto-Submitted también cuenta como automática", async () => {
+    const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
+    const r = await procesarEntrante({ messageId: "<as@x>", fecha: "2026-11-09T11:00:00Z", de: "erika@tangol.com", para: [], cc: [],
+      asunto: "Re: Travel Puzzle", texto: "", adjuntos: [], encabezados: { "Auto-Submitted": "auto-replied" } }, { repo: m.repo, subir: async () => {} });
+    expect(r.estado).toBe("automatica");
+  });
+  it("REQ-1330: un rebote marca la dirección inválida, no cambia la etapa y Mila ya no le escribe", async () => {
+    const m = memoria([base({ id: "inca", correos: ["vieja@incaworld.com", "centralincaworldtravel@gmail.com"], ...enviado })]);
+    const r = await procesarEntrante({ messageId: "<b@x>", fecha: "2026-11-09T11:00:00Z", de: "mailer-daemon@googlemail.com", para: ["comercial@travelpuzzle.com.mx"], cc: [],
+      asunto: "Delivery Status Notification (Failure)", texto: "Address not found: vieja@incaworld.com", adjuntos: [] }, { repo: m.repo, subir: async () => {} });
+    expect(r).toEqual({ estado: "rebote", proveedorId: "inca", correos: ["vieja@incaworld.com"] });
+    expect(m.lista[0]).toMatchObject({ etapa: "contactado", correosInvalidos: ["vieja@incaworld.com"] });
+    const enviados: Correo[] = [];
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-16T15:00:00Z", enviar: async (c) => { enviados.push(c); return "<1@r>"; } });
+    expect(enviados[0].to).toEqual(["centralincaworldtravel@gmail.com"]);
+  });
+  it("REQ-1330: una respuesta escrita por una persona sigue contando", async () => {
+    const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
+    await procesarEntrante({ messageId: "<p@x>", fecha: "2026-11-09T12:00:00Z", de: "erika@tangol.com", para: [], cc: [], asunto: "Re: Travel Puzzle", texto: "Con gusto", adjuntos: [] },
+      { repo: m.repo, subir: async () => {} });
+    expect(m.lista[0].etapa).toBe("respondio");
   });
 });

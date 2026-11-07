@@ -14,9 +14,10 @@ export interface Reporte { enviados: number; sinRespuesta: number; errores: stri
 const fechaCorta = (iso?: string) => (iso ? iso.slice(0, 10) : undefined);
 
 async function mandar(p: ProveedorFila, tipo: TipoCorreo, deps: DepsDiario): Promise<boolean> {
-  const datos = { pedidos: numerar([...pedidosDeIntegracion(p.integracion, p.idioma), ...pedidosDeCobro(p.cobro, p.idioma)]), contacto: p.contacto, proveedor: p.nombre, destinos: p.destinos, asunto: p.ultimoAsunto ?? undefined, fecha: fechaCorta(p.ultimoNuestro), tema: p.destinos ? `trabajar juntos en ${p.destinos}` : undefined };
+  const datos = { pedidos: numerar([...pedidosDeIntegracion(p.integracion, p.idioma), ...pedidosDeCobro(p.cobro, p.idioma)]), contacto: p.contacto, proveedor: p.nombre, destinos: p.destinos, asunto: p.ultimoAsunto ?? `Travel Puzzle · ${p.nombre}`, fecha: fechaCorta(p.ultimoNuestro), tema: p.destinos ? `trabajar juntos en ${p.destinos}` : undefined };
   const t = plantilla(tipo, p.idioma, datos);
-  const correo = armarCorreo({ para: p.correos, asunto: rellenar(t.asunto, datos), cuerpo: rellenar(t.cuerpo, datos), idioma: p.idioma, inReplyTo: tipo === "recordatorio" ? p.hiloId ?? undefined : undefined });
+  const correo = armarCorreo({ para: p.correos.filter((x) => !p.correosInvalidos.map((y) => y.toLowerCase()).includes(x.toLowerCase())), // REQ-1330
+    asunto: rellenar(t.asunto, datos), cuerpo: rellenar(t.cuerpo, datos), idioma: p.idioma, inReplyTo: tipo === "recordatorio" ? p.hiloId ?? undefined : undefined });
   if (!correo) return false;
   const id = await deps.enviar(correo);
   await deps.repo.registrarMensaje({ id, proveedorId: p.id, direccion: "salida", asunto: correo.subject, resumen: correo.text, fecha: deps.hoy, tipo });
@@ -27,7 +28,7 @@ async function mandar(p: ProveedorFila, tipo: TipoCorreo, deps: DepsDiario): Pro
 
 export async function revisionDiaria(deps: DepsDiario): Promise<Reporte> {
   const r: Reporte = { enviados: 0, sinRespuesta: 0, errores: [], porPresentar: [] };
-  const todos = (await deps.repo.todos()).filter((p) => !p.bloqueado && p.correos.length);
+  const todos = (await deps.repo.todos()).filter((p) => !p.bloqueado && p.correos.some((x) => !p.correosInvalidos.includes(x))); // REQ-1330
   const intentar = async (p: ProveedorFila, tipo: TipoCorreo) => {
     try { if (await mandar(p, tipo, deps)) r.enviados++; } catch (e) { r.errores.push(`${p.id}: ${(e as Error).message}`); }
   };
