@@ -40,7 +40,7 @@ describe("centro de ayuda", () => {
     const all = ["es", "en"].flatMap((l) => faqTopics(l).flatMap((t) => t.items.map((i) => `${i.q} ${i.a}`))).join(" ");
     expect(all).not.toMatch(/free ?tour\.com|freetour/i);
     expect(all).toContain("info@travelpuzzle.com.mx");
-    expect(all).toContain("9:00 a 19:00");
+    expect(all).toContain("10:00 a 14:00 y de 16:00 a 20:00"); // REQ-1248
     expect(all).toContain("24 h");
   });
 

@@ -2,12 +2,17 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { sqlite } from "@/ingest/test-utils";
 
-const SQL = readFileSync("docs/migraciones-propuestas/0023_taxonomia_linaje.sql", "utf8");
+const SQL = readFileSync("migrations/0023_taxonomia_linaje.sql", "utf8");
 const base = () => sqlite("migrations/0017_taxonomia.sql");
 
-describe("REQ-750 migración propuesta 0023: procedencia en ExperienceTaxonomy", () => {
-  it("REQ-750 está en docs/migraciones-propuestas (candado) y solo agrega columnas a la tabla propia", () => {
-    expect(() => readFileSync("migrations/0023_taxonomia_linaje.sql")).toThrow();
+describe("REQ-750 migración 0023: procedencia en ExperienceTaxonomy", () => {
+  // REQ-773 reemplaza el «está en docs/migraciones-propuestas» de REQ-750 (candado 4 del gate de copia exacta).
+  it("REQ-773 vive en migrations/ y ya no en docs/migraciones-propuestas; va después de la 0017 y la 0022", () => {
+    expect(() => readFileSync("docs/migraciones-propuestas/0023_taxonomia_linaje.sql")).toThrow();
+    expect(readFileSync("migrations/0017_taxonomia.sql", "utf8")).toMatch(/"ExperienceTaxonomy"/);
+    expect(readFileSync("migrations/0022_provider_record.sql", "utf8")).toMatch(/"ProviderRecord"/);
+  });
+  it("REQ-750 solo agrega columnas a la tabla propia", () => {
     const code = SQL.replace(/--[^\n]*/g, "");
     expect(code).not.toMatch(/\b(DROP|UPDATE|DELETE|INSERT|CREATE)\b/i);
     expect([...code.matchAll(/ALTER TABLE "([^"]+)"/g)].map((m) => m[1]).every((t) => t === "ExperienceTaxonomy")).toBe(true);

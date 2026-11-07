@@ -96,7 +96,7 @@ const ES: FaqTopic[] = [
         id: "contacto",
         tags: "telefono whatsapp correo email horario phone",
         q: "¿Cómo los contacto?",
-        a: "Por WhatsApp o en info@travelpuzzle.com.mx, de 9:00 a 19:00 horas. Toda la comunicación sobre tus reservas es con Travel Puzzle.",
+        a: "Por WhatsApp o en info@travelpuzzle.com.mx, de 10:00 a 14:00 y de 16:00 a 20:00 horas. Toda la comunicación sobre tus reservas es con Travel Puzzle.",
       },
       {
         id: "datos",
@@ -178,7 +178,7 @@ const EN: FaqTopic[] = [
         id: "contacto",
         tags: "telefono whatsapp correo email horario phone",
         q: "How can I contact you?",
-        a: "On WhatsApp or at info@travelpuzzle.com.mx, from 9:00 to 19:00. All communication about your bookings is with Travel Puzzle.",
+        a: "On WhatsApp or at info@travelpuzzle.com.mx, from 10:00 to 14:00 and 16:00 to 20:00. All communication about your bookings is with Travel Puzzle.",
       },
       {
         id: "datos",

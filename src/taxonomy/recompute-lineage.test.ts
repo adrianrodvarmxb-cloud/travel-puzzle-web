@@ -7,7 +7,7 @@ import { asD1, sqlite, MIGRATION_0022, type Sqlite } from "@/ingest/test-utils";
 
 // Datos inventados (REQ-748).
 function db() {
-  const d = sqlite("migrations/0017_taxonomia.sql", MIGRATION_0022, "docs/migraciones-propuestas/0023_taxonomia_linaje.sql");
+  const d = sqlite("migrations/0017_taxonomia.sql", MIGRATION_0022, "migrations/0023_taxonomia_linaje.sql");
   d.exec(`CREATE TABLE "Tour"("id" TEXT PRIMARY KEY, "externalId" INTEGER, "categoryId" INTEGER, "priceValue" TEXT, "durationMinutes" INTEGER, "isActive" BOOLEAN, "guideLanguages" TEXT DEFAULT '[]', "rating" TEXT, "reviewsNumber" INTEGER DEFAULT 0)`);
   d.exec(`CREATE TABLE "TourTranslation"("tourId" TEXT, "language" TEXT, "title" TEXT, "brief" TEXT)`);
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
