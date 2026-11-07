@@ -32,6 +32,7 @@ const LOOK: Record<CardLook, { photo: string; meta: string; title: string; shell
     },
 };
 
+// REQ-860
 export function ExperienceCard({ card, look = 'standard', featured = false }: { card: ExperienceCardModel; look?: CardLook; featured?: boolean }) {
     const l = LOOK[look];
     return (
@@ -47,20 +48,25 @@ export function ExperienceCard({ card, look = 'standard', featured = false }: { 
                 ) : (
                     <span className="flex h-full items-center justify-center text-4xl opacity-50" aria-hidden>🌍</span>
                 )}
-                {/* REQ-526: solo dos insignias sobre la foto; el degradado no lleva texto ni logo. */}
+                {/* REQ-526 + REQ-860: sobre la foto solo la categoría; el degradado no lleva texto ni logo. */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-[linear-gradient(180deg,rgba(10,19,48,0.55),transparent)]" aria-hidden />
                 {look === 'showcase' && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(180deg,transparent,rgba(18,29,69,0.85))]" aria-hidden />}
-                {card.favorite && (
-                    <span data-testid="card-favorite" className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#EAF54F] px-2.5 py-1 text-[11px] font-bold leading-none text-[#0A1330] shadow-sm">
-                        <span aria-hidden>★</span> {card.favorite}
-                    </span>
-                )}
                 <span data-testid="card-category" className="absolute right-3 top-3 max-w-[60%] truncate rounded-full bg-[#0A1330]/75 px-2.5 py-1 text-[11px] font-semibold leading-none text-white backdrop-blur-sm">
                     {card.category}
                 </span>
             </div>
             <div className="flex flex-1 flex-col gap-1.5 px-4 pb-4 pt-3.5">
-                {card.meta && <p data-testid="card-meta" className={`font-data line-clamp-1 uppercase ${l.meta}`}>{card.meta}</p>}
+                {/* REQ-860 (PO, 6-11 22:36, C5 de FREETOUR): «★ Favorito» fuera de la foto, en la fila de ciudad · duración. */}
+                {(card.meta || card.favorite) && (
+                    <div className="flex min-h-[18px] items-center justify-between gap-2">
+                        <p data-testid="card-meta" className={`font-data min-w-0 truncate uppercase ${l.meta}`}>{card.meta ?? ''}</p>
+                        {card.favorite && (
+                            <span data-testid="card-favorite" className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#EAF54F]/[0.14] px-2 py-0.5 text-[11px] font-bold leading-none text-[#EAF54F] ring-1 ring-inset ring-[#EAF54F]/40">
+                                <span aria-hidden>★</span> {card.favorite}
+                            </span>
+                        )}
+                    </div>
+                )}
                 <h3 className={`font-display line-clamp-2 ${l.title}`}>{card.title}</h3>
                 {card.description && <p data-testid="card-description" className="line-clamp-2 text-sm leading-relaxed text-[#A9B6D6]">{card.description}</p>}
                 <div className="mt-auto pt-2">

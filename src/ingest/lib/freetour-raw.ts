@@ -3,6 +3,7 @@
  * de descartar los que no traen id (la copia exacta no se filtra). Puro.
  */
 import type { RawItem } from "./archive-plan";
+import { freetourRawSchema } from "./contract";
 
 // REQ-743
 export function freetourRawItems(body: unknown, page: number): RawItem[] {
@@ -17,6 +18,8 @@ export function freetourRawItems(body: unknown, page: number): RawItem[] {
       providerUpdatedAt: typeof o.updatedAt === "string" && o.updatedAt ? o.updatedAt : null,
       experience: { kind: "tour", id: null }, // se liga por Tour.externalId (el id de Travel Puzzle se crea al publicar)
       sourceRef: `/tours?page=${page}`,
+      // REQ-764: si el crudo no pasa el esquema del contrato se guarda igual (la copia no se filtra) y queda marcado.
+      schemaOk: freetourRawSchema.safeParse(t).success,
     };
   });
 }

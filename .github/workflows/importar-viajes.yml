@@ -7,7 +7,7 @@ name: Importar viajes
 on:
   push:
     branches: [feat/inca-carga]
-    paths: [imports/**, src/trips/lib/bulk-import.ts, src/scripts/import-trips.ts, .github/workflows/importar-viajes.yml]
+    paths: [imports/**, src/trips/lib/bulk-import.ts, src/scripts/import-trips.ts, src/scripts/ingest-contract.ts, src/ingest/**, .github/workflows/importar-viajes.yml]
   workflow_dispatch:
     inputs:
       archivo:
@@ -34,6 +34,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
+      # REQ-763: compuerta del contrato de ingesta. Si el archivo no cumple (esquema, normalize, mapeo, volátiles, archivo
+      # crudo o linaje fuera de la línea base), el job se detiene aquí y NINGÚN paso de escritura corre.
+      - name: Contrato de ingesta (obligatorio)
+        run: npx tsx src/scripts/ingest-contract.ts "$ARCHIVO"
       - name: Fotos del operador (enlace de Drive que compartió Inca World)
         run: |
           mkdir -p operador && cd operador

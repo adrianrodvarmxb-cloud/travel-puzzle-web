@@ -35,7 +35,7 @@ describe("REQ-402 precedencia del Eje A (gana la primera regla)", () => {
   });
   it("REQ-402 #7 circuito por ≥1440 min o «N días» en el título; 1439 no", () => {
     expect(f(ft(4, 90, "Visita", 1440)).formato).toBe("circuito");
-    expect(f(ft(4, 90, "Visita", 1439)).formato).toBe("excursion-dia");
+    expect(f(ft(4, 90, "Visita desde Cusco", 1439)).formato).toBe("excursion-dia"); // REQ-866: con salida (sin ella, REQ-865: tour)
     expect(f(ft(25, 90, "Selva amazónica 3 días")).formato).toBe("circuito");
     expect(f(ft(25, 90, "Inca trail 4 days")).formato).toBe("circuito");
     expect(f(ft(25, 90, "2-day tour")).formato).toBe("circuito");

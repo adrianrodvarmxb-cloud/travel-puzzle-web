@@ -49,6 +49,18 @@ const zFormato = base.extend({
   palabrasEnCiudad: z.array(palabra).optional(),
   /** REQ-542: en `excursion-dia`, salida explícita («desde X», «day trip to») que gana sobre palabrasEnCiudad. */
   palabrasSaleSiempre: z.array(palabra).optional(),
+  /** REQ-866: en `excursion-dia`, señales de salida de la ciudad base en el título («desde», «excursión … a X», «day trip», «pickup»). */
+  palabrasSalidaTitulo: z.array(palabra).optional(),
+  /** REQ-866: en `excursion-dia`, señales de salida en el resumen (transporte o recogida incluidos, «cerca de X», «a las afueras»). */
+  palabrasSalidaResumen: z.array(palabra).optional(),
+  /** REQ-867…869: en `experiencia-unica`, palabras para partir un título combinado y reconocer cada actividad. */
+  combinado: z.object({
+    separadores: z.array(palabra).min(1),
+    espectaculo: z.array(palabra).min(1),
+    clase: z.array(palabra).min(1),
+    gastronomia: z.array(palabra).min(1),
+    recorrido: z.array(palabra).min(1),
+  }).optional(),
   coleccion_es: z.string().optional(),
   termino_en_estado: z.enum(["por_firmar", "firmado"]).optional(),
   /** Nombre visible en pt/de/fr/it (plan §7.3). */
