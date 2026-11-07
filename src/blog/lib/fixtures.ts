@@ -33,3 +33,30 @@ export function samplePost(over: Partial<PostInput> = {}): PostInput {
     ...over,
   };
 }
+
+const plain = (n: number) => Array.from({ length: n }, () => "texto").join(" ");
+
+/** REQ-965: entrada del agente diario que pasa el validador (plantilla sin minicaso ni citas). Solo para tests. */
+export function sampleDaily(over: Partial<PostInput> = {}): PostInput {
+  return {
+    slug: "entrada-diaria-de-prueba",
+    pillar: "europa",
+    targetTerm: "termino diario de prueba",
+    title: "¿Entrada diaria de prueba?",
+    summary: "Resumen de prueba de la entrada diaria.",
+    draft: false,
+    publishedAt: "2026-11-07",
+    author: "editorial",
+    origen: "agente-diario",
+    mix: "pago",
+    tema: { tipo: "calendario", clusterId: "T-01", fuentes: [] },
+    enBreve: plain(45),
+    entrada: "Parte de la guía [Viajar a Europa desde México](/blog/europa). Mira los [tours en Europa](/tours?search=Europa).",
+    sections: [1, 2, 3, 4].map((i) => ({ h2: `¿Pregunta diaria ${["uno", "dos", "tres", "cuatro"][i - 1]}?`, answer: "Respuesta corta de prueba.", body: ["Párrafo de prueba con **negrita**."] })),
+    datos: [{ text: "Dato de prueba con 90 días.", source: { label: "Fuente de prueba", url: "https://example.org/dato" }, checkedAt: "2026-11-06" }],
+    comoLoSabemos: "Redactado por el equipo editorial con apoyo de IA a partir de las fuentes públicas enlazadas y del catálogo del sitio.",
+    visual: { kind: "tabla", caption: "Tabla de prueba", head: ["A", "B"], rows: [["uno", "dos"]] },
+    cta: { kind: "comercial", label: "Ver tours en Europa" },
+    ...over,
+  };
+}

@@ -41,7 +41,7 @@ Derivado del catálogo publicado el 6 nov 2026 (sitemaps y páginas de ciudad de
 | 28 | EU-10 | europa | pago | tours a pie en londres en español | /destinos/gb/londres |
 | 29 | CN-06 | china | pago | internet en china para turistas | /tours?search=China |
 | 30 | FT-EU-03 | europa | free | free tour en praga | /destinos/cz/praga |
-| 31 | CO-04 | colombia | pago | requisitos para viajar a colombia desde mexico | /destinos/co |
+| 31 | CO-04 | colombia | pago | requisitos de entrada a colombia para mexicanos | /destinos/co |
 | 32 | EU-11 | europa | pago | excursiones de un dia desde lisboa | /destinos/pt/lisboa |
 | 33 | PE-04 | peru | pago | mal de altura en cusco | /destinos/pe/cusco |
 | 34 | CN-07 | china | pago | tren bala de pekin a shanghai | /destinos/cn/shanghai |

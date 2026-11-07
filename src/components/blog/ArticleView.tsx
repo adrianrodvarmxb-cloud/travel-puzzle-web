@@ -125,7 +125,11 @@ export function ArticleView({ m }: { m: ArticleModel }) {
                 <tbody>{p.visual.rows.map((r, i) => <tr key={i} className={i % 2 ? 'bg-[#0E1A40]' : 'bg-[#10204D]'}>{r.map((c, j) => <td key={j} className={`px-4 py-3 ${c.includes(GAP) ? 'text-[#E3D2FF]' : ''}`}>{c}</td>)}</tr>)}</tbody>
               </table>
             </div>
-            <figcaption className={`mt-2 text-sm text-[#A9B6D6] ${gapCls(p.visual.caption)}`}>{p.visual.caption}</figcaption>
+            <figcaption className={`mt-2 text-sm text-[#A9B6D6] ${gapCls(p.visual.caption)}`}>
+              {p.visual.caption}
+              {/* REQ-966: la tabla con cifras lleva su fuente pública enlazada */}
+              {p.visual.source && <> Fuente: <a href={p.visual.source.url} target="_blank" rel="noopener noreferrer" className="underline">{p.visual.source.label}</a>.</>}
+            </figcaption>
           </figure>
         )}
         {/* 12 · FAQ (sin schema FAQPage) */}
