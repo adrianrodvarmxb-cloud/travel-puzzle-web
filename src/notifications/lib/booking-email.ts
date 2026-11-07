@@ -4,6 +4,7 @@
  * enlace para cancelar o cambiar. Función pura.
  */
 import type { Weather, WeatherKind } from "@/notifications/weather";
+import { cardProvider } from "@/tours/lib/experience-card";
 
 export type EmailLang = "es" | "en";
 
@@ -52,6 +53,8 @@ export interface BookingEmailData {
   isFree?: boolean;
   /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED); sin él no se menciona el carrito. */
   tripUrl?: string | null;
+  /** REQ-812: reserva con precio (tour de pago o free tour con tarifa fija): cancelación de 24 h; sin propina. */
+  paidPolicy?: { cancel: string; noShow: string } | null;
   /** REQ-264: bloque de venta cruzada (sin FREETOUR), ya armado; null o ausente = no se pinta. */
   crossSell?: CrossSellBlock | null;
   /** Canales de Travel Puzzle; cada uno aparece solo si está configurado. */
@@ -82,6 +85,7 @@ const T = {
     intro: "Tu lugar está reservado. Estos son los detalles:",
     ref: "Número de reserva", tour: "Tour", provider: "Organiza", date: "Fecha y hora", duration: "Duración",
     language: "Idioma del tour", people: "Personas", meeting: "Punto de encuentro",
+    tbc: "Por confirmar", localGuide: "Un guía local",
     manage: "Ver, cambiar o cancelar mi reserva",
     maps: "Cómo llegar",
     hero: "¡Tu lugar está apartado!",
@@ -131,6 +135,7 @@ const T = {
     intro: "Your spot is booked. Here are the details:",
     ref: "Booking number", tour: "Tour", provider: "Organized by", date: "Date and time", duration: "Duration",
     language: "Tour language", people: "People", meeting: "Meeting point",
+    tbc: "To be confirmed", localGuide: "A local guide",
     manage: "View, change or cancel my booking",
     maps: "Get directions",
     hero: "Your spot is booked!",
@@ -254,7 +259,7 @@ export function meetingPointText(mp: unknown, lang: EmailLang): string | null {
   return typeof v === "string" && v.trim() ? v : null;
 }
 
-// REQ-079: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
+// REQ-079 REQ-800 REQ-801: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
 // idioma, adultos y niños, refNumber, punto de encuentro y enlace de cancelación).
 export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const t = T[d.lang];
@@ -278,15 +283,20 @@ export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const w = d.weather ?? null;
   const trip = d.tripUrl && /^https?:\/\//.test(d.tripUrl) ? d.tripUrl : null; // REQ-182
 
+  // REQ-800: A2 es obligatorio; si un dato no llegó, la fila sale «Por confirmar» (el enlace de la reserva va abajo).
+  // REQ-801: el proveedor nunca nombra a FREETOUR; sin nombre utilizable, «Un guía local».
+  // REQ-812 (D1, D3): con política de pago no hay consejo de propina y van las líneas de 24 h.
+  const tips = d.paidPolicy ? [...t.tips(false), d.paidPolicy.cancel, d.paidPolicy.noShow] : t.tips(!!d.isFree);
+  const orTbc = (v: string | null | undefined) => (v && v.trim() ? v.trim() : t.tbc);
   const rows: [string, string][] = [
     [t.ref, d.refNumber],
     [t.tour, d.tourTitle],
-    ...(d.provider ? [[t.provider, d.provider] as [string, string]] : []),
-    ...(when ? [[t.date, when] as [string, string]] : []),
-    ...(d.duration ? [[t.duration, d.duration] as [string, string]] : []),
-    ...(tourLang ? [[t.language, tourLang] as [string, string]] : []),
+    [t.provider, cardProvider(d.provider) ?? t.localGuide],
+    [t.date, orTbc(when)],
+    [t.duration, orTbc(d.duration)],
+    [t.language, orTbc(tourLang)],
     [t.people, people],
-    ...(d.meetingPoint ? [[t.meeting, d.meetingPoint] as [string, string]] : []),
+    [t.meeting, orTbc(d.meetingPoint)],
   ];
   const v = d.variant && d.variant !== "confirmation" ? t.variants[d.variant] : null;
   const badge = v?.badge ?? t.badge, hero = v?.hero ?? t.hero;
@@ -364,7 +374,7 @@ ${reviews.map((r) => `<div style="border:1px solid ${LINE};border-radius:14px;pa
 
 <tr><td style="padding:30px 26px 0">
 ${eyebrow(t.secTips)}${h2(t.tipsTitle)}
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${t.tips(!!d.isFree).map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${tips.map((x, i) => `<tr><td width="38" valign="top" style="padding:0 0 12px"><div style="width:26px;height:26px;line-height:26px;border-radius:8px;background:${SOFT};border:1px solid ${LINE};text-align:center;font-family:${mono};font-size:12px;font-weight:700;color:${B.lightBlue}">${i + 1}</div></td><td valign="top" style="padding:3px 0 12px;font-size:14px;line-height:1.5;color:${N9}">${esc(x)}</td></tr>`).join("")}</table>
 </td></tr>
 
 ${waUrl || assistantUrl ? supportCard({ eyebrow: eyebrow(t.secHelp, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl, assistant: assistantUrl ? { url: assistantUrl, label: t.assistant } : null }) : ""}
@@ -412,7 +422,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
     ...(reviews.length ? ["", t.reviewsTitle, ...reviews.map((r) => `${stars(r.rate)} "${r.text}" — ${r.name}`)] : []),
     "",
     t.tipsTitle,
-    ...t.tips(!!d.isFree).map((x) => `- ${x}`),
+    ...tips.map((x) => `- ${x}`),
     ...(waUrl ? ["", `${t.whatsapp}: ${waUrl}`] : []),
     ...(assistantUrl ? [`${t.assistant}: ${assistantUrl}`] : []),
     ...crossSellText(d.crossSell),
