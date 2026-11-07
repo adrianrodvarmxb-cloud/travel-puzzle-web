@@ -11,6 +11,8 @@ Decisión literal: **«Publica solo cada día»**.
 | G2 | El merge squash que hace el workflow **es la publicación** y está autorizado por este gate | Solo PR creados por el workflow cuyo único archivo cambiado es `src/blog/content/diario.json` | [x] PO, 6 nov 2026 |
 | G3 | **Reemplaza, solo para este agente**, la regla de las skills `blog-metodo-referentes` y `estrategia-topic-cluster` «publicar o escribir en la base del blog requiere OK explícito de Adri y aprobación del cliente» | Los artículos escritos a mano (`src/blog/content/posts/`) siguen con la regla original: OK de Adri y de Claudia | [x] PO, 6 nov 2026 |
 
+| G4 | Imágenes premium en todas las entradas (portada + 2 a 4 fotos de bancos con licencia comercial, optimizadas y servidas desde el sitio). El PR de cada entrada puede cambiar también `public/blog/img/{slug}/` (solo los 6 archivos de cada foto de esa entrada) | Pedido del PO (7 nov 2026, 04:28): «está muy bien, pero agrega imágenes que se vea premium». REQ-1050…1059 | [ ] PO: confirmar la ampliación de G2 |
+
 ## Condición estricta (si no se cumple, NO PUBLICA)
 1. **Solo datos de fuentes públicas citadas y enlazadas, y de nuestro catálogo.** Cada cifra o afirmación fáctica lleva su enlace en la misma frase o párrafo; los datos de la tabla llevan su fuente.
 2. **Cero casos, citas, cifras o testimonios inventados.**

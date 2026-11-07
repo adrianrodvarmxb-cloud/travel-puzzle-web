@@ -73,18 +73,30 @@ jobs:
 
       - run: npm ci
 
+      # REQ-1054: baja las fotos de los bancos (Unsplash y Pexels por CDN; Pixabay por id con PIXABAY_API_KEY, como el
+      # import de viajes) y escribe public/blog/img/{slug}/{nombre}-{800,1600}.{avif,webp,jpg}.
+      - name: Imágenes del blog (bajar y optimizar)
+        env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: |
+          B="$RUNNER_TEMP/blog"; echo "Imágenes del blog" > "$B/paso"
+          if ! npx tsx src/scripts/blog-imagenes.ts "$B/entrada.json" 2> "$B/imagenes.log"; then
+            sed 's/^/- /' "$B/imagenes.log" > "$B/motivo"; exit 1
+          fi
+
       - name: Validar y agregar a diario.json
         id: validar
         run: |
           B="$RUNNER_TEMP/blog"; echo "Validador del blog diario" > "$B/paso"
-          if ! npx tsx src/scripts/blog-diario.ts validar "$B/entrada.json" --agregar --salida "$B/resultado.json"; then
+          if ! npx tsx src/scripts/blog-diario.ts validar "$B/entrada.json" --agregar --archivos --salida "$B/resultado.json"; then
             node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log((r.problems||[]).map(p=>"- "+p).join("\n"))' "$B/resultado.json" > "$B/motivo" 2>/dev/null || echo "- el validador falló sin resultado" > "$B/motivo"
             exit 1
           fi
           node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));for(const k of ["slug","pillar","title","mix","fecha","path","url"])console.log(k+"="+String(r[k]).replace(/\n/g," "))' "$B/resultado.json" >> "$GITHUB_OUTPUT"
-          # G2: el único archivo que cambia es diario.json.
-          cambios=$(git status --porcelain | awk '{print $2}' | sort -u)
-          if [ "$cambios" != "src/blog/content/diario.json" ]; then echo "- cambios fuera de diario.json: $cambios" > "$B/motivo"; exit 1; fi
+          # G2 (+ G4, REQ-1055): solo cambian diario.json y las imágenes de ESTA entrada en public/blog/img/{slug}/.
+          slug=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).slug)' "$B/resultado.json")
+          fuera=$(git status --porcelain --untracked-files=all | awk '{print $2}' | grep -vxF "src/blog/content/diario.json" | grep -vE "^public/blog/img/$slug/[a-z0-9-]+-(800|1600)\.(avif|webp|jpg)$" || true)
+          if [ -n "$fuera" ]; then echo "- cambios fuera de diario.json y public/blog/img/$slug/: $fuera" > "$B/motivo"; exit 1; fi
 
       - name: Rama y PR
         id: pr
@@ -99,10 +111,10 @@ jobs:
           rama="blog/diario-$FECHA-$SLUG"
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$rama"
-          git add src/blog/content/diario.json
+          git add src/blog/content/diario.json "public/blog/img/$SLUG"
           git commit -q -m "blog(diario): $TITULO ($FECHA, $MIX) — REQ-975" -m "Entrada del agente diario, publicada por el gate «Publica solo cada día» (docs/gates-blog-diario-2026-11-06.md)."
           git push -q origin "$rama"
-          printf '%s\n' "Entrada del agente diario: **$TITULO** ($FECHA, $MIX)." "" "- URL al publicar: $URL" "- Solo cambia \`src/blog/content/diario.json\`." "- Se fusiona solo si pasan el validador, la suite, tsc, el build y la prueba de humo con \`BLOG_ENABLED\` encendida en el preview (gate G1–G2)." "- Corrida: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" > "$B/pr.md"
+          printf '%s\n' "Entrada del agente diario: **$TITULO** ($FECHA, $MIX)." "" "- URL al publicar: $URL" "- Solo cambia \`src/blog/content/diario.json\` y las imágenes de \`public/blog/img/$SLUG/\`." "- Se fusiona solo si pasan el validador, la suite, tsc, el build y la prueba de humo con \`BLOG_ENABLED\` encendida en el preview (gate G1–G2)." "- Corrida: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" > "$B/pr.md"
           n=$(gh api "repos/$REPO/pulls" -f title="blog(diario): $TITULO ($FECHA)" -f head="$rama" -f base=main -F body=@"$B/pr.md" --jq .number)
           echo "number=$n" >> "$GITHUB_OUTPUT"; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"; echo "$n" > "$B/pr"
 
