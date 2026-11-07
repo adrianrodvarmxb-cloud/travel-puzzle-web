@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { isErrorScreen, isHydrationError, smokePages, smokeVerdict, withOptionalPages } from "./smoke";
+import { flaggedDiscoverRules, isErrorScreen, isHydrationError, localeContractPages, parseSmokeConfig, smokePages, smokeVerdict, withOptionalPages } from "./smoke";
 
 const ok = { path: "/", viewport: 390, status: 200, pageErrors: [], appError: false };
 
@@ -65,5 +65,28 @@ describe("isHydrationError", () => {
     expect(isHydrationError("Hydration failed because the server rendered text didn't match the client")).toBe(true);
     expect(isHydrationError("Minified React error #4181")).toBe(false);
     expect(isHydrationError("Failed to load resource: 404")).toBe(false);
+  });
+});
+
+describe("REQ-675/REQ-676: humo con URL por idioma", () => {
+  const cfg = parseSmokeConfig({
+    fixed: ["/"],
+    flaggedDiscover: { LOCALE_URLS_ENABLED: [{ from: "/en/destinos/mx/ciudad-de-mexico", pattern: "^/en/destinos/mx/ciudad-de-mexico/[^/?#]+$", take: 1, required: true }] },
+    localeContract: { LOCALE_URLS_ENABLED: ["/", "/en/"] },
+  });
+  it("REQ-675: la ficha en inglés se descubre solo con la bandera encendida", () => {
+    expect(flaggedDiscoverRules(cfg, { LOCALE_URLS_ENABLED: "false" }, {})).toEqual([]);
+    expect(flaggedDiscoverRules(cfg, { LOCALE_URLS_ENABLED: "true" }, {})).toHaveLength(1);
+    expect(flaggedDiscoverRules(cfg, { LOCALE_URLS_ENABLED: "false" }, { LOCALE_URLS_ENABLED: "true" })[0].required).toBe(true);
+  });
+  it("REQ-676: el contrato incluye la ficha en inglés y su versión en español", () => {
+    expect(localeContractPages(cfg, { LOCALE_URLS_ENABLED: "true" }, {}, ["/viajes/a/b", "/en/destinos/mx/ciudad-de-mexico/x"])).toEqual(["/", "/en/", "/en/destinos/mx/ciudad-de-mexico/x", "/destinos/mx/ciudad-de-mexico/x"]);
+    expect(localeContractPages(cfg, {}, {}, ["/en/destinos/mx/ciudad-de-mexico/x"])).toEqual([]);
+  });
+  it("REQ-675: tests/smoke/pages.json pide /en/ y una ficha en inglés tras LOCALE_URLS_ENABLED", () => {
+    const real = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")));
+    expect(real.flagged.LOCALE_URLS_ENABLED).toContain("/en/");
+    expect(real.flaggedDiscover.LOCALE_URLS_ENABLED.some((r) => r.required && new RegExp(r.pattern).test("/en/destinos/mx/ciudad-de-mexico/x"))).toBe(true);
+    expect(real.localeContract.LOCALE_URLS_ENABLED).toEqual(expect.arrayContaining(["/", "/en/"]));
   });
 });
