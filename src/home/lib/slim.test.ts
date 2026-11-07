@@ -33,3 +33,16 @@ describe("REQ-668 con REQ-857", () => {
     expect(d.type === "tour" && d.tour.href).toBe("/destinos/fr/paris/a");
   });
 });
+
+describe("REQ-1244 inicio (D31): las tarjetas no nombran la plataforma en ningún idioma", () => {
+  it("REQ-1244 título y resumen limpios en es, en y pt", () => {
+    const dirty = { ...t, titles: { es: "Madrid (Premios FREETOUR.com)", en: "Madrid - FreeTour.com", pt: "Madrid" }, briefs: { es: "Premiado por FREETOUR. Centro.", en: "Book on freetour.com. Old town.", pt: "Centro" } };
+    for (const lang of ["es", "en", "pt"]) {
+      const s = slimHomeTour(dirty, lang);
+      expect(JSON.stringify(s)).not.toMatch(/free\s*tour\s*\.\s*com|freetour/i);
+    }
+    expect(slimHomeTour(dirty, "es").titles).toEqual({ es: "Madrid" });
+    expect(slimHomeTour(dirty, "en").briefs).toEqual({ en: "Old town." });
+    expect(slimHomeTour(t, "es")).toEqual(slimHomeTour(t, "es")); // sin mención, igual que antes
+  });
+});

@@ -8,23 +8,37 @@ import { classify } from "./classify";
 import { combinado } from "./combined";
 import { tourToInput } from "./run-plan";
 
-const ft = (categoryId: number, durationMinutes: number | null, titleEs: string, titleEn: string, briefEs = "", briefEn = "") =>
-  classify(tourToInput({ id: "x", categoryId, priceValue: 50, durationMinutes, titleEs, titleEn, briefEs, briefEn, guideLanguages: null, rating: null, reviewsNumber: 0 }), D, M);
+const ft = (categoryId: number, durationMinutes: number | null, titleEs: string, titleEn: string, briefEs = "", briefEn = "", city: Record<string, string> | null = null) =>
+  classify(tourToInput({ id: "x", categoryId, priceValue: 50, durationMinutes, titleEs, titleEn, briefEs, briefEn, guideLanguages: null, rating: null, reviewsNumber: 0, cityTr: city }), D, M);
 
 describe("REQ-865/866: «Viajes de 1 día» de FREETOUR de 6 h o más (como GetYourGuide: excursión = sale de la ciudad base)", () => {
-  it("REQ-865: sin señal de salida en el título ni en el resumen → Visita guiada con «dia-completo»", () => {
-    // «Recorrido Turístico por Dubái» (6 h): no dice que salga
-    const dubai = ft(4, 360, "Recorrido Turístico por Dubái", "Dubai Sightseeing Tour", "Descubre lo mejor de Dubái en un día", "Discover the best of Dubai in one day");
-    expect(dubai.formato).toBe("tour");
+  // REQ-1253 (INC-008) corrige a REQ-865: D20 solo saca de «excursión» lo que NO sale de la ciudad. Hace falta una señal de
+  // que se queda (el título nombra la ciudad base o dice «city tour», «en un día», «por el centro»…); la falta de una
+  // palabra de salida ya no basta.
+  it("REQ-1253: los 4 casos del PO salen de la ciudad base → Excursión de un día", () => {
+    expect(ft(4, 480, "Excursión en grupo: Molinos de viento, Edam, Volendam y Marken", "Group Day Trip: Windmills, Edam, Volendam & Marken", "", "", { es: "Ámsterdam", en: "Amsterdam" }).formato).toBe("excursion-dia");
+    expect(ft(4, 420, "Campo de exterminio de Treblinka", "Treblinka Extermination Camp", "", "", { es: "Varsovia", en: "Warsaw" }).formato).toBe("excursion-dia");
+    expect(ft(4, 540, "Zipaquirá y Andres Carne de Res en Chía", "Zipaquira and Andres Carne de Res in Chia", "", "", { es: "Bogotá", en: "Bogota" }).formato).toBe("excursion-dia");
+    expect(ft(4, 600, "Acceso anticipado a la excursión por el Círculo Dorado y la Laguna Secreta", "Early access Golden Circle and Secret Lagoon", "", "", { es: "Reikiavik", en: "Reykjavik" }).formato).toBe("excursion-dia");
+    // sin el dato de la ciudad, la base «Viajes de 1 día» también gana
+    expect(ft(4, 480, "Campo de exterminio de Treblinka", "Treblinka Extermination Camp").formato).toBe("excursion-dia");
+  });
+
+  it("REQ-1253: 6 h o más que nombran la ciudad base sin salir → Visita guiada (o Tour con transporte) con «dia-completo»", () => {
+    const dubai = ft(4, 360, "Recorrido Turístico por Dubái", "Dubai Sightseeing Tour", "Descubre lo mejor de Dubái en un día", "Discover the best of Dubai in one day", { es: "Dubái", en: "Dubai" });
+    expect(dubai.formato).toBe("visita-guiada");
     expect(dubai.atributos).toContain("dia-completo");
-    // 71244 · 10 h
-    const pekin = ft(4, 600, "Pekín Tour: Templo del Cielo, Palacio de Verano y Hutongs", "Beijing Tour: Temple of Heaven, Summer Palace, & Hutongs", "Únase a esta excursión para descubrir los tesoros de Pekín", "Join this tour to discover the treasures of Beijing!");
-    expect(pekin.formato).toBe("tour");
+    const pekin = ft(4, 600, "Pekín Tour: Templo del Cielo, Palacio de Verano y Hutongs", "Beijing Tour: Temple of Heaven, Summer Palace, & Hutongs", "Únase a esta excursión para descubrir los tesoros de Pekín", "Join this tour to discover the treasures of Beijing!", { es: "Pekín", en: "Beijing" });
+    expect(pekin.formato).toBe("visita-guiada"); // templo, palacio
     expect(pekin.atributos).toContain("dia-completo");
-    // 14029 · 8 h: «excursión de un día» en el resumen no dice que salga de la ciudad
-    expect(ft(4, 480, "Museo Egipcio, Copto e Islámico de El Cairo", "Egyptian Museum, Coptic & Islamic Cairo", "Disfrute de nuestra emocionante excursión de un día y descubra las maravillas del antiguo Egipto en el Museo Egipcio.", "Experience our thrilling day-long excursion").formato).toBe("tour");
-    // 55060 · 8 h: «desde el encanto de La Candelaria» en el resumen no es una salida
-    expect(ft(4, 480, "Tour de Bogota: la Candelaria, Monserrate, Museo del Oro, Museo Botero", "Bogotá Tour: La Candelaria, Monserrate, the Gold Museum, the Botero Museum", "Descubre Bogotá con nosotros, desde el encanto de \"La Candelaria\" hasta dos destacados museos.", "Discover Bogota with us, from the charm of \"La Candelaria\" to two outstanding museums.").formato).toBe("tour");
+    // nombra la ciudad sin forma de city tour: gana la base y va a la lista de dudas
+    const cairo = ft(4, 480, "Museo Egipcio, Copto e Islámico de El Cairo", "Egyptian Museum, Coptic & Islamic Cairo", "Disfrute de nuestra emocionante excursión de un día y descubra las maravillas del antiguo Egipto en el Museo Egipcio.", "Experience our thrilling day-long excursion", { es: "El Cairo", en: "Cairo" });
+    expect(cairo.formato).toBe("excursion-dia");
+    expect(cairo.reglaFormato.startsWith("duda:")).toBe(true);
+    expect(ft(4, 480, "Tour de Bogota: la Candelaria, Monserrate, Museo del Oro, Museo Botero", "Bogotá Tour: La Candelaria, Monserrate, the Gold Museum, the Botero Museum", "Descubre Bogotá con nosotros, desde el encanto de \"La Candelaria\" hasta dos destacados museos.", "Discover Bogota with us, from the charm of \"La Candelaria\" to two outstanding museums.", { es: "Bogotá", en: "Bogota" }).formato).toBe("visita-guiada");
+    expect(ft(4, 420, "Tour de Bogotá en bicicleta, día completo", "Bogota bike tour, full day", "", "", { es: "Bogotá", en: "Bogota" }).formato).toBe("tour"); // REQ-1250: transporte
+    // nombra la ciudad base pero dice que sale: excursión
+    expect(ft(4, 480, "Excursión a Toledo desde Madrid", "Toledo day trip from Madrid", "", "", { es: "Madrid", en: "Madrid" }).formato).toBe("excursion-dia");
   });
 
   it("REQ-866: con señal de salida sigue como excursión — «desde», «a [otro lugar]», «day trip», transporte o recogida incluidos, «cerca de»", () => {
@@ -47,7 +61,7 @@ describe("REQ-865/866: «Viajes de 1 día» de FREETOUR de 6 h o más (como GetY
 
   it("REQ-866: lo que no es de 6 h o más no cambia (menos de 6 h, sin duración, circuitos)", () => {
     expect(ft(4, null, "Lo mejor de Toledo", "Best of Toledo").formato).toBe("excursion-dia"); // sin duración: como antes
-    expect(ft(4, 240, "Visita guiada por Medellín", "Medellín guided tour").formato).toBe("tour"); // REQ-534
+    expect(ft(4, 240, "Visita guiada por Medellín", "Medellín guided tour").formato).toBe("visita-guiada"); // REQ-534; REQ-1252 (duda)
     expect(ft(4, 2880, "Ruta de 2 días por el desierto", "2-day desert route").formato).toBe("circuito");
   });
 });
@@ -71,7 +85,7 @@ describe("REQ-867…870: actividades combinadas — el tipo principal domina y l
     expect(temple.temas).toContain("gastronomia");
     // 113344 · 2 h 30 · cat. 5 (antes: Momentos de autor por «cata»)
     const vinedo = ft(5, 150, "Visita a Viñedo y Cata de Vinos Tour", "Winery Tour and Wine Tasting Tour");
-    expect(vinedo.formato).toBe("tour");
+    expect(vinedo.formato).toBe("visita-guiada"); // REQ-1251: viñedo/bodega como sitio
     expect(vinedo.temas).toContain("gastronomia");
   });
 

@@ -9,11 +9,13 @@ import type { PaginationParams } from '@/lib/db/pagination';
 import { parseSort, sortToPagination } from '@/tours/lib/sort';
 import { parseExtraFilters } from '@/tours/lib/extra-filters';
 import { parseDurationRange } from '@/tours/lib/duration';
-import { loadTripCards } from '@/trips/public-load';
+import { loadFx, loadTripCards } from '@/trips/public-load';
 import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
+import { formatDefs } from '@/taxonomy/lib/format-defs';
+import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
 import { catalogName, catalogTitle } from '@/tours/lib/catalog-name';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { toursItemList } from '@/seo/lib/listing-ld';
@@ -86,7 +88,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   };
 
   // Fetch initial data in parallel
-  const [toursData, countriesData, metadata, ownTrips] = await Promise.all([
+  const [toursData, countriesData, metadata, ownTrips, fx] = await Promise.all([
     // Fetch tours with filters from URL params (or defaults)
     fetchTours(filters, pagination),
     // Fetch countries for filters
@@ -96,6 +98,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado).
     // REQ-172: el transporte no es un tour; se lista en /traslados, no aquí (ni chips, ni conteos, ni buscador).
     loadTripCards(language).then(toursTrips),
+    // REQ-1254: tipo de cambio del día para el rango de precio (si falla, el rango solo dice EUR).
+    loadFx().catch(() => null),
   ]);
   const countryCodeById: Record<number, string> = ownTrips.length
     ? Object.fromEntries((await getPrisma().country.findMany({ select: { id: true, code: true } })).map((c) => [c.id, c.code.toUpperCase()]))
@@ -139,7 +143,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
       today={today}
       showDepartures={process.env.DEPARTURE_FILTERS_ENABLED === 'true'}
       taxonomy={taxonomy}
+      formatDefs={taxonomy ? formatDefs(DEFAULT_DICTIONARY) : undefined /* REQ-1256: chips y filtro desde el diccionario */}
       showSuggest={process.env.SEARCH_SUGGEST_ENABLED === 'true'}
+      mxnPerEur={fx?.EUR ?? null}
       logSearches={process.env.SEARCH_LOG_ENABLED === 'true'}
     />
     {/* REQ-1100 (D07): el mismo pie del home que el resto del sitio. */}

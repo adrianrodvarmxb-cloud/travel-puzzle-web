@@ -31,6 +31,48 @@ describe("REQ-768 workflow de respaldo: ensayo por omisión y candados", () => {
   });
 });
 
+describe("REQ-775 respaldo retroactivo blindado: nunca a la par de un deploy o una importación, con respaldo y verificación", () => {
+  const wf = readFileSync(".github/workflows/respaldo-crudo.yml", "utf8");
+  const paso = (nombre: string) => {
+    const i = wf.indexOf(`- name: ${nombre}`);
+    expect(i, nombre).toBeGreaterThan(0);
+    const j = wf.indexOf("\n      - ", i + 1);
+    return wf.slice(i, j < 0 ? undefined : j);
+  };
+  const escribe = "if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}";
+  it("REQ-775 una corrida a la vez en la fila de datos de producción", () => {
+    expect(wf).toMatch(/concurrency: \{ group: datos-produccion, cancel-in-progress: false \}/);
+  });
+  it("REQ-775 antes de subir: sin publicación ni importación en curso o en fila (REQ-307)", () => {
+    const p = paso("Sin publicación ni importación en curso");
+    expect(p).toContain(escribe);
+    expect(p).toMatch(/deploy-cloudflare\.yml importar-viajes\.yml/);
+    expect(p).toMatch(/for st in in_progress queued/);
+    expect(wf.indexOf("Sin publicación ni importación en curso")).toBeLessThan(wf.indexOf("name: Subir a R2 privado + índice"));
+  });
+  it("REQ-775 antes de subir: anota el bookmark de Time Travel de D1 o no escribe", () => {
+    const p = paso("Respaldo previo (instante de Time Travel)");
+    expect(p).toContain(escribe);
+    expect(p).toMatch(/wrangler d1 time-travel info travel-puzzle --json/);
+    expect(p).toMatch(/Sin bookmark de Time Travel: no se escribe/);
+    expect(wf.indexOf("Respaldo previo (instante de Time Travel)")).toBeLessThan(wf.indexOf("name: Subir a R2 privado + índice"));
+  });
+  it("REQ-775 después de subir: verifica en D1 las filas de la corrida contra el ensayo y corre el humo en producción", () => {
+    const v = paso("Verificar en D1 contra el ensayo");
+    expect(v).toContain(escribe);
+    expect(v).toMatch(/FROM ProviderRecord WHERE runId LIKE 'respaldo:\$\{\{ inputs\.archivo \}\}:%'/);
+    expect(v).toMatch(/tmp\/crudo-reporte\.json/);
+    const h = paso("Prueba de humo en producción");
+    expect(h).toContain(escribe);
+    expect(h).toMatch(/smoke\.ts https:\/\/travelpuzzle\.com\.mx/);
+  });
+  it("REQ-775 el resumen del ensayo publica solo cifras (sin el crudo)", () => {
+    const r = paso("Cifras del ensayo");
+    expect(r).toMatch(/GITHUB_STEP_SUMMARY/);
+    expect(r).not.toMatch(/cat tmp\/crudo\/|raw\//);
+  });
+});
+
 describe("REQ-769 runbook con los candados en orden", () => {
   const rb = readFileSync("docs/runbooks/copia-exacta.md", "utf8");
   it("REQ-769 bucket → binding → 0022 → bandera → FREETOUR → imports → documentos → firma → 0023 → banderas de taxonomía", () => {

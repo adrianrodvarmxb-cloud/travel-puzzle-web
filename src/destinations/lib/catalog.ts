@@ -10,6 +10,7 @@
  *   indexables (REQ-1200) y la guía propia indexa por sí sola (REQ-1201).
  */
 import { cityName } from "./dry-run";
+import { countryIso2 } from "./ids";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
 import { indexableProvider } from "@/seo/lib/enrichment";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
@@ -110,6 +111,8 @@ export interface CityNode {
   transportTrips: TourCardModel[];
   /** REQ-665: nombre por idioma (traducciones de la base). */
   names?: Record<string, string>;
+  /** REQ-1262: «Experiencias en línea» de la ciudad: tienen ficha, pero no se listan ni cuentan para indexar. */
+  onlineTours?: TourCardModel[];
 }
 export interface CountryNode { id: number; iso2: string; slug: string; name: string; href: string; indexable: boolean; cities: CityNode[]; /** REQ-665 */ names?: Record<string, string> }
 
@@ -144,10 +147,12 @@ export function isListed(t: Pick<TourRow, "slug" | "isActive" | "status">): bool
 
 export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxonomy?: CatalogClassifier, cityName: string | null = null): TourCardModel {
   // REQ-406 (T3, tras TAXONOMY_PUBLISH_ENABLED): Free tour = formato pieza-libre; apagada, precio 0 como hoy.
-  const isFreeTour = taxonomy ? taxonomy(t).formato === "pieza-libre" : Number(t.price) === 0;
-  const cls = taxonomy?.(t);
+  // REQ-1253: con el nombre de la ciudad base (un «Viaje de 1 día» que la nombra y no sale se queda en la ciudad).
+  const ct = cityName ? { ...t, cities: [cityName] } : t;
+  const cls = taxonomy?.(ct);
+  const isFreeTour = cls ? cls.formato === "pieza-libre" : Number(t.price) === 0;
   // REQ-522: con T3 apagada la tarjeta usa el mismo clasificador por defecto (sin guiaEnPersona, que es de T5).
-  const formato = cls?.formato ?? (t.categoryId === undefined || t.categoryId === null ? undefined : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title] }));
+  const formato = cls?.formato ?? (t.categoryId === undefined || t.categoryId === null ? undefined : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title], cities: cityName ? [cityName] : undefined }));
   return {
     ...(cls && { guiaEnPersona: cls.guiaEnPersona, atributos: cls.atributos ?? [] }),
     ...(formato && { formato }),
@@ -188,13 +193,22 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
   // REQ-261 (T3): traslados y transporte de FREETOUR van a la sección Traslados de la ciudad, no a Tours.
   const inTransfers = (t: TourRow) => !!taxonomy && taxonomy(t).seccion === "traslados";
   for (const t of tours) if (isListed(t) && publishable(t)) toursByCity.set(t.cityId, [...(toursByCity.get(t.cityId) ?? []), t]);
+  // REQ-1262: las experiencias en línea solo dan ficha (sin sección, sin conteo, sin sitemap).
+  const onlineByCity = new Map<number, TourRow[]>();
+  if (taxonomy) for (const t of tours) if (isListed(t) && taxonomy(t).formato === "en-linea") onlineByCity.set(t.cityId, [...(onlineByCity.get(t.cityId) ?? []), t]);
 
+  // REQ-1264: un solo país por ISO-2 (Escocia, Irlanda del Norte y Gales cuelgan de GB); el nombre es el de la fila ISO.
+  const groups = new Map<string, CountryRow[]>();
   for (const c of countries) {
-    const iso2 = (c.iso2 ?? "").trim().toUpperCase();
-    if (!/^[A-Z]{2}$/.test(iso2)) continue;
+    const iso = countryIso2(c);
+    if (iso) groups.set(iso, [...(groups.get(iso) ?? []), c]);
+  }
+  for (const [iso2, rows] of groups) {
+    const c = rows.find((r) => (r.iso2 ?? "").trim().toUpperCase() === iso2) ?? rows[0];
+    const ids = new Set(rows.map((r) => r.id));
     const slug = iso2.toLowerCase();
     const nodes: CityNode[] = [];
-    for (const city of cities.filter((x) => x.countryId === c.id && x.slug && SLUG.test(x.slug))) {
+    for (const city of cities.filter((x) => ids.has(x.countryId) && x.slug && SLUG.test(x.slug))) {
       const citySlug = city.slug!;
       const cityLabel = placeName(city.translations, citySlug);
       const listed = toursByCity.get(city.id) ?? [];
@@ -229,6 +243,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
         ownTrips: own,
         transportTrips: [...transport, ...freetourTransfers],
         names: placeNames(city.translations), // REQ-665
+        onlineTours: (onlineByCity.get(city.id) ?? []).map((t) => tourCard(t, slug, citySlug, taxonomy, cityLabel)), // REQ-1262
       });
     }
     if (!nodes.length) continue;
@@ -263,3 +278,5 @@ export function findCity(tree: CountryNode[], pais: string, ciudad: string): { c
 
 /** Todas las fichas de la ciudad (incluye transporte: su ficha y el sitemap siguen, REQ-172). */
 export const allTours = (city: CityNode) => [...city.freeTours, ...city.paidTours, ...city.ownTrips, ...city.transportTrips];
+/** REQ-1262: todo lo que tiene ficha en la ciudad (lo listado y las experiencias en línea). */
+export const fichaTours = (city: CityNode) => [...allTours(city), ...(city.onlineTours ?? [])];

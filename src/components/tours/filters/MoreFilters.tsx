@@ -8,9 +8,10 @@ import { FilterSection, FilterCheck } from './FilterSection';
 import { DurationSlider } from './DurationSlider';
 import { PriceSlider } from './PriceSlider';
 import { formatoOptions } from '@/taxonomy/lib/filters';
+import type { FormatDef } from '@/taxonomy/lib/format-defs';
 
 /** REQ-049..056: filtros estilo Civitatis (tipo, características, idioma, fecha, duración). */
-export function MoreFilters({ value, onChange, today, lang, price, onPrice, priceLabel, showDepartures = false, taxonomy = false, formatCounts = null }: { showDepartures?: boolean; taxonomy?: boolean; formatCounts?: Record<string, number> | null; value: ExtraFilters; onChange: (v: ExtraFilters) => void; today: string; lang: string; price?: { min?: number; max?: number }; onPrice?: (min: number | undefined, max: number | undefined) => void; priceLabel?: string }) {
+export function MoreFilters({ value, onChange, today, lang, price, onPrice, priceLabel, showDepartures = false, taxonomy = false, formatCounts = null, formatDefs, mxnPerEur = null }: { formatDefs?: FormatDef[]; mxnPerEur?: number | null; showDepartures?: boolean; taxonomy?: boolean; formatCounts?: Record<string, number> | null; value: ExtraFilters; onChange: (v: ExtraFilters) => void; today: string; lang: string; price?: { min?: number; max?: number }; onPrice?: (min: number | undefined, max: number | undefined) => void; priceLabel?: string }) {
     const c = filtersCopy(lang);
     const set = (patch: Partial<ExtraFilters>) => onChange({ ...value, ...patch });
     const toggleGroup = (id: string, on: boolean) => set({ groups: on ? [...value.groups, id] : value.groups.filter((g) => g !== id) });
@@ -19,9 +20,9 @@ export function MoreFilters({ value, onChange, today, lang, price, onPrice, pric
         <div className="mt-4 rounded-2xl border border-white/10 bg-[#121D45] p-5">
             {/* T4 (REQ-413, REQ-412): con la taxonomía, «Tipo de experiencia» por formato y solo con resultados; los grupos viejos quedan ocultos. */}
             {taxonomy ? (
-                formatoOptions(formatCounts, value.formatos, lang).length > 0 && (
+                formatoOptions(formatCounts, value.formatos, lang, formatDefs).length > 0 && (
                     <FilterSection title={lang === 'es' ? 'Tipo de experiencia' : 'Experience type'}>
-                        {formatoOptions(formatCounts, value.formatos, lang).map((o) => (
+                        {formatoOptions(formatCounts, value.formatos, lang, formatDefs).map((o) => (
                             <FilterCheck key={o.slug} label={`${o.label} (${o.count})`} checked={value.formatos.includes(o.slug)} onChange={(on) => set({ formatos: on ? [...value.formatos, o.slug] : value.formatos.filter((f) => f !== o.slug) })} />
                         ))}
                     </FilterSection>
@@ -53,7 +54,7 @@ export function MoreFilters({ value, onChange, today, lang, price, onPrice, pric
             )}
             {onPrice && (
                 <FilterSection title={priceLabel ?? 'Precio'}>
-                    <PriceSlider min={price?.min} max={price?.max} onChange={onPrice} />
+                    <PriceSlider min={price?.min} max={price?.max} onChange={onPrice} mxnPerEur={mxnPerEur} lang={lang} /* REQ-1254 */ />
                 </FilterSection>
             )}
             <FilterSection title={c.duration}>

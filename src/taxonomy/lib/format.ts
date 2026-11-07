@@ -5,12 +5,12 @@
  */
 import type { Categoria, Dictionary, Mapping, TerminoFormato } from "../schemas/dictionary";
 import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, type Gates } from "./gates";
-import { matches, norm } from "./text";
+import { matches, namesCity, norm } from "./text";
 import { combinado } from "./combined";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
-const ANTES_DE_FREE: ReadonlySet<FormatoOEstado> = new Set(["fuera", "traslado", "transporte", "alquiler", "entradas", "autoguiado"]);
+const ANTES_DE_FREE: ReadonlySet<FormatoOEstado> = new Set(["fuera", "esenciales-viaje", "traslado", "transporte", "alquiler", "entradas", "autoguiado"]);
 
 export function formatoTerm(dict: Dictionary, slug: FormatoOEstado): TerminoFormato {
   const t = dict.terminos.find((x): x is TerminoFormato => x.eje === "formato" && x.slug === slug);
@@ -29,6 +29,9 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   let b: FormatoOEstado = cat.formato;
   const id = `${mapping.proveedor}:${cat.id}`;
   if (b === "fuera") return { valor: "fuera", regla: `#0 base ${id}` };
+  if (b === "esenciales-viaje") return { valor: "esenciales-viaje", regla: `#0 base ${id} (REQ-1263, tras bandera)` };
+  // REQ-1262: experiencia realmente en línea (tour virtual en vivo, asesoría por chat), solo donde la categoría lo permite.
+  if (cat.reglasPorPalabra.includes("en-linea") && matches(formatoTerm(dict, "en-linea").palabras, norm(input.titulo))) return { valor: "en-linea", regla: `#0 en línea en el título (${id})` };
   if (cat.fijo) return { valor: b, regla: `fijo ${id}` };
 
   const titulo = norm(input.titulo);
@@ -54,8 +57,9 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   // como atributo «entrada-incluida»); una base «entradas» con guía se trata como «tour» en el resto de las reglas.
   const conGuia = matches(formatoTerm(dict, "entradas").palabrasConGuia, todo);
   if (b === "entradas" && !conGuia) return { valor: "entradas", regla: `#4 base ${id}` };
-  if (b === "entradas") b = "tour";
-  if (palabrasPermitidas && cat.reglasPorPalabra.includes("entradas") && kw("entradas", titulo) && !conGuia) return { valor: "entradas", regla: `#4 palabra entrada en ${id}` };
+  if (b === "entradas") b = "visita-guiada"; // REQ-1251: museo o sitio con guía = Visita guiada (antes «tour»)
+  // REQ-1260: una app o audioguía «(sin entrada)» es Autoguiado, no Boletos.
+  if (palabrasPermitidas && cat.reglasPorPalabra.includes("entradas") && kw("entradas", titulo) && !conGuia && !kw("autoguiado", titulo)) return { valor: "entradas", regla: `#4 palabra entrada en ${id}` };
   // 5 autoguiado
   if (b === "autoguiado") return { valor: "autoguiado", regla: `#5 base ${id}` };
   // REQ-533: audioguía, app, «auto guiado» o «por tu cuenta» en el título = sin guía en persona, de cualquier categoría.
@@ -78,13 +82,20 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   // REQ-542 (PO 6-11 21:14): solo salidas desde la ciudad base; «city tour», «en {ciudad}», «París en un día» no salen.
   const enCiudad = matches(exc.palabrasEnCiudad, titulo) && !matches(exc.palabrasSaleSiempre, titulo);
   const tituloSale = kw("excursion-dia", titulo) && !matches(exc.palabrasNoEnTitulo, titulo) && !enCiudad;
-  // REQ-865/866 (PO 6-11 22:36, como GetYourGuide: excursión = sale de la ciudad base): una base «excursión» de 6 h o
-  // más solo sigue como excursión si el título o el resumen dicen que sale («desde», «excursión … a X», «day trip»,
-  // transporte o recogida incluidos, «cerca de X»). Sin señal es visita guiada (o caminata si es a pie) con «dia-completo».
+  // REQ-865/866 (PO 6-11 22:36) corregido por REQ-1253 (INC-008): D20 solo saca de «excursión» a los «Viajes de 1 día»
+  // de 6 h o más que NO salen de la ciudad. La falta de una palabra de salida no prueba que se quede: hace falta una señal
+  // de que todo pasa en la ciudad («city tour», «en un día», «por la ciudad de…»). Sin ella, la base excursión gana.
+  // En la ciudad = palabra de ciudad («city tour», «en un día») o el título nombra la ciudad base, sin ninguna señal de
+  // salida en el título ni en el resumen («desde», «day trip», «a X», transporte o recogida incluidos, «cerca de»).
   const salida = (matches(exc.palabrasSalidaTitulo, titulo) && !enCiudad) || matches(exc.palabrasSalidaResumen, resumen);
-  const largaSinSalida = b === "excursion-dia" && min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS && !salida;
+  const quedaEnCiudad = enCiudad || (namesCity(titulo, input.ciudades) && !salida);
+  const largaSinSalida = b === "excursion-dia" && min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS && quedaEnCiudad;
   // Si el título lo dice («Excursión…», «desde…»), la duración corta se toma como dato mal cargado.
-  if (b === "excursion-dia" && !enCiudad && !largaSinSalida && (!corta || tituloSale)) return { valor: "excursion-dia", regla: `#8 base ${id}` };
+  if (b === "excursion-dia" && !enCiudad && !largaSinSalida && (!corta || tituloSale)) {
+    // REQ-1253: 6 h o más sin señal de salida ni de quedarse: gana la base, pero va a la lista de dudas del PO.
+    const sinSeñal = min !== null && min >= EXCURSION_MIN_MINUTOS && !salida && !tituloSale;
+    return { valor: "excursion-dia", regla: sinSeñal ? `${DUDA} sin señal de salida ni de quedarse en la ciudad; por defecto la base ${id}` : `#8 base ${id}` };
+  }
   // REQ-535: «Excursión de un día» o «day trip» en el título bastan aunque la duración no lo diga.
   const fuerte = matches(exc.palabrasSinDuracion, titulo);
   const diaCompleto = fuerte || (min !== null && min >= EXCURSION_MIN_MINUTOS) || (min === null && dias === 1);
@@ -97,26 +108,18 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   // REQ-532: solo si es a pie: con barco, bici o vehículo en el título es visita guiada.
   const otroMedio = enOtroMedio(dict, titulo);
   // REQ-865: base excursión de 6 h o más sin señal de salida → visita guiada (caminata si es a pie, REQ-541/542).
-  if (largaSinSalida) {
-    return matches(medioPalabras(dict, "a-pie"), titulo) && !otroMedio
-      ? { valor: "caminata", regla: `#9 base excursión ≥6 h sin salida y a pie (${id})` }
-      : { valor: "tour", regla: `#11 base excursión ≥6 h sin salida de la ciudad (${id})` };
-  }
+  if (largaSinSalida) return recorridoGuiado(dict, cat, titulo, resumen, "visita-guiada", `base excursión ≥6 h dentro de la ciudad (${id})`);
   // REQ-867…869: dos actividades en el título. Espectáculo o clase al frente (o con solo gastronomía al lado) = Momentos
   // de autor; un recorrido al frente = caminata (a pie) o visita guiada, aunque la base o una palabra digan otra cosa.
   const comb = combinado(input.titulo, dict);
   if (comb && comb.principal !== "recorrido") return { valor: "experiencia-unica", regla: `#10 combinado: domina ${comb.principal} (${comb.secundarias.join(", ")})` };
   if (comb) {
     const aPie = (b === "caminata" || matches(medioPalabras(dict, "a-pie"), titulo)) && !otroMedio;
-    return aPie ? { valor: "caminata", regla: `#9 combinado: domina el recorrido a pie (${comb.secundarias.join(", ")})` } : { valor: "tour", regla: `#11 combinado: domina el recorrido (${comb.secundarias.join(", ")})` };
+    return aPie ? { valor: "caminata", regla: `#9 combinado: domina el recorrido a pie (${comb.secundarias.join(", ")})` } : recorridoGuiado(dict, cat, titulo, resumen, b === "visita-guiada" ? b : "tour", `combinado: domina el recorrido (${comb.secundarias.join(", ")})`);
   }
   if (b === "caminata" && !otroMedio) return { valor: "caminata", regla: `#9 base ${id}` };
   if (b === "caminata") return { valor: "tour", regla: `#9 base caminata con otro medio en el título (${id})` };
-  if (b === "excursion-dia" && (corta || enCiudad)) {
-    return matches(medioPalabras(dict, "a-pie"), titulo) && !otroMedio
-      ? { valor: "caminata", regla: `#9 base excursión de menos de 6 h y a pie (${id})` }
-      : { valor: "tour", regla: `#11 base excursión de menos de 6 h (${id})` };
-  }
+  if (b === "excursion-dia" && (corta || enCiudad)) return recorridoGuiado(dict, cat, titulo, resumen, "visita-guiada", `base excursión de menos de 6 h o en la ciudad (${id})`);
   // 10 Momentos de autor
   if (b === "experiencia-unica") return { valor: "experiencia-unica", regla: `#10 base ${id}` };
   // REQ-541 (PO 6-11 21:14): solo talleres, clases, catas sentadas y espectáculos; un recorrido con degustación no.
@@ -125,9 +128,38 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   if (cat.reglasPorPalabra.includes("experiencia-unica") && kw("experiencia-unica", todo) && !recorrido) return { valor: "experiencia-unica", regla: `#10 clase o taller en ${id}` };
   // REQ-541: un tour a pie (food tour, ruta a pie) es caminata, sin otro medio en el título.
   if (b === "tour" && matches(medioPalabras(dict, "a-pie"), titulo) && !otroMedio) return { valor: "caminata", regla: `#9 a pie en el título (${id})` };
-  // 11 tour · 12 a la medida · crucero (sin regla)
-  return { valor: b, regla: `#${b === "tour" ? 11 : b === "a-la-medida" ? 12 : "—"} base ${id}` };
+  // 11 tour / visita guiada (REQ-1250…1252) · 12 a la medida · crucero (sin regla)
+  if (b === "tour" || b === "visita-guiada") return recorridoGuiado(dict, cat, titulo, resumen, b, `base ${id}`);
+  return { valor: b, regla: `#${b === "a-la-medida" ? 12 : "—"} base ${id}` };
 }
+
+/** Prefijo de la regla cuando el tipo se decidió sin señal (va a la lista de dudas del PO, REQ-1252). */
+export const DUDA = "duda:";
+
+/**
+ * REQ-1250…1252 (decisión B del PO, 7-11 08:01, y su respuesta de las 08:10): el recorrido guiado de pago que llega a #11
+ * se parte en tres tipos. Gana la primera señal, primero en el título y luego en el resumen:
+ * 1. transporte dentro de la ciudad (bus, barco, bici, segway, tuk-tuk…; el hop-on hop-off ya salió en #2) → Tour;
+ * 2. a pie → Caminata;
+ * 3. sitio o museo (museo, catedral, palacio, «visita guiada al…», entrada) → Visita guiada.
+ * Si la categoría del proveedor ya dice el medio (barco, vehículo, bici) es Tour; si su base es Visita guiada, Visita guiada.
+ * Sin ninguna señal se usa el `porDefecto` de la categoría (o la base) y la regla empieza con «duda:».
+ */
+function recorridoGuiado(dict: Dictionary, cat: Categoria, titulo: string, resumen: string, base: FormatoOEstado, motivo: string): Decision<FormatoOEstado> {
+  const sitio = formatoTerm(dict, "visita-guiada").palabras;
+  const señal = (t: string): FormatoOEstado | null =>
+    enOtroMedio(dict, t) ? "tour" : matches(medioPalabras(dict, "a-pie"), t) ? "caminata" : matches(sitio, t) ? "visita-guiada" : null;
+  const enTitulo = señal(titulo);
+  if (enTitulo) return { valor: enTitulo, regla: `#11 ${nombre(enTitulo)} en el título; ${motivo}` };
+  if (cat.atributos.some((a) => /^medio:(barco|bici|vehiculo)$/.test(a))) return { valor: "tour", regla: `#11 la categoría dice el medio de transporte; ${motivo}` };
+  if (cat.formato === "visita-guiada" || base === "visita-guiada" && cat.formato === "entradas") return { valor: "visita-guiada", regla: `#11 la categoría es sitio o museo; ${motivo}` };
+  const enResumen = resumen ? señal(resumen) : null;
+  if (enResumen) return { valor: enResumen, regla: `#11 ${nombre(enResumen)} en el resumen; ${motivo}` };
+  const def = cat.porDefecto ?? (base === "tour" ? "visita-guiada" : base);
+  return { valor: def, regla: `${DUDA} sin señal de transporte, a pie ni sitio; por defecto ${def}; ${motivo}` };
+}
+
+const nombre = (f: FormatoOEstado) => (f === "tour" ? "transporte" : f === "caminata" ? "a pie" : "sitio o museo");
 
 /** Palabras de un valor del atributo «medio» (bici, barco, vehiculo, a-pie) del diccionario. */
 function medioPalabras(dict: Dictionary, valor: string): string[] {

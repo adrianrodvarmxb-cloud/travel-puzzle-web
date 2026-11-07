@@ -15,7 +15,7 @@ export function temaTerms(dict: Dictionary): TerminoTema[] {
 export function classifyTemas(
   input: ClassifyInput, formato: FormatoOEstado, dict: Dictionary, mapping: Mapping | undefined, cat: Categoria | undefined,
 ): Decision<Tema>[] {
-  if (formato === "fuera" || formato === "por-revisar") return [];
+  if (formato === "fuera" || formato === "por-revisar" || formato === "esenciales-viaje") return []; // REQ-1263
   const implicados = new Map<Tema, string>();
   for (const t of cat?.temas ?? []) implicados.set(t, `categoría ${mapping?.proveedor}:${cat?.id}`);
   for (const f of input.fuentesTema ?? []) for (const t of mapping?.temasPorFuente?.[f] ?? []) if (!implicados.has(t)) implicados.set(t, `fuente ${f}`);

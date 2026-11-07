@@ -8,7 +8,7 @@ describe("REQ-260 gates abiertos: una constante por gate con la recomendación d
     expect({
       G2: G.GATE_G2_CAMINATA, G3: G.GATE_G3_TEMAS, GT1: G.GATE_GT1_FAVORITO, GT2: G.GATE_GT2_MEXICO, GT4: G.GATE_GT4_FRANJA, GT5: G.GATE_GT5_ALMACEN,
       GT7: G.GATE_GT7_EXCURSION, GT8: G.GATE_GT8_DIFICULTAD, GT9: G.GATE_GT9_TITLE, GT10: G.GATE_GT10_POR_REVISAR, GT11: G.GATE_GT11_AUTOGUIADO,
-    }).toEqual({ G2: "A", G3: "A", GT1: "A", GT2: "A", GT4: "A", GT5: "A", GT7: "A", GT8: "A", GT9: "A", GT10: "A", GT11: "A" });
+    }).toEqual({ G2: "A", G3: "A", GT1: "D" /* REQ-1290 reemplaza la A */, GT2: "A", GT4: "A", GT5: "A", GT7: "A", GT8: "A", GT9: "A", GT10: "A", GT11: "A" });
     expect(G.FAVORITO_CRITERIO.A).toEqual({ minCalificacion: 4.7, minResenas: 50 });
     expect(G.GATE_GT3_METAS).toMatchObject({ pctConFormato: 100, pctPresencialesSinTemaMax: 5, categoriasPorRevisarMax: 0, precisionTemaMin: 90, chipsEnCeroMax: 0 });
     expect(G.DEFAULT_GATES.atributosExtra).toBe(false);

@@ -17,7 +17,7 @@ export function taxonomyPublishEnabled(env: { TAXONOMY_PUBLISH_ENABLED?: string 
   return env.TAXONOMY_PUBLISH_ENABLED === "true";
 }
 
-export interface CatalogTour { categoryId?: number | null; price: number | null; durationMinutes?: number | null; title: string }
+export interface CatalogTour { categoryId?: number | null; price: number | null; durationMinutes?: number | null; title: string; /** REQ-1253 */ cities?: readonly string[] }
 /** `guiaEnPersona`: el formato tiene guía en persona y el título no dice autoguiado o self-guided (decisión del PO, 6-11). */
 export interface CatalogClass { formato: FormatoOEstado; seccion: Seccion; guiaEnPersona: boolean; /** REQ-544: atributos (chips de la ficha). */ atributos?: string[] }
 export type CatalogClassifier = (t: CatalogTour) => CatalogClass;
@@ -28,7 +28,7 @@ export function catalogClassifier(dict: Dictionary, mappings: Record<string, Map
   return (t) => {
     const hit = memo.get(t);
     if (hit) return hit;
-    const r = classify({ proveedor: "freetour", categoriaId: t.categoryId ?? null, precio: t.price, durationMinutes: t.durationMinutes ?? null, titulo: t.title }, dict, mappings, gates);
+    const r = classify({ proveedor: "freetour", categoriaId: t.categoryId ?? null, precio: t.price, durationMinutes: t.durationMinutes ?? null, titulo: t.title, ciudades: t.cities }, dict, mappings, gates);
     const term = dict.terminos.find((x) => x.eje === "formato" && x.slug === r.formato) as { guiaEnPersona?: boolean } | undefined;
     const out: CatalogClass = { formato: r.formato, seccion: r.seccion, guiaEnPersona: !!term?.guiaEnPersona && !r.atributos.includes("autoguiado"), atributos: r.atributos };
     memo.set(t, out);
@@ -38,13 +38,15 @@ export function catalogClassifier(dict: Dictionary, mappings: Record<string, Map
 
 /** ¿Sale en las páginas públicas (y cuenta para indexar)? `fuera` nunca; `por-revisar` según G-T10. */
 export function isPublishable(formato: FormatoOEstado, where: "/destinos" | "/tours" = "/destinos", gate: Gates["porRevisar"] = DEFAULT_GATES.porRevisar): boolean {
-  if (formato === "fuera") return false;
+  if (formato === "fuera" || formato === "esenciales-viaje") return false; // REQ-1263: tras bandera
+  // REQ-1262: «Experiencias en línea» tiene su sección en /tours, pero no es «cosas que hacer» en la ciudad ni cuenta para indexarla.
+  if (formato === "en-linea") return where === "/tours";
   if (formato === "por-revisar") return porRevisarVisibleEn(gate).includes(where);
   return true;
 }
 
 /** Formatos presenciales que puede sugerir la venta cruzada de las fichas (docs/taxonomia.md §8 #14). */
-export const FORMATOS_PRESENCIALES: readonly FormatoOEstado[] = ["pieza-libre", "caminata", "tour", "excursion-dia", "experiencia-unica"];
+export const FORMATOS_PRESENCIALES: readonly FormatoOEstado[] = ["pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica"];
 
 /** Formato de un viaje propio desde su kind (sin título ni días: el de la tarjeta de /destinos). */
 export function ownKindFormato(kind: string | undefined): FormatoOEstado {

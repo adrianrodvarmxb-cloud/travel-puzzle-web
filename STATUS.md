@@ -2,6 +2,48 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1247 | Respaldo de solo lectura de las tablas de la 0017 | `.github/workflows/respaldo-taxonomia.yml` | `src/ops/respaldo-taxonomia-workflow.test.ts` | EN CURSO (falta la corrida tras el merge) |
+## Sin FREETOUR en los textos del proveedor (D31; INC-008, 7 nov 2026) — matriz de trazabilidad
+| REQ-1240 | Descripciones y resúmenes sin la plataforma | `src/tours/lib/provider-text.ts` | `src/tours/lib/provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1241 | Títulos: se quita solo el nombre | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1242 | «Incluye» sin la plataforma | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1243 | Repositorio de tours (lista, ficha, JSON-LD, dato del cliente) | `src/lib/db/repositories/tour-repository.ts` | `src/lib/db/repositories/tour-repository-sin-plataforma.test.ts`, `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1244 | Tarjetas del inicio | `src/home/lib/slim.ts` | `src/home/lib/slim.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1245 | Árbol de /destinos | `src/destinations/repository.ts` | `src/destinations/repository-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1246 | Correos | `src/booking/tour-summary.ts` | `src/booking/tour-summary-sin-plataforma.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
+## Tour, Visita guiada y Caminata (decisión B del PO, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1250 | Tour = transporte en la ciudad; nombres Tour · Visita guiada · Caminata (reemplaza la fila «Tour → Visita guiada» de REQ-531) | `src/taxonomy/lib/format.ts` (`recorridoGuiado`), `src/taxonomy/lib/filters.ts`, `src/taxonomy/lib/types.ts`, `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/cart-type.ts`, `src/taxonomy/lib/publish.ts` | `src/taxonomy/lib/tour-visita-caminata.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1251 | Visita guiada = sitio o museo con guía; cat. 22 y 24 con guía | `src/taxonomy/data/dictionary.json`, `src/taxonomy/data/mapping/freetour.json`, `format.ts` | `tour-visita-caminata.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1252 | Sin señal: tipo por defecto de la categoría y lista de dudas | `format.ts`, `src/taxonomy/schemas/dictionary.ts` (`porDefecto`), `docs/taxonomia/reclasificacion-2026-11-07/` | `tour-visita-caminata.test.ts` | EN CURSO (falta la revisión del PO) |
+| REQ-1253 | Corrige REQ-865: «Viajes de 1 día» solo dejan de ser excursión con señal de quedarse | `format.ts`, `src/taxonomy/lib/text.ts` (`namesCity`), ciudad base en `snapshot.ts`, `card-format.ts`, `publish.ts`, `destinations/lib/catalog.ts`, `home/load.ts`, `actions/tours.ts`, `trips/cross-sell-deps.ts`, `taxonomy/repository.ts`, `run-plan.ts` | `src/taxonomy/lib/tipos-dudosos.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1257 | Llaves nuevas de caché para todo lo que guarda el formato | `src/catalog/snapshot.ts`, `src/actions/tours.ts`, `src/app/api/tours/route.ts`, `src/trips/public-load.ts`, `src/destinations/server.ts`, `src/app/page.tsx`, `src/home/carousel-load.ts` | `tour-visita-caminata.test.ts` | EN CURSO (falta humo del PR) |
+
+## Chips y filtro de /tours desde el diccionario (D21) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1256 | Tipos principales de /tours desde el diccionario | `src/taxonomy/lib/format-defs.ts`, `src/taxonomy/schemas/dictionary.ts`, `src/taxonomy/data/dictionary.json`, `src/tours/lib/format-chips.ts`, `src/taxonomy/lib/filters.ts`, `src/catalog/lib/query.ts`, `src/lib/db/repositories/tour-repository.ts`, `src/app/tours/page.tsx`, `ToursPageClient.tsx`, `MoreFilters.tsx` | `src/taxonomy/lib/format-defs.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
+## FREETOUR cat. 8 por su tipo real (PO, 7 nov 2026, 11:3x) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1260 | Cat. 8 app/audioguía → Autoguiado (reemplaza §4.1 #0 para la 8) | `src/taxonomy/data/mapping/freetour.json`, `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/format.ts` | `src/taxonomy/lib/categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1261 | Cat. 8 presencial → su tipo normal | `format.ts`, `freetour.json` | `categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1262 | «Experiencias en línea» | `src/taxonomy/lib/types.ts`, `dictionary.json`, `format.ts`, `publish.ts`, `filters.ts`, `cart-type.ts`, `src/destinations/lib/catalog.ts` (`onlineTours`, `fichaTours`), `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx` | `categoria-8-tipo-real.test.ts`, `src/destinations/lib/catalog.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1263 | Cat. 31 «Esenciales de viaje», tras bandera | `types.ts`, `dictionary.json`, `freetour.json`, `format.ts`, `publish.ts`, `themes.ts`, `attributes.ts` | `categoria-8-tipo-real.test.ts`, `freetour.test.ts` | EN CURSO |
+| REQ-1264 | SCT/NIR/WLS → GB | `src/destinations/lib/ids.ts` (`countryIso2`, `ISO2_SQL`), `src/destinations/lib/catalog.ts`, `src/destinations/repository.ts` | `categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
+## Rango de precio en EUR con MXN aproximado (7 nov 2026) — matriz de trazabilidad
+| REQ-1254 | Deslizador «€X · aprox. MXN $Y», sin «US$» | `src/tours/lib/price-filter.ts`, `src/components/tours/filters/PriceSlider.tsx`, `MoreFilters.tsx`, `ToursPageClient.tsx`, `src/app/tours/page.tsx` | `src/tours/lib/price-filter.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1255 | Viajes en USD o MXN se comparan en EUR | `src/tours/lib/price-filter.ts`, `src/trips/lib/public.ts`, `src/trips/public-load.ts` | `price-filter.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
+| REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
@@ -42,6 +84,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1102 | Sección e intro de ciudad en inglés con «Free tour» | `src/destinations/lib/hub-copy.ts` | — | REEMPLAZADO por REQ-1103 |
 | REQ-1103 | Categoría «Free Puzzle» en inglés (tarjeta, /tours, ciudad, pines, insignia, marcado, correos, diccionario); reemplaza a REQ-1102 | `src/tours/lib/pieza-libre.ts`, `src/taxonomy/lib/filters.ts`, `src/tours/lib/extra-filters.ts`, `src/trips/lib/copy.ts`, `src/home/lib/copy.ts`, `src/destinations/lib/hub-copy.ts`, `src/destinations/lib/pieza-libre-copy.ts`, `src/lib/translations/{en,pt,de,fr,it}.ts`, `src/taxonomy/data/dictionary.json` | `src/tours/lib/free-puzzle.test.ts`, `src/destinations/lib/hub-copy.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## Motivo exacto al crear el PR (7 nov 2026)
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1237 | Error exacto e indicación de la opción en el issue; rama por intento | `.github/workflows/blog-diario.yml`, `.github/workflows/guias-ciudad.yml` | `src/ops/workflows-motivo-pr.test.ts` | CUMPLIDO |
+
 ## Guías propias de ciudad (PO, 7 nov 2026, 06:17) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
@@ -55,6 +102,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1233 | París y Pekín | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` | `src/destinations/guias-ejemplo.test.ts` | CUMPLIDO |
 | REQ-1234 | Prompt, Paso 7 | `docs/blog/agente-diario.md` | `guias-ejemplo.test.ts` | CUMPLIDO |
 | REQ-1235 | Gate G5 | `docs/gates-blog-diario-2026-11-06.md` | `workflow-guias.test.ts` | CUMPLIDO |
+| REQ-1236 | 5 guías por día (reemplaza «2 por día» de REQ-1227) | `src/destinations/lib/guia.ts`, `guias-run.ts`, `guias-ciudad.yml`, `docs/blog/agente-diario.md`, gate G5.1 | `guia.test.ts`, `guias-run.test.ts`, `guias-ejemplo.test.ts`, `workflow-guias.test.ts` | CUMPLIDO |
 
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.

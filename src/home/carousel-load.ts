@@ -29,10 +29,10 @@ export async function loadCarouselPageCards({ c, p, lang }: { c: HomeCarouselId;
   if (!isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED)) return { cards: [], hasMore: false };
   const includePaid = env.PAID_TOURS_ENABLED === "true";
   const tax = taxonomyPublishEnabled(env);
-  return cached(cacheKey("homeCarouselPage", { c, p, lang, includePaid, tax, v: 2 /* REQ-668 href final */ }), POLICY.home, async () => {
+  return cached(cacheKey("homeCarouselPage", { c, p, lang, includePaid, tax, v: 4 /* REQ-668 href final; REQ-1250 tipos; REQ-1260 cat. 8 */ }), POLICY.home, async () => {
     const prisma = getPrisma();
     const ownTrips = (await loadTripCards(lang)).filter((t) => !mentionsProviderBrand(t.title)); // REQ-219
-    const order = await cached(cacheKey("homeCarouselOrder", { lang, includePaid, tax, v: 1 }), POLICY.home, () =>
+    const order = await cached(cacheKey("homeCarouselOrder", { lang, includePaid, tax, v: 3 /* REQ-1250: «Excursiones de un día» cambia con REQ-1253; REQ-1260 */ }), POLICY.home, () =>
       withRetry(() => loadCarouselOrder(prisma, includePaid, ownTrips, homeTaxonomy(tax))));
     const page = carouselPage(order[c], p);
     const items = await withRetry(() => hydrateCarouselItems(prisma, page.items, ownTrips));

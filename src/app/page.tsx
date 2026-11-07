@@ -70,7 +70,7 @@ export default async function Home() {
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
   // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
   const taxonomyOn = taxonomyPublishEnabled(env);
-  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "carruseles-610" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "carruseles-610-tipos-1260" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
     withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.

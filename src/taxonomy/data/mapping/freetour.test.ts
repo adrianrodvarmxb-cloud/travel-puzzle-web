@@ -11,29 +11,29 @@ import { piezaLibreExcepciones } from "../../lib/primera-pieza";
 const CSV: [id: number, nombre: string, formato: string, temas: string[], precio0EsPieza: boolean, carrito: string | null][] = [
   [3, "Cruceros y barcos", "tour", ["playa-mar"], true, "tour"],
   [4, "Viajes de 1 Día", "excursion-dia", [], true, "day_trip"],
-  [5, "Tour Gastronómico", "tour", ["gastronomia"], true, "tour"],
+  [5, "Tour Gastronómico", "caminata", ["gastronomia"], true, "tour"], // REQ-1252: «Visita Alfa» sin señal → por defecto caminata
   [7, "Vida Nocturna", "experiencia-unica", ["noche-espectaculos"], true, "tour"],
-  [8, "Tour Online", "fuera", [], false, null],
+  [8, "Tour Online", "visita-guiada", [], true, "tour"], // REQ-1261: «Visita Alfa» presencial sin señal → por defecto (duda); gratis = Pieza libre
   [10, "Tour Corriendo", "caminata", ["deportivo", "urbano"], true, "tour"],
   [12, "Tour a Pie", "caminata", ["urbano"], true, "tour"],
-  [13, "Otros", "tour", [], true, "tour"],
-  [14, "Top selección", "tour", [], true, "tour"],
+  [13, "Otros", "visita-guiada", [], true, "tour"], // REQ-1252: por defecto visita-guiada
+  [14, "Top selección", "visita-guiada", [], true, "tour"], // REQ-1252
   [16, "Tours de aventura", "experiencia-unica", ["aventura"], true, "tour"],
   [17, "Audioguías", "autoguiado", [], false, "tour"],
   [18, "Aviación", "experiencia-unica", ["aventura"], true, "tour"],
   [19, "Tours en vehículo por la ciudad", "tour", ["urbano"], true, "tour"],
   [20, "Entradas", "entradas", [], false, "tickets"],
   [21, "Juegos y ocio", "experiencia-unica", ["parques-ocio"], true, "tour"],
-  [22, "Sitios históricos", "tour", ["cultural"], true, "tour"],
+  [22, "Sitios históricos", "visita-guiada", ["cultural"], true, "tour"], // REQ-1251
   [23, "Deportes de motor", "experiencia-unica", ["aventura", "deportivo"], true, "tour"],
   [24, "Museos", "entradas", ["cultural"], false, "tickets"],
-  [25, "Naturaleza y parques", "tour", ["naturaleza"], true, "tour"],
+  [25, "Naturaleza y parques", "caminata", ["naturaleza"], true, "tour"], // REQ-1252: por defecto caminata
   [26, "Alquileres", "alquiler", [], false, "car_rental"],
   [27, "Espectáculos en vivo", "experiencia-unica", ["cultural", "noche-espectaculos"], true, "tour"],
   [28, "Pases urbanos", "entradas", [], false, "tickets"],
   [29, "Traslados", "traslado", [], false, "transfer"],
   [30, "Transporte público", "transporte", ["urbano"], false, "transport"],
-  [31, "Servicios de viaje", "fuera", [], false, null],
+  [31, "Servicios de viaje", "esenciales-viaje", [], false, null], // REQ-1263
   [32, "Actividades acuáticas", "experiencia-unica", ["playa-mar"], true, "tour"],
   [33, "Bienestar", "experiencia-unica", ["bienestar"], true, "tour"],
   [34, "Talleres", "experiencia-unica", ["talleres-aprendizaje"], true, "tour"],
@@ -65,8 +65,8 @@ describe("REQ-402 / REQ-406 / REQ-407 / REQ-408 / REQ-428 cada una de las 29 cat
     expect(gratis.formato === "pieza-libre").toBe(precio0EsPieza);
     if (!precio0EsPieza) expect(gratis.formato).toBe(formato);
   });
-  it("REQ-406 las excepciones de Free tour son exactamente 8, 17, 20, 24, 26, 28, 29, 30, 31 y 35 (incluye 26 y 31)", () => {
-    expect(piezaLibreExcepciones(ft).map(Number).sort((a, b) => a - b)).toEqual([8, 17, 20, 24, 26, 28, 29, 30, 31, 35]);
+  it("REQ-406 las excepciones de Free tour son exactamente 17, 20, 24, 26, 28, 29, 30, 31 y 35 (REQ-1261: la 8 sale)", () => {
+    expect(piezaLibreExcepciones(ft).map(Number).sort((a, b) => a - b)).toEqual([17, 20, 24, 26, 28, 29, 30, 31, 35]);
   });
   it.each([1, 2, 6, 9, 999, 11, 15])("REQ-408 el id %i (histórico o nuevo) queda por-revisar, sin temas ni atributos, y se avisa", (id) => {
     for (const precio of [0, 30]) {
@@ -75,7 +75,7 @@ describe("REQ-402 / REQ-406 / REQ-407 / REQ-408 / REQ-428 cada una de las 29 cat
       expect(r.avisos).toContain(`por-revisar: freetour:${id}`);
     }
   });
-  it.each([8, 31])("REQ-407 la %i es «fuera»: sin sección, temas ni atributos, con o sin precio", (id) => {
-    for (const precio of [0, 30]) expect(classify(product(id, precio), D, M)).toMatchObject({ formato: "fuera", seccion: "ninguna", temas: [], atributos: [] });
+  it("REQ-1263 la 31 es «Esenciales de viaje» (tras bandera): sin sección, temas ni atributos, con o sin precio", () => {
+    for (const precio of [0, 30]) expect(classify(product(31, precio), D, M)).toMatchObject({ formato: "esenciales-viaje", seccion: "ninguna", temas: [], atributos: [] });
   });
 });

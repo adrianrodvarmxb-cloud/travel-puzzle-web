@@ -12,6 +12,7 @@ import { tripPath } from "./lib/public";
 import { cardPlaces } from "./lib/geo";
 import { priceDisplay, type FxRates } from "./lib/money";
 import { imageUrl } from "./lib/image";
+import { priceInEur } from "@/tours/lib/price-filter";
 import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
@@ -53,6 +54,8 @@ export interface TripCard {
   cities: string[]; durationDays: number | null; price: ReturnType<typeof priceDisplay>;
   /** REQ-046: precio "Desde" en su moneda original, para el filtro de precio de /tours. */
   priceFrom: number | null;
+  /** REQ-1255: precio desde, en EUR (para el rango de precio de /tours). */
+  priceFromEur?: number | null;
   /** REQ-049..056: datos para los filtros estilo Civitatis (mismo modelo que Freetour). */
   languages: string[]; dates: string[]; group: string; freeCancel: boolean; private: boolean;
   hotelPickup: boolean; createdAt: number; durationMinutes: number | null;
@@ -84,7 +87,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     id: t.id, path: tripPath(t), code: t.code, kind: t.kind,
     title: localized(tr, lang, "title", t.titleEs), summary: localized(tr, lang, "summary", t.summaryEs),
     image: t.images[0] ? imageUrl(t.images[0].key) : null, countries: t.countries, places: cardPlaces(t.countries, lang), cities: t.cities, durationDays: t.durationDays,
-    price: priceDisplay(t.priceFrom, t.currency, fx, lang), priceFrom: t.priceFrom,
+    price: priceDisplay(t.priceFrom, t.currency, fx, lang), priceFrom: t.priceFrom, priceFromEur: priceInEur(t.priceFrom, t.currency, fx),
     languages: dep.languages, dates: dep.dates, group: ownTripGroup(t.kind, t.category),
     freeCancel: policySummary(t.cancellation).kind === "free", private: t.options.some((o) => o.mode === "private"),
     hotelPickup: !!t.hotelPickup, createdAt: t.createdAt ? new Date(t.createdAt).getTime() : 0,
@@ -108,7 +111,7 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
     // T4: v5 = las tarjetas llevan formato (la copia v4 de producción no lo trae). REQ-524: v6 = también el proveedor.
     // REQ-268: con la caché fría no hay copia anterior que servir; si D1 está saturada (N+2 consultas), se reintenta
     // con espera (como el catálogo, REQ-029) en vez de pintar /tours y el inicio sin viajes propios.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "8" /* REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "9" /* REQ-1250 Tour / Visita guiada / Caminata; REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
       const repo = createTripRepo(getPrisma());
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));

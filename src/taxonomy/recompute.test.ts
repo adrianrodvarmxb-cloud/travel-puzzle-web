@@ -20,7 +20,7 @@ function db() {
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
   d.exec(readFileSync("migrations/0017_taxonomia.sql", "utf8"));
   const tour = (id: string, cat: number, price: number, title: string, active = 1, minutes = 120) => {
-    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.8',60,?)`).run(id, cat, String(price), minutes, active, `h-${id}`);
+    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
     d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(id, "es", title, "");
   };
   tour("a", 12, 0, "Free tour por el casco antiguo");
@@ -31,6 +31,9 @@ function db() {
   tour("z", 12, 0, "Inactivo", 0);
   d.prepare(`INSERT INTO "Trip" VALUES ('t1','circuito','cultural',8,'Perú esencial','Essential Peru',1500,'["es"]','[{"mode":"private"}]',0,'published')`).run();
   d.prepare(`INSERT INTO "Trip" VALUES ('t2','tour','urbano',1,'Borrador','Draft',10,'[]','[]',0,'draft')`).run();
+  // REQ-1253: el recálculo lee el nombre de la ciudad base (Tour.cityId → City.translations), como en producción.
+  d.exec(`ALTER TABLE "Tour" ADD COLUMN "cityId" INTEGER`);
+  d.exec(`CREATE TABLE "City"("id" INTEGER PRIMARY KEY, "translations" TEXT)`);
   return d;
 }
 const SYNC = "2026-11-06T05:00:00.000Z";
@@ -49,17 +52,17 @@ async function fullRun(d: Db, now: string, over = {}) {
 }
 
 describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => {
-  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"false\"", () => {
+  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"true\" (REQ-615, gate de encendido)", () => {
     expect(taxonomySyncEnabled({})).toBe(false);
     expect(taxonomySyncEnabled({ TAXONOMY_SYNC_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"true"/);
   });
   it("REQ-409 una corrida completa: arranca, clasifica activos por tandas, luego viajes publicados, y publica", async () => {
     const d = db();
     const actions = (await fullRun(d, "2026-11-06T06:00:00.000Z")).map((r) => r.action);
     expect(actions).toEqual(["start", "tours", "tours", "tours", "trips", "publish"]);
     const formatos = Object.fromEntries((d.prepare(`SELECT "experienceId","term" FROM "ExperienceTaxonomy" WHERE "axis"='formato'`).all() as { experienceId: string; term: string }[]).map((r) => [r.experienceId, r.term]));
-    expect(formatos).toEqual({ a: "pieza-libre", b: "caminata", c: "tour", d: "por-revisar", e: "excursion-dia", t1: "circuito" });
+    expect(formatos).toEqual({ a: "pieza-libre", b: "caminata", c: "caminata" /* REQ-1252: cat. 5 sin señal, por defecto caminata */, d: "por-revisar", e: "excursion-dia", t1: "circuito" });
     expect(d.prepare(`SELECT "term" FROM "ExperienceTaxonomy" WHERE "experienceId"='a' AND "axis"='atributo' ORDER BY "term"`).all()).toEqual(expect.arrayContaining([{ term: "idioma-es" }, { term: "favorito" }]));
   });
   it("REQ-409 no escribe en Tour, TourTranslation ni Trip (ni el content_hash)", async () => {
@@ -85,13 +88,13 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
   it("REQ-409 barrera: si un formato cae más de 30 %, la corrida se aborta y se sigue leyendo la anterior", async () => {
     const d = db();
     for (let i = 0; i < 30; i++) {
-      d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h')`).run(`w${String(i).padStart(2, "0")}`);
+      d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
       d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", ""); // REQ-541: «Caminata» en el título ya es a pie en cualquier categoría
     }
     await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
     d.exec(`UPDATE "Tour" SET "categoryId"=19 WHERE "id" LIKE 'w%'`);
     const last = (await fullRun(d, "2026-11-07T06:00:00.000Z", { batch: 50, lastSyncAt: "2026-11-07T05:00:00.000Z" })).at(-1)!;
-    expect(last).toMatchObject({ action: "abort", reason: expect.stringContaining("caminata cae de 31 a 1") });
+    expect(last).toMatchObject({ action: "abort", reason: expect.stringContaining("caminata cae de 32 a 2") /* REQ-1252: «Tapas y vino» también es caminata */ });
     const runs = d.prepare(`SELECT "status" FROM "TaxonomyRun" ORDER BY "startedAt"`).all();
     expect(runs).toEqual([{ status: "published" }, { status: "aborted" }]);
   });
@@ -104,7 +107,7 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
   it("REQ-409 si cambia el diccionario o un mapeo, la corrida en curso se reemplaza", async () => {
     const d = db();
     await step(d, "2026-11-06T06:00:00.000Z");
-    const otro = { ...M, freetour: { ...M.freetour, version: "2026-11-07" } };
+    const otro = { ...M, freetour: { ...M.freetour, version: "2026-11-08" } }; // REQ-1250: la vigente ya es 2026-11-07
     expect((await step(d, "2026-11-06T06:01:00.000Z", { mappings: otro })).action).toBe("start");
     expect(d.prepare(`SELECT "status","abortReason" FROM "TaxonomyRun" ORDER BY "startedAt" LIMIT 1`).all()).toEqual([{ status: "aborted", abortReason: "superseded" }]);
   });
@@ -135,6 +138,6 @@ describe("REQ-409 lógica pura del recálculo", () => {
     expect(unmappedFrom([{ ruleId: "sin mapeo: freetour:99", n: 3 }, { ruleId: "#3 base freetour:26", n: 1 }])).toEqual([{ provider: "freetour", categoryId: "99", tours: 3 }]);
   });
   it("REQ-409 la versión del mapeo junta diccionario y proveedores", () => {
-    expect(mappingVersion(D, M)).toBe("dict:2026-11-06|freetour:2026-11-06|propios:2026-11-06");
+    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07b|propios:2026-11-06"); // REQ-1250; REQ-1260: mapeo de FREETOUR nuevo: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida
   });
 });

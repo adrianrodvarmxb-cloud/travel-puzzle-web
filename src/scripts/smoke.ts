@@ -49,7 +49,7 @@ const optional = config.optional;
 const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
 // REQ-976: con BLOG_ENABLED encendida, /blog, los pilares con artículos y las 5 entradas más recientes son fijas.
 const blogOn = (process.env.BLOG_ENABLED ?? vars.BLOG_ENABLED) === "true";
-// REQ-1231: con PRIMERA_PIEZA encendida, las páginas de ciudad de las 2 guías más recientes son fijas.
+// REQ-1231 + REQ-1236: con PRIMERA_PIEZA encendida, las páginas de ciudad de las guías más recientes (hasta 5) son fijas.
 const guidesOn = (process.env.PRIMERA_PIEZA_ENABLED ?? vars.PRIMERA_PIEZA_ENABLED) === "true";
 const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env), ...(blogOn ? blogSmokePaths(loadPosts()) : []), ...(guidesOn ? guideSmokePaths(loadGuides()) : [])])];
 // REQ-675: con LOCALE_URLS_ENABLED también se descubre una ficha en inglés.

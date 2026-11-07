@@ -10,7 +10,7 @@ const trip = {
 const input = tripFichaInput({
   trip, lang: "es", url: "https://travelpuzzle.com.mx/viajes/francia/louvre", title: "Louvre con guía privado", summary: "Visita privada al Louvre.",
   operator: "Extime Travel", duration: "1 día", languageNames: ["español"], priceText: "Desde MXN $3,980 · EUR €189", places: "París · Francia",
-  includes: ["Guía privado", "Entrada"], formato: "tour",
+  includes: ["Guía privado", "Entrada"], formato: "visita-guiada", // REQ-1250: el Louvre con guía es Visita guiada
 });
 
 describe("REQ-576: la ficha de viaje lleva el mismo marcado que el tour", () => {

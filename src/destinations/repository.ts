@@ -4,7 +4,9 @@
  * aplicadas en producción; hoy los slugs están vacíos, así que todo devuelve listas vacías sin fallar.
  */
 import type { CityRow, CountryRow, TourRow, TripRow } from "./lib/catalog";
+import { ISO2_SQL } from "./lib/ids";
 import { placeStatus, type TourStatus } from "./lib/routes";
+import { scrubName } from "@/tours/lib/provider-text";
 
 export interface D1Read {
   prepare(sql: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } };
@@ -58,14 +60,14 @@ function cityRow(r: Record<string, unknown>): CityRow {
 }
 
 // REQ-092: isActive entra para que un tour dado de baja (isActive=0) responda 410 aunque syncStatus siga 'active'.
-const PLACE = `SELECT t."id", t."slug", t."syncStatus", t."isActive", ${TITLE} AS "title", co."iso2", c."slug" AS "citySlug", c."translations" AS "cityTr",
+const PLACE = `SELECT t."id", t."slug", t."syncStatus", t."isActive", ${TITLE} AS "title", ${ISO2_SQL("co")} AS "iso2", c."slug" AS "citySlug", c."translations" AS "cityTr",
   EXISTS (SELECT 1 FROM "Tour" t2 WHERE t2."cityId" = c."id" AND t2."slug" IS NOT NULL AND t2."isActive" = 1 AND t2."syncStatus" <> 'removed') AS "cityLive"
   FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" JOIN "Country" co ON co."id" = t."countryId" ${JOIN_TITLES}`;
 
 function placeRow(r: Record<string, unknown> | undefined, cityName: (tr: unknown) => string): TourPlaceRow | null {
   if (!r) return null;
   return {
-    id: String(r.id), slug: (r.slug as string | null) ?? null, status: placeStatus(r.syncStatus, r.isActive), title: String(r.title ?? ""),
+    id: String(r.id), slug: (r.slug as string | null) ?? null, status: placeStatus(r.syncStatus, r.isActive), title: scrubName(String(r.title ?? "")), // REQ-1245
     countrySlug: typeof r.iso2 === "string" && r.iso2 ? r.iso2.toLowerCase() : null, citySlug: (r.citySlug as string | null) ?? null,
     cityName: cityName(json(r.cityTr)), cityLive: bool(r.cityLive),
   };
@@ -76,7 +78,7 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
   const all = async (sql: string, ...params: unknown[]) => (await db.prepare(sql).bind(...params).all()).results;
   return {
     async countries() {
-      const rows = await all('SELECT "id", "code", "iso2", "translations" FROM "Country" WHERE "iso2" IS NOT NULL');
+      const rows = await all(`SELECT co."id", co."code", co."iso2", co."translations" FROM "Country" co WHERE ${ISO2_SQL("co")} IS NOT NULL`); // REQ-1264
       return rows.map((r) => ({ id: Number(r.id), code: String(r.code), iso2: (r.iso2 as string | null) ?? null, translations: json(r.translations) }));
     },
     async cities() {
@@ -91,13 +93,13 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
       );
       return rows.map((r) => ({
         id: String(r.id), externalId: Number(r.externalId), slug: (r.slug as string | null) ?? null, cityId: Number(r.cityId), countryId: Number(r.countryId),
-        title: String(r.title ?? ""), provider: (r.providerTitle as string | null) ?? null, price: Number(r.priceValue ?? 0), currency: String(r.priceCurrency ?? "EUR"),
+        title: scrubName(String(r.title ?? "")), provider: (r.providerTitle as string | null) ?? null, price: Number(r.priceValue ?? 0), currency: String(r.priceCurrency ?? "EUR"),
         rating: r.rating === null || r.rating === undefined ? null : Number(r.rating), reviews: Number(r.reviewsNumber ?? 0),
         image: (r.titleImageURL as string | null) ?? null, duration: (r.duration as string | null) ?? null, status: status(r.syncStatus),
         isActive: bool(r.isActive), updatedAt: iso(r.updatedAt) ?? new Date(0).toISOString(),
         categoryId: r.categoryId === null || r.categoryId === undefined ? null : Number(r.categoryId),
         durationMinutes: r.durationMinutes === null || r.durationMinutes === undefined ? null : Number(r.durationMinutes),
-        titleEn: (r.titleEn as string | null) ?? null, // REQ-662
+        titleEn: r.titleEn ? scrubName(String(r.titleEn)) || null : null, // REQ-662 REQ-1245
         providerId: (r.providerId as string | null) ?? null, // REQ-831
       }));
     },
@@ -126,7 +128,7 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
     },
     async countrySlugWithTours(countryId) {
       const r = (await all(
-        `SELECT co."iso2" FROM "Country" co WHERE co."id" = ? AND co."iso2" IS NOT NULL AND EXISTS (SELECT 1 FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" WHERE t."countryId" = co."id" AND c."slug" IS NOT NULL AND ${LISTED})`,
+        `SELECT ${ISO2_SQL("co")} AS "iso2" FROM "Country" co WHERE co."id" = ? AND ${ISO2_SQL("co")} IS NOT NULL AND EXISTS (SELECT 1 FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" WHERE t."countryId" = co."id" AND c."slug" IS NOT NULL AND ${LISTED})`,
         countryId
       ))[0];
       return typeof r?.iso2 === "string" ? r.iso2.toLowerCase() : null;
@@ -138,7 +140,7 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
     async citiesOf(iso2) {
       if (!iso2.length) return [];
       const rows = await all(
-        `SELECT c."id", c."countryId", c."translations", c."slug", c."guide", c."guideUpdatedAt", c."indexableSince", c."failingSince", co."iso2" FROM "City" c JOIN "Country" co ON co."id" = c."countryId" WHERE c."slug" IS NOT NULL AND co."iso2" IN (${iso2.map(() => "?").join(", ")})`,
+        `SELECT c."id", c."countryId", c."translations", c."slug", c."guide", c."guideUpdatedAt", c."indexableSince", c."failingSince", ${ISO2_SQL("co")} AS "iso2" FROM "City" c JOIN "Country" co ON co."id" = c."countryId" WHERE c."slug" IS NOT NULL AND ${ISO2_SQL("co")} IN (${iso2.map(() => "?").join(", ")})`,
         ...iso2.map((x) => x.toUpperCase())
       );
       return rows.map((r) => ({ ...cityRow(r), iso2: String(r.iso2) }));

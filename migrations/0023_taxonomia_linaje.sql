@@ -1,6 +1,6 @@
--- PROPUESTA, SIN APLICAR (REQ-750, Ola R2 «reclasificación con linaje»). Fuera de migrations/ a propósito. Va DESPUÉS de
--- la 0017 (taxonomía) y de la 0022 (ProviderRecord). Para aplicarla: PR aparte que la mueva a migrations/ con el siguiente
--- número libre, OK del PO y publicación a mano con la casilla «migraciones» (docs/runbooks/copia-exacta.md).
+-- REQ-750 / REQ-773 (Ola R2 «reclasificación con linaje»; candado 4 del gate docs/gates-copia-exacta-2026-11-07.md).
+-- Va DESPUÉS de la 0017 (taxonomía) y de la 0022 (ProviderRecord, aplicada el 7 nov 2026, run 42378752469). Se aplica UNA
+-- vez (ALTER TABLE) con «Publicar en Cloudflare» y la casilla «migraciones», como línea MIGRAR, sola en su deploy.
 --
 -- Agrega la procedencia de cada término a la tabla PROPIA de la clasificación (REQ-409: nunca sobre campos del proveedor):
 --   origin         quién decidió: manual (ExperienceTaxonomyOverride) > regla (clasificador + mapeo) > proveedor (lo que

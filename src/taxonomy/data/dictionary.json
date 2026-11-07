@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-06",
+  "version": "2026-11-07",
   "fuente": "docs/taxonomia-diccionario.csv y docs/plan-taxonomia.md (PR #143), decisiones del PO del 6-11-2026",
   "raiz": {
     "slug": "experiencias",
@@ -20,6 +20,58 @@
       "seccion": "ninguna",
       "guiaEnPersona": false,
       "nota": "FREETOUR 8 (online) y 31 (servicios de viaje). No cuenta para indexar una ciudad."
+    },
+    {
+      "slug": "en-linea",
+      "eje": "formato",
+      "termino_es": "Experiencias en línea",
+      "termino_en": "Online experiences",
+      "definicion_es": "Se vive a distancia: un tour virtual en vivo o una asesoría por videollamada o chat. No es una actividad en la ciudad.",
+      "sinonimos": [
+        "en línea",
+        "online",
+        "virtual",
+        "tour virtual",
+        "asesoría"
+      ],
+      "estado": "activo",
+      "precedencia": 14,
+      "seccion": "experiencias",
+      "guiaEnPersona": false,
+      "palabras": [
+        "virtual*",
+        "online",
+        "en linea",
+        "en vivo",
+        "live",
+        "zoom",
+        "videollamada*",
+        "video call",
+        "asesor*",
+        "chat",
+        "whatsapp"
+      ],
+      "etiqueta_corta_es": "En línea",
+      "etiqueta_corta_en": "Online",
+      "orden_chip": 11,
+      "nota": "REQ-1262 (PO, 7-11 11:3x): sección propia en /tours; no cuenta para indexar una ciudad ni se lista como «cosas que hacer» en ella. Solo se detecta en categorías que lo permiten (FREETOUR 8)."
+    },
+    {
+      "slug": "esenciales-viaje",
+      "eje": "formato",
+      "termino_es": "Esenciales de viaje",
+      "termino_en": "Travel essentials",
+      "definicion_es": "Servicios para el viaje (eSIM, seguros, trámites); no son experiencias.",
+      "sinonimos": [
+        "esim",
+        "sim",
+        "servicios de viaje"
+      ],
+      "estado": "tras_bandera",
+      "precedencia": 15,
+      "seccion": "ninguna",
+      "guiaEnPersona": false,
+      "nota": "REQ-1263 (PO, 7-11 11:3x): FREETOUR cat. 31; hoy 0 activos. Se publica solo cuando un PR lo pase a «activo» con su sección."
     },
     {
       "slug": "traslado",
@@ -68,7 +120,8 @@
       "palabras": [
         "hop[- ]on",
         "hop on hop off",
-        "bus turistico"
+        "bus turistico",
+        "autobus turistico"
       ],
       "nota": "TRANSPORT_ENABLED=true desde #127; vive en /traslados, fuera de Experiencias (REQ-172; firmado 6-11)."
     },
@@ -127,7 +180,10 @@
         "tour",
         "recorrido*",
         "visita guiada"
-      ]
+      ],
+      "etiqueta_corta_es": "Boletos",
+      "etiqueta_corta_en": "Tickets",
+      "orden_chip": 7
     },
     {
       "slug": "autoguiado",
@@ -155,9 +211,15 @@
         "auto[- ]guiad*",
         "por tu cuenta",
         "app audioguia*",
-        "audio guided"
+        "audio guided",
+        "autoguia*",
+        "audio app",
+        "\\bapp\\b"
       ],
-      "nota": "Copy sin «con un guía local» (REQ-416, REQ-433)."
+      "nota": "Copy sin «con un guía local» (REQ-416, REQ-433).",
+      "etiqueta_corta_es": "Autoguiado",
+      "etiqueta_corta_en": "Self-guided",
+      "orden_chip": 8
     },
     {
       "slug": "pieza-libre",
@@ -180,7 +242,10 @@
       "seccion": "experiencias",
       "guiaEnPersona": true,
       "coleccion_es": "La Primera Pieza",
-      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4). Etiqueta pública «Pieza libre» (PO 6-11 10:43, REQ-269); EN «Free Puzzle» (PO 7-11 06:06, REQ-1103); «free tour» y «tour gratis» quedan como sinónimos de búsqueda."
+      "nota": "Precio 0 salvo las categorías cuyo formato base gana antes (8, 17, 20, 24, 26, 28, 29, 30, 31, 35). La insignia sigue por evento (REQ-095). «La Primera Pieza» solo como nombre de colección (C4). Etiqueta pública «Pieza libre» (PO 6-11 10:43, REQ-269); EN «Free Puzzle» (PO 7-11 06:06, REQ-1103); «free tour» y «tour gratis» quedan como sinónimos de búsqueda.",
+      "etiqueta_corta_es": "Pieza libre",
+      "etiqueta_corta_en": "Free Puzzle",
+      "orden_chip": 1
     },
     {
       "slug": "circuito",
@@ -205,7 +270,10 @@
         "overnight",
         "pernocta",
         "([2-9]|\\d\\d+)-day"
-      ]
+      ],
+      "etiqueta_corta_es": "Circuito",
+      "etiqueta_corta_en": "Multi-day tour",
+      "orden_chip": 9
     },
     {
       "slug": "excursion-dia",
@@ -260,7 +328,13 @@
         "dia completo (en|por) (?!el |la |los |las )",
         "full[- ]day (city )?tour (of|in) ",
         "en un dia",
-        "in one day"
+        "in one day",
+        "por el centro",
+        "del centro",
+        "casco (antiguo|historico)",
+        "centro historico",
+        "old town",
+        "city cent(re|er)"
       ],
       "palabrasSaleSiempre": [
         "desde ",
@@ -312,12 +386,15 @@
         "out of the city",
         "cerca de ",
         "near "
-      ]
+      ],
+      "etiqueta_corta_es": "Excursión de un día",
+      "etiqueta_corta_en": "Day trip",
+      "orden_chip": 5
     },
     {
       "slug": "caminata",
       "eje": "formato",
-      "termino_es": "Caminata (tour a pie)",
+      "termino_es": "Caminata",
       "termino_en": "Walking tour",
       "definicion_es": "Recorrido guiado a pie con precio fijo.",
       "sinonimos": [
@@ -331,7 +408,10 @@
       "precedencia": 9,
       "seccion": "experiencias",
       "guiaEnPersona": true,
-      "nota": "Gate G2 opción A: solo tours a pie de pago; los free tours a pie son Free tour. «Hikes» va al tema montana-senderismo."
+      "nota": "Gate G2 opción A: solo tours a pie de pago; los free tours a pie son Free tour. «Hikes» va al tema montana-senderismo.",
+      "etiqueta_corta_es": "Caminata",
+      "etiqueta_corta_en": "Walking tour",
+      "orden_chip": 2
     },
     {
       "slug": "experiencia-unica",
@@ -483,24 +563,165 @@
           "safari",
           "navegacion"
         ]
-      }
+      },
+      "etiqueta_corta_es": "Momentos de autor",
+      "etiqueta_corta_en": "Signature moments",
+      "orden_chip": 6
     },
     {
       "slug": "tour",
       "eje": "formato",
       "termino_es": "Tour",
-      "termino_en": "Guided tour",
-      "definicion_es": "Visita guiada con precio, en vehículo, bici, barco o mixta, que dura menos de un día.",
+      "termino_en": "Tour",
+      "definicion_es": "Recorrido guiado dentro de la ciudad en transporte: bus, barco, bici, segway o tuk-tuk (no hop-on hop-off, que es Transporte turístico).",
       "sinonimos": [
         "tour",
-        "visita guiada",
         "city tour",
-        "recorrido"
+        "tour en bus",
+        "tour en barco",
+        "tour en bici",
+        "bike tour",
+        "boat tour",
+        "tuk tuk",
+        "segway"
       ],
       "estado": "activo",
       "precedencia": 11,
       "seccion": "experiencias",
-      "guiaEnPersona": true
+      "guiaEnPersona": true,
+      "nota": "Decisión B del PO (7-11 08:01) y respuesta de las 08:10: Tour = transporte dentro de la ciudad; el hop-on hop-off sigue como Transporte turístico (REQ-1250).",
+      "etiqueta_corta_es": "Tour",
+      "etiqueta_corta_en": "Tour",
+      "orden_chip": 4
+    },
+    {
+      "slug": "visita-guiada",
+      "eje": "formato",
+      "termino_es": "Visita guiada",
+      "termino_en": "Guided visit",
+      "definicion_es": "Recorrido con guía dentro de un sitio, monumento o museo.",
+      "definicion_en": "A guided visit inside a site, monument or museum.",
+      "sinonimos": [
+        "visita guiada",
+        "guided visit",
+        "visita al museo",
+        "museum tour",
+        "tour del palacio",
+        "tour de la catedral"
+      ],
+      "estado": "activo",
+      "precedencia": 13,
+      "seccion": "experiencias",
+      "guiaEnPersona": true,
+      "palabras": [
+        "museo*",
+        "museum*",
+        "musee",
+        "catedral*",
+        "cathedral*",
+        "basilica*",
+        "iglesia*",
+        "church*",
+        "capilla*",
+        "chapel*",
+        "abadia*",
+        "abbey",
+        "monasterio*",
+        "monastery",
+        "convento*",
+        "mezquita*",
+        "mosque*",
+        "sinagoga*",
+        "synagogue*",
+        "templo*",
+        "temple*",
+        "santuario*",
+        "sanctuary",
+        "palacio*",
+        "palace*",
+        "palazzo",
+        "palais",
+        "schloss",
+        "castillo*",
+        "castle*",
+        "chateau*",
+        "alcazar*",
+        "alhambra",
+        "fortaleza*",
+        "fortress*",
+        "ciudadela",
+        "citadel",
+        "acropolis",
+        "coliseo",
+        "colosseum",
+        "coliseum",
+        "foro romano",
+        "roman forum",
+        "ruinas",
+        "ruins",
+        "yacimiento*",
+        "sitio arqueologico",
+        "archaeological",
+        "catacumba*",
+        "catacomb*",
+        "cripta",
+        "crypt",
+        "cementerio*",
+        "cemetery",
+        "galeria*",
+        "gallery",
+        "opera",
+        "teatro",
+        "theatre",
+        "theater",
+        "estadio",
+        "stadium",
+        "bodega*",
+        "winery",
+        "wineries",
+        "destileria*",
+        "distillery",
+        "cerveceria",
+        "brewery",
+        "fabrica*",
+        "factory",
+        "mina ",
+        "salt mine",
+        "parlamento",
+        "parliament",
+        "ayuntamiento",
+        "city hall",
+        "biblioteca",
+        "library",
+        "universidad",
+        "university",
+        "torre*",
+        "tower",
+        "piramide*",
+        "pyramid*",
+        "mausoleo",
+        "mausoleum",
+        "campo de concentracion",
+        "concentration camp",
+        "memorial",
+        "bunker*",
+        "vaticano",
+        "vatican",
+        "capitolio",
+        "capitol",
+        "entrada*",
+        "ticket*",
+        "admission",
+        "skip[- ]the[- ]line",
+        "sin colas",
+        "visita guiada (a|al|del|de la|por el|por la) ",
+        "guided visit",
+        "interior"
+      ],
+      "nota": "Decisión B del PO (7-11 08:01): en un sitio o museo con guía. Se distingue de Tour (transporte) y de Caminata (a pie). REQ-1250, REQ-1251.",
+      "etiqueta_corta_es": "Visita guiada",
+      "etiqueta_corta_en": "Guided visit",
+      "orden_chip": 3
     },
     {
       "slug": "a-la-medida",
@@ -516,7 +737,10 @@
       "estado": "activo",
       "precedencia": 12,
       "seccion": "experiencias",
-      "guiaEnPersona": true
+      "guiaEnPersona": true,
+      "etiqueta_corta_es": "Viaje a la medida",
+      "etiqueta_corta_en": "Tailor-made",
+      "orden_chip": 10
     },
     {
       "slug": "crucero",
