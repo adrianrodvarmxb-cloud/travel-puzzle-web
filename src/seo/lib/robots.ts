@@ -8,7 +8,7 @@ import { catalogName } from "@/tours/lib/catalog-name";
 
 export const AI_SEARCH_BOTS = ["OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Claude-SearchBot", "Claude-User"] as const;
 
-// REQ-103
+// REQ-103 REQ-585: sin Disallow; Bingbot y Googlebot caen en «*» (Allow: /).
 export function robotsTxt({ sitemapUrl }: { sitemapUrl?: string }): string {
   const groups = ["*", ...AI_SEARCH_BOTS].map((ua) => `User-agent: ${ua}\nAllow: /`);
   return `${groups.join("\n\n")}\n${sitemapUrl ? `\nSitemap: ${sitemapUrl}\n` : ""}`;

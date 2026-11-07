@@ -1,0 +1,37 @@
+
+== home.html: 2 bloque(s) JSON-LD
+  ✓ "ItemList" · 3 propiedades
+  ✓ "ItemList" · 3 propiedades
+
+== tours.html: 1 bloque(s) JSON-LD
+  ✓ "ItemList" · 3 propiedades
+
+== ciudad.html: 4 bloque(s) JSON-LD
+  ✓ "TouristDestination" · 3 propiedades
+  ✓ "BreadcrumbList" · 1 propiedades
+  ✓ "FAQPage" · 1 propiedades
+  ✓ "ItemList" · 3 propiedades
+
+== pais.html: 3 bloque(s) JSON-LD
+  ✓ "TouristDestination" · 3 propiedades
+  ✓ "BreadcrumbList" · 1 propiedades
+  ✓ "ItemList" · 3 propiedades
+
+== primera.html: 2 bloque(s) JSON-LD
+  ✓ "BreadcrumbList" · 1 propiedades
+  ✓ "ItemList" · 3 propiedades
+
+== destinos.html: 2 bloque(s) JSON-LD
+  ✓ "BreadcrumbList" · 1 propiedades
+  ✓ "ItemList" · 3 propiedades
+
+RESULTADO: VÁLIDO contra schema.org
+
+ItemList (primeros 2 elementos, URLs canónicas):
+  home: «Los más elegidos» 9 elementos · ["https://travelpuzzle.com.mx/destinos/es/oviedo/oviedo-secreto-un-recorrido-esencial", "https://travelpuzzle.com.mx/destinos/es/madrid/guerra-civil-y-el-inicio-de-la-segunda-guerra-mundial"]
+  home: «Excursiones de un día» 9 elementos · ["https://travelpuzzle.com.mx/destinos/fr/paris/versalles-esencial-medio-dia-guiado-desde-paris-ext-fr-t01-001", "https://travelpuzzle.com.mx/destinos/fr/paris/versalles-con-audioguia-en-espanol-medio-dia-desde-paris-ext-fr-t01-003"]
+  tours: «Experiencias» 50 elementos · ["https://travelpuzzle.com.mx/destinos/hu/budapest/free-tour-de-budapest", "https://travelpuzzle.com.mx/destinos/it/napoles/visita-a-pie-del-casco-antiguo-de-napoles"]
+  ciudad: «Experiencias en París» 50 elementos · ["https://travelpuzzle.com.mx/destinos/fr/paris/paris-a-su-alcance-recorrido-gratuito-por-el-corazon-de-la", "https://travelpuzzle.com.mx/destinos/fr/paris/visita-guiada-gratuita-por-montmartre-paris-del-moulin-rouge"]
+  pais: «Destinos en Francia» 40 elementos · ["https://travelpuzzle.com.mx/destinos/fr/paris", "https://travelpuzzle.com.mx/destinos/fr/lyon"]
+  primera: «La Primera Pieza» 50 elementos · ["https://travelpuzzle.com.mx/destinos/de/berlin/el-original-free-tour-de-berlin", "https://travelpuzzle.com.mx/destinos/de/berlin/visita-gratuita-al-centro-historico-de-berlin"]
+  destinos: «Destinos» 13 elementos · ["https://travelpuzzle.com.mx/destinos/de", "https://travelpuzzle.com.mx/destinos/es"]
