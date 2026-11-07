@@ -1,6 +1,6 @@
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
-import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
+import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
 import { SiteFooter } from '@/components/home/v2';
 import { siteFooterFromEnv } from '@/layout/lib/site-footer';
@@ -32,15 +32,7 @@ async function resolve(params: Props['params'], lang: SupportedLanguage): Promis
     if (!hit) return null;
     const href = `/destinos/${pais}/${ciudad}/${slug}`;
     const tour = fichaTours(hit.city).find((t) => t.href === href); // REQ-1262: también las experiencias en línea
-    if (tour) return { ...hit, tour };
-    // REQ-1349: el viaje se lista aquí pero su URL canónica es la de su ciudad de inicio. Si el middleware no decidió
-    // (D1 lenta, bandera), la ficha también manda ahí con 301; nunca se pinta una copia en otra URL.
-    const canonical = hit.city.ownTrips.find((t) => t.href.endsWith(`/${slug}`));
-    if (canonical) {
-        const { hreflang } = await destinosLanguage();
-        permanentRedirect(hreflang && lang !== 'es' ? `/${lang}${canonical.href}` : canonical.href);
-    }
-    return null;
+    return tour ? { ...hit, tour } : null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
