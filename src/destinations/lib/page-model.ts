@@ -6,6 +6,7 @@
 import { operatedByFor, tourDescription, tourLabels, tourTitleByFormat } from "@/taxonomy/lib/copy";
 import { allTours, type CityNode, type CountryNode, type TourCardModel } from "./catalog";
 import { ROUTES } from "./routes";
+import { itemListJsonLd } from "@/seo/lib/itemlist";
 import { canonicalUrl, featuredActivities } from "@/seo/lib/hub";
 import { freeToursCityTitle, hubTitle, tourTitle } from "@/seo/lib/titles";
 import { breadcrumbJsonLd, faqJsonLd, touristDestinationJsonLd } from "@/seo/lib/jsonld";
@@ -51,6 +52,10 @@ const crumbsLd = (site: string, crumbs: Crumb[]) => breadcrumbJsonLd(crumbs.map(
 const hubTours = (tours: TourCardModel[]) => tours.map((t) => ({ id: t.id, title: t.title, href: t.href, reviews: t.reviews, rating: t.rating, active: true }));
 const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+// REQ-582: ItemList de lo que lista la página (null si no hay nada; se filtra abajo).
+const listLd = (site: string, name: string, items: { title?: string; name?: string; href: string }[]) =>
+  itemListJsonLd({ siteUrl: site, name, items: items.map((i) => ({ name: i.title ?? i.name ?? "", href: i.href })) });
+const present = <T,>(xs: (T | null)[]): T[] => xs.filter((x): x is T => x !== null);
 
 // REQ-088 REQ-099 REQ-100 REQ-101: hub de la colección, free tours agrupados por país.
 export function primeraPiezaPage(tree: CountryNode[], siteUrl: string, perCountry = 6) {
@@ -73,7 +78,7 @@ export function primeraPiezaPage(tree: CountryNode[], siteUrl: string, perCountr
     crumbs,
     featured: featuredActivities(hubTours(groups.flatMap((g) => g.tours))),
     groups,
-    jsonLd: [crumbsLd(siteUrl, crumbs)],
+    jsonLd: present([crumbsLd(siteUrl, crumbs), listLd(siteUrl, PRIMERA_PIEZA_LABEL, groups.flatMap((g) => g.tours))]),
   };
 }
 
@@ -93,7 +98,7 @@ export function destinosPage(tree: CountryNode[], siteUrl: string) {
     crumbs,
     featured: featuredActivities(hubTours(tours)),
     countries: shown.map((c) => ({ name: c.name, href: c.href, cities: c.cities.length, tours: c.cities.reduce((n, ci) => n + ci.activeTours, 0) })),
-    jsonLd: [crumbsLd(siteUrl, crumbs)],
+    jsonLd: present([crumbsLd(siteUrl, crumbs), listLd(siteUrl, DESTINOS.name, shown)]),
   };
 }
 
@@ -111,7 +116,7 @@ export function countryPage(country: CountryNode, siteUrl: string) {
     crumbs,
     featured: featuredActivities(hubTours(country.cities.flatMap(allTours))),
     cities: country.cities.map((c) => ({ name: c.name, href: c.href, free: c.freeTours.length, tours: c.paidTours.length + c.ownTrips.length })),
-    jsonLd: [touristDestinationJsonLd({ name: country.name, url: canonicalUrl(siteUrl, country.href), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs)],
+    jsonLd: present([touristDestinationJsonLd({ name: country.name, url: canonicalUrl(siteUrl, country.href), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs), listLd(siteUrl, `Destinos en ${country.name}`, country.cities)]),
   };
 }
 
@@ -152,6 +157,7 @@ export function cityPage(country: CountryNode, city: CityNode, siteUrl: string) 
       touristDestinationJsonLd({ name: `${city.name}, ${country.name}`, url: canonicalUrl(siteUrl, city.href), countryCode: country.iso2 }),
       crumbsLd(siteUrl, crumbs),
       ...[faqJsonLd(faq)].filter((x): x is NonNullable<typeof x> => !!x),
+      ...present([listLd(siteUrl, `Experiencias en ${city.name}`, [...city.freeTours, ...city.paidTours, ...city.ownTrips])]),
     ],
   };
 }

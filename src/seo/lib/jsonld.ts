@@ -56,9 +56,10 @@ export interface ProductInput {
   reviews: number;
 }
 
-// REQ-100: Product + Offer en EUR; AggregateRating solo con reseñas reales.
+// REQ-100: Product + Offer en EUR.
+// REQ-805 (Gate 2, PO 6 nov 2026): `rating` y `reviews` son del proveedor (FREETOUR): nunca van al marcado como
+// AggregateRating ni review. Las estrellas siguen visibles en la página. Se reciben para no romper a quien llama.
 export function productJsonLd(p: ProductInput) {
-  const rating = p.rating === null ? NaN : Number(p.rating);
   return {
     "@context": CTX,
     "@type": "Product",
@@ -67,9 +68,6 @@ export function productJsonLd(p: ProductInput) {
     ...(p.image?.startsWith("https://") ? { image: p.image } : {}),
     ...(p.provider?.trim() ? { brand: { "@type": "Brand", name: p.provider.trim() } } : {}),
     offers: { "@type": "Offer", price: p.price, priceCurrency: "EUR" as const, url: p.url, availability: "https://schema.org/InStock" },
-    ...(p.reviews > 0 && Number.isFinite(rating) && rating > 0
-      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: rating, reviewCount: p.reviews, bestRating: 5 } }
-      : {}),
   };
 }
 

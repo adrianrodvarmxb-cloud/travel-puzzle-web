@@ -1,4 +1,8 @@
 import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
+import { JsonLd as ListJsonLd } from "@/components/destinations/JsonLd";
+import { homeItemLists } from "@/seo/lib/listing-ld";
+import { canonicalHrefs } from "@/seo/lib/itemlist";
+import { getDestinations, siteUrl as siteBase } from "@/destinations/server";
 import { homeTaxonomy } from "@/home/load";
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { Navbar } from "@/components/layout";
@@ -65,6 +69,9 @@ export default async function Home() {
   const rates = paid.length ? await loadFx().catch(() => null) : null;
   const priceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.price, currency: t.currency })), rates, lang === "es" ? "es" : "en");
   const contact = contactFromEnv(env);
+  // REQ-582: ItemList de los carruseles con la URL canónica de cada tarjeta. Si el árbol falla, sin resolver (nunca tumba el inicio).
+  const resolve = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? canonicalHrefs(await getDestinations().catch(() => null)) : undefined;
+  const carouselLists = homeItemLists({ siteUrl: siteBase(), lang, featured: data.featured, dayTrips: data.dayTrips, resolve });
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
   return (
@@ -80,6 +87,7 @@ export default async function Home() {
         <FeaturedTours tours={data.featured} priceLabels={priceLabels} />
         {/* REQ-452: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
         <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} priceLabels={priceLabels} /></SectionBoundary>
+        {carouselLists.length > 0 && <ListJsonLd data={carouselLists} />}
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />
         <MapSection />
