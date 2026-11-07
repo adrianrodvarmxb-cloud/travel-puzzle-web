@@ -230,7 +230,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     badge: primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 }),
     notice,
     operatedBy: by,
-    labels: tax ? tourLabels(tax.formato, lang) : [],
+    labels: tax ? tourLabels(tax.formato, lang, tour.atributos ?? []) : [], // REQ-544: chips de atributos fuera de la foto
     jsonLd: [
       // REQ-571…574: reemplaza a productJsonLd (EUR fijo y AggregateRating del proveedor); productJsonLd queda sin uso, no se borra.
       fichaJsonLd(ficha),

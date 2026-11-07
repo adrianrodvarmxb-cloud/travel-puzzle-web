@@ -11,6 +11,8 @@ import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
 import { sitePagesFromEnv } from "@/site/lib/pages";
+import { blogEnv, loadVisiblePosts } from "@/blog/load";
+import { blogNavVisible } from "@/blog/lib/registry";
 import { isHomeCarouselsEnabled } from "@/home/lib/flags";
 import { ClientErrorListener } from "@/components/common/ClientErrorListener";
 
@@ -49,6 +51,10 @@ export default function RootLayout({
 }>) {
   // REQ-027: afiliados (Travelpayouts) apagados por defecto y solo en rutas elegidas.
   const drive = driveConfig(process.env as Record<string, string | undefined>);
+  // REQ-241, REQ-257: «Blog» en el pie solo con BLOG_ENABLED y al menos 3 artículos visibles.
+  const env = process.env as Record<string, string | undefined>;
+  const be = blogEnv(env);
+  const pages = { ...sitePagesFromEnv(env), blog: blogNavVisible(be.enabled, loadVisiblePosts(be)) };
   return (
     <html lang="es" suppressHydrationWarning>
       <body
@@ -59,7 +65,7 @@ export default function RootLayout({
         <ClientErrorListener />
         <SessionProvider>
           <AppProviders>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages: sitePagesFromEnv(process.env as Record<string, string | undefined>), year: new Date().getFullYear() }}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear() }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

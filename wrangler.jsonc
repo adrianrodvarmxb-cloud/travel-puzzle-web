@@ -143,6 +143,11 @@
     // Página /asesores «Habla con un asesor de viaje» (REQ-250…252): WhatsApp del asesor y formulario corto. Apagada = 404.
     // "true" con preview encendido, prueba de humo y OK del PO.
     "EXPERTOS_ENABLED": "false",
+    // Blog /blog (REQ-253…263): índice, pilares y artículos desde src/blog/content. Apagada = 404 y sin enlace.
+    // "true" solo después de PRIMERA_PIEZA_ENABLED, con ≥3 artículos aprobados por Claudia y el PO, preview y prueba de humo.
+    "BLOG_ENABLED": "false",
+    // Solo para el preview: muestra los borradores (draft: true) con aviso y noindex. Nunca "true" en producción.
+    "BLOG_SHOW_DRAFTS": "false",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
