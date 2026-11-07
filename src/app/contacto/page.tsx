@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
 import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
@@ -15,7 +15,7 @@ import { contactPageJsonLd, organizationWithContactJsonLd } from '@/seo/lib/page
 import { breadcrumbJsonLd } from '@/seo/lib/jsonld';
 import { HELP_PATH, isHelpVisible } from '@/help/lib/faq';
 import { LEGAL_PATHS } from '@/legal/lib/labels';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +28,7 @@ const ICON: Record<string, string> = { Instagram: 'instagram', Facebook: 'facebo
 export default async function ContactoPage() {
   const env = process.env as Record<string, string | undefined>;
   if (!sitePagesFromEnv(env).contacto) notFound();
-  const lang = await getPreferredLanguage();
+  const lang = await getRouteLanguage();
   const c = contactCopy(lang);
   const ch = contactChannels(env, c.wa.prefill, c.email.subject);
   const contact = contactFromEnv(env);

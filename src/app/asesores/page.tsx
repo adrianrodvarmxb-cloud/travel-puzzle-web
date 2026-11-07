@@ -11,7 +11,7 @@ import { contactChannels } from '@/contact/lib/channels';
 import { sitePagesFromEnv } from '@/site/lib/pages';
 import { breadcrumbJsonLd } from '@/seo/lib/jsonld';
 import { isHelpVisible } from '@/help/lib/faq';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +22,7 @@ export const metadata: Metadata = { title: META.title, description: META.descrip
 export default async function AsesoresPage() {
   const env = process.env as Record<string, string | undefined>;
   if (!sitePagesFromEnv(env).expertos) notFound();
-  const lang = await getPreferredLanguage();
+  const lang = await getRouteLanguage();
   const c = advisorCopy(lang);
   const ch = contactChannels(env, c.wa.prefill, '');
   const contact = contactFromEnv(env);

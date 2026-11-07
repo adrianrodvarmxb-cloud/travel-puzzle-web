@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { heroFacts } from '@/tours/lib/hero-facts';
 import { useLanguage } from '@/lib/language-context';
 import { Tour } from '@/types';
 import { ReviewSummary } from './ReviewSummary';
@@ -18,20 +19,19 @@ interface TourHeroSectionProps {
 
 /** Galería en mosaico + título, etiquetas, resumen de reseñas y datos clave del tour. */
 export function TourHeroSection({ tour, primeraPieza = null, events = [] }: TourHeroSectionProps) {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const images = tour.images.filter((img) => img && img.trim() !== '');
     const [showAll, setShowAll] = useState(false);
     const [main, ...rest] = images;
     const side = rest.slice(0, 4);
-    // REQ-578: con la ficha de /destinos, la duración legible y el idioma del guía vienen calculados del servidor.
-    const facts: [string, string | null | undefined][] = [
-        [t('tours.duration'), primeraPieza?.facts?.duration ?? tour.duration],
-        [t('tours.destination'), tour.destination],
-        [t('tours.meetingPoint'), tour.meetingPoint?.title],
-        [t('tours.provider'), tour.provider],
-        ...(primeraPieza?.facts?.extra ?? []).map((f): [string, string] => [f.label, f.value]),
-    ];
-    const shown = facts.filter(([, v]) => v);
+    // REQ-578 / REQ-588: la tira de datos sale de una función pura; en FREETOUR el idioma del guía se pinta al montar.
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    const shown = heroFacts({
+        labels: { duration: t('tours.duration'), destination: t('tours.destination'), meetingPoint: t('tours.meetingPoint'), provider: t('tours.provider') },
+        tour: { duration: tour.duration, destination: tour.destination, meetingPoint: tour.meetingPoint?.title, provider: tour.provider },
+        view: primeraPieza, mounted, lang: language,
+    });
 
     return (
         <section className="mb-10" {...(primeraPieza ? { 'data-enriquecimiento': String(primeraPieza.enrichment ?? false) } : {})}>
@@ -78,10 +78,11 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [] }: Tour
             {tour.brief && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{tour.brief}</p>}
 
             <dl className={`mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 ${shown.length > 4 ? 'md:grid-cols-3 lg:grid-cols-5' : 'md:grid-cols-4'}`}>
-                {shown.map(([label, value]) => (
-                    <div key={label} className="bg-[#0A1330] p-4 md:p-5">
-                        <dt className="font-data text-[10px] uppercase tracking-[0.2em] text-[#A9B6D6]">{label}</dt>
-                        <dd className="font-display mt-1.5 line-clamp-2 text-lg font-semibold text-white">{value}</dd>
+                {shown.map((f) => (
+                    // REQ-588: data-nosnippet en FREETOUR (punto de encuentro e idioma del guía): se ven, pero no van a fragmentos.
+                    <div key={f.key} data-hecho={f.key} {...(f.nosnippet ? { 'data-nosnippet': '' } : {})} className="bg-[#0A1330] p-4 md:p-5">
+                        <dt className="font-data text-[10px] uppercase tracking-[0.2em] text-[#A9B6D6]">{f.label}</dt>
+                        <dd className="font-display mt-1.5 line-clamp-2 text-lg font-semibold text-white">{f.value}</dd>
                     </div>
                 ))}
             </dl>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { faqTopics, helpCopy, searchFaq } from '@/help/lib/faq';
 import { waLink } from '@/home/lib/copy';
