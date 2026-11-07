@@ -8,6 +8,28 @@ Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-960 | Gate «Publica solo cada día» registrado | `docs/gates-blog-diario-2026-11-06.md` | `src/blog/lib/gate-diario.test.ts` | CUMPLIDO |
+| REQ-961 | Calendario v1 = docs, pilares activos, términos únicos | `src/blog/content/calendario.ts` | `src/blog/lib/calendario.test.ts` | CUMPLIDO |
+| REQ-962 | Mezcla 80/20 en ventana de 10 días, una por día | `src/blog/lib/mix.ts` | `mix.test.ts`, `diario.test.ts` | CUMPLIDO |
+| REQ-963 | Regla FREETOUR: sin mención, sin copiar fichas (12 palabras), sin promesas | `src/blog/lib/diario.ts`, `src/blog/diario-run.ts` | `diario.test.ts`, `diario-run.test.ts` | CUMPLIDO |
+| REQ-964 | Tema: trending con ≥2 fuentes recientes o ID pendiente del calendario | `diario.ts` | `diario.test.ts` | CUMPLIDO |
+| REQ-965 | Bloques de la plantilla del agente (sin minicaso ni citas) | `diario.ts` | `diario.test.ts` | CUMPLIDO |
+| REQ-966 | Cifra o afirmación sin fuente enlazada; tabla con fuente | `diario.ts`, `ArticleView.tsx` | `diario.test.ts` | CUMPLIDO |
+| REQ-967 | Vocabulario prohibido del sitio y del diario | `diario.ts` | `diario.test.ts` | CUMPLIDO |
+| REQ-968 | Enlaces que resuelven (sitemaps de producción + blog) | `diario.ts`, `diario-run.ts` | `diario.test.ts`, `diario-run.test.ts` | CUMPLIDO |
+| REQ-969 | Fecha real (CDMX), sin updatedAt | `diario.ts`, `diario-run.ts` | `diario.test.ts`, `diario-run.test.ts` | CUMPLIDO |
+| REQ-970 | Término repetido o casi igual | `src/blog/lib/terms.ts`, `diario.ts` | `terms.test.ts`, `diario.test.ts` | CUMPLIDO |
+| REQ-971 | Autor «Equipo editorial de Travel Puzzle» (Organization) | `src/blog/content/authors.ts`, `src/blog/lib/seo.ts` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-972 | Sitemap con lastmod real | `seo.ts` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-973 | llms.txt con «## Blog» | `src/seo/lib/robots.ts`, `src/site/server.ts`, `src/app/llms.txt/route.ts` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-974 | IndexNow: cron + aviso tras publicar | `seo.ts`, `src/scripts/blog-indexnow.ts` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-975 | Workflow `blog-diario.yml` | `.github/workflows/blog-diario.yml`, `src/scripts/blog-diario.ts` | `src/blog/workflow-diario.test.ts` | EN CURSO (falta la primera corrida real) |
+| REQ-976 | Humo con el blog encendido | `seo.ts`, `src/scripts/smoke.ts` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-977 | Pilares sin 404 (/destinos/cn, /pe, /co) | `src/blog/lib/pillars.ts` | `indexacion.test.ts`, `registry.test.ts` | CUMPLIDO |
+| REQ-978 | Pilar Ciudad de México | `pillars.ts` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-979 | Autor editorial, fecha real, lectura calculada | `diario.ts`, `view.ts` | `diario.test.ts`, `indexacion.test.ts` | CUMPLIDO |
+| REQ-980…982 | Prompt diario, entrada de ejemplo y encendido | — | — | PENDIENTE (PR 3 y 4) |
+| REQ-983 | Free tours bloqueados por B1 | `src/blog/lib/mix.ts`, `diario.ts` | `mix.test.ts`, `diario.test.ts` | CUMPLIDO |
+| REQ-984 | «Cero publicados» solo para los artículos a mano | `src/blog/content/index.ts` | `indexacion.test.ts`, `registry.test.ts` | CUMPLIDO |
 | REQ-961…984 | Calendario, mezcla, validador, marcado, indexación, workflow, prompt, ejemplo y encendido | ver `docs/requisitos.md` | — | PENDIENTE (PR 2 a 4) |
 
 ## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
