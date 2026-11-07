@@ -55,7 +55,10 @@ function tourHtml(providerId: string, paid: boolean) {
   } as unknown as Tour;
   const view = {
     crumbs: m.crumbs, badge: m.badge, notice: m.notice, operatedBy: m.operatedBy, isFreeTour: card.isFreeTour, favorite: false, rates: null, labels: m.labels,
-    facts: { duration: m.facts.duration, extra: [{ label: "Idioma del guía", value: guideLanguagesLabel(detail.guideLanguages, "es").join(", ") }] },
+    // Igual que la página: con enriquecimiento «Idioma del guía» va del servidor; en FREETOUR se pinta en el cliente (REQ-588).
+    facts: m.facts.guideLanguages
+      ? { duration: m.facts.duration, extra: [{ label: "Idioma del guía", value: guideLanguagesLabel(detail.guideLanguages, "es").join(", ") }] }
+      : { duration: m.facts.duration, extra: [], clientOnly: { label: "Idioma del guía", codes: detail.guideLanguages } },
     enrichment: m.enrichment, enBreve: m.enBreve, facets: m.facets,
   };
   return {
@@ -102,8 +105,15 @@ describe("REQ-580: contrato de cada tipo de ficha", () => {
         const f = tourHtml(provider, paid);
         expect(fichaContractFailures(f.html, { enrichment: f.enrichment, currency: f.currency, ...strict })).toEqual([]);
         // REQ-578: el idioma del guía y la duración legible están en el HTML del servidor.
-        expect(f.html).toContain("Inglés, Español");
         expect(f.html).toContain("2 h 30 min");
+        // REQ-578 con enriquecimiento; REQ-588 en FREETOUR: sin idioma en el HTML inicial ni Place en el marcado,
+        // y el punto de encuentro (visible como antes) dentro de un contenedor con data-nosnippet.
+        if (f.enrichment) { expect(f.html).toContain("Inglés, Español"); expect(f.html).toContain('"tripOrigin"'); expect(f.html).not.toContain("data-nosnippet"); }
+        else {
+          expect(f.html).not.toContain("Inglés, Español");
+          expect(f.html).not.toContain('"tripOrigin"');
+          expect(f.html).toMatch(/<div[^>]*data-hecho="punto-encuentro"[^>]*data-nosnippet[^>]*>.*Zócalo/);
+        }
         expect(f.html).toContain(`data-enriquecimiento="${f.enrichment}"`);
         if (!f.enrichment) expect(f.html).not.toContain('data-seo="en-breve"');
         else expect(f.html).toContain('data-seo="en-breve"');
@@ -137,6 +147,18 @@ describe("REQ-580: el contrato detecta lo que no cumple", () => {
     expect(fichaContractFailures(good.replace(/<h1[^>]*>.*?<\/h1>/, ""), { enrichment: true })[0]).toMatch(/H1/);
     expect(fichaContractFailures(good.replace('"@context"', '"@context" oops'), { enrichment: true }).join(" ")).toMatch(/no parsea/);
     expect(fichaContractFailures(good, { enrichment: false }).join(" ")).toMatch(/En breve/);
+  });
+  it("REQ-588: sin enriquecimiento, idiomas o punto de encuentro en el marcado, o el dato visible sin data-nosnippet, fallan el contrato", () => {
+    const ft = tourHtml("freetour", false).html;
+    expect(fichaContractFailures(ft, { enrichment: false })).toEqual([]);
+    const conPlace = ft.replace('"@type":["Product","TouristTrip"]', '"@type":["Product","TouristTrip"],"tripOrigin":{"@type":"Place","name":"Zócalo"}');
+    expect(fichaContractFailures(conPlace, { enrichment: false }).join(" ")).toMatch(/REQ-588/);
+    const conIdioma = ft.replace('"@type":["Product","TouristTrip"]', '"@type":["Product","TouristTrip"],"inLanguage":"es"');
+    expect(fichaContractFailures(conIdioma, { enrichment: false }).join(" ")).toMatch(/REQ-588/);
+    const conProp = ft.replace('"additionalProperty":[', '"additionalProperty":[{"@type":"PropertyValue","name":"Idiomas del guía","value":"Inglés"},');
+    expect(fichaContractFailures(conProp, { enrichment: false }).join(" ")).toMatch(/REQ-588/);
+    const sinNosnippet = ft.replace(/(data-hecho="punto-encuentro"[^>]*?) data-nosnippet(="")?/, "$1");
+    expect(fichaContractFailures(sinNosnippet, { enrichment: false }).join(" ")).toMatch(/data-nosnippet/);
   });
   it("REQ-580: precio y duración del marcado deben verse en la página", () => {
     expect(fichaContractFailures(good.replace(/EUR €1,890/g, ""), { enrichment: true }).join(" ")).toMatch(/precio 1890/);
