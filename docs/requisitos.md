@@ -886,8 +886,8 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1326 | TAREA-PO | Rotar la llave de la API de FREETOUR enviada en 2024 (cumplimiento E7) | PO | — | PENDIENTE |
 | REQ-1327 | TAREA-PO | Revisar la versión de la pasarela en Namecheap | PO | — | PENDIENTE |
 | REQ-1328 | VALIDACIÓN | Muestra de 30 dudosos de la reclasificación (docs/taxonomia/reclasificacion-2026-11-07/muestra-30-dudosos.csv) | PO | — | PENDIENTE |
-| REQ-1329 | DEFINICIÓN | En los títulos en inglés, ¿«Free tours» pasa a «Free Puzzle»? | PO | — | PENDIENTE |
-| REQ-1330 | DEFINICIÓN | Color del precio «Free tour» (lima o verde) | PO | — | PENDIENTE |
+| REQ-1329 | DEFINICIÓN | En los títulos en inglés, ¿«Free tours» pasa a «Free Puzzle»? | PO | — | CUMPLIDO (PO 7-11 15:29: «sí», tras la revisión cumplimiento-freetour; regla aplicada y probada en `src/destinations/lib/free-puzzle-en.test.ts`) |
+| REQ-1330 | DEFINICIÓN | Color del precio «Free tour» (lima o verde) | PO | — | CUMPLIDO (PO 7-11 15:39: «B» = verde #4ADE80; token `--tp-free` / `text-free` en tarjeta y ficha; AA 9.2:1 y 10.4:1; `src/styles/lib/free-token.test.ts`) |
 | REQ-1331 | DEFINICIÓN | /trenes responde 404 | PO | — | PENDIENTE |
 | REQ-1332 | DEFINICIÓN | «Los más elegidos» muestra 47 | PO | — | PENDIENTE |
 | REQ-1333 | DEFINICIÓN | Lo que la taxonomía original pedía y la homologada dejó fuera: Extensiones, Experiencia local, categoría de tren y hotel de «A tu aire» | PO | — | PENDIENTE |
@@ -925,10 +925,16 @@ Petición literal (PO, vía coordinador): «por qué /tours solo muestra 165 via
 - **REQ-1345** — Petición: «el sitemap de viajes completo según la regla de indexación» · Origen: BUG (resultó regla) · Criterio (Dado / Cuando / Entonces): Dado un viaje publicado visible, cuando se arman los sitemaps, entonces tiene URL: en `sitemap-viajes.xml` si su ciudad no está en /destinos (REQ-584) o en `sitemap-tours-{país}.xml` si lo está. En producción, 236 de 236. · Estado: EN CURSO (test de regla verde)
 - **REQ-1346** — Petición: «un solo conteo "experiencias disponibles", el mismo en inicio, encabezado de /tours y filtro» · Origen: NUEVO · Criterio (Dado / Cuando / Entonces): Dado el catálogo y los viajes, cuando se pinta el inicio, el encabezado de /tours o la suma de los chips, entonces todos muestran tours de Experiencias (el mismo `queryCatalog` de /tours, sin transporte) + viajes sin transporte (ni tipo ni formato transporte/traslado). · Estado: EN CURSO (criterio confirmado por el PO; test verde; falta humo del PR)
 
+## REQ-1329: «Free Puzzle» en inglés (detalle; folio del tablero)
+Petición literal: el PO respondió «sí» (7 nov 2026, 15:29 CDMX), tras la revisión cumplimiento-freetour.
+- **REQ-1329** — Criterio (Dado / Cuando / Entonces): Dada una página en inglés, cuando muestra free tours, entonces: lo que ve el cliente dice «Free Puzzle» (REQ-1103); el `<title>` de la ficha es «{título real} – Free tour in {Ciudad} | Travel Puzzle» con el título real primero y sin cambios (C4); la sección de la ciudad se titula «Free Puzzle: free walking tours in {Ciudad}» y la primera línea es «Free Puzzle is our collection of free tours: book for free and tip your guide what you think is fair. Large groups may have a fixed rate.» (D2); el JSON-LD lleva `category: "Free tour"` y sin AggregateRating (D27); ningún texto de copy dice FREETOUR/Freetour y «free tour» va en dos palabras (C3); las fichas de FREETOUR siguen en noindex (D30). En español no cambia: «Pieza libre» y «Free tour en {Ciudad}». · Estado: CUMPLIDO (test verde; falta humo del PR)
+
+## REQ-1330: verde de free tour (detalle; folio del tablero)
+Petición literal: el PO respondió «B» (7 nov 2026, 15:39 CDMX): precio e insignia «Free tour» / «Pieza libre» / «Free Puzzle» en verde #4ADE80, con el mismo token en todo el sitio.
+- **Criterio (folio REQ-1330):** dado un free tour, cuando se pinta la tarjeta (`card-price`), la insignia de la ficha (`TourHeroSection`), la barra móvil (`TourMobileBar`) o las insignias de `TourCard` y del inicio, entonces usan el token `--tp-free` (#4ADE80; Tailwind `text-free` / `border-free`) y ningún hex suelto; contraste AA ≥ 4.5:1 sobre #121F45 (9.2:1) y #0B1530 (10.4:1).
 ## REQ-1349: una sola URL canónica por viaje (detalle; folio del tablero)
 Petición literal (PO, 7 nov 2026, 15:21 CDMX): «sí, aplica las mejores prácticas de referentes». Referentes: Civitatis cuelga «Excursión a Brujas» bajo /paris/; GetYourGuide y Viator, una URL de producto bajo su destino principal, y las demás ciudades enlazan a esa misma URL.
 - **REQ-1349** — Criterio (Dado / Cuando / Entonces): Dado un viaje con varias ciudades (p. ej. `brujas-belgica-guiado-desde-paris…`: París, Brujas; un circuito de Fantástica China con 6 ciudades), cuando se arma /destinos, entonces su URL canónica es la de su ciudad de INICIO (la primera del viaje con página), todas sus ciudades lo listan con esa URL, las URLs alternativas responden 301 a la canónica (middleware y, si no decide, la ficha), el sitemap y el hreflang solo llevan la canónica (ningún sitemap repite una URL) y el JSON-LD lleva `itinerary` con todas sus ciudades en orden. · Estado: EN CURSO (test verde; falta humo del PR)
-
 ## INC-009: 503 en /destinos al publicar #277 (coordinador, 7 nov 2026)
 Petición literal (coordinador): «Aplica escudrinar-error-iso como INC-009, con su folio REQ-1358».
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |

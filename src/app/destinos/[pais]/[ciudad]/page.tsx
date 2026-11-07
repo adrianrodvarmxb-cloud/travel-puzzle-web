@@ -65,7 +65,7 @@ export default async function CityPage({ params }: Props) {
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
             intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : es ? cityFreeIntro(city.name, city.freeTours.length, tours.length) : k.cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
             {city.freeTours.length > 0 && (
-                <Section id="free-tours" title={es ? freeSectionTitle() : k.freeSection} subtitle={k.freeSubtitle}>
+                <Section id="free-tours" title={es ? freeSectionTitle() : k.freeHeading(city.name)} subtitle={es ? k.freeSubtitle : k.freeLead}>{/* REQ-1329 */}
                     <TourGrid tours={city.freeTours} lang={lang} />
                 </Section>
             )}

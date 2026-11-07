@@ -71,7 +71,7 @@ export function ExperienceCard({ card, look = 'standard', featured = false }: { 
                 {card.description && <p data-testid="card-description" className="line-clamp-2 text-sm leading-relaxed text-[#A9B6D6]">{card.description}</p>}
                 <div className="mt-auto pt-2">
                     {card.price && (
-                        <p data-testid="card-price" className={`text-sm font-semibold ${card.price.free ? 'text-[#EAF54F]' : 'text-white'}`}>{card.price.text}</p>
+                        <p data-testid="card-price" className={`text-sm font-semibold ${card.price.free ? 'text-free' : 'text-white'}`}>{card.price.text}</p>
                     )}
                     <div className="mt-2 flex items-center justify-between gap-3 border-t border-white/10 pt-2.5 text-sm">
                         <span data-testid="card-rating" className="shrink-0 whitespace-nowrap">
