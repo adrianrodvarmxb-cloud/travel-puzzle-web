@@ -3,6 +3,9 @@
 # Escribir (R2 privado travel-puzzle-raw + índice ProviderRecord) solo con workflow_dispatch, escribir=true,
 # RAW_ARCHIVE_ENABLED="true" en wrangler.jsonc y OK del PO (candados en docs/runbooks/copia-exacta.md).
 # Los PDF originales NO están en GitHub: se suben desde la máquina del PO con subir.sh (paso 6 del runbook).
+# REQ-775: con escribir=true, nunca a la par de un deploy o una importación (REQ-307); anota el bookmark de Time Travel
+# antes de subir, verifica en D1 las filas de la corrida contra el ensayo y corre el humo en producción.
+# Regreso: los objetos R2 son inmutables y por huella; las filas se quitan restaurando D1 al bookmark anotado.
 name: Respaldo de la copia exacta (retroactivo)
 on:
   workflow_dispatch:
@@ -14,6 +17,10 @@ on:
         description: "Escribir en R2 privado + D1 (candado)"
         type: boolean
         default: false
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
 env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
@@ -32,10 +39,47 @@ jobs:
       - name: Plan de la copia exacta (ensayo; nada se sube)
         run: |
           npx tsx src/scripts/raw-backfill.ts --solo "$ARCHIVO" --salida tmp/crudo --reporte tmp/crudo-reporte.json
+      - name: Cifras del ensayo
+        run: |
+          jq -r '"## Ensayo \(.generado)", (.tamanos | to_entries[] | "- \(.key): \(.value.items) items, \(.value.bytes) bytes (gzip \(.value.gzip))"), "- sin documento original: \(.faltan | length)", "- con PDF sin página: \(.sinPagina | length)"' tmp/crudo-reporte.json | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Bandera de la copia exacta
         id: crudo
         run: |
           if grep -Eq '"RAW_ARCHIVE_ENABLED":[[:space:]]*"true"' wrangler.jsonc; then echo "on=true" >> "$GITHUB_OUTPUT"; else echo "on=false" >> "$GITHUB_OUTPUT"; echo "RAW_ARCHIVE_ENABLED apagada: solo ensayo"; fi
+      - name: Sin publicación ni importación en curso
+        if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for wfile in deploy-cloudflare.yml importar-viajes.yml; do
+            for st in in_progress queued; do
+              c=$(gh api "repos/${{ github.repository }}/actions/workflows/$wfile/runs?status=$st&per_page=1" --jq '.total_count')
+              n=$((n + c))
+            done
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) o importación(es) en curso o en fila: no se escribe (REQ-307)."; exit 1; fi
+          echo "Sin publicación ni importación en curso."
+      - name: Respaldo previo (instante de Time Travel)
+        if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}
+        run: |
+          set -euo pipefail
+          npx wrangler d1 time-travel info travel-puzzle --json > tmp/time-travel.json
+          bookmark=$(jq -r '.bookmark' tmp/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "Instante $(date -u +%Y-%m-%dT%H:%M:%SZ) · bookmark \`$bookmark\` (regreso: wrangler d1 time-travel restore travel-puzzle --bookmark=$bookmark)" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Subir a R2 privado + índice
         if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}
         run: bash tmp/crudo/subir.sh
+      - name: Verificar en D1 contra el ensayo
+        if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}
+        run: |
+          set -euo pipefail
+          esperado=$(jq '[.tamanos[].items] | add' tmp/crudo-reporte.json)
+          npx wrangler d1 execute travel-puzzle --remote --json --command "SELECT COUNT(*) AS n FROM ProviderRecord WHERE runId LIKE 'respaldo:${{ inputs.archivo }}:%'" > tmp/verifica.json
+          real=$(jq '.[0].results[0].n' tmp/verifica.json)
+          echo "ProviderRecord de la corrida: $real (ensayo: $esperado)" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$real" = "$esperado" ] || { echo "::error::Las filas en D1 ($real) no coinciden con el ensayo ($esperado)."; exit 1; }
+      - name: Prueba de humo en producción
+        if: ${{ inputs.escribir && steps.crudo.outputs.on == 'true' }}
+        run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
