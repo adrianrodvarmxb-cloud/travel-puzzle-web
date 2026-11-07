@@ -4,7 +4,7 @@
  * (nunca se infieren). Pares excluyentes: guiado/autoguiado, privado/grupo pequeño, familias/solo adultos. Puro.
  */
 import type { Categoria, Dictionary, Mapping, TerminoAtributo, TerminoFormato } from "../schemas/dictionary";
-import { FAVORITO_CRITERIO, type Gates } from "./gates";
+import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, FAVORITO_CRITERIO, type Gates } from "./gates";
 import { matches, norm } from "./text";
 import { ATRIBUTOS_EXTRA, MEDIOS, type ClassifyInput, type Decision, type FormatoOEstado } from "./types";
 
@@ -48,6 +48,14 @@ export function classifyAtributos(
   if ((input.resenas ?? 0) > 0 && typeof input.calificacion === "number") add("calificacion", "reseñas reales");
   if (esFavorito(input, gates.favorito)) add("favorito", `G-T1 ${gates.favorito}`);
   if (input.vueloIncluido === true) add("vuelo-incluido", "flightsIncluded");
+
+  // REQ-540 / REQ-542 (PO 6-11 21:14): atributos que complementan el tipo principal; facetas del filtro.
+  const todo = norm(`${input.titulo} ${input.resumen ?? ""}`);
+  const conGuia = dict.terminos.some((t) => t.eje === "formato" && t.slug === formato && (t as TerminoFormato).guiaEnPersona);
+  if (conGuia && matches(atributo(dict, "entrada-incluida")?.palabras, todo)) add("entrada-incluida", "visita guiada con entrada");
+  const min = input.durationMinutes ?? null;
+  const largo = (min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS) || matches(atributo(dict, "dia-completo")?.palabras, todo);
+  if ((formato === "tour" || formato === "caminata") && largo) add("dia-completo", "día completo sin salir de la ciudad");
 
   const fmt = dict.terminos.find((t): t is TerminoFormato => t.eje === "formato" && t.slug === formato);
   if (formato === "autoguiado") add("autoguiado", "formato autoguiado");

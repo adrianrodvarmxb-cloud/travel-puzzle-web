@@ -9,7 +9,7 @@
 import { SITE_META } from "@/seo/lib/meta";
 
 const BRAND = SITE_META.name;
-import { FORMATOS_FILTRO, formatoLabel, type FormatoFiltro } from "./filters";
+import { ATRIBUTOS_FACETA, FORMATOS_FILTRO, atributoFacetaLabel, formatoLabel, type FormatoFiltro } from "./filters";
 
 /** Solo "true" exacto la enciende. Sin la publicación (T3) encendida no hace nada: las tarjetas no traen formato. */
 export function taxonomyLabelsEnabled(env: { TAXONOMY_LABELS_ENABLED?: string; TAXONOMY_PUBLISH_ENABLED?: string }): boolean {
@@ -33,9 +33,10 @@ export function cityIntro(city: string, free: number, tours: readonly FormatCard
   return `${free} en Pieza libre y ${tours.length} ${allGuided ? "tours con guías locales" : "tours y experiencias"} en ${city}.`;
 }
 
-/** REQ-415: etiquetas de la ficha (el formato; los temas se agregan cuando el PO firme la muestra). */
-export function tourLabels(formato: string | undefined, lang = "es"): string[] {
-  return isFiltro(formato) ? [formatoLabel(formato, lang)] : [];
+/** REQ-415: etiquetas de la ficha (el formato; los temas se agregan cuando el PO firme la muestra). REQ-544: más los atributos faceta. */
+export function tourLabels(formato: string | undefined, lang = "es", atributos: readonly string[] = []): string[] {
+  const base = isFiltro(formato) ? [formatoLabel(formato, lang)] : [];
+  return [...base, ...ATRIBUTOS_FACETA.filter((a) => atributos.includes(a)).map((a) => atributoFacetaLabel(a, lang))];
 }
 
 /** REQ-416: «Operado por un guía local · {proveedor}» solo con guía en persona; si no, «Operado por {proveedor}». */
