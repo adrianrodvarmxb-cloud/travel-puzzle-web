@@ -55,7 +55,7 @@ export function classifyAtributos(
   if (conGuia && matches(atributo(dict, "entrada-incluida")?.palabras, todo)) add("entrada-incluida", "visita guiada con entrada");
   const min = input.durationMinutes ?? null;
   const largo = (min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS) || matches(atributo(dict, "dia-completo")?.palabras, todo);
-  if ((formato === "tour" || formato === "caminata") && largo) add("dia-completo", "día completo sin salir de la ciudad");
+  if ((formato === "tour" || formato === "visita-guiada" || formato === "caminata") && largo) add("dia-completo", "día completo sin salir de la ciudad");
 
   const fmt = dict.terminos.find((t): t is TerminoFormato => t.eje === "formato" && t.slug === formato);
   if (formato === "autoguiado") add("autoguiado", "formato autoguiado");

@@ -1,4 +1,5 @@
 import { catalogClassifier, FORMATOS_PRESENCIALES, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { cityNamesOf } from "@/taxonomy/lib/text";
 import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { Prisma, type PrismaClient } from "@prisma/client";
 import { mixRecommendations } from "@/booking/lib/recommendations";
@@ -186,11 +187,11 @@ const TOUR_SELECT = {
 } as const;
 
 /** REQ-522…524: lo que la tarjeta única necesita además (proveedor, formato, duración y descripción breve). */
-type CardExtrasRow = { providerTitle: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[] };
+type CardExtrasRow = { providerTitle: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[]; city?: { translations: unknown } | null };
 function cardExtras(t: CardExtrasRow) {
   return {
     provider: t.providerTitle ?? null,
-    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title) }),
+    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title), cities: cityNamesOf(t.city?.translations) }), // REQ-1253
     durationMinutes: t.durationMinutes ?? null,
     briefs: Object.fromEntries(t.translations.filter((x) => x.brief && x.brief.trim()).map((x) => [x.language, x.brief as string])),
   };

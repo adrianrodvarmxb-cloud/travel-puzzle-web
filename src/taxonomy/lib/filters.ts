@@ -11,15 +11,17 @@ import type { FormatoOEstado } from "./types";
 
 /** Formatos que se pueden filtrar en /tours (sección Experiencias y estado activo), en orden de chips. */
 export const FORMATOS_FILTRO = [
-  "pieza-libre", "caminata", "tour", "excursion-dia", "experiencia-unica", "entradas", "autoguiado", "circuito", "a-la-medida",
+  "pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica", "entradas", "autoguiado", "circuito", "a-la-medida",
 ] as const satisfies readonly FormatoOEstado[];
 export type FormatoFiltro = (typeof FORMATOS_FILTRO)[number];
 
 /** Etiquetas visibles (es y en del diccionario; pt/de/fr/it del flujo de traducción en T5, mientras tanto en inglés). */
 export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
   "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-269 (PO 6-11 10:43); EN REQ-1103 (PO 7-11 06:06)
-  caminata: { es: "Caminata (tour a pie)", en: "Walking tour" },
-  tour: { es: "Tour", en: "Guided tour" },
+  // REQ-1250 (decisión B del PO, 7-11 08:01): tres tipos con el mismo nombre en tarjeta, filtro y chips; ninguno dice «tour» si no es Tour (D17).
+  caminata: { es: "Caminata", en: "Walking tour" },
+  "visita-guiada": { es: "Visita guiada", en: "Guided visit" },
+  tour: { es: "Tour", en: "Tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
   "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
   entradas: { es: "Boletos y entradas", en: "Tickets & passes" },
@@ -37,7 +39,8 @@ export const formatoLabel = (f: FormatoFiltro, lang: string) => FORMATO_LABEL[f]
 export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
   "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-1103
   caminata: { es: "Caminata", en: "Walking tour" },
-  tour: { es: "Visita guiada", en: "Guided tour" },
+  "visita-guiada": { es: "Visita guiada", en: "Guided visit" }, // REQ-1250
+  tour: { es: "Tour", en: "Tour" }, // REQ-1250 reemplaza «Tour → Visita guiada» de REQ-531/D15
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
   "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
   entradas: { es: "Boletos", en: "Tickets" },
@@ -63,7 +66,7 @@ export const formatoCardLabel = (f: FormatoFiltro, lang: string) => FORMATO_CARD
 
 /** Enlaces viejos ?tipo_act= (REQ-051) → formato equivalente; los grupos que son tema o transporte se ignoran. */
 export const TIPO_ACT_A_FORMATO: Record<string, FormatoFiltro[]> = {
-  visitas: ["pieza-libre", "caminata", "tour", "autoguiado"],
+  visitas: ["pieza-libre", "caminata", "visita-guiada", "tour", "autoguiado"],
   entradas: ["entradas"],
   excursiones: ["excursion-dia"],
   "varios-dias": ["circuito"],
