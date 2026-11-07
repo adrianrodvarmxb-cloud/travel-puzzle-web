@@ -6,6 +6,20 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 - Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
 - Olas 1–3 parten de `main` cuando #204 y #208 estén fusionados. Todo tras `LOCALE_URLS_ENABLED="false"`; lo enciende el PO con su protocolo.
+- **Ola 1 (rutas y middleware)** en PR apilado sobre la Ola 0: `src/i18n/` (lib pura + middleware + server), `LocalizedLink`, selector y aviso. El contenido de hubs (title/H1 de país y ciudad) sigue en español hasta la Ola 2.
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-650 | Bandera apagada = como hoy | `src/i18n/lib/flags.ts`, `src/i18n/middleware.ts`, `src/i18n/server.ts` | `src/i18n/lib/path.test.ts`, `src/i18n/middleware.test.ts`, `src/i18n/server.test.ts` | CUMPLIDO (apagado) |
+| REQ-651 | /{lang}/{ruta en alcance} | `src/i18n/lib/path.ts`, `src/middleware.ts` | `path.test.ts`, `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-652 | /es → 301; fuera de alcance → 302 | `src/i18n/lib/path.ts` | `path.test.ts`, `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-653 | Idioma de la URL en servidor | `src/i18n/server.ts`, `src/i18n/middleware.ts` | `server.test.ts`, `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-654 | Idioma de la URL en cliente | `src/lib/language-context.tsx`, `src/app/layout.tsx`, `AppProviders.tsx` | `src/components/i18n/i18n-client.test.ts` | CUMPLIDO (apagado) |
+| REQ-655 | Enlaces conservan el idioma | `src/i18n/lib/path.ts`, `src/components/i18n/LocalizedLink.tsx`, `useLocalizedHref.ts` | `path.test.ts`, `i18n-client.test.ts` | CUMPLIDO (apagado) |
+| REQ-656 | Selector navega a la URL del idioma | `src/i18n/lib/path.ts`, `LanguageSwitcher.tsx` | `path.test.ts` | CUMPLIDO (apagado) |
+| REQ-657 | Aviso no intrusivo, sin redirigir | `src/i18n/lib/suggest.ts`, `src/components/i18n/LanguageSuggestion.tsx` | `src/i18n/lib/suggest.test.ts`, `i18n-client.test.ts` | CUMPLIDO (apagado) |
+| REQ-658 | 301 con prefijo | `src/i18n/middleware.ts`, `src/destinations/middleware.ts` | `middleware.test.ts` | CUMPLIDO (apagado) |
+| REQ-659 | Fuera de alcance sin cambio | `src/i18n/lib/path.ts`, `src/i18n/server.ts` | `path.test.ts`, `server.test.ts` | CUMPLIDO (apagado) |
 
 ## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
 Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).

@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
+import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
@@ -17,6 +18,7 @@ const SHOW_HERO_EYEBROW = false;
 
 export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quickCities: DestinationCard[] }) {
   const { language } = useLanguage();
+  const localize = useLocalizedHref();
   const c = homeCopy(language);
   const router = useRouter();
   const [q, setQ] = useState('');
@@ -35,7 +37,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const v = q.trim();
-    router.push(v ? `/tours?search=${encodeURIComponent(v)}` : '/tours');
+    router.push(localize(v ? `/tours?search=${encodeURIComponent(v)}` : '/tours')); // REQ-655
   };
 
   return (

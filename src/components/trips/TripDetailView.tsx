@@ -28,7 +28,7 @@ import { localized } from '@/trips/lib/translation';
 import { priceDisplay, formatMoney, optionPrice } from '@/trips/lib/money';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { toursForPlace } from '@/trips/cross-sell';
@@ -45,7 +45,7 @@ import { SITE_URL_DEFAULT } from '@/destinations/load';
 export type TripData = NonNullable<Awaited<ReturnType<typeof loadTripBySlug>>>;
 
 export async function tripMetadata(data: TripData, path: string): Promise<Metadata> {
-    const lang = await getPreferredLanguage();
+    const lang = await getRouteLanguage();
     const title = localized(data.translations, lang, 'title', data.trip.titleEs);
     const description = localized(data.translations, lang, 'summary', data.trip.summaryEs);
     const image = data.trip.images[0] ? imageUrl(data.trip.images[0].key) : undefined;
@@ -59,7 +59,7 @@ export async function tripMetadata(data: TripData, path: string): Promise<Metada
 
 export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { data: TripData; path: string; breadcrumbs?: React.ReactNode; prellenado?: { fecha?: string; adultos?: number; ninos?: number } }) {
     const { trip, translations: tr, fx } = data;
-    const lang = await getPreferredLanguage();
+    const lang = await getRouteLanguage();
     const c = tripCopy(lang);
     const L = (key: string, es: string) => localized(tr, lang, key, es);
     const duration = durationLabel(trip, c);
