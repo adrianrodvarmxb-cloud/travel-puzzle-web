@@ -44,6 +44,13 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
 | REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## INC-008 viajes y total de experiencias (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1344 | Todos los viajes publicados, por páginas, sin 1 + N | `src/trips/lib/published-pages.ts`, `src/trips/public-load.ts`, `src/trips/repository.ts` | `src/trips/lib/published-pages.test.ts` | EN CURSO (falta humo del PR) |
+| REQ-1345 | Todo viaje visible tiene URL en algún sitemap | `src/seo/lib/sitemaps-viajes.ts` (sin cambio) | `src/seo/lib/sitemaps-viajes-regla.test.ts` | EN CURSO (test de regla) |
+| REQ-1346 | Un solo total de experiencias | `src/tours/lib/available.ts`, `src/tours/lib/available-catalog.ts`, `src/app/page.tsx`, `src/components/tours/ToursPageClient.tsx` | `src/tours/lib/available.test.ts` | EN CURSO (criterio confirmado por el PO el 7 nov; falta humo del PR) |
+
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
