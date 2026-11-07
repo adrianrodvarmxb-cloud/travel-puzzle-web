@@ -87,6 +87,7 @@ describe("REQ-675/REQ-676: humo con URL por idioma", () => {
     const real = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")));
     expect(real.flagged.LOCALE_URLS_ENABLED).toContain("/en/");
     expect(real.flaggedDiscover.LOCALE_URLS_ENABLED.some((r) => r.required && new RegExp(r.pattern).test("/en/destinos/mx/ciudad-de-mexico/x"))).toBe(true);
-    expect(real.localeContract.LOCALE_URLS_ENABLED).toEqual(expect.arrayContaining(["/", "/en/"]));
+    // El contrato pide /en sin barra: /en/ responde 308 (sin seguir) y el <head> se lee de /en.
+    expect(real.localeContract.LOCALE_URLS_ENABLED).toEqual(expect.arrayContaining(["/", "/en"]));
   });
 });
