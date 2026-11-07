@@ -34,7 +34,7 @@
   "r2_buckets": [
     { "binding": "TRIP_IMAGES", "bucket_name": "travel-puzzle-trips" },
     // REQ-771: copia exacta del proveedor (lleva netos). Bucket PRIVADO, sin r2.dev ni dominio propio (run 42373825524).
-    // Solo lo usan src/ingest y el cron del sync (REQ-747); no escribe nada mientras RAW_ARCHIVE_ENABLED="false".
+    // Solo lo usan src/ingest y el cron del sync (REQ-747); escribe solo con RAW_ARCHIVE_ENABLED="true".
     { "binding": "RAW_ARCHIVE", "bucket_name": "travel-puzzle-raw" }
   ],
   // IA de Cloudflare para traducir los viajes del gestor (punto 17, gate I). Cobro por uso.
@@ -99,7 +99,7 @@
     "TAXONOMY_CART_ENABLED": "false",
     // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
     // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
-    "TAXONOMY_SYNC_ENABLED": "false",
+    "TAXONOMY_SYNC_ENABLED": "true",
     // Taxonomía T3 (REQ-406…408, REQ-261): Free tour = formato pieza-libre (sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35), sin online,
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
@@ -175,10 +175,11 @@
     // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
     "VISA_ENABLED": "false",
     "ETIAS_ENABLED": "false",
-    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-740…748, Ola R1). Requiere, en este orden y cada paso
-    // con OK del PO: bucket privado travel-puzzle-raw, binding RAW_ARCHIVE en r2_buckets y migración 0022 aplicada
-    // (docs/runbooks/copia-exacta.md). "true" con preview encendido y prueba de humo. Si falla, el sync sigue.
-    "RAW_ARCHIVE_ENABLED": "false",
+    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-740…748, Ola R1). REQ-774 (candado 5 del gate
+    // docs/gates-copia-exacta-2026-11-07.md): encendida con bucket travel-puzzle-raw, binding RAW_ARCHIVE y 0022/0023 aplicadas.
+    // El sync diario guarda la versión 1 de cada tour de FREETOUR; si R2 o D1 fallan, el sync sigue (REQ-744).
+    // Regreso: volver a "false" (los objetos y filas quedan, nadie los lee).
+    "RAW_ARCHIVE_ENABLED": "true",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // REQ-586: IndexNow (Bing y demás; Google no participa). "true" solo con INDEXNOW_KEY cargada como variable

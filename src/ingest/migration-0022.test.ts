@@ -22,9 +22,7 @@ describe("REQ-746 migración 0022: índice ProviderRecord del archivo crudo", ()
     expect(() => readFileSync("docs/migraciones-propuestas/0022_provider_record.sql")).toThrow();
     expect(readFileSync("migrations/0022_provider_record.sql", "utf8")).toMatch(/CREATE TABLE IF NOT EXISTS "ProviderRecord"/);
   });
-  it("REQ-772 la 0023 sigue propuesta: una migración por deploy", () => {
-    expect(() => readFileSync("migrations/0023_taxonomia_linaje.sql")).toThrow();
-  });
+  // El «la 0023 sigue propuesta» de REQ-772 quedó REEMPLAZADO por REQ-773 (la 0023 se aplica en su propio deploy, después de la 0022).
   it("REQ-746 solo crea tablas e índices; no toca Tour, TourTranslation, Trip ni la taxonomía", () => {
     const code = SQL_0022.replace(/--[^\n]*/g, "");
     expect(code).not.toMatch(/\b(ALTER|DROP|UPDATE|DELETE|INSERT)\b/i);

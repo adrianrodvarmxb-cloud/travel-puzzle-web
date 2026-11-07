@@ -20,7 +20,7 @@ function db() {
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
   d.exec(readFileSync("migrations/0017_taxonomia.sql", "utf8"));
   const tour = (id: string, cat: number, price: number, title: string, active = 1, minutes = 120) => {
-    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.8',60,?)`).run(id, cat, String(price), minutes, active, `h-${id}`);
+    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
     d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(id, "es", title, "");
   };
   tour("a", 12, 0, "Free tour por el casco antiguo");
@@ -52,10 +52,10 @@ async function fullRun(d: Db, now: string, over = {}) {
 }
 
 describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => {
-  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"false\"", () => {
+  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"true\" (REQ-615, gate de encendido)", () => {
     expect(taxonomySyncEnabled({})).toBe(false);
     expect(taxonomySyncEnabled({ TAXONOMY_SYNC_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"true"/);
   });
   it("REQ-409 una corrida completa: arranca, clasifica activos por tandas, luego viajes publicados, y publica", async () => {
     const d = db();

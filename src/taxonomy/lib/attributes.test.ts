@@ -34,12 +34,13 @@ describe("REQ-417 atributos activos solo con dato", () => {
     expect(at(ft(12, "Free tour en español"))).not.toContain("idioma-es");
     expect(at(ft(12, "Visita", { idiomas: ["en", "es"] }))).toContain("idioma-es");
   });
-  it("REQ-417 calificación solo con reseñas reales; favorito según G-T1 A (≥4.7 y ≥50)", () => {
+  it("REQ-417 calificación solo con reseñas reales; favorito según G-T1 D (≥4.9 y ≥180, REQ-1290 reemplaza la A)", () => {
     expect(at(ft(12, "x", { calificacion: 4.9, resenas: 0 }))).not.toContain("calificacion");
     expect(at(ft(12, "x", { calificacion: 4.6, resenas: 10 }))).toContain("calificacion");
-    expect(at(ft(12, "x", { calificacion: 4.7, resenas: 50 }))).toContain("favorito");
-    expect(at(ft(12, "x", { calificacion: 4.7, resenas: 49 }))).not.toContain("favorito");
-    expect(at(ft(12, "x", { calificacion: 4.69, resenas: 500 }))).not.toContain("favorito");
+    expect(at(ft(12, "x", { calificacion: 4.9, resenas: 180 }))).toContain("favorito");
+    expect(at(ft(12, "x", { calificacion: 4.9, resenas: 179 }))).not.toContain("favorito");
+    expect(at(ft(12, "x", { calificacion: 4.89, resenas: 500 }))).not.toContain("favorito");
+    expect(at(ft(12, "x", { calificacion: 4.7, resenas: 50 }))).not.toContain("favorito");
   });
   it("REQ-417 vuelo incluido solo con flightsIncluded", () => {
     expect(at({ proveedor: "propios", categoriaId: "circuito", precio: 1, titulo: "Con vuelo incluido", vueloIncluido: false })).not.toContain("vuelo-incluido");
