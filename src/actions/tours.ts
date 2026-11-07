@@ -131,7 +131,7 @@ export async function fetchTourByExternalId(externalId: number, language: string
 export async function fetchCountries(language: string = 'en') {
   try {
     // REQ-029/REQ-032: los países casi no cambian; caché compartida 1 h.
-    const result = await cached(cacheKey('countries', { language }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
+    const result = await cached(cacheKey('countries', { language, v: 'iso-1265' /* REQ-1265 */ }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
     const serialized = serializeDecimals(result);
     return JSON.parse(JSON.stringify(serialized));
   } catch (error) {
