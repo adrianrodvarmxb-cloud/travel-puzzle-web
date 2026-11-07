@@ -369,7 +369,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -394,7 +394,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "activo como base, no como filtro: la regla vive en src/taxonomy/lib/themes.ts"
+   "nota": "activo como base, no como filtro (D19, Eje B): la regla vive en src/taxonomy/lib/themes.ts"
   },
   {
    "fila": 18,
@@ -418,7 +418,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -443,7 +443,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -468,7 +468,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -493,7 +493,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -518,7 +518,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -543,7 +543,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -568,7 +568,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -593,7 +593,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -618,7 +618,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -643,7 +643,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -668,7 +668,7 @@
      "contiene": "export function"
     }
    ],
-   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "nota": "categoría complementaria (D19, Eje B): la regla existe (themes.ts), pero no hay chip ni filtro de complementarias: espera la revisión manual",
    "folio": "REQ-1317"
   },
   {
@@ -2256,7 +2256,7 @@
      "contiene": "add(\"privado\""
     }
    ],
-   "nota": "regla en src/taxonomy/lib/attributes.ts"
+   "nota": "regla en src/taxonomy/lib/attributes.ts; como categoría complementaria (D19, Eje C) aún sin filtro en /tours (REQ-1317)"
   },
   {
    "fila": 114,
@@ -2280,7 +2280,7 @@
      "contiene": "add(\"nocturno\""
     }
    ],
-   "nota": "regla en src/taxonomy/lib/attributes.ts"
+   "nota": "regla en src/taxonomy/lib/attributes.ts; como categoría complementaria (D19, Eje C) aún sin filtro en /tours (REQ-1317)"
   },
   {
    "fila": 115,
@@ -2304,7 +2304,7 @@
      "contiene": "medio:"
     }
    ],
-   "nota": "regla en src/taxonomy/lib/attributes.ts"
+   "nota": "regla en src/taxonomy/lib/attributes.ts; como categoría complementaria (D19, Eje C) aún sin filtro en /tours (REQ-1317)"
   },
   {
    "fila": 116,
@@ -2328,7 +2328,7 @@
      "contiene": "add(\"idioma-es\""
     }
    ],
-   "nota": "regla en src/taxonomy/lib/attributes.ts"
+   "nota": "regla en src/taxonomy/lib/attributes.ts; como categoría complementaria (D19, Eje C) aún sin filtro en /tours (REQ-1317)"
   },
   {
    "fila": 117,
@@ -2352,7 +2352,7 @@
      "contiene": "add(\"calificacion\""
     }
    ],
-   "nota": "regla en src/taxonomy/lib/attributes.ts"
+   "nota": "regla en src/taxonomy/lib/attributes.ts; como categoría complementaria (D19, Eje C) aún sin filtro en /tours (REQ-1317)"
   },
   {
    "fila": 118,
@@ -2400,7 +2400,7 @@
      "contiene": "add(\"vuelo-incluido\""
     }
    ],
-   "nota": "regla en src/taxonomy/lib/attributes.ts"
+   "nota": "regla en src/taxonomy/lib/attributes.ts; como categoría complementaria (D19, Eje C) aún sin filtro en /tours (REQ-1317)"
   },
   {
    "fila": 120,
