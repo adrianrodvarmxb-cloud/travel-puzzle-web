@@ -21,7 +21,7 @@ La firma **no** cubre: aplicar migraciones, cargar datos, crear buckets, cambiar
 | — | `SEARCH_STEM_ENABLED` (y alias de `destino_alias`) | REQ-614 | Migraciones propuestas 0020 y 0021 sin aplicar (candado) | **Bloqueada** |
 | 4 | `TAXONOMY_SYNC_ENABLED` | REQ-615 | 0017 aplicada | Encender |
 | 5 | `TAXONOMY_PUBLISH_ENABLED` | REQ-616 | `PRIMERA_PIEZA_ENABLED="true"` (ya); el clasificador corre en código, no lee las tablas de la 0017 | Encender |
-| 6 | `TAXONOMY_FILTERS_ENABLED` | REQ-617 | Después de `TAXONOMY_PUBLISH_ENABLED` | Encender |
+| 6 | `TAXONOMY_FILTERS_ENABLED` | REQ-617 | Después de `TAXONOMY_PUBLISH_ENABLED` **y del PR #205 en main** (chips de tipos en /tours, REQ-546…549; con la bandera los chips pasan a ser los tipos de la taxonomía). Al encenderla /tours deja de listar online, «por revisar» y traslados (estos van a /traslados) | Encender |
 | 7 | `TAXONOMY_LABELS_ENABLED` | REQ-618 | Requiere `TAXONOMY_PUBLISH_ENABLED` | Encender |
 | 8 | `TAXONOMY_CIRCUITS_ENABLED` | REQ-619 | 0018 aplicada; `TAXONOMY_CIRCUIT_EXTRA_ENABLED` sigue en "false" (sin dato) | Encender |
 | 9 | `NOSOTROS_ENABLED` | REQ-621 | Solo bloques «aprobado» (Cómo trabajamos, cifras en vivo del catálogo, datos de la agencia); historia, equipo y frase siguen en borrador y no salen | Encender |
