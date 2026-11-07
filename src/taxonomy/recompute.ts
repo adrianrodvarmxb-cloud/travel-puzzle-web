@@ -67,7 +67,7 @@ export async function runTaxonomyStep(d: TaxonomyStepDeps) {
     case "tours": {
       const batch = d.batch ?? TAXONOMY_BATCH;
       if (lin) {
-        // REQ-551 / REQ-554
+        // REQ-551 / REQ-554 / REQ-556
         const tours = await lin.repo.toursAfter(plan.run.cursor, batch);
         const ov = overridesByExperience(await lin.repo.overrides());
         const rows = tours.flatMap((t) => applyPrecedence(lineageForTour(t, dict, mappings, { rawHash: t.rawHash, gates }), dict, { overrides: ov.get(`tour:${t.id}`) }));
@@ -85,7 +85,7 @@ export async function runTaxonomyStep(d: TaxonomyStepDeps) {
     }
     case "trips": {
       if (lin) {
-        // REQ-553: primero la denominación original del proveedor (ProviderRecord), luego el mapeo propio.
+        // REQ-553 / REQ-556: primero la denominación original del proveedor (ProviderRecord), luego el mapeo propio.
         const trips = await lin.repo.publishedTrips();
         const ov = overridesByExperience(await lin.repo.overrides());
         const rows = trips.flatMap((t) => {
