@@ -1,0 +1,21 @@
+{
+  "proveedor": "destinocolombia",
+  "version": "2026-11-06",
+  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "PC",
+      "nombre_es": "Programa (PC)",
+      "nombre_en": "Program (PC)",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Prefijo del código de cada PDF («PC 016 – Colombia Esencial – Salidas Diarias»)."
+    }
+  ]
+}
