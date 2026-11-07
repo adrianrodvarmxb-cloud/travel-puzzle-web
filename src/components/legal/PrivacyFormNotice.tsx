@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
 import { PRIVACIDAD_SIMPLIFICADO } from '@/legal/lib/privacidad';
 import { toBlocks } from '@/legal/lib/blocks';

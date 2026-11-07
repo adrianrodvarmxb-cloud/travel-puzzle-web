@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { Navbar } from '@/components/layout/Navbar';
 
 /** Si algo del blog falla: header del sitio (REQ-062), mensaje útil, reintentar y salida; nunca pantalla en blanco. */
