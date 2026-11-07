@@ -618,10 +618,13 @@ Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
 | REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
 
-
-## Carruseles del inicio completos (PO, 6 nov 2026, 22:05) — matriz de trazabilidad
+## «★ Favorito» fuera de la foto (PO, 6 nov 2026, 22:36) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
+| REQ-860 | «★ Favorito» bajo la foto, en la fila de ciudad · duración | `src/components/tours/ExperienceCard.tsx` | `src/components/tours/ExperienceCard.test.ts` + capturas `docs/capturas/favorito-fuera/` | CUMPLIDO (falta OK del PO) |
+| REQ-861 | Ninguna tarjeta pone «★ Favorito» sobre la foto | `ExperienceCard.tsx`, `TourCard.tsx`, `home/v2/FeaturedTours.tsx` (`HomeTourCard`) | `src/components/tours/favorite-off-photo.test.ts` | CUMPLIDO |
+
+## Carruseles del inicio completos (PO, 6 nov 2026, 22:05) — matriz de trazabilidad
 | REQ-850 | «Los más elegidos» = todos los Favoritos en orden del medidor | `src/home/lib/carousel-pages.ts`, `src/home/load.ts` | `src/home/lib/carousel-pages.test.ts`, `src/home/load.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-851 | 12 del servidor + páginas de 12 al acercarse al final | `carousel-pages.ts`, `src/home/carousel-load.ts`, `src/app/api/home/carrusel/route.ts`, `src/components/home/v2/useCarouselPages.ts`, `CardRail.tsx` | `carousel-pages.test.ts` + navegador (rail 12 → 18, sin duplicados) | CUMPLIDO (falta OK del PO) |
 | REQ-852 | «Excursiones de un día» = todas, sin repetir elegidos | `carousel-pages.ts` | `carousel-pages.test.ts`, `load.test.ts` | CUMPLIDO (falta OK del PO) |
