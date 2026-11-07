@@ -20,6 +20,14 @@ export interface ContractOptions {
   requireOperator?: boolean;
   /** Un viaje a la medida sin precio no lleva Offer (es lo honesto); el test la exige en lo que tiene precio. */
   requireOffer?: boolean;
+  /** REQ-834: la ficha debe llevar `<meta name="robots" content="noindex, follow">` (proveedor sin permiso de indexar). */
+  noindex?: boolean;
+}
+
+// REQ-834: robots de la página servida (Next escribe «noindex, follow»).
+export function robotsMeta(html: string): string | null {
+  const m = html.match(/<meta[^>]+name="robots"[^>]*>/i)?.[0];
+  return m ? (m.match(/content="([^"]*)"/i)?.[1] ?? "").toLowerCase().replace(/\s+/g, "") : null;
 }
 
 type Node = Record<string, unknown>;
@@ -92,6 +100,9 @@ export function fichaContractFailures(html: string, o: ContractOptions): string[
   if (op) { if (!text.includes(norm(String(op)))) f.push(`el operador «${op}» no se ve en la página`); }
   else if (o.requireOperator) f.push("sin operador (provider)");
   if (/freetour|free tour\.com/i.test(JSON.stringify(p.provider ?? "") + JSON.stringify(p.brand ?? ""))) f.push("el marcado nombra a FREETOUR como operador");
+
+  // REQ-834
+  if (o.noindex && robotsMeta(html) !== "noindex,follow") f.push(`se esperaba robots «noindex, follow» y hay «${robotsMeta(html) ?? "nada"}» (REQ-830)`);
 
   if (!o.enrichment) {
     if (/data-seo="en-breve"/.test(html)) f.push("«En breve» en un proveedor sin enriquecimiento (REQ-570)");

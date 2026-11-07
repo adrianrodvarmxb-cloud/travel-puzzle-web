@@ -218,6 +218,37 @@ describe("REQ-571…574 / REQ-578 / REQ-570: marcado y datos de servidor de la f
   });
 });
 
+describe("REQ-831…833: fichas de FREETOUR en noindex y fuera del sitemap; la ciudad no cambia", () => {
+  const ftTours = [1, 2, 3, 4].map((i) => tour(30, 1, { title: `FT ${i}`, slug: `ft-${i}`, providerId: "freetour" }));
+  const other = tour(30, 1, { title: "Otro proveedor", slug: "otro", providerId: "bemyguest" });
+  const own = { id: "trip1", slug: "louvre-ext-mx-t01-001", kind: "tour", title: "Viaje propio", image: null, countries: ["MX"], cities: ["Puebla"], priceLabel: null, updatedAt: "2026-11-01T00:00:00Z", agency: "Extime Travel", agencyId: "ag1" };
+  const t2 = destinationTree({ ...fx, cities: [...fx.cities, { id: 30, countryId: 1, translations: { es: "Puebla" }, slug: "puebla", guide: null, guideUpdatedAt: null, indexableSince: "2026-10-01T00:00:00Z", failingSince: null }], tours: [...ftTours, other], trips: [own], now });
+  const pue = findCity(t2, "mx", "puebla")!;
+  it("REQ-831: la ficha de FREETOUR lleva noindex aunque su ciudad esté indexada; la de otro proveedor no", () => {
+    expect(pue.city.indexed).toBe(true);
+    const ft = pue.city.freeTours.find((t) => t.title === "FT 1")!;
+    expect(tourPage({ country: pue.country, city: pue.city, tour: ft, siteUrl: site, lang: "es" }).meta.index).toBe(false);
+    expect(tourPage({ country: pue.country, city: pue.city, tour: ft, siteUrl: site, lang: "es", detail: { providerId: "freetour" } }).meta.index).toBe(false);
+    const ot = pue.city.freeTours.find((t) => t.title === "Otro proveedor")!;
+    expect(tourPage({ country: pue.country, city: pue.city, tour: ot, siteUrl: site, lang: "es" }).meta.index).toBe(true);
+    // Sin proveedor conocido se asume el más restrictivo (FREETOUR), como el interruptor de REQ-570.
+    expect(tourPage({ country: pue.country, city: pue.city, tour: { ...ot, providerId: undefined }, siteUrl: site, lang: "es" }).meta.index).toBe(false);
+  });
+  it("REQ-832: el sitemap no lista fichas de FREETOUR; sí las de otros proveedores, los viajes y la ciudad", () => {
+    const { files } = buildSitemaps(sitemapInput(t2, site));
+    const all = Object.values(files).join("\n");
+    for (const t of ftTours) expect(all).not.toContain(`/destinos/mx/puebla/${t.slug}<`);
+    expect(all).toContain("/destinos/mx/puebla/otro<");
+    expect(all).toContain("/destinos/mx/puebla/louvre-ext-mx-t01-001<");
+    expect(all).toContain("/destinos/mx/puebla<");
+  });
+  it("REQ-833: las tarjetas, los enlaces internos y la regla de la ciudad (REQ-089/REQ-407) no cambian", () => {
+    expect(pue.city.freeTours.map((t) => t.href)).toEqual(expect.arrayContaining(ftTours.map((t) => `/destinos/mx/puebla/${t.slug}`)));
+    expect(pue.city.activeTours).toBe(6);
+    expect(cityPage(pue.country, pue.city, site).meta.index).toBe(true);
+  });
+});
+
 describe("REQ-088: traslados en la ciudad desde el registro de complementos", () => {
   const groups = [{ group: "transporte", title: "Transporte", cards: [
     { id: "kiwitaxi", title: "Traslado", description: "d", chargedByLabel: "Lo reservas con Kiwitaxi", price: null, cta: { kind: "widget" as const, label: "Buscar traslado" as const }, cities: [] },
@@ -258,13 +289,19 @@ describe("REQ-092: página 410 (con el header del sitio)", () => {
 
 describe("REQ-102: sitemaps desde el árbol", () => {
   it("REQ-102: solo ciudades indexadas y sus fichas, por país, con lastmod del contenido", () => {
-    const { index, files } = buildSitemaps(sitemapInput(tree, site));
+    // REQ-832: las fichas de FREETOUR ya no van al sitemap; la regla de REQ-102 se prueba con otro proveedor.
+    const other = destinationTree({ ...fx, tours: tours.map((t) => ({ ...t, providerId: "bemyguest" })), trips: [], now });
+    const { index, files } = buildSitemaps(sitemapInput(other, site));
     expect(index).toContain(`${site}/sitemap-destinos.xml`);
     expect(index).toContain(`${site}/sitemap-tours-mx.xml`);
     expect(files["sitemap-destinos.xml"]).toContain(`${site}/destinos/mx/ciudad-de-mexico</loc>`);
     expect(files["sitemap-destinos.xml"]).not.toContain("/destinos/mx/oaxaca<");
     expect(files["sitemap-tours-mx.xml"]).not.toContain("/oaxaca/");
     expect(files["sitemap-tours-mx.xml"]).toContain("<lastmod>2026-11-02</lastmod>");
+    // REQ-832: con los mismos tours de FREETOUR, la ciudad sigue en el sitemap y sus fichas no.
+    const ft = buildSitemaps(sitemapInput(tree, site));
+    expect(ft.files["sitemap-destinos.xml"]).toContain(`${site}/destinos/mx/ciudad-de-mexico</loc>`);
+    expect(Object.values(ft.files).join("\n")).not.toContain("/destinos/mx/ciudad-de-mexico/");
   });
 });
 
