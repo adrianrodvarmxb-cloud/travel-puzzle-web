@@ -800,3 +800,10 @@ Petición literal (coordinador, 7 nov 2026): «URGENTE (D31): quitar «FREETOUR�
 | REQ-1244 | (misma petición) inicio | NUEVO | Dadas las tarjetas del inicio (destacados y excursiones), cuando se recortan al idioma de la visita, entonces título y resumen salen limpios. | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1245 | (misma petición) /destinos | NUEVO | Dados los tours del árbol de /destinos (ciudad, breadcrumbs, sitemaps, ItemList), entonces el título en es y en sale limpio. | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1246 | (misma petición) correos | NUEVO | Dado un correo al cliente (resumen del tour y «más tours»), entonces el título sale limpio. | EN CURSO (test verde; falta humo del PR y OK del PO) |
+
+## Rango de precio de /tours en EUR con MXN aproximado (INC-008; coordinador, 7 nov 2026)
+Petición literal (coordinador): «Rango de precio en MXN/EUR, como las tarjetas.» Base: `docs/taxonomia.md` §4.3 («Precio: Propina · < 30 · 30–80 · > 80 EUR (con MXN aprox.)») y Taxonomia.docx §6 («deslizador por rango (EUR con MXN aproximado)»). Hallazgo: el deslizador decía «0 US$ – 2,000+ US$» aunque filtra el precio del proveedor en EUR.
+| ID | Petición | Origen | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|---|
+| REQ-1254 | «Rango de precio en MXN/EUR, como las tarjetas» | NUEVO | Dado el deslizador de precio de /tours, cuando se pinta, entonces cada tope dice «€X · aprox. MXN $Y» (en: «approx.»; «+» en el último), con el tipo de cambio del día calculado en el servidor y sin Intl (INC-001); sin tipo de cambio dice solo «€X»; nunca «US$». | EN CURSO (test verde; falta humo del PR y OK del PO) |
+| REQ-1255 | (misma petición) los viajes en otra moneda | NUEVO | Dado un viaje propio con precio en USD o MXN, cuando se filtra por precio, entonces se compara su precio en EUR (`priceFromEur`, tipo de cambio del día); sin tipo de cambio, el monto tal cual. | EN CURSO (test verde; falta humo del PR y OK del PO) |
