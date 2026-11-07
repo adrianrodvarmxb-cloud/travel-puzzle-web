@@ -44,6 +44,12 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
 | REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1265 | Nombre ISO de GB en todos los idiomas, al pintar | `src/destinations/lib/ids.ts` (`ISO_COUNTRY_NAMES`, `countryTranslations`), `src/destinations/lib/catalog.ts`, `src/tours/lib/d1-load.ts`, `src/destinations/server.ts`, `src/actions/tours.ts` | `src/destinations/lib/reino-unido.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1266 | Falso 404 de Edimburgo (corte RSC); humo cubre GB/Edimburgo | `tests/smoke/pages.json` | `src/ops/lib/smoke-edimburgo.test.ts` | EN CURSO (falta humo del PR) |
+
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

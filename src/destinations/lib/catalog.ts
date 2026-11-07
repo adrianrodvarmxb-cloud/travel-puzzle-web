@@ -10,7 +10,7 @@
  *   indexables (REQ-1200) y la guía propia indexa por sí sola (REQ-1201).
  */
 import { cityName } from "./dry-run";
-import { countryIso2 } from "./ids";
+import { countryIso2, countryTranslations } from "./ids";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
 import { indexableProvider } from "@/seo/lib/enrichment";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
@@ -248,7 +248,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
     }
     if (!nodes.length) continue;
     nodes.sort((a, b) => b.activeTours - a.activeTours || a.name.localeCompare(b.name, "es"));
-    out.push({ id: c.id, iso2, slug, name: placeName(c.translations, iso2), href: countryPath(slug), indexable: countryIndexable(nodes), cities: nodes, names: placeNames(c.translations) });
+    out.push({ id: c.id, iso2, slug, name: placeName(countryTranslations(iso2, c.translations), iso2), href: countryPath(slug), indexable: countryIndexable(nodes), cities: nodes, names: placeNames(countryTranslations(iso2, c.translations)) }); // REQ-1265
   }
   return out.sort((a, b) => a.name.localeCompare(b.name, "es"));
 }
