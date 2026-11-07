@@ -5,7 +5,8 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/language-context';
 import { Navbar } from '@/components/layout/Navbar';
-import { TourCard } from '@/components/tours/TourCard';
+import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { fromCatalogTour } from '@/tours/lib/card-sources';
 import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
 import type { TripCard } from '@/trips/public-load';
 import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trips/lib/public';
@@ -361,6 +362,8 @@ export function ToursPageClient({
     const pageInfo = currentToursData?.pagination;
     // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
     const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
+    // REQ-170 / REQ-522: etiquetas de precio y formato armadas en el servidor (fetchTours).
+    const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string> } | undefined;
 
     return (
         <div className="min-h-screen bg-background">
@@ -422,7 +425,8 @@ export function ToursPageClient({
                                     {tours.map((tour, i) => (
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
-                                            <TourCard tour={tour} highlight={highlights?.[tour.externalId]?.text} priceLabel={(currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }> } | undefined)?.priceLabels?.[tour.id] ?? null} />
+                                            {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
+                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null })} />
                                         </div>
                                     ))}
                                 </div>

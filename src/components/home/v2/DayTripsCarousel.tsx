@@ -4,10 +4,11 @@ import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
 import { tripCopy } from '@/trips/lib/copy';
 import type { HomeDayTrip } from '@/home/load';
-import { OwnTripCard } from '@/components/trips/OwnTripCard';
 import { SectionHeading } from './SectionHeading';
-import { MobileRail } from './MobileRail';
-import { HomeTourCard, type PriceLabels } from './FeaturedTours';
+import { type PriceLabels } from './FeaturedTours';
+import { CardRail } from '@/components/tours/CardRail';
+import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { fromHomeTour, fromTripCard } from '@/tours/lib/card-sources';
 
 /**
  * REQ-453: «Excursiones de un día» de cualquier proveedor, ordenadas por el medidor de reseñas (REQ-450).
@@ -21,13 +22,14 @@ export function DayTripsCarousel({ items, priceLabels = {} }: { items: HomeDayTr
   return (
     <section id="excursiones" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
       <SectionHeading eyebrow={c.dayEyebrow} title={c.dayHeadline} subtitle={c.daySub} />
-      <MobileRail gridClass="sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      {/* REQ-520, REQ-527: la misma tarjeta para tours y viajes de agencias, en carrusel con flechas. */}
+      <CardRail label={c.dayHeadline}>
         {items.map((d) =>
           d.type === 'tour'
-            ? <HomeTourCard key={`t-${d.tour.id}`} t={d.tour} language={language} c={c} priceLabel={priceLabels[d.tour.id]} />
-            : <OwnTripCard key={`v-${d.trip.id}`} trip={d.trip} c={tc} lang={language} />,
+            ? <ExperienceCard key={`t-${d.tour.id}`} card={fromHomeTour(d.tour, { lang: language, priceLabel: priceLabels[d.tour.id] })} />
+            : <ExperienceCard key={`v-${d.trip.id}`} card={fromTripCard(d.trip, language, tc.from)} />,
         )}
-      </MobileRail>
+      </CardRail>
     </section>
   );
 }

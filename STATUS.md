@@ -386,6 +386,21 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | Chips, conteos o secciones en cero | 0 | no existen todavía |
 | Uso de filtros por formato y tema | medir 4 semanas y fijar meta | — |
 
+
+## Tarjeta única de experiencia (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-520 | Una sola tarjeta para todos los proveedores en /tours, inicio, /destinos, /la-primera-pieza y /traslados | `src/components/tours/ExperienceCard.tsx`, `src/tours/lib/experience-card.ts`, `src/tours/lib/card-sources.ts` | `experience-card.test.ts`, `card-sources.test.ts`, `ExperienceCard.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-521 | «★ Favorito» arriba a la izquierda, 6 idiomas, regla de favorite.ts | `experience-card.ts` | `experience-card.test.ts`, `ExperienceCard.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-522 | Categoría = formato de la taxonomía con la etiqueta de T4/T5 (`FORMATO_LABEL`); EN pieza libre «Free tour»; respaldo «Experiencia» | `src/tours/lib/card-format.ts`, `experience-card.ts`, `src/taxonomy/lib/filters.ts`, `src/actions/tours.ts`, `src/home/load.ts`, `src/destinations/lib/catalog.ts`, `src/trips/public-load.ts` | `card-format.test.ts`, `experience-card.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-523 | Ciudad · duración, título, descripción breve | `experience-card.ts`, `card-sources.ts` | `experience-card.test.ts`, `card-sources.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-524 | ★ calificación · reseñas \| proveedor real; FREETOUR nunca | `experience-card.ts` (`cardProvider`), `src/destinations/repository.ts`, `src/trips/public-load.ts` | `experience-card.test.ts`, `card-sources.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-525 | Línea de precio: «Desde aprox. MXN $X · EUR €Y» / «Free tour» | `experience-card.ts` (`cardPrice`), `DestinationTourCard.tsx` (TourGrid) | `experience-card.test.ts`, `card-sources.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-526 | Solo dos insignias sobre la foto (C5) | `ExperienceCard.tsx` | `ExperienceCard.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-527 | Carruseles con flechas y tarjetas redondeadas (mix de referentes) | `src/components/tours/CardRail.tsx`, `ExperienceCard.tsx`, `FeaturedTours.tsx`, `DayTripsCarousel.tsx` | `ExperienceCard.test.ts` | CUMPLIDO (falta OK visual del PO) |
+
+Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-libre 3,464 · caminata 1,515 · tour 1,253 · excursion-dia 1,222 · experiencia-unica 344 · circuito 30 · autoguiado 29 · entradas 28 · traslado 8 · transporte 1 · `fuera` 124 (llevan el respaldo «Experiencia»). Operador: 0 vacíos; 32 tours con «freetour» en el nombre del operador (p. ej. «Don freetour», «MontpellierFreeTour») quedan con el espacio vacío por la regla dura. Componentes que quedan sin uso (no se borran): `TourCard`, `HomeTourCard`, `DestinationTourCard`, `OwnTripCard` (solo su test).
+
 ## Filtros de /tours con scroll propio (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
