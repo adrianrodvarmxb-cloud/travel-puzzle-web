@@ -72,6 +72,8 @@ export interface TourCardModel {
   formato?: string;
   /** T5: si hay guía en persona (solo con TAXONOMY_PUBLISH_ENABLED). */
   guiaEnPersona?: boolean;
+  /** REQ-544: atributos de la taxonomía (chips de la ficha), con TAXONOMY_PUBLISH_ENABLED. */
+  atributos?: string[];
   /** REQ-523: ciudad, días y resumen para la tarjeta única. */
   city?: string | null;
   durationDays?: number | null;
@@ -123,7 +125,7 @@ export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxo
   // REQ-522: con T3 apagada la tarjeta usa el mismo clasificador por defecto (sin guiaEnPersona, que es de T5).
   const formato = cls?.formato ?? (t.categoryId === undefined || t.categoryId === null ? undefined : catalogTourFormat({ categoryId: t.categoryId, price: t.price, durationMinutes: t.durationMinutes ?? null, titles: [t.title] }));
   return {
-    ...(cls && { guiaEnPersona: cls.guiaEnPersona }),
+    ...(cls && { guiaEnPersona: cls.guiaEnPersona, atributos: cls.atributos ?? [] }),
     ...(formato && { formato }),
     id: t.id, href: tourPath(countrySlug, citySlug, t.slug!), title: t.title, provider: t.provider, image: t.image,
     isFreeTour, price: Number(t.price), currency: t.currency, rating: t.rating, reviews: t.reviews, duration: t.duration,

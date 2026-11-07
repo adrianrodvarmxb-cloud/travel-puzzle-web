@@ -24,6 +24,7 @@
   "flagged": {
     "NOSOTROS_ENABLED": ["/nosotros"],
     "CONTACTO_ENABLED": ["/contacto"],
-    "EXPERTOS_ENABLED": ["/asesores"]
+    "EXPERTOS_ENABLED": ["/asesores"],
+    "BLOG_ENABLED+BLOG_SHOW_DRAFTS": ["/blog", "/blog/china", "/blog/china/visa-china-para-mexicanos"]
   }
 }

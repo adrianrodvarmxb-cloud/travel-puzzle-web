@@ -2,6 +2,12 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
+
+- 4 PR apilados (fusionar en orden): /nosotros → /contacto → /asesores («Habla con un asesor de viaje») → /blog. Todo tras `NOSOTROS_ENABLED`, `CONTACTO_ENABLED`, `EXPERTOS_ENABLED`, `BLOG_ENABLED` (+ `BLOG_SHOW_DRAFTS`, solo preview) en "false". REQ-240 a REQ-276.
+- Formularios con Zod y anti-spam; envían con Resend a info@ (sin base ni migración). Blog con datos en el repo, cero publicados y un borrador de ejemplo.
+- Falta: firma de las decisiones en `docs/gates-paginas-2026-11.md`, material del cliente para los bloques en borrador, preview en Cloudflare con banderas encendidas y OK del PO para encender (una bandera por PR).
+
 ## Resumen del 5 nov 2026
 
 **Publicado hoy (cada uno con deploy y prueba de humo en producción en verde):**
@@ -437,4 +443,27 @@ Datos (respaldo de producción del 5 nov, 8,018 tours activos): formato pieza-li
 | REQ-538 | Import de Fantástica China: Macao = tour de 1 día | `imports/fantasticachina-2027.json` | `auditoria-tipos.test.ts` | CUMPLIDO en repo; falta aplicar en D1 |
 
 Efecto en el catálogo (respaldo de producción del 5-11, 8,018 tours activos de FREETOUR): pieza-libre sin cambio (3,464); autoguiado 29 → 635; excursión de un día 1,222 → 1,048; caminata 1,515 → 1,239; tour 1,253 → 1,193; Momentos de autor 344 → 230; traslado 8 → 26.
+
+## Criterio de pendientes de tipos (PO, 6 nov 2026, 21:14) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-540 | Visita guiada con entrada = tour + «entrada-incluida»; boletos solo sin guía | `src/taxonomy/lib/format.ts`, `attributes.ts`, `dictionary.json` (`palabrasConGuia`), `mapping/propios.json` | `src/taxonomy/lib/criterio-pendientes.test.ts`, `format.test.ts`, `gates.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-541 | Food tour = caminata + gastronomía; Momentos de autor solo talleres, clases, catas sentadas, espectáculos | `format.ts`, `dictionary.json` (`palabrasRecorrido`, `palabrasFuertes`, tema gastronomía) | `criterio-pendientes.test.ts`, `recompute.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-542 | Día completo en la ciudad = tour + «dia-completo»; excursión solo si sale | `format.ts`, `attributes.ts`, `dictionary.json` (`palabrasEnCiudad`, `palabrasSaleSiempre`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-543 | Atributos nuevos en el diccionario y facetas listas para el filtro | `dictionary.json`, `src/taxonomy/lib/filters.ts` (`ATRIBUTOS_FACETA`) | `criterio-pendientes.test.ts` | CUMPLIDO |
+| REQ-544 | Chips de atributos en la ficha (fuera de la foto); no en la tarjeta | `src/taxonomy/lib/copy.ts` (`tourLabels`), `src/taxonomy/lib/publish.ts`, `src/destinations/lib/catalog.ts`, `page-model.ts` | `criterio-pendientes.test.ts` | CUMPLIDO en la ficha (tras TAXONOMY_LABELS_ENABLED) |
+| REQ-545 | «Excursiones en Kampala» no es excursión | `dictionary.json` (`palabrasNoEnTitulo`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
+
+## Menú sin «La Primera Pieza» (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| REQ-600 | «La Primera Pieza» fuera del menú (escritorio y celular, 6 idiomas); reversible con `MENU_PRIMERA_PIEZA` | `src/tours/lib/menu.ts`, `src/components/layout/Navbar.tsx` | `src/tours/lib/menu.test.ts`, `src/tours/lib/catalog-menu.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-601 | El pie enlaza /la-primera-pieza (no queda huérfana) solo con PRIMERA_PIEZA_ENABLED | `src/tours/lib/menu.ts` (`footerHubLinks`), `src/components/home/v2/SiteFooter.tsx` | `src/tours/lib/menu.test.ts` | CUMPLIDO (falta OK del PO) |
+Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
+
+## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-546 | Chips = Todo, Pieza libre y tipos con resultados por cantidad, etiquetas cortas | `src/tours/lib/format-chips.ts`, `src/components/tours/FormatChips.tsx`, `ToursPageClient.tsx` | `src/tours/lib/format-chips.test.ts` | CUMPLIDO tras TAXONOMY_FILTERS_ENABLED (apagada) |
+| REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
+| REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
+| REQ-549 | Etiquetas de chip = etiquetas de la tarjeta | `format-chips.ts` (`categoryLabel`) | `format-chips.test.ts` | CUMPLIDO |
 

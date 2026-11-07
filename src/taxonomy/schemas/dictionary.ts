@@ -39,6 +39,16 @@ const zFormato = base.extend({
   palabrasEnResumen: z.array(palabra).optional(),
   /** REQ-535: frases del título que bastan aunque la duración no lo diga (p. ej. «Excursión de un día» con 2:30 h mal cargado). */
   palabrasSinDuracion: z.array(palabra).optional(),
+  /** REQ-540: en `entradas`, palabras de guía (título o resumen) que la vuelven visita guiada con entrada incluida. */
+  palabrasConGuia: z.array(palabra).optional(),
+  /** REQ-541: en `experiencia-unica`, palabras de recorrido que anulan la regla por palabra (food tour ≠ Momentos de autor). */
+  palabrasRecorrido: z.array(palabra).optional(),
+  /** REQ-541: en `experiencia-unica`, palabras que ganan aunque el título diga «ruta» o «recorrido» (clase, taller, espectáculo). */
+  palabrasFuertes: z.array(palabra).optional(),
+  /** REQ-542: en `excursion-dia`, señales de que todo pasa dentro de la ciudad base («city tour», «París en un día»). */
+  palabrasEnCiudad: z.array(palabra).optional(),
+  /** REQ-542: en `excursion-dia`, salida explícita («desde X», «day trip to») que gana sobre palabrasEnCiudad. */
+  palabrasSaleSiempre: z.array(palabra).optional(),
   coleccion_es: z.string().optional(),
   termino_en_estado: z.enum(["por_firmar", "firmado"]).optional(),
   /** Nombre visible en pt/de/fr/it (plan §7.3). */

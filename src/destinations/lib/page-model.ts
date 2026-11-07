@@ -182,7 +182,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     badge: primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 }),
     notice,
     operatedBy: by,
-    labels: tax ? tourLabels(tax.formato, lang) : [],
+    labels: tax ? tourLabels(tax.formato, lang, tour.atributos ?? []) : [], // REQ-544: chips de atributos fuera de la foto
     jsonLd: [
       productJsonLd({ name: tour.title, url: canonicalUrl(siteUrl, tour.href), image: image ?? tour.image, provider: tour.provider, price: tour.isFreeTour ? 0 : tour.price, rating: tour.rating, reviews: tour.reviews }),
       crumbsLd(siteUrl, crumbs),
