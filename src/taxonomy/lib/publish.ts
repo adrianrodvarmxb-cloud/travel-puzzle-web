@@ -19,7 +19,7 @@ export function taxonomyPublishEnabled(env: { TAXONOMY_PUBLISH_ENABLED?: string 
 
 export interface CatalogTour { categoryId?: number | null; price: number | null; durationMinutes?: number | null; title: string }
 /** `guiaEnPersona`: el formato tiene guía en persona y el título no dice autoguiado o self-guided (decisión del PO, 6-11). */
-export interface CatalogClass { formato: FormatoOEstado; seccion: Seccion; guiaEnPersona: boolean }
+export interface CatalogClass { formato: FormatoOEstado; seccion: Seccion; guiaEnPersona: boolean; /** REQ-544: atributos (chips de la ficha). */ atributos?: string[] }
 export type CatalogClassifier = (t: CatalogTour) => CatalogClass;
 
 /** Clasificador de filas de FREETOUR del catálogo (sin categoría = por-revisar: falla cerrada). */
@@ -30,7 +30,7 @@ export function catalogClassifier(dict: Dictionary, mappings: Record<string, Map
     if (hit) return hit;
     const r = classify({ proveedor: "freetour", categoriaId: t.categoryId ?? null, precio: t.price, durationMinutes: t.durationMinutes ?? null, titulo: t.title }, dict, mappings, gates);
     const term = dict.terminos.find((x) => x.eje === "formato" && x.slug === r.formato) as { guiaEnPersona?: boolean } | undefined;
-    const out: CatalogClass = { formato: r.formato, seccion: r.seccion, guiaEnPersona: !!term?.guiaEnPersona && !r.atributos.includes("autoguiado") };
+    const out: CatalogClass = { formato: r.formato, seccion: r.seccion, guiaEnPersona: !!term?.guiaEnPersona && !r.atributos.includes("autoguiado"), atributos: r.atributos };
     memo.set(t, out);
     return out;
   };

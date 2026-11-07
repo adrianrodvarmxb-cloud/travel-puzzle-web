@@ -1,4 +1,4 @@
--- PROPUESTA, SIN APLICAR (REQ-550, Ola R2 «reclasificación con linaje»). Fuera de migrations/ a propósito. Va DESPUÉS de
+-- PROPUESTA, SIN APLICAR (REQ-750, Ola R2 «reclasificación con linaje»). Fuera de migrations/ a propósito. Va DESPUÉS de
 -- la 0017 (taxonomía) y de la 0022 (ProviderRecord). Para aplicarla: PR aparte que la mueva a migrations/ con el siguiente
 -- número libre, OK del PO y publicación a mano con la casilla «migraciones» (docs/runbooks/copia-exacta.md).
 --

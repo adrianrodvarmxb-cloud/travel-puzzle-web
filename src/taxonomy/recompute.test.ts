@@ -86,7 +86,7 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
     const d = db();
     for (let i = 0; i < 30; i++) {
       d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h')`).run(`w${String(i).padStart(2, "0")}`);
-      d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Caminata", "");
+      d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", ""); // REQ-541: «Caminata» en el título ya es a pie en cualquier categoría
     }
     await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
     d.exec(`UPDATE "Tour" SET "categoryId"=19 WHERE "id" LIKE 'w%'`);

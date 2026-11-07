@@ -15,6 +15,8 @@ describe("Lista de la prueba de humo con La Primera Pieza encendida (REQ-305)", 
     expect(config.optional).not.toContain("/nosotros");
     expect(parseSmokeConfig({ fixed: ["/"] }).flagged).toEqual({});
     expect(() => parseSmokeConfig({ fixed: ["/"], flagged: { NOSOTROS_ENABLED: ["nosotros"] } })).toThrow();
+    expect(config.flagged["BLOG_ENABLED+BLOG_SHOW_DRAFTS"]).toContain("/blog");
+    expect(() => parseSmokeConfig({ fixed: ["/"], flagged: { "BLOG_ENABLED+": ["/blog"] } })).toThrow();
   });
 
   it("REQ-305: revisa La Primera Pieza, destinos, país, ciudad y el sitemap", () => {

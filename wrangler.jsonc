@@ -100,7 +100,7 @@
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
     "TAXONOMY_PUBLISH_ENABLED": "false",
-    // Reclasificación con linaje (REQ-550…557, Ola R2): procedencia por término, mapeos por agencia desde la denominación
+    // Reclasificación con linaje (REQ-750…757, Ola R2): procedencia por término, mapeos por agencia desde la denominación
     // original y overrides manuales. Requiere TAXONOMY_SYNC_ENABLED y las migraciones 0022 y 0023 aplicadas (con OK del PO).
     // "true" con preview, prueba de humo y OK del PO.
     "TAXONOMY_LINEAGE_ENABLED": "false",
@@ -147,6 +147,11 @@
     // Página /asesores «Habla con un asesor de viaje» (REQ-250…252): WhatsApp del asesor y formulario corto. Apagada = 404.
     // "true" con preview encendido, prueba de humo y OK del PO.
     "EXPERTOS_ENABLED": "false",
+    // Blog /blog (REQ-253…263): índice, pilares y artículos desde src/blog/content. Apagada = 404 y sin enlace.
+    // "true" solo después de PRIMERA_PIEZA_ENABLED, con ≥3 artículos aprobados por Claudia y el PO, preview y prueba de humo.
+    "BLOG_ENABLED": "false",
+    // Solo para el preview: muestra los borradores (draft: true) con aviso y noindex. Nunca "true" en producción.
+    "BLOG_SHOW_DRAFTS": "false",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
@@ -154,7 +159,7 @@
     // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
     "VISA_ENABLED": "false",
     "ETIAS_ENABLED": "false",
-    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-540…548, Ola R1). Requiere, en este orden y cada paso
+    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-740…748, Ola R1). Requiere, en este orden y cada paso
     // con OK del PO: bucket privado travel-puzzle-raw, binding RAW_ARCHIVE en r2_buckets y migración 0022 aplicada
     // (docs/runbooks/copia-exacta.md). "true" con preview encendido y prueba de humo. Si falla, el sync sigue.
     "RAW_ARCHIVE_ENABLED": "false",

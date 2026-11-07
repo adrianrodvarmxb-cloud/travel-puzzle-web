@@ -16,18 +16,18 @@ const ins = (d: Db, hash = "h1", key = `raw/freetour/1/${hash}.json`) =>
   d.prepare(`INSERT INTO "ProviderRecord" ("id","provider","externalId","rawHash","r2Key","bytes","fetchedAt","lastSeenAt","runId") VALUES (?,?,?,?,?,?,?,?,?)`)
     .run(key, "freetour", "1", hash, key, 10, "2026-11-06T00:00:00Z", "2026-11-06T00:00:00Z", "r1");
 
-describe("REQ-546 migración propuesta 0022: índice ProviderRecord del archivo crudo", () => {
-  it("REQ-546 vive en docs/migraciones-propuestas y no en migrations/ (candado: la aplica el PO)", () => {
+describe("REQ-746 migración propuesta 0022: índice ProviderRecord del archivo crudo", () => {
+  it("REQ-746 vive en docs/migraciones-propuestas y no en migrations/ (candado: la aplica el PO)", () => {
     expect(() => readFileSync("migrations/0022_provider_record.sql")).toThrow();
   });
-  it("REQ-546 solo crea tablas e índices; no toca Tour, TourTranslation, Trip ni la taxonomía", () => {
+  it("REQ-746 solo crea tablas e índices; no toca Tour, TourTranslation, Trip ni la taxonomía", () => {
     const code = SQL_0022.replace(/--[^\n]*/g, "");
     expect(code).not.toMatch(/\b(ALTER|DROP|UPDATE|DELETE|INSERT)\b/i);
     expect(code).not.toMatch(/"(Tour|TourTranslation|Trip|ExperienceTaxonomy)"/);
     const tables = (db().prepare(`SELECT name FROM sqlite_master WHERE type='table' ORDER BY name`).all() as { name: string }[]).map((t) => t.name);
     expect(tables).toEqual(["ProviderDocument", "ProviderRecord", "Tour"]);
   });
-  it("REQ-546 tiene todas las columnas pedidas y se puede aplicar dos veces", () => {
+  it("REQ-746 tiene todas las columnas pedidas y se puede aplicar dos veces", () => {
     const d = db();
     d.exec(SQL_0022);
     const cols = (d.prepare(`PRAGMA table_info("ProviderRecord")`).all() as { name: string }[]).map((c) => c.name);
@@ -35,14 +35,14 @@ describe("REQ-546 migración propuesta 0022: índice ProviderRecord del archivo 
       expect(cols).toContain(c);
     }
   });
-  it("REQ-546 único por (provider, externalId, rawHash): la misma huella no crea otra versión", () => {
+  it("REQ-746 único por (provider, externalId, rawHash): la misma huella no crea otra versión", () => {
     const d = db();
     ins(d);
     expect(() => ins(d, "h1", "otra-clave")).toThrow();
     ins(d, "h2");
     expect(d.prepare(`SELECT COUNT(*) AS n FROM "ProviderRecord"`).all()).toEqual([{ n: 2 }]);
   });
-  it("REQ-546 rechaza un tipo de experiencia que no existe", () => {
+  it("REQ-746 rechaza un tipo de experiencia que no existe", () => {
     const d = db();
     expect(() => d.prepare(`INSERT INTO "ProviderRecord" ("id","provider","externalId","rawHash","r2Key","bytes","fetchedAt","lastSeenAt","runId","experienceKind") VALUES ('k','p','1','h','k',1,'x','x','r','hotel')`).run()).toThrow();
   });

@@ -55,7 +55,7 @@ export async function GET(request: Request) {
         // REQ-090: al cerrar cada corrida exitosa guarda el estado de indexación de las ciudades (14 días reales).
         indexing: createCityIndexRepo(getD1() as never),
         rebuildSearch: searchRebuilder(process.env, getD1), // REQ-048/365
-        // REQ-543: copia exacta de cada item de /tours en R2 privado, tras RAW_ARCHIVE_ENABLED (apagada). Si falla, sigue.
+        // REQ-743: copia exacta de cada item de /tours en R2 privado, tras RAW_ARCHIVE_ENABLED (apagada). Si falla, sigue.
         rawArchive: rawArchiveFromEnv(process.env as Record<string, string | undefined>),
       });
       // REQ-078: alerta si pasan más de 26 h sin un sync exitoso (queda en los logs del Worker).
@@ -75,7 +75,7 @@ export async function GET(request: Request) {
               mappings: DEFAULT_MAPPINGS,
               lastSyncAt: (await guardedRepo.lastSuccess())?.finishedAt.toISOString() ?? null,
               now,
-              // REQ-551/553/554 (Ola R2): linaje y overrides, tras TAXONOMY_LINEAGE_ENABLED (apagada; requiere 0022 y 0023).
+              // REQ-751/553/554 (Ola R2): linaje y overrides, tras TAXONOMY_LINEAGE_ENABLED (apagada; requiere 0022 y 0023).
               lineage: taxonomyLineageEnabled(process.env as Record<string, string | undefined>)
                 ? { repo: createLineageRepo(getD1() as never), agencyMappings: AGENCY_MAPPINGS }
                 : undefined,

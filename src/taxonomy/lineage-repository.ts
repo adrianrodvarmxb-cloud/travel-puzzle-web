@@ -1,5 +1,5 @@
 /**
- * Ola R2 (REQ-551, REQ-553, REQ-554): lecturas y escrituras del recálculo CON linaje. Necesita las migraciones 0017,
+ * Ola R2 (REQ-751, REQ-753, REQ-754): lecturas y escrituras del recálculo CON linaje. Necesita las migraciones 0017,
  * 0022 (ProviderRecord) y 0023 (columnas de procedencia); solo se usa con TAXONOMY_LINEAGE_ENABLED="true".
  * Lee Tour, Trip, ProviderRecord y ExperienceTaxonomyOverride; escribe SOLO en ExperienceTaxonomy (REQ-409).
  */
