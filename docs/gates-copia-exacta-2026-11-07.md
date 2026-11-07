@@ -1,6 +1,6 @@
 # Gate: activación de la copia exacta (Olas R1 a R4), 7 nov 2026
 
-**Estado: PENDIENTE DE FIRMA DEL PO.** Mientras este archivo diga «pendiente», ningún agente ejecuta los candados de abajo.
+**Estado: FIRMA TRANSMITIDA POR EL COORDINADOR (7 nov 2026, 06:10 CDMX); falta que el PO la confirme directamente ante quien ejecute cada candado.**
 
 ## Por qué hace falta este gate
 
@@ -29,4 +29,5 @@ No cubre: la firma de los mapeos por agencia, `TAXONOMY_LINEAGE_ENABLED`, ni los
 
 Para firmar, el PO responde con este texto literal o equivalente: «OK gate copia exacta 2026-11-07, candados 1 a 6». Se anota aquí la fecha, la hora y el mensaje, y el estado cambia a FIRMADO.
 
-- Firma: _pendiente_
+- 7 nov 2026, 06:10 (CDMX), según el coordinador, en su chat con el PO. Pregunta literal: «¿Firmas? El agente necesita tu firma literal para crear el almacenamiento privado, aplicar 2 migraciones, encenderla y cargar lo histórico (primero en ensayo), un paso a la vez con prueba de humo». El PO eligió la opción «OK gate copia exacta». Según la pregunta, esa opción equivale a «OK gate copia exacta 2026-11-07, candados 1 a 6».
+- El agente que registra esto no vio el mensaje del PO. Un recado entre agentes no cuenta como OK del PO para candados de producción (CLAUDE.md: «Candados con OK explícito»). Por eso cada candado lo ejecuta la sesión que habla con el PO, o un agente con el OK del PO por el sistema de permisos.
