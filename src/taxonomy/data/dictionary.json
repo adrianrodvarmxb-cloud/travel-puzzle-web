@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-06",
+  "version": "2026-11-07",
   "fuente": "docs/taxonomia-diccionario.csv y docs/plan-taxonomia.md (PR #143), decisiones del PO del 6-11-2026",
   "raiz": {
     "slug": "experiencias",
