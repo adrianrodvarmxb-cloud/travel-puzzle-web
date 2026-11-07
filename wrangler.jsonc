@@ -110,7 +110,7 @@
     "TAXONOMY_LINEAGE_ENABLED": "false",
     // Taxonomía T4 (REQ-412, REQ-413): /tours con «Tipo de experiencia» (?formato=), sin chips en cero, noindex en combinaciones
     // y ?tipo_act= traducido. "true" con preview, prueba de humo y OK del PO (después de TAXONOMY_PUBLISH_ENABLED).
-    "TAXONOMY_FILTERS_ENABLED": "false",
+    "TAXONOMY_FILTERS_ENABLED": "true",
     // Taxonomía T5 (REQ-414…416, REQ-433, G-T9): chips de formato en la ciudad, etiqueta en la ficha y copy por formato
     // («con un guía local» solo con guía en persona). Requiere TAXONOMY_PUBLISH_ENABLED. "true" con preview, humo y OK del PO.
     "TAXONOMY_LABELS_ENABLED": "true",
