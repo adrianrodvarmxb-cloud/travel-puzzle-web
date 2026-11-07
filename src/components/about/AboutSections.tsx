@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { SectionHeading } from '@/components/home/v2/SectionHeading';
 import { ProofStrip, type ProofCounts } from '@/components/home/v2/ProofStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';

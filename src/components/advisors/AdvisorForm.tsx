@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { LEGAL_PATHS } from '@/legal/lib/labels';
 import type { AdvisorCopy } from '@/advisors/lib/copy';
 

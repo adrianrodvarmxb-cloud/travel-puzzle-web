@@ -11,7 +11,7 @@ import { sitePagesFromEnv } from '@/site/lib/pages';
 import { aboutPageJsonLd, organizationWithContactJsonLd } from '@/seo/lib/pages-jsonld';
 import { breadcrumbJsonLd } from '@/seo/lib/jsonld';
 import { isHelpVisible } from '@/help/lib/faq';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { getPrisma } from '@/lib/prisma';
 import { loadHomeData, type HomeStats } from '@/home/load';
 import { cached, cacheKey, POLICY } from '@/cache/edge';
@@ -42,7 +42,7 @@ async function loadStats(lang: string, includePaid: boolean): Promise<HomeStats 
 export default async function NosotrosPage() {
   const env = process.env as Record<string, string | undefined>;
   if (!sitePagesFromEnv(env).nosotros) notFound();
-  const lang = await getPreferredLanguage();
+  const lang = await getRouteLanguage();
   const c = aboutContent(lang);
   const sections = visibleAboutSections(c);
   const stats = sections.some((s) => s.kind === 'stats') ? await loadStats(lang, env.PAID_TOURS_ENABLED === 'true') : null;

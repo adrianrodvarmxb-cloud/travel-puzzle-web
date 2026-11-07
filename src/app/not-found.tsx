@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { Navbar } from '@/components/layout/Navbar';
-import { getPreferredLanguage } from '@/lib/utils/cookies';
+import { getRouteLanguage } from '@/i18n/server';
 import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
@@ -11,7 +11,7 @@ const TEXT = {
 };
 
 export default async function NotFound() {
-    const lang = (await getPreferredLanguage()) === 'es' ? 'es' : 'en';
+    const lang = (await getRouteLanguage()) === 'es' ? 'es' : 'en';
     const t = TEXT[lang];
     const wa = process.env.WHATSAPP_NUMBER?.replace(/\D/g, '');
     // REQ-304: el mismo pie del home que el resto del sitio.

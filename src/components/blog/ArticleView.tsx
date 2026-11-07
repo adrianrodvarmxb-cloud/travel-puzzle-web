@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import { Inline } from './Inline';
 import { PostCard, type PostCardModel } from './PostCard';
