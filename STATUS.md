@@ -66,6 +66,7 @@ Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog
 | REQ-670 | Filtros: noindex, canonical del mismo idioma, sin hreflang | `src/i18n/lib/alternates.ts` (`hubAlternates`), `src/app/tours/page.tsx` | `alternates.test.ts` | CUMPLIDO (apagado) |
 | REQ-675 | Humo con /en/ y ficha en inglés tras la bandera | `tests/smoke/pages.json`, `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `src/ops/lib/smoke.test.ts` + humo del ensayo (#216) | CUMPLIDO |
 | REQ-676 | Contrato hreflang recíproco / canonical del mismo idioma | `src/i18n/lib/contract.ts`, `src/scripts/smoke.ts` | `src/i18n/lib/contract.test.ts` + humo del ensayo (#216) | CUMPLIDO |
+| REQ-677 | Encender `LOCALE_URLS_ENABLED` | `wrangler.jsonc`, `docs/gates-encendido-2026-11-06.md` | humo del preview con la bandera (#216 y este PR) | EN CURSO |
 
 ## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
 Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
