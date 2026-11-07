@@ -8,6 +8,8 @@
 - **Fuentes:** definiciones D01–D35 del chat (recopiladas por el coordinador), `taxonomia.md`, `taxonomia-diccionario.csv`, `Taxonomía de referentes`, `comparacion.md`, `Complementos_y_proveedores_API.md`, `barrido-proveedores.md`, `Taxonomia.docx` y `Pagina_Web_Travel_Puzzle.docx`.
 - **Taxonomía:** la audita otro agente en un frente aparte (lo que se ve en /tours, el filtro viejo «Tipo de actividad», los chips y las etiquetas). Al cierre de este documento no había ni PR ni INC suyo, así que esas filas dicen **EN AUDITORÍA APARTE** y solo se anota lo que se ve en producción.
 
+> **Actualización (PO, 7 nov 2026, 06:06):** «Pieza libre es la categoría que Travel Puzzle le da a los free tours, por lo tanto en la página en inglés debe decir Categoría: Free Puzzle». **REQ-1103 reemplaza a REQ-1102** (#243, ya en main): en inglés y en pt/de/fr/it la categoría es «Free Puzzle»; la corrección va en el PR #246. Donde abajo dice «En inglés: Free tour» (D10), manda REQ-1103.
+
 Estados: CUMPLIDO EN PRODUCCIÓN · CUMPLIDO TRAS BANDERA APAGADA · NO CUMPLIDO · SIN REQ · SIN TEST · DOCUMENTO DESACTUALIZADO · NO VERIFICADO (con el porqué) · EN AUDITORÍA APARTE.
 
 ## 1. Pruebas (corridas en esta sesión)
