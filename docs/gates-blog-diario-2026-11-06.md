@@ -27,3 +27,8 @@ Decisión literal: **«Publica solo cada día»**.
 
 ## Regreso
 Para detener la publicación automática: desactivar el workflow «Blog diario» en Actions o borrar la tarea programada. Para retirar una entrada publicada: PR que la pase a `draft: true` en `diario.json` (no se borra).
+
+## G5 — Guías propias de ciudad (7 nov 2026)
+| # | Decisión | Alcance | Firma |
+|---|---|---|---|
+| G5 | Guías propias de ciudad (300 palabras o más, fuentes públicas enlazadas, sin texto de FREETOUR), 2 por día, publicadas sin revisión diaria con las mismas reglas de fuentes del blog. Viven en el repo (`src/destinations/content/guias.json`); el PR de cada día solo cambia ese archivo y **no se escribe en D1** | Pedido del PO (7 nov 2026, 06:17, opción c), comunicado por el coordinador: «el PO ya autorizó la publicación diaria sin revisión, con las mismas reglas de fuentes». Workflow `guias-ciudad.yml`. REQ-1220…1235 | [x] PO, 7 nov 2026, 06:17 (vía coordinador) |

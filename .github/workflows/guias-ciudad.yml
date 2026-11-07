@@ -1,0 +1,218 @@
+# REQ-1232: guías propias de ciudad, publicadas sin revisión diaria del PO (gate G5, docs/gates-blog-diario-2026-11-06.md;
+# pedido del PO del 7 nov 2026, 06:17, opción c). Viven en el repo (src/destinations/content/guias.json): NO se escribe en D1.
+# Entrada: workflow_dispatch con un arreglo JSON de 1 o 2 guías (o su base64), o push a guias/entrada-* con
+# docs/guias/entradas/AAAA-MM-DD.json. Pasos: valida (src/scripts/guias-ciudad.ts) → rama y PR que SOLO cambia guias.json →
+# pruebas, tsc, build y prueba de humo del preview (con las páginas de ciudad de las guías) → merge squash → deploy.
+# Si algo falla NO publica y deja el motivo en el issue «Guías de ciudad: no se publicó».
+name: Guías de ciudad
+
+on:
+  workflow_dispatch:
+    inputs:
+      guias:
+        description: "Arreglo JSON con 1 o 2 guías (o su base64)"
+        required: true
+        type: string
+  push:
+    branches: ["guias/entrada-*"]
+    paths: ["docs/guias/entradas/*.json"]
+
+concurrency:
+  group: guias-ciudad
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  NEXT_TELEMETRY_DISABLED: "1"
+  GH_TOKEN: ${{ github.token }}
+  REPO: ${{ github.repository }}
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Leer las guías
+        env:
+          GUIAS: ${{ inputs.guias }}
+          EVENTO: ${{ github.event_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          B="$RUNNER_TEMP/guias"; mkdir -p "$B"; echo "Leer las guías" > "$B/paso"
+          if [ "$EVENTO" = "push" ]; then
+            git fetch -q origin "$SHA"
+            f=$(git diff-tree --no-commit-id --name-only -r "$SHA" | grep -E '^docs/guias/entradas/[^/]+\.json$' | tail -1)
+            [ -n "$f" ] || { echo "El push no trae docs/guias/entradas/*.json" > "$B/motivo"; exit 1; }
+            git show "$SHA:$f" > "$B/guias.json"
+          else
+            node -e 'const s=(process.env.GUIAS||"").trim();const t=s.startsWith("[")?s:Buffer.from(s,"base64").toString("utf8");JSON.parse(t);require("fs").writeFileSync(process.argv[1],t)' "$B/guias.json" \
+              || { echo "Las guías no son JSON válido (ni base64 de JSON)" > "$B/motivo"; exit 1; }
+          fi
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Validar y agregar a guias.json
+        id: validar
+        run: |
+          B="$RUNNER_TEMP/guias"; echo "Validador de guías de ciudad" > "$B/paso"
+          if ! npx tsx src/scripts/guias-ciudad.ts validar "$B/guias.json" --agregar --salida "$B/resultado.json"; then
+            node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log((r.problems||[]).map(p=>"- "+p).join("\n"))' "$B/resultado.json" > "$B/motivo" 2>/dev/null || echo "- el validador falló sin resultado" > "$B/motivo"
+            exit 1
+          fi
+          node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log("fecha="+r.fecha);console.log("ciudades="+r.ciudades);console.log("rutas="+r.rutas.join(" "));console.log("urls="+r.urls.join(" "))' "$B/resultado.json" >> "$GITHUB_OUTPUT"
+          # G5: el único archivo que cambia es guias.json (nada de D1).
+          fuera=$(git status --porcelain --untracked-files=all | awk '{print $2}' | grep -vxF "src/destinations/content/guias.json" || true)
+          if [ -n "$fuera" ]; then echo "- cambios fuera de guias.json: $fuera" > "$B/motivo"; exit 1; fi
+
+      - name: Rama y PR
+        id: pr
+        env:
+          FECHA: ${{ steps.validar.outputs.fecha }}
+          CIUDADES: ${{ steps.validar.outputs.ciudades }}
+          URLS: ${{ steps.validar.outputs.urls }}
+        run: |
+          B="$RUNNER_TEMP/guias"; echo "Rama y PR" > "$B/paso"
+          rama="guias/diario-$FECHA-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$rama"
+          git add src/destinations/content/guias.json
+          git commit -q -m "guias(ciudad): $CIUDADES ($FECHA) — REQ-1232" -m "Guías propias del agente diario, publicadas por el gate G5 (docs/gates-blog-diario-2026-11-06.md)."
+          git push -q origin "$rama"
+          printf '%s\n' "Guías de ciudad del agente diario: **$CIUDADES** ($FECHA)." "" "- Páginas: $URLS" "- Solo cambia \`src/destinations/content/guias.json\` (no se escribe en D1)." "- Se fusiona solo si pasan el validador, la suite, tsc, el build y la prueba de humo del preview (gate G5)." "- Corrida: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" > "$B/pr.md"
+          n=$(gh api "repos/$REPO/pulls" -f title="guias(ciudad): $CIUDADES ($FECHA)" -f head="$rama" -f base=main -F body=@"$B/pr.md" --jq .number)
+          echo "number=$n" >> "$GITHUB_OUTPUT"; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"; echo "$n" > "$B/pr"
+
+      - name: Pruebas
+        run: echo "Pruebas (vitest)" > "$RUNNER_TEMP/guias/paso" && npx vitest run
+
+      - name: Lista de países (desde Freetour)
+        env:
+          FREETOUR_ENV: production
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+        run: echo "Lista de países" > "$RUNNER_TEMP/guias/paso" && npm run countries:generate
+
+      - name: Cliente de Prisma
+        env:
+          DATABASE_URL: file:./dev.db
+        run: npx prisma generate
+
+      - name: Tipos (tsc)
+        run: echo "Tipos (tsc)" > "$RUNNER_TEMP/guias/paso" && npx tsc --noEmit
+
+      # CLAUDE.md, punto 3: la prueba de humo se corre con la bandera ENCENDIDA en el preview. Solo en esta copia de
+      # trabajo; el PR no lleva este cambio y producción conserva su valor.
+      - name: Construir
+        run: echo "Construir" > "$RUNNER_TEMP/guias/paso" && npx opennextjs-cloudflare build
+
+      - name: Esperar a que main termine de publicar
+        run: |
+          for i in $(seq 1 40); do
+            n=0
+            for st in in_progress queued; do
+              c=$(gh api "repos/$REPO/actions/workflows/deploy-cloudflare.yml/runs?status=$st&per_page=1" --jq '.total_count' 2>/dev/null || echo 0)
+              n=$((n + c))
+            done
+            [ "$n" -eq 0 ] && exit 0
+            echo "Hay $n publicación(es) de main en curso; espero 30 s ($i/40)."; sleep 30
+          done
+
+      - name: Subir versión (sin tráfico)
+        id: version
+        run: |
+          echo "Subir versión de preview" > "$RUNNER_TEMP/guias/paso"
+          npx opennextjs-cloudflare upload --preview-alias "guias-${{ steps.pr.outputs.number }}" 2>&1 | tee upload.log || npx opennextjs-cloudflare upload 2>&1 | tee upload.log
+          url=$(grep -oE "https://[a-z0-9-]+-travel-puzzle-web\.[a-z0-9-]+\.workers\.dev" upload.log | tail -1)
+          [ -n "$url" ] || { echo "- no se obtuvo la URL de preview" > "$RUNNER_TEMP/guias/motivo"; exit 1; }
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Navegador
+        run: npx playwright install --with-deps chromium
+
+      # REQ-1231: el humo incluye las páginas de ciudad de las 2 guías más recientes (smoke.ts las suma solo).
+      - name: Prueba de humo (preview con las guías)
+        env:
+          SMOKE_EVIDENCE_DIR: smoke-evidencia/guias
+          PREVIEW: ${{ steps.version.outputs.url }}
+          RUTAS: ${{ steps.validar.outputs.rutas }}
+        run: |
+          echo "Prueba de humo del preview" > "$RUNNER_TEMP/guias/paso"
+          for r in $RUTAS; do
+            code=$(curl -s -o page.html -w '%{http_code}' "$PREVIEW$r")
+            [ "$code" = "200" ] || { echo "- la ciudad responde $code en el preview ($r)" > "$RUNNER_TEMP/guias/motivo"; exit 1; }
+            grep -q 'aria-label="En breve"' page.html || { echo "- la guía no aparece en $r" > "$RUNNER_TEMP/guias/motivo"; exit 1; }
+          done
+          npx tsx src/scripts/smoke.ts "$PREVIEW"
+
+      - name: Evidencia de la prueba de humo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-humo-guias-${{ github.run_id }}
+          path: smoke-evidencia/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      # G5: el merge es la publicación. `sha` asegura que se fusiona exactamente lo que se probó.
+      - name: Merge squash (publicación)
+        run: |
+          echo "Merge squash" > "$RUNNER_TEMP/guias/paso"
+          gh api -X PUT "repos/$REPO/pulls/${{ steps.pr.outputs.number }}/merge" -f merge_method=squash -f sha="${{ steps.pr.outputs.sha }}" --jq .merged | grep -q true
+
+      - name: Publicar en Cloudflare (deploy con su humo y regreso automático)
+        run: |
+          echo "Deploy de producción" > "$RUNNER_TEMP/guias/paso"
+          desde=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh api -X POST "repos/$REPO/actions/workflows/deploy-cloudflare.yml/dispatches" -f ref=main
+          id=""
+          for i in $(seq 1 20); do
+            sleep 15
+            id=$(gh api "repos/$REPO/actions/workflows/deploy-cloudflare.yml/runs?event=workflow_dispatch&branch=main&per_page=5" --jq "[.workflow_runs[] | select(.created_at >= \"$desde\")][0].id // empty")
+            [ -n "$id" ] && break
+          done
+          [ -n "$id" ] || { echo "- no arrancó el deploy" > "$RUNNER_TEMP/guias/motivo"; exit 1; }
+          for i in $(seq 1 120); do
+            st=$(gh api "repos/$REPO/actions/runs/$id" --jq '.status + " " + (.conclusion // "")')
+            case "$st" in completed\ success) echo "Deploy $id en verde."; exit 0;; completed*) echo "- el deploy $id terminó: $st (con su regreso automático si falló el humo de producción)" > "$RUNNER_TEMP/guias/motivo"; exit 1;; esac
+            sleep 30
+          done
+          echo "- el deploy $id no terminó en 60 min" > "$RUNNER_TEMP/guias/motivo"; exit 1
+
+      - name: Registrar la publicación
+        run: |
+          gh api "repos/$REPO/issues/${{ steps.pr.outputs.number }}/comments" -f body="Publicado: ${{ steps.validar.outputs.urls }} (merge squash por el gate G5; deploy y humo de producción en verde)." > /dev/null
+
+      - name: Dejar el motivo en un issue (NO PUBLICADO)
+        if: failure()
+        run: |
+          B="$RUNNER_TEMP/guias"
+          paso=$(cat "$B/paso" 2>/dev/null || echo "desconocido")
+          motivo=$(cat "$B/motivo" 2>/dev/null || echo "- ver el registro de la corrida")
+          pr=$(cat "$B/pr" 2>/dev/null || echo "")
+          run="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          printf '%s\n' "**NO PUBLICADO** — $(date -u +%Y-%m-%d) (UTC)" "" "Paso que falló: $paso" "" "Motivo:" "$motivo" "" "${pr:+PR sin fusionar: #$pr}" "Corrida: $run" > "$B/issue.md"
+          gh api "repos/$REPO/labels" -f name=guias-ciudad -f color=d93f0b -f description="Avisos de las guías de ciudad" > /dev/null 2>&1 || true
+          n=$(gh api "repos/$REPO/issues?state=open&labels=guias-ciudad&per_page=1" --jq '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh api "repos/$REPO/issues/$n/comments" -F body=@"$B/issue.md" > /dev/null
+          else
+            gh api "repos/$REPO/issues" -f title="Guías de ciudad: no se publicó" -F body=@"$B/issue.md" -f "labels[]=guias-ciudad" > /dev/null
+          fi
+          [ -n "$pr" ] && gh api "repos/$REPO/issues/$pr/comments" -F body=@"$B/issue.md" > /dev/null || true

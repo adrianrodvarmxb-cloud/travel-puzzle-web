@@ -18,6 +18,8 @@ import { PRIMERA_PIEZA_LABEL } from '@/tours/lib/menu';
 import { providerCities, type TripCitiesDb } from '@/companions/load';
 import { getPrisma } from '@/lib/prisma';
 import { loadFx } from '@/trips/public-load';
+import { guideFor } from '@/destinations/guias';
+import { CityGuideView } from '@/components/destinations/CityGuideView';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string }> };
@@ -58,6 +60,7 @@ export default async function CityPage({ params }: Props) {
     // REQ-665: las etiquetas por formato (T5) solo existen en español; en otro idioma, las plantillas traducidas.
     const labels = taxonomyLabelsEnabled(env) && lang === 'es';
     const es = lang === 'es';
+    const guia = guideFor(pais, ciudad); // REQ-1230
     return (
         <DestinationsLayout eyebrow={country.name} h1={p.h1} crumbs={p.crumbs} featured={p.featured} jsonLd={p.jsonLd}
             intro={labels ? cityIntro(city.name, city.freeTours.length, tours) : es ? cityFreeIntro(city.name, city.freeTours.length, tours.length) : k.cityFreeIntro(city.name, city.freeTours.length, tours.length)}>
@@ -90,7 +93,12 @@ export default async function CityPage({ params }: Props) {
                     </ul>}
                 </Section>
             )}
-            {city.guide && (
+            {/* REQ-1230: la guía propia del repo se pinta con sus enlaces y fuentes; si no hay, la de D1 como texto */}
+            {guia && es ? (
+                <Section id="guia" title={guia.titulo}>
+                    <CityGuideView g={guia} />
+                </Section>
+            ) : city.guide && (
                 <Section id="guia" title={k.guide(city.name)}>
                     <div className="mt-4 max-w-3xl whitespace-pre-line leading-relaxed text-[#D5DCEE]">{city.guide}</div>
                 </Section>
