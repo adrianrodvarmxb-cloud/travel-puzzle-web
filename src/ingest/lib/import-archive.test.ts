@@ -26,6 +26,11 @@ describe("REQ-745 imports: la copia exacta guarda el item completo (source, hold
     expect(a.row).toMatchObject({ experienceKind: "trip", experienceId: "ext-aaa", sourceRef: "Programa demo (código AAA)", runId: "imp-1" });
     expect(p.writes[1].row.sourcePage).toBe(7);
   });
+  it("REQ-753 el índice guarda la denominación original y lo declarado en taxonomia", async () => {
+    const b = { ...bundle, agency: { ...bundle.agency, id: "ag-fch", initials: "FCH" }, trips: [{ ref: "FCH-R1", taxonomia: { formato: "circuito" }, trip: {} }] };
+    const p = await planImportArchive(b, ctx);
+    expect(p.writes[0].row).toMatchObject({ originalField: "ref", originalCategory: "TOUR REGULAR", declaredTaxonomy: '{"formato":"circuito"}' });
+  });
   it("REQ-745 el documento original (PDF) va a source/<agencia>/… y cada viaje apunta a él", async () => {
     const doc = await documentFor("extime", "Programa Invierno 2026.pdf", new TextEncoder().encode("%PDF-demo"), ctx.now);
     const p = await planImportArchive(bundle, { ...ctx, doc });
