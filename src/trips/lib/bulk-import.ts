@@ -8,6 +8,12 @@ import { slugify } from "./trip";
 import { priceFrom } from "./pricing";
 import { publishChecklist } from "./publish";
 import type { TripInput } from "../schemas/trip";
+import { tripFormatDecision } from "@/tours/lib/card-format";
+import { DEFAULT_DICTIONARY } from "@/taxonomy/data";
+import { DUDA } from "@/taxonomy/lib/format";
+
+/** REQ-1348: formatos del diccionario con los que un viaje se puede publicar (activos; nunca por-revisar ni fuera). */
+const FORMATOS_PUBLICABLES = new Set(DEFAULT_DICTIONARY.terminos.filter((t) => t.eje === "formato" && t.estado === "activo" && !["por-revisar", "fuera"].includes(t.slug)).map((t) => t.slug));
 
 export interface ImportRow {
   ref: string; // referencia del operador, p. ej. "LIM-01"
@@ -15,7 +21,11 @@ export interface ImportRow {
   trip: TripInput; // ya validado con tripInputSchema
 }
 export interface ImportAgency { id: string; name: string; initials: string; contactName?: string; email?: string; phone?: string; notes?: string }
-export interface ImportResult { sql: string[]; report: { ref: string; code: string; slug: string; status: string; missing: string[] }[] }
+export interface ImportResult {
+  sql: string[];
+  /** REQ-1348: formato del diccionario y si va a la lista de dudas del PO (sin formato, o decidido sin señal). */
+  report: { ref: string; code: string; slug: string; status: string; missing: string[]; formato: string; duda: boolean }[];
+}
 
 const q = (v: unknown): string => {
   if (v === null || v === undefined) return "NULL";
@@ -56,8 +66,12 @@ export function buildImportSql(rows: ImportRow[], agency: ImportAgency, now: str
     const code = tripCode({ initials: agency.initials, countries: t.countries, kind: t.kind, durationDays: t.durationDays, seq });
     const slug = slugify(t.titleEs, code);
     const missing = row.status === "published" ? publishChecklist(t) : [];
+    // REQ-1348: sin formato del diccionario no se publica; queda en borrador y va a dudas.
+    const f = tripFormatDecision({ kind: t.kind, priceFrom: priceFrom(t.options), durationDays: t.durationDays, titles: [t.titleEs, t.titleEn], resumen: t.summaryEs });
+    const sinFormato = !FORMATOS_PUBLICABLES.has(f.valor);
+    if (sinFormato && row.status === "published") missing.push(`formato del diccionario (${f.valor}: ${f.regla})`);
     const status = missing.length ? "draft" : row.status;
-    report.push({ ref: row.ref, code, slug, status, missing });
+    report.push({ ref: row.ref, code, slug, status, missing, formato: f.valor, duda: sinFormato || f.regla.startsWith(DUDA) });
 
     const cols: Record<string, unknown> = {
       id: idFor(agency.initials, row.ref), slug, code, kind: t.kind, purchaseMode: t.purchaseMode, status,

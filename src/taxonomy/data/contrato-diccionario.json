@@ -1,0 +1,2934 @@
+{
+ "version": 1,
+ "fuente": "docs/taxonomia-diccionario.csv (145 filas)",
+ "filas": [
+  {
+   "fila": 1,
+   "tabla": "termino",
+   "slug": "pieza-libre",
+   "termino": "La Primera Pieza (free tour)",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "pieza-libre",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "pieza-libre"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 2,
+   "tabla": "termino",
+   "slug": "caminata",
+   "termino": "Caminata",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "caminata",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "caminata"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 3,
+   "tabla": "termino",
+   "slug": "tour",
+   "termino": "Tour",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "tour",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "tour"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 4,
+   "tabla": "termino",
+   "slug": "visita-guiada",
+   "termino": "Visita guiada",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "visita-guiada",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "visita-guiada"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 5,
+   "tabla": "termino",
+   "slug": "excursion-dia",
+   "termino": "Excursión de un día",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "excursion-dia",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "excursion-dia"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 6,
+   "tabla": "termino",
+   "slug": "circuito",
+   "termino": "Circuito (varios días)",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "circuito",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "circuito"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 7,
+   "tabla": "termino",
+   "slug": "experiencia-unica",
+   "termino": "Momentos de autor",
+   "estadoCsv": "activo (nombre firmado por el PO el 6-11, 06:22; slug interno sin cambio)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "experiencia-unica",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "experiencia-unica"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 8,
+   "tabla": "termino",
+   "slug": "entradas",
+   "termino": "Entradas y pases",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "entradas",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "entradas"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 9,
+   "tabla": "termino",
+   "slug": "autoguiado",
+   "termino": "Autoguiado (audioguía)",
+   "estadoCsv": "activo (copy sin «con un guía local»)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "autoguiado",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "autoguiado"
+    }
+   ],
+   "nota": "chip y filtro «Tipo de experiencia» en /tours"
+  },
+  {
+   "fila": 10,
+   "tabla": "termino",
+   "slug": "transporte",
+   "termino": "Transporte turístico",
+   "estadoCsv": "tras TRANSPORT_ENABLED=false",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "transporte",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TRANSPORT_ENABLED",
+     "valor": "true"
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/trips/lib/public.ts",
+     "contiene": "export function transportTrips"
+    }
+   ],
+   "nota": "cambio firmado después del CSV: REQ-172, el transporte vive en /traslados con TRANSPORT_ENABLED encendida"
+  },
+  {
+   "fila": 11,
+   "tabla": "termino",
+   "slug": "traslado",
+   "termino": "Traslado",
+   "estadoCsv": "activo (/traslados)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "traslado",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/app/traslados/page.tsx",
+     "contiene": "export default"
+    }
+   ],
+   "nota": "sección /traslados"
+  },
+  {
+   "fila": 12,
+   "tabla": "termino",
+   "slug": "a-la-medida",
+   "termino": "Viaje a la medida",
+   "estadoCsv": "activo (a cotizar)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "a-la-medida",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "slug": "a-la-medida"
+    }
+   ],
+   "nota": "a cotizar"
+  },
+  {
+   "fila": 13,
+   "tabla": "termino",
+   "slug": "alquiler",
+   "termino": "Alquiler",
+   "estadoCsv": "tras bandera (0)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "alquiler",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 14,
+   "tabla": "termino",
+   "slug": "crucero",
+   "termino": "Crucero",
+   "estadoCsv": "tras bandera (0)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "crucero",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 15,
+   "tabla": "termino",
+   "slug": "fuera",
+   "termino": "(no se muestra en Experiencias ni Destinos)",
+   "estadoCsv": "oculto (gate G6)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "fuera",
+     "estados": [
+      "oculto"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/publish.ts",
+     "contiene": "formato === \"fuera\""
+    }
+   ],
+   "nota": "oculto. Cambios firmados después del CSV: la cat. 8 va por su tipo real (REQ-1262) y la 31 a «esenciales-viaje» (REQ-1263)"
+  },
+  {
+   "fila": 16,
+   "tabla": "termino",
+   "slug": "cultural",
+   "termino": "Cultural e historia",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "cultural",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 17,
+   "tabla": "termino",
+   "slug": "urbano",
+   "termino": "Ciudad y barrios",
+   "estadoCsv": "activo como base, no como filtro (marca 70 %)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "urbano",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "activo como base, no como filtro: la regla vive en src/taxonomy/lib/themes.ts"
+  },
+  {
+   "fila": 18,
+   "tabla": "termino",
+   "slug": "gastronomia",
+   "termino": "Gastronomía",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "gastronomia",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 19,
+   "tabla": "termino",
+   "slug": "naturaleza",
+   "termino": "Naturaleza",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "naturaleza",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 20,
+   "tabla": "termino",
+   "slug": "montana-senderismo",
+   "termino": "Montaña y senderismo",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "montana-senderismo",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 21,
+   "tabla": "termino",
+   "slug": "aventura",
+   "termino": "Aventura",
+   "estadoCsv": "activo (muestra ≥90 %; revisar falsos positivos)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "aventura",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 22,
+   "tabla": "termino",
+   "slug": "playa-mar",
+   "termino": "Playa y mar",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "playa-mar",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 23,
+   "tabla": "termino",
+   "slug": "noche-espectaculos",
+   "termino": "Noche y espectáculos",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "noche-espectaculos",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 24,
+   "tabla": "termino",
+   "slug": "religioso",
+   "termino": "Religioso y espiritual",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "religioso",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 25,
+   "tabla": "termino",
+   "slug": "bienestar",
+   "termino": "Bienestar",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "bienestar",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 26,
+   "tabla": "termino",
+   "slug": "talleres-aprendizaje",
+   "termino": "Talleres y aprendizaje",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "talleres-aprendizaje",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 27,
+   "tabla": "termino",
+   "slug": "deportivo",
+   "termino": "Deportes",
+   "estadoCsv": "activo (muestra ≥90 %)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "deportivo",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 28,
+   "tabla": "termino",
+   "slug": "parques-ocio",
+   "termino": "Parques y ocio",
+   "estadoCsv": "activo (muestra ≥90 %; revisar «game»)",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "parques-ocio",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "la regla existe (themes.ts), pero no hay chip ni filtro de tema: espera la revisión manual",
+   "folio": "REQ-1317"
+  },
+  {
+   "fila": 29,
+   "tabla": "taxonomia2-original",
+   "slug": "ecoturismo-cultural",
+   "termino": "Ecoturismo-Cultural",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Ecoturismo-Cultural",
+     "a": "Naturaleza"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 30,
+   "tabla": "taxonomia2-original",
+   "slug": "trekks",
+   "termino": "Trekks (pistas)",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Trekks",
+     "a": "Montaña y senderismo"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 31,
+   "tabla": "taxonomia2-original",
+   "slug": "trekking",
+   "termino": "Trekking",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Trekking",
+     "a": "Montaña y senderismo"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 32,
+   "tabla": "taxonomia2-original",
+   "slug": "hikes",
+   "termino": "Hikes (caminatas)",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Hikes",
+     "a": "Montaña y senderismo"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 33,
+   "tabla": "taxonomia2-original",
+   "slug": "senderismo",
+   "termino": "Senderismo",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Senderismo",
+     "a": "Montaña y senderismo"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 34,
+   "tabla": "taxonomia2-original",
+   "slug": "escalada",
+   "termino": "Escalada / Escalada en roca",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Escalada",
+     "a": "Aventura"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 35,
+   "tabla": "taxonomia2-original",
+   "slug": "espeleismo",
+   "termino": "Espeleísmo",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Espeleísmo",
+     "a": "Aventura"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 36,
+   "tabla": "taxonomia2-original",
+   "slug": "relax",
+   "termino": "Relax",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Relax",
+     "a": "Bienestar"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 37,
+   "tabla": "taxonomia2-original",
+   "slug": "salud",
+   "termino": "Salud",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Salud",
+     "a": "Bienestar"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 38,
+   "tabla": "taxonomia2-original",
+   "slug": "tematica",
+   "termino": "Temática",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Temática",
+     "a": "Parques y ocio"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 39,
+   "tabla": "taxonomia2-original",
+   "slug": "educativo",
+   "termino": "Educativo",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Educativo",
+     "a": "Talleres y aprendizaje"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 40,
+   "tabla": "taxonomia2-original",
+   "slug": "buceo",
+   "termino": "Buceo",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Buceo",
+     "a": "Playa y mar"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 41,
+   "tabla": "taxonomia2-original",
+   "slug": "avistamiento-aves",
+   "termino": "Avistamiento de Aves",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Avistamiento de Aves",
+     "a": "Naturaleza"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 42,
+   "tabla": "taxonomia2-original",
+   "slug": "montana",
+   "termino": "Montaña",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Montaña",
+     "a": "Montaña y senderismo"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 43,
+   "tabla": "taxonomia2-original",
+   "slug": "playa",
+   "termino": "Playa",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Playa",
+     "a": "Playa y mar"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 44,
+   "tabla": "taxonomia2-original",
+   "slug": "ecoturismo",
+   "termino": "Ecoturismo",
+   "estadoCsv": "sobra/fusionado",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "sinonimo",
+     "de": "Ecoturismo",
+     "a": "Naturaleza"
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
+   "folio": "REQ-1357"
+  },
+  {
+   "fila": 45,
+   "tabla": "taxonomia2-original",
+   "slug": "experiencias-gastronomicas",
+   "termino": "Experiencias Gastronómicas",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "gastronomia",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "sinonimo",
+     "de": "Experiencias Gastronómicas",
+     "a": "Gastronomía"
+    }
+   ],
+   "nota": "se conserva como el tema «gastronomia» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 46,
+   "tabla": "taxonomia2-original",
+   "slug": "parques-tematicos",
+   "termino": "Parques Temáticos",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "parques-ocio",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "sinonimo",
+     "de": "Parques Temáticos",
+     "a": "Parques y ocio"
+    }
+   ],
+   "nota": "se conserva como el tema «parques-ocio» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 47,
+   "tabla": "taxonomia2-original",
+   "slug": "urbano",
+   "termino": "Urbano",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "urbano",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "sinonimo",
+     "de": "Urbano",
+     "a": "Ciudad y barrios"
+    }
+   ],
+   "nota": "se conserva como el tema «urbano» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 48,
+   "tabla": "taxonomia2-original",
+   "slug": "aventura",
+   "termino": "Aventura",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "aventura",
+     "estados": [
+      "muestra"
+     ]
+    }
+   ],
+   "nota": "se conserva como el tema «aventura» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 49,
+   "tabla": "taxonomia2-original",
+   "slug": "cultural",
+   "termino": "Cultural",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "cultural",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "sinonimo",
+     "de": "Cultural",
+     "a": "Cultural e historia"
+    }
+   ],
+   "nota": "se conserva como el tema «cultural» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 50,
+   "tabla": "taxonomia2-original",
+   "slug": "naturaleza",
+   "termino": "Naturaleza",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "naturaleza",
+     "estados": [
+      "muestra"
+     ]
+    }
+   ],
+   "nota": "se conserva como el tema «naturaleza» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 51,
+   "tabla": "taxonomia2-original",
+   "slug": "deportivo",
+   "termino": "Deportivo",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "deportivo",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "sinonimo",
+     "de": "Deportivo",
+     "a": "Deportes"
+    }
+   ],
+   "nota": "se conserva como el tema «deportivo» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 52,
+   "tabla": "taxonomia2-original",
+   "slug": "religioso",
+   "termino": "Religioso",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "religioso",
+     "estados": [
+      "muestra"
+     ]
+    },
+    {
+     "tipo": "sinonimo",
+     "de": "Religioso",
+     "a": "Religioso y espiritual"
+    }
+   ],
+   "nota": "se conserva como el tema «religioso» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 53,
+   "tabla": "taxonomia2-original",
+   "slug": "bienestar",
+   "termino": "Bienestar",
+   "estadoCsv": "se mantiene",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "bienestar",
+     "estados": [
+      "muestra"
+     ]
+    }
+   ],
+   "nota": "se conserva como el tema «bienestar» (su visibilidad es la de las filas 16–28)"
+  },
+  {
+   "fila": 54,
+   "tabla": "faceta",
+   "slug": "dur-horas",
+   "termino": "Duración (horas): <2 h, 2-4 h, 4-8 h, >8 h",
+   "estadoCsv": "activa",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "dur-horas",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/components/tours/filters/MoreFilters.tsx",
+     "contiene": "<DurationSlider"
+    }
+   ],
+   "nota": "filtro de duración en /tours"
+  },
+  {
+   "fila": 55,
+   "tabla": "faceta",
+   "slug": "dur-dias",
+   "termino": "Duración (días): 1-5, 6-9, 10-14, 15+",
+   "estadoCsv": "activa en circuitos (reemplaza 1-5 / 6-14 / 15+)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "dur-dias",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUITS_ENABLED",
+     "valor": "false"
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/circuit-facts.ts",
+     "contiene": "\"dur-dias\""
+    }
+   ],
+   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (apagada)",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 56,
+   "tabla": "faceta",
+   "slug": "precio",
+   "termino": "Precio: propina · deslizador por rango (EUR con MXN aprox.)",
+   "estadoCsv": "activa",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "precio",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/components/tours/filters/MoreFilters.tsx",
+     "contiene": "<PriceSlider"
+    }
+   ],
+   "nota": "deslizador de precio en /tours"
+  },
+  {
+   "fila": 57,
+   "tabla": "faceta",
+   "slug": "medio",
+   "termino": "Cómo te mueves: a pie, bici, vehículo, barco (tren, avión en circuitos)",
+   "estadoCsv": "activa",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "medio",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "medio:"
+    }
+   ],
+   "nota": "el atributo se calcula, pero /tours no tiene el filtro «Cómo te mueves»",
+   "folio": "REQ-1351"
+  },
+  {
+   "fila": 58,
+   "tabla": "faceta",
+   "slug": "privado",
+   "termino": "Privado",
+   "estadoCsv": "activa",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "privado",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/components/tours/filters/MoreFilters.tsx",
+     "contiene": "privateOnly"
+    }
+   ],
+   "nota": "filtro «Privado» en /tours"
+  },
+  {
+   "fila": 59,
+   "tabla": "faceta",
+   "slug": "nocturno",
+   "termino": "Nocturno",
+   "estadoCsv": "activa",
+   "cumplimiento": "FALTA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "nocturno",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "\"nocturno\""
+    }
+   ],
+   "nota": "el atributo se calcula, pero /tours no tiene el filtro «Nocturno»",
+   "folio": "REQ-1351"
+  },
+  {
+   "fila": 60,
+   "tabla": "faceta",
+   "slug": "presupuesto",
+   "termino": "Presupuesto (Taxonomía 5) → fusionado en confort",
+   "estadoCsv": "reemplazado",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "presupuesto",
+     "estados": [
+      "descartado"
+     ]
+    }
+   ],
+   "nota": "reemplazado por circuito-confort (fila 131)"
+  },
+  {
+   "fila": 61,
+   "tabla": "faceta",
+   "slug": "modalidad",
+   "termino": "Modalidad (Taxonomía 4) → dividida en tipo de grupo, tipo de guía y perfil del viajero",
+   "estadoCsv": "reemplazado",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "modalidad",
+     "estados": [
+      "descartado"
+     ]
+    }
+   ],
+   "nota": "reemplazado por tipo de grupo, tipo de guía y perfil (filas 132–134)"
+  },
+  {
+   "fila": 62,
+   "tabla": "faceta",
+   "slug": "temporada",
+   "termino": "Temporada",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "temporada",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 63,
+   "tabla": "faceta",
+   "slug": "accesibilidad",
+   "termino": "Accesibilidad",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "accesible",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "en el código es el atributo «accesible»; estado tras_bandera (sin variable propia)"
+  },
+  {
+   "fila": 64,
+   "tabla": "faceta",
+   "slug": "eventos",
+   "termino": "Eventos especiales (Taxonomía 7) · Evento del mes",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "eventos",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 65,
+   "tabla": "faceta",
+   "slug": "etiquetas-especiales",
+   "termino": "Etiquetas especiales (Taxonomía 10) → pasan al eje Atributos",
+   "estadoCsv": "reemplazado",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "reemplazado: pasa al eje Atributos (filas 113–130)"
+  },
+  {
+   "fila": 66,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:3",
+   "termino": "Cruceros y barcos",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "3",
+     "formato": "tour"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 67,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:4",
+   "termino": "Viajes de 1 Día",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "4",
+     "formato": "excursion-dia"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 68,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:5",
+   "termino": "Tour Gastronómico",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "5",
+     "formato": "tour"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 69,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:7",
+   "termino": "Vida Nocturna",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "7",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 70,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:8",
+   "termino": "Tour Online",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "8",
+     "formato": "tour"
+    }
+   ],
+   "nota": "cambio firmado (REQ-1262): base tour, y cada tour cae en un solo tipo real (en-linea, entradas, traslado…)"
+  },
+  {
+   "fila": 71,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:10",
+   "termino": "Tour Corriendo",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "10",
+     "formato": "caminata"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 72,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:12",
+   "termino": "Tour a Pie",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "12",
+     "formato": "caminata"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 73,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:13",
+   "termino": "Otros",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "13",
+     "formato": "tour"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 74,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:14",
+   "termino": "Top selección",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "14",
+     "formato": "tour"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 75,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:16",
+   "termino": "Tours de aventura",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "16",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 76,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:17",
+   "termino": "Audioguías",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "17",
+     "formato": "autoguiado"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 77,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:18",
+   "termino": "Aviación",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "18",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 78,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:19",
+   "termino": "Tours en vehículo por la ciudad",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "19",
+     "formato": "tour"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 79,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:20",
+   "termino": "Entradas",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "20",
+     "formato": "entradas"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 80,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:21",
+   "termino": "Juegos y ocio",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "21",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 81,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:22",
+   "termino": "Sitios históricos",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "22",
+     "formato": "visita-guiada"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 82,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:23",
+   "termino": "Deportes de motor",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "23",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 83,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:24",
+   "termino": "Museos",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "24",
+     "formato": "entradas"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 84,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:25",
+   "termino": "Naturaleza y parques",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "25",
+     "formato": "tour"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 85,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:26",
+   "termino": "Alquileres",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "26",
+     "formato": "alquiler"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 86,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:27",
+   "termino": "Espectáculos en vivo",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "27",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 87,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:28",
+   "termino": "Pases urbanos",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "28",
+     "formato": "entradas"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 88,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:29",
+   "termino": "Traslados",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "29",
+     "formato": "traslado"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 89,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:30",
+   "termino": "Transporte público",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "30",
+     "formato": "transporte"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 90,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:31",
+   "termino": "Servicios de viaje",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "31",
+     "formato": "esenciales-viaje"
+    }
+   ],
+   "nota": "cambio firmado (REQ-1263): «esenciales-viaje», tras bandera"
+  },
+  {
+   "fila": 91,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:32",
+   "termino": "Actividades acuáticas",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "32",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 92,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:33",
+   "termino": "Bienestar",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "33",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 93,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:34",
+   "termino": "Talleres",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "34",
+     "formato": "experiencia-unica"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 94,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:35",
+   "termino": "Zoológicos y acuarios",
+   "estadoCsv": "mapeado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeo",
+     "proveedor": "freetour",
+     "id": "35",
+     "formato": "entradas"
+    }
+   ],
+   "nota": "un solo formato base"
+  },
+  {
+   "fila": 95,
+   "tabla": "identidad",
+   "slug": "Experiencia (Tour)",
+   "termino": "Experiencia (Tour)",
+   "estadoCsv": "propuesta (gate G7)",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [],
+   "nota": "propuesta del gate G7, sin firma"
+  },
+  {
+   "fila": 96,
+   "tabla": "identidad",
+   "slug": "Viaje propio (Trip)",
+   "termino": "Viaje propio (Trip)",
+   "estadoCsv": "propuesta (gate G7)",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [],
+   "nota": "propuesta del gate G7, sin firma"
+  },
+  {
+   "fila": 97,
+   "tabla": "identidad",
+   "slug": "Ciudad",
+   "termino": "Ciudad",
+   "estadoCsv": "propuesta (gate G7)",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [],
+   "nota": "propuesta del gate G7, sin firma"
+  },
+  {
+   "fila": 98,
+   "tabla": "identidad",
+   "slug": "País",
+   "termino": "País",
+   "estadoCsv": "propuesta (gate G7)",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [],
+   "nota": "propuesta del gate G7, sin firma"
+  },
+  {
+   "fila": 99,
+   "tabla": "identidad",
+   "slug": "Categoría",
+   "termino": "Categoría",
+   "estadoCsv": "propuesta (gate G7)",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [],
+   "nota": "propuesta del gate G7, sin firma"
+  },
+  {
+   "fila": 100,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:1",
+   "termino": "Tour en Bici (ya no existe)",
+   "estadoCsv": "gone (histórico)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "historico",
+     "proveedor": "freetour",
+     "id": "1"
+    }
+   ],
+   "nota": "histórico: si reaparece, cae en por-revisar y no se publica"
+  },
+  {
+   "fila": 101,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:2",
+   "termino": "Tour en Bus (ya no existe)",
+   "estadoCsv": "gone (histórico)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "historico",
+     "proveedor": "freetour",
+     "id": "2"
+    }
+   ],
+   "nota": "histórico: si reaparece, cae en por-revisar y no se publica"
+  },
+  {
+   "fila": 102,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:6",
+   "termino": "(id retirado; nombre desconocido)",
+   "estadoCsv": "gone (histórico)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "historico",
+     "proveedor": "freetour",
+     "id": "6"
+    }
+   ],
+   "nota": "histórico: si reaparece, cae en por-revisar y no se publica"
+  },
+  {
+   "fila": 103,
+   "tabla": "mapeo-freetour",
+   "slug": "freetour:9",
+   "termino": "(id retirado; nombre desconocido)",
+   "estadoCsv": "gone (histórico)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "historico",
+     "proveedor": "freetour",
+     "id": "9"
+    }
+   ],
+   "nota": "histórico: si reaparece, cae en por-revisar y no se publica"
+  },
+  {
+   "fila": 104,
+   "tabla": "baseline-proveedor",
+   "slug": "FREETOUR",
+   "termino": "FREETOUR",
+   "estadoCsv": "mapeo: categoryId + precio + duración + palabras clave (§6.1)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeoProveedor",
+     "archivo": "freetour.json"
+    }
+   ],
+   "nota": "mapeo del proveedor en src/taxonomy/data/mapping/"
+  },
+  {
+   "fila": 105,
+   "tabla": "baseline-proveedor",
+   "slug": "Inca World Peru (IWP)",
+   "termino": "Inca World Peru (IWP)",
+   "estadoCsv": "mapeo: kind + category",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeoProveedor",
+     "archivo": "incaworld.json"
+    }
+   ],
+   "nota": "mapeo del proveedor en src/taxonomy/data/mapping/"
+  },
+  {
+   "fila": 106,
+   "tabla": "baseline-proveedor",
+   "slug": "Fantástica China (FCH)",
+   "termino": "Fantástica China (FCH)",
+   "estadoCsv": "mapeo: circuito · cultural; Gran Lujo → presupuesto (tras bandera)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeoProveedor",
+     "archivo": "fantasticachina.json"
+    }
+   ],
+   "nota": "mapeo del proveedor en src/taxonomy/data/mapping/"
+  },
+  {
+   "fila": 107,
+   "tabla": "baseline-proveedor",
+   "slug": "Destino Colombia (DCO)",
+   "termino": "Destino Colombia (DCO)",
+   "estadoCsv": "mapeo: circuito · cultural / playa-mar",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeoProveedor",
+     "archivo": "destinocolombia.json"
+    }
+   ],
+   "nota": "mapeo del proveedor en src/taxonomy/data/mapping/"
+  },
+  {
+   "fila": 108,
+   "tabla": "baseline-proveedor",
+   "slug": "Turismo Asiático (TAS)",
+   "termino": "Turismo Asiático (TAS)",
+   "estadoCsv": "mapeo: circuito / tour · cultural, urbano, naturaleza",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeoProveedor",
+     "archivo": "turismoasiatico.json"
+    }
+   ],
+   "nota": "mapeo del proveedor en src/taxonomy/data/mapping/"
+  },
+  {
+   "fila": 109,
+   "tabla": "baseline-proveedor",
+   "slug": "Big Bus Tours (BBT)",
+   "termino": "Big Bus Tours (BBT)",
+   "estadoCsv": "mapeo: transporte · urbano",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "mapeoProveedor",
+     "archivo": "bigbus.json"
+    }
+   ],
+   "nota": "mapeo del proveedor en src/taxonomy/data/mapping/"
+  },
+  {
+   "fila": 110,
+   "tabla": "baseline-proveedor",
+   "slug": "Travelpayouts/Kiwitaxi",
+   "termino": "Travelpayouts/Kiwitaxi",
+   "estadoCsv": "mapeo: traslado",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "codigo",
+     "archivo": "src/companions/lib/registry.ts",
+     "contiene": "kiwitaxi"
+    }
+   ],
+   "nota": "traslados por deeplink de Travelpayouts (complementos)"
+  },
+  {
+   "fila": 111,
+   "tabla": "baseline-proveedor",
+   "slug": "BeMyGuest",
+   "termino": "BeMyGuest",
+   "estadoCsv": "mapeo: typeName → formato; categories → tema",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [],
+   "nota": "proveedor sin integrar: el plan de BeMyGuest espera firma (REQ-1337)"
+  },
+  {
+   "fila": 112,
+   "tabla": "termino",
+   "slug": "por-revisar",
+   "termino": "(categoría sin mapear)",
+   "estadoCsv": "oculto",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "formato",
+     "slug": "por-revisar",
+     "estados": [
+      "oculto"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/gates.ts",
+     "contiene": "GATE_GT10_POR_REVISAR: \"A\" | \"B\" = \"A\""
+    }
+   ],
+   "nota": "oculto: no se publica (G-T10 = A)"
+  },
+  {
+   "fila": 113,
+   "tabla": "atributo",
+   "slug": "privado",
+   "termino": "Privado",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "privado",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "add(\"privado\""
+    }
+   ],
+   "nota": "regla en src/taxonomy/lib/attributes.ts"
+  },
+  {
+   "fila": 114,
+   "tabla": "atributo",
+   "slug": "nocturno",
+   "termino": "Nocturno",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "nocturno",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "add(\"nocturno\""
+    }
+   ],
+   "nota": "regla en src/taxonomy/lib/attributes.ts"
+  },
+  {
+   "fila": 115,
+   "tabla": "atributo",
+   "slug": "medio",
+   "termino": "Cómo te mueves: a pie · bici · vehículo · barco (tren y avión solo en circuitos)",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "medio",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "medio:"
+    }
+   ],
+   "nota": "regla en src/taxonomy/lib/attributes.ts"
+  },
+  {
+   "fila": 116,
+   "tabla": "atributo",
+   "slug": "idioma-es",
+   "termino": "En español",
+   "estadoCsv": "activo donde haya dato",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "idioma-es",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "add(\"idioma-es\""
+    }
+   ],
+   "nota": "regla en src/taxonomy/lib/attributes.ts"
+  },
+  {
+   "fila": 117,
+   "tabla": "atributo",
+   "slug": "calificacion",
+   "termino": "Calificación",
+   "estadoCsv": "activo (FREETOUR)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "calificacion",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "add(\"calificacion\""
+    }
+   ],
+   "nota": "regla en src/taxonomy/lib/attributes.ts"
+  },
+  {
+   "fila": 118,
+   "tabla": "atributo",
+   "slug": "favorito",
+   "termino": "★ Favorito de los viajeros",
+   "estadoCsv": "gate PO",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "favorito",
+     "estados": [
+      "tras_bandera"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/tours/lib/favorite.ts",
+     "contiene": "export function isTravelerFavorite"
+    }
+   ],
+   "nota": "gate firmado (≥4.9 y ≥180 reseñas): insignia en tarjetas y ficha; en el diccionario sigue como tras_bandera"
+  },
+  {
+   "fila": 119,
+   "tabla": "atributo",
+   "slug": "vuelo-incluido",
+   "termino": "Con vuelo",
+   "estadoCsv": "activo",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "vuelo-incluido",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/attributes.ts",
+     "contiene": "add(\"vuelo-incluido\""
+    }
+   ],
+   "nota": "regla en src/taxonomy/lib/attributes.ts"
+  },
+  {
+   "fila": 120,
+   "tabla": "atributo",
+   "slug": "franja-horaria",
+   "termino": "Mañana · tarde · noche; hoy · mañana",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "franja-horaria",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 121,
+   "tabla": "atributo",
+   "slug": "grupo-pequeno",
+   "termino": "Grupo pequeño",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "grupo-pequeno",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 122,
+   "tabla": "atributo",
+   "slug": "familias",
+   "termino": "Familias",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "familias",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 123,
+   "tabla": "atributo",
+   "slug": "solo-adultos",
+   "termino": "Solo adultos",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "solo-adultos",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 124,
+   "tabla": "atributo",
+   "slug": "parejas",
+   "termino": "Parejas / romántico",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "parejas",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 125,
+   "tabla": "atributo",
+   "slug": "sin-filas",
+   "termino": "Sin filas",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "sin-filas",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 126,
+   "tabla": "atributo",
+   "slug": "apto-lluvia",
+   "termino": "Apto para lluvia / interior",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "apto-lluvia",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 127,
+   "tabla": "atributo",
+   "slug": "cancelacion-gratis",
+   "termino": "Cancelación gratuita",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "cancelacion-gratis",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 128,
+   "tabla": "atributo",
+   "slug": "confirmacion-inmediata",
+   "termino": "Confirmación inmediata",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "confirmacion-inmediata",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 129,
+   "tabla": "atributo",
+   "slug": "sostenible",
+   "termino": "Sostenible",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "sostenible",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 130,
+   "tabla": "atributo",
+   "slug": "vip",
+   "termino": "VIP",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "atributo",
+     "slug": "vip",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 131,
+   "tabla": "faceta-circuito",
+   "slug": "circuito-confort",
+   "termino": "Confort: Básico · Esencial · Confort · Premium",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "circuito-confort",
+     "estados": [
+      "tras_bandera"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "tras TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 132,
+   "tabla": "faceta-circuito",
+   "slug": "circuito-grupo",
+   "termino": "Tipo de grupo: en grupo · privado · a la medida",
+   "estadoCsv": "activo",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "circuito-grupo",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUITS_ENABLED",
+     "valor": "false"
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/circuit-facts.ts",
+     "contiene": "\"circuito-grupo\""
+    }
+   ],
+   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (apagada)",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 133,
+   "tabla": "faceta-circuito",
+   "slug": "circuito-guia",
+   "termino": "Tipo de guía: guiado · semiguiado · A tu aire",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "circuito-guia",
+     "estados": [
+      "tras_bandera"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "tras TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 134,
+   "tabla": "faceta-circuito",
+   "slug": "circuito-perfil",
+   "termino": "Perfil: parejas y luna de miel · familia · viajero solo · 60+ · 18–35 · negocios",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "circuito-perfil",
+     "estados": [
+      "tras_bandera"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "tras TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 135,
+   "tabla": "faceta-circuito",
+   "slug": "circuito-dificultad",
+   "termino": "Dificultad física: 1 Relajado · 2 Ligero · 3 Moderado · 4 Exigente · 5 Muy exigente",
+   "estadoCsv": "activo donde haya dato (escala por firmar)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "circuito-dificultad",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUITS_ENABLED",
+     "valor": "false"
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/circuits.ts",
+     "contiene": "\"circuito-dificultad\""
+    }
+   ],
+   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED; la escala espera firma (G-T8)",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 136,
+   "tabla": "faceta-circuito",
+   "slug": "circuito-altitud",
+   "termino": "Altitud",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta-circuito",
+     "slug": "circuito-altitud",
+     "estados": [
+      "tras_bandera"
+     ]
+    },
+    {
+     "tipo": "bandera",
+     "nombre": "TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+     "valor": "false"
+    }
+   ],
+   "nota": "tras TAXONOMY_CIRCUIT_EXTRA_ENABLED",
+   "folio": "REQ-1303"
+  },
+  {
+   "fila": 137,
+   "tabla": "entorno",
+   "slug": "playa-islas",
+   "termino": "Playa e islas",
+   "estadoCsv": "tras bandera (sinónimo)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "entorno",
+     "slug": "playa-islas",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 138,
+   "tabla": "entorno",
+   "slug": "montana",
+   "termino": "Montaña",
+   "estadoCsv": "tras bandera (sinónimo)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "entorno",
+     "slug": "montana",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 139,
+   "tabla": "entorno",
+   "slug": "grutas",
+   "termino": "Grutas",
+   "estadoCsv": "tras bandera (sinónimo)",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "entorno",
+     "slug": "grutas",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 140,
+   "tabla": "entorno",
+   "slug": "pueblos-magicos",
+   "termino": "Pueblos Mágicos",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "entorno",
+     "slug": "pueblos-magicos",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 141,
+   "tabla": "geografia",
+   "slug": "region",
+   "termino": "Región (Riviera Maya, Alsacia…)",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "entorno",
+     "slug": "region",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 142,
+   "tabla": "geografia",
+   "slug": "atraccion-icono",
+   "termino": "Atracción ícono (Machu Picchu, Torre Eiffel…)",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "entorno",
+     "slug": "atraccion-icono",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+  },
+  {
+   "fila": 143,
+   "tabla": "taxonomia2-original",
+   "slug": "idiomatico",
+   "termino": "Idiomático",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "FALTA",
+   "evidencia": [],
+   "nota": "no existe término ni bandera para «Idiomático» (en el legado no tiene destino); hay que decidir si es tema, atributo o se descarta",
+   "folio": "REQ-1348"
+  },
+  {
+   "fila": 144,
+   "tabla": "taxonomia2-original",
+   "slug": "de-temporada",
+   "termino": "De temporada",
+   "estadoCsv": "tras bandera",
+   "cumplimiento": "TRAS BANDERA",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "faceta",
+     "slug": "temporada",
+     "estados": [
+      "tras_bandera"
+     ]
+    }
+   ],
+   "nota": "«De temporada» queda cubierto por la faceta «temporada» (fila 62)"
+  },
+  {
+   "fila": 145,
+   "tabla": "taxonomia2-original",
+   "slug": "estetico",
+   "termino": "Estético",
+   "estadoCsv": "descartado",
+   "cumplimiento": "NO APLICA",
+   "evidencia": [
+    {
+     "tipo": "legadoSinDestino",
+     "termino": "Estético"
+    }
+   ],
+   "nota": "descartado sin término destino: no hay a qué buscarlo"
+  }
+ ]
+}

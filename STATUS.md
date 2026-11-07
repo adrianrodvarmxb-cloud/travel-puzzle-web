@@ -44,6 +44,12 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
 | REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## REQ-1348 y REQ-1357 contrato del diccionario (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1348 | Contrato fila por fila diccionario ↔ código; proveedor nuevo sin formato no se publica | `src/taxonomy/data/contrato-diccionario.json`, `docs/taxonomia/contrato-diccionario.md`, `src/trips/lib/bulk-import.ts`, `src/tours/lib/card-format.ts`, `src/scripts/import-trips.ts` | `src/taxonomy/lib/contrato-diccionario.test.ts`, `src/trips/lib/bulk-import-formato.test.ts` | EN CURSO (15 faltas con folio) |
+| REQ-1357 | Sinónimos del diccionario y legado en el buscador, tras bandera | `src/search/lib/taxonomy-terms.ts`, `src/search/lib/synonyms.ts`, `src/search/synonyms.ts`, `wrangler.jsonc` | `src/search/taxonomy-synonyms.test.ts` | EN CURSO (bandera en false; OK del PO) |
+
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
