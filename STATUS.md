@@ -2,6 +2,11 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## URL por idioma (Gate 3, 6 nov 2026) — Ola 0 (plan) en PR
+
+- Plan en `docs/plan-urls-idioma.md`: auditoría, carpetas (`src/i18n/`), decisiones (español sin prefijo; `/en`, `/pt`, `/fr`, `/it`, `/de`; mismo slug; la cookie solo sugiere; `x-default` = español; moneda sin cambio) y pruebas por pieza. REQ-650 a REQ-676 PENDIENTES.
+- Olas 1–3 parten de `main` cuando #204 y #208 estén fusionados. Todo tras `LOCALE_URLS_ENABLED="false"`; lo enciende el PO con su protocolo.
+
 ## Cumplimiento FREETOUR (PO, 6 nov 2026, 21:33 y 22:00) — matriz de trazabilidad
 Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42 PERMITIDO, 11 PROHIBIDO, 8 AMBIGUO, 6 OBLIGATORIO FALTANTE). Fuentes 3 a 9 NO releídas (dominios bloqueados en la sesión). Borrador del correo a FREETOUR en `docs/freetour/correo-permisos-borrador.md` (lo envían Claudia o Adri).
 
@@ -22,6 +27,7 @@ Auditoría completa en `docs/freetour/auditoria-2026-11-06.md` (67 elementos: 42
 | REQ-812 | Tours de pago: confirmación sin propina y con 24 h | `booking-email.ts`, `notify.ts` | `booking-email.test.ts`, `notify.test.ts` | CUMPLIDO |
 
 **Pendiente del PO:** pedir por escrito (correo borrador; filas 12, 13, 16, 17, 18, 41, 48, y la clave de precios de la fila 55 a api@freetour.com); encender `ADULT_CONTACT_CHECK_ENABLED`; rotar la API key; aviso de privacidad y política de cookies (REQ-084); PR #62: sesión de pago vencida y regla de 24 h en la pantalla de cancelar.
+
 
 ## Páginas institucionales y blog (6 nov 2026) — en PR, apagadas, sin publicar
 
