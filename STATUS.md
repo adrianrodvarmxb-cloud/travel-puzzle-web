@@ -28,7 +28,8 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 **Falta definición:**
 - Inca: base de precio de los 30 programas, 9 excursiones en borrador y el aviso mínimo de 60 días contra los 90 que necesita Machu Picchu.
 - China: visa, temporadas y fuente de excursiones de un día (Klook o tours de pago de Freetour).
-- Turismo Asiático y Extime: faltan los PDF, saber si son netos o comisionables y las fotos.
+- Turismo Asiático: faltan los PDF, saber si son netos o comisionables y las fotos.
+- Extime (comisionable, precio público EUR): catálogo completo de invierno 2026-27 y verano 2027 (179 productos) en `imports/extime-2026-27.json`, en borrador y sin fotos. Faltan las fotos oficiales (pedidas a Extime) y confirmar la cancelación de verano (el programa dice 48–72 h y la política del 16 oct, 24 h).
 - Rotar la API key de Freetour (pendiente, fuera del correo).
 
 **Sin iniciar (en cola):** Olas 2 a 8 de La Primera Pieza; revisar la cobertura de salidas; cerrar INC-004 e INC-005 y REQ-039 en docs; proveedores nuevos (Big Bus, Bedsonline, Oku Japan, Travelpayouts).
