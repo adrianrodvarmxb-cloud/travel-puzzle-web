@@ -137,3 +137,36 @@ describe("sendBookingConfirmation con «Arma tu viaje»", () => {
   });
 });
 
+
+// REQ-621 / REQ-622: una reserva con precio > 0 (tour de pago, o free tour que pasó a tarifa fija) se trata como de pago
+// en los correos, aunque el resumen del tour diga isFree.
+describe("REQ-621 REQ-622 correos de una reserva de pago", () => {
+  const paidRecord = { ...record, price: 40 };
+  const mail = () => vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em");
+  it("REQ-622: confirmación sin propina y con la política de 24 h, aunque el tour sea free", async () => {
+    const send = mail();
+    await sendBookingConfirmation(paidRecord, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => ({ ...tour, isFree: true }), send });
+    const { html, text } = send.mock.calls[0][0];
+    expect(`${html}${text}`).not.toMatch(/propina/i);
+    expect(text).toContain("hasta 24 h antes del tour");
+  });
+  it("REQ-621: rechazo → reembolso automático", async () => {
+    const send = mail();
+    await sendStatusEmail("rejected", paidRecord, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send });
+    expect(send.mock.calls[0][0].text).toContain("el reembolso de lo que pagaste es automático");
+  });
+  it("REQ-621: cancelar 48 h antes → reembolso; 10 h antes → sin reembolso", async () => {
+    const at = (iso: string) => () => new Date(iso);
+    const s1 = mail();
+    await sendStatusEmail("canceled", paidRecord, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send: s1, now: at("2026-10-29T06:00:00Z") });
+    expect(s1.mock.calls[0][0].text).toContain("Cancelaste con 24 h o más");
+    const s2 = mail();
+    await sendStatusEmail("canceled", paidRecord, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send: s2, now: at("2026-10-30T20:00:00Z") });
+    expect(s2.mock.calls[0][0].text).toContain("Cancelaste con menos de 24 h");
+  });
+  it("REQ-621: free tour (precio 0) sin cambios", async () => {
+    const send = mail();
+    await sendStatusEmail("canceled", record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send });
+    expect(send.mock.calls[0][0].text).not.toMatch(/reembolso/);
+  });
+});

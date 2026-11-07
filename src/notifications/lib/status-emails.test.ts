@@ -78,3 +78,27 @@ describe("REQ-079 cancelación y rechazo", () => {
     expect(buildStatusEmail({ ...base, kind: "rejected" }).subject).toMatch(/no pudo confirmarse/);
   });
 });
+
+// REQ-621 (D3, A3): un tour de pago rechazado o cancelado dice qué pasa con lo pagado. Nunca «No se te cobró nada».
+describe("REQ-621 rechazo y cancelación de un tour de pago", () => {
+  it("REQ-621: rechazo de pago → reembolso automático, sin «No se te cobró nada»", () => {
+    const { html, text } = buildStatusEmail({ ...base, paid: true });
+    expect(html).not.toContain("No se te cobró nada");
+    expect(text).toContain("el reembolso de lo que pagaste es automático");
+  });
+  it("REQ-621: cancelación con 24 h o más → reembolso automático", () => {
+    const { text } = buildStatusEmail({ ...base, kind: "canceled", paid: true, refund: "full" });
+    expect(text).toContain("Cancelaste con 24 h o más de anticipación: el reembolso de lo que pagaste es automático.");
+  });
+  it("REQ-621: cancelación con menos de 24 h → sin reembolso", () => {
+    const { text } = buildStatusEmail({ ...base, kind: "canceled", paid: true, refund: "none" });
+    expect(text).toContain("Cancelaste con menos de 24 h de anticipación: según la política del tour, no hay reembolso.");
+  });
+  it("REQ-621: en inglés", () => {
+    expect(buildStatusEmail({ ...base, lang: "en", paid: true }).text).toContain("the refund of what you paid is automatic");
+  });
+  it("REQ-621: un free tour sigue igual", () => {
+    expect(buildStatusEmail({ ...base }).html).toContain("No se te cobró nada");
+    expect(buildStatusEmail({ ...base, kind: "canceled" }).text).not.toMatch(/reembolso/);
+  });
+});

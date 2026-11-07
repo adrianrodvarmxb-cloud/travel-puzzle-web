@@ -8,6 +8,7 @@ import { buildBookingConfirmationEmail, meetingPointText, mapsUrlFor, type Email
 import type { BookingRecord } from "./lib/booking-record";
 import type { Weather } from "@/notifications/weather";
 import { filterPostTourOffers, type OfferSource } from "@/freetour/lib/promo-policy";
+import { paidPolicy } from "@/tours/lib/paid-policy";
 import { loadEmailCrossSell, type CrossSellLoaderDeps } from "@/notifications/cross-sell";
 
 export interface TourSummary {
@@ -142,7 +143,9 @@ export async function sendBookingConfirmation(
       heroImageUrl: tour?.imageUrl ?? null,
       galleryUrls: tour?.galleryUrls ?? [],
       reviews,
-      isFree: tour?.isFree ?? record.price === 0,
+      // REQ-622: lo cobrado manda; un free tour que pasó a tarifa fija ya no es «a propina».
+      isFree: record.price > 0 ? false : (tour?.isFree ?? true),
+      paidPolicy: record.price > 0 ? (({ cancel, noShow }) => ({ cancel, noShow }))(paidPolicy({ fullPrice: record.price, payNow: record.price, isPartiallyPaid: false, currency: "EUR" }, deps.lang)) : null,
       contact: deps.contact,
       variant: opts.variant,
       // REQ-182
@@ -158,7 +161,14 @@ export async function sendBookingConfirmation(
   }
 }
 
-type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo" | "crossSell">;
+type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo" | "crossSell" | "now">;
+
+/** REQ-621 (D3): con 24 h o más antes del tour, reembolso; menos, no. Sin fecha UTC no se afirma nada. */
+export function refundFor(eventUtcDate: string | null | undefined, now: Date): "full" | "none" | null {
+  const t = eventUtcDate ? Date.parse(`${eventUtcDate.trim().replace(" ", "T")}${/[zZ]|[+-]\d\d:?\d\d$/.test(eventUtcDate.trim()) ? "" : "Z"}`) : NaN;
+  if (!Number.isFinite(t)) return null;
+  return t - now.getTime() >= 24 * 3600 * 1000 ? "full" : "none";
+}
 
 /** Correo de rechazo, cancelación o cambio de una reserva guardada. Nunca lanza. */
 export async function sendStatusEmail(
@@ -197,6 +207,9 @@ export async function sendStatusEmail(
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
       crossSell,
+      // REQ-621
+      paid: record.price > 0,
+      refund: record.price > 0 && kind === "canceled" ? refundFor(record.eventUtcDate, deps.now?.() ?? new Date()) : null,
     });
     const attachments = calendarAttachment(kind === "modified" ? "REQUEST" : "CANCEL", record, tour, site, deps.calendar);
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });

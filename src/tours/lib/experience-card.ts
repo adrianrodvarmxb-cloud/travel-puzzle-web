@@ -16,6 +16,7 @@ import { FORMATOS_FILTRO, formatoCardLabel, type FormatoFiltro } from "@/taxonom
 import { formatCount, formatRating } from "@/home/lib/format";
 import { isTravelerFavorite } from "./favorite";
 import { durationMinutes as parseDuration } from "./duration";
+import { mentionsPlatform } from "@/reviews/lib/platform-mention";
 
 export const CARD_LANGS = ["es", "en", "pt", "de", "fr", "it"] as const;
 export type CardLang = (typeof CARD_LANGS)[number];
@@ -60,7 +61,8 @@ export const CARD_COPY: Record<CardLang, CardCopy> = {
   it: { favorite: "Preferito", reviews: (n) => `${n} recensioni`, free: "Free tour", from: "Da", days: (n) => `${n} ${n === 1 ? "giorno" : "giorni"}` },
 };
 
-const MENTIONS_FREETOUR = /free\s*tour\.?com|freetour/i;
+// REQ-616: el mismo detector que la línea del operador y las reseñas (REQ-171): también «free tour .com».
+const MENTIONS_FREETOUR = { test: (s: string) => mentionsPlatform(s) };
 
 /**
  * REQ-524: nombre del proveedor u operador real del dato. «FREETOUR» / «freetour.com» nunca llega al cliente

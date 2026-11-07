@@ -76,7 +76,7 @@ const es = {
   reviewsEyebrow: "06 — LO QUE DICEN",
   reviewsHeadline: "En palabras de los viajeros.",
   reviewsSub: "Lo que cuentan quienes ya recorrieron estas ciudades.",
-  avgLabel: "CALIFICACIÓN PROMEDIO",
+  avgLabel: "CALIFICACIÓN PROMEDIO DE LAS EXPERIENCIAS", // REQ-613 (C7)
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
   // REQ-453: carrusel «Excursiones de un día» (definición del diccionario de taxonomía; sin promesas ni proveedor)
   dayEyebrow: "EXCURSIONES DE UN DÍA",
@@ -158,7 +158,7 @@ const en: Copy = {
   reviewsEyebrow: "06 — WHAT THEY SAY",
   reviewsHeadline: "In travelers' own words.",
   reviewsSub: "What people who already explored these cities have to say.",
-  avgLabel: "AVERAGE RATING",
+  avgLabel: "AVERAGE EXPERIENCE RATING", // REQ-613 (C7)
   expertEyebrowN: "07 — PERSONAL ADVICE",
   dayEyebrow: "DAY TRIPS",
   dayHeadline: "Day trips.",

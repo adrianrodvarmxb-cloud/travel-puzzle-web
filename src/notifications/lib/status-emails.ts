@@ -40,7 +40,25 @@ export interface StatusEmailData {
   contact?: ContactInfo;
   /** REQ-262 / REQ-264: venta cruzada; solo se pinta en «modified», nunca en rechazo ni cancelación. */
   crossSell?: CrossSellBlock | null;
+  /** REQ-621: la reserva tenía precio (tour de pago o free tour con tarifa fija). */
+  paid?: boolean;
+  /** REQ-621: en una cancelación pagada, si toca reembolso (≥ 24 h antes) o no; null = no se sabe, no se afirma. */
+  refund?: "full" | "none" | null;
 }
+
+// REQ-621 (D3): qué pasa con lo pagado. Rechazo = reembolso automático (términos §12; soporte, 4 nov 2026).
+const PAID_COPY = {
+  es: {
+    rejected: (n: string) => `Hola ${n}: el organizador del tour no pudo aceptar tu reserva. Como el tour era de pago, el reembolso de lo que pagaste es automático; puede tardar unos días en verse según tu banco.`,
+    full: "Cancelaste con 24 h o más de anticipación: el reembolso de lo que pagaste es automático.",
+    none: "Cancelaste con menos de 24 h de anticipación: según la política del tour, no hay reembolso.",
+  },
+  en: {
+    rejected: (n: string) => `Hi ${n}, the tour organizer couldn't accept your booking. Since it was a paid tour, the refund of what you paid is automatic; it may take a few days to show up, depending on your bank.`,
+    full: "You canceled 24 h or more in advance: the refund of what you paid is automatic.",
+    none: "You canceled less than 24 h in advance: under the tour's policy, there is no refund.",
+  },
+};
 
 const T = {
   es: {
@@ -145,6 +163,10 @@ export function buildStatusEmail(d: StatusEmailData) {
   const more = (d.moreTours ?? []).filter((x) => /^https:\/\//.test(x.imageUrl) && /^https?:\/\//.test(x.url)).slice(0, 3);
   const reason = d.kind === "rejected" && d.reason?.trim() ? d.reason.trim().slice(0, 400) : null;
   const subject = k.subject(d.tourTitle);
+  // REQ-621
+  const pc = PAID_COPY[d.lang];
+  const intro = d.paid && d.kind === "rejected" ? pc.rejected(d.firstName) : k.intro(d.firstName);
+  const refundLine = d.paid && d.kind === "canceled" && d.refund ? pc[d.refund] : null;
   const color = STATUS_COLOR[d.kind];
   const dim = !isActive ? "opacity:0.75;" : "";
   const cross = d.kind === "modified" ? d.crossSell ?? null : null; // REQ-262
@@ -152,7 +174,7 @@ export function buildStatusEmail(d: StatusEmailData) {
   const body = `<tr><td style="background:${N9};background-image:linear-gradient(160deg,${N9} 0%,${N8} 55%,${B.darkBlue} 100%);padding:26px 26px 30px">
 ${status(k.status, color.dot, color.text)}
 <h1 style="margin:14px 0 8px;font-size:30px;line-height:1.15;color:#ffffff;font-weight:700;letter-spacing:-0.6px">${esc(k.hero)}</h1>
-<p style="margin:0;font-size:15px;line-height:1.55;color:#C9D6F5">${esc(k.intro(d.firstName))}</p>
+<p style="margin:0;font-size:15px;line-height:1.55;color:#C9D6F5">${esc(intro)}</p>${refundLine ? `<p style="margin:10px 0 0;font-size:15px;line-height:1.55;color:#C9D6F5">${esc(refundLine)}</p>` : ""}
 </td></tr>
 
 <tr><td style="padding:24px 22px 6px">
@@ -209,7 +231,8 @@ ${supportCard({ eyebrow: eyebrow(t.support, DIM), title: t.help, subtitle: t.waS
   const text = [
     `${k.hero}`,
     "",
-    k.intro(d.firstName),
+    intro,
+    ...(refundLine ? [refundLine] : []),
     "",
     `${t.ref}: ${d.refNumber}`,
     `${t.tour}: ${d.tourTitle}`,
