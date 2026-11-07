@@ -102,6 +102,11 @@ export function fichaContractFailures(html: string, o: ContractOptions): string[
   if (!o.enrichment) {
     if (/data-seo="en-breve"/.test(html)) f.push("«En breve» en un proveedor sin enriquecimiento (REQ-570)");
     if (p.description || p.keywords) f.push("descripción o keywords en un proveedor sin enriquecimiento (REQ-570)");
+    // REQ-588: ni idiomas ni punto de encuentro en el marcado; si se ven, van con data-nosnippet.
+    if (p.tripOrigin || p.inLanguage || p.availableLanguage || props.some((x) => /idioma|language|audiogu/i.test(String(x.name))))
+      f.push("idiomas o punto de encuentro en el marcado de un proveedor sin enriquecimiento (REQ-588)");
+    for (const m of html.matchAll(/<[a-z]+\b[^>]*data-hecho="(punto-encuentro|idioma-guia)"[^>]*>/gi))
+      if (!/\bdata-nosnippet\b/.test(m[0])) f.push(`«${m[1]}» visible sin data-nosnippet en un proveedor sin enriquecimiento (REQ-588)`);
   }
   return f;
 }
