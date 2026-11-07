@@ -12,6 +12,8 @@ import { discoverPages, isErrorScreen, isHydrationError, legacyFailures, parseSm
 import { evidenceSlug, firstDifference, loadFailed } from "../ops/lib/smoke-evidence";
 import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
 import { fichaContractFailures, isFichaPath } from "../seo/lib/ficha-contract";
+import { blogSmokePaths } from "../blog/lib/seo";
+import { loadPosts } from "../blog/load";
 
 /** REQ-500: carpeta de evidencia (el workflow la sube como artefacto). */
 const EVIDENCE_DIR = process.env.SMOKE_EVIDENCE_DIR || "smoke-evidencia";
@@ -41,7 +43,10 @@ if (!/^https?:\/\//.test(base)) { console.error("Uso: npx tsx src/scripts/smoke.
 const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")));
 const optional = config.optional;
 // REQ-242: páginas institucionales tras bandera; con la bandera encendida se exigen como fijas (200, sin errores).
-const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, wranglerVars(readFileSync("wrangler.jsonc", "utf8")), process.env)];
+const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
+// REQ-976: con BLOG_ENABLED encendida, /blog, los pilares con artículos y las 5 entradas más recientes son fijas.
+const blogOn = (process.env.BLOG_ENABLED ?? vars.BLOG_ENABLED) === "true";
+const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env), ...(blogOn ? blogSmokePaths(loadPosts()) : [])])];
 
 (async () => {
   const browser = await chromium.launch();
@@ -98,7 +103,8 @@ const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, wranglerVar
       }
       if (viewport === 1366 && result.status === 200 && first.raw && isFichaPath(path)) {
         const enrichment = /data-enriquecimiento="true"/.test(first.raw);
-        const fails = fichaContractFailures(first.raw, { enrichment });
+        // REQ-834: hoy las dos tablas por proveedor apagan a los mismos (FREETOUR); su test REQ-834 falla si se separan.
+        const fails = fichaContractFailures(first.raw, { enrichment, noindex: !enrichment });
         console.log(`${fails.length ? "✗" : "✓"} contrato de ficha (enriquecimiento ${enrichment}) ${path}`);
         contractFailures.push(...fails.map((x) => `contrato de ficha ${path}: ${x}`));
       }

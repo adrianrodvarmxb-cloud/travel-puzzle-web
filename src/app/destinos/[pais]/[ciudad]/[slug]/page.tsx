@@ -80,7 +80,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         const [lat, lng] = (mp?.coordinates ?? '').split(',').map((x) => Number(x.trim()));
         const full = tourPage({
             country, city, tour, siteUrl: siteUrl(), lang: 'es', labels, today: new Date().toISOString().slice(0, 10),
-            detail: { providerId: row?.providerId, guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null,
+            detail: { providerId: row?.providerId, guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).

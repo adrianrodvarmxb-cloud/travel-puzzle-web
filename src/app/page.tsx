@@ -1,3 +1,4 @@
+import { paidInRecommendations } from '@/booking/lib/flags';
 import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
 import { JsonLd as ListJsonLd } from "@/components/destinations/JsonLd";
 import { homeItemLists } from "@/seo/lib/listing-ld";
@@ -49,7 +50,8 @@ export default async function Home() {
   const lang = await getRouteLanguage();
   // REQ-219 (y REQ-454): ningún carrusel del inicio muestra títulos con «FreeTour» / «Free Tour».
   const ownTrips = (await loadTripCards(lang)).filter((t) => !mentionsProviderBrand(t.title));
-  const includePaid = env.PAID_TOURS_ENABLED === "true";
+  // REQ-014: tours de pago en recomendaciones solo con PAID_TOURS_ENABLED y PAID_TOURS_IN_RECOMMENDATIONS.
+  const includePaid = paidInRecommendations(env);
   // REQ-450/453: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
   const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
