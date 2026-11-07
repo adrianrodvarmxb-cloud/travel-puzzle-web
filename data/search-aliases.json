@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "comment": "REQ-284. Alias curados a mano (se revisan por PR). 'to' = nombres del destino en el catálogo, en orden de preferencia; se usa el primero que exista. Un alias cuyo destino no está en el catálogo no hace nada. 'noCorrect' = nombres cortos que chocan: nunca se corrigen solos (solo pueden salir como sugerencia). Fuente: informe «Buscador multilingüe y tolerante» (6 nov 2026). Los pares cortos que chocan salen del catálogo real (destinos distintos a 1 errata, export del 5 nov 2026) más los del informe. Sin Google ni OSM.",
+  "aliases": [
+    { "alias": "cuzco", "to": ["cusco"], "note": "grafía tradicional en español" },
+    { "alias": "cdmx", "to": ["ciudad de mexico", "mexico city"], "note": "sigla de uso común en México" },
+    { "alias": "ciudad de mexico cdmx", "to": ["ciudad de mexico", "mexico city"], "note": "nombre con sigla" },
+    { "alias": "ny", "to": ["nueva york", "new york"], "note": "sigla" },
+    { "alias": "nyc", "to": ["nueva york", "new york"], "note": "sigla" },
+    { "alias": "nueva york city", "to": ["nueva york", "new york"], "note": "mezcla español-inglés" },
+    { "alias": "estambul", "to": ["estambul", "istanbul"], "note": "nombre en español (por si falta en las traducciones)" },
+    { "alias": "istambul", "to": ["estambul", "istanbul"], "note": "variante frecuente en español" },
+    { "alias": "oporto", "to": ["oporto", "porto"], "note": "nombre en español" },
+    { "alias": "saint petersburg", "to": ["san petersburgo"], "note": "nombre en inglés" },
+    { "alias": "st petersburg", "to": ["san petersburgo"], "note": "abreviatura en inglés" },
+    { "alias": "marrakesh", "to": ["marrakech"], "note": "grafía en inglés" },
+    { "alias": "marrakesch", "to": ["marrakech"], "note": "grafía en alemán" },
+    { "alias": "donostia", "to": ["san sebastian"], "note": "nombre en euskera" },
+    { "alias": "sidney", "to": ["sydney"], "note": "grafía en español" },
+    { "alias": "pekin", "to": ["pekin", "beijing"], "note": "nombre en español" },
+    { "alias": "bombay", "to": ["mumbai"], "note": "nombre histórico (sirve para encontrar, no se muestra)" },
+    { "alias": "bsas", "to": ["buenos aires"], "note": "abreviatura" },
+    { "alias": "vegas", "to": ["las vegas"], "note": "forma corta" },
+    { "alias": "capadocia", "to": ["goreme"], "note": "región; los tours salen de Göreme" },
+    { "alias": "cappadocia", "to": ["goreme"], "note": "región (en inglés/italiano); los tours salen de Göreme" }
+  ],
+  "noCorrect": ["bali", "bari", "lima", "lyon", "cuba", "cebu", "niza", "ibiza", "parma", "palma", "lecce", "lecco", "leon", "quito", "soria", "sofia", "delhi", "delfi", "sida", "siwa", "gent", "genf", "brema", "breda", "mdina", "madina", "kiev", "kiew", "kiel", "harar"]
+}

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { retryNote } from "./smoke-evidence";
 
 /** REQ-003 — veredicto de la prueba de humo (puro). Lo usa scripts/smoke.ts antes y después de publicar. */
 export interface SmokeResult {
@@ -11,20 +12,25 @@ export interface SmokeResult {
   appError: boolean;
   /** Página tras bandera: un 404 es válido (bandera apagada); un 5xx, una excepción o la pantalla de error no. REQ-223 */
   optional?: boolean;
+  /** REQ-500: resultado de recargar la página una vez tras fallar. Solo se anota; la falla original cuenta igual. */
+  retry?: { status: number | null; pageErrors: string[]; appError: boolean; optional?: boolean };
 }
 
 export interface SmokeVerdict { ok: boolean; failures: string[] }
 
 // REQ-001, REQ-003. REQ-305: también fallan el descubrimiento de fichas y las URL viejas (`extra`).
+// REQ-500: cada falla lleva la nota del reintento («pasó (falla intermitente)» o «también falla»), sin dejar de contar.
 export function smokeVerdict(results: SmokeResult[], extra: string[] = []): SmokeVerdict {
   if (!results.length) return { ok: false, failures: ["no se probó ninguna página", ...extra] };
   const failures: string[] = [...extra];
   for (const r of results) {
     const where = `${r.path} @${r.viewport}`;
+    const note = retryNote(r.retry);
+    const push = (m: string) => failures.push(note ? `${m} — ${note}` : m);
     const allowed404 = r.optional === true && r.status === 404; // REQ-223
-    if (r.status === null || (r.status >= 400 && !allowed404)) failures.push(`${where}: respuesta ${r.status ?? "sin respuesta"}`);
-    if (r.appError) failures.push(`${where}: pantalla "Application error"`);
-    for (const e of r.pageErrors) failures.push(`${where}: excepción en el navegador: ${e.slice(0, 200)}`);
+    if (r.status === null || (r.status >= 400 && !allowed404)) push(`${where}: respuesta ${r.status ?? "sin respuesta"}`);
+    if (r.appError) push(`${where}: pantalla "Application error"`);
+    for (const e of r.pageErrors) push(`${where}: excepción en el navegador: ${e.slice(0, 200)}`);
   }
   return { ok: failures.length === 0, failures };
 }

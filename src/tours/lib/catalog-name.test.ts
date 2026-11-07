@@ -11,8 +11,8 @@ import { goneViewFromPlace } from "@/destinations/lib/page-model";
 const LANGS = ["es", "en", "pt", "de", "fr", "it"] as const;
 /** «tour/tours» genérico; «free tour» es tipo de producto y se queda (decisión del PO, 6 nov 2026). */
 const GENERIC_TOUR = /(?<!free\s)\b(tours?|touren)\b/i;
-/** Etiquetas de navegación: siguen diciendo «Tours» hasta REQ-174 (menú, en espera del PO). */
-const MENU_KEYS = new Set(["footerTours"]);
+/** Con REQ-174 ninguna etiqueta del home queda fuera de la revisión. */
+const MENU_KEYS = new Set<string>();
 
 function texts(obj: unknown): string[] {
   if (typeof obj === "string") return [obj];

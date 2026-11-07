@@ -11,6 +11,7 @@
 import { cityName } from "./dry-run";
 import { cityHasPage, cityMeetsRule, countryIndexable, nextCityIndexState } from "./indexing";
 import { cityPath, countryPath, tourPath, type TourStatus } from "./routes";
+import { isPublishable, ownKindFormato, type CatalogClassifier } from "@/taxonomy/lib/publish";
 
 export interface CountryRow { id: number; code: string; iso2: string | null; translations: unknown }
 export interface CityRow {
@@ -40,6 +41,9 @@ export interface TourRow {
   status: TourStatus;
   isActive: boolean;
   updatedAt: string;
+  /** T3: categoría y duración del proveedor, para el clasificador de la taxonomía. */
+  categoryId?: number | null;
+  durationMinutes?: number | null;
 }
 /** Viaje propio publicado: países ISO-2 y ciudades por nombre, tal como se capturan en el gestor. */
 export interface TripRow { id: string; slug: string; /** REQ-172: "transporte" va a Traslados, no a Tours. */ kind?: string; title: string; image: string | null; countries: string[]; cities: string[]; priceLabel: string | null; updatedAt: string }
@@ -59,6 +63,9 @@ export interface TourCardModel {
   kind: "free" | "paid" | "own";
   priceLabel?: string | null;
   updatedAt: string;
+  /** T3/T5: formato de la taxonomía y si hay guía en persona (solo con TAXONOMY_PUBLISH_ENABLED). */
+  formato?: string;
+  guiaEnPersona?: boolean;
 }
 
 export interface CityNode {
@@ -99,9 +106,12 @@ export function isListed(t: Pick<TourRow, "slug" | "isActive" | "status">): bool
   return !!t.slug && SLUG.test(t.slug) && t.isActive && t.status !== "removed";
 }
 
-export function tourCard(t: TourRow, countrySlug: string, citySlug: string): TourCardModel {
-  const isFreeTour = Number(t.price) === 0;
+export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxonomy?: CatalogClassifier): TourCardModel {
+  // REQ-406 (T3, tras TAXONOMY_PUBLISH_ENABLED): Free tour = formato pieza-libre; apagada, precio 0 como hoy.
+  const isFreeTour = taxonomy ? taxonomy(t).formato === "pieza-libre" : Number(t.price) === 0;
+  const cls = taxonomy?.(t);
   return {
+    ...(cls && { formato: cls.formato, guiaEnPersona: cls.guiaEnPersona }),
     id: t.id, href: tourPath(countrySlug, citySlug, t.slug!), title: t.title, provider: t.provider, image: t.image,
     isFreeTour, price: Number(t.price), currency: t.currency, rating: t.rating, reviews: t.reviews, duration: t.duration,
     kind: isFreeTour ? "free" : "paid", updatedAt: t.updatedAt,
@@ -116,6 +126,8 @@ export interface TreeInput {
   tours: TourRow[];
   trips: TripRow[];
   now: Date;
+  /** T3: con TAXONOMY_PUBLISH_ENABLED, el clasificador de la taxonomía; sin él, todo igual que hoy. */
+  taxonomy?: CatalogClassifier;
 }
 
 /**
@@ -123,10 +135,14 @@ export interface TreeInput {
  * Una ciudad sin tours no tiene página (no aparece); un país sin ciudades con página tampoco.
  */
 // REQ-088 REQ-089 REQ-090 REQ-091
-export function destinationTree({ countries, cities, tours, trips, now }: TreeInput): CountryNode[] {
+export function destinationTree({ countries, cities, tours, trips, now, taxonomy }: TreeInput): CountryNode[] {
   const out: CountryNode[] = [];
   const toursByCity = new Map<number, TourRow[]>();
-  for (const t of tours) if (isListed(t)) toursByCity.set(t.cityId, [...(toursByCity.get(t.cityId) ?? []), t]);
+  // REQ-407 / REQ-408 (T3): fuera y por-revisar no se publican ni cuentan para indexar la ciudad.
+  const publishable = (t: TourRow) => !taxonomy || isPublishable(taxonomy(t).formato);
+  // REQ-261 (T3): traslados y transporte de FREETOUR van a la sección Traslados de la ciudad, no a Tours.
+  const inTransfers = (t: TourRow) => !!taxonomy && taxonomy(t).seccion === "traslados";
+  for (const t of tours) if (isListed(t) && publishable(t)) toursByCity.set(t.cityId, [...(toursByCity.get(t.cityId) ?? []), t]);
 
   for (const c of countries) {
     const iso2 = (c.iso2 ?? "").trim().toUpperCase();
@@ -135,18 +151,21 @@ export function destinationTree({ countries, cities, tours, trips, now }: TreeIn
     const nodes: CityNode[] = [];
     for (const city of cities.filter((x) => x.countryId === c.id && x.slug && SLUG.test(x.slug))) {
       const citySlug = city.slug!;
-      const mine = (toursByCity.get(city.id) ?? []).map((t) => tourCard(t, slug, citySlug));
+      const listed = toursByCity.get(city.id) ?? [];
+      const mine = listed.filter((t) => !inTransfers(t)).map((t) => tourCard(t, slug, citySlug, taxonomy));
+      const freetourTransfers = listed.filter(inTransfers).map((t) => tourCard(t, slug, citySlug, taxonomy));
       const here = trips
         .filter((tr) => SLUG.test(tr.slug) && tripInCity(tr, iso2, city.translations))
         .map((tr): TourCardModel => ({
           id: tr.id, href: tourPath(slug, citySlug, tr.slug), title: tr.title, provider: null, image: tr.image, isFreeTour: false,
           price: 0, currency: "", rating: null, reviews: 0, duration: null, kind: "own", priceLabel: tr.priceLabel, updatedAt: tr.updatedAt,
+          ...(taxonomy && { formato: ownKindFormato(tr.kind), guiaEnPersona: tr.kind !== "transporte" }),
         }));
       // REQ-172: el transporte no es un tour; cuenta para que la ciudad tenga página, pero se lista en Traslados.
       const transportIds = new Set(trips.filter((tr) => tr.kind === "transporte").map((tr) => tr.id));
       const own = here.filter((t) => !transportIds.has(t.id));
       const transport = here.filter((t) => transportIds.has(t.id));
-      const activeTours = mine.length + here.length;
+      const activeTours = mine.length + freetourTransfers.length + here.length;
       if (!cityHasPage(activeTours)) continue;
       const meets = cityMeetsRule({ activeTours, guide: city.guide });
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
@@ -156,7 +175,7 @@ export function destinationTree({ countries, cities, tours, trips, now }: TreeIn
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),
         ownTrips: own,
-        transportTrips: transport,
+        transportTrips: [...transport, ...freetourTransfers],
       });
     }
     if (!nodes.length) continue;

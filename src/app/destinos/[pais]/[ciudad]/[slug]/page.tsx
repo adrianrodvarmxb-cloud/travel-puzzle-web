@@ -1,3 +1,4 @@
+import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
 import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
@@ -36,7 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         const data = await loadTripBySlug((await params).slug);
         return data ? { ...(await tripMetadata(data, r.tour.href)), ...(r.city.indexed && r.country.indexable ? {} : { robots: { index: false, follow: true } }) } : {};
     }
-    return toMetadata(tourPage({ country: r.country, city: r.city, tour: r.tour, siteUrl: siteUrl(), lang: 'es' }).meta, r.tour.image);
+    // T5 (G-T9, REQ-416): title y descripción por formato con TAXONOMY_LABELS_ENABLED.
+    return toMetadata(tourPage({ country: r.country, city: r.city, tour: r.tour, siteUrl: siteUrl(), lang: 'es', labels: taxonomyLabelsEnabled(process.env as Record<string, string | undefined>) }).meta, r.tour.image);
 }
 
 /**
@@ -50,7 +52,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
     const r = await resolve(params);
     if (!r) notFound();
     const { country, city, tour } = r;
-    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang: 'es' });
+    // T5 (REQ-415, REQ-416, G-T9): etiqueta de formato y copy por formato, tras TAXONOMY_LABELS_ENABLED.
+    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang: 'es', labels: taxonomyLabelsEnabled(process.env as Record<string, string | undefined>) });
 
     if (tour.kind === 'own') {
         const data = await loadTripBySlug((await params).slug);
@@ -81,6 +84,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         isFreeTour: tour.isFreeTour,
                         favorite: isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews }),
                         rates,
+                        labels: model.labels,
                     }}
                 />
             </>

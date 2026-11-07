@@ -50,6 +50,30 @@ export function CompanionCarousel({ cards, cityCode, transferWidgetSrc }: { card
                             <p className="text-base font-semibold text-white">{card.title}</p>
                             <p className="mt-1 text-sm text-slate-300">{card.chargedByLabel}</p>
                             {card.priceLabel ? <p className="mt-1 text-sm font-semibold text-sky-300">{card.priceLabel}</p> : null}
+                            {/* REQ-320: experiencias ya cargadas cerca (foto, nombre real, precio y su ficha). */}
+                            {a.kind === 'catalog' && card.experiences?.length ? (
+                                <ul className="mt-3 flex flex-col gap-3">
+                                    {card.experiences.map((e) => (
+                                        <li key={e.id}>
+                                            <a
+                                                href={e.path}
+                                                onClick={() => track('card_added', card, cityCode)}
+                                                className="flex items-center gap-3 rounded-xl p-1 hover:bg-white/10"
+                                            >
+                                                {e.image ? (
+                                                    <img src={e.image} alt="" loading="lazy" className="h-14 w-20 shrink-0 rounded-lg object-cover" />
+                                                ) : (
+                                                    <span aria-hidden="true" className="h-14 w-20 shrink-0 rounded-lg bg-white/10" />
+                                                )}
+                                                <span className="min-w-0">
+                                                    <span className="block text-sm font-semibold leading-snug text-white">{e.title}</span>
+                                                    <span className="block text-xs text-sky-300">{e.price}</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
                             <a
                                 href={a.url}
                                 target="_blank"
@@ -59,6 +83,7 @@ export function CompanionCarousel({ cards, cityCode, transferWidgetSrc }: { card
                             >
                                 {a.label}
                             </a>
+                            )}
                             {/* REQ-120: el buscador de traslados vive dentro del carrito, en un panel; nunca como sección suelta. */}
                             {card.type === 'transfer' && a.kind === 'deeplink' && transferWidgetSrc ? (
                                 <button

@@ -3,6 +3,8 @@
  * app/viajes/[destino]/[slug]/page.tsx para que la use también /destinos/{pais}/{ciudad}/{slug} (gate 4).
  * `path` es la URL canónica de la ficha (la de /viajes hoy, o la de /destinos con PRIMERA_PIEZA_ENABLED).
  */
+import { circuitFacts, taxonomyCircuitsEnabled } from '@/taxonomy/lib/circuit-facts';
+import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
 import type { Metadata } from 'next';
 import type React from 'react';
 import { Navbar } from '@/components/layout';
@@ -57,6 +59,7 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     const isAudio = isAudioGuided(trip);
     const card = toCard({ ...trip, translations: tr }, lang, fx);
     const env = process.env as Record<string, string | undefined>;
+    const facts = taxonomyCircuitsEnabled(env as Record<string, string | undefined>) ? circuitFacts({ kind: trip.kind, difficulty: trip.difficulty, durationDays: trip.durationDays, options: trip.options }, DEFAULT_DICTIONARY, lang) : null;
     const contact = contactFromEnv(env);
     const wa = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(`Hola Travel Puzzle, quiero cotizar "${trip.titleEs}" (${trip.code}).`)}` : null;
     // REQ-112: opciones en la moneda original del operador con pesos aproximados (decisión del PO, 5 nov 2026). Reversible: false vuelve a pesos primero.
@@ -168,7 +171,14 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
                                 <ul className="space-y-2">
                                     {trip.languages.length > 0 && <li>{/* REQ-146 */}{isAudio ? '🎧' : '🗣️'} {languagesLabel(trip, c)}{isAudio ? ' ' : ': '}{trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l)).join(', ')}</li>}
                                     {(trip.minPax || trip.maxPax) && <li>👥 {c.group_size(trip.minPax, trip.maxPax)}</li>}
-                                    {trip.difficulty && <li>⛰️ {c.difficulty[trip.difficulty]}</li>}
+                                    {/* T6b (REQ-421…423): con TAXONOMY_CIRCUITS_ENABLED, dificultad 1–5, tipo de grupo y rango de días; apagada, la línea de hoy. */}
+                                    {facts ? (
+                                        <>
+                                            {facts.dificultad && <li data-faceta="dificultad">⛰️ {facts.dificultad}</li>}
+                                            {facts.grupo && <li data-faceta="grupo">🧭 {facts.grupo}</li>}
+                                            {facts.dias && <li data-faceta="dias">🗓️ {facts.dias}</li>}
+                                        </>
+                                    ) : trip.difficulty && <li>⛰️ {c.difficulty[trip.difficulty]}</li>}
                                     <li>✈️ {trip.flightsIncluded ? c.flights : c.noFlights}</li>
                                     <li className="font-data text-[11px] uppercase tracking-wider text-[#7F8DB0]">{trip.code}</li>
                                 </ul>

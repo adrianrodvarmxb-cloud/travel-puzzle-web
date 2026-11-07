@@ -21,6 +21,8 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel 
   const imageUrl = tour.images.find((img) => img && img.trim() !== '');
   const rating = formatRating(tour.rating);
   const free = t('tours.free', 'Free');
+  // REQ-480: la insignia sobre la foto dice «Pieza libre»; el precio sigue diciendo «Free tour».
+  const freeBadge = t('tours.freeBadge', 'Free tour');
 
   return (
     <Link href={`/tours/${tour.id}`} className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#121D45] text-white transition-transform duration-300 hover:-translate-y-1 hover:border-[#008DFF]/60">
@@ -33,7 +35,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel 
         )}
         <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute left-3 top-3" />
         {tour.price === 0 && (
-          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{free}</span>
+          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{freeBadge}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">

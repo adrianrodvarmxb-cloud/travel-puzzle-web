@@ -14,6 +14,8 @@ export interface PrimeraPiezaView {
     isFreeTour: boolean;
     favorite: boolean;
     rates: FxRates | null;
+    /** T5 (REQ-415): formato como etiqueta, fuera de la foto (vacío o ausente = como hoy). */
+    labels?: string[];
 }
 
 /**
@@ -42,8 +44,9 @@ export function PrimeraPiezaInfo({ view, events }: { view: PrimeraPiezaView; eve
     const notice = live ? live.notice : view.notice;
     return (
         <div className="mt-4 space-y-3">
-            {(badge || view.favorite) && (
+            {(badge || view.favorite || (view.labels?.length ?? 0) > 0) && (
                 <div className="flex flex-wrap gap-2">
+                    {view.labels?.map((l) => <span key={l} data-etiqueta="formato" className="rounded-md bg-white/10 px-2.5 py-1 text-xs font-semibold text-white">{l}</span>)}
                     {badge && <span className="rounded-md border border-[#7CC4FF]/60 px-2.5 py-1 text-xs font-semibold text-[#7CC4FF]">{badge}</span>}
                     {view.favorite && <span className="rounded-md bg-[#EAF54F] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-[#0A1330]">★ Favorito de los viajeros</span>}
                 </div>
