@@ -129,3 +129,10 @@ const trending = [
   { label: "Fuente uno", url: "https://uno.example.org/nota", fecha: "2026-11-05" },
   { label: "Fuente dos", url: "https://dos.example.com/nota", fecha: "2026-11-01" },
 ];
+
+describe("imágenes en el validador del diario", () => {
+  it("REQ-1051: una entrada del agente sin portada o sin fotos en el cuerpo NO se publica", () => {
+    expect(problems({ cover: undefined })).toContain("falta la portada (hero) con licencia");
+    expect(problems({ imagenes: [] })).toContain("el cuerpo necesita de 2 a 4 fotos (tiene 0)");
+  });
+});

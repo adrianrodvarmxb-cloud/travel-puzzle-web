@@ -11,6 +11,7 @@ import { pillarBySlug } from '@/blog/lib/pillars';
 import { pillarPath, postPath } from '@/blog/lib/registry';
 import { AUTHORS } from '@/blog/content/authors';
 import { breadcrumbJsonLd } from '@/seo/lib/jsonld';
+import { imageUrl } from '@/blog/lib/images';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: m.title,
     description: m.description,
     alternates: { canonical: m.canonical },
-    openGraph: { type: 'article', title: m.title, description: m.description, url: m.canonical, ...(d.post.cover ? { images: [{ url: d.post.cover.src }] } : {}) },
+    openGraph: { type: 'article', title: m.title, description: m.description, url: m.canonical, ...(d.post.cover ? { images: [{ url: imageUrl(d.post.cover.src, d.siteUrl), alt: d.post.cover.alt }] } : {}) },
     ...(m.noindex ? { robots: { index: false, follow: false } } : {}),
   };
 }

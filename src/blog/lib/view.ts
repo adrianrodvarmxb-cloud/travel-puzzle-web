@@ -9,6 +9,7 @@ import { formatDate } from "./dates";
 import { shareLinks } from "./seo";
 import { textsOf } from "@/site/lib/vocab";
 import type { Author } from "../content/authors";
+import { imageVariants } from "./images";
 
 export function cardModel(p: Post) {
   return {
@@ -18,14 +19,16 @@ export function cardModel(p: Post) {
     summary: p.summary,
     date: formatDate(p.publishedAt, "es"),
     draft: p.draft,
-    ...(p.cover ? { cover: { src: p.cover.src, alt: p.cover.alt } } : {}),
+    // REQ-1053: la tarjeta usa el JPG de 800 px de la portada
+    ...(p.cover ? { cover: { src: imageVariants(p.cover.src).local ? `${p.cover.src}-800.jpg` : p.cover.src, alt: p.cover.alt } } : {}),
   };
 }
 
 export function articleModel(p: Post, all: Post[], o: { author: Author; siteUrl: string; primeraPieza: boolean; whatsapp: string | null; authorHref: string | null }) {
   const pillar = pillarBySlug(p.pillar)!;
   const r = related(p, all);
-  const words = wordCount(textsOf(p).join(" "));
+  // REQ-1053: el tiempo de lectura cuenta el texto, no los créditos ni los alt de las imágenes
+  const words = wordCount(textsOf({ ...p, cover: undefined, imagenes: undefined }).join(" "));
   const commercial = commercialHref(pillar, o.primeraPieza);
   const wa = o.whatsapp ? `https://wa.me/${o.whatsapp}?text=${encodeURIComponent(`Hola Travel Puzzle, leí «${p.title}» y quiero ayuda con mi viaje.`)}` : null;
   return {

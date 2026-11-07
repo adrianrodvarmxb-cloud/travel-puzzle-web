@@ -76,3 +76,15 @@ describe("marcado e indexación del blog diario", () => {
     }
   });
 });
+
+describe("imágenes en el marcado", () => {
+  it("REQ-1058: el JSON-LD lleva la portada en JPG de 1600 px y la tarjeta usa la de 800; el tiempo de lectura no cuenta créditos", async () => {
+    const { cardModel } = await import("./view");
+    const p = post();
+    expect(blogPostingJsonLd(p, AUTHORS.editorial, site).image).toBe(`${site}/blog/img/entrada-diaria-de-prueba/portada-1600.jpg`);
+    expect(cardModel(p).cover).toEqual({ src: "/blog/img/entrada-diaria-de-prueba/portada-800.jpg", alt: "Foto de prueba portada" });
+    const sinFotos = articleModel(post({ cover: undefined, imagenes: undefined }), [], { author: AUTHORS.editorial, siteUrl: site, primeraPieza: true, whatsapp: null, authorHref: null });
+    const conFotos = articleModel(p, [], { author: AUTHORS.editorial, siteUrl: site, primeraPieza: true, whatsapp: null, authorHref: null });
+    expect(conFotos.minutes).toBe(sinFotos.minutes);
+  });
+});

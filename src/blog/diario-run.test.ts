@@ -36,3 +36,15 @@ describe("raíz del blog diario (I/O inyectado)", () => {
     expect(planForToday(new Date("2026-11-07T18:00:00Z"), [])).toMatchObject({ today: "2026-11-07", kind: "pago", item: { id: "EU-01" } });
   });
 });
+
+describe("archivos de imagen", () => {
+  it("REQ-1055: exige las 6 variantes de cada imagen en public/ (portada + 2 fotos = 18)", async () => {
+    const { missingImageFiles } = await import("./diario-run");
+    const { parsePost } = await import("./lib/schema");
+    const r = parsePost(sampleDaily());
+    if (!r.ok) throw new Error(r.error);
+    expect(missingImageFiles(r.post, () => false)).toHaveLength(18);
+    expect(missingImageFiles(r.post, () => true)).toEqual([]);
+    expect(missingImageFiles(r.post, (f) => !f.endsWith("portada-1600.avif"))).toEqual(["public/blog/img/entrada-diaria-de-prueba/portada-1600.avif"]);
+  });
+});
