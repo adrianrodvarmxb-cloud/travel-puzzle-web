@@ -44,6 +44,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
 | REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## REQ-1349 URL canónica de viajes (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1349 | Una URL canónica por viaje (ciudad de inicio), 301 de las alternativas, sitemap sin repetidos, itinerary en JSON-LD | `src/destinations/lib/catalog.ts`, `src/destinations/lib/page-model.ts`, `src/destinations/edge.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-ld.ts`, `src/seo/lib/trip-ficha.ts`, `src/destinations/server.ts` | `src/destinations/lib/viaje-canonico.test.ts` | EN CURSO (falta humo del PR) |
+
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|

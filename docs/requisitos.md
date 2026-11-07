@@ -891,3 +891,9 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1341 | CÓDIGO | El índice de sitemaps marca lastmod 2026-11-06 aunque el contenido cambió el 7-11 | agente | — | PENDIENTE |
 | REQ-1342 | VALIDACIÓN | Cifras del ensayo de la carga histórica de la copia exacta, antes del backfill real (parte de REQ-1316) | PO | REQ-1316 (ensayo) | PENDIENTE |
 | REQ-1343 | TAREA-PO | Revisión automática de estatus cada 6 horas (PO 7-11 13:08: «cada 6 horas revisa estatus»): tarea programada que lee este tablero, PR, workflows y producción y notifica al PO | coordinador | — | EN CURSO |
+
+## REQ-1349: una sola URL canónica por viaje (detalle; folio del tablero)
+Petición literal (PO, 7 nov 2026, 15:21 CDMX): «sí, aplica las mejores prácticas de referentes». Referentes: Civitatis cuelga «Excursión a Brujas» bajo /paris/; GetYourGuide y Viator, una URL de producto bajo su destino principal, y las demás ciudades enlazan a esa misma URL.
+| ID | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|
+| REQ-1349 | Dado un viaje con varias ciudades (p. ej. `brujas-belgica-guiado-desde-paris…`: París, Brujas; un circuito de Fantástica China con 6 ciudades), cuando se arma /destinos, entonces su URL canónica es la de su ciudad de INICIO (la primera del viaje con página), todas sus ciudades lo listan con esa URL, las URLs alternativas responden 301 a la canónica (middleware y, si no decide, la ficha), el sitemap y el hreflang solo llevan la canónica (ningún sitemap repite una URL) y el JSON-LD lleva `itinerary` con todas sus ciudades en orden. | EN CURSO (test verde; falta humo del PR) |

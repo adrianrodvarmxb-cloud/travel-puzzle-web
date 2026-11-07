@@ -97,7 +97,7 @@ describe("REQ-1257 las cachés que guardan el formato cambian de llave con la re
     has("src/actions/tours.ts", "v: 'tipos-1260'");
     has("src/app/api/tours/route.ts", "v: 'tipos-1260'");
     has("src/trips/public-load.ts", 'v: "9"');
-    has("src/destinations/server.ts", 'cacheKey("destinos", { v: "8"');
+    has("src/destinations/server.ts", 'cacheKey("destinos", { v: "9"');
     has("src/app/page.tsx", 'v: "carruseles-610-tipos-1260"');
     has("src/home/carousel-load.ts", "v: 4 /* REQ-668 href final; REQ-1250 tipos; REQ-1260 cat. 8 */");
   });
