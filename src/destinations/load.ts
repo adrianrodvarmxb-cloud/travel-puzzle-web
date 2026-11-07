@@ -10,6 +10,8 @@ import { formatMoney } from "@/trips/lib/money";
 import { isKindVisible, type Visibility } from "@/trips/lib/visibility";
 import { catalogClassifier } from "@/taxonomy/lib/publish";
 import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
+import { overlayGuides, type CityGuide } from "./lib/guia";
+import { loadGuides } from "./guias";
 
 export const SITE_URL_DEFAULT = "https://travelpuzzle.com.mx";
 
@@ -23,8 +25,10 @@ export function destinationsRepo(db: D1Read): DestinationsRepo {
 
 // REQ-088: países → ciudades → tours (y viajes propios visibles), leídos de D1.
 // T3 (REQ-406…408, REQ-261): con TAXONOMY_PUBLISH_ENABLED, el árbol usa la taxonomía; apagada, idéntico a hoy.
-export async function loadTree(repo: DestinationsRepo, now: Date, vis: Visibility, opts: { taxonomy?: boolean } = {}): Promise<CountryNode[]> {
-  const [countries, cities, tours, trips] = await Promise.all([repo.countries(), repo.cities(), repo.tours(), repo.trips()]);
+// REQ-1228: las guías propias del repo se superponen al campo `guide` de cada ciudad (no se escribe en D1).
+export async function loadTree(repo: DestinationsRepo, now: Date, vis: Visibility, opts: { taxonomy?: boolean; guides?: CityGuide[] } = {}): Promise<CountryNode[]> {
+  const [countries, rawCities, tours, trips] = await Promise.all([repo.countries(), repo.cities(), repo.tours(), repo.trips()]);
+  const cities = overlayGuides(countries, rawCities, opts.guides ?? loadGuides());
   const taxonomy = opts.taxonomy ? catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS) : undefined;
   return destinationTree({ countries, cities, tours, trips: trips.filter((t) => isKindVisible(t.kind, vis)), now, taxonomy });
 }
