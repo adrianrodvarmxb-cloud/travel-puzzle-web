@@ -1,6 +1,6 @@
 # Runbook — Copia exacta del proveedor (Ola R1)
 
-Pedido del PO del 6 nov 2026 (REQ-740…548). Cada paso es un candado: se hace uno a la vez, con OK explícito del PO,
+Pedido del PO del 6 nov 2026 (REQ-740…748). Cada paso es un candado: se hace uno a la vez, con OK explícito del PO,
 y no se pasa al siguiente sin prueba de humo verde. Si un paso falla: detenerse, no improvisar.
 
 | # | Paso | Quién | Comando o acción | Regreso |

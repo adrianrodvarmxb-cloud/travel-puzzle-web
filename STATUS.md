@@ -42,7 +42,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 
 **Métricas firmadas (Ola 8):** ≥ 98 % de tours con ciudad válida · 0 slugs duplicados · < 26 h desde el último sync exitoso · ≥ 95 % de corridas exitosas en 30 días · ≤ 5 ciudades que cambian de indexación por semana · tasa de agregado del carrusel: se fija tras 4 semanas de medición.
 
-## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…548)
+## 6 nov 2026 — Copia exacta del proveedor, Ola R1 (REQ-740…748)
 - Cada item crudo de FREETOUR `/tours` se guarda ANTES de transformarlo en R2 PRIVADO (`raw/<proveedor>/<externalId>/<huella>.json`), solo si cambió la huella; `updatedAt` va como `providerUpdatedAt`. Si falla, el sync sigue (REQ-744).
 - Los imports guardan el item completo (con `source`, `hold`, `taxonomia`) y el documento original si el workflow lo recibe (`source/<agencia>/…`).
 - Índice `ProviderRecord` + `ProviderDocument`: migración PROPUESTA `docs/migraciones-propuestas/0022_provider_record.sql` (sin aplicar).
