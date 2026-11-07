@@ -107,3 +107,52 @@ describe("REQ-1296: documentos en cPanel, fuera de public_html", () => {
     expect(rutaPrivada("proveedores-docs/../public_html/a.pdf")).toBe(false);
   });
 });
+
+import { plantilla } from "./plantillas";
+describe("REQ-1294: plantillas", () => {
+  it("REQ-1297: presentación a un proveedor nuevo, sin nombre: saludo genérico, en voz de Adrián y sin «gracias por»", () => {
+    const p = plantilla("presentacion", "es", { proveedor: "Tangol", destinos: "Argentina" });
+    const t = rellenar(p.cuerpo, { proveedor: "Tangol", destinos: "Argentina" });
+    expect(t.startsWith("Hola:\nLes saluda Adrián, de Travel Puzzle. Les presento a Mila")).toBe(true);
+    expect(t).not.toContain("Gracias por");
+    expect(t).toContain("nos interesa sumar su operación en Argentina");
+  });
+  it("REQ-1294: presentación a un proveedor con relación: «gracias por…» y sin «somos una agencia»", () => {
+    const d = { contacto: "Lina", proveedor: "Destino Colombia", ultimo_tema: "los términos y condiciones" };
+    const t = rellenar(plantilla("presentacion", "es", d).cuerpo, d);
+    expect(t.startsWith("Hola, Lina:")).toBe(true);
+    expect(t).toContain("Gracias por los términos y condiciones.");
+    expect(t).not.toContain("Somos una agencia");
+  });
+});
+
+import { pedidosDeIntegracion, pedidosDeCobro } from "./integracion";
+import { borradorPresentacion } from "./borrador";
+describe("REQ-1298/REQ-1299: integración por prioridad y cobro", () => {
+  it("REQ-1298: sin datos pide API, plugin, portal y manual en ese orden; con portal solo pide lo mejor que el portal; con API nada", () => {
+    const todo = pedidosDeIntegracion("desconocida");
+    expect(todo).toHaveLength(4);
+    expect(todo[0]).toMatch(/API/);
+    expect(todo[1]).toMatch(/plugin, widget/);
+    expect(todo[2]).toMatch(/usuario para Mila/);
+    expect(todo[3]).toMatch(/con quién nos dirigimos.*cuánto tiempo/);
+    expect(pedidosDeIntegracion("portal")).toHaveLength(2);
+    expect(pedidosDeIntegracion("api")).toEqual([]);
+  });
+  it("REQ-1299: primero que cobre el proveedor (liga de pago) y solo después la cuenta bancaria", () => {
+    const c = pedidosDeCobro("desconocido");
+    expect(c[0]).toMatch(/ustedes cobren directo.*liga de pago/);
+    expect(c[1]).toMatch(/datos bancarios/);
+    expect(pedidosDeCobro("proveedor")).toEqual([]);
+  });
+  it("REQ-1297: el borrador va a nombre de Adrián, con copia a Mila y a Claudia, con los pedidos numerados", () => {
+    const b = borradorPresentacion({ nombre: "Inca World Peru", contacto: "César", correos: ["centralincaworldtravel@gmail.com"], idioma: "es",
+      integracion: "manual", cobro: "desconocido", ultimoTema: "el tarifario 2027 y las fotos" })!;
+    expect(b.cc).toEqual(["comercial@travelpuzzle.com.mx", "claulet@travelpuzzle.com.mx"]);
+    expect(b.cuerpo).toMatch(/^Hola, César:\nLes saluda Adrián/);
+    expect(b.cuerpo).toContain("1. Si tienen API");
+    expect(b.cuerpo).toContain("4. Para el pago, preferimos que ustedes cobren directo");
+    expect(b.cuerpo).toContain("Gracias por el tarifario 2027 y las fotos.");
+    expect(b.cuerpo.trim().endsWith("Adrián Rodvar\nTravel Puzzle")).toBe(true);
+  });
+});

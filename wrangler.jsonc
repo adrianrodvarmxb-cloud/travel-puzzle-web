@@ -52,6 +52,8 @@
     "BOOKINGS_ENABLED": "true",
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
     "EMAILS_ENABLED": "true",
+    // REQ-1291: Mila administra proveedores (docs/gates-proveedores-mila-2026-11.md). Se prende con OK del PO tras aprobar las plantillas.
+    "PROVEEDORES_MILA_ON": "false",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "false",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.

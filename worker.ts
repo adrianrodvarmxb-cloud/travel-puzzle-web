@@ -19,8 +19,22 @@ interface WorkerContext {
   waitUntil(promise: Promise<unknown>): void;
 }
 
+// REQ-1291: correo que llega por Email Routing (copia del reenvío de comercial@ en cPanel).
+interface IncomingEmail { raw: ReadableStream; from: string; to: string }
+
 export default {
   fetch: handler.fetch,
+
+  async email(message: IncomingEmail, env: Env, ctx: WorkerContext) {
+    if (!env.CRON_SECRET) return;
+    const req = new Request("https://internal/api/proveedores/correo", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.CRON_SECRET}`, "content-type": "message/rfc822" },
+      body: await new Response(message.raw).arrayBuffer(),
+    });
+    const res: Response = await handler.fetch(req, env, ctx);
+    console.log(`[correo] proveedores → ${res.status} ${await res.text()}`);
+  },
 
   async scheduled(_event: unknown, env: Env, ctx: WorkerContext) {
     if (!env.CRON_SECRET) {
@@ -53,6 +67,13 @@ export default {
         })
       );
     }
+    // REQ-1293: una vez al día, a las 15:00 UTC (9:00 a. m. CDMX), la revisión de Mila con los proveedores.
+    const ahora = new Date();
+    if (ahora.getUTCHours() === 15 && ahora.getUTCMinutes() === 0) {
+      const proveedores = new Request("https://internal/api/cron/proveedores", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
+      ctx.waitUntil(handler.fetch(proveedores, env, ctx).then(async (res: Response) => console.log(`[cron] proveedores → ${res.status} ${await res.text()}`)));
+    }
+
     // Cada 5 minutos: recordatorios y reseña post-tour.
     if (new Date().getUTCMinutes() % 5 === 0) {
       const emails = new Request("https://internal/api/cron/booking-emails", {

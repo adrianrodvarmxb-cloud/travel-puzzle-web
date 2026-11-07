@@ -6,6 +6,9 @@ export interface OutgoingEmail {
   html: string;
   text: string;
   replyTo?: string;
+  /** REQ-1294: copias y cabeceras (In-Reply-To) opcionales; los usos actuales no cambian. */
+  cc?: string[];
+  headers?: Record<string, string>;
   /** Adjuntos en base64 (p. ej. la invitación de calendario). */
   attachments?: { filename: string; content: string; contentType?: string }[];
 }
@@ -21,9 +24,11 @@ export async function sendEmail(
       from: email.from,
       to: [email.to],
       subject: email.subject,
-      html: email.html,
+      ...(email.html && { html: email.html }),
       text: email.text,
       ...(email.replyTo && { reply_to: email.replyTo }),
+      ...(email.cc?.length && { cc: email.cc }),
+      ...(email.headers && { headers: email.headers }),
       ...(email.attachments?.length && {
         attachments: email.attachments.map((a) => ({ filename: a.filename, content: a.content, ...(a.contentType && { content_type: a.contentType }) })),
       }),

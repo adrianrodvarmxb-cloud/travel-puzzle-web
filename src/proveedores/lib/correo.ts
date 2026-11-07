@@ -21,7 +21,7 @@ export function rellenar(plantilla: string, datos: Record<string, string | undef
 export function armarCorreo(p: { para: string[]; asunto: string; cuerpo: string; idioma?: "es" | "en"; inReplyTo?: string }): Correo | null {
   const para = p.para.map((x) => x.trim().toLowerCase()).filter((x) => x.includes("@"));
   if (!para.length || para.some((x) => BLOQUEADOS.test(x.split("@")[1]))) return null;
-  if (/\{[a-z_]+\}/.test(p.asunto)) return null;
+  if (!p.asunto.trim() || /\{[a-z_]+\}/.test(p.asunto)) return null;
   const firma = p.idioma === "en" ? FIRMA_EN : FIRMA;
   return { from: REMITENTE, to: para, cc: [...COPIAS], subject: p.asunto, text: `${p.cuerpo.trim()}\n\n${firma}`, inReplyTo: p.inReplyTo };
 }
