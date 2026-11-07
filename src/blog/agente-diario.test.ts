@@ -1,10 +1,11 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { validateDailyEntry, FIXED_PATHS } from "./lib/diario";
 import { CALENDARIO } from "./content/calendario";
 import { DIARIO_POSTS } from "./content";
 import { FREE_TOUR_POSTS_B1 } from "./lib/mix";
-import { registryPosts } from "./diario-run";
+import { registryPosts, missingImageFiles } from "./diario-run";
+import { parsePost } from "./lib/schema";
 
 const prompt = readFileSync("docs/blog/agente-diario.md", "utf8");
 const EJEMPLO = "docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json";
@@ -35,5 +36,21 @@ describe("agente diario", () => {
     expect(ejemplo).not.toHaveProperty("citas");
     const publicada = DIARIO_POSTS.find((p) => p.slug === ejemplo.slug);
     if (publicada) expect([publicada.title, publicada.targetTerm, publicada.pillar]).toEqual([ejemplo.title, ejemplo.targetTerm, ejemplo.pillar]);
+  });
+
+  it("REQ-1056: la entrada EU-01 trae portada y 4 fotos (Europa, pasaporte, París, Sevilla y Lisboa) con sus archivos optimizados en el repo", () => {
+    const r = parsePost(ejemplo);
+    if (!r.ok) throw new Error(r.error);
+    expect(r.post.cover?.origen).toMatchObject({ banco: "pexels", id: "2598484", autor: "Pierre Blaché" });
+    expect(r.post.imagenes?.map((b) => [b.formato, b.fotos.map((f) => f.src.split("/").pop())])).toEqual([["columna", ["pasaporte"]], ["collage", ["paris", "sevilla", "lisboa"]]]);
+    expect(missingImageFiles(r.post, existsSync)).toEqual([]);
+  });
+
+  it("REQ-1057: el prompt pide portada y 2 a 4 fotos de bancos con licencia, sin FREETOUR, y corre blog-imagenes antes de validar", () => {
+    expect(prompt).toContain("**Imágenes (premium, REQ-1050…1057):**");
+    expect(prompt).toContain("**Nunca fotos de FREETOUR ni de las fichas del catálogo** (C2/C5)");
+    expect(prompt).toContain("**Nunca Unsplash+**");
+    expect(prompt).toContain("npx tsx src/scripts/blog-imagenes.ts docs/blog/entradas/{hoy}.json");
+    expect(prompt).toContain("blog-diario.ts validar docs/blog/entradas/{hoy}.json --archivos");
   });
 });

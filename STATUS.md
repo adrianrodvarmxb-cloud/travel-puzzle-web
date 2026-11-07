@@ -2,6 +2,20 @@
 
 Actualizado: 5 nov 2026, 11:45 (CDMX).
 
+## Imágenes premium en el blog (PO, 7 nov 2026, 04:28) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1050 | Esquema de imagen y formatos | `src/blog/lib/schema.ts` | `src/blog/lib/images.test.ts` | CUMPLIDO |
+| REQ-1051 | Portada + 2 a 4 fotos | `src/blog/lib/images.ts`, `src/blog/lib/diario.ts` | `images.test.ts`, `diario.test.ts` | CUMPLIDO |
+| REQ-1052 | Licencia, origen, sin FREETOUR ni Unsplash+ | `images.ts` | `images.test.ts` | CUMPLIDO |
+| REQ-1053 | Hero con velo, picture AVIF/WebP/JPG, créditos | `src/components/blog/BlogPicture.tsx`, `BlogImages.tsx`, `ArticleView.tsx`, `images.ts` | `images.test.ts` | CUMPLIDO |
+| REQ-1054 | Bajar y optimizar | `src/scripts/blog-imagenes.ts`, `images.ts` | `images.test.ts`, `workflow-diario.test.ts` | CUMPLIDO |
+| REQ-1055 | Workflow con imágenes; G2 ampliado | `.github/workflows/blog-diario.yml`, `src/blog/diario-run.ts`, `src/scripts/blog-diario.ts` | `workflow-diario.test.ts`, `diario-run.test.ts` | CUMPLIDO |
+| REQ-1056 | EU-01 con imágenes | `docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json`, `public/blog/img/requisitos-para-entrar-a-europa-2026/` | `src/blog/agente-diario.test.ts` | CUMPLIDO |
+| REQ-1057 | Prompt: elegir imágenes | `docs/blog/agente-diario.md` | `agente-diario.test.ts` | CUMPLIDO |
+| REQ-1058 | Imagen en JSON-LD, OG y tarjeta | `src/blog/lib/seo.ts`, `view.ts`, `src/app/blog/[pilar]/[slug]/page.tsx` | `indexacion.test.ts` | CUMPLIDO |
+| REQ-1059 | Gate G4 | `docs/gates-blog-diario-2026-11-06.md` | — | PENDIENTE (firma del PO) |
+
 ## Blog diario «Publica solo cada día» (PO, 6 nov 2026, 22:36 y 23:0x) — matriz de trazabilidad
 Gate firmado: `docs/gates-blog-diario-2026-11-06.md`. Plan: `docs/blog/plan-blog-diario.md`. Calendario: `docs/blog/calendario.md`. PR apilados: plan → infraestructura → prompt y ejemplo → encendido.
 

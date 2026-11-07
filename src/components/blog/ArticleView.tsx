@@ -4,6 +4,7 @@ import { Inline } from './Inline';
 import { PostCard, type PostCardModel } from './PostCard';
 import type { Post } from '@/blog/lib/schema';
 import { headingId } from '@/blog/lib/toc';
+import { BlogHero, BlogImageBlock } from './BlogImages';
 
 export interface ArticleModel {
   post: Post;
@@ -59,10 +60,8 @@ export function ArticleView({ m }: { m: ArticleModel }) {
         <div className="mt-4"><Share links={m.share} label="Compartir" /></div>
       </header>
 
-      {p.cover && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <figure className="mx-auto mt-8 max-w-5xl px-4"><img src={p.cover.src} alt={p.cover.alt} className="aspect-[21/9] w-full rounded-2xl object-cover" /><figcaption className="mt-2 text-xs text-[#7F8DB0]">{p.cover.credit}</figcaption></figure>
-      )}
+      {/* REQ-1053: portada a todo el ancho con velo de marca, sin lazy */}
+      {p.cover && <BlogHero img={p.cover} />}
 
       <div className="mx-auto max-w-3xl px-4 text-[17px] leading-[1.7] text-[#C9D6F5] md:text-[18px]">
         {/* 3 · En breve */}
@@ -83,12 +82,14 @@ export function ArticleView({ m }: { m: ArticleModel }) {
         )}
 
         {/* 5 · H2 con su respuesta */}
-        {p.sections.map((s) => (
+        {p.sections.map((s, si) => (
           <section key={s.h2} aria-labelledby={headingId(s.h2)}>
             <h2 id={headingId(s.h2)} className="font-display mt-12 scroll-mt-24 text-2xl font-bold leading-snug text-white md:text-3xl">{s.h2}</h2>
             <p className={`mt-3 font-medium text-white ${gapCls(s.answer)}`}><Inline text={s.answer} /></p>
             {s.body.map((b) => <p key={b} className={`mt-4 ${gapCls(b)}`}><Inline text={b} /></p>)}
             {s.list && <ul className="mt-4 list-disc space-y-1 pl-6">{s.list.map((li) => <li key={li}><Inline text={li} /></li>)}</ul>}
+            {/* REQ-1053: imágenes del cuerpo después de su sección */}
+            {(p.imagenes ?? []).filter((b) => b.despues === si).map((b) => <BlogImageBlock key={b.fotos[0].src} b={b} />)}
           </section>
         ))}
 
