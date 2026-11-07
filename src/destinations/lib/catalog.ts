@@ -47,6 +47,8 @@ export interface TourRow {
   durationMinutes?: number | null;
   /** REQ-662/REQ-665 (Gate 3): título del proveedor en inglés ("" o null = no hay). */
   titleEn?: string | null;
+  /** REQ-831: proveedor de la fila (Tour.providerId; en la base el valor por defecto es "freetour"). */
+  providerId?: string | null;
 }
 /** Viaje propio publicado: países ISO-2 y ciudades por nombre, tal como se capturan en el gestor. */
 export interface TripRow {
@@ -84,6 +86,8 @@ export interface TourCardModel {
   summary?: string | null;
   /** REQ-662/REQ-665: título en inglés (del proveedor o del gestor); vacío = la ficha no tiene versión indexable en inglés. */
   titleEn?: string | null;
+  /** REQ-831: proveedor del tour del catálogo (para robots y sitemap). Los viajes no lo llevan: siempre se indexan. */
+  providerId?: string;
 }
 
 export interface CityNode {
@@ -148,6 +152,7 @@ export function tourCard(t: TourRow, countrySlug: string, citySlug: string, taxo
     kind: isFreeTour ? "free" : "paid", updatedAt: t.updatedAt,
     city: cityName, // REQ-523
     ...(t.titleEn !== undefined && { titleEn: t.titleEn ?? null }), // REQ-662
+    providerId: t.providerId?.trim() || "freetour", // REQ-831: sin dato, el valor por defecto de la base
   };
 }
 

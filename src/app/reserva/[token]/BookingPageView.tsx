@@ -10,6 +10,9 @@ const STATUS: Record<string, { label: string; dot: string; text: string }> = {
     rejected: { label: 'Reserva rechazada', dot: 'bg-[#FF6B5A]', text: 'text-[#FFB3A8]' },
     // REQ-017
     cancel_requested: { label: 'Cancelación en proceso', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
+    // REQ-931: tour de pago reservado y todavía sin pagar (FREETOUR lo marca «unpaid»).
+    pending_payment: { label: 'Pago pendiente', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
+    unpaid: { label: 'Pago pendiente', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
 };
 
 export interface BookingPageViewProps {
@@ -38,10 +41,14 @@ export interface BookingPageViewProps {
     site: SiteFooterData;
     /** REQ-182: enlace a «Arma tu viaje» (solo con ARMA_TU_VIAJE_ENABLED y la reserva activa). */
     tripUrl?: string | null;
+    /** REQ-931: «Completar el pago» (solo tours de pago sin pagar, con PAID_TOURS_ENABLED). */
+    payHref?: string | null;
+    /** REQ-934: regla de cancelación calculada en el servidor (24 h en tours de pago). */
+    cancelNotice?: { summary: string; confirm: string | null } | null;
 }
 
 /** Vista de la página (solo presentación). */
-export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, site, tripUrl }: BookingPageViewProps) {
+export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, site, tripUrl, payHref, cancelNotice }: BookingPageViewProps) {
     const active = status === 'active';
     const st = STATUS[status] ?? { label: status, dot: 'bg-gray-300', text: 'text-gray-200' };
     let sec = 0;
@@ -55,9 +62,16 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                     dot={st.dot}
                     statusText={st.text}
                     extra={days !== null ? <span className="text-[#EAF54F]">{days === 0 ? '¡Es hoy!' : days === 1 ? '¡Es mañana!' : `Faltan ${days} días`}</span> : undefined}
-                    title={active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : status === 'cancel_requested' ? 'Recibimos tu cancelación' : 'Tu reserva no pudo confirmarse'}
+                    title={active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : status === 'cancel_requested' ? 'Recibimos tu cancelación' : payHref ? 'Falta completar tu pago' : 'Tu reserva no pudo confirmarse'}
                     subtitle={<>Hola {firstName}: <span className="font-semibold text-white">{title}</span></>}
                 />
+
+                {payHref && (
+                    <section className="px-6 pt-6">
+                        <a href={payHref} className="block rounded-xl bg-[#C12909] px-5 py-4 text-center text-base font-bold text-white hover:opacity-90">Completar el pago &nbsp;→</a>
+                        <p className="mt-2 text-center text-xs text-gray-600">El pago se hace en una página segura aparte. Si el enlace venció hace poco, te damos uno nuevo.</p>
+                    </section>
+                )}
 
                 {changed && <p role="status" className="mx-5 mt-5 rounded-xl border border-[#3DDC84]/40 bg-[#3DDC84]/10 px-4 py-3 text-sm font-semibold text-[#0A1330]">✓ Guardamos tu cambio. Te mandamos la confirmación por correo.</p>}
 
@@ -120,8 +134,8 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                         <h2 className="mb-3 text-[21px] font-bold tracking-tight text-[#0A1330]">¿Ya no puedes ir?</h2>
                         {canCancel && (
                             <>
-                                <p className="mb-3 text-sm text-gray-600">Cancela para liberar tu lugar para otro viajero. No tiene costo.</p>
-                                <CancelBooking token={token} />
+                                <p className="mb-3 text-sm text-gray-600">{cancelNotice?.summary ?? 'Cancela para liberar tu lugar para otro viajero. No tiene costo.'}</p>
+                                <CancelBooking token={token} confirmNotice={cancelNotice?.confirm ?? null} />
                             </>
                         )}
                         {active && !canCancel && !offline && <p className="text-sm text-gray-600">Esta reserva ya no se puede cancelar en línea. Si no puedes asistir, escríbenos.</p>}

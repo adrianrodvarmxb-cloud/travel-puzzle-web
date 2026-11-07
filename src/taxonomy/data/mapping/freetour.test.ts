@@ -41,7 +41,7 @@ const CSV: [id: number, nombre: string, formato: string, temas: string[], precio
 ];
 const ft = M.freetour;
 /** Título sin palabras clave: solo deciden la categoría, el precio y la duración. REQ-534: la 4 (excursión) va con 8 h. */
-const product = (categoriaId: number, precio: number) => ({ proveedor: "freetour", categoriaId, precio, durationMinutes: categoriaId === 4 ? 480 : 120, titulo: "Visita Alfa | Alfa visit" });
+const product = (categoriaId: number, precio: number) => ({ proveedor: "freetour", categoriaId, precio, durationMinutes: categoriaId === 4 ? 480 : 120, titulo: categoriaId === 4 ? "Visita Alfa desde Beta | Alfa visit from Beta" : "Visita Alfa | Alfa visit" }); // REQ-866: la base «excursión» de 6 h o más necesita señal de salida
 
 describe("REQ-404 mapeo FREETOUR: los 29 categoryIds una sola vez", () => {
   it("REQ-404 los 29 ids vivos de categorias.csv, sin repetir, más los 4 históricos", () => {

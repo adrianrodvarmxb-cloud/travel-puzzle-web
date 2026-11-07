@@ -24,6 +24,28 @@ describe("Duración de la ficha (encabezado)", () => {
   });
 });
 
+describe("REQ-821: duración real de un viaje de un día", () => {
+  const info = (d: string) => `Temporada: todo el año.\nDuración aproximada: ${d}\nHorarios: 9:30.`;
+  it("REQ-821: un tour de 2 horas importado con durationDays 1 dice «2 h», no «1 día»", () => {
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("2 h.") }, es)).toBe("2 h");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("2h.") }, es)).toBe("2 h");
+    expect(durationLabel({ kind: "unica", durationDays: 1, options: [], importantInfo: info("1h 30 min.") }, es)).toBe("1 h 30 min");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("3h30.") }, es)).toBe("3 h 30 min");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("1 h (orientación; puedes quedarte más).") }, es)).toBe("1 h");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("Día completo (el programa indica 11 h 45 min).") }, es)).toBe("11 h 45 min");
+  });
+  it("REQ-821: sin dato de horas, 24 h o más, o varios días, se queda la duración en días", () => {
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("por confirmar.") }, es)).toBe("1 día");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("24h.") }, es)).toBe("1 día");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("12.") }, es)).toBe("1 día");
+    expect(durationLabel({ kind: "circuito", durationDays: 2, options: [], importantInfo: info("48h.") }, es)).toBe("2 días");
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [] }, es)).toBe("1 día");
+  });
+  it("REQ-821: en inglés las horas se escriben igual", () => {
+    expect(durationLabel({ kind: "tour", durationDays: 1, options: [], importantInfo: info("2h 30 min.") }, tripCopy("en"))).toBe("2 h 30 min");
+  });
+});
+
 describe("Idiomas en hop-on hop-off", () => {
   it("REQ-146: el bus hop-on hop-off dice «Audioguía en» en vez de «Idiomas del guía»", () => {
     const bus = { kind: "transporte", titleEs: "Bus turístico hop-on hop-off en París" };

@@ -35,7 +35,9 @@ describe("auditoría de tipos — casos reales", () => {
   it("REQ-534: «Viajes de 1 día» de FREETOUR (cat. 4) con menos de 6 h no es excursión: visita guiada o caminata", () => {
     expect(f(ft(4, 30, "Visita guiada por Medellín", 240))).toBe("tour");
     expect(f(ft(4, 20, "Lo mejor de Toruń: visita guiada a pie en inglés", 90))).toBe("caminata");
-    expect(f(ft(4, 90, "Descubre la Magia de Cesky Krumlov", 600))).toBe("excursion-dia"); // ≥ 6 h sigue
+    // REQ-865 (PO 6-11 22:36) reemplaza esta línea de REQ-534: ≥ 6 h sin señal de salida ya no es excursión.
+    expect(f(ft(4, 90, "Descubre la Magia de Cesky Krumlov", 600))).toBe("tour");
+    expect(f(ft(4, 90, "Descubre la Magia de Cesky Krumlov desde Praga", 600))).toBe("excursion-dia"); // con salida sigue
     expect(f(ft(4, 90, "Excursión a Toledo", null))).toBe("excursion-dia"); // sin duración, como antes
     expect(f(ft(4, 40, "Excursión de un día al Taj Mahal", 150))).toBe("excursion-dia"); // el título manda sobre una duración mal cargada
     expect(f(ft(19, 40, "Excursión de un día a las Pirámides y la Esfinge", 300))).toBe("excursion-dia");

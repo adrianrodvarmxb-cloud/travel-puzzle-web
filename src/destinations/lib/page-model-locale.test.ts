@@ -7,11 +7,14 @@ import { buildSitemaps } from "@/seo/lib/sitemaps";
 
 const site = "https://travelpuzzle.com.mx";
 const now = new Date("2026-11-05T12:00:00Z");
+// Proveedor indexable (REQ-830: solo FREETOUR va en noindex hasta su permiso); FREETOUR aparte.
+const P = { providerId: "otro-proveedor" };
 const tours = [
-  tour(10, 1, { title: "Centro Histórico", titleEn: "Historic Centre" }),
-  tour(10, 1, { title: "Coyoacán", titleEn: "" }),
-  tour(10, 1, { title: "Xochimilco", titleEn: "Xochimilco boats", price: 30, currency: "EUR" }),
-  tour(11, 1, { title: "Monte Albán", titleEn: "Monte Alban" }),
+  tour(10, 1, { ...P, title: "Centro Histórico", titleEn: "Historic Centre" }),
+  tour(10, 1, { ...P, title: "Coyoacán", titleEn: "" }),
+  tour(10, 1, { ...P, title: "Xochimilco", titleEn: "Xochimilco boats", price: 30, currency: "EUR" }),
+  tour(11, 1, { ...P, title: "Monte Albán", titleEn: "Monte Alban" }),
+  tour(10, 1, { providerId: "freetour", title: "Free tour Zócalo", titleEn: "Zocalo free tour" }),
 ];
 const tree = destinationTree({ ...fx, tours, trips: [], now });
 const en = localizeTree(tree, "en");
@@ -51,7 +54,8 @@ describe("páginas de /destinos por idioma (Gate 3, Ola 2)", () => {
     expect(ld).toContain(`"url":"${t.meta.canonical}"`);
     expect(ld).toContain(`${site}/en/destinos/mx`);
     expect(ld).not.toContain(`"url":"${site}${pick(cdmx, "Historic Centre").href}"`);
-    expect(t.enrichment).toBe(false); // FREETOUR C2: sin texto nuevo en ningún idioma
+    // FREETOUR C2: sin texto nuevo en ningún idioma.
+    expect(tourPage({ country: cdmx.country, city: cdmx.city, tour: pick(cdmx, "Zocalo free tour"), siteUrl: site, lang: "en" }).enrichment).toBe(false);
   });
 
   it("REQ-662: ficha sin título del proveedor en inglés = noindex en /en y fuera del hreflang", () => {
@@ -67,6 +71,22 @@ describe("páginas de /destinos por idioma (Gate 3, Ola 2)", () => {
     const off = (lang: "es" | "en", c: typeof cdmx, title: string) => JSON.stringify(tourPage({ country: c.country, city: c.city, tour: pick(c, title), siteUrl: site, lang }).jsonLd).match(/"priceCurrency":"([A-Z]{3})"/)?.[1];
     expect(off("es", es, "Xochimilco")).toBe("EUR");
     expect(off("en", cdmx, "Xochimilco boats")).toBe("EUR");
+  });
+});
+
+describe("FREETOUR noindex + idiomas (REQ-831, REQ-832, REQ-662)", () => {
+  it("REQ-831/REQ-662: la ficha de FREETOUR es noindex y sin hreflang en todos los idiomas, aunque tenga texto en inglés", () => {
+    for (const [lang, c, title] of [["es", es, "Free tour Zócalo"], ["en", cdmx, "Zocalo free tour"]] as const) {
+      const m = tourPage({ country: c.country, city: c.city, tour: pick(c, title), siteUrl: site, lang }).meta;
+      expect(m.index, lang).toBe(false);
+      expect(m.languages, lang).toBeNull();
+    }
+  });
+  it("REQ-832/REQ-663: la ficha de FREETOUR no entra a los sitemaps en ningún idioma; la ciudad sí", () => {
+    const { files } = buildSitemaps(sitemapInput(tree, site, { locales: true }));
+    const href = pick(es, "Free tour Zócalo").href;
+    expect(files["sitemap-tours-mx.xml"]).not.toContain(href);
+    expect(files["sitemap-destinos.xml"]).toContain(`<loc>${site}/en/destinos/mx/ciudad-de-mexico</loc>`);
   });
 });
 

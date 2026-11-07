@@ -2,7 +2,7 @@
 import { sitePagesFromEnv, PAGE_PATHS, pageLabel, type SitePageKey } from "./lib/pages";
 import { sitePagesUrls } from "./lib/sitemap";
 import { blogEnv, loadPosts } from "@/blog/load";
-import { blogSitemapUrls } from "@/blog/lib/seo";
+import { blogSitemapUrls, blogLlmsEntries } from "@/blog/lib/seo";
 
 const env = () => process.env as Record<string, string | undefined>;
 const site = () => (env().SITE_URL || "https://travelpuzzle.com.mx").replace(/\/+$/, "");
@@ -20,4 +20,9 @@ export function sitePagesForLlms(): { name: string; url: string }[] {
   return (Object.keys(PAGE_PATHS) as SitePageKey[])
     .map((k) => ({ name: pageLabel(k, "es"), url: `${site()}${PAGE_PATHS[k]}` }))
     .filter((p) => urls.has(p.url));
+}
+
+/** REQ-973: entradas del blog para llms.txt (vacío si el blog está apagado o sin publicados). */
+export function blogForLlms(): { name: string; url: string }[] {
+  return blogEnv(env()).enabled ? blogLlmsEntries(loadPosts(), site()) : [];
 }

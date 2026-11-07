@@ -13,6 +13,8 @@ import { hreflangContractFailures, parseLocaleHead } from "../i18n/lib/contract"
 import { evidenceSlug, firstDifference, loadFailed } from "../ops/lib/smoke-evidence";
 import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
 import { fichaContractFailures, isFichaPath } from "../seo/lib/ficha-contract";
+import { blogSmokePaths } from "../blog/lib/seo";
+import { loadPosts } from "../blog/load";
 
 /** REQ-500: carpeta de evidencia (el workflow la sube como artefacto). */
 const EVIDENCE_DIR = process.env.SMOKE_EVIDENCE_DIR || "smoke-evidencia";
@@ -43,7 +45,9 @@ const config = parseSmokeConfig(JSON.parse(readFileSync("tests/smoke/pages.json"
 const optional = config.optional;
 // REQ-242: páginas institucionales tras bandera; con la bandera encendida se exigen como fijas (200, sin errores).
 const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-const fixed = [...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env)];
+// REQ-976: con BLOG_ENABLED encendida, /blog, los pilares con artículos y las 5 entradas más recientes son fijas.
+const blogOn = (process.env.BLOG_ENABLED ?? vars.BLOG_ENABLED) === "true";
+const fixed = [...new Set([...config.fixed, ...flaggedSmokePages(config.flagged, vars, process.env), ...(blogOn ? blogSmokePaths(loadPosts()) : [])])];
 // REQ-675: con LOCALE_URLS_ENABLED también se descubre una ficha en inglés.
 const discoverRules = [...config.discover, ...flaggedDiscoverRules(config, vars, process.env)];
 // REQ-676: el contrato de idioma lee el HTML como lo recibe un buscador.
@@ -130,7 +134,8 @@ const BOT_UA = "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingb
       }
       if (viewport === 1366 && result.status === 200 && first.raw && isFichaPath(path)) {
         const enrichment = /data-enriquecimiento="true"/.test(first.raw);
-        const fails = fichaContractFailures(first.raw, { enrichment });
+        // REQ-834: hoy las dos tablas por proveedor apagan a los mismos (FREETOUR); su test REQ-834 falla si se separan.
+        const fails = fichaContractFailures(first.raw, { enrichment, noindex: !enrichment });
         console.log(`${fails.length ? "✗" : "✓"} contrato de ficha (enriquecimiento ${enrichment}) ${path}`);
         contractFailures.push(...fails.map((x) => `contrato de ficha ${path}: ${x}`));
       }

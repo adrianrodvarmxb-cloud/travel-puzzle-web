@@ -19,3 +19,9 @@ Antes de subirla se confirma que la variable esté puesta en cPanel.
 - `errorMessage` de Freetour en el registro, sin correos ni teléfonos.
 - El sitio espera a la pasarela 35 s como máximo (504 claro).
 - Aviso de rechazo que no se pudo confirmar con Freetour → 503 para que lo reintente.
+
+## Tours de pago de Freetour (firmado por el PO el 3 nov 2026)
+- **Gate A — quién cobra:** checkout de Freetour (modo 2). Nosotros no tocamos tarjetas; ganamos la comisión.
+- **Gate B — política:** la que confirme Freetour por escrito (Elias): por reserva lo que diga la API (`canBeCanceled`) y el texto de reembolso confirmado. Sin ese texto no se cobra (REQ-013).
+- **Gate C — exposición:** piloto solo en la ficha, tras `PAID_TOURS_ENABLED`, sin recomendaciones (`PAID_TOURS_IN_RECOMMENDATIONS=false`), cargo en EUR con aviso; después en todo el sitio con MXN de referencia.
+- **Orden de encendido:** 1) migración 0009 (workflow manual con la casilla de migraciones), 2) merge, 3) texto de Elias en `paid-policy.ts`, 4) cancelación habilitada en Freetour, 5) `BOOKINGS_ENABLED` y `PAID_TOURS_ENABLED`.

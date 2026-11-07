@@ -1,0 +1,154 @@
+{
+  "cambios": 225,
+  "movimientos": {
+    "FREETOUR (pago)": {
+      "tour → experiencia-unica": 8,
+      "excursion-dia → tour": 202,
+      "caminata → experiencia-unica": 2,
+      "experiencia-unica → tour": 8,
+      "excursion-dia → caminata": 5
+    }
+  },
+  "conteos": {
+    "FREETOUR (pago)": {
+      "experiencia-unica": {
+        "antes": 259,
+        "despues": 261
+      },
+      "excursion-dia": {
+        "antes": 1071,
+        "despues": 864
+      },
+      "caminata": {
+        "antes": 1282,
+        "despues": 1285
+      },
+      "tour": {
+        "antes": 1115,
+        "despues": 1317
+      },
+      "traslado": {
+        "antes": 30,
+        "despues": 30
+      },
+      "circuito": {
+        "antes": 30,
+        "despues": 30
+      },
+      "autoguiado": {
+        "antes": 635,
+        "despues": 635
+      },
+      "fuera": {
+        "antes": 121,
+        "despues": 121
+      },
+      "entradas": {
+        "antes": 3,
+        "despues": 3
+      },
+      "transporte": {
+        "antes": 1,
+        "despues": 1
+      }
+    },
+    "Big Bus Tours": {
+      "transporte": {
+        "antes": 29,
+        "despues": 29
+      }
+    },
+    "Destino Colombia": {
+      "circuito": {
+        "antes": 10,
+        "despues": 10
+      }
+    },
+    "Exotic Escapes": {
+      "circuito": {
+        "antes": 15,
+        "despues": 15
+      }
+    },
+    "Extime Travel": {
+      "excursion-dia": {
+        "antes": 12,
+        "despues": 12
+      },
+      "tour": {
+        "antes": 58,
+        "despues": 58
+      },
+      "autoguiado": {
+        "antes": 18,
+        "despues": 18
+      },
+      "circuito": {
+        "antes": 18,
+        "despues": 18
+      },
+      "experiencia-unica": {
+        "antes": 52,
+        "despues": 52
+      },
+      "transporte": {
+        "antes": 12,
+        "despues": 12
+      },
+      "entradas": {
+        "antes": 8,
+        "despues": 8
+      },
+      "caminata": {
+        "antes": 1,
+        "despues": 1
+      }
+    },
+    "Fantástica China": {
+      "circuito": {
+        "antes": 50,
+        "despues": 50
+      },
+      "excursion-dia": {
+        "antes": 1,
+        "despues": 1
+      }
+    },
+    "Inca World Peru": {
+      "tour": {
+        "antes": 25,
+        "despues": 25
+      },
+      "excursion-dia": {
+        "antes": 16,
+        "despues": 16
+      },
+      "experiencia-unica": {
+        "antes": 1,
+        "despues": 1
+      },
+      "circuito": {
+        "antes": 30,
+        "despues": 30
+      },
+      "a-la-medida": {
+        "antes": 4,
+        "despues": 4
+      }
+    },
+    "Turismo Asiático": {
+      "circuito": {
+        "antes": 3,
+        "despues": 3
+      },
+      "tour": {
+        "antes": 6,
+        "despues": 6
+      },
+      "excursion-dia": {
+        "antes": 2,
+        "despues": 2
+      }
+    }
+  }
+}
