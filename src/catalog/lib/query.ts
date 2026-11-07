@@ -3,6 +3,7 @@
  * compacto del catálogo (una lectura por idioma cada 30 min), en vez de COUNT + LIKE en D1 en cada
  * visita. D1 solo entrega los 20 tours de la página por id. Puro.
  */
+import { FORMATOS_FILTRO } from "@/taxonomy/lib/filters";
 import { durationRangeWhere, type DurationRange } from "@/tours/lib/duration";
 import { freshSummary } from "@/departures/lib/summary";
 import { categoryGroupOf } from "@/tours/lib/extra-filters";
@@ -20,6 +21,8 @@ export interface CatalogEntry {
   languages?: string[] | null; dates?: string[] | null;
   /** REQ-057: nombres del destino en todos los idiomas (normalizados), para reconocer búsquedas por destino. */
   cityNames?: string[]; countryNames?: string[];
+  /** T4: formato de la taxonomía (lo calcula el cargador del índice). */
+  formato?: string;
 }
 export interface CatalogFilters {
   countryId?: number; cityId?: number; categoryId?: number; minPrice?: number; maxPrice?: number;
@@ -33,6 +36,9 @@ export interface CatalogFilters {
   ranked?: string[] | null;
   /** REQ-122: búsqueda nueva (SEARCH_V2_ENABLED="true"): el destino dentro del texto filtra y el resto se busca dentro. */
   searchV2?: boolean;
+  /** T4 (TAXONOMY_FILTERS_ENABLED): /tours solo con formatos de Experiencias y ?formato= filtra. */
+  taxonomy?: boolean;
+  formatos?: string[];
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -146,7 +152,12 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
   const narrow = !!(split && rank && entries.some((x) => rank.has(x.id) && split.match(x)));
   const useRank = !!rank && (!split || narrow);
   const dur = f.durationRange ? durationRangeWhere(f.durationRange) : null;
-  const hit = entries.filter((x) =>
+  // T4 (REQ-413, REQ-261, REQ-407): con la taxonomía, /tours solo lista formatos de Experiencias (sin online,
+  // por revisar ni traslados) y ?formato= filtra; los conteos por formato ignoran ese filtro (REQ-412: sin chips en cero).
+  const inTours = (x: CatalogEntry) => !f.taxonomy || (FORMATOS_FILTRO as readonly string[]).includes(x.formato ?? "");
+  const formatOk = (x: CatalogEntry) => !f.taxonomy || !f.formatos?.length || f.formatos.includes(x.formato ?? "");
+  const base = entries.filter((x) =>
+    inTours(x) &&
     (!f.countryId || x.countryId === f.countryId) &&
     (!f.cityId || x.cityId === f.cityId) &&
     (!f.categoryId || x.categoryId === f.categoryId) &&
@@ -163,11 +174,14 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (f.durMax == null || (x.durationMinutes !== null && x.durationMinutes <= f.durMax)) &&
     (split ? split.match(x) && (!narrow || rank!.has(x.id))
       : rank ? rank.has(x.id) && (!dest || dest(x)) : textMatch(x)));
+  const formatCounts: Record<string, number> | undefined = f.taxonomy ? {} : undefined;
+  if (formatCounts) for (const x of base) formatCounts[x.formato ?? ""] = (formatCounts[x.formato ?? ""] ?? 0) + 1;
+  const hit = base.filter(formatOk);
   if (useRank && !(p.sortBy && SORT[p.sortBy])) hit.sort((a, b) => rank.get(a.id)! - rank.get(b.id)!); // REQ-048: relevancia
   else sortBy(hit, p.sortBy === "relevance" ? { sortBy: "reviewsNumber", sortOrder: "desc" } : p); // sin FTS: más reseñas
   const limit = Math.min(100, Math.max(1, p.limit || 20));
   const page = Math.max(1, p.page || 1);
-  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit };
+  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit, formatCounts };
 }
 
 function sortBy(hit: CatalogEntry[], p: CatalogPage) {

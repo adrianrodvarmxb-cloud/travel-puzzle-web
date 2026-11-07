@@ -35,6 +35,8 @@ export const POLICY = {
   countries: { ttlSec: 3600, staleSec: 24 * 3600 },
   metadata: { ttlSec: 600, staleSec: 24 * 3600 },
   home: { ttlSec: 300, staleSec: 6 * 3600 },
+  /** REQ-306: ficha de viaje propio; corta para que una edición del gestor se vea pronto. */
+  ownTrip: { ttlSec: 120, staleSec: 6 * 3600 },
 } satisfies Record<string, CachePolicy>;
 
 export function cached<T>(key: string, policy: CachePolicy, load: () => Promise<T>): Promise<T> {

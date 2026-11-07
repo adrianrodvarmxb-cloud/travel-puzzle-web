@@ -3,6 +3,8 @@ import { destinationTree, findCity } from "./catalog";
 import { fx, tour } from "../fixtures/destinos";
 import { cityPage, countryPage, destinosPage, primeraPiezaPage, tourPage, cityTransportCards, goneRewritePath, goneViewFromPlace, sitemapInput } from "./page-model";
 import { buildSitemaps } from "@/seo/lib/sitemaps";
+import { catalogClassifier } from "@/taxonomy/lib/publish";
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { findDuplicateTitles } from "@/seo/lib/titles";
 
 const site = "https://travelpuzzle.com.mx";
@@ -201,5 +203,35 @@ describe("REQ-102: sitemaps desde el árbol", () => {
     expect(files["sitemap-destinos.xml"]).not.toContain("/destinos/mx/oaxaca<");
     expect(files["sitemap-tours-mx.xml"]).not.toContain("/oaxaca/");
     expect(files["sitemap-tours-mx.xml"]).toContain("<lastmod>2026-11-02</lastmod>");
+  });
+});
+
+describe("T5 ficha con etiquetas y copy por formato (TAXONOMY_LABELS_ENABLED)", () => {
+  const tax = catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS);
+  const t5 = [
+    tour(10, 1, { title: "Audioguía del Centro", price: 9, categoryId: 17, provider: "Audio MX" }),
+    tour(10, 1, { title: "Excursión a Teotihuacán", price: 60, categoryId: 4, provider: "Guía Luis" }),
+    tour(10, 1, { title: "Free tour Zócalo", price: 0, categoryId: 12, provider: "Guía Ana" }),
+  ];
+  const hit = findCity(destinationTree({ ...fx, tours: t5, trips: [], now, taxonomy: tax }), "mx", "ciudad-de-mexico")!;
+  const page = (title: string, labels = true) => {
+    const t = [...hit.city.freeTours, ...hit.city.paidTours].find((x) => x.title === title)!;
+    return tourPage({ country: hit.country, city: hit.city, tour: t, siteUrl: site, lang: "es", labels });
+  };
+  it("REQ-415 / REQ-416 audioguía: etiqueta de formato, sin «guía local» en «operado por» ni en la descripción", () => {
+    const p = page("Audioguía del Centro");
+    expect(p.labels).toEqual(["Autoguiado (audioguía)"]);
+    expect(p.operatedBy).toBe("Operado por Audio MX");
+    expect(p.meta.description).not.toMatch(/guía local/);
+  });
+  it("G-T9 excursión: title «– Excursión desde {Ciudad}»; el H1 sigue siendo el título real (REQ-415)", () => {
+    const p = page("Excursión a Teotihuacán");
+    expect(p.meta.title).toMatch(/^Excursión a Teotihuacán – Excursión desde Ciudad de México \| /);
+    expect(p.heading.h1).toBe("Excursión a Teotihuacán");
+  });
+  it("REQ-415 con la bandera apagada la ficha es la de hoy (sin etiquetas, copy de siempre)", () => {
+    const p = page("Audioguía del Centro", false);
+    expect(p.labels).toEqual([]);
+    expect(p.operatedBy).toBe("Operado por un guía local · Audio MX");
   });
 });
