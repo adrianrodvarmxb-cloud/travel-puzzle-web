@@ -86,7 +86,7 @@ describe("REQ-100: JSON-LD y migas", () => {
 
   it("REQ-100: ciudad = TouristDestination (ISO-2) + BreadcrumbList + FAQPage con 3 a 5 preguntas", () => {
     const p = cityPage(cdmx.country, cdmx.city, site);
-    expect(types(p.jsonLd)).toEqual(["TouristDestination", "BreadcrumbList", "FAQPage"]);
+    expect(types(p.jsonLd)).toEqual(["TouristDestination", "BreadcrumbList", "FAQPage", "ItemList"]); // REQ-582
     expect((p.jsonLd[0] as { address: { addressCountry: string } }).address.addressCountry).toBe("MX");
     expect(p.faq.length).toBeGreaterThanOrEqual(3);
     expect(p.faq.length).toBeLessThanOrEqual(5);
@@ -94,9 +94,9 @@ describe("REQ-100: JSON-LD y migas", () => {
   });
 
   it("REQ-100: país = TouristDestination + BreadcrumbList; hubs = BreadcrumbList", () => {
-    expect(types(countryPage(tree[0], site).jsonLd)).toEqual(["TouristDestination", "BreadcrumbList"]);
-    expect(types(destinosPage(tree, site).jsonLd)).toEqual(["BreadcrumbList"]);
-    expect(types(primeraPiezaPage(tree, site).jsonLd)).toEqual(["BreadcrumbList"]);
+    expect(types(countryPage(tree[0], site).jsonLd)).toEqual(["TouristDestination", "BreadcrumbList", "ItemList"]); // REQ-582
+    expect(types(destinosPage(tree, site).jsonLd)).toEqual(["BreadcrumbList", "ItemList"]);
+    expect(types(primeraPiezaPage(tree, site).jsonLd)).toEqual(["BreadcrumbList", "ItemList"]);
   });
 
   it("REQ-100 / REQ-571: ficha = Product+TouristTrip + Offer en la moneda del tour (0 en free tour) + BreadcrumbList con URLs absolutas", () => {
@@ -109,6 +109,19 @@ describe("REQ-100: JSON-LD y migas", () => {
 
   it("REQ-100: las respuestas del FAQ no mencionan a FREETOUR", () => {
     for (const { q, a } of cityPage(cdmx.country, cdmx.city, site).faq) expect(`${q} ${a}`).not.toMatch(/freetour/i);
+  });
+});
+
+describe("REQ-582: ItemList en los hubs con las URLs de las tarjetas", () => {
+  const list = (ld: unknown[]) => ld.find((x) => (x as { "@type": string })["@type"] === "ItemList") as { itemListElement: { url: string; name: string }[] };
+  it("REQ-582: la ciudad lista sus experiencias con la URL de la tarjeta (absoluta)", () => {
+    const urls = list(cityPage(cdmx.country, cdmx.city, site).jsonLd).itemListElement.map((i) => i.url);
+    expect(urls).toEqual([...cdmx.city.freeTours, ...cdmx.city.paidTours].map((t) => `${site}${t.href}`));
+  });
+  it("REQ-582: el país lista sus ciudades; /destinos sus países; La Primera Pieza sus free tours", () => {
+    expect(list(countryPage(tree[0], site).jsonLd).itemListElement.map((i) => i.name)).toEqual(tree[0].cities.map((c) => c.name));
+    expect(list(destinosPage(tree, site).jsonLd).itemListElement[0].url).toBe(`${site}/destinos/mx`);
+    expect(list(primeraPiezaPage(tree, site).jsonLd).itemListElement.every((i) => i.url.startsWith(`${site}/destinos/`))).toBe(true);
   });
 });
 

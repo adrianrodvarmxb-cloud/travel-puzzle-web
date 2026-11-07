@@ -393,6 +393,17 @@ Fase «Antes de código»: solo documentos. Ningún REQ tiene código ni test to
 | Uso de filtros por formato y tema | medir 4 semanas y fijar meta | — |
 
 
+## Fichas legibles para buscadores e IA — PR 2: listados y sitemaps (PO, 6 nov 2026) — matriz de trazabilidad
+
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-582 | ItemList en /tours, /destinos, país, ciudad, /la-primera-pieza y carruseles del inicio, con URL canónica final | `src/seo/lib/itemlist.ts`, `src/seo/lib/listing-ld.ts`, `destinations/lib/page-model.ts`, `app/page.tsx`, `app/tours/page.tsx` | `itemlist.test.ts`, `listing-ld.test.ts`, `page-model.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-583 | Tarjetas = `<a href>` reales con título, ciudad · duración, precio y operador en el HTML del servidor (ya se cumplía; queda un test que lo protege) | `components/tours/ExperienceCard.tsx` | `ExperienceCard.seo.test.ts` | CUMPLIDO |
+| REQ-584 | sitemap-viajes.xml con las fichas /viajes canónicas y lastmod = updatedAt | `src/seo/lib/sitemaps-viajes.ts`, `seo/lib/sitemaps.ts`, `destinations/sitemaps.ts`, `destinations/server.ts`, `app/sitemap-viajes.xml/route.ts` | `sitemaps-viajes.test.ts` | CUMPLIDO (falta OK del PO) |
+| REQ-585 | robots.txt no bloquea a OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot, Claude-User, Bingbot ni Googlebot | `src/seo/lib/robots.ts` (sin cambios de salida) | `robots-bots.test.ts` | CUMPLIDO |
+
+Notas: las tarjetas de /tours y del inicio siguen enlazando a /tours/{id} (301 a /destinos); el ItemList ya declara la URL final. Cambiar el enlace de la tarjeta queda como mejora aparte (evita un salto 301 a los bots). llms.txt sin cambios (evidencia nula, decisión del PO).
+
 ## Tarjeta única de experiencia (PO, 6 nov 2026, 14:24) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
