@@ -53,4 +53,11 @@ describe("agente diario", () => {
     expect(prompt).toContain("npx tsx src/scripts/blog-imagenes.ts docs/blog/entradas/{hoy}.json");
     expect(prompt).toContain("blog-diario.ts validar docs/blog/entradas/{hoy}.json --archivos");
   });
+
+  it("REQ-1083: el prompt incluye el paso de redes (mismo tema adaptado, láminas, reglas B3)", () => {
+    expect(prompt).toContain("## Paso 5 bis — Redes del día (LinkedIn, Facebook, Instagram)");
+    expect(prompt).toContain("npx tsx src/scripts/redes-laminas.ts docs/blog/entradas/{hoy}.json");
+    expect(prompt).toContain("nada de «FREETOUR» ni de su logo");
+    expect(prompt).toContain("issue «Redes del día»");
+  });
 });

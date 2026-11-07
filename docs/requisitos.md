@@ -708,3 +708,23 @@ Petición literal: «está muy bien, pero agrega imágenes que se vea premium».
 | REQ-1057 | «que el agente diario las elija cada día» | Dado `docs/blog/agente-diario.md`, entonces pide portada y 2 a 4 fotos de bancos con licencia, sin FREETOUR, y corre `blog-imagenes.ts` antes de validar | CUMPLIDO |
 | REQ-1058 | Imagen en el marcado | Dada una portada del sitio, entonces el JSON-LD y Open Graph usan el JPG de 1600 px en URL absoluta, la tarjeta usa el de 800 y el tiempo de lectura no cuenta créditos ni alt | CUMPLIDO |
 | REQ-1059 | Gate G4 (ampliación de G2) | Dado el gate, entonces registra G4 con el pedido literal; la firma del PO queda pendiente | PENDIENTE (firma del PO) |
+
+## Redes del día: LinkedIn, Facebook e Instagram (PO, 7 nov 2026, 04:28)
+Petición literal: «dile al agente que todos los días publique también en LinkedIn, Facebook e IG el mismo tema, pero adaptado a cada red social». Guía del PO: `docs/redes/conexion.md`.
+| ID | Petición | Criterio (Dado / Cuando / Entonces) | Estado |
+|---|---|---|---|
+| REQ-1070 | LinkedIn (página de empresa) | Dada la entrada, entonces el post tiene 1,200–1,800 caracteres, el título como gancho en la 1a línea, 3 a 5 viñetas, enlace con `utm_source=linkedin&utm_medium=social&utm_campaign=blog` y 3 a 5 hashtags | CUMPLIDO |
+| REQ-1071 | Facebook (página) | Dada la entrada, entonces el post tiene 400–800 caracteres, tono cercano y enlace con UTM de facebook | CUMPLIDO |
+| REQ-1072 | Instagram (cuenta business) | Dada la entrada, entonces el caption tiene hasta 2,200 caracteres, «link en bio», ninguna URL y de 10 a 15 hashtags sin repetir | CUMPLIDO |
+| REQ-1073 | Láminas de Instagram | Dada la entrada, entonces se generan de 3 a 5 láminas 1080×1350 en diseño de marca (portada con la foto y el título en franja; 3 o 4 datos con su fuente), servidas en `/blog/img/{slug}/ig-{n}.jpg` y publicadas con la entrada | CUMPLIDO |
+| REQ-1074 | «Las mismas reglas del blog» | Dados los textos de redes, cuando tienen vocabulario prohibido, una cifra que no está con fuente en el artículo, el UTM equivocado o salen de los límites, entonces se rechazan, y la entrada no se publica | CUMPLIDO |
+| REQ-1075 | Workflow `redes-diario.yml` tras publicar | Dada una entrada publicada, entonces `blog-diario.yml` lanza `redes-diario.yml` con su ruta, que arma, valida y publica | CUMPLIDO (falta la primera corrida real) |
+| REQ-1076 | Una bandera por red; tokens del PO | Dado `wrangler.jsonc`, entonces `SOCIAL_LINKEDIN_ENABLED`, `SOCIAL_FACEBOOK_ENABLED` y `SOCIAL_INSTAGRAM_ENABLED` están en "false" y los tokens solo llegan como secretos | CUMPLIDO |
+| REQ-1077 | Facebook por Graph API | Dada la red encendida con sus secretos, entonces publica con POST `/{page-id}/feed` (message + link) | CUMPLIDO (sin probar contra Meta: faltan tokens) |
+| REQ-1078 | Instagram por Graph API | Dada la red encendida, entonces crea un contenedor por lámina (`is_carousel_item`), el carrusel con caption, espera `FINISHED` y publica con `/media_publish`; si una lámina no es pública, no publica | CUMPLIDO (sin probar contra Meta: faltan tokens) |
+| REQ-1079 | LinkedIn por Community Management API | Dada la red encendida, entonces publica con POST `/rest/posts` como `urn:li:organization:{id}`, con versión y «little text» escapado | CUMPLIDO (sin probar contra LinkedIn: falta token) |
+| REQ-1080 | «Si una red falla, no bloquea a las demás» | Dada una red que responde error, entonces las otras se publican igual y el motivo queda en el issue «Redes: no se publicó» | CUMPLIDO |
+| REQ-1081 | Sin tokens: copiar y pegar | Dada una red apagada o sin secretos, entonces sus textos y láminas quedan como artefacto y en el issue «Redes del día» | CUMPLIDO |
+| REQ-1082 | Pasos del PO para cada token | Dado `docs/redes/conexion.md`, entonces trae los pasos uno por uno: página de Facebook y app de Meta con permisos, IG business vinculada y app de LinkedIn con Community Management | CUMPLIDO |
+| REQ-1083 | Prompt del agente con el paso de redes | Dado `docs/blog/agente-diario.md`, entonces explica el paso de redes y cómo revisar las láminas | CUMPLIDO |
+| REQ-1084 | Cumplimiento FREETOUR B3 en redes | Dados los textos y los hashtags, entonces no mencionan «FREETOUR» ni usan su logo; anunciar free tours sí | CUMPLIDO |
