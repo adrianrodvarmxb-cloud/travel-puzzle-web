@@ -83,7 +83,7 @@
     // Retención en tarjeta con Stripe al solicitar (REQ-059). "true" solo cuando el cobro diferido exista en producción.
     "STRIPE_HOLD_ENABLED": "false",
     // Enlace de pago de Stripe para solicitudes (REQ-114..119). "true" solo tras migración 0013, webhook creado y OK del PO.
-    "STRIPE_ENABLED": "false",
+    "STRIPE_ENABLED": "true",
     // Colchón de tipo de cambio para cobros en USD/EUR (gate B1).
     "STRIPE_FX_CUSHION_PCT": "3",
     // REQ-081: post-tour (correo o WhatsApp) que promueva tours de FREETOUR. "true" solo con autorización escrita en docs/freetour/autorizaciones.md.
@@ -131,6 +131,9 @@
     // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
     // existan /la-primera-pieza y /destinos (Olas 3 y 4), con preview, prueba de humo y OK del PO.
     "PRIMERA_PIEZA_ENABLED": "true",
+    // URL por idioma (Gate 3, REQ-650…676): /en, /pt, /fr, /it, /de con el idioma de la URL; la cookie solo sugiere.
+    // Apagada = como hoy (idioma por cookie, /en/... da 404). "true" con preview encendido, prueba de humo y OK del PO.
+    "LOCALE_URLS_ENABLED": "false",
     // Carruseles del home (REQ-450, REQ-453): «Los más elegidos» por medidor de reseñas (bayesiano, cualquier proveedor)
     // y «Excursiones de un día». "true" con preview con la bandera encendida, prueba de humo y OK del PO.
     "CARRUSELES_HOME_ENABLED": "true",
@@ -157,11 +160,18 @@
     // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
     "VISA_ENABLED": "false",
     "ETIAS_ENABLED": "false",
+    // Copia exacta del crudo de cada proveedor en R2 PRIVADO (REQ-740…748, Ola R1). Requiere, en este orden y cada paso
+    // con OK del PO: bucket privado travel-puzzle-raw, binding RAW_ARCHIVE en r2_buckets y migración 0022 aplicada
+    // (docs/runbooks/copia-exacta.md). "true" con preview encendido y prueba de humo. Si falla, el sync sigue.
+    "RAW_ARCHIVE_ENABLED": "false",
     "EMAIL_FROM": "Travel Puzzle <reservas@travelpuzzle.com.mx>",
     "EMAIL_REPLY_TO": "info@travelpuzzle.com.mx",
     // REQ-586: IndexNow (Bing y demás; Google no participa). "true" solo con INDEXNOW_KEY cargada como variable
     // (la crea el PO; es pública por diseño), preview con la bandera encendida, prueba de humo y OK del PO.
     "INDEXNOW_ENABLED": "false",
+    // REQ-626: clave de IndexNow (pública por diseño: se sirve en /indexnow-key.txt solo con INDEXNOW_ENABLED="true").
+    // Variable NO secreta, a pedido del PO («hazlo tú», 6 nov 2026 22:37). Regreso: quitar la variable (con la bandera apagada no se usa).
+    "INDEXNOW_KEY": "08fccf385745e822f4ea759d05a50ad6",
     // Dirección pública del sitio (para los enlaces de los correos). Cambia al pasar el dominio.
     "SITE_URL": "https://travelpuzzle.com.mx",
     // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)

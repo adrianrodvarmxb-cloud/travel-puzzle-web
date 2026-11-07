@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/i18n/LocalizedLink';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { loadMaplibre } from '@/components/map/maplibre';
 import { MAP_STYLE } from '@/components/map/WorldMap';
