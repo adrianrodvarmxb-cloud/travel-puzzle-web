@@ -440,3 +440,74 @@ describe("runGuardedSyncStep: estado de indexación de ciudades (REQ-090)", () =
     expect(last(r)).toMatchObject({ action: "finish", cityIndex: "error" });
   });
 });
+
+// ── Ola R1 · copia exacta (REQ-543, REQ-544): el crudo de cada item de /tours se archiva ANTES de transformarlo ──
+import { createMemoryRawArchive, type RawArchive } from "@/ingest/raw-archive";
+
+async function runDayRaw(db: ReturnType<typeof memoryRepo>, source: (page: number) => unknown, start: Date, rawArchive?: RawArchive) {
+  const api = feedApi(source);
+  const results: Record<string, unknown>[] = [];
+  for (let i = 0; i < 60; i++) {
+    const now = new Date(start.getTime() + i * 60_000);
+    const res = await runGuardedSyncStep({ api, repo: db.repo, countries: countries as never, now, newId, rawArchive });
+    results.push(res);
+    if (res.action === "finish" || res.action === "abort") break;
+  }
+  return results;
+}
+const withUpdated = (list: FeedTour[]) => list.map((t) => ({ ...t, updatedAt: `2026-11-0${t.id % 9}T10:00:00Z` }));
+
+describe("REQ-543 FREETOUR: crudo de /tours archivado antes de transformar, solo si cambia la huella", () => {
+  it("REQ-543 la primera corrida guarda los 6 items íntegros con su updatedAt; el catálogo publicado no cambia", async () => {
+    const plain = memoryRepo();
+    await runDayRaw(plain, pagedFeed(withUpdated(BASE_CATALOG)), day(10));
+    const db = memoryRepo();
+    const m = createMemoryRawArchive();
+    const res = await runDayRaw(db, pagedFeed(withUpdated(BASE_CATALOG)), day(10), m.archive);
+    expect(last(res).action).toBe("finish");
+    expect(m.objects.size).toBe(6);
+    const rec = [...m.records.values()].find((r) => r.externalId === "2")!;
+    expect(rec).toMatchObject({ provider: "freetour", providerUpdatedAt: "2026-11-02T10:00:00Z", sourceRef: "/tours?page=1", experienceKind: "tour" });
+    expect(JSON.parse(m.objects.get(rec.r2Key)!.body as string)).toEqual(withUpdated(BASE_CATALOG)[1]);
+    expect(db.writes()).toBe(plain.writes());
+    expect([...db.tours.values()].map((t) => t.contentHash)).toEqual([...plain.tours.values()].map((t) => t.contentHash));
+  });
+  it("REQ-543 al día siguiente sin cambios no escribe; con un tour renombrado escribe solo esa versión", async () => {
+    const db = memoryRepo();
+    const m = createMemoryRawArchive();
+    await runDayRaw(db, pagedFeed(withUpdated(BASE_CATALOG)), day(11), m.archive);
+    await runDayRaw(db, pagedFeed(withUpdated(BASE_CATALOG).map((t) => ({ ...t, updatedAt: "2026-11-12T00:00:00Z" }))), day(12), m.archive);
+    expect(m.objects.size).toBe(6);
+    await runDayRaw(db, pagedFeed(withUpdated(RENAMED_CATALOG)), day(13), m.archive);
+    expect(m.objects.size).toBe(7);
+    expect([...m.records.values()].filter((r) => r.externalId === "2")).toHaveLength(2);
+  });
+  it("REQ-543 un item sin id (que el sync descarta) también queda en la copia exacta", async () => {
+    const db = memoryRepo();
+    const m = createMemoryRawArchive();
+    const feed = (page: number) => {
+      const body = pagedFeed(withUpdated(BASE_CATALOG))(page) as { data: { tours: unknown[] } };
+      if (page === 1) body.data.tours.push({ title: { es: "sin id" } });
+      return body;
+    };
+    await runDayRaw(db, feed, day(14), m.archive);
+    expect([...m.objects.keys()].some((k) => k.startsWith("raw/freetour/_sin-id/"))).toBe(true);
+  });
+});
+
+describe("REQ-544 si falla el archivo crudo, el sync de FREETOUR sigue igual", () => {
+  it("REQ-544 R2 caído: la corrida termina y publica lo mismo que sin archivo", async () => {
+    const plain = memoryRepo();
+    await runDayRaw(plain, pagedFeed(BASE_CATALOG), day(15));
+    const db = memoryRepo();
+    const broken: RawArchive = { knownVersions: async () => { throw new Error("D1 sin tabla ProviderRecord"); }, put: async () => {}, record: async () => {} };
+    const res = await runDayRaw(db, pagedFeed(BASE_CATALOG), day(15), broken);
+    expect(last(res).action).toBe("finish");
+    expect(db.writes()).toBe(plain.writes());
+    expect(res.find((r) => r.action === "start")!.raw).toMatchObject({ failed: 1 });
+  });
+  it("REQ-544 sin archivo (bandera apagada) la respuesta no cambia: no trae el campo raw", async () => {
+    const res = await runDayRaw(memoryRepo(), pagedFeed(BASE_CATALOG), day(16));
+    expect(res.every((r) => !("raw" in r))).toBe(true);
+  });
+});

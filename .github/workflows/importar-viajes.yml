@@ -1,6 +1,8 @@
 # REQ-039: carga de viajes de un operador desde imports/<archivo>.json.
 # Por defecto es ENSAYO: baja fotos, valida y genera el SQL como artefacto; solo LEE una fecha de D1 para copiar su formato.
 # Escribir en producción (R2 + D1) solo con workflow_dispatch, escribir=true y OK del PO (candado: datos de producción).
+# REQ-545 (Ola R1): la copia exacta de cada item y del documento original se prepara en crudo/ (NO se sube como artefacto)
+# y solo se escribe en el bucket PRIVADO travel-puzzle-raw + ProviderRecord con escribir=true y RAW_ARCHIVE_ENABLED="true".
 name: Importar viajes
 on:
   push:
@@ -15,6 +17,10 @@ on:
         description: "Escribir en producción (R2 + D1)"
         type: boolean
         default: false
+      documento:
+        description: "Enlace de descarga del documento original del proveedor (PDF o página), opcional (REQ-545)"
+        required: false
+        default: ""
 env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
@@ -40,13 +46,37 @@ jobs:
           s=$(npx wrangler d1 execute travel-puzzle --remote --json --command 'SELECT "createdAt" AS c FROM "Tour" LIMIT 1' | jq -r '.[0].results[0].c')
           echo "Muestra: $s"
           echo "NOW_SAMPLE=$s" >> "$GITHUB_ENV"
-      - name: Preparar carga (fotos + validación + SQL)
+      # REQ-545: documento original del proveedor (gate 4). Va a crudo/, nunca al artefacto ni al repo.
+      - name: Documento original (opcional)
+        if: ${{ inputs.documento != '' && inputs.documento != null }}
+        env:
+          DOC_URL: ${{ inputs.documento }}
+        run: |
+          mkdir -p original
+          name=$(basename "${DOC_URL%%\?*}")
+          case "$name" in *.*) ;; *) name="$name.pdf" ;; esac
+          curl -sSL -o "original/$name" "$DOC_URL"
+          echo "ORIGINAL_DOC=$PWD/original/$name" >> "$GITHUB_ENV"
+      - name: Preparar carga (fotos + validación + SQL + copia exacta en crudo/)
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          CRUDO_DIR: crudo
         run: npx tsx src/scripts/import-trips.ts "$ARCHIVO" salida "$OPERADOR_DIR"
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: carga-viajes, path: salida, retention-days: 7 }
+      # REQ-545: primero la copia exacta (R2 privado y luego su índice en D1); solo con la bandera encendida en wrangler.jsonc.
+      - name: Bandera de la copia exacta
+        id: crudo
+        run: |
+          if grep -Eq '"RAW_ARCHIVE_ENABLED":[[:space:]]*"true"' wrangler.jsonc; then echo "on=true" >> "$GITHUB_OUTPUT"; else echo "on=false" >> "$GITHUB_OUTPUT"; echo "RAW_ARCHIVE_ENABLED apagada: la copia exacta queda solo en el runner"; fi
+      - name: Copia exacta a R2 privado + índice
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.escribir && steps.crudo.outputs.on == 'true' }}
+        run: |
+          cd crudo/objetos
+          find raw source -type f 2>/dev/null | while read k; do npx wrangler r2 object put "travel-puzzle-raw/$k" --file "$k" --remote > /dev/null && echo "R2 privado $k"; done
+          cd ../..
+          npx wrangler d1 execute travel-puzzle --remote --file crudo/crudo.sql
       - name: Subir fotos a R2
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.escribir }}
         run: |

@@ -4,15 +4,25 @@
  * Baja las fotos (Pixabay por id con PIXABAY_API_KEY, o archivos del operador), valida cada viaje con el
  * mismo esquema del gestor y escribe import.sql + fotos/<llave> + reporte.json. No toca producción.
  * Variables: PIXABAY_API_KEY, NOW_SAMPLE (fecha de una fila existente para copiar su formato).
+ * REQ-545 (Ola R1, copia exacta): además escribe en CRUDO_DIR (por omisión `crudo/`, fuera de la carpeta de salida para
+ * que NO se suba como artefacto) cada item COMPLETO del archivo (con source, hold y taxonomia) como objeto
+ * raw/<proveedor>/<ref>/<huella>.json, el documento original si viene en ORIGINAL_DOC (source/<agencia>/…) y el SQL
+ * del índice ProviderRecord. No sube nada: eso lo hace el workflow con escribir=true y RAW_ARCHIVE_ENABLED="true".
  */
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
 import { dirname, extname, join } from "node:path";
 import { tripInputSchema } from "../trips/schemas/trip";
 import { buildImportSql, formatLike, type ImportAgency } from "../trips/lib/bulk-import";
 import { IMAGE_KEY_RE } from "../trips/lib/image";
+import { documentFor, planImportArchive, recordSql } from "../ingest/lib/import-archive";
 
 type Photo = { src: "pixabay"; id: number; alt: string } | { src: "inca"; file: string; alt: string };
-interface Entry { ref: string; status: "draft" | "published"; photos: Photo[]; trip: Record<string, unknown> }
+// REQ-545: el item se conserva COMPLETO para la copia exacta; el gestor solo usa ref, status, photos y trip.
+interface Entry {
+  ref: string; status: "draft" | "published"; photos: Photo[]; trip: Record<string, unknown>;
+  source?: string; hold?: string; taxonomia?: Record<string, unknown>; original?: { pagina?: number };
+  [extra: string]: unknown;
+}
 interface Bundle { agency: ImportAgency; keyStamp: number; seqStart?: number; trips: Entry[] }
 
 const [input, out, operatorDir = ""] = process.argv.slice(2);
@@ -80,9 +90,24 @@ async function main() {
   const { sql, report } = buildImportSql(rows, bundle.agency, now, bundle.seqStart ?? 1);
   writeFileSync(join(out, "import.sql"), sql.join("\n") + "\n");
   writeFileSync(join(out, "reporte.json"), JSON.stringify({ errors, report }, null, 2));
+  await writeRawCopy();
   for (const r of report) console.log(`${r.ref.padEnd(8)} ${r.code.padEnd(16)} ${r.status.padEnd(9)} ${r.missing.join(", ")}`);
   console.log(`\n${report.length} viajes · ${report.filter((r) => r.status === "published").length} publicados · ${errors.length} errores`);
   errors.forEach((x) => console.log(`ERROR ${x}`));
   if (errors.length) process.exit(1);
 }
+/** REQ-545: objetos de la copia exacta + SQL del índice, en una carpeta local que no se publica. */
+async function writeRawCopy() {
+  const dir = process.env.CRUDO_DIR || "crudo";
+  const when = new Date();
+  const docPath = process.env.ORIGINAL_DOC || "";
+  const provider = (await planImportArchive(bundle, { runId: "probe", now: when })).provider;
+  const doc = docPath ? await documentFor(provider, docPath.split("/").pop()!, new Uint8Array(readFileSync(docPath)), when) : null;
+  const plan = await planImportArchive(bundle, { runId: `import:${input.split("/").pop()}:${when.toISOString()}`, now: when, doc });
+  for (const w of plan.writes) { mkdirSync(dirname(join(dir, "objetos", w.key)), { recursive: true }); writeFileSync(join(dir, "objetos", w.key), w.body); }
+  if (doc) { mkdirSync(dirname(join(dir, "objetos", doc.key)), { recursive: true }); writeFileSync(join(dir, "objetos", doc.key), doc.data); }
+  writeFileSync(join(dir, "crudo.sql"), recordSql(plan.writes.map((w) => w.row), doc).join("\n") + "\n");
+  console.log(`copia exacta: ${plan.writes.length} items${doc ? ` + documento ${doc.key}` : " (sin documento original)"} en ${dir}/`);
+}
+
 main().catch((e) => { console.log(`Error: ${e.message}`); process.exit(1); });
