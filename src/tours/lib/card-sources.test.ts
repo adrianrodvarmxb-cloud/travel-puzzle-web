@@ -39,7 +39,7 @@ describe("REQ-520: todas las fuentes dan la misma tarjeta", () => {
       rating: null, reviews: 0, duration: "1:30", kind: "free", updatedAt: "", formato: "pieza-libre", city: "París" };
     expect(fromDestinationTour(d, { price: null })).toMatchObject({ category: "Pieza libre", meta: "París · 1 h 30 min", rating: null, provider: "Ana" });
     const own: TourCardModel = { ...d, kind: "own", isFreeTour: false, formato: "circuito", priceLabel: "Desde MXN $25,000", durationDays: 8, provider: "Exotic Escapes", duration: null };
-    expect(fromDestinationTour(own, { price: null })).toMatchObject({ category: "Circuito (varios días)", meta: "París · 8 días", price: { text: "Desde MXN $25,000", free: false }, provider: "Exotic Escapes" });
+    expect(fromDestinationTour(own, { price: null })).toMatchObject({ category: "Circuito", meta: "París · 8 días", price: { text: "Desde MXN $25,000", free: false }, provider: "Exotic Escapes" });
   });
 
   it("REQ-520 REQ-524: viajes de agencias — Big Bus con su nombre y categoría de transporte", () => {
