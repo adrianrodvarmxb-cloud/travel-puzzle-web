@@ -1,0 +1,64 @@
+# REQ-350…353 (plan S5): ENSAYO de alias de destino. No escribe en la base: no hay ningún paso de escritura.
+# 1) Exporta de D1 en SOLO LECTURA las ciudades (id, país, geonameid si la 0016 ya está aplicada).
+# 2) Baja GeoNames alternateNamesV2 (CC BY 4.0) con caché mensual y, si se pide, consulta Wikidata (CC0) por P1566.
+# 3) Genera destino-alias.csv, destino-alias.sql (INSERT OR IGNORE) y cobertura.json, y los sube como artefacto.
+# Aplicar el SQL en producción es otro paso, a mano, con OK del PO (candado), DESPUÉS de la migración de destino_alias.
+name: Alias de destino (ensayo)
+on:
+  workflow_dispatch:
+    inputs:
+      wikidata:
+        description: "Consultar también Wikidata (CC0) por geonameid"
+        type: boolean
+        default: true
+permissions:
+  contents: read
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  ensayo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas de la lógica (REQ-350…354)
+        run: npx vitest run src/search/lib/alias-ingest.test.ts
+      - name: Exportar ciudades de D1 (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p export
+          q() { npx wrangler d1 execute travel-puzzle --remote --json --command "$1"; }
+          n=$(q "SELECT COUNT(*) AS n FROM pragma_table_info('City') WHERE name = 'geonameid'" | jq -r '.[0].results[0].n' || echo 0)
+          if [ "$n" = "1" ]; then GN='"geonameid"'; else GN='NULL AS "geonameid"'; fi
+          q "SELECT \"id\", \"countryId\", $GN FROM \"City\"" > export/cities.json
+          echo "Ciudades: $(jq '.[0].results | length' export/cities.json); con geonameid: $(jq '[.[0].results[] | select(.geonameid != null)] | length' export/cities.json)"
+      - name: GeoNames alternateNamesV2 (caché mensual)
+        id: mes
+        run: echo "mes=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with: { path: geonames, key: "geonames-alt-${{ steps.mes.outputs.mes }}" }
+      - name: Bajar alternateNamesV2
+        run: |
+          mkdir -p geonames
+          [ -f geonames/alternateNamesV2.zip ] || curl -sSfL -o geonames/alternateNamesV2.zip https://download.geonames.org/export/dump/alternateNamesV2.zip
+      - name: Wikidata (CC0, opcional)
+        if: inputs.wikidata
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          jq -r '.[0].results[] | select(.geonameid != null) | .geonameid' export/cities.json > gn.txt
+          if [ ! -s gn.txt ]; then echo "Sin geonameid guardados: se omite Wikidata"; exit 0; fi
+          npx tsx -e 'import { wikidataAliasQuery } from "./src/search/lib/alias-ingest"; import { readFileSync, writeFileSync } from "node:fs"; writeFileSync("wd.sparql", wikidataAliasQuery(readFileSync("gn.txt","utf8").trim().split("\n").map(Number)));'
+          curl -sSf -H "Accept: application/sparql-results+json" -H "User-Agent: TravelPuzzleBot/1.0 (+https://travelpuzzle.com.mx)" --data-urlencode "query@wd.sparql" https://query.wikidata.org/sparql -o wikidata.json
+      - name: Ensayo de alias (solo archivos)
+        run: |
+          WD=""; [ -s wikidata.json ] && WD="--wikidata wikidata.json"
+          unzip -p geonames/alternateNamesV2.zip alternateNamesV2.txt | npx tsx src/scripts/alias-ingesta.ts - export salida $WD
+          cat salida/cobertura.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: alias-ensayo, path: "salida\nexport", retention-days: 10 }

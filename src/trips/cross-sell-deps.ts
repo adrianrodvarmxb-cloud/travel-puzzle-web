@@ -2,6 +2,8 @@
 import { getPrisma } from "@/lib/prisma";
 import { loadTripCards } from "./public-load";
 import { cityLabel, type CrossSellDeps } from "./cross-sell";
+import { catalogClassifier, FORMATOS_PRESENCIALES, taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
+import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 
 export function crossSellDeps(): CrossSellDeps {
   return {
@@ -14,9 +16,12 @@ export function crossSellDeps(): CrossSellDeps {
         where: { countryId: country.id, isActive: true, titleImageURL: { startsWith: "https://" } },
         orderBy: [{ reviewsNumber: "desc" }],
         take: 60,
-        select: { id: true, titleImageURL: true, priceValue: true, priceCurrency: true, city: { select: { translations: true } }, translations: { select: { language: true, title: true } } },
+        select: { id: true, titleImageURL: true, priceValue: true, priceCurrency: true, categoryId: true, durationMinutes: true, city: { select: { translations: true } }, translations: { select: { language: true, title: true } } },
       });
+      // T3 (REQ-407): con TAXONOMY_PUBLISH_ENABLED solo formatos presenciales (sin online, servicios, audioguías ni traslados).
+      const taxonomy = taxonomyPublishEnabled(process.env as Record<string, string | undefined>) ? catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS) : null;
       return rows.flatMap((r) => {
+        if (taxonomy && !FORMATOS_PRESENCIALES.includes(taxonomy({ categoryId: r.categoryId, price: Number(r.priceValue), durationMinutes: r.durationMinutes, title: r.translations.map((x) => x.title).join(" | ") }).formato)) return [];
         const title = r.translations.find((t) => t.language === lang)?.title ?? r.translations.find((t) => t.language === "en")?.title;
         const cityName = cityLabel(r.city?.translations, "es");
         if (!title || !cityName) return [];
