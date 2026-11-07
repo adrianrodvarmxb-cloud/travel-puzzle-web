@@ -15,15 +15,16 @@ const norm = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p) || "/";
 
 // REQ-676
 export function parseLocaleHead(html: string): LocaleHead {
-  const head = /<head[\s>][\s\S]*?<\/head>/i.exec(html)?.[0] ?? html;
-  const tags = head.match(/<(link|meta)\b[^>]*>/gi) ?? [];
+  // Todo el documento: Next 15 transmite los metadatos al final del <body> a quien no está en htmlLimitedBots
+  // (Googlebot incluido, que ejecuta JS y los sube al <head>); el primero que aparece manda.
+  const tags = html.match(/<(link|meta)\b[^>]*>/gi) ?? [];
   let canonical: string | null = null;
   let noindex = false;
   const alternates: Record<string, string> = {};
   for (const t of tags) {
     const rel = attr(t, "rel")?.toLowerCase();
-    if (rel === "canonical" && attr(t, "href")) canonical = pathOf(attr(t, "href")!);
-    if (rel === "alternate" && attr(t, "hreflang") && attr(t, "href")) alternates[attr(t, "hreflang")!] = pathOf(attr(t, "href")!);
+    if (rel === "canonical" && attr(t, "href") && canonical === null) canonical = pathOf(attr(t, "href")!);
+    if (rel === "alternate" && attr(t, "hreflang") && attr(t, "href") && !(attr(t, "hreflang")! in alternates)) alternates[attr(t, "hreflang")!] = pathOf(attr(t, "href")!);
     if (attr(t, "name")?.toLowerCase() === "robots" && /noindex/i.test(attr(t, "content") ?? "")) noindex = true;
   }
   return { lang: /<html\b[^>]*\blang\s*=\s*"([^"]*)"/i.exec(html)?.[1] ?? null, canonical, noindex, alternates };
