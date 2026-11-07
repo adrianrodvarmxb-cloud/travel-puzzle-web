@@ -17,7 +17,7 @@ export type FormatoFiltro = (typeof FORMATOS_FILTRO)[number];
 
 /** Etiquetas visibles (es y en del diccionario; pt/de/fr/it del flujo de traducción en T5, mientras tanto en inglés). */
 export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
-  "pieza-libre": { es: "Pieza libre", en: "Free tour" }, // REQ-269 (PO 6-11 10:43); EN «Free piece» por firmar
+  "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-269 (PO 6-11 10:43); EN REQ-1103 (PO 7-11 06:06)
   caminata: { es: "Caminata (tour a pie)", en: "Walking tour" },
   tour: { es: "Tour", en: "Guided tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
@@ -35,7 +35,7 @@ export const formatoLabel = (f: FormatoFiltro, lang: string) => FORMATO_LABEL[f]
  * Misma lista de formatos (el tipo obliga a tener uno por cada FORMATOS_FILTRO); sin paréntesis.
  */
 export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
-  "pieza-libre": { es: "Pieza libre", en: "Free tour" },
+  "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-1103
   caminata: { es: "Caminata", en: "Walking tour" },
   tour: { es: "Visita guiada", en: "Guided tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },

@@ -77,11 +77,11 @@ describe("T4 integración con los filtros de hoy", () => {
 });
 
 describe("REQ-269 chip de pieza-libre = «Pieza libre» (PO 6-11 10:43)", () => {
-  it("el chip dice «Pieza libre» en español y «Free tour» en inglés, igual que el diccionario", async () => {
+  it("el chip dice «Pieza libre» en español y «Free Puzzle» en inglés (REQ-1103), igual que el diccionario", async () => {
     const { DEFAULT_DICTIONARY } = await import("@/taxonomy/data");
     const t = DEFAULT_DICTIONARY.terminos.find((x) => x.slug === "pieza-libre")!;
     expect(formatoLabel("pieza-libre", "es")).toBe("Pieza libre");
-    expect(formatoLabel("pieza-libre", "en")).toBe("Free tour");
+    expect(formatoLabel("pieza-libre", "en")).toBe("Free Puzzle");
     expect(FORMATO_LABEL["pieza-libre"]).toEqual({ es: t.termino_es, en: t.termino_en });
   });
 });

@@ -13,14 +13,14 @@ describe("REQ-271 «Pieza libre» en la ciudad, los pines del mapa y los asuntos
     expect(cityFreeIntro("Barcelona", 67, 35)).toBe("67 en Pieza libre y 35 tours con guías locales en Barcelona.");
     expect(cityFreeIntro("Lima", 1, 1)).toBe("1 en Pieza libre y 1 tour con guías locales en Lima.");
   });
-  it("REQ-271 asunto de los correos cuando no hay título del tour: «Pieza libre 6782» (en: «Free tour 6782»)", () => {
+  it("REQ-271 asunto de los correos cuando no hay título del tour: «Pieza libre 6782» (en: «Free Puzzle 6782», REQ-1103)", () => {
     expect(fallbackTourTitle(6782, "es")).toBe("Pieza libre 6782");
-    expect(fallbackTourTitle(6782, "en")).toBe("Free tour 6782");
+    expect(fallbackTourTitle(6782, "en")).toBe("Free Puzzle 6782");
     expect(fallbackTourTitle(null, "es")).toBe("Pieza libre");
   });
-  it("REQ-271 pines del mapa: clave propia «Pieza libre» (en: «Free tour»); el precio verde sigue con tours.free «Free tour»", () => {
+  it("REQ-271 pines del mapa: clave propia «Pieza libre» (en: «Free Puzzle», REQ-1103); el precio verde sigue con tours.free «Free tour»", () => {
     expect((es as Record<string, string>)["tours.freePin"]).toBe("Pieza libre");
-    expect((en as Record<string, string>)["tours.freePin"]).toBe("Free tour");
+    expect((en as Record<string, string>)["tours.freePin"]).toBe("Free Puzzle");
     expect((es as Record<string, string>)["tours.free"]).toBe("Free tour");
     const map = readFileSync("src/components/tours/ToursMap.tsx", "utf8");
     expect(map).toMatch(/el\.textContent = priceText\(p\.price, p\.currency, pin\)/);
@@ -34,9 +34,9 @@ describe("REQ-271 «Pieza libre» en la ciudad, los pines del mapa y los asuntos
 });
 
 describe("REQ-271 filtro «Tipo de actividad» de /tours (PO 6-11)", () => {
-  it("REQ-271 el grupo viejo dice «Visitas guiadas y Pieza libre» (en: «Guided tours & free tours»)", async () => {
+  it("REQ-271 el grupo viejo dice «Visitas guiadas y Pieza libre» (en: «Guided tours & Free Puzzle», REQ-1103)", async () => {
     const { groupLabel } = await import("@/tours/lib/extra-filters");
     expect(groupLabel("visitas", "es")).toBe("Visitas guiadas y Pieza libre");
-    expect(groupLabel("visitas", "en")).toBe("Guided tours & free tours");
+    expect(groupLabel("visitas", "en")).toBe("Guided tours & Free Puzzle");
   });
 });
