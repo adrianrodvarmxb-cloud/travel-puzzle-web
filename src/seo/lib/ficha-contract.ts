@@ -6,6 +6,7 @@
  * Exige: un H1; JSON-LD que parsea con un solo nodo Product+TouristTrip cuyo `name` es el H1; Offer con moneda
  * ISO 4217 (y la esperada si se indica); sin aggregateRating ni review salvo reseñas propias; precio, duración y
  * operador del marcado visibles en el texto; y, con el interruptor apagado, sin «En breve», descripción ni keywords.
+ * REQ-820: `image` con 1 a 4 URL absolutas https (sin ella, Google marca «Fichas de comerciantes» como no válido).
  */
 
 export interface ContractOptions {
@@ -20,6 +21,14 @@ export interface ContractOptions {
   requireOperator?: boolean;
   /** Un viaje a la medida sin precio no lleva Offer (es lo honesto); el test la exige en lo que tiene precio. */
   requireOffer?: boolean;
+  /** REQ-834: la ficha debe llevar `<meta name="robots" content="noindex, follow">` (proveedor sin permiso de indexar). */
+  noindex?: boolean;
+}
+
+// REQ-834: robots de la página servida (Next escribe «noindex, follow»).
+export function robotsMeta(html: string): string | null {
+  const m = html.match(/<meta[^>]+name="robots"[^>]*>/i)?.[0];
+  return m ? (m.match(/content="([^"]*)"/i)?.[1] ?? "").toLowerCase().replace(/\s+/g, "") : null;
 }
 
 type Node = Record<string, unknown>;
@@ -70,6 +79,11 @@ export function fichaContractFailures(html: string, o: ContractOptions): string[
   const p = products[0];
   if (h1s[0] && norm(String(p.name ?? "")) !== h1s[0]) f.push(`el name del marcado («${p.name}») no es el H1`);
 
+  // REQ-820
+  const imgs = (Array.isArray(p.image) ? p.image : p.image ? [p.image] : []).map(String);
+  if (!imgs.length) f.push("Product sin image (Google: «Fichas de comerciantes» no válido)");
+  else if (imgs.length > 4 || imgs.some((u) => !/^https:\/\/[^/]/.test(u))) f.push(`image con URL no absolutas o más de 4: ${imgs.join(" ")}`);
+
   if (!o.ownReviews && nodes.some((n) => hasDeep(n, "aggregateRating") || hasDeep(n, "review"))) f.push("JSON-LD con aggregateRating o review que no son reseñas propias (Gate 2)");
 
   const offer = p.offers as Node | undefined;
@@ -92,6 +106,9 @@ export function fichaContractFailures(html: string, o: ContractOptions): string[
   if (op) { if (!text.includes(norm(String(op)))) f.push(`el operador «${op}» no se ve en la página`); }
   else if (o.requireOperator) f.push("sin operador (provider)");
   if (/freetour|free tour\.com/i.test(JSON.stringify(p.provider ?? "") + JSON.stringify(p.brand ?? ""))) f.push("el marcado nombra a FREETOUR como operador");
+
+  // REQ-834
+  if (o.noindex && robotsMeta(html) !== "noindex,follow") f.push(`se esperaba robots «noindex, follow» y hay «${robotsMeta(html) ?? "nada"}» (REQ-830)`);
 
   if (!o.enrichment) {
     if (/data-seo="en-breve"/.test(html)) f.push("«En breve» en un proveedor sin enriquecimiento (REQ-570)");

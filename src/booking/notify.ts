@@ -144,8 +144,9 @@ export async function sendBookingConfirmation(
       galleryUrls: tour?.galleryUrls ?? [],
       reviews,
       // REQ-812: lo cobrado manda; un free tour que pasó a tarifa fija ya no es «a propina».
-      isFree: record.price > 0 ? false : (tour?.isFree ?? true),
-      paidPolicy: record.price > 0 ? (({ cancel, noShow }) => ({ cancel, noShow }))(paidPolicy({ fullPrice: record.price, payNow: record.price, isPartiallyPaid: false, currency: "EUR" }, deps.lang)) : null,
+      // REQ-938 (D7): con pago a la llegada se cobra 0 hoy, pero el tour es de pago (fullPrice).
+      isFree: groupPrice(record) > 0 ? false : (tour?.isFree ?? true),
+      paidPolicy: groupPrice(record) > 0 ? (({ cancel, noShow }) => ({ cancel, noShow }))(paidPolicy({ fullPrice: groupPrice(record), payNow: record.price, isPartiallyPaid: record.price > 0 && record.price < groupPrice(record), currency: "EUR" }, deps.lang)) : null,
       contact: deps.contact,
       variant: opts.variant,
       // REQ-182
@@ -162,6 +163,18 @@ export async function sendBookingConfirmation(
 }
 
 type StatusDeps = Pick<Deps, "enabled" | "lang" | "siteUrl" | "getTour" | "getMoreTours" | "contact" | "send" | "calendar" | "freetourPostTourPromo" | "crossSell" | "now">;
+
+/** REQ-938: precio total del grupo (fullPrice del cobro) o, en reservas sin cobro guardado, el precio registrado. */
+function groupPrice(record: BookingRecord): number {
+  const full = (record as BookingRecord & { fullPrice?: number | null }).fullPrice;
+  return typeof full === "number" && full > 0 ? full : record.price;
+}
+
+/** REQ-936: hubo cobro si tiene precio y el pago no está pendiente ni vencido (sin columna de pago = reserva previa al cobro). */
+function chargedSoFar(record: BookingRecord): boolean {
+  const ps = (record as BookingRecord & { paymentStatus?: string | null }).paymentStatus;
+  return record.price > 0 && ps !== "pending" && ps !== "expired" && ps !== "expired_manual" && ps !== "canceled" && ps !== "review" && ps !== "arrival";
+}
 
 /** REQ-811 (D3): con 24 h o más antes del tour, reembolso; menos, no. Sin fecha UTC no se afirma nada. */
 export function refundFor(eventUtcDate: string | null | undefined, now: Date): "full" | "none" | null {
@@ -207,9 +220,9 @@ export async function sendStatusEmail(
       iconsBaseUrl: `${site}/brand/social`,
       contact: deps.contact,
       crossSell,
-      // REQ-811
-      paid: record.price > 0,
-      refund: record.price > 0 && kind === "canceled" ? refundFor(record.eventUtcDate, deps.now?.() ?? new Date()) : null,
+      // REQ-811; REQ-936: una reserva de pago aún sin pagar (o vencida) no tiene nada que reembolsar.
+      paid: chargedSoFar(record),
+      refund: chargedSoFar(record) && kind === "canceled" ? refundFor(record.eventUtcDate, deps.now?.() ?? new Date()) : null,
     });
     const attachments = calendarAttachment(kind === "modified" ? "REQUEST" : "CANCEL", record, tour, site, deps.calendar);
     await deps.send({ to: record.email, ...email, ...(attachments.length && { attachments }) });
