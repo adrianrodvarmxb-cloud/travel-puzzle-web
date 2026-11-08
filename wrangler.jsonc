@@ -151,10 +151,10 @@
     "CARRUSELES_HOME_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     // Página /nosotros (REQ-240…245). Apagada = 404 y sin enlace en el pie. "true" con preview encendido, prueba de humo y OK del PO.
-    "NOSOTROS_ENABLED": "false",
+    "NOSOTROS_ENABLED": "true",
     // Página /contacto y su formulario (REQ-246…249). Envía con Resend al buzón de EMAIL_REPLY_TO. Apagada = 404 y sin enlace.
     // "true" con preview encendido, prueba de humo y OK del PO.
-    "CONTACTO_ENABLED": "false",
+    "CONTACTO_ENABLED": "true",
     // Página /asesores «Habla con un asesor de viaje» (REQ-250…252): WhatsApp del asesor y formulario corto. Apagada = 404.
     // "true" con preview encendido, prueba de humo y OK del PO.
     "EXPERTOS_ENABLED": "false",
