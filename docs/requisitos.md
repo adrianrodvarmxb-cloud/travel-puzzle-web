@@ -905,8 +905,8 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1345 | CÓDIGO | Regla: todo viaje publicado que no sea transporte tiene URL en algún sitemap (hoy se cumple; sitemap-viajes con 14 es por diseño, REQ-584) | agente | — | EN CURSO |
 | REQ-1346 | CÓDIGO | Un solo total de «experiencias disponibles» en inicio, encabezado y filtro = tours sin transporte + viajes sin transporte (PO 15:13: «OK» a 8,260) | agente | — | EN CURSO |
 | REQ-1347 | DATOS | Publicar los 11 viajes de Turismo Asiático en draft (PO 15:14: «Sí, publícalos»), con respaldo, bookmark de D1 y humo | agente | REQ-1344 | CUMPLIDO para 10 de 11 (corrida 42421439925, 7-11 22:37 UTC: bookmark `00000040-00001a81-0000511c-0979e1af7e68a8206c64d08bcb6281b1`, 10 de 10 publicados en D1, humo de producción verde, las 10 fichas 200; /tours las muestra). `singapur-peranakan-tour-cultural-privado-en-espanol-tas-sg-t01-008` queda en draft: sin foto |
-| REQ-1348 | CÓDIGO | Test de contrato diccionario ↔ código, fila por fila, y ningún proveedor nuevo publica sin formato del diccionario (PO 15:20: «confirma que todo el diccionario se consideró… y que se considere en lo posterior ambos documentos») | agente | REQ-1344 | EN CURSO (contrato y validación de bulk-import en PR; tabla en docs/taxonomia/contrato-diccionario.md) |
-| REQ-1349 | CÓDIGO | Una sola URL canónica por viaje en la ciudad de inicio; las demás ciudades enlazan a ella y las URLs viejas redirigen con 301 (PO 15:21: «sí, aplica las mejores prácticas de referentes») | agente | REQ-1344 | PENDIENTE |
+| REQ-1348 | CÓDIGO | Test de contrato diccionario ↔ código, fila por fila, y ningún proveedor nuevo publica sin formato del diccionario (PO 15:20: «confirma que todo el diccionario se consideró… y que se considere en lo posterior ambos documentos») | agente | REQ-1344 || EN MAIN (#279, test de contrato y sinónimos verde; deploy NO VERIFICADO) |
+| REQ-1349 | CÓDIGO | Una sola URL canónica por viaje en la ciudad de inicio; las demás ciudades enlazan a ella y las URLs viejas redirigen con 301 (PO 15:21: «sí, aplica las mejores prácticas de referentes») | agente | REQ-1344 || EN MAIN (#277, test verde; deploy y humo NO VERIFICADOS) |
 | REQ-1350 | DEFINICIÓN | Los 9 ajustes del reporte de referentes (docs/taxonomia-referentes.md): cuáles ya se aplicaron y cuáles esperan firma, presentados uno por uno | PO | REQ-1348 | PENDIENTE |
 | REQ-1351 | CÓDIGO | Filtros «Cómo te mueves» y «Nocturno»: activos en el diccionario y sin filtro en /tours | agente | REQ-1348 | PENDIENTE |
 | REQ-1352 | TAREA-PO | Subir los 33 PDF originales de proveedores a la copia exacta (`raw-backfill.ts --docs` y `subir.sh`) desde una máquina con los PDF y credenciales de Cloudflare | PO | REQ-1316 | PENDIENTE |
@@ -943,13 +943,13 @@ Petición literal (PO, 7 nov 2026, 15:21 CDMX): «sí, aplica las mejores práct
 Petición literal (coordinador): «Aplica escudrinar-error-iso como INC-009, con su folio REQ-1358».
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
-| REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — | EN CURSO (test verde; falta el siguiente deploy de main) |
+| REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — || CUMPLIDO (deploy 42428767660 de main: paso Calentar y humo de producción en verde, 8-11) |
 
 ## REQ-1359: copia anterior al cambiar la versión de la caché (coordinador, 7 nov 2026; de INC-009)
 Petición literal (coordinador): «primera petición en frío de /destinos de 11 a 18 s después de un cambio de versión de la caché. La idea es servir la copia anterior mientras se arma la nueva (stale-while-revalidate)».
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
-| REQ-1359 | CÓDIGO | Dado un cambio de versión de la llave `destinos`, cuando llega la primera petición y la llave nueva no tiene copia, entonces se sirve al instante la copia de la versión anterior (dentro de `staleSec` y con la forma de hoy, `isDestinationTree`) y el árbol nuevo se arma en segundo plano (waitUntil), una sola vez por isolate; sin waitUntil o sin copia válida, como antes. Medición: antes 11–18 s y un 503 (INC-009); después, el paso «Calentar» del deploy de este PR (llave v9 → v10) | agente | — | EN CURSO (test verde; falta la medición del deploy) |
+| REQ-1359 | CÓDIGO | Dado un cambio de versión de la llave `destinos`, cuando llega la primera petición y la llave nueva no tiene copia, entonces se sirve al instante la copia de la versión anterior (dentro de `staleSec` y con la forma de hoy, `isDestinationTree`) y el árbol nuevo se arma en segundo plano (waitUntil), una sola vez por isolate; sin waitUntil o sin copia válida, como antes. Medición: antes 11–18 s y un 503 (INC-009); después, el paso «Calentar» del deploy de este PR (llave v9 → v10) | agente | — || EN MAIN (deploy 42428767660 verde; medición en frío NO VERIFICADA) |
 
 ## Filtros de /tours: un solo «Tipo de experiencia», temas y atributos (PO, 8 nov 2026)
 Petición literal (PO, 8-11, con capturas de los chips y del panel): «deja no mas 1 es lo mismo repetido y no veo nada mas parte de esa categorias no complementarios ni nada». Gates firmados el 8-11: «Chips arriba (Recomendado)»; temas: «Firmo, publícalos»; atributos: «En español y Con vuelo, Entrada incluida y Día completo, Nocturno, Cómo te mueves»; fuente: «El sitio como está» (Visita guiada y En línea se quedan). Plan firmado: «si». Folios desde REQ-1420 porque REQ-1400…1410 ya los usó otra sesión.
@@ -958,3 +958,12 @@ Petición literal (PO, 8-11, con capturas de los chips y del panel): «deja no m
 | REQ-1420 | CÓDIGO | Dado /tours con la taxonomía, cuando se pinta, entonces el tipo de experiencia se elige solo en los chips de arriba y el panel ya no repite «Tipo de experiencia» (`TIPO_EN_PANEL = false`, reversible); el resto del panel no cambia (`src/components/tours/filters/MoreFilters.test.ts`) | agente | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1421 | CÓDIGO | Dado un tema activo (los 12, sin «Ciudad y barrios», REQ-411), cuando se abre el panel de /tours, entonces sale «Tema» con conteos y sin opciones en cero, y `?tema=` filtra. Reemplaza el bloqueo de REQ-410 con la firma del PO del 8-11 | agente | REQ-1420 | PENDIENTE |
 | REQ-1422 | CÓDIGO | Dados los atributos del diccionario, cuando se abre el panel, entonces se puede filtrar por Cómo te mueves (a pie, bici, vehículo, barco), Nocturno, Entrada incluida, Día completo, En español y Con vuelo (`?atrib=`), cada uno solo con resultados (incluye REQ-1351 y REQ-543) | agente | REQ-1421 | PENDIENTE |
+
+## Registro verificado REQ-1400 a REQ-1410 (8-11, revisión de main)
+Por commit en main y deploy en verde. Lo que no aparece aquí sigue sin registrar.
+| ID | Requisito (según el commit) | PR | Deploy | Estado |
+|---|---|---|---|---|
+| REQ-1400 | Header, pie por columnas y Guías de pilares | #282 | 42452017121 verde | CUMPLIDO |
+| REQ-1401 | Enciende Nosotros y Contacto (ver REQ-1308 y REQ-1309 en el tablero) | #283 | 42453481759 verde | CUMPLIDO en código; OK del PO citado en el PR, NO VERIFICADO en el chat |
+| REQ-1402 a REQ-1409 | Sin registro en el archivo ni commit identificado | NO VERIFICADO | NO VERIFICADO | NO VERIFICADO |
+| REQ-1410 | Firma por categoría en el blog | #284 | 42454177188 verde | CUMPLIDO |
