@@ -174,7 +174,7 @@ jobs:
         if: always() && steps.publicar.outcome == 'success'
         continue-on-error: true
         run: |
-          for p in /destinos /en/destinos /tours /en/tours / /en/ /la-primera-pieza /sitemap-index.xml; do
+          for p in /destinos /en/destinos /tours /en/tours / /en /la-primera-pieza /sitemap-index.xml; do  # «/en/» responde 308 a «/en»
             for intento in 1 2 3 4 5 6; do
               r=$(curl -s -o /dev/null -A "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)" -w "%{http_code} %{time_total}" --max-time 60 "https://travelpuzzle.com.mx$p" || echo "000 60")
               echo "calentar $p intento $intento: $r"

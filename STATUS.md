@@ -78,6 +78,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## INC-009 (7 nov 2026) — matriz de trazabilidad
 | REQ-1358 | Calentar la caché de producción antes del humo | `.github/workflows/deploy-cloudflare.yml`, `docs/incidentes/INC-009.md` | `src/ops/deploy-calentar-workflow.test.ts` | EN CURSO (falta el siguiente deploy) |
 
+## REQ-1359 copia anterior al cambiar la versión de la caché (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1359 | Stale-while-revalidate al cambiar la versión de `destinos` | `src/cache/lib/shared-cache.ts`, `src/cache/lib/versions.ts`, `src/cache/edge.ts`, `src/destinations/lib/tree-shape.ts`, `src/destinations/server.ts` | `src/cache/lib/swr.test.ts`, `src/destinations/lib/tree-shape.test.ts` | EN CURSO (falta la medición del deploy) |
+
 ## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
