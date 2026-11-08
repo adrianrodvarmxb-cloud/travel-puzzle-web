@@ -5,6 +5,7 @@
  */
 import type { Categoria, Dictionary, Mapping, TerminoTema } from "../schemas/dictionary";
 import { matches, norm, without } from "./text";
+import { combinado, TEMA_DE_ACTIVIDAD } from "./combined";
 import { MAX_TEMAS, type ClassifyInput, type Decision, type FormatoOEstado, type Tema } from "./types";
 
 export function temaTerms(dict: Dictionary): TerminoTema[] {
@@ -14,7 +15,7 @@ export function temaTerms(dict: Dictionary): TerminoTema[] {
 export function classifyTemas(
   input: ClassifyInput, formato: FormatoOEstado, dict: Dictionary, mapping: Mapping | undefined, cat: Categoria | undefined,
 ): Decision<Tema>[] {
-  if (formato === "fuera" || formato === "por-revisar") return [];
+  if (formato === "fuera" || formato === "por-revisar" || formato === "esenciales-viaje") return []; // REQ-1263
   const implicados = new Map<Tema, string>();
   for (const t of cat?.temas ?? []) implicados.set(t, `categoría ${mapping?.proveedor}:${cat?.id}`);
   for (const f of input.fuentesTema ?? []) for (const t of mapping?.temasPorFuente?.[f] ?? []) if (!implicados.has(t)) implicados.set(t, `fuente ${f}`);
@@ -31,6 +32,14 @@ export function classifyTemas(
   if (out.length === 0) {
     for (const t of terms) if (matches(t.palabras, without(todo, t.excluir))) out.push({ valor: t.slug as Tema, regla: "palabra en el resumen" });
   }
+  // REQ-867…869: en un combinado, la actividad que no domina va como tema (y no se cae por el tope de 3).
+  const comb = combinado(input.titulo, dict);
+  const extra: Decision<Tema>[] = [];
+  for (const a of comb?.secundarias ?? []) {
+    const t = TEMA_DE_ACTIVIDAD[a];
+    if (t && !extra.some((x) => x.valor === t)) extra.push(out.find((x) => x.valor === t) ?? { valor: t, regla: `combinado: ${a}` });
+  }
+  if (extra.length) return [...extra, ...out.filter((x) => !extra.some((e) => e.valor === x.valor))].slice(0, MAX_TEMAS);
   return out.slice(0, MAX_TEMAS);
 }
 

@@ -102,3 +102,25 @@ describe("REQ-811 rechazo y cancelación de un tour de pago", () => {
     expect(buildStatusEmail({ ...base, kind: "canceled" }).text).not.toMatch(/reembolso/);
   });
 });
+
+// REQ-932: la sesión de pago venció sin pago y la reserva se canceló en FREETOUR: se avisa al cliente.
+describe("REQ-932 correo de pago vencido", () => {
+  it("REQ-932: dice que se canceló por falta de pago, que no se cobró nada y ofrece reservar otra vez", () => {
+    const { subject, html, text } = buildStatusEmail({ ...base, kind: "expired" });
+    expect(subject).toBe("Tu reserva se canceló: no se completó el pago – Free Tour Centro Histórico");
+    expect(html).toContain("No se te cobró nada");
+    expect(html).toContain("6782-20261030162746-244");
+    expect(html).toContain("https://travelpuzzle.com.mx/tours/xyz");
+    expect(html).not.toContain("/reserva/abc");
+    expect(text).toContain("venció");
+  });
+  it("REQ-932: en inglés", () => {
+    const { subject, text } = buildStatusEmail({ ...base, kind: "expired", lang: "en" });
+    expect(subject).toBe("Your booking was canceled: the payment wasn't completed – Free Tour Centro Histórico");
+    expect(text).toContain("You haven't been charged");
+  });
+  it("REQ-932: nunca promete reembolso aunque la reserva tuviera precio", () => {
+    const { text } = buildStatusEmail({ ...base, kind: "expired", paid: true, refund: "full" });
+    expect(text).not.toMatch(/reembolso/i);
+  });
+});

@@ -73,7 +73,7 @@ export interface ToursFilter {
   groups?: string[]; freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
   durMin?: number | null; durMax?: number | null; nowMs?: number;
 }
-type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null; languages?: string[]; dates?: string[];
+type FilterableTrip = { countries: string[]; kind: TripKind; title?: string; summary?: string; cities?: string[]; places?: string; priceFrom?: number | null; /** REQ-1255 */ priceFromEur?: number | null; languages?: string[]; dates?: string[];
   group?: string; formato?: string; freeCancel?: boolean; private?: boolean; hotelPickup?: boolean; createdAt?: number; durationMinutes?: number | null };
 
 /** ¿Va este viaje arriba de los resultados de /tours con este filtro? REQ-046: respeta buscador, ciudad y precio. */
@@ -83,7 +83,7 @@ export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
   if (f.countryCode && !t.countries.includes(f.countryCode)) return false;
   if (f.cityName && !(t.cities ?? []).some((c) => fold(c) === fold(f.cityName!))) return false;
   if (f.minPrice !== undefined || f.maxPrice !== undefined) {
-    const p = t.priceFrom;
+    const p = t.priceFromEur ?? t.priceFrom; // REQ-1255: el rango habla en EUR
     if (p == null) return false;
     if (f.minPrice !== undefined && p < f.minPrice) return false;
     if (f.maxPrice !== undefined && p > f.maxPrice) return false;

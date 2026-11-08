@@ -30,9 +30,13 @@ const base = z.object({
 const zFormato = base.extend({
   eje: z.literal("formato"),
   slug: z.enum(FORMATO_O_ESTADO),
-  precedencia: z.number().int().min(0).max(12).nullable(),
+  precedencia: z.number().int().min(0).max(15).nullable(), // REQ-1250: 13 = visita-guiada (parte de #11)
   seccion: z.enum(SECCIONES),
   guiaEnPersona: z.boolean(),
+  /** REQ-1256: nombre corto (tarjeta y chips) y orden en /tours; obligatorio en los activos de Experiencias. */
+  etiqueta_corta_es: texto.min(1).optional(),
+  etiqueta_corta_en: texto.min(1).optional(),
+  orden_chip: z.number().int().min(1).optional(),
   palabras: z.array(palabra).optional(),
   palabrasNoEnTitulo: z.array(palabra).optional(),
   /** REQ-535: frases del resumen que también cuentan para el formato (hoy, «sale de la ciudad base» en excursion-dia). */
@@ -49,6 +53,18 @@ const zFormato = base.extend({
   palabrasEnCiudad: z.array(palabra).optional(),
   /** REQ-542: en `excursion-dia`, salida explícita («desde X», «day trip to») que gana sobre palabrasEnCiudad. */
   palabrasSaleSiempre: z.array(palabra).optional(),
+  /** REQ-866: en `excursion-dia`, señales de salida de la ciudad base en el título («desde», «excursión … a X», «day trip», «pickup»). */
+  palabrasSalidaTitulo: z.array(palabra).optional(),
+  /** REQ-866: en `excursion-dia`, señales de salida en el resumen (transporte o recogida incluidos, «cerca de X», «a las afueras»). */
+  palabrasSalidaResumen: z.array(palabra).optional(),
+  /** REQ-867…869: en `experiencia-unica`, palabras para partir un título combinado y reconocer cada actividad. */
+  combinado: z.object({
+    separadores: z.array(palabra).min(1),
+    espectaculo: z.array(palabra).min(1),
+    clase: z.array(palabra).min(1),
+    gastronomia: z.array(palabra).min(1),
+    recorrido: z.array(palabra).min(1),
+  }).optional(),
   coleccion_es: z.string().optional(),
   termino_en_estado: z.enum(["por_firmar", "firmado"]).optional(),
   /** Nombre visible en pt/de/fr/it (plan §7.3). */
@@ -103,6 +119,10 @@ export const zDictionary = z.object({
   for (const f of TEMAS) if (!vistos.has(`tema:${f}`)) ctx.addIssue({ code: "custom", message: `falta el tema ${f}` });
   const prec = d.terminos.flatMap((t) => (t.eje === "formato" && t.precedencia !== null ? [t.precedencia] : []));
   if (new Set(prec).size !== prec.length) ctx.addIssue({ code: "custom", message: "dos formatos con la misma precedencia" });
+  // REQ-1256: un tipo principal de /tours sale del diccionario: sin nombre corto no se puede pintar su chip.
+  for (const t of d.terminos) if (t.eje === "formato" && t.estado === "activo" && t.seccion === "experiencias" && (!t.etiqueta_corta_es || !t.etiqueta_corta_en)) {
+    ctx.addIssue({ code: "custom", message: `falta la etiqueta corta del formato ${t.slug}` });
+  }
 });
 export type Dictionary = z.infer<typeof zDictionary>;
 
@@ -115,10 +135,12 @@ const zCategoria = z.object({
   temas: z.array(z.enum(TEMAS)).max(3),
   atributos: z.array(z.string().regex(/^(nocturno|medio:(bici|barco|vehiculo|a-pie))$/)),
   /** Reglas por palabra que esta categoría permite (FREETOUR 13/14: traslado y entradas; 5: clase o taller). */
-  reglasPorPalabra: z.array(z.enum(["traslado", "entradas", "experiencia-unica"])),
+  reglasPorPalabra: z.array(z.enum(["traslado", "entradas", "experiencia-unica", "en-linea"])), // REQ-1262: «en-linea» solo en la cat. 8
   estado: z.enum(["activo", "tras_bandera", "oculto", "historico"]),
   /** El formato base gana de inmediato (viajes propios con kind explícito). */
   fijo: z.boolean().optional(),
+  /** REQ-1252: si un recorrido guiado de pago no da señal de transporte, a pie ni sitio, el tipo que se asume (y va a la lista de dudas). */
+  porDefecto: z.enum(["tour", "visita-guiada", "caminata"]).optional(),
   nota: z.string().optional(),
 });
 export type Categoria = z.infer<typeof zCategoria>;

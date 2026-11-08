@@ -11,21 +11,24 @@ import type { FormatoOEstado } from "./types";
 
 /** Formatos que se pueden filtrar en /tours (sección Experiencias y estado activo), en orden de chips. */
 export const FORMATOS_FILTRO = [
-  "pieza-libre", "caminata", "tour", "excursion-dia", "experiencia-unica", "entradas", "autoguiado", "circuito", "a-la-medida",
+  "pieza-libre", "caminata", "visita-guiada", "tour", "excursion-dia", "experiencia-unica", "entradas", "autoguiado", "circuito", "a-la-medida", "en-linea", // REQ-1262
 ] as const satisfies readonly FormatoOEstado[];
 export type FormatoFiltro = (typeof FORMATOS_FILTRO)[number];
 
 /** Etiquetas visibles (es y en del diccionario; pt/de/fr/it del flujo de traducción en T5, mientras tanto en inglés). */
 export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
-  "pieza-libre": { es: "Pieza libre", en: "Free tour" }, // REQ-269 (PO 6-11 10:43); EN «Free piece» por firmar
-  caminata: { es: "Caminata (tour a pie)", en: "Walking tour" },
-  tour: { es: "Tour", en: "Guided tour" },
+  "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-269 (PO 6-11 10:43); EN REQ-1103 (PO 7-11 06:06)
+  // REQ-1250 (decisión B del PO, 7-11 08:01): tres tipos con el mismo nombre en tarjeta, filtro y chips; ninguno dice «tour» si no es Tour (D17).
+  caminata: { es: "Caminata", en: "Walking tour" },
+  "visita-guiada": { es: "Visita guiada", en: "Guided visit" },
+  tour: { es: "Tour", en: "Tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
   "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
   entradas: { es: "Boletos y entradas", en: "Tickets & passes" },
   autoguiado: { es: "Autoguiado (audioguía)", en: "Self-guided / audio guide" },
   circuito: { es: "Circuito (varios días)", en: "Multi-day tour" },
   "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made trip" },
+  "en-linea": { es: "Experiencias en línea", en: "Online experiences" }, // REQ-1262
 };
 export const formatoLabel = (f: FormatoFiltro, lang: string) => FORMATO_LABEL[f][lang === "es" ? "es" : "en"];
 
@@ -35,15 +38,17 @@ export const formatoLabel = (f: FormatoFiltro, lang: string) => FORMATO_LABEL[f]
  * Misma lista de formatos (el tipo obliga a tener uno por cada FORMATOS_FILTRO); sin paréntesis.
  */
 export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string }> = {
-  "pieza-libre": { es: "Pieza libre", en: "Free tour" },
+  "pieza-libre": { es: "Pieza libre", en: "Free Puzzle" }, // REQ-1103
   caminata: { es: "Caminata", en: "Walking tour" },
-  tour: { es: "Visita guiada", en: "Guided tour" },
+  "visita-guiada": { es: "Visita guiada", en: "Guided visit" }, // REQ-1250
+  tour: { es: "Tour", en: "Tour" }, // REQ-1250 reemplaza «Tour → Visita guiada» de REQ-531/D15
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
   "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
   entradas: { es: "Boletos", en: "Tickets" },
   autoguiado: { es: "Autoguiado", en: "Self-guided" },
   circuito: { es: "Circuito", en: "Multi-day tour" },
   "a-la-medida": { es: "Viaje a la medida", en: "Tailor-made" },
+  "en-linea": { es: "En línea", en: "Online" }, // REQ-1262
 };
 /**
  * REQ-543 (PO 6-11 21:14): atributos que complementan el tipo principal y quedan listos como facetas del filtro
@@ -63,7 +68,7 @@ export const formatoCardLabel = (f: FormatoFiltro, lang: string) => FORMATO_CARD
 
 /** Enlaces viejos ?tipo_act= (REQ-051) → formato equivalente; los grupos que son tema o transporte se ignoran. */
 export const TIPO_ACT_A_FORMATO: Record<string, FormatoFiltro[]> = {
-  visitas: ["pieza-libre", "caminata", "tour", "autoguiado"],
+  visitas: ["pieza-libre", "caminata", "visita-guiada", "tour", "autoguiado"],
   entradas: ["entradas"],
   excursiones: ["excursion-dia"],
   "varios-dias": ["circuito"],
@@ -92,7 +97,9 @@ export function toursRobots(q: URLSearchParams, enabled: boolean): { robots?: { 
 }
 
 /** REQ-412: opciones del filtro: solo formatos con resultados en el contexto, más los que ya estén marcados. */
-export function formatoOptions(counts: Partial<Record<string, number>> | null | undefined, selected: readonly string[], lang: string) {
-  return FORMATOS_FILTRO.filter((f) => (counts?.[f] ?? 0) > 0 || selected.includes(f))
-    .map((f) => ({ slug: f, label: formatoLabel(f, lang), count: counts?.[f] ?? 0 }));
+// REQ-1256: con `defs` (del diccionario, armadas en el servidor) los tipos y sus nombres largos salen de ahí.
+export function formatoOptions(counts: Partial<Record<string, number>> | null | undefined, selected: readonly string[], lang: string, defs?: readonly { slug: string; largo: { es: string; en: string } }[]) {
+  const list = defs ?? FORMATOS_FILTRO.map((f) => ({ slug: f as string, largo: FORMATO_LABEL[f] }));
+  return list.filter((d) => (counts?.[d.slug] ?? 0) > 0 || selected.includes(d.slug))
+    .map((d) => ({ slug: d.slug, label: lang === "es" ? d.largo.es : d.largo.en, count: counts?.[d.slug] ?? 0 }));
 }

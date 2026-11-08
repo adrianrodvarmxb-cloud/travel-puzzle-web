@@ -1,5 +1,7 @@
 import { notFound, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
+import { SiteFooter } from '@/components/home/v2';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { fetchTourById } from '@/actions/tours';
 import { getRouteLanguage } from '@/i18n/server';
 import { transformDBTourToUITour } from '@/lib/db/tour-transformer';
@@ -64,7 +66,13 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR con MXN aproximado (calculado aquí, idioma fijo; INC-001).
         const rates = primeraPiezaOn() && props.initialTour && props.initialTour.price > 0 ? await loadFx().catch(() => null) : null;
         const priceLabel = primeraPiezaOn() && props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null;
-        return <TourDetailClient {...props} priceLabel={priceLabel} />;
+        // REQ-1101 (D07): el mismo pie del home que el resto del sitio.
+        return (
+            <>
+                <TourDetailClient {...props} priceLabel={priceLabel} />
+                <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
+            </>
+        );
     } catch (error) {
         // INC-003 (regla 7): un fallo de la base no es "no existe"; va al aviso con Reintentar.
         unstable_rethrow(error);

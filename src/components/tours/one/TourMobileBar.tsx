@@ -23,7 +23,7 @@ export function TourMobileBar({ tour, mode, whatsapp, onAdvisorClick, priceLabel
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#0A1330]/95 px-4 pb-[calc(env(safe-area-inset-bottom)+12px)] pt-3 backdrop-blur lg:hidden">
       <div className="mx-auto flex max-w-xl items-center justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-display truncate text-lg font-bold leading-tight text-white">{label ? label.main : priceText(tour.price, tour.currency, t('tours.free'))}</p>
+          <p className={`font-display truncate text-lg font-bold leading-tight ${tour.price === 0 ? 'text-free' : 'text-white'}`}>{label ? label.main : priceText(tour.price, tour.currency, t('tours.free'))}</p>
           {label?.approx && <p className="text-xs text-[#C9D6F5]">{label.approx}</p>}
           {rating && <p className="text-xs text-[#A9B6D6]"><span className="text-[#F5B301]">★</span> {rating} · {t('reviews.count', '{count} reviews').replace('{count}', tour.reviewsNumber.toLocaleString('es-MX'))}</p>}
         </div>

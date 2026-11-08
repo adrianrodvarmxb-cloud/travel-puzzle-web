@@ -9,6 +9,7 @@ import { allTours } from './lib/catalog';
 import { viajesSitemapTrips } from '@/seo/lib/sitemaps-viajes';
 import { isKindVisible, visibilityFromEnv } from '@/trips/lib/visibility';
 import { sitePagesSitemap } from '@/site/server';
+import { localeUrlsEnabled } from '@/i18n/lib/flags';
 
 const XML = { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' };
 const notFound = () => new Response('Not found', { status: 404 });
@@ -23,7 +24,9 @@ export async function sitemapResponse(file: string): Promise<Response> {
     const placed = new Set(tree.flatMap((c) => c.cities.flatMap((ci) => allTours(ci).filter((t) => t.kind === 'own').map((t) => t.id))));
     const vis = visibilityFromEnv(process.env as Record<string, string | undefined>);
     const trips = viajesSitemapTrips(tripRows, placed, (k) => isKindVisible(k, vis));
-    const { index, files } = buildSitemaps({ ...sitemapInput(tree, siteUrl()), trips }, extra);
+    // REQ-663 (Gate 3): con LOCALE_URLS_ENABLED, alternates por idioma; apagada, el XML de siempre.
+    const locales = localeUrlsEnabled(process.env as Record<string, string | undefined>);
+    const { index, files } = buildSitemaps({ ...sitemapInput(tree, siteUrl(), { locales }), trips }, extra);
     const body = file === 'sitemap-index.xml' ? index : files[file];
     return body ? new Response(body, { headers: XML }) : notFound();
 }

@@ -7,9 +7,7 @@ import { nameIn } from '@/home/lib/destinations';
 import { formatCount, formatRating } from '@/home/lib/format';
 import type { HomeTour } from '@/home/load';
 import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge';
-import { SectionHeading } from './SectionHeading';
-import { CardRail } from '@/components/tours/CardRail';
-import { ExperienceCard } from '@/components/tours/ExperienceCard';
+import { HomeCarousel } from './HomeCarousel';
 import { fromHomeTour } from '@/tours/lib/card-sources';
 
 export type PriceLabels = Record<string, { main: string; approx: string | null }>;
@@ -19,18 +17,16 @@ export type PriceLabels = Record<string, { main: string; approx: string | null }
  * sin ella, la regla anterior (60/40 cuando hay tours de pago). Con frase de reseña real.
  * REQ-170: priceLabels (EUR + «aprox. MXN») llegan armados del servidor; sin ellos, el precio queda como hoy.
  */
-export function FeaturedTours({ tours, priceLabels = {} }: { tours: HomeTour[]; priceLabels?: PriceLabels }) {
+export function FeaturedTours({ tours, priceLabels = {}, hasMore = false }: { tours: HomeTour[]; priceLabels?: PriceLabels; hasMore?: boolean }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   if (!tours.length) return null;
-
+  // REQ-850…615: carrusel completo (todos los Favoritos por páginas) con el look de «¿A dónde vamos?».
   return (
     <section id="favoritos" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
-      <SectionHeading eyebrow={c.featEyebrow} title={c.featHeadline} action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>} />
-      {/* REQ-520, REQ-527: tarjeta única en carrusel con flechas (HomeTourCard queda sin uso, no se borra). */}
-      <CardRail label={c.featHeadline}>
-        {tours.map((t) => <ExperienceCard key={t.id} card={fromHomeTour(t, { lang: language, priceLabel: priceLabels[t.id] })} />)}
-      </CardRail>
+    <HomeCarousel id="elegidos" eyebrow={c.featEyebrow} title={c.featHeadline} lang={language} seeAllLabel={c.seeAll}
+      action={<Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.seeAll} →</Link>}
+      cards={tours.map((t) => fromHomeTour(t, { lang: language, priceLabel: priceLabels[t.id] }))} hasMore={hasMore} />
     </section>
   );
 }
@@ -44,13 +40,16 @@ export function HomeTourCard({ t, language, c, priceLabel }: { t: HomeTour; lang
       <div className="relative aspect-[16/10] bg-[#1B2A5E]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={t.image} alt={title} loading="lazy" className="h-full w-full object-cover" />
-        <TravelerFavoriteBadge rating={t.rating} reviews={t.reviews} className="absolute left-3 top-3" />
         {t.isFree && (
-          <span className="font-data absolute right-3 top-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{c.freeBadge}</span>
+          <span className="font-data absolute right-3 top-3 rounded-md border border-free bg-[#0A1330]/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-free">{c.freeBadge}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{nameIn(t.cityNames, language)} · {t.duration}</p>
+        {/* REQ-861: «★ Favorito» fuera de la foto (C5 de FREETOUR). */}
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-data min-w-0 truncate text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{nameIn(t.cityNames, language)} · {t.duration}</p>
+          <TravelerFavoriteBadge rating={t.rating} reviews={t.reviews} className="shrink-0" />
+        </div>
         <h3 className="font-display line-clamp-2 text-xl font-semibold leading-snug">{title}</h3>
         {t.quote && <p className="line-clamp-2 text-sm italic leading-relaxed text-[#C9D6F5]">“{t.quote}”</p>}
         <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-3.5 text-sm">

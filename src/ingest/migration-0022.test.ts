@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 
 type Db = { exec: (s: string) => void; prepare: (s: string) => { all: (...v: unknown[]) => unknown[]; run: (...v: unknown[]) => unknown } };
 const { DatabaseSync } = createRequire(import.meta.url)("node:sqlite") as { DatabaseSync: new (p: string) => Db };
-const SQL_0022 = readFileSync("docs/migraciones-propuestas/0022_provider_record.sql", "utf8");
+const SQL_0022 = readFileSync("migrations/0022_provider_record.sql", "utf8");
 
 function db() {
   const d = new DatabaseSync(":memory:");
@@ -16,10 +16,13 @@ const ins = (d: Db, hash = "h1", key = `raw/freetour/1/${hash}.json`) =>
   d.prepare(`INSERT INTO "ProviderRecord" ("id","provider","externalId","rawHash","r2Key","bytes","fetchedAt","lastSeenAt","runId") VALUES (?,?,?,?,?,?,?,?,?)`)
     .run(key, "freetour", "1", hash, key, 10, "2026-11-06T00:00:00Z", "2026-11-06T00:00:00Z", "r1");
 
-describe("REQ-746 migración propuesta 0022: índice ProviderRecord del archivo crudo", () => {
-  it("REQ-746 vive en docs/migraciones-propuestas y no en migrations/ (candado: la aplica el PO)", () => {
-    expect(() => readFileSync("migrations/0022_provider_record.sql")).toThrow();
+describe("REQ-746 migración 0022: índice ProviderRecord del archivo crudo", () => {
+  // REQ-772 reemplaza el «vive en docs/migraciones-propuestas» de REQ-746 (candado 3 del gate de copia exacta).
+  it("REQ-772 vive en migrations/ (se aplica con la casilla «migraciones») y ya no en docs/migraciones-propuestas", () => {
+    expect(() => readFileSync("docs/migraciones-propuestas/0022_provider_record.sql")).toThrow();
+    expect(readFileSync("migrations/0022_provider_record.sql", "utf8")).toMatch(/CREATE TABLE IF NOT EXISTS "ProviderRecord"/);
   });
+  // El «la 0023 sigue propuesta» de REQ-772 quedó REEMPLAZADO por REQ-773 (la 0023 se aplica en su propio deploy, después de la 0022).
   it("REQ-746 solo crea tablas e índices; no toca Tour, TourTranslation, Trip ni la taxonomía", () => {
     const code = SQL_0022.replace(/--[^\n]*/g, "");
     expect(code).not.toMatch(/\b(ALTER|DROP|UPDATE|DELETE|INSERT)\b/i);

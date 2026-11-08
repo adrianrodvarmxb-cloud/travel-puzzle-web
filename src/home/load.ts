@@ -1,4 +1,5 @@
 import { catalogClassifier, FORMATOS_PRESENCIALES, type CatalogClassifier } from "@/taxonomy/lib/publish";
+import { cityNamesOf } from "@/taxonomy/lib/text";
 import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
 import { Prisma, type PrismaClient } from "@prisma/client";
 import { mixRecommendations } from "@/booking/lib/recommendations";
@@ -10,9 +11,10 @@ import { FAVORITE_MIN_RATING, FAVORITE_MIN_REVIEWS, pickDistinctTourReviews, pic
 import type { HighlightRepo } from "@/reviews/repository";
 import type { TripCard } from "@/trips/public-load";
 import { catalogPrior, REVIEW_PRIOR_M, type Prior } from "./lib/review-score";
-import { pickDayTrips, pickMostChosen, HOME_CAROUSEL_SIZE } from "./lib/carousels";
+import { carouselOrder, carouselPage } from "./lib/carousel-pages";
 import { mentionsProviderBrand, titlesMentionBrand } from "./lib/brand";
 import { catalogTourFormat } from "@/tours/lib/card-format";
+import { isHomeDayTrip } from "./lib/day-trip";
 import { parseTourRankRows, tripCandidate, type TourCandidate, type TripCandidate } from "./lib/rank-row";
 
 export interface HomeTour {
@@ -36,6 +38,8 @@ export interface HomeTour {
   durationMinutes?: number | null;
   /** REQ-523: descripción breve por idioma (si no hay frase de reseña). */
   briefs?: Record<string, string>;
+  /** REQ-668: ficha final bajo /destinos (sin el 301 de /tours/{id}); vacío = /tours/{id}. La pone la página. */
+  href?: string;
 }
 
 export interface HomeStats {
@@ -71,6 +75,8 @@ export interface HomeData {
   /** REQ-453: vacío con CARRUSELES_HOME_ENABLED apagada o sin inventario (la sección se oculta). */
   dayTrips: HomeDayTrip[];
   reviews: HomeReview[];
+  /** REQ-851: hay más páginas en /api/home/carrusel (con CARRUSELES_HOME_ENABLED). */
+  carouselMore: { elegidos: boolean; excursiones: boolean };
 }
 
 export interface HomeDeps {
@@ -181,11 +187,11 @@ const TOUR_SELECT = {
 } as const;
 
 /** REQ-522…524: lo que la tarjeta única necesita además (proveedor, formato, duración y descripción breve). */
-type CardExtrasRow = { providerTitle: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[] };
+type CardExtrasRow = { providerTitle: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[]; city?: { translations: unknown } | null };
 function cardExtras(t: CardExtrasRow) {
   return {
     provider: t.providerTitle ?? null,
-    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title) }),
+    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title), cities: cityNamesOf(t.city?.translations) }), // REQ-1253
     durationMinutes: t.durationMinutes ?? null,
     briefs: Object.fromEntries(t.translations.filter((x) => x.brief && x.brief.trim()).map((x) => [x.language, x.brief as string])),
   };
@@ -221,8 +227,10 @@ async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePai
       AND (${paid} = 1 OR CAST(t.priceValue AS REAL) = 0)
       AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
     ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
-    LIMIT ${dayTripsOnly ? 600 : 300}`;
-  const { ok, dropped } = parseTourRankRows(rows, { taxonomy }); // REQ-219: también salta los títulos que dicen «free tour»; REQ-270: y lo que la taxonomía no publica
+    LIMIT ${dayTripsOnly ? 1500 : 800}`; /* REQ-850/612: el carrusel completo (todos los Favoritos y todas las excursiones) */
+  // REQ-858: «Excursiones de un día» = lo que la tarjeta etiqueta «Excursión de un día» (mismo clasificador, card-format.ts),
+  // más las excursiones gratis (la tarjeta dice «Pieza libre», la categoría de los free tours) que ya cumplían REQ-451.
+  const { ok, dropped } = parseTourRankRows(rows, { taxonomy, isDayTrip: isHomeDayTrip }); // REQ-219: también salta los títulos que dicen «free tour»; REQ-270: y lo que la taxonomía no publica
   if (dropped) console.error(`[home] ${dropped} fila(s) de tours descartadas por datos inválidos`);
   return ok;
 }
@@ -244,41 +252,42 @@ async function hydrateTours(prisma: PrismaClient, ids: string[]): Promise<Map<st
   return out;
 }
 
-/** REQ-450 + REQ-453: «Los más elegidos» y «Excursiones de un día» con el medidor de reseñas. */
-async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[], taxonomy?: CatalogClassifier): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[] }> {
+export type CarouselItem = TourCandidate | TripCandidate;
+
+/**
+ * REQ-850 / REQ-852: el orden COMPLETO de «Los más elegidos» (todos los Favoritos) y de «Excursiones de un día» (todas),
+ * con la lib pura (carousel-pages.ts). Lo usan el inicio (primera página) y /api/home/carrusel (las siguientes).
+ */
+export async function loadCarouselOrder(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[], taxonomy?: CatalogClassifier): Promise<{ elegidos: CarouselItem[]; excursiones: CarouselItem[] }> {
   const prior = await loadPrior(prisma);
   const [all, days] = await Promise.all([
     loadTourCandidates(prisma, prior, includePaid, false, taxonomy),
     loadTourCandidates(prisma, prior, includePaid, true, taxonomy),
   ]);
-  const trips: TripCandidate[] = ownTrips.filter((t) => t.image && !mentionsProviderBrand(t.title)).map((t) => tripCandidate(t)); // REQ-219
-  // Lo que no se puede pintar (sin foto o título, o un título en otro idioma dice «free tour», REQ-219) se salta y se vuelve
-  // a elegir, para que entre la siguiente y la diversidad se respete. Máx. 3 vueltas.
-  const skip = new Set<string>();
-  let mostChosen: (TourCandidate | TripCandidate)[] = [];
-  let dayPicked: (TourCandidate | TripCandidate)[] = [];
-  let tours = new Map<string, HomeTour>();
-  for (let round = 0; round < 3; round++) {
-    const keep = <T extends TourCandidate | TripCandidate>(x: T) => !skip.has(x.key);
-    mostChosen = pickMostChosen<TourCandidate | TripCandidate>([...all, ...trips].filter(keep), prior, HOME_CAROUSEL_SIZE);
-    // REQ-453: lo que ya sale en «Los más elegidos» no se repite en las excursiones.
-    const shown = new Set(mostChosen.slice(0, HOME_CAROUSEL_SIZE).map((x) => x.key));
-    dayPicked = pickDayTrips<TourCandidate | TripCandidate>([...days, ...trips].filter((x) => keep(x) && !shown.has(x.key)), prior, HOME_CAROUSEL_SIZE);
-    const ids = [...new Set([...mostChosen, ...dayPicked].filter((x) => x.source === "tour").map((x) => x.id))].filter((id) => !tours.has(id));
-    const more = await hydrateTours(prisma, ids);
-    tours = new Map([...tours, ...more]);
-    const missing = [...mostChosen, ...dayPicked].filter((x) => x.source === "tour" && !tours.has(x.id));
-    if (!missing.length) break;
-    for (const x of missing) skip.add(x.key);
-  }
+  // REQ-858: un viaje entra a «Excursiones de un día» si su tarjeta dice «Excursión de un día» (TripCard.formato).
+  const trips = ownTrips.filter((t) => t.image).map((t) => ({ ...tripCandidate({ ...t, dayTrip: t.formato === "excursion-dia" }), title: t.title })); // REQ-219 lo filtra carouselOrder
+  return carouselOrder<TourCandidate, TripCandidate & { title: string }>({ tours: all, dayTours: days, trips, prior });
+}
+
+/** Tarjetas de una página del carrusel, en el orden dado; lo que no se puede pintar (sin foto, marca en el título) se salta. */
+export async function hydrateCarouselItems(prisma: PrismaClient, items: readonly CarouselItem[], ownTrips: TripCard[]): Promise<HomeDayTrip[]> {
+  const tours = await hydrateTours(prisma, [...new Set(items.filter((x) => x.source === "tour").map((x) => x.id))]);
   const tripById = new Map(ownTrips.map((t) => [t.id, t]));
-  // Hoy ningún viaje propio tiene reseñas: «Los más elegidos» solo puede traer tours; si un día las tienen, entran aquí.
-  const featured = mostChosen.flatMap((x) => (x.source === "tour" && tours.get(x.id) ? [tours.get(x.id)!] : []));
-  const dayTrips = dayPicked.flatMap((x): HomeDayTrip[] => {
+  return items.flatMap((x): HomeDayTrip[] => {
     if (x.source === "tour") { const t = tours.get(x.id); return t ? [{ type: "tour", tour: t }] : []; }
     const t = tripById.get(x.id); return t ? [{ type: "trip", trip: t }] : [];
   });
-  return { featured, dayTrips };
+}
+
+/** REQ-450 + REQ-453 + REQ-850…612: primera página de «Los más elegidos» y de «Excursiones de un día», y si hay más. */
+async function loadRankedCarousels(prisma: PrismaClient, includePaid: boolean, ownTrips: TripCard[], taxonomy?: CatalogClassifier): Promise<{ featured: HomeTour[]; dayTrips: HomeDayTrip[]; more: { elegidos: boolean; excursiones: boolean } }> {
+  const order = await loadCarouselOrder(prisma, includePaid, ownTrips, taxonomy);
+  const e = carouselPage(order.elegidos, 1);
+  const d = carouselPage(order.excursiones, 1);
+  const [fe, dt] = await Promise.all([hydrateCarouselItems(prisma, e.items, ownTrips), hydrateCarouselItems(prisma, d.items, ownTrips)]);
+  // Hoy ningún viaje propio tiene reseñas: «Los más elegidos» solo puede traer tours; si un día las tienen, entran aquí.
+  const featured = fe.flatMap((x) => (x.type === "tour" ? [x.tour] : []));
+  return { featured, dayTrips: dt, more: { elegidos: e.hasMore, excursiones: d.hasMore } };
 }
 
 async function loadStatsAndContinents(prisma: PrismaClient) {
@@ -389,6 +398,7 @@ export async function loadHomeData({ prisma, highlights, includePaid, lang, caro
     stats: statsC.stats,
     continents: statsC.continents,
     reviews: settle(reviews, []),
+    carouselMore: ranked ? await ranked.then((r) => r.more).catch(() => ({ elegidos: false, excursiones: false })) : { elegidos: false, excursiones: false },
   };
 }
 

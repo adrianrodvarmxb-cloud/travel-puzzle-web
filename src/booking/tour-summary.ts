@@ -2,6 +2,7 @@ import type { PrismaClient } from "@prisma/client";
 import type { EmailLang } from "@/notifications/lib/booking-email";
 import type { MoreTour, TourSummary } from "./notify";
 import { mixRecommendations } from "./lib/recommendations";
+import { scrubName } from "@/tours/lib/provider-text";
 
 /** Título, proveedor, duración y punto de encuentro del tour (de nuestro catálogo en D1). */
 export async function getTourSummary(prisma: PrismaClient, tourExternalId: number, lang: EmailLang): Promise<TourSummary | null> {
@@ -14,7 +15,8 @@ export async function getTourSummary(prisma: PrismaClient, tourExternalId: numbe
     },
   });
   if (!tour) return null;
-  const title = tour.translations.find((t) => t.language === lang)?.title ?? tour.translations.find((t) => t.language === "en")?.title ?? tour.translations[0]?.title;
+  // REQ-1246 (D31): el título sale sin la plataforma.
+  const title = scrubName(tour.translations.find((t) => t.language === lang)?.title ?? tour.translations.find((t) => t.language === "en")?.title ?? tour.translations[0]?.title);
   if (!title) return null;
   const imgs = (Array.isArray(tour.images) ? (tour.images as { URL?: string }[]) : []).map((i) => i?.URL).filter((u): u is string => typeof u === "string" && u.startsWith("https://"));
   const hero = tour.titleImageURL?.startsWith("https://") ? tour.titleImageURL : imgs[0] ?? null;
@@ -61,7 +63,7 @@ export async function getMoreTours(
   ]);
   const site = siteUrl.replace(/\/+$/, "");
   return mixRecommendations(paid, free, 3, includePaid).flatMap((o) => {
-    const title = o.translations.find((t) => t.language === lang)?.title ?? o.translations.find((t) => t.language === "en")?.title;
+    const title = scrubName(o.translations.find((t) => t.language === lang)?.title ?? o.translations.find((t) => t.language === "en")?.title); // REQ-1246
     if (!title || !o.titleImageURL) return [];
     return [{ title, url: `${site}/tours/${o.id}`, imageUrl: o.titleImageURL, rating: o.rating ? Number(o.rating) : null, isFree: Number(o.priceValue) === 0, source: "freetour" as const }];
   });

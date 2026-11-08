@@ -30,7 +30,7 @@ import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
 import { bookingMode } from '@/tours/lib/booking-cta';
 import { tipGuide } from '@/tours/lib/tip-guide';
-import { paidPolicy } from '@/tours/lib/paid-policy';
+import { paidPolicyConfirmed } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import type { PrimeraPiezaView } from './PrimeraPiezaInfo';
@@ -195,7 +195,7 @@ export function TourDetailClient({
                             isLoadingEvents={isLoadingEvents}
                             mode={bookingMode(bookingsEnabled)}
                             whatsapp={whatsapp}
-                            paidPolicy={paidEnabled ? paidPolicy(null, language) : null}
+                            paidPolicy={paidEnabled ? paidPolicyConfirmed(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                             onAdvisorClick={onAdvisorClick}
                             below={crossSell && csItems.length > 0 ? (

@@ -11,6 +11,8 @@ Decisión literal: **«Publica solo cada día»**.
 | G2 | El merge squash que hace el workflow **es la publicación** y está autorizado por este gate | Solo PR creados por el workflow cuyo único archivo cambiado es `src/blog/content/diario.json` | [x] PO, 6 nov 2026 |
 | G3 | **Reemplaza, solo para este agente**, la regla de las skills `blog-metodo-referentes` y `estrategia-topic-cluster` «publicar o escribir en la base del blog requiere OK explícito de Adri y aprobación del cliente» | Los artículos escritos a mano (`src/blog/content/posts/`) siguen con la regla original: OK de Adri y de Claudia | [x] PO, 6 nov 2026 |
 
+| G4 | Imágenes premium en todas las entradas (portada + 2 a 4 fotos de bancos con licencia comercial, optimizadas y servidas desde el sitio). El PR de cada entrada puede cambiar también `public/blog/img/{slug}/` (solo los 6 archivos de cada foto de esa entrada) | Pedido del PO (7 nov 2026, 04:28): «está muy bien, pero agrega imágenes que se vea premium». REQ-1050…1059 | [x] PO, 7 nov 2026, 06:09: a «¿autorizas que cada entrada suba su texto y sus fotos con licencia, nada más?» respondió «Sí, autorizo» |
+
 ## Condición estricta (si no se cumple, NO PUBLICA)
 1. **Solo datos de fuentes públicas citadas y enlazadas, y de nuestro catálogo.** Cada cifra o afirmación fáctica lleva su enlace en la misma frase o párrafo; los datos de la tabla llevan su fuente.
 2. **Cero casos, citas, cifras o testimonios inventados.**
@@ -25,3 +27,9 @@ Decisión literal: **«Publica solo cada día»**.
 
 ## Regreso
 Para detener la publicación automática: desactivar el workflow «Blog diario» en Actions o borrar la tarea programada. Para retirar una entrada publicada: PR que la pase a `draft: true` en `diario.json` (no se borra).
+
+## G5 — Guías propias de ciudad (7 nov 2026)
+| # | Decisión | Alcance | Firma |
+|---|---|---|---|
+| G5 | Guías propias de ciudad (300 palabras o más, fuentes públicas enlazadas, sin texto de FREETOUR), 2 por día, publicadas sin revisión diaria con las mismas reglas de fuentes del blog. Viven en el repo (`src/destinations/content/guias.json`); el PR de cada día solo cambia ese archivo y **no se escribe en D1** | Pedido del PO (7 nov 2026, 06:17, opción c), comunicado por el coordinador: «el PO ya autorizó la publicación diaria sin revisión, con las mismas reglas de fuentes». Workflow `guias-ciudad.yml`. REQ-1220…1235 | [x] PO, 7 nov 2026, 06:17 (vía coordinador) |
+| G5.1 | Cambio de G5: de 2 a 5 guías por día, en el mismo orden (las 37 ciudades con viaje propio primero, luego por número de experiencias). Mismas reglas de fuentes | Cambio firmado por el PO (7 nov 2026, 07:50 CDMX), comunicado por el coordinador: «las guías de ciudad pasan de 2 a 5 por día (opción B)». REQ-1236 reemplaza la parte «2 por día» de REQ-1227 | [x] PO, 7 nov 2026, 07:50 (vía coordinador) |

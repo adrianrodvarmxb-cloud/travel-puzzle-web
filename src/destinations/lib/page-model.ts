@@ -23,39 +23,70 @@ import { indexableEnrichment, indexableProvider } from "@/seo/lib/enrichment";
 import { fichaFacets } from "@/seo/lib/taxonomy-facets";
 import { cardDuration } from "@/tours/lib/experience-card";
 import { freshSummary } from "@/departures/lib/summary";
+import type { SupportedLanguage } from "@/types";
+import { localeAlternates, localizedUrl } from "@/i18n/lib/alternates";
+import { localizePath } from "@/i18n/lib/path";
+import { hubCopy } from "./hub-copy";
+import { cityLangs, countryLangs, HUB_LANGS, tourLangs } from "./locale";
 
 /** REQ-571: el resumen de salidas solo cuenta si es reciente (misma regla que los filtros, freshSummary). */
 const fresh = (syncedAt: string | Date | null | undefined, today: string) =>
   !!syncedAt && freshSummary({ languages: [], dates: [] }, syncedAt instanceof Date ? syncedAt.toISOString() : String(syncedAt), new Date(`${today}T12:00:00Z`)) !== null;
 
 // REQ-102 REQ-832: entrada de los sitemaps a partir del árbol (solo lo publicado; buildSitemaps filtra lo indexable).
-export function sitemapInput(tree: CountryNode[], siteUrl: string): SitemapInput {
+// REQ-663 (Gate 3): con `locales` (LOCALE_URLS_ENABLED), cada entrada lleva sus idiomas indexables (misma regla que la página).
+export function sitemapInput(tree: CountryNode[], siteUrl: string, o: { locales?: boolean } = {}): SitemapInput {
+  const L = <T,>(f: () => T) => (o.locales ? { langs: f() } : {});
   return {
     siteUrl,
-    countries: tree.map((c) => ({ slug: c.slug, indexable: c.indexable })),
-    cities: tree.flatMap((c) => c.cities.map((ci) => ({ countrySlug: c.slug, slug: ci.slug, indexable: ci.indexed, guideUpdatedAt: ci.guideUpdatedAt }))),
+    ...(o.locales ? { hubLangs: HUB_LANGS } : {}),
+    countries: tree.map((c) => ({ slug: c.slug, indexable: c.indexable, ...L(() => countryLangs(c)) })),
+    cities: tree.flatMap((c) => c.cities.map((ci) => ({ countrySlug: c.slug, slug: ci.slug, indexable: ci.indexed, guideUpdatedAt: ci.guideUpdatedAt, ...L(() => cityLangs(ci, c)) }))),
     tours: tree.flatMap((c) =>
-      // REQ-832: las fichas de un proveedor sin permiso de indexar (FREETOUR) no van al sitemap; la ciudad sí.
-      c.cities.flatMap((ci) => allTours(ci).filter((t) => t.kind === "own" || indexableProvider(t.providerId ?? "freetour")).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt })))
+      // REQ-832: las fichas de un proveedor sin permiso de indexar (FREETOUR) no van al sitemap en ningún idioma; la ciudad sí.
+      // REQ-663: las que quedan llevan sus idiomas indexables.
+      // REQ-1349: un viaje listado en varias ciudades entra una sola vez, en su ciudad canónica (la de su href).
+      c.cities.flatMap((ci) => allTours(ci).filter((t) => (t.kind === "own" ? t.href.startsWith(`${ci.href}/`) : indexableProvider(t.providerId ?? "freetour"))).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt, ...L(() => tourLangs(t, ci, c)) })))
     ),
   };
 }
 
 export interface Crumb { name: string; href: string }
-export interface PageMeta { title: string; description: string; canonical: string; index: boolean }
+export interface PageMeta {
+  title: string; description: string; canonical: string; index: boolean;
+  /** REQ-660 (Gate 3): hreflang de las versiones indexables + x-default; null = sin hreflang. Solo se pinta con LOCALE_URLS_ENABLED. */
+  languages?: Record<string, string> | null;
+  /** REQ-664: idioma de la página (og:locale). */
+  lang?: SupportedLanguage;
+}
 export type Featured = ReturnType<typeof featuredActivities>;
 
 const HOME: Crumb = { name: "Inicio", href: "/" };
 const DESTINOS: Crumb = { name: "Destinos", href: ROUTES.destinos };
+// REQ-665: migas en el idioma de la página (mismos href; LocalizedLink les pone el prefijo).
+const homeCrumb = (lang: SupportedLanguage): Crumb => ({ name: hubCopy(lang).home, href: "/" });
+const destinosCrumb = (lang: SupportedLanguage): Crumb => ({ name: hubCopy(lang).destinos, href: ROUTES.destinos });
+// REQ-660 REQ-661 REQ-662: canonical por idioma y hreflang; el índice de siempre manda además (AND).
+function localeMeta(m: { title: string; description: string; index: boolean }, siteUrl: string, path: string, lang: SupportedLanguage, langs: readonly SupportedLanguage[]): PageMeta {
+  const a = localeAlternates({ siteUrl, path, lang, langs: m.index ? langs : [] });
+  return { ...m, canonical: a.canonical, index: m.index && a.index, languages: a.languages, lang };
+}
+// REQ-665: «Actividades destacadas» en el idioma de la página (mismos 3 tours).
+function featuredIn(tours: TourCardModel[], lang: SupportedLanguage): Featured {
+  const f = featuredActivities(hubTours(tours));
+  return f && lang !== "es" ? { ...f, label: hubCopy(lang).featured } : f;
+}
+// REQ-666: URLs del marcado en el idioma de la página.
+const urlIn = (site: string, href: string, lang: SupportedLanguage) => localizedUrl(site, href, lang);
 const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
 
-const crumbsLd = (site: string, crumbs: Crumb[]) => breadcrumbJsonLd(crumbs.map((c) => ({ name: c.name, url: canonicalUrl(site, c.href) })));
+const crumbsLd = (site: string, crumbs: Crumb[], lang: SupportedLanguage = "es") => breadcrumbJsonLd(crumbs.map((c) => ({ name: c.name, url: urlIn(site, c.href, lang) })));
 const hubTours = (tours: TourCardModel[]) => tours.map((t) => ({ id: t.id, title: t.title, href: t.href, reviews: t.reviews, rating: t.rating, active: true }));
-const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
+const list = (xs: string[], and = "y") => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} ${and} ${xs[xs.length - 1]}`);
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 // REQ-582: ItemList de lo que lista la página (null si no hay nada; se filtra abajo).
-const listLd = (site: string, name: string, items: { title?: string; name?: string; href: string }[]) =>
-  itemListJsonLd({ siteUrl: site, name, items: items.map((i) => ({ name: i.title ?? i.name ?? "", href: i.href })) });
+const listLd = (site: string, name: string, items: { title?: string; name?: string; href: string }[], lang: SupportedLanguage = "es") =>
+  itemListJsonLd({ siteUrl: site, name, items: items.map((i) => ({ name: i.title ?? i.name ?? "", href: localizePath(i.href, lang) })) });
 const present = <T,>(xs: (T | null)[]): T[] => xs.filter((x): x is T => x !== null);
 
 // REQ-088 REQ-099 REQ-100 REQ-101: hub de la colección, free tours agrupados por país.
@@ -84,81 +115,74 @@ export function primeraPiezaPage(tree: CountryNode[], siteUrl: string, perCountr
 }
 
 // REQ-088 REQ-091 REQ-099 REQ-100 REQ-101: hub de los países indexables.
-export function destinosPage(tree: CountryNode[], siteUrl: string) {
-  const shown = tree.filter((c) => c.indexable);
-  const crumbs = [HOME, DESTINOS];
-  const tours = shown.flatMap((c) => c.cities.flatMap(allTours));
+// REQ-665/REQ-660: `tree` ya viene en el idioma de la página (localizeTree); español = igual que antes.
+export function destinosPage(tree: CountryNode[], siteUrl: string, lang: SupportedLanguage = "es") {
+  const c = hubCopy(lang);
+  const shown = tree.filter((x) => x.indexable);
+  const crumbs = [homeCrumb(lang), destinosCrumb(lang)];
+  const tours = shown.flatMap((x) => x.cities.flatMap(allTours));
   return {
-    meta: {
-      title: hubTitle(DESTINOS.name),
-      description: clip(`Free tours, experiencias y traslados en ${shown.length ? list(shown.slice(0, 5).map((c) => c.name)) : "todo el mundo"}, con guías locales y un asesor en español por WhatsApp.`),
-      canonical: canonicalUrl(siteUrl, ROUTES.destinos),
+    meta: localeMeta({
+      title: hubTitle(c.destinos),
+      description: clip(c.destinosDescription(shown.length ? list(shown.slice(0, 5).map((x) => x.name), c.and) : null)),
       index: shown.length > 0,
-    } satisfies PageMeta,
-    h1: DESTINOS.name,
+    }, siteUrl, ROUTES.destinos, lang, HUB_LANGS) satisfies PageMeta,
+    h1: c.destinos,
     crumbs,
-    featured: featuredActivities(hubTours(tours)),
-    countries: shown.map((c) => ({ name: c.name, href: c.href, cities: c.cities.length, tours: c.cities.reduce((n, ci) => n + ci.activeTours, 0) })),
-    jsonLd: present([crumbsLd(siteUrl, crumbs), listLd(siteUrl, DESTINOS.name, shown)]),
+    featured: featuredIn(tours, lang),
+    countries: shown.map((x) => ({ name: x.name, href: x.href, cities: x.cities.length, tours: x.cities.reduce((n, ci) => n + ci.activeTours, 0) })),
+    jsonLd: present([crumbsLd(siteUrl, crumbs, lang), listLd(siteUrl, c.destinos, shown, lang)]),
   };
 }
 
-// REQ-088 REQ-091 REQ-099 REQ-100 REQ-101
-export function countryPage(country: CountryNode, siteUrl: string) {
-  const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }];
+// REQ-088 REQ-091 REQ-099 REQ-100 REQ-101; REQ-660…665: `country` en el idioma de la página.
+export function countryPage(country: CountryNode, siteUrl: string, lang: SupportedLanguage = "es") {
+  const k = hubCopy(lang);
+  const crumbs = [homeCrumb(lang), destinosCrumb(lang), { name: country.name, href: country.href }];
   return {
-    meta: {
+    meta: localeMeta({
       title: hubTitle(country.name),
-      description: clip(`Free tours y tours en ${list(country.cities.slice(0, 3).map((c) => c.name))}${country.cities.length > 3 ? " y más ciudades" : ""} de ${country.name}, con guías locales.`),
-      canonical: canonicalUrl(siteUrl, country.href),
+      description: clip(k.countryDescription(list(country.cities.slice(0, 3).map((c) => c.name), k.and), country.cities.length > 3, country.name)),
       index: country.indexable,
-    } satisfies PageMeta,
+    }, siteUrl, country.href, lang, countryLangs(country)) satisfies PageMeta,
     h1: country.name,
     crumbs,
-    featured: featuredActivities(hubTours(country.cities.flatMap(allTours))),
+    featured: featuredIn(country.cities.flatMap(allTours), lang),
     cities: country.cities.map((c) => ({ name: c.name, href: c.href, free: c.freeTours.length, tours: c.paidTours.length + c.ownTrips.length })),
-    jsonLd: present([touristDestinationJsonLd({ name: country.name, url: canonicalUrl(siteUrl, country.href), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs), listLd(siteUrl, `Destinos en ${country.name}`, country.cities)]),
+    jsonLd: present([touristDestinationJsonLd({ name: country.name, url: urlIn(siteUrl, country.href, lang), countryCode: country.iso2 }), crumbsLd(siteUrl, crumbs, lang), listLd(siteUrl, k.countryList(country.name), country.cities, lang)]),
   };
 }
 
 // REQ-100: 3 a 5 preguntas con datos reales de la ciudad (sin prometer lo que no existe).
-export function cityFaq(city: CityNode): { q: string; a: string }[] {
-  const free = city.freeTours.length;
-  const tours = city.paidTours.length + city.ownTrips.length;
-  return [
-    ...(free ? [{ q: `¿Qué es un free tour en ${city.name}?`, a: "Es un recorrido con un guía local en el que reservar es gratis; al final le das al guía lo que consideres justo." }] : []),
-    { q: `¿Cuántas experiencias hay en ${city.name}?`, a: `Hoy hay ${plural(free, "free tour", "free tours")} y ${plural(tours, "tour", "tours")} en ${city.name} en Travel Puzzle.` },
-    {
-      q: "¿Puedo cancelar mi reserva?",
-      a: "Los free tours se cancelan gratis en cualquier momento; si tu grupo paga tarifa fija, la cancelación con reembolso es hasta 24 h antes. Los tours de pago tienen cancelación con reembolso hasta 24 h antes.",
-    },
-    { q: "¿Me ayudan con el resto del viaje?", a: "Sí. Un asesor de Travel Puzzle te ayuda en español por WhatsApp con traslados y otras experiencias." },
-  ];
+// REQ-665: las mismas preguntas en el idioma de la página (hub-copy.ts).
+export function cityFaq(city: CityNode, lang: SupportedLanguage = "es"): { q: string; a: string }[] {
+  return hubCopy(lang).faq(city.name, city.freeTours.length, city.paidTours.length + city.ownTrips.length);
 }
 
 // REQ-088 REQ-089 REQ-099 REQ-100 REQ-101
-export function cityPage(country: CountryNode, city: CityNode, siteUrl: string) {
-  const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }];
-  const faq = cityFaq(city);
+// REQ-660…665: `country` y `city` en el idioma de la página.
+export function cityPage(country: CountryNode, city: CityNode, siteUrl: string, lang: SupportedLanguage = "es") {
+  const k = hubCopy(lang);
+  const crumbs = [homeCrumb(lang), destinosCrumb(lang), { name: country.name, href: country.href }, { name: city.name, href: city.href }];
+  const faq = cityFaq(city, lang);
   const sameAsCountry = fold(city.name) === fold(country.name);
-  const title = city.freeTours.length ? freeToursCityTitle(city.name) : hubTitle(sameAsCountry ? `${city.name}, ${country.name}` : city.name);
+  const title = city.freeTours.length ? k.freeToursCityTitle(city.name) : hubTitle(sameAsCountry ? `${city.name}, ${country.name}` : city.name);
   const tours = city.paidTours.length + city.ownTrips.length;
   return {
-    meta: {
+    meta: localeMeta({
       title,
-      description: clip(`${plural(city.freeTours.length, "free tour", "free tours")} y ${plural(tours, "tour", "tours")} en ${city.name}, ${country.name}, con guías locales. Reserva en línea o con un asesor por WhatsApp.`),
-      canonical: canonicalUrl(siteUrl, city.href),
+      description: clip(k.cityDescription(city.freeTours.length, tours, city.name, country.name)),
       index: city.indexed && country.indexable,
-    } satisfies PageMeta,
+    }, siteUrl, city.href, lang, cityLangs(city, country)) satisfies PageMeta,
     h1: city.name,
     crumbs,
-    featured: featuredActivities(hubTours(allTours(city))),
+    featured: featuredIn(allTours(city), lang),
     faq,
     jsonLd: [
-      touristDestinationJsonLd({ name: `${city.name}, ${country.name}`, url: canonicalUrl(siteUrl, city.href), countryCode: country.iso2 }),
-      crumbsLd(siteUrl, crumbs),
+      touristDestinationJsonLd({ name: `${city.name}, ${country.name}`, url: urlIn(siteUrl, city.href, lang), countryCode: country.iso2 }),
+      crumbsLd(siteUrl, crumbs, lang),
       ...[faqJsonLd(faq)].filter((x): x is NonNullable<typeof x> => !!x),
-      ...present([listLd(siteUrl, `Experiencias en ${city.name}`, [...city.freeTours, ...city.paidTours, ...city.ownTrips])]),
+      ...present([listLd(siteUrl, k.cityList(city.name), [...city.freeTours, ...city.paidTours, ...city.ownTrips], lang)]),
     ],
   };
 }
@@ -193,13 +217,17 @@ export interface TourDetailFacts {
   meetingPoint?: { title?: string | null; address?: string | null; lat?: number | null; lng?: number | null } | null;
   categoryId?: number | null;
   durationMinutes?: number | null;
+  /** REQ-820: galería del tour (portada primero). */
+  images?: (string | null | undefined)[] | null;
 }
 
 // REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
 // REQ-831: noindex por proveedor (FREETOUR hasta su permiso).
 // REQ-570…578, REQ-581: marcado ["Product","TouristTrip"], datos de servidor, «En breve» y facetas según el interruptor del proveedor.
 export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false, detail = null, today = null }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean; detail?: TourDetailFacts | null; today?: string | null }): TourPageModel {
-  const crumbs = [HOME, DESTINOS, { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
+  const L: SupportedLanguage = (["es", "en", "pt", "fr", "it", "de"] as const).find((x) => x === lang) ?? "es";
+  const k = hubCopy(L);
+  const crumbs = [homeCrumb(L), destinosCrumb(L), { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
   // Dos tours con el mismo título real en la ciudad: el proveedor los distingue (title único, REQ-099).
   const twins = allTours(city).filter((t) => t.id !== tour.id && fold(t.title) === fold(tour.title)).length > 0;
   const shownTitle = twins && tour.provider ? `${tour.title} (${tour.provider})` : tour.title;
@@ -217,7 +245,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const facets = enrichment ? fichaFacets({ proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title }, lang) : { tipo: null, etiquetas: [] };
   const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
   const ficha: FichaInput = {
-    provider, lang, url: canonicalUrl(siteUrl, tour.href), name: tour.title, images: [image ?? tour.image],
+    provider, lang, url: urlIn(siteUrl, tour.href, L), name: tour.title, images: [image ?? tour.image, ...(detail?.images ?? [])], // REQ-820: fichaImages quita repetidas y deja 4
     operator: tour.provider, free: tour.isFreeTour, price: tour.isFreeTour ? 0 : tour.price, currency: tour.currency,
     availability: today && fresh(detail?.departuresSyncedAt, today) ? nextAvailability(detail?.departureDates, today) : null,
     duration, languages: langs, place: `${city.name}, ${country.name}`,
@@ -229,12 +257,12 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     enrichment,
     enBreve: enBreve(ficha),
     facets,
-    meta: {
-      title: (tax && tourTitleByFormat({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour, formato: tax.formato })) || tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }),
-      description: clip(tax ? tourDescription({ formato: tax.formato, guiaEnPersona: tax.guia, isFreeTour: tour.isFreeTour, city: city.name, notice: notice[0] ?? null }) : `${tour.isFreeTour ? "Free tour" : "Tour"} en ${city.name} con un guía local. ${notice[0] ?? ""}`),
-      canonical: canonicalUrl(siteUrl, tour.href),
-      index: city.indexed && country.indexable && indexableProvider(provider), // REQ-831
-    },
+    // REQ-665/REQ-667: title y description en el idioma de la ruta. Con TAXONOMY_LABELS_ENABLED (solo español hoy) aplica solo en es.
+    meta: localeMeta({
+      title: (tax && L === "es" && tourTitleByFormat({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour, formato: tax.formato })) || (L === "es" ? tourTitle({ title: shownTitle, city: city.name, isFreeTour: tour.isFreeTour }) : k.tourTitle(shownTitle, city.name, tour.isFreeTour)),
+      description: clip(tax && L === "es" ? tourDescription({ formato: tax.formato, guiaEnPersona: tax.guia, isFreeTour: tour.isFreeTour, city: city.name, notice: notice[0] ?? null }) : k.tourDescription(tour.isFreeTour, city.name, notice[0] ?? null)),
+      index: city.indexed && country.indexable && indexableProvider(provider), // REQ-831; noindex = sin hreflang (REQ-662)
+    }, siteUrl, tour.href, L, tourLangs(tour, city, country)),
     crumbs,
     heading: tourHeading({ title: tour.title, provider: tour.provider, isFreeTour: tour.isFreeTour }),
     badge: primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 }),
@@ -244,7 +272,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     jsonLd: [
       // REQ-571…574: reemplaza a productJsonLd (EUR fijo y AggregateRating del proveedor); productJsonLd queda sin uso, no se borra.
       fichaJsonLd(ficha),
-      crumbsLd(siteUrl, crumbs),
+      crumbsLd(siteUrl, crumbs, L),
     ],
   };
 }

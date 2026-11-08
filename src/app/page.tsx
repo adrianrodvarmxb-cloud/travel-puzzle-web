@@ -1,3 +1,4 @@
+import { paidInRecommendations } from '@/booking/lib/flags';
 import { taxonomyPublishEnabled } from "@/taxonomy/lib/publish";
 import { JsonLd as ListJsonLd } from "@/components/destinations/JsonLd";
 import { homeItemLists } from "@/seo/lib/listing-ld";
@@ -34,33 +35,56 @@ import { contactFromEnv } from "@/booking/tour-summary";
 import { getPrisma } from "@/lib/prisma";
 import { isHelpVisible } from "@/help/lib/faq";
 import { getRouteLanguage } from '@/i18n/server';
+import { hubLocaleMetadata } from '@/i18n/metadata';
+import { pageCopy } from '@/i18n/lib/copy';
+import type { Metadata } from "next";
 import { formatCount } from "@/home/lib/format";
+import { loadCatalog } from "@/catalog/snapshot";
+import { experienciasDisponibles } from "@/tours/lib/available";
+import { catalogExperiencesTotal } from "@/tours/lib/available-catalog";
+import { taxonomyFiltersEnabled } from "@/taxonomy/lib/filters";
 import { withToursText } from "@/home/lib/hero";
 import { JsonLd } from "@/components/destinations/JsonLd";
 import { homeJsonLd } from "@/seo/lib/home-jsonld";
 import { siteUrl } from "@/destinations/server";
+import { withFinalHref } from "@/tours/lib/card-sources";
+import { slimDayTrip, slimHomeTour } from "@/home/lib/slim";
 
 // Lee catálogo y reseñas reales en cada visita.
 export const dynamic = "force-dynamic";
+
+// REQ-660…665 (Gate 3): con LOCALE_URLS_ENABLED, title, canonical y hreflang del idioma de la URL; sin ella, {} (los del layout, como hoy).
+export async function generateMetadata(): Promise<Metadata> {
+  const loc = await hubLocaleMetadata("/");
+  if (!loc) return {};
+  const c = pageCopy(loc.lang).home;
+  return { title: { absolute: c.title }, description: c.description, ...loc.meta, openGraph: { title: c.title, description: c.description, ...loc.meta.openGraph } };
+}
 
 export default async function Home() {
   const env = process.env as Record<string, string | undefined>;
   const prisma = getPrisma();
   const lang = await getRouteLanguage();
   // REQ-219 (y REQ-454): ningún carrusel del inicio muestra títulos con «FreeTour» / «Free Tour».
-  const ownTrips = (await loadTripCards(lang)).filter((t) => !mentionsProviderBrand(t.title));
-  const includePaid = env.PAID_TOURS_ENABLED === "true";
+  const allTrips = await loadTripCards(lang);
+  const ownTrips = allTrips.filter((t) => !mentionsProviderBrand(t.title));
+  // REQ-014: tours de pago en recomendaciones solo con PAID_TOURS_ENABLED y PAID_TOURS_IN_RECOMMENDATIONS.
+  const includePaid = paidInRecommendations(env);
   // REQ-450/453: medidor de reseñas y «Excursiones de un día» (CARRUSELES_HOME_ENABLED).
   const carousels = isHomeCarouselsEnabled(env.CARRUSELES_HOME_ENABLED);
   // REQ-032 (INC-003): el home ya no consulta D1 en cada visita; caché compartida 5 min.
   // T3 (REQ-406, REQ-407): destacados con la taxonomía solo con TAXONOMY_PUBLISH_ENABLED (apagada).
   const taxonomyOn = taxonomyPublishEnabled(env);
-  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "tipos-540" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
+  const data = await cached(cacheKey("home", { lang, includePaid, carousels: String(carousels), tax: taxonomyOn, v: "carruseles-610-tipos-1260" }) /* REQ-520 forma de HomeTour; REQ-532…537 formato recalculado */, POLICY.home, () =>
     withRetry(() => loadHomeData({ prisma, highlights: createHighlightRepo(prisma), includePaid, lang, carousels, ownTrips, taxonomy: homeTaxonomy(taxonomyOn) })),
   );
   // REQ-173 (INC-001): «8,054» se formatea aquí, en el servidor, con idioma fijo.
   const numLang = lang === "en" ? "en" : "es";
-  const counts = { tours: formatCount(data.stats.tours, numLang), cities: formatCount(data.stats.cities, numLang), countries: formatCount(data.stats.countries, numLang) };
+  // REQ-1346 (INC-008): el mismo total que el encabezado y el filtro de /tours: tours de Experiencias (mismo índice, sin
+  // transporte) + viajes sin transporte. Si el índice falla, el conteo de antes (la sección no se cae).
+  const toursEnExperiencias = await loadCatalog(lang).then((e) => catalogExperiencesTotal(e, taxonomyFiltersEnabled(env))).catch(() => null);
+  const stats = toursEnExperiencias === null ? data.stats : { ...data.stats, tours: experienciasDisponibles(toursEnExperiencias, allTrips) };
+  const counts = { tours: formatCount(stats.tours, numLang), cities: formatCount(data.stats.cities, numLang), countries: formatCount(data.stats.countries, numLang) };
   const hero = withToursText(data.hero, numLang);
   // REQ-170: EUR + «aprox. MXN» en las destacadas de pago (servidor, idioma fijo; INC-001), solo con PRIMERA_PIEZA_ENABLED.
   // REQ-453: también los tours de pago de «Excursiones de un día».
@@ -72,6 +96,10 @@ export default async function Home() {
   // REQ-582: ItemList de los carruseles con la URL canónica de cada tarjeta. Si el árbol falla, sin resolver (nunca tumba el inicio).
   const resolve = isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? canonicalHrefs(await getDestinations().catch(() => null)) : undefined;
   const carouselLists = homeItemLists({ siteUrl: siteBase(), lang, featured: data.featured, dayTrips: data.dayTrips, resolve });
+  // REQ-668 (Gate 3): las tarjetas enlazan la ficha final (LocalizedLink le pone el prefijo del idioma), sin el 301 de /tours/{id}.
+  const fin = withFinalHref(resolve);
+  const featured = data.featured.map(fin);
+  const dayTrips = data.dayTrips.map((d) => (d.type === "tour" ? { ...d, tour: fin(d.tour) } : d));
   const footer = { whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials };
 
   return (
@@ -82,11 +110,11 @@ export default async function Home() {
       <Navbar />
       <main className="tp-dark">
         <HeroSearch slides={hero} quickCities={data.destinations.slice(0, 5)} />
-        <ProofStrip stats={data.stats} counts={counts} />
+        <ProofStrip stats={stats} counts={counts} />
         <PopularDestinations destinations={data.destinations} totalCities={data.stats.cities} />
-        <FeaturedTours tours={data.featured} priceLabels={priceLabels} />
+        <FeaturedTours tours={featured.map((t) => slimHomeTour(t, lang)) /* REQ-857; REQ-668 conserva href */} priceLabels={priceLabels} hasMore={data.carouselMore?.elegidos ?? false} />
         {/* REQ-452: el carrusel de viajes de proveedores con una afirmación falsa se borró (PO, 6 nov 2026). */}
-        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={data.dayTrips} priceLabels={priceLabels} /></SectionBoundary>
+        <SectionBoundary name="carrusel-excursiones"><DayTripsCarousel items={dayTrips.map((d) => slimDayTrip(d, lang)) /* REQ-857; REQ-668 */} priceLabels={priceLabels} hasMore={data.carouselMore?.excursiones ?? false} /></SectionBoundary>
         {carouselLists.length > 0 && <ListJsonLd data={carouselLists} />}
         <HowItWorks bookingsEnabled={env.BOOKINGS_ENABLED === "true"} />
         <ContinentExplorer continents={data.continents} />

@@ -60,13 +60,13 @@ export function DestinationTourCard({ tour, rates = null, guideCopy = false }: {
     );
 }
 
-export function TourGrid({ tours, rates = null }: { tours: TourCardModel[]; rates?: FxRates | null; /** T5 (REQ-416): la tarjeta única no dice «guía local»; se acepta para no romper ToursByFormat. */ guideCopy?: boolean }) {
+export function TourGrid({ tours, rates = null, lang = 'es' }: { tours: TourCardModel[]; rates?: FxRates | null; /** REQ-665 (Gate 3): idioma de la página (servidor). */ lang?: string; /** T5 (REQ-416): la tarjeta única no dice «guía local»; se acepta para no romper ToursByFormat. */ guideCopy?: boolean }) {
     return (
         <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {/* REQ-520: tarjeta única (guideCopy de T5 no aplica: la tarjeta nombra al operador sin «guía local»); el precio de pago (REQ-170, D4) se arma aquí en el servidor con idioma fijo. */}
             {tours.map((t) => {
-                const label = t.kind === 'own' || t.isFreeTour ? null : tourPriceLabel(t.price, t.currency, rates, 'es');
-                return <li key={t.id}><ExperienceCard card={fromDestinationTour(t, { price: label ? { main: label.main, approx: label.approx } : null })} /></li>;
+                const label = t.kind === 'own' || t.isFreeTour ? null : tourPriceLabel(t.price, t.currency, rates, lang);
+                return <li key={t.id}><ExperienceCard card={fromDestinationTour(t, { price: label ? { main: label.main, approx: label.approx } : null, lang })} /></li>;
             })}
         </ul>
     );

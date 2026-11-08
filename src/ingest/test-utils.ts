@@ -18,4 +18,4 @@ export function asD1<T>(d: Sqlite): T {
   return { prepare: prep, batch: async (stmts: unknown[]) => { for (const s of stmts as { sql: string; v: unknown[] }[]) d.prepare(s.sql).run(...s.v); } } as unknown as T;
 }
 
-export const MIGRATION_0022 = "docs/migraciones-propuestas/0022_provider_record.sql";
+export const MIGRATION_0022 = "migrations/0022_provider_record.sql";

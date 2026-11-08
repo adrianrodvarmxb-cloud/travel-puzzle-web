@@ -36,6 +36,17 @@ export function samplePost(over: Partial<PostInput> = {}): PostInput {
 
 const plain = (n: number) => Array.from({ length: n }, () => "texto").join(" ");
 
+/** REQ-1050: foto de banco de prueba (Unsplash) con alt, crédito, licencia y origen. Solo para tests. */
+export function sampleImage(name: string, o: { descarga?: string } = {}) {
+  return {
+    src: `/blog/img/entrada-diaria-de-prueba/${name}`,
+    alt: `Foto de prueba ${name}`,
+    credit: "Foto: Autora de Prueba / Unsplash",
+    license: { name: "Unsplash License" as const, url: "https://unsplash.com/license" },
+    origen: { banco: "unsplash" as const, id: `id-${name}`, pagina: `https://unsplash.com/photos/${name}`, autor: "Autora de Prueba", descarga: o.descarga ?? `https://images.unsplash.com/photo-${name}` },
+  };
+}
+
 /** REQ-965: entrada del agente diario que pasa el validador (plantilla sin minicaso ni citas). Solo para tests. */
 export function sampleDaily(over: Partial<PostInput> = {}): PostInput {
   return {
@@ -46,7 +57,8 @@ export function sampleDaily(over: Partial<PostInput> = {}): PostInput {
     summary: "Resumen de prueba de la entrada diaria.",
     draft: false,
     publishedAt: "2026-11-07",
-    author: "editorial",
+    author: "claudia",
+    categoria: "viajes",
     origen: "agente-diario",
     mix: "pago",
     tema: { tipo: "calendario", clusterId: "T-01", fuentes: [] },
@@ -57,6 +69,8 @@ export function sampleDaily(over: Partial<PostInput> = {}): PostInput {
     comoLoSabemos: "Redactado por el equipo editorial con apoyo de IA a partir de las fuentes públicas enlazadas y del catálogo del sitio.",
     visual: { kind: "tabla", caption: "Tabla de prueba", head: ["A", "B"], rows: [["uno", "dos"]] },
     cta: { kind: "comercial", label: "Ver tours en Europa" },
+    cover: sampleImage("portada"),
+    imagenes: [{ formato: "dos", despues: 1, fotos: [sampleImage("a"), sampleImage("b")] }],
     ...over,
   };
 }

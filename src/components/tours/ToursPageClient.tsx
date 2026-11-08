@@ -11,6 +11,7 @@ import { fromCatalogTour } from '@/tours/lib/card-sources';
 import { OwnTripsInTours, ToursKindChips } from '@/components/trips/OwnTripsInTours';
 import { FormatChips } from '@/components/tours/FormatChips';
 import { formatChips } from '@/tours/lib/format-chips';
+import type { FormatDef } from '@/taxonomy/lib/format-defs';
 import type { TripCard } from '@/trips/public-load';
 import { isOwnKindFilter, isToursKindFilter, type ToursKindFilter } from '@/trips/lib/public';
 import { TourFiltersPanel } from '@/components/tours/TourFiltersPanel';
@@ -23,6 +24,7 @@ import { DurationFilter } from '@/components/tours/DurationFilter';
 import { MoreFilters } from '@/components/tours/filters/MoreFilters';
 import { FiltersSheet } from '@/components/tours/filters/FiltersSheet';
 import { matchesToursFilter } from '@/trips/lib/public';
+import { experienciasDisponibles } from '@/tours/lib/available';
 import { parseExtraFilters, extraFiltersToParams, countActive, EMPTY_EXTRA, type ExtraFilters } from '@/tours/lib/extra-filters';
 import { ToursMap } from '@/components/tours/ToursMap';
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
@@ -58,8 +60,12 @@ interface ToursPageClientProps {
     showDepartures?: boolean;
     /** T4 (TAXONOMY_FILTERS_ENABLED): filtro «Tipo de experiencia» por formato en lugar de los grupos viejos. */
     taxonomy?: boolean;
+    /** REQ-1256: tipos principales del diccionario (servidor); con ellos, chips y filtro se actualizan solos. */
+    formatDefs?: FormatDef[];
     /** REQ-290…292: autocompletado y cero resultados con salida (SEARCH_SUGGEST_ENABLED). */
     showSuggest?: boolean;
+    /** REQ-1254: MXN por EUR del día (servidor), para el rango de precio aproximado. */
+    mxnPerEur?: number | null;
     /** REQ-340…342: analítica anónima de búsquedas (SEARCH_LOG_ENABLED). */
     logSearches?: boolean;
 }
@@ -73,6 +79,8 @@ export function ToursPageClient({
     countryCodeById = {},
     today,
     showDepartures = false,
+    formatDefs,
+    mxnPerEur = null,
     taxonomy = false,
     showSuggest = false,
     logSearches = false,
@@ -350,6 +358,9 @@ export function ToursPageClient({
     if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
         if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
     }
+    // REQ-1346 (INC-008): viajes que coinciden con los filtros en cualquier página; el encabezado suma catálogo + viajes
+    // (el mismo total que el inicio y que la suma del filtro).
+    const ownMatches = ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra }));
     const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
@@ -367,7 +378,7 @@ export function ToursPageClient({
     // REQ-340/342: una búsqueda y sus clics, sin datos personales (apagado: no manda nada)
     const logClick = useSearchLog(logSearches, uiFilters.search, language, pageInfo?.total, isLoadingTours);
     // REQ-170 / REQ-522: etiquetas de precio y formato armadas en el servidor (fetchTours).
-    const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string> } | undefined;
+    const cardExtras = currentToursData as { priceLabels?: Record<string, { main: string; approx: string | null }>; cardFormats?: Record<string, string>; cardHrefs?: Record<string, string> } | undefined;
 
     return (
         <div className="min-h-screen bg-background">
@@ -375,7 +386,7 @@ export function ToursPageClient({
 
             <main className="tp-dark min-h-screen pb-24">
                 <ToursHeader
-                    total={pageInfo?.total || 0}
+                    total={experienciasDisponibles(pageInfo?.total || 0, ownMatches)}
                     lastUpdated={initialMetadata?.lastUpdatedFormatted ?? undefined}
                     search={uiFilters.search || ''}
                     onSearch={(value) => handleFilterChange({ search: value || undefined })}
@@ -399,7 +410,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters formatDefs={formatDefs} mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
@@ -408,7 +419,7 @@ export function ToursPageClient({
                         {/* REQ-546…549: con TAXONOMY_FILTERS_ENABLED, los chips son los tipos principales (mismas etiquetas que la
                             tarjeta, desde los datos) y filtran con ?formato=; sin ella quedan los chips viejos por Trip.kind (ocultos, no borrados). */}
                         {taxonomy
-                            ? <FormatChips chips={formatChips(formatCounts, language)} value={extra.formatos.length === 1 ? extra.formatos[0] : null} onChange={(slug) => changeExtra({ ...extra, formatos: slug ? [slug] : [] })} />
+                            ? <FormatChips chips={formatChips(formatCounts, language, formatDefs)} value={extra.formatos.length === 1 ? extra.formatos[0] : null} onChange={(slug) => changeExtra({ ...extra, formatos: slug ? [slug] : [] })} />
                             : ownTrips.length > 0 && <ToursKindChips value={kind} onChange={changeKind} lang={language} kinds={ownTrips.map((t) => t.kind)} />}
                         {ownTrips.length > 0 && (pagination.page ?? 1) === 1 && (
                             <SectionBoundary name="viajes-en-tours"><OwnTripsInTours trips={ownTrips} kind={taxonomy ? 'all' : kind} lang={language} countryCode={uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null} search={uiFilters.search} extra={extra} cityName={uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null} minPrice={uiFilters.minPrice} maxPrice={uiFilters.maxPrice} /></SectionBoundary>
@@ -434,7 +445,7 @@ export function ToursPageClient({
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
-                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null })} />
+                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null, href: cardExtras?.cardHrefs?.[tour.id] })} />
                                         </div>
                                     ))}
                                 </div>

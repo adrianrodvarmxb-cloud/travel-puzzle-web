@@ -33,9 +33,11 @@ describe("auditoría de tipos — casos reales", () => {
   });
 
   it("REQ-534: «Viajes de 1 día» de FREETOUR (cat. 4) con menos de 6 h no es excursión: visita guiada o caminata", () => {
-    expect(f(ft(4, 30, "Visita guiada por Medellín", 240))).toBe("tour");
+    expect(f(ft(4, 30, "Visita guiada por Medellín", 240))).toBe("visita-guiada"); // REQ-1252 (duda: sin señal)
     expect(f(ft(4, 20, "Lo mejor de Toruń: visita guiada a pie en inglés", 90))).toBe("caminata");
-    expect(f(ft(4, 90, "Descubre la Magia de Cesky Krumlov", 600))).toBe("excursion-dia"); // ≥ 6 h sigue
+    // REQ-1253 corrige a REQ-865: sin nombrar la ciudad base ni una palabra de ciudad, la base «Viajes de 1 día» gana.
+    expect(f(ft(4, 90, "Descubre la Magia de Cesky Krumlov", 600))).toBe("excursion-dia");
+    expect(f(ft(4, 90, "Descubre la Magia de Cesky Krumlov desde Praga", 600))).toBe("excursion-dia"); // con salida sigue
     expect(f(ft(4, 90, "Excursión a Toledo", null))).toBe("excursion-dia"); // sin duración, como antes
     expect(f(ft(4, 40, "Excursión de un día al Taj Mahal", 150))).toBe("excursion-dia"); // el título manda sobre una duración mal cargada
     expect(f(ft(19, 40, "Excursión de un día a las Pirámides y la Esfinge", 300))).toBe("excursion-dia");
@@ -49,9 +51,9 @@ describe("auditoría de tipos — casos reales", () => {
     expect(trip("tour", "Versalles esencial guiado por la tarde", "Visita guiada de Versalles por la tarde con acceso reservado y transporte desde París, a precio reducido.")).toBe("excursion-dia");
     expect(trip("tour", "Disneyland París con transporte, 2 parques", "Transporte ida y vuelta desde París y boleto de un día.")).toBe("excursion-dia");
     expect(trip("tour", "Montaña de 7 Colores Vinicunca", "Día completo de caminata a la Montaña de Colores, a más de 5,000 metros de altura.")).toBe("excursion-dia");
-    expect(trip("tour", "Tour Gastronómico en Lima", "Medio día de sabores peruanos con degustaciones guiadas en Lima.")).toBe("tour");
-    expect(trip("tour", "París en un día: Louvre, Notre-Dame y Sainte-Chapelle", "Notre-Dame, Sainte-Chapelle, Conciergerie, Louvre y Orangerie en un día, con entradas y coordinación.")).toBe("tour"); // no sale de París
-    expect(trip("tour", "Visita guiada al Palacio de Versalles (sin transporte)", "Para quien ya está en Versalles: visita guiada en español con acceso reservado.")).toBe("tour");
+    expect(trip("tour", "Tour Gastronómico en Lima", "Medio día de sabores peruanos con degustaciones guiadas en Lima.")).toBe("visita-guiada"); // REQ-1252 (duda)
+    expect(trip("tour", "París en un día: Louvre, Notre-Dame y Sainte-Chapelle", "Notre-Dame, Sainte-Chapelle, Conciergerie, Louvre y Orangerie en un día, con entradas y coordinación.")).toBe("visita-guiada"); // no sale de París; REQ-1251: entradas
+    expect(trip("tour", "Visita guiada al Palacio de Versalles (sin transporte)", "Para quien ya está en Versalles: visita guiada en español con acceso reservado.")).toBe("visita-guiada"); // REQ-1251
   });
 
   it("REQ-536: taller, clase, cata o espectáculo = Momentos de autor (en las categorías que lo permiten y en viajes)", () => {

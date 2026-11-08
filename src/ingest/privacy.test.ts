@@ -30,11 +30,16 @@ describe("REQ-747 ninguna ruta pública sirve el archivo crudo (raw/ ni source/)
       expect(IMAGE_KEY_RE.test(k)).toBe(false);
     }
   });
-  it("REQ-747 wrangler.jsonc no publica el bucket privado (sin binding aún, sin dominio ni ruta pública)", () => {
+  // REQ-771 reemplaza el «sin binding aún» de REQ-747: el bucket ya existe (candado 1) y el binding entra con la bandera apagada.
+  it("REQ-771 wrangler.jsonc declara el binding RAW_ARCHIVE → travel-puzzle-raw una sola vez, sin dominio ni ruta pública", () => {
     const w = readFileSync("wrangler.jsonc", "utf8").replace(/\/\/[^\n]*/g, "");
-    expect(w).not.toMatch(/travel-puzzle-raw/);
-    expect(w).not.toMatch(/"RAW_ARCHIVE"/);
+    const r2 = w.match(/"r2_buckets":\s*\[([\s\S]*?)\]/)?.[1] ?? "";
+    expect(r2).toMatch(/\{\s*"binding":\s*"RAW_ARCHIVE",\s*"bucket_name":\s*"travel-puzzle-raw"\s*\}/);
+    expect(w.match(/travel-puzzle-raw/g)?.length).toBe(1);
+    expect(w.match(/"RAW_ARCHIVE"/g)?.length).toBe(1);
+    expect(w).not.toMatch(/raw\.travelpuzzle|r2\.dev/);
   });
+  // El «la bandera sigue apagada» de REQ-771 quedó REEMPLAZADO por REQ-774 (src/ingest/lib/flags.test.ts).
 });
 
 describe("REQ-748 netos, comisiones y copias exactas nunca en el repo", () => {

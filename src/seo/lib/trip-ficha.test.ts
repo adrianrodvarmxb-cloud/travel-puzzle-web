@@ -10,7 +10,7 @@ const trip = {
 const input = tripFichaInput({
   trip, lang: "es", url: "https://travelpuzzle.com.mx/viajes/francia/louvre", title: "Louvre con guía privado", summary: "Visita privada al Louvre.",
   operator: "Extime Travel", duration: "1 día", languageNames: ["español"], priceText: "Desde MXN $3,980 · EUR €189", places: "París · Francia",
-  includes: ["Guía privado", "Entrada"], formato: "tour",
+  includes: ["Guía privado", "Entrada"], formato: "visita-guiada", // REQ-1250: el Louvre con guía es Visita guiada
 });
 
 describe("REQ-576: la ficha de viaje lleva el mismo marcado que el tour", () => {
@@ -26,8 +26,9 @@ describe("REQ-576: la ficha de viaje lleva el mismo marcado que el tour", () => 
     expect(tripProviderKey(null, null)).toBe("propios");
     expect(enBreve(input)).toContain("Lo opera Extime Travel");
   });
-  it("REQ-581: el tipo es el de la tarjeta y las etiquetas salen del clasificador", () => {
-    expect(input.tipo).toBe("Tour");
+  it("REQ-581 REQ-822: el tipo es la etiqueta corta de la tarjeta (FORMATO_CARD_LABEL) y las etiquetas salen del clasificador", () => {
+    expect(input.tipo).toBe("Visita guiada");
+    expect(fichaJsonLd(input).additionalProperty).toEqual(expect.arrayContaining([{ "@type": "PropertyValue", name: "Tipo de experiencia", value: "Visita guiada" }]));
     expect(input.etiquetas).toContain("Privado");
     expect(fichaJsonLd(input).keywords).toContain("Privado");
   });

@@ -39,6 +39,8 @@ export interface CatalogFilters {
   /** T4 (TAXONOMY_FILTERS_ENABLED): /tours solo con formatos de Experiencias y ?formato= filtra. */
   taxonomy?: boolean;
   formatos?: string[];
+  /** REQ-1256: tipos principales de /tours del diccionario (el servidor los pasa); sin esto, la lista del código. */
+  formatosTours?: readonly string[];
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -154,7 +156,8 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
   const dur = f.durationRange ? durationRangeWhere(f.durationRange) : null;
   // T4 (REQ-413, REQ-261, REQ-407): con la taxonomía, /tours solo lista formatos de Experiencias (sin online,
   // por revisar ni traslados) y ?formato= filtra; los conteos por formato ignoran ese filtro (REQ-412: sin chips en cero).
-  const inTours = (x: CatalogEntry) => !f.taxonomy || (FORMATOS_FILTRO as readonly string[]).includes(x.formato ?? "");
+  const enTours: readonly string[] = f.formatosTours ?? FORMATOS_FILTRO; // REQ-1256
+  const inTours = (x: CatalogEntry) => !f.taxonomy || enTours.includes(x.formato ?? "");
   const formatOk = (x: CatalogEntry) => !f.taxonomy || !f.formatos?.length || f.formatos.includes(x.formato ?? "");
   const base = entries.filter((x) =>
     inTours(x) &&

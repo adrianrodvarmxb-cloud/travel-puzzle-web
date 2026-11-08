@@ -1,14 +1,17 @@
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
-import { notFound, unstable_rethrow } from 'next/navigation';
+import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
+import { SiteFooter } from '@/components/home/v2';
+import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { TripDetailView, tripMetadata } from '@/components/trips/TripDetailView';
-import { allTours, findCity, type CityNode, type CountryNode } from '@/destinations/lib/catalog';
+import { allTours, fichaTours, findCity, type CityNode, type CountryNode } from '@/destinations/lib/catalog';
 import { tourPage } from '@/destinations/lib/page-model';
 import { toMetadata } from '@/destinations/metadata';
-import { getDestinations, primeraPiezaOn, siteUrl } from '@/destinations/server';
+import { destinosLanguage, getDestinationsIn, primeraPiezaOn, siteUrl } from '@/destinations/server';
+import type { SupportedLanguage } from '@/types';
 import { loadTourDetailProps } from '@/tours/detail-props';
 import { isTravelerFavorite } from '@/tours/lib/favorite';
 import { tourPriceLabel } from '@/tours/lib/price-label';
@@ -22,25 +25,42 @@ export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
 
 /** El tour (o viaje propio) de esta ciudad con ese slug. Un tour de FREETOUR gana si un viaje propio usa el mismo slug. */
-async function resolve(params: Props['params']): Promise<{ country: CountryNode; city: CityNode; tour: ReturnType<typeof allTours>[number] } | null> {
+// REQ-665: el árbol en el idioma de la página (mismos slugs y href en todos los idiomas).
+async function resolve(params: Props['params'], lang: SupportedLanguage): Promise<{ country: CountryNode; city: CityNode; tour: ReturnType<typeof allTours>[number] } | null> {
     const { pais, ciudad, slug } = await params;
-    const hit = findCity(await getDestinations(), pais, ciudad);
+    const hit = findCity(await getDestinationsIn(lang), pais, ciudad);
     if (!hit) return null;
     const href = `/destinos/${pais}/${ciudad}/${slug}`;
-    const tour = allTours(hit.city).find((t) => t.href === href);
-    return tour ? { ...hit, tour } : null;
+    const tour = fichaTours(hit.city).find((t) => t.href === href); // REQ-1262: también las experiencias en línea
+    if (tour) return { ...hit, tour };
+    // REQ-1349: el viaje se lista aquí pero su URL canónica es la de su ciudad de inicio. Si el middleware no decidió
+    // (D1 lenta, bandera), la ficha también manda ahí con 301; nunca se pinta una copia en otra URL.
+    const canonical = hit.city.ownTrips.find((t) => t.href.endsWith(`/${slug}`));
+    if (canonical) {
+        const { hreflang } = await destinosLanguage();
+        permanentRedirect(hreflang && lang !== 'es' ? `/${lang}${canonical.href}` : canonical.href);
+    }
+    return null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!primeraPiezaOn()) return {};
-    const r = await resolve(params);
+    // REQ-667 (Gate 3): tourPage recibe el idioma de la URL (con la bandera apagada, español como hoy).
+    const { lang, hreflang } = await destinosLanguage();
+    const r = await resolve(params, lang);
     if (!r) return {};
+    const meta = tourPage({ country: r.country, city: r.city, tour: r.tour, siteUrl: siteUrl(), lang, labels: taxonomyLabelsEnabled(process.env as Record<string, string | undefined>) }).meta;
     if (r.tour.kind === 'own') {
         const data = await loadTripBySlug((await params).slug);
-        return data ? { ...(await tripMetadata(data, r.tour.href)), ...(r.city.indexed && r.country.indexable ? {} : { robots: { index: false, follow: true } }) } : {};
+        if (!data) return {};
+        const base = await tripMetadata(data, r.tour.href);
+        // REQ-660…662: canonical del idioma y hreflang solo con la bandera; sin ella, como antes.
+        if (!hreflang) return { ...base, ...(r.city.indexed && r.country.indexable ? {} : { robots: { index: false, follow: true } }) };
+        const m = toMetadata(meta, null, { hreflang });
+        return { ...base, alternates: m.alternates, openGraph: { ...base.openGraph, url: meta.canonical, locale: m.openGraph?.locale }, ...(meta.index ? {} : { robots: { index: false, follow: true } }) };
     }
     // T5 (G-T9, REQ-416): title y descripción por formato con TAXONOMY_LABELS_ENABLED.
-    return toMetadata(tourPage({ country: r.country, city: r.city, tour: r.tour, siteUrl: siteUrl(), lang: 'es', labels: taxonomyLabelsEnabled(process.env as Record<string, string | undefined>) }).meta, r.tour.image);
+    return toMetadata(meta, r.tour.image, { hreflang });
 }
 
 /**
@@ -51,12 +71,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  */
 export default async function DestinationTourPage({ params, searchParams }: Props) {
     if (!primeraPiezaOn()) notFound();
-    const r = await resolve(params);
+    const { lang } = await destinosLanguage();
+    const r = await resolve(params, lang);
     if (!r) notFound();
     const { country, city, tour } = r;
     // T5 (REQ-415, REQ-416, G-T9): etiqueta de formato y copy por formato, tras TAXONOMY_LABELS_ENABLED.
     const labels = taxonomyLabelsEnabled(process.env as Record<string, string | undefined>);
-    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang: 'es', labels });
+    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang, labels }); // REQ-667
 
     if (tour.kind === 'own') {
         const data = await loadTripBySlug((await params).slug);
@@ -79,8 +100,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         const mp = props.initialTour?.meetingPoint as { title?: string; coordinates?: string } | undefined;
         const [lat, lng] = (mp?.coordinates ?? '').split(',').map((x) => Number(x.trim()));
         const full = tourPage({
-            country, city, tour, siteUrl: siteUrl(), lang: 'es', labels, today: new Date().toISOString().slice(0, 10),
-            detail: { providerId: row?.providerId, guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null,
+            country, city, tour, siteUrl: siteUrl(), lang, labels, today: new Date().toISOString().slice(0, 10),
+            detail: { providerId: row?.providerId, guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
@@ -108,6 +129,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         facets: full.facets,
                     }}
                 />
+                {/* REQ-1101 (D07): el mismo pie del home que el resto del sitio (la ficha de viaje ya lo trae en TripDetailView). */}
+                <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
             </>
         );
     } catch (error) {

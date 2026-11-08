@@ -1,3 +1,4 @@
+import { AUTOR_POR_CATEGORIA } from "../content/authors";
 /**
  * Validador puro de la entrada del agente diario (gate «Publica solo cada día», docs/gates-blog-diario-2026-11-06.md).
  * Recibe todo por parámetro: fecha de hoy, artículos existentes, rutas que resuelven, calendario y texto de las fichas.
@@ -11,6 +12,7 @@ import { termConflicts, normalizeTerm } from "./terms";
 import { mixProblems, addDays, type MixPost } from "./mix";
 import type { CalendarItem } from "../content/calendario";
 import { PROHIBIDAS_SITIO, textsOf } from "@/site/lib/vocab";
+import { imageProblems } from "./images";
 
 export interface DiarioCtx {
   /** AAAA-MM-DD en CDMX (lo pone la raíz con I/O). */
@@ -55,14 +57,20 @@ function units(p: Post): [string, string][] {
 
 // REQ-966
 export function factProblems(p: Post): string[] {
+  const out = unitsFactProblems(units(p));
+  if (p.visual && p.visual.rows.some((r) => r.some((c) => /\d/.test(c))) && !p.visual.source) out.push("la tabla trae cifras: falta visual.source con su fuente");
+  return out;
+}
+
+/** REQ-966 (y REQ-1224 para las guías de ciudad): cada unidad de texto con cifra o requisito trae su enlace. */
+export function unitsFactProblems(list: [string, string][]): string[] {
   const out: string[] = [];
-  for (const [where, text] of units(p)) {
+  for (const [where, text] of list) {
     const plain = plainText(text);
     if (!/\d/.test(plain) && !FACT_RE.test(plain)) continue;
     if (inlineLinks(text).some((l) => SOURCE_HREF.test(l.href))) continue;
     out.push(`cifra o afirmación sin fuente enlazada en ${where}: «${plain.length > 90 ? `${plain.slice(0, 90)}…` : plain}»`);
   }
-  if (p.visual && p.visual.rows.some((r) => r.some((c) => /\d/.test(c))) && !p.visual.source) out.push("la tabla trae cifras: falta visual.source con su fuente");
   return out;
 }
 
@@ -96,7 +104,9 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
 
   // REQ-979: quién, qué y cuándo
   if (p.origen !== "agente-diario") problems.push("origen debe ser «agente-diario»");
-  if (p.author !== "editorial") problems.push("el autor de una entrada del agente es «editorial» (Equipo editorial de Travel Puzzle)");
+  // REQ-1410: la firma depende de la categoría (viajes → Claudia; marketing, crecimiento y estrategia → Adrián).
+  if (!p.categoria) problems.push("falta categoria (viajes o marketing)");
+  else if (p.author !== AUTOR_POR_CATEGORIA[p.categoria]) problems.push(`el autor de una entrada de ${p.categoria} debe ser ${AUTOR_POR_CATEGORIA[p.categoria]}`);
   if (p.draft) problems.push("una entrada del agente se publica (draft: false)");
   if (!p.mix) problems.push("falta mix (pago o free)");
   if (!p.tema) problems.push("falta tema (trending o calendario)");
@@ -119,6 +129,8 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
 
   // REQ-966
   problems.push(...factProblems(p));
+  // REQ-1051 + REQ-1052: portada y de 2 a 4 fotos en el cuerpo, con alt, crédito y licencia de un banco permitido
+  problems.push(...imageProblems(p));
 
   // REQ-967 + REQ-963: vocabulario
   for (const t of textsOf(p)) {

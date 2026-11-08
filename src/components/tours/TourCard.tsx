@@ -33,13 +33,16 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel 
         ) : (
           <span className="flex h-full items-center justify-center text-4xl opacity-50" aria-hidden>🌍</span>
         )}
-        <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="absolute left-3 top-3" />
         {tour.price === 0 && (
-          <span className="font-data absolute bottom-3 left-3 rounded-md border border-[#7CC4FF] bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-[#7CC4FF]">{freeBadge}</span>
+          <span className="font-data absolute bottom-3 left-3 rounded-md border border-free bg-[#0A1330]/85 px-2 py-0.5 text-[10px] uppercase tracking-[0.15em] text-free">{freeBadge}</span>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{tour.destination} · {tour.duration}</p>
+        {/* REQ-861: «★ Favorito» fuera de la foto (C5 de FREETOUR). */}
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-data min-w-0 truncate text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{tour.destination} · {tour.duration}</p>
+          <TravelerFavoriteBadge rating={tour.rating} reviews={tour.reviewsNumber} className="shrink-0" />
+        </div>
         <h3 className="font-display line-clamp-2 text-lg font-semibold leading-snug">{tour.title}</h3>
         {highlight ? (
           <p className="line-clamp-2 text-sm italic leading-relaxed text-[#C9D6F5]">“{highlight}”</p>

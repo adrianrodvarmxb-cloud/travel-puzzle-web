@@ -32,10 +32,10 @@ describe("sendBookingConfirmation", () => {
     expect(await sendBookingConfirmation(record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send })).toBe("failed");
   });
 
-  it("sin datos del tour usa el número de reserva como referencia", async () => {
+  it("sin datos del tour usa el número de reserva como referencia; REQ-1103: en inglés «Free Puzzle»", async () => {
     const send = vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em_1");
     await sendBookingConfirmation(record, { enabled: true, lang: "en", siteUrl: "https://x", getTour: async () => null, send });
-    expect(send.mock.calls[0][0].subject).toContain("Free tour 6782");
+    expect(send.mock.calls[0][0].subject).toContain("Free Puzzle 6782");
   });
 });
 
@@ -168,5 +168,37 @@ describe("REQ-811 REQ-812 correos de una reserva de pago", () => {
     const send = mail();
     await sendStatusEmail("canceled", record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send });
     expect(send.mock.calls[0][0].text).not.toMatch(/reembolso/);
+  });
+});
+
+// REQ-936 (A3, D3): si FREETOUR rechaza una reserva de pago que todavía NO se pagó, el correo no promete reembolso.
+describe("REQ-936 rechazo de una reserva de pago sin pagar", () => {
+  const mail = () => vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em");
+  it("REQ-936: paymentStatus pending → «No se te cobró nada», sin reembolso", async () => {
+    const send = mail();
+    await sendStatusEmail("rejected", { ...record, price: 40, paymentStatus: "pending" } as typeof record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send });
+    const { text } = send.mock.calls[0][0];
+    expect(text).toContain("No se te cobró nada");
+    expect(text).not.toMatch(/reembolso/i);
+  });
+  it("REQ-936: pagada → reembolso automático (REQ-811 se conserva)", async () => {
+    const send = mail();
+    await sendStatusEmail("rejected", { ...record, price: 40, paymentStatus: "paid" } as typeof record, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send });
+    expect(send.mock.calls[0][0].text).toContain("el reembolso de lo que pagaste es automático");
+  });
+});
+
+// REQ-938 (D7): pago a la llegada: precio cobrado hoy 0 pero el tour es de pago (fullPrice): sin propina y con la regla de 24 h.
+describe("REQ-938 confirmación con pago a la llegada", () => {
+  it("REQ-938: sin propina, con la regla de 24 h y sin prometer reembolso en un rechazo", async () => {
+    const arrival = { ...record, price: 0, fullPrice: 40, paymentStatus: "arrival" } as typeof record;
+    const send = vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em");
+    await sendBookingConfirmation(arrival, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => ({ ...tour, isFree: true }), send });
+    const { html, text } = send.mock.calls[0][0];
+    expect(`${html}${text}`).not.toMatch(/propina/i);
+    expect(text).toContain("hasta 24 h antes del tour");
+    const s2 = vi.fn(async (_email: { to: string; subject: string; html: string; text: string }) => "em");
+    await sendStatusEmail("rejected", arrival, { enabled: true, lang: "es", siteUrl: "https://x", getTour: async () => tour, send: s2 });
+    expect(s2.mock.calls[0][0].text).toContain("No se te cobró nada");
   });
 });

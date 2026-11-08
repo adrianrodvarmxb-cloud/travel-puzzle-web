@@ -27,7 +27,7 @@ export function esFavorito(input: Pick<ClassifyInput, "calificacion" | "resenas"
 export function classifyAtributos(
   input: ClassifyInput, formato: FormatoOEstado, dict: Dictionary, mapping: Mapping | undefined, cat: Categoria | undefined, gates: Gates,
 ): { atributos: Decision<string>[]; avisos: string[] } {
-  if (formato === "fuera" || formato === "por-revisar") return { atributos: [], avisos: [] };
+  if (formato === "fuera" || formato === "por-revisar" || formato === "esenciales-viaje") return { atributos: [], avisos: [] }; // REQ-1263
   const titulo = norm(input.titulo);
   const out = new Map<string, string>();
   const add = (slug: string, regla: string) => { if (!out.has(slug)) out.set(slug, regla); };
@@ -55,7 +55,7 @@ export function classifyAtributos(
   if (conGuia && matches(atributo(dict, "entrada-incluida")?.palabras, todo)) add("entrada-incluida", "visita guiada con entrada");
   const min = input.durationMinutes ?? null;
   const largo = (min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS) || matches(atributo(dict, "dia-completo")?.palabras, todo);
-  if ((formato === "tour" || formato === "caminata") && largo) add("dia-completo", "día completo sin salir de la ciudad");
+  if ((formato === "tour" || formato === "visita-guiada" || formato === "caminata") && largo) add("dia-completo", "día completo sin salir de la ciudad");
 
   const fmt = dict.terminos.find((t): t is TerminoFormato => t.eje === "formato" && t.slug === formato);
   if (formato === "autoguiado") add("autoguiado", "formato autoguiado");

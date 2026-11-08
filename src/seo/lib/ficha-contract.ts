@@ -6,6 +6,7 @@
  * Exige: un H1; JSON-LD que parsea con un solo nodo Product+TouristTrip cuyo `name` es el H1; Offer con moneda
  * ISO 4217 (y la esperada si se indica); sin aggregateRating ni review salvo reseñas propias; precio, duración y
  * operador del marcado visibles en el texto; y, con el interruptor apagado, sin «En breve», descripción ni keywords.
+ * REQ-820: `image` con 1 a 4 URL absolutas https (sin ella, Google marca «Fichas de comerciantes» como no válido).
  */
 
 export interface ContractOptions {
@@ -77,6 +78,11 @@ export function fichaContractFailures(html: string, o: ContractOptions): string[
   if (products.length !== 1) { f.push(`se esperaba 1 nodo ["Product","TouristTrip"] y hay ${products.length}`); return f; }
   const p = products[0];
   if (h1s[0] && norm(String(p.name ?? "")) !== h1s[0]) f.push(`el name del marcado («${p.name}») no es el H1`);
+
+  // REQ-820
+  const imgs = (Array.isArray(p.image) ? p.image : p.image ? [p.image] : []).map(String);
+  if (!imgs.length) f.push("Product sin image (Google: «Fichas de comerciantes» no válido)");
+  else if (imgs.length > 4 || imgs.some((u) => !/^https:\/\/[^/]/.test(u))) f.push(`image con URL no absolutas o más de 4: ${imgs.join(" ")}`);
 
   if (!o.ownReviews && nodes.some((n) => hasDeep(n, "aggregateRating") || hasDeep(n, "review"))) f.push("JSON-LD con aggregateRating o review que no son reseñas propias (Gate 2)");
 

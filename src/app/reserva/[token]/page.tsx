@@ -10,6 +10,7 @@ import { getPrisma } from '@/lib/prisma';
 import { BookingPageView } from './BookingPageView';
 import { cartFlags } from '@/cart/lib/flags';
 import { tripUrl } from '@/cart/lib/links';
+import { cancelNotice } from '@/booking/lib/cancel-policy';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Mi reserva', robots: { index: false, follow: false } };
@@ -37,6 +38,11 @@ export default async function ManageBookingPage({ params, searchParams }: { para
     const days = active ? daysUntil(record.eventDate, new Date()) : null;
     const pageUrl = `${(process.env.SITE_URL ?? '').replace(/\/+$/, '')}/reserva/${token}`;
     const cal = active ? calendarLinks({ title, eventDate: record.eventDate, eventUtcDate: record.eventUtcDate, duration: tour?.duration ?? null, location: meeting, details: `Número de reserva: ${record.refNumber}\n${pageUrl}` }) : null;
+    // REQ-931: tour de pago sin pagar → «Completar el pago»; REQ-934: regla de 24 h antes de confirmar la cancelación.
+    const pay = record as typeof record & { fullPrice?: number | null; paymentStatus?: string | null };
+    const paid = (pay.fullPrice ?? 0) > 0 || record.price > 0;
+    const payHref = process.env.PAID_TOURS_ENABLED === 'true' && pay.paymentStatus === 'pending' && ['pending_payment', 'unpaid'].includes(status) ? `/reserva/${encodeURIComponent(token)}/pago/continuar` : null;
+    const notice = cancelNotice({ paid, eventUtcDate: record.eventUtcDate }, new Date());
     const rows: [string, string | null][] = [
         ['Tour', title],
         ['Organiza', tour?.provider ?? null],
@@ -53,6 +59,7 @@ export default async function ManageBookingPage({ params, searchParams }: { para
             imageUrl={tour?.imageUrl ?? null} rows={rows} when={when} people={people} tourLang={tourLang}
             maps={maps} cal={cal} wa={wa} socials={contact.socials} site={siteFooterFromEnv(process.env as Record<string, string | undefined>)}
             tripUrl={tripUrl({ site: '', token, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status })}
+            payHref={payHref} cancelNotice={notice}
         />
     );
 }

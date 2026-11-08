@@ -8,10 +8,10 @@ const c = catalogClassifier(D, M);
 const PROHIBIDO = /\bmsi\b|meses sin intereses|paga despu[eé]s|opciones de pago|gu[ií]a en espa[nñ]ol|freetour/i;
 
 describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G-T9)", () => {
-  it("REQ-415 bandera TAXONOMY_LABELS_ENABLED: solo con \"true\" y con la publicación (T3) encendida; wrangler.jsonc en \"false\"", () => {
+  it("REQ-415 bandera TAXONOMY_LABELS_ENABLED: solo con \"true\" y con la publicación (T3) encendida; wrangler.jsonc en \"true\" (REQ-618, gate de encendido)", () => {
     expect(taxonomyLabelsEnabled({ TAXONOMY_LABELS_ENABLED: "true" })).toBe(false);
     expect(taxonomyLabelsEnabled({ TAXONOMY_LABELS_ENABLED: "true", TAXONOMY_PUBLISH_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_LABELS_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_LABELS_ENABLED":\s*"true"/);
   });
   it("REQ-416 decisión del PO: con «autoguiado» o «self-guided» en el título no hay guía en persona aunque la categoría sea guiada", () => {
     expect(c({ categoryId: 13, price: 20, title: "Juego de exploración autoguiado" }).guiaEnPersona).toBe(false);
@@ -40,7 +40,7 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
   });
   it("REQ-414 / REQ-412 chips de la ciudad: solo formatos con tours, en orden, con conteo; nada de traslados ni online", () => {
     const chips = cityFormatChips([{ formato: "tour" }, { formato: "caminata" }, { formato: "tour" }, { formato: "traslado" }, { formato: "fuera" }, {}]);
-    expect(chips).toEqual([{ slug: "caminata", label: "Caminata (tour a pie)", count: 1 }, { slug: "tour", label: "Tour", count: 2 }]);
+    expect(chips).toEqual([{ slug: "caminata", label: "Caminata", count: 1 }, { slug: "tour", label: "Tour", count: 2 }]); // REQ-1250
     expect(cityFormatChips([])).toEqual([]);
   });
   it("REQ-415 la etiqueta de la ficha es el nombre del formato; Momentos de autor con su nombre firmado", () => {
@@ -58,9 +58,9 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
 });
 
 describe("REQ-269 «Pieza libre» en la ciudad y junto a la insignia (PO 6-11 10:43)", () => {
-  it("el chip de la sección de la ciudad dice «Pieza libre» (en: «Free tour»)", () => {
+  it("el chip de la sección de la ciudad dice «Pieza libre» (en: «Free Puzzle», REQ-1103)", () => {
     expect(cityFormatChips([{ formato: "pieza-libre" }, { formato: "pieza-libre" }])).toEqual([{ slug: "pieza-libre", label: "Pieza libre", count: 2 }]);
-    expect(cityFormatChips([{ formato: "pieza-libre" }], "en")[0].label).toBe("Free tour");
+    expect(cityFormatChips([{ formato: "pieza-libre" }], "en")[0].label).toBe("Free Puzzle");
   });
   it("la etiqueta de formato de la ficha dice «Pieza libre»; ningún chip ni etiqueta dice «Free tour» en español", () => {
     expect(tourLabels("pieza-libre")).toEqual(["Pieza libre"]);

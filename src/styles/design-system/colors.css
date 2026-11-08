@@ -23,6 +23,8 @@
   
   /* Green - Success and rewards */
   --tp-green-primary: #10b981;
+  /* REQ-1330 (PO 7-11 15:39: «B»): precio e insignia de free tour (Free tour / Pieza libre / Free Puzzle). AA: 9.2:1 sobre #121F45, 10.4:1 sobre #0B1530. */
+  --tp-free: #4ADE80;
   --tp-green-hover: #059669;
   
   /* Gray Scale */

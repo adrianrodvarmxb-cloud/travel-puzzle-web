@@ -5,6 +5,8 @@ import type { GuardedRepo, CityIndexRepo } from "./guarded-sync";
 import type { RunState, RunStatus } from "./lib/guard-plan";
 import type { StageKind } from "./lib/content-hash";
 import { stageStatements, publishBatch, cityIndexStatements, type StagedRow } from "./lib/sql";
+import { cityIndexInputsSql } from "@/destinations/lib/indexing";
+import { nonIndexableProviders } from "@/seo/lib/enrichment";
 
 const PROVIDER = "freetour";
 
@@ -161,12 +163,11 @@ const isoOrNull = (v: unknown) => (v === null || v === undefined || v === "" ? n
 export function createCityIndexRepo(db: D1Read): CityIndexRepo {
   return {
     async cityIndexInputs() {
-      const { results } = await db.prepare(
-        'SELECT c."id", c."guide", c."indexableSince", c."failingSince", (SELECT COUNT(*) FROM "Tour" t WHERE t."cityId" = c."id" AND t."slug" IS NOT NULL' +
-        ' AND t."isActive" = 1 AND t."syncStatus" <> \'removed\') AS "activeTours" FROM "City" c WHERE c."slug" IS NOT NULL'
-      ).bind().all();
+      // REQ-1203: además de los publicados, los indexables (sin los proveedores en false de PROVIDER_INDEXABLE).
+      const q = cityIndexInputsSql(nonIndexableProviders());
+      const { results } = await db.prepare(q.sql).bind(...q.params).all();
       return results.map((r) => ({
-        id: Number(r.id), guide: (r.guide as string | null) ?? null, activeTours: Number(r.activeTours ?? 0),
+        id: Number(r.id), guide: (r.guide as string | null) ?? null, activeTours: Number(r.activeTours ?? 0), indexableTours: Number(r.indexableTours ?? 0),
         indexableSince: isoOrNull(r.indexableSince), failingSince: isoOrNull(r.failingSince),
       }));
     },

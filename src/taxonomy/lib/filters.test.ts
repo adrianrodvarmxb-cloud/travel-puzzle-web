@@ -11,10 +11,10 @@ const q = (s: string) => new URLSearchParams(s);
 const term = (slug: string) => D.terminos.find((t): t is TerminoFormato => t.eje === "formato" && t.slug === slug)!;
 
 describe("T4 filtro ?formato= en /tours (REQ-412, REQ-413)", () => {
-  it("REQ-413 bandera TAXONOMY_FILTERS_ENABLED: solo \"true\"; wrangler.jsonc la trae en \"false\"", () => {
+  it("REQ-413 bandera TAXONOMY_FILTERS_ENABLED: solo \"true\"; wrangler.jsonc la trae en \"true\" (REQ-617, gate de encendido)", () => {
     expect(taxonomyFiltersEnabled({ TAXONOMY_FILTERS_ENABLED: "true" })).toBe(true);
     expect(taxonomyFiltersEnabled({})).toBe(false);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_FILTERS_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_FILTERS_ENABLED":\s*"true"/);
   });
   it("REQ-413 solo formatos de Experiencias y activos; nunca traslado, transporte, renta, crucero, fuera ni por-revisar", () => {
     for (const f of FORMATOS_FILTRO) expect(term(f)).toMatchObject({ seccion: "experiencias", estado: "activo" });
@@ -30,7 +30,7 @@ describe("T4 filtro ?formato= en /tours (REQ-412, REQ-413)", () => {
   it("REQ-413 ?formato= con slugs válidos, sin repetir y en orden; ?tipo_act= viejo se traduce o se ignora", () => {
     expect(parseFormatos(q("formato=tour,caminata,tour,12,traslado"))).toEqual(["caminata", "tour"]);
     expect(parseFormatos(q("tipo_act=excursiones,gastronomia,transporte"))).toEqual(["excursion-dia"]);
-    expect(parseFormatos(q("tipo_act=visitas"))).toEqual(["pieza-libre", "caminata", "tour", "autoguiado"]);
+    expect(parseFormatos(q("tipo_act=visitas"))).toEqual(["pieza-libre", "caminata", "visita-guiada", "tour", "autoguiado"]); // REQ-1250
   });
   it("REQ-413 noindex,follow y canonical /tours solo con filtro de formato y la bandera encendida", () => {
     expect(toursRobots(q("formato=tour"), true)).toEqual({ robots: { index: false, follow: true }, canonical: "/tours" });
@@ -77,11 +77,11 @@ describe("T4 integración con los filtros de hoy", () => {
 });
 
 describe("REQ-269 chip de pieza-libre = «Pieza libre» (PO 6-11 10:43)", () => {
-  it("el chip dice «Pieza libre» en español y «Free tour» en inglés, igual que el diccionario", async () => {
+  it("el chip dice «Pieza libre» en español y «Free Puzzle» en inglés (REQ-1103), igual que el diccionario", async () => {
     const { DEFAULT_DICTIONARY } = await import("@/taxonomy/data");
     const t = DEFAULT_DICTIONARY.terminos.find((x) => x.slug === "pieza-libre")!;
     expect(formatoLabel("pieza-libre", "es")).toBe("Pieza libre");
-    expect(formatoLabel("pieza-libre", "en")).toBe("Free tour");
+    expect(formatoLabel("pieza-libre", "en")).toBe("Free Puzzle");
     expect(FORMATO_LABEL["pieza-libre"]).toEqual({ es: t.termino_es, en: t.termino_en });
   });
 });

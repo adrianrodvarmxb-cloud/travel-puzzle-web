@@ -11,6 +11,9 @@
  * - REQ-574 (Gate 2): nunca aggregateRating ni review de terceros; solo reseñas propias de Travel Puzzle.
  * - REQ-570 / REQ-581: descripción, tipo principal y keywords solo si el proveedor permite enriquecimiento.
  * - REQ-577: «En breve» (respuesta primero), plantilla de 40–80 palabras con los mismos datos.
+ * - REQ-820: `image` obligatorio para Google (Fichas de comerciantes): la principal y hasta 3 más, en URL absolutas.
+ * - REQ-823: nunca shippingDetails (no hay envío) ni hasMerchantReturnPolicy (es una política de devolución de
+ *   mercancía; la cancelación de un tour no cabe fielmente en returnPolicyCategory/merchantReturnDays/returnMethod).
  */
 import { cardProvider } from "@/tours/lib/experience-card";
 import { guideLanguageName } from "@/tours/lib/filters-copy";
@@ -21,6 +24,8 @@ const CTX = "https://schema.org";
 const ISO_4217 = /^[A-Z]{3}$/;
 
 export interface FichaInput {
+  /** REQ-1349: ciudades del viaje, en orden (itinerary del JSON-LD). */
+  itinerary?: string[] | null;
   /** Id del proveedor para el interruptor (REQ-570): `freetour`, `propios`, `agencia:extime-travel`… */
   provider: string;
   lang: string;
@@ -64,6 +69,23 @@ const copy = (lang: string) => (lang === "es" ? COPY.es : COPY.en);
 const clean = (s: string | null | undefined) => (s ?? "").replace(/\s+/g, " ").trim();
 const prop = (name: string, value: string) => ({ "@type": "PropertyValue", name, value });
 
+/** REQ-820: la principal y hasta 3 más. */
+export const MAX_FICHA_IMAGES = 4;
+
+// REQ-820: rutas del sitio («/api/viajes/foto/…») a URL absoluta con el origen de la ficha; solo https, sin repetidas.
+export function fichaImages(images: (string | null | undefined)[], pageUrl: string): string[] {
+  let origin = "";
+  try { origin = new URL(pageUrl).origin; } catch { origin = ""; }
+  const out: string[] = [];
+  for (const raw of images) {
+    const u = typeof raw === "string" ? raw.trim() : "";
+    const abs = u.startsWith("https://") ? u : u.startsWith("/") && !u.startsWith("//") && origin.startsWith("https://") ? `${origin}${u}` : "";
+    if (abs && !out.includes(abs)) out.push(abs);
+    if (out.length === MAX_FICHA_IMAGES) break;
+  }
+  return out;
+}
+
 /** «a, b y c» (es: «e» ante i-/hi-). */
 function list(xs: string[], lang: string): string {
   if (xs.length <= 1) return xs.join("");
@@ -92,14 +114,14 @@ export function nextAvailability(dates: unknown, today: string): "InStock" | nul
   return dates.some((d) => typeof d === "string" && d.slice(0, 10) >= today) ? "InStock" : null;
 }
 
-// REQ-571 REQ-572 REQ-573 REQ-574 REQ-570 REQ-581
+// REQ-571 REQ-572 REQ-573 REQ-574 REQ-570 REQ-581 REQ-820 REQ-823
 export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
   const c = copy(i.lang);
   const rich = indexableEnrichment(i.provider);
   const operator = cardProvider(i.operator);
   const currency = clean(i.currency).toUpperCase();
   const price = i.free ? 0 : i.price;
-  const images = i.images.filter((u): u is string => typeof u === "string" && u.startsWith("https://"));
+  const images = fichaImages(i.images, i.url);
   const langs = (i.languages ?? []).map(clean).filter(Boolean);
   const tipo = rich ? clean(i.tipo) : "";
   const props = [
@@ -111,13 +133,16 @@ export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
   const keywords = rich ? [...new Set([tipo, ...(i.etiquetas ?? []).map(clean)].filter(Boolean))] : [];
   const mp = i.meetingPoint && clean(i.meetingPoint.name) ? i.meetingPoint : null;
   const geo = mp && Number.isFinite(mp.lat) && Number.isFinite(mp.lng) && mp.lat !== null && mp.lng !== null ? { "@type": "GeoCoordinates", latitude: mp.lat, longitude: mp.lng } : null;
-  const own = i.ownReviews && i.ownReviews.reviewCount > 0 && i.ownReviews.ratingValue > 0 ? i.ownReviews : null;
+  // REQ-1329 (D27): un free tour no lleva AggregateRating.
+  const own = !i.free && i.ownReviews && i.ownReviews.reviewCount > 0 && i.ownReviews.ratingValue > 0 ? i.ownReviews : null;
   const description = rich ? clean(i.description) : "";
+  const itinerary = (i.itinerary ?? []).map(clean).filter(Boolean);
   return {
     "@context": CTX,
     "@type": ["Product", "TouristTrip"],
     name: clean(i.name),
     url: i.url,
+    ...(i.free ? { category: "Free tour" } : {}), // REQ-1329: término genérico, nunca la marca (C3)
     ...(images.length ? { image: images } : {}),
     ...(description ? { description: description.slice(0, 500) } : {}),
     ...(operator ? { brand: { "@type": "Brand", name: operator }, provider: { "@type": "Organization", name: operator } } : {}),
@@ -125,6 +150,8 @@ export function fichaJsonLd(i: FichaInput): Record<string, unknown> {
       ? { offers: { "@type": "Offer", price, priceCurrency: currency, url: i.url, ...(i.availability ? { availability: `${CTX}/${i.availability}` } : {}) } }
       : {}),
     ...(props.length ? { additionalProperty: props } : {}),
+    // REQ-1349: el viaje de varias ciudades tiene una sola URL; el itinerario dice todas sus ciudades, en orden.
+    ...(itinerary.length ? { itinerary: { "@type": "ItemList", itemListElement: itinerary.map((name, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": "Place", name } })) } } : {}),
     ...(mp ? { tripOrigin: { "@type": "Place", name: clean(mp.name), ...(clean(mp.address) ? { address: clean(mp.address) } : {}), ...(geo ? { geo } : {}) } } : {}),
     ...(keywords.length ? { keywords: keywords.join(", ") } : {}),
     ...(own ? { aggregateRating: { "@type": "AggregateRating", ratingValue: own.ratingValue, reviewCount: own.reviewCount, bestRating: 5 } } : {}),

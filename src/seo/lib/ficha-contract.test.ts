@@ -46,7 +46,7 @@ function tourHtml(providerId: string, paid: boolean) {
   const tree = destinationTree({ ...fx, tours: [row], trips: [], now });
   const { country, city } = findCity(tree, "mx", "ciudad-de-mexico")!;
   const card = [...city.freeTours, ...city.paidTours][0];
-  const detail = { providerId, guideLanguages: '["en","sp"]', departureDates: ["2026-11-09"], meetingPoint: { title: "Zócalo", lat: 19.43, lng: -99.13 } };
+  const detail = { providerId, guideLanguages: '["en","sp"]', departureDates: ["2026-11-09"], meetingPoint: { title: "Zócalo", lat: 19.43, lng: -99.13 }, images: ["https://img.freetour.example/portada.jpg"] /* REQ-820 */ };
   const m = tourPage({ country, city, tour: card, siteUrl: site, lang: "es", detail, today: "2026-11-06" });
   const uiTour = {
     id: card.id, externalId: 1, title: card.title, brief: null, description: null, destination: city.name, provider: "Guía Ana", providerPhone: null,
@@ -82,6 +82,7 @@ function tripHtml(agency: string | null) {
     trip, lang: "es", url: `${site}/viajes/francia/francia-esencial`, title: "Francia esencial", summary: trip.summaryEs, operator, duration: c.days(8),
     languageNames: ["español"], priceText: `${c.from} ${price.main} · ${price.original}`, places: "París, Tours, Caen · Francia", includes: ["Hoteles 4*", "Desayunos", "Tren París–Tours"], formato: "circuito",
   });
+  input.images = ["/api/viajes/foto/trips/francia-1.jpg", "/api/viajes/foto/trips/francia-2.jpg"]; // REQ-820: como en TripDetailView
   const breve = enBreve(input);
   return {
     currency: "EUR",
@@ -127,7 +128,7 @@ describe("REQ-580: contrato de cada tipo de ficha", () => {
       expect(fichaContractFailures(f.html, { enrichment: true, currency: f.currency, ...strict })).toEqual([]);
       expect(f.html).toContain('data-seo="en-breve"');
       expect(f.html).toContain('data-seo="tipo"');
-      expect(f.html).toContain("Circuito (varios días)");
+      expect(f.html).toContain(">Circuito<"); // REQ-822: etiqueta corta de la tarjeta
       const n = f.breve!.split(/\s+/).length;
       expect(n).toBeGreaterThanOrEqual(40);
       expect(n).toBeLessThanOrEqual(80);
@@ -163,6 +164,13 @@ describe("REQ-580: el contrato detecta lo que no cumple", () => {
   it("REQ-580: precio y duración del marcado deben verse en la página", () => {
     expect(fichaContractFailures(good.replace(/EUR €1,890/g, ""), { enrichment: true }).join(" ")).toMatch(/precio 1890/);
     expect(fichaContractFailures(good.replace('"value":"8 días"', '"value":"9 días"'), { enrichment: true }).join(" ")).toMatch(/duración «9 días»/);
+  });
+  it("REQ-820: Product sin image o con rutas relativas falla", () => {
+    const sin = good.replace(/"image":\[[^\]]*\],/, "");
+    expect(sin).not.toBe(good);
+    expect(fichaContractFailures(sin, { enrichment: true }).join(" ")).toMatch(/sin image/);
+    const rel = good.replace(/"image":\[[^\]]*\]/, '"image":["/api/viajes/foto/trips/a.jpg"]');
+    expect(fichaContractFailures(rel, { enrichment: true }).join(" ")).toMatch(/no absolutas/);
   });
   it("REQ-834: una ficha que debe ir en noindex falla sin «noindex, follow»", () => {
     expect(fichaContractFailures(good, { enrichment: true, noindex: true }).join(" ")).toMatch(/noindex, follow/);

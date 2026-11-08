@@ -26,9 +26,10 @@ describe("registro de artículos", () => {
     expect(visiblePosts(MANUAL_POSTS.map((p) => { const r = parsePost(p); if (!r.ok) throw new Error(r.error); return r.post; }), { showDrafts: false })).toEqual([]);
   });
 
-  it("REQ-256: wrangler.jsonc trae BLOG_ENABLED y BLOG_SHOW_DRAFTS en \"false\"", () => {
+  // REQ-982 reemplaza la parte «BLOG_ENABLED en false» (gate «Publica solo cada día»); BLOG_SHOW_DRAFTS sigue en "false".
+  it("REQ-256 + REQ-982: wrangler.jsonc trae BLOG_ENABLED en \"true\" y BLOG_SHOW_DRAFTS en \"false\"", () => {
     const v = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-    expect(v.BLOG_ENABLED).toBe("false");
+    expect(v.BLOG_ENABLED).toBe("true");
     expect(v.BLOG_SHOW_DRAFTS).toBe("false");
   });
 

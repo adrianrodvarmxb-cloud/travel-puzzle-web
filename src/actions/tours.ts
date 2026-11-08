@@ -19,8 +19,12 @@ import { withRetry } from '@/tours/lib/d1-load';
 import { cached, cacheKey, POLICY } from '@/cache/edge';
 import { priceLabelsFor, type CardPriceLabels } from '@/tours/lib/price-label';
 import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
+import { cityNamesOf } from '@/taxonomy/lib/text';
 import { cardFormatsFor } from '@/tours/lib/card-format';
 import { loadFx } from '@/trips/public-load';
+import { getDestinations } from '@/destinations/server';
+import { canonicalHrefs } from '@/seo/lib/itemlist';
+import { withFinalHref } from '@/tours/lib/card-sources';
 
 /**
  * Serialize Prisma Decimals and Dates to plain values for client components
@@ -67,21 +71,25 @@ export async function fetchTours(
   const filters: TourFilters = { ...clientFilters, taxonomy, formatos: taxonomy ? clientFilters.formatos ?? [] : [] };
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
-    const list = await cached(cacheKey('tours', { ...filters, ...pagination }), POLICY.toursList, async () => {
+    const list = await cached(cacheKey('tours', { ...filters, ...pagination, v: 'tipos-1260' /* REQ-1250: las filas traen el formato del índice */ }), POLICY.toursList, async () => {
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
-    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[]; formato?: string };
+    type Row = { id: string; priceValue?: number | string; priceCurrency?: string; categoryId?: number; durationMinutes?: number | null; providerId?: string; translations?: { title?: string }[]; formato?: string; city?: { translations?: unknown } };
     const rows = ((list as { data?: Row[] }).data ?? []);
     // REQ-522: formato de la taxonomía de cada tarjeta, calculado aquí (el diccionario no viaja al navegador).
     // REQ-548: si la fila trae el formato del índice del catálogo (el que filtran los chips), ese manda.
-    const cardFormats = { ...cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title) }))), ...Object.fromEntries(rows.filter((t) => t.formato).map((t) => [t.id, t.formato as string])) };
+    const cardFormats = { ...cardFormatsFor(rows.map((t) => ({ id: t.id, categoryId: t.categoryId, price: t.priceValue, durationMinutes: t.durationMinutes, providerId: t.providerId, titles: (t.translations ?? []).map((x) => x.title), cities: cityNamesOf(t.city?.translations) }))), ...Object.fromEntries(rows.filter((t) => t.formato).map((t) => [t.id, t.formato as string])) };
     // REQ-170: con PRIMERA_PIEZA_ENABLED, EUR + «aprox. MXN» de cada tarjeta, armado aquí (servidor, idioma fijo; INC-001).
     if (!isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED)) return { ...list, cardFormats };
+    // REQ-668 (Gate 3): ficha final de cada tarjeta (sin el 301 de /tours/{id}); si el árbol falla, sin resolver.
+    const resolve = canonicalHrefs(await getDestinations().catch(() => null));
+    const fin = withFinalHref(resolve);
+    const cardHrefs: Record<string, string> = Object.fromEntries(rows.map((t) => [t.id, fin(t).href]));
     const paid = rows.filter((t) => Number(t.priceValue ?? 0) > 0);
     const rates = paid.length ? await loadFx().catch(() => null) : null;
     const priceLabels: CardPriceLabels = priceLabelsFor(paid.map((t) => ({ id: t.id, price: t.priceValue, currency: t.priceCurrency })), rates, filters.language === 'es' ? 'es' : 'en');
-    return { ...list, priceLabels, cardFormats };
+    return { ...list, priceLabels, cardFormats, cardHrefs };
   } catch (error) {
     console.error('Error fetching tours:', error);
     throw new Error('Failed to fetch tours');
@@ -123,7 +131,7 @@ export async function fetchTourByExternalId(externalId: number, language: string
 export async function fetchCountries(language: string = 'en') {
   try {
     // REQ-029/REQ-032: los países casi no cambian; caché compartida 1 h.
-    const result = await cached(cacheKey('countries', { language }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
+    const result = await cached(cacheKey('countries', { language, v: 'iso-1265' /* REQ-1265 */ }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
     const serialized = serializeDecimals(result);
     return JSON.parse(JSON.stringify(serialized));
   } catch (error) {

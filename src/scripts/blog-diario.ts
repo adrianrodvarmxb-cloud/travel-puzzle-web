@@ -1,10 +1,11 @@
 /**
  * REQ-975: CLI del workflow blog-diario.yml.
- *   npx tsx src/scripts/blog-diario.ts validar <entrada.json> [--agregar] [--hoy AAAA-MM-DD] [--salida resultado.json]
+ *   npx tsx src/scripts/blog-diario.ts validar <entrada.json> [--agregar] [--archivos] [--hoy AAAA-MM-DD] [--salida resultado.json]
+ * REQ-1055: con --archivos exige también los archivos optimizados de cada imagen en public/blog/img/{slug}/.
  * Valida la entrada contra producción (sitemaps y fichas) y el registro; con --agregar la suma a
  * src/blog/content/diario.json (único archivo que cambia). Sale con 1 y la lista de motivos si no pasa.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { validateAgainstSite } from "../blog/diario-run";
 import { postPath } from "../blog/lib/registry";
 import { wranglerVars } from "../site/lib/pages";
@@ -22,7 +23,7 @@ const [cmd, file] = args;
   const out = (o: object) => { const s = JSON.stringify(o, null, 2); console.log(s); const f = flag("--salida"); if (f) writeFileSync(f, s); };
   let input: PostInput;
   try { input = JSON.parse(readFileSync(file, "utf8")); } catch (e) { out({ ok: false, problems: [`la entrada no es JSON válido: ${(e as Error).message}`] }); process.exit(1); }
-  const r = await validateAgainstSite(input, { siteUrl: site, fetch: (u) => fetch(u), now: new Date(), today: flag("--hoy"), primeraPieza: vars.PRIMERA_PIEZA_ENABLED === "true" });
+  const r = await validateAgainstSite(input, { siteUrl: site, fetch: (u) => fetch(u), now: new Date(), today: flag("--hoy"), primeraPieza: vars.PRIMERA_PIEZA_ENABLED === "true", ...(args.includes("--archivos") ? { exists: existsSync } : {}) });
   if (!r.ok) { out({ ok: false, problems: r.problems }); process.exit(1); }
   if (args.includes("--agregar")) {
     const list = JSON.parse(readFileSync(DIARIO, "utf8")) as PostInput[];
