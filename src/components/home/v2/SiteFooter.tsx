@@ -1,6 +1,7 @@
 'use client';
 
 import Link from '@/components/i18n/LocalizedLink';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
 import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
@@ -16,6 +17,28 @@ export interface FooterContact {
 
 /** El logo animado ya trae el lema; el texto aparte lo repetía (decisión del PO, 3 nov 2026). */
 const SHOW_FOOTER_SLOGAN = false;
+
+/** REQ-1400: grupo del pie. Escritorio: siempre abierto. Móvil: acordeón (botón de 44 px, aria-expanded), cerrado al cargar. */
+function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(true);
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) setOpen(false);
+  }, []);
+  return (
+    <div>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="flex min-h-11 w-full items-center justify-between font-mono text-xs uppercase tracking-[0.3em] text-white/50 md:pointer-events-none md:min-h-0"
+      >
+        {title}
+        <span aria-hidden className="md:hidden">{open ? '−' : '+'}</span>
+      </button>
+      <div className={`${open ? '' : 'hidden '}mt-2 space-y-2 text-sm md:block`}>{children}</div>
+    </div>
+  );
+}
 
 const isExternal = (href: string) => href.startsWith('http') || href.startsWith('mailto:');
 
@@ -54,12 +77,11 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
           {SHOW_FOOTER_SLOGAN && <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.footerSlogan}</p>}
         </div>
         {columns.map((col) => (
-          <div key={col.title} className="space-y-2 text-sm">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{col.title}</p>
+          <FooterGroup key={col.title} title={col.title}>
             {col.links.map((l: NavLink) => isExternal(l.href)
               ? <a key={l.href} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="block hover:text-white">{l.label}</a>
               : <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
-          </div>
+          </FooterGroup>
         ))}
         {contact.socials.length > 0 && (
           <div>
