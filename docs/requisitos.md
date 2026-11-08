@@ -865,8 +865,8 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1305 | BANDERA | `TAXONOMY_LINEAGE_ENABLED`: vínculo con la denominación original (D25) | agente | REQ-1316 | PENDIENTE |
 | REQ-1306 | VALIDACIÓN | `ARMA_TU_VIAJE_ENABLED` y `CART_PAYMENTS_ENABLED` (REQ-120, REQ-156; PR #135) | PO | — | PENDIENTE |
 | REQ-1307 | TAREA-PO | `PAID_TOURS_ENABLED` (REQ-013): prueba real con la tarjeta del PO | PO | — | PENDIENTE |
-| REQ-1308 | BANDERA | `CONTACTO_ENABLED` y `EXPERTOS_ENABLED` (REQ-240) | agente | REQ-1320 | BLOQUEADO |
-| REQ-1309 | VALIDACIÓN | `NOSOTROS_ENABLED` (REQ-240): OK del PO al texto | PO | — | PENDIENTE |
+| REQ-1308 | BANDERA | `CONTACTO_ENABLED` y `EXPERTOS_ENABLED` (REQ-240) | agente | REQ-1320 || EN CURSO (CONTACTO_ENABLED en true por #283; EXPERTOS_ENABLED sigue en false, espera REQ-1320) |
+| REQ-1309 | VALIDACIÓN | `NOSOTROS_ENABLED` (REQ-240): OK del PO al texto | PO | — || CUMPLIDO (PO confirma el texto y el encendido de NOSOTROS_ENABLED, 8-11; #283) |
 | REQ-1310 | BANDERA | `SOCIAL_LINKEDIN/FACEBOOK/INSTAGRAM_ENABLED` (REQ-1076), una por una | agente | REQ-1321, REQ-1322 | BLOQUEADO |
 | REQ-1311 | BANDERA | `SEARCH_LOG_ENABLED` (REQ-340) | agente | REQ-1323 | BLOQUEADO |
 | REQ-1312 | BANDERA | `SEARCH_STEM_ENABLED` (REQ-363): búsqueda por raíz | agente | — | PENDIENTE (sin iniciar) |
