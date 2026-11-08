@@ -4,10 +4,9 @@ import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy, waLink } from '@/home/lib/copy';
 import { LEGAL_PATHS, legalLabels } from '@/legal/lib/labels';
-import { HELP_PATH, helpCopy } from '@/help/lib/faq';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
-import { footerPageLinks } from '@/site/lib/pages';
-import { footerHubLinks } from '@/tours/lib/menu';
+import { footerColumns, type NavLink } from '@/layout/lib/nav-model';
+import { PILLARS } from '@/blog/lib/pillars';
 
 export interface FooterContact {
   whatsapp?: string;
@@ -18,37 +17,50 @@ export interface FooterContact {
 /** El logo animado ya trae el lema; el texto aparte lo repetía (decisión del PO, 3 nov 2026). */
 const SHOW_FOOTER_SLOGAN = false;
 
+const isExternal = (href: string) => href.startsWith('http') || href.startsWith('mailto:');
+
 const ICON: Record<string, string> = { Instagram: 'instagram', Facebook: 'facebook', TikTok: 'tiktok', YouTube: 'youtube' };
 
 /** `helpEnabled`: muestra el enlace a /ayuda (mismo interruptor que las reservas en línea). */
 export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterContact; helpEnabled?: boolean }) {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const c = homeCopy(language);
   const wa = waLink(contact.whatsapp, c.expertWa);
   const legal = legalLabels(language);
   // REQ-241: Nosotros, Contacto, Blog… solo con su bandera. D9: el año llega del servidor (INC-001).
-  const { pages, year, primeraPieza } = useFeatureFlags();
-  const pageLinks = footerPageLinks(pages, language);
+  const { pages, year, primeraPieza, transfers } = useFeatureFlags();
+  // REQ-1400: pie por columnas Explora · Empresa · Ayuda (reglas en src/layout/lib/nav-model.ts).
+  const columns = footerColumns({
+    lang: language,
+    labels: { destinos: language === 'es' ? 'Destinos' : 'Destinations', tours: t('nav.tours'), transfers: t('nav.transfers'), blog: 'Blog' },
+    transfers: !!transfers,
+    primeraPieza: !!primeraPieza,
+    blog: !!pages?.blog,
+    pages,
+    helpEnabled,
+    whatsappUrl: wa ?? undefined,
+    email: contact.email,
+    // REQ-1400: pilares activos del blog (clúster temático, ver src/blog/lib/pillars.ts).
+    pillars: PILLARS.filter((p) => p.status === 'activo').map((p) => ({ href: `/blog/${p.slug}`, label: p.name })),
+  });
 
   return (
     <footer className="bg-[#0A1330] px-4 pb-24 pt-12 text-white/80 md:pb-12">
       <div className="h-1 w-full bg-[linear-gradient(90deg,#008DFF,#EAF54F,#C12909)]" />
-      <div className="container mx-auto mt-10 grid max-w-6xl gap-10 md:grid-cols-3">
+      <div className="container mx-auto mt-10 grid max-w-6xl gap-10 md:grid-cols-4">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle" width={120} className="h-auto w-[120px]" />
           {SHOW_FOOTER_SLOGAN && <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.footerSlogan}</p>}
         </div>
-        <div className="space-y-2 text-sm">
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{c.footerContact}</p>
-          <Link href="/tours" className="block hover:text-white">{c.footerTours}</Link>
-          {/* REQ-601: La Primera Pieza salió del menú (REQ-600); el pie la mantiene enlazada. */}
-          {footerHubLinks(!!primeraPieza).map((l) => <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
-          {helpEnabled && <Link href={HELP_PATH} className="block hover:text-white">{helpCopy(language).footerLink}</Link>}
-          {pageLinks.map((l) => <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
-          {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="block hover:text-white">WhatsApp</a>}
-          {contact.email && <a href={`mailto:${contact.email}`} className="block hover:text-white">{contact.email}</a>}
-        </div>
+        {columns.map((col) => (
+          <div key={col.title} className="space-y-2 text-sm">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{col.title}</p>
+            {col.links.map((l: NavLink) => isExternal(l.href)
+              ? <a key={l.href} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="block hover:text-white">{l.label}</a>
+              : <Link key={l.href} href={l.href} className="block hover:text-white">{l.label}</Link>)}
+          </div>
+        ))}
         {contact.socials.length > 0 && (
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">{c.footerFollow}</p>

@@ -1,7 +1,6 @@
 'use client';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
-import { withTransfersLink } from '@/transfers/lib/nav';
-import { withPrimeraPiezaLinks } from '@/tours/lib/menu';
+import { headerLinks, mobileSectionLinks } from '@/layout/lib/nav-model';
 
 import React, { useState } from 'react';
 import Link from '@/components/i18n/LocalizedLink';
@@ -16,7 +15,7 @@ import { PlatformTextLogo } from '@/components/layout/PlatformTextLogo';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { ACCOUNTS_ENABLED } from '@/lib/features';
-import { homeSections, isActiveLink } from '@/home/lib/sections';
+import { isActiveLink } from '@/home/lib/sections';
 import {
   MenuIcon,
   CloseIcon,
@@ -41,20 +40,23 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const { transfers, primeraPieza, dayTrips } = useFeatureFlags();
+  const { transfers, primeraPieza, dayTrips, pages } = useFeatureFlags();
   // REQ-093: Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
   // REQ-600: «La Primera Pieza» fuera del menú (MENU_PRIMERA_PIEZA en src/tours/lib/menu.ts).
-  const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
-    { href: '/', label: t('nav.home') },
-    { href: '/tours', label: t('nav.tours') },
-    { href: '/#como-funciona', label: t('nav.howItWorks') },
-  ], transfers, t('nav.transfers')), !!primeraPieza, language);
+  // REQ-1400 (PO, 7 nov 2026): header = Destinos · Experiencias · Traslados · Blog (Blog solo con artículos visibles).
+  const publicLinks = headerLinks({
+    labels: { destinos: language === 'es' ? 'Destinos' : 'Destinations', tours: t('nav.tours'), transfers: t('nav.transfers'), blog: 'Blog' },
+    transfers: !!transfers,
+    primeraPieza: !!primeraPieza,
+    blog: !!pages?.blog,
+  });
 
-  const clientLinks = withPrimeraPiezaLinks(withTransfersLink([
+  const clientLinks = [
     { href: '/', label: t('nav.home') },
     { href: '/tours', label: t('nav.tours') },
     { href: '/bookings', label: t('nav.myBookings') },
-  ], transfers, t('nav.transfers')), !!primeraPieza, language);
+    ...(transfers ? [{ href: '/traslados', label: t('nav.transfers') }] : []),
+  ];
 
   const dashboardLinks = [
     { href: '/dashboard', label: t('nav.dashboard.overview'), icon: '📊' },
@@ -191,7 +193,7 @@ export const Navbar = () => {
           <div className="md:hidden py-4 border-t border-tp-blue-dark">
             {/* Mobile Nav Links */}
             <div className="flex flex-col gap-2 mb-4">
-              {navLinks.filter((link) => link.href !== '/#como-funciona').map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -208,7 +210,7 @@ export const Navbar = () => {
 
             {/* Secciones del inicio (decisión del PO, 3 nov 2026); REQ-068: se derivan de la lista única */}
             <div className="mb-4 border-t border-white/15 pt-3">
-              {homeSections(language, { dayTrips }).map((s) => (
+              {mobileSectionLinks(language, dayTrips).map((s) => (
                 <Link
                   key={s.id}
                   href={s.href}
