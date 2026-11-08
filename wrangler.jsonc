@@ -55,7 +55,7 @@
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "false",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
-    "PAID_TOURS_ENABLED": "false",
+    "PAID_TOURS_ENABLED": "true",
     "PAID_TOURS_IN_RECOMMENDATIONS": "false",
     // Modificar reserva en línea (/reserva/[token]/modificar): "true" cuando Freetour dé el permiso de editar.
     "EDIT_ENABLED": "true",
