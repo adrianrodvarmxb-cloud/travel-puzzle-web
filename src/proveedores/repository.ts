@@ -42,6 +42,15 @@ export function createProveedoresRepo(db: Db) {
       await db.run(`INSERT OR IGNORE INTO "ProveedorMensaje" ("id","proveedorId","direccion","asunto","resumen","fecha","tipo") VALUES (?,?,?,?,?,?,?)`,
         m.id, m.proveedorId, m.direccion, m.asunto, m.resumen.slice(0, 500), m.fecha, m.tipo);
     },
+    // REQ-1333: lo de la última semana, con el nombre del proveedor.
+    async mensajesDesde(fecha: string) {
+      return db.all<{ proveedor: string; direccion: "entrada" | "salida"; tipo: string; resumen: string; fecha: string }>(
+        `SELECT p."nombre" AS proveedor, m."direccion", m."tipo", m."resumen", m."fecha" FROM "ProveedorMensaje" m JOIN "Proveedor" p ON p."id" = m."proveedorId" WHERE m."fecha" >= ? ORDER BY m."fecha"`, fecha);
+    },
+    async documentosDesde(fecha: string) {
+      return db.all<{ proveedor: string; nombre: string; fecha: string }>(
+        `SELECT p."nombre" AS proveedor, d."nombre", d."fecha" FROM "ProveedorDocumento" d JOIN "Proveedor" p ON p."id" = d."proveedorId" WHERE d."fecha" >= ? ORDER BY d."fecha"`, fecha);
+    },
     async yaRegistrado(id: string): Promise<boolean> {
       return (await db.all(`SELECT 1 FROM "ProveedorMensaje" WHERE "id"=? LIMIT 1`, id)).length > 0;
     },

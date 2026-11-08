@@ -16,5 +16,12 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
   };
   const subir = (ruta: string, contenido: Uint8Array, tipo: string) =>
     subirDocumento({ host: env.CPANEL_HOST ?? "", user: env.CPANEL_USER ?? "", token: env.CPANEL_TOKEN ?? "", fetch }, ruta, contenido, tipo);
-  return { repo, enviar, subir };
+  // REQ-1333, REQ-1335: el sitio no tiene WhatsApp; le pide a Mila (zoefel-mila) que mande el aviso desde el número de Travel Puzzle.
+  const avisar = async (numero: string, texto: string) => {
+    const res = await fetch(env.MILA_AVISOS_URL ?? "", { method: "POST", headers: { authorization: `Bearer ${env.MILA_AVISOS_SECRET ?? ""}`, "content-type": "application/json" },
+      body: JSON.stringify({ negocio: "travel-puzzle", numero, texto, plantilla: "resumen_proveedores" }) });
+    if (!res.ok) throw new Error(`avisos ${res.status}`);
+  };
+  const destinos = (env.RESUMEN_DESTINOS ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  return { repo, enviar, subir, avisar, destinos };
 }

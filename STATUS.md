@@ -16,6 +16,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
 | REQ-1330 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0024 | src/proveedores/proveedores-io.test.ts | EN CURSO |
 | REQ-1331 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0024 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1333 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1334 y REQ-1335) |
 | REQ-1300 a REQ-1329 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1327 NO CUMPLIDO |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad

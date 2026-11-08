@@ -157,3 +157,39 @@ describe("REQ-1298/REQ-1299: integración por prioridad y cobro", () => {
     expect(b.cuerpo.trim().endsWith("Adrián Rodvar\nTravel Puzzle")).toBe(true);
   });
 });
+
+import { textoResumen, esHoraResumen } from "./resumen";
+describe("REQ-1333: resumen semanal", () => {
+  it("REQ-1333: sale el lunes a las 9:00 de México y no otra hora", () => {
+    expect(esHoraResumen("2026-11-09T15:00:00Z")).toBe(true); // lunes 9:00 CDMX
+    expect(esHoraResumen("2026-11-09T16:00:00Z")).toBe(false);
+    expect(esHoraResumen("2026-11-10T15:00:00Z")).toBe(false);
+  });
+  it("REQ-1333: arma los 5 bloques con avance, respuestas, lo que te toca (incluidos rebotes), documentos y lo que sale", () => {
+    const t = textoResumen({
+      proveedores: [
+        { nombre: "Destino Colombia", etapa: "respondio", publicado: true, correosInvalidos: [] },
+        { nombre: "Tangol", etapa: "por_contactar", publicado: false, correosInvalidos: [] },
+        { nombre: "Big Bus", etapa: "por_contactar", publicado: true, correosInvalidos: [] },
+        { nombre: "Inca World Peru", etapa: "contactado", publicado: true, correosInvalidos: ["vieja@incaworld.com"] },
+      ],
+      mensajes: [{ proveedor: "Destino Colombia", direccion: "entrada", tipo: "respuesta", resumen: "Les damos de alta en el portal", fecha: "2026-11-05" },
+                 { proveedor: "Tangol", direccion: "entrada", tipo: "automatica", resumen: "Fuera de la oficina", fecha: "2026-11-05" }],
+      documentos: [{ proveedor: "Destino Colombia", nombre: "Tarifario 2027.pdf", fecha: "2026-11-05" }],
+      proximos: ["Recordatorio a Turismo Asiático (martes)"],
+    });
+    expect(t).toContain("• Respondieron: 1");
+    expect(t).toContain("• Esperan tu primer correo: 2");
+    expect(t).toContain("• Destino Colombia: Les damos de alta en el portal");
+    expect(t).not.toContain("Fuera de la oficina");
+    expect(t.indexOf("Big Bus (publicado)")).toBeLessThan(t.indexOf("Tangol"));
+    expect(t).toContain("Rebotó vieja@incaworld.com (Inca World Peru)");
+    expect(t).toContain("• Destino Colombia: Tarifario 2027.pdf");
+    expect(t).toContain("*5. Esta semana sale*");
+    expect(t.length).toBeLessThanOrEqual(3800);
+  });
+  it("REQ-1333: nunca pasa del límite de WhatsApp", () => {
+    const muchos = Array.from({ length: 200 }, (_, i) => ({ nombre: `Proveedor ${i} con un nombre bastante largo para ocupar espacio`, etapa: "contactado" as const, publicado: false, correosInvalidos: [`x${i}@dominio-largo-de-prueba.com`] }));
+    expect(textoResumen({ proveedores: muchos, mensajes: [], documentos: [], proximos: [] }).length).toBeLessThanOrEqual(3800);
+  });
+});

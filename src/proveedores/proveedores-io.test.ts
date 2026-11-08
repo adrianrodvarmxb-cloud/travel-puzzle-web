@@ -19,6 +19,8 @@ function memoria(lista: ProveedorFila[]) {
     registrarMensaje: async (m) => { mensajes.push(m); },
     yaRegistrado: async (id) => mensajes.some((m) => m.id === id),
     registrarDocumento: async (d) => { documentos.push(d); },
+    mensajesDesde: async () => mensajes.map((m) => ({ proveedor: lista.find((p) => p.id === m.proveedorId)!.nombre, direccion: m.direccion as "entrada", tipo: m.tipo, resumen: "", fecha: "" })),
+    documentosDesde: async () => [],
     marcarInvalidos: async (id, correos) => { lista.find((x) => x.id === id)!.correosInvalidos = correos; },
   };
   return { repo, mensajes, documentos, lista };
@@ -132,5 +134,17 @@ describe("REQ-1331: horario hábil del proveedor", () => {
     expect(enviados).toHaveLength(0);
     await revisionDiaria({ repo: m.repo, hoy: "2026-11-10T01:00:00Z", enviar }); // 9:00 del martes en KL
     expect(enviados).toHaveLength(1);
+  });
+});
+
+import { mandarResumen } from "./resumen";
+describe("REQ-1333: envío del resumen", () => {
+  it("REQ-1333: lo manda a cada número de la lista y anota los que fallan sin detener a los demás", async () => {
+    const m = memoria([base({ id: "a", nombre: "Tangol", correos: ["x@tangol.com"] })]);
+    const llegaron: string[] = [];
+    const r = await mandarResumen({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", destinos: ["5215548538822", "falla", "5216181129459"],
+      avisar: async (n, t) => { if (n === "falla") throw new Error("403"); llegaron.push(n); expect(t).toContain("Esperan tu primer correo: 1"); } });
+    expect(r).toEqual({ enviados: 2, errores: ["falla: 403"] });
+    expect(llegaron).toEqual(["5215548538822", "5216181129459"]);
   });
 });
