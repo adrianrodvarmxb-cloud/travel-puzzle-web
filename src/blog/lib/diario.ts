@@ -1,3 +1,4 @@
+import { AUTOR_POR_CATEGORIA } from "../content/authors";
 /**
  * Validador puro de la entrada del agente diario (gate «Publica solo cada día», docs/gates-blog-diario-2026-11-06.md).
  * Recibe todo por parámetro: fecha de hoy, artículos existentes, rutas que resuelven, calendario y texto de las fichas.
@@ -103,7 +104,9 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
 
   // REQ-979: quién, qué y cuándo
   if (p.origen !== "agente-diario") problems.push("origen debe ser «agente-diario»");
-  if (p.author !== "editorial") problems.push("el autor de una entrada del agente es «editorial» (Equipo editorial de Travel Puzzle)");
+  // REQ-1410: la firma depende de la categoría (viajes → Claudia; marketing, crecimiento y estrategia → Adrián).
+  if (!p.categoria) problems.push("falta categoria (viajes o marketing)");
+  else if (p.author !== AUTOR_POR_CATEGORIA[p.categoria]) problems.push(`el autor de una entrada de ${p.categoria} debe ser ${AUTOR_POR_CATEGORIA[p.categoria]}`);
   if (p.draft) problems.push("una entrada del agente se publica (draft: false)");
   if (!p.mix) problems.push("falta mix (pago o free)");
   if (!p.tema) problems.push("falta tema (trending o calendario)");

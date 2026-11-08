@@ -31,7 +31,7 @@ describe("agente diario", () => {
     const r = validateDailyEntry(ejemplo, { today: "2026-11-07", existing: registryPosts().filter((p) => p.slug !== ejemplo.slug), knownPaths, primeraPieza: true, b1FreeTours: FREE_TOUR_POSTS_B1, calendar: CALENDARIO });
     expect(r.ok ? [] : r.problems).toEqual([]);
     expect(ejemplo.tema).toEqual({ tipo: "calendario", clusterId: "EU-01", fuentes: [] });
-    expect(ejemplo.author).toBe("editorial");
+    expect(ejemplo.author).toBe("claudia"); // REQ-1410: categoría viajes
     expect(ejemplo).not.toHaveProperty("minicaso");
     expect(ejemplo).not.toHaveProperty("citas");
     const publicada = DIARIO_POSTS.find((p) => p.slug === ejemplo.slug);

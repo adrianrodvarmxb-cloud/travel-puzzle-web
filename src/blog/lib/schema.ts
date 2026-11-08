@@ -44,7 +44,9 @@ export const postSchema = z.object({
   draft: z.boolean(),
   publishedAt: z.string().regex(DATE),
   updatedAt: z.string().regex(DATE).optional(),
-  author: z.enum(["claudia", "editorial"]),
+  author: z.enum(["claudia", "adrian", "editorial"]),
+  // REQ-1410: categoría del artículo; decide quién firma (viajes → Claudia, marketing → Adrián).
+  categoria: z.enum(["viajes", "marketing"]).optional(),
   origen: z.enum(["manual", "agente-diario"]).default("manual"),
   mix: z.enum(["pago", "free"]).optional(),
   tema: z.object({

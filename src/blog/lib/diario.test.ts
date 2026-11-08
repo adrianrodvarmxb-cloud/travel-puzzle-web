@@ -38,8 +38,11 @@ describe("validador de la entrada diaria", () => {
     expect(problems({ enBreve: "Muy corto." }).join(" ")).toMatch(/En breve/);
   });
 
-  it("REQ-979: autor «Equipo editorial», origen agente-diario, mezcla y tema declarados", () => {
-    expect(problems({ author: "claudia" })).toContain("el autor de una entrada del agente es «editorial» (Equipo editorial de Travel Puzzle)");
+  it("REQ-979 + REQ-1410: firma por categoría, origen agente-diario, mezcla y tema declarados", () => {
+    expect(problems({ author: "adrian", categoria: "viajes" })).toContain("el autor de una entrada de viajes debe ser claudia");
+    expect(problems({ author: "claudia", categoria: "marketing" })).toContain("el autor de una entrada de marketing debe ser adrian");
+    expect(problems({ categoria: undefined })).toContain("falta categoria (viajes o marketing)");
+    expect(problems({ author: "adrian", categoria: "marketing" })).toEqual([]);
     expect(problems({ origen: "manual" })).toContain("origen debe ser «agente-diario»");
     expect(problems({ draft: true })).toContain("una entrada del agente se publica (draft: false)");
     expect(problems({ mix: undefined })).toContain("falta mix (pago o free)");
