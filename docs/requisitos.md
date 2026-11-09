@@ -751,6 +751,7 @@ Petición literal: «dile al agente que todos los días publique también en Lin
 | REQ-1082 | Pasos del PO para cada token | Dado `docs/redes/conexion.md`, entonces trae los pasos uno por uno: página de Facebook y app de Meta con permisos, IG business vinculada y app de LinkedIn con Community Management | CUMPLIDO |
 | REQ-1083 | Prompt del agente con el paso de redes | Dado `docs/blog/agente-diario.md`, entonces explica el paso de redes y cómo revisar las láminas | CUMPLIDO |
 | REQ-1084 | Cumplimiento FREETOUR B3 en redes | Dados los textos y los hashtags, entonces no mencionan «FREETOUR» ni usan su logo; anunciar free tours sí | CUMPLIDO |
+| REQ-1085 | Facebook publica con token de página | Dado el token de usuario de sistema, entonces se pide el access_token de la página a Meta y la publicación usa ese token (Meta responde 403 #200 con el token de usuario) | CUMPLIDO |
 
 ## Guías propias de ciudad (PO, 7 nov 2026, 06:17, opción c)
 Petición (vía coordinador): «escribir guías propias de 300 palabras o más por ciudad, con fuentes públicas, empezando por las 37 ciudades que ya tienen un viaje propio; con una guía propia, la ciudad vuelve a ser indexable aunque sus tours sean de FREETOUR». Gate G5 en `docs/gates-blog-diario-2026-11-06.md`.

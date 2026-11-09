@@ -7,7 +7,7 @@ import { postPath } from "@/blog/lib/registry";
 import { plainText } from "@/blog/lib/inline";
 import { socialPack, socialProblems, utmUrl, type SocialPack } from "./lib/textos";
 import { laminaUrl } from "./lib/laminas";
-import { facebookPostRequest, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
+import { facebookPostRequest, paginaTokenUrl, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
 
 type Fetch = (url: string, init?: { method?: string; headers?: Record<string, string>; body?: string }) => Promise<{ ok: boolean; status: number; text: () => Promise<string>; headers?: { get: (k: string) => string | null } }>;
 export type Resultado = { red: RedName; estado: "publicado" | "manual" | "fallo"; detalle: string };
@@ -48,7 +48,10 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
 
   await tryRed("facebook", o.config.facebook, async () => {
     const c = o.config.facebook; if (c.mode !== "auto") return "";
-    const j = await sendForm(o.fetch, facebookPostRequest(c, pack.facebook.replace(utmUrl(url, "facebook"), "").trim(), utmUrl(url, "facebook")));
+    // REQ-1085: Meta rechaza (403 #200) publicar con el token de usuario de sistema; se pide el token de página primero.
+    const tp = await o.fetch(paginaTokenUrl(c));
+    const pageToken = tokenDePagina(JSON.parse((await tp.text()) || "{}") as Record<string, unknown>);
+    const j = await sendForm(o.fetch, facebookPostRequest({ ...c, token: pageToken }, pack.facebook.replace(utmUrl(url, "facebook"), "").trim(), utmUrl(url, "facebook")));
     return `post ${String(j.id ?? "")}`;
   });
 
