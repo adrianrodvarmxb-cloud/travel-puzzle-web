@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { runRedes, issueRedesDelDia } from "./run";
 import { redesConfig } from "./lib/api";
 import { parsePost } from "@/blog/lib/schema";
+const historialLibre = { yaPublicadoEnRed: async () => false, publicadasHoyEnRed: async () => 0, registrar: async () => {} };
 
 const SITE = "https://travelpuzzle.com.mx";
 const post = (() => { const r = parsePost(JSON.parse(readFileSync("docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json", "utf8"))); if (!r.ok) throw new Error(r.error); return r.post; })();
@@ -26,7 +27,7 @@ describe("redes del día", () => {
   it("REQ-1085: Facebook publica con el token de página que devuelve Meta, no con el de usuario de sistema", async () => {
     const usados: string[] = [];
     await runRedes({
-      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {}, historial: historialLibre,
       fetch: async (u, init) => {
         if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "115393804914232" });
         if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb1" }); }
@@ -40,7 +41,7 @@ describe("redes del día", () => {
 
   it("REQ-1080: si una red falla, las demás se publican igual", async () => {
     const r = await runRedes({
-      post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {},
+      post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {}, historial: historialLibre,
       fetch: async (u, init) => {
         if (u.includes("api.linkedin.com")) return res(401, { message: "token vencido" });
         if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
@@ -58,5 +59,45 @@ describe("redes del día", () => {
   it("REQ-1078: Instagram no publica si las láminas aún no son públicas", async () => {
     const r = await runRedes({ post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {}, fetch: async (_u, init) => (init?.method === "HEAD" ? res(404, {}) : res(200, { id: "x" })) });
     expect(r.resultados.find((x) => x.red === "instagram")).toMatchObject({ estado: "fallo" });
+  });
+});
+
+describe("REQ-1090: registro y tope en el publicador", () => {
+  const fbOnly = (): Parameters<typeof runRedes>[0]["config"] => redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets);
+  const ok = async (u: string) => (u.includes("fields=access_token") ? res(200, { access_token: "PAGE-TOK", id: "1" }) : res(200, { id: "fb1" }));
+
+  it("REQ-1090: sin registro no publica (falla cerrada)", async () => {
+    const r = await runRedes({ post, siteUrl: SITE, config: fbOnly(), wait: async () => {}, fetch: async (u) => ok(u) });
+    expect(r.resultados.find((x) => x.red === "facebook")?.estado).toBe("fallo");
+  });
+
+  it("REQ-1090: si el artículo ya salió en la red, no se repite y queda manual", async () => {
+    const llamadas: string[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: fbOnly(), wait: async () => {},
+      historial: { ...historialLibre, yaPublicadoEnRed: async () => true },
+      fetch: async (u) => { llamadas.push(u); return ok(u); },
+    });
+    expect(r.resultados.find((x) => x.red === "facebook")?.estado).toBe("manual");
+    expect(llamadas.some((u) => u.endsWith("/feed"))).toBe(false);
+  });
+
+  it("REQ-1090: el tope de una publicación al día se respeta", async () => {
+    const r = await runRedes({
+      post, siteUrl: SITE, config: fbOnly(), wait: async () => {},
+      historial: { ...historialLibre, publicadasHoyEnRed: async () => 1 },
+      fetch: async (u) => ok(u),
+    });
+    expect(r.resultados.find((x) => x.red === "facebook")?.estado).toBe("manual");
+  });
+
+  it("REQ-1090: al publicar se registra la red", async () => {
+    const registradas: string[] = [];
+    await runRedes({
+      post, siteUrl: SITE, config: fbOnly(), wait: async () => {},
+      historial: { ...historialLibre, registrar: async (red) => { registradas.push(red); } },
+      fetch: async (u) => ok(u),
+    });
+    expect(registradas).toEqual(["facebook"]);
   });
 });
