@@ -917,6 +917,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1355 | CÓDIGO | El sync blindado lee la guía de ciudad solo de D1; su `failingSince` no ve las guías del repo (`loadGuides()`) | agente | — | PENDIENTE |
 | REQ-1356 | VALIDACIÓN | Verificación de la empresa por LinkedIn (correo de Microsoft Vetting Services a Claudia) y paso 1 de Instagram: cuenta de Empresa | PO | REQ-1322 | PENDIENTE |
 | REQ-1501 | CÓDIGO | Redes del día: Facebook no vuelve a publicar una entrada que ya está en la página (9-nov: la de Europa salió dos veces, 06:41 y 07:13). Dado un artículo con el enlace ya en la página, cuando corre la publicación, entonces Facebook lo deja como «ya estaba publicado»; si no puede leer la página, no publica y lo reporta (`src/redes/run.test.ts`) | agente | — | EN CURSO (test verde; falta PR, humo y OK del PO) |
+| REQ-1503 | CÓDIGO | Redes del día: Instagram no vuelve a publicar una entrada que ya está en la cuenta (la caption abre con el título). Dado que la entrada ya está, cuando corre, entonces Instagram queda como «ya estaba publicado»; si no puede leer la cuenta, no publica y lo reporta (`src/redes/run.test.ts`). Hace segura una nueva corrida de la Muralla China (Instagram ya publicó el 9-nov) | agente | — | EN CURSO (test verde; falta PR y merge del PO) |
 
 ## Publicar los viajes de Turismo Asiático (PO, 7 nov 2026)
 Petición literal: el PO respondió «Sí, publícalos» (7 nov 2026, 15:14 CDMX) a publicar los 11 viajes de Turismo Asiático que están en draft (hallazgo de INC-008).
