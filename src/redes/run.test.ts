@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { runRedes, issueRedesDelDia } from "./run";
 import { redesConfig } from "./lib/api";
 import { parsePost } from "@/blog/lib/schema";
+import { postPath } from "@/blog/lib/registry";
 
 const SITE = "https://travelpuzzle.com.mx";
 const post = (() => { const r = parsePost(JSON.parse(readFileSync("docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json", "utf8"))); if (!r.ok) throw new Error(r.error); return r.post; })();
@@ -36,6 +37,41 @@ describe("redes del día", () => {
     expect(usados).toHaveLength(1);
     expect(usados[0]).toContain("access_token=PAGE-TOK");
     expect(usados[0]).not.toContain("access_token=t&");
+  });
+
+  // REQ-1501: Facebook no repite una entrada que ya está en la página (causa: 2 posts del mismo artículo, 9-nov).
+  it("REQ-1501: Facebook no publica otra vez una entrada que ya está en la página", async () => {
+    const usados: string[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "115393804914232" });
+        if (u.includes("fields=message")) return res(200, { data: [{ id: "115393804914232_1056623770795366", message: `texto ${SITE}${postPath(post)}?utm_source=facebook&utm_medium=social` }] });
+        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb2" }); }
+        return res(200, {});
+      },
+    });
+    expect(usados).toEqual([]);
+    const fb = r.resultados.find((x) => x.red === "facebook");
+    expect(fb?.estado).toBe("publicado");
+    expect(fb?.detalle).toMatch(/ya estaba publicado.*115393804914232_1056623770795366/);
+  });
+
+  it("REQ-1501: si Facebook no deja revisar la página, no publica (no arriesga un duplicado) y lo reporta", async () => {
+    const usados: string[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
+        if (u.includes("fields=message")) return res(403, { error: { message: "permiso de lectura" } });
+        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb3" }); }
+        return res(200, {});
+      },
+    });
+    expect(usados).toEqual([]);
+    const fb = r.resultados.find((x) => x.red === "facebook");
+    expect(fb?.estado).toBe("fallo");
+    expect(fb?.detalle).toMatch(/no publico para no duplicar/);
   });
 
   it("REQ-1080: si una red falla, las demás se publican igual", async () => {
