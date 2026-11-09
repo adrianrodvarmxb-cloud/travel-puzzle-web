@@ -8,7 +8,7 @@ import { postPath } from "@/blog/lib/registry";
 import { plainText } from "@/blog/lib/inline";
 import { socialPack, socialProblems, utmUrl, type SocialPack } from "./lib/textos";
 import { laminaUrl } from "./lib/laminas";
-import { facebookPostRequest, paginaTokenUrl, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
+import { facebookFeedUrl, facebookPostRequest, paginaTokenUrl, postPrevioEnPagina, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
 
 type Fetch = (url: string, init?: { method?: string; headers?: Record<string, string>; body?: string }) => Promise<{ ok: boolean; status: number; text: () => Promise<string>; headers?: { get: (k: string) => string | null } }>;
 export type Resultado = { red: RedName; estado: "publicado" | "manual" | "fallo"; detalle: string };
@@ -60,6 +60,11 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
     // REQ-1085: Meta rechaza (403 #200) publicar con el token de usuario de sistema; se pide el token de página primero.
     const tp = await o.fetch(paginaTokenUrl(c));
     const pageToken = tokenDePagina(JSON.parse((await tp.text()) || "{}") as Record<string, unknown>);
+    // REQ-1501: si la entrada ya está en la página, no se vuelve a publicar. Si no se puede revisar, no se publica.
+    const feed = await o.fetch(facebookFeedUrl({ ...c, token: pageToken }));
+    if (!feed.ok) throw new Error(`no pude revisar si ya se publicó (HTTP ${feed.status}: ${(await feed.text()).slice(0, 300)}); no publico para no duplicar`);
+    const previo = postPrevioEnPagina(JSON.parse((await feed.text()) || "{}"), url);
+    if (previo) return `ya estaba publicado (post ${previo}); no se repite`;
     const j = await sendForm(o.fetch, facebookPostRequest({ ...c, token: pageToken }, pack.facebook.replace(utmUrl(url, "facebook"), "").trim(), utmUrl(url, "facebook")));
     return `post ${String(j.id ?? "")}`;
   });

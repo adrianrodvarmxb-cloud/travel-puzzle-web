@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { runRedes, issueRedesDelDia } from "./run";
 import { redesConfig } from "./lib/api";
 import { parsePost } from "@/blog/lib/schema";
+import { postPath } from "@/blog/lib/registry";
 const historialLibre = { yaPublicadoEnRed: async () => false, registrar: async () => {} };
 
 const SITE = "https://travelpuzzle.com.mx";
@@ -14,7 +15,7 @@ const res = (status: number, body: unknown) => ({ ok: status < 400, status, text
 describe("redes del día", () => {
   it("REQ-1081: sin banderas ni tokens no llama a ninguna API: las 3 redes quedan «manual» con sus textos", async () => {
     const calls: string[] = [];
-    const r = await runRedes({ post, siteUrl: SITE, config: redesConfig({}, {}), fetch: async (u) => { calls.push(u); return res(200, {}); } });
+    const r = await runRedes({ historial: historialLibre, post, siteUrl: SITE, config: redesConfig({}, {}), fetch: async (u) => { calls.push(u); return res(200, {}); } });
     expect(calls).toEqual([]);
     expect(r.resultados.map((x) => [x.red, x.estado])).toEqual([["linkedin", "manual"], ["facebook", "manual"], ["instagram", "manual"]]);
     expect(r.problemas).toEqual([]);
@@ -39,6 +40,57 @@ describe("redes del día", () => {
     expect(usados[0]).not.toContain("access_token=t&");
   });
 
+  // REQ-1501: Facebook no repite una entrada que ya está en la página (causa: 2 posts del mismo artículo, 9-nov).
+  it("REQ-1501: Facebook no publica otra vez una entrada que ya está en la página", async () => {
+    const usados: string[] = [];
+    const r = await runRedes({ historial: historialLibre,
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "115393804914232" });
+        if (u.includes("fields=message")) return res(200, { data: [{ id: "115393804914232_1056623770795366", message: `texto ${SITE}${postPath(post)}?utm_source=facebook&utm_medium=social` }] });
+        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb2" }); }
+        return res(200, {});
+      },
+    });
+    expect(usados).toEqual([]);
+    const fb = r.resultados.find((x) => x.red === "facebook");
+    expect(fb?.estado).toBe("publicado");
+    expect(fb?.detalle).toMatch(/ya estaba publicado.*115393804914232_1056623770795366/);
+  });
+
+  it("REQ-1501: si Facebook no deja revisar la página, no publica (no arriesga un duplicado) y lo reporta", async () => {
+    const usados: string[] = [];
+    const r = await runRedes({ historial: historialLibre,
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
+        if (u.includes("fields=message")) return res(403, { error: { message: "permiso de lectura" } });
+        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb3" }); }
+        return res(200, {});
+      },
+    });
+    expect(usados).toEqual([]);
+    const fb = r.resultados.find((x) => x.red === "facebook");
+    expect(fb?.estado).toBe("fallo");
+    expect(fb?.detalle).toMatch(/no publico para no duplicar/);
+  });
+
+  // REQ-1502: el error de la lectura de la página trae el mensaje de Meta (el 9-nov salió solo «HTTP 400»).
+  it("REQ-1502: si Meta rechaza la lectura de la página, el motivo queda en el detalle del fallo", async () => {
+    const r = await runRedes({ historial: historialLibre,
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
+        if (u.includes("fields=message")) return res(400, { error: { message: "Unsupported get request. Object with ID '1' does not exist" } });
+        return res(200, {});
+      },
+    });
+    const fb = r.resultados.find((x) => x.red === "facebook");
+    expect(fb?.estado).toBe("fallo");
+    expect(fb?.detalle).toMatch(/HTTP 400/);
+    expect(fb?.detalle).toMatch(/Unsupported get request/);
+  });
+
   it("REQ-1080: si una red falla, las demás se publican igual", async () => {
     const r = await runRedes({
       post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {}, historial: historialLibre,
@@ -57,7 +109,7 @@ describe("redes del día", () => {
   });
 
   it("REQ-1078: Instagram no publica si las láminas aún no son públicas", async () => {
-    const r = await runRedes({ post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {}, fetch: async (_u, init) => (init?.method === "HEAD" ? res(404, {}) : res(200, { id: "x" })) });
+    const r = await runRedes({ historial: historialLibre, post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {}, fetch: async (_u, init) => (init?.method === "HEAD" ? res(404, {}) : res(200, { id: "x" })) });
     expect(r.resultados.find((x) => x.red === "instagram")).toMatchObject({ estado: "fallo" });
   });
 });
