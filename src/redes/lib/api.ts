@@ -51,6 +51,18 @@ export interface FormRequest { url: string; method: "POST"; form: Record<string,
 const graphUrl = (graph: string, path: string) => `https://graph.facebook.com/${graph}/${path}`;
 
 // REQ-1077
+/** REQ-1501: lectura de los últimos posts de la página, para no repetir una entrada ya publicada. */
+export function facebookFeedUrl(c: { pageId: string; token: string; graph: string }): string {
+  return graphUrl(c.graph, `${c.pageId}/feed?fields=message&limit=50&access_token=${encodeURIComponent(c.token)}`);
+}
+
+/** REQ-1501: id del post de la página que ya lleva el enlace canónico de la entrada (sin utm), o undefined. */
+export function postPrevioEnPagina(data: unknown, urlCanonica: string): string | undefined {
+  const posts = (data as { data?: unknown[] } | null)?.data ?? [];
+  const hit = posts.find((p) => typeof (p as { message?: unknown }).message === "string" && (p as { message: string }).message.includes(urlCanonica));
+  return hit ? String((hit as { id?: unknown }).id ?? "sin id") : undefined;
+}
+
 export function facebookPostRequest(c: { pageId: string; token: string; graph: string }, message: string, link: string): FormRequest {
   return { url: graphUrl(c.graph, `${c.pageId}/feed`), method: "POST", form: { message, link, access_token: c.token } };
 }
