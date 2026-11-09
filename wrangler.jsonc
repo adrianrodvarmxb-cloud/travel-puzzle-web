@@ -169,7 +169,7 @@
     // workflow deja los textos y láminas en el issue «Redes del día» para publicarlos a mano. "true" solo con los
     // tokens del PO como secretos de GitHub (docs/redes/conexion.md), una red por PR y con su OK.
     "SOCIAL_LINKEDIN_ENABLED": "false",
-    "SOCIAL_FACEBOOK_ENABLED": "false",
+    "SOCIAL_FACEBOOK_ENABLED": "true",
     "SOCIAL_INSTAGRAM_ENABLED": "false",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
