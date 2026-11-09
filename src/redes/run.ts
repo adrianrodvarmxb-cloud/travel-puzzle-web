@@ -53,7 +53,7 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
     const pageToken = tokenDePagina(JSON.parse((await tp.text()) || "{}") as Record<string, unknown>);
     // REQ-1501: si la entrada ya está en la página, no se vuelve a publicar. Si no se puede revisar, no se publica.
     const feed = await o.fetch(facebookFeedUrl({ ...c, token: pageToken }));
-    if (!feed.ok) throw new Error(`no pude revisar si ya se publicó (HTTP ${feed.status}); no publico para no duplicar`);
+    if (!feed.ok) throw new Error(`no pude revisar si ya se publicó (HTTP ${feed.status}: ${(await feed.text()).slice(0, 300)}); no publico para no duplicar`);
     const previo = postPrevioEnPagina(JSON.parse((await feed.text()) || "{}"), url);
     if (previo) return `ya estaba publicado (post ${previo}); no se repite`;
     const j = await sendForm(o.fetch, facebookPostRequest({ ...c, token: pageToken }, pack.facebook.replace(utmUrl(url, "facebook"), "").trim(), utmUrl(url, "facebook")));
