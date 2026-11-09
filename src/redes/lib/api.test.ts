@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { facebookPostRequest, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, littleText, socialFlags, redesConfig, GRAPH_VERSION_DEFAULT, LINKEDIN_VERSION_DEFAULT } from "./api";
+import { facebookPostRequest, paginaTokenUrl, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, littleText, socialFlags, redesConfig, GRAPH_VERSION_DEFAULT, LINKEDIN_VERSION_DEFAULT } from "./api";
 
 describe("llamadas a las API de redes (sin tokens en el código)", () => {
   it("REQ-1076: cada red tras su bandera en \"false\" y con sus secretos; sin token, manual", () => {
@@ -37,5 +37,18 @@ describe("llamadas a las API de redes (sin tokens en el código)", () => {
   it("REQ-1079: «little text» de LinkedIn escapa los reservados y convierte hashtags", () => {
     expect(littleText("a_b *c* [d] <e> @f ~g | {h}")).toBe("a\\_b \\*c\\* \\[d\\] \\<e\\> \\@f \\~g \\| \\{h\\}");
     expect(littleText("#TravelPuzzle y #Viajes")).toBe("{hashtag|\\#|TravelPuzzle} y {hashtag|\\#|Viajes}");
+  });
+});
+
+describe("REQ-1085: token de página para Facebook", () => {
+  it("REQ-1085: pide el access_token de la página con el token de usuario de sistema", () => {
+    expect(paginaTokenUrl({ graph: "v23.0", pageId: "115393804914232", token: "sys" })).toBe(
+      "https://graph.facebook.com/v23.0/115393804914232?fields=access_token&access_token=sys",
+    );
+  });
+
+  it("REQ-1085: extrae el token de página de la respuesta; sin token, lanza error claro", () => {
+    expect(tokenDePagina({ access_token: "page-tok", id: "1" })).toBe("page-tok");
+    expect(() => tokenDePagina({ error: { message: "x" } })).toThrow(/access_token de página/);
   });
 });

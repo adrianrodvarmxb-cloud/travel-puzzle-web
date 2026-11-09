@@ -95,3 +95,15 @@ export function linkedinPostRequest(c: { orgId: string; token: string; version: 
     },
   };
 }
+
+/** REQ-1085: Meta rechaza publicar en la página con el token de usuario de sistema; primero se pide su token de página. */
+export function paginaTokenUrl(c: { graph: string; pageId: string; token: string }): string {
+  return `${graphUrl(c.graph, c.pageId)}?fields=access_token&access_token=${encodeURIComponent(c.token)}`;
+}
+
+/** REQ-1085: extrae el access_token de página; si no viene, falla con un mensaje claro (no publica con token de usuario). */
+export function tokenDePagina(json: Record<string, unknown>): string {
+  const t = json.access_token;
+  if (typeof t !== "string" || !t) throw new Error(`Meta no devolvió access_token de página: ${JSON.stringify(json).slice(0, 200)}`);
+  return t;
+}

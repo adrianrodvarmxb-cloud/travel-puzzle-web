@@ -23,11 +23,27 @@ describe("redes del día", () => {
     expect(issue).toContain(`${SITE}/blog/img/${post.slug}/ig-1.jpg`);
   });
 
+  it("REQ-1085: Facebook publica con el token de página que devuelve Meta, no con el de usuario de sistema", async () => {
+    const usados: string[] = [];
+    await runRedes({
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "115393804914232" });
+        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb1" }); }
+        return res(200, {});
+      },
+    });
+    expect(usados).toHaveLength(1);
+    expect(usados[0]).toContain("access_token=PAGE-TOK");
+    expect(usados[0]).not.toContain("access_token=t&");
+  });
+
   it("REQ-1080: si una red falla, las demás se publican igual", async () => {
     const r = await runRedes({
       post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {},
       fetch: async (u, init) => {
         if (u.includes("api.linkedin.com")) return res(401, { message: "token vencido" });
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
         if (init?.method === "HEAD") return res(200, {});
         if (u.includes("fields=status_code")) return res(200, { status_code: "FINISHED" });
         if (u.endsWith("/feed")) return res(200, { id: "fb1" });
