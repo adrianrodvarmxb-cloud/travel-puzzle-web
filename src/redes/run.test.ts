@@ -107,6 +107,22 @@ describe("redes del día", () => {
     expect(ig?.detalle).toMatch(/no publico para no duplicar/);
   });
 
+  // REQ-1502: el error de la lectura de la página trae el mensaje de Meta (el 9-nov salió solo «HTTP 400»).
+  it("REQ-1502: si Meta rechaza la lectura de la página, el motivo queda en el detalle del fallo", async () => {
+    const r = await runRedes({
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
+        if (u.includes("fields=message")) return res(400, { error: { message: "Unsupported get request. Object with ID '1' does not exist" } });
+        return res(200, {});
+      },
+    });
+    const fb = r.resultados.find((x) => x.red === "facebook");
+    expect(fb?.estado).toBe("fallo");
+    expect(fb?.detalle).toMatch(/HTTP 400/);
+    expect(fb?.detalle).toMatch(/Unsupported get request/);
+  });
+
   it("REQ-1080: si una red falla, las demás se publican igual", async () => {
     const r = await runRedes({
       post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {},
