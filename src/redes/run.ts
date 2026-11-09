@@ -7,7 +7,7 @@ import { postPath } from "@/blog/lib/registry";
 import { plainText } from "@/blog/lib/inline";
 import { socialPack, socialProblems, utmUrl, type SocialPack } from "./lib/textos";
 import { laminaUrl } from "./lib/laminas";
-import { facebookFeedUrl, facebookPostRequest, paginaTokenUrl, postPrevioEnPagina, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
+import { instagramMediaUrl, mediaPreviaEnInstagram, facebookFeedUrl, facebookPostRequest, paginaTokenUrl, postPrevioEnPagina, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
 
 type Fetch = (url: string, init?: { method?: string; headers?: Record<string, string>; body?: string }) => Promise<{ ok: boolean; status: number; text: () => Promise<string>; headers?: { get: (k: string) => string | null } }>;
 export type Resultado = { red: RedName; estado: "publicado" | "manual" | "fallo"; detalle: string };
@@ -62,6 +62,11 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
 
   await tryRed("instagram", o.config.instagram, async () => {
     const c = o.config.instagram; if (c.mode !== "auto") return "";
+    // REQ-1503: si la entrada ya está en la cuenta, no se vuelve a publicar. Si no se puede revisar, no se publica.
+    const cuenta = await o.fetch(instagramMediaUrl(c));
+    if (!cuenta.ok) throw new Error(`no pude revisar si ya se publicó en Instagram (HTTP ${cuenta.status}: ${(await cuenta.text()).slice(0, 300)}); no publico para no duplicar`);
+    const previoIg = mediaPreviaEnInstagram(JSON.parse((await cuenta.text()) || "{}"), pack.instagram.caption);
+    if (previoIg) return `ya estaba publicado (media ${previoIg}); no se repite`;
     for (const l of laminas) { const h = await o.fetch(l, { method: "HEAD" }); if (!h.ok) throw new Error(`la lámina no es pública todavía (${h.status}): ${l}`); }
     let creation: string;
     if (laminas.length === 1) creation = String((await sendForm(o.fetch, instagramSingleRequest(c, laminas[0], pack.instagram.caption))).id);

@@ -63,6 +63,19 @@ export function postPrevioEnPagina(data: unknown, urlCanonica: string): string |
   return hit ? String((hit as { id?: unknown }).id ?? "sin id") : undefined;
 }
 
+/** REQ-1503: lectura de las últimas fotos de la cuenta de Instagram, para no repetir una entrada ya publicada. */
+export function instagramMediaUrl(c: { igUserId: string; token: string; graph: string }): string {
+  return graphUrl(c.graph, `${c.igUserId}/media?fields=caption&limit=50&access_token=${encodeURIComponent(c.token)}`);
+}
+
+/** REQ-1503: id de la publicación de Instagram cuya caption abre igual que la de esta entrada, o undefined. */
+export function mediaPreviaEnInstagram(data: unknown, caption: string): string | undefined {
+  const titulo = caption.split("\n")[0].trim();
+  const posts = (data as { data?: unknown[] } | null)?.data ?? [];
+  const hit = posts.find((p) => typeof (p as { caption?: unknown }).caption === "string" && (p as { caption: string }).caption.trim().startsWith(titulo));
+  return hit ? String((hit as { id?: unknown }).id ?? "sin id") : undefined;
+}
+
 export function facebookPostRequest(c: { pageId: string; token: string; graph: string }, message: string, link: string): FormRequest {
   return { url: graphUrl(c.graph, `${c.pageId}/feed`), method: "POST", form: { message, link, access_token: c.token } };
 }
