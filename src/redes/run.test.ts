@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { runRedes, issueRedesDelDia } from "./run";
 import { redesConfig } from "./lib/api";
 import { parsePost } from "@/blog/lib/schema";
-const historialLibre = { yaPublicadoEnRed: async () => false, publicadasHoyEnRed: async () => 0, registrar: async () => {} };
+const historialLibre = { yaPublicadoEnRed: async () => false, registrar: async () => {} };
 
 const SITE = "https://travelpuzzle.com.mx";
 const post = (() => { const r = parsePost(JSON.parse(readFileSync("docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json", "utf8"))); if (!r.ok) throw new Error(r.error); return r.post; })();
@@ -82,14 +82,6 @@ describe("REQ-1090: registro y tope en el publicador", () => {
     expect(llamadas.some((u) => u.endsWith("/feed"))).toBe(false);
   });
 
-  it("REQ-1090: el tope de una publicación al día se respeta", async () => {
-    const r = await runRedes({
-      post, siteUrl: SITE, config: fbOnly(), wait: async () => {},
-      historial: { ...historialLibre, publicadasHoyEnRed: async () => 1 },
-      fetch: async (u) => ok(u),
-    });
-    expect(r.resultados.find((x) => x.red === "facebook")?.estado).toBe("manual");
-  });
 
   it("REQ-1090: al publicar se registra la red", async () => {
     const registradas: string[] = [];

@@ -24,7 +24,6 @@ function historialD1(slug: string): Historial {
   const esc = (v: string) => v.replace(/'/g, "''");
   return {
     async yaPublicadoEnRed(red) { return Number(q(`SELECT COUNT(*) AS n FROM "RedPublicacion" WHERE "slug" = '${esc(slug)}' AND "red" = '${red}'`)[0]?.n ?? 0) > 0; },
-    async publicadasHoyEnRed(red) { return Number(q(`SELECT COUNT(*) AS n FROM "RedPublicacion" WHERE "red" = '${red}' AND date("publicadoEn") = date('now')`)[0]?.n ?? 0); },
     async registrar(red) { q(`INSERT OR IGNORE INTO "RedPublicacion" ("slug","red","publicadoEn") VALUES ('${esc(slug)}','${red}',datetime('now'))`); },
   };
 }

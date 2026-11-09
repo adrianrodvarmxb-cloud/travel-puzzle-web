@@ -22,7 +22,7 @@ async function sendForm(f: Fetch, r: FormRequest): Promise<Record<string, unknow
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export type Historial = { yaPublicadoEnRed(red: RedName): Promise<boolean>; publicadasHoyEnRed(red: RedName): Promise<number>; registrar(red: RedName): Promise<void> };
+export type Historial = { yaPublicadoEnRed(red: RedName): Promise<boolean>; registrar(red: RedName): Promise<void> };
 
 export async function runRedes(o: { post: Post; siteUrl: string; config: RedesConfig; fetch: Fetch; wait?: (ms: number) => Promise<void>; historial?: Historial }): Promise<{ pack: SocialPack; problemas: string[]; resultados: Resultado[]; laminas: string[] }> {
   const site = o.siteUrl.replace(/\/+$/, "");
@@ -38,10 +38,10 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
   const tryRed = async (red: RedName, cfg: RedesConfig[RedName], go: () => Promise<string>) => {
     if (cfg.mode === "manual") return out.push({ red, estado: "manual", detalle: cfg.motivo });
     if (bad(red).length) return out.push({ red, estado: "fallo", detalle: `no pasa las reglas: ${bad(red).join("; ")}` });
-    // REQ-1090: sin historial no se publica (falla cerrada); con historial, se aplica el tope y no se repite el artículo.
+    // REQ-1090: sin historial no se publica (falla cerrada); con historial, no se repite el artículo.
     if (!o.historial) return out.push({ red, estado: "fallo", detalle: "sin registro de publicaciones (REQ-1090); no se publica" });
     try {
-      const d = decidirPublicacion({ yaPublicadoEnRed: await o.historial.yaPublicadoEnRed(red), publicadasHoyEnRed: await o.historial.publicadasHoyEnRed(red) });
+      const d = decidirPublicacion({ yaPublicadoEnRed: await o.historial.yaPublicadoEnRed(red) });
       if (!d.publicar) return out.push({ red, estado: "manual", detalle: d.motivo });
     } catch (e) { return out.push({ red, estado: "fallo", detalle: `no se pudo leer el registro: ${(e as Error).message}` }); }
     try { const detalle = await go(); await o.historial.registrar(red); out.push({ red, estado: "publicado", detalle }); } catch (e) { out.push({ red, estado: "fallo", detalle: (e as Error).message }); }
