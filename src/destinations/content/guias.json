@@ -429,5 +429,233 @@
       }
     ],
     "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. Las tarifas de Monserrate y del Museo del Oro salen de páginas de la Alcaldía publicadas en 2025."
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "cn",
+    "ciudad": "chengdu",
+    "nombre": "Chengdu",
+    "targetTerm": "guia de viaje de chengdu para mexicanos",
+    "titulo": "Guía de Chengdu: la base de pandas y cómo reservarla",
+    "enBreve": "Chengdu, en la provincia china de Sichuan según [China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html), es un punto de partida para ver pandas gigantes. La Base de Investigación de Cría de Pandas Gigantes no vende boletos en taquilla: se reservan en línea con anticipación, según su [página oficial de boletos](https://www.panda.org.cn/en/pandavalley/tickets/). Reserva la base como primera pieza del día y deja la tarde libre para recorrer la ciudad con calma.",
+    "sections": [
+      {
+        "h2": "¿Cómo se reserva la visita a la base de pandas?",
+        "answer": "Solo en línea: la base no tiene taquilla y las reservas se hacen con anticipación, según la [página oficial de boletos](https://www.panda.org.cn/en/pandavalley/tickets/).",
+        "body": [
+          "La página oficial indica que la reserva se hace desde su cuenta oficial de WeChat, que hay que escribir los datos de cada visitante y completar el pago para que la reserva quede confirmada, según la [misma página](https://www.panda.org.cn/en/pandavalley/tickets/).",
+          "Al entrar se escanea el documento original con el que reservaste o el código QR del boleto, y las devoluciones se piden desde la sección de pedidos antes de la visita, indica la [misma página](https://www.panda.org.cn/en/pandavalley/tickets/). Los menores de 6 años o de menos de 1.3 metros de estatura entran sin reservar, según la [página de servicio al visitante](https://www.panda.org.cn/en/service/ticket/)."
+        ]
+      },
+      {
+        "h2": "¿A qué hora conviene llegar?",
+        "answer": "El horario cambia entre temporada alta y baja, y las páginas oficiales no coinciden en todos los datos, así que confírmalo antes de salir del hotel.",
+        "body": [
+          "De mayo a octubre, según la [página oficial de boletos](https://www.panda.org.cn/en/pandavalley/tickets/), la entrada de la temporada alta se programa hasta antes de las 17:00. De noviembre a abril la programación termina antes, hacia las 16:30, así que en otoño e invierno conviene planear la mañana para los pandas.",
+          "La [página de servicio al visitante](https://www.panda.org.cn/en/service/ticket/) publica horarios de entrada por la mañana y por la tarde, lo que confirma que la reserva funciona por bloques de tiempo. Revisa el bloque que te toca en el comprobante."
+        ]
+      },
+      {
+        "h2": "¿Qué es la base y qué se ve dentro?",
+        "answer": "Es un centro de investigación y cría que recrea el ambiente natural de los pandas, según [China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html).",
+        "body": [
+          "La nota del gobierno chino describe que la base simula el entorno de vida silvestre de los pandas, según la [misma página de China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html).",
+          "Calcula al menos media mañana para la visita, porque el recorrido tiene varias zonas y conviene llegar con tiempo para recorrerlas sin prisa."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar el resto del día en Chengdu?",
+        "answer": "Reserva la base primero, porque es el punto que depende de un cupo, y arma lo demás alrededor de esa hora.",
+        "body": [
+          "Después de la base, la tarde puede dedicarse a caminar por el centro y a comer con calma. Si quieres que te ayudemos a ordenar los días, escríbenos y te armamos tu viaje.",
+          "En la [página de Chengdu](/destinos/cn/chengdu) están las experiencias que puedes reservar con Travel Puzzle."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "pe",
+    "ciudad": "lima",
+    "nombre": "Lima",
+    "targetTerm": "guia de viaje de lima para mexicanos",
+    "titulo": "Guía de Lima: el centro histórico y cómo recorrerlo",
+    "enBreve": "Lima fue fundada por Francisco Pizarro en enero de 1535, según el [artículo sobre su centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima). La UNESCO inscribió ese centro como Patrimonio de la Humanidad en 1988, en su [ficha oficial](https://whc.unesco.org/en/list/500). Dedica una mañana a las plazas y las iglesias y deja la tarde para caminar por los barrios sin prisa.",
+    "sections": [
+      {
+        "h2": "¿Por qué el centro histórico de Lima es especial?",
+        "answer": "Porque la UNESCO lo declaró Patrimonio de la Humanidad en 1988, según su [ficha oficial](https://whc.unesco.org/en/list/500) y el [artículo sobre el centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+        "body": [
+          "El mismo artículo indica que la zona central abarca unas 278 hectáreas y que se encuentra en los distritos de Lima y del Rímac, según la [página del centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+          "Según la misma página, los balcones de Lima forman parte del recorrido por el centro, así que conviene mirar hacia arriba al caminar por las calles."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en la Plaza Mayor?",
+        "answer": "La Plaza Mayor es el punto de partida natural del recorrido, y en ella está la Catedral de Lima, según la [página del centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+        "body": [
+          "Desde la plaza es fácil caminar hacia la Plaza San Martín y hacia la zona de la Universidad de San Marcos, que el mismo [artículo](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima) también incluye dentro del centro histórico.",
+          "Reserva una hora para la catedral y los alrededores de la plaza; el resto del recorrido puede hacerse por calles laterales con menos gente."
+        ]
+      },
+      {
+        "h2": "¿Cómo organizar la visita sin cansarte?",
+        "answer": "Divide el centro en dos mañanas: una para plazas e iglesias y otra para los barrios cercanos, en lugar de intentar verlo todo en un día.",
+        "body": [
+          "Empezar temprano te permite disfrutar las plazas con más calma y tomar fotos con menos gente alrededor.",
+          "Lleva calzado cómodo, porque el recorrido a pie por el centro es largo y conviene hacer pausas en las plazas."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer después del centro?",
+        "answer": "Las experiencias de la ciudad que puedes reservar con Travel Puzzle están en la página de Lima.",
+        "body": [
+          "En la [página de Lima](/destinos/pe/lima) encuentras las experiencias que puedes reservar con Travel Puzzle. Si prefieres que te ayudemos a ordenar los días, escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "pe",
+    "ciudad": "arequipa",
+    "nombre": "Arequipa",
+    "targetTerm": "guia de viaje de arequipa para mexicanos",
+    "titulo": "Guía de Arequipa: el Monasterio de Santa Catalina y el centro",
+    "enBreve": "En Arequipa, el Monasterio de Santa Catalina es la visita que más tiempo merece. Según [Andina, la agencia de noticias del Perú](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx), el conjunto funciona como una ciudadela dentro de la ciudad. Reserva la mañana para el monasterio y deja la tarde para caminar por el centro.",
+    "sections": [
+      {
+        "h2": "¿Por qué el Monasterio de Santa Catalina es tan importante?",
+        "answer": "Porque es una ciudadela religiosa dentro de la ciudad, protegida por altos muros, según [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+        "body": [
+          "La misma nota describe que el complejo, de alrededor de 20,000 metros cuadrados, se inicia en 1580 con doña María de Guzmán, viuda de Diego Hernández de Mendoza, según [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+          "La [enciclopedia libre](https://es.wikipedia.org/wiki/Monasterio_de_Santa_Catalina_(Arequipa)) lo sitúa a fines del siglo XVI y registra un terreno de 20.426 metros cuadrados, con un muro de unos 4 metros que aislaba la vida de las religiosas del exterior."
+        ]
+      },
+      {
+        "h2": "¿Qué se visita dentro del monasterio?",
+        "answer": "Claustros, celdas y una cocina antigua con su fogón, según la nota de [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+        "body": [
+          "La nota menciona la pintura de la Última Cena en uno de sus espacios y el Claustro de la Pasión, con cinco arcos y tres cruces en el patio, según la misma [nota de Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+          "Las tres cruces del claustro forman parte de una tradición del monasterio, donde las religiosas representan la Pasión de Cristo cada Viernes Santo, según la [página de la enciclopedia libre](https://es.wikipedia.org/wiki/Monasterio_de_Santa_Catalina_(Arequipa))."
+        ]
+      },
+      {
+        "h2": "¿Cómo recorrerlo sin prisa?",
+        "answer": "Reserva la mañana para el monasterio, porque el complejo es amplio y pide calma para recorrer patios y celdas.",
+        "body": [
+          "En esta guía no damos horario ni precio, porque las fuentes públicas que consultamos no coinciden en todos los datos. Confírmalos en el sitio del monasterio antes de salir.",
+          "Por la tarde, el centro de la ciudad permite caminar sin prisa y conocer sus plazas."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer después del monasterio?",
+        "answer": "Las experiencias de Arequipa que puedes reservar con Travel Puzzle están en la página de la ciudad.",
+        "body": [
+          "En la [página de Arequipa](/destinos/pe/arequipa) encuentras las experiencias que puedes reservar con Travel Puzzle. Escríbenos con tus fechas si quieres que armemos tu viaje."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "in",
+    "ciudad": "benares",
+    "nombre": "Benarés",
+    "targetTerm": "guia de viaje de varanasi",
+    "titulo": "Guía de Benarés (Varanasi): ghats, Ganga Aarti y la ciudad de la luz",
+    "enBreve": "Benarés, también conocida como Varanasi o Kashi, se asoma al río Ganges por escalinatas llamadas ghats, según la [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi). Cada tarde se celebra el Ganga Aarti en el Dashashwamedh Ghat, de acuerdo con [Incredible India](https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/). Llega temprano a la orilla y deja la ceremonia para la tarde.",
+    "sections": [
+      {
+        "h2": "¿Qué es el Ganga Aarti y dónde se ve?",
+        "answer": "Es la ceremonia que se celebra cada tarde en el Dashashwamedh Ghat, según [Incredible India](https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/).",
+        "body": [
+          "La misma fuente describe que la orilla del río es la imagen que define a la ciudad, así que conviene ubicar un lugar con tiempo antes de la ceremonia.",
+          "La [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi) menciona el Dashashwamedh Ghat entre los más conocidos, junto con el Panchganga, el Manikarnika y el Harishchandra."
+        ]
+      },
+      {
+        "h2": "¿Qué significan los ghats para la ciudad?",
+        "answer": "Son escalinatas que bajan a la orilla del Ganges, donde los peregrinos realizan sus ritos, según la [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi).",
+        "body": [
+          "Benarés es conocida en el mundo por sus ghats, y a la vez el tejido de seda, las alfombras, la artesanía y el turismo dan trabajo a buena parte de su población, según la [misma página](https://en.wikipedia.org/wiki/Varanasi).",
+          "Recorrer los ghats a pie por la mañana permite ver la vida cotidiana a la orilla, a un ritmo más tranquilo."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en el Manikarnika Ghat?",
+        "answer": "Es un ghat de cremaciones, descrito como el lugar sagrado de cremación a orillas del Ganges, según la [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi).",
+        "body": [
+          "Es un lugar de duelo y de ritual. Por respeto, pide permiso antes de tomar fotos y evita fotografiar las cremaciones.",
+          "El Harishchandra Ghat es el otro punto de cremación que menciona la misma [fuente](https://en.wikipedia.org/wiki/Varanasi), así que conviene informarse con el guía antes de recorrer esa zona."
+        ]
+      },
+      {
+        "h2": "¿Cómo organizar la visita?",
+        "answer": "Dedica una mañana a los ghats desde el agua y una tarde a la ceremonia en la orilla.",
+        "body": [
+          "Un paseo en barco por el Ganges permite ver los ghats desde el río, y es una manera de entender la distancia entre ellos.",
+          "En la [página de Benarés](/destinos/in/benares) están las experiencias que puedes reservar con Travel Puzzle. Escríbenos con tus fechas si quieres que armemos tu viaje."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "co",
+    "ciudad": "medellin",
+    "nombre": "Medellín",
+    "targetTerm": "guia de viaje de medellin para mexicanos",
+    "titulo": "Guía de Medellín: el Parque Arví y cómo llegar en Metrocable",
+    "enBreve": "El Parque Arví es la escapada natural más conocida de Medellín. Según la [página oficial de turismo de la ciudad](https://www.medellin.travel/parque-arvi), es una reserva forestal desde 1970 a unos 30 kilómetros del centro. Se llega en Metrocable, con la [línea L del Metro de Medellín](https://www.metrodemedellin.gov.co/), y conviene reservar la mañana para caminar por los senderos.",
+    "sections": [
+      {
+        "h2": "¿Cómo llegar al Parque Arví en Metrocable?",
+        "answer": "Desde cualquier estación del Metro, llega a Acevedo, toma la Línea K hasta Santo Domingo y transborda a la Línea L, según la [página oficial de turismo](https://www.medellin.travel/parque-arvi).",
+        "body": [
+          "El trayecto desde el transbordo dura unos 20 minutos, según la [página oficial de turismo](https://www.medellin.travel/parque-arvi), y el parque queda en el corregimiento de Santa Elena.",
+          "También hay bus: desde la Placita de Flórez, en el centro, sale la empresa Transacoop hacia Santa Elena desde las 6:00 a. m., con frecuencia de 30 minutos, según la [guía oficial del parque en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf)."
+        ]
+      },
+      {
+        "h2": "¿Qué tiene el parque?",
+        "answer": "Senderos, cultura y patrimonio arqueológico, además de paisajes para caminar, según la [guía oficial del parque en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf).",
+        "body": [
+          "La [página oficial del parque](https://www.medellin.travel/parque-arvi) menciona el Chorro Clarín y la Laguna de Guarne como espacios de acceso público gratuito, y otras experiencias tienen costo, ofrecidas por la corporación del parque.",
+          "Por su carácter de reserva forestal, conviene mantenerse en los senderos marcados y respetar la vegetación, según la idea general de la [guía en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf)."
+        ]
+      },
+      {
+        "h2": "¿Cuánto tiempo conviene dedicarle?",
+        "answer": "Una mañana alcanza para el Metrocable y algunos senderos; es una recomendación de esta guía, no un dato oficial.",
+        "body": [
+          "Revisa en la [página del Metro de Medellín](https://www.metrodemedellin.gov.co/) las tarifas vigentes del Metro y del Metrocable antes de salir, porque el precio del viaje no es el mismo que el de las experiencias del parque.",
+          "Si quieres tomar el día completo, combina el parque con otra visita por la tarde en la ciudad."
+        ]
+      },
+      {
+        "h2": "¿Qué llevar al parque?",
+        "answer": "Protector solar y una capa ligera, porque el clima de Medellín puede ser impredecible, según la [guía oficial del parque en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf).",
+        "body": [
+          "Lleva agua y calzado cómodo para los senderos. Es una recomendación práctica para la visita, no un dato del parque.",
+          "En la [página de Medellín](/destinos/co/medellin) están las experiencias que puedes reservar con Travel Puzzle. Si quieres que armemos tu viaje, escríbenos con tus fechas."
+        ]
+      }
+    ]
   }
 ]
