@@ -78,7 +78,7 @@ describe("redes del día", () => {
   // REQ-1503: Instagram no repite una entrada que ya está en la cuenta (la caption abre con el título de la entrada).
   it("REQ-1503: Instagram no publica otra vez una entrada que ya está en la cuenta", async () => {
     const creados: string[] = [];
-    const r = await runRedes({
+    const r = await runRedes({ historial: historialLibre,
       post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {},
       fetch: async (u, init) => {
         if (u.includes("fields=caption")) return res(200, { data: [{ id: "18137494546655917", caption: `${post.title}\n\nresumen` }] });
@@ -94,7 +94,7 @@ describe("redes del día", () => {
 
   it("REQ-1503: si Instagram no deja revisar la cuenta, no publica y lo reporta", async () => {
     const creados: string[] = [];
-    const r = await runRedes({
+    const r = await runRedes({ historial: historialLibre,
       post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {},
       fetch: async (u, init) => {
         if (u.includes("fields=caption")) return res(403, { error: { message: "permiso" } });
