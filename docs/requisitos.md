@@ -752,6 +752,7 @@ Petición literal: «dile al agente que todos los días publique también en Lin
 | REQ-1083 | Prompt del agente con el paso de redes | Dado `docs/blog/agente-diario.md`, entonces explica el paso de redes y cómo revisar las láminas | CUMPLIDO |
 | REQ-1084 | Cumplimiento FREETOUR B3 en redes | Dados los textos y los hashtags, entonces no mencionan «FREETOUR» ni usan su logo; anunciar free tours sí | CUMPLIDO |
 | REQ-1085 | Facebook publica con token de página | Dado el token de usuario de sistema, entonces se pide el access_token de la página a Meta y la publicación usa ese token (Meta responde 403 #200 con el token de usuario) | CUMPLIDO |
+| REQ-1086 | Instagram publica el carrusel del día | Dado el token de página y META_IG_USER_ID, entonces SOCIAL_INSTAGRAM_ENABLED está en "true" y el carrusel de 5 láminas públicas se publica en la cuenta business | EN CURSO |
 
 ## Guías propias de ciudad (PO, 7 nov 2026, 06:17, opción c)
 Petición (vía coordinador): «escribir guías propias de 300 palabras o más por ciudad, con fuentes públicas, empezando por las 37 ciudades que ya tienen un viaje propio; con una guía propia, la ciudad vuelve a ser indexable aunque sus tours sean de FREETOUR». Gate G5 en `docs/gates-blog-diario-2026-11-06.md`.
