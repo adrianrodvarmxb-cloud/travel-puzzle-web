@@ -17,7 +17,13 @@ import { execFileSync } from "node:child_process";
 /** REQ-1090: historial en D1 (tabla RedPublicacion). Sin base legible, el publicador no publica (falla cerrada). */
 function historialD1(slug: string): Historial {
   const q = (sql: string): Record<string, unknown>[] => {
-    const out = execFileSync("npx", ["wrangler", "d1", "execute", "travel-puzzle", "--remote", "--json", "--command", sql], { encoding: "utf8" });
+    let out: string;
+    try {
+      out = execFileSync("npx", ["wrangler", "d1", "execute", "travel-puzzle", "--remote", "--json", "--command", sql], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    } catch (e) {
+      const err = e as { stderr?: string; stdout?: string };
+      throw new Error(`wrangler d1: ${(err.stderr || err.stdout || "").trim().slice(0, 1500)}`);
+    }
     const r = JSON.parse(out) as { results?: Record<string, unknown>[] }[];
     return r[0]?.results ?? [];
   };
