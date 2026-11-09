@@ -75,6 +75,39 @@ describe("redes del día", () => {
     expect(fb?.detalle).toMatch(/no publico para no duplicar/);
   });
 
+  // REQ-1503: Instagram no repite una entrada que ya está en la cuenta (la caption abre con el título de la entrada).
+  it("REQ-1503: Instagram no publica otra vez una entrada que ya está en la cuenta", async () => {
+    const creados: string[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=caption")) return res(200, { data: [{ id: "18137494546655917", caption: `${post.title}\n\nresumen` }] });
+        if (init?.method === "POST") creados.push(u);
+        return res(200, {});
+      },
+    });
+    expect(creados).toEqual([]);
+    const ig = r.resultados.find((x) => x.red === "instagram");
+    expect(ig?.estado).toBe("publicado");
+    expect(ig?.detalle).toMatch(/ya estaba publicado.*18137494546655917/);
+  });
+
+  it("REQ-1503: si Instagram no deja revisar la cuenta, no publica y lo reporta", async () => {
+    const creados: string[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: redesConfig({ SOCIAL_INSTAGRAM_ENABLED: "true" }, secrets), wait: async () => {},
+      fetch: async (u, init) => {
+        if (u.includes("fields=caption")) return res(403, { error: { message: "permiso" } });
+        if (init?.method === "POST") creados.push(u);
+        return res(200, {});
+      },
+    });
+    expect(creados).toEqual([]);
+    const ig = r.resultados.find((x) => x.red === "instagram");
+    expect(ig?.estado).toBe("fallo");
+    expect(ig?.detalle).toMatch(/no publico para no duplicar/);
+  });
+
   // REQ-1502: el error de la lectura de la página trae el mensaje de Meta (el 9-nov salió solo «HTTP 400»).
   it("REQ-1502: si Meta rechaza la lectura de la página, el motivo queda en el detalle del fallo", async () => {
     const r = await runRedes({ historial: historialLibre,
