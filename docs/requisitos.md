@@ -973,3 +973,10 @@ Por commit en main y deploy en verde. Lo que no aparece aquí sigue sin registra
 | REQ-1401 | Enciende Nosotros y Contacto (ver REQ-1308 y REQ-1309 en el tablero) | #283 | 42453481759 verde | CUMPLIDO en código; OK del PO citado en el PR, NO VERIFICADO en el chat |
 | REQ-1402 a REQ-1409 | Sin registro en el archivo ni commit identificado | NO VERIFICADO | NO VERIFICADO | NO VERIFICADO |
 | REQ-1410 | Firma por categoría en el blog | #284 | 42454177188 verde | CUMPLIDO |
+
+## REQ-1511: el blog diario no se publicó el 10 nov por un test frágil (agente, 10 nov 2026)
+Petición literal (PO, 10-11): «resuelve» (sobre «NO PUBLICAR: falta la entrada de blog de hoy»). Folio REQ-1511 para no chocar con sesiones abiertas.
+Causa: el run 42879625876 de «Blog diario» falló en Pruebas. `src/blog/agente-diario.test.ts` valida el ejemplo EU-01 (7 nov) contra TODO el registro; la entrada de hoy (Sevilla, pilar europa) le dio un hermano posterior y el validador le exigió enlazarlo («falta enlace a un artículo hermano»). La entrada de hoy no tenía error.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1511 | CÓDIGO | Dado el ejemplo EU-01 y artículos del mismo pilar publicados después de su fecha, cuando corre el test REQ-981/REQ-1040, entonces se valida solo contra lo publicado hasta su `publishedAt` y pasa (rojo con el test viejo y la entrada del 10-11; verde con el nuevo; suite 2797/2797) | agente | — | EN CURSO (test verde; falta merge con OK del PO y volver a lanzar el blog de hoy) |
