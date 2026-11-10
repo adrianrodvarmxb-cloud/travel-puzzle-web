@@ -20,7 +20,7 @@ describe("SEO del blog", () => {
       author: { "@type": "Person", name: "Claudia Leticia Rodríguez Laveaga" },
       publisher: { "@id": `${site}/#organization` },
     });
-    expect(j.author).toHaveProperty("jobTitle", "Founder & SEO");
+    expect(j.author).toHaveProperty("jobTitle", "Founder & CEO");
     expect(j).not.toHaveProperty("dateModified");
     expect(blogPostingJsonLd(post({ updatedAt: "2027-02-01" }), AUTHORS.claudia, site).dateModified).toBe("2027-02-01");
   });
