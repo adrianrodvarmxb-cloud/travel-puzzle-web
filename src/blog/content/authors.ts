@@ -20,7 +20,7 @@ export const AUTHORS: Record<Author["id"], Author> = {
     id: "claudia",
     kind: "Person",
     name: agencyFacts().holder ?? "Claudia Leticia Rodríguez Laveaga",
-    jobTitle: "Founder & SEO",
+    jobTitle: "Founder & CEO",
     bio: null, // [PO: biografía de 60 a 100 palabras]
     photo: null, // [PO: foto con permiso]
     sameAs: [], // [PO: LinkedIn u otros perfiles, si se publican]
