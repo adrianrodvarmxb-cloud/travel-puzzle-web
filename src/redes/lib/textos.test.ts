@@ -56,6 +56,16 @@ describe("textos de redes desde la entrada del día", () => {
     expect(l.slice(1).map((d) => (d.tipo === "dato" ? d.fuente : ""))).toContain("Consejo de la Unión Europea");
   });
 
+  it("REQ-1516: cada lámina lleva su foto de la entrada, en orden; la portada usa la de portada", () => {
+    const l = laminasFor(eu01);
+    for (const x of l) { expect(x.imagen).toMatch(/^\/blog\/img\//); expect(x.credito.length).toBeGreaterThan(0); }
+    expect(l[0].imagen).toBe(eu01.cover!.src);
+  });
+
+  it("REQ-1516: sin fotos no hay láminas (el carrusel no sale sin imagen)", () => {
+    expect(laminasFor({ ...eu01, cover: undefined, imagenes: [] } as typeof eu01)).toEqual([]);
+  });
+
   it("REQ-1074: los textos de EU-01 pasan las mismas reglas del blog", () => {
     expect(socialProblems(socialPack(eu01, SITE), eu01, SITE)).toEqual([]);
   });
