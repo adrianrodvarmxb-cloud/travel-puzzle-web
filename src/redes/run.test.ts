@@ -40,39 +40,33 @@ describe("redes del día", () => {
     expect(usados[0]).not.toContain("access_token=t&");
   });
 
-  // REQ-1501: Facebook no repite una entrada que ya está en la página (causa: 2 posts del mismo artículo, 9-nov).
-  it("REQ-1501: Facebook no publica otra vez una entrada que ya está en la página", async () => {
-    const usados: string[] = [];
-    const r = await runRedes({ historial: historialLibre,
-      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
-      fetch: async (u, init) => {
-        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "115393804914232" });
-        if (u.includes("fields=message")) return res(200, { data: [{ id: "115393804914232_1056623770795366", message: `texto ${SITE}${postPath(post)}?utm_source=facebook&utm_medium=social` }] });
-        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb2" }); }
-        return res(200, {});
+  // REQ-1513 (reemplaza REQ-1501): Facebook ya no lee el feed de la página; el registro (REQ-1090) es la única revisión.
+  it("REQ-1513: Facebook publica con el registro como única revisión y no lee el feed", async () => {
+    const lecturas: string[] = [];
+    const registradas: string[] = [];
+    const r = await runRedes({ post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      historial: { yaPublicadoEnRed: async () => false, registrar: async (red) => { registradas.push(red); } },
+      fetch: async (u) => {
+        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
+        if (u.includes("fields=message")) lecturas.push(u);
+        return res(200, { id: "fb4" });
       },
     });
-    expect(usados).toEqual([]);
-    const fb = r.resultados.find((x) => x.red === "facebook");
-    expect(fb?.estado).toBe("publicado");
-    expect(fb?.detalle).toMatch(/ya estaba publicado.*115393804914232_1056623770795366/);
+    expect(lecturas).toEqual([]);
+    expect(r.resultados.find((x) => x.red === "facebook")?.estado).toBe("publicado");
+    expect(registradas).toEqual(["facebook"]);
   });
 
-  it("REQ-1501: si Facebook no deja revisar la página, no publica (no arriesga un duplicado) y lo reporta", async () => {
-    const usados: string[] = [];
-    const r = await runRedes({ historial: historialLibre,
-      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
-      fetch: async (u, init) => {
-        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
-        if (u.includes("fields=message")) return res(403, { error: { message: "permiso de lectura" } });
-        if (u.endsWith("/feed")) { usados.push(String(init?.body)); return res(200, { id: "fb3" }); }
-        return res(200, {});
-      },
+  it("REQ-1513: si el registro no se puede leer, Facebook no publica y lo reporta", async () => {
+    const llamadas: string[] = [];
+    const r = await runRedes({ post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
+      historial: { yaPublicadoEnRed: async () => { throw new Error("D1 caído"); }, registrar: async () => {} },
+      fetch: async (u) => { llamadas.push(u); return res(200, { access_token: "PAGE-TOK", id: "1" }); },
     });
-    expect(usados).toEqual([]);
     const fb = r.resultados.find((x) => x.red === "facebook");
     expect(fb?.estado).toBe("fallo");
-    expect(fb?.detalle).toMatch(/no publico para no duplicar/);
+    expect(fb?.detalle).toMatch(/no se pudo leer el registro/);
+    expect(llamadas.some((u) => u.includes("/feed"))).toBe(false);
   });
 
   // REQ-1503: Instagram no repite una entrada que ya está en la cuenta (la caption abre con el título de la entrada).
@@ -108,21 +102,6 @@ describe("redes del día", () => {
     expect(ig?.detalle).toMatch(/no publico para no duplicar/);
   });
 
-  // REQ-1502: el error de la lectura de la página trae el mensaje de Meta (el 9-nov salió solo «HTTP 400»).
-  it("REQ-1502: si Meta rechaza la lectura de la página, el motivo queda en el detalle del fallo", async () => {
-    const r = await runRedes({ historial: historialLibre,
-      post, siteUrl: SITE, config: redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets), wait: async () => {},
-      fetch: async (u) => {
-        if (u.includes("fields=access_token")) return res(200, { access_token: "PAGE-TOK", id: "1" });
-        if (u.includes("fields=message")) return res(400, { error: { message: "Unsupported get request. Object with ID '1' does not exist" } });
-        return res(200, {});
-      },
-    });
-    const fb = r.resultados.find((x) => x.red === "facebook");
-    expect(fb?.estado).toBe("fallo");
-    expect(fb?.detalle).toMatch(/HTTP 400/);
-    expect(fb?.detalle).toMatch(/Unsupported get request/);
-  });
 
   it("REQ-1080: si una red falla, las demás se publican igual", async () => {
     const r = await runRedes({
