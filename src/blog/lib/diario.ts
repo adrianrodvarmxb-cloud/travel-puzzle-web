@@ -12,7 +12,7 @@ import { termConflicts, normalizeTerm } from "./terms";
 import { mixProblems, addDays, type MixPost } from "./mix";
 import type { CalendarItem } from "../content/calendario";
 import { PROHIBIDAS_SITIO, textsOf } from "@/site/lib/vocab";
-import { imageProblems } from "./images";
+import { imageProblems, photoReuseProblems } from "./images";
 
 export interface DiarioCtx {
   /** AAAA-MM-DD en CDMX (lo pone la raíz con I/O). */
@@ -131,6 +131,8 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
   problems.push(...factProblems(p));
   // REQ-1051 + REQ-1052: portada y de 2 a 4 fotos en el cuerpo, con alt, crédito y licencia de un banco permitido
   problems.push(...imageProblems(p));
+  // REQ-1512: ninguna foto de banco se repite en otra entrada publicada
+  problems.push(...photoReuseProblems(p, ctx.existing));
 
   // REQ-967 + REQ-963: vocabulario
   for (const t of textsOf(p)) {
