@@ -114,28 +114,30 @@ Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 ---
 
 ## Anexo 1. Programas incluidos
-Lista de programas publicados al 11 de noviembre de 2026 (fuente: base de Travel Puzzle, agencia Exotic Escapes). Tarifa neta y vigencia: [PENDIENTE: la base no guarda precio ni fechas; se toman de los tarifarios 2027-2028 de Exotic].
+Tarifa neta: precio por persona en habitación doble, categoría A, salida regular más barata, sin vuelos internos, sin suplemento individual y sin propinas. Cada programa tiene más salidas y categorías en su tarifario de Exotic. Vigencia: abril 2027 a marzo 2028, salvo lo indicado.
 
-| # | Código | Programa | Destino | Cancelación |
-|---|---|---|---|---|
-| 1 | EXE-ASI-C10-003 | Triángulo de Oro y Kathmandú | Asia (India y Nepal) | India |
-| 2 | EXE-IN-C03-014 | Extensión Amritsar: Templo Dorado y frontera de Wagah | India | India |
-| 3 | EXE-IN-C03-015 | Extensión Mumbai: Puerta de la India y cuevas de Elefanta | India | India |
-| 4 | EXE-IN-C07-001 | Triángulo de Oro: Delhi, Jaipur y Agra | India | India |
-| 5 | EXE-IN-C08-010 | La India entre mujeres | India | India |
-| 6 | EXE-IN-C08-011 | La India más instagrameable | India | India |
-| 7 | EXE-IN-C08-012 | Happy Holi 2027: el festival de los colores en Jaipur | India | India |
-| 8 | EXE-IN-C09-002 | Triángulo de Oro y Benarés | India | India |
-| 9 | EXE-IN-C09-004 | Norte de la India: Triángulo de Oro, Khajuraho y Benarés | India | India |
-| 10 | EXE-IN-C10-005 | Rajasthan: Delhi, Udaipur, Jodhpur, Jaipur y Agra | India | India |
-| 11 | EXE-IN-C12-006 | Rajasthan y Benarés | India | India |
-| 12 | EXE-IN-C12-007 | Rajasthan, Khajuraho y Benarés | India | India |
-| 13 | EXE-IN-C12-008 | Rajasthan con encanto: palacios, desierto y lagos | India | India |
-| 14 | EXE-LK-C08-009 | Sri Lanka: Sigiriya, Kandy, té de Ceilán y Galle | Sri Lanka | Sri Lanka |
+| # | Código | Programa | Destinos | País | Tarifa neta desde | Vigencia tarifario |
+|---|---|---|---|---|---|---|
+| 1 | EXE-ASI-C10-003 | Triángulo de Oro y Kathmandú | Delhi, Jaipur, Agra, Katmandú | India y Nepal | USD 775 | 2027/28 |
+| 2 | EXE-IN-C03-014 | Extensión Amritsar: Templo Dorado y Wagah | Amritsar | India | USD 240 | 2027/28 |
+| 3 | EXE-IN-C03-015 | Extensión Mumbai: Puerta de la India y Elefanta | Mumbai | India | USD 225 | 2027/28 |
+| 4 | EXE-IN-C07-001 | Triángulo de Oro: Delhi, Jaipur y Agra | Delhi, Jaipur, Agra | India | USD 495 | 2027/28 |
+| 5 | EXE-IN-C08-010 | La India entre mujeres | Delhi, Jaipur, Suroth, Agra | India | USD 645 | 2027/28 |
+| 6 | EXE-IN-C08-011 | La India más instagrameable | Delhi, Sariska, Jaipur, Agra | India | USD 620 | 2027/28 |
+| 7 | EXE-IN-C08-012 | Happy Holi 2027: festival de los colores en Jaipur | Delhi, Agra, Suroth, Jaipur | India | USD 680 | 2027/28 |
+| 8 | EXE-IN-C09-002 | Triángulo de Oro y Benarés | Delhi, Jaipur, Agra, Benarés | India | USD 580 | 2026/27 (ver nota) |
+| 9 | EXE-IN-C09-004 | Norte de la India: Triángulo de Oro, Khajuraho y Benarés | Delhi, Jaipur, Agra, Khajuraho, Benarés | India | USD 670 | 2027/28 |
+| 10 | EXE-IN-C10-005 | Rajasthan: Delhi, Udaipur, Jodhpur, Jaipur y Agra | Delhi, Udaipur, Jodhpur, Jaipur, Agra | India | USD 740 | 2027/28 |
+| 11 | EXE-IN-C12-006 | Rajasthan y Benarés | Delhi, Udaipur, Jodhpur, Jaipur, Agra, Benarés | India | USD 880 | 2027/28 |
+| 12 | EXE-IN-C12-007 | Rajasthan, Khajuraho y Benarés | Delhi, Udaipur, Jodhpur, Jaipur, Agra, Khajuraho, Benarés | India | USD 825 | 2027/28 |
+| 13 | EXE-IN-C12-008 | Rajasthan con encanto: palacios, desierto y lagos | Delhi, Mandawa, Bikaner, Jodhpur, Udaipur, Jaipur, Agra | India | USD 890 | 2027/28 |
+| 14 | EXE-LK-C08-009 | Sri Lanka: Sigiriya, Kandy, té de Ceilán y Galle | Colombo, Sigiriya, Kandy, Nuwara Eliya, Yala, Galle | Sri Lanka | USD 865 (media pensión) | 2026/27 (ver nota) |
 
-No incluido en esta lista: EXE-IN-C07-013, Diwali 2026 (en borrador, no publicado).
-
-Portafolio futuro: los programas nuevos se incorporan por addendum (cláusula 1.2) y actualizan esta tabla.
+Notas:
+- **Triángulo de Oro y Benarés (#8)** y **Sri Lanka (#14)**: el tarifario de la base de datos dice 2026/27. Hay que pedir su versión 2027/28 antes de firmar.
+- **Sri Lanka (#14)**: el tarifario confirma la política de cancelación (sin cargo con más de 21 días; 50% entre 21 y 14 días). La base de datos dice 22 y 14 días; es la misma regla, con un día de diferencia en el borde.
+- No incluido: EXE-IN-C07-013, Diwali 2026 (en borrador, no publicado).
+- Portafolio futuro: los programas nuevos entran por addendum (cláusula 1.2).
 
 ## Anexo 2. Documentos de la Parte B (requeridos antes de firmar)
 1. Certificado de constitución o incorporación de la empresa en la India.
