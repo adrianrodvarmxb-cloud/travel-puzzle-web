@@ -11,3 +11,4 @@ REQ-1596	feat/cuentas-cliente	2026-11-11 23:18	cuentas de cliente opcionales (se
 REQ-1597	feat/cuentas-cliente	2026-11-11 23:18	cuentas de cliente opcionales (sesión menú/cuentas)
 REQ-1598	feat/cuentas-cliente	2026-11-11 23:18	cuentas de cliente opcionales (sesión menú/cuentas)
 REQ-1599	feat/cuentas-cliente	2026-11-11 23:18	cuentas de cliente: enlace al correo (antes 1590)
+REQ-1600	HEAD	2026-11-11 23:31	INC-011: rollback del deploy de SEARCH_STEM_ENABLED (500 intermitente en /tours)
