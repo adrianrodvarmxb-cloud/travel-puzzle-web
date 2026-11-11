@@ -43,6 +43,12 @@ jobs:
           else
             echo "solo_docs=true" >> "$GITHUB_OUTPUT"
           fi
+      # REQ-1587: un folio REQ de la rama no puede chocar con main y, desde REQ-1588, debe estar apartado
+      # en el registro de la rama folios/registro (src/scripts/folio.ts apartar).
+      - name: Folios REQ sin choques
+        run: |
+          git fetch --no-tags --depth=1 origin main:refs/remotes/origin/main
+          npx tsx src/scripts/folio.ts revisar
       - name: Pruebas
         run: npx vitest run
       - name: Lista de países (desde Freetour)

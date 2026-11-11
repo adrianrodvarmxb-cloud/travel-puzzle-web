@@ -2,6 +2,11 @@
 
 Actualizado: 11 nov 2026, 13:45 (CDMX).
 
+
+## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
