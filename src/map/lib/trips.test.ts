@@ -32,6 +32,27 @@ describe("viajes en el mapa", () => {
     expect(r.places).toEqual([]);
   });
 
+  it("REQ-1606: una palabra de más al final del nombre («Beijing Solo», datos reales de Fantástica China) entra en su ciudad", () => {
+    const cn = [{ id: 30, iso2: "CN", translations: { es: "Pekín", en: "Beijing" } }, { id: 31, iso2: "CN", translations: { es: "Shanghai" } }];
+    const r = placeTrips([
+      trip({ id: "i", countries: ["CN"], cities: ["Beijing Solo"] }),
+      trip({ id: "j", countries: ["CN"], cities: ["Shanghai Solo"] }),
+    ], cn);
+    expect(r.byCity.get(30)?.map((t) => t.id)).toEqual(["i"]);
+    expect(r.byCity.get(31)?.map((t) => t.id)).toEqual(["j"]);
+  });
+
+  it("REQ-1606: el nombre completo siempre gana y no se recorta más de una palabra", () => {
+    const pe = [{ id: 41, iso2: "PE", translations: { es: "Valle" } }, { id: 40, iso2: "PE", translations: { es: "Valle Sagrado" } }];
+    const r = placeTrips([
+      trip({ id: "k", cities: ["Valle Sagrado"] }),
+      trip({ id: "l", cities: ["Valle Sagrado de los Incas"], meetingPoints: [{ lat: -13.3, lng: -72.1 }] }),
+    ], pe);
+    expect(r.byCity.get(40)?.map((t) => t.id)).toEqual(["k"]);
+    expect(r.byCity.has(41)).toBe(false);
+    expect(r.places.map((p) => p.trips[0].id)).toEqual(["l"]);
+  });
+
   it("REQ-1575: el mismo nombre en otro país no cuenta", () => {
     const r = placeTrips([trip({ id: "d", countries: ["MX"], cities: ["Lima"], meetingPoints: [] })], cities);
     expect(r.byCity.size).toBe(0);

@@ -263,10 +263,19 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
 /** ¿El viaje propio es de esta ciudad? País ISO-2 y nombre de ciudad (sin acentos ni mayúsculas, en cualquier idioma). */
 // REQ-1575: exportada para que el mapa use la misma regla que /destinos.
 export function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): boolean {
+  return tripCityMatch(trip, iso2, cityTranslations) > 0;
+}
+
+/** REQ-1606: 2 = nombre exacto (o sin la nota entre paréntesis), 1 = coincide sin la última palabra, 0 = no es de la ciudad. */
+export function tripCityMatch(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): 0 | 1 | 2 {
+  if (!trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase())) return 0;
   const cityNames = new Set(names(cityTranslations));
   // REQ-1606: la nota entre paréntesis del proveedor («Beijing (solo)») no cuenta para el cruce.
   const bare = (n: string) => fold(n.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " "));
-  return trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase()) && trip.cities.some((n) => cityNames.has(fold(n)) || cityNames.has(bare(n)));
+  // REQ-1606: si el nombre completo no coincide, se prueba sin su última palabra («Beijing Solo» → Beijing).
+  const lessLast = (n: string) => { const w = bare(n).split(" "); return w.length > 1 ? w.slice(0, -1).join(" ") : ""; };
+  if (trip.cities.some((n) => cityNames.has(fold(n)) || cityNames.has(bare(n)))) return 2;
+  return trip.cities.some((n) => !!lessLast(n) && cityNames.has(lessLast(n))) ? 1 : 0;
 }
 
 // REQ-092 (gate 4): a qué ciudad de /destinos entra un viaje propio.

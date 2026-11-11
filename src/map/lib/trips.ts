@@ -1,5 +1,5 @@
 /** Viajes propios y de agencia en el mapa (REQ-1575, REQ-1578). Puro. */
-import { tripInCity } from "@/destinations/lib/catalog";
+import { tripCityMatch } from "@/destinations/lib/catalog";
 import { tripPath } from "@/trips/lib/public";
 
 export interface MapTrip {
@@ -56,8 +56,13 @@ export function placeTrips(trips: MapTrip[], cities: MapCityRef[]) {
   for (const t of trips) {
     let cityId: number | null = null;
     for (const name of t.cities) {
-      const hit = cities.find((c) => tripInCity({ countries: t.countries, cities: [name] }, c.iso2, c.translations));
-      if (hit) { cityId = hit.id; break; }
+      // REQ-1606: el nombre exacto gana sobre el recortado.
+      let best = 0;
+      for (const c of cities) {
+        const m = tripCityMatch({ countries: t.countries, cities: [name] }, c.iso2, c.translations);
+        if (m > best) { best = m; cityId = c.id; if (m === 2) break; }
+      }
+      if (cityId !== null) break;
     }
     if (cityId !== null) {
       byCity.set(cityId, [...(byCity.get(cityId) ?? []), t]);
