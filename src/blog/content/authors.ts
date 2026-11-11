@@ -6,7 +6,7 @@
 import { agencyFacts } from "@/about/lib/content";
 
 export interface Author {
-  id: "claudia" | "editorial";
+  id: "claudia" | "adrian" | "editorial";
   kind: "Person" | "Organization";
   name: string;
   jobTitle: string | null;
@@ -20,10 +20,19 @@ export const AUTHORS: Record<Author["id"], Author> = {
     id: "claudia",
     kind: "Person",
     name: agencyFacts().holder ?? "Claudia Leticia Rodríguez Laveaga",
-    jobTitle: null, // [PO: cargo que se publica]
+    jobTitle: "Founder & CEO",
     bio: null, // [PO: biografía de 60 a 100 palabras]
     photo: null, // [PO: foto con permiso]
     sameAs: [], // [PO: LinkedIn u otros perfiles, si se publican]
+  },
+  adrian: {
+    id: "adrian",
+    kind: "Person",
+    name: "Adrián Rodvar",
+    jobTitle: "Director Growth Marketing",
+    bio: null,
+    photo: null,
+    sameAs: [],
   },
   editorial: {
     id: "editorial",
@@ -35,3 +44,6 @@ export const AUTHORS: Record<Author["id"], Author> = {
     sameAs: [],
   },
 };
+
+/** REQ-1410: quién firma según la categoría. Viajes = Claudia (destinos, guías, visas); marketing, crecimiento y estrategia = Adrián. */
+export const AUTOR_POR_CATEGORIA = { viajes: "claudia", marketing: "adrian" } as const;

@@ -1,4 +1,5 @@
-import { createSharedCache, type L2Store, type CachePolicy } from './lib/shared-cache';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { createSharedCache, type L2Store, type CachePolicy, type StaleOptions } from './lib/shared-cache';
 
 /**
  * REQ-032: caché compartida real. L2 = Cache API de Cloudflare (por centro de datos, sin costo y
@@ -39,7 +40,18 @@ export const POLICY = {
   ownTrip: { ttlSec: 120, staleSec: 6 * 3600 },
 } satisfies Record<string, CachePolicy>;
 
-export function cached<T>(key: string, policy: CachePolicy, load: () => Promise<T>): Promise<T> {
-  return shared.get(key, policy, load);
+/** REQ-1359: waitUntil de la petición en curso (fuera de un Worker, ninguno: se espera la carga como antes). */
+function backgroundOf(): StaleOptions['background'] {
+  try {
+    const { ctx } = getCloudflareContext();
+    return ctx && typeof ctx.waitUntil === 'function' ? (job) => ctx.waitUntil(job) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+export function cached<T>(key: string, policy: CachePolicy, load: () => Promise<T>, stale?: Omit<StaleOptions, 'background'>): Promise<T> {
+  // REQ-1359: con llaves anteriores declaradas, la primera petición tras un cambio de versión sirve la copia anterior.
+  return shared.get(key, policy, load, stale?.previousKeys?.length ? { ...stale, background: backgroundOf() } : {});
 }
 export { cacheKey } from './lib/shared-cache';

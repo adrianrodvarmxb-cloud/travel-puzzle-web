@@ -111,3 +111,23 @@ export function downloadPlan(img: BlogImage): { kind: "url"; url: string } | { k
     default: return o.descarga ? { kind: "url", url: o.descarga } : null;
   }
 }
+
+// REQ-1512: una foto de banco (banco + id) no se repite en otra entrada publicada ni dentro de la misma entrada.
+export function photoReuseProblems(p: Post, existing: Post[]): string[] {
+  const key = (img: { origen?: { banco: string; id: string } }) => (img.origen ? `${img.origen.banco}:${img.origen.id}` : "");
+  const usadas = new Map<string, string>();
+  for (const x of existing) {
+    if (x.draft || x.slug === p.slug) continue;
+    for (const { img } of allImages(x)) { const k = key(img); if (k && !usadas.has(k)) usadas.set(k, x.slug); }
+  }
+  const out: string[] = [];
+  const dentro = new Set<string>();
+  for (const { where, img } of allImages(p)) {
+    const k = key(img);
+    if (!k) continue;
+    if (usadas.has(k)) out.push(`${where}: la foto ${k} ya está en «${usadas.get(k)}»`);
+    else if (dentro.has(k)) out.push(`${where}: la foto ${k} se repite en la misma entrada`);
+    dentro.add(k);
+  }
+  return out;
+}

@@ -1,3 +1,4 @@
+import { AUTOR_POR_CATEGORIA } from "../content/authors";
 /**
  * Validador puro de la entrada del agente diario (gate «Publica solo cada día», docs/gates-blog-diario-2026-11-06.md).
  * Recibe todo por parámetro: fecha de hoy, artículos existentes, rutas que resuelven, calendario y texto de las fichas.
@@ -11,7 +12,7 @@ import { termConflicts, normalizeTerm } from "./terms";
 import { mixProblems, addDays, type MixPost } from "./mix";
 import type { CalendarItem } from "../content/calendario";
 import { PROHIBIDAS_SITIO, textsOf } from "@/site/lib/vocab";
-import { imageProblems } from "./images";
+import { imageProblems, photoReuseProblems } from "./images";
 
 export interface DiarioCtx {
   /** AAAA-MM-DD en CDMX (lo pone la raíz con I/O). */
@@ -103,7 +104,9 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
 
   // REQ-979: quién, qué y cuándo
   if (p.origen !== "agente-diario") problems.push("origen debe ser «agente-diario»");
-  if (p.author !== "editorial") problems.push("el autor de una entrada del agente es «editorial» (Equipo editorial de Travel Puzzle)");
+  // REQ-1410: la firma depende de la categoría (viajes → Claudia; marketing, crecimiento y estrategia → Adrián).
+  if (!p.categoria) problems.push("falta categoria (viajes o marketing)");
+  else if (p.author !== AUTOR_POR_CATEGORIA[p.categoria]) problems.push(`el autor de una entrada de ${p.categoria} debe ser ${AUTOR_POR_CATEGORIA[p.categoria]}`);
   if (p.draft) problems.push("una entrada del agente se publica (draft: false)");
   if (!p.mix) problems.push("falta mix (pago o free)");
   if (!p.tema) problems.push("falta tema (trending o calendario)");
@@ -128,6 +131,8 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
   problems.push(...factProblems(p));
   // REQ-1051 + REQ-1052: portada y de 2 a 4 fotos en el cuerpo, con alt, crédito y licencia de un banco permitido
   problems.push(...imageProblems(p));
+  // REQ-1512: ninguna foto de banco se repite en otra entrada publicada
+  problems.push(...photoReuseProblems(p, ctx.existing));
 
   // REQ-967 + REQ-963: vocabulario
   for (const t of textsOf(p)) {

@@ -55,8 +55,8 @@
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "false",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
-    "PAID_TOURS_ENABLED": "false",
-    "PAID_TOURS_IN_RECOMMENDATIONS": "false",
+    "PAID_TOURS_ENABLED": "true",
+    "PAID_TOURS_IN_RECOMMENDATIONS": "true",
     // Modificar reserva en línea (/reserva/[token]/modificar): "true" cuando Freetour dé el permiso de editar.
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
@@ -79,8 +79,11 @@
     // migrations/0019_search_log_daily.sql (después de la 0017) y del aviso de privacidad, con su OK.
     "SEARCH_LOG_ENABLED": "false",
     // Raíz (plurales y género, Snowball) y sinónimos en el índice FTS (REQ-360…366). "true" solo DESPUÉS de aplicar la
-    // migración propuesta docs/migraciones-propuestas/0021_tour_search_stem.sql, con preview, humo y OK del PO.
+    // migración migrations/0025_tour_search_stem.sql (REQ-1517), aplicada antes; con preview, humo y OK del PO.
     "SEARCH_STEM_ENABLED": "false",
+    // REQ-1357: sinónimos del diccionario de taxonomía y términos fusionados (legado) en el buscador. Solo se usan con
+    // SEARCH_STEM_ENABLED. "true" con preview, humo y OK del PO.
+    "SEARCH_TAXONOMY_SYNONYMS_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
     "SYNC_GUARD_ENABLED": "true",
@@ -148,10 +151,10 @@
     "CARRUSELES_HOME_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     // Página /nosotros (REQ-240…245). Apagada = 404 y sin enlace en el pie. "true" con preview encendido, prueba de humo y OK del PO.
-    "NOSOTROS_ENABLED": "false",
+    "NOSOTROS_ENABLED": "true",
     // Página /contacto y su formulario (REQ-246…249). Envía con Resend al buzón de EMAIL_REPLY_TO. Apagada = 404 y sin enlace.
     // "true" con preview encendido, prueba de humo y OK del PO.
-    "CONTACTO_ENABLED": "false",
+    "CONTACTO_ENABLED": "true",
     // Página /asesores «Habla con un asesor de viaje» (REQ-250…252): WhatsApp del asesor y formulario corto. Apagada = 404.
     // "true" con preview encendido, prueba de humo y OK del PO.
     "EXPERTOS_ENABLED": "false",
@@ -166,8 +169,8 @@
     // workflow deja los textos y láminas en el issue «Redes del día» para publicarlos a mano. "true" solo con los
     // tokens del PO como secretos de GitHub (docs/redes/conexion.md), una red por PR y con su OK.
     "SOCIAL_LINKEDIN_ENABLED": "false",
-    "SOCIAL_FACEBOOK_ENABLED": "false",
-    "SOCIAL_INSTAGRAM_ENABLED": "false",
+    "SOCIAL_FACEBOOK_ENABLED": "true",
+    "SOCIAL_INSTAGRAM_ENABLED": "true",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
@@ -193,8 +196,8 @@
     // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)
     "WHATSAPP_NUMBER": "525536490320",
     // Redes sociales de Travel Puzzle (aparecen en el pie de los correos)
-    "SOCIAL_INSTAGRAM": "https://www.instagram.com/travelpuzzle/",
-    "SOCIAL_FACEBOOK": "https://www.facebook.com/travelpuzzle",
+    "SOCIAL_INSTAGRAM": "https://www.instagram.com/travelpuzzlemx/",
+    "SOCIAL_FACEBOOK": "https://www.facebook.com/TravelPuzzleMexico/",
     "SOCIAL_TIKTOK": "https://www.tiktok.com/@travelpuzzle",
     "SOCIAL_YOUTUBE": "https://www.youtube.com/@travelpuzzle"
   },

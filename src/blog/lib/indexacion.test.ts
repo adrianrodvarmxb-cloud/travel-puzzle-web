@@ -1,3 +1,4 @@
+import { AUTOR_POR_CATEGORIA } from "../content/authors";
 import { describe, expect, it } from "vitest";
 import { sampleDaily, samplePost } from "./fixtures";
 import { parsePost, type PostInput } from "./schema";
@@ -72,7 +73,7 @@ describe("marcado e indexación del blog diario", () => {
     expect(MANUAL_POSTS.every((p) => p.draft === true)).toBe(true);
     for (const p of DIARIO_POSTS) {
       expect(p.origen, p.slug).toBe("agente-diario");
-      expect(p.author, p.slug).toBe("editorial");
+      expect(p.author, p.slug).toBe(AUTOR_POR_CATEGORIA[p.categoria ?? "viajes"]); // REQ-1410
     }
   });
 });
