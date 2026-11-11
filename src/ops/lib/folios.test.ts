@@ -27,8 +27,8 @@ const RAMA = [
   "| REQ-1535 | VALIDACIÓN | Acuerdos de intermediación con 5 proveedores: vigencia indefinida | agente | — | EN CURSO |",
   "| REQ-1536 | TAREA-PO | Firma de correo: los mensajes que salen de Travel Puzzle llevan logo | PO | — | CUMPLIDO |",
   "| REQ-1540 | CÓDIGO | Dado TANGOL_EMAIL y TANGOL_CLAVE, cuando el cliente pide datos | agente | — | CUMPLIDO |",
-  "| REQ-1605 | DEFINICIÓN | Nuevo pendiente sin reservar | PO | — | PENDIENTE |",
-  "| REQ-1606 | DEFINICIÓN | Nuevo pendiente reservado | PO | — | PENDIENTE |",
+  "| REQ-1590 | DEFINICIÓN | Nuevo pendiente sin reservar | PO | — | PENDIENTE |",
+  "| REQ-1591 | DEFINICIÓN | Nuevo pendiente reservado | PO | — | PENDIENTE |",
 ].join("\n");
 
 describe("REQ-1587: folios", () => {
@@ -54,8 +54,8 @@ describe("REQ-1587: folios", () => {
   });
 
   it("REQ-1587: un folio nuevo desde el corte debe estar apartado en GitHub; los anteriores al corte no se exigen", () => {
-    const nuevos = ["REQ-1540", "REQ-1605", "REQ-1606", "REQ-1500"];
-    expect(sinReserva(nuevos, new Set(["REQ-1606"]), 1588)).toEqual(["REQ-1605"]);
+    const nuevos = ["REQ-1540", "REQ-1590", "REQ-1591", "REQ-1500"];
+    expect(sinReserva(nuevos, new Set(["REQ-1591"]), 1588)).toEqual(["REQ-1590"]);
     expect(CORTE_RESERVA).toBeGreaterThanOrEqual(1588);
   });
 
@@ -91,8 +91,8 @@ describe("REQ-1587: folios", () => {
         e.version++;
       }
     });
-    expect(apartarFolios(2, 1588, r, datos)).toEqual(["REQ-1589", "REQ-1605"]);
-    expect([...leerReservas(estado.texto)]).toEqual(["REQ-1588", "REQ-1589", "REQ-1605"]);
+    expect(apartarFolios(2, 1588, r, datos)).toEqual(["REQ-1589", "REQ-1590"]);
+    expect([...leerReservas(estado.texto)]).toEqual(["REQ-1588", "REQ-1589", "REQ-1590"]);
   });
 
   it("REQ-1587: apartar un folio exacto falla si ya es de otra sesión", () => {
