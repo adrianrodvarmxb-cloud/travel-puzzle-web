@@ -38,6 +38,13 @@ Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un 
 - En este repo: prueba de humo `npx tsx src/scripts/smoke.ts <url>` (páginas en `tests/smoke/pages.json`); requisitos en `docs/requisitos.md`; incidentes en `docs/incidentes/`.
 - Render determinista: un componente de cliente no formatea con `Intl`/`toLocale*` sin idioma fijo ni usa `Date.now()`/`Math.random()` al pintar; lo que dependa del idioma se calcula en el servidor (INC-001).
 
+## Sesiones en paralelo (REQ-1587; obligatorio para toda sesión, agente y trigger)
+Hay varias sesiones trabajando a la vez. Antes de empezar cualquier frente (código, documento, acuerdo o correo), el paso 0:
+1. **Frente:** `npx tsx src/scripts/frente.ts buscar "<tema>"`. Si ya hay un issue `en-curso` de ese tema, te sumas a ese frente (y a su rama); no abres otro. Si no hay, `frente.ts abrir "<tema>"`. Al terminar, `frente.ts cerrar <n>`. En la nube de Claude, antepón `NODE_USE_ENV_PROXY=1` (el `fetch` de Node no usa el proxy solo).
+2. **Folios:** nunca tomes «el último + 1» de tu copia. Aparta con `npx tsx src/scripts/folio.ts apartar <n>` y usa solo los que imprime. El PR corre `folio.ts revisar` y falla si un folio choca con main o no está apartado (desde REQ-1588).
+3. **Correos:** antes de crear un borrador en Gmail, revisa los borradores que ya hay para ese proveedor. Debe quedar un solo borrador vigente: creas el nuevo, borras el anterior (solo borradores, nunca enviados) y anotas el ID del borrador vigente en el issue del frente (`frente.ts nota <n> "Borrador vigente: r-…"`).
+4. **Proyecto de Claude:** revisa también los documentos del proyecto (p. ej. `legal/`) antes de redactar uno nuevo del mismo tema.
+
 ## Protocolo de trazabilidad (ISO/IEC/IEEE 29148, obligatorio también para agentes externos)
 1. Toda petición del PO (código, bandera, definición, validación o tarea a mano) recibe folio REQ-### en `docs/requisitos.md` antes del código: petición literal, criterio Dado/Cuando/Entonces, tipo, responsable y estado.
 2. Tests primero (rojo → verde), con el ID en el nombre (`it('REQ-014: …')`) y `// REQ-014` en la función que lo implementa.
