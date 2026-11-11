@@ -7,6 +7,7 @@ import { ROUTES } from "@/destinations/lib/routes";
 import { homeSections, type HomeSection } from "@/home/lib/sections";
 import { PRIMERA_PIEZA_LABEL } from "@/tours/lib/menu";
 import { PAGE_PATHS, type SitePages } from "@/site/lib/pages";
+import { ACCOUNTS_ENABLED } from "@/lib/features";
 
 export interface NavLink { href: string; label: string }
 export interface FooterColumn { title: string; links: NavLink[] }
@@ -96,8 +97,10 @@ function pageText(k: string, lang: string): string {
   return (PAGE_TEXT[lang] ?? PAGE_TEXT.en)[k];
 }
 
-/** REQ-1530: «Mis Reservas» y «Perfil» aparecen solo cuando sus páginas existan (cuentas opcionales, REQ-1534). */
-export const ACCOUNT_PAGES_READY = false;
+/** REQ-1530/REQ-1595: «Mis reservas» y «Mi cuenta» existen (/mi-cuenta) y se muestran solo con ACCOUNTS_ENABLED. */
+export const ACCOUNT_PAGES_READY = ACCOUNTS_ENABLED;
+/** REQ-1595: rutas de la cuenta de cliente. */
+export const ACCOUNT_ROUTES = { signIn: "/mi-cuenta/entrar", bookings: "/mi-cuenta/reservas", account: "/mi-cuenta" } as const;
 /** REQ-1531: enlaces del Panel viejo (/dashboard/*, del sitio de Vercel) ocultos; esas páginas no existen. */
 export const LEGACY_DASHBOARD_LINKS = false;
 
@@ -106,7 +109,7 @@ export function sessionNavLinks(
   pub: NavLink[],
   o: { loggedIn: boolean; accountPagesReady: boolean; myBookingsLabel: string },
 ): NavLink[] {
-  return o.loggedIn && o.accountPagesReady ? [...pub, { href: "/bookings", label: o.myBookingsLabel }] : pub;
+  return o.loggedIn && o.accountPagesReady ? [...pub, { href: ACCOUNT_ROUTES.bookings, label: o.myBookingsLabel }] : pub;
 }
 
 export interface PanelLink extends NavLink { icon: string }

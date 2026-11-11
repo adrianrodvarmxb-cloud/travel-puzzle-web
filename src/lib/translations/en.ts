@@ -7,6 +7,8 @@ export const en = {
   'nav.login': 'Login',
   'nav.signup': 'Sign Up',
   'nav.myBookings': 'My Bookings',
+  'nav.account': 'My account',
+  'nav.signin': 'Sign in',
   'nav.profile': 'Profile',
   'nav.dashboard.label': 'Dashboard',
   'nav.dashboard.overview': 'Analytics Overview',

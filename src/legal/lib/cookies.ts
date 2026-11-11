@@ -4,7 +4,7 @@
  * tras COOKIES_POLICY_ENABLED (apagada). Formato: "## " título, "- " inciso.
  *
  * BORRADOR: pendiente de revisión del PO y de un abogado. No publicar sin OK.
- * Solo describe lo que el sitio usa hoy (copy honesto): idioma, sesión de cuenta (apagada)
+ * Solo describe lo que el sitio usa hoy (copy honesto): idioma, sesión de cuenta (solo con sesión iniciada)
  * y el widget de afiliados de /trenes y /traslados. No hay analíticas instaladas.
  */
 // REQ-084
@@ -21,7 +21,7 @@ export const POLITICA_COOKIES_BORRADOR = [
   "## Cookies necesarias",
   "Permiten que el sitio funcione y no se pueden desactivar desde el sitio:",
   "- preferredLanguage: recuerda el idioma que eligió. Dura hasta un año.",
-  "- Cookies de sesión de su cuenta (solo si inicia sesión, cuando las cuentas estén disponibles): mantienen su sesión abierta de forma segura.",
+  "- Cookies de sesión de su cuenta (solo si inicia sesión): mantienen su sesión abierta de forma segura.",
   "- Cookies de seguridad de nuestro proveedor de infraestructura: protegen el sitio contra tráfico automatizado y abuso.",
   "## Cookies analíticas",
   "Hoy no usamos cookies analíticas. Si en el futuro medimos visitas para mejorar el sitio, actualizaremos esta política antes de hacerlo y le pediremos su consentimiento cuando la ley lo requiera.",
