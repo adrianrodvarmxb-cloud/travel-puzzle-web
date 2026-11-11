@@ -987,3 +987,15 @@ Causa: el run 42879625876 de «Blog diario» falló en Pruebas. `src/blog/agente
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1511 | CÓDIGO | Dado el ejemplo EU-01 y artículos del mismo pilar publicados después de su fecha, cuando corre el test REQ-981/REQ-1040, entonces se valida solo contra lo publicado hasta su `publishedAt` y pasa (rojo con el test viejo y la entrada del 10-11; verde con el nuevo; suite 2797/2797) | agente | — | EN CURSO (test verde; falta merge con OK del PO y volver a lanzar el blog de hoy) |
+
+## REQ-1530 a REQ-1534: tiempos de carga (agente, 11 nov 2026)
+Petición literal (PO, 11-11): «Audita y optimiza los tiempos de carga de este sitio (está detrás de Cloudflare)… REQ-###: LCP < 2.5s en móvil 4G simulado; CLS < 0.1; INP < 200ms; peso de la página inicial < 1.5 MB; ninguna imagen fuera del viewport se carga al inicio». Folios desde 1530 para no chocar con sesiones abiertas.
+Medición base: Lighthouse 12 contra producción (`travelpuzzle.com.mx`), páginas `/`, `/tours` y una ficha `/viajes/...`; Lighthouse móvil = Moto G Power, 4G lenta simulada.
+Nota INP: Lighthouse en laboratorio no mide INP (requiere interacción real). Se acepta como evidencia de laboratorio TBT < 200 ms en móvil y, al publicar, INP p75 de datos reales (Cloudflare Web Analytics / CrUX) < 200 ms.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1530 | RENDIMIENTO | Dado el sitio en producción, cuando se corre Lighthouse móvil (4G simulada) en `/`, `/tours` y una ficha, entonces LCP < 2.5 s en las tres | agente | — | PENDIENTE (antes: 21.2 s / 24.3 s / 22.3 s) |
+| REQ-1531 | RENDIMIENTO | Dado el mismo escenario (móvil y escritorio), cuando carga cada página, entonces CLS < 0.1 | agente | — | PENDIENTE (antes: ≤ 0.006) |
+| REQ-1532 | RENDIMIENTO | Dado el sitio en producción, cuando se mide en móvil, entonces TBT < 200 ms en laboratorio y, con datos reales, INP p75 < 200 ms | agente | — | PENDIENTE (antes TBT: 275 / 314 / 148 ms) |
+| REQ-1533 | RENDIMIENTO | Dada la carga inicial (sin scroll) de cada página, cuando termina, entonces el peso total transferido es < 1.5 MB | agente | — | PENDIENTE (antes: 9.4 / 9.7 / 8.3 MB) |
+| REQ-1534 | RENDIMIENTO | Dada la carga inicial a 390 y 1366 px, cuando termina sin scroll, entonces no se descarga ninguna imagen que esté fuera del viewport (Lighthouse `offscreen-images` sin hallazgos y prueba Playwright que lo verifica) | agente | — | PENDIENTE (antes: ~200 KiB fuera de pantalla + 4 fotos del carrusel) |
