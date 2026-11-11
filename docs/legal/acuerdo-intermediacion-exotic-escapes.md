@@ -9,14 +9,14 @@ Documento vinculado a REQ-1363 (`docs/requisitos.md`).
 ## Partes
 
 **PARTE A — Travel Puzzle (intermediario comercial)**
-- Razón social: [CLIENTE: razón social exacta]
-- Nombre comercial: Travel Puzzle México (parte de GRUPO VARROD · SABERHOY ESPODER)
-- RFC: [CLIENTE: RFC]
-- Domicilio fiscal: [CLIENTE: domicilio fiscal]
-- Representante legal: [CLIENTE: nombre, cargo y número de escritura del poder]
-- Registro Nacional de Turismo (RNT): [CLIENTE: número]
+- Titular (persona física): CLAUDIA LETICIA RODRÍGUEZ LAVEAGA
+- Nombre comercial: TRAVEL PUZZLE (Travel Puzzle México, parte de GRUPO VARROD · SABERHOY ESPODER)
+- RFC: [CLIENTE: RFC de Claudia Leticia Rodríguez Laveaga; no está publicado en el sitio]
+- Domicilio: Av. Lázaro Cárdenas Norte 300, Col. Esperanza, C.P. 34080, Durango, Dgo.
+- Representante legal: la misma titular, por tratarse de persona física (sin poder notarial). [CLIENTE: confirmar]
+- Registro Nacional de Turismo (RNT): 04100050179
 - Contrato de adhesión registrado ante PROFECO: 6635-2023
-- Contacto: claulet@travelpuzzle.com.mx · +52 55 3649 0320
+- Contacto: info@travelpuzzle.com.mx · claulet@travelpuzzle.com.mx · +52 55 3649 0320
 
 **PARTE B — Exotic Escapes (operador receptivo)**
 - Razón social: [EXOTIC: razón social exacta en India]
@@ -68,7 +68,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 8.2. Cualquiera de las partes puede terminar el acuerdo con [CLIENTE/EXOTIC: días de aviso] por escrito. Los viajes confirmados antes de la terminación se respetan.
 
 ## Cláusula 9. Ley aplicable y jurisdicción
-9.1. [CLIENTE/ABOGADO: definir ley aplicable y tribunales. Propuesta: leyes de México; tribunales de Durango, con mediación previa.]
+9.1. Este acuerdo se rige por las leyes del estado de Durango, igual que los Términos y Condiciones publicados por Travel Puzzle. Para cualquier controversia, las partes se someten a los Tribunales competentes de Durango, Durango, previo intento de conciliación ante la Procuraduría Federal del Consumidor (PROFECO) cuando aplique.
 
 ## Cláusula 10. Firma
 Leído y aceptado por las partes, en [CLIENTE: ciudad], a [fecha].
