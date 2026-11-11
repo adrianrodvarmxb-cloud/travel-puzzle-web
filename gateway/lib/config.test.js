@@ -13,6 +13,11 @@ describe("checkConfig", () => {
   it("la IP de salida debe ser una IP", () => {
     expect(checkConfig({ ...env, FREETOUR_LOCAL_ADDRESS: "pasarela.travelpuzzle.com.mx" })).toEqual(["FREETOUR_LOCAL_ADDRESS no es una IP"]);
   });
+  it("REQ-1551: Tangol es opcional; con solo una de sus dos variables no arranca", () => {
+    expect(checkConfig({ ...env, TANGOL_EMAIL: "a@b.c", TANGOL_CLAVE: "1" })).toEqual([]);
+    expect(checkConfig({ ...env, TANGOL_EMAIL: "a@b.c" })).toEqual(["falta TANGOL_CLAVE"]);
+    expect(checkConfig({ ...env, TANGOL_CLAVE: "1" })).toEqual(["falta TANGOL_EMAIL"]);
+  });
   it("lista todo lo que falta", () => {
     expect(checkConfig({})).toHaveLength(4);
   });

@@ -127,7 +127,7 @@ export function localeContractPages(cfg: SmokeConfig, vars: Record<string, strin
 }
 
 /**
- * REQ-1535 (INC-010): una petición cruda del contrato de idioma se reintenta SOLO cuando falló el transporte
+ * REQ-1579 (INC-010): una petición cruda del contrato de idioma se reintenta SOLO cuando falló el transporte
  * (`status` null: la petición no llegó a devolver un código). Un código real (503, 404, 500…) no se reintenta:
  * esa es una falla del sitio y tiene que contar, como en INC-009.
  */

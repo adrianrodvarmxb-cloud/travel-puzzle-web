@@ -101,7 +101,7 @@ const BOT_UA = "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingb
           .catch((e: unknown) => { error = e instanceof Error ? e.message : String(e); return null; });
         return { status: r?.status() ?? null, body: r ? await r.text().catch(() => "") : "", error };
       };
-      // REQ-1535 (INC-010): solo el fallo de transporte se reintenta; un código real cuenta a la primera.
+      // REQ-1579 (INC-010): solo el fallo de transporte se reintenta; un código real cuenta a la primera.
       const { last, attempts } = await rawWithRetry(once, {
         onRetry: (n, previo) => console.log(`contrato de idioma ${p}: sin respuesta (${previo.error ?? "sin detalle"}); reintento ${n}`),
       });
