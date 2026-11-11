@@ -1005,5 +1005,5 @@ Petición literal (PO): «crea revisión cada 6 horas hasta que se cumpla todo y
 | REQ-1409 | TAREA-PO | Hotelbeds: registro del 10 nov en el API portal; falta confirmar la cuenta por correo | PO | — | PENDIENTE |
 | REQ-1410 | VALIDACIÓN | Reserva de Dublín: el 9 nov se reenviaron a claulet@ una confirmación y una cancelación del tour desde reservas@. Verificar si la cancelación es real y qué pasa con el cliente | PO | — | PENDIENTE |
 | REQ-1411 | VALIDACIÓN | Exotic: el correo del 11 nov 2026 (17:06 UTC) salió de adrianrodvar@ con el acuerdo adjunto. NO VERIFICADO si es la versión vigente (cláusulas 1.3, 8.2 y 9.4). Si no lo es, decidir reenvío | PO | REQ-1382 | SIN VERIFICAR |
-| REQ-1412 | VALIDACIÓN | Aplazo (propuesta de pagos a plazos, 10 nov) y una solicitud de empleo (9 nov): sin trabajo técnico; el PO decide si responde | PO | — | PENDIENTE |
+| REQ-1412 | VALIDACIÓN | Aplazo (propuesta de pagos a plazos, 10 nov) y una solicitud de empleo (9 nov). Quitado del tablero por el PO (11 nov 2026, 11:24 CDMX: «quitalo») | PO | — | CANCELADO (folio no reutilizable) |
 | REQ-1413 | CÓDIGO | Trigger de revisión cada 6 h: ampliar su alcance de REQ-1374–1397 a REQ-1359–1412 y que actualice el estado de cada folio con evidencia | agente | — | CUMPLIDO (trig_01YNgNBCEn6nTULZ2N3bSc4v actualizado 11 nov 2026 11:21 CDMX; próxima corrida 12:53 CDMX; cron 53 */6) |
