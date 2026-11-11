@@ -184,63 +184,63 @@ Por la Parte B: ____________________________  Nombre y cargo: [FANTÁSTICA CHINA
 
 Tarifa neta «desde» del tarifario 2027-2028 en USD por persona en doble (Tour Regular: confirmación inmediata, 23 mar 2027 a 20 mar 2028, con excepciones por programa; Gran Lujo: por fecha de llegada, aprox. 21-30 mar 2027 a 20-29 mar 2028). Cada programa tiene más temporadas y suplementos en el tarifario de la Parte B. El acuerdo no vence; cada temporada se agrega como addendum (cláusula 8.1).
 
-| Código | Programa | Destinos | Tarifa neta desde | Estado en el sitio |
-|---|---|---|---|---|
-| FCH-R1 | Tour regular básico 10 d | Beijing, Xi'an, Shanghai, Guilin, Guangzhou | USD 2,220 | publicado |
-| FCH-R2 | Beijing-Xi'an-Shanghai 8 d | Beijing, Xi'an, Shanghai | USD 1,290 (lu/ma/ju) | publicado |
-| FCH-R3 | Beijing-Xi'an-Shanghai-Guilin 10 d | 4 ciudades | USD 1,915 | publicado |
-| FCH-R4 | Beijing Solo 4 d | Beijing | USD 455 | publicado |
-| FCH-R5 | Beijing-Xi'an-Guilin-Shanghai 10 d | 4 ciudades | USD 1,730 | publicado |
-| FCH-R6 | Beijing-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 13 d | 6 ciudades | USD 2,150 | publicado |
-| FCH-R7 | Crucero Río Yangtze 12 d | Beijing, Xi'an, crucero, Shanghai | USD 2,430 | publicado |
-| FCH-R7X | Yangtze con Oso Panda 12 d | Beijing, Xi'an, Chengdu, crucero, Shanghai | USD 2,820 | publicado |
-| FCH-R8 | Beijing-Shanghai 6 d | Beijing, Shanghai | USD 875 (tren) / 1,020 (avión) | publicado |
-| FCH-R9 | Beijing-Xi'an-Hangzhou-Suzhou-Shanghai 10 d | 5 ciudades | USD 1,770 | publicado |
-| FCH-R10 | Beijing-Luoyang-Xi'an-Hangzhou-Suzhou-Shanghai 11 d | 6 ciudades | USD 2,030 | publicado |
-| FCH-R11 | Beijing-Xi'an-Kunming-Dali-Lijiang-Shanghai 13 d | 6 ciudades | USD 3,180 | publicado |
-| FCH-R12 | Ruta de la Seda 13 d | Beijing, Xi'an, Dunhuang, Turpan, Urumqi, Shanghai | USD 4,060 | publicado |
-| FCH-R13 | Beijing-Datong-Wutai-Pingyao-Xi'an-Shanghai 11 d | 6 ciudades | USD 2,350 | publicado |
-| FCH-R14 | Beijing-Xi'an-Lhasa-Shanghai 11 d | 4 ciudades | USD 3,480 | publicado |
-| FCH-R15 | Beijing-Xi'an-Lhasa-Gyantse-Shigatse-Shanghai 13 d | 5 o más ciudades | USD 3,980 | publicado |
-| FCH-R16 | Beijing-Luoyang-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 14 o 15 d | 7 ciudades | USD 2,440 (lunes) / 2,560 (martes) | publicado |
-| FCH-R17 | Extensión Lhasa 4 d | Lhasa | USD 1,310 | borrador |
-| FCH-R18 | Extensión Hong Kong 3 d | Hong Kong | USD 735 (4*) / 790 (5*) | borrador |
-| FCH-R19 | Extensión Shenzhen 3 d | Shenzhen | USD 880 | borrador |
-| FCH-R20 | Extensión Yunnan 4 d | Kunming, Lijiang | USD 1,070 | borrador |
-| FCH-R21 | Extensión Huangshan 4 d | Huangshan | USD 910 | borrador |
-| FCH-R22 | Extensión Zhangjiajie 4 d | Zhangjiajie | USD 1,230 | borrador |
-| FCH-R23 | Excursión de un día a Macao | Macao (desde Hong Kong) | [FANTÁSTICA CHINA: precio a consulta] | borrador |
-| FCH-R24 | Beijing-Pingyao-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 14 d | 7 ciudades | USD 2,530 | publicado |
-| FCH-R25 | Mundo de Avatar con Guilin 12 d | Beijing, Xi'an, Guilin, Zhangjiajie, Shanghai | USD 2,550 | publicado |
-| FCH-R26A | Beijing-Xi'an-Chengdu-Shanghai 10 d | 4 ciudades | USD 2,160 | publicado |
-| FCH-R26B | Beijing-Xi'an-Chengdu-Hangzhou-Suzhou-Shanghai 13 d | 6 ciudades | USD 2,560 | publicado |
-| FCH-R27 | Con Chengdu y Monte Emei 13 d | 7 ciudades | USD 2,890 | publicado |
-| FCH-R28 | Con Kaili, Rongjiang y Zhaoxing 13 d | 7 ciudades | USD 2,850 | publicado |
-| FCH-R29 | Shanghai Solo 4 d | Shanghai | USD 355 | publicado |
-| FCH-R30 | Beijing-Xining-Lhasa (tren)-Shanghai 11 d | 4 ciudades | USD 3,900 | publicado |
-| FCH-R31 | Beijing-Hangzhou-Suzhou-Shanghai 9 d | 4 ciudades | USD 1,220 | publicado |
-| FCH-R32 | Beijing-Xi'an-Zhangjiajie-Shanghai 10 d | 4 ciudades | USD 2,180 | publicado |
-| FCH-R33 | Paraíso de la Tierra con Avatar 16 d | 7 ciudades | USD 3,050 | publicado |
-| FCH-R34 | Avatar con Fenghuang 12 d | 5 ciudades | USD 2,750 | publicado |
-| FCH-R35 | Con Chengdu y Chongqing 12 d | 5 ciudades | USD 2,440 | publicado |
-| FCH-R36 | Con Chengdu y Zhangjiajie 12 d | 5 ciudades | USD 2,730 | publicado |
-| FCH-R37 | Con Chengdu y Guilin 12 d | 5 ciudades | USD 2,430 | publicado |
-| FCH-R38 | Con Chongqing 10 d | 4 ciudades | USD 1,830 | publicado |
-| FCH-R39 | Con Chongqing y Zhangjiajie 12 d | 5 ciudades | USD 2,540 | publicado |
-| FCH-R40 | Gran Tour: China en su totalidad 22 d | Beijing, Xi'an, Chengdu, Zhangjiajie, Fenghuang, Wulong, Chongqing y más | USD 4,430 | publicado |
-| FCH-L01 | Gran Lujo Beijing-Xi'an-Shanghai 8 d | 3 ciudades | USD 2,320 (6-9 pax) / 3,070 (2-3 pax) | publicado |
-| FCH-L02 | Gran Lujo Shanghai-Xi'an-Beijing 8 d | 3 ciudades | USD 2,320 / 3,070 | publicado |
-| FCH-L03 | Gran Lujo Beijing-Shanghai 6 d | 2 ciudades | USD 1,700 / 2,270 | publicado |
-| FCH-L04 | Gran Lujo Shanghai-Beijing 6 d | 2 ciudades | USD 1,700 / 2,270 | publicado |
-| FCH-L05 | Gran Lujo Beijing Solo 4 d | Beijing | USD 800 / 1,170 | publicado |
-| FCH-L06 | Gran Lujo Shanghai Solo 4 d | Shanghai | USD 930 / 1,240 | publicado |
-| FCH-L07 | Gran Lujo Beijing-Xi'an-Guilin-Shanghai 10 d | 4 ciudades | USD 2,880 / 3,830 | publicado |
-| FCH-L08 | Gran Lujo Beijing-Xi'an-Hangzhou-Suzhou-Shanghai 10 d | 5 ciudades | USD 2,730 / 3,640 | publicado |
-| FCH-L09 | Gran Lujo Beijing-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 13 d | 6 ciudades | USD 3,500 / 4,690 | publicado |
+| Código | Programa | Destinos | Tarifa neta desde |
+|---|---|---|---|
+| FCH-R1 | Tour regular básico 10 d | Beijing, Xi'an, Shanghai, Guilin, Guangzhou | USD 2,220 |
+| FCH-R2 | Beijing-Xi'an-Shanghai 8 d | Beijing, Xi'an, Shanghai | USD 1,290 (lu/ma/ju) |
+| FCH-R3 | Beijing-Xi'an-Shanghai-Guilin 10 d | 4 ciudades | USD 1,915 |
+| FCH-R4 | Beijing Solo 4 d | Beijing | USD 455 |
+| FCH-R5 | Beijing-Xi'an-Guilin-Shanghai 10 d | 4 ciudades | USD 1,730 |
+| FCH-R6 | Beijing-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 13 d | 6 ciudades | USD 2,150 |
+| FCH-R7 | Crucero Río Yangtze 12 d | Beijing, Xi'an, crucero, Shanghai | USD 2,430 |
+| FCH-R7X | Yangtze con Oso Panda 12 d | Beijing, Xi'an, Chengdu, crucero, Shanghai | USD 2,820 |
+| FCH-R8 | Beijing-Shanghai 6 d | Beijing, Shanghai | USD 875 (tren) / 1,020 (avión) |
+| FCH-R9 | Beijing-Xi'an-Hangzhou-Suzhou-Shanghai 10 d | 5 ciudades | USD 1,770 |
+| FCH-R10 | Beijing-Luoyang-Xi'an-Hangzhou-Suzhou-Shanghai 11 d | 6 ciudades | USD 2,030 |
+| FCH-R11 | Beijing-Xi'an-Kunming-Dali-Lijiang-Shanghai 13 d | 6 ciudades | USD 3,180 |
+| FCH-R12 | Ruta de la Seda 13 d | Beijing, Xi'an, Dunhuang, Turpan, Urumqi, Shanghai | USD 4,060 |
+| FCH-R13 | Beijing-Datong-Wutai-Pingyao-Xi'an-Shanghai 11 d | 6 ciudades | USD 2,350 |
+| FCH-R14 | Beijing-Xi'an-Lhasa-Shanghai 11 d | 4 ciudades | USD 3,480 |
+| FCH-R15 | Beijing-Xi'an-Lhasa-Gyantse-Shigatse-Shanghai 13 d | 5 o más ciudades | USD 3,980 |
+| FCH-R16 | Beijing-Luoyang-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 14 o 15 d | 7 ciudades | USD 2,440 (lunes) / 2,560 (martes) |
+| FCH-R17 | Extensión Lhasa 4 d | Lhasa | USD 1,310 |
+| FCH-R18 | Extensión Hong Kong 3 d | Hong Kong | USD 735 (4*) / 790 (5*) |
+| FCH-R19 | Extensión Shenzhen 3 d | Shenzhen | USD 880 |
+| FCH-R20 | Extensión Yunnan 4 d | Kunming, Lijiang | USD 1,070 |
+| FCH-R21 | Extensión Huangshan 4 d | Huangshan | USD 910 |
+| FCH-R22 | Extensión Zhangjiajie 4 d | Zhangjiajie | USD 1,230 |
+| FCH-R23 | Excursión de un día a Macao | Macao (desde Hong Kong) | [FANTÁSTICA CHINA: precio a consulta] |
+| FCH-R24 | Beijing-Pingyao-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 14 d | 7 ciudades | USD 2,530 |
+| FCH-R25 | Mundo de Avatar con Guilin 12 d | Beijing, Xi'an, Guilin, Zhangjiajie, Shanghai | USD 2,550 |
+| FCH-R26A | Beijing-Xi'an-Chengdu-Shanghai 10 d | 4 ciudades | USD 2,160 |
+| FCH-R26B | Beijing-Xi'an-Chengdu-Hangzhou-Suzhou-Shanghai 13 d | 6 ciudades | USD 2,560 |
+| FCH-R27 | Con Chengdu y Monte Emei 13 d | 7 ciudades | USD 2,890 |
+| FCH-R28 | Con Kaili, Rongjiang y Zhaoxing 13 d | 7 ciudades | USD 2,850 |
+| FCH-R29 | Shanghai Solo 4 d | Shanghai | USD 355 |
+| FCH-R30 | Beijing-Xining-Lhasa (tren)-Shanghai 11 d | 4 ciudades | USD 3,900 |
+| FCH-R31 | Beijing-Hangzhou-Suzhou-Shanghai 9 d | 4 ciudades | USD 1,220 |
+| FCH-R32 | Beijing-Xi'an-Zhangjiajie-Shanghai 10 d | 4 ciudades | USD 2,180 |
+| FCH-R33 | Paraíso de la Tierra con Avatar 16 d | 7 ciudades | USD 3,050 |
+| FCH-R34 | Avatar con Fenghuang 12 d | 5 ciudades | USD 2,750 |
+| FCH-R35 | Con Chengdu y Chongqing 12 d | 5 ciudades | USD 2,440 |
+| FCH-R36 | Con Chengdu y Zhangjiajie 12 d | 5 ciudades | USD 2,730 |
+| FCH-R37 | Con Chengdu y Guilin 12 d | 5 ciudades | USD 2,430 |
+| FCH-R38 | Con Chongqing 10 d | 4 ciudades | USD 1,830 |
+| FCH-R39 | Con Chongqing y Zhangjiajie 12 d | 5 ciudades | USD 2,540 |
+| FCH-R40 | Gran Tour: China en su totalidad 22 d | Beijing, Xi'an, Chengdu, Zhangjiajie, Fenghuang, Wulong, Chongqing y más | USD 4,430 |
+| FCH-L01 | Gran Lujo Beijing-Xi'an-Shanghai 8 d | 3 ciudades | USD 2,320 (6-9 pax) / 3,070 (2-3 pax) |
+| FCH-L02 | Gran Lujo Shanghai-Xi'an-Beijing 8 d | 3 ciudades | USD 2,320 / 3,070 |
+| FCH-L03 | Gran Lujo Beijing-Shanghai 6 d | 2 ciudades | USD 1,700 / 2,270 |
+| FCH-L04 | Gran Lujo Shanghai-Beijing 6 d | 2 ciudades | USD 1,700 / 2,270 |
+| FCH-L05 | Gran Lujo Beijing Solo 4 d | Beijing | USD 800 / 1,170 |
+| FCH-L06 | Gran Lujo Shanghai Solo 4 d | Shanghai | USD 930 / 1,240 |
+| FCH-L07 | Gran Lujo Beijing-Xi'an-Guilin-Shanghai 10 d | 4 ciudades | USD 2,880 / 3,830 |
+| FCH-L08 | Gran Lujo Beijing-Xi'an-Hangzhou-Suzhou-Shanghai 10 d | 5 ciudades | USD 2,730 / 3,640 |
+| FCH-L09 | Gran Lujo Beijing-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 13 d | 6 ciudades | USD 3,500 / 4,690 |
 
 Notas:
 
-- 44 programas publicados y 7 en borrador (extensiones y Macao).
+- Incluye los programas de Tour Regular, Gran Lujo, extensiones y la excursión a Macao.
 - El paquete de noches extra en Shanghai con Disneyland (p. 117-118) no está incluido; entra por addendum si se publica.
 
 ## Anexo 2. Documentos de la Parte B (requeridos antes de firmar)
