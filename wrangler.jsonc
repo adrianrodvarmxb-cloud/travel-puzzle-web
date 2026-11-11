@@ -79,7 +79,7 @@
     // migrations/0019_search_log_daily.sql (después de la 0017) y del aviso de privacidad, con su OK.
     "SEARCH_LOG_ENABLED": "false",
     // Raíz (plurales y género, Snowball) y sinónimos en el índice FTS (REQ-360…366). "true" solo DESPUÉS de aplicar la
-    // migración propuesta docs/migraciones-propuestas/0021_tour_search_stem.sql, con preview, humo y OK del PO.
+    // migración migrations/0025_tour_search_stem.sql (REQ-1517), aplicada antes; con preview, humo y OK del PO.
     "SEARCH_STEM_ENABLED": "false",
     // REQ-1357: sinónimos del diccionario de taxonomía y términos fusionados (legado) en el buscador. Solo se usan con
     // SEARCH_STEM_ENABLED. "true" con preview, humo y OK del PO.

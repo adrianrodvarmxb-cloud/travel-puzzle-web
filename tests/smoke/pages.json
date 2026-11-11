@@ -33,6 +33,12 @@
       "pattern": "^/destinos/gb/edimburgo/[^/?#]+$",
       "take": 1,
       "required": true
+    },
+    {
+      "from": "/tours?search=museos",
+      "pattern": "^/(viajes/[^/]+/[^/?#]+|destinos/[^/]+/[^/]+/[^/?#]+)$",
+      "take": 1,
+      "required": true
     }
   ],
   "optional": [
