@@ -880,7 +880,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1318 | VALIDACIÓN | Primera publicación real del blog diario y de las guías (7-11 12:37) | coordinador | — | CUMPLIDO (Blog diario run 42403574334 success; /blog/europa/requisitos-para-entrar-a-europa-2026 responde 200; guías #270 publicadas, deploy 42404516289) |
 | REQ-1319 | CÓDIGO | INC-007: prueba de humo intermitente en producción, sin causa raíz | agente | — | EN CURSO |
 | REQ-1320 | TAREA-PO | Confirmar el buzón info@ | PO | — | PENDIENTE |
-| REQ-1321 | TAREA-PO | Tokens de Meta (Facebook e Instagram) según docs/redes/conexion.md; LinkedIn pasos 1 a 4 hechos el 7-11 | PO | — | PENDIENTE |
+| REQ-1321 | TAREA-PO | Tokens de Meta (Facebook e Instagram) según docs/redes/conexion.md; LinkedIn pasos 1 a 4 hechos el 7-11 | PO | — | CUMPLIDO (PO 11-11: «esto ya quedo verififca» tras renovar el token; Facebook e Instagram publicaron en las corridas 42922604231, 42928473383 y 42931964300, sin OAuthException 190; issue #295 cerrado) |
 | REQ-1322 | TAREA-PO | Aprobación de LinkedIn de la Community Management API (solicitud y formulario enviados el 7-11) | tercero | — | EN CURSO |
 | REQ-1323 | TAREA-PO | Revisión del abogado: aviso de privacidad, registro de búsquedas, cookies y consentimiento | tercero | — | PENDIENTE |
 | REQ-1324 | TAREA-PO | Cobro de prueba de $10 en Stripe y su reembolso | PO | — | PENDIENTE |
