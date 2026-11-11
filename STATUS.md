@@ -3,6 +3,15 @@
 Actualizado: 11 nov 2026, 13:45 (CDMX).
 
 
+## Conversación del 11 nov 2026 (revisión cada 12 h, REQ-1604) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1341 | lastmod real de sitemap-paginas.xml en el índice | NUEVO | `src/seo/lib/sitemaps.ts`, `src/destinations/sitemaps.ts` | `src/seo/lib/sitemaps-paginas-lastmod.test.ts` | CUMPLIDO (#358) |
+| REQ-1355 | El sync blindado ve las guías de ciudad del repo | NUEVO | `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts` | `src/destinations/lib/indexing-guias-repo.test.ts`, `src/catalog/guarded-repository-guias.test.ts` | CUMPLIDO (#359) |
+| REQ-1600 | INC-011: 500 aislado en /tours al encender SEARCH_STEM_ENABLED | NUEVO | `docs/incidentes/INC-011.md` | — (falta causa raíz) | EN CURSO |
+| REQ-1602 | `frente.ts abrir` funciona en la nube (415) | NUEVO | `src/scripts/frente.ts` | — | PENDIENTE |
+| REQ-1603 | Sin rojo falso de 0 jobs en el humo de PR del bot | NUEVO | `.github/workflows/prueba-humo.yml` | — | PENDIENTE |
+
 ## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
