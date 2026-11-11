@@ -28,11 +28,11 @@ export async function GET(request: NextRequest) {
     if (!Number.isInteger(cityId) || cityId <= 0) return NextResponse.json({ error: 'cityId inválido' }, { status: 400 });
     const includePaid = paidInRecommendations(process.env);
     // REQ-032: caché compartida 1 h (antes cada clic consultaba D1).
-    const card = await cached(cacheKey('map-city', { cityId, includePaid, own: String(vis.own), v: '2' }), { ttlSec: 3600, staleSec: 86400 }, () => withRetry(() => loadCityCard(cityId, { prisma, includePaid, vis })));
+    const card = await cached(cacheKey('map-city', { cityId, includePaid, own: String(vis.own), v: '3' }), { ttlSec: 3600, staleSec: 86400 }, () => withRetry(() => loadCityCard(cityId, { prisma, includePaid, vis })));
     if (!card) return NextResponse.json({ error: 'sin tours' }, { status: 404 });
     return NextResponse.json(card, { headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=3600' } });
   }
-  const cities = await cached(cacheKey('map-cities', { own: String(vis.own), v: '2' }), { ttlSec: 86400, staleSec: 7 * 86400 }, () => withRetry(() => loadMapCities({ prisma, vis }))); // REQ-032
+  const cities = await cached(cacheKey('map-cities', { own: String(vis.own), v: '3' }), { ttlSec: 86400, staleSec: 7 * 86400 }, () => withRetry(() => loadMapCities({ prisma, vis }))); // REQ-032
   return NextResponse.json(cities, {
     headers: { 'Cache-Control': cities.length ? 'public, max-age=3600, s-maxage=86400' : 'no-store' },
   });
