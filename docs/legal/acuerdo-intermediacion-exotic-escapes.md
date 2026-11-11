@@ -71,11 +71,12 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 8.1. Vigencia: 1 de abril de 2027 al 31 de marzo de 2028, con renovación por escrito.
 8.2. Cualquiera de las partes puede terminar el acuerdo por escrito, con el aviso que defina la Parte A. Los viajes confirmados antes de la terminación se respetan hasta su salida.
 
-## Cláusula 9. Ley aplicable y jurisdicción
-9.1. [ABOGADO: elegir una opción]
-   - Opción A: leyes del estado de Durango y Tribunales competentes de Durango, Durango (igual que los Términos y Condiciones publicados).
-   - Opción B: arbitraje internacional en sede neutral, con las reglas que elija el abogado. Es la práctica habitual entre partes de países distintos, porque una sentencia mexicana es difícil de ejecutar en la India y viceversa; hay que confirmar que México y la India son parte de la Convención de Nueva York sobre reconocimiento de laudos.
-9.2. Idioma: el acuerdo se firma en español y en inglés. [ABOGADO: definir cuál versión prevalece]
+## Cláusula 9. Ley aplicable, controversias e idioma
+9.1. Ley aplicable: las leyes de los Estados Unidos Mexicanos, incluido el Código de Comercio.
+9.2. Controversias: cualquier diferencia se resuelve por arbitraje institucional conforme al Reglamento de Arbitraje de la Cámara de Comercio Internacional (CCI). Sede: Ciudad de México. Idioma del arbitraje: español. Número de árbitros: uno, salvo que el monto exceda lo que fije el reglamento, en cuyo caso serán tres. La decisión es definitiva y obligatoria para las partes.
+9.3. Antes de iniciar el arbitraje, las partes intentan resolver la diferencia por negociación directa durante 30 días naturales desde la notificación escrita.
+9.4. Idioma del acuerdo: se firma en español e inglés. Para efectos de interpretación y ejecución prevalece la versión en español, por ser la que se registra y se ejecuta en México. Si una cláusula no se entiende de la misma forma en ambos idiomas, las partes la aclaran por escrito.
+9.5. Ejecución: las partes reconocen que la decisión arbitral podrá ejecutarse en México y en la India conforme a la Convención de Nueva York de 1958, de la que ambos países son parte. [ABOGADO: confirmar esta condición antes de firmar.]
 
 ## Cláusula 10. Fuerza mayor
 10.1. Ninguna parte responde por el incumplimiento causado por fuerza mayor o caso fortuito, como desastres naturales, pandemias, cierres de aeropuertos, guerras o decisiones de autoridades. La parte afectada avisa por escrito a la otra en un plazo razonable.
@@ -127,6 +128,6 @@ Para validez en México, los documentos corporativos de la India deben legalizar
 2. Confirmar que la Parte B opera en tierra y que la Parte A no asume responsabilidad aérea.
 3. Datos legales completos de ambas partes (razón social, RFC o registro de India, domicilio, representante legal).
 4. Permiso por escrito para usar fotos y contenido del catálogo.
-5. Revisión de abogado de Travel Puzzle antes de firmar, incluida la elección de ley y de tribunales o arbitraje (Cláusula 9).
+5. Revisión de abogado de Travel Puzzle antes de firmar, incluida la cláusula 9 (propuesta de arbitraje CCI con sede en Ciudad de México; el abogado la confirma).
 6. Documentos de la Parte B del Anexo 2, con apostilla y traducción.
 7. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B debe confirmar qué método acepta en la India.
