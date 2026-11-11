@@ -17,8 +17,8 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1550 | Pasarela: autenticación con Tangol por la IP registrada | NUEVO | `gateway/lib/tangol.js` | `gateway/lib/tangol.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
 | REQ-1551 | Pasarela: `POST /tangol` con 5 operaciones de lectura | NUEVO | `gateway/lib/tangol-operations.js`, `gateway/lib/handler.js`, `gateway/lib/config.js`, `gateway/server.js` | `gateway/lib/tangol.test.js`, `handler.test.js`, `config.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
 | REQ-1552 | Sitio: solo por la pasarela, bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/api.test.ts`, `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
-| REQ-1553 | Variables de Tangol en cPanel | NUEVO | — | — | PENDIENTE (tarea del PO) |
-| REQ-1558 | Inventario de Tangol desde cPanel | NUEVO | `gateway/lib/tangol-inventory.js`, `gateway/scripts/inventario-tangol.js` | `gateway/lib/tangol-inventory.test.js` | EN CURSO (tests verdes; falta correrlo en cPanel) |
+| REQ-1553 | Variables de Tangol en cPanel | NUEVO | — | — | CUMPLIDO (11 nov, `/health` ok) |
+| REQ-1558 | Inventario de Tangol desde cPanel | NUEVO | `gateway/lib/tangol-inventory.js`, `gateway/scripts/inventario-tangol.js` | `gateway/lib/tangol-inventory.test.js` | CUMPLIDO (corrido en cPanel: 2,237 tours) |
 
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
