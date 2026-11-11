@@ -261,7 +261,8 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
 }
 
 /** ¿El viaje propio es de esta ciudad? País ISO-2 y nombre de ciudad (sin acentos ni mayúsculas, en cualquier idioma). */
-function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): boolean {
+// REQ-1575: exportada para que el mapa use la misma regla que /destinos.
+export function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): boolean {
   const cityNames = new Set(names(cityTranslations));
   return trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase()) && trip.cities.some((n) => cityNames.has(fold(n)));
 }

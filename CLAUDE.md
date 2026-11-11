@@ -11,6 +11,9 @@ Sigue el estándar do-plan y las reglas fijas de Adri:
 - Typecheck: `data/countries.json` no está en el repo; usar el fixture temporal y no commitearlo.
 - Al cerrar un frente: actualizar `STATUS.md`. Gates firmados en `docs/`.
 
+## Catálogo único (REQ-1579, regla del PO)
+- Todo producto publicado de cualquier proveedor sale en el mapa, en /tours, en el buscador y en los filtros, como en GetYourGuide, Civitatis y Viator. Proveedor nuevo = mismo trato; una excepción solo con decisión escrita del PO.
+
 ## Blindaje de publicación (obligatorio; ISO/IEC/IEEE 29119, ISO/IEC 27001 A.8.32, ISO/IEC 20000-1 8.5)
 
 Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un paso no se puede cumplir, se dice "NO PUBLICAR" y por qué; nunca se simula.
