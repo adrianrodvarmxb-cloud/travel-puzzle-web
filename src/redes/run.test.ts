@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { runRedes, issueRedesDelDia } from "./run";
 import { redesConfig } from "./lib/api";
+import { laminasYArticuloListos } from "./lib/espera";
 import { parsePost } from "@/blog/lib/schema";
 import { postPath } from "@/blog/lib/registry";
 const historialLibre = { yaPublicadoEnRed: async () => false, registrar: async () => {} };
@@ -155,5 +156,21 @@ describe("REQ-1090: registro y tope en el publicador", () => {
       fetch: async (u) => ok(u),
     });
     expect(registradas).toEqual(["facebook"]);
+  });
+
+  // REQ-1535: ninguna red publica hasta que el artículo y las láminas respondan 200.
+  it("REQ-1535: si una lámina aún no responde 200, ninguna red publica y el motivo dice qué falta", async () => {
+    const posts: string[] = [];
+    const r = await runRedes({ post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {},
+      historial: { yaPublicadoEnRed: async () => false, registrar: async () => {} },
+      fetch: async (u, init) => {
+        if (init?.method === "HEAD") return res(u.endsWith("/ig-2.jpg") ? 404 : 200, {});
+        posts.push(u);
+        return res(200, { id: "x", access_token: "PAGE-TOK" });
+      },
+    });
+    expect(posts).toEqual([]);
+    expect(r.resultados.filter((x) => x.estado === "fallo").map((x) => x.red)).toEqual(["linkedin", "facebook", "instagram"]);
+    expect(r.resultados.every((x) => x.detalle.includes("ig-2.jpg"))).toBe(true);
   });
 });
