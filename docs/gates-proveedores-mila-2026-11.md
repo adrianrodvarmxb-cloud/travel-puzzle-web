@@ -17,6 +17,7 @@ Petición literal (PO, 12:13): «hay que hacer una base de datos que pueda admin
 | P9 Integración | (PO, 12:57) Orden de preferencia en todo borrador y alta: 1) API; 2) plugin, widget u otra integración en la página; 3) portal B2B con usuario para Mila; 4) manual: disponibilidad por WhatsApp o correo (el primero disponible), con la persona exacta, tiempo estimado de respuesta, y todo queda en el directorio. |
 | P10 Cobro | (PO, 12:57) Preferido: el proveedor cobra completo y nos paga comisión (p. ej. ligas de Stripe que reenviamos, como FREETOUR). Si cobramos nosotros: se pide la cuenta bancaria para depositarles. |
 | P10b Cobro por tipo | (PO, 11 nov 2026 17:24, «A»; precisa P10) DMC con tarifa neta: cobra Travel Puzzle un solo pago y paga el neto (acuerdo de intermediación, REQ-1385). Plataformas (Civitatis, Viator, Travelpayouts, FREETOUR): cobran ellas y pagan comisión. REQ-1573. |
+| P11 Cambio de tarifa | (PO, 11 nov 2026 17:39, «A» + comando) Lo confirma el PO, no Mila. Su confirmación detona un comando automático que contesta al proveedor, actualiza el anexo y el precio en la página. REQ-1574, REQ-1579. |
 | P6 Confirmación de reservas | «ASAP»: pide confirmación de inmediato, recordatorio a las 4 h y aviso al PO a las 24 h (dentro de los 7 días de retención de Stripe). |
 
 Fuera de alcance: FREETOUR (Partners API; nunca se le escribe ni se promueve por correo, skill cumplimiento-freetour B3). Boletines y aerolíneas (Viva, Doters, IPADE…) no son proveedores.
