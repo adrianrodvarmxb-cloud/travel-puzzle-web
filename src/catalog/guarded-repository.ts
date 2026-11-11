@@ -5,7 +5,9 @@ import type { GuardedRepo, CityIndexRepo } from "./guarded-sync";
 import type { RunState, RunStatus } from "./lib/guard-plan";
 import type { StageKind } from "./lib/content-hash";
 import { stageStatements, publishBatch, cityIndexStatements, type StagedRow } from "./lib/sql";
-import { cityIndexInputsSql } from "@/destinations/lib/indexing";
+import { cityIndexInputsSql, overlayRepoGuides } from "@/destinations/lib/indexing";
+import { loadGuides } from "@/destinations/guias";
+import { guideKey, guidePlain } from "@/destinations/lib/guia";
 import { nonIndexableProviders } from "@/seo/lib/enrichment";
 
 const PROVIDER = "freetour";
@@ -160,19 +162,27 @@ const isoOrNull = (v: unknown) => (v === null || v === undefined || v === "" ? n
  * igual que /destinos: con slug, activos y no removed. Solo lo usa el sync blindado (SYNC_GUARD_ENABLED="true").
  */
 // REQ-090
-export function createCityIndexRepo(db: D1Read): CityIndexRepo {
+// REQ-1355: las guías del repo entran por parámetro (por omisión, loadGuides()), como en /destinos.
+export function createCityIndexRepo(db: D1Read, guides: () => ReadonlyMap<string, string> = repoGuideTexts): CityIndexRepo {
   return {
     async cityIndexInputs() {
       // REQ-1203: además de los publicados, los indexables (sin los proveedores en false de PROVIDER_INDEXABLE).
       const q = cityIndexInputsSql(nonIndexableProviders());
       const { results } = await db.prepare(q.sql).bind(...q.params).all();
-      return results.map((r) => ({
+      const rows = results.map((r) => ({
         id: Number(r.id), guide: (r.guide as string | null) ?? null, activeTours: Number(r.activeTours ?? 0), indexableTours: Number(r.indexableTours ?? 0),
         indexableSince: isoOrNull(r.indexableSince), failingSince: isoOrNull(r.failingSince),
+        key: r.iso2 && r.slug ? `${String(r.iso2)}/${String(r.slug)}` : null,
       }));
+      return overlayRepoGuides(rows, guides()).map(({ key: _key, ...row }) => row);
     },
     async saveCityIndex(updates) {
       await runBatch(db as D1Like, cityIndexStatements(updates));
     },
   };
+}
+
+/** REQ-1355: texto plano de cada guía del repo, por llave «pais/ciudad». */
+function repoGuideTexts(): ReadonlyMap<string, string> {
+  return new Map(loadGuides().map((g) => [guideKey(g), guidePlain(g)]));
 }

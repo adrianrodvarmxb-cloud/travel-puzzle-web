@@ -1,4 +1,4 @@
-// REQ-1530: lectura pura del archivo public/_headers (formato de Cloudflare Workers Static Assets).
+// REQ-1560: lectura pura del archivo public/_headers (formato de Cloudflare Workers Static Assets).
 // Sirve para probar que cada ruta estática recibe la caché correcta.
 
 export type HeaderRule = { pattern: string; headers: Record<string, string> };

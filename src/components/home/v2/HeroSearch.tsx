@@ -24,7 +24,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
   const router = useRouter();
   const [q, setQ] = useState('');
   const [i, setI] = useState(0);
-  const [want, setWant] = useState(0); // REQ-1534: la foto siguiente se pide al llegar su turno
+  const [want, setWant] = useState(0); // REQ-1564: la foto siguiente se pide al llegar su turno
   const list = slides.length ? slides : [FALLBACK];
   const n = i % list.length;
   const current = list[n];
@@ -44,7 +44,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
 
   return (
     <section className="relative flex min-h-[640px] items-end overflow-hidden md:min-h-[720px]">
-      {/* REQ-1534: solo se monta la foto visible y la que se pide; cambia cuando la nueva ya cargó (sin hueco). */}
+      {/* REQ-1564: solo se monta la foto visible y la que se pide; cambia cuando la nueva ya cargó (sin hueco). */}
       {heroSlidesToMount(list.length, n, want).map((k) => {
         const s = list[k];
         return (

@@ -864,5 +864,225 @@
       }
     ],
     "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "co",
+    "ciudad": "santa-marta",
+    "nombre": "Santa Marta",
+    "targetTerm": "guia de viaje de santa marta",
+    "titulo": "Guía de Santa Marta: Parque Tayrona, Teyuna y cuándo cierra",
+    "publishedAt": "2026-11-11",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Santa Marta se organiza alrededor de dos salidas: el Parque Nacional Natural Tayrona y el parque arqueológico Teyuna, en la Sierra Nevada. El Tayrona cierra tres temporadas al año por acuerdos con los pueblos indígenas, y sus tarifas cambiaron en enero de 2026, según [Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/). Conviene revisar fechas antes de comprar vuelos.",
+    "sections": [
+      {
+        "h2": "¿Cuánto cuesta entrar al Parque Tayrona?",
+        "answer": "La entrada a pie para extranjeros no residentes quedó en 81,000 pesos en temporada baja y 96,500 en temporada alta; para colombianos y residentes de 25 años en adelante, en 36,500 y 43,000, según [Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/), que cita la Resolución 551 del 19 de diciembre de 2025.",
+        "body": [
+          "Los colombianos y residentes menores de 25 años pagan 27,500 pesos en temporada baja y 30,500 en temporada alta, y el sector de Bahía Concha tiene tarifas aparte, detalla la misma [nota de Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/). El ingreso de carro cuesta 21,000 pesos y el de moto, 14,500.",
+          "Lleva efectivo y calcula el traslado desde la ciudad: las entradas quedan sobre la carretera, lejos del casco urbano, y adentro casi todo el recorrido se hace a pie."
+        ]
+      },
+      {
+        "h2": "¿Cuándo cierra el Parque Tayrona?",
+        "answer": "Del 1 al 15 de febrero, del 1 al 15 de junio y del 19 de octubre al 2 de noviembre, por los periodos de recogimiento acordados con los pueblos que viven en el territorio, según [Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/).",
+        "body": [
+          "Si tu viaje cae en esas semanas, mueve el día del parque o cambia de plan: el cierre es de la visita turística, no de la ciudad, que sigue funcionando igual.",
+          "Antes de pagar hospedaje en la zona de playas, revisa que tus fechas no caigan dentro de uno de esos periodos."
+        ]
+      },
+      {
+        "h2": "¿Qué es Teyuna o Ciudad Perdida?",
+        "answer": "Un parque arqueológico en la Sierra Nevada de Santa Marta, dentro del resguardo Kogui-Malayo-Arhuaco, con horario de 7:00 a 15:00, según el [ICANH](https://icanh.gov.co/investigacion/recursos-para-investigacion/publicaciones/colecciones/guias-turisticas-los-parques-arqueologicos-nacionales/teyuna-ciudad-perdida-1).",
+        "body": [
+          "El sitio se dio a conocer oficialmente en 1976 y el propio [ICANH](https://icanh.gov.co/investigacion/recursos-para-investigacion/publicaciones/colecciones/guias-turisticas-los-parques-arqueologicos-nacionales/teyuna-ciudad-perdida-1) reconoce que todavía se sabe poco de los taironas.",
+          "La visita no es un paseo de una mañana: implica caminar varios días por la sierra, así que se prepara con tiempo y con la condición física en cuenta."
+        ]
+      },
+      {
+        "h2": "¿Qué experiencias hay en Santa Marta con Travel Puzzle?",
+        "answer": "En la [página de Santa Marta](/destinos/co/santa-marta) están las experiencias que puedes reservar con Travel Puzzle en la ciudad.",
+        "body": [
+          "Santa Marta se arma bien con otras ciudades de [Colombia](/destinos/co) en un mismo viaje. Escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio. Las tarifas son las publicadas para 2026; confírmalas antes de viajar."
+  },
+  {
+    "pais": "cn",
+    "ciudad": "lhasa",
+    "nombre": "Lhasa",
+    "targetTerm": "guia de viaje de lhasa",
+    "titulo": "Guía de Lhasa: Palacio Potala, permiso del Tíbet y altura",
+    "publishedAt": "2026-11-11",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Lhasa pide dos preparativos antes que nada: el permiso para entrar al Tíbet y un par de días para aclimatarse, porque el Palacio Potala está a unos 3,700 metros, según la [UNESCO](https://whc.unesco.org/en/list/707/). El palacio cierra los lunes desde el 1 de diciembre, informó [China Services Info](https://www.chinaservicesinfo.com/s/202511/18/WS691bcaa4498e368550337a6f/lhasas-potala-palace-to-implement-monday-closure-policy_2.html).",
+    "sections": [
+      {
+        "h2": "¿Qué es el conjunto del Palacio Potala?",
+        "answer": "El palacio de invierno del Dalái Lama, sobre la Montaña Roja, en el centro del valle de Lhasa, a unos 3,700 metros de altura; la [UNESCO](https://whc.unesco.org/en/list/707/) lo inscribió en 1994.",
+        "body": [
+          "El conjunto suma después el templo de Jokhang, un complejo de 2.5 hectáreas en el casco antiguo, y Norbulingka, el palacio de verano con jardines de 36 hectáreas, según la misma [ficha de la UNESCO](https://whc.unesco.org/en/list/707/).",
+          "Son tres visitas distintas y conviene repartirlas en días diferentes, sobre todo en los primeros días, cuando el cuerpo todavía se está acostumbrando a la altura."
+        ]
+      },
+      {
+        "h2": "¿Qué días y horas abre el Palacio Potala?",
+        "answer": "De martes a domingo: de 9:00 a 15:40 del 1 de mayo al 31 de octubre, y de 9:30 a 15:20 del 1 de noviembre al 30 de abril, con cierre los lunes a partir del 1 de diciembre, según [China Services Info](https://www.chinaservicesinfo.com/s/202511/18/WS691bcaa4498e368550337a6f/lhasas-potala-palace-to-implement-monday-closure-policy_2.html).",
+        "body": [
+          "La misma [nota](https://www.chinaservicesinfo.com/s/202511/18/WS691bcaa4498e368550337a6f/lhasas-potala-palace-to-implement-monday-closure-policy_2.html) solo pide planear el viaje con ese calendario en mente. Confirma el horario poco antes de ir, porque el cierre de los lunes es reciente."
+        ]
+      },
+      {
+        "h2": "¿Qué se necesita para viajar al Tíbet?",
+        "answer": "Además de la visa de China, un permiso para entrar al Tíbet, que se tramita con una agencia especializada del país, y viajar en un recorrido organizado, según el [gobierno del Reino Unido](https://www.gov.uk/foreign-travel-advice/china/regional-risks).",
+        "body": [
+          "La misma [página oficial](https://www.gov.uk/foreign-travel-advice/china/regional-risks) advierte que las autoridades chinas a veces dejan de expedir permisos sin aviso y que en los monasterios budistas hay que pedir autorización antes de tomar fotografías.",
+          "Resuelve el trámite antes de comprar vuelos: es lo que ordena el resto del viaje."
+        ]
+      },
+      {
+        "h2": "¿Qué experiencias hay en Lhasa con Travel Puzzle?",
+        "answer": "En la [página de Lhasa](/destinos/cn/lhasa) están las experiencias que puedes reservar con Travel Puzzle en la ciudad.",
+        "body": [
+          "Lhasa suele sumarse a un viaje más largo por [China](/destinos/cn). Escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "cn",
+    "ciudad": "chongqing",
+    "nombre": "Chongqing",
+    "targetTerm": "guia de viaje de chongqing",
+    "titulo": "Guía de Chongqing: las tallas de Dazu, horarios y entradas",
+    "publishedAt": "2026-11-11",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "La salida grande de Chongqing son las tallas rupestres de Dazu, en el distrito del mismo nombre: 75 sitios protegidos y más de 50,000 estatuas, según el [Gobierno de Chongqing](https://english.cq.gov.cn/aboutchongqing/culture/CulturalHeritage/202606/t20260612_15751040.html), que las ubica en la lista de Patrimonio Mundial desde diciembre de 1999. Calcula un día completo, porque quedan fuera de la ciudad.",
+    "sections": [
+      {
+        "h2": "¿Qué son las tallas rupestres de Dazu?",
+        "answer": "Cinco conjuntos de tallas en roca de los siglos IX al XIII, con temas de budismo tántrico, taoísmo y confucianismo junto a escenas de la vida cotidiana, según la [UNESCO](https://whc.unesco.org/en/list/912/).",
+        "body": [
+          "El [Gobierno de Chongqing](https://english.cq.gov.cn/aboutchongqing/culture/CulturalHeritage/202606/t20260612_15751040.html) cuenta 75 sitios protegidos y más de 50,000 estatuas, repartidos en conjuntos como Beishan, Baodingshan, Nanshan, Shimenshan y Shizhuanshan, con tallas que arrancan al inicio de la dinastía Tang y siguen hasta Ming y Qing.",
+          "No se recorren todos en una visita: Baodingshan y Beishan son los dos conjuntos que suelen verse juntos en una misma jornada."
+        ]
+      },
+      {
+        "h2": "¿Qué horario y qué precio tienen?",
+        "answer": "El [Gobierno de Chongqing](https://english.cq.gov.cn/aboutchongqing/culture/CulturalHeritage/202606/t20260612_15751040.html) indica horario de 8:30 a 17:30 en Beishan Road; [China Daily](https://govt.chinadaily.com.cn/s/201812/17/WS5d074398498e12256565dcdc/dazu-rock-carvings-chongqing.html) daba 140 yuanes en temporada alta, del 1 de febrero al 30 de noviembre, y 120 yuanes el resto del año.",
+        "body": [
+          "Esa [página de China Daily](https://govt.chinadaily.com.cn/s/201812/17/WS5d074398498e12256565dcdc/dazu-rock-carvings-chongqing.html) se actualizó en diciembre de 2018 y menciona también guía en inglés por 260 yuanes, así que confirma la tarifa antes de ir."
+        ]
+      },
+      {
+        "h2": "¿Cómo se organiza un día en Chongqing?",
+        "answer": "Deja la salida a Dazu en un día completo y reserva el resto del tiempo para la ciudad, que está construida sobre colinas y se camina despacio.",
+        "body": [
+          "Si llegas en tren o en avión por la mañana, ese primer día sirve para ubicarte y dejar las tallas para el siguiente, ya con el traslado resuelto."
+        ]
+      },
+      {
+        "h2": "¿Qué experiencias hay en Chongqing con Travel Puzzle?",
+        "answer": "En la [página de Chongqing](/destinos/cn/chongqing) están las experiencias que puedes reservar con Travel Puzzle en la ciudad.",
+        "body": [
+          "Chongqing se arma bien con otras ciudades de [China](/destinos/cn) en un mismo viaje. Escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio. La página de tarifas es de 2018; lo indicamos junto al dato."
+  },
+  {
+    "pais": "co",
+    "ciudad": "barranquilla",
+    "nombre": "Barranquilla",
+    "targetTerm": "guia de viaje de barranquilla",
+    "titulo": "Guía de Barranquilla: cuándo es el Carnaval y qué se ve",
+    "publishedAt": "2026-11-11",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Barranquilla se visita en función del Carnaval: la edición de 2027 va del 6 al 9 de febrero, según la [organización del Carnaval](https://www.carnavaldebarranquilla.org/). La [UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051) lo inscribió en 2008 en la Lista Representativa del Patrimonio Cultural Inmaterial. Fuera de esos días, la ciudad se vive de otra manera, más tranquila y costera.",
+    "sections": [
+      {
+        "h2": "¿Cuándo es el Carnaval de Barranquilla?",
+        "answer": "Los cuatro días anteriores a la Cuaresma. En 2027 van del sábado 6 al martes 9 de febrero, según la [organización del Carnaval](https://www.carnavaldebarranquilla.org/).",
+        "body": [
+          "La [UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051) describe la fiesta con esa misma regla: cada año, los cuatro días previos a la Cuaresma. Si quieres ir, aparta hospedaje con mucha anticipación."
+        ]
+      },
+      {
+        "h2": "¿Qué se ve en el Carnaval?",
+        "answer": "Danzas de distintas raíces —el congo, de origen africano; el paloteo, de origen español, y el mico y micas—, con la cumbia como género predominante, según la [UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051).",
+        "body": [
+          "La misma [ficha de la UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051) menciona la puya y el porro, conjuntos de tambores y de instrumentos de viento, con tambora, alegre, maracas y claves, además de máscaras de animales y actos que se burlan de la vida política del momento.",
+          "Es una fiesta de calle: se ve de pie, caminando y con calor, así que viste ligero y lleva agua."
+        ]
+      },
+      {
+        "h2": "¿Y si viajas fuera del Carnaval?",
+        "answer": "La ciudad sigue siendo una puerta cómoda del Caribe colombiano y una base práctica para moverse hacia otros puntos de la costa.",
+        "body": [
+          "Sin la fiesta encima hay más hospedaje disponible y los traslados se resuelven con menos esfuerzo. Barranquilla funciona bien como base de unos días.",
+          "Conviene dejar un par de noches para la ciudad y usar el resto del tiempo en los pueblos y playas de los alrededores, que están a poca distancia por carretera."
+        ]
+      },
+      {
+        "h2": "¿Qué experiencias hay en Barranquilla con Travel Puzzle?",
+        "answer": "En la [página de Barranquilla](/destinos/co/barranquilla) están las experiencias que puedes reservar con Travel Puzzle en la ciudad.",
+        "body": [
+          "Barranquilla se arma bien con otras ciudades de [Colombia](/destinos/co). Escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "np",
+    "ciudad": "katmandu",
+    "nombre": "Katmandú",
+    "targetTerm": "guia de viaje de katmandu",
+    "titulo": "Guía de Katmandú: el valle, sus siete zonas y la llegada",
+    "publishedAt": "2026-11-11",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "El valle de Katmandú concentra siete zonas de monumentos: las plazas Durbar de Katmandú, Patan y Bhaktapur, Swayambhu, Bauddhanath, Pashupati y Changu Narayan, según la [UNESCO](https://whc.unesco.org/en/list/121/). La visa se puede tramitar al llegar al aeropuerto, y el pasaporte conviene que tenga vigencia de seis meses desde la entrada, según el [gobierno del Reino Unido](https://www.gov.uk/foreign-travel-advice/nepal/entry-requirements).",
+    "sections": [
+      {
+        "h2": "¿Qué incluye el valle de Katmandú?",
+        "answer": "Siete zonas de monumentos: las plazas Durbar de Hanuman Dhoka, Patan y Bhaktapur, el conjunto budista de Swayambhu, la estupa de Bauddhanath, el recinto hindú de Pashupati y Changu Narayan, según la [UNESCO](https://whc.unesco.org/en/list/121/).",
+        "body": [
+          "La misma [ficha de la UNESCO](https://whc.unesco.org/en/list/121/) describe Swayambhu como el conjunto con la estupa budista más antigua del valle y Bauddhanath como la estupa de mayor tamaño de Nepal; Changu Narayan es un asentamiento newar con su templo hindú.",
+          "Las zonas están repartidas por el valle, así que conviene agruparlas por cercanía en vez de intentar verlas todas en una jornada."
+        ]
+      },
+      {
+        "h2": "¿Cómo se entra a Nepal?",
+        "answer": "Con visa: se puede pedir en línea antes del viaje y recogerla y pagarla en el aeropuerto, o tramitarla ahí mismo en las terminales de llegada, según el [gobierno del Reino Unido](https://www.gov.uk/foreign-travel-advice/nepal/entry-requirements).",
+        "body": [
+          "La misma [página oficial](https://www.gov.uk/foreign-travel-advice/nepal/entry-requirements) recomienda que el pasaporte tenga vigencia de seis meses o más desde la fecha de entrada, señala que hay visas de distintas duraciones y costos, y que la estancia se puede extender en línea. Lleva dólares en efectivo como respaldo para el pago."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar los días en Katmandú?",
+        "answer": "Deja los primeros días para el valle y sus zonas de monumentos, y suma después las salidas fuera de la ciudad, que piden traslados largos por carretera.",
+        "body": [
+          "El tráfico y las distancias mandan más que los horarios: calcula márgenes amplios entre una visita y otra, sobre todo si cruzas el valle de un extremo al otro.",
+          "Si llegas por la tarde, usa ese rato para ubicarte en el barrio del hotel y deja las zonas de monumentos para el día siguiente."
+        ]
+      },
+      {
+        "h2": "¿Qué experiencias hay en Katmandú con Travel Puzzle?",
+        "answer": "En la [página de Katmandú](/destinos/np/katmandu) están las experiencias que puedes reservar con Travel Puzzle en la ciudad.",
+        "body": [
+          "Katmandú se arma bien con otras ciudades de [Nepal](/destinos/np). Escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio."
   }
 ]

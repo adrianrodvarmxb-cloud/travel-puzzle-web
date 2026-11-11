@@ -1,11 +1,11 @@
-// REQ-1530..REQ-1534: metas de rendimiento y su evaluación sobre un reporte de Lighthouse (lógica pura).
+// REQ-1560..REQ-1564: metas de rendimiento y su evaluación sobre un reporte de Lighthouse (lógica pura).
 
 export const BUDGET = {
-  lcpMs: 2500, // REQ-1530
-  cls: 0.1, // REQ-1531
-  tbtMs: 200, // REQ-1532 (proxy de laboratorio de INP)
-  bytes: 1.5 * 1024 * 1024, // REQ-1533
-  offscreenImages: 0, // REQ-1534
+  lcpMs: 2500, // REQ-1560
+  cls: 0.1, // REQ-1561
+  tbtMs: 200, // REQ-1562 (proxy de laboratorio de INP)
+  bytes: 1.5 * 1024 * 1024, // REQ-1563
+  offscreenImages: 0, // REQ-1564
 } as const;
 
 export type Metrics = {
@@ -52,10 +52,10 @@ export type BudgetResult = { req: string; label: string; value: string; ok: bool
 
 export function evaluateBudget(m: Metrics): BudgetResult[] {
   return [
-    { req: 'REQ-1530', label: 'LCP < 2.5 s', value: `${(m.lcpMs / 1000).toFixed(2)} s`, ok: m.lcpMs < BUDGET.lcpMs },
-    { req: 'REQ-1531', label: 'CLS < 0.1', value: m.cls.toFixed(3), ok: m.cls < BUDGET.cls },
-    { req: 'REQ-1532', label: 'TBT < 200 ms', value: `${Math.round(m.tbtMs)} ms`, ok: m.tbtMs < BUDGET.tbtMs },
-    { req: 'REQ-1533', label: 'Peso < 1.5 MB', value: `${(m.bytes / 1048576).toFixed(2)} MB`, ok: m.bytes < BUDGET.bytes },
-    { req: 'REQ-1534', label: '0 imágenes fuera del viewport', value: String(m.offscreenImages), ok: m.offscreenImages <= BUDGET.offscreenImages },
+    { req: 'REQ-1560', label: 'LCP < 2.5 s', value: `${(m.lcpMs / 1000).toFixed(2)} s`, ok: m.lcpMs < BUDGET.lcpMs },
+    { req: 'REQ-1561', label: 'CLS < 0.1', value: m.cls.toFixed(3), ok: m.cls < BUDGET.cls },
+    { req: 'REQ-1562', label: 'TBT < 200 ms', value: `${Math.round(m.tbtMs)} ms`, ok: m.tbtMs < BUDGET.tbtMs },
+    { req: 'REQ-1563', label: 'Peso < 1.5 MB', value: `${(m.bytes / 1048576).toFixed(2)} MB`, ok: m.bytes < BUDGET.bytes },
+    { req: 'REQ-1564', label: '0 imágenes fuera del viewport', value: String(m.offscreenImages), ok: m.offscreenImages <= BUDGET.offscreenImages },
   ];
 }

@@ -19,7 +19,7 @@ import { localeUrlsEnabled } from "@/i18n/lib/flags";
 import { htmlLang } from "@/i18n/lib/locales";
 import { routeLanguageState } from "@/i18n/server";
 
-// REQ-1530: fuentes auto-hospedadas con next/font (antes @import de Google Fonts que bloqueaba el render).
+// REQ-1560: fuentes auto-hospedadas con next/font (antes @import de Google Fonts que bloqueaba el render).
 // Solo Poppins (texto del cuerpo) se precarga; Geist casi no se usa y ya no se precarga.
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -93,7 +93,7 @@ export default async function RootLayout({
   const route = localeUrlsEnabled(env) ? await routeLanguageState() : null;
   return (
     // REQ-664: <html lang> del idioma de la URL en las rutas en alcance; en lo demás (y sin la bandera), español como hoy.
-    // REQ-1530: las variables de fuente van en <html> porque --tp-font-primary y @theme se resuelven en :root.
+    // REQ-1560: las variables de fuente van en <html> porque --tp-font-primary y @theme se resuelven en :root.
     <html lang={htmlLang(route)} className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body
         className="antialiased"

@@ -49,7 +49,7 @@ export const Logo = ({
         fill
         sizes={`${pixelSize}px`}
         className="object-cover"
-        unoptimized // REQ-1533 (gate A): mismo logo animado en WebP de 178 KB; sin preload (antes GIF de 6.4 MB precargado)
+        unoptimized // REQ-1563 (gate A): mismo logo animado en WebP de 178 KB; sin preload (antes GIF de 6.4 MB precargado)
       />
     </div>
   );

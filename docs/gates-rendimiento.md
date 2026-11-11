@@ -1,4 +1,4 @@
-# Gates — tiempos de carga (REQ-1530 a REQ-1534)
+# Gates — tiempos de carga (REQ-1560 a REQ-1564)
 
 | Gate | Decisión | Firmó | Fecha |
 |---|---|---|---|

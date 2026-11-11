@@ -1,4 +1,4 @@
-# REQ-1530: caché del navegador para estáticos (Cloudflare Workers Static Assets).
+# REQ-1560: caché del navegador para estáticos (Cloudflare Workers Static Assets).
 # El HTML y /api/* no se tocan aquí: siguen dinámicos.
 
 /_next/static/*

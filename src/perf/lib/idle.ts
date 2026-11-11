@@ -1,4 +1,4 @@
-// REQ-1532: espera a que el navegador quede libre antes de arrancar trabajo pesado (p. ej. maplibre),
+// REQ-1562: espera a que el navegador quede libre antes de arrancar trabajo pesado (p. ej. maplibre),
 // para no competir con la primera interacción. Recibe la ventana por parámetro (DIP) para probarlo en Node.
 type IdleWin = {
   requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => unknown;

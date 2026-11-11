@@ -1,5 +1,5 @@
 /* All @import rules must come first in CSS */
-/* REQ-1530: Poppins, Space Grotesk y JetBrains Mono vienen de next/font (src/app/layout.tsx). */
+/* REQ-1560: Poppins, Space Grotesk y JetBrains Mono vienen de next/font (src/app/layout.tsx). */
 @import "tailwindcss";
 @import "../styles/design-system/index.css";
 

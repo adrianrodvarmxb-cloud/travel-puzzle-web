@@ -34,7 +34,7 @@ const LOOK: Record<CardLook, { photo: string; meta: string; title: string; shell
 };
 
 // REQ-860
-// REQ-1534: `priority` = tarjeta arriba del pliegue (eager + prioridad alta); el resto es lazy.
+// REQ-1564: `priority` = tarjeta arriba del pliegue (eager + prioridad alta); el resto es lazy.
 export function ExperienceCard({ card, look = 'standard', featured = false, priority = false }: { card: ExperienceCardModel; look?: CardLook; featured?: boolean; priority?: boolean }) {
     const l = LOOK[look];
     return (
