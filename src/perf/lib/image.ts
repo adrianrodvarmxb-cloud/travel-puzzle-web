@@ -1,4 +1,5 @@
 // REQ-1533 / REQ-1534: reglas puras de carga de imágenes.
+import { PROVIDER_IMAGE_ORIGIN } from '@/freetour/lib/image-origin';
 
 /**
  * Gate B (PO, 11 nov 2026): fotos redimensionadas con Cloudflare Image Transformations.
@@ -7,7 +8,7 @@
 export const IMAGE_TRANSFORMS_ENABLED = false;
 
 /** Orígenes remotos que Transformations puede leer (los mismos que `images.remotePatterns`). */
-const REMOTE_OK = ['https://www.freetour.com/', 'https://images.pexels.com/'];
+const REMOTE_OK = [PROVIDER_IMAGE_ORIGIN, 'https://images.pexels.com/'];
 const RASTER = /\.(jpe?g|png|webp)(\?|$)/i;
 
 export type ImgLoading = { loading: 'eager' | 'lazy'; decoding: 'async'; fetchPriority?: 'high' };

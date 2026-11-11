@@ -987,7 +987,6 @@ Causa: el run 42879625876 de «Blog diario» falló en Pruebas. `src/blog/agente
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1511 | CÓDIGO | Dado el ejemplo EU-01 y artículos del mismo pilar publicados después de su fecha, cuando corre el test REQ-981/REQ-1040, entonces se valida solo contra lo publicado hasta su `publishedAt` y pasa (rojo con el test viejo y la entrada del 10-11; verde con el nuevo; suite 2797/2797) | agente | — | CUMPLIDO (PR #328 mergeado con OK del PO; la entrada de Sevilla se publicó en el intento 3 del run 42879625876, URL responde 200) |
-| REQ-1511 | CÓDIGO | Dado el ejemplo EU-01 y artículos del mismo pilar publicados después de su fecha, cuando corre el test REQ-981/REQ-1040, entonces se valida solo contra lo publicado hasta su `publishedAt` y pasa (rojo con el test viejo y la entrada del 10-11; verde con el nuevo; suite 2797/2797) | agente | — | EN CURSO (test verde; falta merge con OK del PO y volver a lanzar el blog de hoy) |
 
 ## REQ-1530 a REQ-1534: tiempos de carga (agente, 11 nov 2026)
 Petición literal (PO, 11-11): «Audita y optimiza los tiempos de carga de este sitio (está detrás de Cloudflare)… REQ-###: LCP < 2.5s en móvil 4G simulado; CLS < 0.1; INP < 200ms; peso de la página inicial < 1.5 MB; ninguna imagen fuera del viewport se carga al inicio». Folios desde 1530 para no chocar con sesiones abiertas.

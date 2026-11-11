@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { imgLoading, transformedSrc, heroSlidesToMount } from './image';
+import { PROVIDER_IMAGE_ORIGIN } from '@/freetour/lib/image-origin';
 
 describe('REQ-1534: carga de imágenes (lógica pura)', () => {
   it('REQ-1534: lo de arriba del pliegue va eager con prioridad alta; lo demás, lazy y asíncrono', () => {
@@ -22,7 +23,7 @@ describe('REQ-1533: fotos redimensionadas con Cloudflare Image Transformations (
 
   it('REQ-1533: con la bandera encendida pide ancho, calidad y formato automático (WebP/AVIF)', () => {
     expect(transformedSrc('/api/viajes/foto/trips/1-a.jpg', 640, true)).toBe('/cdn-cgi/image/width=640,quality=75,format=auto,fit=scale-down/api/viajes/foto/trips/1-a.jpg');
-    expect(transformedSrc('https://www.freetour.com/images/tours/1/x.jpg', 480, true)).toBe('/cdn-cgi/image/width=480,quality=75,format=auto,fit=scale-down/https://www.freetour.com/images/tours/1/x.jpg');
+    expect(transformedSrc(`${PROVIDER_IMAGE_ORIGIN}images/tours/1/x.jpg`, 480, true)).toBe(`/cdn-cgi/image/width=480,quality=75,format=auto,fit=scale-down/${PROVIDER_IMAGE_ORIGIN}images/tours/1/x.jpg`);
   });
 
   it('REQ-1533: no transforma GIF/SVG, data: ni orígenes no permitidos', () => {
