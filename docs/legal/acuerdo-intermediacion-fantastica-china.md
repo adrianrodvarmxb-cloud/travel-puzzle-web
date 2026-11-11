@@ -136,7 +136,9 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 10.1. Ninguna parte responde por el incumplimiento causado por fuerza mayor o caso fortuito, como desastres naturales, pandemias, cierres de aeropuertos, guerras o decisiones de autoridades. La parte afectada avisa por escrito a la otra en un plazo razonable.
 
-10.2. Los servicios no prestados por fuerza mayor se reembolsan a la Parte A solo si la Parte B los cobró y no los prestó; el reembolso al cliente sigue la Cláusula 4. La Parte B informa por escrito el motivo; la cláusula 19 de su tarifario (cancelación o cambio sin reembolso) no aplica a servicios cobrados y no prestados sin acuerdo de las partes [ABOGADO: revisar].
+10.2. Los servicios no prestados por fuerza mayor se reembolsan a la Parte A solo si la Parte B los cobró y no los prestó; el reembolso al cliente sigue la Cláusula 4.
+
+10.3. Si la Parte B cancela o no puede prestar un servicio por fuerza mayor, informa por escrito el motivo y ofrece primero al cliente, a través de la Parte A, una alternativa de igual o mejor nivel. Si el cliente no la acepta, la Parte B reembolsa a la Parte A lo cobrado y no prestado en un plazo máximo de 14 días naturales, y le traslada lo que recupere de hoteles, transportes y otros proveedores. La cláusula 19 de su tarifario (cancelación o cambio sin reembolso) no aplica entre las partes. [ABOGADO: revisar.]
 
 ## Cláusula 11. Confidencialidad
 
