@@ -167,11 +167,15 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 ## Cláusula 14. Firma
 
-Leído y aceptado por las partes, en [CLIENTE: ciudad], a [fecha].
+14.1. Las partes pueden firmar por separado, en ejemplares o con firma electrónica; todos los ejemplares forman un solo acuerdo.
 
-Por la Parte A: ____________________________  Nombre y cargo: Claudia Leticia Rodríguez Laveaga, Founder & CEO
+14.2. Cada parte firma en su propia ciudad, que se indica junto a su firma: la Parte A en Victoria de Durango, Durango, México, y la Parte B en la ciudad de su domicilio.
 
-Por la Parte B: ____________________________  Nombre y cargo: [BIG BUS]
+14.3. La fecha de firma de cada parte es la que registra la plataforma de firma electrónica o, en firma autógrafa, la que se anota junto a la firma. El acuerdo entra en vigor en la fecha de la última firma.
+
+Por la Parte A: ____________________________  Nombre y cargo: Claudia Leticia Rodríguez Laveaga, Founder & CEO. Lugar: Victoria de Durango, Durango, México. Fecha: ____________
+
+Por la Parte B: ____________________________  Nombre y cargo: [BIG BUS]. Lugar: [BIG BUS: ciudad]. Fecha: ____________
 
 ---
 

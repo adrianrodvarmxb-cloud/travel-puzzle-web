@@ -169,11 +169,15 @@ Party B authorises Party A to market, in Mexico and on its website, the hop-on h
 
 ## Clause 14. Signature
 
-Read and accepted by the parties, in [CLIENT: city], on [date].
+14.1. The parties may sign separately, in counterparts or by electronic signature; all counterparts form a single agreement.
 
-For Party A: ____________________________  Name and title: Claudia Leticia Rodríguez Laveaga, Founder & CEO
+14.2. Each party signs in its own city, indicated next to its signature: Party A in Victoria de Durango, Durango, Mexico, and Party B in the city of its registered address.
 
-For Party B: ____________________________  Name and title: [BIG BUS]
+14.3. Each party's signing date is the one recorded by the electronic signature platform or, for handwritten signatures, the date written next to the signature. The agreement takes effect on the date of the last signature.
+
+For Party A: ____________________________  Name and title: Claudia Leticia Rodríguez Laveaga, Founder & CEO. Place: Victoria de Durango, Durango, Mexico. Date: ____________
+
+For Party B: ____________________________  Name and title: [BIG BUS]. Place: [BIG BUS: city]. Date: ____________
 
 ---
 
