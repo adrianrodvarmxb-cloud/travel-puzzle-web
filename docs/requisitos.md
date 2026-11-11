@@ -1025,6 +1025,17 @@ Petición literal (PO): «crea revisión cada 6 horas hasta que se cumpla todo y
 | REQ-1413 | CÓDIGO | Trigger de revisión cada 6 h: ampliar su alcance de REQ-1374–1397 a REQ-1359–1412 y que actualice el estado de cada folio con evidencia | agente | — | CUMPLIDO (trig_01YNgNBCEn6nTULZ2N3bSc4v actualizado 11 nov 2026 11:21 CDMX; próxima corrida 12:53 CDMX; cron 53 */6) |
 | REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — || CUMPLIDO (deploy 42428767660 de main: paso Calentar y humo de producción en verde, 8-11) |
 
+## Acuerdos de intermediación con 5 proveedores (PO, 11 nov 2026)
+Petición literal (PO): «sigue ocn los siguietes probedore para redactar acuerdo y encviar» y «tambien tagol». Gates del PO (11 nov 2026): proveedores Fantástica China, Extime, Destino Colombia y Big Bus, más Tangol; envío = «Borrador para revisar» (borrador en Gmail, sin enviar sin OK literal); remitente = Claudia (claulet@). Formato: skill `acuerdo-intermediacion-proveedor` y acuerdo Exotic como plantilla. Folios desde REQ-1535 porque otras ramas ya usan hasta REQ-1534.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1535 | VALIDACIÓN | Dado cada uno de los 5 proveedores, cuando se redacta su acuerdo, entonces lleva vigencia indefinida (8.1), tarifas por correo (8.2), rol de intermediario (2), deslinde de vuelos si aplica (1.3), cancelación por escrito del proveedor o campo [PROVEEDOR: …], y su correo de dudas queda como borrador desde claulet@ sin enviar | agente | — | EN CURSO |
+| REQ-1536 | VALIDACIÓN | Acuerdo y borrador para Fantástica China (incluye REQ-1364 y REQ-1404) | agente / PO | REQ-1535 | EN CURSO |
+| REQ-1537 | VALIDACIÓN | Acuerdo y borrador para Extime (cancelación por producto de REQ-1367) | agente / PO | REQ-1535 | EN CURSO |
+| REQ-1538 | VALIDACIÓN | Acuerdo y borrador para Destino Colombia (incluye REQ-1365) | agente / PO | REQ-1535 | EN CURSO |
+| REQ-1539 | VALIDACIÓN | Acuerdo y borrador para Big Bus (incluye REQ-1366 y REQ-1523) | agente / PO | REQ-1535 | EN CURSO |
+| REQ-1540 | VALIDACIÓN | Acuerdo y borrador para Tangol (API y whitelist de REQ-1403) | agente / PO | REQ-1535 | EN CURSO |
+
 ### Bitácora de la revisión cada 6 h
 - 11-11 18:59 UTC (primera corrida con alcance REQ-1359–1525). Gmail sin mensajes nuevos de proveedores después de las 17:21 UTC; solo salió el correo a Exotic de las 17:06 UTC. Cambios: REQ-1363 → EN CURSO; REQ-1374–1378 preguntados por escrito; REQ-1382 → EN CURSO; REQ-1409 → CUMPLIDO; REQ-1411 → CUMPLIDO; REQ-1361 actualizado (8,324 vs 8,106); REQ-1521 sin PR. Sin folios nuevos.
 
