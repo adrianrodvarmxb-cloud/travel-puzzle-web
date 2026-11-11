@@ -1,6 +1,20 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 5 nov 2026, 11:45 (CDMX).
+Actualizado: 11 nov 2026, 13:45 (CDMX).
+
+## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1540 | Autenticación, token Bearer 50 min, 401 una vez, sin bucle | NUEVO | `src/tangol/api.ts` | `src/tangol/api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1541 | Países, destinos y tours con Zod y nombres del swagger | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1542 | Resumen de tarifas, bloqueos y vigencia | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts`, `api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1543 | Precio al cliente = tarifa pública; sin neto ni comisión | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1544 | Bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
+| REQ-1545 | Whitelist: directo o por pasarela | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | PENDIENTE (tarea del PO) |
+| REQ-1547 | Secretos en Cloudflare | NUEVO | — | — | PENDIENTE (tarea del PO) |
+| REQ-1548 | Olas 2 a 4 | NUEVO | `docs/plan-tangol.md` | — | PENDIENTE |
+
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |

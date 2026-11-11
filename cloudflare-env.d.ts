@@ -14,6 +14,8 @@ interface __BaseEnv_CloudflareEnv {
 	CRON_SECRET: string;
 	FREETOUR_EMAIL: string;
 	FREETOUR_PASSWORD: string;
+	TANGOL_EMAIL?: string;
+	TANGOL_CLAVE?: string;
 	WORKER_SELF_REFERENCE: Service<typeof import("./worker").default>;
 }
 declare namespace Cloudflare {
