@@ -961,3 +961,33 @@ Alta de folios para lo que vive solo en el chat (protocolo, punto 1). Fuente: se
 | REQ-1371 | CÓDIGO | Control de widgets de complementos (Kiwitaxi, Big Bus): `src/companions/registry.json` como fuente única, validado por zod; la llave fuera del archivo (PO aprobó la dirección, construcción después) | agente | — | PENDIENTE |
 | REQ-1372 | CÓDIGO | Validación automática al agregar un proveedor, API, tool o complemento: se corre sola contra el registro y las reglas legales; falla si falta el folio, el término por escrito o el rol de intermediario (PO aprobó la dirección, construcción después) | agente | REQ-1371 | PENDIENTE |
 | REQ-1373 | DEFINICIÓN | Japón: el contrato no se publica; el seguro se ofrece como servicio incluido a través del proveedor (Assist Card) tras bandera apagada. PO dijo «ahorita no lo pongas» (4 nov). Respuesta literal del PO (11 nov 2026, 09:56 CDMX): «ok» | PO | — | CUMPLIDO (definición; la bandera del seguro sigue apagada hasta su prueba de humo y OK) |
+
+## Revisión cada 6 h: acuerdos de proveedores y complementos (PO, 11 nov 2026, 10:52 CDMX)
+Petición literal (PO): «crea revisión cada 6 horas hasta que se cumpla todo y alterna este proveedor (Exotic Escapes) con los restantes hasta terminar». Fuente: sesión del PO del 11 nov 2026. Todo queda PENDIENTE, EN CURSO o VALIDACIÓN hasta su evidencia.
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1374 | DEFINICIÓN | Exotic: fechas de temporada de cada columna de precio (habitación individual, media pensión, pensión completa). Pregunta en el borrador de Gmail del hilo «Exotic Escapes DMC», punto 1 | tercero (Exotic) | — | PENDIENTE |
+| REQ-1375 | DEFINICIÓN | Exotic: vuelos internos, quién emite el boleto, tarifa y reglas de cambio/cancelación, y quién reembolsa si la aerolínea cambia (punto 2 del borrador) | tercero (Exotic) | — | PENDIENTE |
+| REQ-1376 | DEFINICIÓN | Exotic: confirmar si Sri Lanka cancela sin cargo con más de 21 días (el tarifario 2027/28 dice 21; la base dice 22). Punto 3 del borrador | tercero (Exotic) | — | PENDIENTE |
+| REQ-1377 | DEFINICIÓN | Exotic: política de cancelación para agencias (cláusula 4.5) y permiso de fotos con crédito (cláusula 6.1). Puntos 4 y 5 del borrador | tercero (Exotic) | — | PENDIENTE |
+| REQ-1378 | DATOS | Exotic: datos legales y Anexo 2 (documentos de la parte B: apostilla y traducción) | tercero (Exotic) | — | PENDIENTE |
+| REQ-1379 | VALIDACIÓN | Tarifarios 2027/28 de Exotic recibidos (adjuntos del correo del 24 ago 2026; temporada abril 2027 a marzo 2028), incluidos Triángulo de Oro y Benarés y Sri Lanka. Evidencia: PDFs en el hilo y `docs/legal/acuerdo-intermediacion-exotic-escapes.md` (commit a0315d6) | PO | — | EN CURSO (falta OK del PO) |
+| REQ-1380 | VALIDACIÓN | Acuerdo Exotic: vigencia indefinida (8.1), actualización de tarifas por correo (8.2) y deslinde de vuelos (1.3). Decisiones del PO del 11 nov 2026 | PO | REQ-1374, REQ-1375 | EN CURSO |
+| REQ-1381 | VALIDACIÓN | Revisión de abogado del deslinde de vuelos y de la vigencia indefinida, conforme a la LFPC, antes de firma | tercero (abogado) | REQ-1380 | PENDIENTE |
+| REQ-1382 | TAREA-PO | Adjuntar `acuerdo-exotic-escapes-version-firma.docx` al borrador del hilo de Exotic (Gmail no permite adjuntar en respuestas por referencia) y decidir la firma (Adrián o Claudia), y luego enviar | PO | REQ-1381 (para firma) | PENDIENTE |
+| REQ-1383 | DEFINICIÓN | Markup por tramo de costo neto como referencia de mercado (30–40 / 25–30 / 20–25 / 15–20%), con el precio final al cliente sin neto ni markup. Respuesta literal del PO (11 nov 2026): «aprobado» | PO | — | APROBADO (registrar en la matriz) |
+| REQ-1384 | DEFINICIÓN | Desglose del precio por tipo de servicio (experiencia, traslado, hospedaje, vuelo, comidas) con precio final de cada concepto. Respuesta literal del PO: «sí confirmo» | PO | — | APROBADO |
+| REQ-1385 | DEFINICIÓN | Cobro: un solo pago con el viaje. Respuesta literal del PO: «un solo pago» | PO | — | APROBADO |
+| REQ-1386 | DEFINICIÓN | Complementos (habitación individual, media pensión, pensión completa, vuelos internos) en la ficha del viaje, con bandera apagada. Respuesta literal del PO: «A» (cambio final) | PO | — | APROBADO |
+| REQ-1387 | DEFINICIÓN | Sri Lanka fuera del carrito de complementos hasta que Exotic confirme el precio. Respuesta literal del PO: «A» | PO | REQ-1376 | APROBADO |
+| REQ-1388 | CÓDIGO | Datos de complementos Exotic en `docs/exotic/suplementos.json` (commit en la rama `feat/exotic-suplementos-carrito`). Periodos NO VERIFICADOS hasta REQ-1374 | agente | REQ-1374 | EN CURSO (datos sin periodos) |
+| REQ-1389 | BANDERA | Bandera `carrito_suplementos_exotic` apagada por defecto; se enciende solo tras preview con bandera encendida, prueba de humo verde y OK del PO | agente / PO | REQ-1388, REQ-1374 | PENDIENTE |
+| REQ-1390 | CÓDIGO | Complementos en la ficha de viaje: lógica en `lib/`, precio final por tramo, desglose por tipo, tests por REQ | agente | REQ-1389, plan do-plan firmado | PENDIENTE (plan sin firmar) |
+| REQ-1391 | VALIDACIÓN | Plan do-plan de REQ-1390 (estructura, tests, SOLID), para firma del PO antes de programar | PO | — | PENDIENTE |
+| REQ-1392 | CÓDIGO | Skill `acuerdo-intermediacion-proveedor`: propuesto al PO para guardar; aplica a todos los proveedores | agente / PO | — | EN CURSO (falta guardar) |
+| REQ-1393 | TAREA-PO | Guardar el skill `acuerdo-intermediacion-proveedor` desde la tarjeta de propuesta | PO | — | PENDIENTE |
+| REQ-1394 | TAREA-PO | Eurorutas: respuesta de la oficina central sobre la integración XML/API (hilo «Reactivar la integración XML/API de Eurorutas», 6 nov 2026) | tercero (Eurorutas) | — | PENDIENTE |
+| REQ-1395 | TAREA-PO | Jordan Experience: revisar el nuevo portafolio 2027–2028 y la respuesta del 9 nov 2026 (hilo «Nuevo Portafolio 2027 - 2028») y firmar acuerdo si aplica | PO | — | PENDIENTE |
+| REQ-1396 | TAREA-PO | Multitravel: borrador sin enviar a Angela (Ecuador, Galápagos, Colombia; API/Excel y tarifa neta o comisión). Revisar y decidir envío | PO | — | PENDIENTE |
+| REQ-1397 | CÓDIGO | Revisión cada 6 h (trigger): registra por corrida el avance de estos REQ y alterna proveedores (Exotic, Jordan Experience, Eurorutas, Multitravel) hasta cerrar. No envía correos ni hace merge | agente | — | EN CURSO |
