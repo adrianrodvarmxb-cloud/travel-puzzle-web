@@ -11,8 +11,9 @@ Documento vinculado a REQ-1363 (`docs/requisitos.md`).
 **PARTE A — Travel Puzzle (intermediario comercial)**
 - Titular (persona física): CLAUDIA LETICIA RODRÍGUEZ LAVEAGA
 - Nombre comercial: TRAVEL PUZZLE (Travel Puzzle México, parte de GRUPO VARROD · SABERHOY ESPODER)
-- RFC: [CLIENTE: RFC de Claudia Leticia Rodríguez Laveaga; no está publicado en el sitio]
-- Domicilio: Av. Lázaro Cárdenas Norte 300, Col. Esperanza, C.P. 34080, Durango, Dgo.
+- RFC: ROLC6211204M2 (Constancia de Situación Fiscal emitida el 27 de octubre de 2026, estatus ACTIVO)
+- Actividad económica registrada en el SAT: agencias de viajes (fecha de inicio 31 de mayo de 2023)
+- Domicilio fiscal: Avenida Lázaro Cárdenas 300 Norte, Col. Esperanza, C.P. 34080, Victoria de Durango, Durango (entre Paseo de los Pinos y Valle del Guadiana)
 - Representante legal: la misma titular, por tratarse de persona física (sin poder notarial). [CLIENTE: confirmar]
 - Registro Nacional de Turismo (RNT): 04100050179
 - Contrato de adhesión registrado ante PROFECO: 6635-2023
