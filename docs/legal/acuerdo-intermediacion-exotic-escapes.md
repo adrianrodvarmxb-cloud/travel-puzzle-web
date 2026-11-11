@@ -30,8 +30,9 @@ Documento vinculado a REQ-1363 (`docs/requisitos.md`).
 ---
 
 ## Cláusula 1. Objeto
-La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los programas de India y del destino que la Parte B opera, detallados en el Anexo 1 (lista de programas y tarifas netas, vigencia abril 2027 – marzo 2028).
+La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los programas de India y del destino que la Parte B opera, detallados en el Anexo 1 (lista de programas y tarifas netas por temporada).
 1.2. Portafolio ampliable: la Parte A puede incorporar programas nuevos de la Parte B mediante un addendum firmado por ambas partes, que actualiza el Anexo 1. Mientras no se firme, el programa nuevo no se publica.
+1.4. Suplementos y servicios complementarios: vuelos internos, habitación individual, media pensión y pensión completa, traslados adicionales y hospedaje extra se venden como complementos del programa. Su precio es el que indica el tarifario vigente de la Parte B, y se ofrecen como opciones adicionales del mismo viaje.
 1.3. Experiencias sueltas: traslados, tours de un día, actividades y servicios adicionales de la Parte B se incorporan con el mismo procedimiento del punto 1.2, bajo las mismas condiciones de tarifa neta, cancelación y responsabilidad de este acuerdo.
 
 ## Cláusula 2. Rol de cada parte
@@ -41,7 +42,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 ## Cláusula 3. Precios y pagos
 3.1. La Parte B entrega tarifas netas en USD por persona, en habitación doble, con mínimo de dos pasajeros. Las tarifas netas no se publican ni se comparten con clientes.
-3.2. La Parte B fija el precio base (tarifa neta en USD por persona) que la Parte A paga por cada servicio.
+3.2. La Parte B fija el precio base (tarifa neta en USD por persona) que la Parte A paga por cada servicio. Ese precio base es el costo que Travel Puzzle paga a Exotic Escapes; sobre él, Travel Puzzle aplica su propio margen.
 3.3. La Parte A fija libremente su precio de venta al cliente final. Su margen es decisión de la Parte A.
 3.4. La Parte A confirma la reserva con la Parte B antes de cobrar al cliente.
 3.5. Forma y plazos de pago de la Parte A a la Parte B: los define la Parte A en cada confirmación de reserva.
@@ -72,7 +73,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 7.4. La Parte B protege los datos con medidas de seguridad iguales o mayores a las que exige la LFPDPPP, y los usa solo para prestar el servicio contratado.
 
 ## Cláusula 8. Vigencia y terminación
-8.1. Vigencia: 1 de abril de 2027 al 31 de marzo de 2028, con renovación por escrito.
+8.1. Vigencia indefinida. Cada temporada de tarifas (2026/27, 2027/28, 2028 y las siguientes) se incorpora al Anexo 1 por addendum firmado por ambas partes. Las tarifas de una temporada rigen los viajes confirmados dentro de su vigencia. El vencimiento de un tarifario no termina el acuerdo.
+8.1.1. Mientras no se firme un tarifario nuevo, las tarifas vigentes siguen aplicando a los viajes ya confirmados.
 8.2. Cualquiera de las partes puede terminar el acuerdo por escrito, con el aviso que defina la Parte A. Los viajes confirmados antes de la terminación se respetan hasta su salida.
 
 ## Cláusula 9. Ley aplicable, controversias e idioma
@@ -114,7 +116,7 @@ Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 ---
 
 ## Anexo 1. Programas incluidos
-Tarifa neta: precio por persona en habitación doble, categoría A, salida regular más barata, sin vuelos internos, sin suplemento individual y sin propinas. Cada programa tiene más salidas y categorías en su tarifario de Exotic. Vigencia: abril 2027 a marzo 2028, salvo lo indicado.
+Tarifa neta: precio por persona en habitación doble, categoría A, salida regular más barata, sin vuelos internos, sin suplemento individual y sin propinas. Cada programa tiene más salidas y categorías en su tarifario de Exotic. El acuerdo no vence; cada temporada se agrega como addendum (cláusula 8.1).
 
 | # | Código | Programa | Destinos | País | Tarifa neta desde | Vigencia tarifario |
 |---|---|---|---|---|---|---|
@@ -135,7 +137,8 @@ Tarifa neta: precio por persona en habitación doble, categoría A, salida regul
 
 Notas:
 - **Triángulo de Oro y Benarés (#8)** y **Sri Lanka (#14)**: el tarifario de la base de datos dice 2026/27. Hay que pedir su versión 2027/28 antes de firmar.
-- **Sri Lanka (#14)**: el tarifario confirma la política de cancelación (sin cargo con más de 21 días; 50% entre 21 y 14 días). La base de datos dice 22 y 14 días; es la misma regla, con un día de diferencia en el borde.
+- **Temporadas 2026, 2027 y 2028:** pedir a Exotic los tarifarios de cada programa que falte (2027/28 y 2028), para que el Anexo 1 tenga todas las temporadas.
+- **Sri Lanka (#14), cancelación:** el tarifario dice sin cargo con más de 21 días y 50% entre 21 y 14 días. La base de datos dice 22 y 14 días. Hay que confirmar con Exotic si el límite es 21 o 22 días.
 - No incluido: EXE-IN-C07-013, Diwali 2026 (en borrador, no publicado).
 - Portafolio futuro: los programas nuevos entran por addendum (cláusula 1.2).
 
@@ -151,7 +154,8 @@ Para validez en México, los documentos corporativos de la India deben legalizar
 
 ## Anexo 3. Pendientes para firmar
 0. Precio de venta, forma de pago y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
-1. Confirmar si la política de cancelación para agencias es la de la tabla (Cláusula 4.1) o una distinta.
+1. Confirmar si la política de cancelación para agencias es la de la tabla (Cláusula 4.1) o una distinta. Confirmar si Sri Lanka cancela desde 21 o 22 días.
+1b. Pedir tarifarios 2027/28 de Triángulo de Oro y Benarés (#8) y de Sri Lanka (#14), y tarifarios 2028 de todos los programas.
 2. Confirmar que la Parte B opera en tierra y que la Parte A no asume responsabilidad aérea.
 3. Datos legales completos de ambas partes (razón social, RFC o registro de India, domicilio, representante legal).
 4. Permiso por escrito para usar fotos y contenido del catálogo.
