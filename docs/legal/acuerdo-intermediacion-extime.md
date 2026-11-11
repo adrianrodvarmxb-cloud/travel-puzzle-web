@@ -379,8 +379,8 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 3. Comisiones (cláusula 3.1): rejilla del invierno 2026-27 y de los 12 productos sin comisión en el 49B.
 4. Pago (cláusula 3.5): forma, moneda, plazo y facturación de la comisión.
 5. Licencia de fotos con crédito, y fotos de los 20 productos más pedidos.
-6. Idioma del guía o comentarios de los 46 productos en borrador, y duración de 8 productos (REQ-1335).
+6. Idioma del guía o comentarios de los 46 productos en borrador, y duración de 8 productos.
 7. Datos legales completos y documentos del Anexo 2, con apostilla y traducción.
-8. Actualizar la cuenta del portal pro.extimetravel.com antes del 17 nov 2026 (REQ-1398).
+8. Actualizar la cuenta del portal pro.extimetravel.com antes del 17 nov 2026.
 9. Revisión de abogado de Travel Puzzle antes de firmar, incluidas la cláusula 1.3 (deslinde de vuelos, LFPC) y la cláusula 9 (arbitraje CCI en Ciudad de México).
 10. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B confirma qué método acepta.

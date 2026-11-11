@@ -192,7 +192,7 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 ## Anexo 3. Pendientes para firmar
 
 0. Precio de venta, forma de pago de la Parte A y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
-1. Whitelist de la IP 66.29.153.81 en staging y producción, baja de la 189.155.97.173 y URL de producción de la API (REQ-1403).
+1. Whitelist de la IP 66.29.153.81 en staging y producción, baja de la 189.155.97.173 y URL de producción de la API.
 2. Moneda de tarifas y pago, y si hay tarifa neta además del 20% (cláusula 3.1).
 3. Venta con marca de la Parte A y formato del voucher.
 4. Cancelación y reembolso para agencias (cláusula 4.1).

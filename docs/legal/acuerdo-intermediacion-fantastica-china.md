@@ -256,7 +256,7 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 ## Anexo 3. Pendientes para firmar
 
 0. Precio de venta, forma de pago de la Parte A y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
-1. Cancelación (cláusula 4.1): confirmar que aplica la p. 122, numeral 18, y que la mención del 4 nov a la «Página 123» se refería a servicios incluidos y no incluidos (REQ-1364). Confirmar más de 45 días y el tramo entre 48 horas y 3 días; confirmar la política propia de Gran Lujo.
+1. Cancelación (cláusula 4.1): confirmar que aplica la p. 122, numeral 18, y que la mención del 4 nov a la «Página 123» se refería a servicios incluidos y no incluidos. Confirmar más de 45 días y el tramo entre 48 horas y 3 días; confirmar la política propia de Gran Lujo.
 2. Pago (cláusula 3.5): medio, datos bancarios y plazo exacto.
 3. Excursión a Macao (FCH-R23): tarifa neta, duración y mínimo de personas.
 4. Datos legales completos de la Parte B y correo de reservas y reclamaciones.

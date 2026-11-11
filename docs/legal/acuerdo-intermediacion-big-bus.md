@@ -102,7 +102,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 7.2. La Parte A transmite a la Parte B solo los datos necesarios para la reserva (nombre, pasaporte cuando el servicio lo pida, vuelos, régimen alimenticio y necesidades especiales).
 
-7.3. Esos datos se transfieren a el Reino Unido. La Parte A lo informa en su aviso de privacidad y el cliente lo acepta al reservar, conforme a los artículos 36 y 37 de la LFPDPPP.
+7.3. Esos datos se transfieren al Reino Unido. La Parte A lo informa en su aviso de privacidad y el cliente lo acepta al reservar, conforme a los artículos 36 y 37 de la LFPDPPP.
 
 7.4. La Parte B protege los datos con medidas de seguridad iguales o mayores a las que exige la LFPDPPP, y los usa solo para prestar el servicio contratado.
 
@@ -124,9 +124,9 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 9.3. Antes de iniciar el arbitraje, las partes intentan resolver la diferencia por negociación directa durante 30 días naturales desde la notificación escrita.
 
-9.4. Idioma del acuerdo: se firma en español, idioma en que se registra y ejecuta en México. Cualquier traducción es solo de referencia; en caso de duda, prevalece el texto en español. [BIG BUS: indicar si requieren una versión de cortesía en inglés.]
+9.4. Idioma del acuerdo: se firma en español, idioma en que se registra y ejecuta en México. Cualquier traducción es solo de referencia; en caso de duda, prevalece el texto en español. Se entrega a la Parte B una traducción de cortesía al inglés, solo de referencia.
 
-9.5. Ejecución: la decisión arbitral podrá ejecutarse en México y en el Reino Unido conforme a la Convención de Nueva York de 1958. [ABOGADO: confirmar la adhesión y las reservas de el Reino Unido.]
+9.5. Ejecución: la decisión arbitral podrá ejecutarse en México y en el Reino Unido conforme a la Convención de Nueva York de 1958. [ABOGADO: confirmar la adhesión y las reservas del Reino Unido.]
 
 ## Cláusula 10. Fuerza mayor
 
@@ -228,7 +228,7 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 1. Términos de revendedor de la Parte B, si existen por escrito, y aceptación del rol de intermediario de la Parte A.
 2. Cancelación y cambio de fecha para agencias (cláusula 4.1).
 3. Base del 20% y tarifa neta por ciudad y moneda (cláusula 3.2).
-4. Lista de productos de las 29 ciudades disponibles en el portal; lo demás se oculta (REQ-1523).
+4. Lista de productos de las 29 ciudades disponibles en el portal; lo demás se oculta.
 5. Permiso escrito de fotos y logo en el sitio web, con crédito.
 6. Avisos de tarifa por correo (cláusula 8.2) y requisitos de la API Ventrata OCTO.
 7. Datos legales completos y documentos del Anexo 2, con apostilla y traducción.
