@@ -76,7 +76,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 8.1. Vigencia indefinida. Cada temporada de tarifas (2026/27, 2027/28, 2028 y las siguientes) se incorpora al Anexo 1 por addendum firmado por ambas partes. Las tarifas de una temporada rigen los viajes confirmados dentro de su vigencia. El vencimiento de un tarifario no termina el acuerdo.
 8.1.1. Mientras no se firme un tarifario nuevo, las tarifas vigentes siguen aplicando a los viajes ya confirmados.
 8.2. Actualización de tarifas por correo. Cuando la Parte B cambie tarifas, salidas, suplementos o políticas de cancelación de un programa del Anexo 1, lo notificará por correo electrónico a la Parte A. La Parte A confirmará por correo electrónico que quedó enterada de la actualización. Solo con esa confirmación, la Parte A actualiza el Anexo 1 y la tarifa aplica a partir de la fecha indicada por la Parte B. Esta actualización no requiere nueva firma del acuerdo. Las confirmaciones por correo forman parte del expediente del acuerdo y se conservan.
-8.2. Cualquiera de las partes puede terminar el acuerdo por escrito, con el aviso que defina la Parte A. Los viajes confirmados antes de la terminación se respetan hasta su salida.
+8.3. Cualquiera de las partes puede terminar el acuerdo por escrito, con el aviso que defina la Parte A. Los viajes confirmados antes de la terminación se respetan hasta su salida.
 
 ## Cláusula 9. Ley aplicable, controversias e idioma
 9.1. Ley aplicable: las leyes de los Estados Unidos Mexicanos, incluido el Código de Comercio.
@@ -110,7 +110,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 ## Cláusula 14. Firma
 Leído y aceptado por las partes, en [CLIENTE: ciudad], a [fecha].
 
-Por la Parte A: ____________________________  Nombre y cargo: [CLIENTE]
+Por la Parte A: ____________________________  Nombre y cargo: Claudia Leticia Rodríguez Laveaga, Founder & CEO
 
 Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 
