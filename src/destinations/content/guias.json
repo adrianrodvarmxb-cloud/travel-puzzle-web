@@ -429,5 +429,440 @@
       }
     ],
     "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. Las tarifas de Monserrate y del Museo del Oro salen de páginas de la Alcaldía publicadas en 2025."
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "cn",
+    "ciudad": "chengdu",
+    "nombre": "Chengdu",
+    "targetTerm": "guia de viaje de chengdu para mexicanos",
+    "titulo": "Guía de Chengdu: la base de pandas y cómo reservarla",
+    "enBreve": "Chengdu, en la provincia china de Sichuan según [China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html), es un punto de partida para ver pandas gigantes. La Base de Investigación de Cría de Pandas Gigantes no vende boletos en taquilla: se reservan en línea con anticipación, según su [página oficial de boletos](https://www.panda.org.cn/en/pandavalley/tickets/). Reserva la base como primera pieza del día y deja la tarde libre para recorrer la ciudad con calma.",
+    "sections": [
+      {
+        "h2": "¿Cómo se reserva la visita a la base de pandas?",
+        "answer": "Solo en línea: la base no tiene taquilla y las reservas se hacen con anticipación, según la [página oficial de boletos](https://www.panda.org.cn/en/pandavalley/tickets/).",
+        "body": [
+          "La página oficial indica que la reserva se hace desde su cuenta oficial de WeChat, que hay que escribir los datos de cada visitante y completar el pago para que la reserva quede confirmada, según la [misma página](https://www.panda.org.cn/en/pandavalley/tickets/).",
+          "Al entrar se escanea el documento original con el que reservaste o el código QR del boleto, y las devoluciones se piden desde la sección de pedidos antes de la visita, indica la [misma página](https://www.panda.org.cn/en/pandavalley/tickets/). Los menores de 6 años o de menos de 1.3 metros de estatura entran sin reservar, según la [página de servicio al visitante](https://www.panda.org.cn/en/service/ticket/)."
+        ]
+      },
+      {
+        "h2": "¿A qué hora conviene llegar?",
+        "answer": "El horario cambia entre temporada alta y baja, y las páginas oficiales no coinciden en todos los datos, así que confírmalo antes de salir del hotel.",
+        "body": [
+          "De mayo a octubre, según la [página oficial de boletos](https://www.panda.org.cn/en/pandavalley/tickets/), la entrada de la temporada alta se programa hasta antes de las 17:00. De noviembre a abril la programación termina antes, hacia las 16:30, así que en otoño e invierno conviene planear la mañana para los pandas.",
+          "La [página de servicio al visitante](https://www.panda.org.cn/en/service/ticket/) publica horarios de entrada por la mañana y por la tarde, lo que confirma que la reserva funciona por bloques de tiempo. Revisa el bloque que te toca en el comprobante."
+        ]
+      },
+      {
+        "h2": "¿Qué es la base y qué se ve dentro?",
+        "answer": "Es un centro de investigación y cría que recrea el ambiente natural de los pandas, según [China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html).",
+        "body": [
+          "La nota del gobierno chino describe que la base simula el entorno de vida silvestre de los pandas, según la [misma página de China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html).",
+          "Calcula al menos media mañana para la visita, porque el recorrido tiene varias zonas y conviene llegar con tiempo para recorrerlas sin prisa."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar el resto del día en Chengdu?",
+        "answer": "Reserva la base primero, porque es el punto que depende de un cupo, y arma lo demás alrededor de esa hora.",
+        "body": [
+          "Después de la base, la tarde puede dedicarse a caminar por el centro y a comer con calma. Si quieres que te ayudemos a ordenar los días, escríbenos y te armamos tu viaje.",
+          "En la [página de Chengdu](/destinos/cn/chengdu) están las experiencias que puedes reservar con Travel Puzzle."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "pe",
+    "ciudad": "lima",
+    "nombre": "Lima",
+    "targetTerm": "guia de viaje de lima para mexicanos",
+    "titulo": "Guía de Lima: el centro histórico y cómo recorrerlo",
+    "enBreve": "Lima fue fundada por Francisco Pizarro en enero de 1535, según el [artículo sobre su centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima). La UNESCO inscribió ese centro como Patrimonio de la Humanidad en 1988, en su [ficha oficial](https://whc.unesco.org/en/list/500). Dedica una mañana a las plazas y las iglesias y deja la tarde para caminar por los barrios sin prisa.",
+    "sections": [
+      {
+        "h2": "¿Por qué el centro histórico de Lima es especial?",
+        "answer": "Porque la UNESCO lo declaró Patrimonio de la Humanidad en 1988, según su [ficha oficial](https://whc.unesco.org/en/list/500) y el [artículo sobre el centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+        "body": [
+          "El mismo artículo indica que la zona central abarca unas 278 hectáreas y que se encuentra en los distritos de Lima y del Rímac, según la [página del centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+          "Según la misma página, los balcones de Lima forman parte del recorrido por el centro, así que conviene mirar hacia arriba al caminar por las calles."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en la Plaza Mayor?",
+        "answer": "La Plaza Mayor es el punto de partida natural del recorrido, y en ella está la Catedral de Lima, según la [página del centro histórico](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+        "body": [
+          "Desde la plaza es fácil caminar hacia la Plaza San Martín y hacia la zona de la Universidad de San Marcos, que el mismo [artículo](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima) también incluye dentro del centro histórico.",
+          "Reserva una hora para la catedral y los alrededores de la plaza; el resto del recorrido puede hacerse por calles laterales con menos gente."
+        ]
+      },
+      {
+        "h2": "¿Cómo organizar la visita sin cansarte?",
+        "answer": "Divide el centro en dos mañanas: una para plazas e iglesias y otra para los barrios cercanos, en lugar de intentar verlo todo en un día.",
+        "body": [
+          "Empezar temprano te permite disfrutar las plazas con más calma y tomar fotos con menos gente alrededor.",
+          "Lleva calzado cómodo, porque el recorrido a pie por el centro es largo y conviene hacer pausas en las plazas."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer después del centro?",
+        "answer": "Las experiencias de la ciudad que puedes reservar con Travel Puzzle están en la página de Lima.",
+        "body": [
+          "En la [página de Lima](/destinos/pe/lima) encuentras las experiencias que puedes reservar con Travel Puzzle. Si prefieres que te ayudemos a ordenar los días, escríbenos con tus fechas y te armamos tu viaje."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "pe",
+    "ciudad": "arequipa",
+    "nombre": "Arequipa",
+    "targetTerm": "guia de viaje de arequipa para mexicanos",
+    "titulo": "Guía de Arequipa: el Monasterio de Santa Catalina y el centro",
+    "enBreve": "En Arequipa, el Monasterio de Santa Catalina es la visita que más tiempo merece. Según [Andina, la agencia de noticias del Perú](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx), el conjunto funciona como una ciudadela dentro de la ciudad. Reserva la mañana para el monasterio y deja la tarde para caminar por el centro.",
+    "sections": [
+      {
+        "h2": "¿Por qué el Monasterio de Santa Catalina es tan importante?",
+        "answer": "Porque es una ciudadela religiosa dentro de la ciudad, protegida por altos muros, según [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+        "body": [
+          "La misma nota describe que el complejo, de alrededor de 20,000 metros cuadrados, se inicia en 1580 con doña María de Guzmán, viuda de Diego Hernández de Mendoza, según [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+          "La [enciclopedia libre](https://es.wikipedia.org/wiki/Monasterio_de_Santa_Catalina_(Arequipa)) lo sitúa a fines del siglo XVI y registra un terreno de 20.426 metros cuadrados, con un muro de unos 4 metros que aislaba la vida de las religiosas del exterior."
+        ]
+      },
+      {
+        "h2": "¿Qué se visita dentro del monasterio?",
+        "answer": "Claustros, celdas y una cocina antigua con su fogón, según la nota de [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+        "body": [
+          "La nota menciona la pintura de la Última Cena en uno de sus espacios y el Claustro de la Pasión, con cinco arcos y tres cruces en el patio, según la misma [nota de Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+          "Las tres cruces del claustro forman parte de una tradición del monasterio, donde las religiosas representan la Pasión de Cristo cada Viernes Santo, según la [página de la enciclopedia libre](https://es.wikipedia.org/wiki/Monasterio_de_Santa_Catalina_(Arequipa))."
+        ]
+      },
+      {
+        "h2": "¿Cómo recorrerlo sin prisa?",
+        "answer": "Reserva la mañana para el monasterio, porque el complejo es amplio y pide calma para recorrer patios y celdas.",
+        "body": [
+          "En esta guía no damos horario ni precio, porque las fuentes públicas que consultamos no coinciden en todos los datos. Confírmalos en el sitio del monasterio antes de salir.",
+          "Por la tarde, el centro de la ciudad permite caminar sin prisa y conocer sus plazas."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer después del monasterio?",
+        "answer": "Las experiencias de Arequipa que puedes reservar con Travel Puzzle están en la página de la ciudad.",
+        "body": [
+          "En la [página de Arequipa](/destinos/pe/arequipa) encuentras las experiencias que puedes reservar con Travel Puzzle. Escríbenos con tus fechas si quieres que armemos tu viaje."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "in",
+    "ciudad": "benares",
+    "nombre": "Benarés",
+    "targetTerm": "guia de viaje de varanasi",
+    "titulo": "Guía de Benarés (Varanasi): ghats, Ganga Aarti y la ciudad de la luz",
+    "enBreve": "Benarés, también conocida como Varanasi o Kashi, se asoma al río Ganges por escalinatas llamadas ghats, según la [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi). Cada tarde se celebra el Ganga Aarti en el Dashashwamedh Ghat, de acuerdo con [Incredible India](https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/). Llega temprano a la orilla y deja la ceremonia para la tarde.",
+    "sections": [
+      {
+        "h2": "¿Qué es el Ganga Aarti y dónde se ve?",
+        "answer": "Es la ceremonia que se celebra cada tarde en el Dashashwamedh Ghat, según [Incredible India](https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/).",
+        "body": [
+          "La misma fuente describe que la orilla del río es la imagen que define a la ciudad, así que conviene ubicar un lugar con tiempo antes de la ceremonia.",
+          "La [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi) menciona el Dashashwamedh Ghat entre los más conocidos, junto con el Panchganga, el Manikarnika y el Harishchandra."
+        ]
+      },
+      {
+        "h2": "¿Qué significan los ghats para la ciudad?",
+        "answer": "Son escalinatas que bajan a la orilla del Ganges, donde los peregrinos realizan sus ritos, según la [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi).",
+        "body": [
+          "Benarés es conocida en el mundo por sus ghats, y a la vez el tejido de seda, las alfombras, la artesanía y el turismo dan trabajo a buena parte de su población, según la [misma página](https://en.wikipedia.org/wiki/Varanasi).",
+          "Recorrer los ghats a pie por la mañana permite ver la vida cotidiana a la orilla, a un ritmo más tranquilo."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en el Manikarnika Ghat?",
+        "answer": "Es un ghat de cremaciones, descrito como el lugar sagrado de cremación a orillas del Ganges, según la [enciclopedia libre](https://en.wikipedia.org/wiki/Varanasi).",
+        "body": [
+          "Es un lugar de duelo y de ritual. Por respeto, pide permiso antes de tomar fotos y evita fotografiar las cremaciones.",
+          "El Harishchandra Ghat es el otro punto de cremación que menciona la misma [fuente](https://en.wikipedia.org/wiki/Varanasi), así que conviene informarse con el guía antes de recorrer esa zona."
+        ]
+      },
+      {
+        "h2": "¿Cómo organizar la visita?",
+        "answer": "Dedica una mañana a los ghats desde el agua y una tarde a la ceremonia en la orilla.",
+        "body": [
+          "Un paseo en barco por el Ganges permite ver los ghats desde el río, y es una manera de entender la distancia entre ellos.",
+          "En la [página de Benarés](/destinos/in/benares) están las experiencias que puedes reservar con Travel Puzzle. Escríbenos con tus fechas si quieres que armemos tu viaje."
+        ]
+      }
+    ]
+  },
+  {
+    "author": "editorial",
+    "origen": "agente-diario",
+    "publishedAt": "2026-11-09",
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 9 de noviembre de 2026) y del catálogo del sitio.",
+    "pais": "co",
+    "ciudad": "medellin",
+    "nombre": "Medellín",
+    "targetTerm": "guia de viaje de medellin para mexicanos",
+    "titulo": "Guía de Medellín: el Parque Arví y cómo llegar en Metrocable",
+    "enBreve": "El Parque Arví es la escapada natural más conocida de Medellín. Según la [página oficial de turismo de la ciudad](https://www.medellin.travel/parque-arvi), es una reserva forestal desde 1970 a unos 30 kilómetros del centro. Se llega en Metrocable, con la [línea L del Metro de Medellín](https://www.metrodemedellin.gov.co/), y conviene reservar la mañana para caminar por los senderos.",
+    "sections": [
+      {
+        "h2": "¿Cómo llegar al Parque Arví en Metrocable?",
+        "answer": "Desde cualquier estación del Metro, llega a Acevedo, toma la Línea K hasta Santo Domingo y transborda a la Línea L, según la [página oficial de turismo](https://www.medellin.travel/parque-arvi).",
+        "body": [
+          "El trayecto desde el transbordo dura unos 20 minutos, según la [página oficial de turismo](https://www.medellin.travel/parque-arvi), y el parque queda en el corregimiento de Santa Elena.",
+          "También hay bus: desde la Placita de Flórez, en el centro, sale la empresa Transacoop hacia Santa Elena desde las 6:00 a. m., con frecuencia de 30 minutos, según la [guía oficial del parque en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf)."
+        ]
+      },
+      {
+        "h2": "¿Qué tiene el parque?",
+        "answer": "Senderos, cultura y patrimonio arqueológico, además de paisajes para caminar, según la [guía oficial del parque en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf).",
+        "body": [
+          "La [página oficial del parque](https://www.medellin.travel/parque-arvi) menciona el Chorro Clarín y la Laguna de Guarne como espacios de acceso público gratuito, y otras experiencias tienen costo, ofrecidas por la corporación del parque.",
+          "Por su carácter de reserva forestal, conviene mantenerse en los senderos marcados y respetar la vegetación, según la idea general de la [guía en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf)."
+        ]
+      },
+      {
+        "h2": "¿Cuánto tiempo conviene dedicarle?",
+        "answer": "Una mañana alcanza para el Metrocable y algunos senderos; es una recomendación de esta guía, no un dato oficial.",
+        "body": [
+          "Revisa en la [página del Metro de Medellín](https://www.metrodemedellin.gov.co/) las tarifas vigentes del Metro y del Metrocable antes de salir, porque el precio del viaje no es el mismo que el de las experiencias del parque.",
+          "Si quieres tomar el día completo, combina el parque con otra visita por la tarde en la ciudad."
+        ]
+      },
+      {
+        "h2": "¿Qué llevar al parque?",
+        "answer": "Protector solar y una capa ligera, porque el clima de Medellín puede ser impredecible, según la [guía oficial del parque en PDF](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf).",
+        "body": [
+          "Lleva agua y calzado cómodo para los senderos. Es una recomendación práctica para la visita, no un dato del parque.",
+          "En la [página de Medellín](/destinos/co/medellin) están las experiencias que puedes reservar con Travel Puzzle. Si quieres que armemos tu viaje, escríbenos con tus fechas."
+        ]
+      }
+    ]
+  },
+  {
+    "pais": "pe",
+    "ciudad": "ica",
+    "nombre": "Ica",
+    "targetTerm": "guia de viaje de ica peru",
+    "titulo": "Guía de Ica: Huacachina, viñedos y tours de un día",
+    "publishedAt": "2026-11-10",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Ica es la base para visitar Huacachina, un pequeño oasis a unos cinco kilómetros de la ciudad, rodeado de dunas que llegan a 500 metros de altura, según [Wikipedia](https://en.wikipedia.org/wiki/Huacachina). Los mexicanos con pasaporte ordinario pueden entrar a Perú como turistas hasta 183 días, según [Andina](https://andina.pe/ingles/noticia-visa-requirement-for-mexican-citizens-wishing-to-visit-peru-officially-revoked-981525.aspx). En nuestro catálogo hay un free tour y cinco tours en Ica, según la [página de Ica](/destinos/pe/ica).",
+    "sections": [
+      {
+        "h2": "¿Qué es Huacachina y por qué se visita desde Ica?",
+        "answer": "Huacachina es una villa construida alrededor de un pequeño oasis a unos cinco kilómetros de la ciudad de Ica, según [Wikipedia](https://en.wikipedia.org/wiki/Huacachina).",
+        "body": [
+          "La misma [ficha de Wikipedia](https://en.wikipedia.org/wiki/Huacachina) la describe como un centro de descanso para familias de Ica que hoy también atrae turistas por el sandboarding en sus dunas. El oasis es un pequeño lago natural que esa ficha llama «oasis de América».",
+          "Si tienes poco tiempo, el catálogo de [Ica](/destinos/pe/ica) ofrece tours de un día para la ciudad y para las dunas, así que puedes elegir según tu ritmo de viaje."
+        ]
+      },
+      {
+        "h2": "¿Qué se hace en las dunas: buggy y sandboarding?",
+        "answer": "En las dunas se viaja en vehículos que localmente llaman areneros, y se practica el sandboarding, según [Wikipedia](https://en.wikipedia.org/wiki/Huacachina).",
+        "body": [
+          "El sandboarding consiste en bajar las dunas sobre una tabla, y las dunas cercanas alcanzan hasta 500 metros de altura, de acuerdo con la misma [ficha de Wikipedia](https://en.wikipedia.org/wiki/Huacachina).",
+          "En nuestro catálogo, la experiencia de buggy y sandboarding en las dunas es un tour de un día, según la ficha de [Ica](/destinos/pe/ica). Conviene llevar agua y protector solar, como en cualquier recorrido por el desierto."
+        ]
+      },
+      {
+        "h2": "¿Hay tours por la ciudad y sus viñedos?",
+        "answer": "Sí. En Ica hay un free tour en tuk tuk y una visita en tuk tuk al viñedo Tacama, de dos horas, según el [catálogo de Ica](/destinos/pe/ica).",
+        "body": [
+          "El free tour se reserva sin costo, y al final le das al guía lo que consideres justo, según la [página de Ica](/destinos/pe/ica).",
+          "Si quieres asegurar lugar en las dos experiencias durante tu estancia, reserva con tiempo."
+        ]
+      },
+      {
+        "h2": "¿Qué necesita un mexicano para entrar a Perú?",
+        "answer": "Un ciudadano mexicano con pasaporte ordinario puede entrar a Perú sin visa para turismo, con una estancia máxima de 183 días en un año, según [Andina](https://andina.pe/ingles/noticia-visa-requirement-for-mexican-citizens-wishing-to-visit-peru-officially-revoked-981525.aspx).",
+        "body": [
+          "El decreto que volvió a poner en vigor esa exención se publicó en El Peruano en abril de 2024, según la misma [nota de Andina](https://andina.pe/ingles/noticia-visa-requirement-for-mexican-citizens-wishing-to-visit-peru-officially-revoked-981525.aspx).",
+          "Como las reglas de migración pueden cambiar, revisa la información oficial del gobierno peruano antes de comprar tu vuelo."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "in",
+    "ciudad": "udaipur",
+    "nombre": "Udaipur",
+    "targetTerm": "guia de viaje de udaipur",
+    "titulo": "Guía de Udaipur: lagos, Palacio de la Ciudad y excursiones al campo",
+    "publishedAt": "2026-11-10",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Udaipur se conoce como la Ciudad de los Lagos y su centro gira en torno al lago Pichola y al Palacio de la Ciudad, según [Incredible India](https://www.incredibleindia.gov.in/en/rajasthan/udaipur). La ciudad está rodeada de lagos artificiales, según [Wikipedia](https://en.wikipedia.org/wiki/Udaipur). En nuestro catálogo hay dos experiencias de Pieza libre y ocho tours con guías locales, según la [página de Udaipur](/destinos/in/udaipur).",
+    "sections": [
+      {
+        "h2": "¿Por qué la llaman la Ciudad de los Lagos?",
+        "answer": "Porque tiene varios lagos, y el más conocido es el Pichola, donde se reflejan sus palacios de mármol, según [Incredible India](https://www.incredibleindia.gov.in/en/rajasthan/udaipur).",
+        "body": [
+          "La [página oficial](https://www.incredibleindia.gov.in/en/rajasthan/udaipur) la describe como una ciudad de lagos brillantes y palacios que parecen flotar entre la tierra y el cielo. Por su paisaje también recibe el apodo de «Venecia del Oriente», que [Wikipedia](https://en.wikipedia.org/wiki/Udaipur) comparte con otras ciudades de Asia con muchos lagos.",
+          "Si llegas de día, aprovecha la luz para fotografiar el lago y deja la tarde para el casco antiguo."
+        ]
+      },
+      {
+        "h2": "¿Qué se visita dentro de la ciudad?",
+        "answer": "El Palacio de la Ciudad es un complejo de patios, museos y edificios tallados que la ficha describe como un laberinto, según [Incredible India](https://www.incredibleindia.gov.in/en/rajasthan/udaipur).",
+        "body": [
+          "Dentro del palacio, la [misma página oficial](https://www.incredibleindia.gov.in/en/rajasthan/udaipur) menciona el Bada Mahal, que se conoce como la sección de los hombres.",
+          "En nuestra página de [Udaipur](/destinos/in/udaipur) hay una caminata de dos horas por los lagos y miradores ocultos, en formato de free tour de Pieza libre, según el catálogo."
+        ]
+      },
+      {
+        "h2": "¿Qué tours hay en Udaipur con Travel Puzzle?",
+        "answer": "Hay ocho tours con guías locales, entre ellos excursiones a pueblos rurales y clases de cocina, según la [página de Udaipur](/destinos/in/udaipur).",
+        "body": [
+          "Una excursión de tres horas a un pueblo rural incluye almuerzo y cena, y una clase de cocina de dos horas se hace con una familia local, según las fichas de [Udaipur](/destinos/in/udaipur).",
+          "Los circuitos de 10 días por Rajastán que aparecen en esa misma página incluyen Udaipur junto con Jodhpur, según el [catálogo de Udaipur](/destinos/in/udaipur)."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "in",
+    "ciudad": "jodhpur",
+    "nombre": "Jodhpur",
+    "targetTerm": "guia de viaje de jodhpur",
+    "titulo": "Guía de Jodhpur: la Ciudad Azul, el fuerte Mehrangarh y sus tours",
+    "publishedAt": "2026-11-10",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Jodhpur es la Ciudad Azul por el color que domina en los edificios de su casco antiguo, que rodea el fuerte Mehrangarh, según [Wikipedia](https://en.wikipedia.org/wiki/Jodhpur). La ciudad se fundó el 12 de mayo de 1459, según la misma fuente. El museo del fuerte abre todos los días de 9:00 a 17:00, según su [página oficial](https://www.mehrangarh.org/?p=928). En nuestro catálogo hay seis tours con guías locales, según la [página de Jodhpur](/destinos/in/jodhpur).",
+    "sections": [
+      {
+        "h2": "¿Por qué le dicen la Ciudad Azul?",
+        "answer": "Por el color que domina en los edificios del casco antiguo, según [Wikipedia](https://en.wikipedia.org/wiki/Jodhpur).",
+        "body": [
+          "La [misma ficha](https://en.wikipedia.org/wiki/Jodhpur) explica que el casco antiguo rodea el fuerte Mehrangarh y está protegido por una muralla con varias puertas.",
+          "Empezar por el fuerte y bajar después al casco antiguo es un orden práctico para tu primer día en la ciudad."
+        ]
+      },
+      {
+        "h2": "¿Qué se ve en el fuerte Mehrangarh?",
+        "answer": "El Museo Mehrangarh abre todos los días de 9:00 a 17:00, y la venta de boletos cierra a las 17:00, según su [página oficial](https://www.mehrangarh.org/?p=928).",
+        "body": [
+          "La [misma página](https://www.mehrangarh.org/?p=928) organiza sus colecciones en pinturas, textiles, armas y armaduras, y artes decorativas.",
+          "Hay un cargo aparte por el ascensor del fuerte, según la misma [página oficial](https://www.mehrangarh.org/?p=928). Revisa las tarifas antes de tu visita, porque pueden cambiar."
+        ]
+      },
+      {
+        "h2": "¿Qué tours hay en Jodhpur con Travel Puzzle?",
+        "answer": "En la [página de Jodhpur](/destinos/in/jodhpur) hay seis tours con guías locales y ninguna pieza libre, según el catálogo del sitio.",
+        "body": [
+          "Un recorrido a pie de dos horas por el patrimonio de la Ciudad Azul y una visita de tres horas y media al fuerte Mehrangarh y Jaswant Thada son dos de las opciones, según la [página de Jodhpur](/destinos/in/jodhpur).",
+          "Los circuitos de 10 a 12 días por Rajastán que aparecen en la página incluyen Jodhpur junto con Udaipur, Jaipur y Agra, según el [catálogo de Jodhpur](/destinos/in/jodhpur)."
+        ]
+      },
+      {
+        "h2": "¿Cómo encaja Jodhpur en un viaje por Rajastán?",
+        "answer": "Jodhpur está cerca del centro geográfico del estado de Rajastán, lo que la vuelve una base práctica para recorrerlo, según [Wikipedia](https://en.wikipedia.org/wiki/Jodhpur).",
+        "body": [
+          "Por eso aparece en varios circuitos del [catálogo de Jodhpur](/destinos/in/jodhpur) junto con Udaipur, Jaipur y Agra.",
+          "Antes de reservar, confirma con el proveedor del circuito cómo se hacen los traslados entre ciudades."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "be",
+    "ciudad": "brujas",
+    "nombre": "Brujas",
+    "targetTerm": "guia de viaje de brujas",
+    "titulo": "Guía de Brujas: centro medieval, campanario y visitas guiadas",
+    "publishedAt": "2026-11-10",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Brujas es un centro medieval con canales que la UNESCO declaró Patrimonio de la Humanidad en el año 2000, según la [ficha de la UNESCO](https://whc.unesco.org/en/list/996). Su campanario tiene 366 escalones y mide 83 metros de altura, según [Wikipedia](https://en.wikipedia.org/wiki/Belfry_of_Bruges). En nuestro catálogo hay 13 experiencias de Pieza libre y 16 tours y experiencias de pago, según la [página de Brujas](/destinos/be/brujas).",
+    "sections": [
+      {
+        "h2": "¿Por qué Brujas es Patrimonio de la Humanidad?",
+        "answer": "Porque su centro histórico entró en la lista de la UNESCO en 2000, según la [ficha de la UNESCO](https://whc.unesco.org/en/list/996).",
+        "body": [
+          "La [ficha de Wikipedia](https://en.wikipedia.org/wiki/Historic_Centre_of_Brugge) describe la ciudad como una de las ciudades medievales mejor conservadas de Europa, y señala que el centro está rodeado por un anillo de canales.",
+          "Su posición la convirtió en un centro comercial del norte de Europa, donde la Liga Hanseática tuvo un «kontor», según la misma ficha de Wikipedia.",
+          "Por eso conviene caminarla sin prisa, deteniéndose en las plazas y a la orilla de los canales."
+        ]
+      },
+      {
+        "h2": "¿Cómo es el campanario de Brujas?",
+        "answer": "El campanario, o Belfort, tiene 366 escalones y mide 83 metros de altura, según [Wikipedia](https://en.wikipedia.org/wiki/Belfry_of_Bruges).",
+        "body": [
+          "Subirlo cuesta una entrada, y desde la cima se ven vistas panorámicas de la ciudad, indica la misma ficha. El campanario tiene carillón, y en la torre se puede ver el antiguo tesoro de la ciudad, según la [ficha de Wikipedia](https://en.wikipedia.org/wiki/Belfry_of_Bruges).",
+          "La escalera es estrecha y empinada, según la [ficha del campanario](https://en.wikipedia.org/wiki/Belfry_of_Bruges), así que si tienes dificultades para subir escaleras conviene planear la visita con calma."
+        ]
+      },
+      {
+        "h2": "¿Qué experiencias hay en Brujas con Travel Puzzle?",
+        "answer": "En nuestra página de [Brujas](/destinos/be/brujas) hay 13 experiencias de Pieza libre, donde reservar es gratis y al final das al guía lo que consideres justo.",
+        "body": [
+          "Los temas del catálogo van desde leyendas medievales con degustación de chocolate hasta una visita de noche por rincones, mitos y leyendas, según la [página de Brujas](/destinos/be/brujas).",
+          "Hay además 16 tours y experiencias de pago, que incluyen visitas guiadas en grupo reducido, según el [catálogo de Brujas](/destinos/be/brujas)."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+  },
+  {
+    "pais": "pe",
+    "ciudad": "machu-picchu",
+    "nombre": "Machu Picchu",
+    "targetTerm": "guia de viaje de machu picchu",
+    "titulo": "Guía de Machu Picchu: boletos, aforo y cómo llegar desde Cusco",
+    "publishedAt": "2026-11-10",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Machu Picchu es una ciudadela inca a 2,430 metros de altura, Patrimonio de la Humanidad desde 1983, según [Wikipedia](https://en.wikipedia.org/wiki/Machu_Picchu). Los boletos se reservan en la plataforma oficial del Ministerio de Cultura, y el aforo de 2026 es de 5,600 visitantes por día en temporada alta, según [Andina](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx). En nuestro catálogo hay cuatro tours, según la [página de Machu Picchu](/destinos/pe/machu-picchu).",
+    "sections": [
+      {
+        "h2": "¿Cómo se llega desde Cusco?",
+        "answer": "La ruta más popular es el tren desde Cusco hasta el pueblo de Aguas Calientes, y de ahí un autobús de 8.6 kilómetros o una caminata hasta la entrada, según [Wikipedia](https://en.wikipedia.org/wiki/Machu_Picchu).",
+        "body": [
+          "El sitio está a unos 80 kilómetros al noroeste de Cusco, en la cordillera oriental del sur de Perú, según la misma [ficha de Wikipedia](https://en.wikipedia.org/wiki/Machu_Picchu).",
+          "Otra opción es el Camino Inca, que la [ficha de Wikipedia](https://en.wikipedia.org/wiki/Machu_Picchu) describe como la caminata más famosa de Sudamérica según Lonely Planet."
+        ]
+      },
+      {
+        "h2": "¿Cómo se compran los boletos y qué se pide al entrar?",
+        "answer": "La reserva y el pago se hacen en la plataforma oficial tuboleto.cultura.pe, según la [nota de Andina](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx).",
+        "body": [
+          "Para entrar se presenta un documento vigente de identidad, como carné de extranjería o pasaporte, según el caso, indica la [misma nota de Andina](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx).",
+          "La disponibilidad diaria es de 3,500 boletos en temporada regular y 4,600 en temporada alta, y en febrero de 2026 se suspenden las visitas por mantenimiento, según la misma [nota de Andina](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx)."
+        ]
+      },
+      {
+        "h2": "¿Qué tours hay en Machu Picchu con Travel Puzzle?",
+        "answer": "En nuestra página de [Machu Picchu](/destinos/pe/machu-picchu) hay cuatro tours con guías locales, entre ellos una excursión de un día en tren Vistadome.",
+        "body": [
+          "Los circuitos de nueve, once y doce días por Perú incluyen Machu Picchu junto con Cusco, Paracas y, en algunos casos, el lago Titicaca, según la [página de Machu Picchu](/destinos/pe/machu-picchu).",
+          "Si quieres combinar esta visita con otras ciudades del país, revisa [Perú](/destinos/pe) y la ficha de [Cusco](/destinos/pe/cusco), donde también hay experiencias."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
   }
 ]

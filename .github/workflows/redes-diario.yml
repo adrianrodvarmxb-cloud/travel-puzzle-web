@@ -51,6 +51,8 @@ jobs:
           LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
           META_GRAPH_VERSION: ${{ vars.META_GRAPH_VERSION }}
           LINKEDIN_API_VERSION: ${{ vars.LINKEDIN_API_VERSION }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
         run: npx tsx src/scripts/redes-diario.ts "$RUTA" --salida redes-salida
 
       - name: Láminas de Instagram al artefacto
@@ -69,19 +71,32 @@ jobs:
           path: redes-salida/
           retention-days: 30
 
-      - name: Issue «Redes del día» (lo que no se publicó solo, listo para copiar y pegar)
+      - name: "Issue «Redes del día» (REQ-1514: actualiza el del mismo día o lo cierra)"
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
         run: |
           [ -f redes-salida/resultado.json ] || { echo "Sin resultado."; exit 0; }
-          manual=$(node -e 'const r=require("./redes-salida/resultado.json");console.log(r.resultados.filter(x=>x.estado!=="publicado").length+r.problemas.length)')
-          [ "$manual" -gt 0 ] || { echo "Las 3 redes se publicaron solas."; exit 0; }
           titulo=$(node -e 'const r=require("./redes-salida/resultado.json");console.log(`Redes del día: ${r.fecha} — ${r.titulo}`)')
-          printf '\n\nCorrida y artefacto (textos y láminas): %s\n' "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> redes-salida/issue.md
           gh api "repos/$REPO/labels" -f name=redes-diario -f color=1d76db -f description="Redes del día" > /dev/null 2>&1 || true
-          gh api "repos/$REPO/issues" -f title="$titulo" -F body=@redes-salida/issue.md -f "labels[]=redes-diario" > /dev/null
+          abiertos=$(gh api "repos/$REPO/issues?state=open&labels=redes-diario&per_page=100" --jq ".[] | select(.title == \"$titulo\") | .number")
+          decision=$(npx tsx src/scripts/redes-cierre.ts)
+          echo "Decisión: $decision"
+          if [ "$decision" = "cerrar" ]; then
+            for n in $abiertos; do
+              gh api "repos/$REPO/issues/$n/comments" -f body="Cerrado automáticamente: Facebook e Instagram ya salieron en la corrida de ${{ github.run_id }}. LinkedIn sigue manual según su bandera." > /dev/null
+              gh api -X PATCH "repos/$REPO/issues/$n" -f state=closed -f state_reason=completed > /dev/null
+            done
+            exit 0
+          fi
+          printf '\n\nCorrida y artefacto (textos y láminas): %s\n' "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> redes-salida/issue.md
+          n=$(echo "$abiertos" | head -n1)
+          if [ -n "$n" ]; then
+            gh api -X PATCH "repos/$REPO/issues/$n" -F body=@redes-salida/issue.md > /dev/null
+          else
+            gh api "repos/$REPO/issues" -f title="$titulo" -F body=@redes-salida/issue.md -f "labels[]=redes-diario" > /dev/null
+          fi
 
       - name: "Issue «Redes: no se publicó» (motivo por red)"
         if: steps.redes.outcome == 'failure'

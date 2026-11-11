@@ -1,12 +1,13 @@
 /**
  * REQ-1073: láminas de Instagram 1080×1350 en diseño de marca (colores del blog). Puro: arma el SVG; el script
- * src/scripts/redes-laminas.ts lo pinta con sharp y pone la foto de la portada en la parte de arriba.
- * Nada encima de la foto salvo el velo: el título va en una franja de marca debajo.
+ * src/scripts/redes-laminas.ts lo pinta con sharp.
+ * REQ-1516: cada lámina lleva su foto a sangre completa; el texto va encima, sobre un velo de marca.
  */
 import type { Lamina } from "./textos";
 
 export const LAMINA_W = 1080;
 export const LAMINA_H = 1350;
+/** REQ-1073 (ya no se usa desde REQ-1516: la foto ocupa todo el marco). Se conserva. */
 export const PHOTO_H = 760;
 const NAVY = "#0A1330";
 const LIME = "#EAF54F";
@@ -36,27 +37,27 @@ const footer = () =>
   `<text x="60" y="1306" font-size="30" font-weight="700" fill="#FFFFFF" font-family="${FONT}">Travel Puzzle</text>` +
   `<text x="1020" y="1306" font-size="26" text-anchor="end" fill="${MUTED}" font-family="${FONT}">travelpuzzle.com.mx · Te armamos tu viaje</text>`;
 
-// REQ-1073
+// REQ-1516: velo de marca sobre la foto a sangre completa (la foto la compone sharp debajo de este SVG).
+const velo = () =>
+  `<defs><linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${NAVY}" stop-opacity="0.85"/><stop offset="0.5" stop-color="${NAVY}" stop-opacity="0.68"/><stop offset="1" stop-color="${NAVY}" stop-opacity="0.92"/></linearGradient></defs>` +
+  `<rect x="0" y="0" width="${LAMINA_W}" height="${LAMINA_H}" fill="url(#v)"/>`;
+
+// REQ-1073 · REQ-1516
 export function laminaSvg(l: Lamina): string {
   const head = `<svg xmlns="http://www.w3.org/2000/svg" width="${LAMINA_W}" height="${LAMINA_H}" viewBox="0 0 ${LAMINA_W} ${LAMINA_H}">`;
   if (l.tipo === "portada") {
     const title = wrapText(l.titulo, 26).slice(0, 4);
-    return head +
-      // velo de marca sobre la parte baja de la foto (la foto la compone sharp debajo de este SVG)
-      `<defs><linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="${NAVY}" stop-opacity="0"/><stop offset="1" stop-color="${NAVY}" stop-opacity="0.85"/></linearGradient></defs>` +
-      `<rect x="0" y="0" width="${LAMINA_W}" height="${PHOTO_H}" fill="url(#v)"/>` +
-      `<rect x="0" y="${PHOTO_H}" width="${LAMINA_W}" height="${LAMINA_H - PHOTO_H}" fill="${NAVY}"/>` +
-      lines([l.pilar.toUpperCase()], 60, PHOTO_H + 70, 26, 0, `letter-spacing="6" fill="${LIME}" font-family="${FONT}"`) +
-      lines(title, 60, PHOTO_H + 140, 54, 66, `font-weight="700" fill="#FFFFFF" font-family="${FONT}"`) +
-      lines([l.credito], 60, PHOTO_H + 140 + title.length * 66 + 10, 22, 0, `fill="${MUTED}" font-family="${FONT}"`) +
+    return head + velo() +
+      lines([l.pilar.toUpperCase()], 60, 880, 26, 0, `letter-spacing="6" fill="${LIME}" font-family="${FONT}"`) +
+      lines(title, 60, 950, 54, 66, `font-weight="700" fill="#FFFFFF" font-family="${FONT}"`) +
+      lines([l.credito], 60, 950 + (title.length - 1) * 66 + 48, 22, 0, `fill="${MUTED}" font-family="${FONT}"`) +
       footer() + "</svg>";
   }
   const q = l.pregunta ? wrapText(l.pregunta, 38).slice(0, 3) : [];
   const body = wrapText(l.texto, 28).slice(0, 8);
   const qY = 300;
   const bY = qY + (q.length ? q.length * 48 + 50 : 0);
-  return head +
-    `<rect x="0" y="0" width="${LAMINA_W}" height="${LAMINA_H}" fill="${NAVY}"/>` +
+  return head + velo() +
     `<rect x="0" y="0" width="${LAMINA_W}" height="12" fill="${BLUE}"/>` +
     lines([`DATO ${l.n} DE ${l.de}`], 60, 190, 30, 0, `letter-spacing="8" font-weight="700" fill="${LIME}" font-family="${FONT}"`) +
     lines(q, 60, qY, 38, 48, `fill="${SOFT}" font-family="${FONT}"`) +

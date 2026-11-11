@@ -46,7 +46,7 @@ function setup(migration: string) {
   };
   return { d, db, batches: () => batches };
 }
-const PROPOSED = "docs/migraciones-propuestas/0021_tour_search_stem.sql";
+const PROPOSED = "migrations/0025_tour_search_stem.sql";
 
 describe("REQ-360 stemmer Snowball en español", () => {
   it(`igual a la implementación de referencia en ${Object.keys(REF).length} palabras (títulos reales + casos difíciles)`, () => {
@@ -96,7 +96,7 @@ describe("REQ-361/362 sinónimos", () => {
   });
 });
 
-describe("REQ-363/364 consultas con raíz y sinónimos (FTS5 real, migración propuesta 0021)", () => {
+describe("REQ-363/364 consultas con raíz y sinónimos (FTS5 real, migración 0025 · REQ-1517)", () => {
   it("exacta primero con su raíz; prefijo solo en la última; respaldo; destino en place", () => {
     const q = ftsStemQueries("museos nocturnos", "Madrid", SYN);
     expect(q[0]).toBe('("museos" OR "museo" OR stem : "muse") AND ("nocturnos" OR "nocturno" OR stem : "nocturn") AND place : "madrid"');
@@ -146,8 +146,9 @@ describe("REQ-365/366 compatibilidad y bandera", () => {
     expect(searchRebuilder({}, () => null)).toBeUndefined();
     expect(searchRebuilder({ SEARCH_V2_ENABLED: "true" }, () => null)).toBeTypeOf("function");
   });
-  it("la migración propuesta NO está en migrations/ y documenta el respaldo (DROP → exportar → reaplicar)", () => {
-    expect(readdirSync("migrations").some((f) => /stem/.test(f))).toBe(false);
+  // REQ-1517 reemplaza la regla de REQ-366 («no está en migrations/»): ya vive en migrations/ y conserva el respaldo.
+  it("REQ-1517 la migración de la raíz está en migrations/ y documenta el respaldo (DROP → exportar → reaplicar)", () => {
+    expect(readdirSync("migrations").some((f) => /tour_search_stem/.test(f))).toBe(true);
     const sql = readFileSync(PROPOSED, "utf8");
     expect(sql).toMatch(/DROP TABLE "TourSearch"; 2\) exportar; ?\n?-- ?3\) aplicar/);
   });

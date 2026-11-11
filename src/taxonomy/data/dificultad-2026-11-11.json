@@ -1,0 +1,2227 @@
+{
+ "req": "REQ-1518",
+ "firma": "REQ-1519 (PO, 11-11-2026): escala «Nivel del CSV»; altura sola desde 3,500 m = 4; sin señal, no se muestra",
+ "fuente": "docs/taxonomia/dificultad-2026-11-11/propuesta.csv",
+ "viajes": [
+  {
+   "id": "bbt-ath",
+   "ref": "ATH",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-auh",
+   "ref": "AUH",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-ber",
+   "ref": "BER",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-bos",
+   "ref": "BOS",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-bud",
+   "ref": "BUD",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-chi",
+   "ref": "CHI",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-dub",
+   "ref": "DUB",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-dxb",
+   "ref": "DXB",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-edi",
+   "ref": "EDI",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-hkg",
+   "ref": "HKG",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-las",
+   "ref": "LAS",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-lax",
+   "ref": "LAX",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-lon",
+   "ref": "LON",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-mad",
+   "ref": "MAD",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-mct",
+   "ref": "MCT",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-mia",
+   "ref": "MIA",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-muc",
+   "ref": "MUC",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-nyc",
+   "ref": "NYC",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-par",
+   "ref": "PAR",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-phl",
+   "ref": "PHL",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-prg",
+   "ref": "PRG",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-rom",
+   "ref": "ROM",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-sfo",
+   "ref": "SFO",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-sin",
+   "ref": "SIN",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-skg",
+   "ref": "SKG",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-syd",
+   "ref": "SYD",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-vie",
+   "ref": "VIE",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-was",
+   "ref": "WAS",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "bbt-yvr",
+   "ref": "YVR",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "dco-pc-016",
+   "ref": "PC-016",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-017",
+   "ref": "PC-017",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-018",
+   "ref": "PC-018",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-020",
+   "ref": "PC-020",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "dco-pc-021",
+   "ref": "PC-021",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-023",
+   "ref": "PC-023",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-024",
+   "ref": "PC-024",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-025",
+   "ref": "PC-025",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "dco-pc-028",
+   "ref": "PC-028",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "dco-pc-030",
+   "ref": "PC-030",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "exe-amr3",
+   "ref": "AMR3",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-diw26",
+   "ref": "DIW26",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-holi27",
+   "ref": "HOLI27",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "exe-ins8",
+   "ref": "INS8",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-muj8",
+   "ref": "MUJ8",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-mum3",
+   "ref": "MUM3",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-nor9",
+   "ref": "NOR9",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-raj10",
+   "ref": "RAJ10",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "exe-rce12",
+   "ref": "RCE12",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "exe-rjb12",
+   "ref": "RJB12",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-rkb12",
+   "ref": "RKB12",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-sri8",
+   "ref": "SRI8",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-to7",
+   "ref": "TO7",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "exe-tob9",
+   "ref": "TOB9",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "exe-tok10",
+   "ref": "TOK10",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-5d",
+   "ref": "5D",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-5d4n",
+   "ref": "5D4N",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-6d",
+   "ref": "6D",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-6d5n",
+   "ref": "6D5N",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-7d",
+   "ref": "7D",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-7d6n",
+   "ref": "7D6N",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-8d",
+   "ref": "8D",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-8d7n",
+   "ref": "8D7N",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-9d",
+   "ref": "9D",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-9d8n",
+   "ref": "9D8N",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-as",
+   "ref": "AS",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-asn",
+   "ref": "ASN",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-bb1",
+   "ref": "BB1",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-bb2",
+   "ref": "BB2",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-bbm",
+   "ref": "BBM",
+   "kind": "tour",
+   "nivel": 1
+  },
+  {
+   "id": "ext-bbp",
+   "ref": "BBP",
+   "kind": "tour",
+   "nivel": 1
+  },
+  {
+   "id": "ext-br",
+   "ref": "BR",
+   "kind": "tour",
+   "nivel": 2
+  },
+  {
+   "id": "ext-brd",
+   "ref": "BRD",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-brf",
+   "ref": "BRF",
+   "kind": "tour",
+   "nivel": 2
+  },
+  {
+   "id": "ext-brl",
+   "ref": "BRL",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-brp8",
+   "ref": "BRP8",
+   "kind": "tour",
+   "nivel": 2
+  },
+  {
+   "id": "ext-bvpn",
+   "ref": "BVPN",
+   "kind": "tour",
+   "nivel": 1
+  },
+  {
+   "id": "ext-c",
+   "ref": "C",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-caa",
+   "ref": "CAA",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-cdt",
+   "ref": "CDT",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-cdtm",
+   "ref": "CDTM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-cdtmc",
+   "ref": "CDTMC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-chl",
+   "ref": "CHL",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-cit",
+   "ref": "CIT",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-cit3",
+   "ref": "CIT3",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-cl1",
+   "ref": "CL1",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-cld",
+   "ref": "CLD",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-cll",
+   "ref": "CLL",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-clp8",
+   "ref": "CLP8",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-crim",
+   "ref": "CRIM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-crimc",
+   "ref": "CRIMC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-crm",
+   "ref": "CRM",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-crmc",
+   "ref": "CRMC",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dag2",
+   "ref": "DAG2",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-dc13",
+   "ref": "DC13",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc13d",
+   "ref": "DC13D",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc13hb",
+   "ref": "DC13HB",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-dc18r",
+   "ref": "DC18R",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc19s",
+   "ref": "DC19S",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc21",
+   "ref": "DC21",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc21d",
+   "ref": "DC21D",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc21hb",
+   "ref": "DC21HB",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc21r",
+   "ref": "DC21R",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dc21s",
+   "ref": "DC21S",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dcd18",
+   "ref": "DCD18",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dcd18d",
+   "ref": "DCD18D",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dcm18",
+   "ref": "DCM18",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dcm21",
+   "ref": "DCM21",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-dec",
+   "ref": "DEC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-decm",
+   "ref": "DECM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-decmc",
+   "ref": "DECMC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-djt",
+   "ref": "DJT",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-djte",
+   "ref": "DJTE",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-djtehb",
+   "ref": "DJTEHB",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-dm",
+   "ref": "DM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-dmcc",
+   "ref": "DMCC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-dmx",
+   "ref": "DMX",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-dte",
+   "ref": "DTE",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-ed1",
+   "ref": "ED1",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-edh",
+   "ref": "EDH",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-el",
+   "ref": "EL",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-fvn",
+   "ref": "FVN",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gi",
+   "ref": "GI",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gid",
+   "ref": "GID",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gjo",
+   "ref": "GJO",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gl",
+   "ref": "GL",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-glc",
+   "ref": "GLC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gldi",
+   "ref": "GLDI",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gldj",
+   "ref": "GLDJ",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gldt",
+   "ref": "GLDT",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-glor",
+   "ref": "GLOR",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-glp6",
+   "ref": "GLP6",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-glpg",
+   "ref": "GLPG",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-glpot",
+   "ref": "GLPOT",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-go",
+   "ref": "GO",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-govo",
+   "ref": "GOVO",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gv",
+   "ref": "GV",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gva",
+   "ref": "GVA",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gvp8",
+   "ref": "GVP8",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-gyp8",
+   "ref": "GYP8",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-i",
+   "ref": "I",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-im",
+   "ref": "IM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-imc",
+   "ref": "IMC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-jvo",
+   "ref": "JVO",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-lvs",
+   "ref": "LVS",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-lvsj",
+   "ref": "LVSJ",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-mfp",
+   "ref": "MFP",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-ml",
+   "ref": "ML",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-ml1st",
+   "ref": "ML1ST",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-ml2",
+   "ref": "ML2",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-ml2f",
+   "ref": "ML2F",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-mlc",
+   "ref": "MLC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-mlj",
+   "ref": "MLJ",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-mlor",
+   "ref": "MLOR",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-mlpot",
+   "ref": "MLPOT",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-mltrt",
+   "ref": "MLTRT",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-ms1",
+   "ref": "MS1",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-msd",
+   "ref": "MSD",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-msf",
+   "ref": "MSF",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-msl",
+   "ref": "MSL",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-mvg",
+   "ref": "MVG",
+   "kind": "tour",
+   "nivel": 2
+  },
+  {
+   "id": "ext-mvgor",
+   "ref": "MVGOR",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-navv",
+   "ref": "NAVV",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-navvj",
+   "ref": "NAVVJ",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-nbc3",
+   "ref": "NBC3",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-nbc3f",
+   "ref": "NBC3F",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-nd",
+   "ref": "ND",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-ndg",
+   "ref": "NDG",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-ndgo",
+   "ref": "NDGO",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-ndml",
+   "ref": "NDML",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-np1",
+   "ref": "NP1",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-np1l",
+   "ref": "NP1L",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-npf",
+   "ref": "NPF",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-npm",
+   "ref": "NPM",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-npp8",
+   "ref": "NPP8",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-ogfrag",
+   "ref": "OGFRAG",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-orc",
+   "ref": "ORC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-orp6",
+   "ref": "ORP6",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p10",
+   "ref": "P10",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p10b",
+   "ref": "P10B",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p11",
+   "ref": "P11",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p11b",
+   "ref": "P11B",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p1l",
+   "ref": "P1L",
+   "kind": "tour",
+   "nivel": 2
+  },
+  {
+   "id": "ext-p1ldj",
+   "ref": "P1LDJ",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p1v",
+   "ref": "P1V",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p1vdj",
+   "ref": "P1VDJ",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p2lv",
+   "ref": "P2LV",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-p2lvdj",
+   "ref": "P2LVDJ",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-p9",
+   "ref": "P9",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-p9b",
+   "ref": "P9B",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-pbt",
+   "ref": "PBT",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "ext-pbt10",
+   "ref": "PBT10",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "ext-pc",
+   "ref": "PC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-pf",
+   "ref": "PF",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-pg",
+   "ref": "PG",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-pg3",
+   "ref": "PG3",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-pm2",
+   "ref": "PM2",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-pm2f",
+   "ref": "PM2F",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "ext-pot",
+   "ref": "POT",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-pot2",
+   "ref": "POT2",
+   "kind": "transporte",
+   "nivel": null
+  },
+  {
+   "id": "ext-ps",
+   "ref": "PS",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-ps3",
+   "ref": "PS3",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-rna18",
+   "ref": "RNA18",
+   "kind": "unica",
+   "nivel": 1
+  },
+  {
+   "id": "ext-sm1",
+   "ref": "SM1",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-sm1sc",
+   "ref": "SM1SC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-sm2",
+   "ref": "SM2",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-sm2sc",
+   "ref": "SM2SC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-t3im",
+   "ref": "T3IM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-t3imc",
+   "ref": "T3IMC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-tea",
+   "ref": "TEA",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-tea3",
+   "ref": "TEA3",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-tea3c",
+   "ref": "TEA3C",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-tea3dj",
+   "ref": "TEA3DJ",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-teac",
+   "ref": "TEAC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-teadj",
+   "ref": "TEADJ",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-teg",
+   "ref": "TEG",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-tim",
+   "ref": "TIM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-timc",
+   "ref": "TIMC",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-trt",
+   "ref": "TRT",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-trte",
+   "ref": "TRTE",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-trtm",
+   "ref": "TRTM",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-trts",
+   "ref": "TRTS",
+   "kind": "unica",
+   "nivel": null
+  },
+  {
+   "id": "ext-vac",
+   "ref": "VAC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vam",
+   "ref": "VAM",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vap",
+   "ref": "VAP",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vgam",
+   "ref": "VGAM",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vgap8",
+   "ref": "VGAP8",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vgpm",
+   "ref": "VGPM",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vo",
+   "ref": "VO",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-voa",
+   "ref": "VOA",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-voc",
+   "ref": "VOC",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vop",
+   "ref": "VOP",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vt",
+   "ref": "VT",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "ext-vtp8",
+   "ref": "VTP8",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l01",
+   "ref": "FCH-L01",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l02",
+   "ref": "FCH-L02",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l03",
+   "ref": "FCH-L03",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l04",
+   "ref": "FCH-L04",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l05",
+   "ref": "FCH-L05",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l06",
+   "ref": "FCH-L06",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l07",
+   "ref": "FCH-L07",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l08",
+   "ref": "FCH-L08",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-l09",
+   "ref": "FCH-L09",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r1",
+   "ref": "FCH-R1",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r10",
+   "ref": "FCH-R10",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r11",
+   "ref": "FCH-R11",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r12",
+   "ref": "FCH-R12",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r13",
+   "ref": "FCH-R13",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r14",
+   "ref": "FCH-R14",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "fch-fch-r15",
+   "ref": "FCH-R15",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "fch-fch-r16",
+   "ref": "FCH-R16",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r17",
+   "ref": "FCH-R17",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "fch-fch-r18",
+   "ref": "FCH-R18",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r19",
+   "ref": "FCH-R19",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r2",
+   "ref": "FCH-R2",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r20",
+   "ref": "FCH-R20",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r21",
+   "ref": "FCH-R21",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r22",
+   "ref": "FCH-R22",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r23",
+   "ref": "FCH-R23",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r24",
+   "ref": "FCH-R24",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r25",
+   "ref": "FCH-R25",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r26a",
+   "ref": "FCH-R26A",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r26b",
+   "ref": "FCH-R26B",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r27",
+   "ref": "FCH-R27",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "fch-fch-r28",
+   "ref": "FCH-R28",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r29",
+   "ref": "FCH-R29",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r3",
+   "ref": "FCH-R3",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r30",
+   "ref": "FCH-R30",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "fch-fch-r31",
+   "ref": "FCH-R31",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r32",
+   "ref": "FCH-R32",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r33",
+   "ref": "FCH-R33",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r34",
+   "ref": "FCH-R34",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r35",
+   "ref": "FCH-R35",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "fch-fch-r36",
+   "ref": "FCH-R36",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r37",
+   "ref": "FCH-R37",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r38",
+   "ref": "FCH-R38",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "fch-fch-r39",
+   "ref": "FCH-R39",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "fch-fch-r4",
+   "ref": "FCH-R4",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r40",
+   "ref": "FCH-R40",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "fch-fch-r5",
+   "ref": "FCH-R5",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r6",
+   "ref": "FCH-R6",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r7",
+   "ref": "FCH-R7",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "fch-fch-r7x",
+   "ref": "FCH-R7X",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "fch-fch-r8",
+   "ref": "FCH-R8",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "fch-fch-r9",
+   "ref": "FCH-R9",
+   "kind": "circuito",
+   "nivel": null
+  },
+  {
+   "id": "iwp-aqp-01",
+   "ref": "AQP-01",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-aqp-02",
+   "ref": "AQP-02",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-aqp-03",
+   "ref": "AQP-03",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-aqp-04",
+   "ref": "AQP-04",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-aqp-05",
+   "ref": "AQP-05",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-aqp-06",
+   "ref": "AQP-06",
+   "kind": "tour",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-aqp-07",
+   "ref": "AQP-07",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-chh-01",
+   "ref": "CHH-01",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-chh-02",
+   "ref": "CHH-02",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-chh-03",
+   "ref": "CHH-03",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-cus-01",
+   "ref": "CUS-01",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-02",
+   "ref": "CUS-02",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-cus-03",
+   "ref": "CUS-03",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-cus-04",
+   "ref": "CUS-04",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-cus-05",
+   "ref": "CUS-05",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-06",
+   "ref": "CUS-06",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-07",
+   "ref": "CUS-07",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-cus-08",
+   "ref": "CUS-08",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-09",
+   "ref": "CUS-09",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-10",
+   "ref": "CUS-10",
+   "kind": "tour",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-cus-11",
+   "ref": "CUS-11",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-12",
+   "ref": "CUS-12",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-cus-13",
+   "ref": "CUS-13",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-cus-14",
+   "ref": "CUS-14",
+   "kind": "tour",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-lim-01",
+   "ref": "LIM-01",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-lim-02",
+   "ref": "LIM-02",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-lim-03",
+   "ref": "LIM-03",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-lim-04",
+   "ref": "LIM-04",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-lim-05",
+   "ref": "LIM-05",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-lim-06",
+   "ref": "LIM-06",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-lim-07",
+   "ref": "LIM-07",
+   "kind": "tour",
+   "nivel": 1
+  },
+  {
+   "id": "iwp-lim-08",
+   "ref": "LIM-08",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-mp-01",
+   "ref": "MP-01",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-mp-02",
+   "ref": "MP-02",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-mp-03",
+   "ref": "MP-03",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-mp-04",
+   "ref": "MP-04",
+   "kind": "personalizado",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-mp-05",
+   "ref": "MP-05",
+   "kind": "personalizado",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-mp-06",
+   "ref": "MP-06",
+   "kind": "personalizado",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-naz-01",
+   "ref": "NAZ-01",
+   "kind": "tour",
+   "nivel": 1
+  },
+  {
+   "id": "iwp-naz-02",
+   "ref": "NAZ-02",
+   "kind": "tour",
+   "nivel": 1
+  },
+  {
+   "id": "iwp-naz-03",
+   "ref": "NAZ-03",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "iwp-naz-04",
+   "ref": "NAZ-04",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-naz-05",
+   "ref": "NAZ-05",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-cus-03",
+   "ref": "PROG-CUS-03",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-cus-04",
+   "ref": "PROG-CUS-04",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-cus-05",
+   "ref": "PROG-CUS-05",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-cus-06",
+   "ref": "PROG-CUS-06",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-iqt-01",
+   "ref": "PROG-IQT-01",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-iqt-02",
+   "ref": "PROG-IQT-02",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-iqt-03",
+   "ref": "PROG-IQT-03",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-iwp-01",
+   "ref": "PROG-IWP-01",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-iwp-02",
+   "ref": "PROG-IWP-02",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-iwp-03",
+   "ref": "PROG-IWP-03",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-iwp-04",
+   "ref": "PROG-IWP-04",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-man-01",
+   "ref": "PROG-MAN-01",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-man-02",
+   "ref": "PROG-MAN-02",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-pun-01",
+   "ref": "PROG-PUN-01",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-pun-02",
+   "ref": "PROG-PUN-02",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-pun-03",
+   "ref": "PROG-PUN-03",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-pun-04",
+   "ref": "PROG-PUN-04",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-tam-01",
+   "ref": "PROG-TAM-01",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-tam-02",
+   "ref": "PROG-TAM-02",
+   "kind": "circuito",
+   "nivel": 3
+  },
+  {
+   "id": "iwp-prog-trk-01",
+   "ref": "PROG-TRK-01",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-trk-02",
+   "ref": "PROG-TRK-02",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-trk-03",
+   "ref": "PROG-TRK-03",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-trk-04",
+   "ref": "PROG-TRK-04",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-trk-05",
+   "ref": "PROG-TRK-05",
+   "kind": "personalizado",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-prog-trk-06",
+   "ref": "PROG-TRK-06",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-trk-07",
+   "ref": "PROG-TRK-07",
+   "kind": "circuito",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-prog-trk-08",
+   "ref": "PROG-TRK-08",
+   "kind": "circuito",
+   "nivel": 5
+  },
+  {
+   "id": "iwp-pun-01",
+   "ref": "PUN-01",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-pun-02",
+   "ref": "PUN-02",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-pun-03",
+   "ref": "PUN-03",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-pun-04",
+   "ref": "PUN-04",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "iwp-pun-05",
+   "ref": "PUN-05",
+   "kind": "tour",
+   "nivel": 4
+  },
+  {
+   "id": "tas-bor-01",
+   "ref": "BOR-01",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "tas-kul-01",
+   "ref": "KUL-01",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "tas-kul-02",
+   "ref": "KUL-02",
+   "kind": "tour",
+   "nivel": 3
+  },
+  {
+   "id": "tas-kul-03",
+   "ref": "KUL-03",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "tas-mys-01",
+   "ref": "MYS-01",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "tas-sgp-pre",
+   "ref": "SGP-PRE",
+   "kind": "circuito",
+   "nivel": 2
+  },
+  {
+   "id": "tas-sin-01",
+   "ref": "SIN-01",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "tas-sin-02",
+   "ref": "SIN-02",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "tas-sin-03",
+   "ref": "SIN-03",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "tas-sin-04",
+   "ref": "SIN-04",
+   "kind": "tour",
+   "nivel": null
+  },
+  {
+   "id": "tas-sin-05",
+   "ref": "SIN-05",
+   "kind": "tour",
+   "nivel": null
+  }
+ ]
+}
