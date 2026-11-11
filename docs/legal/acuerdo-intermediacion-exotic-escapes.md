@@ -26,6 +26,7 @@ Documento vinculado a REQ-1363 (`docs/requisitos.md`).
 - Representante legal: [EXOTIC: nombre, cargo y documento que lo acredita]
 - Contacto de reservas y reclamaciones: spain@exoticescapes.co.in · WhatsApp +91 99993 97708
 - Contacto comercial: Angela Ballén
+- Cuenta de pago: [EXOTIC: llenar el Anexo 4 (cuenta de pago)]
 
 ---
 
@@ -46,6 +47,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 3.3. La Parte A fija libremente su precio de venta al cliente final. Su margen es decisión de la Parte A.
 3.4. La Parte A confirma la reserva con la Parte B antes de cobrar al cliente.
 3.5. Forma y plazos de pago de la Parte A a la Parte B: los define la Parte A en cada confirmación de reserva.
+3.6. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta bancaria donde la Parte A le paga (banco, titular, número de cuenta o IBAN, SWIFT y moneda). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes de hacer el siguiente pago. Los datos se registran en el Anexo 4 (cuenta de pago) de este acuerdo, firmado por el representante de la Parte B.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:
@@ -108,11 +110,15 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 13.7. Ejemplares: el acuerdo se firma en dos originales, uno por parte, o en copias con firma electrónica válida.
 
 ## Cláusula 14. Firma
-Leído y aceptado por las partes, en [CLIENTE: ciudad], a [fecha].
+14.1. Las partes pueden firmar por separado, en ejemplares o con firma electrónica; todos los ejemplares forman un solo acuerdo.
 
-Por la Parte A: ____________________________  Nombre y cargo: Claudia Leticia Rodríguez Laveaga, Founder & CEO
+14.2. Cada parte firma en su propia ciudad, que se indica junto a su firma: la Parte A en Victoria de Durango, Durango, México, y la Parte B en la ciudad de su domicilio.
 
-Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
+14.3. La fecha de firma de cada parte es la que registra la plataforma de firma electrónica o, en firma autógrafa, la que se anota junto a la firma. El acuerdo entra en vigor en la fecha de la última firma.
+
+Por la Parte A: ____________________________  Nombre y cargo: Claudia Leticia Rodríguez Laveaga, Founder & CEO. Lugar: Victoria de Durango, Durango, México. Fecha: ____________
+
+Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]. Lugar: [EXOTIC: ciudad]. Fecha: ____________
 
 ---
 
@@ -150,6 +156,7 @@ Notas:
 4. Resolución del consejo o poder que autoriza a la persona que firma.
 5. Documento de identidad del firmante.
 6. Póliza de responsabilidad civil o seguro de viajeros, si lo tiene.
+7. Carta en papel membretado, firmada por el representante, con los datos de la cuenta de pago (los mismos del Anexo 4).
 
 Para validez en México, los documentos corporativos de la India deben legalizarse con apostilla de La Haya (o consularización si no aplica) y traducirse al español por perito traductor.
 
@@ -162,4 +169,18 @@ Para validez en México, los documentos corporativos de la India deben legalizar
 4. Permiso por escrito para usar fotos y contenido del catálogo.
 5. Revisión de abogado de Travel Puzzle antes de firmar, incluida la cláusula 9 (propuesta de arbitraje CCI con sede en Ciudad de México; el abogado la confirma).
 6. Documentos de la Parte B del Anexo 2, con apostilla y traducción.
-7. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B debe confirmar qué método acepta en la India.
+7. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B debe confirmar qué método acepta en la India (la plataforma registra la fecha de cada firma).
+
+## Anexo 4. Cuenta de pago de la Parte B
+La Parte B llena este anexo y lo firma su representante. La Parte A solo paga a esta cuenta. Un cambio de cuenta se notifica por escrito con un anexo nuevo firmado y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago.
+
+- Beneficiario (titular de la cuenta): [EXOTIC]
+- Banco: [EXOTIC]
+- Domicilio del banco: [EXOTIC]
+- Número de cuenta o IBAN: [EXOTIC]
+- SWIFT o BIC: [EXOTIC]
+- Banco intermediario (si aplica): [EXOTIC]
+- Moneda de la cuenta: [EXOTIC]
+- Correo y teléfono para confirmar cambios de cuenta: [EXOTIC]
+
+Firma del representante de la Parte B: ____________________________  Nombre, cargo y fecha: [EXOTIC]
