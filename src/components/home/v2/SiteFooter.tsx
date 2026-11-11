@@ -73,7 +73,7 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
       <div className="container mx-auto mt-10 grid max-w-6xl gap-10 md:grid-cols-4">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle" width={120} className="h-auto w-[120px]" />
+          <img src="/brand/logo-animado-tp-oscuro.gif" alt="Travel Puzzle" width={120} height={96} loading="lazy" decoding="async" className="h-auto w-[120px]" /* REQ-1564 */ />
           {SHOW_FOOTER_SLOGAN && <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-[#EAF54F]">{c.footerSlogan}</p>}
         </div>
         {columns.map((col) => (

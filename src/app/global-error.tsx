@@ -10,7 +10,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
       <body style={{ fontFamily: 'system-ui, sans-serif', background: '#0b1630', color: '#fff', margin: 0 }}>
         {/* REQ-062: sin proveedores aquí no cabe el Navbar; al menos el logo animado del home */}
         <header style={{ background: '#2563eb', padding: '8px 16px' }}>
-          <a href="/"><img src="/logo-travel.gif" alt="Travel Puzzle" width={64} height={64} style={{ borderRadius: 9999, background: '#fff' }} /></a>
+          <a href="/"><img src="/brand/logo-animado-128.webp" alt="Travel Puzzle" width={64} height={64} style={{ borderRadius: 9999, background: '#fff' }} /></a>
         </header>
         <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, padding: 16, textAlign: 'center' }}>
           <h1 style={{ fontSize: 24 }}>Algo no cargó bien</h1>

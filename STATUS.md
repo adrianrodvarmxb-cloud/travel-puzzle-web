@@ -905,3 +905,13 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-1532 | Google no crea cuentas con `ACCOUNTS_ENABLED` apagado; aviso en `/admin/entrar` | `src/trips/lib/admin.ts`, `src/lib/auth.ts`, `src/app/admin/entrar/page.tsx` | `src/trips/lib/admin.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
 | REQ-1533 | El rol ADMIN se confirma en la base en cada revisión del gestor y `/api/admin/*` | `src/trips/lib/admin.ts`, `src/trips/deps.ts` | `src/trips/lib/admin.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
 | REQ-1534 | Cuentas de cliente opcionales (modelo GetYourGuide/Civitatis) | — | — | PENDIENTE (plan aparte) |
+
+## Tiempos de carga (REQ-1560 a REQ-1564, PR #360, 11 nov 2026)
+Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: home 3.3 s, ficha 3.3 s, /tours 11.5 s; falta gate B) |
+| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 0.000 en las 3) |
+| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 181 / 425 / 253 ms) |
+| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 2.2 / 3.5 / 2.2 MB; falta gate B) |
+| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 200 KiB por el logo del pie; ya corregido, sin medir) |
