@@ -12,7 +12,7 @@ describe("T6b facetas de circuitos en la ficha (REQ-421, REQ-422, REQ-423, REQ-4
     expect(w).toMatch(/"TAXONOMY_CIRCUIT_EXTRA_ENABLED":\s*"false"/);
   });
   it("REQ-422 / REQ-421 / REQ-423 circuito de 8 días, moderado, con opciones en grupo y privada", () => {
-    expect(circuitFacts({ kind: "circuito", difficulty: "moderada", durationDays: 8, options: [{ mode: "group" }, { mode: "private" }] }, D, "es")).toEqual({
+    expect(circuitFacts({ kind: "circuito", difficultyLevel: 3, durationDays: 8, options: [{ mode: "group" }, { mode: "private" }] }, D, "es")).toEqual({
       dificultad: "Dificultad 3 de 5 · Moderado: Varias horas a pie o algo de altura.",
       grupo: "Tipo de grupo: En grupo · Privado",
       dias: "6 a 9 días",
@@ -24,10 +24,21 @@ describe("T6b facetas de circuitos en la ficha (REQ-421, REQ-422, REQ-423, REQ-4
     expect(circuitFacts({ kind: "circuito", durationDays: 14 }, D, "es").dias).toBe("10 a 14 días");
   });
   it("REQ-422 sin dato no se muestra nada (ni «sin dato»); un tour de un día no lleva grupo ni días", () => {
-    expect(circuitFacts({ kind: "circuito", difficulty: null, durationDays: null }, D, "es")).toEqual({ dificultad: null, grupo: null, dias: null });
-    expect(circuitFacts({ kind: "tour", difficulty: "facil", durationDays: 1, options: [{ mode: "group" }] }, D, "es")).toEqual({ dificultad: "Dificultad 2 de 5 · Ligero: Caminatas cortas en terreno plano.", grupo: null, dias: null });
+    expect(circuitFacts({ kind: "circuito", difficultyLevel: null, durationDays: null }, D, "es")).toEqual({ dificultad: null, grupo: null, dias: null });
+    expect(circuitFacts({ kind: "tour", difficultyLevel: 2, durationDays: 1, options: [{ mode: "group" }] }, D, "es")).toEqual({ dificultad: "Dificultad 2 de 5 · Ligero: Caminatas cortas en terreno plano.", grupo: null, dias: null });
   });
   it("REQ-422 en inglés, nombre del nivel sin la línea (la línea se traduce en el flujo de traducción)", () => {
-    expect(circuitFacts({ kind: "circuito", difficulty: "exigente", durationDays: 3 }, D, "en")).toMatchObject({ dificultad: "Difficulty 4/5 · Demanding", dias: "1–5 days" });
+    expect(circuitFacts({ kind: "circuito", difficultyLevel: 4, durationDays: 3 }, D, "en")).toMatchObject({ dificultad: "Difficulty 4/5 · Demanding", dias: "1–5 days" });
+  });
+  it("REQ-1520 (REQ-1519): la dificultad sale solo del nivel revisado; «facil» sin nivel no se muestra", () => {
+    expect(circuitFacts({ kind: "circuito", difficulty: "facil", difficultyLevel: null, durationDays: 8 }, D, "es").dificultad).toBeNull();
+    expect(circuitFacts({ kind: "tour", difficulty: "exigente", durationDays: 1 }, D, "es").dificultad).toBeNull();
+    expect(circuitFacts({ kind: "tour", difficulty: "facil", difficultyLevel: 5, durationDays: 1 }, D, "es").dificultad).toBe("Dificultad 5 de 5 · Muy exigente: Trekking de varios días o gran altitud; requiere buena condición.");
+  });
+  it("REQ-1520: un traslado nunca lleva dificultad, aunque tenga nivel", () => {
+    expect(circuitFacts({ kind: "transporte", difficultyLevel: 2, durationDays: 1 }, D, "es").dificultad).toBeNull();
+  });
+  it("REQ-1520: un nivel fuera de 1–5 no se muestra", () => {
+    for (const n of [0, 6, 2.5]) expect(circuitFacts({ kind: "tour", difficultyLevel: n, durationDays: 1 }, D, "es").dificultad).toBeNull();
   });
 });
