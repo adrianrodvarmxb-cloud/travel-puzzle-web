@@ -56,10 +56,18 @@ function sourcedAnswers(p: Post, max: number, withQuestion = false): { texto: st
   });
 }
 
-export type Lamina = { tipo: "portada"; titulo: string; pilar: string; imagen: string; credito: string } | { tipo: "dato"; texto: string; fuente: string; pregunta?: string; n: number; de: number };
+export type Foto = { imagen: string; credito: string };
+// REQ-1516: cada lámina lleva su foto (a sangre completa en la lámina).
+export type Lamina = Foto & ({ tipo: "portada"; titulo: string; pilar: string } | { tipo: "dato"; texto: string; fuente: string; pregunta?: string; n: number; de: number });
 
 // REQ-1073: portada + 3 o 4 datos clave con su fuente (primero `datos`, luego respuestas con fuente, sin repetir).
+// REQ-1516: las fotos de la entrada (portada, luego las de `imagenes`) se reparten en orden; sin fotos, no hay láminas.
 export function laminasFor(p: Post): Lamina[] {
+  const fotos: Foto[] = [
+    ...(p.cover ? [{ imagen: p.cover.src, credito: p.cover.credit }] : []),
+    ...(p.imagenes ?? []).flatMap((b) => b.fotos.map((f) => ({ imagen: f.src, credito: f.credit }))),
+  ];
+  if (!fotos.length) return [];
   const pool: { texto: string; fuente: string; pregunta?: string }[] = [...(p.datos ?? []).map((d) => ({ texto: plainText(d.text), fuente: d.source.label })), ...sourcedAnswers(p, LAMINA_MAX)];
   const picked: typeof pool = [];
   for (const c of pool) {
@@ -68,9 +76,10 @@ export function laminasFor(p: Post): Lamina[] {
     if (picked.length === LAMINAS.max - 1) break;
   }
   const de = picked.length;
+  const foto = (k: number): Foto => fotos[k % fotos.length];
   return [
-    ...(p.cover ? [{ tipo: "portada" as const, titulo: p.title, pilar: pillarBySlug(p.pillar)?.name ?? p.pillar, imagen: p.cover.src, credito: p.cover.credit }] : []),
-    ...picked.map((d, i) => ({ tipo: "dato" as const, texto: d.texto, fuente: d.fuente, ...(d.pregunta ? { pregunta: d.pregunta } : {}), n: i + 1, de })),
+    ...(p.cover ? [{ tipo: "portada" as const, titulo: p.title, pilar: pillarBySlug(p.pillar)?.name ?? p.pillar, ...foto(0) }] : []),
+    ...picked.map((d, i) => ({ tipo: "dato" as const, texto: d.texto, fuente: d.fuente, ...(d.pregunta ? { pregunta: d.pregunta } : {}), n: i + 1, de, ...foto((p.cover ? 1 : 0) + i) })),
   ];
 }
 

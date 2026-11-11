@@ -14,6 +14,34 @@ function deps(res = { status: 200, json: { data: { refNumber: "R1" }, status: 20
   return { secret, now: () => now, freetour: { call: vi.fn(async () => res) }, log: vi.fn(), dedupe: createDedupe({ now: () => now }) };
 }
 
+const signedTo = (path, obj) => ({ ...signed(obj), path });
+
+describe("handleRequest /tangol", () => {
+  it("REQ-1551: con firma válida llama a Tangol y devuelve su respuesta", async () => {
+    const d = { ...deps(), tangol: { call: vi.fn(async () => ({ status: 200, json: { ListDestinations: [] } })) } };
+    const out = await handleRequest(signedTo("/tangol", { op: "getDestinations", payload: { countryCode: "AR" } }), d);
+    expect(d.tangol.call).toHaveBeenCalledWith("GET", "/Tour/GetTourDestinations", { query: { "params.countryCode": "AR" }, body: undefined });
+    expect(out).toEqual({ status: 200, json: { ListDestinations: [] } });
+    expect(d.freetour.call).not.toHaveBeenCalled();
+  });
+
+  it("REQ-1551: sin firma 401; operación de Freetour en /tangol 400; sin configurar 503", async () => {
+    const d = { ...deps(), tangol: { call: vi.fn() } };
+    const req = signedTo("/tangol", { op: "getCountries", payload: {} });
+    req.headers["x-tp-signature"] = "00";
+    expect((await handleRequest(req, d)).status).toBe(401);
+    expect((await handleRequest(signedTo("/tangol", { op: "createBooking", payload: {} }), d)).status).toBe(400);
+    expect(d.tangol.call).not.toHaveBeenCalled();
+    expect((await handleRequest(signedTo("/tangol", { op: "getCountries", payload: {} }), deps())).status).toBe(503);
+  });
+
+  it("REQ-1551: si Tangol falla responde 502 sin datos del cliente", async () => {
+    const d = { ...deps(), tangol: { call: vi.fn(async () => { throw new Error("ECONNRESET"); }) } };
+    const out = await handleRequest(signedTo("/tangol", { op: "getCountries", payload: {} }), d);
+    expect(out).toEqual({ status: 502, json: { error: "Tangol no disponible" } });
+  });
+});
+
 describe("handleRequest", () => {
   it("GET /health responde ok sin firma", async () => {
     expect(await handleRequest({ method: "GET", path: "/health", headers: {}, body: "" }, deps())).toEqual({ status: 200, json: { ok: true } });

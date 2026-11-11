@@ -11,7 +11,7 @@ import type { TripInput } from "./schemas/trip";
 
 type Base = Omit<TripInput, "code" | "priceFrom">;
 export type TripData = Base & { code: string; seq: number; codeLocked: boolean; priceFrom: number | null; slug: string };
-export type StoredTrip = TripData & { id: string; status: TripStatus | string };
+export type StoredTrip = TripData & { id: string; status: TripStatus | string; /** REQ-1520: nivel 1–5 revisado; no lo edita el gestor. */ difficultyLevel?: number | null };
 
 export interface TripsDeps {
   findById(id: string): Promise<StoredTrip | null>;

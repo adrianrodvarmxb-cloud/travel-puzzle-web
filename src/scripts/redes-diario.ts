@@ -11,7 +11,28 @@ import { registryPosts } from "../blog/diario-run";
 import { postPath } from "../blog/lib/registry";
 import { wranglerVars } from "../site/lib/pages";
 import { redesConfig } from "../redes/lib/api";
-import { runRedes, issueRedesDelDia } from "../redes/run";
+import { runRedes, issueRedesDelDia, type Historial } from "../redes/run";
+import { execFileSync } from "node:child_process";
+
+/** REQ-1090: historial en D1 (tabla RedPublicacion). Sin base legible, el publicador no publica (falla cerrada). */
+function historialD1(slug: string): Historial {
+  const q = (sql: string): Record<string, unknown>[] => {
+    let out: string;
+    try {
+      out = execFileSync("npx", ["wrangler", "d1", "execute", "travel-puzzle", "--remote", "--json", "--command", sql], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    } catch (e) {
+      const err = e as { stderr?: string; stdout?: string };
+      throw new Error(`wrangler d1: ${(err.stderr || err.stdout || "").trim().slice(0, 1500)}`);
+    }
+    const r = JSON.parse(out) as { results?: Record<string, unknown>[] }[];
+    return r[0]?.results ?? [];
+  };
+  const esc = (v: string) => v.replace(/'/g, "''");
+  return {
+    async yaPublicadoEnRed(red) { return Number(q(`SELECT COUNT(*) AS n FROM "RedPublicacion" WHERE "slug" = '${esc(slug)}' AND "red" = '${red}'`)[0]?.n ?? 0) > 0; },
+    async registrar(red) { q(`INSERT OR IGNORE INTO "RedPublicacion" ("slug","red","publicadoEn") VALUES ('${esc(slug)}','${red}',datetime('now'))`); },
+  };
+}
 
 (async () => {
   const args = process.argv.slice(2);
@@ -22,7 +43,7 @@ import { runRedes, issueRedesDelDia } from "../redes/run";
   const post = registryPosts().find((p) => postPath(p) === ruta && !p.draft);
   if (!post) { console.error(`no hay entrada publicada en ${ruta}`); process.exit(1); }
   const config = redesConfig(wranglerVars(readFileSync("wrangler.jsonc", "utf8")), process.env as Record<string, string | undefined>);
-  const r = await runRedes({ post, siteUrl: site, config, fetch: (u, init) => fetch(u, init) });
+  const r = await runRedes({ post, siteUrl: site, config, fetch: (u, init) => fetch(u, init), historial: historialD1(post.slug) });
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, "linkedin.txt"), `${r.pack.linkedin}\n`);
   writeFileSync(join(dir, "facebook.txt"), `${r.pack.facebook}\n`);

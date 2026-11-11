@@ -2,7 +2,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getPrisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { isAdmin } from "./lib/admin";
+import { isAdminFresh } from "./lib/admin";
 import { createTripRepo } from "./repository";
 
 export const tripRepo = () => createTripRepo(getPrisma());
@@ -18,10 +18,11 @@ export function tripImagesBucket(): R2Like | null {
   return ((env as unknown as { TRIP_IMAGES?: R2Like }).TRIP_IMAGES) ?? null;
 }
 
-/** true si quien llama tiene rol ADMIN. */
+/** true si quien llama tiene rol ADMIN; REQ-1533: el rol se confirma en la base. */
 export async function requireAdmin(): Promise<boolean> {
   try {
-    return isAdmin(await auth());
+    return await isAdminFresh(await auth(), async (id) =>
+      (await getPrisma().user.findUnique({ where: { id }, select: { role: true } }))?.role ?? null);
   } catch {
     return false;
   }

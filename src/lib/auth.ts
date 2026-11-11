@@ -4,6 +4,8 @@ import Google from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { loginSchema } from '@/lib/validations/auth';
+import { ACCOUNTS_ENABLED } from '@/lib/features';
+import { googleSignInDecision } from '@/trips/lib/admin';
 
 export const authConfig: NextAuthConfig = {
   trustHost: true, // Trust the host (fixes UntrustedHost error in development)
@@ -64,6 +66,10 @@ export const authConfig: NextAuthConfig = {
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email },
           });
+
+          // REQ-1532: con cuentas de cliente apagadas, Google no crea cuentas nuevas.
+          const decision = googleSignInDecision({ exists: !!existingUser, accountsEnabled: ACCOUNTS_ENABLED });
+          if (decision === 'deny') return '/admin/entrar?error=sin-cuenta';
 
           if (!existingUser) {
             // Create new user for OAuth

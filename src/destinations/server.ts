@@ -15,6 +15,8 @@ import type { SupportedLanguage } from "@/types";
 import { routeLanguageState } from "@/i18n/server";
 import { localeUrlsEnabled } from "@/i18n/lib/flags";
 import { localizeTree } from "./lib/locale";
+import { previousVersionKeys } from "@/cache/lib/versions";
+import { isDestinationTree } from "./lib/tree-shape";
 
 export const primeraPiezaOn = () => isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED);
 export const siteUrl = () => process.env.SITE_URL || SITE_URL_DEFAULT;
@@ -23,8 +25,12 @@ export const siteUrl = () => process.env.SITE_URL || SITE_URL_DEFAULT;
 export function getDestinations(): Promise<CountryNode[]> {
   const vis = visibilityFromEnv(process.env as Record<string, string | undefined>);
   const taxonomy = taxonomyPublishEnabled(process.env as Record<string, string | undefined>);
-  return cached(cacheKey("destinos", { v: "9" /* REQ-1349 URL canónica de viajes; REQ-1265 «Reino Unido»; REQ-1260 cat. 8, REQ-1264 GB; REQ-1250 Tour / Visita guiada / Caminata; REQ-520; REQ-532…545 formato y atributos recalculados; REQ-662 titleEn y nombres por idioma */, own: String(vis.own), transport: String(vis.transport), tax: String(taxonomy) }), POLICY.toursList, () =>
-    withRetry(() => loadTree(destinationsRepo(getD1() as unknown as D1Read), new Date(), vis, { taxonomy }))
+  const parts = { v: "10" /* REQ-1359 copia anterior al cambiar de versión; REQ-1349 URL canónica de viajes; REQ-1265 «Reino Unido»; REQ-1260 cat. 8, REQ-1264 GB; REQ-1250 Tour / Visita guiada / Caminata; REQ-520; REQ-532…545 formato y atributos recalculados; REQ-662 titleEn y nombres por idioma */, own: String(vis.own), transport: String(vis.transport), tax: String(taxonomy) };
+  // REQ-1359 (INC-009): tras subir la versión, la primera petición sirve el árbol de la versión anterior (si tiene la
+  // forma de hoy) y el nuevo se arma en segundo plano, en vez de esperar 11–18 s en frío.
+  return cached(cacheKey("destinos", parts), POLICY.toursList, () =>
+    withRetry(() => loadTree(destinationsRepo(getD1() as unknown as D1Read), new Date(), vis, { taxonomy })),
+    { previousKeys: previousVersionKeys("destinos", parts, 2), accept: isDestinationTree },
   );
 }
 

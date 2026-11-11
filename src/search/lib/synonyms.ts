@@ -31,7 +31,7 @@ const add = (m: Map<string, Set<string>>, from: string, to: string[]) => {
 };
 
 // REQ-361 REQ-362
-export function buildSynonyms(raw: unknown, taxonomy: readonly TaxonomyTerm[] = []): { map: SynonymMap; rejected: number } {
+export function buildSynonyms(raw: unknown, taxonomy: readonly TaxonomyTerm[] = [], legacy: readonly { from: string[]; to: string[] }[] = []): { map: SynonymMap; rejected: number } {
   const m = new Map<string, Set<string>>();
   let rejected = 0;
   const file = SynonymFile.safeParse(raw);
@@ -49,6 +49,8 @@ export function buildSynonyms(raw: unknown, taxonomy: readonly TaxonomyTerm[] = 
     if (terms.length < 2) continue;
     for (const x of terms) add(m, x, terms);
   }
+  // REQ-1357: términos fusionados del diccionario (legado) → su término nuevo, en un solo sentido
+  for (const g of legacy) for (const f of g.from) add(m, f, [f, ...g.to]);
   return { map: new Map([...m].map(([k, v]) => [k, [...v]])), rejected };
 }
 

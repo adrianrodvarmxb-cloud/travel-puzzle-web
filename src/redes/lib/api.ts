@@ -51,6 +51,31 @@ export interface FormRequest { url: string; method: "POST"; form: Record<string,
 const graphUrl = (graph: string, path: string) => `https://graph.facebook.com/${graph}/${path}`;
 
 // REQ-1077
+/** REQ-1501: lectura de los últimos posts de la página, para no repetir una entrada ya publicada. */
+export function facebookFeedUrl(c: { pageId: string; token: string; graph: string }): string {
+  return graphUrl(c.graph, `${c.pageId}/feed?fields=message&limit=50&access_token=${encodeURIComponent(c.token)}`);
+}
+
+/** REQ-1501: id del post de la página que ya lleva el enlace canónico de la entrada (sin utm), o undefined. */
+export function postPrevioEnPagina(data: unknown, urlCanonica: string): string | undefined {
+  const posts = (data as { data?: unknown[] } | null)?.data ?? [];
+  const hit = posts.find((p) => typeof (p as { message?: unknown }).message === "string" && (p as { message: string }).message.includes(urlCanonica));
+  return hit ? String((hit as { id?: unknown }).id ?? "sin id") : undefined;
+}
+
+/** REQ-1503: lectura de las últimas fotos de la cuenta de Instagram, para no repetir una entrada ya publicada. */
+export function instagramMediaUrl(c: { igUserId: string; token: string; graph: string }): string {
+  return graphUrl(c.graph, `${c.igUserId}/media?fields=caption&limit=50&access_token=${encodeURIComponent(c.token)}`);
+}
+
+/** REQ-1503: id de la publicación de Instagram cuya caption abre igual que la de esta entrada, o undefined. */
+export function mediaPreviaEnInstagram(data: unknown, caption: string): string | undefined {
+  const titulo = caption.split("\n")[0].trim();
+  const posts = (data as { data?: unknown[] } | null)?.data ?? [];
+  const hit = posts.find((p) => typeof (p as { caption?: unknown }).caption === "string" && (p as { caption: string }).caption.trim().startsWith(titulo));
+  return hit ? String((hit as { id?: unknown }).id ?? "sin id") : undefined;
+}
+
 export function facebookPostRequest(c: { pageId: string; token: string; graph: string }, message: string, link: string): FormRequest {
   return { url: graphUrl(c.graph, `${c.pageId}/feed`), method: "POST", form: { message, link, access_token: c.token } };
 }
@@ -94,4 +119,16 @@ export function linkedinPostRequest(c: { orgId: string; token: string; version: 
       isReshareDisabledByAuthor: false,
     },
   };
+}
+
+/** REQ-1085: Meta rechaza publicar en la página con el token de usuario de sistema; primero se pide su token de página. */
+export function paginaTokenUrl(c: { graph: string; pageId: string; token: string }): string {
+  return `${graphUrl(c.graph, c.pageId)}?fields=access_token&access_token=${encodeURIComponent(c.token)}`;
+}
+
+/** REQ-1085: extrae el access_token de página; si no viene, falla con un mensaje claro (no publica con token de usuario). */
+export function tokenDePagina(json: Record<string, unknown>): string {
+  const t = json.access_token;
+  if (typeof t !== "string" || !t) throw new Error(`Meta no devolvió access_token de página: ${JSON.stringify(json).slice(0, 200)}`);
+  return t;
 }

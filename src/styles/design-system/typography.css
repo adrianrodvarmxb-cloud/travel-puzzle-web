@@ -4,7 +4,7 @@
 
 :root {
   /* Font Families */
-  --tp-font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tp-font-primary: var(--font-poppins-nf), 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --tp-font-fallback: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   
   /* Font Sizes */

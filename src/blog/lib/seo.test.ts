@@ -8,7 +8,7 @@ const post = (o = {}) => { const r = parsePost(samplePost(o)); if (!r.ok) throw 
 const site = "https://travelpuzzle.com.mx";
 
 describe("SEO del blog", () => {
-  it("REQ-274: BlogPosting coherente con lo visible; Person sin jobTitle mientras el cargo no esté confirmado", () => {
+  it("REQ-274: BlogPosting coherente con lo visible; Person con el cargo confirmado por el PO (REQ-1410)", () => {
     const j = blogPostingJsonLd(post(), AUTHORS.claudia, site);
     expect(j).toMatchObject({
       "@type": "BlogPosting",
@@ -20,7 +20,7 @@ describe("SEO del blog", () => {
       author: { "@type": "Person", name: "Claudia Leticia Rodríguez Laveaga" },
       publisher: { "@id": `${site}/#organization` },
     });
-    expect(j.author).not.toHaveProperty("jobTitle");
+    expect(j.author).toHaveProperty("jobTitle", "Founder & CEO");
     expect(j).not.toHaveProperty("dateModified");
     expect(blogPostingJsonLd(post({ updatedAt: "2027-02-01" }), AUTHORS.claudia, site).dateModified).toBe("2027-02-01");
   });

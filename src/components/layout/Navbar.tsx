@@ -1,7 +1,6 @@
 'use client';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
-import { withTransfersLink } from '@/transfers/lib/nav';
-import { withPrimeraPiezaLinks } from '@/tours/lib/menu';
+import { headerLinks, mobileSectionLinks, sessionNavLinks, adminPanelLinks, ACCOUNT_PAGES_READY, LEGACY_DASHBOARD_LINKS } from '@/layout/lib/nav-model';
 
 import React, { useState } from 'react';
 import Link from '@/components/i18n/LocalizedLink';
@@ -16,7 +15,7 @@ import { PlatformTextLogo } from '@/components/layout/PlatformTextLogo';
 import { Button } from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { ACCOUNTS_ENABLED } from '@/lib/features';
-import { homeSections, isActiveLink } from '@/home/lib/sections';
+import { isActiveLink } from '@/home/lib/sections';
 import {
   MenuIcon,
   CloseIcon,
@@ -41,30 +40,29 @@ export const Navbar = () => {
   };
 
   // Navigation links based on auth state
-  const { transfers, primeraPieza, dayTrips } = useFeatureFlags();
+  const { transfers, primeraPieza, dayTrips, pages } = useFeatureFlags();
   // REQ-093: Destinos solo con PRIMERA_PIEZA_ENABLED; apagada, el menú queda igual que hoy.
   // REQ-600: «La Primera Pieza» fuera del menú (MENU_PRIMERA_PIEZA en src/tours/lib/menu.ts).
-  const publicLinks = withPrimeraPiezaLinks(withTransfersLink([
-    { href: '/', label: t('nav.home') },
-    { href: '/tours', label: t('nav.tours') },
-    { href: '/#como-funciona', label: t('nav.howItWorks') },
-  ], transfers, t('nav.transfers')), !!primeraPieza, language);
+  // REQ-1400 (PO, 7 nov 2026): header = Destinos · Experiencias · Traslados · Blog (Blog solo con artículos visibles).
+  const publicLinks = headerLinks({
+    labels: { destinos: language === 'es' ? 'Destinos' : 'Destinations', tours: t('nav.tours'), transfers: t('nav.transfers'), blog: 'Blog' },
+    transfers: !!transfers,
+    primeraPieza: !!primeraPieza,
+    blog: !!pages?.blog,
+  });
 
-  const clientLinks = withPrimeraPiezaLinks(withTransfersLink([
-    { href: '/', label: t('nav.home') },
-    { href: '/tours', label: t('nav.tours') },
-    { href: '/bookings', label: t('nav.myBookings') },
-  ], transfers, t('nav.transfers')), !!primeraPieza, language);
-
-  const dashboardLinks = [
+  // REQ-1531: enlaces del Panel viejo (/dashboard/*) ocultos tras LEGACY_DASHBOARD_LINKS; esas páginas no existen.
+  const legacyDashboardLinks = [
     { href: '/dashboard', label: t('nav.dashboard.overview'), icon: '📊' },
     { href: '/dashboard/tours', label: t('nav.dashboard.manageTours'), icon: '🏷️' },
     { href: '/dashboard/bookings', label: t('nav.dashboard.manageBookings'), icon: '📋' },
     { href: '/dashboard/users', label: t('nav.dashboard.manageUsers'), icon: '👥' },
     { href: '/dashboard/api-config', label: t('nav.dashboard.apiConfig'), icon: '⚙️' },
   ];
+  const dashboardLinks = LEGACY_DASHBOARD_LINKS ? legacyDashboardLinks : adminPanelLinks(language);
 
-  const navLinks = user ? clientLinks : publicLinks;
+  // REQ-1530: con o sin sesión, el mismo header público; «Mis Reservas» solo cuando exista la página.
+  const navLinks = sessionNavLinks(publicLinks, { loggedIn: !!user, accountPagesReady: ACCOUNT_PAGES_READY, myBookingsLabel: t('nav.myBookings') });
 
   return (
     <nav className="sticky top-0 z-50 bg-tp-blue-primary border-b border-tp-blue-dark">
@@ -157,13 +155,14 @@ export const Navbar = () => {
                     </>
                   }
                 >
-                  <Link
+                  {/* REQ-1530: Perfil solo cuando exista la página */}
+                  {ACCOUNT_PAGES_READY && <Link
                     href="/profile"
                     className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-muted transition-colors"
                   >
                     <span>⚙️</span>
                     {t('nav.user.profile')}
-                  </Link>
+                  </Link>}
                   <button
                     onClick={handleSignOut}
                     className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950 transition-colors"
@@ -191,7 +190,7 @@ export const Navbar = () => {
           <div className="md:hidden py-4 border-t border-tp-blue-dark">
             {/* Mobile Nav Links */}
             <div className="flex flex-col gap-2 mb-4">
-              {navLinks.filter((link) => link.href !== '/#como-funciona').map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -208,7 +207,7 @@ export const Navbar = () => {
 
             {/* Secciones del inicio (decisión del PO, 3 nov 2026); REQ-068: se derivan de la lista única */}
             <div className="mb-4 border-t border-white/15 pt-3">
-              {homeSections(language, { dayTrips }).map((s) => (
+              {mobileSectionLinks(language, dayTrips).map((s) => (
                 <Link
                   key={s.id}
                   href={s.href}
@@ -267,14 +266,14 @@ export const Navbar = () => {
                   <p className="text-xs font-semibold text-white/60 uppercase mb-2">
                     {user.name}
                   </p>
-                  <Link
+                  {ACCOUNT_PAGES_READY && <Link
                     href="/profile"
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-2 text-sm text-white/80 hover:bg-white/10 hover:text-white rounded-md transition-colors"
                   >
                     <span>⚙️</span>
                     {t('nav.user.profile')}
-                  </Link>
+                  </Link>}
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);

@@ -93,6 +93,10 @@ async function main() {
   await writeRawCopy();
   for (const r of report) console.log(`${r.ref.padEnd(8)} ${r.code.padEnd(16)} ${r.status.padEnd(9)} ${r.missing.join(", ")}`);
   console.log(`\n${report.length} viajes · ${report.filter((r) => r.status === "published").length} publicados · ${errors.length} errores`);
+  // REQ-1348: lista de dudas del PO (sin formato del diccionario, o tipo decidido sin señal).
+  const dudas = report.filter((r) => r.duda);
+  writeFileSync(join(out, "dudas.json"), JSON.stringify(dudas.map((r) => ({ ref: r.ref, code: r.code, formato: r.formato, status: r.status, missing: r.missing })), null, 2));
+  if (dudas.length) console.log(`${dudas.length} a la lista de dudas del PO (dudas.json)`);
   errors.forEach((x) => console.log(`ERROR ${x}`));
   if (errors.length) process.exit(1);
 }

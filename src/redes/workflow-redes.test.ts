@@ -14,9 +14,13 @@ describe("workflow redes-diario.yml", () => {
     expect(wf).toContain('npx tsx src/scripts/redes-diario.ts "$RUTA" --salida redes-salida');
   });
 
-  it("REQ-1076: banderas por red en \"false\" y tokens solo como secretos (nunca en el repo)", () => {
+  it("REQ-1076/REQ-1086: Facebook e Instagram encendidas, LinkedIn en \"false\"; tokens solo como secretos (nunca en el repo)", () => {
     const v = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-    expect([v.SOCIAL_LINKEDIN_ENABLED, v.SOCIAL_FACEBOOK_ENABLED, v.SOCIAL_INSTAGRAM_ENABLED]).toEqual(["false", "false", "false"]);
+    const encendidas = [v.SOCIAL_LINKEDIN_ENABLED, v.SOCIAL_FACEBOOK_ENABLED, v.SOCIAL_INSTAGRAM_ENABLED].filter((x) => x === "true").length;
+    expect(encendidas).toBeLessThanOrEqual(2);
+    expect(v.SOCIAL_LINKEDIN_ENABLED).toBe("false");
+    // REQ-1086: Instagram encendida con OK del PO (Facebook ya verificada en REQ-1085).
+    expect(v.SOCIAL_INSTAGRAM_ENABLED).toBe("true");
     for (const k of ["META_PAGE_ID", "META_PAGE_TOKEN", "META_IG_USER_ID", "LINKEDIN_ORG_ID", "LINKEDIN_TOKEN"]) expect(wf).toContain(`${k}: \${{ secrets.${k} }}`);
     expect(wf).not.toMatch(/EAA[A-Za-z0-9]{20,}|AQ[A-Za-z0-9_-]{40,}/);
   });

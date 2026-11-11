@@ -1,5 +1,9 @@
 # Pasarela de reservas (Namecheap)
 
+> Tangol (REQ-1550, REQ-1551): la misma pasarela atiende `POST /tangol` con 5 lecturas (países, destinos, tours,
+> detalles y tarifas) y sale por la misma IP. Variables opcionales en cPanel: `TANGOL_EMAIL` y `TANGOL_CLAVE`
+> (las dos o ninguna; sin ellas `/tangol` responde 503 y Freetour sigue igual). Opcional `TANGOL_BASE_URL`.
+
 Freetour solo acepta reservas desde la IP registrada del servidor de Namecheap.
 El sitio (Cloudflare) firma cada petición y la manda aquí; la pasarela la valida
 y la reenvía a Freetour. Solo permite 7 operaciones: crear, consultar, cancelar y
