@@ -102,3 +102,9 @@ export function buildSitemaps({ siteUrl, countries, cities, tours, trips = [], h
   }
   return { index: sitemapIndexXml(index), files };
 }
+
+/** REQ-1341: lastmod de sitemap-paginas.xml en el índice = la fecha más reciente de sus URLs (YYYY-MM-DD); sin fechas, null. */
+export function pagesIndexLastmod(entries: readonly UrlEntry[]): string | null {
+  const days = entries.map((e) => e.lastmod).filter((d): d is string => typeof d === "string" && /^\d{4}-\d{2}-\d{2}/.test(d)).map((d) => d.slice(0, 10));
+  return days.length ? days.reduce((a, b) => (b > a ? b : a)) : null;
+}
