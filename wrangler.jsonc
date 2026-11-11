@@ -122,7 +122,7 @@
     "TAXONOMY_LABELS_ENABLED": "true",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
-    "TAXONOMY_CIRCUITS_ENABLED": "false",
+    "TAXONOMY_CIRCUITS_ENABLED": "true",
     "TAXONOMY_CIRCUIT_EXTRA_ENABLED": "false",
     // REQ-262…267: bloque de venta cruzada (sin FREETOUR, regla B3) en confirmación, recordatorios, cambio y post-tour.
     // Nunca en rechazo ni cancelación. "true" con preview, prueba de humo y OK del PO. Decisión del PO (6-11 09:07):
