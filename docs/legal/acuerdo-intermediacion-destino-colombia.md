@@ -71,6 +71,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.8. Las tarifas de alojamiento están exentas del IVA de 19% para pasajeros extranjeros no residentes que acrediten su condición con pasaporte y sello migratorio vigente (PIP3, PIP5, PIP10, TPT7, TPT11 o TPT12), conforme al Decreto 297 de 2016. Con otro sello, el pasajero paga el IVA directamente en el hotel. La Parte A lo informa al cliente antes de pagar.
 
+3.9. Cuentas de pago: sus términos listan varias cuentas aprobadas en Colombia, Estados Unidos, Panamá, Perú y Costa Rica. La Parte B indica por escrito, en papel membretado y firmado por su representante, cuál de ellas usa la Parte A, y la Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+
 ## Cláusula 4. Cancelaciones y reembolsos
 
 4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:

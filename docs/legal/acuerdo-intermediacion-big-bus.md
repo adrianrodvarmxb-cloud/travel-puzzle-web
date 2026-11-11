@@ -62,6 +62,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.5. Los boletos se emiten en el portal al pagar; la Parte A entrega al cliente el voucher de la Parte B.
 
+3.6. Cuentas de pago: la Parte A paga con su tarjeta en el portal de agencias de la Parte B y los reembolsos regresan a la misma tarjeta. Si en el futuro se paga por transferencia, la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta; cualquier cambio de cuenta se confirma por teléfono o videollamada antes del siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo.
+
 ## Cláusula 4. Cancelaciones y reembolsos
 
 4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:

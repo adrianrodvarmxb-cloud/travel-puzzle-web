@@ -66,6 +66,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.6. Ajustes de precio que el tarifario permite (tipo de cambio USD-RMB hasta 30 días antes, combustible con aviso de 30 días y suplemento por reservas dentro de los 28 días previos, p. 119 y 121) se notifican por correo conforme a la cláusula 8.2.
 
+3.7. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta bancaria donde la Parte A le paga (banco, titular, número de cuenta o IBAN, SWIFT y moneda). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes de hacer el siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+
 ## Cláusula 4. Cancelaciones y reembolsos
 
 4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:

@@ -62,6 +62,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, las 
 
 3.5. Forma, moneda y plazo de pago de la Parte A a la Parte B, y si la comisión se descuenta en la reserva o se factura aparte: [EXTIME: confirmar].
 
+3.6. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta bancaria donde la Parte A le paga (banco, titular, número de cuenta o IBAN, SWIFT y moneda). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes de hacer el siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+
 ## Cláusula 4. Cancelaciones y reembolsos
 
 4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:

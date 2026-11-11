@@ -64,6 +64,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, las 
 
 3.6. Uso de la API: con los límites técnicos acordados el 10 sep 2025 (2 peticiones a la vez, 15 por minuto y 3 segundos entre peticiones), desde las direcciones IP que la Parte A registre con la Parte B.
 
+3.7. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de su cuenta en Estados Unidos para el pago quincenal (banco, titular, número de cuenta, número de ruta o SWIFT). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+
 ## Cláusula 4. Cancelaciones y reembolsos
 
 4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:
