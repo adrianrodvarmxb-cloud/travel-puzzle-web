@@ -64,15 +64,42 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 ## Cláusula 7. Datos personales
 7.1. Cada parte trata los datos del cliente conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y a sus avisos de privacidad.
 7.2. La Parte A transmite a la Parte B solo los datos necesarios para la reserva (nombre, pasaporte, vuelos, régimen alimenticio y necesidades especiales).
+7.3. Esos datos se transfieren a la India. La Parte A lo informa en su aviso de privacidad y el cliente lo acepta al reservar, conforme a los artículos 36 y 37 de la LFPDPPP.
+7.4. La Parte B protege los datos con medidas de seguridad iguales o mayores a las que exige la LFPDPPP, y los usa solo para prestar el servicio contratado.
 
 ## Cláusula 8. Vigencia y terminación
 8.1. Vigencia: 1 de abril de 2027 al 31 de marzo de 2028, con renovación por escrito.
 8.2. Cualquiera de las partes puede terminar el acuerdo por escrito, con el aviso que defina la Parte A. Los viajes confirmados antes de la terminación se respetan hasta su salida.
 
 ## Cláusula 9. Ley aplicable y jurisdicción
-9.1. Este acuerdo se rige por las leyes del estado de Durango, igual que los Términos y Condiciones publicados por Travel Puzzle. Para cualquier controversia, las partes se someten a los Tribunales competentes de Durango, Durango, previo intento de conciliación ante la Procuraduría Federal del Consumidor (PROFECO) cuando aplique.
+9.1. [ABOGADO: elegir una opción]
+   - Opción A: leyes del estado de Durango y Tribunales competentes de Durango, Durango (igual que los Términos y Condiciones publicados).
+   - Opción B: arbitraje internacional en sede neutral, con las reglas que elija el abogado. Es la práctica habitual entre partes de países distintos, porque una sentencia mexicana es difícil de ejecutar en la India y viceversa; hay que confirmar que México y la India son parte de la Convención de Nueva York sobre reconocimiento de laudos.
+9.2. Idioma: el acuerdo se firma en español y en inglés. [ABOGADO: definir cuál versión prevalece]
 
-## Cláusula 10. Firma
+## Cláusula 10. Fuerza mayor
+10.1. Ninguna parte responde por el incumplimiento causado por fuerza mayor o caso fortuito, como desastres naturales, pandemias, cierres de aeropuertos, guerras o decisiones de autoridades. La parte afectada avisa por escrito a la otra en un plazo razonable.
+10.2. Los servicios no prestados por fuerza mayor se reembolsan a la Parte A solo si la Parte B los cobró y no los prestó; el reembolso al cliente sigue la Cláusula 4.
+
+## Cláusula 11. Confidencialidad
+11.1. Las tarifas netas, condiciones comerciales y tarifarios de la Parte B son confidenciales. La Parte A no los publica ni los comparte con terceros, salvo con sus asesores y con la autoridad que lo exija.
+11.2. La obligación subsiste durante la vigencia del acuerdo y dos años después de su terminación.
+
+## Cláusula 12. Cumplimiento, impuestos y prevención de ilícitos
+12.1. Cada parte cumple las leyes aplicables en su país, incluidas las de prevención de lavado de dinero, corrupción y sanciones internacionales.
+12.2. Cada parte paga sus propios impuestos. Las retenciones y los impuestos de los servicios (IVA en México, GST en la India) se aplican según la ley de cada país. [CLIENTE/CONTADOR: definir quién retiene y cómo se factura entre ambas partes.]
+12.3. La Parte B entrega su número de identificación fiscal de la India (GSTIN o PAN) y la Parte A entrega su RFC para facturar.
+
+## Cláusula 13. Disposiciones generales
+13.1. Notificaciones: se hacen por escrito a los correos de la sección de Partes o a los domicilios indicados. Un cambio de domicilio o correo se avisa por escrito.
+13.2. Cesión: ninguna parte cede este acuerdo sin autorización escrita de la otra.
+13.3. Subcontratación: la Parte B responde por los subcontratistas que use en destino.
+13.4. Totalidad: este acuerdo y sus anexos son el acuerdo completo entre las partes sobre su objeto y reemplazan cualquier acuerdo previo.
+13.5. Modificaciones: solo son válidas si constan por escrito y firmadas por ambas partes.
+13.6. Separabilidad: si una cláusula es inválida, el resto sigue vigente.
+13.7. Ejemplares: el acuerdo se firma en dos originales, uno por parte, o en copias con firma electrónica válida.
+
+## Cláusula 14. Firma
 Leído y aceptado por las partes, en [CLIENTE: ciudad], a [fecha].
 
 Por la Parte A: ____________________________  Nombre y cargo: [CLIENTE]
@@ -84,10 +111,22 @@ Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 ## Anexo 1. Programas incluidos
 [CLIENTE: lista de los 14 viajes publicados con código de programa, fechas, precio neto y vigencia]
 
-## Anexo 2. Pendientes para firmar
+## Anexo 2. Documentos de la Parte B (requeridos antes de firmar)
+1. Certificado de constitución o incorporación de la empresa en la India.
+2. Número de registro fiscal GST (GSTIN) y PAN.
+3. Licencia o registro de operador turístico vigente.
+4. Resolución del consejo o poder que autoriza a la persona que firma.
+5. Documento de identidad del firmante.
+6. Póliza de responsabilidad civil o seguro de viajeros, si lo tiene.
+
+Para validez en México, los documentos corporativos de la India deben legalizarse con apostilla de La Haya (o consularización si no aplica) y traducirse al español por perito traductor.
+
+## Anexo 3. Pendientes para firmar
 0. Precio de venta, forma de pago y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
 1. Confirmar si la política de cancelación para agencias es la de la tabla (Cláusula 4.1) o una distinta.
 2. Confirmar que la Parte B opera en tierra y que la Parte A no asume responsabilidad aérea.
 3. Datos legales completos de ambas partes (razón social, RFC o registro de India, domicilio, representante legal).
 4. Permiso por escrito para usar fotos y contenido del catálogo.
-5. Revisión de abogado de Travel Puzzle antes de firmar.
+5. Revisión de abogado de Travel Puzzle antes de firmar, incluida la elección de ley y de tribunales o arbitraje (Cláusula 9).
+6. Documentos de la Parte B del Anexo 2, con apostilla y traducción.
+7. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B debe confirmar qué método acepta en la India.
