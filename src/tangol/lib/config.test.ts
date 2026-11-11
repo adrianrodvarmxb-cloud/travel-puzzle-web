@@ -1,26 +1,21 @@
 import { describe, it, expect } from "vitest";
-import { tangolConfig, TANGOL_BASE_URL } from "./config";
+import { tangolConfig } from "./config";
 
 describe("tangolConfig", () => {
-  const secrets = { TANGOL_EMAIL: "agencia@example.com", TANGOL_CLAVE: "123" };
+  const gateway = { GATEWAY_URL: "https://pasarela.travelpuzzle.com.mx", GATEWAY_SECRET: "s" };
 
-  it('REQ-1544: apagada por defecto, sin "true" exacto no hay configuración', () => {
-    expect(tangolConfig({ ...secrets })).toBeNull();
-    expect(tangolConfig({ ...secrets, TANGOL_ENABLED: "false" })).toBeNull();
-    expect(tangolConfig({ ...secrets, TANGOL_ENABLED: "TRUE" })).toBeNull();
+  it('REQ-1552: apagada por defecto, sin "true" exacto no hay configuración', () => {
+    expect(tangolConfig({ ...gateway })).toBeNull();
+    expect(tangolConfig({ ...gateway, TANGOL_ENABLED: "false" })).toBeNull();
+    expect(tangolConfig({ ...gateway, TANGOL_ENABLED: "TRUE" })).toBeNull();
   });
 
-  it("REQ-1544: encendida pero sin secretos tampoco hay configuración", () => {
+  it("REQ-1552: encendida pero sin la pasarela configurada tampoco hay configuración", () => {
     expect(tangolConfig({ TANGOL_ENABLED: "true" })).toBeNull();
-    expect(tangolConfig({ TANGOL_ENABLED: "true", TANGOL_EMAIL: "a@b.c" })).toBeNull();
+    expect(tangolConfig({ TANGOL_ENABLED: "true", GATEWAY_URL: "https://x" })).toBeNull();
   });
 
-  it("REQ-1544: encendida y con secretos devuelve la configuración con el host oficial", () => {
-    expect(tangolConfig({ ...secrets, TANGOL_ENABLED: "true" })).toEqual({
-      baseUrl: TANGOL_BASE_URL,
-      email: "agencia@example.com",
-      clave: "123",
-    });
-    expect(TANGOL_BASE_URL).toBe("https://tangolapi.tangol.com");
+  it("REQ-1552: encendida devuelve solo la pasarela (las claves de Tangol viven en cPanel, no en el sitio)", () => {
+    expect(tangolConfig({ ...gateway, TANGOL_ENABLED: "true" })).toEqual({ gatewayUrl: "https://pasarela.travelpuzzle.com.mx", secret: "s" });
   });
 });

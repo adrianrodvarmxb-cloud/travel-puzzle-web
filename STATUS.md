@@ -5,15 +5,19 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1540 | Autenticación, token Bearer 50 min, 401 una vez, sin bucle | NUEVO | `src/tangol/api.ts` | `src/tangol/api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1540 | Autenticación en el sitio | NUEVO | — | — | REEMPLAZADO por REQ-1550/1552 |
 | REQ-1541 | Países, destinos y tours con Zod y nombres del swagger | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
 | REQ-1542 | Resumen de tarifas, bloqueos y vigencia | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts`, `api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
 | REQ-1543 | Precio al cliente = tarifa pública; sin neto ni comisión | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
-| REQ-1544 | Bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
-| REQ-1545 | Whitelist: directo o por pasarela | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-1544 | Bandera con secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1552 |
+| REQ-1545 | Whitelist: por la pasarela de Namecheap | NUEVO | — | — | CUMPLIDO («igual que name cheap», 11 nov 14:08) |
 | REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | PENDIENTE (tarea del PO) |
-| REQ-1547 | Secretos en Cloudflare | NUEVO | — | — | PENDIENTE (tarea del PO) |
+| REQ-1547 | Secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1553 |
 | REQ-1548 | Olas 2 a 4 | NUEVO | `docs/plan-tangol.md` | — | PENDIENTE |
+| REQ-1550 | Pasarela: autenticación con Tangol por la IP registrada | NUEVO | `gateway/lib/tangol.js` | `gateway/lib/tangol.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1551 | Pasarela: `POST /tangol` con 5 operaciones de lectura | NUEVO | `gateway/lib/tangol-operations.js`, `gateway/lib/handler.js`, `gateway/lib/config.js`, `gateway/server.js` | `gateway/lib/tangol.test.js`, `handler.test.js`, `config.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1552 | Sitio: solo por la pasarela, bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/api.test.ts`, `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
+| REQ-1553 | Variables de Tangol en cPanel | NUEVO | — | — | PENDIENTE (tarea del PO) |
 
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad

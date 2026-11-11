@@ -9,6 +9,8 @@
 //   FREETOUR_BASE_URL        por defecto producción v.2.0
 //   FREETOUR_API_VERSION     2.0 (por defecto) | 2.1 | 2.2 — REQ-062; quitarla = regresar a 2.0
 //   FREETOUR_LOCAL_ADDRESS   IP de salida registrada en Freetour (obligatorio; 66.29.153.81)
+//   TANGOL_EMAIL, TANGOL_CLAVE  acceso a la API de Tangol (opcionales, van juntos; REQ-1551). Sale por la misma IP.
+//   TANGOL_BASE_URL          por defecto https://tangolapi.tangol.com
 //   PORT                     lo pone cPanel
 import http from "node:http";
 import { existsSync, readFileSync } from "node:fs";
@@ -19,6 +21,7 @@ import { createFreetourClient } from "./lib/freetour.js";
 import { createDedupe } from "./lib/dedupe.js";
 import { checkConfig } from "./lib/config.js";
 import { resolveBaseUrl } from "./lib/api-version.js";
+import { createTangolClient } from "./lib/tangol.js";
 
 const MAX_BODY = 32 * 1024;
 const here = dirname(fileURLToPath(import.meta.url));
@@ -44,6 +47,15 @@ const freetour = createFreetourClient({
   password: process.env.FREETOUR_PASSWORD,
   localAddress: process.env.FREETOUR_LOCAL_ADDRESS,
 });
+// REQ-1551: Tangol solo si tiene sus variables; sin ellas /tangol responde 503 y Freetour sigue igual.
+const tangol = process.env.TANGOL_EMAIL && process.env.TANGOL_CLAVE
+  ? createTangolClient({
+      baseUrl: process.env.TANGOL_BASE_URL || "https://tangolapi.tangol.com",
+      email: process.env.TANGOL_EMAIL,
+      clave: process.env.TANGOL_CLAVE,
+      localAddress: process.env.FREETOUR_LOCAL_ADDRESS,
+    })
+  : null;
 const dedupe = createDedupe();
 
 const log = (event, data) => console.log(JSON.stringify({ t: new Date().toISOString(), event, ...data }));
@@ -59,10 +71,10 @@ const server = http.createServer((req, res) => {
   req.on("end", async () => {
     if (tooBig) return;
     // cPanel puede montar la app bajo una ruta (p. ej. /pasarela); solo cuenta el final.
-    const path = new URL(req.url, "http://x").pathname.replace(/\/+$/, "").replace(/^.*(\/health|\/freetour)$/, "$1");
+    const path = new URL(req.url, "http://x").pathname.replace(/\/+$/, "").replace(/^.*(\/health|\/freetour|\/tangol)$/, "$1");
     const out = await handleRequest(
       { method: req.method, path, headers: req.headers, body },
-      { secret: process.env.GATEWAY_SECRET, now: Date.now, freetour, log, dedupe }
+      { secret: process.env.GATEWAY_SECRET, now: Date.now, freetour, tangol, log, dedupe }
     );
     res.writeHead(out.status, { "Content-Type": "application/json", "Cache-Control": "no-store" });
     res.end(JSON.stringify(out.json));

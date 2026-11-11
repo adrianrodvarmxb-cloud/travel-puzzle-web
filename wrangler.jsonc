@@ -61,8 +61,8 @@
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
     "OWN_TOURS_ENABLED": "true",
-    // REQ-1544: API de Tangol (ola 1, solo cliente de lectura en src/tangol). Secretos TANGOL_EMAIL y TANGOL_CLAVE
-    // en Cloudflare (REQ-1547), nunca en el repo. "true" solo con whitelist resuelta (REQ-1545), preview, humo y OK del PO.
+    // REQ-1552: API de Tangol (ola 1, solo lectura en src/tangol). El sitio va por la pasarela (/tangol), que sale por
+    // la IP registrada; TANGOL_EMAIL y TANGOL_CLAVE viven en cPanel (REQ-1553). "true" con preview, humo y OK del PO.
     "TANGOL_ENABLED": "false",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
