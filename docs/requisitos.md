@@ -940,3 +940,24 @@ Petición literal (coordinador): «Aplica escudrinar-error-iso como INC-009, con
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — | EN CURSO (test verde; falta el siguiente deploy de main) |
+
+## Pendientes de revisión legal, cifras públicas y proveedores (coordinador, 11 nov 2026)
+Alta de folios para lo que vive solo en el chat (protocolo, punto 1). Fuente: sesión del PO del 4 al 11 nov 2026. Todo queda PENDIENTE o EN CURSO hasta su evidencia.
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1359 | CÓDIGO | Quitar de /nosotros y del inicio la calificación y el conteo de reseñas de la agencia (eran de FREETOUR; PO aprobó quitar 8,078 y 4.8). Rama `fix/quitar-calificacion-agencia` | agente | — | EN CURSO (test verde; falta humo 390/1366 y PR) |
+| REQ-1360 | CÓDIGO | `publicStats` no incluye rating ni reviews; `hasLiveStats` ignora la calificación sola (`src/about/lib/public-stats.test.ts`) | agente | REQ-1359 | EN CURSO (test verde en la rama; falta registrar aquí tras merge) |
+| REQ-1361 | CÓDIGO | INC: /tours muestra 8,322 y /nosotros 8,106 en vivo; origen del 8,322 no conciliado; unificar en una sola fuente | agente | — | PENDIENTE |
+| REQ-1362 | DEFINICIÓN | Ocultar los 81 viajes publicados sin términos por escrito (Exotic 14, Fantástica China 44, Destino Colombia 10, Turismo Asiático 10), reversible, sin borrar (propuesta del agente, sin respuesta del PO) | PO | — | PENDIENTE |
+| REQ-1363 | TAREA-PO | Pedir por escrito a Exotic Escapes (Angela Ballén) cancelación para agencias, rol de intermediario y acuerdo firmado; hoy 14 viajes publicados sin acuerdo | PO | — | PENDIENTE |
+| REQ-1364 | TAREA-PO | Aclarar con Fantástica China: la cancelación está en p. 122 numeral 18 (escalonada 10/20/30/50/100%), pero el acuerdo del 4 nov cita la p. 123 (servicios). Confirmar política por producto y confidencialidad del tarifario | PO | — | PENDIENTE |
+| REQ-1365 | TAREA-PO | Destino Colombia: T&C vigentes son de noviembre 2023 y cancelación «no definida taxativamente»; pedir versión 2026 y política exacta por circuito antes de publicar los 10 | PO | — | PENDIENTE |
+| REQ-1366 | TAREA-PO | Big Bus: pedir por escrito cancelación y reembolsos del socio, rol de intermediario, permiso de imágenes en Facebook (pregunta del 16 sep sin respuesta) y criterio tras el pago a precio completo del 9 oct | PO | — | PENDIENTE |
+| REQ-1367 | CÓDIGO | Corregir el borrador legal de cancelación de Extime: el borrador dice 4 días; vigente desde 26 oct 2026 por producto (24 h 144 productos, 96 h 32, 72 h 6, 21 días 1) | agente | — | PENDIENTE |
+| REQ-1368 | VALIDACIÓN | Términos y condiciones con rol de intermediario por proveedor (FREETOUR, Exotic, Destino Colombia, Big Bus, Fantástica China, Extime); el PO valida el texto final | PO | REQ-1363, REQ-1364, REQ-1365, REQ-1366, REQ-1367 | PENDIENTE |
+| REQ-1369 | TAREA-PO | Rotar la llave de FREETOUR que se envió en texto plano por correo (5 jul 2024); pedir por escrito a FREETOUR | PO | — | PENDIENTE |
+| REQ-1370 | TAREA-PO | Pedir por escrito a Ignacio Merino (FREETOUR) las 9 preguntas de `cumplimiento-freetour` (promoción por correo/WhatsApp, chatbot, logo, fotos, mínimo de retiro 30 € vs 15 €) | PO | — | PENDIENTE |
+| REQ-1371 | CÓDIGO | Control de widgets de complementos (Kiwitaxi, Big Bus): `src/companions/registry.json` como fuente única, validado por zod; la llave fuera del archivo (PO aprobó la dirección, construcción después) | agente | — | PENDIENTE |
+| REQ-1372 | CÓDIGO | Validación automática al agregar un proveedor, API, tool o complemento: se corre sola contra el registro y las reglas legales; falla si falta el folio, el término por escrito o el rol de intermediario (PO aprobó la dirección, construcción después) | agente | REQ-1371 | PENDIENTE |
+| REQ-1373 | DEFINICIÓN | Japón: el contrato no se publica; el seguro se ofrece como servicio incluido a través del proveedor (Assist Card) tras bandera apagada. PO dijo «ahorita no lo pongas» (4 nov) | PO | — | PENDIENTE |
