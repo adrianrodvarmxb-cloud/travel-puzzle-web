@@ -871,7 +871,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1309 | VALIDACIÓN | `NOSOTROS_ENABLED` (REQ-240): OK del PO al texto | PO | — || CUMPLIDO (PO confirma el texto y el encendido de NOSOTROS_ENABLED, 8-11; #283) |
 | REQ-1310 | BANDERA | `SOCIAL_LINKEDIN/FACEBOOK/INSTAGRAM_ENABLED` (REQ-1076), una por una | agente | REQ-1321, REQ-1322 | EN CURSO (Facebook encendida: #293, deploy 42561967397 verde, 8-11; Instagram encendida: #301, deploy 42577832647 verde, 9-11; falta `SOCIAL_LINKEDIN_ENABLED`, que espera REQ-1322 y REQ-1356) |
 | REQ-1311 | BANDERA | `SEARCH_LOG_ENABLED` (REQ-340) | agente | REQ-1323 | BLOQUEADO |
-| REQ-1312 | BANDERA | `SEARCH_STEM_ENABLED` (REQ-363): búsqueda por raíz | agente | REQ-1517 | EN CURSO (plan firmado por el PO el 11-11: «firmo», G1 = A y G2 = A; primero la migración, luego la bandera en su propio PR) |
+| REQ-1312 | BANDERA | `SEARCH_STEM_ENABLED` (REQ-363): búsqueda por raíz | agente | REQ-1517 | CUMPLIDO (en true en main por #354; deploy 43116549386 con humo de producción verde, 11-11; el deploy anterior 43115718457 regresó solo por un 500 aislado en /tours, ver INC-011 / REQ-1600) |
 | REQ-1313 | BANDERA | `REVIEW_EMAILS_ENABLED`, `EMAIL_CROSS_SELL_ENABLED` (REQ-264), `MARKETING_CONSENT_ENABLED`, `COOKIES_POLICY_ENABLED` | agente | REQ-1323 | BLOQUEADO |
 | REQ-1314 | DEFINICIÓN | `ADULT_CONTACT_CHECK_ENABLED`, `STRIPE_HOLD_ENABLED` (REQ-059), `GEO_ATTRIBUTION_ENABLED` (REQ-355): ¿se encienden? | PO | — | PENDIENTE |
 | REQ-1315 | BANDERA | Apagadas a propósito: `FREETOUR_CHATBOT_ENABLED`, `FREETOUR_POSTTOUR_PROMO_ENABLED` (cumplimiento B3/B4), `VISA_ENABLED`, `ETIAS_ENABLED`, «Esenciales de viaje» (sin inventario) | — | Autorización escrita de FREETOUR / inventario | BLOQUEADO (a propósito) |
@@ -1116,3 +1116,7 @@ Petición literal (PO): «revisa por qué pasa esto y plantea una estrategia par
 |---|---|---|---|---|---|
 | REQ-1587 | CÓDIGO | Dado un folio nuevo, cuando una sesión lo necesita, entonces lo aparta con `src/scripts/folio.ts apartar` (commit fast-forward en la rama `folios/registro`; dos sesiones a la vez reciben folios distintos) y el PR corre `folio.ts revisar`, que falla si un folio choca con main o, desde REQ-1588, no está apartado. Frentes en curso con `src/scripts/frente.ts` (issues `en-curso`) y paso 0 en CLAUDE.md (frente, folios, borrador vigente de Gmail, documentos del proyecto). Tests `src/ops/lib/folios.test.ts` | agente | — | EN CURSO (13 pruebas en verde; reserva real y concurrencia probadas: REQ-1588 y REQ-1589 a dos sesiones simultáneas; falta PR y OK del PO) |
 
+## INC-011: regreso automático al encender SEARCH_STEM_ENABLED (11 nov 2026)
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1600 | CÓDIGO | INC-011: dado el deploy de #354, cuando corre el humo de producción, entonces /tours @1366 responde 200; hoy dio un 500 aislado (digest 1123893058) y el workflow regresó solo; el deploy siguiente (43116549386) quedó verde con la bandera encendida. Causa raíz pendiente de los Workers Logs | agente + PO | Workers Logs (PO) | EN CURSO |
