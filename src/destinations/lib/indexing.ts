@@ -86,7 +86,20 @@ export function cityIndexInputsSql(excluded: readonly string[]): { sql: string; 
   const params = excluded.map((p) => p.trim().toLowerCase()).filter(Boolean);
   const only = params.length ? ` AND lower(trim(t."providerId")) NOT IN (${params.map(() => "?").join(", ")})` : "";
   return {
-    sql: `SELECT c."id", c."guide", c."indexableSince", c."failingSince", (SELECT COUNT(*) FROM "Tour" t WHERE ${listed}) AS "activeTours", (SELECT COUNT(*) FROM "Tour" t WHERE ${listed}${only}) AS "indexableTours" FROM "City" c WHERE c."slug" IS NOT NULL`,
+    // REQ-1355: slug e iso2 para superponer las guías del repo (loadGuides) como hace /destinos.
+    sql: `SELECT c."id", c."slug", (SELECT lower(co."iso2") FROM "Country" co WHERE co."id" = c."countryId") AS "iso2", c."guide", c."indexableSince", c."failingSince", (SELECT COUNT(*) FROM "Tour" t WHERE ${listed}) AS "activeTours", (SELECT COUNT(*) FROM "Tour" t WHERE ${listed}${only}) AS "indexableTours" FROM "City" c WHERE c."slug" IS NOT NULL`,
     params,
   };
+}
+
+/**
+ * REQ-1355: superpone a las filas del sync las guías propias del repo (llave «pais/ciudad», texto plano), igual que
+ * overlayGuides en /destinos. Sin guía en el repo, la fila queda como viene de D1.
+ */
+export function overlayRepoGuides<T extends CityIndexRow & { key: string | null }>(rows: readonly T[], guides: ReadonlyMap<string, string>): T[] {
+  if (!guides.size) return [...rows];
+  return rows.map((r) => {
+    const g = r.key ? guides.get(r.key) : undefined;
+    return g ? { ...r, guide: g } : r;
+  });
 }
