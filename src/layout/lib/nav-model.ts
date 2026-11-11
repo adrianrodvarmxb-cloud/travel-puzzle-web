@@ -95,3 +95,30 @@ const PAGE_TEXT: Record<string, Record<string, string>> = {
 function pageText(k: string, lang: string): string {
   return (PAGE_TEXT[lang] ?? PAGE_TEXT.en)[k];
 }
+
+/** REQ-1530: «Mis Reservas» y «Perfil» aparecen solo cuando sus páginas existan (cuentas opcionales, REQ-1534). */
+export const ACCOUNT_PAGES_READY = false;
+/** REQ-1531: enlaces del Panel viejo (/dashboard/*, del sitio de Vercel) ocultos; esas páginas no existen. */
+export const LEGACY_DASHBOARD_LINKS = false;
+
+/** REQ-1530: con o sin sesión el header es el público; «Mis Reservas» solo con las páginas de cuenta listas. */
+export function sessionNavLinks(
+  pub: NavLink[],
+  o: { loggedIn: boolean; accountPagesReady: boolean; myBookingsLabel: string },
+): NavLink[] {
+  return o.loggedIn && o.accountPagesReady ? [...pub, { href: "/bookings", label: o.myBookingsLabel }] : pub;
+}
+
+export interface PanelLink extends NavLink { icon: string }
+const PANEL: Record<string, { trips: string; requests: string }> = {
+  es: { trips: "Gestor de viajes", requests: "Solicitudes" },
+  en: { trips: "Trip manager", requests: "Requests" },
+};
+/** REQ-1531: el Panel de ADMIN solo enlaza páginas que existen. */
+export function adminPanelLinks(lang: string): PanelLink[] {
+  const t = PANEL[lang] ?? PANEL.en;
+  return [
+    { href: "/admin/viajes", label: t.trips, icon: "🧩" },
+    { href: "/admin/solicitudes", label: t.requests, icon: "📋" },
+  ];
+}
