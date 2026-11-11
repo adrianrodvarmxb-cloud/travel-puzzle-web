@@ -31,6 +31,18 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Cambio de flujo (PO, 11 nov 2026): si el PR solo toca docs/, no cambia código del sitio y no hay que
+      # esperar a que main publique. El resto del PR sigue igual.
+      - name: Detectar PR solo de documentación
+        id: cambios
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename' | grep -qvE '^docs/'; then
+            echo "solo_docs=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "solo_docs=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Pruebas
         run: npx vitest run
       - name: Lista de países (desde Freetour)
@@ -51,6 +63,7 @@ jobs:
       # REQ-226: si main está publicando, se espera (máx. 20 min). Una versión de PR subida a la mitad de la publicación
       # deja a main sin poder cargar sus secretos ni correr la prueba de humo en producción (6 nov 2026, 15e7cfd).
       - name: Esperar a que main termine de publicar
+        if: steps.cambios.outputs.solo_docs != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
