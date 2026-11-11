@@ -29,6 +29,7 @@
 - Contacto: Hernán Garriga, CIO & Co-founder, hernan@tangol.com; agencias: agencias2@tangol.com
 - Teléfono: +54 11 3221 8400 · Emergencias 24 h: +54 9 11 4991 4035
 - Reservas y reclamaciones: [TANGOL: correo]
+- Cuenta de pago: [TANGOL: llenar el Anexo 4 (cuenta de pago)]
 
 ---
 
@@ -64,7 +65,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, las 
 
 3.6. Uso de la API: con los límites técnicos acordados el 10 sep 2025 (2 peticiones a la vez, 15 por minuto y 3 segundos entre peticiones), desde las direcciones IP que la Parte A registre con la Parte B.
 
-3.7. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de su cuenta en Estados Unidos para el pago quincenal (banco, titular, número de cuenta, número de ruta o SWIFT). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+3.7. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de su cuenta en Estados Unidos para el pago quincenal (banco, titular, número de cuenta, número de ruta o SWIFT). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago. Los datos se registran en el Anexo 4 (cuenta de pago) de este acuerdo, firmado por el representante de la Parte B.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 
@@ -186,6 +187,7 @@ Los productos de la Parte B que devuelve su API de agencias (países, destinos, 
 4. Poder que autoriza a la persona que firma.
 5. Documento de identidad del firmante.
 6. Póliza de responsabilidad civil, si la tiene.
+7. Carta en papel membretado, firmada por el representante, con los datos de la cuenta de pago (los mismos del Anexo 4).
 
 Para validez en México, los documentos corporativos extranjeros deben legalizarse con apostilla de La Haya (o consularización si no aplica) y traducirse al español por perito traductor.
 
@@ -201,3 +203,19 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 7. Datos legales completos y documentos del Anexo 2, con apostilla y traducción.
 8. Revisión de abogado de Travel Puzzle antes de firmar, incluidas la cláusula 1.3 (deslinde de vuelos, LFPC) y la cláusula 9 (arbitraje CCI en Ciudad de México).
 9. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B confirma qué método acepta.
+
+## Anexo 4. Cuenta de pago de la Parte B
+
+La Parte B llena este anexo y lo firma su representante. La Parte A solo paga a esta cuenta. Un cambio de cuenta se notifica por escrito con un anexo nuevo firmado y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago.
+
+- Beneficiario (titular de la cuenta): [TANGOL]
+- Banco: [TANGOL]
+- Domicilio del banco: [TANGOL]
+- Número de cuenta o IBAN: [TANGOL]
+- SWIFT o BIC: [TANGOL]
+- ABA o número de ruta (si aplica): [TANGOL]
+- Banco intermediario (si aplica): [TANGOL]
+- Moneda de la cuenta: [TANGOL]
+- Correo y teléfono para confirmar cambios de cuenta: [TANGOL]
+
+Firma del representante de la Parte B: ____________________________  Nombre, cargo y fecha: [TANGOL]

@@ -31,6 +31,7 @@
 - Account contact: Rositsa Grigorova, Global Sales Operations Executive, rositsag@bigbustours.com
 - Trade support: tradesupport@bigbustours.com · Bookings and refunds: bookings@bigbustours.com
 - Partner platform: bigbuspartners.com (reseller code PBPTC)
+- Payment account: [BIG BUS: complete Annex 4 (payment account)]
 
 ---
 
@@ -64,7 +65,7 @@ Party B authorises Party A to market, in Mexico and on its website, the hop-on h
 
 3.5. Tickets are issued on the platform upon payment; Party A gives the customer Party B's voucher.
 
-3.6. Payment accounts: Party A pays with its card on Party B's partner platform and refunds return to the same card. If payment by bank transfer is used in the future, Party B provides the account details in writing, on company letterhead signed by its representative; any change of account is confirmed by phone or video call before the next payment. Bank details are not part of the text of this agreement.
+3.6. Payment accounts: Party A pays with its card on Party B's partner platform and refunds return to the same card. If payment by bank transfer is used in the future, Party B provides the account details in writing, on company letterhead signed by its representative; any change of account is confirmed by phone or video call before the next payment. The details are recorded in Annex 4 (payment account) of this agreement.
 
 ## Clause 4. Cancellations and refunds
 
@@ -221,6 +222,7 @@ Note: the New York 48-hour combo with the Empire State Building and the Statue o
 3. Power of attorney or resolution authorising the signatory.
 4. Signatory's identity document.
 5. Public liability insurance policy, if any.
+6. Letter on company letterhead, signed by the representative, with the payment account details (the same as in Annex 4).
 
 To be valid in Mexico, foreign corporate documents must be legalised with a Hague apostille (or consular legalisation if not applicable) and translated into Spanish by a certified translator.
 
@@ -236,3 +238,19 @@ To be valid in Mexico, foreign corporate documents must be legalised with a Hagu
 7. Full legal details and Annex 2 documents, with apostille and translation.
 8. Review by Travel Puzzle's counsel before signature, including clause 1.3 (flight disclaimer, Mexican consumer law) and clause 9 (ICC arbitration in Mexico City).
 9. Signature: handwritten by both parties, or electronic with a valid certificate. In Mexico, electronic signatures are valid under NOM-151 or with an advanced electronic signature; Party B confirms which method it accepts.
+
+## Annex 4. Party B payment account
+
+Party A currently pays by card on the platform and this annex is not used. If payment by bank transfer is agreed, Party B completes it and its representative signs it; Party A pays only to that account and confirms any change by phone or video call before the next payment.
+
+- Beneficiary (account holder): [BIG BUS]
+- Bank: [BIG BUS]
+- Bank address: [BIG BUS]
+- Account number or IBAN: [BIG BUS]
+- SWIFT or BIC: [BIG BUS]
+- ABA or routing number (if applicable): [BIG BUS]
+- Intermediary bank (if applicable): [BIG BUS]
+- Account currency: [BIG BUS]
+- Email and phone to confirm account changes: [BIG BUS]
+
+Signature of Party B's representative: ____________________________  Name, title and date: [BIG BUS]

@@ -29,6 +29,7 @@
 - Contacto de cuenta: Rositsa Grigorova, Global Sales Operations Executive, rositsag@bigbustours.com
 - Soporte de agencias: tradesupport@bigbustours.com · Reservas y reembolsos: bookings@bigbustours.com
 - Portal de agencias: bigbuspartners.com (código de revendedor PBPTC)
+- Cuenta de pago: [BIG BUS: llenar el Anexo 4 (cuenta de pago)]
 
 ---
 
@@ -62,7 +63,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.5. Los boletos se emiten en el portal al pagar; la Parte A entrega al cliente el voucher de la Parte B.
 
-3.6. Cuentas de pago: la Parte A paga con su tarjeta en el portal de agencias de la Parte B y los reembolsos regresan a la misma tarjeta. Si en el futuro se paga por transferencia, la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta; cualquier cambio de cuenta se confirma por teléfono o videollamada antes del siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo.
+3.6. Cuentas de pago: la Parte A paga con su tarjeta en el portal de agencias de la Parte B y los reembolsos regresan a la misma tarjeta. Si en el futuro se paga por transferencia, la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta; cualquier cambio de cuenta se confirma por teléfono o videollamada antes del siguiente pago. Los datos se registran en el Anexo 4 (cuenta de pago) de este acuerdo.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 
@@ -219,6 +220,7 @@ Nota: el combo de 48 horas de Nueva York con Empire State Building y ferry a la 
 3. Poder o resolución que autoriza a la persona que firma.
 4. Documento de identidad del firmante.
 5. Póliza de responsabilidad civil, si la tiene.
+6. Carta en papel membretado, firmada por el representante, con los datos de la cuenta de pago (los mismos del Anexo 4).
 
 Para validez en México, los documentos corporativos extranjeros deben legalizarse con apostilla de La Haya (o consularización si no aplica) y traducirse al español por perito traductor.
 
@@ -234,3 +236,19 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 7. Datos legales completos y documentos del Anexo 2, con apostilla y traducción.
 8. Revisión de abogado de Travel Puzzle antes de firmar, incluidas la cláusula 1.3 (deslinde de vuelos, LFPC) y la cláusula 9 (arbitraje CCI en Ciudad de México).
 9. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B confirma qué método acepta.
+
+## Anexo 4. Cuenta de pago de la Parte B
+
+Hoy la Parte A paga con tarjeta en el portal y este anexo no se usa. Si se acuerda pagar por transferencia, la Parte B lo llena y lo firma su representante; la Parte A solo paga a esa cuenta y confirma cualquier cambio por teléfono o videollamada antes del siguiente pago.
+
+- Beneficiario (titular de la cuenta): [BIG BUS]
+- Banco: [BIG BUS]
+- Domicilio del banco: [BIG BUS]
+- Número de cuenta o IBAN: [BIG BUS]
+- SWIFT o BIC: [BIG BUS]
+- ABA o número de ruta (si aplica): [BIG BUS]
+- Banco intermediario (si aplica): [BIG BUS]
+- Moneda de la cuenta: [BIG BUS]
+- Correo y teléfono para confirmar cambios de cuenta: [BIG BUS]
+
+Firma del representante de la Parte B: ____________________________  Nombre, cargo y fecha: [BIG BUS]

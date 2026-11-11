@@ -30,6 +30,7 @@
 - Contacto comercial: Paulina López, Coordinadora Comercial, comercial@destinocolombia.com; Carmen E. Mesa G., Gerente de Ventas, carmeneliana@destinocolombia.com
 - Reservas: reservas5@destinocolombia.com (1 a 20 pasajeros); grupos2@destinocolombia.com (21 o más)
 - Quejas y reclamos: luisafernanda@destinocolombia.com · +57 604 260 6868
+- Cuenta de pago: [DESTINO COLOMBIA: llenar el Anexo 5 (cuenta de pago)]
 
 ---
 
@@ -71,7 +72,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.8. Las tarifas de alojamiento están exentas del IVA de 19% para pasajeros extranjeros no residentes que acrediten su condición con pasaporte y sello migratorio vigente (PIP3, PIP5, PIP10, TPT7, TPT11 o TPT12), conforme al Decreto 297 de 2016. Con otro sello, el pasajero paga el IVA directamente en el hotel. La Parte A lo informa al cliente antes de pagar.
 
-3.9. Cuentas de pago: sus términos listan varias cuentas aprobadas en Colombia, Estados Unidos, Panamá, Perú y Costa Rica. La Parte B indica por escrito, en papel membretado y firmado por su representante, cuál de ellas usa la Parte A, y la Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+3.9. Cuentas de pago: sus términos listan varias cuentas aprobadas en Colombia, Estados Unidos, Panamá, Perú y Costa Rica. La Parte B indica por escrito, en papel membretado y firmado por su representante, cuál de ellas usa la Parte A, y la Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago. Los datos se registran en el Anexo 5 (cuenta de pago) de este acuerdo, firmado por el representante de la Parte B.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 
@@ -229,6 +230,7 @@ Tarifa neta «desde» en USD por persona en habitación doble, hotel de categor�
 3. Registro Nacional de Turismo vigente.
 4. Documento de identidad del representante legal.
 5. Póliza de responsabilidad civil, si la tiene.
+6. Carta en papel membretado, firmada por el representante, con los datos de la cuenta de pago (los mismos del Anexo 5).
 
 Para validez en México, los documentos corporativos extranjeros deben legalizarse con apostilla de La Haya (o consularización si no aplica) y traducirse al español por perito traductor.
 
@@ -260,3 +262,19 @@ Tomadas de los Términos y condiciones de la Parte B, actualizados al 29 de novi
 - En la confirmación va el teléfono móvil del ejecutivo responsable, disponible 24 horas para emergencias.
 - Niños: en traslados y excursiones pagan tarifa de adulto desde los 2 años cumplidos; en alojamiento, según las edades de cada hotel, generalmente compartiendo habitación con 2 adultos.
 - Quejas y reclamos: luisafernanda@destinocolombia.com; respuesta en 15 días hábiles. Supresión de datos personales: info@destinocolombia.com.
+
+## Anexo 5. Cuenta de pago de la Parte B
+
+La Parte B indica aquí cuál de las cuentas aprobadas en sus términos usa la Parte A, y lo firma su representante. La Parte A solo paga a esta cuenta. Un cambio de cuenta se notifica por escrito con un anexo nuevo firmado y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago.
+
+- Beneficiario (titular de la cuenta): [DESTINO COLOMBIA]
+- Banco: [DESTINO COLOMBIA]
+- Domicilio del banco: [DESTINO COLOMBIA]
+- Número de cuenta o IBAN: [DESTINO COLOMBIA]
+- SWIFT o BIC: [DESTINO COLOMBIA]
+- ABA o número de ruta (si aplica): [DESTINO COLOMBIA]
+- Banco intermediario (si aplica): [DESTINO COLOMBIA]
+- Moneda de la cuenta: [DESTINO COLOMBIA]
+- Correo y teléfono para confirmar cambios de cuenta: [DESTINO COLOMBIA]
+
+Firma del representante de la Parte B: ____________________________  Nombre, cargo y fecha: [DESTINO COLOMBIA]

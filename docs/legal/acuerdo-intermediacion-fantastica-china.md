@@ -29,6 +29,7 @@
 - Contacto comercial: Beibei (Ms. Dai), Director of Sales & Marketing, beibei@fantasticachina.com, +86 10 5869 7082
 - Dirección: Zhou Fan, Director General, zhoufan@fantasticachina.com, +86 10 5869 7122
 - Contacto de reservas y reclamaciones: [FANTÁSTICA CHINA: correo operativo]
+- Cuenta de pago: [FANTÁSTICA CHINA: llenar el Anexo 4 (cuenta de pago)]
 
 ---
 
@@ -66,7 +67,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.6. Ajustes de precio que el tarifario permite (tipo de cambio USD-RMB hasta 30 días antes, combustible con aviso de 30 días y suplemento por reservas dentro de los 28 días previos, p. 119 y 121) se notifican por correo conforme a la cláusula 8.2.
 
-3.7. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta bancaria donde la Parte A le paga (banco, titular, número de cuenta o IBAN, SWIFT y moneda). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes de hacer el siguiente pago. Los datos bancarios no forman parte del texto de este acuerdo y se conservan en el expediente de la Parte A.
+3.7. Cuentas de pago: la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta bancaria donde la Parte A le paga (banco, titular, número de cuenta o IBAN, SWIFT y moneda). La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes de hacer el siguiente pago. Los datos se registran en el Anexo 4 (cuenta de pago) de este acuerdo, firmado por el representante de la Parte B.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 
@@ -250,6 +251,7 @@ Notas:
 3. Poder o resolución que autoriza a la persona que firma.
 4. Documento de identidad del firmante.
 5. Póliza de responsabilidad civil o seguro de viajeros, si lo tiene.
+6. Carta en papel membretado, firmada por el representante, con los datos de la cuenta de pago (los mismos del Anexo 4).
 
 Para validez en México, los documentos corporativos extranjeros deben legalizarse con apostilla de La Haya (o consularización si no aplica) y traducirse al español por perito traductor.
 
@@ -264,3 +266,19 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 6. Documentos de la Parte B del Anexo 2, con apostilla y traducción.
 7. Revisión de abogado de Travel Puzzle antes de firmar, incluidas la cláusula 1.3 (deslinde de vuelos, LFPC) y la cláusula 9 (arbitraje CCI en Ciudad de México).
 8. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B confirma qué método acepta.
+
+## Anexo 4. Cuenta de pago de la Parte B
+
+La Parte B llena este anexo y lo firma su representante. La Parte A solo paga a esta cuenta. Un cambio de cuenta se notifica por escrito con un anexo nuevo firmado y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago.
+
+- Beneficiario (titular de la cuenta): [FANTÁSTICA CHINA]
+- Banco: [FANTÁSTICA CHINA]
+- Domicilio del banco: [FANTÁSTICA CHINA]
+- Número de cuenta o IBAN: [FANTÁSTICA CHINA]
+- SWIFT o BIC: [FANTÁSTICA CHINA]
+- ABA o número de ruta (si aplica): [FANTÁSTICA CHINA]
+- Banco intermediario (si aplica): [FANTÁSTICA CHINA]
+- Moneda de la cuenta: [FANTÁSTICA CHINA]
+- Correo y teléfono para confirmar cambios de cuenta: [FANTÁSTICA CHINA]
+
+Firma del representante de la Parte B: ____________________________  Nombre, cargo y fecha: [FANTÁSTICA CHINA]
