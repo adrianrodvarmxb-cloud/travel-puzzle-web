@@ -65,7 +65,7 @@ export function placeTrips(trips: MapTrip[], cities: MapCityRef[]) {
     }
     const p = firstPoint(t);
     const iso2 = (t.countries[0] ?? "").toUpperCase();
-    const name = t.cities[0]?.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim(); // REQ-1591
+    const name = t.cities[0]?.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim(); // REQ-1606
     if (!p || !iso2 || !name) { skipped++; continue; }
     const key = placeKey(iso2, name);
     const a = placeAcc.get(key) ?? { iso2, name, lats: [], lngs: [], trips: [] };

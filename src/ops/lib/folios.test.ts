@@ -1,0 +1,136 @@
+// REQ-1587: folios REQ sin choques entre sesiones (reserva atómica) y frentes en curso sin duplicar.
+// npx vitest run src/ops/lib/folios.test.ts
+import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import {
+  CORTE_RESERVA,
+  apartarExacto,
+  apartarFolios,
+  choques,
+  leerReservas,
+  leerFolios,
+  maxFolio,
+  sinReserva,
+  type Registro,
+} from "./folios";
+import { coincideFrente, normalizarTema } from "./frentes";
+
+const MAIN = [
+  "| ID | Tipo | Pendiente | Responsable | Bloqueado por | Estado |",
+  "|---|---|---|---|---|---|",
+  "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas de Instagram, cuando corren las redes | agente | — | EN CURSO |",
+  "| REQ-1536 | TAREA-PO | Firma de correo: los mensajes que salen de Travel Puzzle | PO | — | PENDIENTE |",
+  "| REQ-1540 | CÓDIGO | ~~Dado TANGOL_EMAIL y TANGOL_CLAVE~~, cuando el cliente pide datos \\| entonces | agente | — | CUMPLIDO |",
+].join("\n");
+
+const RAMA = [
+  "| REQ-1535 | VALIDACIÓN | Acuerdos de intermediación con 5 proveedores: vigencia indefinida | agente | — | EN CURSO |",
+  "| REQ-1536 | TAREA-PO | Firma de correo: los mensajes que salen de Travel Puzzle llevan logo | PO | — | CUMPLIDO |",
+  "| REQ-1540 | CÓDIGO | Dado TANGOL_EMAIL y TANGOL_CLAVE, cuando el cliente pide datos | agente | — | CUMPLIDO |",
+  "| REQ-1605 | DEFINICIÓN | Nuevo pendiente sin reservar | PO | — | PENDIENTE |",
+  "| REQ-1606 | DEFINICIÓN | Nuevo pendiente reservado | PO | — | PENDIENTE |",
+].join("\n");
+
+describe("REQ-1587: folios", () => {
+  it("REQ-1587: lee los folios de cualquier tabla, con celdas que traen | escapado", () => {
+    const m = leerFolios(MAIN);
+    expect([...m.keys()]).toEqual(["REQ-1535", "REQ-1536", "REQ-1540"]);
+    expect(m.get("REQ-1540")).toMatch(/TANGOL_EMAIL/);
+  });
+
+  it("REQ-1587: el siguiente libre es el mayor entre main, ramas y reservados, más 1", () => {
+    expect(maxFolio(["REQ-1535", "REQ-1579", "REQ-12"])).toBe(1579);
+    expect(maxFolio([])).toBe(0);
+  });
+
+  it("REQ-1587: mismo folio con otro tema en main es choque; el mismo tema con estado o texto editado no lo es", () => {
+    const c = choques(leerFolios(RAMA), leerFolios(MAIN));
+    expect(c.map((x) => x.id)).toEqual(["REQ-1535"]);
+  });
+
+  it("REQ-1587 (rojo antes del arreglo): REQ-1535 de los acuerdos chocaba con REQ-1535 del blog en main", () => {
+    const acuerdos = "| REQ-1535 | VALIDACIÓN | Dado cada uno de los 5 proveedores, cuando se redacta su acuerdo | agente | — | EN CURSO |";
+    expect(choques(leerFolios(acuerdos), leerFolios(MAIN))).toHaveLength(1);
+  });
+
+  it("REQ-1587: un folio nuevo desde el corte debe estar apartado en GitHub; los anteriores al corte no se exigen", () => {
+    const nuevos = ["REQ-1540", "REQ-1605", "REQ-1606", "REQ-1500"];
+    expect(sinReserva(nuevos, new Set(["REQ-1606"]), 1588)).toEqual(["REQ-1605"]);
+    expect(CORTE_RESERVA).toBeGreaterThanOrEqual(1588);
+  });
+
+  // Doble del registro de GitHub: escribir solo gana si nadie escribió desde la lectura (como un push sin force).
+  function registroFalso(inicial: string, antesDeEscribir?: (r: { texto: string; version: number }) => void) {
+    const estado = { texto: inicial, version: 0 };
+    const r: Registro = {
+      leer: () => ({ texto: estado.texto, base: String(estado.version) }),
+      escribir: (texto, base) => {
+        antesDeEscribir?.(estado);
+        if (base !== String(estado.version)) return false;
+        estado.texto = texto;
+        estado.version++;
+        return true;
+      },
+    };
+    return { r, estado };
+  }
+  const datos = { rama: "fix/x", fecha: "2026-11-11", motivo: "prueba" };
+
+  it("REQ-1587: aparta N folios seguidos después del mayor apartado y los deja en el registro", () => {
+    const { r, estado } = registroFalso("REQ-1600\totra\t2026-11-11\tx\n");
+    expect(apartarFolios(3, 1588, r, datos)).toEqual(["REQ-1601", "REQ-1602", "REQ-1603"]);
+    expect([...leerReservas(estado.texto)]).toEqual(["REQ-1600", "REQ-1601", "REQ-1602", "REQ-1603"]);
+  });
+
+  it("REQ-1587: si otra sesión aparta al mismo tiempo, se relee y nunca se entrega un folio repetido", () => {
+    let unaVez = true;
+    const { r, estado } = registroFalso("", (e) => {
+      if (unaVez) {
+        unaVez = false;
+        e.texto += "REQ-1588\totra-sesion\t2026-11-11\tcarrera\n";
+        e.version++;
+      }
+    });
+    expect(apartarFolios(2, 1588, r, datos)).toEqual(["REQ-1589", "REQ-1605"]);
+    expect([...leerReservas(estado.texto)]).toEqual(["REQ-1588", "REQ-1589", "REQ-1605"]);
+  });
+
+  it("REQ-1587: apartar un folio exacto falla si ya es de otra sesión", () => {
+    const { r } = registroFalso("REQ-1587\totra\t2026-11-11\tx\n");
+    expect(apartarExacto("REQ-1587", r, datos)).toBe(false);
+    expect(apartarExacto("REQ-1599", r, datos)).toBe(true);
+  });
+
+  it("REQ-1587: si GitHub rechaza demasiadas veces seguidas, se detiene con error en lugar de seguir para siempre", () => {
+    const r: Registro = { leer: () => ({ texto: "", base: null }), escribir: () => false };
+    expect(() => apartarFolios(1, 1600, r, datos, 5)).toThrow(/no se pudo apartar/);
+  });
+});
+
+describe("REQ-1587: frentes en curso", () => {
+  it("REQ-1587: el tema se compara sin acentos, mayúsculas ni signos", () => {
+    expect(normalizarTema("Acuerdo — Fantástica China!")).toBe("acuerdo fantastica china");
+  });
+
+  it("REQ-1587: encuentra el frente aunque el título diga más cosas, y no confunde temas distintos", () => {
+    expect(coincideFrente("EN CURSO: acuerdo de intermediación con Tangol", "tangol")).toBe(true);
+    expect(coincideFrente("Tangol ola 2: sync diario", "Acuerdo Tangol")).toBe(true);
+    expect(coincideFrente("Acuerdo Big Bus", "Tangol")).toBe(false);
+  });
+});
+
+describe("REQ-1587: la regla está en el PR y en el CLAUDE.md", () => {
+  it("REQ-1587: el workflow del PR trae main y los folios apartados, y corre la revisión de folios", () => {
+    const wf = readFileSync(".github/workflows/prueba-humo.yml", "utf8");
+    expect(wf).toMatch(/folios\/registro/);
+    expect(wf).toMatch(/src\/scripts\/folio\.ts revisar/);
+  });
+
+  it("REQ-1587: el CLAUDE.md pide el paso 0 (frente, folios y borradores) antes de empezar", () => {
+    const md = readFileSync("CLAUDE.md", "utf8");
+    expect(md).toMatch(/Sesiones en paralelo/);
+    expect(md).toMatch(/folio\.ts apartar/);
+    expect(md).toMatch(/frente\.ts buscar/);
+    expect(md).toMatch(/borrador vigente/);
+  });
+});

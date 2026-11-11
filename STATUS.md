@@ -6,10 +6,15 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 |---|---|---|---|---|---|
 | REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
-| REQ-1590 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
-| REQ-1591 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
+| REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
+| REQ-1606 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
 
 
+
+## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|

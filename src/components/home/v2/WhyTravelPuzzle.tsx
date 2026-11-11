@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
-import { formatCount, formatRating } from '@/home/lib/format';
+import { formatCount } from '@/home/lib/format';
 import type { HomeStats } from '@/home/load';
 import { SectionHeading } from './SectionHeading';
 
@@ -11,12 +11,10 @@ const ICONS = ['🧭', '★', '💬', '🎫'];
 export function WhyTravelPuzzle({ stats }: { stats: HomeStats }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
-  const rating = formatRating(stats.rating);
   const metrics = [
     stats.tours > 0 && { value: formatCount(stats.tours, language), label: c.statTours },
     stats.cities > 0 && { value: formatCount(stats.cities, language), label: c.statCities },
     stats.countries > 0 && { value: formatCount(stats.countries, language), label: c.statCountries },
-    rating && { value: `${rating} ★`, label: c.statRating(formatCount(stats.reviews, language)) },
   ].filter(Boolean) as { value: string; label: string }[];
 
   return (
