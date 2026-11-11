@@ -31,6 +31,8 @@ Documento vinculado a REQ-1363 (`docs/requisitos.md`).
 
 ## Cláusula 1. Objeto
 La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los programas de India y del destino que la Parte B opera, detallados en el Anexo 1 (lista de programas y tarifas netas, vigencia abril 2027 – marzo 2028).
+1.2. Portafolio ampliable: la Parte A puede incorporar programas nuevos de la Parte B mediante un addendum firmado por ambas partes, que actualiza el Anexo 1. Mientras no se firme, el programa nuevo no se publica.
+1.3. Experiencias sueltas: traslados, tours de un día, actividades y servicios adicionales de la Parte B se incorporan con el mismo procedimiento del punto 1.2, bajo las mismas condiciones de tarifa neta, cancelación y responsabilidad de este acuerdo.
 
 ## Cláusula 2. Rol de cada parte
 2.1. La Parte A actúa como **intermediario comercial**: promueve, recibe solicitudes y cobra al cliente final el precio de venta.
@@ -110,7 +112,7 @@ Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 ---
 
 ## Anexo 1. Programas incluidos
-[CLIENTE: lista de los 14 viajes publicados con código de programa, fechas, precio neto y vigencia]
+Lista inicial: [CLIENTE: 14 viajes publicados, con código, fechas, tarifa neta en USD y vigencia]. Se actualiza mediante addendum según la cláusula 1.2.
 
 ## Anexo 2. Documentos de la Parte B (requeridos antes de firmar)
 1. Certificado de constitución o incorporación de la empresa en la India.
