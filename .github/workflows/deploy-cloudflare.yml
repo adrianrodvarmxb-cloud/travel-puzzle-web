@@ -166,6 +166,23 @@ jobs:
             if ! tiene "$n"; then openssl rand -base64 32 | tr -d '\n' | npx wrangler secret put "$n"; fi
           done
 
+      # REQ-1358 (INC-009): la preview de workers.dev no tiene Cache API, así que el humo de antes de publicar no calienta
+      # la caché de producción. Con una llave nueva, la primera petición a /destinos reconstruye el árbol en frío (11–18 s)
+      # y puede dar 503. Aquí se calientan las páginas pesadas (con reintentos y el tiempo de cada intento en el registro);
+      # este paso no tumba el deploy: lo juzga la prueba de humo, que sigue exigiendo 200 en todo.
+      - name: Calentar la caché de producción (INC-009)
+        if: always() && steps.publicar.outcome == 'success'
+        continue-on-error: true
+        run: |
+          for p in /destinos /en/destinos /tours /en/tours / /en /la-primera-pieza /sitemap-index.xml; do  # «/en/» responde 308 a «/en»
+            for intento in 1 2 3 4 5 6; do
+              r=$(curl -s -o /dev/null -A "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)" -w "%{http_code} %{time_total}" --max-time 60 "https://travelpuzzle.com.mx$p" || echo "000 60")
+              echo "calentar $p intento $intento: $r"
+              [ "${r%% *}" = "200" ] && break
+              sleep 15
+            done
+          done
+
       # 4) Prueba de humo en producción; si falla, se regresa a la versión anterior y el job queda en rojo.
       - name: Prueba de humo (producción)
         id: smoke_prod

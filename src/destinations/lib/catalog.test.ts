@@ -106,11 +106,13 @@ describe("REQ-092 (gate 4): ciudad de un viaje propio", () => {
 });
 
 describe("T3 árbol de destinos con la taxonomía (TAXONOMY_PUBLISH_ENABLED)", () => {
-  // En CDMX: 2 free a pie, 1 online gratis (8), 1 museo gratis (24), 1 renta gratis (26), 1 traslado (29), 1 caminata de pago.
+  // En CDMX: 2 free a pie, 1 online gratis (8, en vivo), 1 museo gratis (24), 1 renta gratis (26), 1 traslado (29), 1 caminata de pago.
+  // REQ-1262: la cat. 8 ya no es `fuera` por categoría; lo «online» es lo que de verdad es en línea (tour virtual en vivo).
+  const online = (cityId: number) => tour(cityId, 1, { categoryId: 8, title: "Tour virtual en vivo por Zoom" });
   const tours = [
-    tour(10, 1, { categoryId: 12 }), tour(10, 1, { categoryId: 12 }), tour(10, 1, { categoryId: 8 }), tour(10, 1, { categoryId: 24 }),
+    tour(10, 1, { categoryId: 12 }), tour(10, 1, { categoryId: 12 }), online(10), tour(10, 1, { categoryId: 24 }),
     tour(10, 1, { categoryId: 26 }), tour(10, 1, { categoryId: 29, price: 40 }), tour(10, 1, { categoryId: 12, price: 15 }),
-    tour(11, 1, { categoryId: 8 }), tour(11, 1, { categoryId: 8 }), tour(11, 1, { categoryId: 8 }),
+    online(11), online(11), online(11),
   ];
   const tax = catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS);
   const off = destinationTree({ ...fx, tours, trips: [], now });

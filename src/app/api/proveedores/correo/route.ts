@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         para: direcciones(m.to),
         cc: direcciones(m.cc),
         asunto: m.subject ?? '',
-        encabezados: Object.fromEntries((m.headers ?? []).map((h) => [h.key, h.value])), // REQ-1330
+        encabezados: Object.fromEntries((m.headers ?? []).map((h) => [h.key, h.value])), // REQ-1565
         texto: m.text ?? '',
         adjuntos: (m.attachments ?? []).map((a) => ({
             nombre: a.filename ?? 'adjunto',

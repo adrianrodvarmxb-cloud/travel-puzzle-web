@@ -67,7 +67,7 @@ export default {
         })
       );
     }
-    // REQ-1293, REQ-1331: cada hora en punto; a cada proveedor solo se le escribe en su horario hábil.
+    // REQ-1293, REQ-1566: cada hora en punto; a cada proveedor solo se le escribe en su horario hábil.
     const ahora = new Date();
     if (ahora.getUTCMinutes() === 0) {
       const proveedores = new Request("https://internal/api/cron/proveedores", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });

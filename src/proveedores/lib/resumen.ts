@@ -1,4 +1,4 @@
-// Puro · REQ-1333: resumen semanal para Adri, Claudia y el 618 112 9459.
+// Puro · REQ-1568: resumen semanal para Adri, Claudia y el 618 112 9459.
 import type { Etapa } from "./etapas";
 
 export interface FilaResumen { nombre: string; etapa: Etapa; publicado: boolean; correosInvalidos: string[]; ultimoSuyo?: string }
@@ -14,14 +14,14 @@ const MAX = 3800; // WhatsApp admite 4096; se deja margen
 
 const linea = (t: string, n = 110) => { const x = t.replace(/\s+/g, " ").trim(); return x.length > n ? `${x.slice(0, n - 1)}…` : x; };
 
-// REQ-1333: lunes 9:00 de México.
+// REQ-1568: lunes 9:00 de México.
 export function esHoraResumen(iso: string): boolean {
   const f = new Intl.DateTimeFormat("en-US", { timeZone: "America/Mexico_City", weekday: "short", hour: "2-digit", hourCycle: "h23" });
   const p = Object.fromEntries(f.formatToParts(new Date(iso)).map((x) => [x.type, x.value]));
   return p.weekday === "Mon" && Number(p.hour) === 9;
 }
 
-// REQ-1333: 5 bloques; vacío no sale un bloque; nunca más de lo que admite WhatsApp.
+// REQ-1568: 5 bloques; vacío no sale un bloque; nunca más de lo que admite WhatsApp.
 export function textoResumen(p: { proveedores: FilaResumen[]; mensajes: MensajeResumen[]; documentos: DocResumen[]; proximos: string[] }): string {
   const conteo = ORDEN.map((e) => [e, p.proveedores.filter((x) => x.etapa === e).length] as const).filter(([, n]) => n > 0);
   const respuestas = p.mensajes.filter((m) => m.direccion === "entrada" && m.tipo === "respuesta");

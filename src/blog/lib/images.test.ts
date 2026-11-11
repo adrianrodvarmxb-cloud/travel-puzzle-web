@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { imageVariants, imageUrl, imageFiles, imageProblems, aspectFor, IMAGE_WIDTHS, IMAGE_FORMATS, BODY_PHOTOS, PROVEEDORES_FOTOS_CON_PERMISO } from "./images";
+import { photoReuseProblems, imageVariants, imageUrl, imageFiles, imageProblems, aspectFor, IMAGE_WIDTHS, IMAGE_FORMATS, BODY_PHOTOS, PROVEEDORES_FOTOS_CON_PERMISO } from "./images";
 import { sampleDaily, sampleImage } from "./fixtures";
 import { parsePost, type PostInput } from "./schema";
 
@@ -77,5 +77,21 @@ describe("descarga del original", () => {
     const pb = { ...sampleImage("b"), origen: { banco: "pixabay" as const, id: "123", pagina: "https://pixabay.com/photos/x-123/", autor: "Alguien" } };
     expect(downloadPlan(pb)).toEqual({ kind: "pixabay", id: 123 });
     expect(downloadPlan({ ...sampleImage("n"), origen: undefined })).toBeNull();
+  });
+});
+
+// REQ-1512: una foto de banco no se repite en otra entrada del blog (ni en la misma entrada)
+describe("REQ-1512: fotos no repetidas", () => {
+  const otra = (id: string, slug = "otra-entrada") => ({ ...post({ imagenes: [] }), slug, draft: false, cover: { ...post().cover!, origen: { banco: "unsplash" as const, id, pagina: "https://unsplash.com/photos/x", autor: "A" } } });
+  it("avisa si la portada ya se usó en otra entrada publicada", () => {
+    const base = sampleDaily().cover!;
+    const yo = post({ imagenes: [], cover: { ...base, origen: { ...base.origen!, id: "FOTO-USADA" } } });
+    expect(photoReuseProblems(yo, [otra("FOTO-USADA")])).toEqual([`portada: la foto unsplash:FOTO-USADA ya está en «otra-entrada»`]);
+  });
+  it("no compara con borradores ni con la misma entrada, y sin repetidos no avisa", () => {
+    const yo = post({ imagenes: [] });
+    expect(photoReuseProblems(yo, [{ ...otra(yo.cover!.origen!.id), draft: true }])).toEqual([]);
+    expect(photoReuseProblems(yo, [{ ...yo, slug: yo.slug }])).toEqual([]);
+    expect(photoReuseProblems(yo, [otra("OTRA-FOTO")])).toEqual([]);
   });
 });

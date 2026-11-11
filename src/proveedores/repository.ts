@@ -1,4 +1,4 @@
-// I/O · Proveedores en D1 (migrations/0024_proveedores_mila.sql). Recibe la base por parámetro.
+// I/O · Proveedores en D1 (migrations/0026_proveedores_mila.sql). Recibe la base por parámetro.
 import type { EstadoProveedor, Etapa } from "./lib/etapas";
 import type { Cobro, Integracion } from "./lib/integracion";
 
@@ -12,8 +12,8 @@ export interface ProveedorFila extends EstadoProveedor {
   canal: string; idioma: "es" | "en"; contacto: string; correos: string[]; dominios: string[]; destinos: string;
   ultimoAsunto: string | null; hiloId: string | null; notas: string;
   integracion: Integracion; cobro: Cobro; tiempoRespuesta: string; // REQ-1298, REQ-1299
-  correosInvalidos: string[]; // REQ-1330
-  zonaHoraria: string; // REQ-1331
+  correosInvalidos: string[]; // REQ-1565
+  zonaHoraria: string; // REQ-1566
 }
 
 type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos"> & {
@@ -42,7 +42,7 @@ export function createProveedoresRepo(db: Db) {
       await db.run(`INSERT OR IGNORE INTO "ProveedorMensaje" ("id","proveedorId","direccion","asunto","resumen","fecha","tipo") VALUES (?,?,?,?,?,?,?)`,
         m.id, m.proveedorId, m.direccion, m.asunto, m.resumen.slice(0, 500), m.fecha, m.tipo);
     },
-    // REQ-1333: lo de la última semana, con el nombre del proveedor.
+    // REQ-1568: lo de la última semana, con el nombre del proveedor.
     async mensajesDesde(fecha: string) {
       return db.all<{ proveedor: string; direccion: "entrada" | "salida"; tipo: string; resumen: string; fecha: string }>(
         `SELECT p."nombre" AS proveedor, m."direccion", m."tipo", m."resumen", m."fecha" FROM "ProveedorMensaje" m JOIN "Proveedor" p ON p."id" = m."proveedorId" WHERE m."fecha" >= ? ORDER BY m."fecha"`, fecha);
@@ -54,7 +54,7 @@ export function createProveedoresRepo(db: Db) {
     async yaRegistrado(id: string): Promise<boolean> {
       return (await db.all(`SELECT 1 FROM "ProveedorMensaje" WHERE "id"=? LIMIT 1`, id)).length > 0;
     },
-    // REQ-1330: guarda las direcciones que rebotaron; Mila deja de escribirles.
+    // REQ-1565: guarda las direcciones que rebotaron; Mila deja de escribirles.
     async marcarInvalidos(id: string, correos: string[], ahora: string) {
       await db.run(`UPDATE "Proveedor" SET "correosInvalidos"=?, "updatedAt"=? WHERE "id"=?`, JSON.stringify(correos), ahora, id);
     },

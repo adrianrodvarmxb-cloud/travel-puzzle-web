@@ -1,4 +1,4 @@
-// Puro · REQ-1331: cada correo sale en horario hábil del proveedor (lunes a viernes, 9:00 a 11:00 de su hora).
+// Puro · REQ-1566: cada correo sale en horario hábil del proveedor (lunes a viernes, 9:00 a 11:00 de su hora).
 export const ZONA_MX = "America/Mexico_City";
 export const VENTANA = { desde: 9, hasta: 11 } as const;
 
@@ -10,16 +10,16 @@ function partes(iso: string, tz?: string) {
   return { fecha: `${p.year}-${p.month}-${p.day}`, hora: Number(p.hour), dia: String(p.weekday) };
 }
 
-// REQ-1331: la fecha (AAAA-MM-DD) en la zona del proveedor.
+// REQ-1566: la fecha (AAAA-MM-DD) en la zona del proveedor.
 export const fechaLocal = (iso: string, tz?: string) => partes(iso, tz).fecha;
 
-// REQ-1331: ¿es buen momento para escribirle?
+// REQ-1566: ¿es buen momento para escribirle?
 export function enVentana(iso: string, tz?: string): boolean {
   const { hora, dia } = partes(iso, tz);
   return dia !== "Sat" && dia !== "Sun" && hora >= VENTANA.desde && hora < VENTANA.hasta;
 }
 
-// REQ-1331: zona por país o ciudad del proveedor (lo que no esté, México).
+// REQ-1566: zona por país o ciudad del proveedor (lo que no esté, México).
 const ZONAS: [RegExp, string][] = [
   [/malasia|malaysia|kuala|borneo|singapur|singapore/i, "Asia/Kuala_Lumpur"], [/china|pek[ií]n|beijing|shanghai/i, "Asia/Shanghai"],
   [/jap[oó]n|japan|kioto|kyoto|tokio|tokyo/i, "Asia/Tokyo"], [/india|delhi|nepal/i, "Asia/Kolkata"], [/tailandia|thailand|bangkok/i, "Asia/Bangkok"],

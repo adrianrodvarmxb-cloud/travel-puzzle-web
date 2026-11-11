@@ -1,3 +1,4 @@
+import { countryTranslations } from "@/destinations/lib/ids";
 /**
  * INC-003: D1 se saturaba ("D1 DB is overloaded. Too many resources consumed within a 10 second
  * window") y /tours caía en pantalla blanca. Puro: sin red ni base; el tiempo y la espera se inyectan.
@@ -61,5 +62,5 @@ export function countriesWithCounts<C extends CountryRow>(countries: C[], groups
   return countries
     .filter((c) => (counts.get(c.id) ?? 0) > 0)
     .sort((a, b) => a.id - b.id)
-    .map((c) => ({ ...c, _count: { tours: counts.get(c.id)! } }));
+    .map((c) => ({ ...c, translations: countryTranslations(c.code, c.translations) as C["translations"], _count: { tours: counts.get(c.id)! } })); // REQ-1265
 }

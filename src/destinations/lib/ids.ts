@@ -18,6 +18,38 @@ const ISO2 = new Set(
   ).split(" "),
 );
 
+/**
+ * REQ-1264: países del proveedor que no son ISO-3166 pero son parte de uno (FREETOUR trae Escocia, Irlanda del Norte y Gales
+ * aparte, sin ISO-2). Cuelgan del país ISO; los datos de D1 no se tocan.
+ */
+export const SUBNATIONAL_ISO2: Readonly<Record<string, string>> = { SCT: "GB", NIR: "GB", WLS: "GB", ENG: "GB" };
+
+// REQ-1264: ISO-2 efectivo de una fila de Country (el guardado o, si falta, el del país al que pertenece).
+export function countryIso2(c: { code: string; iso2: string | null }): string | null {
+  const own = (c.iso2 ?? "").trim().toUpperCase();
+  if (/^[A-Z]{2}$/.test(own)) return own;
+  return SUBNATIONAL_ISO2[(c.code ?? "").trim().toUpperCase()] ?? null;
+}
+
+// REQ-1264: la misma regla en SQL, para las consultas que leen co."iso2".
+export function ISO2_SQL(alias: string): string {
+  const cases = Object.entries(SUBNATIONAL_ISO2).map(([k, v]) => `WHEN '${k}' THEN '${v}'`).join(" ");
+  return `COALESCE(${alias}."iso2", CASE UPPER(${alias}."code") ${cases} END)`;
+}
+
+/**
+ * REQ-1265: nombre ISO 3166 del país en los 6 idiomas del sitio, para las filas cuyo nombre del proveedor no es el del
+ * país ISO (la fila GB trae «Inglaterra», y de GB cuelgan Escocia, Gales e Irlanda del Norte, REQ-1264). Al pintar; D1 no cambia.
+ */
+export const ISO_COUNTRY_NAMES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  GB: { es: "Reino Unido", en: "United Kingdom", pt: "Reino Unido", de: "Vereinigtes Königreich", fr: "Royaume-Uni", it: "Regno Unito" },
+};
+
+// REQ-1265: traducciones del país a pintar (las de la lista ISO si existen; si no, las de la base).
+export function countryTranslations(iso2: string | null | undefined, translations: unknown): unknown {
+  return (iso2 && ISO_COUNTRY_NAMES[iso2.toUpperCase()]) || translations;
+}
+
 /** Códigos que algunos sistemas usan y no son ISO. */
 const ALIASES: Record<string, string> = { UK: "GB", EL: "GR" };
 

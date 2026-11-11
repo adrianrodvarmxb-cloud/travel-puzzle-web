@@ -71,7 +71,7 @@ export async function fetchTours(
   const filters: TourFilters = { ...clientFilters, taxonomy, formatos: taxonomy ? clientFilters.formatos ?? [] : [] };
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
-    const list = await cached(cacheKey('tours', { ...filters, ...pagination, v: 'tipos-1250' /* REQ-1250: las filas traen el formato del índice */ }), POLICY.toursList, async () => {
+    const list = await cached(cacheKey('tours', { ...filters, ...pagination, v: 'tipos-1260' /* REQ-1250: las filas traen el formato del índice */ }), POLICY.toursList, async () => {
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });
@@ -131,7 +131,7 @@ export async function fetchTourByExternalId(externalId: number, language: string
 export async function fetchCountries(language: string = 'en') {
   try {
     // REQ-029/REQ-032: los países casi no cambian; caché compartida 1 h.
-    const result = await cached(cacheKey('countries', { language }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
+    const result = await cached(cacheKey('countries', { language, v: 'iso-1265' /* REQ-1265 */ }), POLICY.countries, () => withRetry(() => getCountriesWithTourCount(language)));
     const serialized = serializeDecimals(result);
     return JSON.parse(JSON.stringify(serialized));
   } catch (error) {

@@ -45,7 +45,8 @@ export function sitemapInput(tree: CountryNode[], siteUrl: string, o: { locales?
     tours: tree.flatMap((c) =>
       // REQ-832: las fichas de un proveedor sin permiso de indexar (FREETOUR) no van al sitemap en ningún idioma; la ciudad sí.
       // REQ-663: las que quedan llevan sus idiomas indexables.
-      c.cities.flatMap((ci) => allTours(ci).filter((t) => t.kind === "own" || indexableProvider(t.providerId ?? "freetour")).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt, ...L(() => tourLangs(t, ci, c)) })))
+      // REQ-1349: un viaje listado en varias ciudades entra una sola vez, en su ciudad canónica (la de su href).
+      c.cities.flatMap((ci) => allTours(ci).filter((t) => (t.kind === "own" ? t.href.startsWith(`${ci.href}/`) : indexableProvider(t.providerId ?? "freetour"))).map((t) => ({ countrySlug: c.slug, citySlug: ci.slug, slug: t.href.split("/").pop() ?? null, status: "active" as const, contentUpdatedAt: t.updatedAt, ...L(() => tourLangs(t, ci, c)) })))
     ),
   };
 }

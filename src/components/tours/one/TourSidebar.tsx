@@ -50,10 +50,9 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
     const copy = bookingCopy(language);
     const wa = waLink(whatsapp, advisorText(tour.title, language));
 
+    // REQ-1500: «Reservar» lleva a nuestro calendario (#disponibilidad), nunca a la página de FREETOUR.
     const handleBooking = () => {
-        if (tour.bookingURL) {
-            window.open(tour.bookingURL, '_blank', 'noopener,noreferrer');
-        }
+        document.getElementById('disponibilidad')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     return (

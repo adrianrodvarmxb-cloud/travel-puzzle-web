@@ -11,9 +11,10 @@ describe("páginas institucionales tras bandera", () => {
   });
 
   // REQ-982: BLOG_ENABLED se enciende por el gate «Publica solo cada día»; las demás páginas siguen en "false".
-  it("REQ-240 + REQ-982: wrangler.jsonc trae cada bandera de página en \"false\", salvo BLOG_ENABLED en \"true\"", () => {
+  it("REQ-240 + REQ-982 + REQ-1401: wrangler.jsonc enciende solo Nosotros, Contacto y Blog (OK del PO, 7 nov 2026); Asesores sigue apagado", () => {
     const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-    for (const flag of Object.values(PAGE_FLAGS)) expect(vars[flag], flag).toBe(flag === "BLOG_ENABLED" ? "true" : "false");
+    const on = new Set(["NOSOTROS_ENABLED", "CONTACTO_ENABLED", "BLOG_ENABLED"]);
+    for (const flag of Object.values(PAGE_FLAGS)) expect(vars[flag], flag).toBe(on.has(flag) ? "true" : "false");
   });
 
   it("REQ-241: el pie no enlaza páginas apagadas; encendida, «Nosotros» aparece con su ruta", () => {

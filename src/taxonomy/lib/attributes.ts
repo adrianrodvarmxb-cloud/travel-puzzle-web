@@ -27,7 +27,7 @@ export function esFavorito(input: Pick<ClassifyInput, "calificacion" | "resenas"
 export function classifyAtributos(
   input: ClassifyInput, formato: FormatoOEstado, dict: Dictionary, mapping: Mapping | undefined, cat: Categoria | undefined, gates: Gates,
 ): { atributos: Decision<string>[]; avisos: string[] } {
-  if (formato === "fuera" || formato === "por-revisar") return { atributos: [], avisos: [] };
+  if (formato === "fuera" || formato === "por-revisar" || formato === "esenciales-viaje") return { atributos: [], avisos: [] }; // REQ-1263
   const titulo = norm(input.titulo);
   const out = new Map<string, string>();
   const add = (slug: string, regla: string) => { if (!out.has(slug)) out.set(slug, regla); };

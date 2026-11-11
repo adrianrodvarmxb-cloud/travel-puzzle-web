@@ -21,3 +21,12 @@ describe("TourSidebar + franja", () => {
     expect(html.match(/FRANJA-TRANSPORTE/g)).toHaveLength(1);
   });
 });
+
+// REQ-1500 — «Reservar» nunca abre la página de FREETOUR; va al calendario propio.
+describe("REQ-1500: reservar no sale a FREETOUR", () => {
+  it("el botón de reserva no lleva a bookingURL", () => {
+    const src = require("node:fs").readFileSync(new URL("./TourSidebar.tsx", import.meta.url), "utf-8");
+    expect(src).not.toMatch(/window\.open\(tour\.bookingURL/);
+    expect(src).toContain("#disponibilidad");
+  });
+});

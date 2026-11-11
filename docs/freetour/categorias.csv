@@ -3,7 +3,7 @@
 4,Viajes de 1 Día,Day Trips,excursion-dia,circuito si ≥ 1440 min,(por palabras),sí,day_trip,activo
 5,Tour Gastronómico,Food & Drink,tour,"experiencia-unica con clase/taller; tour solo con transporte, caminata a pie, visita-guiada con sitio; sin señal, caminata (REQ-1250…1252)",gastronomia,sí,tour,activo
 7,Vida Nocturna,Night Life,experiencia-unica,,noche-espectaculos,sí,tour,activo
-8,Tour Online,Online Tour,fuera,,—,no,(no aplica),oculto
+8,Tour Online,Online Tour,tour,app o audioguía → autoguiado; en línea → en-linea; presencial → su tipo normal (REQ-1260…1262),—,sí,tour,activo
 10,Tour Corriendo,Running Tour,caminata,,deportivo; urbano,sí,tour,activo
 12,Tour a Pie,Walking Tour,caminata,,urbano,sí,tour,activo
 13,Otros,Other,tour,"traslado/entradas/excursion-dia por palabras; tour solo con transporte, caminata a pie, visita-guiada con sitio; sin señal, visita-guiada (REQ-1250…1252)",(por palabras),sí,tour,activo
@@ -23,7 +23,7 @@
 28,Pases urbanos,City Passes,entradas,,(por palabras),no,tickets,activo
 29,Traslados,Transfers,traslado,,—,no,transfer,activo
 30,Transporte público,Public Transport,transporte,,urbano,no,transport,tras bandera (TRANSPORT_ENABLED=false)
-31,Servicios de viaje,Travel services,fuera,,—,no,(no aplica),oculto
+31,Servicios de viaje,Travel services,esenciales-viaje,,—,no,(no aplica),tras bandera (REQ-1263)
 32,Actividades acuáticas,Water activities,experiencia-unica,,playa-mar,sí,tour,activo
 33,Bienestar,Wellness,experiencia-unica,,bienestar,sí,tour,activo
 34,Talleres,Workshops,experiencia-unica,,talleres-aprendizaje,sí,tour,activo

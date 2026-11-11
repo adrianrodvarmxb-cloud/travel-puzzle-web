@@ -54,14 +54,14 @@
     "EMAILS_ENABLED": "true",
     // REQ-1291: Mila administra proveedores (docs/gates-proveedores-mila-2026-11.md). Se prende con OK del PO tras aprobar las plantillas.
     "PROVEEDORES_MILA_ON": "false",
-    // REQ-1333: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1335; el secreto MILA_AVISOS_SECRET lo carga el PO.
+    // REQ-1568: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1570; el secreto MILA_AVISOS_SECRET lo carga el PO.
     "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
     "MILA_AVISOS_URL": "",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "false",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
-    "PAID_TOURS_ENABLED": "false",
-    "PAID_TOURS_IN_RECOMMENDATIONS": "false",
+    "PAID_TOURS_ENABLED": "true",
+    "PAID_TOURS_IN_RECOMMENDATIONS": "true",
     // Modificar reserva en línea (/reserva/[token]/modificar): "true" cuando Freetour dé el permiso de editar.
     "EDIT_ENABLED": "true",
     // Viajes propios y de agencias en el sitio público (ficha /viajes, /tours, carrusel del home). "true" con OK del PO.
@@ -84,8 +84,11 @@
     // migrations/0019_search_log_daily.sql (después de la 0017) y del aviso de privacidad, con su OK.
     "SEARCH_LOG_ENABLED": "false",
     // Raíz (plurales y género, Snowball) y sinónimos en el índice FTS (REQ-360…366). "true" solo DESPUÉS de aplicar la
-    // migración propuesta docs/migraciones-propuestas/0021_tour_search_stem.sql, con preview, humo y OK del PO.
+    // migración migrations/0025_tour_search_stem.sql (REQ-1517), aplicada antes; con preview, humo y OK del PO.
     "SEARCH_STEM_ENABLED": "false",
+    // REQ-1357: sinónimos del diccionario de taxonomía y términos fusionados (legado) en el buscador. Solo se usan con
+    // SEARCH_STEM_ENABLED. "true" con preview, humo y OK del PO.
+    "SEARCH_TAXONOMY_SYNONYMS_ENABLED": "false",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
     "SYNC_GUARD_ENABLED": "true",
@@ -108,17 +111,17 @@
     // Taxonomía T3 (REQ-406…408, REQ-261): Free tour = formato pieza-libre (sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35), sin online,
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).
-    "TAXONOMY_PUBLISH_ENABLED": "false",
+    "TAXONOMY_PUBLISH_ENABLED": "true",
     // Reclasificación con linaje (REQ-750…756, Ola R2): procedencia por término, mapeos por agencia desde la denominación
     // original y overrides manuales. Requiere TAXONOMY_SYNC_ENABLED y las migraciones 0022 y 0023 aplicadas (con OK del PO).
     // "true" con preview, prueba de humo y OK del PO.
     "TAXONOMY_LINEAGE_ENABLED": "false",
     // Taxonomía T4 (REQ-412, REQ-413): /tours con «Tipo de experiencia» (?formato=), sin chips en cero, noindex en combinaciones
     // y ?tipo_act= traducido. "true" con preview, prueba de humo y OK del PO (después de TAXONOMY_PUBLISH_ENABLED).
-    "TAXONOMY_FILTERS_ENABLED": "false",
+    "TAXONOMY_FILTERS_ENABLED": "true",
     // Taxonomía T5 (REQ-414…416, REQ-433, G-T9): chips de formato en la ciudad, etiqueta en la ficha y copy por formato
     // («con un guía local» solo con guía en persona). Requiere TAXONOMY_PUBLISH_ENABLED. "true" con preview, humo y OK del PO.
-    "TAXONOMY_LABELS_ENABLED": "false",
+    "TAXONOMY_LABELS_ENABLED": "true",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
     "TAXONOMY_CIRCUITS_ENABLED": "false",
@@ -153,10 +156,10 @@
     "CARRUSELES_HOME_ENABLED": "true",
     "AFFILIATE_PATHS": "/trenes,/traslados",
     // Página /nosotros (REQ-240…245). Apagada = 404 y sin enlace en el pie. "true" con preview encendido, prueba de humo y OK del PO.
-    "NOSOTROS_ENABLED": "false",
+    "NOSOTROS_ENABLED": "true",
     // Página /contacto y su formulario (REQ-246…249). Envía con Resend al buzón de EMAIL_REPLY_TO. Apagada = 404 y sin enlace.
     // "true" con preview encendido, prueba de humo y OK del PO.
-    "CONTACTO_ENABLED": "false",
+    "CONTACTO_ENABLED": "true",
     // Página /asesores «Habla con un asesor de viaje» (REQ-250…252): WhatsApp del asesor y formulario corto. Apagada = 404.
     // "true" con preview encendido, prueba de humo y OK del PO.
     "EXPERTOS_ENABLED": "false",
@@ -171,8 +174,8 @@
     // workflow deja los textos y láminas en el issue «Redes del día» para publicarlos a mano. "true" solo con los
     // tokens del PO como secretos de GitHub (docs/redes/conexion.md), una red por PR y con su OK.
     "SOCIAL_LINKEDIN_ENABLED": "false",
-    "SOCIAL_FACEBOOK_ENABLED": "false",
-    "SOCIAL_INSTAGRAM_ENABLED": "false",
+    "SOCIAL_FACEBOOK_ENABLED": "true",
+    "SOCIAL_INSTAGRAM_ENABLED": "true",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
     "ARMA_TU_VIAJE_ENABLED": "false",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
@@ -198,8 +201,8 @@
     // WhatsApp Business de Travel Puzzle (solo dígitos, formato internacional)
     "WHATSAPP_NUMBER": "525536490320",
     // Redes sociales de Travel Puzzle (aparecen en el pie de los correos)
-    "SOCIAL_INSTAGRAM": "https://www.instagram.com/travelpuzzle/",
-    "SOCIAL_FACEBOOK": "https://www.facebook.com/travelpuzzle",
+    "SOCIAL_INSTAGRAM": "https://www.instagram.com/travelpuzzlemx/",
+    "SOCIAL_FACEBOOK": "https://www.facebook.com/TravelPuzzleMexico/",
     "SOCIAL_TIKTOK": "https://www.tiktok.com/@travelpuzzle",
     "SOCIAL_YOUTUBE": "https://www.youtube.com/@travelpuzzle"
   },

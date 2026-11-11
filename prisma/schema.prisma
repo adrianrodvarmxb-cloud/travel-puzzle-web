@@ -377,6 +377,7 @@ model Trip {
   whatToBring     String   @default("")
   accessibility   String   @default("")
   difficulty      String?
+  difficultyLevel Int?    // REQ-1520: nivel 1–5 revisado (columna de la migración 0018; REQ-1518/1519)
   flightsIncluded Boolean  @default(false)
   languages       Json // string[]
   minPax          Int?

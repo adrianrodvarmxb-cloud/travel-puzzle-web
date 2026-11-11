@@ -75,9 +75,9 @@ describe("REQ-1297: el primer correo de Adri llega con copia a Mila", () => {
   });
 });
 
-describe("REQ-1330: respuestas automáticas y rebotes", () => {
+describe("REQ-1565: respuestas automáticas y rebotes", () => {
   const enviado = { etapa: "contactado" as const, ultimoNuestro: "2026-11-09T10:00:00Z" };
-  it("REQ-1330: «fuera de la oficina» queda en el historial y no cuenta como respuesta", async () => {
+  it("REQ-1565: «fuera de la oficina» queda en el historial y no cuenta como respuesta", async () => {
     const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
     const r = await procesarEntrante({ messageId: "<oo@x>", fecha: "2026-11-09T11:00:00Z", de: "erika@tangol.com", para: ["comercial@travelpuzzle.com.mx"], cc: [],
       asunto: "Respuesta automática: Fuera de la oficina", texto: "Regreso el lunes", adjuntos: [] }, { repo: m.repo, subir: async () => {} });
@@ -86,13 +86,13 @@ describe("REQ-1330: respuestas automáticas y rebotes", () => {
     expect(m.lista[0].ultimoSuyo).toBeUndefined();
     expect(m.mensajes[0].tipo).toBe("automatica");
   });
-  it("REQ-1330: la cabecera Auto-Submitted también cuenta como automática", async () => {
+  it("REQ-1565: la cabecera Auto-Submitted también cuenta como automática", async () => {
     const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
     const r = await procesarEntrante({ messageId: "<as@x>", fecha: "2026-11-09T11:00:00Z", de: "erika@tangol.com", para: [], cc: [],
       asunto: "Re: Travel Puzzle", texto: "", adjuntos: [], encabezados: { "Auto-Submitted": "auto-replied" } }, { repo: m.repo, subir: async () => {} });
     expect(r.estado).toBe("automatica");
   });
-  it("REQ-1330: un rebote marca la dirección inválida, no cambia la etapa y Mila ya no le escribe", async () => {
+  it("REQ-1565: un rebote marca la dirección inválida, no cambia la etapa y Mila ya no le escribe", async () => {
     const m = memoria([base({ id: "inca", correos: ["vieja@incaworld.com", "centralincaworldtravel@gmail.com"], ...enviado })]);
     const r = await procesarEntrante({ messageId: "<b@x>", fecha: "2026-11-09T11:00:00Z", de: "mailer-daemon@googlemail.com", para: ["comercial@travelpuzzle.com.mx"], cc: [],
       asunto: "Delivery Status Notification (Failure)", texto: "Address not found: vieja@incaworld.com", adjuntos: [] }, { repo: m.repo, subir: async () => {} });
@@ -102,7 +102,7 @@ describe("REQ-1330: respuestas automáticas y rebotes", () => {
     await revisionDiaria({ repo: m.repo, hoy: "2026-11-16T15:00:00Z", enviar: async (c) => { enviados.push(c); return "<1@r>"; } });
     expect(enviados[0].to).toEqual(["centralincaworldtravel@gmail.com"]);
   });
-  it("REQ-1330: una respuesta escrita por una persona sigue contando", async () => {
+  it("REQ-1565: una respuesta escrita por una persona sigue contando", async () => {
     const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
     await procesarEntrante({ messageId: "<p@x>", fecha: "2026-11-09T12:00:00Z", de: "erika@tangol.com", para: [], cc: [], asunto: "Re: Travel Puzzle", texto: "Con gusto", adjuntos: [] },
       { repo: m.repo, subir: async () => {} });
@@ -111,21 +111,21 @@ describe("REQ-1330: respuestas automáticas y rebotes", () => {
 });
 
 import { enVentana, fechaLocal, zonaPorDestino } from "./lib/horario";
-describe("REQ-1331: horario hábil del proveedor", () => {
-  it("REQ-1331: 15:00 UTC es 9:00 en México (sí) y 23:00 en Kuala Lumpur (no); sábado nunca", () => {
+describe("REQ-1566: horario hábil del proveedor", () => {
+  it("REQ-1566: 15:00 UTC es 9:00 en México (sí) y 23:00 en Kuala Lumpur (no); sábado nunca", () => {
     expect(enVentana("2026-11-09T15:00:00Z", "America/Mexico_City")).toBe(true);
     expect(enVentana("2026-11-09T15:00:00Z", "Asia/Kuala_Lumpur")).toBe(false);
     expect(enVentana("2026-11-09T01:00:00Z", "Asia/Kuala_Lumpur")).toBe(true); // 9:00 del lunes en KL
     expect(enVentana("2026-11-07T15:00:00Z", "America/Mexico_City")).toBe(false); // sábado
     expect(enVentana("2026-11-09T15:00:00Z", "zona/rota")).toBe(true); // sin zona válida, México
   });
-  it("REQ-1331: la fecha se cuenta en la zona del proveedor y la zona sale del destino", () => {
+  it("REQ-1566: la fecha se cuenta en la zona del proveedor y la zona sale del destino", () => {
     expect(fechaLocal("2026-11-09T20:00:00Z", "Asia/Shanghai")).toBe("2026-11-10");
     expect(zonaPorDestino("Malasia, Singapur y Borneo")).toBe("Asia/Kuala_Lumpur");
     expect(zonaPorDestino("Perú")).toBe("America/Lima");
     expect(zonaPorDestino("Marte")).toBe("America/Mexico_City");
   });
-  it("REQ-1331: la revisión solo le escribe al proveedor de Asia en su mañana", async () => {
+  it("REQ-1566: la revisión solo le escribe al proveedor de Asia en su mañana", async () => {
     const asia = base({ id: "ta", correos: ["r@ta.com"], zonaHoraria: "Asia/Kuala_Lumpur", etapa: "contactado", ultimoNuestro: "2026-11-02T01:00:00Z", ultimoAsunto: "X" });
     const m = memoria([asia]);
     const enviados: Correo[] = [];
@@ -138,8 +138,8 @@ describe("REQ-1331: horario hábil del proveedor", () => {
 });
 
 import { mandarResumen } from "./resumen";
-describe("REQ-1333: envío del resumen", () => {
-  it("REQ-1333: lo manda a cada número de la lista y anota los que fallan sin detener a los demás", async () => {
+describe("REQ-1568: envío del resumen", () => {
+  it("REQ-1568: lo manda a cada número de la lista y anota los que fallan sin detener a los demás", async () => {
     const m = memoria([base({ id: "a", nombre: "Tangol", correos: ["x@tangol.com"] })]);
     const llegaron: string[] = [];
     const r = await mandarResumen({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", destinos: ["5215548538822", "falla", "5216181129459"],

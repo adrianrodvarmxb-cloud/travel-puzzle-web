@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS "Proveedor" (
   "contacto"          TEXT NOT NULL DEFAULT '',
   "correos"           TEXT NOT NULL DEFAULT '[]',   -- JSON: direcciones exactas
   "dominios"          TEXT NOT NULL DEFAULT '[]',   -- JSON: dominios propios (nunca gmail, hotmail…)
-  "correosInvalidos"  TEXT NOT NULL DEFAULT '[]',   -- JSON: direcciones que rebotaron (REQ-1330); Mila ya no les escribe
+  "correosInvalidos"  TEXT NOT NULL DEFAULT '[]',   -- JSON: direcciones que rebotaron (REQ-1565); Mila ya no les escribe
   "telefono"          TEXT NOT NULL DEFAULT '',
   "destinos"          TEXT NOT NULL DEFAULT '',
-  "zonaHoraria"       TEXT NOT NULL DEFAULT 'America/Mexico_City', -- REQ-1331: IANA (Asia/Kuala_Lumpur, Europe/Paris…)
+  "zonaHoraria"       TEXT NOT NULL DEFAULT 'America/Mexico_City', -- REQ-1566: IANA (Asia/Kuala_Lumpur, Europe/Paris…)
   "ultimoSuyo"        TEXT,
   "ultimoNuestro"     TEXT,
   "ultimoAsunto"      TEXT,

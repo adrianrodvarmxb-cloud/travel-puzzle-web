@@ -1,5 +1,5 @@
--- PROPUESTA, SIN APLICAR (REQ-360…366, plan S6). Fuera de migrations/ a propósito. Para aplicarla: PR aparte que la
--- mueva a migrations/ con el siguiente número libre, OK del PO y publicación a mano con la casilla «migraciones».
+-- REQ-1517 (antes propuesta 0021, REQ-366; REQ-360…366, plan S6). Va ANTES de encender SEARCH_STEM_ENABLED (REQ-1312).
+-- Se aplica UNA vez con «Publicar en Cloudflare» y la casilla «migraciones», después del merge con OK del PO (G1 = A).
 --
 -- Recrea el índice FTS5 "TourSearch" con una columna nueva "stem" (raíces en español, Snowball, src/search/lib/stem.ts).
 -- TourSearch es DERIVADA: se reconstruye desde Tour + TourTranslation sin perder datos (docs/runbook-busqueda.md).

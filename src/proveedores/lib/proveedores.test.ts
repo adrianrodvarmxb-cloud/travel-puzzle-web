@@ -159,13 +159,13 @@ describe("REQ-1298/REQ-1299: integración por prioridad y cobro", () => {
 });
 
 import { textoResumen, esHoraResumen } from "./resumen";
-describe("REQ-1333: resumen semanal", () => {
-  it("REQ-1333: sale el lunes a las 9:00 de México y no otra hora", () => {
+describe("REQ-1568: resumen semanal", () => {
+  it("REQ-1568: sale el lunes a las 9:00 de México y no otra hora", () => {
     expect(esHoraResumen("2026-11-09T15:00:00Z")).toBe(true); // lunes 9:00 CDMX
     expect(esHoraResumen("2026-11-09T16:00:00Z")).toBe(false);
     expect(esHoraResumen("2026-11-10T15:00:00Z")).toBe(false);
   });
-  it("REQ-1333: arma los 5 bloques con avance, respuestas, lo que te toca (incluidos rebotes), documentos y lo que sale", () => {
+  it("REQ-1568: arma los 5 bloques con avance, respuestas, lo que te toca (incluidos rebotes), documentos y lo que sale", () => {
     const t = textoResumen({
       proveedores: [
         { nombre: "Destino Colombia", etapa: "respondio", publicado: true, correosInvalidos: [] },
@@ -188,7 +188,7 @@ describe("REQ-1333: resumen semanal", () => {
     expect(t).toContain("*5. Esta semana sale*");
     expect(t.length).toBeLessThanOrEqual(3800);
   });
-  it("REQ-1333: nunca pasa del límite de WhatsApp", () => {
+  it("REQ-1568: nunca pasa del límite de WhatsApp", () => {
     const muchos = Array.from({ length: 200 }, (_, i) => ({ nombre: `Proveedor ${i} con un nombre bastante largo para ocupar espacio`, etapa: "contactado" as const, publicado: false, correosInvalidos: [`x${i}@dominio-largo-de-prueba.com`] }));
     expect(textoResumen({ proveedores: muchos, mensajes: [], documentos: [], proximos: [] }).length).toBeLessThanOrEqual(3800);
   });

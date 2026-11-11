@@ -5,8 +5,8 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 ## Mila administra proveedores (PO, 7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0024 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
-| REQ-1292 | Directorio de ~200 hilos, aprobado por el PO | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (VALIDACIÓN REQ-1320) | EN CURSO |
+| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0026 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1292 | Directorio de ~200 hilos, aprobado por el PO | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (VALIDACIÓN REQ-1555) | EN CURSO |
 | REQ-1293 | Seguimiento diario y tandas | NUEVO | src/proveedores/lib/seguimiento.ts, tandas.ts, diario.ts, worker.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
 | REQ-1294 | Correos de Mila (recordatorio, reintento, alta) | NUEVO | src/proveedores/lib/correo.ts, plantillas.ts, deps.ts, src/notifications/resend.ts | proveedores.test.ts | EN CURSO |
 | REQ-1295 | Alta del proveedor que acepta | NUEVO | src/proveedores/lib/etapas.ts | proveedores.test.ts | EN CURSO |
@@ -14,16 +14,19 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1297 | Primer correo lo manda Adri con copia a Mila | NUEVO | src/proveedores/lib/borrador.ts, plantillas.ts, diario.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
 | REQ-1298 | Integración por prioridad API > plugin > portal > manual | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
 | REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
-| REQ-1330 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0024 | src/proveedores/proveedores-io.test.ts | EN CURSO |
-| REQ-1331 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0024 | src/proveedores/proveedores-io.test.ts | EN CURSO |
-| REQ-1333 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1334 y REQ-1335) |
-| REQ-1300 a REQ-1329 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1327 NO CUMPLIDO |
+| REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0026 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1566 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0026 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1568 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1569 y REQ-1570) |
+| REQ-1535 a REQ-1564 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1562 NO CUMPLIDO |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
 | REQ-1247 | Respaldo de solo lectura de las tablas de la 0017 | `.github/workflows/respaldo-taxonomia.yml` | `src/ops/respaldo-taxonomia-workflow.test.ts` | EN CURSO (falta la corrida tras el merge) |
+
 ## Sin FREETOUR en los textos del proveedor (D31; INC-008, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-1240 | Descripciones y resúmenes sin la plataforma | `src/tours/lib/provider-text.ts` | `src/tours/lib/provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1241 | Títulos: se quita solo el nombre | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1242 | «Incluye» sin la plataforma | `src/tours/lib/provider-text.ts` | `provider-text.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
@@ -46,11 +49,62 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 |---|---|---|---|---|
 | REQ-1256 | Tipos principales de /tours desde el diccionario | `src/taxonomy/lib/format-defs.ts`, `src/taxonomy/schemas/dictionary.ts`, `src/taxonomy/data/dictionary.json`, `src/tours/lib/format-chips.ts`, `src/taxonomy/lib/filters.ts`, `src/catalog/lib/query.ts`, `src/lib/db/repositories/tour-repository.ts`, `src/app/tours/page.tsx`, `ToursPageClient.tsx`, `MoreFilters.tsx` | `src/taxonomy/lib/format-defs.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 
+## FREETOUR cat. 8 por su tipo real (PO, 7 nov 2026, 11:3x) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1260 | Cat. 8 app/audioguía → Autoguiado (reemplaza §4.1 #0 para la 8) | `src/taxonomy/data/mapping/freetour.json`, `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/format.ts` | `src/taxonomy/lib/categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1261 | Cat. 8 presencial → su tipo normal | `format.ts`, `freetour.json` | `categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1262 | «Experiencias en línea» | `src/taxonomy/lib/types.ts`, `dictionary.json`, `format.ts`, `publish.ts`, `filters.ts`, `cart-type.ts`, `src/destinations/lib/catalog.ts` (`onlineTours`, `fichaTours`), `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx` | `categoria-8-tipo-real.test.ts`, `src/destinations/lib/catalog.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1263 | Cat. 31 «Esenciales de viaje», tras bandera | `types.ts`, `dictionary.json`, `freetour.json`, `format.ts`, `publish.ts`, `themes.ts`, `attributes.ts` | `categoria-8-tipo-real.test.ts`, `freetour.test.ts` | EN CURSO |
+| REQ-1264 | SCT/NIR/WLS → GB | `src/destinations/lib/ids.ts` (`countryIso2`, `ISO2_SQL`), `src/destinations/lib/catalog.ts`, `src/destinations/repository.ts` | `categoria-8-tipo-real.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Rango de precio en EUR con MXN aproximado (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-1254 | Deslizador «€X · aprox. MXN $Y», sin «US$» | `src/tours/lib/price-filter.ts`, `src/components/tours/filters/PriceSlider.tsx`, `MoreFilters.tsx`, `ToursPageClient.tsx`, `src/app/tours/page.tsx` | `src/tours/lib/price-filter.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
 | REQ-1255 | Viajes en USD o MXN se comparan en EUR | `src/tours/lib/price-filter.ts`, `src/trips/lib/public.ts`, `src/trips/public-load.ts` | `price-filter.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
 ## Una sola regla de «★ Favorito» (PO, 7 nov 2026, 08:14) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-1290 | ≥4.9 y ≥180 en tarjeta, reseñas destacadas y taxonomía (reemplaza G-T1 A) | `src/taxonomy/lib/gates.ts`, `src/reviews/lib/highlights.ts`, `src/tours/lib/favorite.ts` | `src/taxonomy/lib/favorito-una-regla.test.ts`, `gates.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+
+## Turismo Asiático (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1347 | Publicar en lote los viajes en draft de una agencia, con revisión, respaldo y regreso | `src/trips/lib/publish-batch.ts`, `src/scripts/publicar-viajes.ts`, `.github/workflows/publicar-viajes-agencia.yml` | `src/trips/lib/publish-batch.test.ts` | EN CURSO (falta merge, ensayo y escritura) |
+
+## INC-008 viajes y total de experiencias (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1344 | Todos los viajes publicados, por páginas, sin 1 + N | `src/trips/lib/published-pages.ts`, `src/trips/public-load.ts`, `src/trips/repository.ts` | `src/trips/lib/published-pages.test.ts` | EN CURSO (falta humo del PR) |
+| REQ-1345 | Todo viaje visible tiene URL en algún sitemap | `src/seo/lib/sitemaps-viajes.ts` (sin cambio) | `src/seo/lib/sitemaps-viajes-regla.test.ts` | EN CURSO (test de regla) |
+| REQ-1346 | Un solo total de experiencias | `src/tours/lib/available.ts`, `src/tours/lib/available-catalog.ts`, `src/app/page.tsx`, `src/components/tours/ToursPageClient.tsx` | `src/tours/lib/available.test.ts` | EN CURSO (criterio confirmado por el PO el 7 nov; falta humo del PR) |
+
+## REQ-1348 y REQ-1357 contrato del diccionario (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1348 | Contrato fila por fila diccionario ↔ código; proveedor nuevo sin formato no se publica | `src/taxonomy/data/contrato-diccionario.json`, `docs/taxonomia/contrato-diccionario.md`, `src/trips/lib/bulk-import.ts`, `src/tours/lib/card-format.ts`, `src/scripts/import-trips.ts` | `src/taxonomy/lib/contrato-diccionario.test.ts`, `src/trips/lib/bulk-import-formato.test.ts` | EN CURSO (15 faltas con folio) |
+| REQ-1357 | Sinónimos del diccionario y legado en el buscador, tras bandera | `src/search/lib/taxonomy-terms.ts`, `src/search/lib/synonyms.ts`, `src/search/synonyms.ts`, `wrangler.jsonc` | `src/search/taxonomy-synonyms.test.ts` | EN CURSO (bandera en false; OK del PO) |
+## REQ-1330 verde de free tour (7 nov 2026) — matriz de trazabilidad
+| REQ-1330 | Token verde #4ADE80 para precio e insignia de free tour | `src/styles/design-system/colors.css`, `src/app/globals.css`, `src/styles/lib/contrast.ts`, `src/components/tours/ExperienceCard.tsx`, `src/components/tours/one/TourHeroSection.tsx`, `src/components/tours/one/TourMobileBar.tsx`, `src/components/tours/TourCard.tsx`, `src/components/home/v2/FeaturedTours.tsx` | `src/styles/lib/free-token.test.ts` | CUMPLIDO (PO 15:39 «B»; falta humo del PR) |
+## REQ-1329 Free Puzzle en inglés (7 nov 2026) — matriz de trazabilidad
+| REQ-1329 | Free Puzzle en EN: title, encabezado y primera línea, JSON-LD, sin la marca | `src/destinations/lib/hub-copy.ts`, `src/app/destinos/[pais]/[ciudad]/page.tsx`, `src/seo/lib/ficha-ld.ts` | `src/destinations/lib/free-puzzle-en.test.ts` | CUMPLIDO (PO 15:29 «sí»; falta humo del PR) |
+## REQ-1349 URL canónica de viajes (7 nov 2026) — matriz de trazabilidad
+| REQ-1349 | Una URL canónica por viaje (ciudad de inicio), 301 de las alternativas, sitemap sin repetidos, itinerary en JSON-LD | `src/destinations/lib/catalog.ts`, `src/destinations/lib/page-model.ts`, `src/destinations/edge.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-ld.ts`, `src/seo/lib/trip-ficha.ts`, `src/destinations/server.ts` | `src/destinations/lib/viaje-canonico.test.ts` | EN CURSO (falta humo del PR) |
+## INC-009 (7 nov 2026) — matriz de trazabilidad
+| REQ-1358 | Calentar la caché de producción antes del humo | `.github/workflows/deploy-cloudflare.yml`, `docs/incidentes/INC-009.md` | `src/ops/deploy-calentar-workflow.test.ts` | EN CURSO (falta el siguiente deploy) |
+
+## REQ-1359 copia anterior al cambiar la versión de la caché (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1359 | Stale-while-revalidate al cambiar la versión de `destinos` | `src/cache/lib/shared-cache.ts`, `src/cache/lib/versions.ts`, `src/cache/edge.ts`, `src/destinations/lib/tree-shape.ts`, `src/destinations/server.ts` | `src/cache/lib/swr.test.ts`, `src/destinations/lib/tree-shape.test.ts` | EN CURSO (falta la medición del deploy) |
+
+## GB «Reino Unido» (7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1265 | Nombre ISO de GB en todos los idiomas, al pintar | `src/destinations/lib/ids.ts` (`ISO_COUNTRY_NAMES`, `countryTranslations`), `src/destinations/lib/catalog.ts`, `src/tours/lib/d1-load.ts`, `src/destinations/server.ts`, `src/actions/tours.ts` | `src/destinations/lib/reino-unido.test.ts` | EN CURSO (falta humo del PR y OK del PO) |
+| REQ-1266 | Falso 404 de Edimburgo (corte RSC); humo cubre GB/Edimburgo | `tests/smoke/pages.json` | `src/ops/lib/smoke-edimburgo.test.ts` | EN CURSO (falta humo del PR) |
 
 ## Pie del home en /tours y en las fichas (auditoría 7 nov 2026, D07) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -519,6 +573,7 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | Tasa de éxito del sync (30 días) | ≥ 95 % | sin medir (Ola 1) | `SyncRun` (`syncSuccessRate`) |
 | Ciudades que cambian de indexación por semana | ≤ 5 | sin medir (Ola 4) | foto semanal de indexación (`indexingChanges`) |
 | Tasa de agregado del carrusel por categoría | se mide 4 semanas y luego se fija | sin medir (carrusel apagado) | logs `[carrusel-evento]` (`addRateByCategory`) |
+
 ## La Primera Pieza — Olas 4, 5 y 6: lógica pura (5 nov 2026)
 | REQ-088 | Rutas /la-primera-pieza, /destinos, país, ciudad (free tours, tours + viajes propios, traslados) y ficha, desde los datos | `src/destinations/lib/catalog.ts`, `page-model.ts`, `repository.ts`, `load.ts`, `server.ts`, `src/app/la-primera-pieza`, `src/app/destinos/**` | `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO (tras PRIMERA_PIEZA_ENABLED="false"; sin slugs en producción no aparece nada) |
 | REQ-089 | Regla de indexación de ciudad (noindex, fuera del sitemap) | `src/destinations/lib/indexing.ts`, `catalog.ts`, `page-model.ts` | `indexing.test.ts`, `catalog.test.ts`, `page-model.test.ts` | CUMPLIDO → **REEMPLAZADO** por REQ-407 (6-11-2026, plan de taxonomía; el código actual sigue vigente hasta que el nuevo esté CUMPLIDO) |
@@ -536,6 +591,7 @@ Funciones en `src/ops/lib/metrics.ts` (`evaluateMetrics` compara contra `METRIC_
 | REQ-101 | Actividades destacadas y canonical | `src/seo/lib/hub.ts`, `page-model.ts`, `DestinationsLayout.tsx` | `hub.test.ts`, `page-model.test.ts` | CUMPLIDO |
 | REQ-102 | Sitemaps por país con lastmod real | `src/seo/lib/sitemaps.ts`, `page-model.ts` (`sitemapInput`), `src/destinations/sitemaps.ts`, `app/sitemap-index.xml`, `app/sitemap-destinos.xml`, `app/sitemaps/tours/[pais]` | `sitemaps.test.ts`, `page-model.test.ts`, `edge.test.ts` | EN CURSO (route handlers tras la bandera; lastmod = Tour.updatedAt, que solo es el cambio real con SYNC_GUARD_ENABLED encendido) |
 | REQ-103 | robots.txt con buscadores de IA y llms.txt | `src/seo/lib/robots.ts`, `app/robots.txt/route.ts`, `app/llms.txt/route.ts` | `robots.test.ts` | EN CURSO |
+
 ## Ola 3 «La Primera Pieza» — identidad y slugs (5 nov 2026)
 Migración 0015 en su propio PR (candado). Lógica pura en `src/destinations/lib/`; ensayo en el workflow «Identidad (ensayo)» (solo lectura de D1; SQL y CSV como artefacto).
 | REQ-085 | ISO-2, geonameid (cruce + revisión), llave (provider_id, external_id), tour_uid; sin external_id en la URL | `src/destinations/lib/ids.ts`, `geonames.ts`, `dry-run.ts`, `src/scripts/geonames-cruce.ts`, `migrations/0015_identidad_slugs.sql` | `ids.test.ts`, `geonames.test.ts`, `dry-run.test.ts`, `slug.test.ts` | EN CURSO (falta: aplicar 0015, revisar la lista de dudosos, llenar datos con OK; la URL es de la Ola 4) |
@@ -546,6 +602,7 @@ Siguiente paso en el sync (Ola 1, `src/catalog`; no se tocó aquí):
 2. Al cerrar una corrida exitosa, para los tours con `slug IS NULL`, llamar a `assignTourSlugs(existentes, nuevos)` y escribir solo `UPDATE … SET slug = ? WHERE id = ? AND slug IS NULL`.
 3. En ciudades nuevas, `assignCitySlugs`; si quedan pendientes (homónimas sin estado), van a revisión y no se publican.
 4. `pinyin-pro` pesa unos 300 KB; si el Worker se acerca a su límite, el slug de tours chinos se calcula en el workflow y no en el cron.
+
 ## Ola 2 (La Primera Pieza): comunicación en Modo 2 con FREETOUR (5 nov 2026)
 | REQ-079 | Correos de Modo 2: confirmación con 9 datos, recordatorio, cancelación y rechazo | `src/notifications/lib/booking-email.ts`, `status-emails.ts`, `src/booking/rejection.ts` | `booking-email.test.ts`, `status-emails.test.ts`, `rejection.test.ts` | CUMPLIDO |
 | REQ-080 | Release: FREETOUR no manda correos propios | `src/freetour/lib/release-email-check.ts`, `src/scripts/release-check-freetour.ts`, `docs/runbook/release-freetour-sin-correos.md` | `release-email-check.test.ts` | EN CURSO: la herramienta y la checklist están listas; falta la primera corrida con reserva de prueba (requiere OK del PO) |
@@ -553,6 +610,7 @@ Siguiente paso en el sync (Ola 1, `src/catalog`; no se tocó aquí):
 | REQ-082 | Sin premios por FREETOUR | `src/freetour/lib/rewards-guard.ts` (guarda lista; hoy no hay código de Rewards) | `rewards-guard.test.ts` | CUMPLIDO |
 | REQ-083 | Mensajes al proveedor sin enlaces y ≤ 5000; contacto adulto | `src/booking/lib/provider-message.ts`, `src/booking/lib/adult-contact.ts`, `service.ts`, formulario de reserva | `provider-message.test.ts`, `adult-contact.test.ts`, `service.test.ts` | EN CURSO: falta encender `ADULT_CONTACT_CHECK_ENABLED` con OK del PO; hoy no se envían mensajes al proveedor |
 | REQ-084 | Casilla de marketing LFPDPPP; política de cookies; aviso de privacidad | `src/legal/lib/marketing-consent.ts`, `MarketingConsentCheckbox.tsx`, `src/legal/lib/cookies.ts`, `/cookies`, `docs/legal/borrador-aviso-privacidad-2026-11.md` | `marketing-consent.test.ts`, `cookies.test.ts` | EN CURSO: textos pendientes de revisión del PO y de un abogado; para guardar el consentimiento hace falta una migración |
+
 ## Ola 1 «La Primera Pieza» — blindaje del sync (5 nov 2026)
 Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy queda idéntico. Migración 0014 en PR aparte (sin aplicar).
 | REQ-071 | Barrera de cordura (vacío, error, > 20 % menos) sin tocar Tour | `src/catalog/lib/sanity.ts`, `src/catalog/guarded-sync.ts`, `migrations/0014_sync_presencia.sql` | `sanity.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
@@ -752,18 +810,27 @@ Pendientes y notas:
 - Reseñas propias (CustomerReview): `fichaJsonLd` acepta `ownReviews`, pero hoy no hay cargador que las agregue por producto. Queda para cuando haya reseñas recogidas en Travel Puzzle.
 - Dato raro visto en la D1 local: viajes de Extime de una hora con `durationDays` = 1 («1 día» en la ficha y el marcado). Es dato de la importación (no se tocó).
 - `productJsonLd` de `src/seo/lib/jsonld.ts` queda sin uso (no se borra).
+
 ## Criterio de pendientes de tipos (PO, 6 nov 2026, 21:14) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-540 | Visita guiada con entrada = tour + «entrada-incluida»; boletos solo sin guía | `src/taxonomy/lib/format.ts`, `attributes.ts`, `dictionary.json` (`palabrasConGuia`), `mapping/propios.json` | `src/taxonomy/lib/criterio-pendientes.test.ts`, `format.test.ts`, `gates.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-541 | Food tour = caminata + gastronomía; Momentos de autor solo talleres, clases, catas sentadas, espectáculos | `format.ts`, `dictionary.json` (`palabrasRecorrido`, `palabrasFuertes`, tema gastronomía) | `criterio-pendientes.test.ts`, `recompute.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-542 | Día completo en la ciudad = tour + «dia-completo»; excursión solo si sale | `format.ts`, `attributes.ts`, `dictionary.json` (`palabrasEnCiudad`, `palabrasSaleSiempre`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-543 | Atributos nuevos en el diccionario y facetas listas para el filtro | `dictionary.json`, `src/taxonomy/lib/filters.ts` (`ATRIBUTOS_FACETA`) | `criterio-pendientes.test.ts` | CUMPLIDO |
 | REQ-544 | Chips de atributos en la ficha (fuera de la foto); no en la tarjeta | `src/taxonomy/lib/copy.ts` (`tourLabels`), `src/taxonomy/lib/publish.ts`, `src/destinations/lib/catalog.ts`, `page-model.ts` | `criterio-pendientes.test.ts` | CUMPLIDO en la ficha (tras TAXONOMY_LABELS_ENABLED) |
 | REQ-545 | «Excursiones en Kampala» no es excursión | `dictionary.json` (`palabrasNoEnTitulo`) | `criterio-pendientes.test.ts` | CUMPLIDO (falta OK del PO) |
+
 ## Menú sin «La Primera Pieza» (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-600 | «La Primera Pieza» fuera del menú (escritorio y celular, 6 idiomas); reversible con `MENU_PRIMERA_PIEZA` | `src/tours/lib/menu.ts`, `src/components/layout/Navbar.tsx` | `src/tours/lib/menu.test.ts`, `src/tours/lib/catalog-menu.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-601 | El pie enlaza /la-primera-pieza (no queda huérfana) solo con PRIMERA_PIEZA_ENABLED | `src/tours/lib/menu.ts` (`footerHubLinks`), `src/components/home/v2/SiteFooter.tsx` | `src/tours/lib/menu.test.ts` | CUMPLIDO (falta OK del PO) |
 Pendiente: chip «Pieza libre» dentro de Experiencias (/tours), en otro frente.
+
 ## Chips de tipos principales en /tours (PO, 6 nov 2026, 21:16) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-546 | Chips = Todo, Pieza libre y tipos con resultados por cantidad, etiquetas cortas | `src/tours/lib/format-chips.ts`, `src/components/tours/FormatChips.tsx`, `ToursPageClient.tsx` | `src/tours/lib/format-chips.test.ts` | CUMPLIDO tras TAXONOMY_FILTERS_ENABLED (apagada) |
 | REQ-547 | Chip nuevo solo con resultados; sin chip en cero | `format-chips.ts` | `format-chips.test.ts` | CUMPLIDO tras la bandera |
 | REQ-548 | Al elegir un chip todas las tarjetas tienen esa etiqueta | `ToursPageClient.tsx` (?formato=), `src/lib/db/repositories/tour-repository.ts` y `src/actions/tours.ts` (formato del índice en la tarjeta) | `format-chips.test.ts` + revisión con navegador (390/1366) | CUMPLIDO tras la bandera |
@@ -783,9 +850,14 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-871 | Auditoría antes/después por proveedor | `src/taxonomy/lib/audit-diff.ts`, `src/scripts/auditoria-tipos.ts` | `src/taxonomy/lib/audit-diff.test.ts` | CUMPLIDO |
 
 ## «★ Favorito» fuera de la foto (PO, 6 nov 2026, 22:36) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-860 | «★ Favorito» bajo la foto, en la fila de ciudad · duración | `src/components/tours/ExperienceCard.tsx` | `src/components/tours/ExperienceCard.test.ts` + capturas `docs/capturas/favorito-fuera/` | CUMPLIDO (falta OK del PO) |
 | REQ-861 | Ninguna tarjeta pone «★ Favorito» sobre la foto | `ExperienceCard.tsx`, `TourCard.tsx`, `home/v2/FeaturedTours.tsx` (`HomeTourCard`) | `src/components/tours/favorite-off-photo.test.ts` | CUMPLIDO |
+
 ## Carruseles del inicio completos (PO, 6 nov 2026, 22:05) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-850 | «Los más elegidos» = todos los Favoritos en orden del medidor | `src/home/lib/carousel-pages.ts`, `src/home/load.ts` | `src/home/lib/carousel-pages.test.ts`, `src/home/load.test.ts` | CUMPLIDO (falta OK del PO) |
 | REQ-851 | 12 del servidor + páginas de 12 al acercarse al final | `carousel-pages.ts`, `src/home/carousel-load.ts`, `src/app/api/home/carrusel/route.ts`, `src/components/home/v2/useCarouselPages.ts`, `CardRail.tsx` | `carousel-pages.test.ts` + navegador (rail 12 → 18, sin duplicados) | CUMPLIDO (falta OK del PO) |
 | REQ-852 | «Excursiones de un día» = todas, sin repetir elegidos | `carousel-pages.ts` | `carousel-pages.test.ts`, `load.test.ts` | CUMPLIDO (falta OK del PO) |
@@ -795,12 +867,18 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-856 | Endpoint valida parámetros (400) y falla en vacío | `carousel-pages.ts` (`parseCarouselQuery`), `route.ts` | `carousel-pages.test.ts` | CUMPLIDO |
 | REQ-857 | HTML del inicio sin crecer > 10 % | `src/home/lib/slim.ts`, `src/app/page.tsx` | `src/home/lib/slim.test.ts` + medición (−1.9 %) | CUMPLIDO |
 | REQ-858 | Excursiones solo con etiqueta «Excursión de un día» / «Pieza libre» | `src/home/lib/day-trip.ts`, `rank-row.ts`, `load.ts` | `carousel-pages.test.ts` | CUMPLIDO |
+
 ## Rich Results Test en fichas (6 nov 2026, 22:38) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-820 | `image` en el Product: principal + hasta 3, absolutas | `src/seo/lib/ficha-ld.ts` (`fichaImages`), `src/destinations/lib/page-model.ts`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `src/seo/lib/ficha-contract.ts` | `ficha-ld.test.ts`, `page-model.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
 | REQ-821 | Duración real en horas de un viaje de un día | `src/trips/lib/trip-facts.ts` (`infoDurationMinutes`) | `trip-facts.test.ts` | CUMPLIDO (falta corregir el import: ver PR) |
 | REQ-822 | «Tipo de experiencia» con `FORMATO_CARD_LABEL` | `src/seo/lib/trip-ficha.ts`, `src/seo/lib/taxonomy-facets.ts` | `trip-ficha.test.ts`, `taxonomy-facets.test.ts`, `ficha-contract.test.ts` | CUMPLIDO |
 | REQ-823 | Offer: availability solo si se sabe; sin shippingDetails ni hasMerchantReturnPolicy | `src/seo/lib/ficha-ld.ts` | `ficha-ld.test.ts` | CUMPLIDO |
+
 ## Fichas de FREETOUR en noindex (6 nov 2026, 22:36) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
 | REQ-830 | `PROVIDER_INDEXABLE` (`freetour: false`), `indexableProvider`, `providerRobots` | `src/seo/lib/enrichment.ts` | `enrichment.test.ts` | CUMPLIDO |
 | REQ-831 | Ficha de FREETOUR con `noindex, follow` (/destinos y /tours/[id]) | `src/destinations/lib/page-model.ts` (`tourPage`), `src/destinations/lib/catalog.ts` (`providerId` en la tarjeta), `src/destinations/repository.ts`, `src/app/tours/[id]/page.tsx` | `page-model.test.ts` | CUMPLIDO |
 | REQ-832 | Fichas de FREETOUR fuera de los sitemaps | `src/destinations/lib/page-model.ts` (`sitemapInput`) | `page-model.test.ts` | CUMPLIDO |
@@ -816,3 +894,12 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-1203 | Sync cuenta indexables en D1 | `src/destinations/lib/indexing.ts` (`cityIndexInputsSql`), `src/catalog/guarded-repository.ts`, `src/seo/lib/enrichment.ts` (`nonIndexableProviders`) | `indexing.test.ts` | CUMPLIDO |
 | REQ-1204 | País en cascada | `src/destinations/lib/catalog.ts` | `catalog.test.ts` | CUMPLIDO |
 | REQ-1205 | Misma regla en sitemaps por idioma, hreflang e IndexNow | `src/destinations/lib/locale.ts` (`cityLangs`) | `locale.test.ts` | CUMPLIDO |
+
+## Menú con sesión y Panel de admin (PO, 11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1530 | Con o sin sesión, el header es el público; Mis Reservas/Perfil tras `ACCOUNT_PAGES_READY=false` | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
+| REQ-1531 | Panel ADMIN solo con páginas que existen (gestor, solicitudes); `/dashboard/*` oculto | idem | idem | EN CURSO (test verde; falta humo del PR y merge) |
+| REQ-1532 | Google no crea cuentas con `ACCOUNTS_ENABLED` apagado; aviso en `/admin/entrar` | `src/trips/lib/admin.ts`, `src/lib/auth.ts`, `src/app/admin/entrar/page.tsx` | `src/trips/lib/admin.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
+| REQ-1533 | El rol ADMIN se confirma en la base en cada revisión del gestor y `/api/admin/*` | `src/trips/lib/admin.ts`, `src/trips/deps.ts` | `src/trips/lib/admin.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
+| REQ-1534 | Cuentas de cliente opcionales (modelo GetYourGuide/Civitatis) | — | — | PENDIENTE (plan aparte) |

@@ -22,7 +22,7 @@ WHERE t.isActive = 1`;
 export function loadCatalog(language: string): Promise<CatalogEntry[]> {
   // REQ-058: la firma de forma invalida la caché cuando cambian los campos del índice
   // T4: v3 agrega el formato de la taxonomía a cada entrada (lo usa /tours solo con TAXONOMY_FILTERS_ENABLED).
-  return cached(cacheKey('catalog', { language, v: 4, shape: CATALOG_SHAPE }) /* REQ-1250: v4 = Tour / Visita guiada / Caminata */, { ttlSec: 1800, staleSec: 86400 }, () =>
+  return cached(cacheKey('catalog', { language, v: 5, shape: CATALOG_SHAPE }) /* REQ-1250: v4 = Tour / Visita guiada / Caminata; REQ-1260: v5 = cat. 8 por su tipo real */, { ttlSec: 1800, staleSec: 86400 }, () =>
     withRetry(async () => {
       const db = getD1() as unknown as { prepare(s: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } } };
       const { results } = await db.prepare(SQL).bind(language).all();

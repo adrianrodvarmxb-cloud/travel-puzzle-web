@@ -11,6 +11,8 @@
     "/destinos",
     "/destinos/mx",
     "/destinos/mx/ciudad-de-mexico",
+    "/destinos/gb",
+    "/destinos/gb/edimburgo",
     "/sitemap-index.xml"
   ],
   "discover": [
@@ -23,6 +25,18 @@
     {
       "from": "/destinos/mx/ciudad-de-mexico",
       "pattern": "^/destinos/mx/ciudad-de-mexico/[^/?#]+$",
+      "take": 1,
+      "required": true
+    },
+    {
+      "from": "/destinos/gb/edimburgo",
+      "pattern": "^/destinos/gb/edimburgo/[^/?#]+$",
+      "take": 1,
+      "required": true
+    },
+    {
+      "from": "/tours?search=museos",
+      "pattern": "^/(viajes/[^/]+/[^/?#]+|destinos/[^/]+/[^/]+/[^/?#]+)$",
       "take": 1,
       "required": true
     }

@@ -8,7 +8,7 @@ import type { ProveedoresRepo } from "./repository";
 export interface CorreoEntrante {
   messageId: string; fecha: string; de: string; para: string[]; cc: string[]; asunto: string; texto: string;
   adjuntos: { nombre: string; tipo: string; contenido: Uint8Array }[];
-  encabezados?: Record<string, string>; // REQ-1330
+  encabezados?: Record<string, string>; // REQ-1565
 }
 
 export interface DepsEntrante { repo: ProveedoresRepo; subir: (ruta: string, contenido: Uint8Array, tipo: string) => Promise<void>; log?: (m: string) => void }
@@ -22,7 +22,7 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
   if (await deps.repo.yaRegistrado(c.messageId)) return { estado: "duplicado" };
   const proveedores = await deps.repo.todos();
   const tipo = tipoEntrante(c);
-  // REQ-1330: un rebote marca la dirección como inválida y no cambia la etapa.
+  // REQ-1565: un rebote marca la dirección como inválida y no cambia la etapa.
   if (tipo === "rebote") {
     for (const p of proveedores) {
       const malas = direccionesRebotadas(c.texto, p.correos);
@@ -39,7 +39,7 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
   if (!id) return { estado: "sin_proveedor" };
   const p = proveedores.find((x) => x.id === id)!;
   const deNosotros = INTERNO.test(c.de);
-  // REQ-1330: una respuesta automática queda en el historial, pero no cuenta como respuesta.
+  // REQ-1565: una respuesta automática queda en el historial, pero no cuenta como respuesta.
   if (!deNosotros && tipo === "automatica") {
     await deps.repo.registrarMensaje({ id: c.messageId, proveedorId: id, direccion: "entrada", asunto: c.asunto, resumen: c.texto, fecha: c.fecha, tipo: "automatica" });
     return { estado: "automatica", proveedorId: id };
