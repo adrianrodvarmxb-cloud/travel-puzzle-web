@@ -39,15 +39,10 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 ## Cláusula 3. Precios y pagos
 3.1. La Parte B entrega tarifas netas en USD por persona, en habitación doble, con mínimo de dos pasajeros. Las tarifas netas no se publican ni se comparten con clientes.
-3.2. La Parte A fija su precio de venta. Margen de intermediación: [PO: elegir una opción]
-   - Opción A: margen fijo por producto, sobre la tarifa neta.
-   - Opción B: porcentaje de comisión sobre el precio de venta, con tarifa neta confirmada por escrito.
-   - Opción C: tarifa neta más margen variable por temporada.
-3.3. La Parte A confirma la reserva con la Parte B antes de cobrar al cliente.
-3.4. Forma de pago de la Parte A a la Parte B: [PO: elegir una opción]
-   - Opción A: pago completo antes de la salida, con un plazo fijo después de confirmar la reserva.
-   - Opción B: anticipo al confirmar y saldo antes de la salida.
-   - Moneda: USD. Medio de pago: [PO: transferencia / otro].
+3.2. La Parte B fija el precio base (tarifa neta en USD por persona) que la Parte A paga por cada servicio.
+3.3. La Parte A fija libremente su precio de venta al cliente final. Su margen es decisión de la Parte A.
+3.4. La Parte A confirma la reserva con la Parte B antes de cobrar al cliente.
+3.5. Forma y plazos de pago de la Parte A a la Parte B: los define la Parte A en cada confirmación de reserva.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 4.1. Se aplica la política de cancelación de servicios terrestres de la Parte B (Condiciones Generales 2027): 25% del total entre 21 y 28 días antes de la llegada; 50% entre 14 y 20 días; 75% entre 7 y 13 días; 100% con menos de 7 días.
@@ -72,7 +67,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 ## Cláusula 8. Vigencia y terminación
 8.1. Vigencia: 1 de abril de 2027 al 31 de marzo de 2028, con renovación por escrito.
-8.2. Cualquiera de las partes puede terminar el acuerdo con [PO: elegir días de aviso por escrito] de anticipación. Los viajes confirmados antes de la terminación se respetan hasta su salida.
+8.2. Cualquiera de las partes puede terminar el acuerdo por escrito, con el aviso que defina la Parte A. Los viajes confirmados antes de la terminación se respetan hasta su salida.
 
 ## Cláusula 9. Ley aplicable y jurisdicción
 9.1. Este acuerdo se rige por las leyes del estado de Durango, igual que los Términos y Condiciones publicados por Travel Puzzle. Para cualquier controversia, las partes se someten a los Tribunales competentes de Durango, Durango, previo intento de conciliación ante la Procuraduría Federal del Consumidor (PROFECO) cuando aplique.
@@ -90,7 +85,7 @@ Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 [CLIENTE: lista de los 14 viajes publicados con código de programa, fechas, precio neto y vigencia]
 
 ## Anexo 2. Pendientes para firmar
-0. Decisiones del PO (margen, forma de pago, días de aviso): pendientes de elegir. No se llenan con cifras propias.
+0. Precio de venta, forma de pago y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
 1. Confirmar si la política de cancelación para agencias es la de la tabla (Cláusula 4.1) o una distinta.
 2. Confirmar que la Parte B opera en tierra y que la Parte A no asume responsabilidad aérea.
 3. Datos legales completos de ambas partes (razón social, RFC o registro de India, domicilio, representante legal).
