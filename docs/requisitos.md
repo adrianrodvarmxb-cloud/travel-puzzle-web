@@ -1086,3 +1086,4 @@ Petición literal (PO, 11-11, con captura del correo de Hernán Garriga de Tango
 | REQ-1555 | DEFINICIÓN | Tangol, reserva: ¿confirmación inmediata en línea o bajo solicitud (se cobra tras confirmar, como Inca World)? Bloquea la ola 4 | PO | — | PENDIENTE |
 | REQ-1556 | DEFINICIÓN | Tangol, marca: ¿la ficha, el voucher y los T&C indican «opera Tangol» (como Inca World) o solo Travel Puzzle? | PO | — | PENDIENTE |
 | REQ-1557 | DEFINICIÓN | Tangol, acuerdo: ¿se le manda acuerdo de intermediación (como Exotic) antes de vender? | PO | — | PENDIENTE |
+| REQ-1558 | CÓDIGO | Dado TANGOL_EMAIL y TANGOL_CLAVE en cPanel, cuando se corre `npm run inventario-tangol` en la pasarela, entonces imprime países y ciudades con su número de tours, de mayor a menor, y el total, sin token, correo ni clave (PO, 11 nov 2026: «Sí, guíame» a sacar el inventario real antes de decidir REQ-1554) | agente | REQ-1553 | EN CURSO |
