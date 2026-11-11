@@ -63,7 +63,13 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 3.4. La Parte A confirma la disponibilidad con la Parte B antes de cobrar al cliente.
 
-3.5. Pago de la Parte A a la Parte B: pago total antes del ingreso de los pasajeros («todas las reservas deben estar con pago total antes del ingreso de los pasajeros», 6 nov 2026), por transferencia, cheque o tarjeta; las comisiones de transferencia las paga quien envía.
+3.5. Pago de la Parte A a la Parte B: pago total antes del ingreso de los pasajeros («todas las reservas deben estar con pago total antes del ingreso de los pasajeros», 6 nov 2026), por transferencia, cheque o tarjeta; las comisiones de transferencia las paga quien envía y no se descuentan del neto. Si el pago no llega en las fechas de la liquidación, la Parte B puede dar por cancelada la reserva y cobrar las penalidades que correspondan.
+
+3.6. Ajustes que permiten los términos de la Parte B (T&C de la Parte B, actualizados al 29 nov 2023): ajuste proporcional del precio si el peso colombiano cae más de 5% frente a la tasa vigente al confirmar, y variaciones por nuevos impuestos del gobierno de Colombia. Con este acuerdo, esos ajustes se notifican por correo conforme a la cláusula 8.2 y no aplican a reservas ya pagadas [DESTINO COLOMBIA: confirmar].
+
+3.7. Tarifas individuales: hasta 9 habitaciones o 14 personas por reserva; los grupos, ferias, congresos y temporada alta se cotizan aparte. Pago con tarjeta: recargo para grupos de 15 pasajeros o más (Visa 2.5%, Mastercard 3.5%, Amex y Diners 4%).
+
+3.8. Las tarifas de alojamiento están exentas del IVA de 19% para pasajeros extranjeros no residentes que acrediten su condición con pasaporte y sello migratorio vigente (PIP3, PIP5, PIP10, TPT7, TPT11 o TPT12), conforme al Decreto 297 de 2016. Con otro sello, el pasajero paga el IVA directamente en el hotel. La Parte A lo informa al cliente antes de pagar.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 
@@ -73,6 +79,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 - Tours y traslados: con menos de 48 horas de antelación se cobra el 100%.
 - Boletas de eventos: 100% desde la confirmación de la reserva.
 - No show: si el pasajero no se presenta a la hora del voucher más quince minutos, se cobra el 100%.
+- No show en traslados: si el pasajero llega en un vuelo distinto al reportado sin avisar al menos 5 horas antes de la llegada original, se cobra el 100%.
+- Cambios de horarios de vuelos o transporte durante la estancia: se avisan con al menos 8 días de antelación; el servicio reprogramado depende del aviso.
 - Vuelos: penalidades según las condiciones de la aerolínea.
 
 4.2. Los paquetes se venden como paquete: no hay reembolso por servicios no utilizados por decisión del cliente.
@@ -89,7 +97,19 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 5.2. Cambios por clima, fuerza mayor o temporadas se informan al cliente y no generan reembolso, salvo acuerdo escrito entre las partes.
 
-5.3. Las reclamaciones se presentan por escrito al correo de quejas y reclamos de la Parte B (luisafernanda@destinocolombia.com), que responde en 15 días hábiles, con copia a la Parte A.
+5.2.1. La Parte B se rige por la Ley 300 de 1996, el Decreto 1075 de 1997 y el Decreto 2438 de 2010 de Colombia, y responde frente a los pasajeros solo por la parte de tierra y por los servicios para los que fue contratada; no responde por la parte aérea ni por retrasos o cambios de horario de las aerolíneas que no se le avisaron con la debida antelación (T&C de la Parte B, actualizados al 29 nov 2023).
+
+5.2.2. La Parte B puede cambiar de proveedor cuando la calidad del servicio lo amerite, ofreciendo siempre alternativas de igual o mejor categoría. Si un hotel desvía por sobreventa a pasajeros reservados y pagados a un hotel de menor categoría, la Parte B lo reporta al Viceministerio de Turismo y lo informa a la Parte A.
+
+5.2.3. Si el pasajero se retira del viaje por caso fortuito o fuerza mayor, envía el soporte y la Parte B reintegra, a través de la Parte A, los servicios dejados de prestar que no le generen cargos de no show ni penalidades de sus proveedores.
+
+5.2.4. No hay reembolso por un servicio del que el pasajero sea retirado por mala conducta grave, ni por lo que deje de tomar por no cumplir los requisitos migratorios y aduaneros, que son responsabilidad del pasajero; en ese último caso, la Parte B reintegra los servicios no tomados, salvo los cargos de no show.
+
+5.2.5. La Parte B no responde por pérdida, robo o daño de equipaje y objetos personales; los daños al equipaje en vuelos son de la aerolínea.
+
+5.2.6. Las devoluciones y reintegros se hacen solo a través de la Parte A, por el mismo conducto de la reserva y el pago.
+
+5.3. Las reclamaciones se presentan por escrito al correo de quejas y reclamos de la Parte B (luisafernanda@destinocolombia.com), que responde en 15 días hábiles por el mismo medio, con copia a la Parte A.
 
 ## Cláusula 6. Contenido, fotos y marca
 
@@ -106,6 +126,8 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 7.2. La Parte A transmite a la Parte B solo los datos necesarios para la reserva (nombre, pasaporte cuando el servicio lo pida, vuelos, régimen alimenticio y necesidades especiales).
 
 7.3. Esos datos se transfieren a Colombia. La Parte A lo informa en su aviso de privacidad y el cliente lo acepta al reservar, conforme a los artículos 36 y 37 de la LFPDPPP.
+
+7.3.1. La Parte B trata los datos conforme a la Ley 1581 de 2012 y al Decreto 1377 de 2013 de Colombia. Con este acuerdo, los datos de los clientes de la Parte A se usan solo para prestar el servicio contratado y no para mercadeo, publicidad ni estudios de crédito de la Parte B.
 
 7.4. La Parte B protege los datos con medidas de seguridad iguales o mayores a las que exige la LFPDPPP, y los usa solo para prestar el servicio contratado.
 
@@ -135,7 +157,7 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 
 10.1. Ninguna parte responde por el incumplimiento causado por fuerza mayor o caso fortuito, como desastres naturales, pandemias, cierres de aeropuertos, guerras o decisiones de autoridades. La parte afectada avisa por escrito a la otra en un plazo razonable.
 
-10.2. Los servicios no prestados por fuerza mayor se reembolsan a la Parte A solo si la Parte B los cobró y no los prestó; el reembolso al cliente sigue la Cláusula 4.
+10.2. Los servicios no prestados por fuerza mayor se reembolsan a la Parte A solo si la Parte B los cobró y no los prestó; el reembolso al cliente sigue la Cláusula 4. Conforme a los términos de la Parte B, en eventos como huracanes, derrumbes, cierres de aeropuertos, terremotos, huelgas o emergencias de salud pública, la Parte B reintegra, a través de la Parte A, todos los servicios pagados y no prestados, salvo los cargos de no show.
 
 ## Cláusula 11. Confidencialidad
 
@@ -148,6 +170,10 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 12.1. Cada parte cumple las leyes aplicables en su país, incluidas las de prevención de lavado de dinero, corrupción y sanciones internacionales.
 
 12.2. Cada parte paga sus propios impuestos. Las retenciones y los impuestos de los servicios (IVA en México e IVA en Colombia) se aplican según la ley de cada país. [CLIENTE/CONTADOR: definir quién retiene y cómo se factura entre ambas partes.]
+
+12.2.1. La Parte B se acoge a la Ley 679 de 2001 de Colombia contra la explotación sexual de menores. Todo menor que no viaje con ambos padres lleva permiso de viaje notariado firmado por los padres o tutores; la Parte A lo informa al cliente al reservar.
+
+12.2.2. Cada parte declara que sus recursos provienen de actividades lícitas y autoriza a la otra a consultar las listas de prevención de lavado de activos y financiación del terrorismo que correspondan.
 
 12.3. La Parte B entrega su identificación fiscal (NIT) y la Parte A entrega su RFC para facturar.
 
@@ -207,13 +233,28 @@ Para validez en México, los documentos corporativos extranjeros deben legalizar
 ## Anexo 3. Pendientes para firmar
 
 0. Precio de venta, forma de pago de la Parte A y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
-1. Términos y condiciones vigentes de 2026; los que hay son de noviembre de 2023 (REQ-1365). Ojo: la copia recibida trae la aceptación firmada por otra agencia.
+1. Confirmar que sus términos y condiciones, actualizados al 29 nov 2023 e incorporados en las cláusulas 3 a 12 y en el Anexo 4, siguen vigentes; si algo cambió, marcarlo en el documento.
 2. Cancelación de hoteles por plan, en días y porcentaje (cláusula 4.1).
 3. Avisos de tarifa por correo (cláusula 8.2) frente a «cambios sin previo aviso».
 4. Anticipación mínima de reserva: sus T&C dicen 24 horas y su correo del 6 nov dice que no hay mínimo.
-5. Edades de niños: tarifa de adulto desde 2 años en tours (T&C) y gratis hasta 9-10 años en hotel (correo del 6 nov).
+5. Edades de niños en hotel por plan (sus T&C remiten a cada hotel; su correo del 6 nov habla de gratis hasta 9-10 años).
 6. Tarifario para compras después del 15 dic 2026.
 7. Permiso escrito de fotos con crédito.
 8. Datos legales completos, RNT vigente y documentos del Anexo 2, con apostilla y traducción.
 9. Revisión de abogado de Travel Puzzle antes de firmar, incluidas la cláusula 1.3 (deslinde de vuelos, LFPC) y la cláusula 9 (arbitraje CCI en Ciudad de México).
 10. Firma: autógrafa de ambas partes, o electrónica con certificado válido. En México, la firma electrónica tiene validez con NOM-151 o firma electrónica avanzada; la Parte B confirma qué método acepta.
+
+## Anexo 4. Condiciones de operación de Destino Colombia
+
+Tomadas de los Términos y condiciones de la Parte B, actualizados al 29 de noviembre de 2023. La Parte A las comparte con el cliente, como pidió la Parte B el 5 nov 2026. Si cambian, la Parte B lo avisa por correo (cláusula 8.2).
+
+- Reservas: se solicitan con al menos 24 horas de anticipación; los traslados pedidos con menos de 24 horas tienen recargo de 20%.
+- Tarifas en USD, netas y no comisionables, sujetas a disponibilidad al reservar. No incluyen seguro hotelero, impuestos de entrada o salida de Colombia ni boletos aéreos (estos solo se confirman a solicitud expresa y con las condiciones de la aerolínea).
+- Excursiones: incluyen guía en español; otros idiomas (inglés, francés, portugués, italiano) con recargo y reserva previa. La mayoría incluye entradas; si no, se indica. Si se toma un tour en día de cierre de un museo o atractivo, no se entra y no hay reembolso ni reprogramación.
+- Algunas excursiones salen de un punto fijo y otras recogen en el hotel; puede haber cargo extra en hoteles alejados del perímetro turístico. Se indica en cada servicio.
+- En algunos destinos no hay la misma categoría de servicios que en las capitales; se presta con la mejor oferta disponible.
+- Traslados: una maleta y una pieza de mano por pasajero; el equipaje extra que requiera otro vehículo lo paga el pasajero. Recargo en vuelos nocturnos según destino. Si el vuelo se retrasa, se espera hasta una hora; la espera adicional tiene cargo.
+- Las aerolíneas no dan información de pasajeros ni itinerarios; los cambios de vuelo se avisan a la Parte B.
+- En la confirmación va el teléfono móvil del ejecutivo responsable, disponible 24 horas para emergencias.
+- Niños: en traslados y excursiones pagan tarifa de adulto desde los 2 años cumplidos; en alojamiento, según las edades de cada hotel, generalmente compartiendo habitación con 2 adultos.
+- Quejas y reclamos: luisafernanda@destinocolombia.com; respuesta en 15 días hábiles. Supresión de datos personales: info@destinocolombia.com.
