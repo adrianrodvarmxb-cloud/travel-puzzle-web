@@ -878,7 +878,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1316 | DATOS | Copia exacta (D25): ensayo del backfill → revisión de cifras por el PO → backfill real, un archivo a la vez | agente + PO | — | EN CURSO |
 | REQ-1317 | DATOS | Revisión a mano de todo el catálogo: tipo, temas y atributos (decisión 2 del PO, 7-11 08:03: «Revisar todo a mano»), unos 43 lotes; incluye el lote de dificultad REQ-1518 (gate C de REQ-1303, 11-11) | agente | REQ-1301 | PENDIENTE |
 | REQ-1318 | VALIDACIÓN | Primera publicación real del blog diario y de las guías (7-11 12:37) | coordinador | — | CUMPLIDO (Blog diario run 42403574334 success; /blog/europa/requisitos-para-entrar-a-europa-2026 responde 200; guías #270 publicadas, deploy 42404516289) |
-| REQ-1319 | CÓDIGO | INC-007: prueba de humo intermitente en producción, sin causa raíz | agente | — | EN CURSO |
+| REQ-1319 | CÓDIGO | INC-007: prueba de humo intermitente en producción, sin causa raíz | agente | — | CUMPLIDO (INC-007 cerrado como no reproducido, gate A, 11-11; 0 fallas de humo en producción en 50 deploys desde el 7-11; el 503 del 7-11 era INC-009) |
 | REQ-1320 | TAREA-PO | Confirmar el buzón info@ | PO | — | PENDIENTE |
 | REQ-1321 | TAREA-PO | Tokens de Meta (Facebook e Instagram) según docs/redes/conexion.md; LinkedIn pasos 1 a 4 hechos el 7-11 | PO | — | PENDIENTE |
 | REQ-1322 | TAREA-PO | Aprobación de LinkedIn de la Community Management API (solicitud y formulario enviados el 7-11) | tercero | — | EN CURSO |
