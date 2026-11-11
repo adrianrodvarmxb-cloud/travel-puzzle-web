@@ -31,7 +31,7 @@ export function OwnTripsInTours({ trips, countryCode, kind, lang, search, cityNa
     if (!list.length) return null;
     return (
         <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
-            {list.map((t) => <ExperienceCard key={t.id} card={fromTripCard(t, lang, c.from)} />)}
+            {list.map((t, i) => <ExperienceCard key={t.id} card={fromTripCard(t, lang, c.from)} priority={i < 2} /* REQ-1534 */ />)}
         </div>
     );
 }
