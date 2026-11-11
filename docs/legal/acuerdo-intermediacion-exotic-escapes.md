@@ -47,7 +47,9 @@ La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los 
 3.5. Forma y plazos de pago de la Parte A a la Parte B: los define la Parte A en cada confirmación de reserva.
 
 ## Cláusula 4. Cancelaciones y reembolsos
-4.1. Se aplica la política de cancelación de servicios terrestres de la Parte B (Condiciones Generales 2027): 25% del total entre 21 y 28 días antes de la llegada; 50% entre 14 y 20 días; 75% entre 7 y 13 días; 100% con menos de 7 días.
+4.1. La política de cancelación es la de cada producto, según la tabla registrada para él en el Anexo 1:
+   - Programas de India (Condiciones Generales 2027): cargo de 25% entre 21 y 28 días antes de la llegada; 50% entre 14 y 20 días; 75% entre 7 y 13 días; 100% con menos de 7 días. Sin cargo con 29 días o más.
+   - Sri Lanka: cargo de 50% entre 14 y 21 días antes de la llegada; 100% con menos de 14 días. Sin cargo con 22 días o más.
 4.2. Los paquetes se venden como paquete: no hay reembolso por servicios no utilizados por decisión del cliente.
 4.3. Los cargos de cancelación que cobre la Parte B a la Parte A se trasladan al cliente final según la política publicada por la Parte A al momento de la reserva.
 4.4. Los reembolsos se devuelven por la misma vía de la venta.
@@ -112,7 +114,28 @@ Por la Parte B: ____________________________  Nombre y cargo: [EXOTIC]
 ---
 
 ## Anexo 1. Programas incluidos
-Lista inicial: [CLIENTE: 14 viajes publicados, con código, fechas, tarifa neta en USD y vigencia]. Se actualiza mediante addendum según la cláusula 1.2.
+Lista de programas publicados al 11 de noviembre de 2026 (fuente: base de Travel Puzzle, agencia Exotic Escapes). Tarifa neta y vigencia: [PENDIENTE: la base no guarda precio ni fechas; se toman de los tarifarios 2027-2028 de Exotic].
+
+| # | Código | Programa | Destino | Cancelación |
+|---|---|---|---|---|
+| 1 | EXE-ASI-C10-003 | Triángulo de Oro y Kathmandú | Asia (India y Nepal) | India |
+| 2 | EXE-IN-C03-014 | Extensión Amritsar: Templo Dorado y frontera de Wagah | India | India |
+| 3 | EXE-IN-C03-015 | Extensión Mumbai: Puerta de la India y cuevas de Elefanta | India | India |
+| 4 | EXE-IN-C07-001 | Triángulo de Oro: Delhi, Jaipur y Agra | India | India |
+| 5 | EXE-IN-C08-010 | La India entre mujeres | India | India |
+| 6 | EXE-IN-C08-011 | La India más instagrameable | India | India |
+| 7 | EXE-IN-C08-012 | Happy Holi 2027: el festival de los colores en Jaipur | India | India |
+| 8 | EXE-IN-C09-002 | Triángulo de Oro y Benarés | India | India |
+| 9 | EXE-IN-C09-004 | Norte de la India: Triángulo de Oro, Khajuraho y Benarés | India | India |
+| 10 | EXE-IN-C10-005 | Rajasthan: Delhi, Udaipur, Jodhpur, Jaipur y Agra | India | India |
+| 11 | EXE-IN-C12-006 | Rajasthan y Benarés | India | India |
+| 12 | EXE-IN-C12-007 | Rajasthan, Khajuraho y Benarés | India | India |
+| 13 | EXE-IN-C12-008 | Rajasthan con encanto: palacios, desierto y lagos | India | India |
+| 14 | EXE-LK-C08-009 | Sri Lanka: Sigiriya, Kandy, té de Ceilán y Galle | Sri Lanka | Sri Lanka |
+
+No incluido en esta lista: EXE-IN-C07-013, Diwali 2026 (en borrador, no publicado).
+
+Portafolio futuro: los programas nuevos se incorporan por addendum (cláusula 1.2) y actualizan esta tabla.
 
 ## Anexo 2. Documentos de la Parte B (requeridos antes de firmar)
 1. Certificado de constitución o incorporación de la empresa en la India.
