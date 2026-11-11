@@ -264,7 +264,9 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
 // REQ-1575: exportada para que el mapa use la misma regla que /destinos.
 export function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): boolean {
   const cityNames = new Set(names(cityTranslations));
-  return trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase()) && trip.cities.some((n) => cityNames.has(fold(n)));
+  // REQ-1580: la nota entre paréntesis del proveedor («Beijing (solo)») no cuenta para el cruce.
+  const bare = (n: string) => fold(n.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " "));
+  return trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase()) && trip.cities.some((n) => cityNames.has(fold(n)) || cityNames.has(bare(n)));
 }
 
 // REQ-092 (gate 4): a qué ciudad de /destinos entra un viaje propio.

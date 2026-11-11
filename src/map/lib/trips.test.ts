@@ -25,6 +25,13 @@ describe("viajes en el mapa", () => {
     expect(r.byCity.has(10)).toBe(false);
   });
 
+  it("REQ-1580: las notas entre paréntesis del proveedor no impiden el cruce («Beijing (solo)» → Pekín)", () => {
+    const cn = [{ id: 30, iso2: "CN", translations: { es: "Pekín", en: "Beijing" } }];
+    const r = placeTrips([trip({ id: "h", countries: ["CN"], cities: ["Beijing (solo)"], meetingPoints: [{ lat: 39.9, lng: 116.4 }] })], cn);
+    expect(r.byCity.get(30)?.map((t) => t.id)).toEqual(["h"]);
+    expect(r.places).toEqual([]);
+  });
+
   it("REQ-1575: el mismo nombre en otro país no cuenta", () => {
     const r = placeTrips([trip({ id: "d", countries: ["MX"], cities: ["Lima"], meetingPoints: [] })], cities);
     expect(r.byCity.size).toBe(0);

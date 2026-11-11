@@ -7,6 +7,7 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
 | REQ-1579 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
+| REQ-1580 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
 
 
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
