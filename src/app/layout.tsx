@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
@@ -19,14 +19,44 @@ import { localeUrlsEnabled } from "@/i18n/lib/flags";
 import { htmlLang } from "@/i18n/lib/locales";
 import { routeLanguageState } from "@/i18n/server";
 
+// REQ-1560: fuentes auto-hospedadas con next/font (antes @import de Google Fonts que bloqueaba el render).
+// Solo Poppins (texto del cuerpo) se precarga; Geist casi no se usa y ya no se precarga.
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins-nf",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+  preload: false,
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  preload: false,
 });
 
 // Vista previa al compartir (WhatsApp, Facebook, LinkedIn, X) e íconos: ver src/seo/lib/meta.ts
@@ -63,9 +93,10 @@ export default async function RootLayout({
   const route = localeUrlsEnabled(env) ? await routeLanguageState() : null;
   return (
     // REQ-664: <html lang> del idioma de la URL en las rutas en alcance; en lo demás (y sin la bandera), español como hoy.
-    <html lang={htmlLang(route)} suppressHydrationWarning>
+    // REQ-1560: las variables de fuente van en <html> porque --tp-font-primary y @theme se resuelven en :root.
+    <html lang={htmlLang(route)} className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="antialiased"
         suppressHydrationWarning
       >
         {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}

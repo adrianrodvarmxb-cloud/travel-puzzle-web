@@ -66,6 +66,6 @@ describe("REQ-062 header con logo animado en todo el sitio público", () => {
     for (const p of todas) expect(readFileSync(p, "utf8"), p).not.toMatch(/cardHeader/);
   });
   it("REQ-062: el error global (sin proveedores) muestra al menos el logo animado", () => {
-    expect(readFileSync("src/app/global-error.tsx", "utf8")).toMatch(/logo-travel\.gif|<Logo\b/);
+    expect(readFileSync("src/app/global-error.tsx", "utf8")).toMatch(/logo-animado-128\.webp|logo-travel\.gif|<Logo\b/);
   });
 });
