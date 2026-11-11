@@ -44,12 +44,12 @@ export const Logo = ({
       style={{ width: pixelSize, height: pixelSize }}
     >
       <Image
-        src="/logo-travel.gif"
+        src="/brand/logo-animado-128.webp"
         alt={alt}
         fill
+        sizes={`${pixelSize}px`}
         className="object-cover"
-        unoptimized // GIFs need unoptimized to preserve animation
-        priority
+        unoptimized // REQ-1533 (gate A): mismo logo animado en WebP de 178 KB; sin preload (antes GIF de 6.4 MB precargado)
       />
     </div>
   );
