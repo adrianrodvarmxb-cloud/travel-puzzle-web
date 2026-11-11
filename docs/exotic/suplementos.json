@@ -1,0 +1,80 @@
+{
+  "_estado": "EXTRAIDO-PARCIAL. Valores tomados de los tarifarios 2026/27 y 2027 (USD, por persona salvo que se indique). Las columnas de temporada de cada PDF NO están asignadas: cada valor lleva el orden de aparición. Verificar con Exotic antes de vender.",
+  "_bandera": "carrito_suplementos_exotic = false",
+  "_nota_excluidos": "Diwali 2026 (EXE-IN-C07-013) está en borrador y no se publica.",
+  "programas": [
+    {"programa": "Norte de la India", "archivo": "Norte_de_la_India_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [440, 495], "nota": "primera y segunda columna, periodo no asignado"},
+      {"tipo": "habitacion_individual", "valores_usd": [480, 540], "nota": "segunda tabla, periodo no asignado"},
+      {"tipo": "vuelo_interno", "ruta": "Khajuraho-Benares", "usd": 165},
+      {"tipo": "vuelo_interno", "ruta": "Benares-Delhi", "usd": 145},
+      {"tipo": "traslado_carretera", "ruta": "Khajuraho-Benares (si no hay vuelo)", "usd": 120}
+    ]},
+    {"programa": "Triángulo de Oro y Kathmandú", "archivo": "Triangulo_de_Oro_y_Kathmandu_20", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [405, 465]},
+      {"tipo": "habitacion_individual", "valores_usd": [455, 510]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Kathmandú", "usd": 165}
+    ]},
+    {"programa": "Triángulo de Oro y Benarés", "archivo": "Triangulo_de_Oro_y_Benares_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [440, 470]},
+      {"tipo": "habitacion_individual", "valores_usd": [450, 480]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Benares", "usd": 145}
+    ]},
+    {"programa": "Rajasthan con encanto", "archivo": "Rajasthan_con_encanto_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [465, 575]},
+      {"tipo": "habitacion_individual", "valores_usd": [595, 805]}
+    ]},
+    {"programa": "Extensión Mumbai", "archivo": "Extension_Mumbai_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [175, 190]},
+      {"tipo": "media_pension_3_comidas", "valores_usd": [130, 140]},
+      {"tipo": "pension_completa_6_comidas", "valores_usd": [150, 160]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Mumbai", "usd": 155}
+    ]},
+    {"programa": "Khajuraho y Benarés", "archivo": "Rajasthan_Khajuraho_y_Benares_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [600, 770]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Udaipur", "usd": 130},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Benares", "usd": 145},
+      {"tipo": "vuelo_interno", "ruta": "Khajuraho-Benares", "usd": 165},
+      {"tipo": "traslado_carretera", "ruta": "Khajuraho-Benares (si no hay vuelo)", "usd": 120}
+    ]},
+    {"programa": "Happy Holi", "archivo": "Happy_Holi_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [340], "nota": "valor único en el PDF"}
+    ]},
+    {"programa": "Rajasthan y Benarés", "archivo": "Rajasthan_y_Benares_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [585, 650]},
+      {"tipo": "habitacion_individual", "valores_usd": [670, 710]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Udaipur", "usd": 130},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Benares", "usd": 145}
+    ]},
+    {"programa": "La India Instagrameable", "archivo": "La_India_Instagrameable_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [325, 410]},
+      {"tipo": "habitacion_individual", "valores_usd": [410, 485]}
+    ]},
+    {"programa": "Rajasthan", "archivo": "Rajasthan_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [440, 565]},
+      {"tipo": "habitacion_individual", "valores_usd": [490, 620]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Udaipur", "usd": 130}
+    ]},
+    {"programa": "Extensión Amritsar", "archivo": "Extension_Amritsar_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [180, 210]},
+      {"tipo": "media_pension_3_comidas", "valores_usd": [115, 120]},
+      {"tipo": "pension_completa_6_comidas", "valores_usd": [135, 140]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Amritsar", "usd": 145}
+    ]},
+    {"programa": "Triángulo de Oro", "archivo": "Triangulo_de_Oro_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [310, 340]},
+      {"tipo": "habitacion_individual", "valores_usd": [360, 385]}
+    ]},
+    {"programa": "La India entre mujeres", "archivo": "La_India_entre_mujeres_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valores_usd": [395, 405]},
+      {"tipo": "habitacion_individual", "valores_usd": [465, 585]},
+      {"tipo": "habitacion_individual", "valores_usd": [495, 525]},
+      {"tipo": "habitacion_individual", "valores_usd": [505, 535]},
+      {"tipo": "vuelo_interno", "ruta": "Delhi-Benares", "usd": 145}
+    ]},
+    {"programa": "Sri Lanka", "archivo": "Sri_Lanka_2027", "suplementos": [
+      {"tipo": "habitacion_individual", "valor": "NO VERIFICADO"},
+      {"tipo": "_nota", "valor": "Tarifa base en media pensión (7 cenas); no se extrajo suplemento individual del PDF"}
+    ]}
+  ]
+}
