@@ -1064,6 +1064,17 @@ Petición literal (PO, 11-11, con captura de /reserva/[token] y el menú «Panel
 | REQ-1532 | CÓDIGO | Dado `ACCOUNTS_ENABLED` apagado, cuando alguien entra con Google con un correo que no tiene cuenta, entonces no se crea cuenta y vuelve a `/admin/entrar?error=sin-cuenta`; las cuentas que ya existen entran igual | agente | — | EN CURSO |
 | REQ-1533 | CÓDIGO | Dado un usuario al que se le quitó el rol ADMIN en la base, cuando llama al gestor o a `/api/admin/*`, entonces se le niega al momento (el rol se lee de la base, no solo de la sesión) | agente | — | EN CURSO |
 | REQ-1534 | PLAN | Cuentas de cliente opcionales como GetYourGuide/Civitatis: reservar sin cuenta sigue igual; con cuenta, «Mis Reservas» junta las reservas por correo verificado y «Perfil». Plan y gates aparte antes de código | agente | REQ-1530 | PENDIENTE |
+## REQ-1560 a REQ-1564: tiempos de carga (agente, 11 nov 2026)
+Petición literal (PO, 11-11): «Audita y optimiza los tiempos de carga de este sitio (está detrás de Cloudflare)… REQ-###: LCP < 2.5s en móvil 4G simulado; CLS < 0.1; INP < 200ms; peso de la página inicial < 1.5 MB; ninguna imagen fuera del viewport se carga al inicio». Folios desde 1560: los 1530–1534 que tomé primero ya los usó otra sesión en main (menú con sesión); renumerados el 11-11.
+Medición base: Lighthouse 12 contra producción (`travelpuzzle.com.mx`), páginas `/`, `/tours` y una ficha `/viajes/...`; Lighthouse móvil = Moto G Power, 4G lenta simulada.
+Nota INP: Lighthouse en laboratorio no mide INP (requiere interacción real). Se acepta como evidencia de laboratorio TBT < 200 ms en móvil y, al publicar, INP p75 de datos reales (Cloudflare Web Analytics / CrUX) < 200 ms.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1560 | RENDIMIENTO | Dado el sitio en producción, cuando se corre Lighthouse móvil (4G simulada) en `/`, `/tours` y una ficha, entonces LCP < 2.5 s en las tres | agente | — | PENDIENTE (antes: 21.2 s / 24.3 s / 22.3 s) |
+| REQ-1561 | RENDIMIENTO | Dado el mismo escenario (móvil y escritorio), cuando carga cada página, entonces CLS < 0.1 | agente | — | PENDIENTE (antes: ≤ 0.006) |
+| REQ-1562 | RENDIMIENTO | Dado el sitio en producción, cuando se mide en móvil, entonces TBT < 200 ms en laboratorio y, con datos reales, INP p75 < 200 ms | agente | — | PENDIENTE (antes TBT: 275 / 314 / 148 ms) |
+| REQ-1563 | RENDIMIENTO | Dada la carga inicial (sin scroll) de cada página, cuando termina, entonces el peso total transferido es < 1.5 MB | agente | — | PENDIENTE (antes: 9.4 / 9.7 / 8.3 MB) |
+| REQ-1564 | RENDIMIENTO | Dada la carga inicial a 390 y 1366 px, cuando termina sin scroll, entonces no se descarga ninguna imagen que esté fuera del viewport (Lighthouse `offscreen-images` sin hallazgos y prueba Playwright que lo verifica) | agente | — | PENDIENTE (antes: ~200 KiB fuera de pantalla + 4 fotos del carrusel) |
 
 ## REQ-1535: el contrato de idioma no tumba un deploy por un fallo de transporte (agente, 11 nov 2026; de INC-010)
 Causa: el deploy 43083832701 de `main` publicó las guías del 11-11 y se revirtió solo. El humo de producción reportó una sola falla, `contrato de idioma /: estado null`: la primera petición cruda a `/` no devolvió ningún código (falló el transporte). La misma `/` respondió 200 en la misma corrida 0.1 s después (`✓ cookie en inglés /: 200`) y las 88 cargas del humo, las 5 guías incluidas, dieron 200. `fetchRaw` de `src/scripts/smoke.ts` no reintentaba (INC-009, pieza 6) ni guardaba el error del transporte.

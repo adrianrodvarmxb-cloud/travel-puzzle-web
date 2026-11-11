@@ -1,4 +1,5 @@
 'use client';
+import { imgLoading, transformedSrc } from '@/perf/lib/image';
 
 import { useEffect, useState } from 'react';
 import { heroFacts } from '@/tours/lib/hero-facts';
@@ -38,11 +39,11 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [] }: Tour
             {main ? (
                 <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-3xl md:grid-cols-4 md:grid-rows-[220px_220px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={main} alt={tour.title} className="h-72 w-full object-cover md:col-span-2 md:row-span-2 md:h-full" />
+                    <img src={transformedSrc(main, 1200)} alt={tour.title} {...imgLoading(true)} className="h-72 w-full object-cover md:col-span-2 md:row-span-2 md:h-full" />
                     {side.map((src, k) => (
                         <div key={src} className="relative hidden md:block">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
+                            <img src={transformedSrc(src, 640)} alt="" {...imgLoading(false)} className="h-full w-full object-cover" />
                             {k === side.length - 1 && images.length > 5 && (
                                 <button type="button" onClick={() => setShowAll(true)} className="absolute inset-0 flex items-center justify-center bg-[#0A1330]/55 text-sm font-semibold text-white hover:bg-[#0A1330]/40">
                                     +{images.length - 5}
@@ -59,7 +60,7 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [] }: Tour
                 <div className="mt-2.5 grid grid-cols-2 gap-2.5 md:grid-cols-4">
                     {images.slice(5).map((src) => (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img key={src} src={src} alt="" loading="lazy" className="h-40 w-full rounded-xl object-cover" />
+                        <img key={src} src={transformedSrc(src, 640)} alt="" {...imgLoading(false)} className="h-40 w-full rounded-xl object-cover" />
                     ))}
                 </div>
             )}
