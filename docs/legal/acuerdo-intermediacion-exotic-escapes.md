@@ -32,8 +32,8 @@ Documento vinculado a REQ-1363 (`docs/requisitos.md`).
 ## Cláusula 1. Objeto
 La Parte B autoriza a la Parte A a comercializar, en México y en su sitio, los programas de India y del destino que la Parte B opera, detallados en el Anexo 1 (lista de programas y tarifas netas por temporada).
 1.2. Portafolio ampliable: la Parte A puede incorporar programas nuevos de la Parte B mediante un addendum firmado por ambas partes, que actualiza el Anexo 1. Mientras no se firme, el programa nuevo no se publica.
-1.4. Suplementos y servicios complementarios: vuelos internos, habitación individual, media pensión y pensión completa, traslados adicionales y hospedaje extra se venden como complementos del programa. Su precio es el que indica el tarifario vigente de la Parte B, y se ofrecen como opciones adicionales del mismo viaje.
-1.3. Experiencias sueltas: traslados, tours de un día, actividades y servicios adicionales de la Parte B se incorporan con el mismo procedimiento del punto 1.2, bajo las mismas condiciones de tarifa neta, cancelación y responsabilidad de este acuerdo.
+1.3. Suplementos y servicios complementarios: vuelos internos, habitación individual, media pensión y pensión completa, traslados adicionales y hospedaje extra se venden como complementos del programa. Su precio es el que indica el tarifario vigente de la Parte B, y se ofrecen como opciones adicionales del mismo viaje.
+1.4. Experiencias sueltas: traslados, tours de un día, actividades y servicios adicionales de la Parte B se incorporan con el mismo procedimiento del punto 1.2, bajo las mismas condiciones de tarifa neta, cancelación y responsabilidad de este acuerdo.
 
 ## Cláusula 2. Rol de cada parte
 2.1. La Parte A actúa como **intermediario comercial**: promueve, recibe solicitudes y cobra al cliente final el precio de venta.
@@ -155,7 +155,7 @@ Para validez en México, los documentos corporativos de la India deben legalizar
 ## Anexo 3. Pendientes para firmar
 0. Precio de venta, forma de pago y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
 1. Confirmar si la política de cancelación para agencias es la de la tabla (Cláusula 4.1) o una distinta. Confirmar si Sri Lanka cancela desde 21 o 22 días.
-1b. Pedir tarifarios 2027/28 de Triángulo de Oro y Benarés (#8) y de Sri Lanka (#14), y tarifarios 2028 de todos los programas.
+- Pedir tarifarios 2027/28 de Triángulo de Oro y Benarés (#8) y de Sri Lanka (#14), y tarifarios 2028 de todos los programas.
 2. Confirmar que la Parte B opera en tierra y que la Parte A no asume responsabilidad aérea.
 3. Datos legales completos de ambas partes (razón social, RFC o registro de India, domicilio, representante legal).
 4. Permiso por escrito para usar fotos y contenido del catálogo.
