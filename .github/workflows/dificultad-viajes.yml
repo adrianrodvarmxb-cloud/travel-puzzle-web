@@ -1,0 +1,114 @@
+# REQ-1520 (DATOS, lote REQ-1518 firmado con REQ-1519): escribe en D1 la dificultad 1–5 revisada de cada viaje
+# ("Trip"."difficultyLevel", columna de la migración 0018). Solo a mano. Por omisión es ENSAYO: lee D1 y arma el SQL; no escribe.
+# Con escribir=true y la frase de confirmación exacta: sin deploy ni importación en curso (REQ-307) → bookmark de Time Travel →
+# respaldo (artefacto privado) → UPDATE por id → verificación en D1 → humo en producción. Si algo falla después de escribir,
+# aplica regreso.sql (solo esas filas). Lo que se ve en la ficha depende de TAXONOMY_CIRCUITS_ENABLED (REQ-1303).
+# Candado: datos de producción (OK del PO).
+name: "Dificultad de viajes"
+on:
+  workflow_dispatch:
+    inputs:
+      esperados:
+        description: "Cuántas filas cambian según el ensayo (si no coincide, no escribe)"
+        required: true
+        default: "0"
+      escribir:
+        description: "Escribir en producción (candado: OK del PO). Sin marcar = solo ensayo"
+        type: boolean
+        default: false
+      confirmar:
+        description: "Para escribir, teclea: DIFICULTAD <esperados>  (p. ej. DIFICULTAD 126)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  DB: travel-puzzle
+  BASE: https://travelpuzzle.com.mx
+  ESPERADOS: ${{ inputs.esperados }}
+jobs:
+  dificultad:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-1518 y REQ-1520
+        run: npx vitest run src/taxonomy/lib/dificultad-lote.test.ts src/taxonomy/lib/circuit-facts.test.ts
+      - name: Confirmación
+        if: inputs.escribir
+        env:
+          CONFIRMAR: ${{ inputs.confirmar }}
+        run: |
+          [[ "$ESPERADOS" =~ ^[0-9]+$ ]] || { echo "::error::esperados no es un número."; exit 1; }
+          [ "$CONFIRMAR" = "DIFICULTAD $ESPERADOS" ] || { echo "::error::La confirmación no coincide con «DIFICULTAD $ESPERADOS»: no se escribe."; exit 1; }
+      - name: Leer las filas (solo lectura)
+        run: |
+          set -euo pipefail
+          mkdir -p dif
+          ids=$(npx tsx src/scripts/dificultad-viajes.ts ids)
+          npx wrangler d1 execute "$DB" --remote --json --command "SELECT \"id\", \"kind\", \"difficulty\", \"difficultyLevel\" FROM \"Trip\" WHERE \"id\" IN ($ids) ORDER BY \"id\"" > dif/filas.json
+      - name: Plan (ensayo)
+        run: |
+          set -euo pipefail
+          npx tsx src/scripts/dificultad-viajes.ts preparar dif/filas.json dif | tee -a "$GITHUB_STEP_SUMMARY"
+          grep -vE "^(UPDATE \"Trip\" SET \"difficultyLevel\" = ([1-5]|NULL) WHERE \"id\" = '[a-z0-9-]+';|)$" dif/dificultad.sql && { echo "::error::El SQL trae líneas no permitidas."; exit 1; } || true
+          n=$(jq '.cambios | length' dif/plan.json)
+          echo "Filas que cambian: $n (esperadas: $ESPERADOS)" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "${{ inputs.escribir }}" = "true" ] && [ "$n" != "$ESPERADOS" ]; then echo "::error::Cambian $n filas y se esperaban $ESPERADOS: no se escribe."; exit 1; fi
+      - name: Respaldo (artefacto privado del job)
+        uses: actions/upload-artifact@v4
+        with:
+          name: respaldo-dificultad-${{ github.run_id }}
+          path: dif/
+          retention-days: 90
+      - name: Sin publicación ni importación en curso (REQ-307)
+        if: inputs.escribir
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for wfile in deploy-cloudflare.yml importar-viajes.yml; do
+            for st in in_progress queued; do
+              c=$(gh api "repos/${{ github.repository }}/actions/workflows/$wfile/runs?status=$st&per_page=1" --jq '.total_count')
+              n=$((n + c))
+            done
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) o importación(es) en curso o en fila: no se escribe (REQ-307)."; exit 1; fi
+      - name: Bookmark de Time Travel
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          npx wrangler d1 time-travel info "$DB" --json > dif/time-travel.json
+          bookmark=$(jq -r '.bookmark' dif/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "Instante $(date -u +%Y-%m-%dT%H:%M:%SZ) · bookmark \`$bookmark\` (regreso total: wrangler d1 time-travel restore $DB --bookmark=$bookmark)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Escribir (UPDATE por id)
+        id: escribir
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          [ -s dif/dificultad.sql ] || { echo "::error::No hay filas que cambiar: no se escribe."; exit 1; }
+          npx wrangler d1 execute "$DB" --remote --file dif/dificultad.sql > /dev/null
+          echo "escrito=true" >> "$GITHUB_OUTPUT"
+      - name: Verificar en D1
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          ids=$(npx tsx src/scripts/dificultad-viajes.ts ids)
+          npx wrangler d1 execute "$DB" --remote --json --command "SELECT \"id\", \"difficultyLevel\" FROM \"Trip\" WHERE \"id\" IN ($ids)" > dif/despues.json
+          npx tsx src/scripts/dificultad-viajes.ts verificar dif/despues.json dif/plan.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Prueba de humo en producción
+        if: inputs.escribir
+        run: npx playwright install --with-deps chromium && npx tsx src/scripts/smoke.ts "$BASE"
+      - name: Regreso (solo esas filas) si algo falló después de escribir
+        if: failure() && steps.escribir.outputs.escrito == 'true'
+        run: |
+          npx wrangler d1 execute "$DB" --remote --file dif/regreso.sql > /dev/null
+          echo "::error::Se aplicó regreso.sql: las filas volvieron a su valor del respaldo." | tee -a "$GITHUB_STEP_SUMMARY"
