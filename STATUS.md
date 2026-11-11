@@ -6,8 +6,8 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 |---|---|---|---|---|---|
 | REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
-| REQ-1579 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
-| REQ-1580 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
+| REQ-1590 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
+| REQ-1591 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
 
 
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
@@ -908,10 +908,10 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 ## Menú con sesión y Panel de admin (PO, 11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-1530 | Con o sin sesión, el header es el público; Mis Reservas/Perfil tras `ACCOUNT_PAGES_READY=false` | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
-| REQ-1531 | Panel ADMIN solo con páginas que existen (gestor, solicitudes); `/dashboard/*` oculto | idem | idem | EN CURSO (test verde; falta humo del PR y merge) |
-| REQ-1532 | Google no crea cuentas con `ACCOUNTS_ENABLED` apagado; aviso en `/admin/entrar` | `src/trips/lib/admin.ts`, `src/lib/auth.ts`, `src/app/admin/entrar/page.tsx` | `src/trips/lib/admin.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
-| REQ-1533 | El rol ADMIN se confirma en la base en cada revisión del gestor y `/api/admin/*` | `src/trips/lib/admin.ts`, `src/trips/deps.ts` | `src/trips/lib/admin.test.ts` | EN CURSO (test verde; falta humo del PR y merge) |
+| REQ-1530 | Con o sin sesión, el header es el público; Mis Reservas/Perfil tras `ACCOUNT_PAGES_READY=false` | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1531 | Panel ADMIN solo con páginas que existen (gestor, solicitudes); `/dashboard/*` oculto | idem | idem | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1532 | Google no crea cuentas con `ACCOUNTS_ENABLED` apagado; aviso en `/admin/entrar` | `src/trips/lib/admin.ts`, `src/lib/auth.ts`, `src/app/admin/entrar/page.tsx` | `src/trips/lib/admin.test.ts` | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1533 | El rol ADMIN se confirma en la base en cada revisión del gestor y `/api/admin/*` | `src/trips/lib/admin.ts`, `src/trips/deps.ts` | `src/trips/lib/admin.test.ts` | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
 | REQ-1534 | Cuentas de cliente opcionales (modelo GetYourGuide/Civitatis) | — | — | PENDIENTE (plan aparte) |
 
 ## Tiempos de carga (REQ-1560 a REQ-1564, PR #360, 11 nov 2026)

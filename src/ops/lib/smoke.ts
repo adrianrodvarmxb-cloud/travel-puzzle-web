@@ -125,3 +125,26 @@ export function localeContractPages(cfg: SmokeConfig, vars: Record<string, strin
   const fichas = discovered.filter((p) => /^\/[a-z]{2}\/destinos\/[^/]+\/[^/]+\/[^/?#]+$/.test(p));
   return [...new Set([...on.flatMap(([, ps]) => ps), ...fichas, ...fichas.map((p) => p.replace(/^\/[a-z]{2}(?=\/)/, ""))])];
 }
+
+/**
+ * REQ-1579 (INC-010): una petición cruda del contrato de idioma se reintenta SOLO cuando falló el transporte
+ * (`status` null: la petición no llegó a devolver un código). Un código real (503, 404, 500…) no se reintenta:
+ * esa es una falla del sitio y tiene que contar, como en INC-009.
+ */
+export async function rawWithRetry<T extends { status: number | null }>(
+  attempt: () => Promise<T>,
+  o: { tries?: number; waitMs?: number; sleep?: (ms: number) => Promise<void>; onRetry?: (intento: number, previo: T) => void } = {},
+): Promise<{ last: T; attempts: number }> {
+  const tries = Math.max(1, o.tries ?? 3);
+  const waitMs = o.waitMs ?? 3_000;
+  const sleep = o.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
+  let last = await attempt();
+  let attempts = 1;
+  while (last.status === null && attempts < tries) {
+    o.onRetry?.(attempts + 1, last);
+    await sleep(waitMs);
+    last = await attempt();
+    attempts++;
+  }
+  return { last, attempts };
+}

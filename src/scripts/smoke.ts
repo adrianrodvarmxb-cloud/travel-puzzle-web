@@ -8,7 +8,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { chromium, devices, type BrowserContext, type Page } from "playwright";
-import { discoverPages, flaggedDiscoverRules, isErrorScreen, isHydrationError, legacyFailures, localeContractPages, parseSmokeConfig, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
+import { discoverPages, flaggedDiscoverRules, isErrorScreen, isHydrationError, legacyFailures, localeContractPages, parseSmokeConfig, rawWithRetry, smokeVerdict, withOptionalPages, type SmokeResult } from "../ops/lib/smoke";
 import { hreflangContractFailures, parseLocaleHead } from "../i18n/lib/contract";
 import { evidenceSlug, firstDifference, loadFailed } from "../ops/lib/smoke-evidence";
 import { flaggedSmokePages, wranglerVars } from "../site/lib/pages";
@@ -94,10 +94,21 @@ const BOT_UA = "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingb
     const html: Record<string, string> = {};
     const fetchRaw = async (p: string, headers: Record<string, string> = {}) => {
       // Como Bingbot (htmlLimitedBots): Next 15 le manda los metadatos en el <head>; a los demás (Googlebot incluido) los transmite al final.
-      const r = await req.request.get(`${base}${p}`, { maxRedirects: 0, timeout: 60_000, headers: { "user-agent": BOT_UA, ...headers } }).catch(() => null);
-      return { status: r?.status() ?? null, body: r ? await r.text().catch(() => "") : "" };
+      const once = async () => {
+        let error: string | null = null;
+        const r = await req.request
+          .get(`${base}${p}`, { maxRedirects: 0, timeout: 60_000, headers: { "user-agent": BOT_UA, ...headers } })
+          .catch((e: unknown) => { error = e instanceof Error ? e.message : String(e); return null; });
+        return { status: r?.status() ?? null, body: r ? await r.text().catch(() => "") : "", error };
+      };
+      // REQ-1579 (INC-010): solo el fallo de transporte se reintenta; un código real cuenta a la primera.
+      const { last, attempts } = await rawWithRetry(once, {
+        onRetry: (n, previo) => console.log(`contrato de idioma ${p}: sin respuesta (${previo.error ?? "sin detalle"}); reintento ${n}`),
+      });
+      if (attempts > 1 && last.status === 200) console.log(`✓ contrato de idioma ${p}: pasó en el intento ${attempts} (fallo de transporte intermitente)`);
+      return last;
     };
-    for (const p of contractPages) { const r = await fetchRaw(p); if (r.status === 200) html[p] = r.body; else localeFailures.push(`contrato de idioma ${p}: estado ${r.status}`); }
+    for (const p of contractPages) { const r = await fetchRaw(p); if (r.status === 200) html[p] = r.body; else localeFailures.push(`contrato de idioma ${p}: estado ${r.status}${r.error ? ` (${r.error})` : ""}`); }
     const extra = new Set(Object.values(html).flatMap((h) => Object.values(parseLocaleHead(h).alternates)).filter((p) => !(p in html) && !(`${p}/` in html)));
     for (const p of extra) { const r = await fetchRaw(p); if (r.status === 200) html[p] = r.body; }
     const fails = hreflangContractFailures(html);
