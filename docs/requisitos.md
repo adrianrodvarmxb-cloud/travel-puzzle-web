@@ -912,7 +912,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1350 | DEFINICIÓN | Los 9 ajustes del reporte de referentes (docs/taxonomia-referentes.md): cuáles ya se aplicaron y cuáles esperan firma, presentados uno por uno | PO | REQ-1348 | PENDIENTE |
 | REQ-1351 | CÓDIGO | Filtros «Cómo te mueves» y «Nocturno»: activos en el diccionario y sin filtro en /tours | agente | REQ-1348 | PENDIENTE |
 | REQ-1352 | TAREA-PO | Subir los 33 PDF originales de proveedores a la copia exacta (`raw-backfill.ts --docs` y `subir.sh`) desde una máquina con los PDF y credenciales de Cloudflare | PO | REQ-1316 | PENDIENTE |
-| REQ-1353 | VALIDACIÓN | Borrar la rama de diagnóstico `diag/viajes-conteo` y cerrar los PR de ensayo #216, #229, #238 y #249 (borrar es candado del PO) | PO | — | PENDIENTE |
+| REQ-1353 | VALIDACIÓN | Borrar la rama de diagnóstico `diag/viajes-conteo` y cerrar los PR de ensayo #216, #229, #238 y #249 (borrar es candado del PO) | PO | — | EN CURSO (PO 11-11: «ok a todo»; #216, #229, #238 y #249 cerrados el 11-11; falta borrar la rama `diag/viajes-conteo`: el proxy de la sesión no permite borrar ramas, la borra el PO en GitHub) |
 | REQ-1354 | CÓDIGO | Inca World: 75 viajes en D1 contra 76 importados; falta explicar la diferencia | agente | — | SIN VERIFICAR |
 | REQ-1355 | CÓDIGO | El sync blindado lee la guía de ciudad solo de D1; su `failingSince` no ve las guías del repo (`loadGuides()`) | agente | — | PENDIENTE |
 | REQ-1356 | VALIDACIÓN | Verificación de la empresa por LinkedIn (correo de Microsoft Vetting Services a Claudia) y paso 1 de Instagram: cuenta de Empresa | PO | REQ-1322 | PENDIENTE |
@@ -956,6 +956,73 @@ Petición literal (PO, 7 nov 2026, 15:21 CDMX): «sí, aplica las mejores práct
 Petición literal (coordinador): «Aplica escudrinar-error-iso como INC-009, con su folio REQ-1358».
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
+
+## Pendientes de revisión legal, cifras públicas y proveedores (coordinador, 11 nov 2026)
+Alta de folios para lo que vive solo en el chat (protocolo, punto 1). Fuente: sesión del PO del 4 al 11 nov 2026. Todo queda PENDIENTE o EN CURSO hasta su evidencia.
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1521 | CÓDIGO | Quitar de /nosotros y del inicio la calificación y el conteo de reseñas de la agencia (eran de FREETOUR; PO aprobó quitar 8,078 y 4.8). Rama `fix/quitar-calificacion-agencia` | agente | — | EN CURSO (rama fix/quitar-calificacion-agencia, commit 407a4f6; suite completa 401 archivos / 2,749 pruebas en verde el 11 nov 2026 11:17; falta build, humo 390/1366 y PR; sin merge sin OK del PO) |
+| REQ-1360 | CÓDIGO | `publicStats` no incluye rating ni reviews; `hasLiveStats` ignora la calificación sola (`src/about/lib/public-stats.test.ts`) | agente | REQ-1521 | EN CURSO (test verde en la rama; falta registrar aquí tras merge) |
+| REQ-1361 | CÓDIGO | INC: /tours muestra 8,322 y /nosotros 8,106 en vivo; origen del 8,322 no conciliado; unificar en una sola fuente | agente | — | PENDIENTE |
+| REQ-1362 | DEFINICIÓN | Ocultar los 81 viajes publicados sin términos por escrito (Exotic 14, Fantástica China 44, Destino Colombia 10, Turismo Asiático 10). Respuesta literal del PO (11 nov 2026, 09:55 CDMX): «No, dejarlos publicados» | PO | — | CUMPLIDO (decisión tomada: se quedan publicados; revisar términos por escrito en REQ-1363 a REQ-1366) |
+| REQ-1363 | TAREA-PO | Pedir por escrito a Exotic Escapes (Angela Ballén) cancelación para agencias, rol de intermediario y acuerdo firmado; hoy 14 viajes publicados sin acuerdo | PO | — | PENDIENTE |
+| REQ-1364 | TAREA-PO | Aclarar con Fantástica China: la cancelación está en p. 122 numeral 18 (escalonada 10/20/30/50/100%), pero el acuerdo del 4 nov cita la p. 123 (servicios). Confirmar política por producto y confidencialidad del tarifario | PO | — | PENDIENTE |
+| REQ-1365 | TAREA-PO | Destino Colombia: T&C vigentes son de noviembre 2023 y cancelación «no definida taxativamente»; pedir versión 2026 y política exacta por circuito antes de publicar los 10 | PO | — | PENDIENTE |
+| REQ-1366 | TAREA-PO | Big Bus: pedir por escrito cancelación y reembolsos del socio, rol de intermediario, permiso de imágenes en Facebook (pregunta del 16 sep sin respuesta) y criterio tras el pago a precio completo del 9 oct | PO | — | PENDIENTE |
+| REQ-1367 | CÓDIGO | Corregir el borrador legal de cancelación de Extime: el borrador dice 4 días; vigente desde 26 oct 2026 por producto (24 h 144 productos, 96 h 32, 72 h 6, 21 días 1) | agente | — | PENDIENTE |
+| REQ-1368 | VALIDACIÓN | Términos y condiciones con rol de intermediario por proveedor (FREETOUR, Exotic, Destino Colombia, Big Bus, Fantástica China, Extime); el PO valida el texto final | PO | REQ-1363, REQ-1364, REQ-1365, REQ-1366, REQ-1367 | PENDIENTE |
+| REQ-1369 | TAREA-PO | Rotar la llave de FREETOUR que se envió en texto plano por correo (5 jul 2024); pedir por escrito a FREETOUR | PO | — | PENDIENTE |
+| REQ-1370 | TAREA-PO | Pedir por escrito a Ignacio Merino (FREETOUR) las 9 preguntas de `cumplimiento-freetour` (promoción por correo/WhatsApp, chatbot, logo, fotos, mínimo de retiro 30 € vs 15 €) | PO | — | PENDIENTE |
+| REQ-1371 | CÓDIGO | Control de widgets de complementos (Kiwitaxi, Big Bus): `src/companions/registry.json` como fuente única, validado por zod; la llave fuera del archivo (PO aprobó la dirección, construcción después) | agente | — | PENDIENTE |
+| REQ-1372 | CÓDIGO | Validación automática al agregar un proveedor, API, tool o complemento: se corre sola contra el registro y las reglas legales; falla si falta el folio, el término por escrito o el rol de intermediario (PO aprobó la dirección, construcción después) | agente | REQ-1371 | PENDIENTE |
+| REQ-1373 | DEFINICIÓN | Japón: el contrato no se publica; el seguro se ofrece como servicio incluido a través del proveedor (Assist Card) tras bandera apagada. PO dijo «ahorita no lo pongas» (4 nov). Respuesta literal del PO (11 nov 2026, 09:56 CDMX): «ok» | PO | — | CUMPLIDO (definición; la bandera del seguro sigue apagada hasta su prueba de humo y OK) |
+
+## Revisión cada 6 h: acuerdos de proveedores y complementos (PO, 11 nov 2026, 10:52 CDMX)
+Petición literal (PO): «crea revisión cada 6 horas hasta que se cumpla todo y alterna este proveedor (Exotic Escapes) con los restantes hasta terminar». Fuente: sesión del PO del 11 nov 2026. Todo queda PENDIENTE, EN CURSO o VALIDACIÓN hasta su evidencia.
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1374 | DEFINICIÓN | Exotic: fechas de temporada de cada columna de precio (habitación individual, media pensión, pensión completa). Pregunta en el borrador de Gmail del hilo «Exotic Escapes DMC», punto 1 | tercero (Exotic) | — | PENDIENTE |
+| REQ-1375 | DEFINICIÓN | Exotic: vuelos internos, quién emite el boleto, tarifa y reglas de cambio/cancelación, y quién reembolsa si la aerolínea cambia (punto 2 del borrador) | tercero (Exotic) | — | PENDIENTE |
+| REQ-1376 | DEFINICIÓN | Exotic: confirmar si Sri Lanka cancela sin cargo con más de 21 días (el tarifario 2027/28 dice 21; la base dice 22). Punto 3 del borrador | tercero (Exotic) | — | PENDIENTE |
+| REQ-1377 | DEFINICIÓN | Exotic: política de cancelación para agencias (cláusula 4.5) y permiso de fotos con crédito (cláusula 6.1). Puntos 4 y 5 del borrador | tercero (Exotic) | — | PENDIENTE |
+| REQ-1378 | DATOS | Exotic: datos legales y Anexo 2 (documentos de la parte B: apostilla y traducción) | tercero (Exotic) | — | PENDIENTE |
+| REQ-1379 | VALIDACIÓN | Tarifarios 2027/28 de Exotic recibidos (adjuntos del correo del 24 ago 2026; temporada abril 2027 a marzo 2028), incluidos Triángulo de Oro y Benarés y Sri Lanka. Evidencia: PDFs en el hilo y el acuerdo en el PR #346 (commit a0315d6; no se fusiona a main: trae tarifas netas y datos fiscales, cláusula 11 y REQ-748) | PO | — | EN CURSO (falta OK del PO) |
+| REQ-1380 | VALIDACIÓN | Acuerdo Exotic: vigencia indefinida (8.1), actualización de tarifas por correo (8.2) y deslinde de vuelos (1.3). Decisiones del PO del 11 nov 2026 | PO | REQ-1374, REQ-1375 | EN CURSO |
+| REQ-1381 | VALIDACIÓN | Revisión de abogado del deslinde de vuelos y de la vigencia indefinida, conforme a la LFPC, antes de firma | tercero (abogado) | REQ-1380 | PENDIENTE |
+| REQ-1382 | TAREA-PO | Adjuntar `acuerdo-exotic-escapes-version-firma.docx` al borrador del hilo de Exotic (Gmail no permite adjuntar en respuestas por referencia) y decidir la firma (Adrián o Claudia), y luego enviar | PO | REQ-1381 (para firma) | PENDIENTE |
+| REQ-1383 | DEFINICIÓN | Markup por tramo de costo neto como referencia de mercado (30–40 / 25–30 / 20–25 / 15–20%), con el precio final al cliente sin neto ni markup. Respuesta literal del PO (11 nov 2026): «aprobado» | PO | — | APROBADO (registrar en la matriz) |
+| REQ-1384 | DEFINICIÓN | Desglose del precio por tipo de servicio (experiencia, traslado, hospedaje, vuelo, comidas) con precio final de cada concepto. Respuesta literal del PO: «sí confirmo» | PO | — | APROBADO |
+| REQ-1385 | DEFINICIÓN | Cobro: un solo pago con el viaje. Respuesta literal del PO: «un solo pago» | PO | — | APROBADO |
+| REQ-1386 | DEFINICIÓN | Complementos (habitación individual, media pensión, pensión completa, vuelos internos) en la ficha del viaje, con bandera apagada. Respuesta literal del PO: «A» (cambio final) | PO | — | APROBADO |
+| REQ-1387 | DEFINICIÓN | Sri Lanka fuera del carrito de complementos hasta que Exotic confirme el precio. Respuesta literal del PO: «A» | PO | REQ-1376 | APROBADO |
+| REQ-1388 | CÓDIGO | Datos de complementos Exotic en `docs/exotic/suplementos.json` (commit en la rama `feat/exotic-suplementos-carrito`). Periodos NO VERIFICADOS hasta REQ-1374 | agente | REQ-1374 | EN CURSO (datos sin periodos) |
+| REQ-1389 | BANDERA | Bandera `carrito_suplementos_exotic` apagada por defecto; se enciende solo tras preview con bandera encendida, prueba de humo verde y OK del PO | agente / PO | REQ-1388, REQ-1374 | PENDIENTE |
+| REQ-1390 | CÓDIGO | Complementos en la ficha de viaje: lógica en `lib/`, precio final por tramo, desglose por tipo, tests por REQ | agente | REQ-1389, plan do-plan firmado | PENDIENTE (plan sin firmar) |
+| REQ-1391 | VALIDACIÓN | Plan do-plan de REQ-1390 (estructura, tests, SOLID), para firma del PO antes de programar | PO | — | PENDIENTE |
+| REQ-1392 | CÓDIGO | Skill `acuerdo-intermediacion-proveedor`: propuesto al PO para guardar; aplica a todos los proveedores | agente / PO | — | EN CURSO (falta guardar) |
+| REQ-1393 | TAREA-PO | Guardar el skill `acuerdo-intermediacion-proveedor` desde la tarjeta de propuesta | PO | — | PENDIENTE |
+| REQ-1394 | TAREA-PO | Eurorutas: respuesta de la oficina central sobre la integración XML/API (hilo «Reactivar la integración XML/API de Eurorutas», 6 nov 2026) | tercero (Eurorutas) | — | PENDIENTE |
+| REQ-1395 | TAREA-PO | Jordan Experience: revisar el nuevo portafolio 2027–2028 y la respuesta del 9 nov 2026 (hilo «Nuevo Portafolio 2027 - 2028») y firmar acuerdo si aplica | PO | — | PENDIENTE |
+| REQ-1396 | TAREA-PO | Multitravel: borrador sin enviar a Angela (Ecuador, Galápagos, Colombia; API/Excel y tarifa neta o comisión). Revisar y decidir envío | PO | — | PENDIENTE |
+| REQ-1397 | CÓDIGO | Revisión cada 6 h (trigger): registra por corrida el avance de estos REQ y alterna proveedores (Exotic, Jordan Experience, Eurorutas, Multitravel) hasta cerrar. No envía correos ni hace merge | agente | — | EN CURSO |
+| REQ-1398 | TAREA-PO | Extime: actualizar la cuenta del portal B2B (pro.extimetravel.com) antes del 17 nov 2026; el aviso de intlsales (10 nov) dice que pariscityvision.com deja de operar. Alta 11 nov 2026 | PO | — | PENDIENTE |
+| REQ-1399 | VALIDACIÓN | Extime: borrador sin enviar r-6662825585594967050 (7 nov). El PO eligió «Revisar y reescribir» (11 nov 2026, 11:14 CDMX). Texto nuevo en el chat (fotos de 20 productos, idiomas de 46, cancelación 48/72 h vs 24 h, llamada la próxima semana). Falta: actualizar el borrador en Gmail y el OK literal para enviar | PO | — | PENDIENTE |
+| REQ-1522 | VALIDACIÓN | Oku Japan: Irene Casarin respondió el 11 nov 2026 (08:49 UTC) al hilo «Strategic Collaboration Proposal in Mexico», sin leer. Definir respuesta; no se responde sin OK | PO | — | PENDIENTE |
+| REQ-1523 | VALIDACIÓN | Big Bus: Rositsa Grigorova (11 nov 2026, 09:02 UTC) dice que varios productos son solo online para su web, no para revendedores. Decidir qué se publica y responder. Borrador sin enviar r8442833549281480880 (6 nov) | PO | REQ-1366 | PENDIENTE |
+| REQ-1524 | VALIDACIÓN | Central Inca World: el 9 nov prometieron fotos oficiales de los tours que faltaban. Revisar lo recibido y el borrador sin enviar r8423923394095786162 (5 nov) | PO | — | PENDIENTE |
+| REQ-1403 | VALIDACIÓN | Tangol: Hernán Garriga (9 nov 2026) compartió el swagger de la API y pide confirmar la whitelist. Respuesta de Adrián pendiente | PO | — | PENDIENTE |
+| REQ-1404 | VALIDACIÓN | Fantástica China: borrador sin enviar r-4532302810611949390 (5 nov, a beibei@fantasticachina.com). Validar contra REQ-1364 antes de enviar | PO | REQ-1364 | PENDIENTE |
+| REQ-1405 | VALIDACIÓN | FREETOUR: dos borradores sin enviar (r1171058812870683585 a i.merino@, 7 nov; r-8419513163982092540 a support@, 6 nov). Revisar contra cumplimiento-freetour (B3: promoción por correo o WhatsApp) antes de enviar | PO | REQ-1370 | PENDIENTE |
+| REQ-1406 | TAREA-PO | Canadian Receptive Tours (Roberto, 4 nov) y Kyoto Tours (4 nov): sin respuesta. Confirmar si se publican sus tours; sin respuesta escrita, no se publican | PO | — | PENDIENTE |
+| REQ-1407 | VALIDACIÓN | Mondial Trails: tarifas 2026–27 de Sudeste Asiático recibidas (respondido por Claudia el 6 nov). Decidir qué tours subir y cuándo | PO | — | PENDIENTE |
+| REQ-1408 | TAREA-PO | BeMyGuest: falta la clave de demo de la API (Yoon Young, 9 nov) tras rechazar el piloto de 90 días. Pedirla y decidir | PO | — | PENDIENTE |
+| REQ-1409 | TAREA-PO | Hotelbeds: registro del 10 nov en el API portal; falta confirmar la cuenta por correo | PO | — | PENDIENTE |
+| REQ-1525 | VALIDACIÓN | Reserva de Dublín: el 9 nov se reenviaron a claulet@ una confirmación y una cancelación del tour desde reservas@. Verificar si la cancelación es real y qué pasa con el cliente | PO | — | PENDIENTE |
+| REQ-1411 | VALIDACIÓN | Exotic: el correo del 11 nov 2026 (17:06 UTC) salió de adrianrodvar@ con el acuerdo adjunto. NO VERIFICADO si es la versión vigente (cláusulas 1.3, 8.2 y 9.4). Si no lo es, decidir reenvío | PO | REQ-1382 | SIN VERIFICAR |
+| REQ-1412 | VALIDACIÓN | Aplazo (propuesta de pagos a plazos, 10 nov) y una solicitud de empleo (9 nov). Quitado del tablero por el PO (11 nov 2026, 11:24 CDMX: «quitalo») | PO | — | CANCELADO (folio no reutilizable) |
+| REQ-1413 | CÓDIGO | Trigger de revisión cada 6 h: ampliar su alcance de REQ-1374–1397 a REQ-1359–1412 y que actualice el estado de cada folio con evidencia | agente | — | CUMPLIDO (trig_01YNgNBCEn6nTULZ2N3bSc4v actualizado 11 nov 2026 11:21 CDMX; próxima corrida 12:53 CDMX; cron 53 */6) |
 | REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — || CUMPLIDO (deploy 42428767660 de main: paso Calentar y humo de producción en verde, 8-11) |
 
 ## REQ-1359: copia anterior al cambiar la versión de la caché (coordinador, 7 nov 2026; de INC-009)
