@@ -128,18 +128,18 @@ Tarifa neta: precio por persona en habitación doble, categoría A, salida regul
 | 5 | EXE-IN-C08-010 | La India entre mujeres | Delhi, Jaipur, Suroth, Agra | India | USD 645 | 2027/28 |
 | 6 | EXE-IN-C08-011 | La India más instagrameable | Delhi, Sariska, Jaipur, Agra | India | USD 620 | 2027/28 |
 | 7 | EXE-IN-C08-012 | Happy Holi 2027: festival de los colores en Jaipur | Delhi, Agra, Suroth, Jaipur | India | USD 680 | 2027/28 |
-| 8 | EXE-IN-C09-002 | Triángulo de Oro y Benarés | Delhi, Jaipur, Agra, Benarés | India | USD 580 | 2026/27 (ver nota) |
+| 8 | EXE-IN-C09-002 | Triángulo de Oro y Benarés | Delhi, Jaipur, Agra, Benarés | India | USD 580 | 2027/28 |
 | 9 | EXE-IN-C09-004 | Norte de la India: Triángulo de Oro, Khajuraho y Benarés | Delhi, Jaipur, Agra, Khajuraho, Benarés | India | USD 670 | 2027/28 |
 | 10 | EXE-IN-C10-005 | Rajasthan: Delhi, Udaipur, Jodhpur, Jaipur y Agra | Delhi, Udaipur, Jodhpur, Jaipur, Agra | India | USD 740 | 2027/28 |
 | 11 | EXE-IN-C12-006 | Rajasthan y Benarés | Delhi, Udaipur, Jodhpur, Jaipur, Agra, Benarés | India | USD 880 | 2027/28 |
 | 12 | EXE-IN-C12-007 | Rajasthan, Khajuraho y Benarés | Delhi, Udaipur, Jodhpur, Jaipur, Agra, Khajuraho, Benarés | India | USD 825 | 2027/28 |
 | 13 | EXE-IN-C12-008 | Rajasthan con encanto: palacios, desierto y lagos | Delhi, Mandawa, Bikaner, Jodhpur, Udaipur, Jaipur, Agra | India | USD 890 | 2027/28 |
-| 14 | EXE-LK-C08-009 | Sri Lanka: Sigiriya, Kandy, té de Ceilán y Galle | Colombo, Sigiriya, Kandy, Nuwara Eliya, Yala, Galle | Sri Lanka | USD 865 (media pensión) | 2026/27 (ver nota) |
+| 14 | EXE-LK-C08-009 | Sri Lanka: Sigiriya, Kandy, té de Ceilán y Galle | Colombo, Sigiriya, Kandy, Nuwara Eliya, Yala, Galle | Sri Lanka | USD 865 (media pensión) | 2027/28 |
 
 Notas:
-- **Triángulo de Oro y Benarés (#8)** y **Sri Lanka (#14)**: el tarifario de la base de datos dice 2026/27. Hay que pedir su versión 2027/28 antes de firmar.
-- **Temporadas 2026, 2027 y 2028:** pedir a Exotic los tarifarios de cada programa que falte (2027/28 y 2028), para que el Anexo 1 tenga todas las temporadas.
-- **Sri Lanka (#14), cancelación:** el tarifario dice sin cargo con más de 21 días y 50% entre 21 y 14 días. La base de datos dice 22 y 14 días. Hay que confirmar con Exotic si el límite es 21 o 22 días.
+- **Triángulo de Oro y Benarés (#8)** y **Sri Lanka (#14)**: tarifarios 2027/28 recibidos de Exotic (correo del 24 ago 2026, adjuntos PDF, temporada abril 2027 a marzo 2028). Quedan incorporados a la tabla.
+- **Temporadas:** la 2027/28 cubre hasta marzo de 2028. La siguiente temporada se incorpora por addendum cuando Exotic la envíe (cláusula 8.1).
+- **Sri Lanka (#14), cancelación:** el tarifario 2027/28 dice sin cargo con más de 21 días y 50% entre 21 y 14 días. La base de datos dice 22 y 14 días. Pregunta abierta a Exotic: confirmar si el límite es 21 o 22 días (el tarifario indica 21).
 - No incluido: EXE-IN-C07-013, Diwali 2026 (en borrador, no publicado).
 - Portafolio futuro: los programas nuevos entran por addendum (cláusula 1.2).
 
@@ -156,7 +156,7 @@ Para validez en México, los documentos corporativos de la India deben legalizar
 ## Anexo 3. Pendientes para firmar
 0. Precio de venta, forma de pago y aviso de terminación: decisión de Travel Puzzle; quedan redactados así.
 1. Confirmar si la política de cancelación para agencias es la de la tabla (Cláusula 4.1) o una distinta. Confirmar si Sri Lanka cancela desde 21 o 22 días.
-- Pedir tarifarios 2027/28 de Triángulo de Oro y Benarés (#8) y de Sri Lanka (#14), y tarifarios 2028 de todos los programas.
+- Tarifarios 2027/28 de #8 y #14: recibidos. Pendiente: nueva temporada cuando Exotic la envíe.
 2. Confirmar que la Parte B opera en tierra y que la Parte A no asume responsabilidad aérea.
 3. Datos legales completos de ambas partes (razón social, RFC o registro de India, domicilio, representante legal).
 4. Permiso por escrito para usar fotos y contenido del catálogo.
