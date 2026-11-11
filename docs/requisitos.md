@@ -866,7 +866,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1304 | BANDERA | `TAXONOMY_CART_ENABLED`: carrito por tipo | agente | REQ-1306 | PENDIENTE |
 | REQ-1305 | BANDERA | `TAXONOMY_LINEAGE_ENABLED`: vínculo con la denominación original (D25) | agente | REQ-1316 | PENDIENTE |
 | REQ-1306 | VALIDACIÓN | `ARMA_TU_VIAJE_ENABLED` y `CART_PAYMENTS_ENABLED` (REQ-120, REQ-156; PR #135) | PO | — | PENDIENTE |
-| REQ-1307 | TAREA-PO | `PAID_TOURS_ENABLED` (REQ-013): prueba real con la tarjeta del PO | PO | — | PENDIENTE |
+| REQ-1307 | TAREA-PO | `PAID_TOURS_ENABLED` (REQ-013): prueba real con la tarjeta del PO | PO | — | CUMPLIDO según el PO (11-11: «las pruebas con freetour ya se hiciueron revisa bien»; evidencia de la corrida NO VERIFICADA en el repo) |
 | REQ-1308 | BANDERA | `CONTACTO_ENABLED` y `EXPERTOS_ENABLED` (REQ-240) | agente | REQ-1320 || EN CURSO (CONTACTO_ENABLED en true por #283; EXPERTOS_ENABLED sigue en false, espera REQ-1320) |
 | REQ-1309 | VALIDACIÓN | `NOSOTROS_ENABLED` (REQ-240): OK del PO al texto | PO | — || CUMPLIDO (PO confirma el texto y el encendido de NOSOTROS_ENABLED, 8-11; #283) |
 | REQ-1310 | BANDERA | `SOCIAL_LINKEDIN/FACEBOOK/INSTAGRAM_ENABLED` (REQ-1076), una por una | agente | REQ-1321, REQ-1322 | EN CURSO (Facebook encendida: #293, deploy 42561967397 verde, 8-11; Instagram encendida: #301, deploy 42577832647 verde, 9-11; falta `SOCIAL_LINKEDIN_ENABLED`, que espera REQ-1322 y REQ-1356) |
@@ -883,7 +883,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1321 | TAREA-PO | Tokens de Meta (Facebook e Instagram) según docs/redes/conexion.md; LinkedIn pasos 1 a 4 hechos el 7-11 | PO | — | CUMPLIDO (PO 11-11: «esto ya quedo verififca» tras renovar el token; Facebook e Instagram publicaron en las corridas 42922604231, 42928473383 y 42931964300, sin OAuthException 190; issue #295 cerrado) |
 | REQ-1322 | TAREA-PO | Aprobación de LinkedIn de la Community Management API (solicitud y formulario enviados el 7-11) | tercero | — | EN CURSO |
 | REQ-1323 | TAREA-PO | Revisión del abogado: aviso de privacidad, registro de búsquedas, cookies y consentimiento | tercero | — | PENDIENTE |
-| REQ-1324 | TAREA-PO | Cobro de prueba de $10 en Stripe y su reembolso | PO | — | PENDIENTE |
+| REQ-1324 | TAREA-PO | Cobro de prueba de $10 en Stripe y su reembolso | PO | — | PENDIENTE (PO 11-11: faltan «tour de otros proveedores y propios con nuestro Stripe»; pasos en docs/runbook/prueba-cobro-stripe-proveedores.md) |
 | REQ-1325 | TAREA-PO | Enviar desde claulet@ el borrador a Extime (idioma del guía de 46 productos) | PO | — | PENDIENTE |
 | REQ-1326 | TAREA-PO | Rotar la llave de la API de FREETOUR enviada en 2024 (cumplimiento E7) | PO | — | PENDIENTE |
 | REQ-1327 | TAREA-PO | Revisar la versión de la pasarela en Namecheap | PO | — | PENDIENTE |
