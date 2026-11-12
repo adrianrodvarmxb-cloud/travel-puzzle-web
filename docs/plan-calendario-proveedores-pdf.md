@@ -63,3 +63,4 @@ Sin bandera nueva para el esquema (campos vacíos = sin cambio). El calendario e
 | Gate | Respuesta literal | Fecha |
 |---|---|---|
 | G1 · Dónde vive | «A» (ampliar la disponibilidad de los viajes y traducirla al calendario común del PR #440) | 12 nov 2026 |
+| G2 · Temporada + recargo | «A» (se suman: temporada y recargo obligatorio el mismo día) | 12 nov 2026 |
