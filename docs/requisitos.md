@@ -1135,3 +1135,9 @@ Petición literal (PO, 11-11): «OK QUE FUNCIONE IGUAL» (como GetYourGuide/Civi
 | REQ-1596 | CÓDIGO | Dada una reserva sin sesión y `ACCOUNTS_ENABLED`, cuando ve su página de reserva o el correo de confirmación, entonces aparece la invitación opcional «Guarda tus reservas en tu cuenta» | agente | REQ-1599 | EN CURSO |
 | REQ-1597 | CÓDIGO | Dado el aviso de privacidad y la política de cookies, cuando se publican, entonces incluyen la finalidad «crear y administrar tu cuenta para consultar tus reservas» y los datos que llegan de Google (nombre, correo y foto) | agente | — | EN CURSO |
 | REQ-1598 | BANDERA | Encender `NEXT_PUBLIC_ACCOUNTS_ENABLED=true` en producción, en su propio PR, con preview encendido y humo verde (OK del PO: «Lo agrego y encendemos») | agente | REQ-1591…1597 y REQ-1599 | PENDIENTE |
+
+## REQ-1607 y REQ-1608: REQ-1535 duplicado en main (agente, 11 nov 2026)
+Origen: el PR #378 (encender cuentas) falló en «Pruebas»: `src/ops/requisitos-unicos.test.ts` encontró REQ-1535 dos veces en main. `e26ddb1` (#366, Big Bus) registró REQ-1535, que ya era de redes (#370) y del humo (#369). Mientras siga así, main no publica y todos los PR quedan en rojo. Folios apartados con `folio.ts`.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1608 | CÓDIGO | Dado un folio que main ya trae duplicado, cuando un PR deja solo una de sus versiones, entonces `folio.ts revisar` no lo marca como choque; si el texto de la rama no se parece a ninguna versión de main, sí choca (`src/ops/lib/folios.test.ts`) | agente | — | EN CURSO (test rojo → verde) |
