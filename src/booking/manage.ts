@@ -1,3 +1,4 @@
+import { isFreeBooking } from "./lib/free-booking";
 import type { BookingRecord } from "./lib/booking-record";
 import { cancelFailureAction } from "./lib/cancel-fallback";
 
@@ -43,7 +44,8 @@ export async function loadManageView(token: string, d: ManageDeps): Promise<Mana
     record: { ...record, status },
     status,
     canCancel: status === "active" && !!remote.canBeCanceled,
-    canEdit: status === "active" && !!remote.canBeEdited,
+    // REQ-066 (D9): editar solo en reservas gratis, aunque Freetour diga canBeEdited.
+    canEdit: status === "active" && !!remote.canBeEdited && isFreeBooking(record as { price?: number | null; fullPrice?: number | null }),
     offline: false,
   };
 }
