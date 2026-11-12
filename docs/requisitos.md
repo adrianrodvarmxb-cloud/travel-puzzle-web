@@ -1412,3 +1412,5 @@ Petición (PO, 12-11): «sigue con lo que corresponda… siguiendo do plan»; en
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1600 | CÓDIGO | INC-011: dado el deploy de #354, cuando corre el humo de producción, entonces /tours @1366 responde 200; hoy dio un 500 aislado (digest 1123893058) y el workflow regresó solo; el deploy siguiente (43116549386) quedó verde con la bandera encendida. Causa raíz pendiente de los Workers Logs | agente + PO | Workers Logs (PO) | EN CURSO |
+| REQ-3489 | CÓDIGO | «arréglalo» (PO, 12 nov 2026 09:03, INC-013). Dado /tours con viajes publicados, cuando la consulta de códigos de país falla o D1 está saturada, entonces se reintenta y, si sigue fallando, la página responde 200 con las tarjetas sin código de país (se registra el error) | CUMPLIDO (test) |
+| REQ-3490 | CÓDIGO | «arréglalo» (PO, 12 nov 2026 09:03, INC-013). Dado /tours, cuando falla la lista de países de los filtros, entonces la página responde 200 y los filtros salen sin esa lista (se registra el error) | CUMPLIDO (test) |

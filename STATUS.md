@@ -1049,3 +1049,5 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3318 | Públicas sin sesión con `Cloudflare-CDN-Cache-Control` 5 min; privadas y con sesión nunca | Gates B, C | `src/perf/lib/edge-cache.ts`, `src/perf/edge-cache.ts`, `src/middleware.ts` | `src/perf/lib/edge-cache.test.ts` | EN CURSO (tests verdes; falta preview y producción) |
 | REQ-3319 | Cache Rule que respeta el origen, sin caché con cookie de sesión ni 5xx | Gate A | dashboard de Cloudflare | `cf-cache-status: HIT` con curl | PENDIENTE (tras merge de REQ-3318) |
 | REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |
+| REQ-3489 | /tours no cae por los códigos de país de los viajes (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
+| REQ-3490 | /tours no cae por la lista de países de los filtros (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
