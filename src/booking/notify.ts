@@ -139,6 +139,8 @@ export async function sendBookingConfirmation(
       rating: tour?.rating ?? null,
       cityName: tour?.cityName ?? null,
       moreTours,
+      // REQ-1596: invitación opcional a la cuenta, solo en la confirmación y con cuentas encendidas.
+      accountUrl: process.env.NEXT_PUBLIC_ACCOUNTS_ENABLED === "true" && (opts.variant ?? "confirmation") === "confirmation" ? `${site}/mi-cuenta/entrar` : null,
       mapsUrl: mapsUrlFor(tour?.meetingPoint),
       heroImageUrl: tour?.imageUrl ?? null,
       galleryUrls: tour?.galleryUrls ?? [],
