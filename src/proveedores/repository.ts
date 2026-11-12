@@ -15,8 +15,8 @@ export interface ProveedorFila extends EstadoProveedor {
   integracion: Integracion; cobro: Cobro; tiempoRespuesta: string; // REQ-1298, REQ-1299
   correosInvalidos: string[]; // REQ-1565
   zonaHoraria: string; // REQ-1566
-  checklist: string[]; // REQ-1572
-  bloqueos: Bloqueos; // REQ-1576
+  checklist: string[]; // REQ-1665
+  bloqueos: Bloqueos; // REQ-1669
 }
 
 type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos" | "checklist" | "bloqueos"> & {
@@ -62,7 +62,7 @@ export function createProveedoresRepo(db: Db) {
     async marcarInvalidos(id: string, correos: string[], ahora: string) {
       await db.run(`UPDATE "Proveedor" SET "correosInvalidos"=?, "updatedAt"=? WHERE "id"=?`, JSON.stringify(correos), ahora, id);
     },
-    // REQ-1572: guarda los puntos de alta recibidos.
+    // REQ-1665: guarda los puntos de alta recibidos.
     async marcarChecklist(id: string, recibidos: string[], ahora: string) {
       await db.run(`UPDATE "Proveedor" SET "checklist"=?, "updatedAt"=? WHERE "id"=?`, JSON.stringify(recibidos), ahora, id);
     },

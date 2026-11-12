@@ -1,5 +1,5 @@
-// Puro · REQ-1572: lista de alta por proveedor en 8 grupos. Mila pide solo lo que falta y marca lo recibido.
-// Integración (REQ-1298) y cobro (REQ-1573) se piden con sus propias reglas; aquí se agregan los otros 6 grupos.
+// Puro · REQ-1665: lista de alta por proveedor en 8 grupos. Mila pide solo lo que falta y marca lo recibido.
+// Integración (REQ-1298) y cobro (REQ-1666) se piden con sus propias reglas; aquí se agregan los otros 6 grupos.
 import { pedidosDeCobro, pedidosDeIntegracion, type Cobro, type Integracion } from "./integracion";
 
 export type TipoProveedor = "dmc" | "plataforma" | "api";
@@ -43,14 +43,14 @@ export const PUNTOS: Punto[] = [
 
 const tipoBase = (t: TipoProveedor): "dmc" | "plataforma" => (t === "dmc" ? "dmc" : "plataforma");
 
-// REQ-1572: los puntos de su tipo que aún no llegan.
+// REQ-1665: los puntos de su tipo que aún no llegan.
 export function faltantes(tipo: TipoProveedor, recibidos: string[]): Punto[] {
   return PUNTOS.filter((p) => p.aplica.includes(tipoBase(tipo)) && !recibidos.includes(p.id));
 }
 
 export interface DatosAlta { tipo: TipoProveedor; integracion: Integracion; cobro: Cobro; idioma: "es" | "en"; recibidos: string[] }
 
-// REQ-1572: el texto de cada pedido, en orden: integración, tarifas, cobro, cancelación, operación, legal, contenido, datos.
+// REQ-1665: el texto de cada pedido, en orden: integración, tarifas, cobro, cancelación, operación, legal, contenido, datos.
 export function pedidosDeAlta(d: DatosAlta): string[] {
   const orden: Grupo[] = ["integracion", "tarifas", "cobro", "cancelacion", "operacion", "legal", "contenido", "datos"];
   const f = faltantes(d.tipo, d.recibidos).sort((a, b) => orden.indexOf(a.grupo) - orden.indexOf(b.grupo));
@@ -61,7 +61,7 @@ export function pedidosDeAlta(d: DatosAlta): string[] {
   });
 }
 
-// REQ-1572: qué punto cubre un documento, por su nombre (lo demás lo marca el equipo en la ficha).
+// REQ-1665: qué punto cubre un documento, por su nombre (lo demás lo marca el equipo en la ficha).
 const POR_NOMBRE: [RegExp, string][] = [
   [/tarif|rates?\b|tariff|precios|price/i, "tarifas"],
   [/cancel/i, "cancelacion"],

@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS "Proveedor" (
   "sinRespuestaDesde" TEXT,
   "proximaAccion"     TEXT NOT NULL DEFAULT '',
   "notas"             TEXT NOT NULL DEFAULT '',
-  "checklist"         TEXT NOT NULL DEFAULT '[]',   -- REQ-1572: JSON con los puntos de alta recibidos (tarifas, cancelacion, legal…)
-  "bloqueos"          TEXT NOT NULL DEFAULT '{}',   -- REQ-1576: JSON {borradorSinEnviar, acuerdoEnNegociacion, folioAbierto}
+  "checklist"         TEXT NOT NULL DEFAULT '[]',   -- REQ-1665: JSON con los puntos de alta recibidos (tarifas, cancelacion, legal…)
+  "bloqueos"          TEXT NOT NULL DEFAULT '{}',   -- REQ-1669: JSON {borradorSinEnviar, acuerdoEnNegociacion, folioAbierto}
   "createdAt"         TEXT NOT NULL,
   "updatedAt"         TEXT NOT NULL
 );
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "ProveedorDocumento" (
 );
 CREATE INDEX IF NOT EXISTS "ProveedorDocumento_proveedor" ON "ProveedorDocumento" ("proveedorId", "fecha");
 
--- REQ-1579 (cl. 8.2): anexo de tarifas por proveedor. Cada renglón liga un producto del proveedor con la opción del viaje publicada.
+-- REQ-1672 (cl. 8.2): anexo de tarifas por proveedor. Cada renglón liga un producto del proveedor con la opción del viaje publicada.
 CREATE TABLE IF NOT EXISTS "ProveedorTarifa" (
   "id"          TEXT PRIMARY KEY,
   "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS "ProveedorTarifa" (
 );
 CREATE INDEX IF NOT EXISTS "ProveedorTarifa_proveedor" ON "ProveedorTarifa" ("proveedorId");
 
--- REQ-1579, REQ-1580, REQ-1582: avisos de cambio de tarifa. Nada cambia hasta que el PO confirma.
+-- REQ-1672, REQ-1580, REQ-1582: avisos de cambio de tarifa. Nada cambia hasta que el PO confirma.
 CREATE TABLE IF NOT EXISTS "TarifaAviso" (
   "id"          TEXT PRIMARY KEY,
   "numero"      INTEGER NOT NULL UNIQUE,          -- código T-<numero> para «confirmo T-12»

@@ -1,4 +1,4 @@
-// REQ-1579, REQ-1580, REQ-1581, REQ-1582: orquestación del cambio de tarifa con un repositorio en memoria.
+// REQ-1672, REQ-1580, REQ-1581, REQ-1582: orquestación del cambio de tarifa con un repositorio en memoria.
 import { describe, it, expect } from "vitest";
 import { revisarTarifa, confirmarTarifa, aplicarVigentes, descartarTarifa, type DepsTarifa } from "./tarifa";
 import type { Aviso, Renglon, TarifasRepo } from "./tarifa-repo";
@@ -35,8 +35,8 @@ function mundo(hoy = "2026-11-11T18:00:00Z", conRates = true) {
 }
 const msg = (texto: string, id = "<m1@x>") => ({ messageId: id, asunto: "Tarifas 2027", texto });
 
-describe("REQ-1579: aviso de cambio de tarifa", () => {
-  it("REQ-1579: con fecha y monto avisa al PO con antes/después y precio en la página, sin tocar nada", async () => {
+describe("REQ-1672: aviso de cambio de tarifa", () => {
+  it("REQ-1672: con fecha y monto avisa al PO con antes/después y precio en la página, sin tocar nada", async () => {
     const w = mundo();
     const a = await revisarTarifa(exotic, msg("A partir del 1 de abril de 2027 el Triángulo de Oro sube de 1,000 a 1,080 USD."), w.deps);
     expect(a).toMatchObject({ estado: "por_confirmar", tarifaId: "a1", netoNuevo: 1080, desde: "2027-04-01" });
@@ -56,15 +56,15 @@ describe("REQ-1579: aviso de cambio de tarifa", () => {
     expect(b).toMatchObject({ estado: "por_confirmar", desde: "2027-01-15" });
     expect(w.whatsapp).toHaveLength(1);
   });
-  it("REQ-1579: un correo que no habla de tarifas no crea aviso", async () => {
+  it("REQ-1672: un correo que no habla de tarifas no crea aviso", async () => {
     const w = mundo();
     expect(await revisarTarifa(exotic, msg("Les mando las fotos 2027 del hotel"), w.deps)).toBeNull();
     expect(w.avisos).toEqual([]);
   });
 });
 
-describe("REQ-1579/REQ-1580/REQ-1581: la confirmación del PO detona el comando", () => {
-  it("REQ-1579: si ya rige, confirmar responde «quedamos enterados», actualiza el anexo y el precio", async () => {
+describe("REQ-1672/REQ-1580/REQ-1581: la confirmación del PO detona el comando", () => {
+  it("REQ-1672: si ya rige, confirmar responde «quedamos enterados», actualiza el anexo y el precio", async () => {
     const w = mundo("2027-04-02T18:00:00Z");
     await revisarTarifa(exotic, msg("Desde el 1 de abril de 2027 el Triángulo de Oro sube de 1,000 a 1,080 USD."), w.deps);
     expect(await confirmarTarifa(1, "PO", w.deps)).toEqual({ ok: true, estado: "aplicado" });
@@ -74,7 +74,7 @@ describe("REQ-1579/REQ-1580/REQ-1581: la confirmación del PO detona el comando"
     expect(w.precios["t1/o1"].adult).toBe(1404);
     expect(w.avisos[0]).toMatchObject({ estado: "aplicado", confirmadoPor: "PO" });
   });
-  it("REQ-1579: si rige después, confirma y el precio cambia hasta ese día (revisión de cada hora)", async () => {
+  it("REQ-1672: si rige después, confirma y el precio cambia hasta ese día (revisión de cada hora)", async () => {
     const w = mundo();
     await revisarTarifa(exotic, msg("Desde el 1 de abril de 2027 el Triángulo de Oro sube de 1,000 a 1,080 USD."), w.deps);
     expect(await confirmarTarifa("1", "PO", w.deps)).toEqual({ ok: true, estado: "confirmado" });
@@ -90,7 +90,7 @@ describe("REQ-1579/REQ-1580/REQ-1581: la confirmación del PO detona el comando"
     await confirmarTarifa(1, "PO", w.deps);
     expect(w.precios["t1/o1"].adult).toBe(1235);
   });
-  it("REQ-1579: sin confirmación nada cambia; no se confirma dos veces ni uno descartado", async () => {
+  it("REQ-1672: sin confirmación nada cambia; no se confirma dos veces ni uno descartado", async () => {
     const w = mundo("2027-04-02T18:00:00Z");
     await revisarTarifa(exotic, msg("Desde el 1 de abril de 2027 el Triángulo de Oro sube de 1,000 a 1,080 USD."), w.deps);
     expect(await descartarTarifa(1, w.deps)).toEqual({ ok: true, estado: "descartado" });
@@ -99,7 +99,7 @@ describe("REQ-1579/REQ-1580/REQ-1581: la confirmación del PO detona el comando"
     expect(w.anexo[0].neto).toBe(1000);
     expect(w.precios["t1/o1"].adult).toBe(1300);
   });
-  it("REQ-1579: sin márgenes o con moneda distinta, confirma el anexo pero no toca el precio y lo reporta", async () => {
+  it("REQ-1672: sin márgenes o con moneda distinta, confirma el anexo pero no toca el precio y lo reporta", async () => {
     const w = mundo("2027-04-02T18:00:00Z", false);
     await revisarTarifa(exotic, msg("Desde el 1 de abril de 2027 el Triángulo de Oro sube de 1,000 a 1,080 USD."), w.deps);
     expect(await confirmarTarifa(1, "PO", w.deps)).toEqual({ ok: false, motivo: "faltan los márgenes (secreto MARKUP_RATES)" });

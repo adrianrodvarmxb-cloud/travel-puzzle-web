@@ -1,4 +1,4 @@
-// I/O · REQ-1568: arma el resumen semanal y lo manda a cada número por el puente de avisos de Mila (REQ-1570).
+// I/O · REQ-1568: arma el resumen semanal y lo manda a cada número por el puente de avisos de Mila (REQ-1663).
 import { textoResumen } from "./lib/resumen";
 import { siguienteAccion } from "./lib/seguimiento";
 import type { ProveedoresRepo } from "./repository";

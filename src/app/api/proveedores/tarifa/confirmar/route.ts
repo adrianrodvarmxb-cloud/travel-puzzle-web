@@ -6,7 +6,7 @@ import { leerComandoConfirmo } from '@/proveedores/lib/tarifas';
 
 export const dynamic = 'force-dynamic';
 
-/** REQ-1580: «confirmo T-12» por WhatsApp. Lo llama el puente de Mila (REQ-1570) con PROVEEDORES_COMANDO_SECRET; sin secreto no hace nada. */
+/** REQ-1580: «confirmo T-12» por WhatsApp. Lo llama el puente de Mila (REQ-1663) con PROVEEDORES_COMANDO_SECRET; sin secreto no hace nada. */
 export async function POST(request: Request) {
     const secreto = process.env.PROVEEDORES_COMANDO_SECRET;
     if (!secreto || request.headers.get('authorization') !== `Bearer ${secreto}`) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

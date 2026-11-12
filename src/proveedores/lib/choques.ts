@@ -1,9 +1,9 @@
-// Puro · REQ-1576: Mila no escribe a un proveedor si choca con la revisión cada 6 h (REQ-1397, REQ-1413).
+// Puro · REQ-1669: Mila no escribe a un proveedor si choca con la revisión cada 6 h (REQ-1397, REQ-1413).
 export interface Bloqueos { borradorSinEnviar?: boolean; acuerdoEnNegociacion?: boolean; folioAbierto?: string | null }
 export interface ParaEscribir { bloqueos: Bloqueos; hiloId: string | null }
 export type Permiso = { ok: true } | { ok: false; motivo: string };
 
-// REQ-1576
+// REQ-1669
 export function puedeEscribir(p: ParaEscribir): Permiso {
   const b = p.bloqueos ?? {};
   if (b.borradorSinEnviar) return { ok: false, motivo: "hay un borrador sin enviar" };

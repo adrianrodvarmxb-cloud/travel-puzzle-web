@@ -7,7 +7,7 @@ import { TarifaAvisoControl } from '@/components/admin/TarifaAvisoControl';
 
 const ETIQUETA: Record<string, string> = { por_confirmar: 'Por confirmar', falta_fecha: 'Mila pidió la fecha', falta_monto: 'Sin monto claro', confirmado: 'Confirmado (cambia el día que rige)' };
 
-/** REQ-1579, REQ-1580: cambios de tarifa avisados por proveedores. Nada cambia hasta que el PO confirma. */
+/** REQ-1672, REQ-1580: cambios de tarifa avisados por proveedores. Nada cambia hasta que el PO confirma. */
 export default async function TarifasPage() {
     if (!proveedoresEncendido(process.env as Record<string, string | undefined>)) {
         return <p className="text-[#A9B6D6]">Proveedores de Mila está apagado (PROVEEDORES_MILA_ON).</p>;

@@ -20,7 +20,7 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
   };
   const subir = (ruta: string, contenido: Uint8Array, tipo: string) =>
     subirDocumento({ host: env.CPANEL_HOST ?? "", user: env.CPANEL_USER ?? "", token: env.CPANEL_TOKEN ?? "", fetch }, ruta, contenido, tipo);
-  // REQ-1568, REQ-1570: el sitio no tiene WhatsApp; le pide a Mila (zoefel-mila) que mande el aviso desde el número de Travel Puzzle.
+  // REQ-1568, REQ-1663: el sitio no tiene WhatsApp; le pide a Mila (zoefel-mila) que mande el aviso desde el número de Travel Puzzle.
   const avisar = async (numero: string, texto: string) => {
     const res = await fetch(env.MILA_AVISOS_URL ?? "", { method: "POST", headers: { authorization: `Bearer ${env.MILA_AVISOS_SECRET ?? ""}`, "content-type": "application/json" },
       body: JSON.stringify({ negocio: "travel-puzzle", numero, texto, plantilla: "resumen_proveedores" }) });
@@ -30,7 +30,7 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
   return { repo, enviar, subir, avisar, destinos };
 }
 
-// REQ-1579: márgenes desde el secreto MARKUP_RATES (JSON {"pct":{"programa":…,"tour":…,"privado":…,"traslado":…},"minTourUsd":…}); no viven en el repo (REQ-038).
+// REQ-1672: márgenes desde el secreto MARKUP_RATES (JSON {"pct":{"programa":…,"tour":…,"privado":…,"traslado":…},"minTourUsd":…}); no viven en el repo (REQ-038).
 export function leerRates(raw?: string): MarkupRates | null {
   try {
     const v = JSON.parse(raw ?? "");
@@ -41,11 +41,11 @@ export function leerRates(raw?: string): MarkupRates | null {
 
 type OpcionGuardada = { id: string; adult: number | null };
 
-// REQ-1579, REQ-1580: dependencias reales del cambio de tarifa.
+// REQ-1672, REQ-1580: dependencias reales del cambio de tarifa.
 export function tarifaDeps(env: Record<string, string | undefined>, hoy = new Date().toISOString()): DepsTarifa & { proveedor: (id: string) => Promise<import("./repository").ProveedorFila | null> } {
   const base = proveedoresDeps(env);
   const prisma = getPrisma();
-  // El aviso va al PO (primer número de RESUMEN_DESTINOS o TARIFAS_AVISO_A), solo con el puente de Mila configurado (REQ-1570).
+  // El aviso va al PO (primer número de RESUMEN_DESTINOS o TARIFAS_AVISO_A), solo con el puente de Mila configurado (REQ-1663).
   const po = env.TARIFAS_AVISO_A || base.destinos[0];
   return {
     repo: createTarifasRepo(dbDePrisma(prisma as never)), enviar: base.enviar, hoy, rates: leerRates(env.MARKUP_RATES), nuevoId: () => crypto.randomUUID(), log: console.log,

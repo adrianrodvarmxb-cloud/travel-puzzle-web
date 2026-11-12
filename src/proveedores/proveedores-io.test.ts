@@ -150,32 +150,32 @@ describe("REQ-1568: envío del resumen", () => {
   });
 });
 
-describe("REQ-1576/REQ-1572: revisión diaria con bloqueos y lista de alta", () => {
+describe("REQ-1669/REQ-1665: revisión diaria con bloqueos y lista de alta", () => {
   const callado = (x: Partial<ProveedorFila>) => base({ correos: ["c@c.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola", hiloId: "<h@x>", ...x });
   const correr = async (lista: ProveedorFila[]) => {
     const m = memoria(lista); const enviados: Correo[] = [];
     const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@r>`; } });
     return { r, enviados };
   };
-  it("REQ-1576: no manda recordatorio con folio abierto ni a un hilo sin copia a comercial@, y lo reporta", async () => {
+  it("REQ-1669: no manda recordatorio con folio abierto ni a un hilo sin copia a comercial@, y lo reporta", async () => {
     const { r, enviados } = await correr([callado({ id: "folio", bloqueos: { folioAbierto: "REQ-1385" } }), callado({ id: "sinhilo", hiloId: null })]);
     expect(enviados).toEqual([]);
     expect(r.detenidos).toEqual(["folio: folio abierto en la revisión cada 6 h (REQ-1385)", "sinhilo: el hilo aún no le llega con copia a comercial@"]);
   });
-  it("REQ-1572: el recordatorio a un DMC pide solo lo que falta de la lista de alta", async () => {
+  it("REQ-1665: el recordatorio a un DMC pide solo lo que falta de la lista de alta", async () => {
     const { enviados } = await correr([callado({ id: "dmc", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "contenido", "datos", "cobro"] })]);
     expect(enviados[0].text).toMatch(/acuerdo de intermediación/);
     expect(enviados[0].text).not.toMatch(/temporada/);
     expect(enviados[0].text).toMatch(/Lo que nos falta:\n1\. /);
   });
-  it("REQ-1572: si ya no falta nada, el recordatorio no trae la lista", async () => {
+  it("REQ-1665: si ya no falta nada, el recordatorio no trae la lista", async () => {
     const { enviados } = await correr([callado({ id: "ok", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "acuerdo", "contenido", "datos", "cobro"] })]);
     expect(enviados[0].text).not.toMatch(/nos falta/);
   });
 });
 
-describe("REQ-1572: documentos recibidos marcan la lista de alta", () => {
-  it("REQ-1572: un tarifario marca «tarifas»", async () => {
+describe("REQ-1665: documentos recibidos marcan la lista de alta", () => {
+  it("REQ-1665: un tarifario marca «tarifas»", async () => {
     const m = memoria([base({ id: "inca", correos: ["x@inca.com"], etapa: "contactado" })]);
     await procesarEntrante({ messageId: "<t@x>", fecha: "2026-11-10T09:00:00Z", de: "x@inca.com", para: ["comercial@travelpuzzle.com.mx"], cc: [], asunto: "Re", texto: "",
       adjuntos: [{ nombre: "Tarifario 2027.pdf", tipo: "application/pdf", contenido: new Uint8Array([1]) }] }, { repo: m.repo, subir: async () => {} });

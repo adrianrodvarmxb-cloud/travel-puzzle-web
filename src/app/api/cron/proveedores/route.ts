@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     const reporte = await revisionDiaria({ repo, enviar, hoy, log: console.log });
     // REQ-1568: lunes 9:00 de México, el resumen semanal (solo con el puente de avisos configurado).
     const resumen = esHoraResumen(hoy) && env.MILA_AVISOS_URL ? await mandarResumen({ repo, avisar, destinos, hoy }) : null;
-    // REQ-1579: los cambios de tarifa confirmados cuya fecha ya llegó pasan al precio de la página.
+    // REQ-1672: los cambios de tarifa confirmados cuya fecha ya llegó pasan al precio de la página.
     const tarifas = await aplicarVigentes(tarifaDeps(env, hoy));
     return NextResponse.json({ success: true, ...reporte, resumen, tarifas });
 }

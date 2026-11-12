@@ -197,46 +197,46 @@ describe("REQ-1568: resumen semanal", () => {
 import { pedidosDeAlta, faltantes, puntosDeDocumento, marcarRecibidos, PUNTOS } from "./checklist";
 import { puedeEscribir } from "./choques";
 
-describe("REQ-1573/REQ-1572: cobro por tipo y lista de alta en 8 grupos", () => {
-  it("REQ-1573: a un DMC con neto no le pide que cobre él; pide condiciones de pago y datos bancarios", () => {
+describe("REQ-1666/REQ-1665: cobro por tipo y lista de alta en 8 grupos", () => {
+  it("REQ-1666: a un DMC con neto no le pide que cobre él; pide condiciones de pago y datos bancarios", () => {
     const c = pedidosDeCobro("desconocido", "es", "dmc");
     expect(c.join(" ")).not.toMatch(/ustedes cobren directo/);
     expect(c[0]).toMatch(/condiciones de pago/);
     expect(c[1]).toMatch(/datos bancarios/);
   });
-  it("REQ-1573: a una plataforma le pide liga de pago y comisión", () => {
+  it("REQ-1666: a una plataforma le pide liga de pago y comisión", () => {
     const c = pedidosDeCobro("desconocido", "es", "plataforma");
     expect(c.join(" ")).toMatch(/liga de pago/);
     expect(c.join(" ")).toMatch(/comisión/);
     expect(c.join(" ")).not.toMatch(/datos bancarios/);
   });
-  it("REQ-1573: sin tipo conserva el comportamiento anterior (LSP)", () => {
+  it("REQ-1666: sin tipo conserva el comportamiento anterior (LSP)", () => {
     expect(pedidosDeCobro("desconocido")).toEqual(pedidosDeCobro("desconocido", "es"));
   });
-  it("REQ-1572: los puntos cubren los 8 grupos", () => {
+  it("REQ-1665: los puntos cubren los 8 grupos", () => {
     expect(new Set(PUNTOS.map((p) => p.grupo))).toEqual(new Set(["integracion", "tarifas", "cobro", "cancelacion", "operacion", "legal", "contenido", "datos"]));
   });
-  it("REQ-1572: a un DMC nuevo le pide integración, tarifas por temporada y suplementos, cobro, cancelación, contacto 24/7, legal, contenido y datos", () => {
+  it("REQ-1665: a un DMC nuevo le pide integración, tarifas por temporada y suplementos, cobro, cancelación, contacto 24/7, legal, contenido y datos", () => {
     const t = pedidosDeAlta({ tipo: "dmc", integracion: "desconocida", cobro: "desconocido", idioma: "es", recibidos: [] }).join("\n");
     for (const re of [/API/, /temporada/, /individual/, /condiciones de pago/, /cancelación/, /24\/7/, /licencia/, /acuerdo de intermediación/, /Fotos/, /datos del viajero/]) expect(t).toMatch(re);
   });
-  it("REQ-1572: solo pide lo que falta", () => {
+  it("REQ-1665: solo pide lo que falta", () => {
     const t = pedidosDeAlta({ tipo: "dmc", integracion: "api", cobro: "travelpuzzle", idioma: "es", recibidos: ["tarifas", "cancelacion", "operacion", "legal", "acuerdo", "contenido", "datos", "cobro"] });
     expect(t).toEqual([]);
     expect(faltantes("dmc", ["tarifas"]).map((p) => p.id)).not.toContain("tarifas");
   });
-  it("REQ-1572: a una plataforma no le pide tarifario por temporada ni el acuerdo de intermediación", () => {
+  it("REQ-1665: a una plataforma no le pide tarifario por temporada ni el acuerdo de intermediación", () => {
     const t = pedidosDeAlta({ tipo: "plataforma", integracion: "desconocida", cobro: "desconocido", idioma: "es", recibidos: [] }).join("\n");
     expect(t).not.toMatch(/temporada/);
     expect(t).not.toMatch(/acuerdo de intermediación/);
     expect(t).toMatch(/términos para agencias/);
   });
-  it("REQ-1572: en inglés también", () => {
+  it("REQ-1665: en inglés también", () => {
     const t = pedidosDeAlta({ tipo: "dmc", integracion: "desconocida", cobro: "desconocido", idioma: "en", recibidos: [] }).join("\n");
     expect(t).toMatch(/season/);
     expect(t).not.toMatch(/temporada/);
   });
-  it("REQ-1572: marca lo recibido por el nombre del documento, sin duplicar", () => {
+  it("REQ-1665: marca lo recibido por el nombre del documento, sin duplicar", () => {
     expect(puntosDeDocumento("Tarifario 2027.pdf")).toEqual(["tarifas"]);
     expect(puntosDeDocumento("Cancellation policy.docx")).toEqual(["cancelacion"]);
     expect(puntosDeDocumento("Licencia RNT.pdf")).toEqual(["legal"]);
@@ -245,8 +245,8 @@ describe("REQ-1573/REQ-1572: cobro por tipo y lista de alta en 8 grupos", () => 
   });
 });
 
-describe("REQ-1577: la presentación va en el hilo que ya existe", () => {
-  it("REQ-1577: con asunto de hilo responde «Re: …» y no duplica el «Re:»", () => {
+describe("REQ-1670: la presentación va en el hilo que ya existe", () => {
+  it("REQ-1670: con asunto de hilo responde «Re: …» y no duplica el «Re:»", () => {
     const base = { nombre: "Exotic Escapes", contacto: "Angela", correos: ["angela.ballen@exoticescapes.co.in"], idioma: "es" as const, integracion: "desconocida" as const, cobro: "desconocido" as const };
     expect(borradorPresentacion({ ...base, asuntoHilo: "Acuerdo de intermediación Travel Puzzle – Exotic Escapes" })!.asunto).toBe("Re: Acuerdo de intermediación Travel Puzzle – Exotic Escapes");
     expect(borradorPresentacion({ ...base, asuntoHilo: "RE: Tarifas 2027" })!.asunto).toBe("RE: Tarifas 2027");
@@ -254,17 +254,17 @@ describe("REQ-1577: la presentación va en el hilo que ya existe", () => {
   });
 });
 
-describe("REQ-1576: sin choques con la revisión cada 6 h", () => {
+describe("REQ-1669: sin choques con la revisión cada 6 h", () => {
   const ok = { bloqueos: {}, hiloId: "<m1@x>", etapa: "contactado" as const };
-  it("REQ-1576: escribe si no hay bloqueos y el hilo es conocido", () => {
+  it("REQ-1669: escribe si no hay bloqueos y el hilo es conocido", () => {
     expect(puedeEscribir(ok)).toEqual({ ok: true });
   });
-  it("REQ-1576: no escribe con borrador sin enviar, acuerdo en negociación o folio abierto", () => {
+  it("REQ-1669: no escribe con borrador sin enviar, acuerdo en negociación o folio abierto", () => {
     expect(puedeEscribir({ ...ok, bloqueos: { borradorSinEnviar: true } })).toMatchObject({ ok: false, motivo: expect.stringMatching(/borrador/) });
     expect(puedeEscribir({ ...ok, bloqueos: { acuerdoEnNegociacion: true } })).toMatchObject({ ok: false, motivo: expect.stringMatching(/acuerdo/) });
     expect(puedeEscribir({ ...ok, bloqueos: { folioAbierto: "REQ-1385" } })).toMatchObject({ ok: false, motivo: expect.stringMatching(/REQ-1385/) });
   });
-  it("REQ-1576: no sigue un hilo que no le llegó con copia a comercial@", () => {
+  it("REQ-1669: no sigue un hilo que no le llegó con copia a comercial@", () => {
     expect(puedeEscribir({ ...ok, hiloId: null })).toMatchObject({ ok: false, motivo: expect.stringMatching(/copia a comercial@/) });
   });
 });

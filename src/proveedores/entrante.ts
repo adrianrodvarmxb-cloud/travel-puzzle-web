@@ -14,7 +14,7 @@ export interface CorreoEntrante {
 
 export interface DepsEntrante {
   repo: ProveedoresRepo; subir: (ruta: string, contenido: Uint8Array, tipo: string) => Promise<void>; log?: (m: string) => void;
-  /** REQ-1579: revisa si la respuesta avisa un cambio de tarifa (opcional; DIP). */
+  /** REQ-1672: revisa si la respuesta avisa un cambio de tarifa (opcional; DIP). */
   tarifa?: (p: ProveedorFila, m: { messageId: string; asunto: string; texto: string }) => Promise<unknown>;
 }
 
@@ -62,11 +62,11 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
       await deps.subir(ruta, a.contenido, a.tipo);
       await deps.repo.registrarDocumento({ id: ruta, proveedorId: id, mensajeId: c.messageId, nombre: a.nombre, bytes: a.contenido.byteLength, fecha: c.fecha });
       documentos++;
-      recibidos = marcarRecibidos(recibidos, puntosDeDocumento(a.nombre)); // REQ-1572
+      recibidos = marcarRecibidos(recibidos, puntosDeDocumento(a.nombre)); // REQ-1665
     } catch (e) { fallidos++; deps.log?.(`[proveedores] no se subió ${a.nombre}: ${(e as Error).message}`); }
   }
   if (recibidos.length !== (p.checklist ?? []).length) await deps.repo.marcarChecklist(id, recibidos, c.fecha);
-  // REQ-1579: un fallo aquí no tumba el registro del correo.
+  // REQ-1672: un fallo aquí no tumba el registro del correo.
   if (deps.tarifa) await deps.tarifa(p, { messageId: c.messageId, asunto: c.asunto, texto: c.texto }).catch((e) => deps.log?.(`[tarifas] ${(e as Error).message}`));
   return { estado: "registrado", proveedorId: id, documentos, fallidos };
 }

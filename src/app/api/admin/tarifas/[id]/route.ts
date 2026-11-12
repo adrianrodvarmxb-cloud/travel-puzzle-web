@@ -6,7 +6,7 @@ import { confirmarTarifa, descartarTarifa } from '@/proveedores/tarifa';
 
 export const dynamic = 'force-dynamic';
 
-/** REQ-1579, REQ-1580: botón Confirmar o Descartar de un cambio de tarifa. Solo ADMIN. */
+/** REQ-1672, REQ-1580: botón Confirmar o Descartar de un cambio de tarifa. Solo ADMIN. */
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     if (!(await requireAdmin())) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     const env = process.env as Record<string, string | undefined>;

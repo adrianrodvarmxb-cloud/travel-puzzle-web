@@ -32,6 +32,6 @@ export async function POST(request: Request) {
             tipo: a.mimeType ?? 'application/octet-stream',
             contenido: typeof a.content === 'string' ? new TextEncoder().encode(a.content) : new Uint8Array(a.content),
         })),
-    }, { repo, subir, log: console.log, tarifa: (p, msg) => revisarTarifa(p, msg, tarifaDeps(env)) }); // REQ-1579
+    }, { repo, subir, log: console.log, tarifa: (p, msg) => revisarTarifa(p, msg, tarifaDeps(env)) }); // REQ-1672
     return NextResponse.json({ success: true, ...r });
 }

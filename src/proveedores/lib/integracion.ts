@@ -37,7 +37,7 @@ export function pedidosDeIntegracion(actual: Integracion, idioma: "es" | "en" = 
 }
 
 // REQ-1299: primero que cobren ellos; la cuenta bancaria solo como segunda opción.
-// REQ-1573 (P10b): con tipo, el DMC con neto cobra por Travel Puzzle (acuerdo) y la plataforma cobra ella y paga comisión.
+// REQ-1666 (P10b): con tipo, el DMC con neto cobra por Travel Puzzle (acuerdo) y la plataforma cobra ella y paga comisión.
 // Sin tipo se conserva el comportamiento anterior (LSP).
 export function pedidosDeCobro(cobro: Cobro, idioma: "es" | "en" = "es", tipo?: "dmc" | "plataforma" | "api"): string[] {
   const t = idioma === "en" ? EN : ES;

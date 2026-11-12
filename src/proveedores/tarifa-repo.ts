@@ -1,4 +1,4 @@
-// I/O · REQ-1579: anexo de tarifas y avisos de cambio en D1 (migrations/0026). Recibe la base por parámetro.
+// I/O · REQ-1672: anexo de tarifas y avisos de cambio en D1 (migrations/0026). Recibe la base por parámetro.
 import type { Db } from "./repository";
 import type { EstadoAviso, Moneda, RenglonAnexo } from "./lib/tarifas";
 import type { MarkupKind } from "../trips/lib/markup";

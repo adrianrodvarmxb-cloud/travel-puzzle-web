@@ -1,4 +1,4 @@
-// I/O · REQ-1579 (cl. 8.2), REQ-1580, REQ-1581, REQ-1582: cambio de tarifa. Recibe todo por parámetro.
+// I/O · REQ-1672 (cl. 8.2), REQ-1580, REQ-1581, REQ-1582: cambio de tarifa. Recibe todo por parámetro.
 // Sin la confirmación del PO no cambia nada: ni anexo, ni precio, ni respuesta al proveedor.
 import { armarCorreo, type Correo } from "./lib/correo";
 import { asuntoRespuesta } from "./lib/borrador";
@@ -12,7 +12,7 @@ export interface DepsTarifa {
   repo: TarifasRepo;
   enviar: (c: Correo) => Promise<string>;
   hoy: string;
-  /** REQ-1580: WhatsApp al PO por el puente de Mila (REQ-1570); sin puente, el aviso solo queda en /admin/tarifas. */
+  /** REQ-1580: WhatsApp al PO por el puente de Mila (REQ-1663); sin puente, el aviso solo queda en /admin/tarifas. */
   avisarPO?: (texto: string) => Promise<void>;
   /** Márgenes por tipo (secreto MARKUP_RATES; no viven en el repo, REQ-038). */
   rates: MarkupRates | null;
@@ -33,7 +33,7 @@ async function notificar(p: ProveedorFila, a: Aviso, deps: DepsTarifa) {
   } catch (e) { deps.log?.(`[tarifas] no se avisó al PO: ${(e as Error).message}`); }
 }
 
-// REQ-1579, REQ-1582: revisa cada respuesta de un proveedor. Devuelve el aviso creado o completado.
+// REQ-1672, REQ-1582: revisa cada respuesta de un proveedor. Devuelve el aviso creado o completado.
 export async function revisarTarifa(p: ProveedorFila, m: MensajeProveedor, deps: DepsTarifa): Promise<Aviso | null> {
   const ahora = deps.hoy;
   // REQ-1582: si esperábamos la fecha, la toma de esta respuesta.
@@ -62,7 +62,7 @@ export async function revisarTarifa(p: ProveedorFila, m: MensajeProveedor, deps:
 
 export type Resultado = { ok: true; estado: "confirmado" | "aplicado" } | { ok: false; motivo: string };
 
-// REQ-1579: aplica el precio de un aviso confirmado que ya rige.
+// REQ-1672: aplica el precio de un aviso confirmado que ya rige.
 async function aplicar(a: Aviso, deps: DepsTarifa): Promise<Resultado> {
   const r = a.tarifaId ? await deps.repo.renglon(a.tarifaId) : null;
   if (!r || !r.tripId || !r.optionId) return { ok: true, estado: "confirmado" }; // sin viaje ligado: solo anexo
@@ -75,7 +75,7 @@ async function aplicar(a: Aviso, deps: DepsTarifa): Promise<Resultado> {
   return { ok: true, estado: "aplicado" };
 }
 
-// REQ-1579, REQ-1580: el comando que detona la confirmación del PO (botón del panel o «confirmo T-12»).
+// REQ-1672, REQ-1580: el comando que detona la confirmación del PO (botón del panel o «confirmo T-12»).
 export async function confirmarTarifa(idONumero: string | number, quien: string, deps: DepsTarifa & { proveedor: (id: string) => Promise<ProveedorFila | null> }, tarifaId?: string): Promise<Resultado> {
   const a0 = await deps.repo.aviso(idONumero);
   if (!a0) return { ok: false, motivo: "no existe ese aviso" };
@@ -101,7 +101,7 @@ export async function confirmarTarifa(idONumero: string | number, quien: string,
   return res;
 }
 
-// REQ-1579: en la revisión de cada hora, aplica los confirmados cuya fecha ya llegó.
+// REQ-1672: en la revisión de cada hora, aplica los confirmados cuya fecha ya llegó.
 export async function aplicarVigentes(deps: DepsTarifa): Promise<{ aplicados: number; errores: string[] }> {
   const out = { aplicados: 0, errores: [] as string[] };
   for (const a of await deps.repo.avisos(["confirmado"])) {
