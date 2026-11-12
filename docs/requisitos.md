@@ -1196,3 +1196,4 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-3317 | CÓDIGO | Dado un cliente que pide su enlace para entrar, cuando le llega el correo, entonces es transaccional y mínimo (sin imágenes, íconos de redes ni texto oculto; enlace como botón y como texto) para que Gmail no lo mande a Promociones; se verifica con un envío real | agente | — | EN CURSO |
+| REQ-3323 | CÓDIGO | «la migración 0026 sigue sin aplicarse — eso es OK tuyo aparte, con respaldo. ok» (PO, 12 nov 2026 03:42): respaldo antes de tocar datos. Dado el workflow «Publicar en Cloudflare» con la casilla de migraciones marcada, cuando corre, entonces ANTES de aplicar la migración anota el punto de regreso de D1 (Time Travel) y lo deja en el resumen de la corrida, sin escribir en la base | agente | — | EN CURSO (3 pruebas en verde; falta humo del PR y OK del PO) |

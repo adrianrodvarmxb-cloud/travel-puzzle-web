@@ -962,3 +962,4 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
