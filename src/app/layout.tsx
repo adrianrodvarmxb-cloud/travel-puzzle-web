@@ -7,6 +7,7 @@ import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
 import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
+import { footerGuideLinksByLang } from "@/destinations/guias";
 import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
@@ -122,7 +123,7 @@ export default async function RootLayout({
         <ClientErrorListener />
         <SessionProvider>
           <AppProviders language={route?.lang} locked={route?.locked ?? false}>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear() }}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear(), guideLinks: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) ? footerGuideLinksByLang() : undefined }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

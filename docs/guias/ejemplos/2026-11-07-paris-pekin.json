@@ -41,7 +41,46 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 6 y 7 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 6 y 7 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Paris",
+      "targetTerm": "paris travel guide for mexican travelers",
+      "titulo": "Paris guide: what to know before your first trip",
+      "enBreve": "Paris is best enjoyed with two or three booked visits and the rest of the day free to walk. The Louvre closes on Tuesdays and recommends booking a time slot, according to the [museum's website](https://www.louvre.fr/en/hours-admission/admission); online tickets for the Eiffel Tower are limited, according to its [official page](https://www.toureiffel.paris/en/preparing-your-visit/rates-and-visiting-conditions). Mexican passport holders don't need a visa for tourism of up to 90 days, according to the [Embassy of Mexico in Germany](https://embamex.sre.gob.mx/alemania/index.php/es/proteccion/de-turista-en-alemania).",
+      "sections": [
+        {
+          "h2": "What days and hours is the Louvre open?",
+          "answer": "It opens every day except Tuesday: from 9:00 to 18:00 on Mondays, Thursdays, Saturdays and Sundays, and until 21:00 on Wednesdays and Fridays, according to the [Louvre's official website](https://www.louvre.fr/en/hours-admission/admission).",
+          "body": [
+            "The museum recommends booking a time slot even if your ticket is free. Visitors under 18 with ID get in free, and so does everyone on the first Friday of each month after 18:00 (except July and August), according to the same [hours and admission page](https://www.louvre.fr/en/hours-admission/admission).",
+            "If it's your first time, pick one or two galleries you really want to see and leave the rest for another trip: it's a huge museum and it's best explored without rushing."
+          ]
+        },
+        {
+          "h2": "How do you go up the Eiffel Tower?",
+          "answer": "With a ticket to the second floor or to the top: the lift reaches both levels and the stairs only go to the second floor, according to the [Eiffel Tower's official page](https://www.toureiffel.paris/en/preparing-your-visit/rates-and-visiting-conditions).",
+          "body": [
+            "Online tickets are sold in limited numbers; if they sell out, you can still buy them at the ticket offices on the ground floor or the second floor. Be on time: more than 30 minutes late and you may be refused entry, and you need to show the e-ticket printed or on your phone, not just the booking number, explains the same [tower page](https://www.toureiffel.paris/en/preparing-your-visit/rates-and-visiting-conditions)."
+          ]
+        },
+        {
+          "h2": "What changed in 2026 when entering Europe?",
+          "answer": "Since 10 April 2026, the Entry/Exit System records fingerprints and a photo at the border and passports are no longer stamped, according to the [Council of the European Union](https://consilium.europa.eu/en/policies/entryexit-system/).",
+          "body": [
+            "Mexicans don't need a visa for tourism of up to 90 days in any 180-day period; the [Embassy of Mexico in Germany](https://embamex.sre.gob.mx/alemania/index.php/es/proteccion/de-turista-en-alemania) lists the documents immigration may ask for, such as a valid passport and a return ticket."
+          ]
+        },
+        {
+          "h2": "How should you plan your days in Paris?",
+          "answer": "Combine a ticketed visit in the morning with a walking tour in the afternoon, and leave the evening free to stroll along the river or have dinner without watching the clock.",
+          "body": [
+            "Grouping visits by area saves time and transfers. Book first what has limited capacity, such as the Louvre and the Eiffel Tower, and plan everything else around it.",
+            "On the [Paris page](/destinos/fr/paris) you'll find the experiences you can book with Travel Puzzle: free tours from the Free Puzzle collection, walking tours, guided visits and ready-made trips. If you'd rather we help you organize your days, write to us and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 6 and 7 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "cn",
@@ -86,6 +125,46 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Beijing",
+      "targetTerm": "beijing travel guide",
+      "titulo": "Beijing guide: Forbidden City, Temple of Heaven and Great Wall",
+      "enBreve": "In Beijing it pays to book before you arrive: the Palace Museum, in the Forbidden City, doesn't sell same-day tickets and closes on Mondays except public holidays, according to the [Beijing Municipal Government](https://english.beijing.gov.cn/specials/ticketing/museums/202407/t20240719_3752962.html). The Temple of Heaven and the Great Wall at Badaling round out a first visit of three or four days, not counting transfers.",
+      "sections": [
+        {
+          "h2": "How do you visit the Forbidden City?",
+          "answer": "With a ticket bought before the date on the official website or WeChat mini program, because there are no same-day sales; it closes on Mondays except public holidays, according to the [Beijing Municipal Government page](https://english.beijing.gov.cn/specials/ticketing/museums/202407/t20240719_3752962.html), published in July 2024.",
+          "body": [
+            "From April to October the entrance opens at 8:30 and last admission is at 16:10, says the same [Beijing Government page](https://english.beijing.gov.cn/specials/ticketing/museums/202407/t20240719_3752962.html). The palace was home to 24 emperors of the Ming and Qing dynasties and has been a World Heritage Site since 1987, according to [China Daily](https://govt.chinadaily.com.cn/s/202501/16/WS6788d403498eec7e1f72d64e/introduction.html).",
+            "The museum holds about 1.8 million objects and lets you walk on the palace wall to see the whole complex from above, details [China Daily](https://govt.chinadaily.com.cn/s/202501/16/WS6788d403498eec7e1f72d64e/introduction.html). Allow at least half a day."
+          ]
+        },
+        {
+          "h2": "What are the Temple of Heaven's opening hours?",
+          "answer": "The park opens from 6:00 to 22:00 and the buildings with a separate ticket from 8:00 to 18:00, Tuesday to Sunday, according to the [Temple of Heaven page](https://english.beijing.gov.cn/specials/ticketing/parks/202407/t20240719_3753312.html) of the Beijing Government.",
+          "body": [
+            "You can book under your name 1 to 7 days ahead through the official WeChat accounts; for some spots, such as the Hall of Prayer for Good Harvests, same-day tickets are sometimes available if the quota isn't full, explains the same [Temple of Heaven page](https://english.beijing.gov.cn/specials/ticketing/parks/202407/t20240719_3753312.html).",
+            "If you arrive early, you can walk around the park calmly before the separately ticketed buildings open."
+          ]
+        },
+        {
+          "h2": "How do you get to the Great Wall at Badaling?",
+          "answer": "Badaling is about 60 kilometers northwest of Beijing and, according to the [official Badaling listing](https://english.beijing.gov.cn/specials/ticketing/attractions/202407/t20240717_3751609.html), it doesn't require a reservation: tickets are sold on site.",
+          "body": [
+            "From April to October it opens from 6:30 to 16:30 and from November to March from 7:30 to 16:00; visitors under 18 and over 60 get in free, according to the same [Beijing Government listing](https://english.beijing.gov.cn/specials/ticketing/attractions/202407/t20240717_3751609.html). Check these details shortly before your visit, because the page dates from July 2024.",
+            "A day trip with transfer included saves time on connections and leaves more hours to walk the wall at a relaxed pace."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Beijing with Travel Puzzle?",
+          "answer": "On the [Beijing page](/destinos/cn/pekin) you'll find the day trips, guided visits and ready-made trips around China that you can book with Travel Puzzle.",
+          "body": [
+            "If you want to combine Beijing with other cities in the country, multi-day trips are on the [China](/destinos/cn) page. Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 7 November 2026) and the site's catalog."
+    }
   }
 ]
