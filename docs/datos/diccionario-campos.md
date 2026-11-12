@@ -42,6 +42,18 @@ Transformación: `src/catalog/lib/tour-rows.ts` (`toTourRows`). Volátiles fuera
 | Taxonomía: temas | `categoryId` + `title`/`brief` | Temas de la categoría y palabras del diccionario |
 | Taxonomía: atributos | `categoryId`, `title`, `guideLanguages` (eventos), `rating`/`reviewsNumber` | `classifyAtributos()` |
 
+## Big Bus por API Ventrata OCTO (`bigbus-octo`, `GET /products`)
+
+REQ-3413 a REQ-3415. Proveedor `bigbus-octo` (distinto de `bigbus`, que es la carga por archivo de las 29 ciudades).
+
+| Campo de Travel Puzzle | Campo OCTO | Nota |
+|---|---|---|
+| `ProviderRecord.externalId` | `id` del producto | Huella sin volátiles conocidos |
+| Ciudad (ref de `imports/bigbus-2026.json`) | `internalName` + `reference` | Mapa curado `src/octo/data/bigbus-ciudades.json`; sin coincidencia única no se liga |
+| Opción y personas | `options[].id`, `options[].units[]` (`type`, `restrictions.minAge/maxAge`) | |
+| Precio al cliente | `pricingFrom[].retail` / `pricing.retail` (unidades menores, `currencyPrecision`) | El `net` solo va al archivo privado, nunca al plan ni a la ficha |
+| Se vende directo | Producto presente en la API y con precio en todas sus unidades | Lo que no venga es exclusivo de su web (REQ-1607) |
+
 ## Agencias por archivo (`imports/*.json` → `Trip`)
 
 Un solo formato para las 7 agencias: `extime`, `exoticescapes`, `bigbus`, `incaworld`, `destinocolombia`,
