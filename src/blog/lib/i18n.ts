@@ -13,6 +13,9 @@ export function postLangs(p: Post): BlogLang[] {
   return p.en ? ["es", "en"] : ["es"];
 }
 
+// REQ-3449: el crédito visible de la foto en inglés («Foto:» → «Photo:»); autor, banco y licencia no cambian.
+const creditEn = (c: string) => c.replace(/^Foto:/, "Photo:");
+
 // REQ-3449
 export function localizePost(p: Post, lang: string): Post | null {
   if (lang === "es") return p;
@@ -26,11 +29,11 @@ export function localizePost(p: Post, lang: string): Post | null {
     visual: p.visual && e.visual ? { ...p.visual, ...e.visual } : p.visual,
     faq: e.faq ?? p.faq,
     cta: { ...p.cta, label: e.cta.label },
-    cover: p.cover ? { ...p.cover, alt: e.cover?.alt ?? p.cover.alt } : p.cover,
+    cover: p.cover ? { ...p.cover, alt: e.cover?.alt ?? p.cover.alt, credit: creditEn(p.cover.credit) } : p.cover,
     imagenes: p.imagenes?.map((b, i) => ({
       ...b,
       pie: e.imagenes?.[i]?.pie ?? b.pie,
-      fotos: b.fotos.map((f, j) => ({ ...f, alt: e.imagenes?.[i]?.alts[j] ?? f.alt })),
+      fotos: b.fotos.map((f, j) => ({ ...f, alt: e.imagenes?.[i]?.alts[j] ?? f.alt, credit: creditEn(f.credit) })),
     })),
     // Los casos y las citas no se traducen: van solo en español (el agente no los usa).
     minicaso: undefined, citas: undefined,
