@@ -24,6 +24,7 @@ Auditoría: zoefel-mila ya envía botones, lista, botón a liga (CTA URL), carru
 - Frase para verificarnos en SECTUR y PROFECO; pago solo por liga oficial (REQ-3389).
 - Prioridad 2 (PO, 12 nov 05:07): insignia azul (REQ-3390), accesos rápidos y comandos (REQ-3391), tarjeta de estado de la reserva si hay pagos de WhatsApp en México (REQ-3392), paso a persona con resumen y horario (REQ-3393), alcance solo Travel Puzzle (REQ-3394), menos burbujas y medición (REQ-3395).
 - Prioridad 3 (PO, 12 nov 05:10): QR por destino (REQ-3396), bienvenida para anuncios (REQ-3397), explorar pago dentro de WhatsApp (REQ-3398, candado), grupos de viajeros por salida (REQ-3399).
+- Botones (PO, 12 nov 05:11): «Copiar folio» (REQ-3400) y «Llamar a Travel Puzzle» a la oficina (REQ-3401). Reglas: hasta 3 botones por mensaje, del mismo tipo para que se vean en WhatsApp Web.
 
 ## Lo que no entra (y por qué)
 - Cupones y ofertas con cuenta regresiva: no manejamos descuentos ni urgencia falsa (reglas de Mila).
