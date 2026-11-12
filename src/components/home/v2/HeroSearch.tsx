@@ -8,7 +8,7 @@ import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
-import { heroSlidesToMount, imgLoading, transformedSrc } from '@/perf/lib/image';
+import { heroSlidesToMount, imgLoading, transformedSrc, transformedSrcSet } from '@/perf/lib/image';
 
 /** Respaldo si ninguna ciudad del carrusel tiene tours: una foto sin enlace. */
 const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', focus: '66% 50%', href: '/tours', tours: 0, names: {} };
@@ -52,6 +52,8 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
           <img
             key={s.image}
             src={transformedSrc(s.image, 1600)}
+            srcSet={transformedSrcSet(s.image, [480, 828, 1200, 1600])} // REQ-1563
+            sizes="100vw"
             alt={nameIn(s.names, language) || 'Travel Puzzle'}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${k === n ? 'opacity-100' : 'opacity-0'}`}
             style={{ objectPosition: s.focus }}
