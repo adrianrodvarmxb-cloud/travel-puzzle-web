@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { PrismaD1 } from '@prisma/adapter-d1'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
+import { hiddenProviders, providerExtension, type ProviderVisibilityEnv } from '@/catalog/lib/provider-visibility'
 
 /**
  * Prisma sobre Cloudflare D1.
@@ -10,17 +11,29 @@ import { getCloudflareContext } from '@opennextjs/cloudflare'
  * para no tocar el código que ya lo usa: cada acceso resuelve el cliente de la
  * petición en curso.
  */
-const clients = new WeakMap<object, PrismaClient>()
+const clients = new WeakMap<object, { crudo: PrismaClient; publico: PrismaClient }>()
 
-export function getPrisma(): PrismaClient {
+/**
+ * Candado 1 del gate C (REQ-1625, REQ-3311): el único punto donde se decide qué proveedores ve el
+ * público. Toda lectura de `Tour` por Prisma pasa por aquí, así que una página nueva queda cubierta
+ * sin acordarse de nada. El sync pide el cliente crudo a propósito (`todosLosProveedores`).
+ */
+// REQ-3311
+function conFiltroDeProveedor(client: PrismaClient, env: ProviderVisibilityEnv): PrismaClient {
+  if (!hiddenProviders(env).length) return client
+  return client.$extends(providerExtension(env) as never) as unknown as PrismaClient
+}
+
+export function getPrisma(opciones?: { todosLosProveedores?: boolean }): PrismaClient {
   const { env } = getCloudflareContext()
   const db = (env as unknown as { DB: ConstructorParameters<typeof PrismaD1>[0] }).DB
-  let client = clients.get(db)
-  if (!client) {
-    client = new PrismaClient({ adapter: new PrismaD1(db) })
-    clients.set(db, client)
+  let par = clients.get(db)
+  if (!par) {
+    const crudo = new PrismaClient({ adapter: new PrismaD1(db) })
+    par = { crudo, publico: conFiltroDeProveedor(crudo, env as ProviderVisibilityEnv) }
+    clients.set(db, par)
   }
-  return client
+  return opciones?.todosLosProveedores ? par.crudo : par.publico
 }
 
 /** Binding de D1 de la petición en curso (para guardados en lote). */

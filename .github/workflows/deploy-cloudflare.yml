@@ -64,6 +64,21 @@ jobs:
       - name: Tipos (tsc)
         run: npx tsc --noEmit
 
+      # REQ-3323: respaldo antes de tocar datos (regla del PO). Anota el punto de regreso de D1 (Time Travel)
+      # ANTES de migrar y lo deja en el resumen de la corrida; si la migración sale mal, se restaura a ese bookmark
+      # con `wrangler d1 time-travel restore travel-puzzle --bookmark <...>`. Solo lee: no escribe en la base.
+      - name: Punto de regreso de D1 (Time Travel) antes de migrar
+        if: github.event_name == 'workflow_dispatch' && inputs.migraciones && !inputs.ensayo
+        run: |
+          npx wrangler d1 time-travel info travel-puzzle | tee "$RUNNER_TEMP/d1-punto-de-regreso.txt"
+          {
+            echo "## Punto de regreso de D1 (antes de migrar)"
+            echo '```'
+            cat "$RUNNER_TEMP/d1-punto-de-regreso.txt"
+            echo '```'
+            echo "Para regresar: \`npx wrangler d1 time-travel restore travel-puzzle --bookmark <bookmark de arriba>\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Migraciones D1
         if: github.event_name == 'workflow_dispatch' && inputs.migraciones && !inputs.ensayo
         run: npx wrangler d1 migrations apply travel-puzzle --remote

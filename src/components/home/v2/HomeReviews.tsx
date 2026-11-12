@@ -4,7 +4,6 @@ import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn } from '@/home/lib/destinations';
-import { formatRating } from '@/home/lib/format';
 import type { HomeReview } from '@/home/load';
 import { MobileRail } from './MobileRail';
 
@@ -17,7 +16,8 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
   const { t, language } = useLanguage();
   const c = homeCopy(language);
   if (!reviews.length) return null;
-  const avg = formatRating(average);
+  // REQ-3315: sin el promedio global; se quedan las reseñas de cada experiencia.
+  void average;
 
   return (
     <section id="opiniones" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
@@ -26,12 +26,8 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
           <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#008DFF]">{c.reviewsEyebrow}</p>
           <h2 className="font-display mb-4 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{c.reviewsHeadline}</h2>
           <p className="mb-6 leading-relaxed text-[#A9B6D6]">{c.reviewsSub}</p>
-          {avg && (
-            <>
-              <p className="font-display text-6xl font-bold text-[#EAF54F] md:text-7xl">{avg}<span className="ml-2 text-2xl text-[#F5B301] md:text-3xl">★★★★★</span></p>
-              <p className="font-data mt-1 text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{c.avgLabel}</p>
-            </>
-          )}
+          {/* REQ-3322: aviso de origen y selección, fuera del carrusel para que se vea siempre (también en celular) */}
+          <p className="text-xs leading-relaxed text-[#A9B6D6]">{c.reviewsDisclosure}</p>
         </div>
         <MobileRail gridClass="sm:grid-cols-2 lg:col-span-8">
           {reviews.map((r) => {

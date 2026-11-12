@@ -16,7 +16,7 @@ export function AdvisorBlock({ c, blocks, lang, wa }: { c: AdvisorCopy; blocks: 
             <p className="text-xs text-[#A9B6D6]">{c.wa.hours}</p>
             <a href={wa.href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-3 rounded-2xl bg-[#C12909] px-5 py-3 font-semibold text-white hover:opacity-90">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/social/whatsapp.png" alt="" width={24} height={24} className="rounded-full" />
+              <img src="/brand/social/whatsapp.png" alt="" width={24} height={24} loading="lazy" decoding="async" className="rounded-full" /* REQ-1564 */ />
               {c.wa.cta} →
             </a>
           </div>
