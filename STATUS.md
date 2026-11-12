@@ -949,3 +949,4 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+| REQ-1621 | `frente.ts abrir` ya no da 415 (paso 0 de CLAUDE.md usable desde la nube) | NUEVO | `src/ops/lib/frentes.ts`, `src/scripts/frente.ts` | `src/ops/lib/frentes-api.test.ts` | CUMPLIDO (2/2 verdes; frente #398 abierto en vivo) |
