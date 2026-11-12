@@ -965,3 +965,18 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
 | REQ-3311 | Candado 1: el filtro por proveedor en un solo punto (Prisma y SQL crudo) | NUEVO | `src/catalog/lib/provider-visibility.ts`, `src/lib/prisma.ts`, `src/destinations/repository.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts`, `src/app/api/cron/sync-tours/route.ts` | `src/catalog/lib/provider-visibility.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
 | REQ-3312 | Candado 2: prueba que falla si algo de Tangol puede salir con la bandera apagada | NUEVO | `src/catalog/gate-c-visibilidad.test.ts` | `src/catalog/gate-c-visibilidad.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+
+## Guías de ciudad y blog bilingües (PO, 12 nov 2026; frente #418) — matriz de trazabilidad
+Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3333 | Índice de guías por país en cada idioma | PO 12-11 | `src/destinations/lib/guias-index.ts`, `src/destinations/guias.ts` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3334 | Página `/guias` y `/en/guias` (meta, hreflang, sitemap, ruta con idioma) | PO 12-11 | `src/app/guias/page.tsx`, `src/destinations/lib/guias-index.ts`, `src/i18n/lib/path.ts`, `src/site/server.ts`, `tests/smoke/pages.json` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests y build verdes; falta humo del PR) |
+| REQ-3335 | Pie: columna «Guías» con «Todas las guías» + hasta 8 países (gate A3); Blog una vez | PO 12-11 | `src/layout/lib/nav-model.ts`, `src/components/home/v2/SiteFooter.tsx`, `src/components/providers/FeatureFlags.tsx`, `src/app/layout.tsx` | `src/layout/lib/nav-model-guias.test.ts`, `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3336 | Guía bilingüe: esquema `en`, validador en inglés, vista en inglés en `/en/destinos/…`, indexa en inglés con guía | PO 12-11 | `src/destinations/lib/guia.ts`, `src/destinations/lib/catalog.ts`, `src/destinations/lib/locale.ts`, `src/components/destinations/CityGuideView.tsx`, `src/app/destinos/[pais]/[ciudad]/page.tsx`, `src/destinations/fixtures/guias.ts` | `src/destinations/lib/guia-en.test.ts`, `src/components/destinations/CityGuideView.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3337 | Agente diario de guías en español e inglés | PO 12-11 | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` (ejemplo bilingüe); prompt de la tarea programada | `src/destinations/guias-ejemplo.test.ts` | EN CURSO (ejemplo bilingüe y validador listos; el prompt se cambia con el merge) |
+| REQ-3338 | Blog en inglés (`/en/blog`, hreflang, validador) | PO 12-11 | — | — | PENDIENTE (ola 3) |
+| REQ-3339 | Agente diario del blog en español e inglés | PO 12-11 | — | — | PENDIENTE (ola 4) |
+| REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
+| REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
+| REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |

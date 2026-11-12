@@ -44,6 +44,8 @@ export interface FooterOptions extends HeaderOptions {
   email?: string;
   /** REQ-1400: pilares activos del blog (topic cluster); solo se muestran con el blog visible. */
   pillars?: NavLink[];
+  /** REQ-3335 (gate A3): guías de ciudad del idioma; cuando se pasan, reemplazan a los pilares en la columna «Guías». */
+  guides?: NavLink[];
 }
 
 const TITLES: Record<string, { explore: string; company: string; guides: string; help: string }> = {
@@ -84,7 +86,10 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
     { title: t.explore, links: explore },
     { title: t.company, links: company },
   ];
-  if (o.blog && o.pillars?.length) cols.push({ title: t.guides, links: o.pillars });
+  // REQ-3335: las guías de ciudad mandan; los pilares del blog solo quedan como respaldo si no se pasan guías.
+  if (o.guides !== undefined) {
+    if (o.guides.length) cols.push({ title: t.guides, links: o.guides });
+  } else if (o.blog && o.pillars?.length) cols.push({ title: t.guides, links: o.pillars });
   cols.push({ title: t.help, links: help });
   return cols;
 }
