@@ -8,7 +8,7 @@ import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
-import { heroSlidesToMount, imgLoading, transformedSrc } from '@/perf/lib/image';
+import { heroSlidesToMount, imgLoading, transformedSrc, transformedSrcSet } from '@/perf/lib/image';
 
 /** Respaldo si ninguna ciudad del carrusel tiene tours: una foto sin enlace. */
 const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', focus: '66% 50%', href: '/tours', tours: 0, names: {} };
@@ -52,6 +52,8 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
           <img
             key={s.image}
             src={transformedSrc(s.image, 1600)}
+            srcSet={transformedSrcSet(s.image, [480, 828, 1200, 1600])} // REQ-1563
+            sizes="100vw"
             alt={nameIn(s.names, language) || 'Travel Puzzle'}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${k === n ? 'opacity-100' : 'opacity-0'}`}
             style={{ objectPosition: s.focus }}
@@ -92,7 +94,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
             <div className="rounded-2xl border border-white/20 bg-[#0A1330]/55 px-5 py-4 backdrop-blur-xl">
               <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{c.onScreen(n + 1, list.length)}</p>
               <p className="font-display mt-2 text-2xl font-semibold text-white">{city}</p>
-              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(current.toursText ?? String(current.tours))}</p>
+              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(current.toursText ?? String(current.tours)) /* REQ-3380 */}</p>
               <Link href={current.href} className="text-sm font-semibold text-[#EAF54F] hover:text-white">{c.seeToursIn(city)}</Link>
             </div>
             {list.length > 1 && (

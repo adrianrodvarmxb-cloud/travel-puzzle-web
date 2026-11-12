@@ -4,11 +4,11 @@ import { DEFAULT_DICTIONARY as D } from "../data/index";
 import { circuitFacts, taxonomyCircuitsEnabled } from "./circuit-facts";
 
 describe("T6b facetas de circuitos en la ficha (REQ-421, REQ-422, REQ-423, REQ-424)", () => {
-  it("REQ-421 banderas TAXONOMY_CIRCUITS_ENABLED y TAXONOMY_CIRCUIT_EXTRA_ENABLED en \"false\"", () => {
+  it("REQ-1303: TAXONOMY_CIRCUITS_ENABLED encendida (gate C, lote REQ-1518 escrito); TAXONOMY_CIRCUIT_EXTRA_ENABLED sigue en \"false\" (sin dato)", () => {
     expect(taxonomyCircuitsEnabled({})).toBe(false);
     expect(taxonomyCircuitsEnabled({ TAXONOMY_CIRCUITS_ENABLED: "true" })).toBe(true);
     const w = readFileSync("wrangler.jsonc", "utf8");
-    expect(w).toMatch(/"TAXONOMY_CIRCUITS_ENABLED":\s*"false"/);
+    expect(w).toMatch(/"TAXONOMY_CIRCUITS_ENABLED":\s*"true"/);
     expect(w).toMatch(/"TAXONOMY_CIRCUIT_EXTRA_ENABLED":\s*"false"/);
   });
   it("REQ-422 / REQ-421 / REQ-423 circuito de 8 días, moderado, con opciones en grupo y privada", () => {

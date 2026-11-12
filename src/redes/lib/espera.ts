@@ -1,5 +1,5 @@
 /**
- * REQ-1535: decide si las redes pueden publicar. Función pura: recibe las respuestas de las comprobaciones
+ * REQ-1609: decide si las redes pueden publicar. Función pura: recibe las respuestas de las comprobaciones
  * (artículo y láminas) y dice si todas responden 200. Sin comprobaciones, no hay nada listo (cerrado por omisión).
  */
 export type Comprobacion = { url: string; status: number | null };

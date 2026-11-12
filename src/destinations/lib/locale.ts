@@ -36,8 +36,9 @@ export const HUB_LANGS: readonly SupportedLanguage[] = LOCALES;
 // REQ-662 REQ-1205: la ciudad cuenta tours igual en todos los idiomas; la guía propia (en español) solo indexa en español.
 export function cityLangs(city: CityNode, country: CountryNode): SupportedLanguage[] {
   if (!city.indexed || !country.indexable) return [];
-  // REQ-1205: en inglés, solo con ≥3 tours indexables (la guía, en español, no cuenta fuera del español).
-  return cityMeetsRule({ activeTours: city.activeTours, indexableTours: city.indexableTours, guide: null }) ? ["es", "en"] : ["es"];
+  // REQ-1205: en inglés, solo con ≥3 tours indexables (la guía en español no cuenta fuera del español).
+  // REQ-3336: la guía propia en inglés sí cuenta para el inglés.
+  return cityMeetsRule({ activeTours: city.activeTours, indexableTours: city.indexableTours, guide: city.guideEn ?? null }) ? ["es", "en"] : ["es"];
 }
 
 // REQ-662: país indexable en un idioma con ≥1 ciudad indexable en ese idioma.

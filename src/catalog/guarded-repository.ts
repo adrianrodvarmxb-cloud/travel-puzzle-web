@@ -6,6 +6,7 @@ import type { RunState, RunStatus } from "./lib/guard-plan";
 import type { StageKind } from "./lib/content-hash";
 import { stageStatements, publishBatch, cityIndexStatements, type StagedRow } from "./lib/sql";
 import { cityIndexInputsSql, overlayRepoGuides } from "@/destinations/lib/indexing";
+import { hiddenProviders, type ProviderVisibilityEnv } from "./lib/provider-visibility"; // REQ-3311
 import { loadGuides } from "@/destinations/guias";
 import { guideKey, guidePlain } from "@/destinations/lib/guia";
 import { nonIndexableProviders } from "@/seo/lib/enrichment";
@@ -167,7 +168,7 @@ export function createCityIndexRepo(db: D1Read, guides: () => ReadonlyMap<string
   return {
     async cityIndexInputs() {
       // REQ-1203: además de los publicados, los indexables (sin los proveedores en false de PROVIDER_INDEXABLE).
-      const q = cityIndexInputsSql(nonIndexableProviders());
+      const q = cityIndexInputsSql(nonIndexableProviders(), hiddenProviders(process.env as ProviderVisibilityEnv)); // REQ-3311
       const { results } = await db.prepare(q.sql).bind(...q.params).all();
       const rows = results.map((r) => ({
         id: Number(r.id), guide: (r.guide as string | null) ?? null, activeTours: Number(r.activeTours ?? 0), indexableTours: Number(r.indexableTours ?? 0),

@@ -13,6 +13,8 @@ export interface FeatureFlags {
   pages?: Partial<SitePages>;
   /** D9 (INC-001): año del pie calculado en el servidor, para que el cliente no use Date al pintar. */
   year?: number;
+  /** REQ-3335: enlaces de la columna «Guías» del pie por idioma, armados en el servidor. */
+  guideLinks?: Record<string, { href: string; label: string }[]>;
 }
 const Ctx = createContext<FeatureFlags>({ transfers: false, ownTrips: false, primeraPieza: false });
 
