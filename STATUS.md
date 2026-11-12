@@ -3,6 +3,21 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 
 
+## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
+Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y olas en `docs/bigbus/octo-integracion.md`; autorizaciones de Big Bus en `docs/bigbus/autorizaciones.md`.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3324 | Bandera, llave y cabeceras OCTO (Bearer, octo/pricing, Octo-Env test) | NUEVO | `src/octo/lib/config.ts` | `src/octo/lib/config.test.ts` | CUMPLIDO |
+| REQ-3325 | Validación Zod con descarte de registros malos | NUEVO | `src/octo/lib/schemas.ts` | `src/octo/lib/schemas.test.ts` | CUMPLIDO |
+| REQ-3326 | Cliente: catálogo paginado, disponibilidad, apartar, confirmar, cancelar, errores | NUEVO | `src/octo/api.ts` | `src/octo/api.test.ts` | CUMPLIDO |
+| REQ-3327 | Cliente paga retail; net oculto; sin precio no se vende | NUEVO | `src/octo/lib/pricing.ts` | `src/octo/lib/pricing.test.ts` | CUMPLIDO |
+| REQ-3328 | Apartado vigente, liberar sin pago, voucher/tickets con referencia | NUEVO | `src/octo/lib/booking-flow.ts` | `src/octo/lib/booking-flow.test.ts` | CUMPLIDO |
+| REQ-3329 | Encender BIGBUS_OCTO_ENABLED | NUEVO | `wrangler.jsonc` | — | PENDIENTE (REQ-3330, REQ-3331) |
+| REQ-3330 | Cuenta Ventrata y secreto BIGBUS_OCTO_API_KEY | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3331 | Certificación Ventrata y llave de Big Bus | NUEVO | — | — | PENDIENTE (PO + tercero) |
+| REQ-3332 | 29 ciudades en modo solicitud | NUEVO | `imports/bigbus-2026.json` (D1) | — | BLOQUEADO (REQ-1607) |
+| REQ-1529 | Autorización de Rositsa guardada y decisión de integrar por OCTO | NUEVO | `docs/bigbus/autorizaciones.md` | — | CUMPLIDO |
+
 ## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
@@ -922,15 +937,15 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-1534 | Cuentas de cliente opcionales (modelo GetYourGuide/Civitatis) | — | — | PENDIENTE (plan aparte) |
 
 ## Tiempos de carga (REQ-1560 a REQ-1564, PR #360, 11 nov 2026)
-Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C.
+Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C. Gate C aplicado el 11-11 (Early Hints, Smart Tiered Cache, Cache Rule `/_next/static/*` respetando cache-control); Rocket Loader apagado; Polish requiere plan Pro.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: home 3.3 s, ficha 3.3 s, /tours 11.5 s; falta gate B) |
-| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 0.000 en las 3) |
-| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 181 / 425 / 253 ms) |
-| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 2.2 / 3.5 / 2.2 MB; falta gate B) |
-| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 200 KiB por el logo del pie; ya corregido, sin medir) |
-| REQ-1616 | El build no descarga fuentes de Google (INC-012) | `src/app/layout.tsx`, `src/app/fonts/` | `src/perf/fonts.test.ts` | EN CURSO (test y build verdes; falta humo y producción) |
+| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod mediana móvil: 3.56 / 3.71 / 3.74 s) |
+| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | CUMPLIDO (prod: ≤ 0.002 en las 3) |
+| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod mediana: 386 / 552 / 266 ms) |
+| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `HeroSearch.tsx` / `ExperienceCard.tsx` / `TripGallery.tsx` / `TourHeroSection.tsx` (srcset), `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/srcset-components.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (móvil sí: 1.46 / 1.03 / 0.83 MB; escritorio / y /tours no) |
+| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts`, `src/perf/lib/offscreen.test.ts`, `src/perf/lazy-components.test.ts`, Playwright `src/scripts/offscreen-images.ts` | EN CURSO (Lighthouse 0 fuera de pantalla; falta prueba Playwright) |
+| REQ-1616 | El build no descarga fuentes de Google (INC-012) | `src/app/layout.tsx`, `src/app/fonts/` | `src/perf/fonts.test.ts` | CUMPLIDO (CI y producción verdes) |
 
 ## Cuentas de cliente opcionales (PO, 11 nov 2026) — matriz de trazabilidad
 Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT_PUBLIC_ACCOUNTS_ENABLED` (apagada en este PR).
