@@ -6,7 +6,7 @@ Auditoría: zoefel-mila ya envía botones, lista, botón a liga (CTA URL), carru
 ## Etapas
 1. **Bienvenida:** presentación de Mila y lista «¿En qué te ayudo?» (hasta 10 opciones: destinos, tipos de viaje, mi reserva, hablar con una persona). Footer con el aviso corto.
 2. **Descubrir:** carrusel de productos del catálogo de Meta (J1 = B, REQ-3377): 2 a 10 viajes con foto, título y precio, y botón «Ver»; sin catálogo conectado, carrusel multimedia.
-3. **Resolver dudas:** Mila consulta en línea la ficha, las condiciones del proveedor o el contenido y contesta el dato exacto; hasta 3 fotos del viaje (G2 A).
+3. **Resolver dudas:** Mila consulta en línea la ficha, las condiciones del proveedor o el contenido y contesta el dato exacto; todas las fotos disponibles del viaje en un carrusel (hasta 10, límite de Meta; si hay más, liga a la galería) (REQ-3363).
 4. **Cotizar y apartar:** Flow con calendario de fechas con salida, adultos, niños y datos de contacto con aceptación del aviso de privacidad; disponibilidad y precio en vivo con el endpoint del sitio.
 5. **Pagar:** botón a liga «Pagar» con la liga del sitio (Stripe); fuera de 24 h, plantilla de utilidad con botón URL.
 6. **Confirmación:** voucher en PDF, ubicación del punto de encuentro y botones «Agregar a mi calendario» / «Tengo una duda».
