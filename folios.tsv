@@ -1911,3 +1911,4 @@ REQ-3496	feat/worker-freetour-v22	2026-11-12 17:08
 REQ-3497	main	2026-11-12 18:32	
 REQ-3498	perf/req-cache-worker	2026-11-12 18:32	
 REQ-3499	ops/tipos-tangol	2026-11-12 19:15	el workflow del sync de Tangol no genera countries.json y su build falla
+REQ-3500	fix/tangol-sync-build-2	2026-11-12 20:20	el workflow del sync no genera el cliente de Prisma antes del build
