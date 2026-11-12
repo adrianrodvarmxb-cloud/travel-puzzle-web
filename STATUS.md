@@ -962,3 +962,10 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+
+## Tangol ola 2: reglas de exclusión Perú y Colombia (12 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3373 | México nunca entra al catálogo de Tangol; el resto de Sudamérica sí | PO 11-11 (REQ-1554) | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
+| REQ-3374 | Perú y Colombia: solo ciudades sin viajes de Inca World / Destino Colombia (una regla por país, cobertura en datos) | PO 11-11 (REQ-1554, REQ-1559); reemplaza REQ-1570 y REQ-1571 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
+| REQ-3375 | El cruce de nombres de ciudad reutiliza `tripCityMatch` (REQ-1606) y la cobertura de hoy sale de `imports/` | REQ-1606 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (test con los datos reales de `imports/` verde; falta merge del PO) |
