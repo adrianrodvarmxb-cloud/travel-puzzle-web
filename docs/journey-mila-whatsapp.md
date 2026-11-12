@@ -15,6 +15,14 @@ Auditoría: zoefel-mila ya envía botones, lista, botón a liga (CTA URL), carru
 9. **Después:** Flow corto de calificación y carrusel de complementos para el siguiente destino (nunca FREETOUR).
 10. **Baja:** footer «Responde BAJA para no recibir más» en plantillas de marketing; BAJA se confirma con un solo mensaje.
 
+## Agregado tras la investigación (PO, 12 nov 05:06; reporte «Agentes IA turismo en WhatsApp»)
+- Resumen antes de pagar con lo que pide la NOM-010-TUR y la LFPC; Mila espera el «sí» (REQ-3383).
+- Perfil de empresa con el RNT (REQ-3384) y RNT al pie de las plantillas (REQ-3385).
+- Identificador de usuario de WhatsApp guardado junto al teléfono para «Mi reserva» (REQ-3386).
+- Consentimiento aparte para promociones; venta cruzada solo a quien aceptó (REQ-3387).
+- Constancia con membrete en el voucher (REQ-3388).
+- Frase para verificarnos en SECTUR y PROFECO; pago solo por liga oficial (REQ-3389).
+
 ## Lo que no entra (y por qué)
 - Cupones y ofertas con cuenta regresiva: no manejamos descuentos ni urgencia falsa (reglas de Mila).
 - Notas de voz y llamadas: siguen apagadas hasta probarlas (OLA 4, `VOZ_ON`).
