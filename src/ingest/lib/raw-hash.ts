@@ -11,9 +11,13 @@ import { canonicalJson } from "@/catalog/lib/content-hash";
  * - freetour: `updatedAt` (marca de tiempo del proveedor; se guarda aparte como providerUpdatedAt) y los contadores
  *   de reseñas `rating` / `reviewsNumber` (cambian con cada reseña; misma regla que el content_hash, REQ-073).
  * - agencias por archivo: ninguno (el item es un registro editado a mano; todo cambio es real).
+ * - tangol (REQ-3472): ninguno. Sus lecturas no traen marca de tiempo ni contadores de reseñas, y lo único que se
+ *   mueve solo (`ToursQty`, `MinRate`) es información real del inventario y del precio: ocultarla taparía
+ *   justo lo que la copia exacta tiene que poder auditar.
  */
 export const VOLATILE_FIELDS: Record<string, readonly string[]> = {
   freetour: ["updatedAt", "rating", "reviewsNumber"],
+  tangol: [],
   extime: [],
   exoticescapes: [],
   bigbus: [],
