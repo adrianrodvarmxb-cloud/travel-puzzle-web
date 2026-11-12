@@ -4,6 +4,30 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
+## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
+Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0029 se aplica a mano con OK del PO (REQ-3422).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3413 | Ligar productos OCTO a las 29 ciudades | NUEVO | `src/octo/lib/catalog.ts`, `src/octo/data/bigbus-ciudades.json` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
+| REQ-3414 | Plan: solo lo que da la API, con precio completo, sin net | NUEVO | `src/octo/lib/catalog.ts` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
+| REQ-3415 | Sincronización diaria con plan en D1 | NUEVO | `src/octo/catalog-sync.ts`, `src/octo/deps.ts` | `src/octo/catalog-sync.test.ts` | CUMPLIDO |
+| REQ-3416 | Cron 12:20 UTC y ruta protegida | NUEVO | `worker.ts`, `src/app/api/cron/bigbus-sync/route.ts` | — | EN CURSO (REQ-3424) |
+| REQ-3417 | Validar compra, salida y total retail | NUEVO | `src/octo/lib/purchase.ts` | `src/octo/lib/purchase.test.ts` | CUMPLIDO |
+| REQ-3418 | Iniciar compra: solicitud, apartado, Stripe | NUEVO | `src/octo/purchase.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
+| REQ-3419 | Webhook: confirmar o avisar; liberar al vencer | NUEVO | `src/octo/purchase.ts`, `src/payments/service.ts`, `src/payments/deps.ts` | `src/octo/purchase.test.ts`, `src/payments/service.test.ts` | CUMPLIDO |
+| REQ-3420 | Correo del boleto | NUEVO | `src/octo/lib/ticket-email.ts` | `src/octo/lib/ticket-email.test.ts` | CUMPLIDO |
+| REQ-3421 | Cancelación del cliente dentro del corte | NUEVO | `src/octo/purchase.ts`, `src/app/api/bigbus/cancelar/route.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
+| REQ-3422 | Migración 0029 | NUEVO | `migrations/0029_octo_booking.sql` | — | PENDIENTE (OK del PO) |
+| REQ-3423 | Caja de compra en la ficha | NUEVO | `src/components/trips/BigBusBuyBox.tsx`, `src/octo/lib/public-view.ts`, `src/app/api/bigbus/*` | `src/octo/lib/public-view.test.ts` | EN CURSO (revisión visual) |
+| REQ-3424 | Preview con la llave de prueba y OK visual | NUEVO | — | — | PENDIENTE |
+| REQ-3425 | Política de reembolso | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3433 | Copia exacta al archivo privado (REQ-747) | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3434 | Monedas: pedir USD por API (PO: «A», «lo harremospor API») | NUEVO | — | — | CUMPLIDO |
+| REQ-3436 | Precios y disponibilidad en USD cuando el producto lo ofrece | NUEVO | `src/octo/lib/pricing.ts`, `src/octo/lib/catalog.ts`, `src/octo/api.ts`, `src/octo/purchase.ts` | `pricing.test.ts`, `catalog.test.ts`, `api.test.ts`, `purchase.test.ts` | CUMPLIDO |
+| REQ-3437 | Revisar con la llave qué productos ofrecen USD | NUEVO | — | — | PENDIENTE |
+| REQ-3438 | Ensayo contra EdinExplore con la llave de prueba | NUEVO | `src/scripts/bigbus-octo-ensayo.ts`, `.github/workflows/bigbus-octo-ensayo.yml` | run 43213277304 | CUMPLIDO |
+| REQ-3453 | Actualizar reserva (certificación) | NUEVO | `src/octo/api.ts`, `src/scripts/bigbus-octo-ensayo.ts` | `src/octo/api.test.ts` | CUMPLIDO |
+
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
 Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y olas en `docs/bigbus/octo-integracion.md`; autorizaciones de Big Bus en `docs/bigbus/autorizaciones.md`.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
@@ -1042,6 +1066,8 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3458 | Pie sin «La Primera Pieza» | PO 12 nov | `src/layout/lib/nav-model.ts` | `src/layout/lib/nav-model.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-1421 | Filtro «Tema» en /tours (12 temas activos) | PO 8-11 | `src/taxonomy/lib/filters.ts`, `src/taxonomy/lib/publish.ts`, `src/catalog/{snapshot.ts,lib/query.ts}`, `src/components/tours/filters/MoreFilters.tsx`, `src/taxonomy/data/dictionary.json` | `src/taxonomy/lib/facets.test.ts`, `src/catalog/lib/query-temas.test.ts`, `src/taxonomy/lib/catalog-facets.test.ts`, `MoreFilters.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-1422 | Filtro de atributos en /tours (cómo te mueves, nocturno, entrada, día completo, español, vuelo) | PO 8-11 | mismos + `src/tours/lib/extra-filters.ts`, `src/trips/lib/public.ts` | `src/tours/lib/extra-filters-temas.test.ts` y los anteriores | EN CURSO (tests verdes; PR) |
 | REQ-3449 | Entrada del blog en inglés (`en`, localizePost) | PO 12-11 | `src/blog/lib/schema.ts`, `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
 | REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
@@ -1053,6 +1079,6 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3490 | /tours no cae por la lista de países de los filtros (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
 | REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
 | REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
-| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0027_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
+| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0028_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
 | REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
