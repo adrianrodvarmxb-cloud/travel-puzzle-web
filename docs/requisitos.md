@@ -1222,3 +1222,8 @@ Peticiones literales (PO, 12-11): «Las guías no están y está duplicado blog�
 | REQ-3340 | DATOS | Gate C1: dadas las 25 guías y las entradas del blog ya publicadas, cuando se cargan sus versiones en inglés, entonces cada una pasa el validador en inglés y va en PR para revisión del PO antes de publicar | agente | REQ-3336, REQ-3338 | EN CURSO (25 guías en inglés validadas en el PR de la ola 1; el blog va en la ola 3) |
 | REQ-3341 | VALIDACIÓN | OK visual del PO (capturas 1366 y 390 px) antes de cada merge del frente | PO | — | PENDIENTE |
 | REQ-3342 | DEFINICIÓN | Gates del frente: A3 (pie con «Todas las guías» + hasta 8 países), B2 (los agentes escriben español e inglés; aplica también al blog), C1 (las versiones en inglés de lo ya publicado las hace el agente en este frente) | PO | — | CUMPLIDO (PO 12 nov 2026: «A3», «b2 y aplícalo también para los Blogs», «C1») |
+
+## Aviso de privacidad: Mila consulta reservas y pagos (PO, 12 nov 2026; frente #436)
+| ID | Tipo | Requisito | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3435 | CÓDIGO | «sí, agrégalo al aviso de privacidad publicado» (PO, 12 nov 2026 05:43). Dado el aviso integral y el simplificado, cuando se publican, entonces dicen que Mila consulta reserva y pagos solo tras verificar al titular (número o folio y correo), que se guarda el identificador de usuario de WhatsApp, y que por WhatsApp solo se envían promociones con consentimiento aparte (BAJA para retirarlo) | agente | merge (OK del PO) | EN CURSO |
