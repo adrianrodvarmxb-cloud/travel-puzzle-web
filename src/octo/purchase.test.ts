@@ -79,6 +79,7 @@ describe("iniciar la compra directa", () => {
     expect(api.reserve).toHaveBeenCalledWith(expect.objectContaining({ uuid: "uuid-1", availabilityId: avail.id, resellerReference: "SOL-20261112-AB12" }));
     // REQ-3436: la disponibilidad se pide en la moneda del plan (USD).
     expect(api.availability).toHaveBeenCalledWith(expect.objectContaining({ currency: "USD" }));
+    expect(api.reserve).toHaveBeenCalledWith(expect.objectContaining({ currency: "USD" }));
     // 98 USD × 18 × 1.03 = 1,816.92 → 1,817 pesos (hacia arriba)
     expect(payments[0]).toMatchObject({ amountCentavos: 181700, originalAmount: 98, originalCurrency: "USD", kind: "total", status: "pending" });
     const params = (d.createSession as ReturnType<typeof vi.fn>).mock.calls[0][0] as Record<string, string>;

@@ -92,10 +92,10 @@ export async function startPurchase(i: PurchaseInput, d: PurchaseDeps): Promise<
   const check = checkAgainstPlan(i, await d.loadPlan(), d.now.toISOString().slice(0, 10));
   if (!check.ok) return check;
 
+  // REQ-3436: precios y reserva en la moneda elegida para el producto (USD si Big Bus la ofrece).
+  const currency = check.product.currency ?? undefined;
   let avail;
   try {
-    // REQ-3436: precios en la moneda elegida para el producto (USD si Big Bus la ofrece).
-    const currency = check.product.currency ?? undefined;
     const r = await d.api.availability({ productId: i.productId, optionId: i.optionId, localDateStart: i.date, localDateEnd: i.date, units: i.units, currency });
     avail = pickAvailability(r.items, i.date);
   } catch (e) {
@@ -125,7 +125,7 @@ export async function startPurchase(i: PurchaseInput, d: PurchaseDeps): Promise<
   const uuid = d.newUuid();
   let hold;
   try {
-    hold = await d.api.reserve({ uuid, productId: i.productId, optionId: i.optionId, availabilityId: avail.id, units: i.units, resellerReference: ref });
+    hold = await d.api.reserve({ uuid, productId: i.productId, optionId: i.optionId, availabilityId: avail.id, units: i.units, resellerReference: ref, currency });
   } catch (e) {
     log(`apartado ${ref}`, e);
     await d.setRequestStatus(requestId, "failed");
