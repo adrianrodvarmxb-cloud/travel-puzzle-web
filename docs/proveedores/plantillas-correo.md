@@ -1,4 +1,6 @@
-# Plantillas de correo de Mila a proveedores (para aprobación del PO)
+# Plantillas de correo de Mila a proveedores
+
+Aprobadas por el PO el 12 nov 2026, una por una (REQ-1654): recordatorio, reintento y alta. La presentación la manda el PO en el hilo existente (REQ-1670).
 
 Reglas de todas (gates P1–P4): salen de comercial@travelpuzzle.com.mx, con copia a claulet@ y adrianrodvar@travelpuzzle.com.mx; firma «Mila, del equipo de Travel Puzzle»; si preguntan, Mila dice que es IA. Sin emojis, sin promesas de volumen, sin datos de clientes. Nunca se mandan a FREETOUR. Español a proveedores hispanos; inglés al resto. Lo que va entre {llaves} lo llena el sistema con datos reales; si falta un dato, esa línea no sale.
 
