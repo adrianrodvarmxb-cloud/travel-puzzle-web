@@ -1014,3 +1014,12 @@ Nada se escribe en producción con este frente: solo queda la lógica y el dato.
 |---|---|---|---|---|---|
 | REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
+
+## Tangol ola 2: reglas de exclusión Perú y Colombia (12 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3373 | México nunca entra al catálogo de Tangol; el resto de Sudamérica sí | PO 11-11 (REQ-1554) | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
+| REQ-3374 | Perú y Colombia: solo ciudades sin viajes de Inca World / Destino Colombia (una regla por país, cobertura en datos) | PO 11-11 (REQ-1554, REQ-1559); reemplaza REQ-1570 y REQ-1571 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
+| REQ-3375 | El cruce de nombres de ciudad reutiliza `tripCityMatch` (REQ-1606) y la cobertura de hoy sale de `imports/` | REQ-1606 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (test con los datos reales de `imports/` verde; falta merge del PO) |
+| REQ-3402 | Solo se excluye la ciudad nombrada literal en el archivo de carga (Armenia y Pereira se publican) | PO 12-11 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (decisión del PO; prueba en verde) |
+| REQ-3440 | «Central Inca» e «Inca World» son la misma agencia (confirmado) | PO 12-11 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO |
