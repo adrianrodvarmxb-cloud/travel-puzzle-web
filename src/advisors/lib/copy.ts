@@ -117,7 +117,7 @@ const EN: AdvisorCopy = {
     send: "Send",
     sending: "Sending…",
     sent: "We got your details.",
-    sentText: "A Travel Puzzle advisor will write to you between 9:00 and 19:00.",
+    sentText: "A Travel Puzzle advisor will write to you from 10:00 to 14:00 and 16:00 to 20:00.", // REQ-3382 (horario de REQ-1248)
     errorGeneric: "It couldn't be sent. Check your details or message us on WhatsApp.",
     errorUnavailable: "The form isn't available right now. Message us on WhatsApp.",
     fallback: "Message us on WhatsApp",
