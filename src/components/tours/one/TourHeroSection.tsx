@@ -1,5 +1,5 @@
 'use client';
-import { imgLoading, transformedSrc } from '@/perf/lib/image';
+import { imgLoading, transformedSrc, transformedSrcSet } from '@/perf/lib/image';
 
 import { useEffect, useState } from 'react';
 import { heroFacts } from '@/tours/lib/hero-facts';
@@ -39,7 +39,7 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [] }: Tour
             {main ? (
                 <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-3xl md:grid-cols-4 md:grid-rows-[220px_220px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={transformedSrc(main, 1200)} alt={tour.title} {...imgLoading(true)} className="h-72 w-full object-cover md:col-span-2 md:row-span-2 md:h-full" />
+                    <img src={transformedSrc(main, 1200)} srcSet={transformedSrcSet(main, [640, 960, 1200])} sizes="(max-width: 768px) 100vw, 50vw" alt={tour.title} {...imgLoading(true)} className="h-72 w-full object-cover md:col-span-2 md:row-span-2 md:h-full" />
                     {side.map((src, k) => (
                         <div key={src} className="relative hidden md:block">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
