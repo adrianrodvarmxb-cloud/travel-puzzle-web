@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn } from '@/home/lib/destinations';
 import { formatRating } from '@/home/lib/format';
+import { shownReviewsAverage } from '@/home/lib/reviews-display';
 import type { HomeReview } from '@/home/load';
 import { MobileRail } from './MobileRail';
 
@@ -17,7 +18,8 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
   const { t, language } = useLanguage();
   const c = homeCopy(language);
   if (!reviews.length) return null;
-  const avg = formatRating(average);
+  // REQ-3321: el promedio agregado no se muestra en la portada (interruptor reversible en lib/reviews-display).
+  const avg = formatRating(shownReviewsAverage(average));
 
   return (
     <section id="opiniones" className="mx-auto max-w-[1280px] scroll-mt-24 px-4 pt-24 md:px-8 md:pt-28">
@@ -53,6 +55,8 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
               <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#121D45] p-5">{body}</div>
             );
           })}
+          {/* REQ-3322: aviso visible de origen y selección de las reseñas */}
+          <p className="text-xs leading-relaxed text-[#A9B6D6] sm:col-span-2">{c.reviewsDisclosure}</p>
           {/* La fuente ya la dice el subtítulo (punto 4, 3 nov 2026) */}
           {SHOW_SOURCE_LINE && <p className="text-xs text-[#7C8DBA] sm:col-span-2">{t('reviews.source')}</p>}
         </MobileRail>
