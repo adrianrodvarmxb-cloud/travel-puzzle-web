@@ -58,3 +58,8 @@ Cada test con su folio en el nombre (`it('REQ-3454: …')`).
 
 ## 6. Publicación
 Sin bandera nueva para el esquema (campos vacíos = sin cambio). El calendario en pantalla irá tras bandera en su propio PR, con preview encendido, prueba de humo 390/1366 y OK del PO. Plan de regreso: revertir el merge; los campos nuevos son opcionales.
+
+## 7. Firmas del PO
+| Gate | Respuesta literal | Fecha |
+|---|---|---|
+| G1 · Dónde vive | «A» (ampliar la disponibilidad de los viajes y traducirla al calendario común del PR #440) | 12 nov 2026 |
