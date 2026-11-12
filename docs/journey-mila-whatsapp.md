@@ -11,7 +11,7 @@ Auditoría: zoefel-mila ya envía botones, lista, botón a liga (CTA URL), carru
 5. **Pagar:** botón a liga «Pagar» con la liga del sitio (Stripe); fuera de 24 h, plantilla de utilidad con botón URL.
 6. **Confirmación:** voucher en PDF, ubicación del punto de encuentro y botones «Agregar a mi calendario» / «Tengo una duda».
 7. **Antes del viaje:** plantilla de utilidad 48 h antes con ubicación y respuestas rápidas («Todo listo», «Tengo una duda»).
-8. **Durante el viaje:** «Mi reserva» en la lista (estado, contacto de emergencia del operador, cambiar fecha o cancelar según su política); verificación por número o folio y correo (REQ-3357).
+8. **Durante el viaje:** «Mi reserva» en la lista (estado, emergencias siempre por Travel Puzzle, cambiar fecha o cancelar según su política); nunca se comparte el teléfono del operador ni del guía (REQ-3412); verificación por número o folio y correo (REQ-3357).
 9. **Después:** Flow corto de calificación y carrusel de complementos para el siguiente destino (nunca FREETOUR).
 10. **Baja:** footer «Responde BAJA para no recibir más» en plantillas de marketing; BAJA se confirma con un solo mensaje.
 
@@ -25,12 +25,14 @@ Auditoría: zoefel-mila ya envía botones, lista, botón a liga (CTA URL), carru
 - Prioridad 2 (PO, 12 nov 05:07): insignia azul (REQ-3390), accesos rápidos y comandos (REQ-3391), tarjeta de estado de la reserva si hay pagos de WhatsApp en México (REQ-3392), paso a persona con resumen y horario (REQ-3393), alcance solo Travel Puzzle (REQ-3394), menos burbujas y medición (REQ-3395).
 - Prioridad 3 (PO, 12 nov 05:10): QR por destino (REQ-3396), bienvenida para anuncios (REQ-3397), explorar pago dentro de WhatsApp (REQ-3398, candado), grupos de viajeros por salida (REQ-3399).
 - Botones (PO, 12 nov 05:11): «Copiar folio» (REQ-3400) y «Llamar a Travel Puzzle» a la oficina (REQ-3401). Reglas: hasta 3 botones por mensaje, del mismo tipo para que se vean en WhatsApp Web.
+- Doble revisión (PO, 12 nov 05:23): código por WhatsApp para «Mi reserva» (REQ-3405), coexistencia app + API (REQ-3406), comprobante recibido (REQ-3407), «¿Cómo llego?» (REQ-3408), calendario (REQ-3409), reseña en Google (REQ-3410), promociones con caducidad (REQ-3411).
 
 ## Lo que no entra (y por qué)
 - Cupones y ofertas con cuenta regresiva: no manejamos descuentos ni urgencia falsa (reglas de Mila).
 - Notas de voz y llamadas: siguen apagadas hasta probarlas (OLA 4, `VOZ_ON`).
 - Mensaje de dirección: solo existe en India.
 - Agente de IA de Meta: dejaría a Mila en espera.
+- Tarjeta de contacto del operador o guía: la comunicación con ellos es solo por Travel Puzzle (PO, 12 nov 05:23).
 - Cualquier promoción de FREETOUR por WhatsApp o por el bot (cumplimiento B3).
 
 ## Gates (uno por uno)
