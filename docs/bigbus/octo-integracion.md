@@ -74,7 +74,7 @@ src/octo/
 src/components/trips/BigBusBuyBox.tsx   caja de compra en la ficha (solo con bandera)
 src/app/api/bigbus/{opciones,compra,cancelar}/route.ts
 src/app/api/cron/bigbus-sync/route.ts
-migrations/0027_octo_booking.sql        OctoBooking y OctoCatalogPlan
+migrations/0028_octo_booking.sql        OctoBooking y OctoCatalogPlan
 docs/bigbus/
   autorizaciones.md      lo que Big Bus autorizó por escrito
   octo-integracion.md    este plan
