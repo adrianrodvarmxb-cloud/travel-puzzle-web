@@ -21,7 +21,7 @@ export function ExpertCta({ whatsapp, eyebrow }: { whatsapp?: string; eyebrow?: 
         <div className="lg:col-span-4 lg:flex lg:justify-end">
           <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-2xl bg-[#C12909] px-6 py-4 font-semibold text-white hover:opacity-90">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/social/whatsapp.png" alt="" width={28} height={28} className="rounded-full" />
+            <img src="/brand/social/whatsapp.png" alt="" width={28} height={28} loading="lazy" decoding="async" className="rounded-full" /* REQ-1564 */ />
             {c.expertCta} →
           </a>
         </div>

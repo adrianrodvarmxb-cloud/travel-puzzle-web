@@ -23,6 +23,8 @@ export interface CatalogEntry {
   cityNames?: string[]; countryNames?: string[];
   /** T4: formato de la taxonomía (lo calcula el cargador del índice). */
   formato?: string;
+  /** REQ-1421 / REQ-1422: temas y atributos del filtro (los calcula el cargador del índice). */
+  temas?: string[]; atributos?: string[];
 }
 export interface CatalogFilters {
   countryId?: number; cityId?: number; categoryId?: number; minPrice?: number; maxPrice?: number;
@@ -41,6 +43,8 @@ export interface CatalogFilters {
   formatos?: string[];
   /** REQ-1256: tipos principales de /tours del diccionario (el servidor los pasa); sin esto, la lista del código. */
   formatosTours?: readonly string[];
+  /** REQ-1421: ?tema= (cualquiera de ellos). REQ-1422: ?atrib= (todos). Solo con `taxonomy`. */
+  temas?: string[]; atributos?: string[];
 }
 export interface CatalogPage { page?: number; limit?: number; sortBy?: string; sortOrder?: "asc" | "desc" }
 
@@ -177,14 +181,24 @@ export function queryCatalog(entries: CatalogEntry[], f: CatalogFilters, p: Cata
     (f.durMax == null || (x.durationMinutes !== null && x.durationMinutes <= f.durMax)) &&
     (split ? split.match(x) && (!narrow || rank!.has(x.id))
       : rank ? rank.has(x.id) && (!dest || dest(x)) : textMatch(x)));
-  const formatCounts: Record<string, number> | undefined = f.taxonomy ? {} : undefined;
-  if (formatCounts) for (const x of base) formatCounts[x.formato ?? ""] = (formatCounts[x.formato ?? ""] ?? 0) + 1;
-  const hit = base.filter(formatOk);
+  // REQ-1421 / REQ-1422: tema (cualquiera) y atributos (todos). Los conteos de tipo y tema ignoran su propio filtro;
+  // los de atributo salen de lo ya filtrado (se suman con «y»: cada número es lo que queda al marcarlo).
+  const temaOk = (x: CatalogEntry) => !f.taxonomy || !f.temas?.length || (x.temas ?? []).some((t) => f.temas!.includes(t));
+  const atribOk = (x: CatalogEntry) => !f.taxonomy || !f.atributos?.length || f.atributos.every((a) => (x.atributos ?? []).includes(a));
+  const tally = (rows: CatalogEntry[], keys: (x: CatalogEntry) => readonly string[]) => {
+    const out: Record<string, number> = {};
+    for (const x of rows) for (const k of keys(x)) out[k] = (out[k] ?? 0) + 1;
+    return out;
+  };
+  const formatCounts: Record<string, number> | undefined = f.taxonomy ? tally(base.filter((x) => temaOk(x) && atribOk(x)), (x) => [x.formato ?? ""]) : undefined;
+  const temaCounts = f.taxonomy ? tally(base.filter((x) => formatOk(x) && atribOk(x)), (x) => x.temas ?? []) : undefined;
+  const atribCounts = f.taxonomy ? tally(base.filter((x) => formatOk(x) && temaOk(x) && atribOk(x)), (x) => x.atributos ?? []) : undefined;
+  const hit = base.filter((x) => formatOk(x) && temaOk(x) && atribOk(x));
   if (useRank && !(p.sortBy && SORT[p.sortBy])) hit.sort((a, b) => rank.get(a.id)! - rank.get(b.id)!); // REQ-048: relevancia
   else sortBy(hit, p.sortBy === "relevance" ? { sortBy: "reviewsNumber", sortOrder: "desc" } : p); // sin FTS: más reseñas
   const limit = Math.min(100, Math.max(1, p.limit || 20));
   const page = Math.max(1, p.page || 1);
-  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit, formatCounts };
+  return { ids: hit.slice((page - 1) * limit, page * limit).map((x) => x.id), total: hit.length, page, limit, formatCounts, temaCounts, atribCounts };
 }
 
 function sortBy(hit: CatalogEntry[], p: CatalogPage) {

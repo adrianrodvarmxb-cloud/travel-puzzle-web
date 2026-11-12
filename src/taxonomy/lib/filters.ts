@@ -103,3 +103,74 @@ export function formatoOptions(counts: Partial<Record<string, number>> | null | 
   return list.filter((d) => (counts?.[d.slug] ?? 0) > 0 || selected.includes(d.slug))
     .map((d) => ({ slug: d.slug, label: lang === "es" ? d.largo.es : d.largo.en, count: counts?.[d.slug] ?? 0 }));
 }
+
+/**
+ * REQ-1421 (firma del PO 8-11: «Firmo, publícalos»): temas del filtro de /tours. Los 12 con chip; «Ciudad y barrios»
+ * es base, no filtro (REQ-411). Etiquetas del diccionario (un test las compara). Reemplaza el bloqueo de REQ-410.
+ */
+export const TEMAS_FILTRO = [
+  "gastronomia", "naturaleza", "montana-senderismo", "aventura", "playa-mar", "cultural", "religioso",
+  "noche-espectaculos", "bienestar", "talleres-aprendizaje", "deportivo", "parques-ocio",
+] as const;
+export type TemaFiltro = (typeof TEMAS_FILTRO)[number];
+export const TEMA_LABEL: Record<TemaFiltro, { es: string; en: string }> = {
+  gastronomia: { es: "Gastronomía", en: "Food & drink" },
+  naturaleza: { es: "Naturaleza", en: "Nature" },
+  "montana-senderismo": { es: "Montaña y senderismo", en: "Mountains & hiking" },
+  aventura: { es: "Aventura", en: "Adventure" },
+  "playa-mar": { es: "Playa y mar", en: "Beach & sea" },
+  cultural: { es: "Cultural e historia", en: "Culture & history" },
+  religioso: { es: "Religioso y espiritual", en: "Religious & spiritual" },
+  "noche-espectaculos": { es: "Noche y espectáculos", en: "Nightlife & shows" },
+  bienestar: { es: "Bienestar", en: "Wellness" },
+  "talleres-aprendizaje": { es: "Talleres y aprendizaje", en: "Classes & workshops" },
+  deportivo: { es: "Deportes", en: "Sports" },
+  "parques-ocio": { es: "Parques y ocio", en: "Theme parks & leisure" },
+};
+
+/**
+ * REQ-1422 (firma del PO 8-11): atributos del filtro: Cómo te mueves (a pie, bici, vehículo, barco), Nocturno,
+ * Entrada incluida, Día completo, En español y Con vuelo. En la URL van sin el prefijo «medio:» (?atrib=a-pie).
+ */
+export const MEDIOS_FILTRO = ["a-pie", "bici", "vehiculo", "barco"] as const;
+export const EXTRAS_FILTRO = ["nocturno", "entrada-incluida", "dia-completo", "idioma-es", "vuelo-incluido"] as const;
+export const ATRIBUTOS_FILTRO = [...MEDIOS_FILTRO, ...EXTRAS_FILTRO] as const;
+export type AtributoFiltro = (typeof ATRIBUTOS_FILTRO)[number];
+export const ATRIBUTO_LABEL: Record<AtributoFiltro, { es: string; en: string }> = {
+  "a-pie": { es: "A pie", en: "On foot" },
+  bici: { es: "En bici", en: "By bike" },
+  vehiculo: { es: "En vehículo", en: "By vehicle" },
+  barco: { es: "En barco", en: "By boat" },
+  nocturno: { es: "Nocturno", en: "At night" },
+  "entrada-incluida": { es: "Entrada incluida", en: "Admission included" },
+  "dia-completo": { es: "Día completo", en: "Full day" },
+  "idioma-es": { es: "En español", en: "In Spanish" },
+  "vuelo-incluido": { es: "Con vuelo", en: "Flight included" },
+};
+
+const pick = <S extends string>(list: readonly S[], raw: string | null): S[] => {
+  const want = new Set((raw ?? "").split(",").map((s) => s.trim()));
+  return list.filter((s) => want.has(s));
+};
+// REQ-1421
+export const parseTemas = (q: URLSearchParams): TemaFiltro[] => pick(TEMAS_FILTRO, q.get("tema"));
+// REQ-1422
+export const parseAtributos = (q: URLSearchParams): AtributoFiltro[] => pick(ATRIBUTOS_FILTRO, q.get("atrib"));
+
+/** REQ-1422: atributos del clasificador («medio:barco», «nocturno»…) → los del filtro; el resto no se filtra. */
+export function atributosDeClase(atributos: readonly string[] | undefined): AtributoFiltro[] {
+  const set = new Set((atributos ?? []).map((a) => (a.startsWith("medio:") ? a.slice(6) : a)));
+  return ATRIBUTOS_FILTRO.filter((a) => set.has(a));
+}
+
+/** REQ-1421, REQ-1422 (como REQ-412): solo opciones con resultados, más las ya marcadas; en el orden de la lista. */
+export interface FacetOption { slug: string; label: string; count: number }
+export function facetOptions(list: readonly string[], labels: Readonly<Record<string, { es: string; en: string }>>, counts: Readonly<Record<string, number>> | null | undefined, selected: readonly string[], lang: string): FacetOption[] {
+  const out: FacetOption[] = [];
+  for (const s of list) {
+    const count = counts?.[s] ?? 0;
+    const l = labels[s];
+    if (l && (count > 0 || selected.includes(s))) out.push({ slug: s, label: lang === "es" ? l.es : l.en, count });
+  }
+  return out;
+}

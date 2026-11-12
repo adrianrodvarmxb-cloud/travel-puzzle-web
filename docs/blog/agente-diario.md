@@ -119,6 +119,14 @@ Formato de texto: `[texto descriptivo](/ruta)` o `[texto](https://…)`, y `**ne
 
 **Antes de guardar, Godin y Handley:** borra toda frase que no responda «¿para qué le sirve esto al viajero?», y deja un solo punto clave.
 
+**Versión en inglés (gate B2, REQ-3339; obligatoria):** cada entrada lleva el campo `en` con su versión en inglés: `targetTerm`, `title`, `summary`, `enBreve`, `entrada`, `sections`, `datos` (solo `text`, uno por cada dato), `comoLoSabemos`, `visual` (`caption`, `head`, `rows`), `faq` si la hay, `cta.label`, `cover.alt` e `imagenes` (`pie` y un `alt` por foto). Reglas que revisa el validador:
+- Las mismas secciones, datos, filas y columnas de la tabla, preguntas y fotos que la versión en español.
+- Los mismos enlaces internos y las mismas fuentes; no agregues páginas del sitio que la española no enlaza.
+- «In short» (`en.enBreve`) de 40 a 80 palabras, y «How we know» (`en.comoLoSabemos`) dice que se usó AI.
+- Nunca «FREETOUR». La colección Pieza libre se llama «Free Puzzle» en inglés.
+- Es una traducción natural, no palabra por palabra; no agregues datos que no estén en la versión en español.
+Sin la versión en inglés, el validador rechaza la entrada y no se publica.
+
 ## Paso 4 — Valida en local (máximo 3 intentos)
 Guarda el archivo en `docs/blog/entradas/{hoy}.json` y corre:
 ```
@@ -169,7 +177,7 @@ No escribes nada aparte: el workflow arma los textos de las tres redes **desde t
 - Si la corrida anterior falló, revisa el issue abierto «Blog diario: no se publicó» (etiqueta `blog-diario`) y menciona el motivo.
 
 ## Paso 7 — Cinco guías de ciudad (además de la entrada del blog)
-Cada día escribes también **5 guías propias de ciudad** (gate G5; eran 2 hasta el 7 nov 2026, 07:50). Con una guía propia de 300 palabras o más, la ciudad cumple la regla de indexación aunque sus tours sean del proveedor de free tours. Las guías viven en el repo; no se escribe en la base.
+Cada guía va también en inglés, en su campo `en` (gate B2, REQ-3337; ver `docs/gates-guias-bilingues-2026-11-12.md`). Cada día escribes también **5 guías propias de ciudad** (gate G5; eran 2 hasta el 7 nov 2026, 07:50). Con una guía propia de 300 palabras o más, la ciudad cumple la regla de indexación aunque sus tours sean del proveedor de free tours. Las guías viven en el repo; no se escribe en la base.
 1. **Qué ciudades toca hoy:**
    ```
    npx tsx src/scripts/guias-tema.ts
@@ -212,4 +220,4 @@ Cada día escribes también **5 guías propias de ciudad** (gate G5; eran 2 hast
 - Copiar texto de las fichas o de las fuentes: resume con tus palabras y enlaza.
 
 ## Ejemplo validado
-`docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json` (EU-01, pago, pilar Europa). Pasó el validador contra producción el 6 nov 2026 con `--hoy 2026-11-07`. No está publicado.
+`docs/blog/ejemplos/2026-11-07-eu-01-requisitos-entrar-europa.json` (EU-01, pago, pilar Europa). Pasó el validador contra producción el 6 nov 2026 con `--hoy 2026-11-07`. No está publicado. Desde el 12 nov 2026 trae también su versión en inglés (`en`), como debe llevarla toda entrada nueva.

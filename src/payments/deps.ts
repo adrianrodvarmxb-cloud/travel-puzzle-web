@@ -6,6 +6,7 @@ import { createStripeClient } from "./stripe-client";
 import { isStripeEnabled, type PaymentKind } from "./lib/checkout";
 import { verifyStripeSignature } from "./lib/webhook";
 import type { LinkDeps, WebhookDeps, PayRequest } from "./service";
+import { purchaseHooksFromEnv } from "@/octo/deps";
 
 const env = () => process.env as Record<string, string | undefined>;
 
@@ -82,6 +83,8 @@ export function webhookDeps(): WebhookDeps {
     setRequestStatus,
     sendCustomer: m.send,
     sendTeam: m.team,
+    // REQ-3419: compra directa de Big Bus (solo con BIGBUS_OCTO_ENABLED encendida; si no, no agrega nada).
+    ...purchaseHooksFromEnv(),
   };
 }
 

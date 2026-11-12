@@ -44,6 +44,8 @@ export interface FooterOptions extends HeaderOptions {
   email?: string;
   /** REQ-1400: pilares activos del blog (topic cluster); solo se muestran con el blog visible. */
   pillars?: NavLink[];
+  /** REQ-3335 (gate A3): guías de ciudad del idioma; cuando se pasan, reemplazan a los pilares en la columna «Guías». */
+  guides?: NavLink[];
 }
 
 const TITLES: Record<string, { explore: string; company: string; guides: string; help: string }> = {
@@ -54,6 +56,9 @@ const LABELS: Record<string, { howItWorks: string; help: string; whatsapp: strin
   es: { howItWorks: "Cómo funciona", help: "Centro de ayuda", whatsapp: "WhatsApp" },
   en: { howItWorks: "How it works", help: "Help center", whatsapp: "WhatsApp" },
 };
+
+/** REQ-3458: el enlace a «La Primera Pieza» en el pie queda oculto, no borrado. */
+export const FOOTER_PRIMERA_PIEZA = false;
 
 /** REQ-1400: pie por columnas. Las páginas institucionales solo aparecen con su bandera encendida. */
 export function footerColumns(o: FooterOptions): FooterColumn[] {
@@ -66,7 +71,8 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
     { href: "/tours", label: o.labels.tours },
     ...(o.transfers ? [{ href: "/traslados", label: o.labels.transfers }] : []),
     { href: "/#como-funciona", label: l.howItWorks },
-    ...(o.primeraPieza ? [{ href: ROUTES.primeraPieza, label: PRIMERA_PIEZA_LABEL }] : []),
+    // REQ-3458: «La Primera Pieza» fuera del pie (PO, 12 nov 2026). Regreso: FOOTER_PRIMERA_PIEZA = true.
+    ...(o.primeraPieza && FOOTER_PRIMERA_PIEZA ? [{ href: ROUTES.primeraPieza, label: PRIMERA_PIEZA_LABEL }] : []),
   ];
 
   const company: NavLink[] = [];
@@ -84,7 +90,10 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
     { title: t.explore, links: explore },
     { title: t.company, links: company },
   ];
-  if (o.blog && o.pillars?.length) cols.push({ title: t.guides, links: o.pillars });
+  // REQ-3335: las guías de ciudad mandan; los pilares del blog solo quedan como respaldo si no se pasan guías.
+  if (o.guides !== undefined) {
+    if (o.guides.length) cols.push({ title: t.guides, links: o.guides });
+  } else if (o.blog && o.pillars?.length) cols.push({ title: t.guides, links: o.pillars });
   cols.push({ title: t.help, links: help });
   return cols;
 }
