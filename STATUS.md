@@ -974,6 +974,13 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3321 | Portada sin promedio agregado de reseñas («4.8 ★») | NUEVO | — | — | REEMPLAZADO por REQ-3315 |
 | REQ-3322 | Aviso de origen y selección de las reseñas de la portada | NUEVO | `src/home/lib/copy.ts`, `src/components/home/v2/HomeReviews.tsx` | `src/home/lib/reviews-disclosure.test.ts` | EN CURSO (verde) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+
+## Tangol ola 2 — filas de `Tour` (REQ-3370 a REQ-3372, 12 nov 2026)
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3370 | Un tour validado de Tangol se convierte en fila de `Tour` (providerId `tangol`, externalId, título, descripción, duración, precio público, moneda, imágenes) y su traducción; ciudad y categoría entran por parámetro | PO 12-11 | `src/tangol/lib/tour-rows.ts`, `src/tangol/lib/details.ts` | `src/tangol/lib/tour-rows.test.ts`, `src/tangol/lib/details.test.ts` | EN CURSO (tests verdes en la sesión; falta el paso que escribe en la base y el merge del PO) |
+| REQ-3371 | Validación Zod del detalle y de las imágenes: el registro malo se descarta, se cuenta y se registra; la carga sigue (regla 8) | PO 12-11 | `src/tangol/lib/details.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/details.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
+| REQ-3372 | Solo marca Travel Puzzle: título y descripción sin el nombre ni el dominio del proveedor, sin `UrlTour`, sin neto ni comisión; el precio es la tarifa pública | PO 12-11 | `src/tangol/lib/text.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/text.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
 | REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
 | REQ-3380 | Tarjetas del home con número de tours; sin la línea repetida del hero | PO 12 nov | `src/components/home/v2/{HeroSearch,PopularDestinations,ContinentExplorer}.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |

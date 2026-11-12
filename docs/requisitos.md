@@ -1201,6 +1201,14 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 |---|---|---|---|---|---|
 | REQ-3317 | CÓDIGO | Dado un cliente que pide su enlace para entrar, cuando le llega el correo, entonces es transaccional y mínimo (sin imágenes, íconos de redes ni texto oculto; enlace como botón y como texto) para que Gmail no lo mande a Promociones; se verifica con un envío real | agente | — | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
 
+## REQ-3370 a REQ-3372: Tangol ola 2 — un tour de Tangol se convierte en fila de `Tour` (PO, 12 nov 2026)
+Petición literal (PO, 12-11, ola 2 de Tangol): «convertir un tour de Tangol en fila de `Tour`, con validación». Folios apartados con `folio.ts` (REQ-1587). Alcance: solo la conversión pura. El mapeo de ciudades (REQ-1624) y las reglas de exclusión de Perú/Colombia son de otros frentes y entran por parámetro; la visibilidad (gate C, REQ-1625) no se toca aquí.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3370 | CÓDIGO | Dado un tour ya validado de Tangol (`infoTourSchema`) con su ciudad resuelta por parámetro (`cityId`, `countryId`) y sus tarifas públicas, cuando se convierte, entonces sale una fila de `Tour` con `providerId = "tangol"`, `externalId = TourId`, título, descripción, `duration`/`durationMinutes`, precio público, moneda, imágenes (`UrlHomePic` + detalle) e `isActive = 1` (gate C: el sitio la oculta mientras `TANGOL_ENABLED` no sea `"true"`), más su traducción; el mapeo de ciudades y la taxonomía entran por parámetro, no se calculan aquí | agente | REQ-1624 (ciudades, otro frente) | EN CURSO |
+| REQ-3371 | CÓDIGO | Dado un `TourDetails` o una lista de imágenes con forma distinta de la esperada, cuando se convierte el tour, entonces el registro malo se descarta, se cuenta y se registra en consola (`console.warn`) y la carga sigue con los demás (regla 8 del blindaje); un tour sin ciudad válida, sin título utilizable o sin tarifa pública se descarta con su motivo y nunca llega a `Tour` | agente | — | EN CURSO |
+| REQ-3372 | CÓDIGO | Dado un tour cuyo título o descripción nombran al proveedor, cuando se convierte, entonces el texto sale sin el nombre ni el dominio del proveedor (mismo criterio que `scrubName` de Freetour), `providerTitle` es solo «Travel Puzzle», la URL de la traducción es la propia (nunca `UrlTour`) y el precio guardado es la tarifa pública (`RackRateAdu`): el neto, la comisión y `Utilidad` nunca entran en la fila | agente | — | EN CURSO |
+
 ## REQ-3344: logo pequeño en el correo del enlace para entrar (PO, 12 nov 2026)
 Petición literal (PO, 12-11): «así lo hacen referentes?? no debería ir brandeado??» y «Ok» a probar en dos pasos. Reemplaza el criterio «sin imágenes» de REQ-3317.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
