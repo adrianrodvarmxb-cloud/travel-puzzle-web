@@ -129,3 +129,13 @@ Regla de forma (PO, 12 nov 2026: «aprobado, solo busca la manera de que no se v
 5. Cancelación: tramos que faltan en Phi Phi y Phuket, la de Bali, no-show, reembolsos y cambios.
 
 **Abajo, «Para cerrar el alta»:** API, portal o plugin; contacto de reservas, tiempo de respuesta, teléfono 24/7 y vouchers; licencia, seguro de RC y términos para agencias; acuerdo de intermediación; permiso de fotos con crédito; datos del viajero y visa para Tailandia e Indonesia.
+
+### Canadian Receptive Tours: aprobado («ok», PO, 12 nov 2026)
+**Arriba (para poder vender):**
+1. Tarifario 2026-27 (verano 2026 e invierno 26-27), con su vigencia y moneda; lo que tenemos (verano 2025 e invierno 25-26) está vencido.
+2. Comisión: qué porcentaje aplica a los circuitos comisionables y si los paquetes y suplementos son netos.
+3. Pago: depósito al reservar, si aceptan tarjeta y con qué recargo, y si sus cuentas siguen vigentes.
+4. Anticipación mínima para reservar y condiciones para grupos.
+5. Cancelación: qué aplica a 6 o 7 días, cambios de fecha o de nombre, y plazo de reembolso.
+
+**Abajo, «Para cerrar el alta»:** acceso a su sistema de reservas o API y tiempo de confirmación; teléfono 24/7 y vouchers; seguro de RC y términos completos para agencias; documentos que piden hoy a mexicanos para Canadá (visa o eTA) y seguro de viaje; permiso de fotos con crédito; acuerdo de intermediación.
