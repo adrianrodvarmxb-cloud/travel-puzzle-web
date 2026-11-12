@@ -152,3 +152,45 @@ describe("REQ-1608: si main ya trae un folio duplicado, el PR que lo corrige no 
     expect(choques(rama, main).map((c) => c.id)).toEqual(["REQ-1535"]);
   });
 });
+
+// REQ-3492 / REQ-3493: guardas contra los choques que hoy solo se ven después de fusionar (INC-014).
+import { migracionesEnChoque, siguienteMigracion, filasPerdidas } from "./folios";
+
+describe("REQ-3492: números de migración únicos entre sesiones", () => {
+  const main = ["0025_tour_search_stem.sql", "0026_tour_externalid_por_proveedor.sql", "0027_proveedores_mila.sql"];
+
+  it("REQ-3492: una migración nueva con un número que main ya ocupa es choque (el caso real: 0027_provider_city vs 0027_proveedores_mila)", () => {
+    const c = migracionesEnChoque([...main, "0027_provider_city.sql"], main);
+    expect(c).toEqual([{ numero: "0027", rama: "0027_provider_city.sql", main: "0027_proveedores_mila.sql" }]);
+  });
+
+  it("REQ-3492: dos migraciones nuevas con el mismo número en la misma rama también chocan", () => {
+    const c = migracionesEnChoque([...main, "0028_a.sql", "0028_b.sql"], main);
+    expect(c.map((x) => x.numero)).toEqual(["0028"]);
+  });
+
+  it("REQ-3492: una migración nueva con número libre no choca, y la misma que ya está en main tampoco", () => {
+    expect(migracionesEnChoque([...main, "0028_provider_city.sql"], main)).toEqual([]);
+    expect(migracionesEnChoque(main, main)).toEqual([]);
+  });
+
+  it("REQ-3492: el siguiente número libre cuenta main Y las demás ramas, para no tomar «el último + 1» de la copia local", () => {
+    expect(siguienteMigracion([main, [...main, "0028_provider_city.sql"], ["0001_init.sql"]])).toBe("0029");
+    expect(siguienteMigracion([["0009_x.sql"]])).toBe("0010");
+  });
+});
+
+describe("REQ-3493: un PR no puede borrar filas de requisitos que main ya tiene", () => {
+  const fila = (id: string) => `| ${id} | CÓDIGO | algo | agente | — | PENDIENTE |`;
+  const main = ["| ID |", fila("REQ-3370"), fila("REQ-3371"), fila("REQ-3372")].join("\n");
+
+  it("REQ-3493: detecta las filas de main que faltan en la rama (el caso real: la rama del sync perdió REQ-3370..3372)", () => {
+    const rama = ["| ID |", fila("REQ-3370"), fila("REQ-3461")].join("\n");
+    expect(filasPerdidas(rama, main)).toEqual(["REQ-3371", "REQ-3372"]);
+  });
+
+  it("REQ-3493: cambiar el estado o el texto de una fila no es perderla; agregar filas tampoco", () => {
+    const rama = main.replace("REQ-3372 | CÓDIGO | algo | agente | — | PENDIENTE", "REQ-3372 | CÓDIGO | otro texto | agente | — | CUMPLIDO") + "\n" + fila("REQ-3500");
+    expect(filasPerdidas(rama, main)).toEqual([]);
+  });
+});

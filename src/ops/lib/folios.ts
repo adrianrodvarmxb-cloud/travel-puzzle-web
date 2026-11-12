@@ -144,3 +144,55 @@ export function apartarExacto(id: string, registro: Registro, datos: { rama: str
   }
   throw new Error(`REQ-1587: no se pudo apartar ${id} después de ${maxIntentos} intentos seguidos`);
 }
+
+// ---------------------------------------------------------------------------------------------------
+// INC-014: choques entre sesiones que hoy solo se veían después de fusionar. Puro: recibe listas de nombres.
+
+const NUM_MIGRACION = /^(\d{4})_.*\.sql$/;
+const numeroDe = (archivo: string) => archivo.match(NUM_MIGRACION)?.[1] ?? null;
+
+export interface ChoqueMigracion { numero: string; rama: string; main: string }
+
+/**
+ * REQ-3492: migraciones de la rama que chocan de número: con una de main que se llama distinto (dos sesiones
+ * tomaron «el último + 1» a la vez) o entre sí dentro de la misma rama. Las que ya están en main con el mismo
+ * nombre no cuentan.
+ */
+// REQ-3492
+export function migracionesEnChoque(rama: readonly string[], main: readonly string[]): ChoqueMigracion[] {
+  const enMain = new Map<string, string>();
+  for (const a of main) { const n = numeroDe(a); if (n && !enMain.has(n)) enMain.set(n, a); }
+  const nombresMain = new Set(main);
+  const vistos = new Map<string, string>();
+  const out: ChoqueMigracion[] = [];
+  for (const a of [...rama].sort()) {
+    const n = numeroDe(a);
+    if (!n) continue;
+    if (nombresMain.has(a)) { vistos.set(n, a); continue; }
+    const deMain = enMain.get(n);
+    if (deMain && deMain !== a) { out.push({ numero: n, rama: a, main: deMain }); continue; }
+    const previa = vistos.get(n);
+    if (previa) { out.push({ numero: n, rama: a, main: previa }); continue; }
+    vistos.set(n, a);
+  }
+  return out;
+}
+
+/** REQ-3492: siguiente número libre contando main y TODAS las ramas remotas (como `apartar` hace con los REQ). */
+// REQ-3492
+export function siguienteMigracion(listas: readonly (readonly string[])[]): string {
+  let max = 0;
+  for (const lista of listas) for (const a of lista) { const n = numeroDe(a); if (n) max = Math.max(max, Number(n)); }
+  return String(max + 1).padStart(4, "0");
+}
+
+/**
+ * REQ-3493: filas `| REQ-### |` que la base tiene y la rama ya no (la base es el merge-base con main: lo que main
+ * agregó después no cuenta como perdido). Un PR puede cambiar el texto o el estado de una fila y agregar filas,
+ * pero nunca borrar una: así se cazó que una resolución de choques dejara fuera REQ-3370..3372.
+ */
+// REQ-3493
+export function filasPerdidas(rama: string, main: string): string[] {
+  const enRama = leerFolios(rama);
+  return [...leerFolios(main).keys()].filter((id) => !enRama.has(id));
+}
