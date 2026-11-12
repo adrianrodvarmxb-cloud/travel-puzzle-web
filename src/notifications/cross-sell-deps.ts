@@ -17,7 +17,7 @@ export function crossSellDepsFromEnv(env: Record<string, string | undefined>): C
       const prisma = getPrisma();
       const [summary, row] = await Promise.all([
         getTourSummary(prisma, tourExternalId, "es"),
-        prisma.tour.findUnique({ where: { externalId: tourExternalId }, select: { city: { select: { slug: true } }, country: { select: { code: true, iso2: true } } } }),
+        prisma.tour.findUnique({ where: { providerId_externalId: { providerId: 'freetour', externalId: tourExternalId } }, select: { city: { select: { slug: true } }, country: { select: { code: true, iso2: true } } } }),
       ]);
       const iso = (row?.country?.iso2 ?? row?.country?.code ?? "").toUpperCase();
       return { cityName: summary?.cityName ?? null, country: /^[A-Z]{2}$/.test(iso) ? iso : null, cityCode: row?.city?.slug ?? null };
