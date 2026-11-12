@@ -9,7 +9,6 @@ import {
   choques,
   leerReservas,
   leerFolios,
-  leerVariantes,
   maxFolio,
   sinReserva,
   type Registro,
@@ -136,34 +135,20 @@ describe("REQ-1587: la regla está en el PR y en el CLAUDE.md", () => {
   });
 });
 
-describe("REQ-1611: duplicado preexistente en main", () => {
-  const md = (filas: string[]) => ["| ID | Tipo | Pendiente | Resp | Bloq | Estado |", "|---|---|---|---|---|---|", ...filas].join("\n");
-
-  it("REQ-1611: si main trae el mismo folio en dos filas, conservar una de las dos NO es choque", () => {
-    const main = md([
-      "| REQ-1535 | CÓDIGO | Big Bus: publicar solo los productos del Partner Booking Platform | agente | — | PENDIENTE |",
-      "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas, cuando las redes publican | agente | — | CUMPLIDO |",
-    ]);
-    const rama = md([
-      "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas, cuando las redes publican | agente | — | CUMPLIDO |",
-      "| REQ-1610 | CÓDIGO | Big Bus: publicar solo los productos del Partner Booking Platform | agente | — | PENDIENTE |",
-    ]);
-    expect(choques(leerFolios(rama), leerFolios(main), 0.5, leerVariantes(main))).toEqual([]);
+describe("REQ-1608: si main ya trae un folio duplicado, el PR que lo corrige no choca", () => {
+  it("REQ-1608 (rojo antes del arreglo): main con REQ-1535 dos veces; la rama deja solo el de redes", async () => {
+    const { leerFoliosTodos, choques } = await import("./folios");
+    const main = leerFoliosTodos([
+      "| REQ-1535 | CÓDIGO | Big Bus: publicar solo los productos visibles | agente | — | CUMPLIDO |",
+      "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas de Instagram, cuando las redes del día van a publicar | agente | — | CUMPLIDO |",
+    ].join("\n"));
+    const rama = leerFolios("| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas de Instagram, cuando las redes del día van a publicar | agente | — | CUMPLIDO |");
+    expect(choques(rama, main)).toEqual([]);
   });
-
-  it("REQ-1611: reusar de verdad un folio de main sigue siendo choque", () => {
-    const main = md(["| REQ-1535 | CÓDIGO | Big Bus: productos del Partner Booking Platform | agente | — | PENDIENTE |"]);
-    const rama = md(["| REQ-1535 | DEFINICIÓN | Color del botón de reservar en la ficha | PO | — | PENDIENTE |"]);
-    expect(choques(leerFolios(rama), leerFolios(main), 0.5, leerVariantes(main))).toHaveLength(1);
-  });
-
-  it("REQ-1611: leerVariantes devuelve los dos textos del folio duplicado", () => {
-    const main = md([
-      "| REQ-1535 | CÓDIGO | Big Bus | agente | — | PENDIENTE |",
-      "| REQ-1535 | CÓDIGO | Redes del día | agente | — | CUMPLIDO |",
-      "| REQ-1536 | CÓDIGO | Otro | agente | — | PENDIENTE |",
-    ]);
-    expect(leerVariantes(main).get("REQ-1535")).toHaveLength(2);
-    expect(leerVariantes(main).get("REQ-1536")).toHaveLength(1);
+  it("REQ-1608: un folio de la rama que no se parece a ninguna versión de main sí choca", async () => {
+    const { leerFoliosTodos, choques } = await import("./folios");
+    const main = leerFoliosTodos("| REQ-1535 | CÓDIGO | Big Bus: publicar solo los productos visibles | agente | — | x |\n| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas | agente | — | x |");
+    const rama = leerFolios("| REQ-1535 | VALIDACIÓN | Acuerdos de intermediación con 5 proveedores: vigencia indefinida | agente | — | x |");
+    expect(choques(rama, main).map((c) => c.id)).toEqual(["REQ-1535"]);
   });
 });

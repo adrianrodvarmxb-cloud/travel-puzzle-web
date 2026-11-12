@@ -1,16 +1,6 @@
 # STATUS — travel-puzzle-web
 
 Actualizado: 11 nov 2026, 13:45 (CDMX).
-## Viajes de todos los proveedores en el mapa (11 nov 2026) — matriz de trazabilidad
-| ID | Requisito | Origen | Archivo(s) | Test | Estado |
-|---|---|---|---|---|---|
-| REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
-| REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
-| REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
-| REQ-1606 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
-| REQ-1610 | Big Bus renumerado (folio duplicado en #366) | NUEVO | `docs/requisitos.md` | — | CUMPLIDO |
-| REQ-1611 | Guardia de folios: duplicado preexistente en main no es choque | NUEVO | `src/ops/lib/folios.ts`, `src/scripts/folio.ts` | `src/ops/lib/folios.test.ts` | EN CURSO (tests verdes; falta merge) |
-
 
 
 ## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
@@ -943,14 +933,14 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1595 | Header: Entrar / Mis reservas / Mi cuenta con la bandera | Gate A | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | EN CURSO (verde) |
 | REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | EN CURSO (verde; humo local OK) |
 | REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (verde) |
-| REQ-1598 | Encender la bandera en producción | Gate D | workflows | humo del PR con la bandera | PENDIENTE |
+| REQ-1598 | Encender la bandera en producción | Gate D | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `tests/smoke/pages.json` | `src/accounts/flag.test.ts` | EN CURSO |
 
-## Barrido de la conversación del 11 nov 2026 (REQ-1617…1622) — matriz de trazabilidad
+## Mapa: viajes de todos los proveedores (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1617 | Acuerdo de Tangol en Word con control de cambios | NUEVO | entregado al PO | — | CUMPLIDO |
-| REQ-1618 | Borrador del correo a Tangol en Gmail | NUEVO | Gmail r-8638004354835607157 | — | EN CURSO (lo envía el PO) |
-| REQ-1619 | La copia para Tangol sin datos de Exotic | NUEVO | adjunto del borrador | — | CUMPLIDO (verificado) |
-| REQ-1620 | Tangol y mapa solo en esta sesión | NUEVO | — | — | CUMPLIDO |
-| REQ-1621 | `frente.ts abrir` falla con GitHub 415 | NUEVO | `src/scripts/frente.ts` | — | PENDIENTE |
-| REQ-1622 | Revisión de REQ cada 12 h | NUEVO | tarea programada | — | CUMPLIDO |
+| REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta merge) |
+| REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta merge) |
+| REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
+| REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (falta merge) |
+| REQ-1615 | El buscador no incluye los viajes de agencia | NUEVO | — | — | PENDIENTE (PR aparte) |
+| REQ-1617…1622 | Barrido de la conversación del 11 nov | NUEVO | `docs/requisitos.md`, tarea programada | — | ver docs/requisitos.md |
