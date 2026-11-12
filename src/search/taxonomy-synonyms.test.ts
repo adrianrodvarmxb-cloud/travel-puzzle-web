@@ -13,8 +13,9 @@ const { map } = buildSynonyms(raw, on.terms, on.legacy);
 const alts = (q: string) => map.get(fold(q)) ?? [];
 
 describe("REQ-1357: diccionario → buscador, tras bandera", () => {
-  it("REQ-1357: la bandera existe y está en false; apagada, la taxonomía no aporta nada (como hoy)", () => {
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"SEARCH_TAXONOMY_SYNONYMS_ENABLED":\s*"false"/);
+  it("REQ-1357: la bandera existe en wrangler.jsonc; apagada, la taxonomía no aporta nada", () => {
+    // REQ-1629 la encendió el 11 nov 2026; lo que importa aquí es que exista y que apagada no cambie nada.
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"SEARCH_TAXONOMY_SYNONYMS_ENABLED":\s*"(true|false)"/);
     expect(taxonomySynonymsEnabled({})).toBe(false);
     expect(taxonomySynonymsEnabled({ SEARCH_TAXONOMY_SYNONYMS_ENABLED: "true" })).toBe(true);
     const off = taxonomySearchInput(DEFAULT_DICTIONARY, false);
