@@ -5,6 +5,7 @@ import type { TangolRate, TangolTour } from "./schemas";
 import { publicPrice, type RatesSummary } from "./rates";
 import { parseTourDetails } from "./details";
 import { scrubProviderName } from "./text";
+import { findProviderErrorValue } from "./data-hygiene";
 
 /**
  * Ola 2 de Tangol: convierte un tour YA validado (`infoTourSchema`) en la fila de `Tour` y su traducción.
@@ -38,7 +39,13 @@ export interface TangolTourRow extends TourRow {
   providerId: string;
 }
 
-export type DiscardReason = "sin-ciudad" | "sin-titulo" | "sin-precio-publico" | "sin-moneda" | "error-inesperado";
+export type DiscardReason =
+  | "sin-ciudad"
+  | "sin-titulo"
+  | "sin-precio-publico"
+  | "sin-moneda"
+  | "dato-de-error-del-proveedor"
+  | "error-inesperado";
 
 export interface TangolRowDeps {
   /** Ciudad y país ya resueltos (REQ-1624, otro frente); `null` = sin ciudad válida → se descarta. */
@@ -58,7 +65,7 @@ export interface TangolRowDeps {
 
 export type ConvertedRow =
   | { ok: true; tour: TangolTourRow; translations: TranslationRow[] }
-  | { ok: false; reason: DiscardReason };
+  | { ok: false; reason: DiscardReason; detail?: string };
 
 export interface TangolRowsBatch {
   rows: { tour: TangolTourRow; translations: TranslationRow[] }[];
@@ -98,8 +105,12 @@ function cheapestPublicRate(summary: RatesSummary): TangolRate | null {
   );
 }
 
-// REQ-3370, REQ-3371, REQ-3372
+// REQ-3370, REQ-3371, REQ-3372, REQ-3504
 export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): ConvertedRow {
+  // REQ-3504: un error del servidor de Tangol metido como dato tira el tour entero; no se adivina el valor.
+  const junk = findProviderErrorValue(tour);
+  if (junk) return { ok: false, reason: "dato-de-error-del-proveedor", detail: `${junk.field} = «${junk.value}»` };
+
   const place = deps.place(tour);
   if (!place) return { ok: false, reason: "sin-ciudad" };
 
@@ -159,7 +170,7 @@ export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): Converte
 }
 
 /** Convierte una lista: lo bueno pasa, lo malo se descarta con su motivo, se cuenta y se registra. */
-// REQ-3371
+// REQ-3371, REQ-3504
 export function toTangolTourRows(tours: readonly TangolTour[], deps: TangolRowDeps): TangolRowsBatch {
   const rows: TangolRowsBatch["rows"] = [];
   const discarded: TangolRowsBatch["discarded"] = [];
@@ -173,7 +184,11 @@ export function toTangolTourRows(tours: readonly TangolTour[], deps: TangolRowDe
       result = { ok: false, reason: "error-inesperado" };
     }
     if (result.ok) rows.push({ tour: result.tour, translations: result.translations });
-    else discarded.push({ tourId: tour.tourId, reason: result.reason });
+    else {
+      // REQ-3504: el motivo legible y el campo quedan en el log para poder reclamarlo al proveedor.
+      if (result.detail) console.warn(`[tangol] tour ${tour.tourId} descartado (${result.reason}): ${result.detail}`);
+      discarded.push({ tourId: tour.tourId, reason: result.reason });
+    }
   }
 
   if (discarded.length > 0) {

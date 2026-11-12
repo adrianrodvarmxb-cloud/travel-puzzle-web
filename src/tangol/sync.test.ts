@@ -160,6 +160,25 @@ describe("REQ-3463: un paso del sync de Tangol", () => {
     expect(report.invalidos).toBe(1);
   });
 
+  it("REQ-3505: el reporte compara lo que dice cada destino contra lo que llegó en la lista", async () => {
+    // Buenos Aires dice 5 y llegan 1 + 1 tirado; Cusco dice 3 y llega 1.
+    const report = await correr();
+    expect(report.cuadre).toMatchObject({ declarados: 8, recibidos: 2, invalidos: 1, diferencia: -5 });
+    expect(report.cuadre?.destinos.map((d) => [d.id, d.diferencia])).toEqual([[100, -3], [200, -2]]);
+  });
+
+  it("REQ-3505: un destino cuya lista falló sale aparte en el cuadre, no como «faltan tours»", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const api = fakeApi({
+      getTourList: async ({ destinationId }) => {
+        if (destinationId === 200) throw new Error("HTTP 504");
+        return { items: [tour(1234)], discarded: 0 };
+      },
+    });
+    const report = await correr({ api });
+    expect(report.cuadre).toMatchObject({ declarados: 5, recibidos: 1, sinLista: 1 });
+  });
+
   it("REQ-3463: una corrida ya cerrada no vuelve a pedir ni a escribir", async () => {
     const { repo, escrituras } = spyRepo({ status: "completed", nextPage: 3, totalPages: 2, runStartedAt: now });
     const report = await correr({ ensayo: false }, repo);
