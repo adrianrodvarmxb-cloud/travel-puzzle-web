@@ -38,7 +38,7 @@ const d1 = () => getD1() as unknown as D1Exec;
 const PLAN_PROVIDER = "bigbus-octo";
 
 /**
- * Plan del catálogo en D1 (tabla OctoCatalogPlan, migración 0028). No usa el bucket del archivo crudo:
+ * Plan del catálogo en D1 (tabla OctoCatalogPlan, migración 0029). No usa el bucket del archivo crudo:
  * ese solo lo toca el cron de sync-tours y es solo escritura (REQ-747).
  */
 // REQ-3415

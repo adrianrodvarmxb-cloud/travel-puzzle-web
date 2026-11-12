@@ -5,7 +5,7 @@ Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
-Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0028 se aplica a mano con OK del PO (REQ-3422).
+Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0029 se aplica a mano con OK del PO (REQ-3422).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-3413 | Ligar productos OCTO a las 29 ciudades | NUEVO | `src/octo/lib/catalog.ts`, `src/octo/data/bigbus-ciudades.json` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
@@ -17,7 +17,7 @@ Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar
 | REQ-3419 | Webhook: confirmar o avisar; liberar al vencer | NUEVO | `src/octo/purchase.ts`, `src/payments/service.ts`, `src/payments/deps.ts` | `src/octo/purchase.test.ts`, `src/payments/service.test.ts` | CUMPLIDO |
 | REQ-3420 | Correo del boleto | NUEVO | `src/octo/lib/ticket-email.ts` | `src/octo/lib/ticket-email.test.ts` | CUMPLIDO |
 | REQ-3421 | Cancelación del cliente dentro del corte | NUEVO | `src/octo/purchase.ts`, `src/app/api/bigbus/cancelar/route.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
-| REQ-3422 | Migración 0028 | NUEVO | `migrations/0028_octo_booking.sql` | — | PENDIENTE (OK del PO) |
+| REQ-3422 | Migración 0029 | NUEVO | `migrations/0029_octo_booking.sql` | — | PENDIENTE (OK del PO) |
 | REQ-3423 | Caja de compra en la ficha | NUEVO | `src/components/trips/BigBusBuyBox.tsx`, `src/octo/lib/public-view.ts`, `src/app/api/bigbus/*` | `src/octo/lib/public-view.test.ts` | EN CURSO (revisión visual) |
 | REQ-3424 | Preview con la llave de prueba y OK visual | NUEVO | — | — | PENDIENTE |
 | REQ-3425 | Política de reembolso | NUEVO | — | — | PENDIENTE (PO) |
@@ -1066,6 +1066,8 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3458 | Pie sin «La Primera Pieza» | PO 12 nov | `src/layout/lib/nav-model.ts` | `src/layout/lib/nav-model.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-1421 | Filtro «Tema» en /tours (12 temas activos) | PO 8-11 | `src/taxonomy/lib/filters.ts`, `src/taxonomy/lib/publish.ts`, `src/catalog/{snapshot.ts,lib/query.ts}`, `src/components/tours/filters/MoreFilters.tsx`, `src/taxonomy/data/dictionary.json` | `src/taxonomy/lib/facets.test.ts`, `src/catalog/lib/query-temas.test.ts`, `src/taxonomy/lib/catalog-facets.test.ts`, `MoreFilters.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-1422 | Filtro de atributos en /tours (cómo te mueves, nocturno, entrada, día completo, español, vuelo) | PO 8-11 | mismos + `src/tours/lib/extra-filters.ts`, `src/trips/lib/public.ts` | `src/tours/lib/extra-filters-temas.test.ts` y los anteriores | EN CURSO (tests verdes; PR) |
 | REQ-3449 | Entrada del blog en inglés (`en`, localizePost) | PO 12-11 | `src/blog/lib/schema.ts`, `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
 | REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
@@ -1075,3 +1077,6 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |
 | REQ-3489 | /tours no cae por los códigos de país de los viajes (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
 | REQ-3490 | /tours no cae por la lista de países de los filtros (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
+| REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
+| REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
+| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0028_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |

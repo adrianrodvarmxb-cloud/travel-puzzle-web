@@ -12,7 +12,7 @@ import type { FxRates } from "@/trips/lib/money";
 
 type Mail = { to: string; subject: string; html: string; text: string };
 
-/** Fila de la tabla OctoBooking (migración 0028). */
+/** Fila de la tabla OctoBooking (migración 0029). */
 export interface OctoBookingRow {
   id: string;
   requestId: string;
