@@ -959,3 +959,10 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | EN CURSO (falta merge; aplicar es candado) |
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
+
+## Caché de páginas públicas en el borde (gates A–D, 12 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3318 | Públicas sin sesión con `Cloudflare-CDN-Cache-Control` 5 min; privadas y con sesión nunca | Gates B, C | `src/perf/lib/edge-cache.ts`, `src/perf/edge-cache.ts`, `src/middleware.ts` | `src/perf/lib/edge-cache.test.ts` | EN CURSO (tests verdes; falta preview y producción) |
+| REQ-3319 | Cache Rule que respeta el origen, sin caché con cookie de sesión ni 5xx | Gate A | dashboard de Cloudflare | `cf-cache-status: HIT` con curl | PENDIENTE (tras merge de REQ-3318) |
+| REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |
