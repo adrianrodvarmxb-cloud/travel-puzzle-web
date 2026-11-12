@@ -1,27 +1,23 @@
-/** REQ-1599: correo con el enlace para entrar a la cuenta. Puro. */
-import { esc, kit, renderShell, UI } from "@/notifications/lib/email-layout";
-import { BRAND as B } from "@/notifications/lib/brand";
+/**
+ * REQ-1599: correo con el enlace para entrar a la cuenta. Puro.
+ * REQ-3317: transaccional y mínimo (sin imágenes, íconos de redes ni texto oculto) para que Gmail
+ * no lo mande a Promociones: el cliente lo está esperando en ese momento.
+ */
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-export function buildLoginLinkEmail(d: { url: string; logoUrl: string }) {
-  const { N9 } = UI;
-  const { primary } = kit();
-  const subject = "Travel Puzzle · Tu enlace para entrar";
-  const body = `<tr><td style="padding:26px 26px 0">
-<h1 style="margin:0 0 10px;font-size:24px;line-height:1.2;color:${N9}">Entra a tu cuenta</h1>
-<p style="font-size:15px;line-height:1.55;color:${N9};margin:0">${esc("Usa este botón para entrar y ver todas tus reservas en un solo lugar. Vence en 15 minutos y solo sirve una vez.")}</p>
-</td></tr>
-<tr><td style="padding:22px 26px 0">
-${primary(d.url, "Entrar a mi cuenta")}
-<p style="font-size:12px;color:${B.muted};text-align:center;margin:12px 0 0">Si no lo pediste, ignora este correo: nadie puede entrar sin este enlace.</p>
-</td></tr>`;
-  const html = renderShell({
-    lang: "es",
-    subject,
-    preheader: "Tu enlace para entrar (vence en 15 minutos)",
-    logoUrl: d.logoUrl,
-    labels: { myBooking: "", help: "", follow: "", footer: "Travel Puzzle", slogan: "Te armamos tu viaje" },
-    body,
-  });
-  const text = [subject, "", "Entra a tu cuenta con este enlace (vence en 15 minutos, un solo uso):", d.url, "", "Si no lo pediste, ignora este correo."].join("\n");
+export function buildLoginLinkEmail(d: { url: string; logoUrl?: string }) {
+  const subject = "Tu enlace para entrar a Travel Puzzle";
+  const u = esc(d.url);
+  const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${esc(subject)}</title></head>
+<body style="margin:0;padding:24px;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#0A1330">
+<p style="font-size:16px;margin:0 0 16px">Hola:</p>
+<p style="font-size:16px;line-height:1.5;margin:0 0 20px">Usa este enlace para entrar a tu cuenta de Travel Puzzle. Vence en 15 minutos y solo sirve una vez.</p>
+<p style="margin:0 0 20px"><a href="${u}" style="display:inline-block;background:#0057FF;color:#ffffff;text-decoration:none;font-weight:bold;font-size:16px;padding:12px 22px;border-radius:8px">Entrar a mi cuenta</a></p>
+<p style="font-size:13px;line-height:1.5;color:#5B6478;margin:0 0 6px">Si el botón no abre, copia este enlace:</p>
+<p style="font-size:13px;line-height:1.5;margin:0 0 20px;word-break:break-all"><a href="${u}" style="color:#0057FF">${u}</a></p>
+<p style="font-size:13px;color:#5B6478;margin:0">Si no lo pediste, ignora este correo. Nadie puede entrar sin este enlace.</p>
+<p style="font-size:13px;color:#5B6478;margin:16px 0 0">Travel Puzzle</p>
+</body></html>`;
+  const text = ["Hola:", "", "Usa este enlace para entrar a tu cuenta de Travel Puzzle (vence en 15 minutos, un solo uso):", d.url, "", "Si no lo pediste, ignora este correo.", "", "Travel Puzzle"].join("\n");
   return { subject, html, text };
 }

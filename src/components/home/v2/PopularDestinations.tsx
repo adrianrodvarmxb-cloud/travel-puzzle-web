@@ -4,10 +4,9 @@ import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
-import { formatCount } from '@/home/lib/format';
 import { SectionHeading } from './SectionHeading';
 
-/** Destinos en mosaico: el primero grande y cuatro más; todos con su número real de tours. */
+/** Destinos en mosaico: el primero grande y cuatro más; con su país (REQ-3315: sin conteo). */
 export function PopularDestinations({ destinations, totalCities }: { destinations: DestinationCard[]; totalCities: number }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
@@ -19,7 +18,7 @@ export function PopularDestinations({ destinations, totalCities }: { destination
       <SectionHeading
         eyebrow="01 — DESTINOS"
         title={c.destHeadline}
-        action={totalCities > 0 ? <Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.destAll(formatCount(totalCities, language))}</Link> : undefined}
+        action={totalCities > 0 ? <Link href="/tours" className="font-semibold text-[#7CC4FF] hover:text-white">{c.destAllPlain /* REQ-3315 */}</Link> : undefined}
       />
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:grid-rows-[260px_260px] md:gap-4">
         {list.map((d, k) => {
@@ -37,7 +36,7 @@ export function PopularDestinations({ destinations, totalCities }: { destination
               <div className="absolute inset-x-4 bottom-4 md:inset-x-5">
                 {big && <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#EAF54F]">{nameIn(d.countryNames, language)}</p>}
                 <p className={`font-display font-bold text-white ${big ? 'text-3xl md:text-[40px]' : 'text-xl md:text-2xl'}`}>{city}</p>
-                <p className="font-data mt-1 text-[11px] uppercase tracking-widest text-[#DCE4F5]">{c.tours(formatCount(d.tours, language))}</p>
+                {!big && <p className="font-data mt-1 text-[11px] uppercase tracking-widest text-[#DCE4F5]">{nameIn(d.countryNames, language) /* REQ-3315: país en lugar del conteo */}</p>}
               </div>
             </Link>
           );

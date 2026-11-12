@@ -28,6 +28,15 @@ const es = {
     ["Asesoría por WhatsApp", "Te ayudamos en español antes, durante y después de tu viaje."],
     ["Tu reserva a la mano", "Confirmación, recordatorios y tu reserva en un solo lugar."],
   ] as [string, string][],
+  // REQ-3315: la franja ya no muestra cifras; tres piezas sin números.
+  pillars: [
+    ["Aliados en cada región", "Operadores que reúnen y respaldan a los guías de su destino."],
+    ["Mila, tu asesora de viaje con inteligencia artificial", "Responde al instante, en español, y nuestro equipo te acompaña en cada decisión."],
+    ["Mexicana, de principio a fin", "Agencia con registro nacional de turismo, en tu horario y en tu moneda."],
+  ] as [string, string][],
+  destAllPlain: "Ver todos los destinos →",
+  contLine: "Seleccionado por nuestros aliados en la región.",
+  heroSlideLine: "De la mano de nuestros aliados en la región",
   statTours: "experiencias disponibles",
   statCities: "ciudades",
   statCountries: "países",
@@ -37,9 +46,10 @@ const es = {
   continents: { "america-norte": "Norteamérica y el Caribe", "america-sur": "Sudamérica", europa: "Europa", asia: "Asia y Medio Oriente", africa: "África", oceania: "Oceanía" },
   countriesN: (n: string) => `${n} países`,
   expertEyebrow: "Asesoría personalizada",
-  expertTitle: "Te armamos tu viaje.",
-  expertSub: "Cuéntanos a dónde vas y cuántos días tienes. Un asesor de Travel Puzzle te propone experiencias y horarios a tu medida.",
-  expertCta: "Hablar con un asesor",
+  // REQ-3316: Mila, asesora con inteligencia artificial, con respaldo del equipo (sin «24/7»).
+  expertTitle: "Tu viaje, armado contigo.",
+  expertSub: "Mila es nuestra asesora de viaje con inteligencia artificial: te orienta al momento con el conocimiento de nuestros aliados, y nuestro equipo revisa contigo cada detalle antes de confirmar.",
+  expertCta: "Hablar con Mila",
   expertWa: "Hola Travel Puzzle, quiero ayuda para armar mi viaje. Voy a: ",
   footerSlogan: "Te armamos tu viaje",
   footerTours: "Experiencias",
@@ -60,11 +70,11 @@ const es = {
   howEyebrow: "03 — CÓMO FUNCIONA",
   howHeadline: "Tres piezas, un gran viaje.",
   howSteps: (bookings: boolean) => [
-    ["Elige", "Recorridos con guías que viven la ciudad, con la opinión de quienes ya los hicieron."],
+    ["Elige", "Experiencias seleccionadas, con la voz de quienes ya viajaron."],
     bookings
-      ? ["Reserva", "Confirmación inmediata y tu reserva siempre contigo."]
+      ? ["Confirma", "Tu reserva, siempre contigo."]
       : ["Te lo apartamos", "Un asesor de Travel Puzzle confirma tu lugar por WhatsApp."],
-    ["Vive la ciudad", "Te acompañamos antes, durante y después, a un mensaje de distancia."],
+    ["Vive", "Con nuestros aliados en destino y Mila a un mensaje."],
   ] as [string, string][],
   contEyebrow: "04 — EL MUNDO",
   mapEyebrow: "05 — EL MAPA",
@@ -111,6 +121,14 @@ const en: Copy = {
     ["WhatsApp advice", "We help you before, during and after your trip."],
     ["Your booking at hand", "Confirmation, reminders and your booking in one place."],
   ],
+  pillars: [
+    ["Partners in every region", "Operators who bring together and stand behind the guides in their destination."],
+    ["Mila, your AI travel advisor", "She answers instantly, and our team is with you for every decision."],
+    ["Mexican, from start to finish", "A travel agency on Mexico's national tourism registry, in your time zone and currency."],
+  ],
+  destAllPlain: "See all destinations →",
+  contLine: "Curated by our partners in the region.",
+  heroSlideLine: "Hand in hand with our partners in the region",
   statTours: "experiences available",
   statCities: "cities",
   statCountries: "countries",
@@ -120,9 +138,9 @@ const en: Copy = {
   continents: { "america-norte": "North America & Caribbean", "america-sur": "South America", europa: "Europe", asia: "Asia & Middle East", africa: "Africa", oceania: "Oceania" },
   countriesN: (n) => `${n} countries`,
   expertEyebrow: "Personal advice",
-  expertTitle: "We build your trip.",
-  expertSub: "Tell us where you're going and for how many days. A Travel Puzzle advisor will propose experiences and times tailored to you.",
-  expertCta: "Talk to an advisor",
+  expertTitle: "Your trip, built with you.",
+  expertSub: "Mila is our travel advisor powered by artificial intelligence: she guides you instantly with our partners' knowledge, and our team reviews every detail with you before confirming.",
+  expertCta: "Talk to Mila",
   expertWa: "Hi Travel Puzzle, I'd like help planning my trip. I'm going to: ",
   footerSlogan: "Te armamos tu viaje",
   footerTours: "Experiences",
@@ -142,11 +160,11 @@ const en: Copy = {
   howEyebrow: "03 — HOW IT WORKS",
   howHeadline: "Three pieces, one great trip.",
   howSteps: (bookings) => [
-    ["Choose", "Experiences with guides who live the city, with reviews from people who already took them."],
+    ["Choose", "Curated experiences, in the words of those who already traveled."],
     bookings
-      ? ["Book", "Instant confirmation and your booking always with you."]
+      ? ["Confirm", "Your booking, always with you."]
       : ["We hold your spot", "A Travel Puzzle advisor confirms your place on WhatsApp."],
-    ["Enjoy the city", "We're with you before, during and after, one message away."],
+    ["Enjoy", "With our partners on the ground and Mila one message away."],
   ],
   contEyebrow: "04 — THE WORLD",
   mapEyebrow: "05 — THE MAP",

@@ -54,7 +54,7 @@ export default async function ArmaTuViajePage({ searchParams }: { searchParams: 
             if (!s) return null;
             // REQ-181: país y ciudad del catálogo (no de la URL). Si falla, la pieza sigue sin reglas por país.
             const place = await getPrisma().tour.findUnique({
-                where: { externalId: id },
+                where: { providerId_externalId: { providerId: 'freetour', externalId: id } }, // REQ-1623
                 select: { city: { select: { slug: true } }, country: { select: { code: true, iso2: true } } },
             }).catch(() => null);
             return { title: s.title, cityName: s.cityName ?? null, country: place?.country?.iso2 ?? place?.country?.code ?? null, citySlug: place?.city?.slug ?? null };
