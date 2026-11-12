@@ -21,7 +21,8 @@ async function api(ruta: string, init: RequestInit = {}): Promise<unknown> {
   if (!token) throw new Error("Falta GH_TOKEN o GITHUB_TOKEN");
   const r = await fetch(`https://api.github.com/repos/${repo()}${ruta}`, {
     ...init,
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", ...(init.headers ?? {}) },
+    // REQ-3360: GitHub exige Content-Type en los POST/PATCH (sin él responde 415).
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", ...(init.body ? { "Content-Type": "application/json" } : {}), ...(init.headers ?? {}) },
   });
   if (!r.ok) throw new Error(`GitHub ${r.status}: ${await r.text()}`);
   return r.json();

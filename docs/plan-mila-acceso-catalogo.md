@@ -31,8 +31,11 @@ Nuevos o modificados en zoefel-mila:
 - ISP: cada ruta devuelve solo lo que el agente usa.
 - DIP: datos por parámetro (`catalogoDeps`).
 
-## Lo que nunca se expone
-Tarifas netas, márgenes, anexo de proveedores, datos de clientes, reservas, pagos ni nada de FREETOUR.
+## Alcance ajustado por el PO (12 nov 04:32)
+- Sí ve el anexo de proveedores para conocer sus términos y condiciones (REQ-3355); netos y márgenes según REQ-3358.
+- Sí ve datos de clientes, reservas y pagos para servicio, pero solo los del titular verificado (REQ-3356, REQ-3357) y con el aviso de privacidad revisado (REQ-3359).
+- Nunca: nada de FREETOUR; datos de un cliente a otra persona; neto o margen al viajero.
+- Nuevos: `src/agente/lib/proveedor.ts` y `src/agente/lib/cliente.ts` (puros), `src/app/api/agente/proveedor/route.ts` y `src/app/api/agente/cliente/route.ts`.
 
 ## Gates (uno por uno)
 - G1 (REQ-3351): cómo consulta Mila.
