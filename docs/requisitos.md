@@ -1474,3 +1474,10 @@ Petición (PO, 12-11): «Elige basado en los referentes» → gate E «Combina 1
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-3501 | CÓDIGO | Dado /tours con N viajes de agencias que pasan los filtros, cuando abre, entonces se pintan min(N, 24) y un botón «Ver más experiencias» (sin contador; el total va arriba, como FREETOUR) si N > 24; cada clic suma 24; al cambiar filtros o búsqueda vuelve a 24; el catálogo de abajo sigue con su paginación numerada | agente | — | EN CURSO |
+
+## REQ-3509: el botón de filtros dice «experiencias» (taxonomía G1, 12 nov 2026)
+Petición literal (PO): «Sí, ambas cosas» — quitar «Mostrando 1–24 de 246» y cambiar «Ver N actividades» por «Ver N experiencias».
+
+| ID | Tipo | Criterio | Responsable | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3509 | CÓDIGO | Dado el panel de filtros de /tours en cualquiera de los 6 idiomas, cuando muestra el botón de resultados, entonces dice «Ver N experiencias» (en «See N experiences», pt «Ver N experiências», de «N Erlebnisse ansehen», fr «Voir N expériences», it «Vedi N esperienze»), por la taxonomía (Experiencias = concepto paraguas, gate G1). Reemplaza el texto «Ver N actividades» de REQ-056 (el resto de REQ-056 sigue vigente) | agente | `src/tours/lib/filters-copy.test.ts` | CUMPLIDO |
