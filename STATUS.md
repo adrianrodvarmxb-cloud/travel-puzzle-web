@@ -7,6 +7,7 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
+| REQ-1621 | `frente.ts abrir` ya no da 415: el paso 0 de CLAUDE.md es usable desde la nube | NUEVO | `src/ops/lib/frentes.ts`, `src/scripts/frente.ts` | `src/ops/lib/frentes-api.test.ts` | CUMPLIDO (2/2 verdes; frentes #398 y #400 abiertos en vivo, sin 415) |
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
@@ -966,6 +967,8 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
 | REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3380 | Tarjetas del home con número de tours; sin la línea repetida del hero | PO 12 nov | `src/components/home/v2/{HeroSearch,PopularDestinations,ContinentExplorer}.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3381 | Franja del home con íconos y menos texto | PO 12 nov | `src/components/home/v2/ProofStrip.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3311 | Candado 1: el filtro por proveedor en un solo punto (Prisma y SQL crudo) | NUEVO | `src/catalog/lib/provider-visibility.ts`, `src/lib/prisma.ts`, `src/destinations/repository.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts`, `src/app/api/cron/sync-tours/route.ts` | `src/catalog/lib/provider-visibility.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
 | REQ-3312 | Candado 2: prueba que falla si algo de Tangol puede salir con la bandera apagada | NUEVO | `src/catalog/gate-c-visibilidad.test.ts` | `src/catalog/gate-c-visibilidad.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
 
