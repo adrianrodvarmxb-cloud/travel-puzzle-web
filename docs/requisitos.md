@@ -1201,4 +1201,4 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 Petición literal (PO, 12-11): «así lo hacen referentes?? no debería ir brandeado??» y «Ok» a probar en dos pasos. Reemplaza el criterio «sin imágenes» de REQ-3317.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
-| REQ-3344 | CÓDIGO | Dado el correo del enlace para entrar, cuando se envía, entonces lleva un solo logo pequeño (110 px) arriba, como Airbnb, GetYourGuide y Booking, sin íconos de redes; se verifica con un envío real que siga fuera de Promociones | agente | REQ-3317 | EN CURSO |
+| REQ-3344 | CÓDIGO | Dado el correo del enlace para entrar, cuando se envía, entonces lleva un solo logo pequeño (110 px) arriba, como Airbnb, GetYourGuide y Booking, sin íconos de redes; se verifica con un envío real que siga fuera de Promociones | agente | REQ-3317 | CUMPLIDO (PR #420; envío real del 12-11 10:52 UTC: llegó en 2 s a Principal; prueba 1 sin logo había caído en Notificaciones) |

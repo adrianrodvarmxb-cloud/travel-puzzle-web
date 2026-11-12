@@ -962,4 +962,4 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
-| REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #420; envío real del 12-11 10:52 UTC: llegó en 2 s a Principal; prueba 1 sin logo había caído en Notificaciones) |
