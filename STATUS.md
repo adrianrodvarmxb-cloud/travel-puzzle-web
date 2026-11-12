@@ -943,9 +943,12 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | CUMPLIDO (publicado #371) |
 | REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO |
 | REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | CUMPLIDO (publicado #371) |
-| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | EN CURSO (tests verdes; falta merge) |
+| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | CUMPLIDO (#390; verificado en vivo 12 nov: `?q=kuelap` devuelve el grupo «trip») |
 
 ## Encender lo ya definido (OK del PO 11 nov 2026 22:38, REQ-1629) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | CUMPLIDO (#392, a850c7b, 12 nov 05:39 UTC) |
+| REQ-1630 | `TAXONOMY_CART_ENABLED` encendida (carrito por tipo, T7) | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/taxonomy/flag-cart.test.ts` | CUMPLIDO (#393, 55a044a, 12 nov 06:26 UTC) |
+| REQ-1631 | `REVIEW_EMAILS_ENABLED` encendida (correo post-tour de reseña) | NUEVO | `wrangler.jsonc` | `src/notifications/flag-review-emails.test.ts` | CUMPLIDO (#394, 72c2e4b, 12 nov 06:51 UTC) |
+| REQ-1632 | `EMAIL_CROSS_SELL_ENABLED` encendida (venta cruzada en correos) | NUEVO | `wrangler.jsonc` | `src/notifications/flag-cross-sell.test.ts` | CUMPLIDO (#395, 1e1e211, 12 nov 07:17 UTC) |
