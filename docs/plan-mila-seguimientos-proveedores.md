@@ -64,7 +64,7 @@ A Jordan Experience, Mondial Trails, Canadian Receptive Tours y Multitravel Mila
 ## 4. Pruebas (rojo → verde, `npx vitest run <archivo>`)
 | Pieza | Test existente | Test nuevo |
 |---|---|---|
-| Preguntas | — | `src/proveedores/lib/preguntas.test.ts`: solo salen las abiertas; en el idioma del proveedor; un solo correo por contacto que representa a varios; cerrar no borra el historial |
+| Preguntas | — | `src/proveedores/lib/preguntas.test.ts`: solo salen las abiertas; en el idioma del proveedor; no más de un correo al día a una persona que representa a varios proveedores; cerrar no borra el historial |
 | Lista de alta | `src/proveedores/lib/proveedores.test.ts` | «tarifas» pide los elementos del calendario |
 | Revisión diaria | `src/proveedores/proveedores-io.test.ts` | el recordatorio lleva las preguntas; con acuerdo en negociación sí recuerda preguntas y no manda nada más |
 | Entrante | `src/proveedores/proveedores-io.test.ts` | una respuesta genera aviso al PO y no cierra preguntas sola |
@@ -158,3 +158,4 @@ El correo del 6 nov 2026 SÍ salió (claulet@, 14:15 UTC) y no tiene respuesta: 
 | G1 · Quién sigue a quién | «1 Mila consulta tablero y da doble check a correos antes de responder a proveedores» | A, con doble verificación: Mila manda los recordatorios; la revisión cada 6 h solo lee, actualiza el tablero y avisa al PO. Antes de escribir o responder a un proveedor, Mila (1) consulta el tablero (`docs/requisitos.md` y la lista compartida, REQ-3430) para saber qué está pendiente, contestado o en negociación, y (2) relee el hilo completo de correos de ese proveedor, incluidos los enviados por Adri o Claudia y los borradores vigentes, para no repetir ni contradecir nada. Si algo no cuadra, no escribe y avisa al PO. Test nuevo en `diario.ts`: sin leer tablero e hilo, no envía | 12 nov 2026 |
 | G2 · Acuerdo en negociación | «Recuerda, no negocia (Recomendado)» | A: con acuerdo en negociación, Mila recuerda las preguntas abiertas y lo que falta; no propone ni acepta cambios al acuerdo; cualquier cambio o contrapropuesta del proveedor llega al PO | 12 nov 2026 |
 | G3 · Cerrar preguntas | «Mila propone, tú cierras (Recomendado)» | A: Mila lee la respuesta y propone al PO cuáles preguntas parecen contestadas y cuáles siguen abiertas; el PO o el agente las cierran. Un «sí» suelto o un adjunto sin revisar no cierra nada | 12 nov 2026 |
+| G4 · Un contacto con varios proveedores | «Un correo por proveedor (Recomendado)» | Un correo por proveedor, en su propio hilo y a su propio correo; Mila los espacia: no más de uno al día a la misma persona (Angela Ballén: Exotic, Jordan, Mondial, Multitravel). Reemplaza la opción A del borrador del plan | 12 nov 2026 |
