@@ -47,6 +47,16 @@ jobs:
       - name: Build de producción
         run: npm run build
 
+      # La URL de la pasarela es un var público de wrangler.jsonc (no un secreto): se lee de ahí para
+      # que no haya dos lugares donde cambiarla. La clave sí es secreto del repo (GATEWAY_SECRET).
+      - name: URL de la pasarela (de wrangler.jsonc)
+        id: pasarela
+        run: |
+          url=$(grep -oE '"GATEWAY_URL":[[:space:]]*"[^"]+"' wrangler.jsonc | head -1 | sed -E 's/.*"([^"]+)"$/\1/')
+          [ -n "$url" ] || { echo "::error::wrangler.jsonc no declara GATEWAY_URL."; exit 1; }
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Pasarela: $url"
+
       - name: Export de D1 (SOLO LECTURA)
         run: |
           set -euo pipefail
@@ -62,7 +72,7 @@ jobs:
         if: ${{ !inputs.escribir }}
         env:
           TANGOL_SYNC_ENABLED: "true"
-          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
@@ -70,7 +80,7 @@ jobs:
         if: ${{ inputs.escribir }}
         env:
           TANGOL_SYNC_ENABLED: "true"
-          GATEWAY_URL: ${{ secrets.GATEWAY_URL }}
+          GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
