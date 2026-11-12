@@ -8,7 +8,7 @@ export const WHATSAPP_NUMBER = "5215536490320"; // +52 1 55 3649 0320
 export const WHATSAPP_DISPLAY = "+52 1 55 3649 0320";
 
 type Copy = {
-  destinations: string; tours: string; categories: string;
+  destinations: string; tours: string; trips: string; categories: string;
   didYouMean: string; showingFor: string; youSearched: string;
   noResultsFor: string; tryWithout: string; seeAll: string; showingInstead: string;
   popular: string; activityTypes: string; whatsappTitle: string; whatsappCta: string; whatsappText: string;
@@ -16,7 +16,7 @@ type Copy = {
 };
 
 const es: Copy = {
-  destinations: "Destinos", tours: "Tours", categories: "Tipos de actividad",
+  destinations: "Destinos", tours: "Tours", trips: "Viajes", categories: "Tipos de actividad",
   didYouMean: "¿Quisiste decir…?", showingFor: "Mostrando resultados de «{q}»", youSearched: "Buscaste «{q}»",
   noResultsFor: "No encontramos resultados para «{q}»", tryWithout: "Prueba con menos palabras", seeAll: "Ver resultados", showingInstead: "No había resultados para «{q}». Te mostramos «{alt}».",
   popular: "Destinos populares", activityTypes: "Tipos de actividad", whatsappTitle: "¿No lo encuentras?", whatsappCta: "Escríbenos por WhatsApp",
@@ -24,7 +24,7 @@ const es: Copy = {
   tourCount1: "1 tour", tourCountN: "{n} tours", listLabel: "Sugerencias de búsqueda",
 };
 const en: Copy = {
-  destinations: "Destinations", tours: "Tours", categories: "Activity types",
+  destinations: "Destinations", tours: "Tours", trips: "Trips", categories: "Activity types",
   didYouMean: "Did you mean…?", showingFor: "Showing results for “{q}”", youSearched: "You searched “{q}”",
   noResultsFor: "No results for “{q}”", tryWithout: "Try fewer words", seeAll: "See results", showingInstead: "There were no results for “{q}”. Showing “{alt}”.",
   popular: "Popular destinations", activityTypes: "Activity types", whatsappTitle: "Can’t find it?", whatsappCta: "Message us on WhatsApp",
