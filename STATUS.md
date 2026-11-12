@@ -943,3 +943,8 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO |
 | REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | CUMPLIDO (publicado #371) |
 | REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | EN CURSO (tests verdes; falta merge) |
+
+## Encender lo ya definido (OK del PO 11 nov 2026 22:38, REQ-1629) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
