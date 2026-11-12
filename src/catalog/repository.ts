@@ -1,7 +1,7 @@
 import type { PrismaClient, Prisma } from "@prisma/client";
 import type { CatalogRepo } from "./sync";
 import { upsertRows, runBatch, type D1Like } from "@/lib/d1/batch";
-import { tourStatements } from "./lib/sql";
+import { countryStatements, tourStatements } from "./lib/sql";
 import { avoidCodeClashes } from "./lib/tour-rows";
 
 const PROVIDER = "freetour";
@@ -46,11 +46,14 @@ export function createCatalogRepo(prisma: PrismaClient, db: D1Like, newId: () =>
       return rows.map((r) => r.id);
     },
 
+    // REQ-3462: escribe `iso2` cuando la fila lo trae (países propios de un proveedor, REQ-3441);
+    // los países de Freetour llegan sin él y su `iso2` guardado no se borra (COALESCE en el SQL).
+    // REQ-3462
     async upsertCountries(input) {
       if (input.length === 0) return;
       const existing = await prisma.country.findMany({ where: { code: { in: input.map((c) => c.code) } }, select: { id: true, code: true } });
       const rows = avoidCodeClashes(input, existing);
-      await runBatch(db, upsertRows("Country", ["id", "code", "translations"], rows.map((c) => [c.id, c.code, c.translations]), ["id"], ["code", "translations"]));
+      await runBatch(db, countryStatements(rows));
     },
 
     async upsertCities(rows) {

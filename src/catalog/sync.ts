@@ -8,7 +8,8 @@ export interface CatalogRepo {
   saveState(state: Partial<SyncState> & { lastSyncAt?: Date; toursCount?: number }): Promise<void>;
   existingCityIds(ids: number[]): Promise<number[]>;
   existingCountryIds(ids: number[]): Promise<number[]>;
-  upsertCountries(rows: { id: number; code: string; translations: Record<string, string> }[]): Promise<void>;
+  /** REQ-3462: `iso2` es opcional; cuando viene se escribe, y el guardado nunca se borra. */
+  upsertCountries(rows: { id: number; code: string; iso2?: string | null; translations: Record<string, string> }[]): Promise<void>;
   upsertCities(rows: { id: number; countryId: number; translations: Record<string, string> }[]): Promise<void>;
   upsertTours(rows: { tour: TourRow; translations: TranslationRow[] }[]): Promise<void>;
   deactivateNotSeenSince(date: Date): Promise<number>;
