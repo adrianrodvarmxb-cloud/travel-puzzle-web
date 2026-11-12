@@ -786,7 +786,7 @@
         "comida callejera",
         "experiencias gastronómicas"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 1,
       "chip": true,
       "palabras": [
@@ -826,7 +826,7 @@
         "safari",
         "parque nacional"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 2,
       "chip": true,
       "palabras": [
@@ -872,7 +872,7 @@
         "caminata en montaña",
         "trail"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 3,
       "chip": true,
       "palabras": [
@@ -905,7 +905,7 @@
         "tirolesa",
         "aventura extrema"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 4,
       "chip": true,
       "palabras": [
@@ -950,7 +950,7 @@
         "islas",
         "catamarán"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 5,
       "chip": true,
       "palabras": [
@@ -986,7 +986,7 @@
         "leyendas",
         "misterio"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 6,
       "chip": true,
       "palabras": [
@@ -1039,7 +1039,7 @@
         "iglesias",
         "espiritual"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 7,
       "chip": true,
       "palabras": [
@@ -1110,7 +1110,7 @@
         "tango",
         "espectáculo"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 9,
       "chip": true,
       "palabras": [
@@ -1141,7 +1141,7 @@
         "aguas termales",
         "relax"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 10,
       "chip": true,
       "palabras": [
@@ -1170,7 +1170,7 @@
         "workshop",
         "curso"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 11,
       "chip": true,
       "palabras": [
@@ -1198,7 +1198,7 @@
         "bici",
         "golf"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 12,
       "chip": true,
       "palabras": [
@@ -1231,7 +1231,7 @@
         "acuario",
         "escape room"
       ],
-      "estado": "muestra",
+      "estado": "activo",
       "prioridad": 13,
       "chip": true,
       "palabras": [

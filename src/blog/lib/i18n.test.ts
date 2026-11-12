@@ -34,6 +34,11 @@ describe("REQ-3449: artículo del blog en inglés", () => {
     expect(p.cover).toMatchObject({ src: "/blog/img/x/portada", alt: "Cover" });
   });
 
+  it("REQ-3449: el crédito de las fotos dice «Photo:» en inglés (el autor y el banco no cambian)", () => {
+    const p = localizePost(post({ en, cover: { src: "/blog/img/x/portada", alt: "Portada", credit: "Foto: Ana / Unsplash" } }), "en")!;
+    expect(p.cover?.credit).toBe("Photo: Ana / Unsplash");
+  });
+
   it("REQ-3449: en español queda igual; sin versión en inglés, null en inglés (nunca el español)", () => {
     const p = post({ en });
     expect(localizePost(p, "es")).toBe(p);

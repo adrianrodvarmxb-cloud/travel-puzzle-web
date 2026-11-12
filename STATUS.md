@@ -4,6 +4,30 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
+## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
+Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0029 se aplica a mano con OK del PO (REQ-3422).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3413 | Ligar productos OCTO a las 29 ciudades | NUEVO | `src/octo/lib/catalog.ts`, `src/octo/data/bigbus-ciudades.json` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
+| REQ-3414 | Plan: solo lo que da la API, con precio completo, sin net | NUEVO | `src/octo/lib/catalog.ts` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
+| REQ-3415 | Sincronización diaria con plan en D1 | NUEVO | `src/octo/catalog-sync.ts`, `src/octo/deps.ts` | `src/octo/catalog-sync.test.ts` | CUMPLIDO |
+| REQ-3416 | Cron 12:20 UTC y ruta protegida | NUEVO | `worker.ts`, `src/app/api/cron/bigbus-sync/route.ts` | — | EN CURSO (REQ-3424) |
+| REQ-3417 | Validar compra, salida y total retail | NUEVO | `src/octo/lib/purchase.ts` | `src/octo/lib/purchase.test.ts` | CUMPLIDO |
+| REQ-3418 | Iniciar compra: solicitud, apartado, Stripe | NUEVO | `src/octo/purchase.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
+| REQ-3419 | Webhook: confirmar o avisar; liberar al vencer | NUEVO | `src/octo/purchase.ts`, `src/payments/service.ts`, `src/payments/deps.ts` | `src/octo/purchase.test.ts`, `src/payments/service.test.ts` | CUMPLIDO |
+| REQ-3420 | Correo del boleto | NUEVO | `src/octo/lib/ticket-email.ts` | `src/octo/lib/ticket-email.test.ts` | CUMPLIDO |
+| REQ-3421 | Cancelación del cliente dentro del corte | NUEVO | `src/octo/purchase.ts`, `src/app/api/bigbus/cancelar/route.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
+| REQ-3422 | Migración 0029 | NUEVO | `migrations/0029_octo_booking.sql` | — | PENDIENTE (OK del PO) |
+| REQ-3423 | Caja de compra en la ficha | NUEVO | `src/components/trips/BigBusBuyBox.tsx`, `src/octo/lib/public-view.ts`, `src/app/api/bigbus/*` | `src/octo/lib/public-view.test.ts` | EN CURSO (revisión visual) |
+| REQ-3424 | Preview con la llave de prueba y OK visual | NUEVO | — | — | PENDIENTE |
+| REQ-3425 | Política de reembolso | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3433 | Copia exacta al archivo privado (REQ-747) | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3434 | Monedas: pedir USD por API (PO: «A», «lo harremospor API») | NUEVO | — | — | CUMPLIDO |
+| REQ-3436 | Precios y disponibilidad en USD cuando el producto lo ofrece | NUEVO | `src/octo/lib/pricing.ts`, `src/octo/lib/catalog.ts`, `src/octo/api.ts`, `src/octo/purchase.ts` | `pricing.test.ts`, `catalog.test.ts`, `api.test.ts`, `purchase.test.ts` | CUMPLIDO |
+| REQ-3437 | Revisar con la llave qué productos ofrecen USD | NUEVO | — | — | PENDIENTE |
+| REQ-3438 | Ensayo contra EdinExplore con la llave de prueba | NUEVO | `src/scripts/bigbus-octo-ensayo.ts`, `.github/workflows/bigbus-octo-ensayo.yml` | run 43213277304 | CUMPLIDO |
+| REQ-3453 | Actualizar reserva (certificación) | NUEVO | `src/octo/api.ts`, `src/scripts/bigbus-octo-ensayo.ts` | `src/octo/api.test.ts` | CUMPLIDO |
+
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
 Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y olas en `docs/bigbus/octo-integracion.md`; autorizaciones de Big Bus en `docs/bigbus/autorizaciones.md`.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
@@ -556,7 +580,10 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-117 | Webhook firmado e idempotente; solicitud "Pagada" y correos | `src/payments/lib/webhook.ts`, `src/payments/service.ts`, `src/payments/deps.ts`, `src/app/api/stripe/webhook/route.ts`, `src/trips/lib/request.ts` | `webhook.test.ts`, `service.test.ts`, `request.test.ts` | EN CURSO (apagado; falta webhook en Stripe) |
 | REQ-118 | Bandera STRIPE_ENABLED (404 y sin control) | `src/payments/lib/checkout.ts`, rutas de pago y webhook, `src/app/admin/solicitudes/page.tsx` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-119 | Tabla Payment (migración 0013) | `migrations/0013_pagos.sql`, `prisma/schema.prisma` | `service.test.ts` (fila guardada) | EN CURSO (migración sin aplicar) |
-| REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
+| REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | REQ-063 CUMPLIDO (prueba real en v2.2, 12 nov, reserva 6782-20261112144730-598). REQ-067 CUMPLIDO (compra real del 9 nov; reembolso confirmado por el PO el 12 nov). REQ-064..066 CUMPLIDO (tests, PR #457). Pasarela de producción en v2.2 desde el 12 nov (FREETOUR_API_VERSION en cPanel; regreso = borrar la variable y Restart); Worker en v2.0 |
+| REQ-064 | Evento v2.2: Zod, cobro desde payableNow, cupo/mínimo/teléfono | `src/booking/lib/event-check.ts`, `src/booking/lib/paid-price.ts` | `src/booking/lib/event-v22.test.ts` | CUMPLIDO |
+| REQ-065 | Estados unpaid/rejected sin prometer | `src/booking/lib/booking-status.ts`, `src/app/reserva/[token]/BookingPageView.tsx` | `src/booking/lib/booking-status.test.ts` | CUMPLIDO |
+| REQ-066 | Consultar antes de cancelar/editar; editar solo gratis | `src/booking/manage.ts`, `src/booking/lib/free-booking.ts` | `src/booking/manage.test.ts` | CUMPLIDO |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-306 | Ficha de viaje propio con reintento ante D1 saturada, una carga por petición y caché corta | `src/trips/lib/trip-by-slug.ts`, `src/trips/public-load.ts`, `src/cache/edge.ts` | `trip-by-slug.test.ts` | CUMPLIDO |
@@ -998,38 +1025,35 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | CUMPLIDO (publicado #371) |
 | REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO |
 | REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | CUMPLIDO (publicado #371) |
-| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | EN CURSO (tests verdes; falta merge) |
+| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | CUMPLIDO (#390; verificado en vivo 12 nov: `?q=kuelap` devuelve el grupo «trip») |
 
 ## Encender lo ya definido (OK del PO 11 nov 2026 22:38, REQ-1629) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | CUMPLIDO (#392, a850c7b, 12 nov 05:39 UTC) |
+| REQ-1630 | `TAXONOMY_CART_ENABLED` encendida (carrito por tipo, T7) | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/taxonomy/flag-cart.test.ts` | CUMPLIDO (#393, 55a044a, 12 nov 06:26 UTC) |
+| REQ-1631 | `REVIEW_EMAILS_ENABLED` encendida (correo post-tour de reseña) | NUEVO | `wrangler.jsonc` | `src/notifications/flag-review-emails.test.ts` | CUMPLIDO (#394, 72c2e4b, 12 nov 06:51 UTC) |
+| REQ-1632 | `EMAIL_CROSS_SELL_ENABLED` encendida (venta cruzada en correos) | NUEVO | `wrangler.jsonc` | `src/notifications/flag-cross-sell.test.ts` | CUMPLIDO (#395, 1e1e211, 12 nov 07:17 UTC) |
 | REQ-1635 | T&C v2: Mila, moneda, vuelos, operador identificado, sin liberación total | PO 11 nov | `src/legal/lib/terminos.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado; merge del PO) |
 | REQ-1636 | Aviso integral v2: IA y WhatsApp, países, encargados | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
 | REQ-1637 | Aviso simplificado v2: IA y transferencias | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
 | REQ-3315 | Home sin cifras, línea «Aliados en cada región» | PO 11 nov | `src/home/lib/copy.ts`, `src/components/home/v2/{ProofStrip,HeroSearch,PopularDestinations,ContinentExplorer,HomeReviews}.tsx` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3316 | Mila, asesora con IA, en franja, cómo funciona y asesoría | PO 11 nov | `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
-
-## Tangol ola 2 (11 nov 2026) — matriz de trazabilidad
-| ID | Requisito | Origen | Archivo(s) | Test | Estado |
-|---|---|---|---|---|---|
 | REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | CUMPLIDO (#408 squash 71e1f39; humo del PR y deploy en verde 12 nov 09:19 y 09:34 UTC; la migración 0026 NO se ha aplicado: necesita OK del PO y respaldo) |
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3321 | Portada sin promedio agregado de reseñas («4.8 ★») | NUEVO | — | — | REEMPLAZADO por REQ-3315 |
 | REQ-3322 | Aviso de origen y selección de las reseñas de la portada | NUEVO | `src/home/lib/copy.ts`, `src/components/home/v2/HomeReviews.tsx` | `src/home/lib/reviews-disclosure.test.ts` | EN CURSO (verde) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3370 | Un tour validado de Tangol se convierte en fila de `Tour` (providerId `tangol`, externalId, título, descripción, duración, precio público, moneda, imágenes) y su traducción; ciudad y categoría entran por parámetro | PO 12-11 | `src/tangol/lib/tour-rows.ts`, `src/tangol/lib/details.ts` | `src/tangol/lib/tour-rows.test.ts`, `src/tangol/lib/details.test.ts` | EN CURSO (tests verdes en la sesión; falta el paso que escribe en la base y el merge del PO) |
+| REQ-3371 | Validación Zod del detalle y de las imágenes: el registro malo se descarta, se cuenta y se registra; la carga sigue (regla 8) | PO 12-11 | `src/tangol/lib/details.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/details.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
+| REQ-3372 | Solo marca Travel Puzzle: título y descripción sin el nombre ni el dominio del proveedor, sin `UrlTour`, sin neto ni comisión; el precio es la tarifa pública | PO 12-11 | `src/tangol/lib/text.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/text.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
-| REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #420; envío real del 12-11 10:52 UTC: llegó en 2 s a Principal; prueba 1 sin logo había caído en Notificaciones) |
 | REQ-3380 | Tarjetas del home con número de tours; sin la línea repetida del hero | PO 12 nov | `src/components/home/v2/{HeroSearch,PopularDestinations,ContinentExplorer}.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3381 | Franja del home con íconos y menos texto | PO 12 nov | `src/components/home/v2/ProofStrip.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3311 | Candado 1: el filtro por proveedor en un solo punto (Prisma y SQL crudo) | NUEVO | `src/catalog/lib/provider-visibility.ts`, `src/lib/prisma.ts`, `src/destinations/repository.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts`, `src/app/api/cron/sync-tours/route.ts` | `src/catalog/lib/provider-visibility.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
 | REQ-3312 | Candado 2: prueba que falla si algo de Tangol puede salir con la bandera apagada | NUEVO | `src/catalog/gate-c-visibilidad.test.ts` | `src/catalog/gate-c-visibilidad.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
-
-## Guías de ciudad y blog bilingües (PO, 12 nov 2026; frente #418) — matriz de trazabilidad
-Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
-| ID | Requisito | Origen | Archivo(s) | Test | Estado |
-|---|---|---|---|---|---|
 | REQ-3333 | Índice de guías por país en cada idioma | PO 12-11 | `src/destinations/lib/guias-index.ts`, `src/destinations/guias.ts` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3334 | Página `/guias` y `/en/guias` (meta, hreflang, sitemap, ruta con idioma) | PO 12-11 | `src/app/guias/page.tsx`, `src/destinations/lib/guias-index.ts`, `src/i18n/lib/path.ts`, `src/site/server.ts`, `tests/smoke/pages.json` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests y build verdes; falta humo del PR) |
 | REQ-3335 | Pie: columna «Guías» con «Todas las guías» + hasta 8 países (gate A3); Blog una vez | PO 12-11 | `src/layout/lib/nav-model.ts`, `src/components/home/v2/SiteFooter.tsx`, `src/components/providers/FeatureFlags.tsx`, `src/app/layout.tsx` | `src/layout/lib/nav-model-guias.test.ts`, `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
@@ -1040,8 +1064,21 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
+| REQ-3458 | Pie sin «La Primera Pieza» | PO 12 nov | `src/layout/lib/nav-model.ts` | `src/layout/lib/nav-model.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-1421 | Filtro «Tema» en /tours (12 temas activos) | PO 8-11 | `src/taxonomy/lib/filters.ts`, `src/taxonomy/lib/publish.ts`, `src/catalog/{snapshot.ts,lib/query.ts}`, `src/components/tours/filters/MoreFilters.tsx`, `src/taxonomy/data/dictionary.json` | `src/taxonomy/lib/facets.test.ts`, `src/catalog/lib/query-temas.test.ts`, `src/taxonomy/lib/catalog-facets.test.ts`, `MoreFilters.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-1422 | Filtro de atributos en /tours (cómo te mueves, nocturno, entrada, día completo, español, vuelo) | PO 8-11 | mismos + `src/tours/lib/extra-filters.ts`, `src/trips/lib/public.ts` | `src/tours/lib/extra-filters-temas.test.ts` y los anteriores | EN CURSO (tests verdes; PR) |
 | REQ-3449 | Entrada del blog en inglés (`en`, localizePost) | PO 12-11 | `src/blog/lib/schema.ts`, `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
 | REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3452 | Validador del blog diario exige la versión en inglés | PO 12-11 | `src/blog/lib/diario-en.ts`, `src/blog/lib/diario.ts`, `src/blog/lib/fixtures.ts` | `src/blog/lib/diario-en.test.ts` | EN CURSO (PR #448) |
+| REQ-3318 | Públicas sin sesión con `Cloudflare-CDN-Cache-Control` 5 min; privadas y con sesión nunca | Gates B, C | `src/perf/lib/edge-cache.ts`, `src/perf/edge-cache.ts`, `src/middleware.ts` | `src/perf/lib/edge-cache.test.ts` | EN CURSO (tests verdes; falta preview y producción) |
+| REQ-3319 | Cache Rule que respeta el origen, sin caché con cookie de sesión ni 5xx | Gate A | dashboard de Cloudflare | `cf-cache-status: HIT` con curl | PENDIENTE (tras merge de REQ-3318) |
+| REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |
+| REQ-3489 | /tours no cae por los códigos de país de los viajes (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
+| REQ-3490 | /tours no cae por la lista de países de los filtros (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
+| REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
+| REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
+| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0028_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
+| REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
+| REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |

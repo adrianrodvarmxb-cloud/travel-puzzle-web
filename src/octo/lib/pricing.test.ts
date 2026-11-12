@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { fromPrice, guestPrice, internalMargin, isFullyPriced, toMajor } from "./pricing";
+import { chooseCurrency, fromPrice, guestPrice, internalMargin, isFullyPriced, toMajor } from "./pricing";
 import { productSchema } from "./schemas";
 import { sampleProduct } from "./fixtures";
 
@@ -29,5 +29,23 @@ describe("precios OCTO", () => {
     const raw = sampleProduct() as { options: { units: { pricingFrom: unknown[] }[] }[] };
     raw.options[0].units[1].pricingFrom = [];
     expect(isFullyPriced(productSchema.parse(raw))).toBe(false);
+  });
+});
+
+describe("moneda que se pide a Big Bus", () => {
+  it("REQ-3436: dólares si el producto los ofrece; si no, euros o pesos; si no, su moneda base", () => {
+    expect(chooseCurrency({ availableCurrencies: ["GBP", "USD", "EUR"], defaultCurrency: "GBP" })).toBe("USD");
+    expect(chooseCurrency({ availableCurrencies: ["GBP", "EUR"], defaultCurrency: "GBP" })).toBe("EUR");
+    expect(chooseCurrency({ availableCurrencies: ["AED"], defaultCurrency: "AED" })).toBe("AED");
+    expect(chooseCurrency({ availableCurrencies: [], defaultCurrency: null })).toBeNull();
+  });
+
+  it("REQ-3436: el precio «desde» usa la moneda elegida", () => {
+    const raw = sampleProduct() as { options: { units: { pricingFrom: unknown[] }[] }[] };
+    raw.options[0].units[0].pricingFrom = [
+      { original: 3900, retail: 3900, net: 3120, currency: "GBP", currencyPrecision: 2, includedTaxes: [] },
+      { original: 4900, retail: 4900, net: 3920, currency: "USD", currencyPrecision: 2, includedTaxes: [] },
+    ];
+    expect(fromPrice(productSchema.parse(raw), "USD")).toEqual({ amount: 49, currency: "USD" });
   });
 });

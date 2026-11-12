@@ -35,13 +35,25 @@ export function isFullyPriced(product: OctoProduct): boolean {
   return product.options.every((o) => o.units.length > 0 && o.units.every((u) => u.pricingFrom.length > 0));
 }
 
+/**
+ * Moneda en que se le piden los precios a Big Bus (decisión del PO, 12 nov 2026: «A», «lo haremos por API»):
+ * dólares si el producto los ofrece; si no, euros o pesos; si no, su moneda base (y esa ciudad no se cobra directo).
+ */
+export const PREFERRED_CURRENCIES = ["USD", "EUR", "MXN"] as const;
+
+// REQ-3436
+export function chooseCurrency(product: Pick<OctoProduct, "availableCurrencies" | "defaultCurrency">): string | null {
+  return PREFERRED_CURRENCIES.find((c) => product.availableCurrencies.includes(c)) ?? product.defaultCurrency ?? null;
+}
+
 /** Precio «desde» del producto: el retail de adulto más bajo entre sus opciones (indicativo, no final). */
-// REQ-3327
-export function fromPrice(product: OctoProduct): { amount: number; currency: string } | null {
+// REQ-3327, REQ-3436: con `currency`, solo cuenta precios en esa moneda.
+export function fromPrice(product: OctoProduct, currency?: string | null): { amount: number; currency: string } | null {
   let best: OctoPricing | null = null;
   for (const o of product.options) {
     const adult = o.units.find((u) => u.type === "ADULT") ?? o.units[0];
     for (const p of adult?.pricingFrom ?? []) {
+      if (currency && p.currency !== currency) continue;
       if (!best || (p.currency === best.currency && p.retail < best.retail)) best = p;
     }
   }
