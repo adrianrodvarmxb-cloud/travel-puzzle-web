@@ -934,3 +934,12 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
 | REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
 | REQ-1598 | Encender la bandera en producción | Gate D | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `tests/smoke/pages.json` | `src/accounts/flag.test.ts` | CUMPLIDO (PR #378; humo del PR con la bandera encendida y deploy 43132984631: /mi-cuenta/entrar 200 a 390 y 1366) |
+
+## Mapa: viajes de todos los proveedores (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta merge) |
+| REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta merge) |
+| REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO |
+| REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (falta merge) |
+| REQ-1615 | El buscador no incluye los viajes de agencia | NUEVO | — | — | PENDIENTE (PR aparte) |

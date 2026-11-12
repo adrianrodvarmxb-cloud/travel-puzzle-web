@@ -6,6 +6,7 @@ import { homeCopy } from '@/home/lib/copy';
 import { nameIn } from '@/home/lib/destinations';
 import { formatCount, formatRating } from '@/home/lib/format';
 import type { CityCard as CityCardData } from '@/map/load';
+import { cardHref } from '@/map/lib/trips';
 
 /** Tarjeta flotante de una ciudad del mapa: total de tours y 3 recomendados (regla 60/40). */
 export function CityCard({ card, loading, onClose }: { card: CityCardData | null; loading: boolean; onClose: () => void }) {
@@ -32,7 +33,7 @@ export function CityCard({ card, loading, onClose }: { card: CityCardData | null
               const rating = formatRating(t.rating);
               return (
                 <li key={t.id}>
-                  <Link href={`/tours/${t.id}`} className="flex gap-3 rounded-xl p-2 hover:bg-white/5">
+                  <Link href={cardHref(t)} className="flex gap-3 rounded-xl p-2 hover:bg-white/5">
                     {t.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={t.image} alt="" loading="lazy" className="h-14 w-14 shrink-0 rounded-lg object-cover" />
@@ -43,7 +44,7 @@ export function CityCard({ card, loading, onClose }: { card: CityCardData | null
                       <span className="line-clamp-2 text-sm font-semibold">{title}</span>
                       <span className="mt-0.5 block text-xs text-[#A9B6D6]">
                         {rating && <><span className="text-[#F5B301]">★</span> {rating} · </>}
-                        {t.isFree ? c.free : `${t.currency} ${t.price}`}
+                        {t.isFree ? c.free : t.price !== null ? `${t.currency} ${t.price}` : null}
                       </span>
                     </span>
                   </Link>
@@ -51,9 +52,11 @@ export function CityCard({ card, loading, onClose }: { card: CityCardData | null
               );
             })}
           </ul>
+          {!card.place && (
           <Link href={`/tours?countryId=${card.countryId}&cityId=${card.cityId}`} className="mt-3 block rounded-xl bg-[#C12909] px-4 py-3 text-center text-sm font-semibold text-white hover:opacity-90">
             {c.seeToursIn(city)}
           </Link>
+          )}
         </>
       )}
     </div>
