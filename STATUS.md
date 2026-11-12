@@ -1025,3 +1025,10 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
 | REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3452 | Validador del blog diario exige la versión en inglés | PO 12-11 | `src/blog/lib/diario-en.ts`, `src/blog/lib/diario.ts`, `src/blog/lib/fixtures.ts` | `src/blog/lib/diario-en.test.ts` | EN CURSO (PR #448) |
+
+## Caché de páginas públicas en el borde (gates A–D, 12 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3318 | Públicas sin sesión con `Cloudflare-CDN-Cache-Control` 5 min; privadas y con sesión nunca | Gates B, C | `src/perf/lib/edge-cache.ts`, `src/perf/edge-cache.ts`, `src/middleware.ts` | `src/perf/lib/edge-cache.test.ts` | EN CURSO (tests verdes; falta preview y producción) |
+| REQ-3319 | Cache Rule que respeta el origen, sin caché con cookie de sesión ni 5xx | Gate A | dashboard de Cloudflare | `cf-cache-status: HIT` con curl | PENDIENTE (tras merge de REQ-3318) |
+| REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |

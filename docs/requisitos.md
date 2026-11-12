@@ -1260,3 +1260,11 @@ Petición literal (PO, 12-11, 03:48): «correo de Gmail, el hilo de Opus. Ahí v
 | ID | Tipo | Requisito | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-3435 | CÓDIGO | «sí, agrégalo al aviso de privacidad publicado» (PO, 12 nov 2026 05:43). Dado el aviso integral y el simplificado, cuando se publican, entonces dicen que Mila consulta reserva y pagos solo tras verificar al titular (número o folio y correo), que se guarda el identificador de usuario de WhatsApp, y que por WhatsApp solo se envían promociones con consentimiento aparte (BAJA para retirarlo) | agente | merge (OK del PO) | EN CURSO |
+
+## REQ-3318 a REQ-3320: caché de páginas públicas en el borde (gates A–D, 12 nov 2026)
+Petición (PO, 12-11): «sigue con lo que corresponda… siguiendo do plan»; enfoque firmado en `docs/gates-cache-html.md`. Objetivo: bajar el TTFB para cumplir REQ-1560.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3318 | CÓDIGO | Dada una petición GET sin cookie de sesión a una ruta pública (gate C), cuando el sitio responde 200, entonces manda `Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400`; con sesión, o a `/admin`, `/api`, `/mi-cuenta`, `/reserva`, `/login`, sigue `private, no-store` | agente | — | PENDIENTE |
+| REQ-3319 | CLOUDFLARE | Dada la regla anterior, cuando se pide dos veces la misma página pública sin sesión, entonces la segunda responde `cf-cache-status: HIT` (Cache Rule que respeta el origen y se salta la caché si hay cookie de sesión) | agente (PO aprueba el dashboard) | REQ-3318 | PENDIENTE |
+| REQ-3320 | CÓDIGO | Dado un deploy a producción o un viaje guardado en el gestor, cuando termina, entonces se purga la caché (todo al publicar; las URL del viaje al guardar) con un token solo de purga en secretos | agente + PO (token) | REQ-3318, token | PENDIENTE |
