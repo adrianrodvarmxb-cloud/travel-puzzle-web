@@ -98,3 +98,16 @@ describe("enlaces legales", () => {
     expect(TERMINOS).toContain("Ley Federal de Protección al Consumidor");
   });
 });
+
+describe("REQ-1597: el aviso de privacidad cubre las cuentas de cliente", () => {
+  it("REQ-1597: finalidad de la cuenta y datos que llegan de Google", () => {
+    expect(PRIVACIDAD_INTEGRAL).toContain("Crear y administrar su cuenta (opcional) para consultar sus reservas");
+    expect(PRIVACIDAD_INTEGRAL).toContain("nombre, correo electrónico y foto de perfil");
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/sesión de su cuenta/i);
+  });
+});
+describe("REQ-1597: aviso simplificado", () => {
+  it("REQ-1597: también lleva la finalidad de la cuenta", () => {
+    expect(PRIVACIDAD_SIMPLIFICADO).toContain("Crear y administrar su cuenta (opcional) para consultar sus reservas");
+  });
+});

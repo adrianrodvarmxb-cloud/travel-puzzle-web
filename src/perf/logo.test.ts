@@ -24,3 +24,11 @@ describe('REQ-1564: el logo del pie de página no se descarga en la carga inicia
     expect(tag).toMatch(/height=\{96\}/);
   });
 });
+
+describe('REQ-1564: íconos de redes del pie de página fuera de la carga inicial', () => {
+  it('REQ-1564: SiteFooter carga los íconos de redes con loading="lazy"', () => {
+    const tag = readFileSync('src/components/home/v2/SiteFooter.tsx', 'utf8').match(/<img src=\{`\/brand\/social\/[^>]*\/>/)?.[0] ?? '';
+    expect(tag).toMatch(/loading="lazy"/);
+    expect(tag).toMatch(/decoding="async"/);
+  });
+});

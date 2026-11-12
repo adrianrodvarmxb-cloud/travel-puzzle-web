@@ -915,8 +915,45 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C. Gate C aplicado el 11-11 (Early Hints, Smart Tiered Cache, Cache Rule `/_next/static/*` respetando cache-control); Rocket Loader apagado; Polish requiere plan Pro.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod: 2.67 / 8.46 / 2.59 s; falta gate B) |
-| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | CUMPLIDO (prod: 0.000 en las 3) |
-| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod: 321 / 539 / 272 ms) |
-| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod: 1.99 / 3.35 / 1.99 MB; falta gate B) |
-| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod: 4 íconos de redes del pie) |
+<<<<<<< HEAD
+| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod mediana móvil: 3.56 / 3.71 / 3.74 s) |
+| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | CUMPLIDO (prod: ≤ 0.002 en las 3) |
+| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod mediana: 386 / 552 / 266 ms) |
+| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (móvil sí: 1.46 / 1.03 / 0.83 MB; escritorio / y /tours no) |
+| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | EN CURSO (Lighthouse 0 fuera de pantalla; falta prueba Playwright) |
+=======
+| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: home 3.3 s, ficha 3.3 s, /tours 11.5 s; falta gate B) |
+| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 0.000 en las 3) |
+| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 181 / 425 / 253 ms) |
+| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 2.2 / 3.5 / 2.2 MB; falta gate B) |
+| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 200 KiB por el logo del pie; ya corregido, sin medir) |
+| REQ-1616 | El build no descarga fuentes de Google (INC-012) | `src/app/layout.tsx`, `src/app/fonts/` | `src/perf/fonts.test.ts` | CUMPLIDO (CI y producción verdes) |
+
+## Cuentas de cliente opcionales (PO, 11 nov 2026) — matriz de trazabilidad
+Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT_PUBLIC_ACCOUNTS_ENABLED` (apagada en este PR).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1599 | Enlace al correo (15 min, un uso, misma respuesta exista o no) | Gate A | `src/accounts/lib/login-link.ts`, `src/accounts/login.ts`, `src/app/api/cuenta/enlace/route.ts` | `src/accounts/lib/login-link.test.ts`, `src/accounts/login.test.ts`, `src/accounts/routes.test.ts` | CUMPLIDO en código y humo local con bandera (enlace firmado, un uso, ajenas excluidas); envío real del correo en producción NO VERIFICADO aún |
+| REQ-1591 | Entrar con el enlace (crea CLIENT; vencido/alterado/usado no entra) | Gate A | `src/accounts/login.ts`, `src/lib/auth.ts`, `src/components/account/VerifyLogin.tsx` | `src/accounts/login.test.ts` | CUMPLIDO en código y humo local con bandera (enlace firmado, un uso, ajenas excluidas); envío real del correo en producción NO VERIFICADO aún |
+| REQ-1592 | Registro con contraseña apagado (410) y contraseña solo ADMIN | Auditoría | `src/accounts/lib/policy.ts`, `src/app/api/auth/signup/route.ts`, `src/lib/auth.ts`, `src/middleware.ts` | `src/accounts/lib/policy.test.ts`, `src/accounts/routes.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
+| REQ-1593 | Mis reservas: todo lo del correo, sin distinguir mayúsculas, nunca ajenas | Gate B | `src/accounts/lib/bookings.ts`, `src/accounts/deps.ts`, `src/app/mi-cuenta/reservas/page.tsx` | `src/accounts/lib/bookings.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
+| REQ-1594 | Mi cuenta: nombre, cerrar sesión, borrar cuenta | Gate B | `src/app/mi-cuenta/page.tsx`, `src/components/account/AccountSettings.tsx`, `src/app/api/cuenta/route.ts` | `src/accounts/lib/policy.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
+| REQ-1595 | Header: Entrar / Mis reservas / Mi cuenta con la bandera | Gate A | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
+| REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
+| REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
+| REQ-1598 | Encender la bandera en producción | Gate D | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `tests/smoke/pages.json` | `src/accounts/flag.test.ts` | CUMPLIDO (PR #378; humo del PR con la bandera encendida y deploy 43132984631: /mi-cuenta/entrar 200 a 390 y 1366) |
+
+## Mapa: viajes de todos los proveedores (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1575 | Viajes publicados suman en su ciudad del mapa y salen en su tarjeta | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/app/api/map/cities/route.ts`, `src/components/map/CityCard.tsx`, `src/destinations/lib/catalog.ts` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | CUMPLIDO (publicado #371) |
+| REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | CUMPLIDO (publicado #371) |
+| REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO |
+| REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | CUMPLIDO (publicado #371) |
+| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | EN CURSO (tests verdes; falta merge) |
+
+## Encender lo ya definido (OK del PO 11 nov 2026 22:38, REQ-1629) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+>>>>>>> origin/main

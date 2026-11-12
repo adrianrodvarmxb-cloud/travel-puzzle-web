@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const q = request.nextUrl.searchParams.get("q") ?? "";
   const language = pickLanguage(request.nextUrl.searchParams.get("language"));
   try {
-    const body = await cached(cacheKey("suggest", { language, q: fold(q).slice(0, 80), v: 1 }), POLICY.toursList, async () => (await suggestFor(suggestDeps(), q, language)) ?? { q, corrected: false, correctedLabel: null, items: [] });
+    const body = await cached(cacheKey("suggest", { language, q: fold(q).slice(0, 80), v: 2 } /* REQ-1615 */), POLICY.toursList, async () => (await suggestFor(suggestDeps(), q, language)) ?? { q, corrected: false, correctedLabel: null, items: [] });
     return NextResponse.json(body);
   } catch (error) {
     console.error("[busqueda] sugerencias no disponibles:", (error as Error).message);
