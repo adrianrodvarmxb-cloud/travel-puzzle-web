@@ -39,6 +39,7 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     const r = await createOctoApi({ config, fetch: f as unknown as typeof fetch }).getProducts();
     expect(r.items.map((p) => p.id)).toEqual(["prod-hoho-nyc", "p2"]);
     expect(r.discarded).toBe(1);
+    expect(r.raw).toHaveLength(3);
     expect(call(f, 0).url).toBe("https://api.ventrata.com/octo/products?limit=100");
     expect(call(f, 1).url).toBe("https://api.ventrata.com/octo/products?limit=100&page=cur%202");
     warn.mockRestore();
@@ -67,7 +68,8 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     expect(init.method).toBe("POST");
     expect(headers["Content-Type"]).toBe("application/json");
     expect(body.unitItems).toEqual([{ unitId: "unit-adult" }, { unitId: "unit-adult" }]);
-    expect(body).toMatchObject({ uuid: "11111111-2222-4333-8444-555555555555", resellerReference: "TP-20261112-001", expirationMinutes: 30 });
+    expect(body).toMatchObject({ uuid: "11111111-2222-4333-8444-555555555555", resellerReference: "TP-20261112-001", expirationMinutes: 45 });
+    expect(body.currency).toBeUndefined();
     expect(b.status).toBe("ON_HOLD");
   });
 
@@ -80,6 +82,34 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     const c = await api.cancel("abc", "El cliente canceló");
     expect(call(f, 1).url).toBe("https://api.ventrata.com/octo/bookings/abc/cancel");
     expect(c.status).toBe("CANCELLED");
+  });
+
+  it("REQ-3436: la disponibilidad se pide en dólares cuando se indica la moneda", async () => {
+    const f = fakeFetch({ json: [] });
+    await createOctoApi({ config, fetch: f as unknown as typeof fetch }).availability({ productId: "p", optionId: "o", localDateStart: "2026-12-01", localDateEnd: "2026-12-01", currency: "USD" });
+    expect(call(f).url).toBe("https://api.ventrata.com/octo/availability");
+    expect(call(f).body).toMatchObject({ productId: "p", currency: "USD" });
+  });
+
+  it("REQ-3453: actualizar manda PATCH solo con lo que cambia (personas como una unidad por persona)", async () => {
+    const f = fakeFetch({ json: sampleBooking() });
+    const api = createOctoApi({ config, fetch: f as unknown as typeof fetch });
+    await api.update("abc", { availabilityId: "2026-12-02T00:00:00-05:00", units: [{ id: "unit-adult", quantity: 3 }] });
+    const { url, init, body } = call(f);
+    expect(url).toBe("https://api.ventrata.com/octo/bookings/abc");
+    expect(init.method).toBe("PATCH");
+    expect(body).toEqual({ availabilityId: "2026-12-02T00:00:00-05:00", unitItems: [{ unitId: "unit-adult" }, { unitId: "unit-adult" }, { unitId: "unit-adult" }] });
+    await expect(api.update("abc", {})).rejects.toMatchObject({ errorCode: "EMPTY_UPDATE" });
+    await expect(api.update("abc", { currency: "USD" })).rejects.toMatchObject({ errorCode: "EMPTY_UPDATE" });
+  });
+
+  it("REQ-3436: apartar y actualizar fijan la moneda (hallazgo del ensayo: sin moneda la reserva quedaba en GBP)", async () => {
+    const f = fakeFetch({ json: sampleBooking({ status: "ON_HOLD" }) });
+    const api = createOctoApi({ config, fetch: f as unknown as typeof fetch });
+    await api.reserve({ uuid: "u", productId: "p", optionId: "o", availabilityId: "a", units: [{ id: "x", quantity: 1 }], resellerReference: "TP-1", currency: "USD" });
+    expect(call(f, 0).body.currency).toBe("USD");
+    await api.update("u", { units: [{ id: "x", quantity: 2 }], currency: "USD" });
+    expect(call(f, 1).body).toMatchObject({ currency: "USD", unitItems: [{ unitId: "x" }, { unitId: "x" }] });
   });
 
   it("REQ-3326: un error de Ventrata conserva su status y su código", async () => {

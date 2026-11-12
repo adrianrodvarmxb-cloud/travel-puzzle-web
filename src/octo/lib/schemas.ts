@@ -83,6 +83,8 @@ export const productSchema = z.object({
   deliveryMethods: z.array(z.string()).nullish().transform((v) => v ?? []),
   redemptionMethod: nstr,
   defaultCurrency: nstr,
+  /** REQ-3436: monedas en que el operador puede cotizar este producto (capacidad octo/pricing). */
+  availableCurrencies: z.array(z.string()).nullish().transform((v) => v ?? []),
   pricingPer: nstr,
   options: z.array(optionSchema).min(1),
 });

@@ -39,6 +39,18 @@ Fuente técnica: docs.ventrata.com (Steps to Integrate, Authentication, Headers,
    - Webhooks de cambios.
 4. **Certificación y encendido:** REQ-3331, luego REQ-3329 en "test" y luego "live".
 
+## Estado (12 nov 2026)
+- Ola 1: PR #419.
+- Olas 2 y 3: en código, con pruebas, tras la bandera (REQ-3413 a REQ-3423).
+  - El plan del catálogo vive en D1 (`OctoCatalogPlan`), no en el archivo crudo (REQ-747).
+  - La compra usa la solicitud (`TripRequest`, `kind: "compra"`) y el pago (`Payment`) de siempre, más `OctoBooking`.
+  - El webhook de Stripe llama a la compra directa solo con la bandera encendida.
+- Decisiones del PO pendientes:
+  - REQ-3425: política de reembolso.
+  - REQ-3433: copia exacta al archivo privado.
+- Monedas (REQ-3434, decidido «A»): se piden precios en USD por la API cuando el producto lo ofrece (REQ-3436); se confirma con la llave cuáles lo ofrecen (REQ-3437).
+- Falta la revisión visual con la llave de prueba (REQ-3424) y la certificación (REQ-3331).
+
 ## Estructura de carpetas (nueva)
 ```
 src/octo/
@@ -50,7 +62,19 @@ src/octo/
     pricing.ts           retail al cliente, net interno, precio «desde»
     booking-flow.ts      apartado, liberar sin pago, voucher/tickets
     fixtures.ts          datos de muestra con forma OCTO (pruebas)
+    catalog.ts           ola 2: ciudad de cada producto y plan sin net
+    purchase.ts          ola 3: validar compra, salida y total
+    ticket-email.ts      ola 3: boleto, aviso al equipo y cancelación
+    public-view.ts       ola 3: lo que llega al navegador
     *.test.ts
+  data/bigbus-ciudades.json  palabras de cada ciudad (29)
+  catalog-sync.ts        ola 2: sincronización diaria (deps inyectadas)
+  purchase.ts            ola 3: apartar → Stripe → confirmar → boleto; cancelar
+  deps.ts                dependencias reales (Ventrata, D1, Prisma, Stripe, Resend)
+src/components/trips/BigBusBuyBox.tsx   caja de compra en la ficha (solo con bandera)
+src/app/api/bigbus/{opciones,compra,cancelar}/route.ts
+src/app/api/cron/bigbus-sync/route.ts
+migrations/0029_octo_booking.sql        OctoBooking y OctoCatalogPlan
 docs/bigbus/
   autorizaciones.md      lo que Big Bus autorizó por escrito
   octo-integracion.md    este plan
