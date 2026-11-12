@@ -1,5 +1,5 @@
 /**
- * REQ-1610 (gates A1 y B1, PO 12 nov 2026; de INC-010): decide si producción quedó atrás de `main` porque un deploy
+ * REQ-1633 (gates A1 y B1, PO 12 nov 2026; de INC-010): decide si producción quedó atrás de `main` porque un deploy
  * se revirtió o se canceló, y si toca relanzarlo.
  *
  * Puro: todo el estado entra por parámetro. No lee la red ni Cloudflare. El sha que sirve producción se deduce del

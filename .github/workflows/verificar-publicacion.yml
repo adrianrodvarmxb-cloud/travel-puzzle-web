@@ -1,4 +1,4 @@
-# REQ-1610 (gates A1 y B1 del PO, 12 nov 2026; de INC-010): si un deploy de `main` se revirtió o se canceló,
+# REQ-1633 (gates A1 y B1 del PO, 12 nov 2026; de INC-010): si un deploy de `main` se revirtió o se canceló,
 # producción queda atrás de `main` con el contenido del día fusionado pero fuera del aire, y hasta ahora nadie lo
 # reintentaba. Este workflow lo comprueba cada 30 min: relanza el deploy UNA vez al día (gate B1) y, si vuelve a
 # quedarse atrás, deja el motivo en un issue y se detiene. No toca el camino feliz de ningún agente diario.
@@ -71,7 +71,7 @@ jobs:
           gh api -X POST "repos/$REPO/actions/workflows/deploy-cloudflare.yml/dispatches" -f ref=main
           gh api "repos/$REPO/labels" -f name="$MARCA" -f color=0e8a16 -f description="Relanzamientos automáticos de la publicación" > /dev/null 2>&1 || true
           printf '%s\n' \
-            "El último deploy de \`main\` no publicó y producción quedó atrás, así que se relanzó una vez (gate A1 y B1, REQ-1610)." \
+            "El último deploy de \`main\` no publicó y producción quedó atrás, así que se relanzó una vez (gate A1 y B1, REQ-1633)." \
             "" \
             "- Motivo: $MOTIVO" \
             "- HEAD de main: \`$SHA_MAIN\`" \

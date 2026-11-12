@@ -1,5 +1,5 @@
 /**
- * REQ-1610: CLI del verificador de publicación. Solo I/O: lee el estado que reunió el workflow y escribe la decisión.
+ * REQ-1633: CLI del verificador de publicación. Solo I/O: lee el estado que reunió el workflow y escribe la decisión.
  *   npx tsx src/scripts/verificar-publicacion.ts <estado.json>
  * Imprime «accion=…» y «motivo=…» para que el workflow los lea con GITHUB_OUTPUT.
  */
