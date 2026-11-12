@@ -108,17 +108,24 @@ Plan de regreso: apagar la bandera. Las preguntas quedan en la base sin efecto.
 ## 8. Preguntas aprobadas por el PO, proveedor por proveedor
 Salen del barrido completo de lo que envió cada proveedor (correos, adjuntos y T&C; detalle en el proyecto de Claude, fuera del repo). Mila pide solo esto; lo ya recibido no se vuelve a pedir.
 
+Regla de forma (PO, 12 nov 2026: «aprobado, solo busca la manera de que no se vea tan abrumador, al igual Jordania»): Mila no manda la lista completa de golpe. Cada correo lleva **máximo 5 puntos agrupados por tema**, empezando por lo que desbloquea vender (tarifas y calendario). Lo demás va en un segundo correo cuando contesten el primero, o en el recordatorio. Tono breve y cordial, sin numerar 13 preguntas.
+
 ### Jordan Experience: aprobado («si aprobado», PO, 12 nov 2026)
-1. ¿Tienen API o portal para reservar, o todo es por correo? ¿Las reservas van a sales2@ o a sales4@?
-2. ¿Qué precio y edades aplican a niños? ¿Tienen tarifas para grupos?
-3. ¿Con cuántos días de anticipación mínima se puede reservar?
-4. ¿Qué precio tienen la cena de gala del 31 de diciembre, la carpa de lujo, el vuelo Aqaba–Amman, la noche extra en Aqaba, las noches extra en Ammán y los opcionales?
-5. ¿Qué fecha tiene la Semana Santa ortodoxa y en qué año caen las fechas del Eid del recargo?
-6. Nuestros viajeros salen de México, no en los vuelos de Royal Jordanian desde Madrid o Barcelona. ¿Siempre aplica el traslado privado?
-7. ¿Qué plazo hay para pagar y en qué moneda facturan?
-8. ¿Qué se cobra si se cancela entre 8 y 14 días antes? ¿Cómo se hacen los reembolsos y cuánto cuesta un cambio?
-9. ¿Mandan voucher por reserva? ¿En qué formato?
-10. ¿Nos comparten su razón social, licencia de turismo y seguro de responsabilidad civil?
-11. ¿Tienen términos y condiciones para agencias? ¿Firmarían un acuerdo de intermediación?
-12. ¿Qué datos necesitan de cada pasajero?
-13. ¿Nos mandan el archivo de fotos que prometieron?
+**Correo 1 (para poder vender):**
+1. Tarifas que faltan: niños (precio y edades), grupos, cena de gala del 31 dic, carpa de lujo, vuelo Aqaba–Amman, noches extra y opcionales.
+2. Calendario: anticipación mínima para reservar, fecha de la Semana Santa ortodoxa y año de las fechas del Eid.
+3. Traslado privado: si aplica siempre a viajeros que salen de México, no en los vuelos de Royal Jordanian desde España.
+4. Pago: plazo y moneda de la factura.
+5. Cancelación: qué se cobra entre 8 y 14 días antes, cómo reembolsan y cuánto cuesta un cambio.
+
+**Correo 2 (para cerrar el alta):** reservas por API, portal o correo (¿sales2@ o sales4@?); voucher; razón social, licencia y seguro de RC; términos para agencias y acuerdo de intermediación; datos del pasajero; el archivo de fotos prometido.
+
+### Mondial Trails: aprobado («aprobado», PO, 12 nov 2026)
+**Correo 1 (para poder vender):**
+1. Tarifarios vigentes: Tailandia, Norte, Phuket y Phi Phi vencieron el 31 oct 2026; Bali a partir de abr 2027. Si se puede, en Excel.
+2. Calendario: días de salida y anticipación mínima por programa; cenas obligatorias de Nochebuena y Año Nuevo 2026 y fecha de Loy Krathong 2026; qué es «valor noche adicional».
+3. Precios que faltan: lancha a Phi Phi, traslados, opcionales y grupos; y si Phi Phi es en USD o THB.
+4. Pago: depósito, plazo, moneda, cuenta y recargo con tarjeta.
+5. Cancelación: tramos que faltan en Phi Phi y Phuket, la de Bali, no-show, reembolsos y cambios.
+
+**Correo 2 (para cerrar el alta):** API, portal o plugin; contacto de reservas, tiempo de respuesta, teléfono 24/7 y vouchers; licencia, seguro de RC y términos para agencias; acuerdo de intermediación; permiso de fotos con crédito; datos del viajero y visa para Tailandia e Indonesia.
