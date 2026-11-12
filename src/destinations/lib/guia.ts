@@ -20,6 +20,18 @@ const DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const txt = (max: number) => z.string().trim().min(1).max(max);
 
+const sectionSchema = z.object({ h2: txt(120), answer: txt(600), body: z.array(txt(2000)).default([]), list: z.array(txt(400)).optional() });
+
+// REQ-3336 (gate B2): versión en inglés de la guía, con la misma forma que la española.
+export const guideLangSchema = z.object({
+  nombre: txt(80),
+  targetTerm: txt(120),
+  titulo: txt(120),
+  enBreve: txt(800),
+  sections: z.array(sectionSchema).min(3).max(6),
+  comoLoSabemos: txt(600),
+});
+
 // REQ-1220: esquema de la guía
 export const guideSchema = z.object({
   pais: z.string().regex(/^[a-z]{2}$/),
@@ -31,8 +43,10 @@ export const guideSchema = z.object({
   author: z.literal("editorial"),
   origen: z.literal("agente-diario"),
   enBreve: txt(800),
-  sections: z.array(z.object({ h2: txt(120), answer: txt(600), body: z.array(txt(2000)).default([]), list: z.array(txt(400)).optional() })).min(3).max(6),
+  sections: z.array(sectionSchema).min(3).max(6),
   comoLoSabemos: txt(600),
+  /** REQ-3336: versión en inglés (opcional en el registro; el validador la exige en guías nuevas). */
+  en: guideLangSchema.optional(),
 });
 export type CityGuide = z.output<typeof guideSchema>;
 export type CityGuideInput = z.input<typeof guideSchema>;
@@ -42,10 +56,28 @@ export function parseGuide(input: unknown): { ok: true; guide: CityGuide } | { o
   return r.success ? { ok: true, guide: r.data } : { ok: false, error: r.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ") };
 }
 
+export type GuideText = z.output<typeof guideLangSchema>;
+export type GuideLang = "es" | "en";
+/** REQ-3336: guía lista para pintar en un idioma. */
+export type LocalizedGuide = GuideText & Pick<CityGuide, "pais" | "ciudad" | "publishedAt"> & { lang: GuideLang };
+
+/** REQ-3336: idiomas en los que existe la guía (el español siempre). */
+export function guideLangs(g: CityGuide): GuideLang[] {
+  return g.en ? ["es", "en"] : ["es"];
+}
+
+/** REQ-3336: la guía en el idioma pedido, o null si no existe en ese idioma (nunca el español en otro idioma). */
+export function guideIn(g: CityGuide, lang: string): LocalizedGuide | null {
+  const meta = { pais: g.pais, ciudad: g.ciudad, publishedAt: g.publishedAt };
+  if (lang === "es") return { ...meta, lang: "es", nombre: g.nombre, targetTerm: g.targetTerm, titulo: g.titulo, enBreve: g.enBreve, sections: g.sections, comoLoSabemos: g.comoLoSabemos };
+  if (lang === "en" && g.en) return { ...meta, lang: "en", ...g.en };
+  return null;
+}
+
 export const guideKey = (g: Pick<CityGuide, "pais" | "ciudad">) => `${g.pais}/${g.ciudad}`;
 export const guideCityPath = (g: Pick<CityGuide, "pais" | "ciudad">) => `/destinos/${g.pais}/${g.ciudad}`;
 
-const units = (g: CityGuide): [string, string][] => [
+const units = (g: Pick<CityGuide, "enBreve" | "sections">): [string, string][] => [
   ["enBreve", g.enBreve],
   ...g.sections.flatMap((s, i) => [
     [`sections[${i}].answer`, s.answer] as [string, string],
@@ -55,7 +87,7 @@ const units = (g: CityGuide): [string, string][] => [
 ];
 
 /** REQ-1222: texto plano de la guía (lo que se superpone a `City.guide` y cuenta para la regla de 300 palabras). */
-export function guidePlain(g: CityGuide): string {
+export function guidePlain(g: Pick<CityGuide, "enBreve" | "sections">): string {
   return [plainText(g.enBreve), ...g.sections.flatMap((s) => [s.h2, plainText(s.answer), ...s.body.map(plainText), ...(s.list ?? []).map(plainText)])].join("\n\n");
 }
 
@@ -107,6 +139,8 @@ export function guideProblems(input: unknown, ctx: GuideCtx): { ok: true; guide:
     const frag = copiedFragments(guidePlain(g), ctx.cityText);
     if (frag.length) out.push(`C2: texto copiado de la página de la ciudad: «${frag[0]}»`);
   }
+  // REQ-3336 (gate B2): la versión en inglés es obligatoria y cumple las mismas reglas.
+  out.push(...guideEnProblems(g, ctx));
   // REQ-1225
   if (!ctx.knownPaths.has(guideCityPath(g))) out.push(`la ciudad ${guideCityPath(g)} no tiene página publicada`);
   if (ctx.existing.some((x) => guideKey(x) === guideKey(g))) out.push(`la ciudad ${guideKey(g)} ya tiene guía`);
@@ -120,6 +154,37 @@ export function guideProblems(input: unknown, ctx: GuideCtx): { ok: true; guide:
   if (conflicts.length) out.push(`término repetido o casi igual: ${conflicts.join(", ")}`);
   const unique = [...new Set(out)];
   return unique.length ? { ok: false, problems: unique } : { ok: true, guide: g };
+}
+
+const EN_PROHIBIDAS = /FREETOUR|free\s*tour\.com/i;
+
+// REQ-3336: reglas de la versión en inglés (mensajes con el prefijo «inglés:»).
+export function guideEnProblems(g: CityGuide, ctx: Pick<GuideCtx, "existing" | "knownPaths">): string[] {
+  const e = g.en;
+  if (!e) return ["falta la versión en inglés (en)"];
+  const out: string[] = [];
+  const words = wordCount(guidePlain(e));
+  if (words < GUIDE_MIN_WORDS_REPO) out.push(`inglés: la guía necesita ${GUIDE_MIN_WORDS_REPO} palabras o más (tiene ${words})`);
+  const brief = wordCount(plainText(e.enBreve));
+  if (brief < 40 || brief > 80) out.push(`inglés: «In short» debe tener de 40 a 80 palabras (tiene ${brief})`);
+  if (e.sections.length !== g.sections.length) out.push(`inglés: debe tener las mismas ${g.sections.length} secciones que la versión en español (tiene ${e.sections.length})`);
+  if (!/(?<!\p{L})AI(?!\p{L})/u.test(e.comoLoSabemos) || /interview|approved by|reviewed by/i.test(e.comoLoSabemos)) out.push("inglés: «How we know» debe decir que se usó AI y no afirmar entrevistas ni aprobaciones");
+  const links = units(e).flatMap(([, t]) => inlineLinks(t));
+  const hosts = new Set(links.filter((l) => l.href.startsWith("https://")).map((l) => host(l.href)).filter(Boolean));
+  if (hosts.size < 2) out.push(`inglés: la guía necesita 2 fuentes externas de dominios distintos (tiene ${hosts.size})`);
+  for (const t of [e.nombre, e.titulo, e.targetTerm, e.comoLoSabemos, ...units(e).map(([, x]) => x), ...e.sections.map((s) => s.h2)]) {
+    const m = EN_PROHIBIDAS.exec(t);
+    if (m) out.push(`inglés: vocabulario prohibido: «${m[0]}»`);
+  }
+  for (const l of links) {
+    if (!l.href.startsWith("/")) continue;
+    const p = cleanPath(l.href);
+    if (!FIXED.includes(p) && !ctx.knownPaths.has(p)) out.push(`inglés: enlace que no resuelve: ${p}`);
+  }
+  const others = ctx.existing.filter((x) => guideKey(x) !== guideKey(g) && x.en).map((x) => ({ term: x.en!.targetTerm, label: `guía ${guideKey(x)} (en)` }));
+  const conflicts = termConflicts(e.targetTerm, others);
+  if (conflicts.length) out.push(`inglés: término repetido o casi igual: ${conflicts.join(", ")}`);
+  return out;
 }
 
 interface CountryLite { id: number; iso2: string | null }
