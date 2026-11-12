@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { imgLoading, transformedSrc, heroSlidesToMount, IMAGE_TRANSFORMS_ENABLED, TRANSFORM_ZONE } from './image';
+import { imgLoading, transformedSrc, transformedSrcSet, heroSlidesToMount, IMAGE_TRANSFORMS_ENABLED, TRANSFORM_ZONE } from './image';
 import { PROVIDER_IMAGE_ORIGIN } from '@/freetour/lib/image-origin';
 
 describe('REQ-1564: carga de imágenes (lógica pura)', () => {
@@ -36,5 +36,17 @@ describe('REQ-1563: Image Transformations encendido (gate B; zona habilitada el 
     expect(IMAGE_TRANSFORMS_ENABLED).toBe(true);
     expect(TRANSFORM_ZONE).toBe('https://travelpuzzle.com.mx');
     expect(transformedSrc('/api/viajes/foto/trips/1-a.jpg', 640)).toMatch(/^https:\/\/travelpuzzle\.com\.mx\/cdn-cgi\/image\/width=640,/);
+  });
+});
+
+describe('REQ-1563: imágenes responsivas (srcset) con Transformations', () => {
+  it('REQ-1563: arma un srcset con un ancho por candidato, en orden, con descriptor w', () => {
+    const s = transformedSrcSet('/api/viajes/foto/trips/1-a.jpg', [320, 640], true);
+    expect(s).toBe(`${TRANSFORM_ZONE}/cdn-cgi/image/width=320,quality=75,format=auto,fit=scale-down/api/viajes/foto/trips/1-a.jpg 320w, ${TRANSFORM_ZONE}/cdn-cgi/image/width=640,quality=75,format=auto,fit=scale-down/api/viajes/foto/trips/1-a.jpg 640w`);
+  });
+  it('REQ-1563: sin bandera, o si la imagen no se puede transformar, no hay srcset (el navegador usa src)', () => {
+    expect(transformedSrcSet('/api/viajes/foto/trips/1-a.jpg', [320, 640], false)).toBeUndefined();
+    expect(transformedSrcSet('/brand/logo.gif', [320, 640], true)).toBeUndefined();
+    expect(transformedSrcSet('https://evil.example/x.jpg', [320], true)).toBeUndefined();
   });
 });

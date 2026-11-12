@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from '@/components/i18n/LocalizedLink';
 import type { ExperienceCardModel } from '@/tours/lib/experience-card';
-import { imgLoading, transformedSrc } from '@/perf/lib/image';
+import { imgLoading, transformedSrc, transformedSrcSet } from '@/perf/lib/image';
 
 /**
  * REQ-583: es un <a href> real con título, ciudad · duración, precio y operador en texto (se lee sin JS).
@@ -46,7 +46,7 @@ export function ExperienceCard({ card, look = 'standard', featured = false, prio
         >
             <div className={`relative overflow-hidden bg-[#1B2A5E] ${featured ? 'aspect-[4/5] md:aspect-[8/5]' : l.photo}`}>
                 {card.image ? (
-                    <img src={transformedSrc(card.image, 640)} alt={card.title} width={640} height={480} {...imgLoading(priority)} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <img src={transformedSrc(card.image, 640)} srcSet={transformedSrcSet(card.image, [320, 480, 640])} sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 320px" alt={card.title} width={640} height={480} {...imgLoading(priority)} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 ) : (
                     <span className="flex h-full items-center justify-center text-4xl opacity-50" aria-hidden>🌍</span>
                 )}
