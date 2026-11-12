@@ -1,12 +1,17 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 11 nov 2026, 13:45 (CDMX).
+Actualizado: 11 nov 2026, 23:55 (CDMX).
 
 
 ## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
+| REQ-1579 | El humo del contrato de idioma reintenta el fallo de transporte (no un código real) | NUEVO | `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `src/ops/lib/smoke-contrato-reintento.test.ts` | CUMPLIDO (#369/b227302; 6/6 verdes el 12 nov) |
+| REQ-1607 | Big Bus: publicar solo lo visible en el Partner Booking Platform | NUEVO | — | — | BLOQUEADO, espera OK del PO (sin código y sin test; `grep` vacío el 12 nov) |
+| REQ-1608 | `folio.ts revisar` detecta el folio duplicado en el PR | NUEVO | `src/ops/lib/folios.ts` | `src/ops/lib/folios.test.ts` | CUMPLIDO (#382; 2/2 verdes el 12 nov) |
+| REQ-1609 | Redes del día: nadie publica hasta que el artículo y las láminas respondan 200 | NUEVO | `src/redes/run.ts`, `src/redes/lib/espera.ts` | `src/redes/lib/espera.test.ts`, `src/redes/run.test.ts` | EN CURSO (5/5 verdes el 12 nov; código en `main`, falta cerrar el estado) |
+| REQ-1633 | Verificador de publicación: relanza el deploy revertido una vez al día | NUEVO | `src/ops/lib/publicacion.ts`, `src/scripts/verificar-publicacion.ts`, `.github/workflows/verificar-publicacion.yml` | `src/ops/lib/publicacion.test.ts`, `src/ops/verificar-publicacion-workflow.test.ts` | CUMPLIDO (#387/03a797f; workflow en verde el 12 nov 05:24 UTC) |
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
@@ -16,7 +21,7 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1543 | Precio al cliente = tarifa pública; sin neto ni comisión | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
 | REQ-1544 | Bandera con secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1552 |
 | REQ-1545 | Whitelist: por la pasarela de Namecheap | NUEVO | — | — | CUMPLIDO («igual que name cheap», 11 nov 14:08) |
-| REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | PENDIENTE (tarea del PO) |
+| REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | CUMPLIDO (el PO las quitó del correo el 11 nov 15:10; acceso verificado con el inventario del 11 nov. `docs/requisitos.md` ya lo decía y esta fila seguía en PENDIENTE) |
 | REQ-1547 | Secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1553 |
 | REQ-1548 | Olas 2 a 4 | NUEVO | `docs/plan-tangol.md` | — | PENDIENTE |
 | REQ-1550 | Pasarela: autenticación con Tangol por la IP registrada | NUEVO | `gateway/lib/tangol.js` | `gateway/lib/tangol.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
@@ -24,6 +29,10 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1552 | Sitio: solo por la pasarela, bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/api.test.ts`, `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
 | REQ-1553 | Variables de Tangol en cPanel | NUEVO | — | — | CUMPLIDO (11 nov, `/health` ok) |
 | REQ-1558 | Inventario de Tangol desde cPanel | NUEVO | `gateway/lib/tangol-inventory.js`, `gateway/scripts/inventario-tangol.js` | `gateway/lib/tangol-inventory.test.js` | CUMPLIDO (corrido en cPanel: 2,237 tours) |
+| REQ-1570 | Tangol en Perú: oculto donde ya hay Inca World | NUEVO | — | — | PENDIENTE (sin código y sin test; `grep -rn "REQ-1570" src gateway tests` vacío el 12 nov) |
+| REQ-1571 | Tangol en Colombia: oculto donde ya hay Destino Colombia (175 tours) | NUEVO | — | — | PENDIENTE (sin código y sin test; `grep -rn "REQ-1571" src gateway tests` vacío el 12 nov) |
+| REQ-1572 | Borrador del acuerdo de intermediación con Tangol | NUEVO | proyecto de Claude: `legal/acuerdo-intermediacion-tangol.md` | — | EN CURSO (enviado al proveedor el 11 nov 23:52 UTC; falta validación del PO y del abogado) |
+| REQ-1573 | Marca blanca confirmada por Tangol | NUEVO | — | — | CUMPLIDO (PO, 11 nov 15:13; falta guardar el correo de Tangol en el expediente) |
 
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
