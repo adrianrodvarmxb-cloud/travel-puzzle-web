@@ -35,7 +35,7 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
   const out: Resultado[] = [];
   const bad = (red: RedName) => problemas.filter((p) => p.startsWith(`${red}:`));
 
-  // REQ-1535: antes de tocar cualquier red, el artículo y las láminas deben responder 200 (si no, nada se publica).
+  // REQ-1609: antes de tocar cualquier red, el artículo y las láminas deben responder 200 (si no, nada se publica).
   const algunaAuto = [o.config.linkedin, o.config.facebook, o.config.instagram].some((c) => c.mode === "auto");
   const espera = algunaAuto
     ? laminasYArticuloListos(await Promise.all([url, ...laminas].map(async (u) => {
