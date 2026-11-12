@@ -7,6 +7,8 @@ export const es = {
   'nav.login': 'Iniciar Sesión',
   'nav.signup': 'Registrarse',
   'nav.myBookings': 'Mis Reservas',
+  'nav.account': 'Mi cuenta',
+  'nav.signin': 'Entrar',
   'nav.profile': 'Perfil',
   'nav.dashboard.label': 'Panel',
   'nav.dashboard.overview': 'Vista General',

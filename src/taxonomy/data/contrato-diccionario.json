@@ -687,7 +687,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -709,7 +709,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -731,7 +731,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -753,7 +753,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -775,7 +775,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -797,7 +797,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -819,7 +819,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -841,7 +841,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -863,7 +863,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -885,7 +885,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -907,7 +907,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -929,7 +929,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -951,7 +951,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -973,7 +973,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -995,7 +995,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -1017,7 +1017,7 @@
     {
      "tipo": "bandera",
      "nombre": "SEARCH_TAXONOMY_SYNONYMS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     }
    ],
    "nota": "sinónimo listo en el buscador tras la bandera (REQ-1357, apagada; además requiere SEARCH_STEM_ENABLED)",
@@ -1267,7 +1267,7 @@
     {
      "tipo": "bandera",
      "nombre": "TAXONOMY_CIRCUITS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     },
     {
      "tipo": "codigo",
@@ -1275,7 +1275,7 @@
      "contiene": "\"dur-dias\""
     }
    ],
-   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (apagada)",
+   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (encendida, REQ-1303)",
    "folio": "REQ-1303"
   },
   {
@@ -2655,7 +2655,7 @@
     {
      "tipo": "bandera",
      "nombre": "TAXONOMY_CIRCUITS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     },
     {
      "tipo": "codigo",
@@ -2663,7 +2663,7 @@
      "contiene": "\"circuito-grupo\""
     }
    ],
-   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (apagada)",
+   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (encendida, REQ-1303)",
    "folio": "REQ-1303"
   },
   {
@@ -2735,7 +2735,7 @@
     {
      "tipo": "bandera",
      "nombre": "TAXONOMY_CIRCUITS_ENABLED",
-     "valor": "false"
+     "valor": "true"
     },
     {
      "tipo": "codigo",
@@ -2743,7 +2743,7 @@
      "contiene": "\"circuito-dificultad\""
     }
    ],
-   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED; la escala espera firma (G-T8)",
+   "nota": "lista en código, tras TAXONOMY_CIRCUITS_ENABLED (encendida, REQ-1303); escala firmada (REQ-1519)",
    "folio": "REQ-1303"
   },
   {

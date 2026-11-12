@@ -234,3 +234,39 @@ export function nextActive(active: number, key: string, count: number): number {
     default: return active;
   }
 }
+
+/** REQ-1615: lo mínimo de un viaje propio o de agencia para sugerirlo (catálogo único, REQ-1605). */
+export interface TripSuggestEntry {
+  id: string;
+  title: string;
+  /** Ruta pública de la ficha (`/viajes/...`). */
+  path: string;
+  countries: string[];
+  cities: string[];
+  /** Países ya traducidos (texto), tal como los muestra la tarjeta. */
+  places: string;
+}
+
+export const MAX_TRIPS = 2;
+
+/**
+ * Viajes que coinciden con lo escrito: todas las palabras deben estar en el título o en el lugar
+ * (ciudad, país o código ISO). El título pesa más que el lugar; el orden original desempata.
+ */
+// REQ-1615
+export function suggestTrips(trips: TripSuggestEntry[], text: string, max = MAX_TRIPS): TripSuggestEntry[] {
+  const words = foldTokens(text).filter((w) => w.length >= 3 && !STOPWORDS.has(w));
+  if (!words.length) return [];
+  const scored = trips.flatMap((t) => {
+    const title = fold(t.title);
+    const place = fold([...t.cities, ...t.countries, t.places].join(" "));
+    let score = 0;
+    for (const w of words) {
+      if (title.includes(w)) score += 2;
+      else if (place.includes(w)) score += 1;
+      else return [];
+    }
+    return [{ t, score }];
+  });
+  return scored.sort((a, b) => b.score - a.score).slice(0, max).map((x) => x.t);
+}

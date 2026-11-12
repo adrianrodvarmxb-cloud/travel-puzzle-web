@@ -13,7 +13,15 @@
     "/destinos/mx/ciudad-de-mexico",
     "/destinos/gb",
     "/destinos/gb/edimburgo",
-    "/sitemap-index.xml"
+    "/guias",
+    "/en/destinos/cn/pekin",
+    "/en/guias",
+    "/sitemap-index.xml",
+    "/mi-cuenta/entrar",
+    "/tours?search=trekking",
+    "/arma-tu-viaje",
+    "/en/blog",
+    "/en/blog/europa/requisitos-para-entrar-a-europa-2026"
   ],
   "discover": [
     {

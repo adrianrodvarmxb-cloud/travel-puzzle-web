@@ -8,6 +8,7 @@ import { postPath } from "@/blog/lib/registry";
 import { plainText } from "@/blog/lib/inline";
 import { socialPack, socialProblems, utmUrl, type SocialPack } from "./lib/textos";
 import { laminaUrl } from "./lib/laminas";
+import { laminasYArticuloListos } from "./lib/espera";
 import { instagramMediaUrl, mediaPreviaEnInstagram, facebookPostRequest, paginaTokenUrl, tokenDePagina, instagramChildRequest, instagramCarouselRequest, instagramSingleRequest, instagramPublishRequest, linkedinPostRequest, type FormRequest, type RedesConfig, type RedName } from "./lib/api";
 
 type Fetch = (url: string, init?: { method?: string; headers?: Record<string, string>; body?: string }) => Promise<{ ok: boolean; status: number; text: () => Promise<string>; headers?: { get: (k: string) => string | null } }>;
@@ -34,9 +35,18 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
   const out: Resultado[] = [];
   const bad = (red: RedName) => problemas.filter((p) => p.startsWith(`${red}:`));
 
+  // REQ-1609: antes de tocar cualquier red, el artículo y las láminas deben responder 200 (si no, nada se publica).
+  const algunaAuto = [o.config.linkedin, o.config.facebook, o.config.instagram].some((c) => c.mode === "auto");
+  const espera = algunaAuto
+    ? laminasYArticuloListos(await Promise.all([url, ...laminas].map(async (u) => {
+        try { return { url: u, status: (await o.fetch(u, { method: "HEAD" })).status }; } catch { return { url: u, status: null }; }
+      })))
+    : { listo: true, faltan: [] as string[] };
+
   // REQ-1080: cada red en su propio try; una falla no detiene a las demás.
   const tryRed = async (red: RedName, cfg: RedesConfig[RedName], go: () => Promise<string>) => {
     if (cfg.mode === "manual") return out.push({ red, estado: "manual", detalle: cfg.motivo });
+    if (!espera.listo) return out.push({ red, estado: "fallo", detalle: `esperando: aún no responde 200: ${espera.faltan.join(", ")}` });
     if (bad(red).length) return out.push({ red, estado: "fallo", detalle: `no pasa las reglas: ${bad(red).join("; ")}` });
     // REQ-1090: sin historial no se publica (falla cerrada); con historial, no se repite el artículo.
     if (!o.historial) return out.push({ red, estado: "fallo", detalle: "sin registro de publicaciones (REQ-1090); no se publica" });

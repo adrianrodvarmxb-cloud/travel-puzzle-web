@@ -11,6 +11,9 @@ Sigue el estándar do-plan y las reglas fijas de Adri:
 - Typecheck: `data/countries.json` no está en el repo; usar el fixture temporal y no commitearlo.
 - Al cerrar un frente: actualizar `STATUS.md`. Gates firmados en `docs/`.
 
+## Catálogo único (REQ-1605, regla del PO)
+- Todo producto publicado de cualquier proveedor sale en el mapa, en /tours, en el buscador y en los filtros, como en GetYourGuide, Civitatis y Viator. Proveedor nuevo = mismo trato; una excepción solo con decisión escrita del PO.
+
 ## Blindaje de publicación (obligatorio; ISO/IEC/IEEE 29119, ISO/IEC 27001 A.8.32, ISO/IEC 20000-1 8.5)
 
 Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un paso no se puede cumplir, se dice "NO PUBLICAR" y por qué; nunca se simula.
@@ -37,3 +40,20 @@ Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un 
 11. Primero contener (revertir), luego diagnosticar (reproducir con el error exacto y el stack, bisect, 5 porqués), luego corregir con test rojo → verde que reproduzca la falla, y verificar en producción. Registro en `docs/incidentes/INC-###.md` con causa raíz y por qué ningún test lo detectó.
 - En este repo: prueba de humo `npx tsx src/scripts/smoke.ts <url>` (páginas en `tests/smoke/pages.json`); requisitos en `docs/requisitos.md`; incidentes en `docs/incidentes/`.
 - Render determinista: un componente de cliente no formatea con `Intl`/`toLocale*` sin idioma fijo ni usa `Date.now()`/`Math.random()` al pintar; lo que dependa del idioma se calcula en el servidor (INC-001).
+
+## Sesiones en paralelo (REQ-1587; obligatorio para toda sesión, agente y trigger)
+Hay varias sesiones trabajando a la vez. Antes de empezar cualquier frente (código, documento, acuerdo o correo), el paso 0:
+1. **Frente:** `npx tsx src/scripts/frente.ts buscar "<tema>"`. Si ya hay un issue `en-curso` de ese tema, te sumas a ese frente (y a su rama); no abres otro. Si no hay, `frente.ts abrir "<tema>"`. Al terminar, `frente.ts cerrar <n>`. En la nube de Claude, antepón `NODE_USE_ENV_PROXY=1` (el `fetch` de Node no usa el proxy solo).
+2. **Folios:** nunca tomes «el último + 1» de tu copia. Aparta con `npx tsx src/scripts/folio.ts apartar <n>` y usa solo los que imprime. El PR corre `folio.ts revisar` y falla si un folio choca con main o no está apartado (desde REQ-1588).
+3. **Correos:** antes de crear un borrador en Gmail, revisa los borradores que ya hay para ese proveedor. Debe quedar un solo borrador vigente: creas el nuevo, borras el anterior (solo borradores, nunca enviados) y anotas el ID del borrador vigente en el issue del frente (`frente.ts nota <n> "Borrador vigente: r-…"`).
+4. **Proyecto de Claude:** revisa también los documentos del proyecto (p. ej. `legal/`) antes de redactar uno nuevo del mismo tema.
+
+## Protocolo de trazabilidad (ISO/IEC/IEEE 29148, obligatorio también para agentes externos)
+1. Toda petición del PO (código, bandera, definición, validación o tarea a mano) recibe folio REQ-### en `docs/requisitos.md` antes del código: petición literal, criterio Dado/Cuando/Entonces, tipo, responsable y estado.
+2. Tests primero (rojo → verde), con el ID en el nombre (`it('REQ-014: …')`) y `// REQ-014` en la función que lo implementa.
+3. Matriz `| ID | Requisito | Origen | Archivo(s) | Test | Estado |` en `STATUS.md`, en el mismo commit que el código.
+4. Prohibido marcar CUMPLIDO sin test verde corrido en la sesión, usar `.skip`, debilitar tests, mocks que oculten la lógica o dejar fachadas.
+5. Al cerrar: lista de REQ con estado, salida de `npx vitest run -t "REQ-"` y cruce con `grep -r "REQ-" src tests` (huérfanos).
+6. Cambio de alcance: el REQ viejo queda REEMPLAZADO y se crea uno nuevo que lo cite.
+7. «AUDITA»: correr el punto 5 completo con salida íntegra. «PENDIENTES»: tablero desde `docs/requisitos.md`.
+8. Código anterior al protocolo: modo retroactivo (REQ RETRO, SIN VERIFICAR, tests de caracterización sin cambiar lógica).

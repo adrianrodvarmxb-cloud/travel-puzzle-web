@@ -8,6 +8,7 @@ import { useLocalizedHref } from '@/components/i18n/useLocalizedHref';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
 import type { HeroSlide } from '@/home/lib/hero';
+import { heroSlidesToMount, imgLoading, transformedSrc, transformedSrcSet } from '@/perf/lib/image';
 
 /** Respaldo si ninguna ciudad del carrusel tiene tours: una foto sin enlace. */
 const FALLBACK: HeroSlide = { image: '/home/hero/venecia.webp', focus: '66% 50%', href: '/tours', tours: 0, names: {} };
@@ -23,6 +24,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
   const router = useRouter();
   const [q, setQ] = useState('');
   const [i, setI] = useState(0);
+  const [want, setWant] = useState(0); // REQ-1564: la foto siguiente se pide al llegar su turno
   const list = slides.length ? slides : [FALLBACK];
   const n = i % list.length;
   const current = list[n];
@@ -30,7 +32,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
 
   useEffect(() => {
     if (list.length < 2) return;
-    const id = setInterval(() => setI((x) => (x + 1) % list.length), 6000);
+    const id = setInterval(() => setWant((x) => (x + 1) % list.length), 6000);
     return () => clearInterval(id);
   }, [list.length]);
 
@@ -42,17 +44,24 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
 
   return (
     <section className="relative flex min-h-[640px] items-end overflow-hidden md:min-h-[720px]">
-      {list.map((s, k) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={s.image}
-          src={s.image}
-          alt={nameIn(s.names, language) || 'Travel Puzzle'}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${k === n ? 'opacity-100' : 'opacity-0'}`}
-          style={{ objectPosition: s.focus }}
-          fetchPriority={k === 0 ? 'high' : 'low'}
-        />
-      ))}
+      {/* REQ-1564: solo se monta la foto visible y la que se pide; cambia cuando la nueva ya cargó (sin hueco). */}
+      {heroSlidesToMount(list.length, n, want).map((k) => {
+        const s = list[k];
+        return (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={s.image}
+            src={transformedSrc(s.image, 1600)}
+            srcSet={transformedSrcSet(s.image, [480, 828, 1200, 1600])} // REQ-1563
+            sizes="100vw"
+            alt={nameIn(s.names, language) || 'Travel Puzzle'}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${k === n ? 'opacity-100' : 'opacity-0'}`}
+            style={{ objectPosition: s.focus }}
+            {...imgLoading(k === 0)}
+            onLoad={k !== n && k === want ? () => setI(want) : undefined}
+          />
+        );
+      })}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,19,48,0.25)_0%,rgba(10,19,48,0.6)_55%,#0A1330_100%)]" />
 
       <div className="relative mx-auto grid w-full max-w-[1280px] grid-cols-1 items-end gap-8 px-4 pb-14 pt-32 md:px-8 lg:grid-cols-12">
@@ -85,7 +94,7 @@ export function HeroSearch({ slides, quickCities }: { slides: HeroSlide[]; quick
             <div className="rounded-2xl border border-white/20 bg-[#0A1330]/55 px-5 py-4 backdrop-blur-xl">
               <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#A9B6D6]">{c.onScreen(n + 1, list.length)}</p>
               <p className="font-display mt-2 text-2xl font-semibold text-white">{city}</p>
-              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(current.toursText ?? String(current.tours))}</p>
+              <p className="mb-3 text-sm text-[#A9B6D6]">{c.tours(current.toursText ?? String(current.tours)) /* REQ-3380 */}</p>
               <Link href={current.href} className="text-sm font-semibold text-[#EAF54F] hover:text-white">{c.seeToursIn(city)}</Link>
             </div>
             {list.length > 1 && (

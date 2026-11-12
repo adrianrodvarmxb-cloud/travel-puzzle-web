@@ -25,6 +25,8 @@ export interface CityRow {
   slug: string | null;
   guide: string | null;
   guideUpdatedAt: string | null;
+  /** REQ-3336: texto plano de la guía propia en inglés, si existe (lo pone overlayGuides). */
+  guideEn?: string | null;
   indexableSince: string | null;
   failingSince: string | null;
 }
@@ -100,6 +102,8 @@ export interface CityNode {
   href: string;
   guide: string | null;
   guideUpdatedAt: string | null;
+  /** REQ-3336 */
+  guideEn?: string | null;
   activeTours: number;
   /** REQ-1200: tours activos de proveedores con permiso de indexar (viajes propios y de agencia siempre cuentan). */
   indexableTours: number;
@@ -244,7 +248,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
       nodes.push({
         id: city.id, slug: citySlug, name: cityLabel, href: cityPath(slug, citySlug), guide: city.guide,
-        guideUpdatedAt: city.guideUpdatedAt, activeTours, indexableTours, indexed,
+        guideUpdatedAt: city.guideUpdatedAt, guideEn: city.guideEn ?? null, activeTours, indexableTours, indexed,
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),
         ownTrips: own,
@@ -261,9 +265,21 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
 }
 
 /** ¿El viaje propio es de esta ciudad? País ISO-2 y nombre de ciudad (sin acentos ni mayúsculas, en cualquier idioma). */
-function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): boolean {
+// REQ-1575: exportada para que el mapa use la misma regla que /destinos.
+export function tripInCity(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): boolean {
+  return tripCityMatch(trip, iso2, cityTranslations) > 0;
+}
+
+/** REQ-1606: 2 = nombre exacto (o sin la nota entre paréntesis), 1 = coincide sin la última palabra, 0 = no es de la ciudad. */
+export function tripCityMatch(trip: Pick<TripRow, "countries" | "cities">, iso2: string, cityTranslations: unknown): 0 | 1 | 2 {
+  if (!trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase())) return 0;
   const cityNames = new Set(names(cityTranslations));
-  return trip.countries.map((x) => x.toUpperCase()).includes(iso2.toUpperCase()) && trip.cities.some((n) => cityNames.has(fold(n)));
+  // REQ-1606: la nota entre paréntesis del proveedor («Beijing (solo)») no cuenta para el cruce.
+  const bare = (n: string) => fold(n.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " "));
+  // REQ-1606: si el nombre completo no coincide, se prueba sin su última palabra («Beijing Solo» → Beijing).
+  const lessLast = (n: string) => { const w = bare(n).split(" "); return w.length > 1 ? w.slice(0, -1).join(" ") : ""; };
+  if (trip.cities.some((n) => cityNames.has(fold(n)) || cityNames.has(bare(n)))) return 2;
+  return trip.cities.some((n) => !!lessLast(n) && cityNames.has(lessLast(n))) ? 1 : 0;
 }
 
 // REQ-092 (gate 4): a qué ciudad de /destinos entra un viaje propio.
