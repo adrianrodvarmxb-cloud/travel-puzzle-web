@@ -54,10 +54,9 @@ describe('REQ-3318: el borde solo guarda respuestas 200 (el plan gratis no permi
     expect(r.headers.get('Cloudflare-CDN-Cache-Control')).toBe(EDGE_CACHE_VALUE);
     expect(await r.text()).toBe('hola');
   });
-  it('REQ-3318: worker.ts pasa toda respuesta por stripEdgeCacheUnlessOk', async () => {
+  it('REQ-3318: toda respuesta del Worker pasa por stripEdgeCacheUnlessOk (desde REQ-3498, dentro de serveWithCache)', async () => {
     const { readFileSync } = await import('node:fs');
-    const w = readFileSync('worker.ts', 'utf8');
-    expect(w).toContain('stripEdgeCacheUnlessOk');
-    expect(w).not.toMatch(/fetch: handler\.fetch,/);
+    expect(readFileSync('src/perf/worker-cache.ts', 'utf8')).toContain('stripEdgeCacheUnlessOk(await origin())');
+    expect(readFileSync('worker.ts', 'utf8')).not.toMatch(/fetch: handler\.fetch,/);
   });
 });
