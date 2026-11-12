@@ -62,6 +62,14 @@ describe("REQ-1400: pie por columnas", () => {
     expect(footer({ nosotros: true, contacto: true })[1].links.map((l) => l.href)).toEqual(["/nosotros", "/contacto"]);
     expect(footer({}, {}, true)[1].links.map((l) => l.href)).toEqual(["/blog"]);
   });
+  it("REQ-3431: con EXPERTOS_ENABLED, Empresa enlaza «Habla con un asesor» (/asesores) junto a Contacto; apagada, no (PO 12-11: «A»)", () => {
+    expect(footer({ nosotros: true, contacto: true, expertos: true })[1].links).toEqual([
+      { href: "/nosotros", label: "Nosotros" }, { href: "/contacto", label: "Contacto" }, { href: "/asesores", label: "Habla con un asesor" },
+    ]);
+    expect(footer({ contacto: true })[1].links.map((l) => l.href)).not.toContain("/asesores");
+    const en = footerColumns({ lang: "en", ...base, pages: { ...off, expertos: true }, helpEnabled: false });
+    expect(en[1].links).toEqual([{ href: "/asesores", label: "Talk to an advisor" }]);
+  });
   it("REQ-1400: Ayuda lleva Centro de ayuda, WhatsApp y correo; sin ayuda ni WhatsApp no aparecen", () => {
     expect(footer()[2].links.map((l) => l.href)).toEqual(["/ayuda", "https://wa.me/5215555555555", "mailto:info@travelpuzzle.com.mx"]);
     expect(footer({}, { help: false, wa: "" , email: ""})[2].links).toEqual([]);

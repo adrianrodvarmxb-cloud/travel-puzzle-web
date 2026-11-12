@@ -75,6 +75,8 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
   if (o.pages?.nosotros) company.push(pageLabel("nosotros"));
   if (o.blog) company.push({ href: PAGE_PATHS.blog, label: o.labels.blog });
   if (o.pages?.contacto) company.push(pageLabel("contacto"));
+  // REQ-3431: /asesores junto a Contacto (PO 12-11: «A»), solo con EXPERTOS_ENABLED.
+  if (o.pages?.expertos) company.push(pageLabel("expertos"));
 
   const help: NavLink[] = [
     ...(o.helpEnabled ? [{ href: "/ayuda", label: l.help }] : []),
@@ -95,8 +97,8 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
 }
 
 const PAGE_TEXT: Record<string, Record<string, string>> = {
-  es: { nosotros: "Nosotros", contacto: "Contacto" },
-  en: { nosotros: "About us", contacto: "Contact" },
+  es: { nosotros: "Nosotros", contacto: "Contacto", expertos: "Habla con un asesor" },
+  en: { nosotros: "About us", contacto: "Contact", expertos: "Talk to an advisor" },
 };
 function pageText(k: string, lang: string): string {
   return (PAGE_TEXT[lang] ?? PAGE_TEXT.en)[k];
