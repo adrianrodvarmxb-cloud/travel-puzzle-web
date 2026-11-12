@@ -962,3 +962,11 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+
+## Mila con acceso a todo el catálogo y contenido (PO, 12 nov 2026; frente #422) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3354 | Ficha completa del viaje para el agente | NUEVO | src/agente/lib/detalle.ts, src/agente/catalogo.ts, src/app/api/agente/detalle/route.ts | src/agente/lib/detalle.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; detrás de AGENTE_API_ENABLED; falta Mila en zoefel-mila) |
+| REQ-3347 | Blog, guías y ayuda para el agente | NUEVO | src/agente/lib/contenido.ts, src/app/api/agente/contenido/route.ts | src/agente/lib/contenido.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; falta Mila) |
+| REQ-3348 | Términos, privacidad y datos de la empresa | NUEVO | src/agente/lib/legal.ts, src/app/api/agente/legal/route.ts | src/agente/lib/legal.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; falta Mila) |
+| REQ-3360 | frente.ts con Content-Type | NUEVO | src/scripts/frente.ts | — (verificado abriendo el frente #422) | CUMPLIDO |

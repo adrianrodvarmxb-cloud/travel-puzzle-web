@@ -9,11 +9,16 @@ vi.mock("@/agente/catalogo", async (orig) => {
   return { ...real, catalogoDeps: async () => ({
     tarjetas: async () => [card({ path: "/viajes/mexico/oaxaca", title: "Oaxaca mágico", cities: ["Oaxaca"], dates: ["2026-11-20"] }),
       card({ path: "/viajes/peru/cusco", title: "Cusco", cities: ["Cusco"], agencyId: "ag1" })],
-    agencias: async () => [{ id: "ag1", name: "Agencia Uno" }] }) };
+    agencias: async () => [{ id: "ag1", name: "Agencia Uno" }] }),
+    fichaDeps: async () => ({ trip: async (slug: string) => (slug === "oaxaca" ? { trip: { slug: "oaxaca", kind: "tour", titleEs: "Oaxaca mágico", priceFrom: 1000, currency: "MXN",
+      images: [{ key: "o.jpg", alt: "Monte Albán" }], cancellation: { type: "standard", tiers: [] }, options: [] } } : null) }) };
 });
 const { GET: buscar } = await import("@/app/api/agente/buscar/route");
 const { GET: proveedores } = await import("@/app/api/agente/proveedores/route");
 const { GET: viaje } = await import("@/app/api/agente/viaje/route");
+const { GET: detalle } = await import("@/app/api/agente/detalle/route");
+const { GET: contenido } = await import("@/app/api/agente/contenido/route");
+const { GET: legal } = await import("@/app/api/agente/legal/route");
 
 const LLAVE = "k".repeat(32);
 const req = (url: string, llave: string | null = LLAVE) => new NextRequest(`https://travelpuzzle.com.mx${url}`, { headers: llave ? { authorization: `Bearer ${llave}` } : {} });
@@ -58,5 +63,36 @@ describe("REQ-150/151: revisión en vivo y liga prellenada", () => {
   });
   it("REQ-148: un viaje de un proveedor apagado no se entrega", async () => {
     expect((await viaje(req("/api/agente/viaje?slug=cusco&proveedores=propios"))).status).toBe(404);
+  });
+});
+
+describe("REQ-3354: ficha completa por la ventana del agente", () => {
+  it("REQ-3354: con llave y proveedor encendido regresa la ficha con fotos absolutas y liga", async () => {
+    const r = await detalle(req("/api/agente/detalle?slug=oaxaca&proveedores=propios"));
+    expect(r.status).toBe(200);
+    const f = await r.json();
+    expect(f).toMatchObject({ slug: "oaxaca", titulo: "Oaxaca mágico", enlace: "https://travelpuzzle.com.mx/viajes/mexico/oaxaca",
+      fotos: [{ url: "https://travelpuzzle.com.mx/api/viajes/foto/o.jpg", alt: "Monte Albán" }], cancelacion: expect.stringMatching(/24 horas/) });
+  });
+  it("REQ-3354: proveedor apagado o sin llave: no hay ficha", async () => {
+    expect((await detalle(req("/api/agente/detalle?slug=cusco&proveedores=propios"))).status).toBe(404);
+    expect((await detalle(req("/api/agente/detalle?slug=oaxaca&proveedores=propios", null))).status).toBe(401);
+  });
+});
+
+describe("REQ-3347/REQ-3348: contenido y legal por la ventana del agente", () => {
+  it("REQ-3348: términos reales del sitio con el RNT y la sección que responde", async () => {
+    const r = await (await legal(req("/api/agente/legal?q=cancelación"))).json();
+    expect(r.empresa).toContain("04100050179");
+    expect(r.secciones[0].enlace).toMatch(/^https:\/\/travelpuzzle\.com\.mx\/terminos#/);
+  });
+  it("REQ-3347/REQ-3348: sin llave no responde", async () => {
+    expect((await contenido(req("/api/agente/contenido?q=cusco", null))).status).toBe(401);
+    expect((await legal(req("/api/agente/legal?q=pago", null))).status).toBe(401);
+  });
+  it("REQ-3347: responde con la lista de resultados", async () => {
+    const r = await contenido(req("/api/agente/contenido?q=qué llevar"));
+    expect(r.status).toBe(200);
+    expect(Array.isArray((await r.json()).resultados)).toBe(true);
   });
 });
