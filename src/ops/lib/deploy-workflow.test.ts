@@ -50,3 +50,26 @@ describe("workflow «Publicar en Cloudflare» (INC-006)", () => {
     expect(paso("Subir versión (sin tráfico)").run).toMatch(/for intento in 1 2 3/);
   });
 });
+
+describe("punto de regreso antes de migrar (REQ-3323)", () => {
+  it("REQ-3323: el punto de regreso de Time Travel se anota ANTES de aplicar migraciones", () => {
+    const bookmark = steps.findIndex((s) => s.name === "Punto de regreso de D1 (Time Travel) antes de migrar");
+    const migrar = steps.findIndex((s) => s.name === "Migraciones D1");
+    expect(bookmark, "falta el paso del punto de regreso").toBeGreaterThanOrEqual(0);
+    expect(bookmark).toBeLessThan(migrar);
+  });
+
+  it("REQ-3323: solo corre cuando de verdad se va a migrar (misma condición que el paso de migraciones)", () => {
+    expect(paso("Punto de regreso de D1 (Time Travel) antes de migrar").if).toBe(paso("Migraciones D1").if);
+  });
+
+  it("REQ-3323: pide el bookmark actual y lo deja en el resumen de la corrida, sin escribir en la base", () => {
+    const s = paso("Punto de regreso de D1 (Time Travel) antes de migrar");
+    expect(s.run ?? "").toMatch(/wrangler d1 time-travel info travel-puzzle/);
+    expect(s.run ?? "").toMatch(/GITHUB_STEP_SUMMARY/);
+    // No ejecuta nada que escriba: ninguna línea del script arranca con un restore ni con aplicar migraciones
+    // (el resumen sí menciona el comando de regreso, como texto para quien lo necesite).
+    const lineas = (s.run ?? "").split("\n").map((l) => l.trim());
+    for (const l of lineas) expect(l, l).not.toMatch(/^(npx )?wrangler d1 (time-travel restore|migrations apply)/);
+  });
+});
