@@ -36,6 +36,7 @@ export type PaidTerms =
  * `payableNowPricePerGroup` es el número de adultos sin ambigüedad. `payNow` = 0 con precio > 0 es pago a la llegada (D7).
  */
 // REQ-930
+// REQ-064: lo que se cobra hoy sale de payableNowPricePerGroup (evita el error 33 de v2.2).
 export function paidTerms(ev: EventPrices, adults: number, children: number, fullPrice: number): PaidTerms {
   if (!(fullPrice > 0)) return { ok: true, isPaid: false, isPartial: false, fullPrice: 0, payNow: 0 };
   if (children > 0) return { ok: false, code: "children_not_allowed" };

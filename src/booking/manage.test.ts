@@ -96,3 +96,31 @@ describe("cancelar", () => {
     expect(await cancelByToken("tok_desconocido_123456789", deps())).toBe("not_found");
   });
 });
+
+describe("REQ-066: modo 2, consultar antes de cancelar o editar", () => {
+  it("REQ-066: antes de cancelar consulta GET /booking/{ref} en Freetour", async () => {
+    const d = deps();
+    await cancelByToken(TOKEN, d);
+    expect(d.getRemote).toHaveBeenCalledWith(record.refNumber);
+    expect(d.getRemote.mock.invocationCallOrder[0]).toBeLessThan(d.cancel.mock.invocationCallOrder[0]);
+  });
+
+  it("REQ-066: si la consulta dice que ya no se puede cancelar, no llama a cancelar", async () => {
+    const d = deps({ getRemote: vi.fn(async () => ({ status: "active", canBeCanceled: 0, canBeEdited: 1 })) });
+    expect(await cancelByToken(TOKEN, d)).toBe("not_allowed");
+    expect(d.cancel).not.toHaveBeenCalled();
+  });
+
+  it("REQ-066: editar solo se ofrece en reservas gratis", async () => {
+    expect((await loadManageView(TOKEN, deps()))?.canEdit).toBe(true);
+    const paidRecord = { ...record, price: 20 };
+    const v = await loadManageView(TOKEN, deps({ findByToken: vi.fn(async () => paidRecord) }));
+    expect(v?.canEdit).toBe(false);
+    expect(v?.canCancel).toBe(true);
+  });
+
+  it("REQ-066: pago a la llegada (cobro hoy 0, tour de pago) tampoco se edita", async () => {
+    const arrival = { ...record, price: 0, fullPrice: 45 };
+    expect((await loadManageView(TOKEN, deps({ findByToken: vi.fn(async () => arrival) })))?.canEdit).toBe(false);
+  });
+});
