@@ -104,3 +104,21 @@ Todo detrás de `PROVEEDORES_MILA_ON = "false"`. Orden, cada paso con OK del PO:
 5. Encender.
 
 Plan de regreso: apagar la bandera. Las preguntas quedan en la base sin efecto.
+
+## 8. Preguntas aprobadas por el PO, proveedor por proveedor
+Salen del barrido completo de lo que envió cada proveedor (correos, adjuntos y T&C; detalle en el proyecto de Claude, fuera del repo). Mila pide solo esto; lo ya recibido no se vuelve a pedir.
+
+### Jordan Experience: aprobado («si aprobado», PO, 12 nov 2026)
+1. ¿Tienen API o portal para reservar, o todo es por correo? ¿Las reservas van a sales2@ o a sales4@?
+2. ¿Qué precio y edades aplican a niños? ¿Tienen tarifas para grupos?
+3. ¿Con cuántos días de anticipación mínima se puede reservar?
+4. ¿Qué precio tienen la cena de gala del 31 de diciembre, la carpa de lujo, el vuelo Aqaba–Amman, la noche extra en Aqaba, las noches extra en Ammán y los opcionales?
+5. ¿Qué fecha tiene la Semana Santa ortodoxa y en qué año caen las fechas del Eid del recargo?
+6. Nuestros viajeros salen de México, no en los vuelos de Royal Jordanian desde Madrid o Barcelona. ¿Siempre aplica el traslado privado?
+7. ¿Qué plazo hay para pagar y en qué moneda facturan?
+8. ¿Qué se cobra si se cancela entre 8 y 14 días antes? ¿Cómo se hacen los reembolsos y cuánto cuesta un cambio?
+9. ¿Mandan voucher por reserva? ¿En qué formato?
+10. ¿Nos comparten su razón social, licencia de turismo y seguro de responsabilidad civil?
+11. ¿Tienen términos y condiciones para agencias? ¿Firmarían un acuerdo de intermediación?
+12. ¿Qué datos necesitan de cada pasajero?
+13. ¿Nos mandan el archivo de fotos que prometieron?
