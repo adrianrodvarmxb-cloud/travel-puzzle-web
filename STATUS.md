@@ -29,7 +29,7 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 ## Mila administra proveedores (PO, 7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0026 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0027 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
 | REQ-1292 | Directorio de ~200 hilos, aprobado por el PO | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (VALIDACIÓN REQ-1653) | EN CURSO |
 | REQ-1293 | Seguimiento diario y tandas | NUEVO | src/proveedores/lib/seguimiento.ts, tandas.ts, diario.ts, worker.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
 | REQ-1294 | Correos de Mila (recordatorio, reintento, alta) | NUEVO | src/proveedores/lib/correo.ts, plantillas.ts, deps.ts, src/notifications/resend.ts | proveedores.test.ts | EN CURSO |
@@ -38,14 +38,14 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1297 | Primer correo lo manda Adri con copia a Mila | NUEVO | src/proveedores/lib/borrador.ts, plantillas.ts, diario.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
 | REQ-1298 | Integración por prioridad API > plugin > portal > manual | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
 | REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
-| REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0026 | src/proveedores/proveedores-io.test.ts | EN CURSO |
-| REQ-1566 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0026 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1566 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
 | REQ-1568 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1569 y REQ-1663) |
-| REQ-1665 | Lista de alta en 8 grupos, solo lo que falta; marca lo recibido | NUEVO | src/proveedores/lib/checklist.ts, borrador.ts, diario.ts, entrante.ts, repository.ts, lib/plantillas.ts, migrations/0026 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; queda tras PROVEEDORES_MILA_ON y migración sin aplicar) |
+| REQ-1665 | Lista de alta en 8 grupos, solo lo que falta; marca lo recibido | NUEVO | src/proveedores/lib/checklist.ts, borrador.ts, diario.ts, entrante.ts, repository.ts, lib/plantillas.ts, migrations/0027 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; queda tras PROVEEDORES_MILA_ON y migración sin aplicar) |
 | REQ-1666 | Cobro por tipo: DMC paga neto; plataforma cobra y paga comisión | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde |
-| REQ-1669 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0026 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; falta quién llena «bloqueos») |
+| REQ-1669 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0027 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; falta quién llena «bloqueos») |
 | REQ-1670 | Presentación en el hilo existente («Re: …») | NUEVO | src/proveedores/lib/borrador.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde; faltan los 7 borradores con el asunto real |
-| REQ-1672 | Cambio de tarifa: lo confirma el PO (panel o «confirmo T-12»); el comando responde, actualiza anexo y precio el día que rige | NUEVO | src/proveedores/lib/tarifas.ts, tarifa.ts, tarifa-repo.ts, entrante.ts, deps.ts, src/app/admin/tarifas/, src/app/api/admin/tarifas/[id]/route.ts, src/app/api/proveedores/tarifa/confirmar/route.ts, src/app/api/cron/proveedores/route.ts, src/components/admin/TarifaAvisoControl.tsx, migrations/0026 | src/proveedores/lib/tarifas.test.ts, src/proveedores/tarifa.test.ts | EN CURSO (verde; tras bandera, migración, REQ-1584 y REQ-1585) |
+| REQ-1672 | Cambio de tarifa: lo confirma el PO (panel o «confirmo T-12»); el comando responde, actualiza anexo y precio el día que rige | NUEVO | src/proveedores/lib/tarifas.ts, tarifa.ts, tarifa-repo.ts, entrante.ts, deps.ts, src/app/admin/tarifas/, src/app/api/admin/tarifas/[id]/route.ts, src/app/api/proveedores/tarifa/confirmar/route.ts, src/app/api/cron/proveedores/route.ts, src/components/admin/TarifaAvisoControl.tsx, migrations/0027 | src/proveedores/lib/tarifas.test.ts, src/proveedores/tarifa.test.ts | EN CURSO (verde; tras bandera, migración, REQ-1584 y REQ-1585) |
 | REQ-1580 | Confirmación por panel y WhatsApp | NUEVO | idem | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · panel verde; WhatsApp espera REQ-1663 |
 | REQ-1581 | Si el neto baja, baja el precio | NUEVO | lib/tarifas.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
 | REQ-1674 | Folios del frente sin choques con main: folio nuevo apartado + alias «antes REQ-…» | NUEVO | docs/requisitos.md, STATUS.md, src/proveedores/**, docs/gates-proveedores-mila-2026-11.md, docs/plan-proveedores-1572-1576-1579.md | src/ops/requisitos-unicos.test.ts (main) | CUMPLIDO (12 nov: main mezclado, folio.ts revisar sin choques, suite 3063 verde, build verde) |
@@ -975,3 +975,16 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+| REQ-1635 | T&C v2: Mila, moneda, vuelos, operador identificado, sin liberación total | PO 11 nov | `src/legal/lib/terminos.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado; merge del PO) |
+| REQ-1636 | Aviso integral v2: IA y WhatsApp, países, encargados | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
+| REQ-1637 | Aviso simplificado v2: IA y transferencias | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
+| REQ-3315 | Home sin cifras, línea «Aliados en cada región» | PO 11 nov | `src/home/lib/copy.ts`, `src/components/home/v2/{ProofStrip,HeroSearch,PopularDestinations,ContinentExplorer,HomeReviews}.tsx` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3316 | Mila, asesora con IA, en franja, cómo funciona y asesoría | PO 11 nov | `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+
+## Tangol ola 2 (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | EN CURSO (falta merge; aplicar es candado) |
+| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |

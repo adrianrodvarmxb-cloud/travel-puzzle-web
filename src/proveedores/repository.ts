@@ -1,4 +1,4 @@
-// I/O · Proveedores en D1 (migrations/0026_proveedores_mila.sql). Recibe la base por parámetro.
+// I/O · Proveedores en D1 (migrations/0027_proveedores_mila.sql). Recibe la base por parámetro.
 import type { EstadoProveedor, Etapa } from "./lib/etapas";
 import type { Cobro, Integracion } from "./lib/integracion";
 import type { Bloqueos } from "./lib/choques";

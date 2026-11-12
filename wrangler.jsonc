@@ -58,7 +58,7 @@
     "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
     "MILA_AVISOS_URL": "",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
-    "REVIEW_EMAILS_ENABLED": "false",
+    "REVIEW_EMAILS_ENABLED": "true",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
     "PAID_TOURS_ENABLED": "true",
     "PAID_TOURS_IN_RECOMMENDATIONS": "true",
@@ -107,7 +107,7 @@
     "FREETOUR_CHATBOT_ENABLED": "false",
     // Taxonomía T7 (REQ-428, REQ-429): el carrito usa el formato (excursiones → day_trip, entradas → tickets) y la primera tarjeta
     // del carrusel se elige por formato. Sin efecto visible mientras «Arma tu viaje» esté apagada. "true" con preview, humo y OK del PO.
-    "TAXONOMY_CART_ENABLED": "false",
+    "TAXONOMY_CART_ENABLED": "true",
     // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
     // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
     "TAXONOMY_SYNC_ENABLED": "true",
@@ -132,16 +132,18 @@
     // REQ-262…267: bloque de venta cruzada (sin FREETOUR, regla B3) en confirmación, recordatorios, cambio y post-tour.
     // Nunca en rechazo ni cancelación. "true" con preview, prueba de humo y OK del PO. Decisión del PO (6-11 09:07):
     // la única restricción es no promover FREETOUR; no se exige la lista «No publicidad».
-    "EMAIL_CROSS_SELL_ENABLED": "false",
+    "EMAIL_CROSS_SELL_ENABLED": "true",
     // REQ-083: casilla «soy mayor de edad» obligatoria en la reserva. "true" con preview, prueba de humo y OK del PO.
-    "ADULT_CONTACT_CHECK_ENABLED": "false",
+    // REQ-3310: encendida (PO, 12 nov 2026), después de REQ-3309.
+    "ADULT_CONTACT_CHECK_ENABLED": "true",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).
     "MARKETING_CONSENT_ENABLED": "false",
     // REQ-084: página /cookies (borrador). "true" con texto aprobado por PO y abogado.
     "COOKIES_POLICY_ENABLED": "false",
     // REQ-139 (gate G5): atribución CC BY 4.0 de GeoNames, solo en /terminos (no en el pie). "true" cuando el geonameid
     // o datos de GeoNames se vean en el sitio (JSON-LD, hubs), con preview, prueba de humo y OK del PO.
-    "GEO_ATTRIBUTION_ENABLED": "false",
+    // REQ-3309: encendida (PO, 12 nov 2026); GeoNames ya es fuente en producción (GEO_SOURCES_IN_PRODUCTION).
+    "GEO_ATTRIBUTION_ENABLED": "true",
     // REQ-221 (PO, 6 nov 2026): ENCENDIDA. REQ-148..152: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). Con OK
     // del PO; la llave AGENTE_TOKEN viaja con la versión (REQ-188).
     "AGENTE_API_ENABLED": "true",

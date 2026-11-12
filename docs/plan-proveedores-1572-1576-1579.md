@@ -8,7 +8,7 @@ Nuevos:
 - `src/proveedores/tarifa.ts` — I/O: guardar el aviso pendiente, y al confirmar: responder en el hilo, escribir el anexo y actualizar el precio del viaje vía `saveTrip()`.
 - `src/app/api/proveedores/tarifa/confirmar/route.ts` — entrada del comando del PO (con secreto).
 Modificados:
-- `migrations/0026_proveedores_mila.sql` (aún sin aplicar): columna `checklist` (JSON) en `Proveedor`, `bloqueos` (JSON) y tabla `ProveedorTarifa` (anexo: producto, neto, desde, estado pendiente/confirmada, quién confirmó).
+- `migrations/0027_proveedores_mila.sql` (aún sin aplicar): columna `checklist` (JSON) en `Proveedor`, `bloqueos` (JSON) y tabla `ProveedorTarifa` (anexo: producto, neto, desde, estado pendiente/confirmada, quién confirmó).
 - `src/proveedores/lib/integracion.ts`: el cobro depende del tipo (DMC: condiciones de pago, depósito y datos bancarios; plataforma: liga de pago y comisión).
 - `src/proveedores/lib/plantillas.ts` y `borrador.ts`: presentación como respuesta «Re: …» en el hilo existente (REQ-1670); pedidos desde `checklist`.
 - `src/proveedores/entrante.ts`: si el correo trae cambio de tarifa, lo registra pendiente y avisa al PO; nunca toca precios.
