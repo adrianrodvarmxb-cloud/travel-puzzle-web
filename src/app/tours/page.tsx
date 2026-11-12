@@ -12,6 +12,7 @@ import { parseDurationRange } from '@/tours/lib/duration';
 import { loadFx, loadTripCards } from '@/trips/public-load';
 import { toursTrips } from '@/trips/lib/public';
 import { getPrisma } from '@/lib/prisma';
+import { countryCodesFor, orFallback } from '@/tours/lib/page-fallbacks';
 import type { Metadata } from 'next';
 import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
 import { formatDefs } from '@/taxonomy/lib/format-defs';
@@ -92,7 +93,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     // Fetch tours with filters from URL params (or defaults)
     fetchTours(filters, pagination),
     // Fetch countries for filters
-    fetchCountries(language),
+    // REQ-3490: sin países, los filtros salen sin esa lista; la página no responde 500.
+    orFallback(fetchCountries(language), [], 'países de los filtros'),
     // Fetch metadata
     fetchToursMetadata(),
     // Viajes propios y de agencias (vacío con OWN_TOURS_ENABLED apagado).
@@ -101,9 +103,8 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     // REQ-1254: tipo de cambio del día para el rango de precio (si falla, el rango solo dice EUR).
     loadFx().catch(() => null),
   ]);
-  const countryCodeById: Record<number, string> = ownTrips.length
-    ? Object.fromEntries((await getPrisma().country.findMany({ select: { id: true, code: true } })).map((c) => [c.id, c.code.toUpperCase()]))
-    : {};
+  // REQ-3489: con reintento si D1 está saturada; si sigue fallando, las tarjetas salen sin código de país.
+  const countryCodeById = await countryCodesFor(ownTrips.length > 0, () => getPrisma().country.findMany({ select: { id: true, code: true } }));
 
   // Format lastUpdated date on server to avoid hydration mismatch
   const localeMap: Record<string, string> = {

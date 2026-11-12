@@ -9,6 +9,7 @@
  */
 // @ts-ignore: lo genera `opennextjs-cloudflare build` (puede no existir aún)
 import { default as handler } from "./.open-next/worker.js";
+import { stripEdgeCacheUnlessOk } from "./src/perf/lib/edge-cache";
 
 interface Env {
   CRON_SECRET?: string;
@@ -19,8 +20,25 @@ interface WorkerContext {
   waitUntil(promise: Promise<unknown>): void;
 }
 
+// REQ-1291: correo que llega por Email Routing (copia del reenvío de comercial@ en cPanel).
+interface IncomingEmail { raw: ReadableStream; from: string; to: string }
+
 export default {
-  fetch: handler.fetch,
+  // REQ-3318: solo un 200 sale marcado como guardable en el borde (un 5xx nunca se guarda).
+  async fetch(request: Request, env: Env, ctx: WorkerContext): Promise<Response> {
+    return stripEdgeCacheUnlessOk(await handler.fetch(request, env, ctx));
+  },
+
+  async email(message: IncomingEmail, env: Env, ctx: WorkerContext) {
+    if (!env.CRON_SECRET) return;
+    const req = new Request("https://internal/api/proveedores/correo", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.CRON_SECRET}`, "content-type": "message/rfc822" },
+      body: await new Response(message.raw).arrayBuffer(),
+    });
+    const res: Response = await handler.fetch(req, env, ctx);
+    console.log(`[correo] proveedores → ${res.status} ${await res.text()}`);
+  },
 
   async scheduled(_event: unknown, env: Env, ctx: WorkerContext) {
     if (!env.CRON_SECRET) {
@@ -52,6 +70,19 @@ export default {
           console.log(`[cron] indexnow → ${res.status} ${await res.text()}`);
         })
       );
+    }
+    // REQ-1293, REQ-1566: cada hora en punto; a cada proveedor solo se le escribe en su horario hábil.
+    const ahora = new Date();
+    if (ahora.getUTCMinutes() === 0) {
+      const proveedores = new Request("https://internal/api/cron/proveedores", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
+      ctx.waitUntil(handler.fetch(proveedores, env, ctx).then(async (res: Response) => console.log(`[cron] proveedores → ${res.status} ${await res.text()}`)));
+    }
+
+    // REQ-3416: una vez al día (12:20 UTC), catálogo de Big Bus por Ventrata OCTO. La ruta no hace nada mientras
+    // BIGBUS_OCTO_ENABLED no sea "true".
+    if (now.getUTCHours() === 12 && now.getUTCMinutes() === 20) {
+      const bigbus = new Request("https://internal/api/cron/bigbus-sync", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
+      ctx.waitUntil(handler.fetch(bigbus, env, ctx).then(async (res: Response) => console.log(`[cron] bigbus-sync → ${res.status} ${await res.text()}`)));
     }
     // Cada 5 minutos: recordatorios y reseña post-tour.
     if (new Date().getUTCMinutes() % 5 === 0) {

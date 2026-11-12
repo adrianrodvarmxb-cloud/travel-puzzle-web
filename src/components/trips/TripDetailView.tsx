@@ -16,6 +16,10 @@ import { TripGuarantees } from '@/components/trips/TripGuarantees';
 import { guaranteeItems, onlinePaymentsFromEnv } from '@/trips/lib/guarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
 import { TripRequestForm } from '@/components/trips/TripRequestForm';
+import { BigBusBuyBox } from '@/components/trips/BigBusBuyBox';
+import { bigBusRefForTrip } from '@/octo/lib/public-view';
+import { bigBusOctoConfig } from '@/octo/lib/config';
+import bigBusCities from '@/octo/data/bigbus-ciudades.json';
 import { policySummary, policyText } from '@/trips/lib/cancel-policy';
 import { bookingSteps, isCardHoldEnabled } from '@/trips/lib/booking-steps';
 import { loadTripBySlug, toCard } from '@/trips/public-load';
@@ -92,6 +96,8 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     const languageNames = trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l) ?? l);
     const agencyId = (trip as { agencyId?: string | null }).agencyId ?? null;
     const operator = data.agencyName?.trim() || (agencyId ? null : OWN_PROVIDER);
+    // REQ-3423
+    const bigBusRef = bigBusOctoConfig(process.env as Record<string, string | undefined>) ? bigBusRefForTrip(trip.id, Object.keys(bigBusCities).filter((k) => !k.startsWith('_'))) : null;
     const ficha = {
         ...tripFichaInput({
             trip: { ...trip, agencyId }, lang, url: canonicalUrl(process.env.SITE_URL || SITE_URL_DEFAULT, path), title: card.title, summary: card.summary || null,
@@ -182,6 +188,12 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
                             {relatedTours.length > 0 && (
                                 <SectionBoundary name="franja-tours">
                                     <CrossSellStrip eyebrow={cs.toursEyebrow(L('cities.0', tourCity ?? ''))} question={cs.toursQuestion} from={cs.from} freeLabel="Free tour" items={relatedTours.slice(0, 2)} />
+                                </SectionBoundary>
+                            )}
+                            {/* REQ-3423: compra directa de Big Bus (solo con BIGBUS_OCTO_ENABLED; si la API no responde, no pinta nada). */}
+                            {bigBusRef && (
+                                <SectionBoundary name="compra-bigbus">
+                                    <BigBusBuyBox cityRef={bigBusRef} lang={lang === 'en' ? 'en' : 'es'} today={new Date().toISOString().slice(0, 10)} />
                                 </SectionBoundary>
                             )}
                             <TripRequestForm tripId={trip.id} custom={trip.kind === 'personalizado'} currency={trip.currency} lang={lang} returnPath={path}
