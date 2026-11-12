@@ -188,7 +188,7 @@ export function guideEnProblems(g: CityGuide, ctx: Pick<GuideCtx, "existing" | "
 }
 
 interface CountryLite { id: number; iso2: string | null }
-interface CityLite { id: number; countryId: number; slug: string | null; guide: string | null; guideUpdatedAt: string | null }
+interface CityLite { id: number; countryId: number; slug: string | null; guide: string | null; guideUpdatedAt: string | null; guideEn?: string | null }
 
 // REQ-1228: la guía del repo gana sobre la de D1 (si la hubiera) para esa ciudad; las demás quedan igual.
 export function overlayGuides<T extends CityLite>(countries: CountryLite[], cities: T[], guides: CityGuide[]): T[] {
@@ -197,7 +197,8 @@ export function overlayGuides<T extends CityLite>(countries: CountryLite[], citi
   const byKey = new Map(guides.map((g) => [guideKey(g), g]));
   return cities.map((c) => {
     const g = c.slug ? byKey.get(`${iso.get(c.countryId) ?? ""}/${c.slug}`) : undefined;
-    return g ? { ...c, guide: guidePlain(g), guideUpdatedAt: new Date(`${g.publishedAt}T00:00:00Z`).toISOString() } : c;
+    // REQ-3336: con versión en inglés, también su texto plano (cuenta para indexar en inglés).
+    return g ? { ...c, guide: guidePlain(g), guideEn: g.en ? guidePlain(g.en) : null, guideUpdatedAt: new Date(`${g.publishedAt}T00:00:00Z`).toISOString() } : c;
   });
 }
 

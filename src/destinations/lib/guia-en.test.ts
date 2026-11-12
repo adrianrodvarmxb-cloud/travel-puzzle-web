@@ -44,3 +44,28 @@ describe("REQ-3336: guías bilingües (gate B2)", () => {
     expect(guideIn(onlyEs.guide, "fr")).toBeNull();
   });
 });
+
+describe("REQ-3336: la guía en inglés también cuenta para indexar en inglés", () => {
+  it("REQ-3336: overlayGuides deja el texto plano en inglés en la ciudad (guideEn)", async () => {
+    const { overlayGuides, guidePlain } = await import("./guia");
+    const g = parseGuide(sampleGuide());
+    if (!g.ok) throw new Error(g.error);
+    const [c] = overlayGuides([{ id: 1, iso2: "FR" }], [{ id: 9, countryId: 1, slug: "paris", guide: null as string | null, guideUpdatedAt: null as string | null, guideEn: null as string | null }], [g.guide]);
+    expect(c.guideEn).toBe(guidePlain(g.guide.en!));
+    const onlyEs = parseGuide(sampleGuide({ en: undefined }));
+    if (!onlyEs.ok) throw new Error(onlyEs.error);
+    const [d] = overlayGuides([{ id: 1, iso2: "FR" }], [{ id: 9, countryId: 1, slug: "paris", guide: null as string | null, guideUpdatedAt: null as string | null, guideEn: null as string | null }], [onlyEs.guide]);
+    expect(d.guideEn ?? null).toBeNull();
+  });
+
+  it("REQ-3336: una ciudad con 1 tour y guía en inglés indexa en es y en; sin guía en inglés, solo en es", async () => {
+    const { cityLangs } = await import("./locale");
+    const { guidePlain } = await import("./guia");
+    const g = parseGuide(sampleGuide());
+    if (!g.ok) throw new Error(g.error);
+    const country = { indexable: true } as Parameters<typeof cityLangs>[1];
+    const city = { indexed: true, activeTours: 1, indexableTours: 1, guide: guidePlain(g.guide) } as Parameters<typeof cityLangs>[0];
+    expect(cityLangs({ ...city, guideEn: guidePlain(g.guide.en!) }, country)).toEqual(["es", "en"]);
+    expect(cityLangs(city, country)).toEqual(["es"]);
+  });
+});

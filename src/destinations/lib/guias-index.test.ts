@@ -55,3 +55,34 @@ describe("REQ-3335: enlaces de la columna «Guías» del pie (gate A3)", () => {
     expect(footerGuideLinks([], "en")).toEqual([]);
   });
 });
+
+describe("REQ-3334: página /guias", () => {
+  it("REQ-3334: title, descripción y canonical en español; hreflang es/en cuando hay guías en inglés", async () => {
+    const { guidesPageMeta } = await import("./guias-index");
+    const m = guidesPageMeta({ lang: "es", siteUrl: "https://travelpuzzle.com.mx", langs: ["es", "en"] });
+    expect(m).toMatchObject({ title: "Guías de ciudad · Travel Puzzle", canonical: "https://travelpuzzle.com.mx/guias", index: true, lang: "es" });
+    expect(m.languages).toMatchObject({ es: "https://travelpuzzle.com.mx/guias", en: "https://travelpuzzle.com.mx/en/guias" });
+  });
+
+  it("REQ-3334: en inglés, título en inglés y canonical /en/guias", async () => {
+    const { guidesPageMeta } = await import("./guias-index");
+    const m = guidesPageMeta({ lang: "en", siteUrl: "https://travelpuzzle.com.mx", langs: ["es", "en"] });
+    expect(m).toMatchObject({ title: "City guides · Travel Puzzle", canonical: "https://travelpuzzle.com.mx/en/guias", index: true });
+  });
+
+  it("REQ-3334: idiomas de la página: los que tienen al menos una guía", async () => {
+    const { guidesLangs } = await import("./guias-index");
+    expect(guidesLangs([base("cn", "pekin", "Pekín", true)])).toEqual(["es", "en"]);
+    expect(guidesLangs([base("cn", "pekin", "Pekín")])).toEqual(["es"]);
+    expect(guidesLangs([])).toEqual([]);
+  });
+});
+
+describe("REQ-3334: /guias en sitemap-paginas.xml", () => {
+  it("REQ-3334: con guías, una entrada /guias con la fecha de la guía más reciente; sin guías, nada", async () => {
+    const { guidesSitemapUrls } = await import("./guias-index");
+    const g2 = { ...base("in", "agra", "Agra"), publishedAt: "2026-11-08" } as CityGuide;
+    expect(guidesSitemapUrls([base("cn", "pekin", "Pekín"), g2], "https://travelpuzzle.com.mx/")).toEqual([{ loc: "https://travelpuzzle.com.mx/guias", lastmod: "2026-11-08" }]);
+    expect(guidesSitemapUrls([], "https://travelpuzzle.com.mx")).toEqual([]);
+  });
+});
