@@ -1,6 +1,7 @@
 # STATUS — travel-puzzle-web
 
 Actualizado: 11 nov 2026, 23:55 (CDMX).
+Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
@@ -50,6 +51,35 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1572 | Borrador del acuerdo de intermediación con Tangol | NUEVO | proyecto de Claude: `legal/acuerdo-intermediacion-tangol.md` | — | EN CURSO (enviado al proveedor el 11 nov 23:52 UTC; falta validación del PO y del abogado) |
 | REQ-1573 | Marca blanca confirmada por Tangol | NUEVO | — | — | CUMPLIDO (PO, 11 nov 15:13; falta guardar el correo de Tangol en el expediente) |
 
+
+## Mila administra proveedores (PO, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0027 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1292 | Directorio de ~200 hilos, aprobado por el PO | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (VALIDACIÓN REQ-1653) | EN CURSO |
+| REQ-1293 | Seguimiento diario y tandas | NUEVO | src/proveedores/lib/seguimiento.ts, tandas.ts, diario.ts, worker.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1294 | Correos de Mila (recordatorio, reintento, alta) | NUEVO | src/proveedores/lib/correo.ts, plantillas.ts, deps.ts, src/notifications/resend.ts | proveedores.test.ts | EN CURSO |
+| REQ-1295 | Alta del proveedor que acepta | NUEVO | src/proveedores/lib/etapas.ts | proveedores.test.ts | EN CURSO |
+| REQ-1296 | Documentos en cPanel fuera de public_html | NUEVO | src/proveedores/lib/documentos.ts, cpanel.ts, entrante.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1297 | Primer correo lo manda Adri con copia a Mila | NUEVO | src/proveedores/lib/borrador.ts, plantillas.ts, diario.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1298 | Integración por prioridad API > plugin > portal > manual | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
+| REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
+| REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1566 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1568 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1569 y REQ-1663) |
+| REQ-1665 | Lista de alta en 8 grupos, solo lo que falta; marca lo recibido | NUEVO | src/proveedores/lib/checklist.ts, borrador.ts, diario.ts, entrante.ts, repository.ts, lib/plantillas.ts, migrations/0027 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; queda tras PROVEEDORES_MILA_ON y migración sin aplicar) |
+| REQ-1666 | Cobro por tipo: DMC paga neto; plataforma cobra y paga comisión | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1669 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0027 | proveedores.test.ts, proveedores-io.test.ts | REEMPLAZADO por REQ-3430 |
+| REQ-3430 | Consulta mutua Mila ↔ revisión cada 6 h antes de enviar (REQ-3429; G1 = A, REQ-3447) | NUEVO | src/proveedores/lib/consulta.ts, contacto.ts, contacto-repo.ts, diario.ts, deps.ts, src/app/api/proveedores/contacto/route.ts, src/app/api/cron/proveedores/route.ts, migrations/0027 | src/proveedores/lib/consulta.test.ts, src/proveedores/contacto.test.ts, src/proveedores/proveedores-io.test.ts | EN CURSO (tests verdes; falta migración y secreto REQ-3448 con OK del PO) |
+| REQ-3448 | Secreto PROVEEDORES_CONTACTO_TOKEN en Cloudflare | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-1670 | Presentación en el hilo existente («Re: …») | NUEVO | src/proveedores/lib/borrador.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde; faltan los 7 borradores con el asunto real |
+| REQ-1672 | Cambio de tarifa: lo confirma el PO (panel o «confirmo T-12»); el comando responde, actualiza anexo y precio el día que rige | NUEVO | src/proveedores/lib/tarifas.ts, tarifa.ts, tarifa-repo.ts, entrante.ts, deps.ts, src/app/admin/tarifas/, src/app/api/admin/tarifas/[id]/route.ts, src/app/api/proveedores/tarifa/confirmar/route.ts, src/app/api/cron/proveedores/route.ts, src/components/admin/TarifaAvisoControl.tsx, migrations/0027 | src/proveedores/lib/tarifas.test.ts, src/proveedores/tarifa.test.ts | EN CURSO (verde; tras bandera, migración, REQ-1584 y REQ-1585) |
+| REQ-1580 | Confirmación por panel y WhatsApp | NUEVO | idem | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · panel verde; WhatsApp espera REQ-1663 |
+| REQ-1581 | Si el neto baja, baja el precio | NUEVO | lib/tarifas.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1674 | Folios del frente sin choques con main: folio nuevo apartado + alias «antes REQ-…» | NUEVO | docs/requisitos.md, STATUS.md, src/proveedores/**, docs/gates-proveedores-mila-2026-11.md, docs/plan-proveedores-1572-1576-1579.md | src/ops/requisitos-unicos.test.ts (main) | CUMPLIDO (12 nov: main mezclado, folio.ts revisar sin choques, suite 3063 verde, build verde) |
+| REQ-1668 | Directorio actualizado con los hilos de Gmail (Eurorutas, Enjoy Travel, Asian Spirit rebotó, Angela, Tangol, Extime) | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (DATOS; evidencia: hilos de Gmail del 3 al 12 nov) | CUMPLIDO (12 nov 2026) |
+| REQ-1582 | Sin fecha, Mila la pide en el hilo | NUEVO | lib/tarifas.ts, tarifa.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1535, REQ-1537…1539 y REQ-1638…1662 y REQ-1673 (antes REQ-1536…1564 y REQ-1549; renumerados por REQ-1674) | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1660 CUMPLIDO en la rama (src/proveedores/cpanel.ts, cpanel.test.ts; build verde 12 nov) |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
