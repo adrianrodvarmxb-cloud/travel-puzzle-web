@@ -151,3 +151,8 @@ El correo del 6 nov 2026 SÍ salió (claulet@, 14:15 UTC) y no tiene respuesta: 
 5. Cancelación: cuál aplica («no reembolsable» o la tabla de penalidades), qué pasa con más de 30 días y cuánto cuestan los cambios.
 
 **Abajo, «Para cerrar el alta»:** recordatorio de lo pedido el 6 nov (integración, neto o comisión, fotos); teléfono 24/7 y vouchers; razón social, RNT (Colombia), Mintur (Ecuador) y seguro de RC; términos para agencias y acuerdo de intermediación; documentos del pasajero para Ecuador y Galápagos.
+
+## 9. Firmas del PO (plan de Mila)
+| Gate | Respuesta literal | Queda | Fecha |
+|---|---|---|---|
+| G1 · Quién sigue a quién | «1 Mila consulta tablero y da doble check a correos antes de responder a proveedores» | A, con doble verificación: Mila manda los recordatorios; la revisión cada 6 h solo lee, actualiza el tablero y avisa al PO. Antes de escribir o responder a un proveedor, Mila (1) consulta el tablero (`docs/requisitos.md` y la lista compartida, REQ-3430) para saber qué está pendiente, contestado o en negociación, y (2) relee el hilo completo de correos de ese proveedor, incluidos los enviados por Adri o Claudia y los borradores vigentes, para no repetir ni contradecir nada. Si algo no cuadra, no escribe y avisa al PO. Test nuevo en `diario.ts`: sin leer tablero e hilo, no envía | 12 nov 2026 |
