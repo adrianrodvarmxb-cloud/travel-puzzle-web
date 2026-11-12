@@ -97,3 +97,13 @@ Mila
 Del equipo de Travel Puzzle
 
 **EN:** Hello {contact name}, thank you. {Supplier} is now set up in our system. To start sending bookings we still need: {missing items}. Bookings will come from this same address with traveler name, date, service and number of people. Best regards, Mila · Travel Puzzle team
+
+---
+
+## Cambios del 11 nov 2026 (REQ-1572, REQ-1573, REQ-1576, REQ-1577)
+- La presentación a los 7 publicados la manda Adrián como respuesta en el hilo que ya existe («Re: <asunto>»), no como correo nuevo.
+- Los pedidos salen de la lista de alta en 8 grupos (`src/proveedores/lib/checklist.ts`) y solo se pide lo que falta.
+  - DMC: integración, tarifario neto por temporada con suplementos, condiciones de pago y datos bancarios (Travel Puzzle cobra y paga el neto), cancelación, contacto 24/7, datos legales y seguro, firma del acuerdo, fotos y crédito, datos del viajero.
+  - Plataforma: integración, cómo cobran y qué comisión pagan, cancelación, soporte para agencias, términos para agencias, contenido y datos del viajero.
+- El recordatorio agrega «Lo que nos falta:» con la lista; si ya no falta nada, esa línea no sale.
+- Mila no escribe si hay borrador sin enviar, acuerdo en negociación, folio abierto de la revisión cada 6 h o si el hilo no le llegó con copia a comercial@.

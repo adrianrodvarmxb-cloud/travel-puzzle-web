@@ -22,6 +22,7 @@ Mila les dará seguimiento desde comercial@travelpuzzle.com.mx.`,
     cuerpo: `Hola, {contacto}:
 Hola:
 Retomo mi correo del {fecha}. Cuando tengan un momento, nos ayudaría tener su respuesta.
+{pendientes}
 
 Si prefieren que lo veamos con otra persona de su equipo, indíquenme con quién.
 
@@ -63,7 +64,7 @@ To integrate your product into our website, we ask in this order:
 
 Mila will follow up from comercial@travelpuzzle.com.mx.`,
   },
-  recordatorio: { asunto: "Re: {asunto}", cuerpo: `Hello {contacto},\nHello,\nFollowing up on my email of {fecha}. When you have a moment, it would help us to have your reply. If someone else on your team handles this, please let me know who.\n\nThank you,` },
+  recordatorio: { asunto: "Re: {asunto}", cuerpo: `Hello {contacto},\nHello,\nFollowing up on my email of {fecha}. When you have a moment, it would help us to have your reply.\n{pendientes}\nIf someone else on your team handles this, please let me know who.\n\nThank you,` },
   reintento: { asunto: "Travel Puzzle · Shall we pick up {tema}?", cuerpo: `Hello {contacto},\nHello,\nWe wrote some time ago about {tema}. We are still interested in working with {proveedor} for {destinos}. If you are interested, just reply to this email and we will pick it up.\n\nBest regards,` },
   alta: { asunto: "Re: {asunto} · {proveedor} set up at Travel Puzzle", cuerpo: `Hello {contacto},\nHello,\nThank you. {proveedor} is now set up in our system. To start sending bookings we still need:\n{pedidos}\n\nBookings will come from this same address with traveler name, date, service and number of people.\n\nBest regards,` },
 };

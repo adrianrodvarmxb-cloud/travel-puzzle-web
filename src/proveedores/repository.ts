@@ -1,6 +1,7 @@
 // I/O · Proveedores en D1 (migrations/0026_proveedores_mila.sql). Recibe la base por parámetro.
 import type { EstadoProveedor, Etapa } from "./lib/etapas";
 import type { Cobro, Integracion } from "./lib/integracion";
+import type { Bloqueos } from "./lib/choques";
 
 export interface Db {
   all<T>(sql: string, ...params: unknown[]): Promise<T[]>;
@@ -14,14 +15,17 @@ export interface ProveedorFila extends EstadoProveedor {
   integracion: Integracion; cobro: Cobro; tiempoRespuesta: string; // REQ-1298, REQ-1299
   correosInvalidos: string[]; // REQ-1565
   zonaHoraria: string; // REQ-1566
+  checklist: string[]; // REQ-1572
+  bloqueos: Bloqueos; // REQ-1576
 }
 
-type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos"> & {
-  publicado: number; bloqueado: number; correos: string; dominios: string; etapa: Etapa; correosInvalidos: string;
+type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos" | "checklist" | "bloqueos"> & {
+  publicado: number; bloqueado: number; correos: string; dominios: string; etapa: Etapa; correosInvalidos: string; checklist?: string; bloqueos?: string;
 };
 
 const parse = (s: string): string[] => { try { const v = JSON.parse(s); return Array.isArray(v) ? v.map(String) : []; } catch { return []; } };
-const fila = (r: Cruda): ProveedorFila => ({ ...r, publicado: !!r.publicado, bloqueado: !!r.bloqueado, correos: parse(r.correos), dominios: parse(r.dominios), correosInvalidos: parse(r.correosInvalidos ?? "[]"),
+const objeto = (s?: string): Bloqueos => { try { const v = JSON.parse(s ?? "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch { return {}; } };
+const fila = (r: Cruda): ProveedorFila => ({ ...r, publicado: !!r.publicado, bloqueado: !!r.bloqueado, correos: parse(r.correos), dominios: parse(r.dominios), correosInvalidos: parse(r.correosInvalidos ?? "[]"), checklist: parse(r.checklist ?? "[]"), bloqueos: objeto(r.bloqueos),
   ultimoSuyo: r.ultimoSuyo ?? undefined, ultimoNuestro: r.ultimoNuestro ?? undefined, sinRespuestaDesde: r.sinRespuestaDesde ?? undefined });
 
 export function createProveedoresRepo(db: Db) {
@@ -57,6 +61,10 @@ export function createProveedoresRepo(db: Db) {
     // REQ-1565: guarda las direcciones que rebotaron; Mila deja de escribirles.
     async marcarInvalidos(id: string, correos: string[], ahora: string) {
       await db.run(`UPDATE "Proveedor" SET "correosInvalidos"=?, "updatedAt"=? WHERE "id"=?`, JSON.stringify(correos), ahora, id);
+    },
+    // REQ-1572: guarda los puntos de alta recibidos.
+    async marcarChecklist(id: string, recibidos: string[], ahora: string) {
+      await db.run(`UPDATE "Proveedor" SET "checklist"=?, "updatedAt"=? WHERE "id"=?`, JSON.stringify(recibidos), ahora, id);
     },
     // REQ-1296
     async registrarDocumento(d: { id: string; proveedorId: string; mensajeId: string; nombre: string; bytes: number; fecha: string }) {

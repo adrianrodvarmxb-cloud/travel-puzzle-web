@@ -17,6 +17,11 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0026 | src/proveedores/proveedores-io.test.ts | EN CURSO |
 | REQ-1566 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0026 | src/proveedores/proveedores-io.test.ts | EN CURSO |
 | REQ-1568 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1569 y REQ-1570) |
+| REQ-1572 | Lista de alta en 8 grupos, solo lo que falta; marca lo recibido | NUEVO | src/proveedores/lib/checklist.ts, borrador.ts, diario.ts, entrante.ts, repository.ts, lib/plantillas.ts, migrations/0026 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; queda tras PROVEEDORES_MILA_ON y migración sin aplicar) |
+| REQ-1573 | Cobro por tipo: DMC paga neto; plataforma cobra y paga comisión | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1576 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0026 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; falta quién llena «bloqueos») |
+| REQ-1577 | Presentación en el hilo existente («Re: …») | NUEVO | src/proveedores/lib/borrador.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde; faltan los 7 borradores con el asunto real |
+| REQ-1579 | Cambio de tarifa confirmado por el PO detona comando | NUEVO | — | — | PENDIENTE (espera G1-G3: REQ-1580..1582) |
 | REQ-1535 a REQ-1564 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1562 NO CUMPLIDO |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad

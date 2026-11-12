@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS "Proveedor" (
   "sinRespuestaDesde" TEXT,
   "proximaAccion"     TEXT NOT NULL DEFAULT '',
   "notas"             TEXT NOT NULL DEFAULT '',
+  "checklist"         TEXT NOT NULL DEFAULT '[]',   -- REQ-1572: JSON con los puntos de alta recibidos (tarifas, cancelacion, legal…)
+  "bloqueos"          TEXT NOT NULL DEFAULT '{}',   -- REQ-1576: JSON {borradorSinEnviar, acuerdoEnNegociacion, folioAbierto}
   "createdAt"         TEXT NOT NULL,
   "updatedAt"         TEXT NOT NULL
 );

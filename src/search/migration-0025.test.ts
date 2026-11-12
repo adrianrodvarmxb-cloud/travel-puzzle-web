@@ -11,7 +11,9 @@ describe("REQ-1517 migración 0025: TourSearch con la columna stem", () => {
     expect(() => readFileSync("docs/migraciones-propuestas/0021_tour_search_stem.sql")).toThrow();
     const nums = readdirSync("migrations").filter((f) => /^\d{4}_.*\.sql$/.test(f)).map((f) => f.slice(0, 4));
     expect(nums.filter((n) => n === "0025")).toHaveLength(1);
-    expect(nums.sort().at(-1)).toBe("0025");
+    // Era «la última» al crearse; con migraciones nuevas (0026, REQ-1291) se exige que ningún número se repita.
+    expect(new Set(nums).size).toBe(nums.length);
+    expect(nums.sort().indexOf("0025")).toBe(nums.indexOf("0024") + 1);
   });
   it("REQ-1517 solo toca la tabla derivada TourSearch y la recrea con stem", () => {
     const code = SQL.replace(/--[^\n]*/g, "");

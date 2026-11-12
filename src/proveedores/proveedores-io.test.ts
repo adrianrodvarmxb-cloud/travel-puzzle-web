@@ -7,7 +7,7 @@ import type { Correo } from "./lib/correo";
 
 const base = (x: Partial<ProveedorFila>): ProveedorFila => ({
   id: "p", nombre: "P", tipo: "dmc", publicado: false, bloqueado: false, agencyId: null, canal: "correo", idioma: "es", contacto: "",
-  correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", correosInvalidos: [], zonaHoraria: "America/Mexico_City", ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
+  correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", correosInvalidos: [], zonaHoraria: "America/Mexico_City", checklist: [], bloqueos: {}, ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
 });
 
 function memoria(lista: ProveedorFila[]) {
@@ -22,6 +22,7 @@ function memoria(lista: ProveedorFila[]) {
     mensajesDesde: async () => mensajes.map((m) => ({ proveedor: lista.find((p) => p.id === m.proveedorId)!.nombre, direccion: m.direccion as "entrada", tipo: m.tipo, resumen: "", fecha: "" })),
     documentosDesde: async () => [],
     marcarInvalidos: async (id, correos) => { lista.find((x) => x.id === id)!.correosInvalidos = correos; },
+    marcarChecklist: async (id, recibidos) => { lista.find((x) => x.id === id)!.checklist = recibidos; },
   };
   return { repo, mensajes, documentos, lista };
 }
@@ -52,11 +53,11 @@ describe("REQ-1293/REQ-1294: revisión diaria", () => {
       base({ id: "nuevo", correos: ["a@nuevo.com"], destinos: "Perú" }),
       base({ id: "publicado", publicado: true, correos: ["b@pub.com"], contacto: "Ana" }),
       base({ id: "freetour", bloqueado: true, correos: ["i@freetour.com"] }),
-      base({ id: "callado", correos: ["c@callado.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola" }),
+      base({ id: "callado", correos: ["c@callado.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola", hiloId: "<h@x>" }),
     ]);
     const enviados: Correo[] = [];
     const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@resend>`; } });
-    expect(r).toEqual({ enviados: 1, sinRespuesta: 0, errores: [], porPresentar: ["publicado", "nuevo"] });
+    expect(r).toEqual({ enviados: 1, sinRespuesta: 0, errores: [], porPresentar: ["publicado", "nuevo"], detenidos: [] });
     expect(enviados.map((c) => c.to[0])).toEqual(["c@callado.com"]);
     expect(enviados[0].subject).toBe("Re: Travel Puzzle · hola");
     expect(enviados[0].cc).toHaveLength(2);
@@ -76,7 +77,7 @@ describe("REQ-1297: el primer correo de Adri llega con copia a Mila", () => {
 });
 
 describe("REQ-1565: respuestas automáticas y rebotes", () => {
-  const enviado = { etapa: "contactado" as const, ultimoNuestro: "2026-11-09T10:00:00Z" };
+  const enviado = { etapa: "contactado" as const, ultimoNuestro: "2026-11-09T10:00:00Z", hiloId: "<h@x>" };
   it("REQ-1565: «fuera de la oficina» queda en el historial y no cuenta como respuesta", async () => {
     const m = memoria([base({ id: "tangol", dominios: ["tangol.com"], ...enviado })]);
     const r = await procesarEntrante({ messageId: "<oo@x>", fecha: "2026-11-09T11:00:00Z", de: "erika@tangol.com", para: ["comercial@travelpuzzle.com.mx"], cc: [],
@@ -126,7 +127,7 @@ describe("REQ-1566: horario hábil del proveedor", () => {
     expect(zonaPorDestino("Marte")).toBe("America/Mexico_City");
   });
   it("REQ-1566: la revisión solo le escribe al proveedor de Asia en su mañana", async () => {
-    const asia = base({ id: "ta", correos: ["r@ta.com"], zonaHoraria: "Asia/Kuala_Lumpur", etapa: "contactado", ultimoNuestro: "2026-11-02T01:00:00Z", ultimoAsunto: "X" });
+    const asia = base({ id: "ta", correos: ["r@ta.com"], zonaHoraria: "Asia/Kuala_Lumpur", etapa: "contactado", ultimoNuestro: "2026-11-02T01:00:00Z", ultimoAsunto: "X", hiloId: "<h@x>" });
     const m = memoria([asia]);
     const enviados: Correo[] = [];
     const enviar = async (c: Correo) => { enviados.push(c); return "<1@r>"; };
@@ -146,5 +147,38 @@ describe("REQ-1568: envío del resumen", () => {
       avisar: async (n, t) => { if (n === "falla") throw new Error("403"); llegaron.push(n); expect(t).toContain("Esperan tu primer correo: 1"); } });
     expect(r).toEqual({ enviados: 2, errores: ["falla: 403"] });
     expect(llegaron).toEqual(["5215548538822", "5216181129459"]);
+  });
+});
+
+describe("REQ-1576/REQ-1572: revisión diaria con bloqueos y lista de alta", () => {
+  const callado = (x: Partial<ProveedorFila>) => base({ correos: ["c@c.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola", hiloId: "<h@x>", ...x });
+  const correr = async (lista: ProveedorFila[]) => {
+    const m = memoria(lista); const enviados: Correo[] = [];
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@r>`; } });
+    return { r, enviados };
+  };
+  it("REQ-1576: no manda recordatorio con folio abierto ni a un hilo sin copia a comercial@, y lo reporta", async () => {
+    const { r, enviados } = await correr([callado({ id: "folio", bloqueos: { folioAbierto: "REQ-1385" } }), callado({ id: "sinhilo", hiloId: null })]);
+    expect(enviados).toEqual([]);
+    expect(r.detenidos).toEqual(["folio: folio abierto en la revisión cada 6 h (REQ-1385)", "sinhilo: el hilo aún no le llega con copia a comercial@"]);
+  });
+  it("REQ-1572: el recordatorio a un DMC pide solo lo que falta de la lista de alta", async () => {
+    const { enviados } = await correr([callado({ id: "dmc", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "contenido", "datos", "cobro"] })]);
+    expect(enviados[0].text).toMatch(/acuerdo de intermediación/);
+    expect(enviados[0].text).not.toMatch(/temporada/);
+    expect(enviados[0].text).toMatch(/Lo que nos falta:\n1\. /);
+  });
+  it("REQ-1572: si ya no falta nada, el recordatorio no trae la lista", async () => {
+    const { enviados } = await correr([callado({ id: "ok", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "acuerdo", "contenido", "datos", "cobro"] })]);
+    expect(enviados[0].text).not.toMatch(/nos falta/);
+  });
+});
+
+describe("REQ-1572: documentos recibidos marcan la lista de alta", () => {
+  it("REQ-1572: un tarifario marca «tarifas»", async () => {
+    const m = memoria([base({ id: "inca", correos: ["x@inca.com"], etapa: "contactado" })]);
+    await procesarEntrante({ messageId: "<t@x>", fecha: "2026-11-10T09:00:00Z", de: "x@inca.com", para: ["comercial@travelpuzzle.com.mx"], cc: [], asunto: "Re", texto: "",
+      adjuntos: [{ nombre: "Tarifario 2027.pdf", tipo: "application/pdf", contenido: new Uint8Array([1]) }] }, { repo: m.repo, subir: async () => {} });
+    expect(m.lista[0].checklist).toEqual(["tarifas"]);
   });
 });

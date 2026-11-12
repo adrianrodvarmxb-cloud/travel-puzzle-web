@@ -1,4 +1,5 @@
 // I/O · REQ-1291, REQ-1296: procesa un correo que llega a comercial@ (copia del reenvío de cPanel).
+import { marcarRecibidos, puntosDeDocumento } from "./lib/checklist";
 import { aplicarEvento } from "./lib/etapas";
 import { proveedorDeCorreo } from "./lib/identificar";
 import { rutaDocumento } from "./lib/documentos";
@@ -49,6 +50,7 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
   await deps.repo.guardarEstado(id, { ...s, ultimoAsunto: c.asunto, hiloId: c.messageId }, c.fecha);
   if (deNosotros) return { estado: "nuestro" };
   let documentos = 0, fallidos = 0;
+  let recibidos = p.checklist ?? [];
   for (const a of c.adjuntos) {
     const ruta = rutaDocumento(id, c.fecha, a.nombre);
     if (!ruta) continue;
@@ -56,7 +58,9 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
       await deps.subir(ruta, a.contenido, a.tipo);
       await deps.repo.registrarDocumento({ id: ruta, proveedorId: id, mensajeId: c.messageId, nombre: a.nombre, bytes: a.contenido.byteLength, fecha: c.fecha });
       documentos++;
+      recibidos = marcarRecibidos(recibidos, puntosDeDocumento(a.nombre)); // REQ-1572
     } catch (e) { fallidos++; deps.log?.(`[proveedores] no se subió ${a.nombre}: ${(e as Error).message}`); }
   }
+  if (recibidos.length !== (p.checklist ?? []).length) await deps.repo.marcarChecklist(id, recibidos, c.fecha);
   return { estado: "registrado", proveedorId: id, documentos, fallidos };
 }
