@@ -24,7 +24,7 @@ export interface NearbyDb {
     }): Promise<unknown[]>;
   };
   tour: {
-    findUnique(args: { where: { externalId: number }; select: { cityId: true; meetingPoint: true } }): Promise<{ cityId: number; meetingPoint: unknown } | null>;
+    findUnique(args: { where: { providerId_externalId: { providerId: string; externalId: number } }; select: { cityId: true; meetingPoint: true } }): Promise<{ cityId: number; meetingPoint: unknown } | null>;
     findMany(args: { where: { cityId: number; isActive: true }; select: { meetingPoint: true }; take: number }): Promise<{ meetingPoint: unknown }[]>;
   };
 }
@@ -83,7 +83,7 @@ export async function loadNearbyCandidates(db: NearbyDb, vis: Visibility): Promi
 export async function loadOriginPoint(db: NearbyDb, tourExternalId: number | null | undefined): Promise<Point | null> {
   if (!tourExternalId) return null;
   try {
-    const tour = await db.tour.findUnique({ where: { externalId: tourExternalId }, select: { cityId: true, meetingPoint: true } });
+    const tour = await db.tour.findUnique({ where: { providerId_externalId: { providerId: 'freetour', externalId: tourExternalId } }, select: { cityId: true, meetingPoint: true } }) // REQ-1623;
     if (!tour) return null;
     const own = originPoint(coordsOf(tour.meetingPoint), []);
     if (own) return own;
