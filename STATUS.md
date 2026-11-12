@@ -933,4 +933,4 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1595 | Header: Entrar / Mis reservas / Mi cuenta con la bandera | Gate A | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | EN CURSO (verde) |
 | REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | EN CURSO (verde; humo local OK) |
 | REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (verde) |
-| REQ-1598 | Encender la bandera en producción | Gate D | workflows | humo del PR con la bandera | PENDIENTE |
+| REQ-1598 | Encender la bandera en producción | Gate D | `.github/workflows/deploy-cloudflare.yml`, `.github/workflows/prueba-humo.yml`, `tests/smoke/pages.json` | `src/accounts/flag.test.ts` | EN CURSO |
