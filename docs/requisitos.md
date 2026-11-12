@@ -1161,7 +1161,6 @@ Decisiones del PO el 11 nov 2026: «A2», «A» (pin propio), «el resto de los 
 | REQ-1622 | CÓDIGO | «haz revisión cada 12 horas» (11 nov 18:41): tarea programada que cada 12 h recorre `docs/requisitos.md`, reporta los REQ EN CURSO y PENDIENTE de esta conversación (REQ-1540 en adelante) con lo que falta para cerrarlos, y avisa de los que llevan más de 48 h sin avanzar | agente | — | CUMPLIDO (tarea programada trig_01DCqy9gSJBnx4mPHJUmMxUK, 7:37 y 19:37 CDMX; primera corrida 11 nov 19:37) |
 | REQ-1610 | CÓDIGO | ~~Big Bus renumerado por el duplicado de REQ-1535~~ | agente | — | REEMPLAZADO por REQ-1607/REQ-1609 (main lo resolvió antes, PR #382 y #380) |
 | REQ-1611 | CÓDIGO | ~~Guardia de folios: duplicado preexistente en main no es choque~~ | agente | — | REEMPLAZADO por REQ-1608 (main lo resolvió antes, PR #382) |
-| REQ-1608 | CÓDIGO | Dado un folio que main ya trae duplicado, cuando un PR deja solo una de sus versiones, entonces `folio.ts revisar` no lo marca como choque; si el texto de la rama no se parece a ninguna versión de main, sí choca (`src/ops/lib/folios.test.ts`) | agente | — | EN CURSO (test rojo → verde) |
 
 ## REQ-1616: fuentes locales en el build (INC-012, 11 nov 2026)
 Petición (PO, 11-11, respuesta a pregunta): «Sí, guárdalas en el repo» — blindar el build para que no dependa de descargar fuentes de Google.
