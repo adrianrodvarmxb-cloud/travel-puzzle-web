@@ -1195,4 +1195,10 @@ Hueco que cierra: cuando el humo de producción falla, `deploy-cloudflare.yml` r
 Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajusto?»): «tu haz la rueba». Folio apartado con `folio.ts`.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
-| REQ-3317 | CÓDIGO | Dado un cliente que pide su enlace para entrar, cuando le llega el correo, entonces es transaccional y mínimo (sin imágenes, íconos de redes ni texto oculto; enlace como botón y como texto) para que Gmail no lo mande a Promociones; se verifica con un envío real | agente | — | EN CURSO |
+| REQ-3317 | CÓDIGO | Dado un cliente que pide su enlace para entrar, cuando le llega el correo, entonces es transaccional y mínimo (sin imágenes, íconos de redes ni texto oculto; enlace como botón y como texto) para que Gmail no lo mande a Promociones; se verifica con un envío real | agente | — | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
+
+## REQ-3344: logo pequeño en el correo del enlace para entrar (PO, 12 nov 2026)
+Petición literal (PO, 12-11): «así lo hacen referentes?? no debería ir brandeado??» y «Ok» a probar en dos pasos. Reemplaza el criterio «sin imágenes» de REQ-3317.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3344 | CÓDIGO | Dado el correo del enlace para entrar, cuando se envía, entonces lleva un solo logo pequeño (110 px) arriba, como Airbnb, GetYourGuide y Booking, sin íconos de redes; se verifica con un envío real que siga fuera de Promociones | agente | REQ-3317 | EN CURSO |
