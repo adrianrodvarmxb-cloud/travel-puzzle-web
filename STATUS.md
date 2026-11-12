@@ -996,3 +996,6 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-3475 | /destinos: buscador, «Más buscados» y mapa | PO 12 nov | `src/destinations/lib/destinos-hub.ts`, `src/components/destinations/hub/*`, `src/app/destinos/page.tsx` | `src/destinations/lib/destinos-hub.test.ts`, `src/components/destinations/hub/hub.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3476 | /destinos: pestañas por continente con foto | PO 12 nov | mismos | mismos | EN CURSO (tests verdes; PR) |
+| REQ-3477 | /destinos: A–Z por continente, acordeón en celular | PO 12 nov | mismos | mismos | EN CURSO (tests verdes; PR) |
