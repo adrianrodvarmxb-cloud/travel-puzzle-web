@@ -944,3 +944,13 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | EN CURSO (verde; humo local OK) |
 | REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (verde) |
 | REQ-1598 | Encender la bandera en producción | Gate D | workflows | humo del PR con la bandera | PENDIENTE |
+
+## Barrido de la conversación del 11 nov 2026 (REQ-1617…1622) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1617 | Acuerdo de Tangol en Word con control de cambios | NUEVO | entregado al PO | — | CUMPLIDO |
+| REQ-1618 | Borrador del correo a Tangol en Gmail | NUEVO | Gmail r-8638004354835607157 | — | EN CURSO (lo envía el PO) |
+| REQ-1619 | La copia para Tangol sin datos de Exotic | NUEVO | adjunto del borrador | — | CUMPLIDO (verificado) |
+| REQ-1620 | Tangol y mapa solo en esta sesión | NUEVO | — | — | CUMPLIDO |
+| REQ-1621 | `frente.ts abrir` falla con GitHub 415 | NUEVO | `src/scripts/frente.ts` | — | PENDIENTE |
+| REQ-1622 | Revisión de REQ cada 12 h | NUEVO | tarea programada | — | CUMPLIDO |
