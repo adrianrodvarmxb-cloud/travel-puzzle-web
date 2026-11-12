@@ -1216,7 +1216,10 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 | REQ-3359 | VALIDACIÓN | Aviso de privacidad: confirmar que cubre que el asistente de IA consulte reservas y pagos para dar servicio (LFPDPPP) antes de encender REQ-3356 | PO + abogado | — | PENDIENTE |
 | REQ-3360 | CÓDIGO | `frente.ts` manda Content-Type en POST/PATCH (GitHub respondía 415 y no se podía abrir un frente) | agente | — | CUMPLIDO (12 nov 2026: frente #422 abierto con el script corregido) |
 | REQ-3361 | CÓDIGO | «necesito que Mila arme un journey espectacular con todas las herramientas que da WA API» (PO, 12 nov 2026 04:39, con la guía de formatos adjunta). Dado un viajero que escribe a Travel Puzzle, cuando avanza de descubrir a pagar, viajar y regresar, entonces Mila usa en cada etapa el formato de WhatsApp de `docs/journey-mila-whatsapp.md` | agente | REQ-3362 a REQ-3365 | PENDIENTE |
-| REQ-3362 | DEFINICIÓN | J1: carrusel multimedia o carrusel de productos (Commerce Manager) | PO | — | PENDIENTE |
+| REQ-3362 | DEFINICIÓN | J1: carrusel multimedia o carrusel de productos (Commerce Manager) | PO | — | CUMPLIDO (PO, 12 nov 2026 04:42: «B»: carrusel de productos con catálogo de Meta) |
 | REQ-3363 | DEFINICIÓN | J2: «una pieza visual por turno» (OLA 1.2) frente a hasta 3 fotos por respuesta (REQ-3352) | PO | — | PENDIENTE |
 | REQ-3364 | DEFINICIÓN | J3: Flow con endpoint (disponibilidad en vivo) o Flow estático | PO | — | PENDIENTE |
 | REQ-3365 | VALIDACIÓN | J4: firma del journey `docs/journey-mila-whatsapp.md` | PO | — | PENDIENTE |
+| REQ-3366 | CÓDIGO | Dado J1 = B, cuando cambia un viaje publicado, entonces el catálogo de Meta de Travel Puzzle se actualiza solo (título, descripción, precio final, foto, liga a la ficha; sin FREETOUR ni neto) y lo despublicado sale del catálogo | agente | REQ-3376 | PENDIENTE |
+| REQ-3376 | TAREA-PO | Crear el catálogo de Travel Puzzle en Commerce Manager y conectarlo a la cuenta de WhatsApp del número de Travel Puzzle (Meta = candado) | PO | — | PENDIENTE |
+| REQ-3377 | CÓDIGO | Mila arma el carrusel de productos (2 a 10 viajes del catálogo) y la ficha de un producto cuando el cliente elige uno; sin catálogo conectado usa el carrusel multimedia | agente | REQ-3366, REQ-3376 | PENDIENTE |
