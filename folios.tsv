@@ -1852,3 +1852,5 @@ REQ-3437	feat/bigbus-octo-ola2-3	2026-11-12 11:50	Big Bus OCTO precios en USD (d
 REQ-3438	feat/bigbus-octo-ola2-3	2026-11-12 11:54	Big Bus OCTO ensayo con llave de prueba
 REQ-3439	docs/seguimiento-legal-2026-11-12-0054	2026-11-12 12:00	
 REQ-3440	feat/traslados-en-complementos	2026-11-12 12:04	confirmacion del PO: Central Inca e Inca World son la misma agencia
+REQ-3441	ops/punto-de-regreso-migraciones	2026-11-12 12:07	alta de paises que solo tiene un proveedor (Paraguay, Tangol)
+REQ-3442	ops/punto-de-regreso-migraciones	2026-11-12 12:07	alta de paises que solo tiene un proveedor (Paraguay, Tangol)
