@@ -33,6 +33,7 @@
     "next": "^15.5.28",
     "next-auth": "^5.0.0-beta.32",
     "pinyin-pro": "^3.29.5",
+    "postal-mime": "^2.4.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.3.1",
