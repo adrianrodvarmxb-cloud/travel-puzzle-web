@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { summarizeRates, isDateBookable, publicPrice } from "./rates";
+import { summarizeRates, isDateBookable, publicPrice, rangeRatesFromTangol } from "./rates";
 import { parseTourRates } from "./schemas";
 
 const raw = {
@@ -52,5 +52,22 @@ describe("tarifas de Tangol", () => {
     const s = summarizeRates(parseTourRates(roto));
     expect(s.rates).toHaveLength(3);
     expect(s.discarded).toBe(1);
+  });
+});
+
+// REQ-3468 — las tarifas de Tangol, en la forma común que pinta el calendario de la ficha.
+describe("REQ-3468: tarifas de Tangol → disponibilidad común", () => {
+  it("REQ-3468: pasa tarifas públicas, bloqueos y el aviso mínimo menos exigente; nada de netos", () => {
+    const r = rangeRatesFromTangol(parseTourRates(raw));
+    expect(r.currency).toBe("USD");
+    expect(r.blackouts).toEqual([{ from: "2026-12-24", to: "2026-12-25" }]);
+    expect(r.hoursBooking).toBe(12);
+    expect(r.rates).toHaveLength(3);
+    expect(r.rates[0]).toEqual({ option: "AM", validFrom: "2026-11-01", validTo: "2027-03-31", rackAdult: 50, currency: "USD" });
+    expect(JSON.stringify(r)).not.toMatch(/tilidad|Nett|nett/);
+  });
+
+  it("REQ-3468: sin opciones no hay aviso mínimo que aplicar", () => {
+    expect(rangeRatesFromTangol({ ...parseTourRates(raw), options: [] }).hoursBooking).toBeNull();
   });
 });

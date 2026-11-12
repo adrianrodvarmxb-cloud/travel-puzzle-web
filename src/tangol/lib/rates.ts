@@ -1,4 +1,5 @@
 import type { TangolRate, TangolRates } from "./schemas";
+import type { RangeRates } from "../../tours/lib/provider-availability";
 
 export interface OptionSummary {
   code: string;
@@ -44,4 +45,21 @@ export function isDateBookable(s: Pick<TangolRates, "rates" | "blackouts">, date
 // REQ-1543
 export function publicPrice(rate: TangolRate): { adult: number; child: number | null; infant: number | null; currency: string | null } {
   return { adult: rate.rackAdult, child: rate.rackChild, infant: rate.rackInfant, currency: rate.currency };
+}
+
+/**
+ * Tarifas de Tangol en la forma común que pinta el calendario de la ficha (`src/tours/lib/provider-availability.ts`).
+ * Solo viajan tarifa pública, vigencia y bloqueos: el neto, la comisión y `Utilidad` ya no existen aquí
+ * (los descarta `parseTourRates`, REQ-1543). El aviso mínimo es el de la opción MENOS exigente: si una
+ * opción acepta con 12 h, el día se ofrece.
+ */
+// REQ-3468
+export function rangeRatesFromTangol(r: TangolRates): RangeRates {
+  const horas = r.options.map((o) => o.hoursBooking).filter((h): h is number => typeof h === "number");
+  return {
+    currency: r.currency,
+    rates: r.rates.map((x) => ({ option: x.option, validFrom: x.validFrom, validTo: x.validTo, rackAdult: x.rackAdult, currency: x.currency })),
+    blackouts: r.blackouts,
+    hoursBooking: horas.length ? Math.min(...horas) : null,
+  };
 }

@@ -64,6 +64,9 @@
     // REQ-1552: API de Tangol (ola 1, solo lectura en src/tangol). El sitio va por la pasarela (/tangol), que sale por
     // la IP registrada; TANGOL_EMAIL y TANGOL_CLAVE viven en cPanel (REQ-1553). "true" con preview, humo y OK del PO.
     "TANGOL_ENABLED": "false",
+    // REQ-3469: calendario de fechas y precios por día en la ficha (cualquier proveedor). Apagado: la ficha
+    // se ve como hoy. "true" solo con preview, prueba de humo con la bandera encendida y OK del PO.
+    "PROVIDER_CALENDAR_ENABLED": "false",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
