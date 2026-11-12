@@ -527,6 +527,9 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-118 | Bandera STRIPE_ENABLED (404 y sin control) | `src/payments/lib/checkout.ts`, rutas de pago y webhook, `src/app/admin/solicitudes/page.tsx` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-119 | Tabla Payment (migración 0013) | `migrations/0013_pagos.sql`, `prisma/schema.prisma` | `service.test.ts` (fila guardada) | EN CURSO (migración sin aplicar) |
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
+| REQ-064 | Evento v2.2: Zod, cobro desde payableNow, cupo/mínimo/teléfono | `src/booking/lib/event-check.ts`, `src/booking/lib/paid-price.ts` | `src/booking/lib/event-v22.test.ts` | CUMPLIDO |
+| REQ-065 | Estados unpaid/rejected sin prometer | `src/booking/lib/booking-status.ts`, `src/app/reserva/[token]/BookingPageView.tsx` | `src/booking/lib/booking-status.test.ts` | CUMPLIDO |
+| REQ-066 | Consultar antes de cancelar/editar; editar solo gratis | `src/booking/manage.ts`, `src/booking/lib/free-booking.ts` | `src/booking/manage.test.ts` | CUMPLIDO |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-306 | Ficha de viaje propio con reintento ante D1 saturada, una carga por petición y caché corta | `src/trips/lib/trip-by-slug.ts`, `src/trips/public-load.ts`, `src/cache/edge.ts` | `trip-by-slug.test.ts` | CUMPLIDO |
