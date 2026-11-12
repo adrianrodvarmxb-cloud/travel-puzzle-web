@@ -14,6 +14,7 @@ import {
   apartarFolios,
   choques,
   leerFolios,
+  leerFoliosTodos,
   leerReservas,
   maxFolio,
   sinReserva,
@@ -112,7 +113,7 @@ function revisar(): void {
   }
   const reservados = leerReservas(registroGit.leer().texto);
   const rama = leerFolios(mostrar("HEAD"));
-  const enMain = leerFolios(main);
+  const enMain = leerFoliosTodos(main); // REQ-1608
   const c = choques(rama, enMain);
   const nuevos = [...rama.keys()].filter((id) => !enMain.has(id));
   const faltan = sinReserva(nuevos, reservados);
