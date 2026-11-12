@@ -1381,6 +1381,7 @@ Peticiones literales (PO, 12-11): «Las guías no están y está duplicado blog�
 | REQ-3450 | CÓDIGO | Gate B2 (parte de REQ-3338): dado un visitante en `/en/blog`, `/en/blog/{pilar}` o `/en/blog/{pilar}/{slug}`, cuando abre la página, entonces ve solo las entradas con versión en inglés, rótulos en inglés, canonical en inglés y hreflang es/en; sin entradas en inglés, 404. Reemplaza la parte del blog de REQ-659 (el blog queda dentro de las rutas con idioma) | agente | REQ-3449 | EN CURSO |
 | REQ-3451 | CÓDIGO | Gate B2 (parte de REQ-3338): dados los pilares del blog, cuando se pintan en inglés, entonces su nombre, H1, intro y botón comercial están en inglés | agente | — | EN CURSO |
 | REQ-3452 | CÓDIGO | Gate B2 (parte de REQ-3339): dada una entrada nueva del agente diario, cuando pasa el validador, entonces exige `en` con las mismas secciones, datos, tabla, FAQ y fotos, los mismos enlaces internos, «In short» de 40 a 80 palabras, «How we know» con AI y sin FREETOUR | agente | — | EN CURSO |
+| REQ-3488 | DEFINICIÓN | Nombre de la colección «La Primera Pieza» en el sitio en inglés: dado el sitio en inglés, cuando se nombra la colección, entonces se queda «La Primera Pieza» como nombre de marca (la categoría «Pieza libre» sigue siendo «Free Puzzle» en inglés) | PO | — | CUMPLIDO (PO 12 nov 2026, 09:04: «A») |
 | REQ-3323 | CÓDIGO | «la migración 0026 sigue sin aplicarse — eso es OK tuyo aparte, con respaldo. ok» (PO, 12 nov 2026 03:42): respaldo antes de tocar datos. Dado el workflow «Publicar en Cloudflare» con la casilla de migraciones marcada, cuando corre, entonces ANTES de aplicar la migración anota el punto de regreso de D1 (Time Travel) y lo deja en el resumen de la corrida, sin escribir en la base | agente | — | EN CURSO (3 pruebas en verde; falta humo del PR y OK del PO) |
 
 ## REQ-3324 a REQ-3332: Big Bus por la API Ventrata OCTO, ola 1 (PO, 12 nov 2026)
@@ -1413,6 +1414,8 @@ Petición (PO, 12-11): «sigue con lo que corresponda… siguiendo do plan»; en
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1600 | CÓDIGO | INC-011: dado el deploy de #354, cuando corre el humo de producción, entonces /tours @1366 responde 200; hoy dio un 500 aislado (digest 1123893058) y el workflow regresó solo; el deploy siguiente (43116549386) quedó verde con la bandera encendida. Causa raíz pendiente de los Workers Logs | agente + PO | Workers Logs (PO) | EN CURSO |
+| REQ-3489 | CÓDIGO | «arréglalo» (PO, 12 nov 2026 09:03, INC-013). Dado /tours con viajes publicados, cuando la consulta de códigos de país falla o D1 está saturada, entonces se reintenta y, si sigue fallando, la página responde 200 con las tarjetas sin código de país (se registra el error) | CUMPLIDO (test) |
+| REQ-3490 | CÓDIGO | «arréglalo» (PO, 12 nov 2026 09:03, INC-013). Dado /tours, cuando falla la lista de países de los filtros, entonces la página responde 200 y los filtros salen sin esa lista (se registra el error) | CUMPLIDO (test) |
 
 ## Pendientes de la conversación del 11 nov 2026 (PO: «garantiza que todo lo que está en esta conversación se cumpla, revisa cada 12 horas»)
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
