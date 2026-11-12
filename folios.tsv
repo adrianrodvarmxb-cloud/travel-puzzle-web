@@ -1858,3 +1858,5 @@ REQ-3443	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y prec
 REQ-3444	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
 REQ-3445	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
 REQ-3446	feat/proveedores-mila	2026-11-12 12:18	términos: anexo de proveedores generado de la base
+REQ-3447	feat/proveedores-mila	2026-11-12 12:23	Proveedores: gate G1 de REQ-3430 (lista privada, PO «A») y secreto PROVEEDORES_CONTACTO_TOKEN
+REQ-3448	feat/proveedores-mila	2026-11-12 12:23	Proveedores: gate G1 de REQ-3430 (lista privada, PO «A») y secreto PROVEEDORES_CONTACTO_TOKEN
