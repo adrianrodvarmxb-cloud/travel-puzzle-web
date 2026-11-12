@@ -26,6 +26,8 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
           <p className="font-data mb-2.5 text-xs uppercase tracking-[0.3em] text-[#008DFF]">{c.reviewsEyebrow}</p>
           <h2 className="font-display mb-4 text-4xl font-bold leading-[1.05] text-white md:text-5xl">{c.reviewsHeadline}</h2>
           <p className="mb-6 leading-relaxed text-[#A9B6D6]">{c.reviewsSub}</p>
+          {/* REQ-3322: aviso de origen y selección, fuera del carrusel para que se vea siempre (también en celular) */}
+          <p className="text-xs leading-relaxed text-[#A9B6D6]">{c.reviewsDisclosure}</p>
         </div>
         <MobileRail gridClass="sm:grid-cols-2 lg:col-span-8">
           {reviews.map((r) => {
@@ -47,8 +49,6 @@ export function HomeReviews({ reviews, average }: { reviews: HomeReview[]; avera
               <div key={r.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#121D45] p-5">{body}</div>
             );
           })}
-          {/* REQ-3322: aviso visible de origen y selección de las reseñas */}
-          <p className="text-xs leading-relaxed text-[#A9B6D6] sm:col-span-2">{c.reviewsDisclosure}</p>
           {/* La fuente ya la dice el subtítulo (punto 4, 3 nov 2026) */}
           {SHOW_SOURCE_LINE && <p className="text-xs text-[#7C8DBA] sm:col-span-2">{t('reviews.source')}</p>}
         </MobileRail>

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { homeCopy } from "./copy";
 
 // REQ-3322: aviso visible de origen y selección de las reseñas (LFPC art. 32: información clara y no parcial;
@@ -24,5 +25,15 @@ describe("REQ-3322 la sección de reseñas dice de dónde salen y que es una sel
       expect(d).not.toMatch(/freetour/i);
       expect(d).not.toMatch(/verificad|verified/i);
     }
+  });
+});
+
+// REQ-3322: el aviso no puede quedar dentro del carrusel horizontal del celular (ahí solo se ve al deslizar hasta el final).
+describe("REQ-3322 el aviso se pinta fuera del carrusel", () => {
+  it("REQ-3322: aparece una sola vez y antes de <MobileRail>", () => {
+    const src = readFileSync("src/components/home/v2/HomeReviews.tsx", "utf8");
+    expect(src.split("c.reviewsDisclosure").length - 1).toBe(1);
+    expect(src.indexOf("c.reviewsDisclosure")).toBeGreaterThan(-1);
+    expect(src.indexOf("c.reviewsDisclosure")).toBeLessThan(src.indexOf("<MobileRail"));
   });
 });
