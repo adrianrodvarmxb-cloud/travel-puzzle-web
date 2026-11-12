@@ -1,6 +1,7 @@
 # STATUS — travel-puzzle-web
 
 Actualizado: 11 nov 2026, 23:55 (CDMX).
+Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
@@ -50,6 +51,35 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1572 | Borrador del acuerdo de intermediación con Tangol | NUEVO | proyecto de Claude: `legal/acuerdo-intermediacion-tangol.md` | — | EN CURSO (enviado al proveedor el 11 nov 23:52 UTC; falta validación del PO y del abogado) |
 | REQ-1573 | Marca blanca confirmada por Tangol | NUEVO | — | — | CUMPLIDO (PO, 11 nov 15:13; falta guardar el correo de Tangol en el expediente) |
 
+
+## Mila administra proveedores (PO, 7 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1291 | Base de proveedores, etapas y último mensaje | NUEVO | src/proveedores/lib/etapas.ts, identificar.ts, repository.ts, entrante.ts, migrations/0027 | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1292 | Directorio de ~200 hilos, aprobado por el PO | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (VALIDACIÓN REQ-1653) | EN CURSO |
+| REQ-1293 | Seguimiento diario y tandas | NUEVO | src/proveedores/lib/seguimiento.ts, tandas.ts, diario.ts, worker.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1294 | Correos de Mila (recordatorio, reintento, alta) | NUEVO | src/proveedores/lib/correo.ts, plantillas.ts, deps.ts, src/notifications/resend.ts | proveedores.test.ts | EN CURSO |
+| REQ-1295 | Alta del proveedor que acepta | NUEVO | src/proveedores/lib/etapas.ts | proveedores.test.ts | EN CURSO |
+| REQ-1296 | Documentos en cPanel fuera de public_html | NUEVO | src/proveedores/lib/documentos.ts, cpanel.ts, entrante.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1297 | Primer correo lo manda Adri con copia a Mila | NUEVO | src/proveedores/lib/borrador.ts, plantillas.ts, diario.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
+| REQ-1298 | Integración por prioridad API > plugin > portal > manual | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
+| REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
+| REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1566 | Correos en horario hábil del proveedor | NUEVO | src/proveedores/lib/horario.ts, diario.ts, worker.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
+| REQ-1568 | Resumen semanal por WhatsApp (3 números) | NUEVO | src/proveedores/lib/resumen.ts, resumen.ts, deps.ts, repository.ts, src/app/api/cron/proveedores/route.ts, wrangler.jsonc | src/proveedores/lib/proveedores.test.ts, proveedores-io.test.ts | EN CURSO (falta REQ-1569 y REQ-1663) |
+| REQ-1665 | Lista de alta en 8 grupos, solo lo que falta; marca lo recibido | NUEVO | src/proveedores/lib/checklist.ts, borrador.ts, diario.ts, entrante.ts, repository.ts, lib/plantillas.ts, migrations/0027 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; queda tras PROVEEDORES_MILA_ON y migración sin aplicar) |
+| REQ-1666 | Cobro por tipo: DMC paga neto; plataforma cobra y paga comisión | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1669 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0027 | proveedores.test.ts, proveedores-io.test.ts | REEMPLAZADO por REQ-3430 |
+| REQ-3430 | Consulta mutua Mila ↔ revisión cada 6 h antes de enviar (REQ-3429; G1 = A, REQ-3447) | NUEVO | src/proveedores/lib/consulta.ts, contacto.ts, contacto-repo.ts, diario.ts, deps.ts, src/app/api/proveedores/contacto/route.ts, src/app/api/cron/proveedores/route.ts, migrations/0027 | src/proveedores/lib/consulta.test.ts, src/proveedores/contacto.test.ts, src/proveedores/proveedores-io.test.ts | EN CURSO (tests verdes; falta migración y secreto REQ-3448 con OK del PO) |
+| REQ-3448 | Secreto PROVEEDORES_CONTACTO_TOKEN en Cloudflare | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-1670 | Presentación en el hilo existente («Re: …») | NUEVO | src/proveedores/lib/borrador.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde; faltan los 7 borradores con el asunto real |
+| REQ-1672 | Cambio de tarifa: lo confirma el PO (panel o «confirmo T-12»); el comando responde, actualiza anexo y precio el día que rige | NUEVO | src/proveedores/lib/tarifas.ts, tarifa.ts, tarifa-repo.ts, entrante.ts, deps.ts, src/app/admin/tarifas/, src/app/api/admin/tarifas/[id]/route.ts, src/app/api/proveedores/tarifa/confirmar/route.ts, src/app/api/cron/proveedores/route.ts, src/components/admin/TarifaAvisoControl.tsx, migrations/0027 | src/proveedores/lib/tarifas.test.ts, src/proveedores/tarifa.test.ts | EN CURSO (verde; tras bandera, migración, REQ-1584 y REQ-1585) |
+| REQ-1580 | Confirmación por panel y WhatsApp | NUEVO | idem | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · panel verde; WhatsApp espera REQ-1663 |
+| REQ-1581 | Si el neto baja, baja el precio | NUEVO | lib/tarifas.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1674 | Folios del frente sin choques con main: folio nuevo apartado + alias «antes REQ-…» | NUEVO | docs/requisitos.md, STATUS.md, src/proveedores/**, docs/gates-proveedores-mila-2026-11.md, docs/plan-proveedores-1572-1576-1579.md | src/ops/requisitos-unicos.test.ts (main) | CUMPLIDO (12 nov: main mezclado, folio.ts revisar sin choques, suite 3063 verde, build verde) |
+| REQ-1668 | Directorio actualizado con los hilos de Gmail (Eurorutas, Enjoy Travel, Asian Spirit rebotó, Angela, Tangol, Extime) | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (DATOS; evidencia: hilos de Gmail del 3 al 12 nov) | CUMPLIDO (12 nov 2026) |
+| REQ-1582 | Sin fecha, Mila la pide en el hilo | NUEVO | lib/tarifas.ts, tarifa.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1535, REQ-1537…1539 y REQ-1638…1662 y REQ-1673 (antes REQ-1536…1564 y REQ-1549; renumerados por REQ-1674) | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1660 CUMPLIDO en la rama (src/proveedores/cpanel.ts, cpanel.test.ts; build verde 12 nov) |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -527,6 +557,9 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-118 | Bandera STRIPE_ENABLED (404 y sin control) | `src/payments/lib/checkout.ts`, rutas de pago y webhook, `src/app/admin/solicitudes/page.tsx` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-119 | Tabla Payment (migración 0013) | `migrations/0013_pagos.sql`, `prisma/schema.prisma` | `service.test.ts` (fila guardada) | EN CURSO (migración sin aplicar) |
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
+| REQ-064 | Evento v2.2: Zod, cobro desde payableNow, cupo/mínimo/teléfono | `src/booking/lib/event-check.ts`, `src/booking/lib/paid-price.ts` | `src/booking/lib/event-v22.test.ts` | CUMPLIDO |
+| REQ-065 | Estados unpaid/rejected sin prometer | `src/booking/lib/booking-status.ts`, `src/app/reserva/[token]/BookingPageView.tsx` | `src/booking/lib/booking-status.test.ts` | CUMPLIDO |
+| REQ-066 | Consultar antes de cancelar/editar; editar solo gratis | `src/booking/manage.ts`, `src/booking/lib/free-booking.ts` | `src/booking/manage.test.ts` | CUMPLIDO |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-306 | Ficha de viaje propio con reintento ante D1 saturada, una carga por petición y caché corta | `src/trips/lib/trip-by-slug.ts`, `src/trips/public-load.ts`, `src/cache/edge.ts` | `trip-by-slug.test.ts` | CUMPLIDO |
@@ -968,41 +1001,35 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | CUMPLIDO (publicado #371) |
 | REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO |
 | REQ-1606 | Nombre de ciudad del proveedor con nota o palabra de más entra en su ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | CUMPLIDO (publicado #371) |
-| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | EN CURSO (tests verdes; falta merge) |
+| REQ-1615 | Viajes de agencia en el autocompletado del buscador | NUEVO | `src/search/lib/suggest.ts`, `src/search/suggest.ts`, `src/search/suggest-deps.ts`, `src/search/lib/suggest-copy.ts`, `src/components/search/SearchSuggest.tsx`, `src/app/api/search/suggest/route.ts` | `src/search/lib/suggest.test.ts`, `src/search/suggest.test.ts` | CUMPLIDO (#390; verificado en vivo 12 nov: `?q=kuelap` devuelve el grupo «trip») |
 
 ## Encender lo ya definido (OK del PO 11 nov 2026 22:38, REQ-1629) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+| REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | CUMPLIDO (#392, a850c7b, 12 nov 05:39 UTC) |
+| REQ-1630 | `TAXONOMY_CART_ENABLED` encendida (carrito por tipo, T7) | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/taxonomy/flag-cart.test.ts` | CUMPLIDO (#393, 55a044a, 12 nov 06:26 UTC) |
+| REQ-1631 | `REVIEW_EMAILS_ENABLED` encendida (correo post-tour de reseña) | NUEVO | `wrangler.jsonc` | `src/notifications/flag-review-emails.test.ts` | CUMPLIDO (#394, 72c2e4b, 12 nov 06:51 UTC) |
+| REQ-1632 | `EMAIL_CROSS_SELL_ENABLED` encendida (venta cruzada en correos) | NUEVO | `wrangler.jsonc` | `src/notifications/flag-cross-sell.test.ts` | CUMPLIDO (#395, 1e1e211, 12 nov 07:17 UTC) |
 | REQ-1635 | T&C v2: Mila, moneda, vuelos, operador identificado, sin liberación total | PO 11 nov | `src/legal/lib/terminos.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado; merge del PO) |
 | REQ-1636 | Aviso integral v2: IA y WhatsApp, países, encargados | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
 | REQ-1637 | Aviso simplificado v2: IA y transferencias | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
 | REQ-3315 | Home sin cifras, línea «Aliados en cada región» | PO 11 nov | `src/home/lib/copy.ts`, `src/components/home/v2/{ProofStrip,HeroSearch,PopularDestinations,ContinentExplorer,HomeReviews}.tsx` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3316 | Mila, asesora con IA, en franja, cómo funciona y asesoría | PO 11 nov | `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
-
-## Tangol ola 2 (11 nov 2026) — matriz de trazabilidad
-| ID | Requisito | Origen | Archivo(s) | Test | Estado |
-|---|---|---|---|---|---|
 | REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | CUMPLIDO (#408 squash 71e1f39; humo del PR y deploy en verde 12 nov 09:19 y 09:34 UTC; la migración 0026 NO se ha aplicado: necesita OK del PO y respaldo) |
-| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | DECIDIDO (PO 11 nov: geonameid, si no rango desde 9,000,000, y cruce) → se implementa en REQ-3367/3368/3369 |
-| REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
-| REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
-| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0027_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
+| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3321 | Portada sin promedio agregado de reseñas («4.8 ★») | NUEVO | — | — | REEMPLAZADO por REQ-3315 |
 | REQ-3322 | Aviso de origen y selección de las reseñas de la portada | NUEVO | `src/home/lib/copy.ts`, `src/components/home/v2/HomeReviews.tsx` | `src/home/lib/reviews-disclosure.test.ts` | EN CURSO (verde) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3370 | Un tour validado de Tangol se convierte en fila de `Tour` (providerId `tangol`, externalId, título, descripción, duración, precio público, moneda, imágenes) y su traducción; ciudad y categoría entran por parámetro | PO 12-11 | `src/tangol/lib/tour-rows.ts`, `src/tangol/lib/details.ts` | `src/tangol/lib/tour-rows.test.ts`, `src/tangol/lib/details.test.ts` | EN CURSO (tests verdes en la sesión; falta el paso que escribe en la base y el merge del PO) |
+| REQ-3371 | Validación Zod del detalle y de las imágenes: el registro malo se descarta, se cuenta y se registra; la carga sigue (regla 8) | PO 12-11 | `src/tangol/lib/details.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/details.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
+| REQ-3372 | Solo marca Travel Puzzle: título y descripción sin el nombre ni el dominio del proveedor, sin `UrlTour`, sin neto ni comisión; el precio es la tarifa pública | PO 12-11 | `src/tangol/lib/text.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/text.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
 | REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
 | REQ-3380 | Tarjetas del home con número de tours; sin la línea repetida del hero | PO 12 nov | `src/components/home/v2/{HeroSearch,PopularDestinations,ContinentExplorer}.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3381 | Franja del home con íconos y menos texto | PO 12 nov | `src/components/home/v2/ProofStrip.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3311 | Candado 1: el filtro por proveedor en un solo punto (Prisma y SQL crudo) | NUEVO | `src/catalog/lib/provider-visibility.ts`, `src/lib/prisma.ts`, `src/destinations/repository.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts`, `src/app/api/cron/sync-tours/route.ts` | `src/catalog/lib/provider-visibility.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
 | REQ-3312 | Candado 2: prueba que falla si algo de Tangol puede salir con la bandera apagada | NUEVO | `src/catalog/gate-c-visibilidad.test.ts` | `src/catalog/gate-c-visibilidad.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
-
-## Guías de ciudad y blog bilingües (PO, 12 nov 2026; frente #418) — matriz de trazabilidad
-Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
-| ID | Requisito | Origen | Archivo(s) | Test | Estado |
-|---|---|---|---|---|---|
 | REQ-3333 | Índice de guías por país en cada idioma | PO 12-11 | `src/destinations/lib/guias-index.ts`, `src/destinations/guias.ts` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3334 | Página `/guias` y `/en/guias` (meta, hreflang, sitemap, ruta con idioma) | PO 12-11 | `src/app/guias/page.tsx`, `src/destinations/lib/guias-index.ts`, `src/i18n/lib/path.ts`, `src/site/server.ts`, `tests/smoke/pages.json` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests y build verdes; falta humo del PR) |
 | REQ-3335 | Pie: columna «Guías» con «Todas las guías» + hasta 8 países (gate A3); Blog una vez | PO 12-11 | `src/layout/lib/nav-model.ts`, `src/components/home/v2/SiteFooter.tsx`, `src/components/providers/FeatureFlags.tsx`, `src/app/layout.tsx` | `src/layout/lib/nav-model-guias.test.ts`, `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
@@ -1013,8 +1040,17 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
+| REQ-3458 | Pie sin «La Primera Pieza» | PO 12 nov | `src/layout/lib/nav-model.ts` | `src/layout/lib/nav-model.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
 | REQ-3449 | Entrada del blog en inglés (`en`, localizePost) | PO 12-11 | `src/blog/lib/schema.ts`, `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
 | REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
 | REQ-3452 | Validador del blog diario exige la versión en inglés | PO 12-11 | `src/blog/lib/diario-en.ts`, `src/blog/lib/diario.ts`, `src/blog/lib/fixtures.ts` | `src/blog/lib/diario-en.test.ts` | EN CURSO (PR #448) |
+| REQ-3318 | Públicas sin sesión con `Cloudflare-CDN-Cache-Control` 5 min; privadas y con sesión nunca | Gates B, C | `src/perf/lib/edge-cache.ts`, `src/perf/edge-cache.ts`, `src/middleware.ts` | `src/perf/lib/edge-cache.test.ts` | EN CURSO (tests verdes; falta preview y producción) |
+| REQ-3319 | Cache Rule que respeta el origen, sin caché con cookie de sesión ni 5xx | Gate A | dashboard de Cloudflare | `cf-cache-status: HIT` con curl | PENDIENTE (tras merge de REQ-3318) |
+| REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |
+| REQ-3489 | /tours no cae por los códigos de país de los viajes (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
+| REQ-3490 | /tours no cae por la lista de países de los filtros (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
+| REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
+| REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
+| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0027_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
