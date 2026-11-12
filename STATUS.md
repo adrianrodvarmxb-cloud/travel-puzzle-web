@@ -7,6 +7,7 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
+| REQ-1621 | `frente.ts abrir` ya no da 415: el paso 0 de CLAUDE.md es usable desde la nube | NUEVO | `src/ops/lib/frentes.ts`, `src/scripts/frente.ts` | `src/ops/lib/frentes-api.test.ts` | CUMPLIDO (2/2 verdes; frentes #398 y #400 abiertos en vivo, sin 415) |
 | REQ-1579 | El humo del contrato de idioma reintenta el fallo de transporte (no un código real) | NUEVO | `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `src/ops/lib/smoke-contrato-reintento.test.ts` | CUMPLIDO (#369/b227302; 6/6 verdes el 12 nov) |
 | REQ-1607 | Big Bus: publicar solo lo visible en el Partner Booking Platform | NUEVO | — | — | BLOQUEADO, espera OK del PO (sin código y sin test; `grep` vacío el 12 nov) |
 | REQ-1608 | `folio.ts revisar` detecta el folio duplicado en el PR | NUEVO | `src/ops/lib/folios.ts` | `src/ops/lib/folios.test.ts` | CUMPLIDO (#382; 2/2 verdes el 12 nov) |
@@ -935,8 +936,8 @@ Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin
 Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT_PUBLIC_ACCOUNTS_ENABLED` (apagada en este PR).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-1599 | Enlace al correo (15 min, un uso, misma respuesta exista o no) | Gate A | `src/accounts/lib/login-link.ts`, `src/accounts/login.ts`, `src/app/api/cuenta/enlace/route.ts` | `src/accounts/lib/login-link.test.ts`, `src/accounts/login.test.ts`, `src/accounts/routes.test.ts` | CUMPLIDO en código y humo local con bandera (enlace firmado, un uso, ajenas excluidas); envío real del correo en producción NO VERIFICADO aún |
-| REQ-1591 | Entrar con el enlace (crea CLIENT; vencido/alterado/usado no entra) | Gate A | `src/accounts/login.ts`, `src/lib/auth.ts`, `src/components/account/VerifyLogin.tsx` | `src/accounts/login.test.ts` | CUMPLIDO en código y humo local con bandera (enlace firmado, un uso, ajenas excluidas); envío real del correo en producción NO VERIFICADO aún |
+| REQ-1599 | Enlace al correo (15 min, un uso, misma respuesta exista o no) | Gate A | `src/accounts/lib/login-link.ts`, `src/accounts/login.ts`, `src/app/api/cuenta/enlace/route.ts` | `src/accounts/lib/login-link.test.ts`, `src/accounts/login.test.ts`, `src/accounts/routes.test.ts` | CUMPLIDO (verificado en producción el 12-11: correo llegó en 2 s a travelpuzzlemexico@gmail.com, entró y mostró sus 6 reservas, enlace reusado rechazado, sin pageerror) |
+| REQ-1591 | Entrar con el enlace (crea CLIENT; vencido/alterado/usado no entra) | Gate A | `src/accounts/login.ts`, `src/lib/auth.ts`, `src/components/account/VerifyLogin.tsx` | `src/accounts/login.test.ts` | CUMPLIDO (verificado en producción el 12-11: correo llegó en 2 s a travelpuzzlemexico@gmail.com, entró y mostró sus 6 reservas, enlace reusado rechazado, sin pageerror) |
 | REQ-1592 | Registro con contraseña apagado (410) y contraseña solo ADMIN | Auditoría | `src/accounts/lib/policy.ts`, `src/app/api/auth/signup/route.ts`, `src/lib/auth.ts`, `src/middleware.ts` | `src/accounts/lib/policy.test.ts`, `src/accounts/routes.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
 | REQ-1593 | Mis reservas: todo lo del correo, sin distinguir mayúsculas, nunca ajenas | Gate B | `src/accounts/lib/bookings.ts`, `src/accounts/deps.ts`, `src/app/mi-cuenta/reservas/page.tsx` | `src/accounts/lib/bookings.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
 | REQ-1594 | Mi cuenta: nombre, cerrar sesión, borrar cuenta | Gate B | `src/app/mi-cuenta/page.tsx`, `src/components/account/AccountSettings.tsx`, `src/app/api/cuenta/route.ts` | `src/accounts/lib/policy.test.ts` | CUMPLIDO (PR #375 + #378; deploy 43132984631, humo 94/94 antes y después; tests REQ verdes) |
@@ -958,3 +959,39 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1629 | `SEARCH_TAXONOMY_SYNONYMS_ENABLED` encendida | NUEVO | `wrangler.jsonc`, `tests/smoke/pages.json` | `src/search/flag-synonyms.test.ts` | EN CURSO (PR; humo con bandera) |
+| REQ-1635 | T&C v2: Mila, moneda, vuelos, operador identificado, sin liberación total | PO 11 nov | `src/legal/lib/terminos.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado; merge del PO) |
+| REQ-1636 | Aviso integral v2: IA y WhatsApp, países, encargados | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
+| REQ-1637 | Aviso simplificado v2: IA y transferencias | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
+| REQ-3315 | Home sin cifras, línea «Aliados en cada región» | PO 11 nov | `src/home/lib/copy.ts`, `src/components/home/v2/{ProofStrip,HeroSearch,PopularDestinations,ContinentExplorer,HomeReviews}.tsx` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3316 | Mila, asesora con IA, en franja, cómo funciona y asesoría | PO 11 nov | `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+
+## Tangol ola 2 (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | CUMPLIDO (#408 squash 71e1f39; humo del PR y deploy en verde 12 nov 09:19 y 09:34 UTC; la migración 0026 NO se ha aplicado: necesita OK del PO y respaldo) |
+| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-3321 | Portada sin promedio agregado de reseñas («4.8 ★») | NUEVO | — | — | REEMPLAZADO por REQ-3315 |
+| REQ-3322 | Aviso de origen y selección de las reseñas de la portada | NUEVO | `src/home/lib/copy.ts`, `src/components/home/v2/HomeReviews.tsx` | `src/home/lib/reviews-disclosure.test.ts` | EN CURSO (verde) |
+| REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
+| REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+| REQ-3380 | Tarjetas del home con número de tours; sin la línea repetida del hero | PO 12 nov | `src/components/home/v2/{HeroSearch,PopularDestinations,ContinentExplorer}.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3381 | Franja del home con íconos y menos texto | PO 12 nov | `src/components/home/v2/ProofStrip.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3311 | Candado 1: el filtro por proveedor en un solo punto (Prisma y SQL crudo) | NUEVO | `src/catalog/lib/provider-visibility.ts`, `src/lib/prisma.ts`, `src/destinations/repository.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts`, `src/app/api/cron/sync-tours/route.ts` | `src/catalog/lib/provider-visibility.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-3312 | Candado 2: prueba que falla si algo de Tangol puede salir con la bandera apagada | NUEVO | `src/catalog/gate-c-visibilidad.test.ts` | `src/catalog/gate-c-visibilidad.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+
+## Guías de ciudad y blog bilingües (PO, 12 nov 2026; frente #418) — matriz de trazabilidad
+Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3333 | Índice de guías por país en cada idioma | PO 12-11 | `src/destinations/lib/guias-index.ts`, `src/destinations/guias.ts` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3334 | Página `/guias` y `/en/guias` (meta, hreflang, sitemap, ruta con idioma) | PO 12-11 | `src/app/guias/page.tsx`, `src/destinations/lib/guias-index.ts`, `src/i18n/lib/path.ts`, `src/site/server.ts`, `tests/smoke/pages.json` | `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests y build verdes; falta humo del PR) |
+| REQ-3335 | Pie: columna «Guías» con «Todas las guías» + hasta 8 países (gate A3); Blog una vez | PO 12-11 | `src/layout/lib/nav-model.ts`, `src/components/home/v2/SiteFooter.tsx`, `src/components/providers/FeatureFlags.tsx`, `src/app/layout.tsx` | `src/layout/lib/nav-model-guias.test.ts`, `src/destinations/lib/guias-index.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3336 | Guía bilingüe: esquema `en`, validador en inglés, vista en inglés en `/en/destinos/…`, indexa en inglés con guía | PO 12-11 | `src/destinations/lib/guia.ts`, `src/destinations/lib/catalog.ts`, `src/destinations/lib/locale.ts`, `src/components/destinations/CityGuideView.tsx`, `src/app/destinos/[pais]/[ciudad]/page.tsx`, `src/destinations/fixtures/guias.ts` | `src/destinations/lib/guia-en.test.ts`, `src/components/destinations/CityGuideView.test.ts` | EN CURSO (tests verdes; PR) |
+| REQ-3337 | Agente diario de guías en español e inglés | PO 12-11 | `docs/guias/ejemplos/2026-11-07-paris-pekin.json` (ejemplo bilingüe); prompt de la tarea programada | `src/destinations/guias-ejemplo.test.ts` | EN CURSO (ejemplo bilingüe y validador listos; el prompt se cambia con el merge) |
+| REQ-3338 | Blog en inglés (`/en/blog`, hreflang, validador) | PO 12-11 | — | — | PENDIENTE (ola 3) |
+| REQ-3339 | Agente diario del blog en español e inglés | PO 12-11 | — | — | PENDIENTE (ola 4) |
+| REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
+| REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
+| REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |

@@ -387,7 +387,7 @@ async function syncTour(apiTour: TourAPI) {
 
   // Upsert tour with proper relation handling
   const tour = await prisma.tour.upsert({
-    where: { externalId: apiTour.id },
+    where: { providerId_externalId: { providerId: 'freetour', externalId: apiTour.id } }, // REQ-1623
     update: {
       providerTitle: apiTour.providerTitle,
       providerPhone: apiTour.providerPhone,
