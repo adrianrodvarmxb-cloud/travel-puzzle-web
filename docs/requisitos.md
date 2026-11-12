@@ -1226,3 +1226,9 @@ Peticiones literales (PO, 12-11): «Las guías no están y está duplicado blog�
 | REQ-3340 | DATOS | Gate C1: dadas las 25 guías y las entradas del blog ya publicadas, cuando se cargan sus versiones en inglés, entonces cada una pasa el validador en inglés y va en PR para revisión del PO antes de publicar | agente | REQ-3336, REQ-3338 | EN CURSO (25 guías en inglés validadas en el PR de la ola 1; el blog va en la ola 3) |
 | REQ-3341 | VALIDACIÓN | OK visual del PO (capturas 1366 y 390 px) antes de cada merge del frente | PO | — | PENDIENTE |
 | REQ-3342 | DEFINICIÓN | Gates del frente: A3 (pie con «Todas las guías» + hasta 8 países), B2 (los agentes escriben español e inglés; aplica también al blog), C1 (las versiones en inglés de lo ya publicado las hace el agente en este frente) | PO | — | CUMPLIDO (PO 12 nov 2026: «A3», «b2 y aplícalo también para los Blogs», «C1») |
+
+## REQ-3457: Mila toma los seguimientos de todos los proveedores (PO, 12 nov 2026)
+Petición literal (PO): «de una vez que mila tome los eguimientos de todos estos provedores». Plan en `docs/plan-mila-seguimientos-proveedores.md` (frente #445), sobre el PR #385. Folio apartado con folio.ts.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3457 | CÓDIGO | Dado un proveedor del directorio con preguntas abiertas, cuando le toca recordatorio, entonces Mila le escribe en su idioma y horario con sus preguntas propias primero y luego lo que falta de la lista de alta (que ahora pide también los elementos del calendario de REQ-3456); no negocia el acuerdo, no cierra preguntas sola y no escribe dos veces a un contacto que representa a varios proveedores. FREETOUR queda fuera (B3) | agente | PR #385 (merge, migración 0027, bandera), plan firmado | PENDIENTE (plan para firma; gates G1 a G5) |
