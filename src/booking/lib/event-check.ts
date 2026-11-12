@@ -6,6 +6,7 @@ export type EventCheck = { ok: true; price: number } | { ok: false; code: "no_av
  * Revisa con los datos reales del evento (Freetour) si se puede reservar y
  * calcula el precio del grupo. El precio nunca se toma del navegador.
  */
+// REQ-064: valida isAvailable, mínimo de adultos, cupo y teléfono del evento (v2.0–v2.2).
 export function checkEvent(
   ev: IzFTEventDetail,
   { adults, children, hasPhone }: { adults: number; children: number; hasPhone: boolean }
