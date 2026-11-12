@@ -449,7 +449,7 @@ export function ToursPageClient({
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
-                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null, href: cardExtras?.cardHrefs?.[tour.id] })} priority={i < 2 && (pagination.page ?? 1) === 1 && !ownTrips.length} />
+                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null, href: cardExtras?.cardHrefs?.[tour.id] })} priority={i < 1 && (pagination.page ?? 1) === 1 && !ownTrips.length} />
                                         </div>
                                     ))}
                                 </div>

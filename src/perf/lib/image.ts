@@ -42,3 +42,14 @@ export function heroSlidesToMount(total: number, shown: number, wanted: number):
   if (total < 1) return [];
   return [...new Set([shown % total, wanted % total])].sort((a, b) => a - b);
 }
+
+/**
+ * REQ-1563: `srcset` con un candidato por ancho (descriptor `w`), para que el navegador baje solo el
+ * tamaño que necesita. Sin bandera o con una imagen no transformable devuelve undefined (queda `src`).
+ */
+export function transformedSrcSet(src: string, widths: number[], enabled: boolean = IMAGE_TRANSFORMS_ENABLED): string | undefined {
+  if (!enabled) return undefined;
+  const parts = widths.map((w) => ({ w, url: transformedSrc(src, w, true) }));
+  if (parts.some((p) => p.url === src)) return undefined;
+  return parts.map((p) => `${p.url} ${p.w}w`).join(', ');
+}
