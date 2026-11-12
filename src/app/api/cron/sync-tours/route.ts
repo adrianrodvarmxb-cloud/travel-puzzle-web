@@ -42,7 +42,7 @@ export async function GET(request: Request) {
 
   try {
     const api = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
-    const prisma = getPrisma();
+    const prisma = getPrisma({ todosLosProveedores: true }); // REQ-3311: el sync ve todos los proveedores
     const now = new Date();
     // REQ-071…078: sync blindado (staging, barrera de cordura, hash, presencia, log). Apagado = sync de hoy, idéntico.
     if (isSyncGuardEnabled(process.env.SYNC_GUARD_ENABLED)) {

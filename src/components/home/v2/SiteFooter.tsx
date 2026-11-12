@@ -51,7 +51,7 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
   const wa = waLink(contact.whatsapp, c.expertWa);
   const legal = legalLabels(language);
   // REQ-241: Nosotros, Contacto, Blog… solo con su bandera. D9: el año llega del servidor (INC-001).
-  const { pages, year, primeraPieza, transfers } = useFeatureFlags();
+  const { pages, year, primeraPieza, transfers, guideLinks } = useFeatureFlags();
   // REQ-1400: pie por columnas Explora · Empresa · Ayuda (reglas en src/layout/lib/nav-model.ts).
   const columns = footerColumns({
     lang: language,
@@ -65,6 +65,8 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
     email: contact.email,
     // REQ-1400: pilares activos del blog (clúster temático, ver src/blog/lib/pillars.ts).
     pillars: PILLARS.filter((p) => p.status === 'activo').map((p) => ({ href: `/blog/${p.slug}`, label: p.name })),
+    // REQ-3335 (gate A3): guías de ciudad del idioma; reemplazan a los pilares del blog en la columna «Guías».
+    guides: guideLinks ? (guideLinks[language] ?? []) : undefined,
   });
 
   return (
