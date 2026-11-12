@@ -68,10 +68,10 @@ export async function fetchTours(
 ) {
   // T4 (REQ-413): la bandera la decide el servidor, nunca el cliente; apagada, ?formato= no filtra nada.
   const taxonomy = taxonomyFiltersEnabled(process.env as Record<string, string | undefined>);
-  const filters: TourFilters = { ...clientFilters, taxonomy, formatos: taxonomy ? clientFilters.formatos ?? [] : [] };
+  const filters: TourFilters = { ...clientFilters, taxonomy, formatos: taxonomy ? clientFilters.formatos ?? [] : [], temas: taxonomy ? clientFilters.temas ?? [] : [], atributos: taxonomy ? clientFilters.atributos ?? [] : [] }; // REQ-1421 / REQ-1422
   try {
     // REQ-032: caché compartida (L1+L2) con single-flight; REQ-029: reintento si D1 está saturada.
-    const list = await cached(cacheKey('tours', { ...filters, ...pagination, v: 'tipos-1260' /* REQ-1250: las filas traen el formato del índice */ }), POLICY.toursList, async () => {
+    const list = await cached(cacheKey('tours', { ...filters, ...pagination, v: 'temas-1421' /* REQ-1250: las filas traen el formato del índice; REQ-1421/1422: temas y atributos */ }), POLICY.toursList, async () => {
       const result = await withRetry(() => getToursFromCatalog(filters, pagination));
       return JSON.parse(JSON.stringify(serializeDecimals(result)));
     });

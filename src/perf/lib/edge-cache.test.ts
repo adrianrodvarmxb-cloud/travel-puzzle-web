@@ -39,3 +39,24 @@ describe('REQ-3318: el middleware aplica la regla en la respuesta final', () => 
     expect(withEdgeCache(mk(), '/admin/viajes', res()).headers.get('Cloudflare-CDN-Cache-Control')).toBeNull();
   });
 });
+
+describe('REQ-3318: el borde solo guarda respuestas 200 (el plan gratis no permite TTL por código en la regla)', () => {
+  it('REQ-3318: con estado distinto de 200 se quita el encabezado del borde', async () => {
+    const { stripEdgeCacheUnlessOk } = await import('./edge-cache');
+    for (const status of [500, 502, 503, 404, 301, 302]) {
+      const r = new Response('x', { status, headers: { 'Cloudflare-CDN-Cache-Control': EDGE_CACHE_VALUE } });
+      expect(stripEdgeCacheUnlessOk(r).headers.get('Cloudflare-CDN-Cache-Control'), String(status)).toBeNull();
+    }
+  });
+  it('REQ-3318: un 200 conserva el encabezado y el cuerpo', async () => {
+    const { stripEdgeCacheUnlessOk } = await import('./edge-cache');
+    const r = stripEdgeCacheUnlessOk(new Response('hola', { status: 200, headers: { 'Cloudflare-CDN-Cache-Control': EDGE_CACHE_VALUE } }));
+    expect(r.headers.get('Cloudflare-CDN-Cache-Control')).toBe(EDGE_CACHE_VALUE);
+    expect(await r.text()).toBe('hola');
+  });
+  it('REQ-3318: toda respuesta del Worker pasa por stripEdgeCacheUnlessOk (desde REQ-3498, dentro de serveWithCache)', async () => {
+    const { readFileSync } = await import('node:fs');
+    expect(readFileSync('src/perf/worker-cache.ts', 'utf8')).toContain('stripEdgeCacheUnlessOk(await origin())');
+    expect(readFileSync('worker.ts', 'utf8')).not.toMatch(/fetch: handler\.fetch,/);
+  });
+});

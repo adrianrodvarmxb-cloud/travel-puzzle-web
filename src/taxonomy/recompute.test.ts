@@ -16,11 +16,12 @@ const asD1 = (d: Db): TaxonomyD1 => {
 function db() {
   const d = new DatabaseSync(":memory:");
   d.exec(`CREATE TABLE "Tour"("id" TEXT PRIMARY KEY, "categoryId" INTEGER, "priceValue" TEXT, "durationMinutes" INTEGER, "isActive" BOOLEAN, "guideLanguages" TEXT DEFAULT '[]', "rating" TEXT, "reviewsNumber" INTEGER DEFAULT 0, "contentHash" TEXT)`);
+  d.exec(`ALTER TABLE "Tour" ADD COLUMN "providerId" TEXT NOT NULL DEFAULT 'freetour'`); // como la 0015 en producción (REQ-3502 la lee)
   d.exec(`CREATE TABLE "TourTranslation"("tourId" TEXT, "language" TEXT, "title" TEXT, "brief" TEXT)`);
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
   d.exec(readFileSync("migrations/0017_taxonomia.sql", "utf8"));
   const tour = (id: string, cat: number, price: number, title: string, active = 1, minutes = 120) => {
-    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
+    d.prepare(`INSERT INTO "Tour"("id","categoryId","priceValue","durationMinutes","isActive","guideLanguages","rating","reviewsNumber","contentHash") VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
     d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(id, "es", title, "");
   };
   tour("a", 12, 0, "Free tour por el casco antiguo");
@@ -88,7 +89,7 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
   it("REQ-409 barrera: si un formato cae más de 30 %, la corrida se aborta y se sigue leyendo la anterior", async () => {
     const d = db();
     for (let i = 0; i < 30; i++) {
-      d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
+      d.prepare(`INSERT INTO "Tour"("id","categoryId","priceValue","durationMinutes","isActive","guideLanguages","rating","reviewsNumber","contentHash","cityId") VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
       d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", ""); // REQ-541: «Caminata» en el título ya es a pie en cualquier categoría
     }
     await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
@@ -138,6 +139,9 @@ describe("REQ-409 lógica pura del recálculo", () => {
     expect(unmappedFrom([{ ruleId: "sin mapeo: freetour:99", n: 3 }, { ruleId: "#3 base freetour:26", n: 1 }])).toEqual([{ provider: "freetour", categoryId: "99", tours: 3 }]);
   });
   it("REQ-409 la versión del mapeo junta diccionario y proveedores", () => {
-    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07b|propios:2026-11-06"); // REQ-1250; REQ-1260: mapeo de FREETOUR nuevo: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida
+    // REQ-1250; REQ-1260: mapeo de FREETOUR nuevo: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida.
+    // REQ-3465: entra el mapeo de Tangol, así que la huella cambia y el recálculo arranca una corrida nueva (lo esperado).
+    // REQ-3502: el mapeo de Tangol pasa a categoría por categoría (versión 2026-11-12b): otra corrida nueva, también esperada.
+    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07b|propios:2026-11-06|tangol:2026-11-12b");
   });
 });

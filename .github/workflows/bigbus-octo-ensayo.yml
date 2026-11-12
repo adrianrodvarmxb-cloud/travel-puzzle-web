@@ -1,0 +1,29 @@
+# REQ-3438: ENSAYO de Big Bus por Ventrata OCTO contra la empresa de prueba EdinExplore, con la llave de PRUEBA.
+# Siempre Octo-Env: test (no consume lugares, los códigos no sirven y no se factura). No toca la base ni el sitio.
+# Lectura (proveedor, catálogo, monedas, calendario) y reservas de prueba (apartar → confirmar → consultar → cancelar).
+# La llave vive en el secreto BIGBUS_OCTO_TEST_KEY y nunca se imprime.
+name: Big Bus OCTO (ensayo)
+on:
+  push:
+    branches: [feat/bigbus-octo-ola2-3]
+    paths: [src/octo/**, src/scripts/bigbus-octo-ensayo.ts, .github/workflows/bigbus-octo-ensayo.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ensayo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas del módulo OCTO
+        run: npx vitest run src/octo
+      - name: Ensayo contra EdinExplore (modo prueba)
+        env:
+          BIGBUS_OCTO_TEST_KEY: ${{ secrets.BIGBUS_OCTO_TEST_KEY }}
+        run: |
+          if [ -z "$BIGBUS_OCTO_TEST_KEY" ]; then echo "Falta el secreto BIGBUS_OCTO_TEST_KEY"; exit 1; fi
+          npx tsx src/scripts/bigbus-octo-ensayo.ts --reservas

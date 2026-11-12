@@ -151,7 +151,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy
   };
   const select = {
     id: true, externalId: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
-    providerTitle: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524 (y T3)
+    providerTitle: true, providerId: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524 (y T3); REQ-3502
     country: { select: { code: true } },
     city: { select: { translations: true } },
     translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true, brief: true } },
@@ -163,7 +163,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy
   ]);
   // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
   // T3: free = formato pieza-libre; de pago = publicable, presencial y no Free tour (sin online, servicios ni traslados).
-  const fmt = (t: (typeof free)[number]) => taxonomy?.({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, title: t.translations.map((x) => x.title).join(" | ") }).formato;
+  const fmt = (t: (typeof free)[number]) => taxonomy?.({ providerId: t.providerId, categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, title: t.translations.map((x) => x.title).join(" | ") }).formato;
   const okFree = (t: (typeof free)[number]) => !taxonomy || fmt(t) === "pieza-libre";
   const okPaid = (t: (typeof free)[number]) => !taxonomy || (FORMATOS_PRESENCIALES.includes(fmt(t)!) && fmt(t) !== "pieza-libre");
   const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)) && (Number(t.priceValue) === 0 ? okFree(t) : okPaid(t)));
