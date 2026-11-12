@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
@@ -7,6 +7,7 @@ import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
 import { FeatureFlagsProvider } from "@/components/providers/FeatureFlags";
+import { footerGuideLinksByLang } from "@/destinations/guias";
 import { isPrimeraPiezaEnabled } from "@/tours/lib/menu";
 import { isTransfersVisible } from "@/transfers/lib/widget";
 import { visibilityFromEnv } from "@/trips/lib/visibility";
@@ -19,42 +20,61 @@ import { localeUrlsEnabled } from "@/i18n/lib/flags";
 import { htmlLang } from "@/i18n/lib/locales";
 import { routeLanguageState } from "@/i18n/server";
 
-// REQ-1560: fuentes auto-hospedadas con next/font (antes @import de Google Fonts que bloqueaba el render).
+// REQ-1560: fuentes auto-hospedadas (antes @import de Google Fonts que bloqueaba el render).
+// REQ-1616 (INC-012): los archivos viven en src/app/fonts (OFL, de Fontsource) para que el build
+// no dependa de descargar de Google, que fallaba de forma intermitente en CI.
 // Solo Poppins (texto del cuerpo) se precarga; Geist casi no se usa y ya no se precarga.
-const geistSans = Geist({
+const geistSans = localFont({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  src: [
+    { path: "./fonts/geist-sans/geist-sans-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/geist-sans/geist-sans-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/geist-sans/geist-sans-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/geist-sans/geist-sans-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: false,
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  src: [
+    { path: "./fonts/geist-mono/geist-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+  ],
   display: "swap",
   preload: false,
 });
 
-const poppins = Poppins({
+const poppins = localFont({
   variable: "--font-poppins-nf",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  src: [
+    { path: "./fonts/poppins/poppins-latin-300-normal.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: true,
 });
 
-const spaceGrotesk = Space_Grotesk({
+const spaceGrotesk = localFont({
   variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  src: [
+    { path: "./fonts/space-grotesk/space-grotesk-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/space-grotesk/space-grotesk-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/space-grotesk/space-grotesk-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: false,
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  src: [
+    { path: "./fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/jetbrains-mono/jetbrains-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
+  ],
   display: "swap",
   preload: false,
 });
@@ -103,7 +123,7 @@ export default async function RootLayout({
         <ClientErrorListener />
         <SessionProvider>
           <AppProviders language={route?.lang} locked={route?.locked ?? false}>
-            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear() }}>
+            <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear(), guideLinks: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) ? footerGuideLinksByLang() : undefined }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}

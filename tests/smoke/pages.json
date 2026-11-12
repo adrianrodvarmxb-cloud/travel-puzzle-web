@@ -13,8 +13,13 @@
     "/destinos/mx/ciudad-de-mexico",
     "/destinos/gb",
     "/destinos/gb/edimburgo",
+    "/guias",
+    "/en/destinos/cn/pekin",
+    "/en/guias",
     "/sitemap-index.xml",
-    "/mi-cuenta/entrar"
+    "/mi-cuenta/entrar",
+    "/tours?search=trekking",
+    "/arma-tu-viaje"
   ],
   "discover": [
     {
