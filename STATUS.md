@@ -959,6 +959,9 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | EN CURSO (falta merge; aplicar es candado) |
-| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | DECIDIDO (PO 11 nov: geonameid, si no rango desde 9,000,000, y cruce) → se implementa en REQ-3367/3368/3369 |
+| REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
+| REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
+| REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0027_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
