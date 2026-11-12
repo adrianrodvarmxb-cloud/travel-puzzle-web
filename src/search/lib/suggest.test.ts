@@ -141,3 +141,32 @@ describe("REQ-294 textos: solo prometen lo que existe", () => {
     expect(fill("a {x} b {y}", { x: 1 })).toBe("a 1 b {y}");
   });
 });
+
+import { suggestTrips, type TripSuggestEntry } from "./suggest";
+
+describe("REQ-1615: viajes de agencia en el autocompletado", () => {
+  const trips: TripSuggestEntry[] = [
+    { id: "a", title: "Machu Picchu 2 días", path: "/viajes/peru/machu-picchu-2-dias", countries: ["PE"], cities: ["Cusco", "Aguas Calientes"], places: "Perú" },
+    { id: "b", title: "Machu Picchu Explorer", path: "/viajes/peru/machu-picchu-explorer", countries: ["PE"], cities: ["Cusco"], places: "Perú" },
+    { id: "c", title: "Fortaleza de Kuélap", path: "/viajes/peru/kuelap", countries: ["PE"], cities: ["Chachapoyas"], places: "Perú" },
+    { id: "d", title: "Cartagena colonial", path: "/viajes/colombia/cartagena-colonial", countries: ["CO"], cities: ["Cartagena"], places: "Colombia" },
+  ];
+
+  it("REQ-1615: encuentra por título, sin acentos ni mayúsculas, y respeta el máximo", () => {
+    expect(suggestTrips(trips, "machu", 4).map((t) => t.id)).toEqual(["a", "b"]);
+    expect(suggestTrips(trips, "KUELAP", 4).map((t) => t.id)).toEqual(["c"]);
+    expect(suggestTrips(trips, "machu", 1)).toHaveLength(1);
+  });
+
+  it("REQ-1615: encuentra por ciudad o país del viaje; el título pesa más que el lugar", () => {
+    expect(suggestTrips(trips, "chachapoyas", 4).map((t) => t.id)).toEqual(["c"]);
+    expect(suggestTrips(trips, "peru", 4).map((t) => t.id)).toEqual(["a", "b", "c"]);
+    expect(suggestTrips(trips, "cartagena", 4).map((t) => t.id)).toEqual(["d"]);
+  });
+
+  it("REQ-1615: todas las palabras deben coincidir; con menos de 3 letras o sin coincidencia no sugiere nada", () => {
+    expect(suggestTrips(trips, "machu explorer", 4).map((t) => t.id)).toEqual(["b"]);
+    expect(suggestTrips(trips, "ma", 4)).toEqual([]);
+    expect(suggestTrips(trips, "tokio", 4)).toEqual([]);
+  });
+});
