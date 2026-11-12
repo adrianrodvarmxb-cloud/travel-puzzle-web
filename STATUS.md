@@ -1,6 +1,6 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 11 nov 2026, 13:45 (CDMX).
+Actualizado: 11 nov 2026, 23:55 (CDMX).
 
 
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
@@ -23,6 +23,11 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 |---|---|---|---|---|---|
 | REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
 | REQ-1621 | `frente.ts abrir` ya no da 415: el paso 0 de CLAUDE.md es usable desde la nube | NUEVO | `src/ops/lib/frentes.ts`, `src/scripts/frente.ts` | `src/ops/lib/frentes-api.test.ts` | CUMPLIDO (2/2 verdes; frentes #398 y #400 abiertos en vivo, sin 415) |
+| REQ-1579 | El humo del contrato de idioma reintenta el fallo de transporte (no un código real) | NUEVO | `src/ops/lib/smoke.ts`, `src/scripts/smoke.ts` | `src/ops/lib/smoke-contrato-reintento.test.ts` | CUMPLIDO (#369/b227302; 6/6 verdes el 12 nov) |
+| REQ-1607 | Big Bus: publicar solo lo visible en el Partner Booking Platform | NUEVO | — | — | BLOQUEADO, espera OK del PO (sin código y sin test; `grep` vacío el 12 nov) |
+| REQ-1608 | `folio.ts revisar` detecta el folio duplicado en el PR | NUEVO | `src/ops/lib/folios.ts` | `src/ops/lib/folios.test.ts` | CUMPLIDO (#382; 2/2 verdes el 12 nov) |
+| REQ-1609 | Redes del día: nadie publica hasta que el artículo y las láminas respondan 200 | NUEVO | `src/redes/run.ts`, `src/redes/lib/espera.ts` | `src/redes/lib/espera.test.ts`, `src/redes/run.test.ts` | EN CURSO (5/5 verdes el 12 nov; código en `main`, falta cerrar el estado) |
+| REQ-1633 | Verificador de publicación: relanza el deploy revertido una vez al día | NUEVO | `src/ops/lib/publicacion.ts`, `src/scripts/verificar-publicacion.ts`, `.github/workflows/verificar-publicacion.yml` | `src/ops/lib/publicacion.test.ts`, `src/ops/verificar-publicacion-workflow.test.ts` | CUMPLIDO (#387/03a797f; workflow en verde el 12 nov 05:24 UTC) |
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
@@ -32,7 +37,7 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1543 | Precio al cliente = tarifa pública; sin neto ni comisión | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
 | REQ-1544 | Bandera con secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1552 |
 | REQ-1545 | Whitelist: por la pasarela de Namecheap | NUEVO | — | — | CUMPLIDO («igual que name cheap», 11 nov 14:08) |
-| REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | PENDIENTE (tarea del PO) |
+| REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | CUMPLIDO (el PO las quitó del correo el 11 nov 15:10; acceso verificado con el inventario del 11 nov. `docs/requisitos.md` ya lo decía y esta fila seguía en PENDIENTE) |
 | REQ-1547 | Secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1553 |
 | REQ-1548 | Olas 2 a 4 | NUEVO | `docs/plan-tangol.md` | — | PENDIENTE |
 | REQ-1550 | Pasarela: autenticación con Tangol por la IP registrada | NUEVO | `gateway/lib/tangol.js` | `gateway/lib/tangol.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
@@ -40,6 +45,10 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1552 | Sitio: solo por la pasarela, bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/api.test.ts`, `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
 | REQ-1553 | Variables de Tangol en cPanel | NUEVO | — | — | CUMPLIDO (11 nov, `/health` ok) |
 | REQ-1558 | Inventario de Tangol desde cPanel | NUEVO | `gateway/lib/tangol-inventory.js`, `gateway/scripts/inventario-tangol.js` | `gateway/lib/tangol-inventory.test.js` | CUMPLIDO (corrido en cPanel: 2,237 tours) |
+| REQ-1570 | Tangol en Perú: oculto donde ya hay Inca World | NUEVO | — | — | PENDIENTE (sin código y sin test; `grep -rn "REQ-1570" src gateway tests` vacío el 12 nov) |
+| REQ-1571 | Tangol en Colombia: oculto donde ya hay Destino Colombia (175 tours) | NUEVO | — | — | PENDIENTE (sin código y sin test; `grep -rn "REQ-1571" src gateway tests` vacío el 12 nov) |
+| REQ-1572 | Borrador del acuerdo de intermediación con Tangol | NUEVO | proyecto de Claude: `legal/acuerdo-intermediacion-tangol.md` | — | EN CURSO (enviado al proveedor el 11 nov 23:52 UTC; falta validación del PO y del abogado) |
+| REQ-1573 | Marca blanca confirmada por Tangol | NUEVO | — | — | CUMPLIDO (PO, 11 nov 15:13; falta guardar el correo de Tangol en el expediente) |
 
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
@@ -928,15 +937,15 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-1534 | Cuentas de cliente opcionales (modelo GetYourGuide/Civitatis) | — | — | PENDIENTE (plan aparte) |
 
 ## Tiempos de carga (REQ-1560 a REQ-1564, PR #360, 11 nov 2026)
-Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C.
+Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C. Gate C aplicado el 11-11 (Early Hints, Smart Tiered Cache, Cache Rule `/_next/static/*` respetando cache-control); Rocket Loader apagado; Polish requiere plan Pro.
 | ID | Requisito | Archivo(s) | Test | Estado |
 |---|---|---|---|---|
-| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: home 3.3 s, ficha 3.3 s, /tours 11.5 s; falta gate B) |
-| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 0.000 en las 3) |
-| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 181 / 425 / 253 ms) |
-| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 2.2 / 3.5 / 2.2 MB; falta gate B) |
-| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 200 KiB por el logo del pie; ya corregido, sin medir) |
-| REQ-1616 | El build no descarga fuentes de Google (INC-012) | `src/app/layout.tsx`, `src/app/fonts/` | `src/perf/fonts.test.ts` | EN CURSO (test y build verdes; falta humo y producción) |
+| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod mediana móvil: 3.56 / 3.71 / 3.74 s) |
+| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | CUMPLIDO (prod: ≤ 0.002 en las 3) |
+| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (prod mediana: 386 / 552 / 266 ms) |
+| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `HeroSearch.tsx` / `ExperienceCard.tsx` / `TripGallery.tsx` / `TourHeroSection.tsx` (srcset), `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/srcset-components.test.ts`, `src/perf/lib/budget.test.ts` | NO CUMPLIDO (móvil sí: 1.46 / 1.03 / 0.83 MB; escritorio / y /tours no) |
+| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts`, `src/perf/lib/offscreen.test.ts`, `src/perf/lazy-components.test.ts`, Playwright `src/scripts/offscreen-images.ts` | EN CURSO (Lighthouse 0 fuera de pantalla; falta prueba Playwright) |
+| REQ-1616 | El build no descarga fuentes de Google (INC-012) | `src/app/layout.tsx`, `src/app/fonts/` | `src/perf/fonts.test.ts` | CUMPLIDO (CI y producción verdes) |
 
 ## Cuentas de cliente opcionales (PO, 11 nov 2026) — matriz de trazabilidad
 Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT_PUBLIC_ACCOUNTS_ENABLED` (apagada en este PR).
@@ -1001,3 +1010,4 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
+| REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
