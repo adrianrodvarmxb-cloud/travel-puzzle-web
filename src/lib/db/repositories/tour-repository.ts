@@ -39,6 +39,8 @@ export interface TourFilters {
   durMin?: number | null; durMax?: number | null;
   /** T4 (REQ-413): formatos de la taxonomía (?formato=); solo cuentan con `taxonomy`. */
   formatos?: string[]; taxonomy?: boolean;
+  /** REQ-1421 / REQ-1422: ?tema= y ?atrib=; solo cuentan con `taxonomy`. */
+  temas?: string[]; atributos?: string[];
 }
 
 export async function getToursWithFilters(
@@ -138,7 +140,7 @@ export async function getToursFromCatalog(
   } else {
     [entries, ranked] = await Promise.all([loadCatalog(language), rankedTourIds(language, pagination.searchValue)]);
   }
-  const { ids, total, page, limit, formatCounts } = queryCatalog(entries, {
+  const { ids, total, page, limit, formatCounts, temaCounts, atribCounts } = queryCatalog(entries, {
     countryId: filters.countryId, cityId: filters.cityId, categoryId: filters.categoryId,
     minPrice: filters.minPrice, maxPrice: filters.maxPrice, durationRange: filters.durationRange,
     search, // REQ-285: el texto resuelto (igual al de la URL si la bandera está apagada)
@@ -148,6 +150,7 @@ export async function getToursFromCatalog(
     ranked, // REQ-048: relevancia FTS5 (null = búsqueda por palabras)
     searchV2, // REQ-122
     taxonomy: filters.taxonomy, formatos: filters.formatos, // T4
+    temas: filters.temas, atributos: filters.atributos, // REQ-1421 / REQ-1422
     formatosTours: TOURS_FORMATOS, // REQ-1256: del diccionario
   }, pagination);
   const rows = ids.length
@@ -164,7 +167,7 @@ export async function getToursFromCatalog(
   return {
     data,
     pagination: { total, count: data.length, currentPage: page, perPage: limit, totalPages, links: buildPaginationLinks(baseUrl, pagination, page, totalPages) },
-    ...(formatCounts && { facets: { formato: formatCounts } }),
+    ...(formatCounts && { facets: { formato: formatCounts, tema: temaCounts ?? {}, atrib: atribCounts ?? {} } }),
   };
 }
 
