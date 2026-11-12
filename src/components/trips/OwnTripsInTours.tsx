@@ -43,7 +43,7 @@ export function OwnTripsInTours({ trips, countryCode, kind, lang, search, cityNa
             {hasMore(shown, list.length) && (
                 <div className="mt-5 flex justify-center">
                     <button type="button" onClick={() => setShown(nextVisible(shown, list.length))} className="min-h-11 rounded-full border border-[#1B2A5E]/20 bg-white px-6 py-2.5 text-sm font-semibold text-[#1B2A5E] shadow-sm transition hover:bg-[#1B2A5E] hover:text-white">
-                        {c.showMore} <span className="opacity-60">({shown} / {list.length})</span>
+                        {c.showMore}
                     </button>
                 </div>
             )}

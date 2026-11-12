@@ -33,3 +33,12 @@ describe('REQ-3501: OwnTripsInTours usa la paginación', () => {
     expect(tripCopy('en').showMore).toBe('Show more experiences');
   });
 });
+
+describe('REQ-3501: presentación como FREETOUR (PO, 12-11)', () => {
+  it('REQ-3501: el botón dice solo «Ver más experiencias», sin contador (el total va arriba en ToursHeader)', async () => {
+    const { readFileSync } = await import('node:fs');
+    const s = readFileSync('src/components/trips/OwnTripsInTours.tsx', 'utf8');
+    expect(s).not.toMatch(/\{shown\} \/ \{list\.length\}/);
+    expect(readFileSync('src/components/tours/ToursHeader.tsx', 'utf8')).toMatch(/tours\.eyebrow/);
+  });
+});
