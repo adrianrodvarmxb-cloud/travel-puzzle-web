@@ -7,7 +7,7 @@ import { scrubName } from "@/tours/lib/provider-text";
 /** Título, proveedor, duración y punto de encuentro del tour (de nuestro catálogo en D1). */
 export async function getTourSummary(prisma: PrismaClient, tourExternalId: number, lang: EmailLang): Promise<TourSummary | null> {
   const tour = await prisma.tour.findUnique({
-    where: { externalId: tourExternalId },
+    where: { providerId_externalId: { providerId: 'freetour', externalId: tourExternalId } }, // REQ-1623
     select: {
       providerTitle: true, duration: true, meetingPoint: true, titleImageURL: true, images: true, priceValue: true,
       id: true, rating: true, reviewsNumber: true, city: { select: { translations: true } },
@@ -52,7 +52,7 @@ export async function getMoreTours(
   siteUrl: string,
   opts: { includePaid?: boolean } = {}
 ): Promise<MoreTour[]> {
-  const tour = await prisma.tour.findUnique({ where: { externalId: tourExternalId }, select: { cityId: true } });
+  const tour = await prisma.tour.findUnique({ where: { providerId_externalId: { providerId: 'freetour', externalId: tourExternalId } }, select: { cityId: true } }) // REQ-1623;
   if (!tour) return [];
   const includePaid = opts.includePaid ?? false;
   const base = { cityId: tour.cityId, isActive: true, externalId: { not: tourExternalId }, titleImageURL: { startsWith: "https://" } };
