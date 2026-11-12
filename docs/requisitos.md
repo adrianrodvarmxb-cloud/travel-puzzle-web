@@ -1162,8 +1162,14 @@ Decisiones del PO el 11 nov 2026: «A2», «A» (pin propio), «el resto de los 
 | REQ-1610 | CÓDIGO | ~~Big Bus renumerado por el duplicado de REQ-1535~~ | agente | — | REEMPLAZADO por REQ-1607/REQ-1609 (main lo resolvió antes, PR #382 y #380) |
 | REQ-1611 | CÓDIGO | ~~Guardia de folios: duplicado preexistente en main no es choque~~ | agente | — | REEMPLAZADO por REQ-1608 (main lo resolvió antes, PR #382) |
 
+## REQ-1616: fuentes locales en el build (INC-012, 11 nov 2026)
+Petición (PO, 11-11, respuesta a pregunta): «Sí, guárdalas en el repo» — blindar el build para que no dependa de descargar fuentes de Google.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1616 | CÓDIGO | Dado un build de producción en CI, cuando no se puede llegar a Google Fonts, entonces el build termina igual porque `layout.tsx` usa `next/font/local` con los archivos de `src/app/fonts/` (OFL) | agente | — | EN CURSO (test y build verdes en la sesión; falta humo del PR y producción) |
+
 ## REQ-1633 y REQ-1634: la publicación diaria no se queda a medias (PO, 12 nov 2026; de INC-010)
-Nota de folio: este frente nació como REQ-1609 y REQ-1633; otra sesión tomó el 1609 en `main` para la espera de las láminas de redes, así que se renumeró a 1610 y 1611 el 12-11.
+Nota de folio: este frente nació como REQ-1609/1610 y chocó dos veces con folios que otras sesiones tomaron en `main` (el 1609 para la espera de las láminas de redes; luego 1610 y 1611 quedaron REEMPLAZADOS). A la tercera se apartaron **REQ-1633 y REQ-1634** con `npx tsx src/scripts/folio.ts apartar` (REQ-1587), que reserva de forma atómica.
 Petición literal (PO, 11-11, tras el regreso automático del deploy de las guías): «retoma la publicacion de hoy se debe hacer todos los dias sin excepcion». Gates firmados uno por uno el 12-11: **A1** (revertir de inmediato y que un verificador aparte relance el deploy después, en vez de repetir el humo antes de revertir), **B1** (un relanzamiento al día; si vuelve a quedarse atrás, avisa y se detiene) y **C1** (el pendiente de INC-009 va con folio propio, no en este frente).
 Hueco que cierra: cuando el humo de producción falla, `deploy-cloudflare.yml` revierte (l. 195-199) y los agentes diarios (`guias-ciudad.yml` l. 190-207, `blog-diario.yml` l. 220+) solo escriben el motivo y abren su issue. El contenido queda fusionado en `main` pero fuera del aire y nadie reintenta: el 11-11 lo relanzó una persona. El sitio no expone su versión y leerla de Cloudflare pediría credenciales, así que el verificador deduce lo que sirve producción del `head_sha` del último deploy de `main` en verde.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
