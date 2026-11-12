@@ -108,24 +108,24 @@ Plan de regreso: apagar la bandera. Las preguntas quedan en la base sin efecto.
 ## 8. Preguntas aprobadas por el PO, proveedor por proveedor
 Salen del barrido completo de lo que envió cada proveedor (correos, adjuntos y T&C; detalle en el proyecto de Claude, fuera del repo). Mila pide solo esto; lo ya recibido no se vuelve a pedir.
 
-Regla de forma (PO, 12 nov 2026: «aprobado, solo busca la manera de que no se vea tan abrumador, al igual Jordania»): Mila no manda la lista completa de golpe. Cada correo lleva **máximo 5 puntos agrupados por tema**, empezando por lo que desbloquea vender (tarifas y calendario). Lo demás va en un segundo correo cuando contesten el primero, o en el recordatorio. Tono breve y cordial, sin numerar 13 preguntas.
+Regla de forma (PO, 12 nov 2026: «aprobado, solo busca la manera de que no se vea tan abrumador, al igual Jordania»; y ante «¿uno o dos correos?», respuesta literal: «A»): Mila manda **un solo correo con dos secciones**: arriba, **máximo 5 puntos agrupados por tema** con lo que desbloquea vender (tarifas, calendario, pago, cancelación); abajo, una sección corta «Para cerrar el alta» en 2 o 3 líneas. Tono breve y cordial, sin numerar pregunta por pregunta. Si no contestan, el recordatorio repite solo lo que falta.
 
 ### Jordan Experience: aprobado («si aprobado», PO, 12 nov 2026)
-**Correo 1 (para poder vender):**
+**Arriba (para poder vender):**
 1. Tarifas que faltan: niños (precio y edades), grupos, cena de gala del 31 dic, carpa de lujo, vuelo Aqaba–Amman, noches extra y opcionales.
 2. Calendario: anticipación mínima para reservar, fecha de la Semana Santa ortodoxa y año de las fechas del Eid.
 3. Traslado privado: si aplica siempre a viajeros que salen de México, no en los vuelos de Royal Jordanian desde España.
 4. Pago: plazo y moneda de la factura.
 5. Cancelación: qué se cobra entre 8 y 14 días antes, cómo reembolsan y cuánto cuesta un cambio.
 
-**Correo 2 (para cerrar el alta):** reservas por API, portal o correo (¿sales2@ o sales4@?); voucher; razón social, licencia y seguro de RC; términos para agencias y acuerdo de intermediación; datos del pasajero; el archivo de fotos prometido.
+**Abajo, «Para cerrar el alta»:** reservas por API, portal o correo (¿sales2@ o sales4@?); voucher; razón social, licencia y seguro de RC; términos para agencias y acuerdo de intermediación; datos del pasajero; el archivo de fotos prometido.
 
 ### Mondial Trails: aprobado («aprobado», PO, 12 nov 2026)
-**Correo 1 (para poder vender):**
+**Arriba (para poder vender):**
 1. Tarifarios vigentes: Tailandia, Norte, Phuket y Phi Phi vencieron el 31 oct 2026; Bali a partir de abr 2027. Si se puede, en Excel.
 2. Calendario: días de salida y anticipación mínima por programa; cenas obligatorias de Nochebuena y Año Nuevo 2026 y fecha de Loy Krathong 2026; qué es «valor noche adicional».
 3. Precios que faltan: lancha a Phi Phi, traslados, opcionales y grupos; y si Phi Phi es en USD o THB.
 4. Pago: depósito, plazo, moneda, cuenta y recargo con tarjeta.
 5. Cancelación: tramos que faltan en Phi Phi y Phuket, la de Bali, no-show, reembolsos y cambios.
 
-**Correo 2 (para cerrar el alta):** API, portal o plugin; contacto de reservas, tiempo de respuesta, teléfono 24/7 y vouchers; licencia, seguro de RC y términos para agencias; acuerdo de intermediación; permiso de fotos con crédito; datos del viajero y visa para Tailandia e Indonesia.
+**Abajo, «Para cerrar el alta»:** API, portal o plugin; contacto de reservas, tiempo de respuesta, teléfono 24/7 y vouchers; licencia, seguro de RC y términos para agencias; acuerdo de intermediación; permiso de fotos con crédito; datos del viajero y visa para Tailandia e Indonesia.
