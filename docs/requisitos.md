@@ -928,7 +928,7 @@ Petición literal: «La semana pasada aplicamos un ISO para que cada requerimien
 | REQ-1309 | VALIDACIÓN | `NOSOTROS_ENABLED` (REQ-240): OK del PO al texto | PO | — || CUMPLIDO (PO confirma el texto y el encendido de NOSOTROS_ENABLED, 8-11; #283) |
 | REQ-1310 | BANDERA | `SOCIAL_LINKEDIN/FACEBOOK/INSTAGRAM_ENABLED` (REQ-1076), una por una | agente | REQ-1321, REQ-1322 | EN CURSO (Facebook encendida: #293, deploy 42561967397 verde, 8-11; Instagram encendida: #301, deploy 42577832647 verde, 9-11; falta `SOCIAL_LINKEDIN_ENABLED`, que espera REQ-1322 y REQ-1356) |
 | REQ-1311 | BANDERA | `SEARCH_LOG_ENABLED` (REQ-340) | agente | REQ-1323 | BLOQUEADO |
-| REQ-1312 | BANDERA | `SEARCH_STEM_ENABLED` (REQ-363): búsqueda por raíz | agente | REQ-1517 | EN CURSO (plan firmado por el PO el 11-11: «firmo», G1 = A y G2 = A; primero la migración, luego la bandera en su propio PR) |
+| REQ-1312 | BANDERA | `SEARCH_STEM_ENABLED` (REQ-363): búsqueda por raíz | agente | REQ-1517 | CUMPLIDO (en true en main por #354; deploy 43116549386 con humo de producción verde, 11-11; el deploy anterior 43115718457 regresó solo por un 500 aislado en /tours, ver INC-011 / REQ-1600) |
 | REQ-1313 | BANDERA | `REVIEW_EMAILS_ENABLED`, `EMAIL_CROSS_SELL_ENABLED` (REQ-264), `MARKETING_CONSENT_ENABLED`, `COOKIES_POLICY_ENABLED` | agente | REQ-1323 | BLOQUEADO |
 | REQ-1314 | DEFINICIÓN | `ADULT_CONTACT_CHECK_ENABLED`, `STRIPE_HOLD_ENABLED` (REQ-059), `GEO_ATTRIBUTION_ENABLED` (REQ-355): ¿se encienden? | PO | — | PENDIENTE |
 | REQ-1315 | BANDERA | Apagadas a propósito: `FREETOUR_CHATBOT_ENABLED`, `FREETOUR_POSTTOUR_PROMO_ENABLED` (cumplimiento B3/B4), `VISA_ENABLED`, `ETIAS_ENABLED`, «Esenciales de viaje» (sin inventario) | — | Autorización escrita de FREETOUR / inventario | BLOQUEADO (a propósito) |
@@ -1406,3 +1406,8 @@ Petición (PO, 12-11): «sigue con lo que corresponda… siguiendo do plan»; en
 | REQ-3318 | CÓDIGO | Dada una petición GET sin cookie de sesión a una ruta pública (gate C), cuando el sitio responde 200, entonces manda `Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400`; con sesión, o a `/admin`, `/api`, `/mi-cuenta`, `/reserva`, `/login`, sigue `private, no-store` | agente | — | PENDIENTE |
 | REQ-3319 | CLOUDFLARE | Dada la regla anterior, cuando se pide dos veces la misma página pública sin sesión, entonces la segunda responde `cf-cache-status: HIT` (Cache Rule que respeta el origen y se salta la caché si hay cookie de sesión) | agente (PO aprueba el dashboard) | REQ-3318 | PENDIENTE |
 | REQ-3320 | CÓDIGO | Dado un deploy a producción o un viaje guardado en el gestor, cuando termina, entonces se purga la caché (todo al publicar; las URL del viaje al guardar) con un token solo de purga en secretos | agente + PO (token) | REQ-3318, token | PENDIENTE |
+
+## INC-011: regreso automático al encender SEARCH_STEM_ENABLED (11 nov 2026)
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1600 | CÓDIGO | INC-011: dado el deploy de #354, cuando corre el humo de producción, entonces /tours @1366 responde 200; hoy dio un 500 aislado (digest 1123893058) y el workflow regresó solo; el deploy siguiente (43116549386) quedó verde con la bandera encendida. Causa raíz pendiente de los Workers Logs | agente + PO | Workers Logs (PO) | EN CURSO |
