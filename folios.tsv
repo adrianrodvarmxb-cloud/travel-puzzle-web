@@ -24,3 +24,5 @@ REQ-1609	docs/req-1303-cumplido	2026-11-12 00:16	Renumerar REQ-1535 de Big Bus (
 REQ-1610	feat/mapa-viajes-y-tangol-ola2	2026-11-12 00:18	Big Bus: reemplaza el REQ-1535 duplicado de #366
 REQ-1611	feat/mapa-viajes-y-tangol-ola2	2026-11-12 00:25	Guardia de folios: duplicado preexistente en main no es choque
 REQ-1612	fix/req-1535-folio-duplicado	2026-11-12 00:28	
+REQ-1613	fix/req-1535-folio-duplicado	2026-11-12 00:33	Exotic: version enviada sin clausula 3.6 ni Anexo 4 (cuenta de pago)
+REQ-1614	fix/req-1535-folio-duplicado	2026-11-12 00:33	Exotic: version enviada sin clausula 3.6 ni Anexo 4 (cuenta de pago)
