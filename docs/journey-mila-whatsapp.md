@@ -11,7 +11,7 @@ Auditoría: zoefel-mila ya envía botones, lista, botón a liga (CTA URL), carru
 5. **Pagar:** botón a liga «Pagar» con la liga del sitio (Stripe); fuera de 24 h, plantilla de utilidad con botón URL.
 6. **Confirmación:** voucher en PDF, ubicación del punto de encuentro y botones «Agregar a mi calendario» / «Tengo una duda».
 7. **Antes del viaje:** plantilla de utilidad 48 h antes con ubicación y respuestas rápidas («Todo listo», «Tengo una duda»).
-8. **Durante el viaje:** «Mi reserva» en la lista (estado, emergencias siempre por Travel Puzzle, cambiar fecha o cancelar según su política); nunca se comparte el teléfono del operador ni del guía (REQ-3412); verificación por número o folio y correo (REQ-3357).
+8. **Durante el viaje:** «Mi reserva» en la lista (estado, emergencias siempre por Travel Puzzle, cambiar fecha o cancelar según su política); nunca se comparte el teléfono del operador ni del guía; chat puente «Escribirle a mi guía» por el número de Travel Puzzle solo durante la ventana del tour (REQ-3432) (REQ-3412); verificación por número o folio y correo (REQ-3357).
 9. **Después:** Flow corto de calificación y carrusel de complementos para el siguiente destino (nunca FREETOUR).
 10. **Baja:** footer «Responde BAJA para no recibir más» en plantillas de marketing; BAJA se confirma con un solo mensaje.
 
