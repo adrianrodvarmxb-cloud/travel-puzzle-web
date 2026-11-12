@@ -68,7 +68,8 @@
     "OWN_TOURS_ENABLED": "true",
     // REQ-1552: API de Tangol (ola 1, solo lectura en src/tangol). El sitio va por la pasarela (/tangol), que sale por
     // la IP registrada; TANGOL_EMAIL y TANGOL_CLAVE viven en cPanel (REQ-1553). "true" con preview, humo y OK del PO.
-    "TANGOL_ENABLED": "false",
+    // REQ-3506: encendida = el gate C (REQ-3311) deja ver los tours de Tangol. Regreso: volver a "false" (no toca datos).
+    "TANGOL_ENABLED": "true",
     // REQ-3324, REQ-3329: Big Bus por la API Ventrata OCTO (src/octo). Llama directo (sin IP registrada); la llave va
     // como secreto BIGBUS_OCTO_API_KEY. "true" en preview con la llave de prueba, humo y OK del PO; "live" tras certificar.
     "BIGBUS_OCTO_ENABLED": "false",

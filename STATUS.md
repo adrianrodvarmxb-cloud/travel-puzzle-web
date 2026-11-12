@@ -1099,3 +1099,10 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3499 | Todo workflow que construye el sitio genera antes `data/countries.json` | agente (ensayo del 12 nov) | `.github/workflows/tangol-sync.yml` | `src/ops/lib/workflows-build.test.ts` | EN CURSO |
 | REQ-3486 | Catálogo de tipos de Tangol (pieza pura) | agente | `src/tangol/lib/types-report.ts` | `src/tangol/lib/types-report.test.ts` | EN CURSO |
 | REQ-3487 | Corrida de solo lectura que lee los tipos por la pasarela | agente | `.github/workflows/tipos-tangol.yml`, `src/scripts/tipos-tangol.ts` | — (corrida manual) | EN CURSO |
+
+## Encender Tangol (gate C, REQ-3506 y REQ-3507, 12 nov 2026) — matriz de trazabilidad
+NO FUSIONAR hasta: carga real de Tangol hecha y verificada, preview con la bandera encendida y humo verde, y OK del PO.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3506 | `TANGOL_ENABLED` encendida (gate C deja ver a Tangol; regreso = `"false"`, sin tocar datos) | NUEVO | `wrangler.jsonc`, `src/tangol/sync-workflow.test.ts`, `.github/workflows/tangol-sync.yml` (comentario), `src/scripts/tangol-sync.ts` (comentario) | `src/catalog/flag-tangol.test.ts` | EN CURSO (PR abierto, sin fusionar) |
+| REQ-3507 | Humo con la bandera encendida: destinos de Tangol + fichas descubiertas | NUEVO | `tests/smoke/pages.json` | `src/catalog/flag-tangol.test.ts` | EN CURSO (humo con datos y capturas NO CUMPLIDO) |
