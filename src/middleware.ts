@@ -24,6 +24,12 @@ export async function middleware(request: NextRequest) {
     if (res) return res;
   }
 
+  // REQ-1592/REQ-1595: con cuentas encendidas, las entradas viejas llevan a la entrada nueva (sin contraseña).
+  const legacyAccount: Record<string, string> = { '/login': '/mi-cuenta/entrar', '/signup': '/mi-cuenta/entrar', '/bookings': '/mi-cuenta/reservas', '/profile': '/mi-cuenta' };
+  if (process.env.NEXT_PUBLIC_ACCOUNTS_ENABLED === 'true' && legacyAccount[pathname]) {
+    return NextResponse.redirect(new URL(loc.localize(legacyAccount[pathname]), request.url));
+  }
+
   // Auth routes - allow access without checking session first
   const authRoutes = ['/login', '/signup'];
   if (authRoutes.includes(pathname)) {
