@@ -343,7 +343,7 @@ async function loadReviews(prisma: PrismaClient, repo: HighlightRepo, lang: stri
   const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 30);
   if (!picked.length) return [];
   const tours = await prisma.tour.findMany({
-    where: { externalId: { in: picked.map((r) => r.tourExternalId) } },
+    where: { providerId: 'freetour', externalId: { in: picked.map((r) => r.tourExternalId) } }, // REQ-1623
     select: { id: true, externalId: true, city: { select: { translations: true } }, translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } } },
   });
   const byExt = new Map(tours.map((t) => [t.externalId, t]));
