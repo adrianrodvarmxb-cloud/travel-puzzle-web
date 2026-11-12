@@ -34,7 +34,7 @@ export interface ProviderCity {
   geonameid?: number | null;
 }
 
-/** Fila de la tabla de mapeo proveedor → ciudad (REQ-3369, migración 0027). */
+/** Fila de la tabla de mapeo proveedor → ciudad (REQ-3369, migración 0028; antes 0027, main la ocupó con proveedores_mila). */
 export interface ProviderCityRow {
   provider: string;
   externalId: string;

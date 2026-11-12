@@ -1,4 +1,4 @@
--- REQ-3369 (Tangol ola 2, gate B; decisión REQ-1624 del PO): tabla de mapeo proveedor → ciudad.
+-- REQ-3369 (Tangol ola 2, gate B; decisión REQ-1624 del PO): tabla de mapeo proveedor → ciudad. Es la 0028: la 0027 la ocupó main con proveedores_mila.
 -- Guarda a qué City de Travel Puzzle quedó ligado cada destino del proveedor y cómo se resolvió
 -- (cruce por país + GeoNames, cruce por nombre con la regla REQ-1606, o ciudad nueva creada en el plan).
 -- Así el sync no vuelve a adivinar en cada corrida y una corrección del PO queda escrita en un solo lugar.
