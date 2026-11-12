@@ -9,7 +9,7 @@ import { DEBOUNCE_MS, MAX_ITEMS_MOBILE, cleanQuery, highlight, nextActive } from
 import { suggestCopy } from '@/search/lib/suggest-copy';
 import type { SuggestGroup, SuggestItem, SuggestResponse } from '@/search/suggest';
 
-const ORDER: SuggestGroup[] = ['didYouMean', 'destination', 'tour', 'category'];
+const ORDER: SuggestGroup[] = ['didYouMean', 'destination', 'tour', 'trip', 'category']; // REQ-1615
 
 export interface SuggestState {
   items: SuggestItem[];
@@ -62,7 +62,7 @@ export function useSearchSuggest(q: string, language: string, enabled: boolean, 
 export function SearchSuggestList({ state, q, language, onPick }: { state: SuggestState; q: string; language: string; onPick: (item: SuggestItem) => void }) {
   const c = suggestCopy(language);
   if (!state.open) return null;
-  const heading: Record<SuggestGroup, string> = { didYouMean: c.didYouMean, destination: c.destinations, tour: c.tours, category: c.categories };
+  const heading: Record<SuggestGroup, string> = { didYouMean: c.didYouMean, destination: c.destinations, tour: c.tours, trip: c.trips, category: c.categories };
   let last: SuggestGroup | null = null;
   return (
     <ul id={state.listId} role="listbox" aria-label={c.listLabel}

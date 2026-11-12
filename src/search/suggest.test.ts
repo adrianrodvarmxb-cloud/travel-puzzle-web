@@ -80,3 +80,30 @@ describe("REQ-292 cero resultados", () => {
     expect(r.popular.map((x) => x.label)).toEqual(["Barcelona", "Roma"]);
   });
 });
+
+describe("REQ-1615: los viajes de agencia salen en el autocompletado", () => {
+  const trips = [
+    { id: "t1", title: "Fortaleza de Kuélap", path: "/viajes/peru/kuelap", countries: ["PE"], cities: ["Chachapoyas"], places: "Perú" },
+    { id: "t2", title: "Barcelona gastronómica", path: "/viajes/espana/barcelona-gastro", countries: ["ES"], cities: ["Barcelona"], places: "España" },
+  ];
+
+  it("REQ-1615: un viaje que solo existe como viaje (Kuélap) aparece en el grupo «trip» con su ficha", async () => {
+    const r = (await suggestFor(deps(ON, { loadTrips: async () => trips }), "kuelap", "es"))!;
+    const t = r.items.filter((x) => x.group === "trip");
+    expect(t).toEqual([{ group: "trip", label: "Fortaleza de Kuélap", href: "/viajes/peru/kuelap" }]);
+  });
+
+  it("REQ-1615: los viajes van después de los tours y antes de los tipos de actividad; sin loadTrips todo sigue igual", async () => {
+    const con = (await suggestFor(deps(ON, { loadTrips: async () => trips }), "barcelona", "es"))!;
+    const groups = con.items.map((x) => x.group);
+    expect(groups.indexOf("trip")).toBeGreaterThan(groups.lastIndexOf("tour"));
+    const sin = (await suggestFor(deps(ON), "barcelona", "es"))!;
+    expect(sin.items.some((x) => x.group === "trip")).toBe(false);
+  });
+
+  it("REQ-1615: si cargar los viajes falla, las sugerencias de tours siguen saliendo", async () => {
+    const r = (await suggestFor(deps(ON, { loadTrips: async () => { throw new Error("D1 caída"); } }), "barcelona", "es"))!;
+    expect(r.items.some((x) => x.group === "tour" || x.group === "destination")).toBe(true);
+    expect(r.items.some((x) => x.group === "trip")).toBe(false);
+  });
+});

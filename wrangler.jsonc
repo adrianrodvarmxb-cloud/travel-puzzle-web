@@ -53,7 +53,7 @@
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
     "EMAILS_ENABLED": "true",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
-    "REVIEW_EMAILS_ENABLED": "false",
+    "REVIEW_EMAILS_ENABLED": "true",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
     "PAID_TOURS_ENABLED": "true",
     "PAID_TOURS_IN_RECOMMENDATIONS": "true",
@@ -86,7 +86,7 @@
     "SEARCH_STEM_ENABLED": "true",
     // REQ-1357: sinónimos del diccionario de taxonomía y términos fusionados (legado) en el buscador. Solo se usan con
     // SEARCH_STEM_ENABLED. "true" con preview, humo y OK del PO.
-    "SEARCH_TAXONOMY_SYNONYMS_ENABLED": "false",
+    "SEARCH_TAXONOMY_SYNONYMS_ENABLED": "true",
     // Sync blindado de FREETOUR (Ola 1, REQ-071…078): staging, barrera del 20 %, hash, missing → removed, log y alerta de 26 h.
     // "true" solo después de aplicar la migración 0014 y con OK del PO. Apagado = sync de hoy, sin cambios.
     "SYNC_GUARD_ENABLED": "true",
@@ -102,7 +102,7 @@
     "FREETOUR_CHATBOT_ENABLED": "false",
     // Taxonomía T7 (REQ-428, REQ-429): el carrito usa el formato (excursiones → day_trip, entradas → tickets) y la primera tarjeta
     // del carrusel se elige por formato. Sin efecto visible mientras «Arma tu viaje» esté apagada. "true" con preview, humo y OK del PO.
-    "TAXONOMY_CART_ENABLED": "false",
+    "TAXONOMY_CART_ENABLED": "true",
     // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
     // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
     "TAXONOMY_SYNC_ENABLED": "true",
@@ -175,7 +175,7 @@
     "SOCIAL_FACEBOOK_ENABLED": "true",
     "SOCIAL_INSTAGRAM_ENABLED": "true",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
-    "ARMA_TU_VIAJE_ENABLED": "false",
+    "ARMA_TU_VIAJE_ENABLED": "true",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
     "CART_PAYMENTS_ENABLED": "false",
     // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.
