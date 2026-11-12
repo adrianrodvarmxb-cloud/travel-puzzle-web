@@ -1206,7 +1206,7 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 | REQ-3349 | CÓDIGO | (misma petición) Mila consulta en línea lo anterior desde zoefel-mila (REQ-030 allá) según G1 | agente | REQ-3351, REQ-3353 | PENDIENTE |
 | REQ-3350 | CÓDIGO | (misma petición) Fotografías del viaje en el chat según G2 (REQ-031 en zoefel-mila) | agente | REQ-3352, REQ-3353 | PENDIENTE |
 | REQ-3351 | DEFINICIÓN | G1: ¿cómo consulta Mila (contexto automático o herramientas en línea)? | PO | — | CUMPLIDO (PO, 12 nov 2026 04:35: «B»: Mila consulta ella misma en línea con herramientas) |
-| REQ-3352 | DEFINICIÓN | G2: ¿Mila manda fotos del viaje como imagen por WhatsApp? | PO | — | PENDIENTE |
+| REQ-3352 | DEFINICIÓN | G2: ¿Mila manda fotos del viaje como imagen por WhatsApp? | PO | — | CUMPLIDO (PO, 12 nov 2026 04:39: «A de hecho»: fotos como imagen en el chat, hasta 3 por respuesta) |
 | REQ-3353 | VALIDACIÓN | Firma del plan docs/plan-mila-acceso-catalogo.md | PO | — | PENDIENTE |
 | REQ-3354 | CÓDIGO | Reemplaza a REQ-3346. Dado un viaje publicado, cuando Mila pide su detalle, entonces recibe la ficha completa con precios finales y fotos; nada de FREETOUR | agente | REQ-3353 | PENDIENTE |
 | REQ-3355 | CÓDIGO | «El anexo de proveedores sí lo tiene que ver para conocer los términos y condiciones de cada uno, y datos de clientes, reservas y pagos sí lo debe poder ver para servicio a clientes» (PO, 12 nov 2026 04:32). Dado un proveedor del anexo, cuando Mila lo consulta, entonces recibe sus términos y condiciones (cancelación, cambios, pagos, operación) según REQ-3358 | agente | REQ-3358, REQ-3353 | PENDIENTE |
@@ -1215,3 +1215,8 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 | REQ-3358 | DEFINICIÓN | ¿Mila ve también las tarifas netas y márgenes del anexo, o solo las condiciones? | PO | — | CUMPLIDO (PO, 12 nov 2026 04:37: «A»: Mila solo ve las condiciones del anexo, nunca netos ni márgenes) |
 | REQ-3359 | VALIDACIÓN | Aviso de privacidad: confirmar que cubre que el asistente de IA consulte reservas y pagos para dar servicio (LFPDPPP) antes de encender REQ-3356 | PO + abogado | — | PENDIENTE |
 | REQ-3360 | CÓDIGO | `frente.ts` manda Content-Type en POST/PATCH (GitHub respondía 415 y no se podía abrir un frente) | agente | — | CUMPLIDO (12 nov 2026: frente #422 abierto con el script corregido) |
+| REQ-3361 | CÓDIGO | «necesito que Mila arme un journey espectacular con todas las herramientas que da WA API» (PO, 12 nov 2026 04:39, con la guía de formatos adjunta). Dado un viajero que escribe a Travel Puzzle, cuando avanza de descubrir a pagar, viajar y regresar, entonces Mila usa en cada etapa el formato de WhatsApp de `docs/journey-mila-whatsapp.md` | agente | REQ-3362 a REQ-3365 | PENDIENTE |
+| REQ-3362 | DEFINICIÓN | J1: carrusel multimedia o carrusel de productos (Commerce Manager) | PO | — | PENDIENTE |
+| REQ-3363 | DEFINICIÓN | J2: «una pieza visual por turno» (OLA 1.2) frente a hasta 3 fotos por respuesta (REQ-3352) | PO | — | PENDIENTE |
+| REQ-3364 | DEFINICIÓN | J3: Flow con endpoint (disponibilidad en vivo) o Flow estático | PO | — | PENDIENTE |
+| REQ-3365 | VALIDACIÓN | J4: firma del journey `docs/journey-mila-whatsapp.md` | PO | — | PENDIENTE |
