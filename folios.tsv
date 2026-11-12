@@ -1854,3 +1854,6 @@ REQ-3439	docs/seguimiento-legal-2026-11-12-0054	2026-11-12 12:00
 REQ-3440	feat/traslados-en-complementos	2026-11-12 12:04	confirmacion del PO: Central Inca e Inca World son la misma agencia
 REQ-3441	ops/punto-de-regreso-migraciones	2026-11-12 12:07	alta de paises que solo tiene un proveedor (Paraguay, Tangol)
 REQ-3442	ops/punto-de-regreso-migraciones	2026-11-12 12:07	alta de paises que solo tiene un proveedor (Paraguay, Tangol)
+REQ-3443	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
+REQ-3444	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
+REQ-3445	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
