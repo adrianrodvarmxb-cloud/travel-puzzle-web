@@ -3,6 +3,21 @@
 Actualizado: 11 nov 2026, 13:45 (CDMX).
 
 
+## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
+Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y olas en `docs/bigbus/octo-integracion.md`; autorizaciones de Big Bus en `docs/bigbus/autorizaciones.md`.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3324 | Bandera, llave y cabeceras OCTO (Bearer, octo/pricing, Octo-Env test) | NUEVO | `src/octo/lib/config.ts` | `src/octo/lib/config.test.ts` | CUMPLIDO |
+| REQ-3325 | Validación Zod con descarte de registros malos | NUEVO | `src/octo/lib/schemas.ts` | `src/octo/lib/schemas.test.ts` | CUMPLIDO |
+| REQ-3326 | Cliente: catálogo paginado, disponibilidad, apartar, confirmar, cancelar, errores | NUEVO | `src/octo/api.ts` | `src/octo/api.test.ts` | CUMPLIDO |
+| REQ-3327 | Cliente paga retail; net oculto; sin precio no se vende | NUEVO | `src/octo/lib/pricing.ts` | `src/octo/lib/pricing.test.ts` | CUMPLIDO |
+| REQ-3328 | Apartado vigente, liberar sin pago, voucher/tickets con referencia | NUEVO | `src/octo/lib/booking-flow.ts` | `src/octo/lib/booking-flow.test.ts` | CUMPLIDO |
+| REQ-3329 | Encender BIGBUS_OCTO_ENABLED | NUEVO | `wrangler.jsonc` | — | PENDIENTE (REQ-3330, REQ-3331) |
+| REQ-3330 | Cuenta Ventrata y secreto BIGBUS_OCTO_API_KEY | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3331 | Certificación Ventrata y llave de Big Bus | NUEVO | — | — | PENDIENTE (PO + tercero) |
+| REQ-3332 | 29 ciudades en modo solicitud | NUEVO | `imports/bigbus-2026.json` (D1) | — | BLOQUEADO (REQ-1607) |
+| REQ-1529 | Autorización de Rositsa guardada y decisión de integrar por OCTO | NUEVO | `docs/bigbus/autorizaciones.md` | — | CUMPLIDO |
+
 ## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
