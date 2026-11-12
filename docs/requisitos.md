@@ -1196,3 +1196,15 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-3317 | CÓDIGO | Dado un cliente que pide su enlace para entrar, cuando le llega el correo, entonces es transaccional y mínimo (sin imágenes, íconos de redes ni texto oculto; enlace como botón y como texto) para que Gmail no lo mande a Promociones; se verifica con un envío real | agente | — | EN CURSO |
+
+## Mila con acceso a todo el catálogo y contenido (PO, 12 nov 2026)
+| ID | Tipo | Requisito | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3346 | CÓDIGO | «hoy en día Mila no tiene toda la información a la mano y prácticamente te lleva a la página para todo; necesito que tenga acceso a la base de datos completa (apagando FREETOUR) con todos los detalles, blogs, guías, términos y condiciones, aviso de privacidad, datos legales de la empresa, todo, fotografías, que pueda hacer consultas en línea» (PO, 12 nov 2026 04:26). Dado un viaje publicado (Trip), cuando Mila pide su detalle, entonces recibe la ficha completa con precios finales y fotos; nunca neto, margen, datos de clientes ni nada de FREETOUR | agente | REQ-3353 | PENDIENTE |
+| REQ-3347 | CÓDIGO | (misma petición) Dado un tema, cuando Mila consulta contenido, entonces recibe resultados de blog, guías de destino y ayuda con título, extracto y liga | agente | REQ-3353 | PENDIENTE |
+| REQ-3348 | CÓDIGO | (misma petición) Dada una pregunta legal, cuando Mila consulta, entonces recibe los términos, el aviso de privacidad y los datos de la empresa vigentes del sitio | agente | REQ-3353 | PENDIENTE |
+| REQ-3349 | CÓDIGO | (misma petición) Mila consulta en línea lo anterior desde zoefel-mila (REQ-030 allá) según G1 | agente | REQ-3351, REQ-3353 | PENDIENTE |
+| REQ-3350 | CÓDIGO | (misma petición) Fotografías del viaje en el chat según G2 (REQ-031 en zoefel-mila) | agente | REQ-3352, REQ-3353 | PENDIENTE |
+| REQ-3351 | DEFINICIÓN | G1: ¿cómo consulta Mila (contexto automático o herramientas en línea)? | PO | — | PENDIENTE |
+| REQ-3352 | DEFINICIÓN | G2: ¿Mila manda fotos del viaje como imagen por WhatsApp? | PO | — | PENDIENTE |
+| REQ-3353 | VALIDACIÓN | Firma del plan docs/plan-mila-acceso-catalogo.md | PO | — | PENDIENTE |
