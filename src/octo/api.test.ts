@@ -90,6 +90,17 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     expect(call(f).body).toMatchObject({ productId: "p", currency: "USD" });
   });
 
+  it("REQ-3453: actualizar manda PATCH solo con lo que cambia (personas como una unidad por persona)", async () => {
+    const f = fakeFetch({ json: sampleBooking() });
+    const api = createOctoApi({ config, fetch: f as unknown as typeof fetch });
+    await api.update("abc", { availabilityId: "2026-12-02T00:00:00-05:00", units: [{ id: "unit-adult", quantity: 3 }] });
+    const { url, init, body } = call(f);
+    expect(url).toBe("https://api.ventrata.com/octo/bookings/abc");
+    expect(init.method).toBe("PATCH");
+    expect(body).toEqual({ availabilityId: "2026-12-02T00:00:00-05:00", unitItems: [{ unitId: "unit-adult" }, { unitId: "unit-adult" }, { unitId: "unit-adult" }] });
+    await expect(api.update("abc", {})).rejects.toMatchObject({ errorCode: "EMPTY_UPDATE" });
+  });
+
   it("REQ-3326: un error de Ventrata conserva su status y su código", async () => {
     const f = fakeFetch({ json: { error: "INVALID_AVAILABILITY_ID", errorMessage: "Sin lugar" }, status: 400, headers: { "Ventrata-Error-Code": "INVALID_AVAILABILITY_ID" } });
     const p = createOctoApi({ config, fetch: f as unknown as typeof fetch }).getBooking("x");

@@ -78,10 +78,13 @@ async function main() {
   out("1. Apartado", { uuid, estado: hold.status, vence: hold.utcExpiresAt, testMode: hold.testMode });
   const conf = await api.confirm(uuid, { contact: { fullName: "Prueba Travel Puzzle", emailAddress: "info@travelpuzzle.com.mx", locales: ["es"] }, resellerReference: ref });
   out("2. Confirmada", { estado: conf.status, supplierReference: conf.supplierReference, testMode: conf.testMode, entrega: deliverables(conf) });
+  // REQ-3453: la certificación pide una reserva actualizada: se cambia a 3 personas.
+  const upd = await api.update(uuid, { units: [{ id: adult.id, quantity: 3 }] });
+  out("3. Actualizada (3 personas)", { estado: upd.status, personas: upd.unitItems.length, total: upd.pricing ? guestPrice(upd.pricing) : null });
   const live = await api.getBooking(uuid);
-  out("3. Consulta", { estado: live.status, cancelable: live.cancellable });
+  out("4. Consulta", { estado: live.status, cancelable: live.cancellable });
   const canc = await api.cancel(uuid, "Ensayo de certificación Travel Puzzle");
-  out("4. Cancelada", { estado: canc.status, supplierReference: canc.supplierReference });
+  out("5. Cancelada", { estado: canc.status, supplierReference: canc.supplierReference });
 }
 
 main().catch((e) => {

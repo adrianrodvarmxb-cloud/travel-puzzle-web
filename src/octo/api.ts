@@ -50,7 +50,7 @@ export interface ContactIn {
 // REQ-3326
 export function createOctoApi({ config, fetch: fetchImpl, timeoutMs = 30_000, maxPages = 50 }: Deps) {
   // REQ-3326
-  async function call(method: "GET" | "POST", path: string, body?: unknown): Promise<{ json: unknown; res: Response }> {
+  async function call(method: "GET" | "POST" | "PATCH", path: string, body?: unknown): Promise<{ json: unknown; res: Response }> {
     const res = await fetchImpl(`${config.baseUrl}${path}`, {
       method,
       headers: octoHeaders(config, { json: body !== undefined, language: "es" }),
@@ -149,6 +149,22 @@ export function createOctoApi({ config, fetch: fetchImpl, timeoutMs = 30_000, ma
     // REQ-3326
     async getBooking(uuid: string) {
       const { json } = await call("GET", `/bookings/${encodeURIComponent(uuid)}`);
+      return booking(json);
+    },
+
+    /**
+     * Cambia fecha, opción o personas de una reserva (PATCH /bookings/{uuid}). Lo pide la certificación de
+     * Ventrata. Solo se mandan los campos que cambian.
+     */
+    // REQ-3453
+    async update(uuid: string, p: { optionId?: string; availabilityId?: string; units?: UnitQty[]; resellerReference?: string }) {
+      const body: Record<string, unknown> = {};
+      if (p.optionId) body.optionId = p.optionId;
+      if (p.availabilityId) body.availabilityId = p.availabilityId;
+      if (p.resellerReference) body.resellerReference = p.resellerReference;
+      if (p.units) body.unitItems = p.units.flatMap((u) => Array.from({ length: u.quantity }, () => ({ unitId: u.id })));
+      if (Object.keys(body).length === 0) throw new OctoError("No hay cambios que mandar", 400, "EMPTY_UPDATE");
+      const { json } = await call("PATCH", `/bookings/${encodeURIComponent(uuid)}`, body);
       return booking(json);
     },
   };

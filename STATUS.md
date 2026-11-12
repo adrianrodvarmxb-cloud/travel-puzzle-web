@@ -25,7 +25,7 @@ Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar
 | REQ-3436 | Precios y disponibilidad en USD cuando el producto lo ofrece | NUEVO | `src/octo/lib/pricing.ts`, `src/octo/lib/catalog.ts`, `src/octo/api.ts`, `src/octo/purchase.ts` | `pricing.test.ts`, `catalog.test.ts`, `api.test.ts`, `purchase.test.ts` | CUMPLIDO |
 | REQ-3437 | Revisar con la llave qué productos ofrecen USD | NUEVO | — | — | PENDIENTE |
 | REQ-3438 | Ensayo contra EdinExplore con la llave de prueba | NUEVO | `src/scripts/bigbus-octo-ensayo.ts`, `.github/workflows/bigbus-octo-ensayo.yml` | run 43213277304 | CUMPLIDO |
-| REQ-3453 | Actualizar reserva (certificación) | NUEVO | — | — | PENDIENTE |
+| REQ-3453 | Actualizar reserva (certificación) | NUEVO | `src/octo/api.ts`, `src/scripts/bigbus-octo-ensayo.ts` | `src/octo/api.test.ts` | CUMPLIDO |
 
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
 Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y olas en `docs/bigbus/octo-integracion.md`; autorizaciones de Big Bus en `docs/bigbus/autorizaciones.md`.
