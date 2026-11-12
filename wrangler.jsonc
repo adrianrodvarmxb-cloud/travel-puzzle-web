@@ -53,7 +53,7 @@
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
     "EMAILS_ENABLED": "true",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
-    "REVIEW_EMAILS_ENABLED": "false",
+    "REVIEW_EMAILS_ENABLED": "true",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
     "PAID_TOURS_ENABLED": "true",
     "PAID_TOURS_IN_RECOMMENDATIONS": "true",
