@@ -32,7 +32,8 @@ export type PublishDecision = { publicar: true } | { publicar: false; motivo: st
 
 /**
  * País reservado a una agencia nuestra. `aliases` son las formas con que su nombre llega en los datos
- * («Inca World Peru», «Central Inca World Travel»: el PO las trata como la misma agencia, REQ-1554).
+ * («Inca World Peru», «Central Inca World Travel»: son la MISMA agencia, confirmado por el PO el
+ * 12 nov 2026 06:03 — REQ-3440, antes supuesto en REQ-1554/REQ-3374).
  */
 export interface ReservedCountry {
   iso2: string;
@@ -43,7 +44,7 @@ export interface ReservedCountry {
 /** REQ-3373: países que nunca entran al catálogo de Tangol. */
 export const TANGOL_COUNTRIES_OUT: readonly string[] = ["MX"];
 
-/** REQ-3374: la cobertura concreta vive en los datos (viajes de agencia); aquí solo qué agencia reserva qué país. */
+/** REQ-3374, REQ-3440: la cobertura concreta vive en los datos (viajes de agencia); aquí solo qué agencia reserva qué país. */
 export const TANGOL_RESERVED_COUNTRIES: readonly ReservedCountry[] = [
   { iso2: "PE", agency: "Inca World", aliases: ["inca world", "central inca"] },
   { iso2: "CO", agency: "Destino Colombia", aliases: ["destino colombia"] },
