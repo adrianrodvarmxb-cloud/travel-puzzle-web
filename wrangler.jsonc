@@ -136,7 +136,8 @@
     "COOKIES_POLICY_ENABLED": "false",
     // REQ-139 (gate G5): atribución CC BY 4.0 de GeoNames, solo en /terminos (no en el pie). "true" cuando el geonameid
     // o datos de GeoNames se vean en el sitio (JSON-LD, hubs), con preview, prueba de humo y OK del PO.
-    "GEO_ATTRIBUTION_ENABLED": "false",
+    // REQ-3309: encendida (PO, 12 nov 2026); GeoNames ya es fuente en producción (GEO_SOURCES_IN_PRODUCTION).
+    "GEO_ATTRIBUTION_ENABLED": "true",
     // REQ-221 (PO, 6 nov 2026): ENCENDIDA. REQ-148..152: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). Con OK
     // del PO; la llave AGENTE_TOKEN viaja con la versión (REQ-188).
     "AGENTE_API_ENABLED": "true",
