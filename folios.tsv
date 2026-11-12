@@ -44,3 +44,5 @@ REQ-1629	main	2026-11-12 04:38	OK del PO: encender lo ya definido (sinonimos, ca
 REQ-1630	ops/encender-carrito-tipo	2026-11-12 04:43	Encender lo definido: carrito por tipo, correo resena, venta cruzada correos
 REQ-1631	ops/encender-carrito-tipo	2026-11-12 04:43	Encender lo definido: carrito por tipo, correo resena, venta cruzada correos
 REQ-1632	ops/encender-carrito-tipo	2026-11-12 04:43	Encender lo definido: carrito por tipo, correo resena, venta cruzada correos
+REQ-1633	inc/verificar-publicacion	2026-11-12 04:43	verificador de publicacion (INC-010), gates A1/B1/C1
+REQ-1634	inc/verificar-publicacion	2026-11-12 04:43	verificador de publicacion (INC-010), gates A1/B1/C1
