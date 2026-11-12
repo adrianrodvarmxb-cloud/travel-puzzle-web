@@ -138,7 +138,7 @@ describe("REQ-3368: id y slug de las ciudades nuevas del proveedor", () => {
 
 type Db = { exec: (s: string) => void; prepare: (s: string) => { all: (...v: unknown[]) => unknown[]; run: (...v: unknown[]) => unknown } };
 const { DatabaseSync } = createRequire(import.meta.url)("node:sqlite") as { DatabaseSync: new (p: string) => Db };
-const SQL = readFileSync("migrations/0027_provider_city.sql", "utf8");
+const SQL = readFileSync("migrations/0028_provider_city.sql", "utf8");
 
 /** La base como está hoy: City con sus ids de Freetour. */
 function dbAntes(): Db {
@@ -149,7 +149,7 @@ function dbAntes(): Db {
 }
 const tablas = (d: Db) => (d.prepare(`SELECT name FROM sqlite_master WHERE type='table' ORDER BY name`).all() as { name: string }[]).map((x) => x.name);
 
-describe("REQ-3369: tabla de mapeo proveedor → ciudad (migración 0027, sin aplicar)", () => {
+describe("REQ-3369: tabla de mapeo proveedor → ciudad (migración 0028, sin aplicar)", () => {
   it("REQ-3369: crea ProviderCity con llave (proveedor, destino) y no toca las tablas que ya existen", () => {
     const d = dbAntes();
     d.exec(SQL);

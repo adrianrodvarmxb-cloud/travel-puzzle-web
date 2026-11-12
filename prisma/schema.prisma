@@ -60,7 +60,7 @@ model City {
 }
 
 // REQ-3369 (Tangol ola 2, gate B; decisión REQ-1624): mapeo destino del proveedor → ciudad de Travel Puzzle.
-// La crea migrations/0027_provider_city.sql, que NO está aplicada (candado del PO).
+// La crea migrations/0028_provider_city.sql, que NO está aplicada (candado del PO).
 // source: geonames | nombre (cruce, REQ-1606) | nueva (ciudad creada en el plan) | manual (corrección del PO).
 model ProviderCity {
   provider     String
