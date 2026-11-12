@@ -58,6 +58,9 @@ Sin carpetas nuevas. Todo en la rama del PR #385 o en una que salga de ella.
 - Hotelbeds: confirmar la cuenta es tarea del PO (REQ-1409).
 - Portal de Extime antes del 17 nov: tarea del PO (REQ-1398).
 
+## 3b. Información para el calendario (firma G5 del plan del calendario, PO 12 nov 2026)
+A Jordan Experience, Mondial Trails, Canadian Receptive Tours y Multitravel Mila les pide primero, en su idioma, lo que necesita el calendario: tarifario vigente con fechas de cada temporada, días de salida, recargos obligatorios por fecha (fiestas, cenas de gala), anticipación mínima, vigencia y todos los suplementos con precio. Sus viajes se cargan cuando llegue (plan `docs/plan-calendario-proveedores-pdf.md`, G5). Turismo Asiático entra aquí si el PO no lo pone en la tanda 2.
+
 ## 4. Pruebas (rojo → verde, `npx vitest run <archivo>`)
 | Pieza | Test existente | Test nuevo |
 |---|---|---|
