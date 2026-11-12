@@ -1899,3 +1899,4 @@ REQ-3484	HEAD	2026-11-12 13:37
 REQ-3485	HEAD	2026-11-12 13:37	
 REQ-3486	feat/tangol-gate-b-ciudades	2026-11-12 13:42	corrida de solo lectura: catalogo de tipos de Tangol
 REQ-3487	feat/tangol-gate-b-ciudades	2026-11-12 13:42	corrida de solo lectura: catalogo de tipos de Tangol
+REQ-3488	fix/blog-credito-en	2026-11-12 15:04	Nombre La Primera Pieza en inglés (frente #418)
