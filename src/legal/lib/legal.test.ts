@@ -156,4 +156,11 @@ describe("REQ-1637: aviso simplificado v2", () => {
     expect(PRIVACIDAD_SIMPLIFICADO).toMatch(/inteligencia artificial/);
     expect(PRIVACIDAD_SIMPLIFICADO).toMatch(/fuera de México/);
   });
+  it("REQ-3435: el aviso integral dice que Mila consulta reserva y pagos solo tras verificar al titular, el identificador de WhatsApp y el consentimiento aparte para promociones por WhatsApp", () => {
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/Mila consulta sus datos de reserva y de pago solo después de verificar que usted es el titular/);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/folio y el correo de la reserva/);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/identificador de usuario que WhatsApp nos comparte/);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/Por WhatsApp solo le enviaremos promociones si nos da su consentimiento por separado/);
+    expect(PRIVACIDAD_SIMPLIFICADO).toMatch(/solo después de verificar que usted es el titular/);
+  });
 });
