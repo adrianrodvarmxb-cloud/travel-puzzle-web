@@ -10,7 +10,7 @@ export interface PaginationParams {
 export interface PaginatedResponse<T> {
   data: T[];
   /** T4 (REQ-412): conteos por formato del contexto actual (sin el filtro de formato), solo con la taxonomía. */
-  facets?: { formato: Record<string, number> };
+  facets?: { formato: Record<string, number>; /** REQ-1421 */ tema?: Record<string, number>; /** REQ-1422 */ atrib?: Record<string, number> };
   pagination: {
     total: number;
     count: number;
