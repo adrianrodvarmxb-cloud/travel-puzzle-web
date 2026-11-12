@@ -1903,3 +1903,5 @@ REQ-3488	fix/blog-credito-en	2026-11-12 15:04	Nombre La Primera Pieza en inglés
 REQ-3489	fix/tours-500-intermitente	2026-11-12 15:06	
 REQ-3490	fix/tours-500-intermitente	2026-11-12 15:06	
 REQ-3491	docs/proveedores-1659-dns	2026-11-12 15:10	Proveedores: dirección de copia de Mila copia@mila.travelpuzzle.com.mx (PO «A»)
+REQ-3492	main	2026-11-12 15:47	guardas contra choques entre sesiones: numeros de migracion y filas borradas de requisitos
+REQ-3493	main	2026-11-12 15:47	guardas contra choques entre sesiones: numeros de migracion y filas borradas de requisitos
