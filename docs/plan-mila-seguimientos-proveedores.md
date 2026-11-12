@@ -25,7 +25,7 @@ Sin carpetas nuevas. Todo en la rama del PR #385 o en una que salga de ella.
   - `abiertas()`: las preguntas sin cerrar.
   - `textoRecordatorio()`: primero las preguntas propias y luego la lista de alta.
   - `cerrar(id)`.
-  - `agruparPorContacto()`: un solo correo por persona cuando representa a varios proveedores.
+  - `espaciarPorContacto()`: un correo por proveedor en su hilo, pero no más de uno al día a la misma persona (G4).
 - **Modificado** `src/proveedores/lib/checklist.ts`: el punto «tarifas» pide además días de salida, temporadas con fechas, recargos obligatorios por fecha, aviso mínimo, vigencia y todos los suplementos (REQ-3456).
 - **Modificado** `src/proveedores/diario.ts`: el recordatorio lleva las preguntas abiertas.
 - **Modificado** `src/proveedores/lib/choques.ts`: con acuerdo en negociación, Mila puede recordar las preguntas de ese acuerdo. No puede proponer cambios al acuerdo; esos siguen siendo del PO (según G2).
