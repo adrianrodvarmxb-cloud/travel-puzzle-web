@@ -81,8 +81,10 @@ export function countryIndexable(cities: { indexed: boolean }[]): boolean {
  * los de proveedores fuera de `excluded` (los false de PROVIDER_INDEXABLE). Pura; la ejecuta guarded-repository.
  */
 // REQ-1203
-export function cityIndexInputsSql(excluded: readonly string[]): { sql: string; params: string[] } {
-  const listed = 't."cityId" = c."id" AND t."slug" IS NOT NULL AND t."isActive" = 1 AND t."syncStatus" <> \'removed\'';
+export function cityIndexInputsSql(excluded: readonly string[], ocultos: readonly string[] = []): { sql: string; params: string[] } {
+  // REQ-3311 (gate C): una ciudad cuyos tours son todos de un proveedor tras bandera no cuenta como publicada.
+  const oculto = ocultos.length ? ` AND lower(trim(t."providerId")) NOT IN (${ocultos.map((p) => `'${p.replace(/[^a-z0-9_-]/g, "")}'`).join(", ")})` : "";
+  const listed = `t."cityId" = c."id" AND t."slug" IS NOT NULL AND t."isActive" = 1 AND t."syncStatus" <> 'removed'${oculto}`;
   const params = excluded.map((p) => p.trim().toLowerCase()).filter(Boolean);
   const only = params.length ? ` AND lower(trim(t."providerId")) NOT IN (${params.map(() => "?").join(", ")})` : "";
   return {
