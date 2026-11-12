@@ -1722,3 +1722,5 @@ REQ-3307	main	2026-11-12 07:17	cierre REQ-1629..1632 con evidencia de deploy
 REQ-3308	main	2026-11-12 07:17	cierre REQ-1629..1632 con evidencia de deploy
 REQ-3309	ops/encender-geo-atribucion	2026-11-12 07:36	
 REQ-3310	ops/encender-geo-atribucion	2026-11-12 07:36	
+REQ-3311	feat/tangol-ola2-catalogo	2026-11-12 08:56	Gate C de Tangol: filtro en un solo punto y humo con la bandera apagada
+REQ-3312	feat/tangol-ola2-catalogo	2026-11-12 08:56	Gate C de Tangol: filtro en un solo punto y humo con la bandera apagada
