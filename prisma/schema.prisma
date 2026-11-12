@@ -52,10 +52,29 @@ model City {
   guideUpdatedAt DateTime?
   indexableSince DateTime? // REQ-090: desde cuándo es indexable (null = noindex)
   failingSince   DateTime? // REQ-090: primer día sin cumplir la regla; al día 14 pasa a noindex
+  providerCities ProviderCity[] // REQ-3369: destinos de proveedores que apuntan a esta ciudad
 
   @@unique([countryId, slug])
   @@index([countryId])
   @@index([geonameid])
+}
+
+// REQ-3369 (Tangol ola 2, gate B; decisión REQ-1624): mapeo destino del proveedor → ciudad de Travel Puzzle.
+// La crea migrations/0027_provider_city.sql, que NO está aplicada (candado del PO).
+// source: geonames | nombre (cruce, REQ-1606) | nueva (ciudad creada en el plan) | manual (corrección del PO).
+model ProviderCity {
+  provider     String
+  externalId   String
+  cityId       Int
+  city         City     @relation(fields: [cityId], references: [id])
+  providerName String
+  countryCode  String
+  source       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@id([provider, externalId])
+  @@index([cityId])
 }
 
 // Tour Model (Refactored for FreeTour API)
