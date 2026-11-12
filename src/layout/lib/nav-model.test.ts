@@ -67,3 +67,39 @@ describe("REQ-1400: pie por columnas", () => {
     expect(footer({}, { help: false, wa: "" , email: ""})[2].links).toEqual([]);
   });
 });
+
+describe("REQ-1530/REQ-1531: header con sesión y Panel de admin", () => {
+  it("REQ-1530: con sesión el header es el mismo que el público (sin Inicio ni Mis Reservas)", async () => {
+    const { sessionNavLinks, ACCOUNT_PAGES_READY } = await import("./nav-model");
+    const pub = headerLinks(base);
+    expect(ACCOUNT_PAGES_READY).toBe(false);
+    expect(sessionNavLinks(pub, { loggedIn: true, accountPagesReady: ACCOUNT_PAGES_READY, myBookingsLabel: "Mis Reservas" })).toEqual(pub);
+    expect(sessionNavLinks(pub, { loggedIn: false, accountPagesReady: true, myBookingsLabel: "Mis Reservas" })).toEqual(pub);
+  });
+  it("REQ-1530/REQ-1595: «Mis reservas» solo con las páginas de cuenta (va a /mi-cuenta/reservas)", async () => {
+    const { sessionNavLinks } = await import("./nav-model");
+    const out = sessionNavLinks(headerLinks(base), { loggedIn: true, accountPagesReady: true, myBookingsLabel: "Mis Reservas" });
+    expect(out.map((l) => l.href)).toEqual(["/destinos", "/tours", "/traslados", "/mi-cuenta/reservas"]);
+  });
+  it("REQ-1531: el Panel solo enlaza páginas que existen (gestor y solicitudes), nunca /dashboard", async () => {
+    const { adminPanelLinks, LEGACY_DASHBOARD_LINKS } = await import("./nav-model");
+    expect(LEGACY_DASHBOARD_LINKS).toBe(false);
+    const hrefs = adminPanelLinks("es").map((l) => l.href);
+    expect(hrefs).toEqual(["/admin/viajes", "/admin/solicitudes"]);
+    expect(hrefs.some((h) => h.startsWith("/dashboard"))).toBe(false);
+    expect(adminPanelLinks("en").map((l) => l.label)).toEqual(["Trip manager", "Requests"]);
+  });
+  it("REQ-1531: cada enlace del Panel tiene página en src/app", async () => {
+    const { existsSync } = await import("node:fs");
+    const { adminPanelLinks } = await import("./nav-model");
+    for (const l of adminPanelLinks("es")) expect(existsSync(`src/app${l.href}/page.tsx`)).toBe(true);
+  });
+});
+
+describe("REQ-1595: rutas de la cuenta de cliente", () => {
+  it("REQ-1595: cada ruta de cuenta tiene su página en src/app", async () => {
+    const { existsSync } = await import("node:fs");
+    const { ACCOUNT_ROUTES } = await import("./nav-model");
+    for (const href of Object.values(ACCOUNT_ROUTES)) expect(existsSync(`src/app${href}/page.tsx`)).toBe(true);
+  });
+});

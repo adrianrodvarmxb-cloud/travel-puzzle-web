@@ -335,3 +335,21 @@ describe("REQ-812 confirmación de un tour de pago", () => {
     for (const v of [data.tourTitle, "Mpika Tours", "2:30", "Francés", "2 adultos, 1 niño", data.refNumber, data.meetingPoint, data.manageUrl]) expect(text).toContain(v);
   });
 });
+
+describe("REQ-1596: invitación opcional a guardar las reservas en la cuenta", () => {
+  it("REQ-1596: con accountUrl, el correo invita a guardar las reservas (html y texto)", () => {
+    const { html, text } = buildBookingConfirmationEmail({ ...data, accountUrl: "https://travelpuzzle.com.mx/mi-cuenta/entrar" });
+    expect(html).toContain("Guarda tus reservas en tu cuenta");
+    expect(html).toContain('href="https://travelpuzzle.com.mx/mi-cuenta/entrar"');
+    expect(text).toContain("Guarda tus reservas en tu cuenta: https://travelpuzzle.com.mx/mi-cuenta/entrar");
+  });
+  it("REQ-1596: sin accountUrl (cuentas apagadas), no aparece nada", () => {
+    const { html, text } = buildBookingConfirmationEmail({ ...data });
+    expect(html).not.toContain("Guarda tus reservas");
+    expect(text).not.toContain("Guarda tus reservas");
+  });
+  it("REQ-1596: en inglés", () => {
+    const { html } = buildBookingConfirmationEmail({ ...data, lang: "en", accountUrl: "https://travelpuzzle.com.mx/mi-cuenta/entrar" });
+    expect(html).toContain("Keep your bookings in your account");
+  });
+});

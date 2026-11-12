@@ -45,10 +45,12 @@ export interface BookingPageViewProps {
     payHref?: string | null;
     /** REQ-934: regla de cancelación calculada en el servidor (24 h en tours de pago). */
     cancelNotice?: { summary: string; confirm: string | null } | null;
+    /** REQ-1596: invitación opcional a guardar las reservas en la cuenta. */
+    accountInvite?: boolean;
 }
 
 /** Vista de la página (solo presentación). */
-export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, site, tripUrl, payHref, cancelNotice }: BookingPageViewProps) {
+export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, site, tripUrl, payHref, cancelNotice, accountInvite }: BookingPageViewProps) {
     const active = status === 'active';
     const st = STATUS[status] ?? { label: status, dot: 'bg-gray-300', text: 'text-gray-200' };
     let sec = 0;
@@ -140,6 +142,15 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                         )}
                         {active && !canCancel && !offline && <p className="text-sm text-gray-600">Esta reserva ya no se puede cancelar en línea. Si no puedes asistir, escríbenos.</p>}
                         {offline && <p className="text-sm text-gray-600">No pudimos consultar el estado con el organizador. Intenta de nuevo en unos minutos.</p>}
+                    </section>
+                )}
+
+                {accountInvite && (
+                    <section className="px-6 pt-7">
+                        <Eyebrow n={++sec}>Tu cuenta</Eyebrow>
+                        <h2 className="mb-2 text-[21px] font-bold tracking-tight text-[#0A1330]">Guarda tus reservas en tu cuenta</h2>
+                        <p className="mb-3 text-sm text-gray-600">Opcional: entra con el mismo correo de esta reserva y ve todas tus reservas juntas. Sin contraseñas.</p>
+                        <Ghost href="/mi-cuenta/entrar">Entrar a mi cuenta</Ghost>
                     </section>
                 )}
 

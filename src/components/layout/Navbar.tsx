@@ -1,6 +1,7 @@
 'use client';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
-import { headerLinks, mobileSectionLinks } from '@/layout/lib/nav-model';
+import { headerLinks, mobileSectionLinks, sessionNavLinks, adminPanelLinks, ACCOUNT_PAGES_READY, LEGACY_DASHBOARD_LINKS, ACCOUNT_ROUTES } from '@/layout/lib/nav-model';
+import { PASSWORD_SIGNUP_ENABLED } from '@/accounts/lib/policy';
 
 import React, { useState } from 'react';
 import Link from '@/components/i18n/LocalizedLink';
@@ -51,22 +52,18 @@ export const Navbar = () => {
     blog: !!pages?.blog,
   });
 
-  const clientLinks = [
-    { href: '/', label: t('nav.home') },
-    { href: '/tours', label: t('nav.tours') },
-    { href: '/bookings', label: t('nav.myBookings') },
-    ...(transfers ? [{ href: '/traslados', label: t('nav.transfers') }] : []),
-  ];
-
-  const dashboardLinks = [
+  // REQ-1531: enlaces del Panel viejo (/dashboard/*) ocultos tras LEGACY_DASHBOARD_LINKS; esas páginas no existen.
+  const legacyDashboardLinks = [
     { href: '/dashboard', label: t('nav.dashboard.overview'), icon: '📊' },
     { href: '/dashboard/tours', label: t('nav.dashboard.manageTours'), icon: '🏷️' },
     { href: '/dashboard/bookings', label: t('nav.dashboard.manageBookings'), icon: '📋' },
     { href: '/dashboard/users', label: t('nav.dashboard.manageUsers'), icon: '👥' },
     { href: '/dashboard/api-config', label: t('nav.dashboard.apiConfig'), icon: '⚙️' },
   ];
+  const dashboardLinks = LEGACY_DASHBOARD_LINKS ? legacyDashboardLinks : adminPanelLinks(language);
 
-  const navLinks = user ? clientLinks : publicLinks;
+  // REQ-1530: con o sin sesión, el mismo header público; «Mis Reservas» solo cuando exista la página.
+  const navLinks = sessionNavLinks(publicLinks, { loggedIn: !!user, accountPagesReady: ACCOUNT_PAGES_READY, myBookingsLabel: t('nav.myBookings') });
 
   return (
     <nav className="sticky top-0 z-50 bg-tp-blue-primary border-b border-tp-blue-dark">
@@ -106,17 +103,18 @@ export const Navbar = () => {
 
             {!user ? (
               // Public: Login + Sign Up (solo con cuentas activas)
+              // REQ-1595: un solo «Entrar» (enlace al correo o Google); el registro con contraseña queda oculto (REQ-1592).
               ACCOUNTS_ENABLED && <>
-                <Link href="/login" className="hidden md:block">
+                <Link href={ACCOUNT_ROUTES.signIn} className="hidden md:block">
                   <Button variant="ghost" size="sm" className='text-white'>
-                    {t('nav.login')}
+                    {t('nav.signin')}
                   </Button>
                 </Link>
-                <Link href="/signup" className="hidden md:block">
+                {PASSWORD_SIGNUP_ENABLED && <Link href="/signup" className="hidden md:block">
                   <Button variant="primary" size="sm">
                     {t('nav.signup')}
                   </Button>
-                </Link>
+                </Link>}
               </>
             ) : (
               // Authenticated: Dashboard Dropdown (Admin) + User Dropdown
@@ -159,13 +157,14 @@ export const Navbar = () => {
                     </>
                   }
                 >
-                  <Link
-                    href="/profile"
+                  {/* REQ-1530: Perfil solo cuando exista la página */}
+                  {ACCOUNT_PAGES_READY && <Link
+                    href={ACCOUNT_ROUTES.account}
                     className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-muted transition-colors"
                   >
                     <span>⚙️</span>
-                    {t('nav.user.profile')}
-                  </Link>
+                    {t('nav.account')}
+                  </Link>}
                   <button
                     onClick={handleSignOut}
                     className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950 transition-colors"
@@ -231,16 +230,16 @@ export const Navbar = () => {
             {/* Mobile Auth Buttons or User Menu */}
             {!user ? (
               ACCOUNTS_ENABLED && <div className="flex flex-col gap-2 px-4">
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                <Link href={ACCOUNT_ROUTES.signIn} onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" size="sm" className="w-full">
-                    {t('nav.login')}
+                    {t('nav.signin')}
                   </Button>
                 </Link>
-                <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+                {PASSWORD_SIGNUP_ENABLED && <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="primary" size="sm" className="w-full">
                     {t('nav.signup')}
                   </Button>
-                </Link>
+                </Link>}
               </div>
             ) : (
               <div className="flex flex-col gap-2">
@@ -269,14 +268,14 @@ export const Navbar = () => {
                   <p className="text-xs font-semibold text-white/60 uppercase mb-2">
                     {user.name}
                   </p>
-                  <Link
-                    href="/profile"
+                  {ACCOUNT_PAGES_READY && <Link
+                    href={ACCOUNT_ROUTES.account}
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-2 text-sm text-white/80 hover:bg-white/10 hover:text-white rounded-md transition-colors"
                   >
                     <span>⚙️</span>
-                    {t('nav.user.profile')}
-                  </Link>
+                    {t('nav.account')}
+                  </Link>}
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);

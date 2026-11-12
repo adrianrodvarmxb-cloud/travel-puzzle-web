@@ -1,6 +1,30 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 5 nov 2026, 11:45 (CDMX).
+Actualizado: 11 nov 2026, 13:45 (CDMX).
+
+
+## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
+## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1540 | Autenticación en el sitio | NUEVO | — | — | REEMPLAZADO por REQ-1550/1552 |
+| REQ-1541 | Países, destinos y tours con Zod y nombres del swagger | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1542 | Resumen de tarifas, bloqueos y vigencia | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts`, `api.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1543 | Precio al cliente = tarifa pública; sin neto ni comisión | NUEVO | `src/tangol/lib/rates.ts`, `src/tangol/lib/schemas.ts` | `src/tangol/lib/rates.test.ts` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1544 | Bandera con secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1552 |
+| REQ-1545 | Whitelist: por la pasarela de Namecheap | NUEVO | — | — | CUMPLIDO («igual que name cheap», 11 nov 14:08) |
+| REQ-1546 | Preguntas a Tangol (códigos, token, IP, rotar clave) | NUEVO | — | — | PENDIENTE (tarea del PO) |
+| REQ-1547 | Secretos en Cloudflare | NUEVO | — | — | REEMPLAZADO por REQ-1553 |
+| REQ-1548 | Olas 2 a 4 | NUEVO | `docs/plan-tangol.md` | — | PENDIENTE |
+| REQ-1550 | Pasarela: autenticación con Tangol por la IP registrada | NUEVO | `gateway/lib/tangol.js` | `gateway/lib/tangol.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1551 | Pasarela: `POST /tangol` con 5 operaciones de lectura | NUEVO | `gateway/lib/tangol-operations.js`, `gateway/lib/handler.js`, `gateway/lib/config.js`, `gateway/server.js` | `gateway/lib/tangol.test.js`, `handler.test.js`, `config.test.js` | EN CURSO (tests verdes; falta OK del PO al PR) |
+| REQ-1552 | Sitio: solo por la pasarela, bandera `TANGOL_ENABLED="false"` | NUEVO | `src/tangol/api.ts`, `src/tangol/lib/config.ts`, `wrangler.jsonc` | `src/tangol/api.test.ts`, `src/tangol/lib/config.test.ts` | EN CURSO (apagada) |
+| REQ-1553 | Variables de Tangol en cPanel | NUEVO | — | — | CUMPLIDO (11 nov, `/health` ok) |
+| REQ-1558 | Inventario de Tangol desde cPanel | NUEVO | `gateway/lib/tangol-inventory.js`, `gateway/scripts/inventario-tangol.js` | `gateway/lib/tangol-inventory.test.js` | CUMPLIDO (corrido en cPanel: 2,237 tours) |
+
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |
@@ -877,3 +901,36 @@ Conteos (respaldo de producción del 5-11, FREETOUR de pago + agencias; 4,918 pr
 | REQ-1203 | Sync cuenta indexables en D1 | `src/destinations/lib/indexing.ts` (`cityIndexInputsSql`), `src/catalog/guarded-repository.ts`, `src/seo/lib/enrichment.ts` (`nonIndexableProviders`) | `indexing.test.ts` | CUMPLIDO |
 | REQ-1204 | País en cascada | `src/destinations/lib/catalog.ts` | `catalog.test.ts` | CUMPLIDO |
 | REQ-1205 | Misma regla en sitemaps por idioma, hreflang e IndexNow | `src/destinations/lib/locale.ts` (`cityLangs`) | `locale.test.ts` | CUMPLIDO |
+
+## Menú con sesión y Panel de admin (PO, 11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1530 | Con o sin sesión, el header es el público; Mis Reservas/Perfil tras `ACCOUNT_PAGES_READY=false` | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1531 | Panel ADMIN solo con páginas que existen (gestor, solicitudes); `/dashboard/*` oculto | idem | idem | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1532 | Google no crea cuentas con `ACCOUNTS_ENABLED` apagado; aviso en `/admin/entrar` | `src/trips/lib/admin.ts`, `src/lib/auth.ts`, `src/app/admin/entrar/page.tsx` | `src/trips/lib/admin.test.ts` | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1533 | El rol ADMIN se confirma en la base en cada revisión del gestor y `/api/admin/*` | `src/trips/lib/admin.ts`, `src/trips/deps.ts` | `src/trips/lib/admin.test.ts` | CUMPLIDO (PR #362, deploy 43086680181 con humo verde antes y después; 9 tests REQ verdes) |
+| REQ-1534 | Cuentas de cliente opcionales (modelo GetYourGuide/Civitatis) | — | — | PENDIENTE (plan aparte) |
+
+## Tiempos de carga (REQ-1560 a REQ-1564, PR #360, 11 nov 2026)
+Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin tráfico, `pr-360-…workers.dev`); la que cuenta es contra producción tras merge, purga y gate C.
+| ID | Requisito | Archivo(s) | Test | Estado |
+|---|---|---|---|---|
+| REQ-1560 | LCP < 2.5 s móvil (4G simulada) | `public/_headers`, `src/app/layout.tsx`, `src/app/globals.css`, `src/perf/lib/headers.ts` | `src/perf/lib/headers.test.ts`, `src/perf/fonts.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: home 3.3 s, ficha 3.3 s, /tours 11.5 s; falta gate B) |
+| REQ-1561 | CLS < 0.1 | `src/components/tours/ExperienceCard.tsx`, `src/components/home/v2/SiteFooter.tsx` | `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 0.000 en las 3) |
+| REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 181 / 425 / 253 ms) |
+| REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 2.2 / 3.5 / 2.2 MB; falta gate B) |
+| REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 200 KiB por el logo del pie; ya corregido, sin medir) |
+
+## Cuentas de cliente opcionales (PO, 11 nov 2026) — matriz de trazabilidad
+Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT_PUBLIC_ACCOUNTS_ENABLED` (apagada en este PR).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1599 | Enlace al correo (15 min, un uso, misma respuesta exista o no) | Gate A | `src/accounts/lib/login-link.ts`, `src/accounts/login.ts`, `src/app/api/cuenta/enlace/route.ts` | `src/accounts/lib/login-link.test.ts`, `src/accounts/login.test.ts`, `src/accounts/routes.test.ts` | EN CURSO (verde; humo local con bandera encendida OK) |
+| REQ-1591 | Entrar con el enlace (crea CLIENT; vencido/alterado/usado no entra) | Gate A | `src/accounts/login.ts`, `src/lib/auth.ts`, `src/components/account/VerifyLogin.tsx` | `src/accounts/login.test.ts` | EN CURSO (verde; humo local OK) |
+| REQ-1592 | Registro con contraseña apagado (410) y contraseña solo ADMIN | Auditoría | `src/accounts/lib/policy.ts`, `src/app/api/auth/signup/route.ts`, `src/lib/auth.ts`, `src/middleware.ts` | `src/accounts/lib/policy.test.ts`, `src/accounts/routes.test.ts` | EN CURSO (verde) |
+| REQ-1593 | Mis reservas: todo lo del correo, sin distinguir mayúsculas, nunca ajenas | Gate B | `src/accounts/lib/bookings.ts`, `src/accounts/deps.ts`, `src/app/mi-cuenta/reservas/page.tsx` | `src/accounts/lib/bookings.test.ts` | EN CURSO (verde; humo local: propia y solicitud sí, ajena no) |
+| REQ-1594 | Mi cuenta: nombre, cerrar sesión, borrar cuenta | Gate B | `src/app/mi-cuenta/page.tsx`, `src/components/account/AccountSettings.tsx`, `src/app/api/cuenta/route.ts` | `src/accounts/lib/policy.test.ts` | EN CURSO (verde; humo local OK) |
+| REQ-1595 | Header: Entrar / Mis reservas / Mi cuenta con la bandera | Gate A | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | EN CURSO (verde) |
+| REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | EN CURSO (verde; humo local OK) |
+| REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (verde) |
+| REQ-1598 | Encender la bandera en producción | Gate D | workflows | humo del PR con la bandera | PENDIENTE |

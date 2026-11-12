@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react';
 import { mosaicLayout } from '@/trips/lib/gallery-layout';
+import { imgLoading, transformedSrc } from '@/perf/lib/image';
 
 type Img = { url: string; alt: string };
 
@@ -16,7 +17,7 @@ export function TripGallery({ images, title }: { images: Img[]; title: string })
                 {images.slice(0, l.shown).map((im, j) => (
                     <button key={im.url} type="button" onClick={() => setOpen(j)} aria-label={`Ver foto ${j + 1} de ${images.length}`}
                         className={`group relative block overflow-hidden bg-[#1B2A5E] ${images.length > 1 ? 'rounded-xl' : 'rounded-2xl'} ${l.tiles[j]}`}>
-                        <img src={im.url} alt={im.alt || title} loading={j === 0 ? 'eager' : 'lazy'} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={transformedSrc(im.url, j === 0 ? 1200 : 640)} alt={im.alt || title} {...imgLoading(j === 0)} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                         {j === l.shown - 1 && l.extra > 0 && (
                             <span className="absolute inset-0 flex items-center justify-center bg-[#0A1330]/60 font-display text-xl font-bold text-white">+{l.extra}</span>
                         )}

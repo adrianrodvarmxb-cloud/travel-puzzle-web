@@ -10,7 +10,8 @@
     "prueba": "node scripts/prueba-reservas.js",
     "prueba-completa": "node scripts/prueba-reservas.js --completa",
     "diagnostico": "node scripts/prueba-reservas.js --diagnostico",
-    "diagnostico-inc002": "node scripts/prueba-reservas.js --diagnostico --ref=6782-20261104140813-761 --event=631715588"
+    "diagnostico-inc002": "node scripts/prueba-reservas.js --diagnostico --ref=6782-20261104140813-761 --event=631715588",
+    "inventario-tangol": "node scripts/inventario-tangol.js"
   },
   "engines": {
     "node": ">=18"

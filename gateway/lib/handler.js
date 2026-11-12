@@ -2,6 +2,7 @@
 import { verify } from "./signature.js";
 import { toFreetourRequest } from "./operations.js";
 import { bookingKey } from "./dedupe.js";
+import { toTangolRequest } from "./tangol-operations.js";
 
 // El mensaje de Freetour ayuda a diagnosticar; se le quitan correos y teléfonos.
 const scrub = (m) =>
@@ -9,9 +10,9 @@ const scrub = (m) =>
     ? m.replace(/[^\s@]+@[^\s@]+/g, "[correo]").replace(/\+?\d[\d\s-]{6,}\d/g, "[número]").slice(0, 200)
     : null;
 
-export async function handleRequest({ method, path, headers, body }, { secret, now, freetour, log, dedupe }) {
+export async function handleRequest({ method, path, headers, body }, { secret, now, freetour, tangol, log, dedupe }) {
   if (method === "GET" && path === "/health") return { status: 200, json: { ok: true } };
-  if (method !== "POST" || path !== "/freetour") return { status: 404, json: { error: "not found" } };
+  if (method !== "POST" || (path !== "/freetour" && path !== "/tangol")) return { status: 404, json: { error: "not found" } };
 
   const check = verify(secret, {
     timestamp: headers["x-tp-timestamp"],
@@ -27,6 +28,8 @@ export async function handleRequest({ method, path, headers, body }, { secret, n
   let msg;
   try { msg = JSON.parse(body); } catch { return { status: 400, json: { error: "json inválido" } }; }
 
+  if (path === "/tangol") return handleTangol(msg, { tangol, log });
+
   const req = toFreetourRequest(msg?.op, msg?.payload);
   if (!req.ok) return { status: 400, json: { error: req.reason } };
 
@@ -40,5 +43,20 @@ export async function handleRequest({ method, path, headers, body }, { secret, n
   } catch (error) {
     log("error", { op: msg.op, error: error.message });
     return { status: 502, json: { error: "Freetour no disponible" } };
+  }
+}
+
+// REQ-1551: lectura del catálogo de Tangol por la IP registrada. Sin datos de clientes en el registro.
+async function handleTangol(msg, { tangol, log }) {
+  const req = toTangolRequest(msg?.op, msg?.payload);
+  if (!req.ok) return { status: 400, json: { error: req.reason } };
+  if (!tangol) return { status: 503, json: { error: "Tangol no configurado" } };
+  try {
+    const res = await tangol.call(req.method, req.path, { query: req.query, body: req.body });
+    log("tangol", { op: msg.op, http: res.status });
+    return { status: res.status, json: res.json };
+  } catch (error) {
+    log("error", { op: msg.op, proveedor: "tangol", error: error.message });
+    return { status: 502, json: { error: "Tangol no disponible" } };
   }
 }

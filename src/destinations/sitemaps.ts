@@ -2,7 +2,7 @@
  * REQ-102: respuesta de los sitemaps (route handlers). Tras PRIMERA_PIEZA_ENABLED: apagada = 404, como hoy.
  * Se calculan del árbol de destinos (caché de 5 min), así que se rehacen solos después de cada sync.
  */
-import { buildSitemaps } from '@/seo/lib/sitemaps';
+import { buildSitemaps, pagesIndexLastmod } from '@/seo/lib/sitemaps';
 import { sitemapInput } from './lib/page-model';
 import { getDestinations, getPublishedTripRows, primeraPiezaOn, siteUrl } from './server';
 import { allTours } from './lib/catalog';
@@ -18,7 +18,9 @@ const notFound = () => new Response('Not found', { status: 404 });
 export async function sitemapResponse(file: string): Promise<Response> {
     if (!primeraPiezaOn()) return notFound();
     // REQ-276: si hay páginas institucionales o blog encendidos, el índice suma sitemap-paginas.xml.
-    const extra = sitePagesSitemap().length ? [{ loc: `${siteUrl().replace(/\/+$/, '')}/sitemap-paginas.xml`, lastmod: null }] : [];
+    // REQ-1341: con el lastmod real de sus URLs (antes iba sin fecha aunque el blog cambiara cada día).
+    const pages = sitePagesSitemap();
+    const extra = pages.length ? [{ loc: `${siteUrl().replace(/\/+$/, '')}/sitemap-paginas.xml`, lastmod: pagesIndexLastmod(pages) }] : [];
     const [tree, tripRows] = await Promise.all([getDestinations(), getPublishedTripRows()]);
     // REQ-584: viajes con ficha canónica en /viajes (los que no viven bajo /destinos), con su interruptor.
     const placed = new Set(tree.flatMap((c) => c.cities.flatMap((ci) => allTours(ci).filter((t) => t.kind === 'own').map((t) => t.id))));
