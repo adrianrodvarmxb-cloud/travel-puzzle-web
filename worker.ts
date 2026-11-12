@@ -53,6 +53,12 @@ export default {
         })
       );
     }
+    // REQ-3416: una vez al día (12:20 UTC), catálogo de Big Bus por Ventrata OCTO. La ruta no hace nada mientras
+    // BIGBUS_OCTO_ENABLED no sea "true".
+    if (now.getUTCHours() === 12 && now.getUTCMinutes() === 20) {
+      const bigbus = new Request("https://internal/api/cron/bigbus-sync", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
+      ctx.waitUntil(handler.fetch(bigbus, env, ctx).then(async (res: Response) => console.log(`[cron] bigbus-sync → ${res.status} ${await res.text()}`)));
+    }
     // Cada 5 minutos: recordatorios y reseña post-tour.
     if (new Date().getUTCMinutes() % 5 === 0) {
       const emails = new Request("https://internal/api/cron/booking-emails", {

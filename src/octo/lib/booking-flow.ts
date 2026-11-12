@@ -6,8 +6,8 @@ import type { OctoBooking } from "./schemas";
  * 3) cancelar por API los apartados que no se confirmen, 4) entregar solo lo que diga `deliveryMethods`.
  */
 
-/** Minutos que se aparta el lugar mientras el cliente paga. Parámetro técnico; el cobro de Stripe debe cerrar antes. */
-export const HOLD_MINUTES = 30;
+/** Minutos que se aparta el lugar mientras el cliente paga. Stripe pide al menos 30 min de sesión; el apartado dura más (REQ-3418). */
+export const HOLD_MINUTES = 45;
 
 export type HoldState = "confirmable" | "expired" | "not-on-hold";
 

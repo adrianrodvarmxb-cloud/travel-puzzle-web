@@ -87,7 +87,8 @@ export function createOctoApi({ config, fetch: fetchImpl, timeoutMs = 30_000, ma
         const { json, res } = await call("GET", `/products${q}`);
         if (Array.isArray(json)) all.push(...json);
         page = res.headers.get("Octo-Next-Page");
-        if (!page) return parseEach(productSchema, all);
+        // REQ-3415: `raw` es la copia exacta (con net) para el archivo privado; nunca va a la ficha.
+        if (!page) return { ...parseEach(productSchema, all), raw: all };
       }
       throw new OctoError(`El catálogo pasó de ${maxPages} páginas`, 500, "TOO_MANY_PAGES");
     },

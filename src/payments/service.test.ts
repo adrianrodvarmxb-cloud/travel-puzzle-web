@@ -177,4 +177,30 @@ describe("handleStripeWebhook", () => {
   it("REQ-117: cuerpo que no es JSON tras firma válida → ignored", async () => {
     expect(await handleStripeWebhook("no-json", "sig", whDeps())).toBe("ignored");
   });
+
+  it("REQ-3419: la compra directa manda su boleto y se omite el correo genérico; el equipo sí recibe aviso", async () => {
+    const afterPaid = vi.fn(async () => true);
+    const d = whDeps({ afterPaid });
+    expect(await handleStripeWebhook(paidEvent, "sig", d)).toBe("paid");
+    expect(afterPaid).toHaveBeenCalledWith("req_1");
+    expect(d.sendCustomer).not.toHaveBeenCalled();
+    expect(d.sendTeam).toHaveBeenCalledTimes(1);
+  });
+
+  it("REQ-3419: si el gancho no es de compra directa (o falla), todo sigue como antes", async () => {
+    const err = vi.spyOn(console, "error").mockImplementation(() => {});
+    for (const afterPaid of [vi.fn(async () => false), vi.fn(async () => Promise.reject(new Error("x")))]) {
+      const d = whDeps({ afterPaid });
+      expect(await handleStripeWebhook(paidEvent, "sig", d)).toBe("paid");
+      expect(d.sendCustomer).toHaveBeenCalledTimes(1);
+    }
+    err.mockRestore();
+  });
+
+  it("REQ-3419: al vencer la sesión se llama al gancho para liberar el apartado", async () => {
+    const afterExpired = vi.fn(async () => "released");
+    const ev = JSON.stringify({ type: "checkout.session.expired", data: { object: { id: "cs_1", metadata: { payment_id: "pay_1" } } } });
+    expect(await handleStripeWebhook(ev, "sig", whDeps({ afterExpired }))).toBe("expired");
+    expect(afterExpired).toHaveBeenCalledWith("pay_1");
+  });
 });

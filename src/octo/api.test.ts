@@ -39,6 +39,7 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     const r = await createOctoApi({ config, fetch: f as unknown as typeof fetch }).getProducts();
     expect(r.items.map((p) => p.id)).toEqual(["prod-hoho-nyc", "p2"]);
     expect(r.discarded).toBe(1);
+    expect(r.raw).toHaveLength(3);
     expect(call(f, 0).url).toBe("https://api.ventrata.com/octo/products?limit=100");
     expect(call(f, 1).url).toBe("https://api.ventrata.com/octo/products?limit=100&page=cur%202");
     warn.mockRestore();
@@ -67,7 +68,7 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     expect(init.method).toBe("POST");
     expect(headers["Content-Type"]).toBe("application/json");
     expect(body.unitItems).toEqual([{ unitId: "unit-adult" }, { unitId: "unit-adult" }]);
-    expect(body).toMatchObject({ uuid: "11111111-2222-4333-8444-555555555555", resellerReference: "TP-20261112-001", expirationMinutes: 30 });
+    expect(body).toMatchObject({ uuid: "11111111-2222-4333-8444-555555555555", resellerReference: "TP-20261112-001", expirationMinutes: 45 });
     expect(b.status).toBe("ON_HOLD");
   });
 

@@ -3,6 +3,26 @@
 Actualizado: 11 nov 2026, 13:45 (CDMX).
 
 
+## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
+Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge aplica la migración 0027 (REQ-3422).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3413 | Ligar productos OCTO a las 29 ciudades | NUEVO | `src/octo/lib/catalog.ts`, `src/octo/data/bigbus-ciudades.json` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
+| REQ-3414 | Plan: solo lo que da la API, con precio completo, sin net | NUEVO | `src/octo/lib/catalog.ts` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
+| REQ-3415 | Sincronización diaria con plan en D1 | NUEVO | `src/octo/catalog-sync.ts`, `src/octo/deps.ts` | `src/octo/catalog-sync.test.ts` | CUMPLIDO |
+| REQ-3416 | Cron 12:20 UTC y ruta protegida | NUEVO | `worker.ts`, `src/app/api/cron/bigbus-sync/route.ts` | — | EN CURSO (REQ-3424) |
+| REQ-3417 | Validar compra, salida y total retail | NUEVO | `src/octo/lib/purchase.ts` | `src/octo/lib/purchase.test.ts` | CUMPLIDO |
+| REQ-3418 | Iniciar compra: solicitud, apartado, Stripe | NUEVO | `src/octo/purchase.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
+| REQ-3419 | Webhook: confirmar o avisar; liberar al vencer | NUEVO | `src/octo/purchase.ts`, `src/payments/service.ts`, `src/payments/deps.ts` | `src/octo/purchase.test.ts`, `src/payments/service.test.ts` | CUMPLIDO |
+| REQ-3420 | Correo del boleto | NUEVO | `src/octo/lib/ticket-email.ts` | `src/octo/lib/ticket-email.test.ts` | CUMPLIDO |
+| REQ-3421 | Cancelación del cliente dentro del corte | NUEVO | `src/octo/purchase.ts`, `src/app/api/bigbus/cancelar/route.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
+| REQ-3422 | Migración 0027 | NUEVO | `migrations/0027_octo_booking.sql` | — | PENDIENTE (OK del PO) |
+| REQ-3423 | Caja de compra en la ficha | NUEVO | `src/components/trips/BigBusBuyBox.tsx`, `src/octo/lib/public-view.ts`, `src/app/api/bigbus/*` | `src/octo/lib/public-view.test.ts` | EN CURSO (revisión visual) |
+| REQ-3424 | Preview con la llave de prueba y OK visual | NUEVO | — | — | PENDIENTE |
+| REQ-3425 | Política de reembolso | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3433 | Copia exacta al archivo privado (REQ-747) | NUEVO | — | — | PENDIENTE (PO) |
+| REQ-3434 | Monedas sin tipo de cambio | NUEVO | — | — | PENDIENTE (PO) |
+
 ## Big Bus por Ventrata OCTO, ola 1 (12 nov 2026) — matriz de trazabilidad
 Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y olas en `docs/bigbus/octo-integracion.md`; autorizaciones de Big Bus en `docs/bigbus/autorizaciones.md`.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
