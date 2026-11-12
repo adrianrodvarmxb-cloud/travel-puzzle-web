@@ -954,3 +954,10 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1637 | Aviso simplificado v2: IA y transferencias | PO 11 nov | `src/legal/lib/privacidad.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (tests verdes; validar con abogado) |
 | REQ-3315 | Home sin cifras, línea «Aliados en cada región» | PO 11 nov | `src/home/lib/copy.ts`, `src/components/home/v2/{ProofStrip,HeroSearch,PopularDestinations,ContinentExplorer,HomeReviews}.tsx` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3316 | Mila, asesora con IA, en franja, cómo funciona y asesoría | PO 11 nov | `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
+
+## Tangol ola 2 (11 nov 2026) — matriz de trazabilidad
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1623 | externalId único por proveedor (migración 0026) + 9 consultas a llave compuesta | NUEVO | `migrations/0026_tour_externalid_por_proveedor.sql`, `prisma/schema.prisma`, `src/booking/tour-summary.ts`, `src/companions/nearby-load.ts`, `src/notifications/cross-sell-deps.ts`, `src/home/load.ts`, `src/app/arma-tu-viaje/page.tsx`, `src/lib/db/repositories/tour-repository.ts`, `src/lib/db/sync/tour-sync.ts` | `src/catalog/migration-0026.test.ts` | EN CURSO (falta merge; aplicar es candado) |
+| REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
+| REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
