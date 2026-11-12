@@ -1846,3 +1846,4 @@ REQ-3431	docs/req-3382-cumplido	2026-11-12 11:38
 REQ-3432	feat/mila-acceso-catalogo	2026-11-12 11:40	chat puente viajero-guía por WhatsApp
 REQ-3433	feat/bigbus-octo-ola2-3	2026-11-12 11:41	Big Bus OCTO copia exacta y REQ-747
 REQ-3434	feat/bigbus-octo-ola2-3	2026-11-12 11:41	Big Bus OCTO monedas sin tipo de cambio
+REQ-3435	legal/aviso-mila-reservas	2026-11-12 11:44	aviso de privacidad: Mila consulta reservas, identificador de WhatsApp y consentimiento de promociones
