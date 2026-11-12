@@ -1006,3 +1006,11 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+
+
+## Países que solo tiene un proveedor (PO, 12 nov 2026; frente #439) — matriz de trazabilidad
+Nada se escribe en producción con este frente: solo queda la lógica y el dato. El alta real pasa cuando el sync del proveedor llame al plan (otro frente); hoy nadie lo llama.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
+| REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
