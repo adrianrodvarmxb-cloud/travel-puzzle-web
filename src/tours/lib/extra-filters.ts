@@ -3,7 +3,7 @@
  * recogida en hotel, novedad y duración) — un solo modelo, leído y escrito en la URL. Puro.
  */
 import { parseGuideLanguage, parseTripDate } from "@/departures/lib/params";
-import { parseFormatos } from "@/taxonomy/lib/filters";
+import { parseAtributos, parseFormatos, parseTemas } from "@/taxonomy/lib/filters";
 
 export interface ExtraFilters {
   guideLanguage: string | null; date: string | null; groups: string[];
@@ -11,8 +11,10 @@ export interface ExtraFilters {
   durMin: number | null; durMax: number | null; // minutos
   /** T4 (REQ-413): ?formato= de la taxonomía; vacío con TAXONOMY_FILTERS_ENABLED apagada. */
   formatos: string[];
+  /** REQ-1421: ?tema=; REQ-1422: ?atrib=. Vacíos con TAXONOMY_FILTERS_ENABLED apagada. */
+  temas: string[]; atributos: string[];
 }
-export const EMPTY_EXTRA: ExtraFilters = { guideLanguage: null, date: null, groups: [], freeCancel: false, privateOnly: false, hotelPickup: false, novelty: false, durMin: null, durMax: null, formatos: [] };
+export const EMPTY_EXTRA: ExtraFilters = { guideLanguage: null, date: null, groups: [], freeCancel: false, privateOnly: false, hotelPickup: false, novelty: false, durMin: null, durMax: null, formatos: [], temas: [], atributos: [] };
 
 type L = Record<"es" | "en" | "pt" | "de" | "fr" | "it", string>;
 /** Grupos de "Tipo de actividad" (como Civitatis) a partir de las 29 categorías de Freetour (archivo del PO, 4 nov 2026). */
@@ -50,6 +52,8 @@ export function parseExtraFilters(q: URLSearchParams, today: string, opts: { tax
     // T4: con la taxonomía, ?tipo_act= se traduce a ?formato= y los grupos viejos quedan ocultos (no se borran).
     groups: opts.taxonomy ? [] : [...new Set((q.get("tipo_act") ?? "").split(",").filter((g) => GROUP_IDS.has(g)))],
     formatos: opts.taxonomy ? parseFormatos(q) : [],
+    temas: opts.taxonomy ? parseTemas(q) : [], // REQ-1421
+    atributos: opts.taxonomy ? parseAtributos(q) : [], // REQ-1422
     freeCancel: q.get("cancelacion") === "1", privateOnly: q.get("privado") === "1",
     hotelPickup: q.get("recogida") === "1", novelty: q.get("novedad") === "1",
     durMin, durMax,
@@ -62,6 +66,8 @@ export function extraFiltersToParams(f: ExtraFilters, into = new URLSearchParams
   if (f.date) into.set("fecha", f.date);
   if (f.groups.length) into.set("tipo_act", f.groups.join(","));
   if (f.formatos?.length) into.set("formato", f.formatos.join(","));
+  if (f.temas?.length) into.set("tema", f.temas.join(",")); // REQ-1421
+  if (f.atributos?.length) into.set("atrib", f.atributos.join(",")); // REQ-1422
   if (f.freeCancel) into.set("cancelacion", "1");
   if (f.privateOnly) into.set("privado", "1");
   if (f.hotelPickup) into.set("recogida", "1");
@@ -72,7 +78,7 @@ export function extraFiltersToParams(f: ExtraFilters, into = new URLSearchParams
 }
 
 export function countActive(f: ExtraFilters): number {
-  return (f.guideLanguage ? 1 : 0) + (f.date ? 1 : 0) + f.groups.length + (f.formatos?.length ?? 0) + [f.freeCancel, f.privateOnly, f.hotelPickup, f.novelty].filter(Boolean).length + (f.durMin !== null || f.durMax !== null ? 1 : 0);
+  return (f.guideLanguage ? 1 : 0) + (f.date ? 1 : 0) + f.groups.length + (f.formatos?.length ?? 0) + (f.temas?.length ?? 0) + (f.atributos?.length ?? 0) + [f.freeCancel, f.privateOnly, f.hotelPickup, f.novelty].filter(Boolean).length + (f.durMin !== null || f.durMax !== null ? 1 : 0);
 }
 
 /** REQ-051: grupo de los viajes propios a partir de su tipo y su categoría del gestor. */

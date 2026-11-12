@@ -83,6 +83,13 @@ export interface WebhookDeps {
   setRequestStatus(id: string, status: string): Promise<unknown>;
   sendCustomer(m: Mail): Promise<unknown>;
   sendTeam(m: Omit<Mail, "to">): Promise<unknown>;
+  /**
+   * REQ-3419: compra directa (Big Bus por OCTO). Si devuelve true, la compra manda su propio correo (el boleto)
+   * y se omite el «Recibimos tu pago» genérico. Sin este gancho, todo sigue igual.
+   */
+  afterPaid?(requestId: string): Promise<boolean>;
+  /** REQ-3419: libera lo apartado cuando la sesión de Stripe vence sin pago. */
+  afterExpired?(paymentId: string): Promise<unknown>;
 }
 
 export type WebhookResult = "disabled" | "invalid" | "ignored" | "paid" | "duplicate" | "expired";
@@ -94,16 +101,23 @@ export async function handleStripeWebhook(payload: string, signature: string | n
   let event: unknown;
   try { event = JSON.parse(payload); } catch { return "ignored"; }
   const ev = parsePaymentEvent(event);
-  if (ev.type === "expired") { await d.markExpired(ev.paymentId); return "expired"; }
+  if (ev.type === "expired") {
+    await d.markExpired(ev.paymentId);
+    // REQ-3419
+    await d.afterExpired?.(ev.paymentId).catch((e) => console.error(`[pagos] liberar apartado ${ev.paymentId}:`, (e as Error).message));
+    return "expired";
+  }
   if (ev.type !== "paid") return "ignored";
 
   const changed = await d.markPaid(ev.paymentId, { sessionId: ev.sessionId, paymentIntent: ev.paymentIntent, amountCentavos: ev.amountCentavos, paidAt: d.now });
   if (!changed) return "duplicate";
   await d.setRequestStatus(changed.requestId, "paid");
+  // REQ-3419: la compra directa confirma con el operador y manda el boleto.
+  const handled = d.afterPaid ? await d.afterPaid(changed.requestId).catch((e) => { console.error(`[pagos] compra directa ${changed.requestId}:`, (e as Error).message); return false; }) : false;
   const req = await d.findRequest(changed.requestId);
   if (req) {
     const info = { ref: req.ref, tripTitle: req.tripTitle, firstName: req.firstName, kind: changed.kind, centavos: changed.amountCentavos, logoUrl: d.logoUrl };
-    await d.sendCustomer({ to: req.email, ...buildPaidCustomerEmail(info) }).catch((e) => console.error(`[pagos] correo pagado ${req.ref}:`, (e as Error).message));
+    if (!handled) await d.sendCustomer({ to: req.email, ...buildPaidCustomerEmail(info) }).catch((e) => console.error(`[pagos] correo pagado ${req.ref}:`, (e as Error).message));
     await d.sendTeam(buildPaidTeamEmail(info, `${d.siteUrl}/admin/solicitudes`)).catch((e) => console.error(`[pagos] aviso equipo ${req.ref}:`, (e as Error).message));
   }
   return "paid";
