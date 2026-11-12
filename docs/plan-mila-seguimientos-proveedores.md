@@ -139,3 +139,15 @@ Regla de forma (PO, 12 nov 2026: «aprobado, solo busca la manera de que no se v
 5. Cancelación: qué aplica a 6 o 7 días, cambios de fecha o de nombre, y plazo de reembolso.
 
 **Abajo, «Para cerrar el alta»:** acceso a su sistema de reservas o API y tiempo de confirmación; teléfono 24/7 y vouchers; seguro de RC y términos completos para agencias; documentos que piden hoy a mexicanos para Canadá (visa o eTA) y seguro de viaje; permiso de fotos con crédito; acuerdo de intermediación.
+
+### Multitravel: aprobado («ok», PO, 12 nov 2026)
+El correo del 6 nov 2026 SÍ salió (claulet@, 14:15 UTC) y no tiene respuesta: Mila escribe como seguimiento de ese hilo. El borrador r4281889931072028883 es un sobrante.
+
+**Arriba (para poder vender):**
+1. Tarifas 2026-27 de Colombia, Ecuador y Galápagos (cruceros e islas) y USA, como archivo adjunto (el enlace de Drive no abre; lo de Colombia y USA venció el 31 dic 2025).
+2. Calendario: fechas de temporada alta, festivos y eventos con su tarifa, y anticipación mínima.
+3. Precios que faltan: opcionales, noches extra, vuelos internos y sencilla; en Galápagos, si incluyen la entrada al parque y la tarjeta de tránsito.
+4. Pago: qué es «desc. efectivo», tarifa con tarjeta o transferencia, moneda y cuenta.
+5. Cancelación: cuál aplica («no reembolsable» o la tabla de penalidades), qué pasa con más de 30 días y cuánto cuestan los cambios.
+
+**Abajo, «Para cerrar el alta»:** recordatorio de lo pedido el 6 nov (integración, neto o comisión, fotos); teléfono 24/7 y vouchers; razón social, RNT (Colombia), Mintur (Ecuador) y seguro de RC; términos para agencias y acuerdo de intermediación; documentos del pasajero para Ecuador y Galápagos.
