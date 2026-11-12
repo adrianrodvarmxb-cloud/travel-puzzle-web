@@ -1099,3 +1099,4 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3499 | Todo workflow que construye el sitio genera antes `data/countries.json` | agente (ensayo del 12 nov) | `.github/workflows/tangol-sync.yml` | `src/ops/lib/workflows-build.test.ts` | EN CURSO |
 | REQ-3486 | Catálogo de tipos de Tangol (pieza pura) | agente | `src/tangol/lib/types-report.ts` | `src/tangol/lib/types-report.test.ts` | EN CURSO |
 | REQ-3487 | Corrida de solo lectura que lee los tipos por la pasarela | agente | `.github/workflows/tipos-tangol.yml`, `src/scripts/tipos-tangol.ts` | — (corrida manual) | EN CURSO |
+| REQ-3500 | Todo workflow que construye el sitio genera antes el cliente de Prisma | agente (ensayo del 12 nov) | `.github/workflows/tangol-sync.yml` | `src/ops/lib/workflows-build.test.ts` | EN CURSO |

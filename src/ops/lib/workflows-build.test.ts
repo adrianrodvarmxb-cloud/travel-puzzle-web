@@ -21,6 +21,15 @@ describe("REQ-3499: todo workflow que construye el sitio genera antes la lista d
   });
 
   for (const { f, job, steps } of conBuild) {
+    // REQ-3500: segundo ingrediente que faltó en el sync de Tangol (corrida 43298923440): sin `prisma generate` el
+    // build falla con «Parameter 'r' implicitly has an 'any' type». La prueba exige los DOS antes del build.
+    it(`REQ-3500: ${f} (${job}) genera el cliente de Prisma antes del build`, () => {
+      const build = steps.findIndex((s) => /\b(npm run build|opennextjs-cloudflare build)\b/.test(s.run ?? ""));
+      const prisma = steps.findIndex((s) => /prisma generate/.test(s.run ?? ""));
+      expect(prisma, `${f}: falta \`npx prisma generate\` antes del build`).toBeGreaterThanOrEqual(0);
+      expect(prisma, `${f}: \`prisma generate\` va después del build`).toBeLessThan(build);
+    });
+
     it(`REQ-3499: ${f} (${job}) genera data/countries.json antes del build`, () => {
       const build = steps.findIndex((s) => /\b(npm run build|opennextjs-cloudflare build)\b/.test(s.run ?? ""));
       const paises = steps.findIndex((s) => /countries:generate|data\/countries\.json/.test(s.run ?? ""));
