@@ -9,6 +9,7 @@ import {
   choques,
   leerReservas,
   leerFolios,
+  leerVariantes,
   maxFolio,
   sinReserva,
   type Registro,
@@ -132,5 +133,37 @@ describe("REQ-1587: la regla está en el PR y en el CLAUDE.md", () => {
     expect(md).toMatch(/folio\.ts apartar/);
     expect(md).toMatch(/frente\.ts buscar/);
     expect(md).toMatch(/borrador vigente/);
+  });
+});
+
+describe("REQ-1611: duplicado preexistente en main", () => {
+  const md = (filas: string[]) => ["| ID | Tipo | Pendiente | Resp | Bloq | Estado |", "|---|---|---|---|---|---|", ...filas].join("\n");
+
+  it("REQ-1611: si main trae el mismo folio en dos filas, conservar una de las dos NO es choque", () => {
+    const main = md([
+      "| REQ-1535 | CÓDIGO | Big Bus: publicar solo los productos del Partner Booking Platform | agente | — | PENDIENTE |",
+      "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas, cuando las redes publican | agente | — | CUMPLIDO |",
+    ]);
+    const rama = md([
+      "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas, cuando las redes publican | agente | — | CUMPLIDO |",
+      "| REQ-1610 | CÓDIGO | Big Bus: publicar solo los productos del Partner Booking Platform | agente | — | PENDIENTE |",
+    ]);
+    expect(choques(leerFolios(rama), leerFolios(main), 0.5, leerVariantes(main))).toEqual([]);
+  });
+
+  it("REQ-1611: reusar de verdad un folio de main sigue siendo choque", () => {
+    const main = md(["| REQ-1535 | CÓDIGO | Big Bus: productos del Partner Booking Platform | agente | — | PENDIENTE |"]);
+    const rama = md(["| REQ-1535 | DEFINICIÓN | Color del botón de reservar en la ficha | PO | — | PENDIENTE |"]);
+    expect(choques(leerFolios(rama), leerFolios(main), 0.5, leerVariantes(main))).toHaveLength(1);
+  });
+
+  it("REQ-1611: leerVariantes devuelve los dos textos del folio duplicado", () => {
+    const main = md([
+      "| REQ-1535 | CÓDIGO | Big Bus | agente | — | PENDIENTE |",
+      "| REQ-1535 | CÓDIGO | Redes del día | agente | — | CUMPLIDO |",
+      "| REQ-1536 | CÓDIGO | Otro | agente | — | PENDIENTE |",
+    ]);
+    expect(leerVariantes(main).get("REQ-1535")).toHaveLength(2);
+    expect(leerVariantes(main).get("REQ-1536")).toHaveLength(1);
   });
 });

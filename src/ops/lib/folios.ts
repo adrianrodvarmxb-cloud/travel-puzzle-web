@@ -32,6 +32,21 @@ export function leerFolios(md: string): Map<string, string> {
   return m;
 }
 
+/**
+ * REQ-1611: todos los textos de cada folio. `leerFolios` se queda con la primera fila, así que cuando un
+ * folio quedó duplicado en main (dos filas distintas) hace falta ver las dos para no marcar un choque falso.
+ */
+export function leerVariantes(md: string): Map<string, string[]> {
+  const m = new Map<string, string[]>();
+  for (const linea of md.split("\n")) {
+    const f = linea.match(FILA);
+    if (!f) continue;
+    const celdas = f[2].replace(/\\\|/g, " ").split("|").map((c) => c.trim());
+    m.set(f[1], [...(m.get(f[1]) ?? []), celdas.slice(0, 2).join(" ")]);
+  }
+  return m;
+}
+
 export function numero(id: string): number {
   return Number(id.replace(/^REQ-/, ""));
 }
@@ -69,11 +84,15 @@ export interface Choque {
 }
 
 /** REQ-1587: folios que la rama usa con otro tema distinto al que tienen en main. */
-export function choques(rama: Map<string, string>, main: Map<string, string>, umbral = 0.5): Choque[] {
+// REQ-1611: `variantesMain` (opcional) trae todos los textos de cada folio en main; sin él se compara solo el primero.
+export function choques(rama: Map<string, string>, main: Map<string, string>, umbral = 0.5, variantesMain?: Map<string, string[]>): Choque[] {
   const out: Choque[] = [];
   for (const [id, texto] of rama) {
     const enMain = main.get(id);
-    if (enMain !== undefined && parecido(texto, enMain) < umbral) out.push({ id, rama: texto, main: enMain });
+    if (enMain === undefined) continue;
+    const textos = variantesMain?.get(id) ?? [enMain];
+    // REQ-1611: basta parecerse a una de las filas que main tiene para ese folio.
+    if (!textos.some((t) => parecido(texto, t) >= umbral)) out.push({ id, rama: texto, main: enMain });
   }
   return out;
 }

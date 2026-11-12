@@ -8,6 +8,8 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1578 | Pin propio para lugares que solo tienen viajes | NUEVO | `src/map/lib/trips.ts`, `src/map/load.ts`, `src/components/map/WorldMap.tsx` | `src/map/lib/trips.test.ts`, `src/map/load.test.ts` | EN CURSO (falta humo y OK visual) |
 | REQ-1605 | Regla de catálogo único para todo proveedor | NUEVO | `CLAUDE.md` | — | CUMPLIDO (regla escrita) |
 | REQ-1606 | Notas entre paréntesis del proveedor no impiden el cruce de ciudad | NUEVO | `src/destinations/lib/catalog.ts`, `src/map/lib/trips.ts` | `src/map/lib/trips.test.ts` | EN CURSO (test verde; falta merge) |
+| REQ-1610 | Big Bus renumerado (folio duplicado en #366) | NUEVO | `docs/requisitos.md` | — | CUMPLIDO |
+| REQ-1611 | Guardia de folios: duplicado preexistente en main no es choque | NUEVO | `src/ops/lib/folios.ts`, `src/scripts/folio.ts` | `src/ops/lib/folios.test.ts` | EN CURSO (tests verdes; falta merge) |
 
 
 

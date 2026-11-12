@@ -14,6 +14,7 @@ import {
   apartarFolios,
   choques,
   leerFolios,
+  leerVariantes,
   leerReservas,
   maxFolio,
   sinReserva,
@@ -113,7 +114,8 @@ function revisar(): void {
   const reservados = leerReservas(registroGit.leer().texto);
   const rama = leerFolios(mostrar("HEAD"));
   const enMain = leerFolios(main);
-  const c = choques(rama, enMain);
+  // REQ-1611: si main dejó un folio duplicado, conservar una de sus filas no es choque.
+  const c = choques(rama, enMain, 0.5, leerVariantes(main));
   const nuevos = [...rama.keys()].filter((id) => !enMain.has(id));
   const faltan = sinReserva(nuevos, reservados);
   for (const x of c) console.error(`CHOQUE ${x.id}: en esta rama «${x.rama.slice(0, 80)}», en main «${x.main.slice(0, 80)}»`);
