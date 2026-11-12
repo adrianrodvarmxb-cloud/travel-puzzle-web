@@ -2,7 +2,8 @@
 // actualización de los hilos de Gmail (REQ-1668). Fuente: docs/proveedores/borrador-directorio-2026-11-07.md;
 // el test cruza cada dominio y correo contra ese documento para que no se desalineen.
 // Todos arrancan «por_contactar»: Mila no escribe sola; el hilo lo abre el PO (REQ-1297, REQ-1670).
-// Fuera de la carga: las plataformas de hoteles y vuelos (sección 3, aún «¿entran?») y lo de «Fuera del directorio».
+// Fuera de la carga: las plataformas de hoteles y vuelos (sección 3, aún «¿entran?») y lo de «Fuera del directorio»
+// (incluido el operador del catálogo base, que ya bloquea identificar.ts).
 import type { Cobro, Integracion } from "./integracion";
 
 export interface ProveedorSemilla {
@@ -82,8 +83,8 @@ export const DIRECTORIO_APROBADO: ProveedorSemilla[] = [
   dmc({ id: "asian-spirit", nombre: "Asian Spirit", dominios: ["asianspirit.co.th"], correosInvalidos: ["latamasianspirit@gmail.com"],
     zonaHoraria: "Asia/Bangkok", notas: "latamasianspirit@gmail.com rebotó el 6 nov 2026 (REQ-1565)." }),
 
-  // Bloqueado: FREETOUR nunca entra a este flujo (regla B3, REQ-1294). Se carga para que la identificación lo descarte.
-  plataforma({ id: "freetour", nombre: "FREETOUR", bloqueado: true, dominios: ["freetour.com"], notas: "Bloqueado: Mila nunca le escribe (B3)." }),
+  // Fuera de la carga: el operador del catálogo base (regla B3, REQ-1294). No necesita fila: identificar.ts lo
+  // descarta por dominio con BLOQUEADOS, y así tampoco puede salir en el anexo de los términos (REQ-3446).
 ];
 
 const q = (v: string | number | null): string => (v === null ? "NULL" : typeof v === "number" ? String(v) : `'${v.replace(/'/g, "''")}'`);

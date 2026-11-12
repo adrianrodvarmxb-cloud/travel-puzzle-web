@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { DIRECTORIO_APROBADO, sqlCarga, resumenCarga } from "./directorio";
+import { proveedorDeCorreo } from "./identificar";
 
 const doc = readFileSync(join(process.cwd(), "docs/proveedores/borrador-directorio-2026-11-07.md"), "utf8");
 
@@ -12,12 +13,12 @@ describe("REQ-1656: carga del directorio aprobado", () => {
     for (const id of ids) expect(id).toMatch(/^[a-z0-9-]+$/);
   });
 
-  it("REQ-1656: FREETOUR entra solo como bloqueado, sin correos (regla B3)", () => {
-    const ft = DIRECTORIO_APROBADO.filter((p) => p.dominios.some((d) => /freetour/.test(d)) || /freetour/i.test(p.nombre));
-    expect(ft).toHaveLength(1);
-    expect(ft[0].bloqueado).toBe(true);
-    expect(ft[0].correos).toEqual([]);
-    for (const p of DIRECTORIO_APROBADO.filter((x) => x !== ft[0])) expect(p.bloqueado).toBe(false);
+  it("REQ-1656: FREETOUR no se carga; la identificación lo sigue descartando por dominio (regla B3)", () => {
+    expect(DIRECTORIO_APROBADO.some((p) => /freetour/i.test(p.id + p.nombre + p.dominios.join(" ") + p.correos.join(" ")))).toBe(false);
+    expect(DIRECTORIO_APROBADO.every((p) => !p.bloqueado)).toBe(true);
+    const contactos = DIRECTORIO_APROBADO.map((p) => ({ id: p.id, correos: p.correos, dominios: p.dominios }));
+    expect(proveedorDeCorreo(["i.merino@freetour.com"], contactos)).toBeNull();
+    expect(proveedorDeCorreo(["reservas5@destinocolombia.com"], contactos)).toBe("destino-colombia");
   });
 
   it("REQ-1656: cada dominio y cada correo del documento aprobado está en la carga, y nada más", () => {
@@ -30,7 +31,7 @@ describe("REQ-1656: carga del directorio aprobado", () => {
       // El documento abrevia «rositsag@ · tradesupport@bigbustours.com»: basta con que aparezcan el usuario y el dominio.
       expect(doc.includes(c) || (doc.includes(`${u}@`) && doc.includes(dom)), c).toBe(true);
     }
-    for (const d of cargados) if (d !== "freetour.com") expect(doc.toLowerCase(), d).toContain(d);
+    for (const d of cargados) expect(doc.toLowerCase(), d).toContain(d);
   });
 
   it("REQ-1656: nunca un dominio de correo gratuito como dominio propio", () => {
@@ -72,10 +73,10 @@ describe("REQ-1656: carga del directorio aprobado", () => {
     expect(todo.split("\n").filter((l) => l.startsWith("INSERT"))).toHaveLength(DIRECTORIO_APROBADO.length);
   });
 
-  it("REQ-1656: el resumen cuenta publicados, en conversación y bloqueados", () => {
+  it("REQ-1656: el resumen cuenta publicados, en conversación y bloqueados (ninguno)", () => {
     const r = resumenCarga(DIRECTORIO_APROBADO);
     expect(r.total).toBe(DIRECTORIO_APROBADO.length);
     expect(r.publicados).toBe(7);
-    expect(r.bloqueados).toBe(1);
+    expect(r.bloqueados).toBe(0);
   });
 });
