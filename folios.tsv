@@ -1857,3 +1857,4 @@ REQ-3442	ops/punto-de-regreso-migraciones	2026-11-12 12:07	alta de paises que so
 REQ-3443	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
 REQ-3444	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
 REQ-3445	ops/punto-de-regreso-migraciones	2026-11-12 12:10	disponibilidad y precio por fecha, igual para todos los proveedores
+REQ-3446	feat/proveedores-mila	2026-11-12 12:18	términos: anexo de proveedores generado de la base
