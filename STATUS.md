@@ -962,3 +962,10 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-1624 | Gate B: ids para ciudades nuevas de Tangol | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-1625 | Gate C: visibilidad de los tours de Tangol tras la bandera | NUEVO | — | — | PENDIENTE (definición del PO) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+
+## Tangol ola 2 — filas de `Tour` (REQ-3370 a REQ-3372, 12 nov 2026)
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3370 | Un tour validado de Tangol se convierte en fila de `Tour` (providerId `tangol`, externalId, título, descripción, duración, precio público, moneda, imágenes) y su traducción; ciudad y categoría entran por parámetro | PO 12-11 | `src/tangol/lib/tour-rows.ts`, `src/tangol/lib/details.ts` | `src/tangol/lib/tour-rows.test.ts`, `src/tangol/lib/details.test.ts` | EN CURSO (tests verdes en la sesión; falta el paso que escribe en la base y el merge del PO) |
+| REQ-3371 | Validación Zod del detalle y de las imágenes: el registro malo se descarta, se cuenta y se registra; la carga sigue (regla 8) | PO 12-11 | `src/tangol/lib/details.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/details.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
+| REQ-3372 | Solo marca Travel Puzzle: título y descripción sin el nombre ni el dominio del proveedor, sin `UrlTour`, sin neto ni comisión; el precio es la tarifa pública | PO 12-11 | `src/tangol/lib/text.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/text.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
