@@ -980,4 +980,4 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
-| REQ-3428 | Traslados de proveedor en el carrusel de complementos de su ciudad | PO 12-11 | `src/trips/cross-sell.ts` (pendiente) | — | PENDIENTE |
+| REQ-3428 | Traslados de proveedor en el carrusel de complementos de su ciudad | PO 12-11 | `src/trips/lib/transfer-cross-sell.ts`, `src/trips/cross-sell.ts`, `src/trips/cross-sell-deps.ts` | `src/trips/lib/transfer-cross-sell.test.ts`, `src/trips/cross-sell.test.ts` | CUMPLIDO |
