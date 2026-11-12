@@ -1,6 +1,6 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 11 nov 2026, 13:45 (CDMX).
+Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
 ## Folios y frentes en curso (REQ-1587, 11 nov 2026) — matriz de trazabilidad
@@ -52,6 +52,7 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | REQ-1580 | Confirmación por panel y WhatsApp | NUEVO | idem | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · panel verde; WhatsApp espera REQ-1663 |
 | REQ-1581 | Si el neto baja, baja el precio | NUEVO | lib/tarifas.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
 | REQ-1674 | Folios del frente sin choques con main: folio nuevo apartado + alias «antes REQ-…» | NUEVO | docs/requisitos.md, STATUS.md, src/proveedores/**, docs/gates-proveedores-mila-2026-11.md, docs/plan-proveedores-1572-1576-1579.md | src/ops/requisitos-unicos.test.ts (main) | CUMPLIDO (12 nov: main mezclado, folio.ts revisar sin choques, suite 3063 verde, build verde) |
+| REQ-1668 | Directorio actualizado con los hilos de Gmail (Eurorutas, Enjoy Travel, Asian Spirit rebotó, Angela, Tangol, Extime) | NUEVO | docs/proveedores/borrador-directorio-2026-11-07.md | — (DATOS; evidencia: hilos de Gmail del 3 al 12 nov) | CUMPLIDO (12 nov 2026) |
 | REQ-1582 | Sin fecha, Mila la pide en el hilo | NUEVO | lib/tarifas.ts, tarifa.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
 | REQ-1535, REQ-1537…1539 y REQ-1638…1662 y REQ-1673 (antes REQ-1536…1564 y REQ-1549; renumerados por REQ-1674) | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1660 CUMPLIDO en la rama (src/proveedores/cpanel.ts, cpanel.test.ts; build verde 12 nov) |
 
