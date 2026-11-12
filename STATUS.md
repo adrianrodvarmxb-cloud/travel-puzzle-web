@@ -22,7 +22,7 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1576 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0026 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; falta quién llena «bloqueos») |
 | REQ-1577 | Presentación en el hilo existente («Re: …») | NUEVO | src/proveedores/lib/borrador.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde; faltan los 7 borradores con el asunto real |
 | REQ-1579 | Cambio de tarifa confirmado por el PO detona comando | NUEVO | — | — | PENDIENTE (espera G1-G3: REQ-1580..1582) |
-| REQ-1535 a REQ-1564 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1562 NO CUMPLIDO |
+| REQ-1535 a REQ-1564 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1562 CUMPLIDO en la rama (src/proveedores/cpanel.ts, cpanel.test.ts; build verde 12 nov) |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Archivo(s) | Test | Estado |

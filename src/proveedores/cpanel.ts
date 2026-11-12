@@ -19,7 +19,8 @@ export async function subirDocumento(cfg: CpanelConfig, ruta: string, contenido:
   const form = new FormData();
   form.append("dir", dir);
   form.append("overwrite", "0");
-  form.append("file-1", new Blob([contenido], { type: tipo }), nombre);
+  // REQ-1562: copia a un ArrayBuffer propio; Blob no acepta Uint8Array<ArrayBufferLike> (SharedArrayBuffer) y el build se caía en la revisión de tipos.
+  form.append("file-1", new Blob([new Uint8Array(contenido)], { type: tipo }), nombre);
   const res = await cfg.fetch(`${base}/Fileman/upload_files`, { method: "POST", headers: auth, body: form });
   const json = (await res.json().catch(() => null)) as { status?: number; errors?: string[] } | null;
   if (!res.ok || json?.status !== 1) throw new Error(`cPanel ${res.status}: ${json?.errors?.join("; ") ?? "sin detalle"}`);
