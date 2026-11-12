@@ -6,7 +6,7 @@
 //   npx tsx src/scripts/frente.ts cerrar <n>                  → cierra el frente al terminar
 // Token: GH_TOKEN o GITHUB_TOKEN. Repo: GITHUB_REPOSITORY o el remoto origin.
 import { execFileSync } from "node:child_process";
-import { ETIQUETA_FRENTE, coincideFrente } from "../ops/lib/frentes";
+import { ETIQUETA_FRENTE, cabecerasFrente, coincideFrente } from "../ops/lib/frentes";
 
 function repo(): string {
   if (process.env.GITHUB_REPOSITORY) return process.env.GITHUB_REPOSITORY;
@@ -21,7 +21,8 @@ async function api(ruta: string, init: RequestInit = {}): Promise<unknown> {
   if (!token) throw new Error("Falta GH_TOKEN o GITHUB_TOKEN");
   const r = await fetch(`https://api.github.com/repos/${repo()}${ruta}`, {
     ...init,
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", ...(init.headers ?? {}) },
+    // REQ-1621: el cuerpo JSON tiene que declarar Content-Type o GitHub responde 415.
+    headers: { ...cabecerasFrente(token, init.body !== undefined), ...(init.headers ?? {}) },
   });
   if (!r.ok) throw new Error(`GitHub ${r.status}: ${await r.text()}`);
   return r.json();
