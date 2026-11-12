@@ -1141,3 +1141,9 @@ Origen: el PR #378 (encender cuentas) falló en «Pruebas»: `src/ops/requisitos
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-1608 | CÓDIGO | Dado un folio que main ya trae duplicado, cuando un PR deja solo una de sus versiones, entonces `folio.ts revisar` no lo marca como choque; si el texto de la rama no se parece a ninguna versión de main, sí choca (`src/ops/lib/folios.test.ts`) | agente | — | EN CURSO (test rojo → verde) |
+
+## REQ-1616: fuentes locales en el build (INC-012, 11 nov 2026)
+Petición (PO, 11-11, respuesta a pregunta): «Sí, guárdalas en el repo» — blindar el build para que no dependa de descargar fuentes de Google.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1616 | CÓDIGO | Dado un build de producción en CI, cuando no se puede llegar a Google Fonts, entonces el build termina igual porque `layout.tsx` usa `next/font/local` con los archivos de `src/app/fonts/` (OFL) | agente | — | EN CURSO (test y build verdes en la sesión; falta humo del PR y producción) |
