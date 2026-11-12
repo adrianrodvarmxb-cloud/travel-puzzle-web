@@ -39,6 +39,8 @@ export interface BookingEmailData {
   cityName?: string | null;
   /** Hasta 3 tours más en la misma ciudad. */
   moreTours?: { title: string; url: string; imageUrl: string; rating?: number | null; isFree?: boolean }[];
+  /** REQ-1596: invitación opcional a guardar las reservas en la cuenta (solo con ACCOUNTS_ENABLED). */
+  accountUrl?: string | null;
   /** Google Maps al punto de encuentro, si hay coordenadas. */
   mapsUrl: string | null;
   /** Foto principal del tour (catálogo de Freetour). */
@@ -261,6 +263,21 @@ export function meetingPointText(mp: unknown, lang: EmailLang): string | null {
 
 // REQ-079 REQ-800 REQ-801: confirmación y recordatorios con los 9 datos de Modo 2 (título, proveedor, fecha, duración,
 // idioma, adultos y niños, refNumber, punto de encuentro y enlace de cancelación).
+// REQ-1596: invitación discreta; nunca bloquea nada (la reserva ya está hecha sin cuenta).
+const ACCOUNT_COPY: Record<EmailLang, { title: string; sub: string; cta: string }> = {
+  es: { title: "Guarda tus reservas en tu cuenta", sub: "Opcional: entra con este mismo correo y ve todas tus reservas juntas. Sin contraseñas.", cta: "Entrar a mi cuenta" },
+  en: { title: "Keep your bookings in your account", sub: "Optional: sign in with this same email and see all your bookings together. No passwords.", cta: "Go to my account" },
+};
+function accountInvite(d: BookingEmailData): string {
+  if (!d.accountUrl || !/^https:\/\//.test(d.accountUrl)) return "";
+  const c = ACCOUNT_COPY[d.lang] ?? ACCOUNT_COPY.es;
+  return `<tr><td style="padding:26px 26px 0">
+<div style="font-size:16px;font-weight:700;color:${UI.N9}">${esc(c.title)}</div>
+<div style="font-size:14px;line-height:1.5;color:${BRAND.muted};margin:6px 0 10px">${esc(c.sub)}</div>
+<a href="${esc(d.accountUrl)}" style="font-size:14px;font-weight:700;color:${BRAND.lightBlue};text-decoration:none">${esc(c.cta)} →</a>
+</td></tr>`;
+}
+
 export function buildBookingConfirmationEmail(d: BookingEmailData) {
   const t = T[d.lang];
   const B = BRAND;
@@ -379,6 +396,8 @@ ${eyebrow(t.secTips)}${h2(t.tipsTitle)}
 
 ${waUrl || assistantUrl ? supportCard({ eyebrow: eyebrow(t.secHelp, DIM), title: t.help, subtitle: t.waSub, waUrl, waLabel: t.whatsapp, iconsBaseUrl: d.iconsBaseUrl, assistant: assistantUrl ? { url: assistantUrl, label: t.assistant } : null }) : ""}
 
+${accountInvite(d)}
+
 ${renderCrossSellHtml(d.crossSell, eyebrow)}
 
 ${more.length ? `<tr><td style="padding:30px 26px 0">
@@ -418,6 +437,7 @@ ${eyebrow(t.secMore)}${h2(t.more(d.cityName ?? null))}
     "",
     `${t.manage}: ${d.manageUrl}`,
     t.manageNote,
+    ...(d.accountUrl ? ["", `${ACCOUNT_COPY[d.lang].title}: ${d.accountUrl}`] : []),
     ...(trip ? ["", `${t.tripTitle}: ${trip}`, t.tripSub(d.cityName ?? null)] : []),
     ...(reviews.length ? ["", t.reviewsTitle, ...reviews.map((r) => `${stars(r.rate)} "${r.text}" — ${r.name}`)] : []),
     "",

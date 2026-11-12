@@ -920,3 +920,17 @@ Gates A/B/C en `docs/gates-rendimiento.md`. Medición de la versión del PR (sin
 | REQ-1562 | TBT < 200 ms / INP p75 < 200 ms | `src/perf/lib/idle.ts`, `src/components/map/maplibre.ts` | `src/perf/lib/idle.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 181 / 425 / 253 ms) |
 | REQ-1563 | Peso inicial < 1.5 MB | `src/components/layout/Logo.tsx`, `src/perf/lib/image.ts`, `src/freetour/lib/image-origin.ts` | `src/perf/logo.test.ts`, `src/perf/lib/image.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 2.2 / 3.5 / 2.2 MB; falta gate B) |
 | REQ-1564 | Ninguna imagen fuera del viewport al inicio | `src/components/home/v2/HeroSearch.tsx`, `ExperienceCard.tsx`, `OwnTripsInTours.tsx`, `ToursPageClient.tsx`, `TripGallery.tsx`, `TourHeroSection.tsx`, `SiteFooter.tsx` | `src/perf/lib/image.test.ts`, `src/perf/logo.test.ts`, `src/perf/lib/budget.test.ts` | PENDIENTE (preview: 200 KiB por el logo del pie; ya corregido, sin medir) |
+
+## Cuentas de cliente opcionales (PO, 11 nov 2026) — matriz de trazabilidad
+Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT_PUBLIC_ACCOUNTS_ENABLED` (apagada en este PR).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-1599 | Enlace al correo (15 min, un uso, misma respuesta exista o no) | Gate A | `src/accounts/lib/login-link.ts`, `src/accounts/login.ts`, `src/app/api/cuenta/enlace/route.ts` | `src/accounts/lib/login-link.test.ts`, `src/accounts/login.test.ts`, `src/accounts/routes.test.ts` | EN CURSO (verde; humo local con bandera encendida OK) |
+| REQ-1591 | Entrar con el enlace (crea CLIENT; vencido/alterado/usado no entra) | Gate A | `src/accounts/login.ts`, `src/lib/auth.ts`, `src/components/account/VerifyLogin.tsx` | `src/accounts/login.test.ts` | EN CURSO (verde; humo local OK) |
+| REQ-1592 | Registro con contraseña apagado (410) y contraseña solo ADMIN | Auditoría | `src/accounts/lib/policy.ts`, `src/app/api/auth/signup/route.ts`, `src/lib/auth.ts`, `src/middleware.ts` | `src/accounts/lib/policy.test.ts`, `src/accounts/routes.test.ts` | EN CURSO (verde) |
+| REQ-1593 | Mis reservas: todo lo del correo, sin distinguir mayúsculas, nunca ajenas | Gate B | `src/accounts/lib/bookings.ts`, `src/accounts/deps.ts`, `src/app/mi-cuenta/reservas/page.tsx` | `src/accounts/lib/bookings.test.ts` | EN CURSO (verde; humo local: propia y solicitud sí, ajena no) |
+| REQ-1594 | Mi cuenta: nombre, cerrar sesión, borrar cuenta | Gate B | `src/app/mi-cuenta/page.tsx`, `src/components/account/AccountSettings.tsx`, `src/app/api/cuenta/route.ts` | `src/accounts/lib/policy.test.ts` | EN CURSO (verde; humo local OK) |
+| REQ-1595 | Header: Entrar / Mis reservas / Mi cuenta con la bandera | Gate A | `src/layout/lib/nav-model.ts`, `src/components/layout/Navbar.tsx` | `src/layout/lib/nav-model.test.ts` | EN CURSO (verde) |
+| REQ-1596 | Invitación opcional en la reserva y en el correo | Gate C | `src/accounts/lib/policy.ts`, `src/app/reserva/[token]/*`, `src/notifications/lib/booking-email.ts`, `src/booking/notify.ts` | `src/accounts/lib/policy.test.ts`, `src/notifications/lib/booking-email.test.ts` | EN CURSO (verde; humo local OK) |
+| REQ-1597 | Aviso de privacidad y cookies con la cuenta y Google | Gate D | `src/legal/lib/privacidad.ts`, `src/legal/lib/cookies.ts` | `src/legal/lib/legal.test.ts` | EN CURSO (verde) |
+| REQ-1598 | Encender la bandera en producción | Gate D | workflows | humo del PR con la bandera | PENDIENTE |

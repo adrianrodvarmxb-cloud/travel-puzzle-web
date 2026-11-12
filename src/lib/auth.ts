@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 import { loginSchema } from '@/lib/validations/auth';
 import { ACCOUNTS_ENABLED } from '@/lib/features';
 import { googleSignInDecision } from '@/trips/lib/admin';
+import { passwordLoginAllowed } from '@/accounts/lib/policy';
 
 export const authConfig: NextAuthConfig = {
   trustHost: true, // Trust the host (fixes UntrustedHost error in development)
@@ -39,6 +40,8 @@ export const authConfig: NextAuthConfig = {
         });
 
         if (!user) return null;
+        // REQ-1592: la contraseña solo sirve para cuentas del equipo; los clientes entran con enlace o Google.
+        if (!passwordLoginAllowed(user.role)) return null;
 
         // Check if user has a password (OAuth users won't have one)
         if (!user.password) return null;
@@ -54,6 +57,22 @@ export const authConfig: NextAuthConfig = {
           name: user.name,
           role: user.role,
         };
+      },
+    }),
+    // REQ-1591: entrar con el enlace del correo (sin contraseña).
+    Credentials({
+      id: 'enlace',
+      name: 'Enlace al correo',
+      credentials: { email: {}, exp: {}, sig: {} },
+      async authorize(credentials) {
+        const email = String(credentials?.email ?? '');
+        const exp = Number(credentials?.exp);
+        const sig = String(credentials?.sig ?? '');
+        if (!email || !sig || !Number.isFinite(exp)) return null;
+        const { consumeLoginLink } = await import('@/accounts/login');
+        const { loginDeps } = await import('@/accounts/deps');
+        const user = await consumeLoginLink({ email, exp, sig }, await loginDeps());
+        return user ? { id: user.id, email: user.email, name: user.name, role: user.role as 'CLIENT' | 'ADMIN' } : null;
       },
     }),
   ],
