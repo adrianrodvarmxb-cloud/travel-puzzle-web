@@ -69,11 +69,26 @@ export interface Choque {
 }
 
 /** REQ-1587: folios que la rama usa con otro tema distinto al que tienen en main. */
-export function choques(rama: Map<string, string>, main: Map<string, string>, umbral = 0.5): Choque[] {
+/** REQ-1608: folio → todas sus versiones en el archivo (main puede traer un duplicado que una rama corrige). */
+export function leerFoliosTodos(md: string): Map<string, string[]> {
+  const m = new Map<string, string[]>();
+  for (const linea of md.split("\n")) {
+    const f = linea.match(FILA);
+    if (!f) continue;
+    const texto = f[2].replace(/\\\|/g, " ").split("|").map((c) => c.trim()).slice(0, 2).join(" ");
+    m.set(f[1], [...(m.get(f[1]) ?? []), texto]);
+  }
+  return m;
+}
+
+// REQ-1587; REQ-1608: choca solo si el texto de la rama no se parece a NINGUNA versión del folio en main.
+export function choques(rama: Map<string, string>, main: Map<string, string | string[]>, umbral = 0.5): Choque[] {
   const out: Choque[] = [];
   for (const [id, texto] of rama) {
-    const enMain = main.get(id);
-    if (enMain !== undefined && parecido(texto, enMain) < umbral) out.push({ id, rama: texto, main: enMain });
+    const v = main.get(id);
+    if (v === undefined) continue;
+    const versiones = Array.isArray(v) ? v : [v];
+    if (versiones.every((t) => parecido(texto, t) < umbral)) out.push({ id, rama: texto, main: versiones[0] });
   }
   return out;
 }
