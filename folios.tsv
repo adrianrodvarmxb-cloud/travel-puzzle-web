@@ -19,3 +19,4 @@ REQ-1604	docs/req-conversacion-11-nov	2026-11-11 23:34	conversación 11-11: Sevi
 REQ-1605	feat/mapa-viajes-y-tangol-ola2	2026-11-11 23:39	Tangol/mapa: regla de catálogo único y notas entre paréntesis
 REQ-1606	feat/mapa-viajes-y-tangol-ola2	2026-11-11 23:39	Tangol/mapa: regla de catálogo único y notas entre paréntesis
 REQ-1607	feat/encender-cuentas	2026-11-12 00:13	Big Bus: fila duplicada REQ-1535 (de #366) pasa a folio propio
+REQ-1608	fix/req-1535-duplicado	2026-11-12 00:16	revisor de folios: duplicados ya en main no bloquean el PR que los corrige
