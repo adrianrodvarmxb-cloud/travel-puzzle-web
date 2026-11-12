@@ -16,3 +16,17 @@ Firmados por Adri (PO) el 3 nov 2026. Fuente: textos revisados por el abogado (P
 ## Pendiente con el abogado
 - Aviso de privacidad frente a la nueva LFPDPPP (mar 2025) y el plazo ARCO de 15 días.
 - Cláusula de cargo por no presentarse cuando se activen los tours con costo.
+
+## v2 (11 nov 2026, OK del PO: «mete los de una vez») — REQ-1635 a REQ-1637
+- T&C: sección «Asesoría con inteligencia artificial» (Mila), «Vuelos incluidos en un servicio», moneda del prestador con conversión aproximada, operador identificado en ficha, confirmación o a solicitud (compatible con marca blanca), y se aplica el punto 4: la frase «se deslinda de toda responsabilidad» pasa a «responde por su labor de intermediación»; al final de Límites, «nada limita los derechos de la LFPC».
+- Aviso integral: atención con IA y WhatsApp, regiones y países de transferencia, transferencias necesarias sin consentimiento, encargados tecnológicos (Stripe, Cloudflare, Resend, Google, Meta, IA). Sin nombrar proveedores de viaje (regla del PO).
+- Aviso simplificado: IA y transferencias fuera de México.
+
+## Preguntas para el abogado (v2)
+1. Plazo ARCO de 15 días: ¿hábiles o naturales?, ¿dejar el máximo legal (20 + 15, art. 31)?
+2. ¿Basta informar las transferencias como necesarias o se agrega casilla para aceptar o rechazar alguna?
+3. «Régimen alimenticio y necesidades especiales» pueden ser datos sensibles (salud): ¿hace falta consentimiento expreso por escrito?
+4. Marca blanca (Tangol): ¿basta identificar al operador «a solicitud de EL CLIENTE» o debe ir siempre en la confirmación (LFPC, NOM-010-TUR)?
+5. ¿Se quedan las cláusulas de terminación sin aviso, plazo de 1 año para reclamar y exclusiones de la cláusula de Límites?
+6. Cargo por no presentarse (inciso b) al encender los tours con costo.
+7. Publicar el contrato registrado ante Profeco (PDF) para descarga en /terminos.
