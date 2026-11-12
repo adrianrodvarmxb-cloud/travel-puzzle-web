@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
-import { GEO_ATTRIBUTION, GEO_ATTRIBUTION_PATHS, geoAttribution, geoAttributionFor, isGeoAttributionEnabled } from "./attribution";
+import { GEO_ATTRIBUTION, GEO_ATTRIBUTION_PATHS, GEO_SOURCES_IN_PRODUCTION, geoAttribution, geoAttributionFor, isGeoAttributionEnabled } from "./attribution";
 
 describe("atribución de datos geográficos", () => {
   it("REQ-138: texto CC BY 4.0 de GeoNames con enlace a la licencia", () => {
@@ -34,8 +34,10 @@ describe("dónde va la atribución (gate G5, firmado el 5 nov 2026)", () => {
     expect(geoAttributionFor("/terminos", { GEO_ATTRIBUTION_ENABLED: "false" })).toEqual([]);
   });
 
-  it("REQ-139: wrangler.jsonc trae GEO_ATTRIBUTION_ENABLED=\"false\" y el pie de página no usa la atribución", () => {
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"GEO_ATTRIBUTION_ENABLED":\s*"false"/);
+  it("REQ-3309: wrangler.jsonc enciende GEO_ATTRIBUTION_ENABLED (GeoNames ya es fuente en producción) y el pie de página no usa la atribución (REQ-139)", () => {
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"GEO_ATTRIBUTION_ENABLED":\s*"true"/);
+    expect(GEO_SOURCES_IN_PRODUCTION).toContain("geonames");
+    expect(geoAttributionFor("/terminos", { GEO_ATTRIBUTION_ENABLED: "true" }).map((x) => x.text)).toContain("Datos geográficos: GeoNames (geonames.org), licencia CC BY 4.0.");
     expect(readFileSync("src/components/home/v2/SiteFooter.tsx", "utf8")).not.toMatch(/attribution|GeoAttribution/i);
   });
 });

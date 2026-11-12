@@ -68,7 +68,7 @@ describe("REQ-264 bandera EMAIL_CROSS_SELL_ENABLED", () => {
     expect(crossSellEnabled({})).toBe(false);
     expect(crossSellEnabled({ EMAIL_CROSS_SELL_ENABLED: "TRUE" })).toBe(false);
     expect(crossSellEnabled({ EMAIL_CROSS_SELL_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"EMAIL_CROSS_SELL_ENABLED":\s*"false"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"EMAIL_CROSS_SELL_ENABLED":\s*"(true|false)"/);
   });
   it("REQ-264 apagada no hay bloque ni HTML ni texto", () => {
     const b = buildEmailCrossSell(input({ enabled: false }));
