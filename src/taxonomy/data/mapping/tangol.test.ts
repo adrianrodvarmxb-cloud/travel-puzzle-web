@@ -9,10 +9,11 @@ import rawTangol from "./tangol.json";
 /**
  * REQ-3466: pruebas del mapeo de Tangol. Molde: freetour.test.ts y agencias.test.ts.
  * Los títulos son del estilo que Tangol vende en Sudamérica (traslados, city tours, excursiones, circuitos, shows);
- * no son una lista de categorías del proveedor: esa sigue sin confirmar (ver el `revisado` del mapeo).
+ * no son una lista de categorías del proveedor. Corren sobre la red de seguridad 9000001 (código sin mapear); los tipos
+ * reales, categoría por categoría, se prueban en tangol-tipos.test.ts (REQ-3503).
  */
 const tangol = M.tangol;
-/** El sync de la ola 2 escribe este id: ningún tour de Tangol llega sin categoría. */
+/** La red de seguridad (REQ-3502): la recibe un tour cuyo TypeCode|SubTypeCode no está en la tabla. */
 const cat = categoriaIdDeTangol({});
 
 const producto = (titulo: string, min: number | null, dias: number | null = null, precio: number | null = 45) => ({

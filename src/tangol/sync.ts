@@ -24,6 +24,7 @@ import { LANGUAGES, type TranslationRow } from "@/catalog/lib/tour-rows";
 import type { AgencyTripPlace, TangolRulesDeps } from "./lib/catalog-rules";
 import type { ExistingCity, NewCity, ProviderCityRow } from "./lib/cities";
 import { summarizeRates } from "./lib/rates";
+import { categoriaIdDeTangol } from "./lib/taxonomia";
 import type { TangolTour } from "./lib/schemas";
 import { TANGOL_PROVIDER_ID, type TangolTourRow } from "./lib/tour-rows";
 import {
@@ -78,6 +79,7 @@ export interface TangolSyncDeps {
   ratesCurrency?: string;
   /** Moneda a usar cuando las tarifas no la declaran. */
   fallbackCurrency?: string | null;
+  /** REQ-3502: por omisión, la categoría de su TypeCode|SubTypeCode en mapping/tangol.json (`categoriaIdDeTangol`). */
   categoryId?: (tour: TangolTour) => number;
   rules?: TangolRulesDeps;
   /** Alta de países propios del proveedor; por omisión, el dato versionado del repo (REQ-3442). */
@@ -114,7 +116,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   const {
     api, repo, now, agencyTrips, ensayo = true, batch = DESTINATIONS_PER_STEP,
     languageCode = 0, currency = 0, ratesLanguage = "0", ratesCurrency = "0",
-    fallbackCurrency = null, categoryId, rules, planCountries = planCountriesFromRepoData,
+    fallbackCurrency = null, categoryId = categoriaIdDeTangol /* REQ-3502 */, rules, planCountries = planCountriesFromRepoData,
   } = deps;
 
   const errores: TangolSyncReport["errores"] = [];

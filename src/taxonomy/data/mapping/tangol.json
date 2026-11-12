@@ -1,14 +1,14 @@
 {
   "proveedor": "tangol",
-  "version": "2026-11-12",
-  "revisado": "propuesta Claude 12-11-2026 desde src/tangol/lib/schemas.ts y docs/tangol-inventario-2026-11-11.md; pendiente de firma del PO. NO CUMPLIDO (REQ-3465): Tangol no ha dado la lista de sus categorías (TypeCode/SubTypeCode), así que no se puede repetir categoría por categoría el trato de freetour.json; preguntas al proveedor en docs/gates-tangol-taxonomia-2026-11-12.md",
+  "version": "2026-11-12b",
+  "revisado": "REQ-3502: categoría por categoría desde los tipos reales de Tangol (corrida de solo lectura REQ-3487, 43303152904: 184 destinos, 2,059 tours, 39 tipos; tabla en tests/fixtures/tangol-tipos-2026-11-12.json), con el trato de freetour.json; pendiente de firma del PO, con las decisiones marcadas «PENDIENTE PO» en las notas y en el PR #459",
   "precioCeroEsPiezaLibre": false,
   "permiteConfirmacionInmediata": false,
   "categorias": [
     {
       "id": "9000001",
-      "nombre_es": "Tangol sin tipo confirmado",
-      "nombre_en": "Tangol, unconfirmed type",
+      "nombre_es": "Tangol, código sin mapear",
+      "nombre_en": "Tangol, unmapped code",
       "formato": "tour",
       "temas": [],
       "atributos": [],
@@ -20,7 +20,435 @@
       "estado": "activo",
       "fijo": false,
       "porDefecto": "visita-guiada",
-      "nota": "Categoría comodín: el mismo trato de FREETOUR 13 «Otros» y 14 «Top selección» (base `tour`, reglas por palabra de traslado, entradas y clase o taller, `porDefecto` visita-guiada cuando no hay señal de transporte, a pie ni sitio), que es el que FREETOUR usa justo para los tours cuya categoría no dice el tipo. Con ella, ningún tour de Tangol cae en «por-revisar»: el formato lo deciden la duración y las palabras del título (circuito por 2+ días, excursión por salida de la ciudad, traslado, transporte, boletos, autoguiado, clase o taller) y los temas, las palabras del título y del resumen. NO se replica categoría por categoría el trato de freetour.json porque Tangol no ha confirmado su lista de categorías: `src/tangol/lib/schemas.ts` dice que cada tour trae `TypeCode`, `SubTypeCode` y `TourType`, pero en el repo no hay ni un valor de esos campos ni su significado, y `docs/tangol-inventario-2026-11-11.md` solo trae conteos por país y ciudad (2,237 tours), sin nombres ni categorías. EL ID ES ENTERO porque `Tour.categoryId` es `Int` y FREETOUR ya ocupa 1–35: Tangol usa el rango reservado desde 9,000,001, la misma convención que el PO aceptó para `City.id` en REQ-1624. El sync (ola 2) escribe este id con `categoriaIdDeTangol()` de `src/tangol/lib/taxonomia.ts`. Al confirmarse los códigos, cada uno entra como categoría propia (9000002, 9000003…) con su formato, temas y atributos, como las 29 de FREETOUR; hasta entonces no se inventan categorías."
+      "nota": "Red de seguridad (antes la categoría comodín de REQ-3465, REEMPLAZADO por REQ-3502): solo la recibe un tour cuyo par TypeCode|SubTypeCode NO está en CODIGOS_TANGOL (src/tangol/lib/taxonomia.ts), p. ej. un tipo nuevo que Tangol agregue. Mismo trato que FREETOUR 13 «Otros» / 14 «Top selección»: no cae en «por-revisar» y el formato lo deciden la duración y el título. PENDIENTE PO: dejarla así (falla abierta: el tour se publica con un tipo aproximado) o volverla «por-revisar» como FREETOUR con una categoría desconocida (falla cerrada: el tour se esconde hasta mapearlo). El tour con SubTypeCode «[METHOD ERROR 504]» es basura del servidor de Tangol que se descarta en la carga; no tiene categoría propia."
+    },
+    {
+      "id": "9000002",
+      "nombre_es": "Excursiones clásicas",
+      "nombre_en": "Classic excursions",
+      "formato": "excursion-dia",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas"
+      ],
+      "estado": "activo",
+      "porDefecto": "tour",
+      "nota": "Tangol EXCURSION|CLASICAS. 843 tours con TourType 2 y 2 promos con TourType 1 (Campo de Piedra Pómez, Salar de Antofalla; «Promo: Corcovado con City Tour…»). Mismo trato que FREETOUR 4 «Viajes de 1 día»: base excursión; si dura menos de 6 h o es «city tour» / «en {ciudad}», cae a visita guiada, caminata o tour según la señal del título (REQ-534/542/1250). `porDefecto` tour porque las excursiones de Tangol van en vehículo. Regla por palabra «entradas» de FREETOUR 13/14 (boletos sin guía)."
+    },
+    {
+      "id": "9000003",
+      "nombre_es": "Excursiones de aventura",
+      "nombre_en": "Adventure excursions",
+      "formato": "experiencia-unica",
+      "temas": [
+        "aventura"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Momentos de autor con tema aventura. PENDIENTE PO: el alquiler de equipo de ski y snowboard queda como aventura y no como `alquiler` (tras bandera en el diccionario)."
+    },
+    {
+      "id": "9000004",
+      "nombre_es": "Excursiones gastronómicas",
+      "nombre_en": "Food & wine excursions",
+      "formato": "tour",
+      "temas": [
+        "gastronomia"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "experiencia-unica"
+      ],
+      "estado": "activo",
+      "porDefecto": "visita-guiada",
+      "nota": "Tangol EXCURSION|GASTRONOMICO. 92 tours (visita a bodega, destilería y chocolatería; cabalgata con degustación de vinos y quesos). Trato de FREETOUR 5 «Tour gastronómico» (base tour, tema gastronomía, clase o cata = Momentos de autor), con `porDefecto` visita-guiada en vez de caminata: en Tangol son visitas a bodegas, no food tours a pie."
+    },
+    {
+      "id": "9000005",
+      "nombre_es": "Excursiones a atracciones",
+      "nombre_en": "Attraction excursions",
+      "formato": "excursion-dia",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas"
+      ],
+      "estado": "activo",
+      "porDefecto": "visita-guiada",
+      "nota": "Tangol EXCURSION|ATRACCIONES. 18 tours (Quilmes, Amaicha y Tafí del Valle; Fiambalá y termas; Glaciar Perito Moreno en privado). Salidas de día a un atractivo: base excursión como FREETOUR 4; con «entrada» sin guía en el título, Boletos."
+    },
+    {
+      "id": "9000006",
+      "nombre_es": "Tours a pie",
+      "nombre_en": "Walking tours",
+      "formato": "caminata",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [
+        "medio:a-pie"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol EXCURSION|WALKINGTOURS. 17 tours con TourType 2 y 1 promo con TourType 1 (tour de bossa nova a pie, centro histórico). Trato de FREETOUR 12 «Tour a pie». Con bici, barco o vehículo en el título es Tour (REQ-532): «Bike Tour Mercados…»."
+    },
+    {
+      "id": "9000007",
+      "nombre_es": "Día de estancia",
+      "nombre_en": "Ranch day",
+      "formato": "excursion-dia",
+      "temas": [
+        "naturaleza"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "experiencia-unica"
+      ],
+      "estado": "activo",
+      "porDefecto": "visita-guiada",
+      "nota": "Tangol EXCURSION|ESTANCIAS. 13 tours (día de estancia en Peuma Hue, cabalgata en estancia, El Galpón del Glaciar). Salida de día al campo: base excursión, tema naturaleza. PENDIENTE PO: el diccionario no tiene tema «rural / campo / estancia»; se usa naturaleza, el más cercano."
+    },
+    {
+      "id": "9000008",
+      "nombre_es": "Excursiones en barco y costa",
+      "nombre_en": "Shore & boat excursions",
+      "formato": "tour",
+      "temas": [
+        "playa-mar"
+      ],
+      "atributos": [
+        "medio:barco"
+      ],
+      "reglasPorPalabra": [
+        "experiencia-unica"
+      ],
+      "estado": "activo",
+      "nota": "Tangol EXCURSION|SHOREEXCURSIONS. 7 tours (experiencia de buceo, navegación Puerto Montt–Chaitén, Islas Ballestas). Trato de FREETOUR 3 «Cruceros y barcos»: tour con medio barco y tema playa y mar. PENDIENTE PO: «shore excursion» (excursión para pasajeros de crucero) no tiene término en el diccionario."
+    },
+    {
+      "id": "9000009",
+      "nombre_es": "Excursiones en tren",
+      "nombre_en": "Train excursions",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [
+        "medio:vehiculo"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
+    },
+    {
+      "id": "9000010",
+      "nombre_es": "Vuelos en helicóptero",
+      "nombre_en": "Helicopter flights",
+      "formato": "experiencia-unica",
+      "temas": [
+        "aventura"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol EXCURSION|HELICOPTERO. 5 tours (sobrevuelo en helicóptero, Cañón del Chicamocha). Trato de FREETOUR 18 «Aviación»."
+    },
+    {
+      "id": "9000011",
+      "nombre_es": "Traslado de llegada",
+      "nombre_en": "Arrival transfer",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|IN. 160 tours (aeropuerto o terminal → hotel). Trato de FREETOUR 29 «Traslados»: sección traslados, carrito `transfer` (complemento, REQ-3428)."
+    },
+    {
+      "id": "9000012",
+      "nombre_es": "Traslado de salida",
+      "nombre_en": "Departure transfer",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|OUT. 93 tours (hotel → aeropuerto o terminal). Trato de FREETOUR 29: sección traslados, carrito `transfer` (REQ-3428)."
+    },
+    {
+      "id": "9000013",
+      "nombre_es": "Traslado de ida y vuelta",
+      "nombre_en": "Round-trip transfer",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|IN/OUT. 45 tours (aeropuerto–hotel–aeropuerto, centro–Cerro Catedral ida y vuelta, ida y vuelta al Glaciar Perito Moreno). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
+    },
+    {
+      "id": "9000014",
+      "nombre_es": "Traslados varios",
+      "nombre_en": "Transfers",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
+    },
+    {
+      "id": "9000015",
+      "nombre_es": "Traslado en bus entre ciudades",
+      "nombre_en": "Intercity bus transfer",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
+    },
+    {
+      "id": "9000016",
+      "nombre_es": "Traslado hotel → terminal de bus",
+      "nombre_en": "Hotel to bus terminal transfer",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|TRFOUTBUS. 14 tours (hotel → terminal de buses). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
+    },
+    {
+      "id": "9000017",
+      "nombre_es": "Traslado terminal de bus → hotel",
+      "nombre_en": "Bus terminal to hotel transfer",
+      "formato": "traslado",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol TRASLADO|TRFINBUS. 13 tours (terminal de bus → hotel; también «Bus de línea regular Puerto Natales–El Calafate»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
+    },
+    {
+      "id": "9000018",
+      "nombre_es": "Paquetes clásicos",
+      "nombre_en": "Classic packages",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|CLASICOS. 77 tours con TourType 2 y 73 con TourType 1 (Paquete Córdoba Clásica, Calafate y Ushuaia, 3 días de ski en Cerro Catedral). Paquetes de varios días, muchos con hospedaje: Circuito fijo (sin carrito: se cotiza, REQ-428). PENDIENTE PO: Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000019",
+      "nombre_es": "Paquetes todo incluido",
+      "nombre_en": "All-inclusive packages",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|ALLINCLUSIVE. 45 tours con TourType 1 y 3 con TourType 2 (Paquete Aventura / Clásico / Deluxe, Selva Misionera 3 días 2 noches, Antártida 5 días). Circuito fijo. PENDIENTE PO: Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000020",
+      "nombre_es": "Escapadas",
+      "nombre_en": "Getaways",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|ESCAPADAS. 44 tours con TourType 2 y 2 con TourType 1 (Experiencia en Alma del Lago Suites & Spa, Estancia & Bodega Colomé, Caribe Express, Escapada romántica). Estancias de hotel de varias noches: Circuito fijo. PENDIENTE PO: el diccionario no tiene «escapada / estancia en hotel»; Circuito es el más cercano. Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000021",
+      "nombre_es": "Viajes de aventura",
+      "nombre_en": "Adventure trips",
+      "formato": "circuito",
+      "temas": [
+        "aventura"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|AVENTURA. 8 tours (semana de esquí en Cerro Catedral, cabalgata de 2 días). Circuito fijo con tema aventura. PENDIENTE PO: Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000022",
+      "nombre_es": "Viajes en auto (self-drive)",
+      "nombre_en": "Self-drive trips",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|SELF-DRIVE. 6 tours (Bariloche en auto, Patagonia argentina y chilena en auto). Circuito fijo. PENDIENTE PO: no hay término «self-drive / en auto por tu cuenta»; Circuito es el más cercano. Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000023",
+      "nombre_es": "Viajes a festivales",
+      "nombre_en": "Festival trips",
+      "formato": "circuito",
+      "temas": [
+        "noche-espectaculos"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|FESTIVALES. 2 tours (Festa do Peão de Barretos, Tomorrowland Brasil). Circuito fijo con tema noche y espectáculos. PENDIENTE PO: Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000024",
+      "nombre_es": "Viajes fly & drive",
+      "nombre_en": "Fly & drive trips",
+      "formato": "circuito",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|FLYDRIVE. 1 tour (Self Drive: El Calafate, El Chaltén y Torres del Paine). Circuito fijo. PENDIENTE PO: el atributo «vuelo-incluido» no se puede poner desde un mapeo (el esquema solo deja nocturno y medio). Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000025",
+      "nombre_es": "Viajes con glamping",
+      "nombre_en": "Glamping trips",
+      "formato": "circuito",
+      "temas": [
+        "naturaleza",
+        "montana-senderismo"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": true,
+      "nota": "Tangol VIAJES|GLAMPING. 1 tour (glamping con trekking a la Laguna de los Tres). Circuito fijo con temas naturaleza y montaña. PENDIENTE PO: Tour o viaje (`Trip`): decisión del PO en el PR #459."
+    },
+    {
+      "id": "9000026",
+      "nombre_es": "Pases y entradas",
+      "nombre_en": "Passes & tickets",
+      "formato": "entradas",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol PASES|PASS. 6 tours (pases de ski en Cerro Catedral, entrada al Parque Nacional Iguazú, Tren del Fin del Mundo). Trato de FREETOUR 20 «Entradas» y 28 «Pases urbanos»: Boletos (carrito `tickets`); con guía en el título, Visita guiada (REQ-540)."
+    },
+    {
+      "id": "9000027",
+      "nombre_es": "Boletos de bus",
+      "nombre_en": "Bus tickets",
+      "formato": "transporte",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol PASES|TKTBUS. 2 tours (Ruta 40 Bariloche / El Chaltén / El Calafate). Boleto de bus de línea: Transporte, sección traslados, carrito `transport` (complemento, REQ-3428), como FREETOUR 30."
+    },
+    {
+      "id": "9000028",
+      "nombre_es": "Espectáculos",
+      "nombre_en": "Shows",
+      "formato": "experiencia-unica",
+      "temas": [
+        "cultural",
+        "noche-espectaculos"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol SHOW|SHOW. 4 tours (cena show polinesio Rapa Nui, Cirque du Soleil, Coco Bongo). Trato de FREETOUR 27 «Espectáculos en vivo»."
+    },
+    {
+      "id": "9000029",
+      "nombre_es": "Shows de tango",
+      "nombre_en": "Tango shows",
+      "formato": "experiencia-unica",
+      "temas": [
+        "cultural",
+        "noche-espectaculos"
+      ],
+      "atributos": [
+        "nocturno"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol SHOW|TANGO. 2 tours (Madero Tango Iguazú, cena show Primuseum en Montevideo). Trato de FREETOUR 27 más el atributo nocturno (cena show)."
+    },
+    {
+      "id": "9000030",
+      "nombre_es": "Clases por hora",
+      "nombre_en": "Hourly lessons",
+      "formato": "experiencia-unica",
+      "temas": [
+        "talleres-aprendizaje",
+        "deportivo"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol CLASES|CLASES POR HORA. 2 tours (paddleboard al atardecer, wakeboard en la bahía). Trato de FREETOUR 34 «Talleres» con tema deportivo; playa y mar lo agregan las palabras del título."
+    },
+    {
+      "id": "9000031",
+      "nombre_es": "Clases de samba",
+      "nombre_en": "Samba lessons",
+      "formato": "experiencia-unica",
+      "temas": [
+        "talleres-aprendizaje",
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "nota": "Tangol CLASES|CLASES DE SAMBA. 1 tour (clase de samba brasileña). Trato de FREETOUR 34 «Talleres» con tema cultural."
+    },
+    {
+      "id": "9000032",
+      "nombre_es": "Alquiler por hora",
+      "nombre_en": "Hourly rental",
+      "formato": "alquiler",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "tras_bandera",
+      "nota": "Tangol ALQUILERES|ALQUILER POR HORA. 1 tour (alquiler de scooter). Trato de FREETOUR 26 «Alquileres»: formato alquiler (tras bandera en el diccionario), sección traslados, carrito `car_rental`."
+    },
+    {
+      "id": "9000033",
+      "nombre_es": "Alquiler de vehículo",
+      "nombre_en": "Vehicle rental",
+      "formato": "alquiler",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "tras_bandera",
+      "nota": "Tangol ALQUILERES|ALQUILERDEAUTO. 1 tour (alquiler de buggy playero). Trato de FREETOUR 26: formato alquiler (tras bandera), carrito `car_rental`."
+    },
+    {
+      "id": "9000034",
+      "nombre_es": "Cruceros",
+      "nombre_en": "Cruises",
+      "formato": "crucero",
+      "temas": [
+        "naturaleza"
+      ],
+      "atributos": [
+        "medio:barco"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "tras_bandera",
+      "nota": "Tangol CRUCERO|CRUCERO. 1 tour (Antártida en air-cruise, 8 días a bordo del Magellan Explorer). Formato crucero del diccionario (tras bandera, sin carrito: se cotiza)."
     }
   ]
 }
