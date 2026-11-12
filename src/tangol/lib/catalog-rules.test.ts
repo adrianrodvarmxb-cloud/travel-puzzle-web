@@ -116,10 +116,11 @@ describe("reglas del catálogo de Tangol", () => {
     }
   });
 
-  it("REQ-3375: un nombre agrupado solo tapa lo que dice el dato («Eje Cafetero» no tapa Armenia ni Pereira)", () => {
-    // Caracterización del estado de hoy: `imports/destinocolombia-2026.json` nombra «Eje Cafetero» y
-    // «Salento», no Armenia ni Pereira; y «Islas del Rosario / Barú» no es ninguno de los dos por separado.
-    // Si el PO quiere taparlas, se agregan al dato (la cobertura es un archivo de datos, REQ-1571), no al código.
+  it("REQ-3375, REQ-3402: un nombre agrupado solo tapa lo que dice el dato («Eje Cafetero» no tapa Armenia ni Pereira)", () => {
+    // REQ-3402 — decisión del PO (12 nov 2026 05:17, «B»): solo queda fuera la ciudad NOMBRADA LITERAL en el
+    // archivo de carga. `imports/destinocolombia-2026.json` nombra «Eje Cafetero» y «Salento», no Armenia ni
+    // Pereira, así que esas dos SE PUBLICAN; «Islas del Rosario / Barú» tampoco tapa ninguno por separado.
+    // Para taparlas en el futuro se agrega la ciudad al dato (REQ-1571), nunca una regla regional en el código.
     const co = cargar("destinocolombia-2026.json");
     expect(tangolTourDecision({ country: "CO", city: "Salento" }, co).publicar).toBe(false);
     expect(tangolTourDecision({ country: "CO", city: "Armenia" }, co)).toEqual({ publicar: true });
