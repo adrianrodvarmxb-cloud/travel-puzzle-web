@@ -1,0 +1,26 @@
+{
+  "proveedor": "tangol",
+  "version": "2026-11-12",
+  "revisado": "propuesta Claude 12-11-2026 desde src/tangol/lib/schemas.ts y docs/tangol-inventario-2026-11-11.md; pendiente de firma del PO. NO CUMPLIDO (REQ-3465): Tangol no ha dado la lista de sus categorías (TypeCode/SubTypeCode), así que no se puede repetir categoría por categoría el trato de freetour.json; preguntas al proveedor en docs/gates-tangol-taxonomia-2026-11-12.md",
+  "precioCeroEsPiezaLibre": false,
+  "permiteConfirmacionInmediata": false,
+  "categorias": [
+    {
+      "id": "9000001",
+      "nombre_es": "Tangol sin tipo confirmado",
+      "nombre_en": "Tangol, unconfirmed type",
+      "formato": "tour",
+      "temas": [],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "traslado",
+        "entradas",
+        "experiencia-unica"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "visita-guiada",
+      "nota": "Categoría comodín: el mismo trato de FREETOUR 13 «Otros» y 14 «Top selección» (base `tour`, reglas por palabra de traslado, entradas y clase o taller, `porDefecto` visita-guiada cuando no hay señal de transporte, a pie ni sitio), que es el que FREETOUR usa justo para los tours cuya categoría no dice el tipo. Con ella, ningún tour de Tangol cae en «por-revisar»: el formato lo deciden la duración y las palabras del título (circuito por 2+ días, excursión por salida de la ciudad, traslado, transporte, boletos, autoguiado, clase o taller) y los temas, las palabras del título y del resumen. NO se replica categoría por categoría el trato de freetour.json porque Tangol no ha confirmado su lista de categorías: `src/tangol/lib/schemas.ts` dice que cada tour trae `TypeCode`, `SubTypeCode` y `TourType`, pero en el repo no hay ni un valor de esos campos ni su significado, y `docs/tangol-inventario-2026-11-11.md` solo trae conteos por país y ciudad (2,237 tours), sin nombres ni categorías. EL ID ES ENTERO porque `Tour.categoryId` es `Int` y FREETOUR ya ocupa 1–35: Tangol usa el rango reservado desde 9,000,001, la misma convención que el PO aceptó para `City.id` en REQ-1624. El sync (ola 2) escribe este id con `categoriaIdDeTangol()` de `src/tangol/lib/taxonomia.ts`. Al confirmarse los códigos, cada uno entra como categoría propia (9000002, 9000003…) con su formato, temas y atributos, como las 29 de FREETOUR; hasta entonces no se inventan categorías."
+    }
+  ]
+}

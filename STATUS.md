@@ -996,3 +996,11 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+
+## Taxonomía de los tours de Tangol (PO, 12 nov 2026; frente #454) — matriz de trazabilidad
+Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la base de freetour para convertir a nuestra taxonomía». Gates y preguntas al proveedor en `docs/gates-tangol-taxonomia-2026-11-12.md`. `TANGOL_ENABLED` sigue apagada.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3465 | Mapeo de Tangol a la taxonomía (categoría comodín con el trato de FREETOUR 13/14) y el id que escribe el sync | PO 12-11 | `src/taxonomy/data/mapping/tangol.json`, `src/taxonomy/data/index.ts`, `src/tangol/lib/taxonomia.ts` | `src/tangol/lib/taxonomia.test.ts`, `src/taxonomy/data/mapping/tangol.test.ts` | CUMPLIDO EN PARTE (5+26 pruebas en verde). NO CUMPLIDO el «categoría por categoría» de FREETOUR: Tangol no ha dado su lista de `TypeCode`/`SubTypeCode`; preguntas y tabla por llenar en el gate |
+| REQ-3466 | Pruebas del mapeo: valida con Zod, casos típicos fuera de «por-revisar», traslados y transporte en la sección traslados (complementos, REQ-3428) | PO 12-11 | `src/taxonomy/data/mapping/tangol.json` | `src/taxonomy/data/mapping/tangol.test.ts` | CUMPLIDO (26 en verde) |
+| REQ-3467 | Red de seguridad: falla si un proveedor del catálogo no tiene mapeo + reporte de cuántos tours quedarían en «por-revisar» | PO 12-11 | `src/taxonomy/lib/cobertura.ts` | `src/taxonomy/lib/cobertura.test.ts` | CUMPLIDO (7 en verde) |
