@@ -986,3 +986,6 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3340 | Versión en inglés de lo ya publicado (gate C1) | PO 12-11 | `src/destinations/content/guias.json` (25 guías) | `src/destinations/guias-en-repo.test.ts` | EN CURSO (guías listas y validadas; falta el blog en la ola 3) |
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
+| REQ-3443 | Calendario de disponibilidad y precio por fecha, común a todos los proveedores | PO 12-11 | `src/tours/lib/date-availability.ts` | `src/tours/lib/date-availability.test.ts` | EN CURSO (sin conectar) |
+| REQ-3444 | Traductores de Tangol (rangos) y Freetour (fechas sueltas) a la forma común | agente | `src/tours/lib/date-availability.ts` | `src/tours/lib/date-availability.test.ts` | EN CURSO |
+| REQ-3445 | Candado: mes inválido no truena y nunca viaja el neto | agente | `src/tours/lib/date-availability.ts` | `src/tours/lib/date-availability.test.ts` | EN CURSO |
