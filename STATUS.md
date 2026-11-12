@@ -970,3 +970,6 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3347 | Blog, guías y ayuda para el agente | NUEVO | src/agente/lib/contenido.ts, src/app/api/agente/contenido/route.ts | src/agente/lib/contenido.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; falta Mila) |
 | REQ-3348 | Términos, privacidad y datos de la empresa | NUEVO | src/agente/lib/legal.ts, src/app/api/agente/legal/route.ts | src/agente/lib/legal.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; falta Mila) |
 | REQ-3360 | frente.ts con Content-Type | NUEVO | src/scripts/frente.ts | — (verificado abriendo el frente #422) | CUMPLIDO |
+| REQ-3356 | Reservas y pagos del titular para Mila | NUEVO | src/agente/lib/cliente.ts, src/app/api/agente/cliente/route.ts, wrangler.jsonc (AGENTE_CLIENTES_ON) | src/agente/lib/cliente.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; bandera apagada hasta REQ-3359 y OK del PO) |
+| REQ-3357 | Verificación por número o folio + correo | NUEVO | src/agente/lib/cliente.ts | src/agente/lib/cliente.test.ts | EN CURSO (verde; falta el lado de Mila) |
+| REQ-3355 | Condiciones del anexo de proveedores | NUEVO | — | — | BLOQUEADO (la tabla Proveedor vive en feat/proveedores-mila, sin merge ni migración) |

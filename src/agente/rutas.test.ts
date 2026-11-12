@@ -19,6 +19,7 @@ const { GET: viaje } = await import("@/app/api/agente/viaje/route");
 const { GET: detalle } = await import("@/app/api/agente/detalle/route");
 const { GET: contenido } = await import("@/app/api/agente/contenido/route");
 const { GET: legal } = await import("@/app/api/agente/legal/route");
+const { GET: cliente } = await import("@/app/api/agente/cliente/route");
 
 const LLAVE = "k".repeat(32);
 const req = (url: string, llave: string | null = LLAVE) => new NextRequest(`https://travelpuzzle.com.mx${url}`, { headers: llave ? { authorization: `Bearer ${llave}` } : {} });
@@ -94,5 +95,17 @@ describe("REQ-3347/REQ-3348: contenido y legal por la ventana del agente", () =>
     const r = await contenido(req("/api/agente/contenido?q=qué llevar"));
     expect(r.status).toBe(200);
     expect(Array.isArray((await r.json()).resultados)).toBe(true);
+  });
+});
+
+describe("REQ-3356: reservas del titular por la ventana del agente", () => {
+  it("REQ-3356: con AGENTE_CLIENTES_ON apagada no existe (404), aunque la llave sea buena", async () => {
+    delete env.AGENTE_CLIENTES_ON;
+    expect((await cliente(req("/api/agente/cliente?telefono=5216181129459"))).status).toBe(404);
+  });
+  it("REQ-3356: sin llave, 401", async () => {
+    env.AGENTE_CLIENTES_ON = "true";
+    expect((await cliente(req("/api/agente/cliente?telefono=5216181129459", null))).status).toBe(401);
+    delete env.AGENTE_CLIENTES_ON;
   });
 });

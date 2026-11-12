@@ -142,6 +142,8 @@
     // REQ-221 (PO, 6 nov 2026): ENCENDIDA. REQ-148..152: ventana de solo lectura del catálogo para el agente de WhatsApp (ZoeFel IA). Con OK
     // del PO; la llave AGENTE_TOKEN viaja con la versión (REQ-188).
     "AGENTE_API_ENABLED": "true",
+    // REQ-3356: reservas y pagos del titular para Mila. Apagado hasta validar el aviso de privacidad (REQ-3359) y el OK del PO.
+    "AGENTE_CLIENTES_ON": "false",
     "TRANSFERS_ENABLED": "true",
     "AFFILIATES_ENABLED": "true",
     // La Primera Pieza (REQ-093, REQ-103): menú con La Primera Pieza y Destinos, y /llms.txt. "true" solo cuando
