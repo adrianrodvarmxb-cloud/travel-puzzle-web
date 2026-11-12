@@ -42,8 +42,9 @@
   "vars": {
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
     "FREETOUR_ENV": "production",
-    // REQ-062: versión de la API de Freetour. Sin la variable = "2.0" (hoy). Para 2.2 se agrega
-    // "FREETOUR_API_VERSION": "2.2" solo con OK del PO y después de la pasarela (docs/plan-freetour-v22.md).
+    // REQ-062 / REQ-3496: versión de la API de Freetour. Encendida en 2.2 con OK del PO (12 nov 2026), después de
+    // la pasarela (REQ-063) y de la ruta /events/{id} (REQ-3495). Regreso: borrar esta línea y publicar (vuelve a 2.0).
+    "FREETOUR_API_VERSION": "2.2",
     // Auth.js fuera de Vercel necesita confiar en el host del Worker
     "AUTH_TRUST_HOST": "true",
     // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
