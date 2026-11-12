@@ -11,9 +11,10 @@ describe("páginas institucionales tras bandera", () => {
   });
 
   // REQ-982: BLOG_ENABLED se enciende por el gate «Publica solo cada día»; las demás páginas siguen en "false".
-  it("REQ-240 + REQ-982 + REQ-1401: wrangler.jsonc enciende solo Nosotros, Contacto y Blog (OK del PO, 7 nov 2026); Asesores sigue apagado", () => {
+  // REQ-3382: Asesores se enciende el 12 nov 2026 (PO: «el buzon info ya funciona», REQ-1320).
+  it("REQ-240 + REQ-982 + REQ-1401 + REQ-3382: wrangler.jsonc enciende Nosotros, Contacto, Blog y Asesores; las demás páginas siguen apagadas", () => {
     const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-    const on = new Set(["NOSOTROS_ENABLED", "CONTACTO_ENABLED", "BLOG_ENABLED"]);
+    const on = new Set(["NOSOTROS_ENABLED", "CONTACTO_ENABLED", "BLOG_ENABLED", "EXPERTOS_ENABLED"]);
     for (const flag of Object.values(PAGE_FLAGS)) expect(vars[flag], flag).toBe(on.has(flag) ? "true" : "false");
   });
 

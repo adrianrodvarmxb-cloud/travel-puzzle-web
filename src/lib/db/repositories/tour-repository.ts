@@ -184,7 +184,7 @@ export async function getTourById(tourId: string, language: string = 'en') {
 // Helper function to get a single tour by external ID
 export async function getTourByExternalId(externalId: number, language: string = 'en') {
   const row = await prisma.tour.findUnique({
-    where: { externalId },
+    where: { providerId_externalId: { providerId: 'freetour', externalId } }, // REQ-1623
     include: {
       translations: { where: { language } },
       city: true, // City now has translations as JSON field

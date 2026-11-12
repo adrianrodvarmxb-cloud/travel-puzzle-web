@@ -16,6 +16,7 @@ import { mentionsProviderBrand, titlesMentionBrand } from "./lib/brand";
 import { catalogTourFormat } from "@/tours/lib/card-format";
 import { isHomeDayTrip } from "./lib/day-trip";
 import { parseTourRankRows, tripCandidate, type TourCandidate, type TripCandidate } from "./lib/rank-row";
+import { hiddenProviders, type ProviderVisibilityEnv } from "@/catalog/lib/provider-visibility"; // REQ-3311
 
 export interface HomeTour {
   id: string;
@@ -197,11 +198,18 @@ function cardExtras(t: CardExtrasRow) {
   };
 }
 
+/**
+ * REQ-3311 (candado 1 del gate C): proveedores tras bandera fuera de las consultas crudas del home.
+ * Va como parámetro (JSON) y no como fragmento de SQL, igual que las otras banderas de este archivo.
+ */
+const ocultos = () => JSON.stringify(hiddenProviders(process.env as ProviderVisibilityEnv));
+
 /** REQ-450: C del medidor = promedio del catálogo ponderado por reseñas. */
 async function loadPrior(prisma: PrismaClient): Promise<Prior> {
   const [r] = await prisma.$queryRaw<{ s: unknown; v: unknown }[]>`
     SELECT SUM(CAST(rating AS REAL) * reviewsNumber) AS s, SUM(reviewsNumber) AS v
-    FROM Tour WHERE isActive = 1 AND reviewsNumber > 0 AND rating IS NOT NULL AND CAST(rating AS REAL) BETWEEN 1 AND 5`;
+    FROM Tour WHERE isActive = 1 AND reviewsNumber > 0 AND rating IS NOT NULL AND CAST(rating AS REAL) BETWEEN 1 AND 5
+      AND providerId NOT IN (SELECT value FROM json_each(${ocultos()}))`; /* REQ-3311 */
   return { m: REVIEW_PRIOR_M, C: catalogPrior(Number(r?.s ?? 0), Number(r?.v ?? 0)) };
 }
 
@@ -224,6 +232,7 @@ async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePai
     FROM Tour t JOIN Country co ON co.id = t.countryId LEFT JOIN City c ON c.id = t.cityId
     WHERE t.isActive = 1 AND t.titleImageURL LIKE 'https://%' AND t.reviewsNumber > 0 AND t.rating IS NOT NULL
       AND t.categoryId NOT IN (8, 31, 29, 30, 26)
+      AND t.providerId NOT IN (SELECT value FROM json_each(${ocultos()})) /* REQ-3311 */
       AND (${paid} = 1 OR CAST(t.priceValue AS REAL) = 0)
       AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
     ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
@@ -343,7 +352,7 @@ async function loadReviews(prisma: PrismaClient, repo: HighlightRepo, lang: stri
   const picked = pickDistinctTourReviews(await repo.listRecentFiveStar(200), lang, 30);
   if (!picked.length) return [];
   const tours = await prisma.tour.findMany({
-    where: { externalId: { in: picked.map((r) => r.tourExternalId) } },
+    where: { providerId: 'freetour', externalId: { in: picked.map((r) => r.tourExternalId) } }, // REQ-1623
     select: { id: true, externalId: true, city: { select: { translations: true } }, translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } } },
   });
   const byExt = new Map(tours.map((t) => [t.externalId, t]));

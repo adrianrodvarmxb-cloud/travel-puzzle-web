@@ -26,3 +26,14 @@ export function coincideFrente(tituloIssue: string, tema: string): boolean {
   const k = clave(tema);
   return k.length > 0 && k.every((w) => titulo.has(w));
 }
+
+/**
+ * REQ-1621: cabeceras de la API de GitHub para los frentes. Una petición con cuerpo JSON tiene que declarar
+ * `Content-Type: application/json` o GitHub responde «415: Request bodies must declare Content-Type».
+ * En GET no se manda, para no cambiar lo que ya funcionaba.
+ */
+export function cabecerasFrente(token: string, tieneCuerpo: boolean): Record<string, string> {
+  const h: Record<string, string> = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" };
+  if (tieneCuerpo) h["Content-Type"] = "application/json";
+  return h;
+}

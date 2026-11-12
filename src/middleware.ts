@@ -4,6 +4,7 @@ import { auth } from '@/lib/auth';
 import { destinationsMiddleware } from '@/destinations/middleware';
 import { toursKindRedirect } from '@/trips/lib/public';
 import { localeStep } from '@/i18n/middleware';
+import { withEdgeCache } from '@/perf/edge-cache';
 
 export async function middleware(request: NextRequest) {
   // REQ-650…653 (Gate 3): con LOCALE_URLS_ENABLED, /en/... se reescribe a la ruta sin prefijo con el idioma en x-tp-lang.
@@ -24,6 +25,12 @@ export async function middleware(request: NextRequest) {
     if (res) return res;
   }
 
+  // REQ-1592/REQ-1595: con cuentas encendidas, las entradas viejas llevan a la entrada nueva (sin contraseña).
+  const legacyAccount: Record<string, string> = { '/login': '/mi-cuenta/entrar', '/signup': '/mi-cuenta/entrar', '/bookings': '/mi-cuenta/reservas', '/profile': '/mi-cuenta' };
+  if (process.env.NEXT_PUBLIC_ACCOUNTS_ENABLED === 'true' && legacyAccount[pathname]) {
+    return NextResponse.redirect(new URL(loc.localize(legacyAccount[pathname]), request.url));
+  }
+
   // Auth routes - allow access without checking session first
   const authRoutes = ['/login', '/signup'];
   if (authRoutes.includes(pathname)) {
@@ -38,7 +45,7 @@ export async function middleware(request: NextRequest) {
       console.error('Auth check error in middleware:', error);
     }
     // Allow access to auth pages
-    return loc.finish() ?? NextResponse.next();
+    return withEdgeCache(request, pathname, loc.finish() ?? NextResponse.next());
   }
 
   // Try to get session for protected routes
@@ -78,7 +85,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return loc.finish() ?? NextResponse.next();
+  // REQ-3318 (gates B y C): visitas públicas sin sesión se pueden guardar 5 min en el borde de Cloudflare.
+  return withEdgeCache(request, pathname, loc.finish() ?? NextResponse.next());
 }
 
 export const config = {

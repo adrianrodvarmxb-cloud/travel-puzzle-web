@@ -158,8 +158,8 @@ describe("REQ-1090: registro y tope en el publicador", () => {
     expect(registradas).toEqual(["facebook"]);
   });
 
-  // REQ-1535: ninguna red publica hasta que el artículo y las láminas respondan 200.
-  it("REQ-1535: si una lámina aún no responde 200, ninguna red publica y el motivo dice qué falta", async () => {
+  // REQ-1609: ninguna red publica hasta que el artículo y las láminas respondan 200.
+  it("REQ-1609: si una lámina aún no responde 200, ninguna red publica y el motivo dice qué falta", async () => {
     const posts: string[] = [];
     const r = await runRedes({ post, siteUrl: SITE, config: redesConfig(all, secrets), wait: async () => {},
       historial: { yaPublicadoEnRed: async () => false, registrar: async () => {} },

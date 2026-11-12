@@ -7,6 +7,7 @@ import { ROUTES } from "@/destinations/lib/routes";
 import { homeSections, type HomeSection } from "@/home/lib/sections";
 import { PRIMERA_PIEZA_LABEL } from "@/tours/lib/menu";
 import { PAGE_PATHS, type SitePages } from "@/site/lib/pages";
+import { ACCOUNTS_ENABLED } from "@/lib/features";
 
 export interface NavLink { href: string; label: string }
 export interface FooterColumn { title: string; links: NavLink[] }
@@ -43,6 +44,8 @@ export interface FooterOptions extends HeaderOptions {
   email?: string;
   /** REQ-1400: pilares activos del blog (topic cluster); solo se muestran con el blog visible. */
   pillars?: NavLink[];
+  /** REQ-3335 (gate A3): guías de ciudad del idioma; cuando se pasan, reemplazan a los pilares en la columna «Guías». */
+  guides?: NavLink[];
 }
 
 const TITLES: Record<string, { explore: string; company: string; guides: string; help: string }> = {
@@ -83,7 +86,10 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
     { title: t.explore, links: explore },
     { title: t.company, links: company },
   ];
-  if (o.blog && o.pillars?.length) cols.push({ title: t.guides, links: o.pillars });
+  // REQ-3335: las guías de ciudad mandan; los pilares del blog solo quedan como respaldo si no se pasan guías.
+  if (o.guides !== undefined) {
+    if (o.guides.length) cols.push({ title: t.guides, links: o.guides });
+  } else if (o.blog && o.pillars?.length) cols.push({ title: t.guides, links: o.pillars });
   cols.push({ title: t.help, links: help });
   return cols;
 }
@@ -96,8 +102,10 @@ function pageText(k: string, lang: string): string {
   return (PAGE_TEXT[lang] ?? PAGE_TEXT.en)[k];
 }
 
-/** REQ-1530: «Mis Reservas» y «Perfil» aparecen solo cuando sus páginas existan (cuentas opcionales, REQ-1534). */
-export const ACCOUNT_PAGES_READY = false;
+/** REQ-1530/REQ-1595: «Mis reservas» y «Mi cuenta» existen (/mi-cuenta) y se muestran solo con ACCOUNTS_ENABLED. */
+export const ACCOUNT_PAGES_READY = ACCOUNTS_ENABLED;
+/** REQ-1595: rutas de la cuenta de cliente. */
+export const ACCOUNT_ROUTES = { signIn: "/mi-cuenta/entrar", bookings: "/mi-cuenta/reservas", account: "/mi-cuenta" } as const;
 /** REQ-1531: enlaces del Panel viejo (/dashboard/*, del sitio de Vercel) ocultos; esas páginas no existen. */
 export const LEGACY_DASHBOARD_LINKS = false;
 
@@ -106,7 +114,7 @@ export function sessionNavLinks(
   pub: NavLink[],
   o: { loggedIn: boolean; accountPagesReady: boolean; myBookingsLabel: string },
 ): NavLink[] {
-  return o.loggedIn && o.accountPagesReady ? [...pub, { href: "/bookings", label: o.myBookingsLabel }] : pub;
+  return o.loggedIn && o.accountPagesReady ? [...pub, { href: ACCOUNT_ROUTES.bookings, label: o.myBookingsLabel }] : pub;
 }
 
 export interface PanelLink extends NavLink { icon: string }

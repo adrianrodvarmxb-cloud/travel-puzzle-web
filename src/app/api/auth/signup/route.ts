@@ -2,8 +2,11 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { signupSchema } from '@/lib/validations/auth';
+import { PASSWORD_SIGNUP_ENABLED } from '@/accounts/lib/policy';
 
 export async function POST(request: Request) {
+  // REQ-1592: registro con contraseña apagado (sin verificar el correo expondría reservas ajenas).
+  if (!PASSWORD_SIGNUP_ENABLED) return NextResponse.json({ error: 'El registro con contraseña ya no está disponible. Entra con tu correo en /mi-cuenta/entrar.' }, { status: 410 });
   try {
     const body = await request.json();
 

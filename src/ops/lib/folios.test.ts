@@ -134,3 +134,21 @@ describe("REQ-1587: la regla está en el PR y en el CLAUDE.md", () => {
     expect(md).toMatch(/borrador vigente/);
   });
 });
+
+describe("REQ-1608: si main ya trae un folio duplicado, el PR que lo corrige no choca", () => {
+  it("REQ-1608 (rojo antes del arreglo): main con REQ-1535 dos veces; la rama deja solo el de redes", async () => {
+    const { leerFoliosTodos, choques } = await import("./folios");
+    const main = leerFoliosTodos([
+      "| REQ-1535 | CÓDIGO | Big Bus: publicar solo los productos visibles | agente | — | CUMPLIDO |",
+      "| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas de Instagram, cuando las redes del día van a publicar | agente | — | CUMPLIDO |",
+    ].join("\n"));
+    const rama = leerFolios("| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas de Instagram, cuando las redes del día van a publicar | agente | — | CUMPLIDO |");
+    expect(choques(rama, main)).toEqual([]);
+  });
+  it("REQ-1608: un folio de la rama que no se parece a ninguna versión de main sí choca", async () => {
+    const { leerFoliosTodos, choques } = await import("./folios");
+    const main = leerFoliosTodos("| REQ-1535 | CÓDIGO | Big Bus: publicar solo los productos visibles | agente | — | x |\n| REQ-1535 | CÓDIGO | Dado un artículo del blog y sus láminas | agente | — | x |");
+    const rama = leerFolios("| REQ-1535 | VALIDACIÓN | Acuerdos de intermediación con 5 proveedores: vigencia indefinida | agente | — | x |");
+    expect(choques(rama, main).map((c) => c.id)).toEqual(["REQ-1535"]);
+  });
+});
