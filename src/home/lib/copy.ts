@@ -87,6 +87,8 @@ const es = {
   reviewsHeadline: "En palabras de los viajeros.",
   reviewsSub: "Lo que cuentan quienes ya recorrieron estas ciudades.",
   avgLabel: "CALIFICACIÓN PROMEDIO DE LAS EXPERIENCIAS", // REQ-803 (C7)
+  // REQ-3322: aviso de origen y selección (LFPC art. 32; práctica UE). Sin nombrar al proveedor.
+  reviewsDisclosure: "Selección de reseñas de 5 estrellas, escritas por viajeros que vivieron la experiencia con su operador local. Travel Puzzle no las escribe ni las edita. La calificación y las reseñas de cada una están en la página de cada experiencia.",
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
   // REQ-453: carrusel «Excursiones de un día» (definición del diccionario de taxonomía; sin promesas ni proveedor)
   dayEyebrow: "EXCURSIONES DE UN DÍA",
@@ -177,6 +179,8 @@ const en: Copy = {
   reviewsHeadline: "In travelers' own words.",
   reviewsSub: "What people who already explored these cities have to say.",
   avgLabel: "AVERAGE EXPERIENCE RATING", // REQ-803 (C7)
+  // REQ-3322
+  reviewsDisclosure: "A selection of 5-star reviews, written by travelers who took the experience with its local operator. Travel Puzzle does not write or edit them. Each one's rating and reviews are on each experience's page.",
   expertEyebrowN: "07 — PERSONAL ADVICE",
   dayEyebrow: "DAY TRIPS",
   dayHeadline: "Day trips.",
