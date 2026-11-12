@@ -7,6 +7,7 @@ Actualizado: 11 nov 2026, 13:45 (CDMX).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-1587 | Reserva atómica de folios, revisión en el PR, frentes en curso y paso 0 en CLAUDE.md | NUEVO | `src/ops/lib/folios.ts`, `src/ops/lib/frentes.ts`, `src/scripts/folio.ts`, `src/scripts/frente.ts`, `.github/workflows/prueba-humo.yml`, `CLAUDE.md` | `src/ops/lib/folios.test.ts` | EN CURSO |
+| REQ-1621 | `frente.ts abrir` ya no da 415: el paso 0 de CLAUDE.md es usable desde la nube | NUEVO | `src/ops/lib/frentes.ts`, `src/scripts/frente.ts` | `src/ops/lib/frentes-api.test.ts` | CUMPLIDO (2/2 verdes; frentes #398 y #400 abiertos en vivo, sin 415) |
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
