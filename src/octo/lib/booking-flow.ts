@@ -45,7 +45,9 @@ function pick(options: { deliveryFormat: string; deliveryValue: string }[], kind
 
 /**
  * Lo que recibe el cliente tras confirmar: VOUCHER = un código por reserva; TICKET = uno por persona.
- * Solo se entrega el método que trae la reserva; si está confirmada sin códigos, la lista va vacía (se revisa a mano).
+ * Solo se entrega UN método de los que trae la reserva: si trae los dos (como EdinExplore en el ensayo del
+ * 12 nov 2026), va el voucher, que cubre a todo el grupo; si no hay voucher con código, van los tickets.
+ * Si está confirmada sin códigos, la lista va vacía (se revisa a mano).
  */
 // REQ-3328
 export function deliverables(b: OctoBooking): Delivery {
@@ -53,7 +55,7 @@ export function deliverables(b: OctoBooking): Delivery {
   if (b.status === "CONFIRMED") {
     if (b.deliveryMethods.includes("VOUCHER") && b.voucher) {
       const v = pick(b.voucher.deliveryOptions, "voucher");
-      if (v) items.push(v);
+      if (v) return { supplierReference: b.supplierReference, items: [v] };
     }
     if (b.deliveryMethods.includes("TICKET")) {
       for (const u of b.unitItems) {
