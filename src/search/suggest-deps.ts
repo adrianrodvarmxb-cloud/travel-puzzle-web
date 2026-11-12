@@ -2,6 +2,8 @@
 import { getD1, getPrisma } from "@/lib/prisma";
 import { loadDbAliases, type D1Read } from "./db-aliases";
 import { loadCatalog } from "@/catalog/snapshot";
+import { loadTripCards } from "@/trips/public-load";
+import { toursTrips } from "@/trips/lib/public";
 import type { SuggestDeps } from "./suggest";
 
 export const LANGUAGES = new Set(["es", "en", "pt", "de", "fr", "it"]);
@@ -11,6 +13,8 @@ export function suggestDeps(): SuggestDeps {
   const db = getPrisma();
   return {
     loadCatalog,
+    // REQ-1615: viajes propios y de agencia publicados (sin transporte, REQ-172); vacío con OWN_TOURS_ENABLED apagado.
+    loadTrips: async (language) => toursTrips(await loadTripCards(language)).map((t) => ({ id: t.id, title: t.title, path: t.path, countries: t.countries, cities: t.cities, places: t.places })),
     cityTranslations: (ids) => db.city.findMany({ where: { id: { in: ids } }, select: { id: true, translations: true } }),
     countryTranslations: (ids) => db.country.findMany({ where: { id: { in: ids } }, select: { id: true, translations: true } }),
     tourTitles: (ids, language) => db.tourTranslation.findMany({ where: { tourId: { in: ids }, language: { in: [language, "en"] } }, select: { tourId: true, language: true, title: true } }),
