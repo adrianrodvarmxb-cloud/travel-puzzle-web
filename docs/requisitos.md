@@ -1162,3 +1162,9 @@ Decisiones del PO el 11 nov 2026: «A2», «A» (pin propio), «el resto de los 
 | REQ-1610 | CÓDIGO | ~~Big Bus renumerado por el duplicado de REQ-1535~~ | agente | — | REEMPLAZADO por REQ-1607/REQ-1609 (main lo resolvió antes, PR #382 y #380) |
 | REQ-1611 | CÓDIGO | ~~Guardia de folios: duplicado preexistente en main no es choque~~ | agente | — | REEMPLAZADO por REQ-1608 (main lo resolvió antes, PR #382) |
 | REQ-1629 | BANDERA | «Sí, ok a todo, hazlo en autopiloto» (PO, 11 nov 2026 22:38) al orden propuesto para encender lo ya definido: sinónimos del buscador → carrito por tipo → correo de reseña → venta cruzada en correos; uno por PR con preview, humo y deploy entre cada uno (regla 9). Este folio: `SEARCH_TAXONOMY_SYNONYMS_ENABLED` (REQ-430, REQ-1357). Dado el preview con la bandera encendida, cuando corre el humo con `/tours?search=trekking`, entonces está en verde y se publica | agente | — | EN CURSO |
+
+## REQ-1616: fuentes locales en el build (INC-012, 11 nov 2026)
+Petición (PO, 11-11, respuesta a pregunta): «Sí, guárdalas en el repo» — blindar el build para que no dependa de descargar fuentes de Google.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-1616 | CÓDIGO | Dado un build de producción en CI, cuando no se puede llegar a Google Fonts, entonces el build termina igual porque `layout.tsx` usa `next/font/local` con los archivos de `src/app/fonts/` (OFL) | agente | — | EN CURSO (test y build verdes en la sesión; falta humo del PR y producción) |
