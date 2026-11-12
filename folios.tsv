@@ -22,3 +22,4 @@ REQ-1607	feat/encender-cuentas	2026-11-12 00:13	Big Bus: fila duplicada REQ-1535
 REQ-1608	fix/req-1535-duplicado	2026-11-12 00:16	revisor de folios: duplicados ya en main no bloquean el PR que los corrige
 REQ-1609	docs/req-1303-cumplido	2026-11-12 00:16	Renumerar REQ-1535 de Big Bus (choque con REQ-1535 del blog, #370)
 REQ-1610	feat/mapa-viajes-y-tangol-ola2	2026-11-12 00:18	Big Bus: reemplaza el REQ-1535 duplicado de #366
+REQ-1611	feat/mapa-viajes-y-tangol-ola2	2026-11-12 00:25	Guardia de folios: duplicado preexistente en main no es choque
