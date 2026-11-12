@@ -1473,7 +1473,7 @@ Petición (PO, 12-11, respuesta a pregunta): «Sí, en el Worker» — la Cache 
 Petición (PO, 12-11): «Elige basado en los referentes» → gate E «Combina 1 y 2» (24 + «Ver más» y paginación numerada). Motivo: `/tours` pintaba 266 tarjetas de viajes de agencias (1.3 MB de HTML), TBT 535 ms y LCP 4.16 s en móvil.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
-| REQ-3501 | CÓDIGO | Dado /tours con N viajes de agencias que pasan los filtros, cuando abre, entonces se pintan min(N, 24) y un botón «Ver más experiencias» (sin contador; el total va arriba, como FREETOUR) si N > 24; cada clic suma 24; al cambiar filtros o búsqueda vuelve a 24; el catálogo de abajo sigue con su paginación numerada | agente | — | EN CURSO |
+| REQ-3501 | CÓDIGO | Dado /tours con N viajes de agencias que pasan los filtros, cuando abre, entonces se pintan min(N, 24) y un botón «Ver más experiencias» (sin contador; el total va arriba, como FREETOUR) si N > 24; cada clic suma 24; al cambiar filtros o búsqueda vuelve a 24; el catálogo de abajo sigue con su paginación numerada | agente | — | CUMPLIDO |
 
 ## REQ-3509: el botón de filtros dice «experiencias» (taxonomía G1, 12 nov 2026)
 Petición literal (PO): «Sí, ambas cosas» — quitar «Mostrando 1–24 de 246» y cambiar «Ver N actividades» por «Ver N experiencias».
