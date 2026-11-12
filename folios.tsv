@@ -21,3 +21,4 @@ REQ-1606	feat/mapa-viajes-y-tangol-ola2	2026-11-11 23:39	Tangol/mapa: regla de c
 REQ-1607	feat/encender-cuentas	2026-11-12 00:13	Big Bus: fila duplicada REQ-1535 (de #366) pasa a folio propio
 REQ-1608	fix/req-1535-duplicado	2026-11-12 00:16	revisor de folios: duplicados ya en main no bloquean el PR que los corrige
 REQ-1609	docs/req-1303-cumplido	2026-11-12 00:16	Renumerar REQ-1535 de Big Bus (choque con REQ-1535 del blog, #370)
+REQ-1610	feat/mapa-viajes-y-tangol-ola2	2026-11-12 00:18	Big Bus: reemplaza el REQ-1535 duplicado de #366
