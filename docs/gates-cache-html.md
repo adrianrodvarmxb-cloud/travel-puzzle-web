@@ -10,3 +10,5 @@ Contexto: medición en producción del 12 nov 2026 tras #381 y #386. Las página
 | D | Purga automática al publicar y al guardar un viaje en el gestor, con un token de Cloudflare solo de purga guardado como secreto (lo crea el PO con paso a paso). | PO (Adri) | 12 nov 2026 |
 
 **Ajuste al gate A (PO, 12 nov 2026):** la Cache Rule no actúa sobre respuestas de un Worker. La caché se hace dentro del Worker con la Cache API (REQ-3498): el Worker sí corre en un acierto, pero responde sin armar la página ni consultar D1. Mismas reglas B y C; además separa por idioma y excluye las navegaciones internas de Next.
+
+| E | `/tours`: los viajes de agencias (hoy 266 de golpe) se muestran 24 al abrir + botón «Ver más» (+24, sin recargar); el catálogo de abajo conserva su paginación numerada. Combinación de GetYourGuide y Civitatis, como Viator. | PO (Adri) | 12 nov 2026 |

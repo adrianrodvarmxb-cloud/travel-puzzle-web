@@ -1469,6 +1469,18 @@ Petición (PO, 12-11, respuesta a pregunta): «Sí, en el Worker» — la Cache 
 | REQ-3487 | CÓDIGO | Corrida de solo lectura que llena ese catálogo: workflow a mano «Tipos de Tangol (solo lectura)» que, por la pasarela firmada y con el secreto del repo, pide países → destinos → lista de tours y deja la tabla en el resumen de la corrida. Dado el workflow, cuando se dispara, entonces no escribe en la base, ni en R2, ni en el repo, y la clave nunca se imprime | agente | REQ-3486 | EN CURSO (falta merge para poder dispararlo) |
 | REQ-3500 | CÓDIGO | Segundo ensayo del sync de Tangol (corrida 43298923440, 12 nov 2026): el build falla con «Parameter 'r' implicitly has an 'any' type» porque `tangol-sync.yml` no corre `npx prisma generate` antes de construir, como sí lo hace «Publicar en Cloudflare». Dado cualquier workflow que construye el sitio, cuando corre, entonces genera el cliente de Prisma antes del build; la prueba de REQ-3499 se extiende y exige los dos requisitos | agente | — | EN CURSO (prueba roja sin el arreglo y verde con él; build local verde con los mismos pasos; falta merge) |
 
+## REQ-3501: /tours carga por partes (gate E, 12 nov 2026)
+Petición (PO, 12-11): «Elige basado en los referentes» → gate E «Combina 1 y 2» (24 + «Ver más» y paginación numerada). Motivo: `/tours` pintaba 266 tarjetas de viajes de agencias (1.3 MB de HTML), TBT 535 ms y LCP 4.16 s en móvil.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3501 | CÓDIGO | Dado /tours con N viajes de agencias que pasan los filtros, cuando abre, entonces se pintan min(N, 24) y un botón «Ver más experiencias» (sin contador; el total va arriba, como FREETOUR) si N > 24; cada clic suma 24; al cambiar filtros o búsqueda vuelve a 24; el catálogo de abajo sigue con su paginación numerada | agente | — | EN CURSO |
+
+## REQ-3509: el botón de filtros dice «experiencias» (taxonomía G1, 12 nov 2026)
+Petición literal (PO): «Sí, ambas cosas» — quitar «Mostrando 1–24 de 246» y cambiar «Ver N actividades» por «Ver N experiencias».
+
+| ID | Tipo | Criterio | Responsable | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3509 | CÓDIGO | Dado el panel de filtros de /tours en cualquiera de los 6 idiomas, cuando muestra el botón de resultados, entonces dice «Ver N experiencias» (en «See N experiences», pt «Ver N experiências», de «N Erlebnisse ansehen», fr «Voir N expériences», it «Vedi N esperienze»), por la taxonomía (Experiencias = concepto paraguas, gate G1). Reemplaza el texto «Ver N actividades» de REQ-056 (el resto de REQ-056 sigue vigente) | agente | `src/tours/lib/filters-copy.test.ts` | CUMPLIDO |
 ## REQ-3465 a REQ-3467: taxonomía de los tours de Tangol (PO, 12 nov 2026; frente #454)
 Petición literal del PO (12-11, 07:22): «se le debe dar el mismo tratamiento que se le da la base de freetour para convertir a nuestra taxonomía». Folios apartados con `folio.ts` (registro `folios/registro`). Gates y preguntas al proveedor en `docs/gates-tangol-taxonomia-2026-11-12.md`.
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
