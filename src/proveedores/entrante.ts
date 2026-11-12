@@ -4,7 +4,7 @@ import { aplicarEvento } from "./lib/etapas";
 import { proveedorDeCorreo } from "./lib/identificar";
 import { rutaDocumento } from "./lib/documentos";
 import { tipoEntrante, direccionesRebotadas } from "./lib/clasificar";
-import type { ProveedoresRepo } from "./repository";
+import type { ProveedorFila, ProveedoresRepo } from "./repository";
 
 export interface CorreoEntrante {
   messageId: string; fecha: string; de: string; para: string[]; cc: string[]; asunto: string; texto: string;
@@ -12,7 +12,11 @@ export interface CorreoEntrante {
   encabezados?: Record<string, string>; // REQ-1565
 }
 
-export interface DepsEntrante { repo: ProveedoresRepo; subir: (ruta: string, contenido: Uint8Array, tipo: string) => Promise<void>; log?: (m: string) => void }
+export interface DepsEntrante {
+  repo: ProveedoresRepo; subir: (ruta: string, contenido: Uint8Array, tipo: string) => Promise<void>; log?: (m: string) => void;
+  /** REQ-1579: revisa si la respuesta avisa un cambio de tarifa (opcional; DIP). */
+  tarifa?: (p: ProveedorFila, m: { messageId: string; asunto: string; texto: string }) => Promise<unknown>;
+}
 
 export type ResultadoEntrante = { estado: "duplicado" | "sin_proveedor" | "nuestro" }
   | { estado: "automatica"; proveedorId: string } | { estado: "rebote"; proveedorId: string; correos: string[] } | { estado: "registrado"; proveedorId: string; documentos: number; fallidos: number };
@@ -62,5 +66,7 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
     } catch (e) { fallidos++; deps.log?.(`[proveedores] no se subió ${a.nombre}: ${(e as Error).message}`); }
   }
   if (recibidos.length !== (p.checklist ?? []).length) await deps.repo.marcarChecklist(id, recibidos, c.fecha);
+  // REQ-1579: un fallo aquí no tumba el registro del correo.
+  if (deps.tarifa) await deps.tarifa(p, { messageId: c.messageId, asunto: c.asunto, texto: c.texto }).catch((e) => deps.log?.(`[tarifas] ${(e as Error).message}`));
   return { estado: "registrado", proveedorId: id, documentos, fallidos };
 }

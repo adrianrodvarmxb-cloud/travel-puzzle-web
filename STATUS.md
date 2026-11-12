@@ -21,7 +21,10 @@ Actualizado: 5 nov 2026, 11:45 (CDMX).
 | REQ-1573 | Cobro por tipo: DMC paga neto; plataforma cobra y paga comisión | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde |
 | REQ-1576 | Sin choques con la revisión cada 6 h | NUEVO | src/proveedores/lib/choques.ts, diario.ts, repository.ts, migrations/0026 | proveedores.test.ts, proveedores-io.test.ts | EN CURSO (verde; falta quién llena «bloqueos») |
 | REQ-1577 | Presentación en el hilo existente («Re: …») | NUEVO | src/proveedores/lib/borrador.ts | proveedores.test.ts | CUMPLIDO (definición) · código verde; faltan los 7 borradores con el asunto real |
-| REQ-1579 | Cambio de tarifa confirmado por el PO detona comando | NUEVO | — | — | PENDIENTE (espera G1-G3: REQ-1580..1582) |
+| REQ-1579 | Cambio de tarifa: lo confirma el PO (panel o «confirmo T-12»); el comando responde, actualiza anexo y precio el día que rige | NUEVO | src/proveedores/lib/tarifas.ts, tarifa.ts, tarifa-repo.ts, entrante.ts, deps.ts, src/app/admin/tarifas/, src/app/api/admin/tarifas/[id]/route.ts, src/app/api/proveedores/tarifa/confirmar/route.ts, src/app/api/cron/proveedores/route.ts, src/components/admin/TarifaAvisoControl.tsx, migrations/0026 | src/proveedores/lib/tarifas.test.ts, src/proveedores/tarifa.test.ts | EN CURSO (verde; tras bandera, migración, REQ-1584 y REQ-1585) |
+| REQ-1580 | Confirmación por panel y WhatsApp | NUEVO | idem | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · panel verde; WhatsApp espera REQ-1570 |
+| REQ-1581 | Si el neto baja, baja el precio | NUEVO | lib/tarifas.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
+| REQ-1582 | Sin fecha, Mila la pide en el hilo | NUEVO | lib/tarifas.ts, tarifa.ts | tarifas.test.ts, tarifa.test.ts | CUMPLIDO (definición) · código verde |
 | REQ-1535 a REQ-1564 | Partners, Travelpayouts, validaciones, bandera, datos, DNS y build | NUEVO | docs/requisitos.md | Según tipo (evidencia del PO o test) | Ver docs/requisitos.md; REQ-1562 CUMPLIDO en la rama (src/proveedores/cpanel.ts, cpanel.test.ts; build verde 12 nov) |
 
 ## Respaldo de la taxonomía antes de TAXONOMY_SYNC_ENABLED (7 nov 2026) — matriz de trazabilidad

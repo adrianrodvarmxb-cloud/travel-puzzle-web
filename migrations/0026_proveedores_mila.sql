@@ -60,3 +60,41 @@ CREATE TABLE IF NOT EXISTS "ProveedorDocumento" (
   "fecha"       TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS "ProveedorDocumento_proveedor" ON "ProveedorDocumento" ("proveedorId", "fecha");
+
+-- REQ-1579 (cl. 8.2): anexo de tarifas por proveedor. Cada renglón liga un producto del proveedor con la opción del viaje publicada.
+CREATE TABLE IF NOT EXISTS "ProveedorTarifa" (
+  "id"          TEXT PRIMARY KEY,
+  "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
+  "producto"    TEXT NOT NULL,                    -- como lo nombra el proveedor (Triángulo de Oro)
+  "neto"        REAL NOT NULL CHECK ("neto" > 0),
+  "moneda"      TEXT NOT NULL DEFAULT 'USD' CHECK ("moneda" IN ('USD','EUR','MXN')),
+  "kind"        TEXT NOT NULL DEFAULT 'programa' CHECK ("kind" IN ('programa','tour','privado','traslado')),
+  "publicado"   REAL,                             -- precio publicado del operador (piso del programa, REQ-038)
+  "tripId"      TEXT,
+  "optionId"    TEXT,
+  "desde"       TEXT NOT NULL,                    -- desde cuándo rige este neto
+  "updatedAt"   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "ProveedorTarifa_proveedor" ON "ProveedorTarifa" ("proveedorId");
+
+-- REQ-1579, REQ-1580, REQ-1582: avisos de cambio de tarifa. Nada cambia hasta que el PO confirma.
+CREATE TABLE IF NOT EXISTS "TarifaAviso" (
+  "id"          TEXT PRIMARY KEY,
+  "numero"      INTEGER NOT NULL UNIQUE,          -- código T-<numero> para «confirmo T-12»
+  "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
+  "mensajeId"   TEXT NOT NULL,
+  "asunto"      TEXT NOT NULL DEFAULT '',
+  "texto"       TEXT NOT NULL DEFAULT '',
+  "tarifaId"    TEXT REFERENCES "ProveedorTarifa"("id"),
+  "netoAntes"   REAL,
+  "netoNuevo"   REAL,
+  "moneda"      TEXT,
+  "desde"       TEXT,
+  "estado"      TEXT NOT NULL CHECK ("estado" IN ('falta_fecha','falta_monto','por_confirmar','confirmado','aplicado','descartado')),
+  "nota"        TEXT NOT NULL DEFAULT '',
+  "confirmadoPor" TEXT,
+  "confirmadoEn"  TEXT,
+  "createdAt"   TEXT NOT NULL,
+  "updatedAt"   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "TarifaAviso_estado" ON "TarifaAviso" ("estado");
