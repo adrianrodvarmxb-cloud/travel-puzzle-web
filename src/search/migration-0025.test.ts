@@ -13,7 +13,7 @@ describe("REQ-1517 migración 0025: TourSearch con la columna stem", () => {
     expect(nums.filter((n) => n === "0025")).toHaveLength(1);
     // REQ-1623: «siguiente número libre» quiere decir que 0025 no dejó hueco (existe 0024), no que sea la última para siempre.
     expect(nums).toContain("0024");
-    expect(nums.sort().at(-1) >= "0025").toBe(true);
+    expect((nums.sort().at(-1) ?? "") >= "0025").toBe(true);
   });
   it("REQ-1517 solo toca la tabla derivada TourSearch y la recrea con stem", () => {
     const code = SQL.replace(/--[^\n]*/g, "");

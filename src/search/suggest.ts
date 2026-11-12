@@ -6,6 +6,7 @@
 import { z } from "zod";
 import type { CatalogEntry } from "@/catalog/lib/query";
 import { groupLabel } from "@/tours/lib/extra-filters";
+import { suggestTrips, type TripSuggestEntry } from "./lib/suggest";
 import { isSearchV2 } from "./lib/fts-query";
 import { cleanQuery, planRecovery, planSuggestions, type DestinationHit } from "./lib/suggest";
 import { categoryHref, searchHref, suggestCopy, tourCount, tourHref, whatsappHref } from "./lib/suggest-copy";
@@ -18,6 +19,8 @@ export const isSearchSuggest = (v: string | undefined) => v === "true";
 export interface SuggestEnv { SEARCH_SUGGEST_ENABLED?: string; SEARCH_V2_ENABLED?: string; SEARCH_FUZZY_ENABLED?: string }
 export interface SuggestDeps {
   loadCatalog(language: string): Promise<CatalogEntry[]>;
+  /** REQ-1615: viajes propios y de agencia publicados (opcional; sin él, el autocompletado no los sugiere). */
+  loadTrips?(language: string): Promise<TripSuggestEntry[]>;
   /** traducciones crudas (JSON de City/Country/TourTranslation), por id */
   cityTranslations(ids: number[]): Promise<{ id: number; translations: unknown }[]>;
   countryTranslations(ids: number[]): Promise<{ id: number; translations: unknown }[]>;
@@ -27,7 +30,7 @@ export interface SuggestDeps {
   env: SuggestEnv;
 }
 
-export type SuggestGroup = "didYouMean" | "destination" | "tour" | "category";
+export type SuggestGroup = "didYouMean" | "destination" | "tour" | "trip" | "category";
 export interface SuggestItem { group: SuggestGroup; label: string; href: string; hint?: string }
 export interface SuggestResponse { q: string; corrected: boolean; correctedLabel: string | null; items: SuggestItem[] }
 export interface RecoverResponse {
@@ -90,11 +93,17 @@ export async function suggestFor(deps: SuggestDeps, rawQ: string | null, languag
   const entries = await deps.loadCatalog(language);
   const resolved = await resolve(deps, entries, q);
   const plan = planSuggestions(entries, resolved, isSearchV2(deps.env.SEARCH_V2_ENABLED));
-  const [labels, titles] = await Promise.all([labelsFor(deps, [...plan.didYouMean, ...plan.destinations], language), titlesFor(deps, plan.tourIds, language)]);
+  // REQ-1615: los viajes de agencia también se sugieren (catálogo único, REQ-1605); si fallan, no tumban el resto.
+  const [labels, titles, trips] = await Promise.all([
+    labelsFor(deps, [...plan.didYouMean, ...plan.destinations], language),
+    titlesFor(deps, plan.tourIds, language),
+    deps.loadTrips ? deps.loadTrips(language).catch((error) => { console.error("[suggest] sin viajes:", error); return [] as TripSuggestEntry[]; }) : Promise.resolve([] as TripSuggestEntry[]),
+  ]);
   const items: SuggestItem[] = [
     ...plan.didYouMean.map((h) => destItem("didYouMean", h, labels, language)),
     ...plan.destinations.map((h) => destItem("destination", h, labels, language)),
     ...plan.tourIds.map((id): SuggestItem | null => (titles.has(id) ? { group: "tour", label: titles.get(id)!, href: tourHref(id) } : null)),
+    ...suggestTrips(trips, q).map((t): SuggestItem => ({ group: "trip", label: t.title, href: t.path })), // REQ-1615
     ...plan.categories.map((c): SuggestItem => ({ group: "category", label: groupLabel(c.id, language), href: categoryHref(c.id), hint: tourCount(suggestCopy(language), c.count) })),
   ].filter((x): x is SuggestItem => !!x);
   const first = plan.destinations.find((d) => d.corrected);
