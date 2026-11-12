@@ -71,9 +71,11 @@ describe("REQ-1400: pie por columnas", () => {
 describe("REQ-1530/REQ-1531: header con sesión y Panel de admin", () => {
   it("REQ-1530: con sesión el header es el mismo que el público (sin Inicio ni Mis Reservas)", async () => {
     const { sessionNavLinks, ACCOUNT_PAGES_READY } = await import("./nav-model");
+    const { ACCOUNTS_ENABLED } = await import("@/lib/features");
     const pub = headerLinks(base);
-    expect(ACCOUNT_PAGES_READY).toBe(false);
-    expect(sessionNavLinks(pub, { loggedIn: true, accountPagesReady: ACCOUNT_PAGES_READY, myBookingsLabel: "Mis Reservas" })).toEqual(pub);
+    // REQ-1595: las páginas de cuenta existen; se muestran solo con la bandera (cualquiera que sea el entorno).
+    expect(ACCOUNT_PAGES_READY).toBe(ACCOUNTS_ENABLED);
+    expect(sessionNavLinks(pub, { loggedIn: true, accountPagesReady: false, myBookingsLabel: "Mis Reservas" })).toEqual(pub);
     expect(sessionNavLinks(pub, { loggedIn: false, accountPagesReady: true, myBookingsLabel: "Mis Reservas" })).toEqual(pub);
   });
   it("REQ-1530/REQ-1595: «Mis reservas» solo con las páginas de cuenta (va a /mi-cuenta/reservas)", async () => {
