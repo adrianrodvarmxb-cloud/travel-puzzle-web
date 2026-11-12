@@ -53,13 +53,16 @@ export const DIRECTORIO_APROBADO: ProveedorSemilla[] = [
   dmc({ id: "turismo-asiatico", nombre: "Turismo Asiático", publicado: true,
     correos: ["reservas@turismoasiatico.com", "sergi@turismoasiatico.com"], dominios: ["turismoasiatico.com"] }),
 
+  // Publicado desde el 12 nov 2026 (PO: «hoy se carga también a Tangol»): catálogo por API (frente Tangol, TANGOL_ENABLED).
+  dmc({ id: "tangol", nombre: "Tangol", publicado: true, canal: "api", integracion: "api", dominios: ["tangol.com"], zonaHoraria: "America/Argentina/Buenos_Aires",
+    contacto: "Hernán Garriga", notas: "API con swagger; whitelist por la pasarela (REQ-1545). Acuerdo en curso: lo lleva la revisión cada 6 h." }),
+
   // 2. En conversación, sin publicar
   dmc({ id: "bemyguest", nombre: "BeMyGuest", integracion: "api", idioma: "en", dominios: ["bemyguest.com.sg"], zonaHoraria: "Asia/Singapore" }),
   dmc({ id: "eurorutas", nombre: "Eurorutas", correos: ["fernanda@eurorutas.com", "monica@eurorutas.com"], dominios: ["eurorutas.com"],
     zonaHoraria: "Europe/Madrid", contacto: "Fernanda", notas: "Angela ya no está. Solicitud de integración XML/API en la oficina central." }),
   dmc({ id: "eurowelcome", nombre: "Eurowelcome / AngloVision", dominios: ["eurowelcome.co.uk"], zonaHoraria: "Europe/London" }),
-  dmc({ id: "tangol", nombre: "Tangol", integracion: "api", dominios: ["tangol.com"], zonaHoraria: "America/Argentina/Buenos_Aires",
-    contacto: "Hernán Garriga", notas: "API con swagger; whitelist por la pasarela (REQ-1545). Acuerdo en curso: lo lleva la revisión cada 6 h." }),
+
   dmc({ id: "oku-japan", nombre: "OKU Japan", idioma: "en", dominios: ["okujapan.com"], zonaHoraria: "Asia/Tokyo" }),
   plataforma({ id: "civitatis", nombre: "Civitatis", dominios: ["civitatis.com"], zonaHoraria: "Europe/Madrid" }),
   dmc({ id: "canadian-receptive-tours", nombre: "Canadian Receptive Tours", dominios: ["canadianreceptivetours.com"] }),

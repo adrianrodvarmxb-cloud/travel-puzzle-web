@@ -48,9 +48,9 @@ describe("REQ-1656: carga del directorio aprobado", () => {
     for (const n of ["Bedsonline", "RIU", "Expedia", "Booking", "Aeroméxico"]) expect(DIRECTORIO_APROBADO.some((p) => p.nombre.includes(n))).toBe(false);
   });
 
-  it("REQ-1656: los 7 publicados quedan marcados; todos arrancan «por contactar» (Mila no escribe sola, REQ-1297)", () => {
+  it("REQ-1656: los 8 publicados (los 7 del directorio y Tangol, que se carga el 12 nov) quedan marcados; todos arrancan «por contactar» (Mila no escribe sola, REQ-1297)", () => {
     expect(DIRECTORIO_APROBADO.filter((p) => p.publicado).map((p) => p.id).sort()).toEqual(
-      ["big-bus-tours", "destino-colombia", "exotic-escapes", "extime-travel", "fantastica-china", "inca-world-peru", "turismo-asiatico"]);
+      ["big-bus-tours", "destino-colombia", "exotic-escapes", "extime-travel", "fantastica-china", "inca-world-peru", "tangol", "turismo-asiatico"]);
     const sql = sqlCarga(DIRECTORIO_APROBADO, "2026-11-12T18:00:00.000Z");
     expect(sql).not.toMatch(/'contactado'|'respondio'|'en_alta'|'activo'/);
   });
@@ -76,7 +76,7 @@ describe("REQ-1656: carga del directorio aprobado", () => {
   it("REQ-1656: el resumen cuenta publicados, en conversación y bloqueados (ninguno)", () => {
     const r = resumenCarga(DIRECTORIO_APROBADO);
     expect(r.total).toBe(DIRECTORIO_APROBADO.length);
-    expect(r.publicados).toBe(7);
+    expect(r.publicados).toBe(8);
     expect(r.bloqueados).toBe(0);
   });
 });
