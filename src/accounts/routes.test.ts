@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "node:fs";
 
 describe("REQ-1592: registro con contraseña apagado", () => {
@@ -13,9 +13,23 @@ describe("REQ-1592: registro con contraseña apagado", () => {
 });
 
 describe("REQ-1599: pedir el enlace con cuentas apagadas", () => {
+  afterEach(() => { vi.unstubAllEnvs(); vi.resetModules(); });
   it("REQ-1599: /api/cuenta/enlace responde 404 con ACCOUNTS_ENABLED apagado", async () => {
+    vi.resetModules();
+    vi.stubEnv("NEXT_PUBLIC_ACCOUNTS_ENABLED", "false");
     const { POST } = await import("@/app/api/cuenta/enlace/route");
     const res = await POST(new Request("http://x/api/cuenta/enlace", { method: "POST", body: JSON.stringify({ email: "a@x.com" }) }));
     expect(res.status).toBe(404);
+  });
+});
+
+describe("REQ-1599: pedir el enlace con cuentas encendidas", () => {
+  afterEach(() => { vi.unstubAllEnvs(); vi.resetModules(); });
+  it("REQ-1599: un correo inválido responde 400 sin tocar la base", async () => {
+    vi.resetModules();
+    vi.stubEnv("NEXT_PUBLIC_ACCOUNTS_ENABLED", "true");
+    const { POST } = await import("@/app/api/cuenta/enlace/route");
+    const res = await POST(new Request("http://x/api/cuenta/enlace", { method: "POST", body: JSON.stringify({ email: "no-es-correo" }) }));
+    expect(res.status).toBe(400);
   });
 });

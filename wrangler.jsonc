@@ -175,7 +175,7 @@
     "SOCIAL_FACEBOOK_ENABLED": "true",
     "SOCIAL_INSTAGRAM_ENABLED": "true",
     // «Arma tu viaje» y carrusel de acompañamiento (REQ-104…110). Apagada = /arma-tu-viaje responde 404. "true" con preview y OK del PO.
-    "ARMA_TU_VIAJE_ENABLED": "false",
+    "ARMA_TU_VIAJE_ENABLED": "true",
     // Cobros del carrito por adaptador (paymentUrl de Stripe, REQ-107). Candado de pagos: "true" solo con OK del PO.
     "CART_PAYMENTS_ENABLED": "false",
     // Tarjetas de asesoría de visa y ETIAS en el carrusel (REQ-109). "true" con OK del PO.

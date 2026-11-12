@@ -33,11 +33,12 @@ export function WorldMap() {
     let map: import('maplibre-gl').Map | null = null;
     let cancelled = false;
 
-    const openCity = async (cityId: number) => {
+    // REQ-1578: un pin de lugar (solo viajes) pide su tarjeta por llave.
+    const openCity = async (cityId: number, place?: string) => {
       setCardOpen(true);
       setCardLoading(true);
       setCard(null);
-      const res = await fetch(`/api/map/cities?cityId=${cityId}`).catch(() => null);
+      const res = await fetch(place ? `/api/map/cities?place=${encodeURIComponent(place)}` : `/api/map/cities?cityId=${cityId}`).catch(() => null);
       const data = res?.ok ? ((await res.json()) as CityCardData) : null;
       if (!cancelled) {
         setCard(data);
@@ -79,7 +80,7 @@ export function WorldMap() {
               features: cities.map((x) => ({
                 type: 'Feature',
                 geometry: { type: 'Point', coordinates: [x.lng, x.lat] },
-                properties: { cityId: x.cityId, tours: x.tours, name: nameIn(x.names, langRef.current) },
+                properties: { cityId: x.cityId, place: x.place ?? '', tours: x.tours, name: nameIn(x.names, langRef.current) },
               })),
             },
           });
@@ -112,8 +113,10 @@ export function WorldMap() {
             map?.easeTo({ center: f.geometry.coordinates as [number, number], zoom });
           });
           map.on('click', 'city', (e) => {
-            const id = Number(e.features?.[0]?.properties?.cityId);
-            if (id) void openCity(id);
+            const props = e.features?.[0]?.properties;
+            const id = Number(props?.cityId);
+            const place = typeof props?.place === 'string' && props.place ? props.place : undefined;
+            if (id || place) void openCity(id, place);
           });
           for (const layer of ['clusters', 'city']) {
             map.on('mouseenter', layer, () => { if (map) map.getCanvas().style.cursor = 'pointer'; });
