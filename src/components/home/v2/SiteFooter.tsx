@@ -90,7 +90,7 @@ export function SiteFooter({ contact, helpEnabled = false }: { contact: FooterCo
               {contact.socials.map((s) => (
                 <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name} className="transition-opacity hover:opacity-80">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/brand/social/${ICON[s.name] ?? 'instagram'}.png`} alt={s.name} width={36} height={36} />
+                  <img src={`/brand/social/${ICON[s.name] ?? 'instagram'}.png`} alt={s.name} width={36} height={36} loading="lazy" decoding="async" /* REQ-1564 */ />
                 </a>
               ))}
             </div>
