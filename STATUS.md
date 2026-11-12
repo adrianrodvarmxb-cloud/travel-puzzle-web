@@ -1080,3 +1080,8 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
 | REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
 | REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0028_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
+
+## Calendario con precio por día para proveedores de PDF, ola 1 (12 nov 2026)
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3454 | Precio del día: vigencia (G4), días de salida por periodo, temporada y recargos que se suman por opción (G2), días «por confirmar» (G3); el estimado usa el mismo cálculo (G1) | PO 12-11 | `src/trips/lib/day-price.ts`, `src/trips/lib/request.ts`, `src/trips/schemas/trip.ts`, `src/trips/requests.ts`, `src/components/trips/TripRequestForm.tsx`, `src/components/admin/trips/types.ts` | `src/trips/lib/day-price.test.ts`, `src/trips/lib/request.test.ts`, `src/trips/schemas/trip.test.ts` | EN CURSO (pruebas en verde; faltan datos y pantalla) |
