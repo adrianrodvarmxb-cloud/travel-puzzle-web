@@ -11,6 +11,9 @@ import { BookingPageView } from './BookingPageView';
 import { cartFlags } from '@/cart/lib/flags';
 import { tripUrl } from '@/cart/lib/links';
 import { cancelNotice } from '@/booking/lib/cancel-policy';
+import { showAccountInvite } from '@/accounts/lib/policy';
+import { ACCOUNTS_ENABLED } from '@/lib/features';
+import { auth } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Mi reserva', robots: { index: false, follow: false } };
@@ -60,6 +63,7 @@ export default async function ManageBookingPage({ params, searchParams }: { para
             maps={maps} cal={cal} wa={wa} socials={contact.socials} site={siteFooterFromEnv(process.env as Record<string, string | undefined>)}
             tripUrl={tripUrl({ site: '', token, enabled: cartFlags(process.env as Record<string, string | undefined>).enabled, status })}
             payHref={payHref} cancelNotice={notice}
+            accountInvite={showAccountInvite({ accountsEnabled: ACCOUNTS_ENABLED, signedIn: ACCOUNTS_ENABLED ? !!(await auth().catch(() => null))?.user : false })}
         />
     );
 }

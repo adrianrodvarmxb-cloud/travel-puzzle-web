@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
@@ -19,14 +19,63 @@ import { localeUrlsEnabled } from "@/i18n/lib/flags";
 import { htmlLang } from "@/i18n/lib/locales";
 import { routeLanguageState } from "@/i18n/server";
 
-const geistSans = Geist({
+// REQ-1560: fuentes auto-hospedadas (antes @import de Google Fonts que bloqueaba el render).
+// REQ-1616 (INC-012): los archivos viven en src/app/fonts (OFL, de Fontsource) para que el build
+// no dependa de descargar de Google, que fallaba de forma intermitente en CI.
+// Solo Poppins (texto del cuerpo) se precarga; Geist casi no se usa y ya no se precarga.
+const geistSans = localFont({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  src: [
+    { path: "./fonts/geist-sans/geist-sans-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/geist-sans/geist-sans-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/geist-sans/geist-sans-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/geist-sans/geist-sans-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
+  display: "swap",
+  preload: false,
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  src: [
+    { path: "./fonts/geist-mono/geist-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+  ],
+  display: "swap",
+  preload: false,
+});
+
+const poppins = localFont({
+  variable: "--font-poppins-nf",
+  src: [
+    { path: "./fonts/poppins/poppins-latin-300-normal.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/poppins/poppins-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
+  display: "swap",
+  preload: true,
+});
+
+const spaceGrotesk = localFont({
+  variable: "--font-space-grotesk",
+  src: [
+    { path: "./fonts/space-grotesk/space-grotesk-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/space-grotesk/space-grotesk-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/space-grotesk/space-grotesk-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
+  display: "swap",
+  preload: false,
+});
+
+const jetbrainsMono = localFont({
+  variable: "--font-jetbrains-mono",
+  src: [
+    { path: "./fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/jetbrains-mono/jetbrains-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
+  ],
+  display: "swap",
+  preload: false,
 });
 
 // Vista previa al compartir (WhatsApp, Facebook, LinkedIn, X) e íconos: ver src/seo/lib/meta.ts
@@ -63,9 +112,10 @@ export default async function RootLayout({
   const route = localeUrlsEnabled(env) ? await routeLanguageState() : null;
   return (
     // REQ-664: <html lang> del idioma de la URL en las rutas en alcance; en lo demás (y sin la bandera), español como hoy.
-    <html lang={htmlLang(route)} suppressHydrationWarning>
+    // REQ-1560: las variables de fuente van en <html> porque --tp-font-primary y @theme se resuelven en :root.
+    <html lang={htmlLang(route)} className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="antialiased"
         suppressHydrationWarning
       >
         {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}

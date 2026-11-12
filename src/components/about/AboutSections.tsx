@@ -4,12 +4,12 @@ import { ProofStrip, type ProofCounts } from '@/components/home/v2/ProofStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { DarkCard } from '@/components/site/PageHeader';
 import { aboutSectionsToShow, type AboutSection } from '@/about/lib/content';
-import type { HomeStats } from '@/home/load';
+import type { PublicStats } from '@/about/lib/public-stats';
 
 const n = (i: number) => String(i + 1).padStart(2, '0');
 
 /** REQ-243: pinta solo las secciones visibles (ya filtradas en el servidor); numera sin saltos. */
-export function AboutSections({ sections, stats, counts }: { sections: AboutSection[]; stats: HomeStats | null; counts: ProofCounts | null }) {
+export function AboutSections({ sections, stats, counts }: { sections: AboutSection[]; stats: PublicStats | null; counts: ProofCounts | null }) {
   const shown = aboutSectionsToShow(sections, stats);
   return (
     <>
