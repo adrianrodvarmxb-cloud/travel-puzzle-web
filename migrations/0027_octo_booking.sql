@@ -2,8 +2,9 @@
 -- Una fila por compra: liga la solicitud (TripRequest) y el pago (Payment) con la reserva OCTO (uuid nuestro).
 -- Solo agrega una tabla y sus índices. No toca filas ni columnas existentes. Idempotente.
 --
--- Candado: el deploy aplica las migraciones al publicar (deploy-cloudflare.yml), así que el MERGE de este PR
--- aplica esta migración en producción. Requiere OK explícito del PO. No necesita respaldo (no toca datos).
+-- Candado: el merge NO aplica migraciones (REQ-3323). Se aplica a mano con «Publicar en Cloudflare» → Run workflow
+-- con «migraciones» marcado, que antes anota el punto de regreso de D1. Ojo: ese paso aplica TODAS las pendientes
+-- (hoy también la 0026 de Tangol). Requiere OK explícito del PO.
 -- Plan de regreso: DROP TABLE IF EXISTS "OctoBooking";
 CREATE TABLE IF NOT EXISTS "OctoBooking" (
   "id" TEXT NOT NULL PRIMARY KEY,

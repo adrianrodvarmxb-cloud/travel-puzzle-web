@@ -4,7 +4,7 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
-Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge aplica la migración 0027 (REQ-3422).
+Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0027 se aplica a mano con OK del PO (REQ-3422).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-3413 | Ligar productos OCTO a las 29 ciudades | NUEVO | `src/octo/lib/catalog.ts`, `src/octo/data/bigbus-ciudades.json` | `src/octo/lib/catalog.test.ts` | CUMPLIDO |
