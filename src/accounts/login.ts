@@ -30,7 +30,7 @@ export async function requestLoginLink(rawEmail: string, d: LoginDeps): Promise<
     const sig = await signLoginLink(d.secret, email, await fp(await d.findUser(email)), exp);
     const base = d.siteUrl.replace(/\/+$/, "");
     const url = `${base}/mi-cuenta/entrar/verificar?email=${encodeURIComponent(email)}&exp=${exp}&sig=${sig}`;
-    await d.send({ to: email, ...buildLoginLinkEmail({ url, logoUrl: `${base}/brand/logo-tp-oscuro.png` }) });
+    await d.send({ to: email, ...buildLoginLinkEmail({ url, logoUrl: `${base}/brand/logo-tp-320.png` }) });
   } catch (error) {
     console.error("[cuenta] no se envió el enlace para entrar:", (error as Error).message);
   }
