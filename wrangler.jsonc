@@ -52,6 +52,11 @@
     "BOOKINGS_ENABLED": "true",
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
     "EMAILS_ENABLED": "true",
+    // REQ-1291: Mila administra proveedores (docs/gates-proveedores-mila-2026-11.md). Se prende con OK del PO tras aprobar las plantillas.
+    "PROVEEDORES_MILA_ON": "false",
+    // REQ-1568: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1663; el secreto MILA_AVISOS_SECRET lo carga el PO.
+    "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
+    "MILA_AVISOS_URL": "",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "true",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
@@ -64,6 +69,10 @@
     // REQ-1552: API de Tangol (ola 1, solo lectura en src/tangol). El sitio va por la pasarela (/tangol), que sale por
     // la IP registrada; TANGOL_EMAIL y TANGOL_CLAVE viven en cPanel (REQ-1553). "true" con preview, humo y OK del PO.
     "TANGOL_ENABLED": "false",
+    // REQ-3324, REQ-3329: Big Bus por la API Ventrata OCTO (src/octo). Llama directo (sin IP registrada); la llave va
+    // como secreto BIGBUS_OCTO_API_KEY. "true" en preview con la llave de prueba, humo y OK del PO; "live" tras certificar.
+    "BIGBUS_OCTO_ENABLED": "false",
+    "BIGBUS_OCTO_ENV": "test",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.

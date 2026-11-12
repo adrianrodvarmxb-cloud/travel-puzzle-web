@@ -19,7 +19,9 @@
     "/sitemap-index.xml",
     "/mi-cuenta/entrar",
     "/tours?search=trekking",
-    "/arma-tu-viaje"
+    "/arma-tu-viaje",
+    "/en/blog",
+    "/en/blog/europa/requisitos-para-entrar-a-europa-2026"
   ],
   "discover": [
     {

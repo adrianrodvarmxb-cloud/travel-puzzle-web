@@ -29,7 +29,7 @@ interface EventBookingFormProps {
 }
 
 /** Paso 1: 01 Personas y 02 Tus datos (estilo de los correos). La validación vive en el contexto. */
-export function EventBookingForm({ language, eventDetailData, isLoading = false, error, onNext }: EventBookingFormProps) {
+export function EventBookingForm({ eventDetailData, isLoading = false, error, onNext }: EventBookingFormProps) {
   const { form, errors, handlers, isFormValid, submitError, isReady, adultContactCheck, contactIsAdult, setContactIsAdult } = useBookingForm();
 
   if (!isReady) return <p className="px-6 py-8 text-sm text-gray-500">Cargando formulario…</p>;
@@ -74,7 +74,8 @@ export function EventBookingForm({ language, eventDetailData, isLoading = false,
 
       <section className="px-6">
         {/* Aviso legal (el formulario solo existe con BOOKINGS_ENABLED encendido) */}
-        <PrivacyFormNotice lang={language} />
+        {/* REQ-1627: el formulario está en español; su aviso legal también (no el idioma del navegador). */}
+        <PrivacyFormNotice lang="es" />
         <button type="submit" className="mt-4 block w-full rounded-xl bg-[#C12909] px-5 py-4 text-center text-base font-bold text-white hover:opacity-90">
           Continuar &nbsp;→
         </button>

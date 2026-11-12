@@ -75,8 +75,9 @@ describe("REQ-411 urbano es base, no chip; temas en muestra hasta la firma", () 
   it("REQ-411 «Ciudad y barrios» no es chip; los otros 12 sí", () => {
     expect(temas.filter((t) => !t.chip).map((t) => t.slug)).toEqual(["urbano"]);
   });
-  it("REQ-411 los 13 temas quedan en «muestra» (REQ-410: se publican solo con la muestra firmada)", () => {
-    for (const t of temas) expect(t.estado).toBe("muestra");
+  // REQ-410 REEMPLAZADO por REQ-1421 (firma del PO 8-11: «Firmo, publícalos»).
+  it("REQ-1421 los 12 temas con chip están activos; «Ciudad y barrios» sigue en «muestra» (no es filtro)", () => {
+    for (const t of temas) expect(t.estado).toBe(t.chip ? "activo" : "muestra");
   });
 });
 

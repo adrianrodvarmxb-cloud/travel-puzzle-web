@@ -57,3 +57,13 @@ Hay varias sesiones trabajando a la vez. Antes de empezar cualquier frente (cód
 6. Cambio de alcance: el REQ viejo queda REEMPLAZADO y se crea uno nuevo que lo cite.
 7. «AUDITA»: correr el punto 5 completo con salida íntegra. «PENDIENTES»: tablero desde `docs/requisitos.md`.
 8. Código anterior al protocolo: modo retroactivo (REQ RETRO, SIN VERIFICAR, tests de caracterización sin cambiar lógica).
+
+## Protocolo de trazabilidad: detalle de tipos y estados (ISO/IEC/IEEE 29148)
+1. Toda petición, decisión, bandera, validación o tarea a mano del PO recibe un REQ-### en `docs/requisitos.md` antes del código, con petición literal, origen (NUEVO/RETRO), tipo (CÓDIGO, BANDERA, DEFINICIÓN, VALIDACIÓN, TAREA-PO, DATOS), responsable, criterio Dado/Cuando/Entonces y estado (PENDIENTE, EN CURSO, CUMPLIDO, SIN VERIFICAR, NO CUMPLIDO, BLOQUEADO, REEMPLAZADO). Si es ambigua, se pregunta.
+2. Tests primero; cada test con el ID en el nombre (`it('REQ-014: …')`) y `// REQ-014` en la función que lo implementa.
+3. Matriz ID | Requisito | Origen | Archivo(s) | Test | Estado en STATUS.md, en el mismo commit que el código.
+4. Prohibido: CUMPLIDO sin test verde corrido en la sesión, `.skip`, tests debilitados, mocks que oculten la lógica, fachadas.
+5. Cierre: lista de REQ con estado, `npx vitest run -t "REQ-"`, cruce con `grep -r "REQ-" src` (huérfanos) y lo no cumplido.
+6. Cambio de alcance: el REQ viejo queda REEMPLAZADO y se crea uno nuevo que lo cite.
+7. PENDIENTES: banderas apagadas, sin iniciar, a medias, validaciones, definiciones y tareas del PO, una por una. AUDITA: el punto 5 completo, sin recortar.
+8. Lo anterior al protocolo entra como RETRO y SIN VERIFICAR hasta tener su test de caracterización.
