@@ -41,8 +41,14 @@ describe("inScope", () => {
     for (const p of ["/", "/destinos", "/destinos/mx", "/destinos/mx/ciudad-de-mexico", "/destinos/mx/ciudad-de-mexico/tour-x", "/viajes/peru/x", "/tours", "/tours/abc", "/traslados"]) expect(inScope(p)).toBe(true);
   });
 
+  // REQ-3450 reemplaza la parte del blog de REQ-659 (gate B2, PO 12 nov 2026: el blog también va en inglés).
+  it("REQ-3450: el blog (índice, pilar y artículo) tiene versión por idioma", () => {
+    for (const p of ["/blog", "/blog/china", "/blog/china/excursion-a-la-gran-muralla-desde-pekin"]) expect(inScope(p)).toBe(true);
+    expect(inScope("/blog/china/a/b")).toBe(false);
+  });
+
   it("REQ-659: lo demás queda fuera (institucionales, legales, reserva, api)", () => {
-    for (const p of ["/nosotros", "/contacto", "/asesores", "/ayuda", "/blog", "/blog/china", "/terminos", "/privacidad", "/reserva/tok", "/arma-tu-viaje", "/la-primera-pieza", "/admin/viajes", "/viajes/gracias", "/events/1", "/tour-retirado"]) expect(inScope(p)).toBe(false);
+    for (const p of ["/nosotros", "/contacto", "/asesores", "/ayuda", "/terminos", "/privacidad", "/reserva/tok", "/arma-tu-viaje", "/la-primera-pieza", "/admin/viajes", "/viajes/gracias", "/events/1", "/tour-retirado"]) expect(inScope(p)).toBe(false);
   });
 });
 

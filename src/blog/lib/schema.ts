@@ -35,6 +35,24 @@ export const imageSchema = z.object({
 });
 export type BlogImage = z.output<typeof imageSchema>;
 
+// REQ-3449 (gate B2, REQ-3338): versión en inglés del artículo; mismas secciones, datos e imágenes que la española.
+export const postEnSchema = z.object({
+  targetTerm: txt(120),
+  title: txt(120),
+  summary: txt(155),
+  enBreve: txt(800),
+  entrada: txt(800),
+  sections: z.array(z.object({ h2: txt(120), answer: txt(400), body: z.array(txt(3000)).default([]), list: z.array(txt(400)).optional() })).min(4).max(8),
+  datos: z.array(z.object({ text: txt(400) })).optional(),
+  comoLoSabemos: txt(600),
+  visual: z.object({ caption: txt(160), head: z.array(txt(80)).min(2), rows: z.array(z.array(z.string().max(200))).min(1) }).optional(),
+  faq: z.array(z.object({ q: txt(200), a: txt(800) })).max(4).optional(),
+  cta: z.object({ label: txt(60) }),
+  cover: z.object({ alt: txt(160) }).optional(),
+  imagenes: z.array(z.object({ pie: txt(200).optional(), alts: z.array(txt(160)).min(1).max(5) })).max(4).optional(),
+});
+export type PostEn = z.output<typeof postEnSchema>;
+
 export const postSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   pillar: z.enum(PILLAR_SLUGS),
@@ -75,6 +93,8 @@ export const postSchema = z.object({
   }).optional(),
   faq: z.array(z.object({ q: txt(200), a: txt(800) })).max(4).optional(),
   cta: z.object({ kind: z.enum(["whatsapp", "comercial"]), label: txt(60) }),
+  /** REQ-3449: versión en inglés (opcional en el registro; el validador del agente la exige en entradas nuevas). */
+  en: postEnSchema.optional(),
 });
 
 export type PostInput = z.input<typeof postSchema>;
