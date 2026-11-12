@@ -1205,7 +1205,7 @@ Petición literal (PO, 12-11, ante «Gmail lo mandó a Promociones… ¿Lo ajust
 | REQ-3348 | CÓDIGO | (misma petición) Dada una pregunta legal, cuando Mila consulta, entonces recibe los términos, el aviso de privacidad y los datos de la empresa vigentes del sitio | agente | REQ-3353 | PENDIENTE |
 | REQ-3349 | CÓDIGO | (misma petición) Mila consulta en línea lo anterior desde zoefel-mila (REQ-030 allá) según G1 | agente | REQ-3351, REQ-3353 | PENDIENTE |
 | REQ-3350 | CÓDIGO | (misma petición) Fotografías del viaje en el chat según G2 (REQ-031 en zoefel-mila) | agente | REQ-3352, REQ-3353 | PENDIENTE |
-| REQ-3351 | DEFINICIÓN | G1: ¿cómo consulta Mila (contexto automático o herramientas en línea)? | PO | — | PENDIENTE |
+| REQ-3351 | DEFINICIÓN | G1: ¿cómo consulta Mila (contexto automático o herramientas en línea)? | PO | — | CUMPLIDO (PO, 12 nov 2026 04:35: «B»: Mila consulta ella misma en línea con herramientas) |
 | REQ-3352 | DEFINICIÓN | G2: ¿Mila manda fotos del viaje como imagen por WhatsApp? | PO | — | PENDIENTE |
 | REQ-3353 | VALIDACIÓN | Firma del plan docs/plan-mila-acceso-catalogo.md | PO | — | PENDIENTE |
 | REQ-3354 | CÓDIGO | Reemplaza a REQ-3346. Dado un viaje publicado, cuando Mila pide su detalle, entonces recibe la ficha completa con precios finales y fotos; nada de FREETOUR | agente | REQ-3353 | PENDIENTE |
