@@ -527,6 +527,9 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-118 | Bandera STRIPE_ENABLED (404 y sin control) | `src/payments/lib/checkout.ts`, rutas de pago y webhook, `src/app/admin/solicitudes/page.tsx` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-119 | Tabla Payment (migración 0013) | `migrations/0013_pagos.sql`, `prisma/schema.prisma` | `service.test.ts` (fila guardada) | EN CURSO (migración sin aplicar) |
 | REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
+| REQ-064 | Evento v2.2: Zod, cobro desde payableNow, cupo/mínimo/teléfono | `src/booking/lib/event-check.ts`, `src/booking/lib/paid-price.ts` | `src/booking/lib/event-v22.test.ts` | CUMPLIDO |
+| REQ-065 | Estados unpaid/rejected sin prometer | `src/booking/lib/booking-status.ts`, `src/app/reserva/[token]/BookingPageView.tsx` | `src/booking/lib/booking-status.test.ts` | CUMPLIDO |
+| REQ-066 | Consultar antes de cancelar/editar; editar solo gratis | `src/booking/manage.ts`, `src/booking/lib/free-booking.ts` | `src/booking/manage.test.ts` | CUMPLIDO |
 | REQ-062 | Header del home con logo animado en todo el sitio público | `email-ui.tsx` (EmailFrame), `error.tsx`, `tours/error.tsx`, `global-error.tsx`, `src/layout/site-header.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-068 | Menú derivado de las secciones del home (incluye viajes propios) y enlace activo en páginas internas | `src/home/lib/sections.ts`, `Navbar.tsx`, `FeatureFlags.tsx`, `app/layout.tsx`, `sections.test.ts` | unitarias + revisión visual 390/1366 | EN CURSO |
 | REQ-306 | Ficha de viaje propio con reintento ante D1 saturada, una carga por petición y caché corta | `src/trips/lib/trip-by-slug.ts`, `src/trips/public-load.ts`, `src/cache/edge.ts` | `trip-by-slug.test.ts` | CUMPLIDO |
@@ -989,6 +992,13 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3321 | Portada sin promedio agregado de reseñas («4.8 ★») | NUEVO | — | — | REEMPLAZADO por REQ-3315 |
 | REQ-3322 | Aviso de origen y selección de las reseñas de la portada | NUEVO | `src/home/lib/copy.ts`, `src/components/home/v2/HomeReviews.tsx` | `src/home/lib/reviews-disclosure.test.ts` | EN CURSO (verde) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
+
+## Tangol ola 2 — filas de `Tour` (REQ-3370 a REQ-3372, 12 nov 2026)
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3370 | Un tour validado de Tangol se convierte en fila de `Tour` (providerId `tangol`, externalId, título, descripción, duración, precio público, moneda, imágenes) y su traducción; ciudad y categoría entran por parámetro | PO 12-11 | `src/tangol/lib/tour-rows.ts`, `src/tangol/lib/details.ts` | `src/tangol/lib/tour-rows.test.ts`, `src/tangol/lib/details.test.ts` | EN CURSO (tests verdes en la sesión; falta el paso que escribe en la base y el merge del PO) |
+| REQ-3371 | Validación Zod del detalle y de las imágenes: el registro malo se descarta, se cuenta y se registra; la carga sigue (regla 8) | PO 12-11 | `src/tangol/lib/details.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/details.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
+| REQ-3372 | Solo marca Travel Puzzle: título y descripción sin el nombre ni el dominio del proveedor, sin `UrlTour`, sin neto ni comisión; el precio es la tarifa pública | PO 12-11 | `src/tangol/lib/text.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/text.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (tests verdes en la sesión) |
 | REQ-3317 | Correo del enlace para entrar, transaccional (no Promociones) | PO 12-11 | `src/accounts/lib/login-email.ts` | `src/accounts/lib/login-email.test.ts` | CUMPLIDO (PR #409; envío real del 12-11: llegó en 1 s a la pestaña Notificaciones, ya no a Promociones; criterio «sin imágenes» reemplazado por REQ-3344) |
 | REQ-3344 | Logo pequeño en el correo del enlace para entrar | PO 12-11 | `src/accounts/lib/login-email.ts`, `src/accounts/login.ts` | `src/accounts/lib/login-email.test.ts` | EN CURSO |
 | REQ-3380 | Tarjetas del home con número de tours; sin la línea repetida del hero | PO 12 nov | `src/components/home/v2/{HeroSearch,PopularDestinations,ContinentExplorer}.tsx`, `src/home/lib/copy.ts` | `src/home/lib/no-counts.test.ts` | EN CURSO (tests verdes; PR) |
@@ -1012,3 +1022,7 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3458 | Pie sin «La Primera Pieza» | PO 12 nov | `src/layout/lib/nav-model.ts` | `src/layout/lib/nav-model.test.ts` | EN CURSO (tests verdes; PR) |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-3449 | Entrada del blog en inglés (`en`, localizePost) | PO 12-11 | `src/blog/lib/schema.ts`, `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
+| REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
+| REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
+| REQ-3452 | Validador del blog diario exige la versión en inglés | PO 12-11 | `src/blog/lib/diario-en.ts`, `src/blog/lib/diario.ts`, `src/blog/lib/fixtures.ts` | `src/blog/lib/diario-en.test.ts` | EN CURSO (PR #448) |
