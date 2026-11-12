@@ -28,6 +28,7 @@
 - Contacto comercial / producto: Elena Castillo (elena@eurowelcome.co.uk), Barbara Lizarraga (operaciones)
 - Contacto técnico (API): Nicolas Ramos (nicolas@eurowelcome.co.uk)
 - Contacto de reservas: sales@eurowelcome.co.uk · +44 (0) 208 704 5200
+- Cuenta de pago: [EUROWELCOME: llenar el Anexo 4 (cuenta de pago)]
 
 ---
 
@@ -58,17 +59,8 @@
 
 3.5. Esquema de crédito y plazo: según la cuenta de agente de la Parte A en el sistema de la Parte B, el pago es **cada 15 días** (frecuencia registrada en el portal). [EUROWELCOME: confirmar límite de crédito, plazo exacto y proceso de conciliación.]
 
-## Cláusula 3 bis. Datos de cuenta para pago y conciliación
-Para liquidar las reservas, la Parte B indica la cuenta a la que la Parte A realiza los pagos. Estos datos forman parte del expediente del acuerdo y se actualizan por correo cuando cambien.
-
-- Titular de la cuenta: [EUROWELCOME: nombre del titular]
-- Banco: [EUROWELCOME: banco]
-- Moneda(s) de la cuenta: [EUROWELCOME: GBP / EUR]
-- IBAN: [EUROWELCOME: IBAN]
-- BIC / SWIFT: [EUROWELCOME: BIC/SWIFT]
-- Referencia de pago requerida: [EUROWELCOME: referencia o número de agente]
-- Gastos bancarios: [EUROWELCOME: quién los cubre]
-- Medio de conciliación (estado de cuenta, portal, correo): [EUROWELCOME: definir]
+## Cláusula 3 bis. Cuenta de pago y conciliación
+Para liquidar las reservas, la Parte B entrega por escrito, en papel membretado y firmado por su representante, los datos de la cuenta donde la Parte A le paga. Los datos se registran en el Anexo 4 (cuenta de pago) de este acuerdo, firmado por el representante de la Parte B. La Parte A solo paga a esa cuenta. Cualquier cambio de cuenta se notifica por escrito con un Anexo 4 nuevo firmado y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago.
 
 ## Cláusula 4. Cancelaciones y reembolsos
 4.1. La política de cancelación es la de cada producto, según la tabla registrada en el Anexo 1. [EUROWELCOME: entregar las condiciones generales y la política de cancelación vigente 2026-2028; aún no confirmadas.]
@@ -155,11 +147,15 @@ Para liquidar las reservas, la Parte B indica la cuenta a la que la Parte A real
 13.7. Ejemplares: se firma en dos originales o en copias con firma electrónica válida.
 
 ## Cláusula 14. Firma
-Leído y aceptado por las partes, en [ciudad], a [fecha].
+14.1. Las partes pueden firmar por separado, en ejemplares o con firma electrónica; todos los ejemplares forman un solo acuerdo.
 
-Por la Parte A: ____________________________  Claudia Leticia Rodríguez Laveaga, Founder & CEO
+14.2. Cada parte firma en su propia ciudad, que se indica junto a su firma: la Parte A en Victoria de Durango, Durango, México, y la Parte B en la ciudad de su domicilio.
 
-Por la Parte B: ____________________________  Nombre y cargo: [EUROWELCOME]
+14.3. La fecha de firma de cada parte es la que registra la plataforma de firma electrónica o, en firma autógrafa, la que se anota junto a la firma. El acuerdo entra en vigor en la fecha de la última firma.
+
+Por la Parte A: ____________________________  Nombre y cargo: Claudia Leticia Rodríguez Laveaga, Founder & CEO. Lugar: Victoria de Durango, Durango, México. Fecha: ____________
+
+Por la Parte B: ____________________________  Nombre y cargo: [EUROWELCOME]. Lugar: [EUROWELCOME: ciudad]. Fecha: ____________
 
 ---
 
@@ -223,13 +219,14 @@ Notas:
 4. Resolución o poder que autoriza a quien firma.
 5. Documento de identidad del firmante.
 6. Póliza de responsabilidad civil o seguro de viajeros, si lo tiene.
+7. Carta en papel membretado, firmada por el representante, con los datos de la cuenta de pago (los mismos del Anexo 4).
 
 Para validez en México, los documentos corporativos del Reino Unido deben apostillarse (Convenio de La Haya) y traducirse al español por perito traductor.
 
 ## Anexo 3. Pendientes para firmar
 0. Precio de venta, forma de pago y aviso de terminación: decisión de Travel Puzzle; quedan redactados.
 1. **Confirmar si los precios del portal son netos o públicos** (Cláusula 3.1). Sin esto no se fija margen.
-2. Datos de cuenta para pago (Cláusula 3 bis): titular, banco, IBAN, BIC/SWIFT, referencia.
+2. Cuenta de pago: llenar y firmar el Anexo 4 (Cláusula 3 bis).
 3. Condiciones generales y política de cancelación 2026-2028 (Cláusula 4.1).
 4. Tarifario de suplementos (individual, media pensión, pensión completa, vuelos internos).
 5. Límite de crédito, plazo exacto y proceso de conciliación (Cláusula 3.5).
@@ -237,4 +234,20 @@ Para validez en México, los documentos corporativos del Reino Unido deben apost
 7. Datos legales completos de la Parte B (razón social, Company number, VAT, domicilio, representante legal).
 8. Documentación técnica de la API (`api.travelzee.com`): endpoint de autenticación, campos y métodos de catálogo. Credenciales de producción por canal seguro.
 9. Revisión de abogado de Travel Puzzle antes de firmar, incluida la cláusula 9 (sede y foro frente a contraparte en Reino Unido) y posible versión bilingüe.
-10. Firma: autógrafa o electrónica con certificado válido; confirmar el método que acepta la Parte B en el Reino Unido.
+10. Firma: autógrafa o electrónica con certificado válido (la plataforma registra la fecha de cada firma); confirmar el método que acepta la Parte B en el Reino Unido.
+
+## Anexo 4. Cuenta de pago de la Parte B
+La Parte B llena este anexo y lo firma su representante. La Parte A solo paga a esta cuenta. Un cambio de cuenta se notifica por escrito con un anexo nuevo firmado y la Parte A lo confirma por teléfono o videollamada con el contacto comercial antes del siguiente pago.
+
+- Titular de la cuenta: [EUROWELCOME]
+- Banco: [EUROWELCOME]
+- Domicilio del banco: [EUROWELCOME]
+- Moneda(s) de la cuenta (GBP / EUR): [EUROWELCOME]
+- IBAN: [EUROWELCOME]
+- BIC / SWIFT: [EUROWELCOME]
+- Referencia de pago requerida (número de agente): [EUROWELCOME]
+- Gastos bancarios (quién los cubre): [EUROWELCOME]
+- Medio de conciliación (estado de cuenta, portal o correo): [EUROWELCOME]
+- Correo y teléfono para confirmar cambios de cuenta: [EUROWELCOME]
+
+Firma del representante de la Parte B: ____________________________  Nombre, cargo y fecha: [EUROWELCOME]
