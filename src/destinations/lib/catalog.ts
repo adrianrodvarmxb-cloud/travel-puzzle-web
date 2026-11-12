@@ -25,6 +25,8 @@ export interface CityRow {
   slug: string | null;
   guide: string | null;
   guideUpdatedAt: string | null;
+  /** REQ-3336: texto plano de la guía propia en inglés, si existe (lo pone overlayGuides). */
+  guideEn?: string | null;
   indexableSince: string | null;
   failingSince: string | null;
 }
@@ -100,6 +102,8 @@ export interface CityNode {
   href: string;
   guide: string | null;
   guideUpdatedAt: string | null;
+  /** REQ-3336 */
+  guideEn?: string | null;
   activeTours: number;
   /** REQ-1200: tours activos de proveedores con permiso de indexar (viajes propios y de agencia siempre cuentan). */
   indexableTours: number;
@@ -244,7 +248,7 @@ export function destinationTree({ countries, cities, tours, trips, now, taxonomy
       const indexed = nextCityIndexState({ indexed: !!city.indexableSince, failingSince: city.failingSince }, meets, now).indexed;
       nodes.push({
         id: city.id, slug: citySlug, name: cityLabel, href: cityPath(slug, citySlug), guide: city.guide,
-        guideUpdatedAt: city.guideUpdatedAt, activeTours, indexableTours, indexed,
+        guideUpdatedAt: city.guideUpdatedAt, guideEn: city.guideEn ?? null, activeTours, indexableTours, indexed,
         freeTours: mine.filter((t) => t.isFreeTour).sort(byReviews),
         paidTours: mine.filter((t) => !t.isFreeTour).sort(byReviews),
         ownTrips: own,

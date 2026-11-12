@@ -61,7 +61,7 @@ model City {
 // Tour Model (Refactored for FreeTour API)
 model Tour {
   id            String            @id @default(cuid())
-  externalId    Int               @unique
+  externalId    Int               // REQ-1623: único por (providerId, externalId) desde 0026, ya no solo
   providerId    String            @default("freetour") // REQ-085: llave natural (providerId, externalId)
   slug          String?           @unique // REQ-086: se guarda una vez; un trigger impide cambiarlo
   providerTitle String

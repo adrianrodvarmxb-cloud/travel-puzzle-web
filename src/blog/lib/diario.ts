@@ -4,6 +4,7 @@ import { AUTOR_POR_CATEGORIA } from "../content/authors";
  * Recibe todo por parámetro: fecha de hoy, artículos existentes, rutas que resuelven, calendario y texto de las fichas.
  * Una sola falla = NO PUBLICA; devuelve todas las fallas para que el issue diga el motivo completo.
  */
+import { dailyEnProblems } from "./diario-en";
 import { parsePost, wordCount, type Post } from "./schema";
 import { inlineLinks, plainText } from "./inline";
 import { linkProblems, postPath, pillarPath, duplicates } from "./registry";
@@ -194,6 +195,9 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
       if (p.mix && item.mix !== p.mix) problems.push(`tema calendario: el ID ${item.id} es de ${item.mix}`);
     }
   }
+
+  // REQ-3452 (gate B2): la versión en inglés es obligatoria y sigue la misma estructura.
+  problems.push(...dailyEnProblems(p, ctx.existing));
 
   // REQ-963 (C2): sin texto copiado de las fichas enlazadas
   if (ctx.fichaTexts) {

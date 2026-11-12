@@ -111,3 +111,56 @@ describe("REQ-1597: aviso simplificado", () => {
     expect(PRIVACIDAD_SIMPLIFICADO).toContain("Crear y administrar su cuenta (opcional) para consultar sus reservas");
   });
 });
+
+describe("REQ-1635: términos v2 (Mila, moneda, vuelos, prestador)", () => {
+  it("REQ-1635: explica que la asesoría es inteligencia artificial y cuándo vale lo que dice", () => {
+    expect(TERMINOS).toContain("## Asesoría con inteligencia artificial");
+    expect(TERMINOS).toContain("Mila");
+    expect(TERMINOS).toMatch(/hablar con una persona del equipo/);
+    expect(TERMINOS).toMatch(/número de confirmación/);
+  });
+  it("REQ-1635: aclara la moneda de cada tour y que la conversión es aproximada", () => {
+    expect(TERMINOS).toMatch(/moneda del prestador/);
+    expect(TERMINOS).toMatch(/aproximad/);
+    expect(TERMINOS).not.toMatch(/recibimos en Moneda Nacional/);
+  });
+  it("REQ-1635: deslinde de aerolíneas sin quitar derechos del pasajero", () => {
+    expect(TERMINOS).toContain("## Vuelos incluidos en un servicio");
+    expect(TERMINOS).toContain("Ley de Aviación Civil");
+  });
+  it("REQ-1635: identifica al prestador y quita restos del texto de 2024", () => {
+    expect(TERMINOS).toMatch(/a solicitud de EL CLIENTE/);
+    expect(TERMINOS).not.toMatch(/pagar los beneficios/);
+    expect(TERMINOS).not.toMatch(/American Express/);
+  });
+});
+
+describe("REQ-1636: aviso integral v2", () => {
+  it("REQ-1636: informa el uso de inteligencia artificial y WhatsApp", () => {
+    expect(PRIVACIDAD_INTEGRAL).toContain("## Asesoría con inteligencia artificial y WhatsApp");
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/Meta/);
+  });
+  it("REQ-1636: nombra regiones y países de las transferencias", () => {
+    for (const s of ["India", "Reino Unido", "Suiza", "Perú", "Colombia", "Singapur"]) expect(PRIVACIDAD_INTEGRAL).toContain(s);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/no requieren su consentimiento/);
+  });
+  it("REQ-1636: lista a los proveedores que tratan datos por cuenta de Travel Puzzle", () => {
+    expect(PRIVACIDAD_INTEGRAL).toContain("## Proveedores que tratan datos por cuenta de Travel Puzzle");
+    for (const s of ["Stripe", "Cloudflare", "Resend", "Google"]) expect(PRIVACIDAD_INTEGRAL).toContain(s);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/nunca guardamos el número completo de su tarjeta/);
+  });
+});
+
+describe("REQ-1637: aviso simplificado v2", () => {
+  it("REQ-1637: menciona la inteligencia artificial y el envío de datos al país del destino", () => {
+    expect(PRIVACIDAD_SIMPLIFICADO).toMatch(/inteligencia artificial/);
+    expect(PRIVACIDAD_SIMPLIFICADO).toMatch(/fuera de México/);
+  });
+  it("REQ-3435: el aviso integral dice que Mila consulta reserva y pagos solo tras verificar al titular, el identificador de WhatsApp y el consentimiento aparte para promociones por WhatsApp", () => {
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/Mila consulta sus datos de reserva y de pago solo después de verificar que usted es el titular/);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/folio y el correo de la reserva/);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/identificador de usuario que WhatsApp nos comparte/);
+    expect(PRIVACIDAD_INTEGRAL).toMatch(/Por WhatsApp solo le enviaremos promociones si nos da su consentimiento por separado/);
+    expect(PRIVACIDAD_SIMPLIFICADO).toMatch(/solo después de verificar que usted es el titular/);
+  });
+});

@@ -13,3 +13,10 @@ export function blogState() {
     nosotros: env.NOSOTROS_ENABLED === "true",
   };
 }
+
+/** REQ-3450: idioma de la página del blog (es sin prefijo; /en/… con LOCALE_URLS_ENABLED). Otro idioma, null (404). */
+export async function blogLanguage(): Promise<{ lang: "es" | "en"; hreflang: boolean } | null> {
+  const { destinosLanguage } = await import("@/destinations/server");
+  const { lang, hreflang } = await destinosLanguage();
+  return lang === "es" || lang === "en" ? { lang, hreflang } : null;
+}
