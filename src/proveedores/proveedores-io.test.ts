@@ -182,3 +182,20 @@ describe("REQ-1665: documentos recibidos marcan la lista de alta", () => {
     expect(m.lista[0].checklist).toEqual(["tarifas"]);
   });
 });
+
+describe("REQ-3430: Mila consulta a la revisión cada 6 h antes de enviar", () => {
+  const callado = (x: Partial<ProveedorFila>) => base({ correos: ["c@c.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola", hiloId: "<h@x>", ...x });
+  it("REQ-3430: no envía si la otra tiene algo vivo, aparta 48 h cuando sí envía y falla cerrado si no puede consultar", async () => {
+    const m = memoria([callado({ id: "negocia" }), callado({ id: "libre" }), callado({ id: "caido" })]);
+    const apartados: import("./lib/consulta").Apartado[] = [{ proveedorId: "negocia", agente: "revision6h", motivo: "negociacion", desde: "2026-11-09T10:00:00Z", hasta: "2026-11-20T10:00:00Z" }];
+    const enviados: Correo[] = [];
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@r>`; },
+      contacto: {
+        listar: async (id) => { if (id === "caido") throw new Error("sin red"); return apartados.filter((a) => a.proveedorId === id); },
+        apartar: async (a) => { apartados.push(a); },
+      } });
+    expect(enviados).toHaveLength(1);
+    expect(r.detenidos).toEqual(["negocia: la revisión cada 6 h tiene una negociación en curso", "caido: no se pudo consultar a la otra"]);
+    expect(apartados.at(-1)).toMatchObject({ proveedorId: "libre", agente: "mila", motivo: "envio", hasta: "2026-11-11T15:00:00.000Z" });
+  });
+});

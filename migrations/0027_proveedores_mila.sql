@@ -98,3 +98,15 @@ CREATE TABLE IF NOT EXISTS "TarifaAviso" (
   "updatedAt"   TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS "TarifaAviso_estado" ON "TarifaAviso" ("estado");
+
+-- REQ-3430: lista privada compartida entre Mila y la revisión cada 6 h; cada una consulta a la otra antes de escribirle a un proveedor (REQ-3429, gate G1 = A).
+CREATE TABLE IF NOT EXISTS "ProveedorContacto" (
+  "id"          INTEGER PRIMARY KEY AUTOINCREMENT,
+  "proveedorId" TEXT NOT NULL,
+  "agente"      TEXT NOT NULL CHECK ("agente" IN ('mila','revision6h')),
+  "motivo"      TEXT NOT NULL CHECK ("motivo" IN ('borrador','negociacion','folio','envio')),
+  "desde"       TEXT NOT NULL,
+  "hasta"       TEXT NOT NULL,
+  "nota"        TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS "ProveedorContacto_proveedor" ON "ProveedorContacto" ("proveedorId", "hasta");

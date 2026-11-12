@@ -9,8 +9,11 @@ import { numerar } from "./lib/integracion";
 import { pedidosDeAlta, type TipoProveedor } from "./lib/checklist";
 import { puedeEscribir } from "./lib/choques";
 import { enVentana, fechaLocal } from "./lib/horario";
+import { apartarEnvio, consultar, type Apartado } from "./lib/consulta";
 
-export interface DepsDiario { repo: ProveedoresRepo; enviar: (c: Correo) => Promise<string>; hoy: string; log?: (m: string) => void }
+// REQ-3430: lista privada compartida con la revisión cada 6 h (opcional para no romper usos actuales; en producción la arma deps.ts).
+export interface ContactoCompartido { listar: (proveedorId: string) => Promise<Apartado[]>; apartar: (a: Apartado) => Promise<void> }
+export interface DepsDiario { repo: ProveedoresRepo; enviar: (c: Correo) => Promise<string>; hoy: string; log?: (m: string) => void; contacto?: ContactoCompartido }
 // REQ-1297: «porPresentar» = los proveedores de la tanda del día cuyo primer correo manda Adri (Mila no lo envía).
 // REQ-1669: «detenidos» = proveedores a los que tocaba escribir y no se escribió, con el motivo.
 export interface Reporte { enviados: number; sinRespuesta: number; errores: string[]; porPresentar: string[]; detenidos: string[] }
@@ -41,7 +44,15 @@ export async function revisionDiaria(deps: DepsDiario): Promise<Reporte> {
   const intentar = async (p: ProveedorFila, tipo: TipoCorreo) => {
     const permiso = puedeEscribir({ bloqueos: p.bloqueos ?? {}, hiloId: p.hiloId }); // REQ-1669
     if (!permiso.ok) { r.detenidos.push(`${p.id}: ${permiso.motivo}`); return; }
-    try { if (await mandar(p, tipo, deps)) r.enviados++; } catch (e) { r.errores.push(`${p.id}: ${(e as Error).message}`); }
+    // REQ-3430: antes de enviar, consulta a la revisión cada 6 h; si no puede leer la lista, no envía.
+    if (deps.contacto) {
+      const lista = await deps.contacto.listar(p.id).catch(() => null);
+      const d = consultar(lista, "mila", p.id, deps.hoy);
+      if (!d.ok) { r.detenidos.push(`${p.id}: ${d.motivo}`); return; }
+    }
+    try {
+      if (await mandar(p, tipo, deps)) { r.enviados++; await deps.contacto?.apartar(apartarEnvio("mila", p.id, deps.hoy)); } // REQ-3430
+    } catch (e) { r.errores.push(`${p.id}: ${(e as Error).message}`); }
   };
   for (const p of todos) {
     // REQ-1566: solo en horario hábil del proveedor, y los días hábiles con su calendario.

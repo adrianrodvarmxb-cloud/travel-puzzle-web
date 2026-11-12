@@ -5,6 +5,7 @@ import { createProveedoresRepo, dbDePrisma } from "./repository";
 import { subirDocumento } from "./cpanel";
 import type { Correo } from "./lib/correo";
 import { createTarifasRepo } from "./tarifa-repo";
+import { createContactoRepo } from "./contacto-repo";
 import type { DepsTarifa } from "./tarifa";
 import type { MarkupRates } from "../trips/lib/markup";
 import { priceFrom } from "../trips/lib/pricing";
@@ -13,7 +14,9 @@ import { priceFrom } from "../trips/lib/pricing";
 export const proveedoresEncendido = (env: Record<string, string | undefined>) => env.PROVEEDORES_MILA_ON === "true";
 
 export function proveedoresDeps(env: Record<string, string | undefined>) {
-  const repo = createProveedoresRepo(dbDePrisma(getPrisma() as never));
+  const db = dbDePrisma(getPrisma() as never);
+  const repo = createProveedoresRepo(db);
+  const contacto = createContactoRepo(db); // REQ-3430: lista compartida con la revisión cada 6 h
   const enviar = async (c: Correo) => {
     const id = await sendEmail({ apiKey: env.RESEND_API_KEY ?? "", fetch }, { from: c.from, to: c.to[0], subject: c.subject, text: c.text, html: "", cc: c.cc, replyTo: "comercial@travelpuzzle.com.mx", ...(c.inReplyTo && { headers: { "In-Reply-To": c.inReplyTo, References: c.inReplyTo } }) });
     return `<${id}@resend.dev>`;
@@ -27,7 +30,7 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
     if (!res.ok) throw new Error(`avisos ${res.status}`);
   };
   const destinos = (env.RESUMEN_DESTINOS ?? "").split(",").map((x) => x.trim()).filter(Boolean);
-  return { repo, enviar, subir, avisar, destinos };
+  return { repo, enviar, subir, avisar, destinos, contacto };
 }
 
 // REQ-1672: márgenes desde el secreto MARKUP_RATES (JSON {"pct":{"programa":…,"tour":…,"privado":…,"traslado":…},"minTourUsd":…}); no viven en el repo (REQ-038).

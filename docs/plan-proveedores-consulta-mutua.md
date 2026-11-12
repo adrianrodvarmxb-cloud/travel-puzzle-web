@@ -14,7 +14,7 @@ Petición literal (REQ-3429): «cada una debe consulyar alal otra antes de envia
 3. Desempate: gana quien apartó primero (marca de tiempo); la otra espera 24 h y vuelve a consultar.
 4. Si no puede consultar (falla la red o la lectura), no envía (falla cerrado).
 
-## Gate G1 · mecanismo de consulta (firma del PO)
+## Gate G1 · mecanismo de consulta — FIRMADO «A» (PO, 12 nov 2026, REQ-3447)
 - **A (recomendada):** tabla `ContactoProveedor` en D1 (migración 0027) con «quién, qué, cuándo y hasta cuándo». Mila la lee y escribe directo; la revisión cada 6 h la consulta y aparta por un endpoint protegido `/api/proveedores/contacto` con secreto `PROVEEDORES_CONTACTO_TOKEN` (lo carga el PO en Cloudflare). Privado, en tiempo real.
 - **B:** sin endpoint: Mila consulta los borradores de Gmail de travelpuzzlemexico@ (permiso de solo lectura de Gmail para el Worker) y la revisión cada 6 h consulta los correos enviados por comercial@ en copia. Sin tabla nueva, pero depende de los buzones y es más lento.
 

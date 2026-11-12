@@ -15,9 +15,9 @@ export async function GET(request: Request) {
     }
     const env = process.env as Record<string, string | undefined>;
     if (!proveedoresEncendido(env)) return NextResponse.json({ success: true, skipped: 'proveedores_off' });
-    const { repo, enviar, avisar, destinos } = proveedoresDeps(env);
+    const { repo, enviar, avisar, destinos, contacto } = proveedoresDeps(env);
     const hoy = new Date().toISOString();
-    const reporte = await revisionDiaria({ repo, enviar, hoy, log: console.log });
+    const reporte = await revisionDiaria({ repo, enviar, hoy, log: console.log, contacto }) /* REQ-3430 */;
     // REQ-1568: lunes 9:00 de México, el resumen semanal (solo con el puente de avisos configurado).
     const resumen = esHoraResumen(hoy) && env.MILA_AVISOS_URL ? await mandarResumen({ repo, avisar, destinos, hoy }) : null;
     // REQ-1672: los cambios de tarifa confirmados cuya fecha ya llegó pasan al precio de la página.
