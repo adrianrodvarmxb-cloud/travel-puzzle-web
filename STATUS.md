@@ -580,7 +580,7 @@ Hallazgo: la pasarela ya manda refNumber, eventId, adults y children a /booking/
 | REQ-117 | Webhook firmado e idempotente; solicitud "Pagada" y correos | `src/payments/lib/webhook.ts`, `src/payments/service.ts`, `src/payments/deps.ts`, `src/app/api/stripe/webhook/route.ts`, `src/trips/lib/request.ts` | `webhook.test.ts`, `service.test.ts`, `request.test.ts` | EN CURSO (apagado; falta webhook en Stripe) |
 | REQ-118 | Bandera STRIPE_ENABLED (404 y sin control) | `src/payments/lib/checkout.ts`, rutas de pago y webhook, `src/app/admin/solicitudes/page.tsx` | `checkout.test.ts`, `service.test.ts` | EN CURSO (apagado) |
 | REQ-119 | Tabla Payment (migración 0013) | `migrations/0013_pagos.sql`, `prisma/schema.prisma` | `service.test.ts` (fila guardada) | EN CURSO (migración sin aplicar) |
-| REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | PENDIENTE (gates del PO) |
+| REQ-063..067 | Migración a Freetour API v2.2 | `docs/plan-freetour-v22.md` | ver plan | REQ-063 CUMPLIDO (prueba real en v2.2, 12 nov, reserva 6782-20261112144730-598). REQ-067 CUMPLIDO (compra real del 9 nov; reembolso confirmado por el PO el 12 nov). REQ-064..066 CUMPLIDO (tests, PR #457). Pasarela de producción en v2.2 desde el 12 nov (FREETOUR_API_VERSION en cPanel; regreso = borrar la variable y Restart); Worker en v2.0 |
 | REQ-064 | Evento v2.2: Zod, cobro desde payableNow, cupo/mínimo/teléfono | `src/booking/lib/event-check.ts`, `src/booking/lib/paid-price.ts` | `src/booking/lib/event-v22.test.ts` | CUMPLIDO |
 | REQ-065 | Estados unpaid/rejected sin prometer | `src/booking/lib/booking-status.ts`, `src/app/reserva/[token]/BookingPageView.tsx` | `src/booking/lib/booking-status.test.ts` | CUMPLIDO |
 | REQ-066 | Consultar antes de cancelar/editar; editar solo gratis | `src/booking/manage.ts`, `src/booking/lib/free-booking.ts` | `src/booking/manage.test.ts` | CUMPLIDO |
@@ -1080,6 +1080,9 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3367 | Cruce ciudad del proveedor → ciudad existente (país + GeoNames; si no, nombre con la regla REQ-1606) | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` | `src/tangol/lib/cities.test.ts` | CUMPLIDO (21 pruebas verdes; falta merge del PO) |
 | REQ-3368 | Id y slug de las ciudades nuevas: geonameid o rango reservado del proveedor (Tangol 9,000,001…), slug único por país | PO 11 nov (REQ-1624) | `src/tangol/lib/cities.ts` (reusa `src/destinations/lib/assign-slugs.ts`) | `src/tangol/lib/cities.test.ts` | CUMPLIDO (pruebas verdes; falta merge del PO) |
 | REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0028_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
+| REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
+| REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
+
 
 ## Calendario con precio por día para proveedores de PDF, ola 1 (12 nov 2026)
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
