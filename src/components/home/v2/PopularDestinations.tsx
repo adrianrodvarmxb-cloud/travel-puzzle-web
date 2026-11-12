@@ -4,9 +4,10 @@ import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn, type DestinationCard } from '@/home/lib/destinations';
+import { formatCount } from '@/home/lib/format';
 import { SectionHeading } from './SectionHeading';
 
-/** Destinos en mosaico: el primero grande y cuatro más; con su país (REQ-3315: sin conteo). */
+/** Destinos en mosaico: el primero grande y cuatro más; con su número de tours (REQ-3380). */
 export function PopularDestinations({ destinations, totalCities }: { destinations: DestinationCard[]; totalCities: number }) {
   const { language } = useLanguage();
   const c = homeCopy(language);
@@ -36,7 +37,7 @@ export function PopularDestinations({ destinations, totalCities }: { destination
               <div className="absolute inset-x-4 bottom-4 md:inset-x-5">
                 {big && <p className="font-data text-[11px] uppercase tracking-[0.2em] text-[#EAF54F]">{nameIn(d.countryNames, language)}</p>}
                 <p className={`font-display font-bold text-white ${big ? 'text-3xl md:text-[40px]' : 'text-xl md:text-2xl'}`}>{city}</p>
-                {!big && <p className="font-data mt-1 text-[11px] uppercase tracking-widest text-[#DCE4F5]">{nameIn(d.countryNames, language) /* REQ-3315: país en lugar del conteo */}</p>}
+                <p className="font-data mt-1 text-[11px] uppercase tracking-widest text-[#DCE4F5]">{c.tours(formatCount(d.tours, language)) /* REQ-3380 */}</p>
               </div>
             </Link>
           );

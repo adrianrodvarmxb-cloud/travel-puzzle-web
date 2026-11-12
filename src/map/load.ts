@@ -3,6 +3,7 @@ import { cityPoints, cardTours } from "./lib/cities";
 import { placeTrips, toMapTrip, tripCardTour, type MapTrip, type MapCityRef } from "./lib/trips";
 import { imageUrl } from "@/trips/lib/image";
 import { isKindVisible, type Visibility } from "@/trips/lib/visibility";
+import { hiddenProviders, type ProviderVisibilityEnv } from "@/catalog/lib/provider-visibility"; // REQ-3311
 
 export interface MapCity {
   cityId: number;
@@ -93,7 +94,8 @@ export async function loadMapCities({ prisma, vis }: { prisma: PrismaClient; vis
 async function loadTourCities(prisma: PrismaClient): Promise<MapCity[]> {
   try {
     const rows = await prisma.$queryRaw<{ cityId: number; c: string | null }[]>`
-      SELECT cityId, json_extract(meetingPoint, '$.coordinates') AS c FROM Tour WHERE isActive = 1`;
+      SELECT cityId, json_extract(meetingPoint, '$.coordinates') AS c FROM Tour WHERE isActive = 1
+        AND providerId NOT IN (SELECT value FROM json_each(${JSON.stringify(hiddenProviders(process.env as ProviderVisibilityEnv))}))`; /* REQ-3311 */
     const points = cityPoints(rows.map((r) => ({ cityId: Number(r.cityId), coords: r.c })));
     const ids = points.map((p) => p.cityId);
     const cities: { id: number; countryId: number; translations: unknown }[] = [];

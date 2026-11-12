@@ -1,5 +1,8 @@
 import { experiencesCount } from "@/tours/lib/catalog-name";
 
+/** REQ-3381: una pieza de la franja del home. */
+export type Pillar = { icon: "aliados" | "mila" | "mx"; title: string; sub: string };
+
 /** Textos del home (español por defecto; inglés para quien lo elija; los demás idiomas usan inglés). */
 const es = {
   heroTitle: "Arma tu próximo viaje",
@@ -28,15 +31,14 @@ const es = {
     ["Asesoría por WhatsApp", "Te ayudamos en español antes, durante y después de tu viaje."],
     ["Tu reserva a la mano", "Confirmación, recordatorios y tu reserva en un solo lugar."],
   ] as [string, string][],
-  // REQ-3315: la franja ya no muestra cifras; tres piezas sin números.
+  // REQ-3315: la franja no muestra cifras. REQ-3381: ícono, título corto y bajada corta.
   pillars: [
-    ["Aliados en cada región", "Operadores que reúnen y respaldan a los guías de su destino."],
-    ["Mila, tu asesora de viaje con inteligencia artificial", "Responde al instante, en español, y nuestro equipo te acompaña en cada decisión."],
-    ["Mexicana, de principio a fin", "Agencia con registro nacional de turismo, en tu horario y en tu moneda."],
-  ] as [string, string][],
+    { icon: "aliados", title: "Aliados en cada región", sub: "Operadores locales de confianza" },
+    { icon: "mila", title: "Mila, asesora con IA", sub: "Al instante, con respaldo humano" },
+    { icon: "mx", title: "Mexicana, de principio a fin", sub: "Registro Nacional de Turismo" },
+  ] as Pillar[],
   destAllPlain: "Ver todos los destinos →",
   contLine: "Seleccionado por nuestros aliados en la región.",
-  heroSlideLine: "De la mano de nuestros aliados en la región",
   statTours: "experiencias disponibles",
   statCities: "ciudades",
   statCountries: "países",
@@ -87,6 +89,8 @@ const es = {
   reviewsHeadline: "En palabras de los viajeros.",
   reviewsSub: "Lo que cuentan quienes ya recorrieron estas ciudades.",
   avgLabel: "CALIFICACIÓN PROMEDIO DE LAS EXPERIENCIAS", // REQ-803 (C7)
+  // REQ-3322: aviso de origen y selección (LFPC art. 32; práctica UE). Sin nombrar al proveedor.
+  reviewsDisclosure: "Selección de reseñas de 5 estrellas, escritas por viajeros que vivieron la experiencia con su operador local. Travel Puzzle no las escribe ni las edita. La calificación y las reseñas de cada una están en la página de cada experiencia.",
   expertEyebrowN: "07 — ASESORÍA PERSONALIZADA",
   // REQ-453: carrusel «Excursiones de un día» (definición del diccionario de taxonomía; sin promesas ni proveedor)
   dayEyebrow: "EXCURSIONES DE UN DÍA",
@@ -122,13 +126,12 @@ const en: Copy = {
     ["Your booking at hand", "Confirmation, reminders and your booking in one place."],
   ],
   pillars: [
-    ["Partners in every region", "Operators who bring together and stand behind the guides in their destination."],
-    ["Mila, your AI travel advisor", "She answers instantly, and our team is with you for every decision."],
-    ["Mexican, from start to finish", "A travel agency on Mexico's national tourism registry, in your time zone and currency."],
+    { icon: "aliados", title: "Partners in every region", sub: "Trusted local operators" },
+    { icon: "mila", title: "Mila, AI advisor", sub: "Instant answers, human backup" },
+    { icon: "mx", title: "Mexican, start to finish", sub: "National Tourism Registry" },
   ],
   destAllPlain: "See all destinations →",
   contLine: "Curated by our partners in the region.",
-  heroSlideLine: "Hand in hand with our partners in the region",
   statTours: "experiences available",
   statCities: "cities",
   statCountries: "countries",
@@ -177,6 +180,8 @@ const en: Copy = {
   reviewsHeadline: "In travelers' own words.",
   reviewsSub: "What people who already explored these cities have to say.",
   avgLabel: "AVERAGE EXPERIENCE RATING", // REQ-803 (C7)
+  // REQ-3322
+  reviewsDisclosure: "A selection of 5-star reviews, written by travelers who took the experience with its local operator. Travel Puzzle does not write or edit them. Each one's rating and reviews are on each experience's page.",
   expertEyebrowN: "07 — PERSONAL ADVICE",
   dayEyebrow: "DAY TRIPS",
   dayHeadline: "Day trips.",

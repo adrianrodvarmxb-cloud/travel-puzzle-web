@@ -4,6 +4,7 @@ import Link from '@/components/i18n/LocalizedLink';
 import { useLanguage } from '@/lib/language-context';
 import { homeCopy } from '@/home/lib/copy';
 import { nameIn } from '@/home/lib/destinations';
+import { formatCount } from '@/home/lib/format';
 import type { HomeData } from '@/home/load';
 import { SectionHeading } from './SectionHeading';
 import { ImageRotator } from './ImageRotator';
@@ -22,8 +23,11 @@ export function ContinentExplorer({ continents }: { continents: HomeData['contin
           <div key={k.continent} className="overflow-hidden rounded-2xl border border-white/10 bg-[#121D45]">
             {k.images.length > 0 && <ImageRotator images={k.images} alt={c.continents[k.continent]} className="aspect-[16/9]" />}
             <div className="p-6">
-              {/* REQ-3315: sin conteos de experiencias ni de países */}
-              <h3 className="font-display text-xl font-semibold text-white">{c.continents[k.continent]}</h3>
+              {/* REQ-3380: la tarjeta lleva su número de tours; REQ-3315: sin conteo de países ni en los chips */}
+              <div className="flex items-baseline justify-between gap-2">
+                <h3 className="font-display text-xl font-semibold text-white">{c.continents[k.continent]}</h3>
+                <span className="font-data text-[11px] uppercase tracking-widest text-[#7CC4FF]">{c.tours(formatCount(k.tours, language))}</span>
+              </div>
               <p className="mt-1 text-sm text-[#A9B6D6]">{c.contLine}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {k.top.map((t) => (

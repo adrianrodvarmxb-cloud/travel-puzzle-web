@@ -162,7 +162,8 @@
     "CONTACTO_ENABLED": "true",
     // Página /asesores «Habla con un asesor de viaje» (REQ-250…252): WhatsApp del asesor y formulario corto. Apagada = 404.
     // "true" con preview encendido, prueba de humo y OK del PO.
-    "EXPERTOS_ENABLED": "false",
+    // REQ-3382: encendida (PO, 12 nov 2026: buzón info@ confirmado, REQ-1320).
+    "EXPERTOS_ENABLED": "true",
     // Blog /blog (REQ-253…263): índice, pilares y artículos desde src/blog/content. Apagada = 404 y sin enlace.
     // REQ-982 (reemplaza REQ-624): encendida con el gate «Publica solo cada día» (docs/gates-blog-diario-2026-11-06.md),
     // preview y prueba de humo. Sin artículos publicados, /blog da 404 y no se enlaza; cada entrada la publica blog-diario.yml.

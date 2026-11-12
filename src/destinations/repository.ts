@@ -7,6 +7,7 @@ import type { CityRow, CountryRow, TourRow, TripRow } from "./lib/catalog";
 import { ISO2_SQL } from "./lib/ids";
 import { placeStatus, type TourStatus } from "./lib/routes";
 import { scrubName } from "@/tours/lib/provider-text";
+import { providerSql, type ProviderVisibilityEnv } from "@/catalog/lib/provider-visibility";
 
 export interface D1Read {
   prepare(sql: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } };
@@ -48,7 +49,10 @@ const iso = (v: unknown) => (v === null || v === undefined ? null : new Date(v a
 const bool = (v: unknown) => v === true || Number(v) === 1;
 const status = (v: unknown): TourStatus => (v === "missing" || v === "removed" ? v : "active");
 
-const LISTED = `t."slug" IS NOT NULL AND t."isActive" = 1 AND t."syncStatus" <> 'removed'`;
+// REQ-3311 (candado 1 del gate C): el proveedor tras bandera se esconde aquí mismo, en el predicado
+// que define «tour listado», y en los EXISTS que cuentan tours de una ciudad o país.
+const filtro = (tabla: string) => providerSql(process.env as ProviderVisibilityEnv, tabla);
+const LISTED = () => `t."slug" IS NOT NULL AND t."isActive" = 1 AND t."syncStatus" <> 'removed'${filtro("t")}`;
 const TITLE = `COALESCE(NULLIF(es."title", ''), NULLIF(en."title", ''), '')`;
 const JOIN_TITLES = `LEFT JOIN "TourTranslation" es ON es."tourId" = t."id" AND es."language" = 'es' LEFT JOIN "TourTranslation" en ON en."tourId" = t."id" AND en."language" = 'en'`;
 
@@ -60,8 +64,8 @@ function cityRow(r: Record<string, unknown>): CityRow {
 }
 
 // REQ-092: isActive entra para que un tour dado de baja (isActive=0) responda 410 aunque syncStatus siga 'active'.
-const PLACE = `SELECT t."id", t."slug", t."syncStatus", t."isActive", ${TITLE} AS "title", ${ISO2_SQL("co")} AS "iso2", c."slug" AS "citySlug", c."translations" AS "cityTr",
-  EXISTS (SELECT 1 FROM "Tour" t2 WHERE t2."cityId" = c."id" AND t2."slug" IS NOT NULL AND t2."isActive" = 1 AND t2."syncStatus" <> 'removed') AS "cityLive"
+const PLACE = () => `SELECT t."id", t."slug", t."syncStatus", t."isActive", ${TITLE} AS "title", ${ISO2_SQL("co")} AS "iso2", c."slug" AS "citySlug", c."translations" AS "cityTr",
+  EXISTS (SELECT 1 FROM "Tour" t2 WHERE t2."cityId" = c."id" AND t2."slug" IS NOT NULL AND t2."isActive" = 1 AND t2."syncStatus" <> 'removed'${filtro("t2")}) AS "cityLive"
   FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" JOIN "Country" co ON co."id" = t."countryId" ${JOIN_TITLES}`;
 
 function placeRow(r: Record<string, unknown> | undefined, cityName: (tr: unknown) => string): TourPlaceRow | null {
@@ -89,7 +93,7 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
         `SELECT t."id", t."externalId", t."slug", t."cityId", t."countryId", ${TITLE} AS "title", t."providerTitle", t."priceValue", t."priceCurrency",
          t."rating", t."reviewsNumber", t."titleImageURL", t."duration", t."syncStatus", t."isActive", t."updatedAt",
          t."categoryId", t."durationMinutes", t."providerId", en."title" AS "titleEn"
-         FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" ${JOIN_TITLES} WHERE ${LISTED} AND c."slug" IS NOT NULL`
+         FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" ${JOIN_TITLES} WHERE ${LISTED()} AND c."slug" IS NOT NULL`
       );
       return rows.map((r) => ({
         id: String(r.id), externalId: Number(r.externalId), slug: (r.slug as string | null) ?? null, cityId: Number(r.cityId), countryId: Number(r.countryId),
@@ -121,14 +125,14 @@ export function createDestinationsRepo(db: D1Read, opts: { cityName: (tr: unknow
       });
     },
     async tourPlaceById(id) {
-      return placeRow((await all(`${PLACE} WHERE t."id" = ?`, id))[0], opts.cityName);
+      return placeRow((await all(`${PLACE()} WHERE t."id" = ?`, id))[0], opts.cityName);
     },
     async tourPlaceBySlug(slug) {
-      return placeRow((await all(`${PLACE} WHERE t."slug" = ?`, slug))[0], opts.cityName);
+      return placeRow((await all(`${PLACE()} WHERE t."slug" = ?`, slug))[0], opts.cityName);
     },
     async countrySlugWithTours(countryId) {
       const r = (await all(
-        `SELECT ${ISO2_SQL("co")} AS "iso2" FROM "Country" co WHERE co."id" = ? AND ${ISO2_SQL("co")} IS NOT NULL AND EXISTS (SELECT 1 FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" WHERE t."countryId" = co."id" AND c."slug" IS NOT NULL AND ${LISTED})`,
+        `SELECT ${ISO2_SQL("co")} AS "iso2" FROM "Country" co WHERE co."id" = ? AND ${ISO2_SQL("co")} IS NOT NULL AND EXISTS (SELECT 1 FROM "Tour" t JOIN "City" c ON c."id" = t."cityId" WHERE t."countryId" = co."id" AND c."slug" IS NOT NULL AND ${LISTED()})`,
         countryId
       ))[0];
       return typeof r?.iso2 === "string" ? r.iso2.toLowerCase() : null;
