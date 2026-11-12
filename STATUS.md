@@ -1011,3 +1011,7 @@ Gates A3, B2 y C1 en `docs/gates-guias-bilingues-2026-11-12.md`.
 | REQ-3341 | OK visual del PO antes de cada merge | PO 12-11 | — | — | PENDIENTE |
 | REQ-3342 | Gates A3, B2, C1 | PO 12-11 | `docs/gates-guias-bilingues-2026-11-12.md` | — | CUMPLIDO |
 | REQ-3323 | Punto de regreso de D1 (Time Travel) anotado antes de aplicar migraciones | NUEVO | `.github/workflows/deploy-cloudflare.yml` | `src/ops/lib/deploy-workflow.test.ts` | EN CURSO (PR; falta humo y OK del PO) |
+| REQ-3449 | Entrada del blog en inglés (`en`, localizePost) | PO 12-11 | `src/blog/lib/schema.ts`, `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
+| REQ-3450 | Páginas del blog en inglés con rótulos, canonical y hreflang | PO 12-11 | `src/app/blog/**/page.tsx`, `src/blog/lib/view.ts`, `src/blog/server.ts`, `src/components/blog/ArticleView.tsx`, `src/i18n/lib/path.ts` | `src/blog/lib/i18n.test.ts`, `src/i18n/lib/path.test.ts` | EN CURSO (PR #448) |
+| REQ-3451 | Pilares del blog en inglés | PO 12-11 | `src/blog/lib/i18n.ts` | `src/blog/lib/i18n.test.ts` | EN CURSO (PR #448) |
+| REQ-3452 | Validador del blog diario exige la versión en inglés | PO 12-11 | `src/blog/lib/diario-en.ts`, `src/blog/lib/diario.ts`, `src/blog/lib/fixtures.ts` | `src/blog/lib/diario-en.test.ts` | EN CURSO (PR #448) |
