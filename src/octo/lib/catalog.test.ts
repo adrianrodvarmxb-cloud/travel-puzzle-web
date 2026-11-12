@@ -36,6 +36,7 @@ describe("plan del catálogo", () => {
     expect(plan.cities.map((c) => c.ref)).toEqual(["NYC"]);
     expect(plan.notResold).toEqual(["LON"]);
     expect(plan.cities[0].from).toEqual({ amount: 49, currency: "USD" });
+    expect(plan.cities[0].products[0].currency).toBe("USD"); // REQ-3436
     expect(plan.cities[0].products[0].options[0].units.map((u) => u.type)).toEqual(["ADULT", "CHILD"]);
   });
 

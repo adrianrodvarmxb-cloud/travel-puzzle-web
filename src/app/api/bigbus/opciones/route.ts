@@ -21,10 +21,12 @@ export async function GET(request: Request) {
     const from = q.get('from') ?? '';
     const to = q.get('to') ?? '';
     if (!productId || !optionId || !DATE.test(from) || !DATE.test(to)) return NextResponse.json({ city });
-    const option = city.products.find((p) => p.productId === productId)?.options.find((o) => o.optionId === optionId);
+    const product = city.products.find((p) => p.productId === productId);
+    const option = product?.options.find((o) => o.optionId === optionId);
     if (!option) return NextResponse.json({ error: 'not_found' }, { status: 404 });
     try {
-        const cal = await api.availabilityCalendar({ productId, optionId, localDateStart: from, localDateEnd: to });
+        // REQ-3436: precios en la moneda del producto en el plan (USD si Big Bus la ofrece).
+        const cal = await api.availabilityCalendar({ productId, optionId, localDateStart: from, localDateEnd: to, currency: product?.currency ?? undefined });
         return NextResponse.json({ city, calendar: publicCalendar(cal.items) });
     } catch (e) {
         console.error('[bigbus-octo] calendario:', (e as Error).message);

@@ -48,7 +48,7 @@ Fuente técnica: docs.ventrata.com (Steps to Integrate, Authentication, Headers,
 - Decisiones del PO pendientes:
   - REQ-3425: política de reembolso.
   - REQ-3433: copia exacta al archivo privado.
-  - REQ-3434: monedas distintas de USD y EUR.
+- Monedas (REQ-3434, decidido «A»): se piden precios en USD por la API cuando el producto lo ofrece (REQ-3436); se confirma con la llave cuáles lo ofrecen (REQ-3437).
 - Falta la revisión visual con la llave de prueba (REQ-3424) y la certificación (REQ-3331).
 
 ## Estructura de carpetas (nueva)

@@ -94,7 +94,9 @@ export async function startPurchase(i: PurchaseInput, d: PurchaseDeps): Promise<
 
   let avail;
   try {
-    const r = await d.api.availability({ productId: i.productId, optionId: i.optionId, localDateStart: i.date, localDateEnd: i.date, units: i.units });
+    // REQ-3436: precios en la moneda elegida para el producto (USD si Big Bus la ofrece).
+    const currency = check.product.currency ?? undefined;
+    const r = await d.api.availability({ productId: i.productId, optionId: i.optionId, localDateStart: i.date, localDateEnd: i.date, units: i.units, currency });
     avail = pickAvailability(r.items, i.date);
   } catch (e) {
     log("disponibilidad", e);

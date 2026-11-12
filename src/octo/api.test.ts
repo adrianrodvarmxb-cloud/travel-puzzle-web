@@ -83,6 +83,13 @@ describe("createOctoApi (Ventrata OCTO, Big Bus)", () => {
     expect(c.status).toBe("CANCELLED");
   });
 
+  it("REQ-3436: la disponibilidad se pide en dólares cuando se indica la moneda", async () => {
+    const f = fakeFetch({ json: [] });
+    await createOctoApi({ config, fetch: f as unknown as typeof fetch }).availability({ productId: "p", optionId: "o", localDateStart: "2026-12-01", localDateEnd: "2026-12-01", currency: "USD" });
+    expect(call(f).url).toBe("https://api.ventrata.com/octo/availability");
+    expect(call(f).body).toMatchObject({ productId: "p", currency: "USD" });
+  });
+
   it("REQ-3326: un error de Ventrata conserva su status y su código", async () => {
     const f = fakeFetch({ json: { error: "INVALID_AVAILABILITY_ID", errorMessage: "Sin lugar" }, status: 400, headers: { "Ventrata-Error-Code": "INVALID_AVAILABILITY_ID" } });
     const p = createOctoApi({ config, fetch: f as unknown as typeof fetch }).getBooking("x");

@@ -1,5 +1,5 @@
 import type { OctoProduct } from "./schemas";
-import { fromPrice, isFullyPriced } from "./pricing";
+import { chooseCurrency, fromPrice, isFullyPriced } from "./pricing";
 
 /**
  * Ola 2: liga el catálogo OCTO de Big Bus con las 29 ciudades ya cargadas (imports/bigbus-2026.json).
@@ -41,6 +41,8 @@ export interface PlanProduct {
   productId: string;
   name: string;
   availabilityType: string;
+  /** REQ-3436: moneda en que se piden precio y disponibilidad a la API. */
+  currency: string | null;
   options: PlanOption[];
 }
 
@@ -61,16 +63,18 @@ export interface CatalogPlan {
 }
 
 function toPlanProduct(p: OctoProduct): PlanProduct {
+  const currency = chooseCurrency(p);
   return {
     productId: p.id,
     name: p.internalName,
     availabilityType: p.availabilityType,
+    currency,
     options: p.options.map((o) => {
       const single = { ...p, options: [o] };
       return {
         optionId: o.id,
         name: o.internalName,
-        from: fromPrice(single),
+        from: fromPrice(single, currency) ?? fromPrice(single),
         units: o.units.map((u) => ({
           id: u.id,
           type: u.type,

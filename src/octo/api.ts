@@ -101,13 +101,14 @@ export function createOctoApi({ config, fetch: fetchImpl, timeoutMs = 30_000, ma
     },
 
     // REQ-3326
-    async availabilityCalendar(p: { productId: string; optionId: string; localDateStart: string; localDateEnd: string; units?: UnitQty[] }) {
+    // REQ-3436: `currency` pide los precios en esa moneda (USD por decisión del PO).
+    async availabilityCalendar(p: { productId: string; optionId: string; localDateStart: string; localDateEnd: string; units?: UnitQty[]; currency?: string }) {
       const { json } = await call("POST", "/availability/calendar", p);
       return parseEach(calendarDaySchema, json);
     },
 
     // REQ-3326
-    async availability(p: { productId: string; optionId: string; localDateStart: string; localDateEnd: string; units?: UnitQty[] }) {
+    async availability(p: { productId: string; optionId: string; localDateStart: string; localDateEnd: string; units?: UnitQty[]; currency?: string }) {
       const { json } = await call("POST", "/availability", p);
       return parseEach(availabilitySchema, json);
     },
