@@ -83,17 +83,20 @@ describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al es
 });
 
 /**
- * REQ-3539 (13-11, run 43475677142): el lote 1 escribió bien, pero la prueba de humo final cayó porque el
- * runner no tenía el navegador de Playwright. Y el run 43466215988 (lote 60) se cortó por el límite de 30 min.
+ * REQ-3539 (13-11, runs 43475677142 y 43477829263): los lotes escribieron bien, pero la prueba de humo final
+ * cayó porque el runner no tenía el navegador de Playwright.
  */
-describe("REQ-3539: la corrida de escritura de Tangol cabe en el tiempo y su humo tiene navegador", () => {
+describe("REQ-3539: el humo del sync de Tangol tiene navegador", () => {
   it("REQ-3539: el paso de humo instala Chromium antes de correr smoke.ts", () => {
     const humo = wf.split(/\n {6}- /).find((p) => p.startsWith("name: Prueba de humo en producción")) ?? "";
     expect(humo).toMatch(/npx playwright install --with-deps chromium[\s\S]*src\/scripts\/smoke\.ts/);
   });
+});
 
-  it("REQ-3539: el job tiene margen para plan + copia exacta + escritura (60 min o más)", () => {
-    const m = wf.match(/timeout-minutes: (\d+)/);
-    expect(Number(m?.[1])).toBeGreaterThanOrEqual(60);
+// REQ-3536: la carga real con lotes de 60 destinos necesita más de 30 min (corrida 43466215988 cancelada en la copia a R2).
+describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos", () => {
+  it("REQ-3536: timeout-minutes de al menos 120", () => {
+    const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+    expect(Number(y.match(/timeout-minutes:\s*(\d+)/)?.[1])).toBeGreaterThanOrEqual(120);
   });
 });

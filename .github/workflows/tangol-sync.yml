@@ -34,7 +34,9 @@ env:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 60 # REQ-3539: plan + copia exacta + escritura; con 30 se cortó el lote de 60 destinos
+    # REQ-3536 (INC-015 / carga real): con 60 destinos el plan tarda ~19 min y la copia a R2 (2,756 objetos) ~15; 30 min cortaba la
+    # corrida 43466215988 antes de escribir. El job no toca D1 hasta el paso «Escribir en D1», así que un corte largo no deja nada a medias.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
