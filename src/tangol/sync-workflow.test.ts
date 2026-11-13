@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 
 const wf = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
-const wrangler = readFileSync("wrangler.jsonc", "utf8");
 
 /**
  * REQ-3464: el sync de Tangol NO corre solo. Estas pruebas vigilan el disparo a mano, el ensayo por
@@ -39,11 +38,11 @@ describe("REQ-3464: workflow «Tangol sync de tours (a mano)»", () => {
     expect(wf).toMatch(/src\/scripts\/smoke\.ts https:\/\/travelpuzzle\.com\.mx/);
   });
 
-  it("REQ-1625: el workflow no toca la bandera del sitio, que sigue apagada (gate C)", () => {
+  it("REQ-1625: el workflow no toca la bandera del sitio (gate C)", () => {
     // La pasarela del sync va por su propia bandera; TANGOL_ENABLED gobierna lo que ve el público.
     expect(wf).toMatch(/TANGOL_SYNC_ENABLED: "true"/);
     expect(wf).not.toMatch(/TANGOL_ENABLED:/);
-    expect(wrangler).toMatch(/"TANGOL_ENABLED":\s*"false"/);
+    // El valor de TANGOL_ENABLED en wrangler.jsonc lo vigila REQ-3506 (src/catalog/flag-tangol.test.ts).
   });
 
   it("REQ-3464: el aviso de la migración 0026 está escrito en el workflow", () => {
