@@ -34,7 +34,7 @@ env:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60 # REQ-3539: plan + copia exacta + escritura; con 30 se cortó el lote de 60 destinos
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -150,4 +150,5 @@ jobs:
 
       - name: Prueba de humo en producción
         if: ${{ inputs.escribir }}
-        run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
+        # REQ-3539: el runner no trae el navegador; sin esto el humo cae aunque el sitio esté bien.
+        run: npx playwright install --with-deps chromium && npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx

@@ -81,3 +81,19 @@ describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al es
     expect(pasos.indexOf(subir)).toBeLessThan(pasos.indexOf(paso("Escribir en D1")));
   });
 });
+
+/**
+ * REQ-3539 (13-11, run 43475677142): el lote 1 escribió bien, pero la prueba de humo final cayó porque el
+ * runner no tenía el navegador de Playwright. Y el run 43466215988 (lote 60) se cortó por el límite de 30 min.
+ */
+describe("REQ-3539: la corrida de escritura de Tangol cabe en el tiempo y su humo tiene navegador", () => {
+  it("REQ-3539: el paso de humo instala Chromium antes de correr smoke.ts", () => {
+    const humo = wf.split(/\n {6}- /).find((p) => p.startsWith("name: Prueba de humo en producción")) ?? "";
+    expect(humo).toMatch(/npx playwright install --with-deps chromium[\s\S]*src\/scripts\/smoke\.ts/);
+  });
+
+  it("REQ-3539: el job tiene margen para plan + copia exacta + escritura (60 min o más)", () => {
+    const m = wf.match(/timeout-minutes: (\d+)/);
+    expect(Number(m?.[1])).toBeGreaterThanOrEqual(60);
+  });
+});

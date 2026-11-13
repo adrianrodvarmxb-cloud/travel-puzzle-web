@@ -1156,3 +1156,4 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3517 | El cliente de Tangol entrega la respuesta íntegra antes de validarla (`onRaw`) | PO 6-11 / 13-11 | `src/tangol/api.ts` | `src/tangol/api.test.ts` | CUMPLIDO |
 | REQ-3518 | Copia exacta en archivos + índice SQL para el sync en GitHub (mismo puerto `RawArchive`) | PO 6-11 / 13-11 | `src/ingest/file-raw-archive.ts`, `src/scripts/tangol-sync.ts` | `src/ingest/file-raw-archive.test.ts` | CUMPLIDO |
 | REQ-3519 | El workflow sube la copia a R2 privado antes del catálogo y aplica el índice solo si subió | PO 6-11 / 13-11 | `.github/workflows/tangol-sync.yml` | `src/tangol/sync-workflow.test.ts` | CUMPLIDO (falta corrida real) |
+| REQ-3539 | El sync de Tangol tiene 60 min y su humo instala Chromium | PO 13-11 | `.github/workflows/tangol-sync.yml` | `src/tangol/sync-workflow.test.ts` | CUMPLIDO |

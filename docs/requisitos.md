@@ -1528,3 +1528,11 @@ Origen: regla del PO del 6 nov 2026 («al cargar una experiencia de un proveedor
 | REQ-3517 | CÓDIGO | Dado el cliente de Tangol con `onRaw`, cuando lee países, destinos, lista de tours o tarifas, entonces entrega la operación, los parámetros y el cuerpo ÍNTEGRO de la pasarela (incluidos neto y utilidad) ANTES de validarlo; si `onRaw` falla, se registra y la lectura sigue; sin `onRaw` todo queda igual | agente | — | CUMPLIDO (test) |
 | REQ-3518 | CÓDIGO | Dado el sync que corre en GitHub, cuando archiva una respuesta, entonces usa el mismo puerto `RawArchive` del Worker: huellas ya archivadas desde el export de solo lectura de `ProviderRecord`, cada objeto a un archivo y el índice como SQL (sin ningún campo de dinero); lo que no cambió no se reescribe | agente | — | CUMPLIDO (test) |
 | REQ-3519 | CÓDIGO | Dado el workflow «Tangol sync de tours» con la casilla de escritura, cuando corre, entonces exporta (SELECT) lo archivado de Tangol, el plan de escritura arma la copia en `tmp/tangol-copia` (fuera del artefacto público), la sube al bucket R2 PRIVADO `travel-puzzle-raw` antes de escribir el catálogo y aplica el índice solo si la subida salió bien; si la subida falla, el catálogo se escribe igual (REQ-744) | agente | — | CUMPLIDO (test); falta la primera corrida real |
+
+## Carga real de Tangol: el workflow cabe en el tiempo y su humo tiene navegador (13 nov 2026)
+
+Origen: «sigas con esto en autopilot hasta subir todo tangol» (PO, 13-11). Run 43466215988 (lote 60) se cortó a los 30 min sin escribir; run 43475677142 (lote 15) escribió bien (711 cambios, punto de regreso `0000006f-00018789-00005122-7fdbde1aec36c580313b08e98ae243f0`) pero su humo final cayó porque el runner no tenía Chromium. Humo local contra producción a las 18:20 UTC: 112 cargas sin errores.
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3539 | CÓDIGO | Dado el workflow «Tangol sync de tours» con la casilla de escritura, cuando corre un lote, entonces el job tiene 60 min (plan + copia exacta + escritura) y el paso de humo instala Chromium antes de `smoke.ts`, así una falla del humo solo puede venir del sitio | agente | — | CUMPLIDO (test) |
