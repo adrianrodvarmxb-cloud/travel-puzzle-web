@@ -1129,6 +1129,18 @@ en el bucket R2 PRIVADO `travel-puzzle-raw`; en `ProviderRecord` no va ningún c
 | REQ-3473 | Índice `ProviderRecord` con `provider='tangol'`: rastrea un tour hasta su copia; la función solo arma las filas (las escribe `RawArchive.record`) | PO 12-11 | `src/ingest/lib/tangol-raw.ts` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (4 pruebas en verde) |
 | REQ-3474 | Enganche al sync apagado por omisión; si el archivado falla, la corrida sigue (nunca lanza) | PO 12-11 | `src/ingest/tangol-archive.ts`, `docs/runbooks/copia-exacta.md` | `src/ingest/tangol-archive.test.ts` | EN CURSO (8 pruebas en verde; la conexión con el sync de Tangol es el paso T2 del runbook) |
 
+## Copia exacta de Tangol (REQ-3472 a REQ-3474; PO 12 nov 2026; frente #455) — matriz de trazabilidad
+Extiende el archivador de FREETOUR (REQ-740…748) a Tangol: pieza pura + índice + enganche al sync, con la bandera
+`RAW_ARCHIVE_ENABLED` APAGADA y **sin conectar** al sync (esa conexión es un paso posterior, runbook T2).
+Decisión marcada para el PO (candado T1): la copia guarda la respuesta íntegra, incluidos el neto y la utilidad, solo
+en el bucket R2 PRIVADO `travel-puzzle-raw`; en `ProviderRecord` no va ningún campo de dinero.
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3472 | Pieza pura: llave, huella del contenido y metadatos del lote (proveedor, operación, fecha, cuántos registros) con el criterio de FREETOUR | PO 12-11 | `src/ingest/lib/tangol-raw.ts`, `src/ingest/lib/raw-hash.ts` (`tangol: []`), `docs/datos/diccionario-campos.md` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (6 pruebas en verde; falta OK del PO sobre el neto y el humo del PR) |
+| REQ-3473 | Índice `ProviderRecord` con `provider='tangol'`: rastrea un tour hasta su copia; la función solo arma las filas (las escribe `RawArchive.record`) | PO 12-11 | `src/ingest/lib/tangol-raw.ts` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (4 pruebas en verde) |
+| REQ-3474 | Enganche al sync apagado por omisión; si el archivado falla, la corrida sigue (nunca lanza) | PO 12-11 | `src/ingest/tangol-archive.ts`, `docs/runbooks/copia-exacta.md` | `src/ingest/tangol-archive.test.ts` | EN CURSO (8 pruebas en verde; la conexión con el sync de Tangol es el paso T2 del runbook) |
+
 ## Taxonomía de los tours de Tangol (PO, 12 nov 2026; frente #454) — matriz de trazabilidad
 Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la base de freetour para convertir a nuestra taxonomía». Gates y preguntas al proveedor en `docs/gates-tangol-taxonomia-2026-11-12.md`. `TANGOL_ENABLED` sigue apagada.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
@@ -1140,3 +1152,7 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3503 | Pruebas del mapeo contra la tabla real de tipos (38 válidos sin «por-revisar», traslados en traslados, cobertura en cero) | NUEVO (PO 12-11) | `tests/fixtures/tangol-tipos-2026-11-12.json` | `src/taxonomy/data/mapping/tangol-tipos.test.ts` | CUMPLIDO (verde en la sesión) |
 | REQ-3510 | Recálculo de taxonomía detenido (INC-015): `TAXONOMY_SYNC_ENABLED` en `"false"`; reemplaza a REQ-615 | NUEVO (PO 13-11) | `wrangler.jsonc` | `src/taxonomy/flag-sync-detenido.test.ts`, `src/taxonomy/recompute.test.ts` | EN CURSO (verde en la sesión; merge del PO) |
 | REQ-3511 | Poda por tandas al cerrar cada recálculo (también al abortar) y limpieza única en producción con OK del PO | NUEVO (INC-015) | `src/taxonomy/repository.ts`, `src/taxonomy/recompute.ts`, `src/taxonomy/lib/run-plan.ts`, `.github/workflows/limpieza-taxonomia.yml` | `src/taxonomy/recompute.test.ts`, `src/ops/lib/limpieza-taxonomia-workflow.test.ts` | EN CURSO (verde en la sesión; merge del PO) |
+
+| REQ-3517 | El cliente de Tangol entrega la respuesta íntegra antes de validarla (`onRaw`) | PO 6-11 / 13-11 | `src/tangol/api.ts` | `src/tangol/api.test.ts` | CUMPLIDO |
+| REQ-3518 | Copia exacta en archivos + índice SQL para el sync en GitHub (mismo puerto `RawArchive`) | PO 6-11 / 13-11 | `src/ingest/file-raw-archive.ts`, `src/scripts/tangol-sync.ts` | `src/ingest/file-raw-archive.test.ts` | CUMPLIDO |
+| REQ-3519 | El workflow sube la copia a R2 privado antes del catálogo y aplica el índice solo si subió | PO 6-11 / 13-11 | `.github/workflows/tangol-sync.yml` | `src/tangol/sync-workflow.test.ts` | CUMPLIDO (falta corrida real) |
