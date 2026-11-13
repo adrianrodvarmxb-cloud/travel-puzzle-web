@@ -1107,6 +1107,18 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3504 | Tangol: un tour con un error del proveedor metido como dato (`[METHOD ERROR 504]`) se descarta con motivo `dato-de-error-del-proveedor` y se registra | NUEVO | `src/tangol/lib/data-hygiene.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/data-hygiene.test.ts`, `src/tangol/lib/tour-rows.test.ts` | EN CURSO (pruebas en verde; falta merge) |
 | REQ-3505 | Tangol: el reporte del sync compara «tours que dice el destino» contra «tours que llegaron en la lista» | NUEVO | `src/tangol/lib/tour-count.ts`, `src/tangol/sync.ts`, `src/scripts/tangol-sync.ts`, `src/scripts/tipos-tangol.ts` | `src/tangol/lib/tour-count.test.ts`, `src/tangol/sync.test.ts` | EN CURSO (línea de cuadre en verde; NO CUMPLIDO: la causa de los 177 tours sin preguntar a Tangol) |
 
+## Copia exacta de Tangol (REQ-3472 a REQ-3474; PO 12 nov 2026; frente #455) — matriz de trazabilidad
+Extiende el archivador de FREETOUR (REQ-740…748) a Tangol: pieza pura + índice + enganche al sync, con la bandera
+`RAW_ARCHIVE_ENABLED` APAGADA y **sin conectar** al sync (esa conexión es un paso posterior, runbook T2).
+Decisión marcada para el PO (candado T1): la copia guarda la respuesta íntegra, incluidos el neto y la utilidad, solo
+en el bucket R2 PRIVADO `travel-puzzle-raw`; en `ProviderRecord` no va ningún campo de dinero.
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3472 | Pieza pura: llave, huella del contenido y metadatos del lote (proveedor, operación, fecha, cuántos registros) con el criterio de FREETOUR | PO 12-11 | `src/ingest/lib/tangol-raw.ts`, `src/ingest/lib/raw-hash.ts` (`tangol: []`), `docs/datos/diccionario-campos.md` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (6 pruebas en verde; falta OK del PO sobre el neto y el humo del PR) |
+| REQ-3473 | Índice `ProviderRecord` con `provider='tangol'`: rastrea un tour hasta su copia; la función solo arma las filas (las escribe `RawArchive.record`) | PO 12-11 | `src/ingest/lib/tangol-raw.ts` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (4 pruebas en verde) |
+| REQ-3474 | Enganche al sync apagado por omisión; si el archivado falla, la corrida sigue (nunca lanza) | PO 12-11 | `src/ingest/tangol-archive.ts`, `docs/runbooks/copia-exacta.md` | `src/ingest/tangol-archive.test.ts` | EN CURSO (8 pruebas en verde; la conexión con el sync de Tangol es el paso T2 del runbook) |
+
 ## Taxonomía de los tours de Tangol (PO, 12 nov 2026; frente #454) — matriz de trazabilidad
 Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la base de freetour para convertir a nuestra taxonomía». Gates y preguntas al proveedor en `docs/gates-tangol-taxonomia-2026-11-12.md`. `TANGOL_ENABLED` sigue apagada.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
