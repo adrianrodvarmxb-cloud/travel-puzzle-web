@@ -23,12 +23,15 @@ jobs:
               -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
               --data "$1"
           }
-          BODY='{"queryId":"inc-011","timeframe":{"from":1794438300000,"to":1794438960000},"view":"events","limit":200,
-                 "parameters":{"filters":[{"key":"$metadata.service","operation":"eq","type":"string","value":"travel-puzzle-web"}]}}'
-          q "$BODY" > r.json
-          echo "success: $(jq -r '.success' r.json)"; jq -c '.errors // empty' r.json
-          echo "--- claves del primer evento"
-          jq -c '[.. | objects | select(has("$metadata"))][0] | keys' r.json 2>/dev/null || true
-          echo "--- eventos con error, digest o 500 (máx 40, 1500 caracteres cada uno)"
-          jq -c '[.. | objects | select(has("$metadata"))] | map(select((tostring|test("1123893058|digest|\"error\"|level\":\"error|500|Error";"i"))))[:40][]' r.json | cut -c1-1500
-          echo "--- total de eventos: $(jq '[.. | objects | select(has("$metadata"))] | length' r.json)"
+          for F in \
+            '{"key":"$metadata.level","operation":"eq","type":"string","value":"error"}' \
+            '{"key":"$workers.event.response.status","operation":"eq","type":"number","value":500}' \
+            '{"key":"$metadata.message","operation":"includes","type":"string","value":"1123893058"}' ; do
+            echo "=== filtro: $F"
+            BODY='{"queryId":"inc-011","timeframe":{"from":1794438600000,"to":1794438720000},"view":"events","limit":50,
+                   "parameters":{"filters":[{"key":"$metadata.service","operation":"eq","type":"string","value":"travel-puzzle-web"},'"$F"']}}'
+            q "$BODY" > r.json
+            echo "success: $(jq -r '.success' r.json) $(jq -c '.errors // empty' r.json)"
+            echo "eventos: $(jq '[.. | objects | select(has("$metadata"))] | length' r.json)"
+            jq -c '[.. | objects | select(has("$metadata"))][:20][] | {t:.timestamp, meta:.["$metadata"], src:.source, status:.["$workers"].event.response.status, out:.["$workers"].outcome}' r.json | cut -c1-2500
+          done
