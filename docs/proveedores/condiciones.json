@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "big-bus-tours",
+    "cancelacion": "Si Big Bus no puede dar el servicio durante la vigencia del boleto por causas a su cargo, hay reembolso total o parcial; se pide por escrito por correo con el boleto adjunto, a través de quien lo vendió. Los tours nocturnos no son reembolsables salvo que se indique otra cosa.",
+    "cambios": "Los boletos por tiempo se activan en la fecha de viaje elegida; ya activados no se pausan, cancelan, transfieren ni amplían, y valen por días consecutivos. Los tours nocturnos solo valen para la fecha y hora elegidas.",
+    "pagos": "Los precios incluyen los impuestos locales. Pueden pedir mostrar la tarjeta con la que se hizo la compra.",
+    "operacion": "El boleto digital se activa en la app antes de subir (las capturas de pantalla no valen) y se muestra en cada abordaje. No se garantiza asiento ni un horario específico; con mal clima pueden usar autobuses techados y pueden cambiar paradas, horarios o rutas sin aviso.",
+    "fuente": "Términos y condiciones públicos de Big Bus Tours (actualizados en noviembre de 2025): https://www.bigbustours.com/terms-and-conditions",
+    "fecha": "2026-11-13"
+  },
+  {
+    "id": "extime-travel",
+    "cancelacion": "Tours estándar: cancelación sin costo hasta 24 h antes (hora de París); si no se presenta, se cobra el 100 %. Solo entradas (Hop on Hop off, Big Bus y similares): no cancelables ni reembolsables. Excursiones en grupo: sin costo hasta 31 días antes, 50 % de 30 a 16 días y 100 % desde 15 días. Varios días con hotel: sin costo hasta 15 días antes, 50 % de 14 a 4 días y 100 % desde 3 días. Tour privado por la ciudad: 50 % hasta 2 días antes y 100 % desde 1 día. Si el operador cancela, se reembolsa lo pagado. No hay reembolso si el viajero llega tarde o abandona el recorrido.",
+    "cambios": "Los cambios siguen la misma tabla que las cancelaciones y se piden por escrito. La reserva puede pasarse a otra persona hasta 7 días antes de la salida. El operador puede cambiar o cancelar recorridos sin aviso por seguridad o causas de fuerza mayor; si cancela, se reembolsa.",
+    "pagos": "Pago completo al reservar; la reserva vale al recibir el voucher y la confirmación. Precios por persona; tarifa infantil de 3 a 11 años; menores de 3 años sin costo, pero se reservan para asegurar su asiento.",
+    "operacion": "Desde sus agencias, registro entre 30 y 20 minutos antes y el abordaje cierra 10 minutos antes; en tours en sitio y cruceros, llegar al menos 15 minutos antes. Recogida en domicilio solo dentro de París, con datos enviados 48 h antes. Los cruceros pueden cancelarse o cambiarse por mal clima. No responden por retrasos de tráfico, huelgas o manifestaciones.",
+    "fuente": "Condiciones generales de venta públicas de Paris City Vision (actualizadas el 21 de diciembre de 2023): https://www.pariscityvision.com/en/general-terms-sales",
+    "fecha": "2026-11-13"
+  }
+]

@@ -81,3 +81,18 @@ describe("REQ-3355: lo que ve Mila", () => {
     expect(condicionesParaAgente([base])[0]).toMatchObject({ cancelacion: "", completas: false, actualizadas: null });
   });
 });
+
+describe("REQ-3525: condiciones reales de docs/proveedores/condiciones.json", () => {
+  const reales = JSON.parse(readFileSync("docs/proveedores/condiciones.json", "utf8")) as unknown[];
+  it("REQ-3525: cada renglón pasa la revisión y cita su fuente pública con liga", () => {
+    for (const r of reales) {
+      expect(revisarCondiciones(r)).toMatchObject({ ok: true });
+      expect((r as { fuente: string }).fuente).toMatch(/https:\/\//);
+    }
+  });
+  it("REQ-3525: el SQL se aplica sobre la 0027 + 0030 sin error", () => {
+    const d = db();
+    d.exec(M0030);
+    d.exec(sqlCondiciones(reales, "2026-11-13T00:00:00Z").sql);
+  });
+});
