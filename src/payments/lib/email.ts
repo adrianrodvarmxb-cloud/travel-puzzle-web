@@ -69,3 +69,29 @@ export function buildPaidTeamEmail(i: PayMailInput, adminUrl: string) {
   const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · ${kindLabel(i.kind)}`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
   return { subject, html, text };
 }
+
+// REQ-3482
+export function buildHeldCustomerEmail(i: PayMailInput) {
+  const subject = `Travel Puzzle / Recibimos tu solicitud · ${i.ref}`;
+  const lead = `Hola ${i.firstName}, recibimos tu solicitud y retuvimos ${formatMXN(i.centavos)} en tu tarjeta. Todavía no se cobra: lo confirmamos con el proveedor y, solo si hay lugar, se hace el cobro.`;
+  const note = "Si no hay lugar o el proveedor no confirma, el dinero se libera en tu tarjeta sin costo para ti. La retención dura hasta 7 días; te escribiremos antes.";
+  const s = summary({ ...i, kind: "total" });
+  const body = `<tr><td style="padding:26px 26px 0">
+<h1 style="margin:0 0 8px;font-size:24px;line-height:1.2;color:${UI.N9}">Tu tarjeta está retenida</h1>
+<p style="font-size:15px;line-height:1.55;color:${UI.N9};margin:0">${esc(lead)}</p>
+${s.html}
+<p style="font-size:12px;color:${B.muted};margin:12px 0 0">${esc(note)}</p>
+</td></tr>`;
+  const text = [subject, "", lead, "", ...s.text, "", note].join("\n");
+  return { subject, html: shell(subject, lead, i.logoUrl, body), text };
+}
+
+// REQ-3482
+export function buildHeldTeamEmail(i: PayMailInput, adminUrl: string) {
+  const subject = `Tarjeta retenida ${i.ref} · ${formatMXN(i.centavos)}`;
+  const lines = [`Folio: ${i.ref}`, `Viaje: ${i.tripTitle}`, `Monto retenido: ${formatMXN(i.centavos)}`, "", "Falta confirmar con el proveedor: si hay lugar se cobra; si no, se libera.", "", `Panel: ${adminUrl}`];
+  const text = lines.join("\n");
+  const body = `<tr><td style="padding:26px"><h1 style="margin:0 0 10px;font-size:22px;color:${UI.N9}">${esc(subject)}</h1><pre style="font-family:inherit;font-size:14px;line-height:1.6;color:${UI.N9};white-space:pre-wrap;margin:0">${esc(text)}</pre></td></tr>`;
+  const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · retenida`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
+  return { subject, html, text };
+}

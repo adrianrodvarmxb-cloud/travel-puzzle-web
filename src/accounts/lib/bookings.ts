@@ -14,7 +14,7 @@ export interface AccountBooking {
 }
 
 const REQUEST_STATUS: Record<string, string> = {
-  new: "Solicitud recibida", contacted: "En contacto", quoted: "Cotizada", paid: "Pagada", closed: "Cerrada",
+  new: "Solicitud recibida", contacted: "En contacto", quoted: "Cotizada", held: "Tarjeta retenida", paid: "Pagada", closed: "Cerrada",
 };
 
 function tourStatus(r: TourBookingRow): string {

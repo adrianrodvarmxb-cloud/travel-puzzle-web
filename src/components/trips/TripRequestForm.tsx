@@ -69,6 +69,8 @@ export function TripRequestForm(p: Props) {
         const json = await res.json().catch(() => ({}));
         setBusy(false);
         if (!res.ok) return setError(json.error ?? 'No se pudo enviar');
+        // REQ-3482: con la retención encendida el servidor devuelve el checkout de Stripe (solo https://checkout.stripe.com).
+        if (typeof json.checkoutUrl === 'string' && json.checkoutUrl.startsWith('https://checkout.stripe.com/')) { window.location.assign(json.checkoutUrl); return; }
         router.push(`/viajes/gracias?folio=${encodeURIComponent(json.ref)}&volver=${encodeURIComponent(p.returnPath)}`);
     }
 
