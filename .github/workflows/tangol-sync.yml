@@ -10,8 +10,8 @@
 #    nada, pero la carga queda a medias. El ENSAYO es la forma segura de probar.
 #  - La migración 0027 (ProviderCity) tampoco está aplicada; este sync NO escribe en esa tabla. El mapeo
 #    destino → ciudad se vuelve a calcular en cada corrida (REQ-3367), así que nada depende de ella.
-#  - TANGOL_ENABLED de wrangler.jsonc se queda en "false": gobierna lo que ve el público (gate C,
-#    REQ-1625). La pasarela de este sync va por su propia bandera, TANGOL_SYNC_ENABLED.
+#  - Este workflow no toca TANGOL_ENABLED de wrangler.jsonc: gobierna lo que ve el público (gate C,
+#    REQ-1625; se enciende en su propio PR, REQ-3506). La pasarela del sync va por TANGOL_SYNC_ENABLED.
 #  - Antes de escribir se anota el punto de regreso de D1 (Time Travel) y se deja en el resumen.
 name: Tangol sync de tours (a mano)
 on:
@@ -34,7 +34,9 @@ env:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # REQ-3536 (INC-015 / carga real): con 60 destinos el plan tarda ~19 min y la copia a R2 (2,756 objetos) ~15; 30 min cortaba la
+    # corrida 43466215988 antes de escribir. El job no toca D1 hasta el paso «Escribir en D1», así que un corte largo no deja nada a medias.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
