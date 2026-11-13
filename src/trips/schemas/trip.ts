@@ -100,4 +100,4 @@ export const tripInputSchema = z.object({
 
 export type TripInput = z.infer<typeof tripInputSchema>;
 
-export const tripStatusSchema = z.object({ status: z.enum(["draft", "published", "hidden"]) });
+export const tripStatusSchema = z.object({ status: z.enum(["draft", "published", "hidden", "unlisted"]) });

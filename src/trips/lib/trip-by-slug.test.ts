@@ -27,6 +27,10 @@ describe("Ficha de viaje propio: datos publicados (REQ-306, misma salida que ant
     expect(await loadPublishedTripBySlug("x", deps({ vis: { own: false, transport: true } }))).toBeNull();
     expect(await loadPublishedTripBySlug("x", deps({ findRowBySlug: async () => null }))).toBeNull();
   });
+  it("REQ-3535: «solo con enlace» abre la ficha; oculto no", async () => {
+    expect(await loadPublishedTripBySlug("x", deps({ findRowBySlug: async () => ({ ...row, status: "unlisted" }) }))).not.toBeNull();
+    expect(await loadPublishedTripBySlug("x", deps({ findRowBySlug: async () => ({ ...row, status: "hidden" }) }))).toBeNull();
+  });
   it("REQ-306: sin agencia no consulta la agencia", async () => {
     const d = deps({ findRowBySlug: async () => ({ ...row, agencyId: null }) });
     expect((await loadPublishedTripBySlug("x", d))?.agencyName).toBeNull();

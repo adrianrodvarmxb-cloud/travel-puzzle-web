@@ -4,6 +4,14 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 
 
+## Compra directa de viajes de proveedor (13 nov 2026, frente #514) — matriz de trazabilidad
+Cobro automático del total sin gestor ni aprobación (gates 1A, 2 «como Viator», 3 viaje oculto). Todo tras `TRIPS_DIRECT_BUY_ENABLED="false"`; cada viaje sigue en «cotizar» hasta que se cambie en el gestor.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3533 | «Reservar y pagar»: el sistema calcula el total y abre Stripe sin aprobación | PO 13-11 | `src/trips/direct-buy.ts`, `src/trips/lib/direct-buy.ts`, `src/app/api/viajes/compra/route.ts`, `src/components/trips/TripRequestForm.tsx`, `src/payments/deps.ts`, `wrangler.jsonc` | `src/trips/direct-buy.test.ts`, `src/trips/lib/direct-buy.test.ts` | EN CURSO (bandera apagada) |
+| REQ-3534 | Confirmación del proveedor en 48 h; «No hay lugar» o vencimiento → reembolso automático | PO 13-11 | `src/trips/direct-buy.ts`, `src/trips/lib/direct-buy-email.ts`, `src/app/api/viajes/confirmar/route.ts`, `src/app/api/cron/compras/route.ts`, `src/payments/stripe-client.ts`, `worker.ts` | `src/trips/direct-buy.test.ts`, `src/payments/stripe-client.test.ts` | EN CURSO |
+| REQ-3535 | Estado «Solo con enlace» para el viaje de prueba de $10 | PO 13-11 | `src/trips/lib/trip.ts`, `src/trips/lib/trip-by-slug.ts`, `src/trips/manage.ts`, `src/trips/public-load.ts`, `src/components/admin/trips/StatusButtons.tsx`, `src/components/trips/TripDetailView.tsx` | `src/trips/lib/trip-by-slug.test.ts`, `src/trips/manage.test.ts`, `src/trips/lib/direct-buy.test.ts` | EN CURSO (falta crear el viaje de prueba) |
+
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
 Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0029 se aplica a mano con OK del PO (REQ-3422).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
