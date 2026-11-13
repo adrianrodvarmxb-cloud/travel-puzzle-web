@@ -1099,7 +1099,7 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3495 | Ruta de la salida según la versión de Freetour (2.2: /events/{id}) | PO 12-11 | `src/freetour/lib/event-path.ts`, `src/app/api/freetour/booking/route.ts` | `src/freetour/lib/event-path.test.ts` | CUMPLIDO |
-| REQ-3496 | FREETOUR_API_VERSION="2.2" en el Worker | PO 12-11 | `wrangler.jsonc` | prueba de humo en preview | PENDIENTE |
+| REQ-3496 | FREETOUR_API_VERSION="2.2" en el Worker | PO 12-11 | `wrangler.jsonc` | prueba de humo en preview | EN CURSO |
 | REQ-3373 | México nunca entra al catálogo de Tangol; el resto de Sudamérica sí | PO 11-11 (REQ-1554) | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
 | REQ-3374 | Perú y Colombia: solo ciudades sin viajes de Inca World / Destino Colombia (una regla por país, cobertura en datos) | PO 11-11 (REQ-1554, REQ-1559); reemplaza REQ-1570 y REQ-1571 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
 | REQ-3375 | El cruce de nombres de ciudad reutiliza `tripCityMatch` (REQ-1606) y la cobertura de hoy sale de `imports/` | REQ-1606 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (test con los datos reales de `imports/` verde; falta merge del PO) |
@@ -1129,6 +1129,18 @@ en el bucket R2 PRIVADO `travel-puzzle-raw`; en `ProviderRecord` no va ningún c
 | REQ-3473 | Índice `ProviderRecord` con `provider='tangol'`: rastrea un tour hasta su copia; la función solo arma las filas (las escribe `RawArchive.record`) | PO 12-11 | `src/ingest/lib/tangol-raw.ts` | `src/ingest/lib/tangol-raw.test.ts` | CUMPLIDO (PR #458, dcc4d19d; suite verde 13-11) — REQ-3529 |
 | REQ-3474 | Enganche al sync apagado por omisión; si el archivado falla, la corrida sigue (nunca lanza) | PO 12-11 | `src/ingest/tangol-archive.ts`, `docs/runbooks/copia-exacta.md` | `src/ingest/tangol-archive.test.ts` | CUMPLIDO (PR #458, dcc4d19d; suite verde 13-11) — REQ-3529 |
 
+## Copia exacta de Tangol (REQ-3472 a REQ-3474; PO 12 nov 2026; frente #455) — matriz de trazabilidad
+Extiende el archivador de FREETOUR (REQ-740…748) a Tangol: pieza pura + índice + enganche al sync, con la bandera
+`RAW_ARCHIVE_ENABLED` APAGADA y **sin conectar** al sync (esa conexión es un paso posterior, runbook T2).
+Decisión marcada para el PO (candado T1): la copia guarda la respuesta íntegra, incluidos el neto y la utilidad, solo
+en el bucket R2 PRIVADO `travel-puzzle-raw`; en `ProviderRecord` no va ningún campo de dinero.
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3472 | Pieza pura: llave, huella del contenido y metadatos del lote (proveedor, operación, fecha, cuántos registros) con el criterio de FREETOUR | PO 12-11 | `src/ingest/lib/tangol-raw.ts`, `src/ingest/lib/raw-hash.ts` (`tangol: []`), `docs/datos/diccionario-campos.md` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (6 pruebas en verde; falta OK del PO sobre el neto y el humo del PR) |
+| REQ-3473 | Índice `ProviderRecord` con `provider='tangol'`: rastrea un tour hasta su copia; la función solo arma las filas (las escribe `RawArchive.record`) | PO 12-11 | `src/ingest/lib/tangol-raw.ts` | `src/ingest/lib/tangol-raw.test.ts` | EN CURSO (4 pruebas en verde) |
+| REQ-3474 | Enganche al sync apagado por omisión; si el archivado falla, la corrida sigue (nunca lanza) | PO 12-11 | `src/ingest/tangol-archive.ts`, `docs/runbooks/copia-exacta.md` | `src/ingest/tangol-archive.test.ts` | EN CURSO (8 pruebas en verde; la conexión con el sync de Tangol es el paso T2 del runbook) |
+
 ## Taxonomía de los tours de Tangol (PO, 12 nov 2026; frente #454) — matriz de trazabilidad
 Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la base de freetour para convertir a nuestra taxonomía». Gates y preguntas al proveedor en `docs/gates-tangol-taxonomia-2026-11-12.md`. `TANGOL_ENABLED` sigue apagada.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
@@ -1139,7 +1151,10 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3502 | Mapeo de Tangol categoría por categoría con sus 33 pares reales `TypeCode` + `SubTypeCode` (reemplaza a REQ-3465); el sync escribe esa categoría y el clasificador del catálogo usa el `providerId` de la fila | NUEVO (PO 12-11) | `src/taxonomy/data/mapping/tangol.json`, `src/tangol/lib/taxonomia.ts`, `src/tangol/sync.ts`, `src/taxonomy/lib/publish.ts`, `src/taxonomy/lib/run-plan.ts`, `src/taxonomy/repository.ts`, `src/catalog/snapshot.ts`, `src/home/load.ts`, `src/trips/cross-sell-deps.ts` | `src/tangol/lib/taxonomia.test.ts`, `src/taxonomy/lib/publish.test.ts`, `src/tangol/sync.test.ts`, `src/taxonomy/recompute.test.ts` | CUMPLIDO (PR #459, 6a4b457f; suite verde 13-11) — REQ-3529 |
 | REQ-3503 | Pruebas del mapeo contra la tabla real de tipos (38 válidos sin «por-revisar», traslados en traslados, cobertura en cero) | NUEVO (PO 12-11) | `tests/fixtures/tangol-tipos-2026-11-12.json` | `src/taxonomy/data/mapping/tangol-tipos.test.ts` | CUMPLIDO (verde en la sesión) |
 | REQ-3510 | Recálculo de taxonomía detenido (INC-015): `TAXONOMY_SYNC_ENABLED` en `"false"`; reemplaza a REQ-615 | NUEVO (PO 13-11) | `wrangler.jsonc` | `src/taxonomy/flag-sync-detenido.test.ts`, `src/taxonomy/recompute.test.ts` | CUMPLIDO (PR #500, 4f18867a; bandera en "false") — REQ-3529 |
-| REQ-3511 | Poda por tandas al cerrar cada recálculo (también al abortar) y limpieza única en producción con OK del PO | NUEVO (INC-015) | `src/taxonomy/repository.ts`, `src/taxonomy/recompute.ts`, `src/taxonomy/lib/run-plan.ts`, `.github/workflows/limpieza-taxonomia.yml` | `src/taxonomy/recompute.test.ts`, `src/ops/lib/limpieza-taxonomia-workflow.test.ts` | CUMPLIDO en main (PR #504, b1dbb494); la limpieza real falló y el reintento va en el PR #506, sin fusionar — REQ-3529 |
+| REQ-3511 | Poda por tandas al cerrar cada recálculo (también al abortar) y limpieza única en producción con OK del PO | NUEVO (INC-015) | `src/taxonomy/repository.ts`, `src/taxonomy/recompute.ts`, `src/taxonomy/lib/run-plan.ts`, `.github/workflows/limpieza-taxonomia.yml` | `src/taxonomy/recompute.test.ts`, `src/ops/lib/limpieza-taxonomia-workflow.test.ts` | CUMPLIDO (PR #504 + #506 en main); falta la corrida de limpieza con la casilla marcada — REQ-3529 |
+| REQ-3517 | El cliente de Tangol entrega la respuesta íntegra antes de validarla (`onRaw`) | PO 6-11 / 13-11 | `src/tangol/api.ts` | `src/tangol/api.test.ts` | CUMPLIDO |
+| REQ-3518 | Copia exacta en archivos + índice SQL para el sync en GitHub (mismo puerto `RawArchive`) | PO 6-11 / 13-11 | `src/ingest/file-raw-archive.ts`, `src/scripts/tangol-sync.ts` | `src/ingest/file-raw-archive.test.ts` | CUMPLIDO |
+| REQ-3519 | El workflow sube la copia a R2 privado antes del catálogo y aplica el índice solo si subió | PO 6-11 / 13-11 | `.github/workflows/tangol-sync.yml` | `src/tangol/sync-workflow.test.ts` | CUMPLIDO (falta corrida real) |
 
 ## Corrección de estados tras la revisión de 12 h (PO, 13 nov 2026; frente #511) — matriz de trazabilidad
 
