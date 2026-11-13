@@ -1,0 +1,35 @@
+# REQ-3487: catálogo de tipos de Tangol. SOLO LECTURA: no escribe en la base, ni en R2, ni en el repo.
+# A mano: Actions → «Tipos de Tangol (solo lectura)» → Run workflow.
+# Sale por la pasarela firmada (la pasarela es la que tiene la IP registrada en Tangol); la clave viene
+# del secreto del repo y nunca se imprime. El resultado queda en el resumen de la corrida.
+name: Tipos de Tangol (solo lectura)
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_destinos:
+        description: "Cuántos destinos leer como máximo (0 = todos, ~184)"
+        default: "20"
+
+permissions:
+  contents: read
+
+jobs:
+  tipos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Leer tipos de Tangol
+        env:
+          GATEWAY_URL: https://pasarela.travelpuzzle.com.mx
+          GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+        run: |
+          if [ -z "$GATEWAY_SECRET" ]; then echo "NO HAY GATEWAY_SECRET en los secretos del repo."; exit 1; fi
+          npx tsx src/scripts/tipos-tangol.ts "${{ inputs.max_destinos }}" | tee "$RUNNER_TEMP/tipos.txt"
+          { echo "## Tipos de Tangol"; echo '```'; cat "$RUNNER_TEMP/tipos.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
