@@ -37,6 +37,6 @@ describe("REQ-1344: los viajes publicados se leen completos, por páginas", () =
     expect(src).not.toMatch(/take:\s*200/);
     expect(src).toContain("readAllPages");
     expect(src).not.toContain("repo.findById(r.id)");
-    expect(src).toMatch(/cacheKey\("tripCards", \{[^}]*v: "10"/);
+    expect(src).toMatch(/cacheKey\("tripCards", \{[^}]*v: "11"/);
   });
 });
