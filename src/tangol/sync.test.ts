@@ -99,6 +99,19 @@ describe("REQ-3463: un paso del sync de Tangol", () => {
     expect(guardado[1]).toMatchObject({ status: "completed", nextPage: 3, totalPages: 2, runStartedAt: now });
   });
 
+  it("REQ-3502: por omisión cada tour se escribe con la categoría de su TypeCode|SubTypeCode real (mapping/tangol.json)", async () => {
+    const { repo, guardado } = spyRepo();
+    const api = fakeApi({
+      getTourList: async ({ destinationId }) => ({
+        items: destinationId === 100 ? [tour(1234, { typeCode: "TRASLADO", subTypeCode: "IN" })] : [tour(5678, { typeCode: "VIAJES", subTypeCode: "CLASICOS" })],
+        discarded: 0,
+      }),
+    });
+    await correr({ ensayo: false, api }, repo);
+    const filas = guardado[0] as { tour: { externalId: number; categoryId: number } }[];
+    expect(filas.map((f) => [f.tour.externalId, f.tour.categoryId])).toEqual([[1234, 9_000_011], [5678, 9_000_018]]);
+  });
+
   it("REQ-3463: México no se le pide a Tangol (una llamada menos, REQ-3373)", async () => {
     const getDestinations = vi.fn(fakeApi().getDestinations);
     await correr({ api: fakeApi({ getDestinations }) });

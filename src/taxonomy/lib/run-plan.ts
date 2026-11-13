@@ -59,7 +59,7 @@ export function planTaxonomyStep(input: {
 }
 
 export interface TourRowForTaxonomy {
-  id: string; categoryId: number; priceValue: number | string | null; durationMinutes: number | null;
+  id: string; /** REQ-3502: Tour.providerId; sin él, FREETOUR. */ providerId?: string | null; categoryId: number; priceValue: number | string | null; durationMinutes: number | null;
   titleEs: string | null; titleEn: string | null; briefEs: string | null; briefEn: string | null;
   guideLanguages: string | null; rating: number | string | null; reviewsNumber: number | null;
   /** REQ-1253: traducciones de la ciudad base (JSON). */
@@ -74,7 +74,7 @@ const ISO_LANG: Record<string, string> = { spanish: "es", espanol: "es", "españ
 export function tourToInput(t: TourRowForTaxonomy): ClassifyInput {
   const price = t.priceValue === null ? null : Number(t.priceValue);
   return {
-    proveedor: "freetour",
+    proveedor: t.providerId || "freetour", // REQ-3502
     categoriaId: t.categoryId,
     precio: Number.isFinite(price) ? price : null,
     durationMinutes: t.durationMinutes,
