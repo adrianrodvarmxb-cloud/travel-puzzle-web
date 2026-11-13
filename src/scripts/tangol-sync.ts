@@ -1,0 +1,115 @@
+/**
+ * REQ-3464: I/O del workflow «Tangol: sync de tours (a mano)». No escribe en la base.
+ *
+ *   npx tsx src/scripts/tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N]
+ *
+ * <carpeta-export>: lo que el workflow exportó de D1 EN SOLO LECTURA (countries.json, cities.json,
+ * sync.json, con la salida tal cual de `wrangler d1 execute --json`).
+ * <carpeta-salida>: reporte.json (y, solo con --escribir, tangol.sql para que el workflow lo aplique).
+ *
+ * Por omisión es ENSAYO: lee Tangol, planea y cuenta lo que haría; no genera SQL ni toca nada.
+ * Con --escribir solo GENERA el archivo .sql; aplicarlo es un paso aparte del workflow, con la
+ * casilla marcada y el OK del PO (candado: datos de producción).
+ *
+ * La bandera de la pasarela es propia del sync (`TANGOL_SYNC_ENABLED`), no la del sitio: la de
+ * `wrangler.jsonc` (`TANGOL_ENABLED`) gobierna qué ve el público (gate C, REQ-1625) y se queda en
+ * "false" hasta que el PO la encienda.
+ */
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { createTangolApi } from "../tangol/api";
+import { tangolConfig } from "../tangol/lib/config";
+import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catalog-rules";
+import { runTangolSyncStep } from "../tangol/sync";
+import {
+  createTangolSqlRepo,
+  readExportRows,
+  toExistingCities,
+  toExistingCountries,
+  toSyncState,
+} from "../tangol/repository";
+
+const args = process.argv.slice(2);
+const escribir = args.includes("--escribir");
+const posicionales: string[] = [];
+let lote: number | undefined;
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === "--lote") lote = Number(args[++i]);
+  else if (!args[i].startsWith("--")) posicionales.push(args[i]);
+}
+const [entrada, salida] = posicionales;
+
+if (!entrada || !salida) {
+  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N]");
+  process.exit(1);
+}
+
+const config = tangolConfig({
+  TANGOL_ENABLED: process.env.TANGOL_SYNC_ENABLED,
+  GATEWAY_URL: process.env.GATEWAY_URL,
+  GATEWAY_SECRET: process.env.GATEWAY_SECRET,
+});
+if (!config) {
+  console.log("::error::Sin pasarela: hace falta TANGOL_SYNC_ENABLED=true, GATEWAY_URL y GATEWAY_SECRET. No se corre nada.");
+  process.exit(1);
+}
+
+const json = (file: string) => JSON.parse(readFileSync(join(entrada, file), "utf8"));
+
+/** Viajes de agencia que ya existen (REQ-3374). Salen de los archivos de carga versionados. */
+function agencyTrips(): AgencyTripPlace[] {
+  const dir = "imports";
+  return readdirSync(dir)
+    .filter((f) => f.endsWith(".json"))
+    .flatMap((f) => {
+      try {
+        return agencyTripsFromImport(JSON.parse(readFileSync(join(dir, f), "utf8")));
+      } catch {
+        console.log(`Aviso: no se pudo leer imports/${f}; se ignora.`);
+        return [];
+      }
+    });
+}
+
+(async () => {
+  const repo = createTangolSqlRepo({
+    countries: toExistingCountries(readExportRows(json("countries.json"))),
+    cities: toExistingCities(readExportRows(json("cities.json"))),
+    state: toSyncState(readExportRows(json("sync.json"))),
+  });
+
+  const report = await runTangolSyncStep({
+    api: createTangolApi({ config, fetch }),
+    repo,
+    now: new Date(),
+    agencyTrips: agencyTrips(),
+    ensayo: !escribir,
+    ...(lote !== undefined && Number.isFinite(lote) && lote > 0 ? { batch: lote } : {}),
+  });
+
+  mkdirSync(salida, { recursive: true });
+  writeFileSync(join(salida, "reporte.json"), JSON.stringify(report, null, 2));
+
+  const c = report.conteo;
+  console.log(`Modo: ${escribir ? "ESCRIBIR (genera el SQL; aplicarlo es otro paso)" : "ENSAYO (no escribe nada)"}`);
+  console.log(`Acción: ${report.action}${report.lote ? ` · destinos ${report.lote.from}-${report.lote.to} de ${report.totalDestinos}` : ` · ${report.totalDestinos} destinos`}`);
+  if (c) {
+    console.log(`Destinos del lote: ${c.destinos} (pendientes ${c.destinosPendientes}) · ciudades nuevas: ${c.ciudadesNuevas}`);
+    console.log(`Tours vistos: ${c.tours} → se escribirían ${c.escritos}; excluidos por reglas ${c.excluidos}; descartados ${c.descartados}; inválidos ${report.invalidos}`);
+  }
+  console.log(`Países nuevos: ${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
+  for (const p of report.ciudadesPendientes) console.log(`Pendiente: destino ${p.externalId} «${p.name}» (${p.countryCode}) — ${p.reason}`);
+  for (const e of report.errores) console.log(`Error contenido: ${e.donde} — ${e.error}`);
+
+  if (escribir) {
+    const stmts = repo.statements();
+    const cabecera = `Tangol REQ-3463: ${stmts.length} sentencias · destinos ${report.lote?.from ?? "-"}-${report.lote?.to ?? "-"} de ${report.totalDestinos} · generado ${new Date().toISOString()}`;
+    writeFileSync(join(salida, "tangol.sql"), repo.sql(cabecera));
+    console.log(`SQL generado: ${stmts.length} sentencias en ${join(salida, "tangol.sql")} (NO aplicado).`);
+  }
+
+  if (report.abortReason) {
+    console.log(`::error::Paso detenido sin escribir: ${report.abortReason}`);
+    process.exit(1);
+  }
+})();
