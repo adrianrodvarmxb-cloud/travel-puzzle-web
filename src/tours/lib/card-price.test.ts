@@ -16,3 +16,13 @@ describe("REQ-170: tarjetas de la lista de ciudad con EUR y MXN aproximado", () 
     expect(cardPrice({ kind: "own", isFreeTour: false, price: 0, currency: "MXN" }, rates)).toEqual({ main: "A cotizar", approx: null });
   });
 });
+
+describe("REQ-10510: tarjetas con precio en USD (Tangol)", () => {
+  it("REQ-10510: «Desde USD $22» y «aprox. MXN $407» con el FIX; sin tipo de cambio solo USD", () => {
+    expect(cardPrice({ kind: "paid", isFreeTour: false, price: 22, currency: "USD" }, rates)).toEqual({ main: "Desde USD $22", approx: "aprox. MXN $407" });
+    expect(cardPrice({ kind: "paid", isFreeTour: false, price: 22, currency: "USD" }, null)).toEqual({ main: "Desde USD $22", approx: null });
+  });
+  it("REQ-10510: una moneda que el sitio no convierte (ARS, la que devolvía Tangol) queda sin MXN aproximado, sin inventar", () => {
+    expect(cardPrice({ kind: "paid", isFreeTour: false, price: 15158, currency: "ARS" }, rates)).toEqual({ main: "Desde ARS 15158", approx: null });
+  });
+});

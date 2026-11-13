@@ -21,10 +21,18 @@ on:
         description: "Escribir en producción (Country, City, Tour) — candado del PO"
         type: boolean
         default: false
+      reiniciar:
+        description: "Empezar desde el destino 1 aunque hoy ya haya corrido (REQ-10518: refrescar todo el catálogo)"
+        type: boolean
+        default: false
       lote:
         description: "Destinos por paso (vacío = 10)"
         required: false
         default: ""
+      moneda:
+        description: "Moneda que se le pide a Tangol en las tarifas (REQ-10510; vacío = USD). La fila guarda la que Tangol devuelve."
+        required: false
+        default: "USD"
 permissions:
   contents: read
 concurrency: { group: datos-produccion, cancel-in-progress: false }
@@ -96,6 +104,7 @@ jobs:
           TANGOL_SYNC_ENABLED: "true"
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+          TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Plan de escritura (genera el SQL; todavía NO lo aplica)
@@ -104,8 +113,9 @@ jobs:
           TANGOL_SYNC_ENABLED: "true"
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+          TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
         # REQ-3519: --copia arma la copia exacta (con el neto) en tmp/tangol-copia, FUERA del artefacto público.
-        run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir --copia tmp/tangol-copia ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
+        run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir --copia tmp/tangol-copia ${{ inputs.reiniciar && '--reiniciar' || '' }} ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()

@@ -1,7 +1,7 @@
 /**
  * REQ-3464: I/O del workflow «Tangol: sync de tours (a mano)». No escribe en la base.
  *
- *   npx tsx src/scripts/tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N]
+ *   npx tsx src/scripts/tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--reiniciar] [--lote N]
  *
  * <carpeta-export>: lo que el workflow exportó de D1 EN SOLO LECTURA (countries.json, cities.json,
  * sync.json, con la salida tal cual de `wrangler d1 execute --json`).
@@ -22,8 +22,9 @@ import { archiveTangolResponse } from "../ingest/tangol-archive";
 import { createTangolApi } from "../tangol/api";
 import { tangolConfig } from "../tangol/lib/config";
 import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catalog-rules";
-import { runTangolSyncStep } from "../tangol/sync";
+import { DEFAULT_RATES_CURRENCY, runTangolSyncStep } from "../tangol/sync";
 import { formatTourCountCheck, formatTourCountDetail } from "../tangol/lib/tour-count";
+import { formatCurrencyReport } from "../tangol/lib/currency-report";
 import {
   createTangolSqlRepo,
   readExportRows,
@@ -34,6 +35,7 @@ import {
 
 const args = process.argv.slice(2);
 const escribir = args.includes("--escribir");
+const reiniciar = args.includes("--reiniciar"); // REQ-10518
 const posicionales: string[] = [];
 let lote: number | undefined;
 let copia: string | undefined;
@@ -45,7 +47,7 @@ for (let i = 0; i < args.length; i++) {
 const [entrada, salida] = posicionales;
 
 if (!entrada || !salida) {
-  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N] [--copia <carpeta>]");
+  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--reiniciar] [--lote N] [--copia <carpeta>]");
   process.exit(1);
 }
 
@@ -112,12 +114,16 @@ function agencyTrips(): AgencyTripPlace[] {
       }
     : undefined;
 
+  // REQ-10510: moneda de las tarifas; por omisión USD (DEFAULT_RATES_CURRENCY). Se cambia con la casilla «moneda» del workflow.
+  const ratesCurrency = (process.env.TANGOL_RATES_CURRENCY ?? "").trim() || DEFAULT_RATES_CURRENCY;
   const report = await runTangolSyncStep({
     api: createTangolApi({ config, fetch, onRaw }),
     repo,
     now: new Date(),
     agencyTrips: agencyTrips(),
     ensayo: !escribir,
+    reiniciar,
+    ratesCurrency,
     ...(lote !== undefined && Number.isFinite(lote) && lote > 0 ? { batch: lote } : {}),
   });
 
@@ -131,6 +137,8 @@ function agencyTrips(): AgencyTripPlace[] {
     console.log(`Destinos del lote: ${c.destinos} (pendientes ${c.destinosPendientes}) · ciudades nuevas: ${c.ciudadesNuevas}`);
     console.log(`Tours vistos: ${c.tours} → se escribirían ${c.escritos}; excluidos por reglas ${c.excluidos}; descartados ${c.descartados}; inválidos ${report.invalidos}`);
   }
+  // REQ-10510: la moneda que devolvió Tangol se ve en el resumen (la pedida no garantiza la devuelta).
+  console.log(formatCurrencyReport(report));
   // REQ-3505: la diferencia entre lo que dice cada destino y lo que llegó nunca pasa callada.
   if (report.cuadre) {
     console.log(formatTourCountCheck(report.cuadre));

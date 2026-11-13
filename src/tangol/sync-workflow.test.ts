@@ -110,4 +110,13 @@ describe("REQ-10509: paso de slugs faltantes en el sync de Tangol", () => {
     expect(y.slice(s, h)).toMatch(/tangol-slugs\.ts/);
     expect(y.slice(s, h)).toMatch(/"slug" IS NULL/);
   });
+
+  it("REQ-10510: la casilla «moneda» existe con USD por omisión y llega al script en el ensayo y en el plan de escritura", () => {
+    const wf = y;
+    const pasos = wf.split(/\n {6}- /).slice(1);
+    expect(wf).toMatch(/moneda:\n\s+description: .*\n\s+required: false\n\s+default: "USD"/);
+    const corren = pasos.filter((p) => p.includes("src/scripts/tangol-sync.ts"));
+    expect(corren).toHaveLength(2);
+    for (const p of corren) expect(p).toMatch(/TANGOL_RATES_CURRENCY: \$\{\{ inputs\.moneda \|\| 'USD' \}\}/);
+  });
 });
