@@ -39,7 +39,7 @@ export function createTaxonomyRepo(db: TaxonomyD1): TaxonomyRepo {
     async abortRun(id, reason, now) { await run(`UPDATE "TaxonomyRun" SET "status"='aborted',"abortReason"=?,"finishedAt"=? WHERE "id"=?`, reason, now, id); },
     async toursAfter(cursor, limit) {
       return (await all(
-        `SELECT t."id", t."categoryId", t."priceValue", t."durationMinutes", t."guideLanguages", t."rating", t."reviewsNumber",
+        `SELECT t."id", t."providerId", t."categoryId", t."priceValue", t."durationMinutes", t."guideLanguages", t."rating", t."reviewsNumber",
                 es."title" AS "titleEs", en."title" AS "titleEn", es."brief" AS "briefEs", en."brief" AS "briefEn", c."translations" AS "cityTr"
            FROM "Tour" t
            LEFT JOIN "City" c ON c."id" = t."cityId"
