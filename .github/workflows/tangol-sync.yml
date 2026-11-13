@@ -51,6 +51,13 @@ jobs:
           FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
         run: npm run countries:generate
 
+      # REQ-3500: igual que «Publicar en Cloudflare». Sin el cliente generado, el build falla con «implicitly has an
+      # 'any' type» (corrida 43298923440, segundo ensayo del 12 nov).
+      - name: Cliente de Prisma
+        run: npx prisma generate
+        env:
+          DATABASE_URL: file:./dev.db
+
       # Blindaje 1: nada corre si la suite o el build están rojos.
       - name: Pruebas unitarias
         run: npx vitest run
