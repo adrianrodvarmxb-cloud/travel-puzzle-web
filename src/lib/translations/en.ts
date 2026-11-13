@@ -246,6 +246,7 @@ export const en = {
   "tours.map.loading": "Loading map…",
   "tours.map.error": "We couldn't load the map.",
   "tours.map.empty": "The experiences on this page have no meeting point on the map.",
+  "tours.map.onRequest": "Quote",
   "tours.map.view": "View experience",
   "tours.map.show": "Map",
   "tours.map.list": "List",

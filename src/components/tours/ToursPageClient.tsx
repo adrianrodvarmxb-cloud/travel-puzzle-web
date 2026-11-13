@@ -29,7 +29,7 @@ import { parseExtraFilters, extraFiltersToParams, countActive, EMPTY_EXTRA, type
 import { ToursMap } from '@/components/tours/ToursMap';
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
 import { parseDurationRange, type DurationRange } from '@/tours/lib/duration';
-import { toursToPins } from '@/tours/lib/map-pins';
+import { toursToPins, tripsToPins } from '@/tours/lib/map-pins';
 import { parseSort, sortToPagination, type TourSort } from '@/tours/lib/sort';
 import { useTours, useCitiesFromAPI, useTourHighlights } from '@/lib/queries/tours';
 import { transformDBToursToUITours, transformCountryForFilter } from '@/lib/db/tour-transformer';
@@ -365,6 +365,15 @@ export function ToursPageClient({
     // REQ-1346 (INC-008): viajes que coinciden con los filtros en cualquier página; el encabezado suma catálogo + viajes
     // (el mismo total que el inicio y que la suma del filtro).
     const ownMatches = ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra }));
+    // REQ-3527 / REQ-3528 (REQ-1605): los viajes de cualquier proveedor que coinciden con los filtros también van al mapa,
+    // en la misma página donde la lista los muestra (la 1). Sin lista de proveedores: uno nuevo entra solo.
+    const ownPinKey = (pagination.page ?? 1) === 1 ? ownMatches.map((t) => t.id).join(',') : '';
+    const tripPins = useMemo(
+        () => (ownPinKey ? tripsToPins(ownMatches) : []),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [ownPinKey],
+    );
+    const mapPins = useMemo(() => [...pins, ...tripPins], [pins, tripPins]);
     const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
@@ -482,7 +491,7 @@ export function ToursPageClient({
                     {/* Mapa: columna fija en escritorio; en celular y tablet, con el botón Mapa/Lista */}
                     <div className={`${view === 'map' ? 'block' : 'hidden'} lg:col-span-3 lg:col-start-2 xl:col-span-4 xl:col-start-auto xl:block`}>
                         <div className="h-[calc(100vh-180px)] xl:sticky xl:top-24 xl:h-[calc(100vh-112px)]">
-                            <ToursMap pins={pins} activeId={activeId} />
+                            <ToursMap pins={mapPins} activeId={activeId} />
                         </div>
                     </div>
                 </div>

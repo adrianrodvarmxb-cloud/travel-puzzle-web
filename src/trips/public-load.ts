@@ -16,6 +16,7 @@ import { imageUrl } from "./lib/image";
 import { priceInEur } from "@/tours/lib/price-filter";
 import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
+import { firstPoint, type LatLng } from "@/map/lib/coords";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
 import { cached, cacheKey, POLICY } from "@/cache/edge";
 import { pairById } from "./lib/cards";
@@ -68,6 +69,10 @@ export interface TripCard {
   dayTrip?: boolean;
   /** REQ-524: nombre de la agencia (Big Bus, Extime, Exotic Escapes…); sin agencia, «Travel Puzzle» (REQ-148). */
   provider?: string | null;
+  /** REQ-3527: moneda del precio «Desde» (`priceFrom`), para el pin del mapa de /tours. */
+  currency?: string;
+  /** REQ-3526: primer punto de encuentro con coordenadas válidas (mapa de /tours); null si el viaje no tiene. */
+  mapPoint?: LatLng | null;
 }
 
 /** REQ-524: viaje sin agencia = de Travel Puzzle (REQ-148). */
@@ -100,6 +105,8 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     durationMinutes: t.durationDays ? t.durationDays * 1440 : null,
     agencyId: (t as { agencyId?: string | null }).agencyId ?? null, // REQ-148
     dayTrip, // REQ-453
+    mapPoint: firstPoint(t.meetingPoints), // REQ-3526
+    currency: t.currency, // REQ-3527
     provider: (t as { agencyId?: string | null }).agencyId ? (t.agencyName?.trim() || null) : OWN_PROVIDER, // REQ-524
     // T4 y REQ-522: formato de la taxonomía (clasificador oficial, mapeo «propios»); lo usan el filtro ?formato= de /tours
     // y la categoría de la tarjeta. Un viaje que REQ-451 ya pone en «Excursiones de un día» es excursión, no «Tour».
@@ -117,7 +124,7 @@ export async function loadTripCards(lang: string): Promise<TripCard[]> {
     // T4: v5 = las tarjetas llevan formato (la copia v4 de producción no lo trae). REQ-524: v6 = también el proveedor.
     // REQ-268: con la caché fría no hay copia anterior que servir; si D1 está saturada (N+2 consultas), se reintenta
     // con espera (como el catálogo, REQ-029) en vez de pintar /tours y el inicio sin viajes propios.
-    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "10" /* REQ-1344 todos los publicados (sin tope de 200); REQ-1250 Tour / Visita guiada / Caminata; REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
+    return await cached(cacheKey("tripCards", { lang, own: String(vis.own), transport: String(vis.transport), v: "11" /* REQ-3526 las tarjetas llevan mapPoint (la copia v10 no lo trae); REQ-1344 todos los publicados (sin tope de 200); REQ-1250 Tour / Visita guiada / Caminata; REQ-524 con proveedor; REQ-535/540…545 formato con el criterio del PO */ }), POLICY.toursList, () => withRetry(async () => {
       const [all, fx] = await Promise.all([publishedRows(), loadFx()]);
       const rows = all.filter((r) => isKindVisible(r.kind, vis));
       // REQ-1344: el viaje se arma de la fila ya leída (antes 1 + N consultas); un registro malo se descarta y se registra.
