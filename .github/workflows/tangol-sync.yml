@@ -152,4 +152,5 @@ jobs:
 
       - name: Prueba de humo en producción
         if: ${{ inputs.escribir }}
-        run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
+        # REQ-3539: el runner no trae el navegador; sin esto el humo cae aunque el sitio esté bien.
+        run: npx playwright install --with-deps chromium && npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx

@@ -81,6 +81,17 @@ describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al es
   });
 });
 
+/**
+ * REQ-3539 (13-11, runs 43475677142 y 43477829263): los lotes escribieron bien, pero la prueba de humo final
+ * cayó porque el runner no tenía el navegador de Playwright.
+ */
+describe("REQ-3539: el humo del sync de Tangol tiene navegador", () => {
+  it("REQ-3539: el paso de humo instala Chromium antes de correr smoke.ts", () => {
+    const humo = wf.split(/\n {6}- /).find((p) => p.startsWith("name: Prueba de humo en producción")) ?? "";
+    expect(humo).toMatch(/npx playwright install --with-deps chromium[\s\S]*src\/scripts\/smoke\.ts/);
+  });
+});
+
 // REQ-3536: la carga real con lotes de 60 destinos necesita más de 30 min (corrida 43466215988 cancelada en la copia a R2).
 describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos", () => {
   it("REQ-3536: timeout-minutes de al menos 120", () => {
