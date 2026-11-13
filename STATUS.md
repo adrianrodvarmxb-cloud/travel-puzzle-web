@@ -1140,7 +1140,8 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3357 | Verificación por número o folio + correo | NUEVO | src/agente/lib/cliente.ts | src/agente/lib/cliente.test.ts | EN CURSO (verde; falta el lado de Mila) |
 | REQ-3355 | Condiciones del anexo de proveedores | NUEVO | migrations/0030_proveedor_condiciones.sql, src/proveedores/lib/condiciones.ts, src/agente/lib/condiciones.ts, src/app/api/agente/condiciones/route.ts, src/scripts/carga-condiciones.ts | src/proveedores/lib/condiciones.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; falta REQ-3521 datos y REQ-3522 aplicar 0030) |
 | REQ-3520 | Opción A: condiciones en columnas de Proveedor | NUEVO | — | — | CUMPLIDO (PO 13 nov) |
-| REQ-3521 | Carga de condiciones por proveedor | NUEVO | docs/proveedores/condiciones.json | src/proveedores/lib/condiciones.test.ts | PENDIENTE (datos) |
+| REQ-3521 | Carga de condiciones por proveedor | NUEVO | docs/proveedores/condiciones.json | src/proveedores/lib/condiciones.test.ts | PENDIENTE (fuente A; solo hay borradores sin firma; Gmail sin conectar) |
+| REQ-3524 | Fuente de las condiciones: acuerdos firmados (A) | NUEVO | — | — | CUMPLIDO (PO 13 nov) |
 | REQ-3522 | Aplicar 0030 en producción | NUEVO | — | — | PENDIENTE (PO) |
 | REQ-3409 | «Agregar a mi calendario» (.ics y liga de Google Calendar) | NUEVO | zoefel-mila src/catalogo/lib/calendario.js | zoefel-mila tests/catalogo/calendario.test.js | EN CURSO (PR #205 de zoefel-mila, 7 verdes; falta formato de entrega) |
 | REQ-3408 | «¿Cómo llego?» el día del tour (ubicación y ruta al punto) | NUEVO | zoefel-mila src/catalogo/lib/comoLlego.js | zoefel-mila tests/catalogo/como-llego.test.js | EN CURSO (PR #206 de zoefel-mila, 7 verdes; falta conectarla) |
