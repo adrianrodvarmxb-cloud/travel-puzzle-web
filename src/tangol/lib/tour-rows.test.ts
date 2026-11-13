@@ -187,3 +187,29 @@ describe("toTangolTourRows", () => {
     expect(batch.discarded).toEqual([]);
   });
 });
+
+describe("REQ-3504: basura del servidor de Tangol dentro de los datos", () => {
+  /** El caso real de la corrida 43303152904: «Mountain Bike Cuesta Del Obispo» con un 504 como subtipo. */
+  const basura = infoTourSchema.parse({ ...rawTour, TourId: 777, Name: "Mountain Bike Cuesta Del Obispo", SubTypeCode: "[METHOD ERROR 504]" });
+
+  it("REQ-3504: un tour con un valor de error del proveedor se descarta con motivo legible, sin adivinar el valor", () => {
+    const r = toTangolTourRow(basura, deps());
+    expect(r).toEqual({ ok: false, reason: "dato-de-error-del-proveedor", detail: "subTypeCode = «[METHOD ERROR 504]»" });
+  });
+
+  it("REQ-3504: se cuenta, se registra con el campo, y los tours buenos siguen entrando", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const batch = toTangolTourRows([tour, basura], deps());
+    expect(batch.rows.map((r) => r.tour.externalId)).toEqual([12345]);
+    expect(batch.discarded).toEqual([{ tourId: 777, reason: "dato-de-error-del-proveedor" }]);
+    const logs = warn.mock.calls.map((c) => String(c[0]));
+    expect(logs.some((l) => l.includes("777") && l.includes("subTypeCode") && l.includes("[METHOD ERROR 504]"))).toBe(true);
+    expect(logs.some((l) => l.includes("dato-de-error-del-proveedor: 1"))).toBe(true);
+  });
+
+  it("REQ-3504: un título normal que dice «error» en otro sentido NO se descarta", () => {
+    const escape = infoTourSchema.parse({ ...rawTour, Name: "Escape Room Error 404", SubTypeCode: "AVENTURA" });
+    const r = toTangolTourRow(escape, deps());
+    expect(r.ok).toBe(true);
+  });
+});

@@ -8,7 +8,7 @@ import type { Dictionary, Mapping } from "./schemas/dictionary";
 import { classify } from "./lib/classify";
 import { DEFAULT_GATES, type Gates } from "./lib/gates";
 import {
-  barrier, KEEP_TAXONOMY_RUNS, mappingVersion, planTaxonomyStep, rowsFor, TAXONOMY_BATCH, TOURS_DONE, tourToInput, tripToInput, unmappedFrom,
+  barrier, KEEP_TAXONOMY_RUNS, PRUNE_BATCH, PRUNE_MAX_ROUNDS, mappingVersion, planTaxonomyStep, rowsFor, TAXONOMY_BATCH, TOURS_DONE, tourToInput, tripToInput, unmappedFrom,
   type RunCounts,
 } from "./lib/run-plan";
 import type { TaxonomyRepo } from "./repository";
@@ -118,12 +118,21 @@ export async function runTaxonomyStep(d: TaxonomyStepDeps) {
         status: reason ? "aborted" : "published", counts: JSON.stringify(counts), unmapped: JSON.stringify(unmapped),
         unclassified: counts.formato["por-revisar"] ?? 0, abortReason: reason, now: nowIso,
       });
+      await podar(repo); // REQ-3511: también al abortar (INC-015)
       if (reason) {
         console.error(`[taxonomia] corrida ${plan.run.id} abortada: ${reason}; se sigue leyendo la anterior`);
         return { action: "abort" as const, runId: plan.run.id, reason };
       }
-      await repo.prune(KEEP_TAXONOMY_RUNS);
       return { action: "publish" as const, runId: plan.run.id, total: counts.total, unmapped: unmapped.length };
     }
+  }
+}
+
+// REQ-3511 (INC-015): poda por tandas al cerrar cada corrida, publicada o abortada. Si falla, se registra y la corrida sigue.
+async function podar(repo: TaxonomyRepo) {
+  try {
+    for (let i = 0; i < PRUNE_MAX_ROUNDS; i++) if ((await repo.prune(KEEP_TAXONOMY_RUNS, PRUNE_BATCH)) < PRUNE_BATCH) return;
+  } catch (e) {
+    console.error(`[taxonomia] poda fallida: ${(e as Error).message}`);
   }
 }
