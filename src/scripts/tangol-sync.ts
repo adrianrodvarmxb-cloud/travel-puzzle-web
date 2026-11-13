@@ -12,8 +12,8 @@
  * casilla marcada y el OK del PO (candado: datos de producción).
  *
  * La bandera de la pasarela es propia del sync (`TANGOL_SYNC_ENABLED`), no la del sitio: la de
- * `wrangler.jsonc` (`TANGOL_ENABLED`) gobierna qué ve el público (gate C, REQ-1625) y se queda en
- * "false" hasta que el PO la encienda.
+ * `wrangler.jsonc` (`TANGOL_ENABLED`) gobierna qué ve el público (gate C, REQ-1625); se enciende en su
+ * propio PR (REQ-3506) con preview, humo y OK del PO.
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
