@@ -9,6 +9,7 @@
  */
 import { createTangolApi } from "@/tangol/api";
 import { tallyTourTypes, formatTypeTally, type TourTypeInput } from "@/tangol/lib/types-report";
+import { checkTourCounts, formatTourCountCheck, formatTourCountDetail, type DestinationCount } from "@/tangol/lib/tour-count";
 
 const { GATEWAY_URL, GATEWAY_SECRET } = process.env;
 if (!GATEWAY_URL || !GATEWAY_SECRET) {
@@ -24,16 +25,21 @@ async function main() {
   console.log(`Países: ${countries.items.length} (descartados ${countries.discarded})`);
 
   const tours: TourTypeInput[] = [];
+  const conteos: DestinationCount[] = [];
+  let paisesDicen = 0;
   let destinos = 0;
   let fallos = 0;
   for (const c of countries.items) {
     if (destinos >= maxDestinos) break;
-    const dest = await api.getDestinations(c.isoCode).catch((e) => { console.error(`${c.isoCode}: ${(e as Error).message}`); fallos++; return null; });
+    paisesDicen += c.toursQty ?? 0;
+    const dest =await api.getDestinations(c.isoCode).catch((e) => { console.error(`${c.isoCode}: ${(e as Error).message}`); fallos++; return null; });
     for (const d of dest?.items ?? []) {
       if (destinos >= maxDestinos) break;
       destinos++;
       const list = await api.getTourList({ destinationId: d.id, languageCode: 0, currency: 0 })
         .catch((e) => { console.error(`destino ${d.id}: ${(e as Error).message}`); fallos++; return null; });
+      // REQ-3505: lo que dice el destino contra lo que llegó en su lista.
+      conteos.push({ id: d.id, name: d.name, declarados: d.toursQty, recibidos: list?.items.length ?? 0, invalidos: list?.discarded ?? 0, fallo: !list });
       for (const t of list?.items ?? []) {
         tours.push({ typeCode: t.typeCode, subTypeCode: t.subTypeCode, tourType: t.tourType, title: t.name, destination: d.name });
       }
@@ -41,6 +47,12 @@ async function main() {
     }
   }
   console.log(`\nDestinos leídos: ${destinos} — tours: ${tours.length} — llamadas con error: ${fallos}\n`);
+  // REQ-3505: las tres cifras juntas (países, destinos, lista) para que la diferencia no pase callada.
+  const cuadre = checkTourCounts(conteos);
+  console.log(`Los países dicen: ${paisesDicen}`);
+  console.log(formatTourCountCheck(cuadre));
+  for (const l of formatTourCountDetail(cuadre, 200)) console.log(l);
+  console.log("");
   console.log(formatTypeTally(tallyTourTypes(tours), tours.length));
 }
 
