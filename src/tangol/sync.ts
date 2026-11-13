@@ -73,6 +73,8 @@ export interface TangolSyncDeps {
   /** Por omisión SÍ: cuenta y reporta lo que haría, sin escribir nada. */
   ensayo?: boolean;
   batch?: number;
+  /** REQ-10518: ignora el avance guardado y arranca desde el destino 1 (p. ej. para refrescar todo el catálogo tras un cambio del sync). */
+  reiniciar?: boolean;
   /** Códigos de idioma y moneda de Tangol (sin confirmar, REQ-1546: entran por parámetro). */
   languageCode?: number;
   currency?: number;
@@ -127,7 +129,7 @@ export const DEFAULT_RATES_CURRENCY = "USD"; // REQ-10510
 // REQ-3463, REQ-3505, REQ-10510
 export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyncReport> {
   const {
-    api, repo, now, agencyTrips, ensayo = true, batch = DESTINATIONS_PER_STEP,
+    api, repo, now, agencyTrips, ensayo = true, batch = DESTINATIONS_PER_STEP, reiniciar = false,
     languageCode = 0, currency = 0, ratesLanguage = "0", ratesCurrency = DEFAULT_RATES_CURRENCY,
     fallbackCurrency = null, categoryId = categoriaIdDeTangol /* REQ-3502 */, rules, planCountries = planCountriesFromRepoData,
   } = deps;
@@ -164,7 +166,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   }
 
   // 2. Lote de este paso.
-  const step = planTangolStep(state, { total: orden.length, now, batch });
+  const step = planTangolStep(reiniciar ? null : state, { total: orden.length, now, batch }); // REQ-10518
   if (step.action === "idle") return { ...base, action: "idle" };
   if (step.action === "finish") {
     if (!ensayo) await repo.saveState({ status: "completed", lastSyncAt: now });

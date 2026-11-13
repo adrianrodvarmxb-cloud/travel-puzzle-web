@@ -229,6 +229,13 @@ describe("REQ-3463: un paso del sync de Tangol", () => {
     expect(report.cuadre).toMatchObject({ declarados: 5, recibidos: 1, sinLista: 1 });
   });
 
+  it("REQ-10518: con `reiniciar` una corrida cerrada hoy vuelve a empezar desde el destino 1 (refresca todo el catálogo)", async () => {
+    const { repo, escrituras, guardado } = spyRepo({ status: "completed", nextPage: 3, totalPages: 2, runStartedAt: now });
+    const report = await correr({ ensayo: false, reiniciar: true }, repo);
+    expect(report.action).toBe("start");
+    expect(escrituras).toEqual(["upsertTours:2", "saveState"]);
+    expect(guardado[1]).toMatchObject({ runStartedAt: now, status: "completed", nextPage: 3 }); // 2 destinos en el fixture: un solo lote
+  });
   it("REQ-3463: una corrida ya cerrada no vuelve a pedir ni a escribir", async () => {
     const { repo, escrituras } = spyRepo({ status: "completed", nextPage: 3, totalPages: 2, runStartedAt: now });
     const report = await correr({ ensayo: false }, repo);

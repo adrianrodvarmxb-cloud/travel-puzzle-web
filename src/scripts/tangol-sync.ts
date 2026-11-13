@@ -1,7 +1,7 @@
 /**
  * REQ-3464: I/O del workflow «Tangol: sync de tours (a mano)». No escribe en la base.
  *
- *   npx tsx src/scripts/tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N]
+ *   npx tsx src/scripts/tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--reiniciar] [--lote N]
  *
  * <carpeta-export>: lo que el workflow exportó de D1 EN SOLO LECTURA (countries.json, cities.json,
  * sync.json, con la salida tal cual de `wrangler d1 execute --json`).
@@ -35,6 +35,7 @@ import {
 
 const args = process.argv.slice(2);
 const escribir = args.includes("--escribir");
+const reiniciar = args.includes("--reiniciar"); // REQ-10518
 const posicionales: string[] = [];
 let lote: number | undefined;
 let copia: string | undefined;
@@ -46,7 +47,7 @@ for (let i = 0; i < args.length; i++) {
 const [entrada, salida] = posicionales;
 
 if (!entrada || !salida) {
-  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N] [--copia <carpeta>]");
+  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--reiniciar] [--lote N] [--copia <carpeta>]");
   process.exit(1);
 }
 
@@ -121,6 +122,7 @@ function agencyTrips(): AgencyTripPlace[] {
     now: new Date(),
     agencyTrips: agencyTrips(),
     ensayo: !escribir,
+    reiniciar,
     ratesCurrency,
     ...(lote !== undefined && Number.isFinite(lote) && lote > 0 ? { batch: lote } : {}),
   });
