@@ -84,7 +84,7 @@ describe("REQ-3355: lo que ve Mila", () => {
 
 describe("REQ-3525: condiciones reales de docs/proveedores/condiciones.json", () => {
   const reales = JSON.parse(readFileSync("docs/proveedores/condiciones.json", "utf8")) as unknown[];
-  it("REQ-3525: cada renglón pasa la revisión y cita su fuente pública con liga", () => {
+  it("REQ-3525: cada renglón pasa la revisión y cita su fuente con liga pública", () => {
     for (const r of reales) {
       expect(revisarCondiciones(r)).toMatchObject({ ok: true });
       expect((r as { fuente: string }).fuente).toMatch(/https:\/\//);
