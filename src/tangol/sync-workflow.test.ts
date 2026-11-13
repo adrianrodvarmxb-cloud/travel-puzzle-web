@@ -81,3 +81,11 @@ describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al es
     expect(pasos.indexOf(subir)).toBeLessThan(pasos.indexOf(paso("Escribir en D1")));
   });
 });
+
+// REQ-3536: la carga real con lotes de 60 destinos necesita más de 30 min (corrida 43466215988 cancelada en la copia a R2).
+describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos", () => {
+  it("REQ-3536: timeout-minutes de al menos 120", () => {
+    const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+    expect(Number(y.match(/timeout-minutes:\s*(\d+)/)?.[1])).toBeGreaterThanOrEqual(120);
+  });
+});
