@@ -12,15 +12,18 @@
  * casilla marcada y el OK del PO (candado: datos de producción).
  *
  * La bandera de la pasarela es propia del sync (`TANGOL_SYNC_ENABLED`), no la del sitio: la de
- * `wrangler.jsonc` (`TANGOL_ENABLED`) gobierna qué ve el público (gate C, REQ-1625) y se queda en
- * "false" hasta que el PO la encienda.
+ * `wrangler.jsonc` (`TANGOL_ENABLED`) gobierna qué ve el público (gate C, REQ-1625); se enciende en su
+ * propio PR (REQ-3506) con preview, humo y OK del PO.
  */
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { createFileRawArchive } from "../ingest/file-raw-archive";
+import { archiveTangolResponse } from "../ingest/tangol-archive";
 import { createTangolApi } from "../tangol/api";
 import { tangolConfig } from "../tangol/lib/config";
 import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catalog-rules";
 import { runTangolSyncStep } from "../tangol/sync";
+import { formatTourCountCheck, formatTourCountDetail } from "../tangol/lib/tour-count";
 import {
   createTangolSqlRepo,
   readExportRows,
@@ -33,14 +36,16 @@ const args = process.argv.slice(2);
 const escribir = args.includes("--escribir");
 const posicionales: string[] = [];
 let lote: number | undefined;
+let copia: string | undefined;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--lote") lote = Number(args[++i]);
+  else if (args[i] === "--copia") copia = args[++i];
   else if (!args[i].startsWith("--")) posicionales.push(args[i]);
 }
 const [entrada, salida] = posicionales;
 
 if (!entrada || !salida) {
-  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N]");
+  console.log("Uso: tangol-sync.ts <carpeta-export> <carpeta-salida> [--escribir] [--lote N] [--copia <carpeta>]");
   process.exit(1);
 }
 
@@ -78,8 +83,37 @@ function agencyTrips(): AgencyTripPlace[] {
     state: toSyncState(readExportRows(json("sync.json"))),
   });
 
+  // REQ-3519: copia exacta (solo con --escribir y --copia). Los objetos van a <copia>/objetos (fuera del
+  // artefacto público: llevan el neto) y el índice a <copia>/provider-record.sql; el workflow los aplica después.
+  const runId = `tangol-${process.env.GITHUB_RUN_ID ?? Date.now()}`;
+  const ahora = new Date();
+  const archivo =
+    escribir && copia
+      ? createFileRawArchive({
+          exportRows: existsSync(join(entrada, "provider-record.json")) ? json("provider-record.json") : [],
+          writeObject: (key, body) => {
+            const destino = join(copia!, "objetos", key);
+            mkdirSync(dirname(destino), { recursive: true });
+            writeFileSync(destino, body);
+          },
+        })
+      : null;
+  const copiaReporte = { written: 0, revisited: 0, same: 0, failed: 0 };
+  const onRaw = archivo
+    ? async (op: "getCountries" | "getDestinations" | "getTourList" | "getTourRates", params: Record<string, unknown>, body: unknown) => {
+        const r = await archiveTangolResponse(archivo.archive, {
+          operation: op,
+          body,
+          params: params as Record<string, string | number | null | undefined>,
+          runId,
+          now: ahora,
+        });
+        if (r) for (const k of ["written", "revisited", "same", "failed"] as const) copiaReporte[k] += r[k];
+      }
+    : undefined;
+
   const report = await runTangolSyncStep({
-    api: createTangolApi({ config, fetch }),
+    api: createTangolApi({ config, fetch, onRaw }),
     repo,
     now: new Date(),
     agencyTrips: agencyTrips(),
@@ -97,7 +131,13 @@ function agencyTrips(): AgencyTripPlace[] {
     console.log(`Destinos del lote: ${c.destinos} (pendientes ${c.destinosPendientes}) · ciudades nuevas: ${c.ciudadesNuevas}`);
     console.log(`Tours vistos: ${c.tours} → se escribirían ${c.escritos}; excluidos por reglas ${c.excluidos}; descartados ${c.descartados}; inválidos ${report.invalidos}`);
   }
-  console.log(`Países nuevos: ${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
+  // REQ-3505: la diferencia entre lo que dice cada destino y lo que llegó nunca pasa callada.
+  if (report.cuadre) {
+    console.log(formatTourCountCheck(report.cuadre));
+    for (const l of formatTourCountDetail(report.cuadre)) console.log(l);
+    if (report.cuadre.destinos.length) console.log(`::warning::${formatTourCountCheck(report.cuadre)}`);
+  }
+  console.log(`Países nuevos:${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
   for (const p of report.ciudadesPendientes) console.log(`Pendiente: destino ${p.externalId} «${p.name}» (${p.countryCode}) — ${p.reason}`);
   for (const e of report.errores) console.log(`Error contenido: ${e.donde} — ${e.error}`);
 
@@ -106,6 +146,13 @@ function agencyTrips(): AgencyTripPlace[] {
     const cabecera = `Tangol REQ-3463: ${stmts.length} sentencias · destinos ${report.lote?.from ?? "-"}-${report.lote?.to ?? "-"} de ${report.totalDestinos} · generado ${new Date().toISOString()}`;
     writeFileSync(join(salida, "tangol.sql"), repo.sql(cabecera));
     console.log(`SQL generado: ${stmts.length} sentencias en ${join(salida, "tangol.sql")} (NO aplicado).`);
+  }
+
+  if (archivo && copia) {
+    mkdirSync(copia, { recursive: true });
+    writeFileSync(join(copia, "llaves.txt"), archivo.keys().join("\n") + (archivo.keys().length ? "\n" : ""));
+    writeFileSync(join(copia, "provider-record.sql"), archivo.sql(`Copia exacta de Tangol REQ-3519 · ${runId}`));
+    console.log(`Copia exacta: ${copiaReporte.written} nuevas · ${copiaReporte.same} sin cambios · ${copiaReporte.failed} fallas (objetos en ${copia}/objetos; NO subidos todavía).`);
   }
 
   if (report.abortReason) {

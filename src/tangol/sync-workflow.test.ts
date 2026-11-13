@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 
 const wf = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
-const wrangler = readFileSync("wrangler.jsonc", "utf8");
 
 /**
  * REQ-3464: el sync de Tangol NO corre solo. Estas pruebas vigilan el disparo a mano, el ensayo por
@@ -39,15 +38,53 @@ describe("REQ-3464: workflow «Tangol sync de tours (a mano)»", () => {
     expect(wf).toMatch(/src\/scripts\/smoke\.ts https:\/\/travelpuzzle\.com\.mx/);
   });
 
-  it("REQ-1625: el workflow no toca la bandera del sitio, que sigue apagada (gate C)", () => {
+  it("REQ-1625: el workflow no toca la bandera del sitio (gate C)", () => {
     // La pasarela del sync va por su propia bandera; TANGOL_ENABLED gobierna lo que ve el público.
     expect(wf).toMatch(/TANGOL_SYNC_ENABLED: "true"/);
     expect(wf).not.toMatch(/TANGOL_ENABLED:/);
-    expect(wrangler).toMatch(/"TANGOL_ENABLED":\s*"false"/);
+    // El valor de TANGOL_ENABLED en wrangler.jsonc lo vigila REQ-3506 (src/catalog/flag-tangol.test.ts).
   });
 
   it("REQ-3464: el aviso de la migración 0026 está escrito en el workflow", () => {
     expect(wf).toMatch(/0026/);
     expect(wf).toMatch(/UNIQUE/);
+  });
+});
+
+describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al escribir", () => {
+  const pasos = wf.split(/\n {6}- /).slice(1);
+  const paso = (nombre: string) => pasos.find((p) => p.split("\n")[0].includes(nombre)) ?? "";
+
+  it("REQ-3519: el export de solo lectura trae lo que ya está archivado de Tangol", () => {
+    expect(paso("Export de D1")).toMatch(/FROM "ProviderRecord" WHERE "provider" = '"'"'tangol'"'"'[\s\S]*provider-record\.json/);
+  });
+
+  it("REQ-3519: solo el plan de escritura arma la copia, en una carpeta FUERA del artefacto público", () => {
+    expect(paso("Plan de escritura")).toMatch(/--copia tmp\/tangol-copia/);
+    expect(paso("Ensayo")).not.toMatch(/--copia/);
+    expect(wf).toMatch(/path: tmp\/tangol-salida/);
+    expect(wf).not.toMatch(/path: tmp\/tangol-copia/);
+  });
+
+  it("REQ-3519: sube los objetos al bucket PRIVADO y aplica el índice solo si la subida salió bien", () => {
+    const subir = paso("Copia exacta a R2");
+    expect(subir).toMatch(/if: \$\{\{ inputs\.escribir \}\}/);
+    expect(subir).toMatch(/r2 object put "travel-puzzle-raw\//);
+    expect(subir).toMatch(/--remote/);
+    expect(subir).toMatch(/continue-on-error: true/);
+    const indice = paso("Índice de la copia");
+    expect(indice).toMatch(/if: \$\{\{ inputs\.escribir \}\}/);
+    expect(indice).toMatch(/COPIA: \$\{\{ steps\.copia\.outcome \}\}/);
+    expect(indice).toMatch(/\[ "\$COPIA" = "success" \]/);
+    expect(indice).toMatch(/provider-record\.sql/);
+    expect(pasos.indexOf(subir)).toBeLessThan(pasos.indexOf(paso("Escribir en D1")));
+  });
+});
+
+// REQ-3536: la carga real con lotes de 60 destinos necesita más de 30 min (corrida 43466215988 cancelada en la copia a R2).
+describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos", () => {
+  it("REQ-3536: timeout-minutes de al menos 120", () => {
+    const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+    expect(Number(y.match(/timeout-minutes:\s*(\d+)/)?.[1])).toBeGreaterThanOrEqual(120);
   });
 });
