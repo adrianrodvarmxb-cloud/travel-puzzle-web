@@ -42,16 +42,23 @@ export function sessionExpiry(now: Date): number {
 export interface CheckoutInput {
   paymentId: string; requestId: string; ref: string; tripTitle: string; kind: PaymentKind;
   centavos: number; email: string; siteUrl: string; expiresAt: number;
+  /** REQ-3482: retiene en la tarjeta sin cobrar (captura manual); el cobro o la liberación llegan al confirmar. */
+  manualCapture?: boolean;
 }
 
 // REQ-159: parámetros de POST /v1/checkout/sessions (form-urlencoded).
 export function buildCheckoutParams(i: CheckoutInput): Record<string, string> {
+  const hold: Record<string, string> = i.manualCapture
+    ? { "payment_intent_data[capture_method]": "manual", "metadata[hold]": "1", "payment_intent_data[metadata][hold]": "1" } // REQ-3482
+    : {};
+  const label = i.manualCapture ? "Retención en tarjeta" : KIND_LABEL[i.kind];
   return {
+    ...hold,
     mode: "payment",
     "payment_method_types[0]": "card",
     "line_items[0][price_data][currency]": "mxn",
     "line_items[0][price_data][unit_amount]": String(i.centavos),
-    "line_items[0][price_data][product_data][name]": `${KIND_LABEL[i.kind]} · ${i.tripTitle} (${i.ref})`,
+    "line_items[0][price_data][product_data][name]": `${label} · ${i.tripTitle} (${i.ref})`,
     "line_items[0][quantity]": "1",
     customer_email: i.email,
     client_reference_id: i.paymentId,
@@ -61,7 +68,8 @@ export function buildCheckoutParams(i: CheckoutInput): Record<string, string> {
     "payment_intent_data[metadata][payment_id]": i.paymentId,
     locale: "es",
     expires_at: String(i.expiresAt),
-    success_url: `${i.siteUrl}/?pago=recibido&ref=${encodeURIComponent(i.ref)}`,
+    // REQ-3482: la retención vuelve a la página de gracias de la solicitud; el cobro de siempre, como hoy.
+    success_url: i.manualCapture ? `${i.siteUrl}/viajes/gracias?folio=${encodeURIComponent(i.ref)}` : `${i.siteUrl}/?pago=recibido&ref=${encodeURIComponent(i.ref)}`,
     cancel_url: `${i.siteUrl}/`,
   };
 }

@@ -15,6 +15,7 @@ Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar
 | REQ-3417 | Validar compra, salida y total retail | NUEVO | `src/octo/lib/purchase.ts` | `src/octo/lib/purchase.test.ts` | CUMPLIDO |
 | REQ-3418 | Iniciar compra: solicitud, apartado, Stripe | NUEVO | `src/octo/purchase.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
 | REQ-3419 | Webhook: confirmar o avisar; liberar al vencer | NUEVO | `src/octo/purchase.ts`, `src/payments/service.ts`, `src/payments/deps.ts` | `src/octo/purchase.test.ts`, `src/payments/service.test.ts` | CUMPLIDO |
+| REQ-3482 | Retención en tarjeta al solicitar (PR 1 de 4, frente #463) | NUEVO | `src/payments/lib/hold.ts`, `src/payments/hold.ts`, `src/payments/lib/checkout.ts`, `src/payments/lib/webhook.ts`, `src/payments/lib/email.ts`, `src/payments/service.ts`, `src/payments/deps.ts`, `src/app/api/viajes/solicitud/route.ts`, `src/components/trips/TripRequestForm.tsx` | `src/payments/lib/hold.test.ts`, `src/payments/hold.test.ts`, `src/payments/lib/checkout.test.ts`, `src/payments/lib/webhook.test.ts`, `src/payments/lib/email.test.ts`, `src/payments/service.test.ts` | EN CURSO (pruebas en verde; falta humo con la bandera encendida y la prueba de $10) |
 | REQ-3420 | Correo del boleto | NUEVO | `src/octo/lib/ticket-email.ts` | `src/octo/lib/ticket-email.test.ts` | CUMPLIDO |
 | REQ-3421 | Cancelación del cliente dentro del corte | NUEVO | `src/octo/purchase.ts`, `src/app/api/bigbus/cancelar/route.ts` | `src/octo/purchase.test.ts` | CUMPLIDO |
 | REQ-3422 | Migración 0029 | NUEVO | `migrations/0029_octo_booking.sql` | — | PENDIENTE (OK del PO) |
@@ -1089,6 +1090,7 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3319 | Cache Rule que respeta el origen, sin caché con cookie de sesión ni 5xx | Gate A | dashboard de Cloudflare | `cf-cache-status: HIT` con curl | REEMPLAZADO por REQ-3498 (Cache Rule sin efecto sobre un Worker) |
 | REQ-3498 | Caché de páginas públicas dentro del Worker (Cache API, 5 min, por idioma, sin RSC) | NUEVO | `src/perf/lib/worker-cache.ts`, `src/perf/worker-cache.ts`, `worker.ts` | `src/perf/lib/worker-cache.test.ts`, `src/perf/worker-cache.test.ts` | EN CURSO (tests y build verdes; falta producción: en *.workers.dev la Cache API no guarda) |
 | REQ-3501 | /tours: viajes de agencias 24 + «Ver más»; catálogo con paginación numerada (gate E) | NUEVO | `src/trips/lib/paging.ts`, `src/components/trips/OwnTripsInTours.tsx`, `src/trips/lib/copy.ts` | `src/trips/lib/paging.test.ts` | CUMPLIDO (PR #494, bcae9d91; medición en el PR #497) — REQ-3529 |
+| REQ-3501 | /tours: viajes de agencias 24 + «Ver más»; catálogo con paginación numerada (gate E) | NUEVO | `src/trips/lib/paging.ts`, `src/components/trips/OwnTripsInTours.tsx`, `src/trips/lib/copy.ts` | `src/trips/lib/paging.test.ts` | CUMPLIDO (tests verdes; humo PR y producción verdes; revisión 390/1366 en preview #494; producción 12 nov: HTML /tours 745 KB (antes 1.33 MB), peso total móvil 1,055 KiB, LCP móvil 5.0 s → REQ-1560 sigue NO CUMPLIDO) |
 | REQ-3509 | Botón de filtros «Ver N experiencias» en 6 idiomas (taxonomía; reemplaza el texto de REQ-056) | NUEVO | `src/tours/lib/filters-copy.ts` | `src/tours/lib/filters-copy.test.ts` | CUMPLIDO |
 | REQ-3320 | Purga al publicar y al guardar un viaje | Gate D | workflow de deploy, gestor | — | PENDIENTE (token del PO) |
 | REQ-3489 | /tours no cae por los códigos de país de los viajes (INC-013) | PO 12-11 | `src/tours/lib/page-fallbacks.ts`, `src/app/tours/page.tsx` | `src/tours/lib/page-fallbacks.test.ts` | CUMPLIDO |
@@ -1099,7 +1101,7 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3495 | Ruta de la salida según la versión de Freetour (2.2: /events/{id}) | PO 12-11 | `src/freetour/lib/event-path.ts`, `src/app/api/freetour/booking/route.ts` | `src/freetour/lib/event-path.test.ts` | CUMPLIDO |
-| REQ-3496 | FREETOUR_API_VERSION="2.2" en el Worker | PO 12-11 | `wrangler.jsonc` | prueba de humo en preview | EN CURSO |
+| REQ-3496 | FREETOUR_API_VERSION="2.2" en el Worker | PO 12-11 | `wrangler.jsonc` | humo PR #479 + publicación 9c24be7 + reserva y cancelación reales (ref 6782-20261113174614-281) | CUMPLIDO |
 | REQ-3373 | México nunca entra al catálogo de Tangol; el resto de Sudamérica sí | PO 11-11 (REQ-1554) | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
 | REQ-3374 | Perú y Colombia: solo ciudades sin viajes de Inca World / Destino Colombia (una regla por país, cobertura en datos) | PO 11-11 (REQ-1554, REQ-1559); reemplaza REQ-1570 y REQ-1571 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |
 | REQ-3375 | El cruce de nombres de ciudad reutiliza `tripCityMatch` (REQ-1606) y la cobertura de hoy sale de `imports/` | REQ-1606 | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (test con los datos reales de `imports/` verde; falta merge del PO) |
@@ -1159,18 +1161,17 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3526 | La tarjeta de viaje (`TripCard`) lleva su moneda y el primer punto de encuentro válido (`mapPoint`); la caché de tarjetas sube a v11 | PO 13-11 | `src/map/lib/coords.ts`, `src/trips/public-load.ts` | `src/map/lib/coords.test.ts`, `src/trips/public-load.map-point.test.ts` | CUMPLIDO (tests verdes; falta humo en preview y merge del PO) |
 | REQ-3527 | El mapa de /tours pinta los viajes de cualquier proveedor que coinciden con los filtros (página 1), con precio Desde o «Cotizar» y enlace a su ficha | PO 13-11 | `src/tours/lib/map-pins.ts`, `src/components/tours/ToursMap.tsx`, `src/components/tours/ToursPageClient.tsx`, `src/lib/translations/{es,en}.ts` | `src/tours/lib/map-pins.test.ts`, `src/destinations/lib/pieza-libre-copy.test.ts` | CUMPLIDO (tests verdes; falta humo en preview y merge del PO) |
 | REQ-3528 | Catálogo único automático: proveedor, agencia o tipo nuevos salen en el mapa sin tocar código (contrato por tipo y proveedor inventado) | PO 13-11 | `src/tours/lib/map-pins.ts` | `src/tours/lib/map-pins.test.ts` | CUMPLIDO (tests verdes; falta humo en preview y merge del PO) |
+| REQ-3506 | `TANGOL_ENABLED` encendida (gate C deja ver a Tangol; regreso = `"false"`, sin tocar datos) | NUEVO | `wrangler.jsonc`, `src/tangol/sync-workflow.test.ts`, `.github/workflows/tangol-sync.yml` (comentario), `src/scripts/tangol-sync.ts` (comentario) | `src/catalog/flag-tangol.test.ts` | EN CURSO (PR abierto, sin fusionar) |
+| REQ-3507 | Humo con la bandera encendida: destinos de Tangol + fichas descubiertas | NUEVO | `tests/smoke/pages.json` | `src/catalog/flag-tangol.test.ts` | EN CURSO (humo con datos y capturas NO CUMPLIDO) |
 
 ## Corrección de estados tras la revisión de 12 h (PO, 13 nov 2026; frente #511) — matriz de trazabilidad
-
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-3529 | Corregir los estados desfasados que encontró la revisión de 12 h | PO 13-11 | `docs/requisitos.md`, `STATUS.md` | `src/ops/requisitos-evidencia.test.ts` | CUMPLIDO (13 folios corregidos; pruebas verdes en la sesión) |
 | REQ-3530 | Guarda: ningún REQ de código queda CUMPLIDO sin prueba que lo cite ni evidencia declarada | agente 13-11 | `src/ops/lib/requisitos-evidencia.ts` | `src/ops/requisitos-evidencia.test.ts` | CUMPLIDO (5 pruebas verdes; roja antes del arreglo con 9 folios) |
 | REQ-3531 | ¿La revisión de estatus se baja a 6 h (REQ-1343) o se queda en 12 h (REQ-1622)? | PO 7-11 | — | — | PENDIENTE (decisión del PO) |
 | REQ-3532 | ¿El OK visual de REQ-3341 aplica a los 19 PR o solo a los que cambian algo visible? | PO 12-11 | — | — | PENDIENTE (decisión del PO) |
-
 ## INC-015: el middleware no disfraza un fallo de D1 (PO, 13 nov 2026; frente #524) — matriz de trazabilidad
-
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-3541 | Qué responder cuando D1 falla en una URL vieja: «503 solo en URLs viejas» | PO 13-11 | `docs/requisitos.md` | — | DECIDIDO (respuesta literal del PO) |

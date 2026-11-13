@@ -38,6 +38,6 @@ describe("requestRef y estados", () => {
     expect(requestRef(new Date("2026-11-03T20:00:00Z"), "ab12cd")).toBe("SOL-20261103-AB12");
   });
   it("estados del panel", () => {
-    expect(REQUEST_STATUSES).toEqual(["new", "contacted", "quoted", "paid", "closed"]); // REQ-117: "paid" del webhook
+    expect(REQUEST_STATUSES).toEqual(["new", "contacted", "quoted", "held", "paid", "closed"]); // REQ-117: "paid" del webhook; REQ-3482: "held" = tarjeta retenida
   });
 });

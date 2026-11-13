@@ -74,3 +74,22 @@ describe("isStripeEnabled", () => {
     expect(isStripeEnabled("TRUE")).toBe(false);
   });
 });
+
+describe("buildCheckoutParams con retención", () => {
+  const input = { paymentId: "pay_1", requestId: "req_1", ref: "TP-ABC", tripTitle: "Machu Picchu 2D", kind: "total" as const, centavos: 150000, email: "ana@example.com", siteUrl: "https://travelpuzzle.com.mx", expiresAt: 1800000000 };
+  it("REQ-3482: manualCapture retiene en la tarjeta sin cobrar (capture_method manual) y marca la sesión", () => {
+    const p = buildCheckoutParams({ ...input, manualCapture: true });
+    expect(p["payment_intent_data[capture_method]"]).toBe("manual");
+    expect(p["metadata[hold]"]).toBe("1");
+    expect(p["payment_intent_data[metadata][hold]"]).toBe("1");
+    expect(p["line_items[0][price_data][product_data][name]"]).toContain("Retención");
+    expect(p["line_items[0][price_data][unit_amount]"]).toBe("150000");
+    expect(p.success_url).toBe("https://travelpuzzle.com.mx/viajes/gracias?folio=TP-ABC");
+  });
+  it("REQ-3482: sin manualCapture el cobro es el de siempre", () => {
+    const p = buildCheckoutParams(input);
+    expect(p["payment_intent_data[capture_method]"]).toBeUndefined();
+    expect(p["metadata[hold]"]).toBeUndefined();
+    expect(p["line_items[0][price_data][product_data][name]"]).not.toContain("Retención");
+  });
+});
