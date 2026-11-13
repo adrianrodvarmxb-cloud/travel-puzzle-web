@@ -105,6 +105,32 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
     expect(d.prepare(`SELECT COUNT(*) AS n FROM "TaxonomyRun" WHERE "status"='published'`).all()).toEqual([{ n: 5 }]);
     expect(d.prepare(`SELECT COUNT(DISTINCT "runId") AS n FROM "ExperienceTaxonomy"`).all()).toEqual([{ n: 3 }]);
   });
+  it("REQ-3511: una corrida abortada también poda: sus filas no se quedan en ExperienceTaxonomy (INC-015)", async () => {
+    const d = db();
+    for (let i = 0; i < 30; i++) {
+      d.prepare(`INSERT INTO "Tour"("id","categoryId","priceValue","durationMinutes","isActive","guideLanguages","rating","reviewsNumber","contentHash","cityId") VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
+      d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", "");
+    }
+    await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
+    d.exec(`UPDATE "Tour" SET "categoryId"=19 WHERE "id" LIKE 'w%'`);
+    const last = (await fullRun(d, "2026-11-07T06:00:00.000Z", { batch: 50, lastSyncAt: "2026-11-07T05:00:00.000Z" })).at(-1)!;
+    expect(last.action).toBe("abort");
+    const aborted = d.prepare(`SELECT "id" FROM "TaxonomyRun" WHERE "status"='aborted'`).all() as { id: string }[];
+    expect(d.prepare(`SELECT COUNT(*) AS n FROM "ExperienceTaxonomy" WHERE "runId"=?`).all(aborted[0].id)).toEqual([{ n: 0 }]);
+    expect(d.prepare(`SELECT COUNT(DISTINCT "runId") AS n FROM "ExperienceTaxonomy"`).all()).toEqual([{ n: 1 }]); // la publicada se queda
+  });
+  it("REQ-3511: la poda va por tandas: borra a lo más el límite y dice cuántas filas borró", async () => {
+    const d = db();
+    for (const day of ["01", "02", "03", "04"]) await fullRun(d, `2026-11-${day}T06:00:00.000Z`, { lastSyncAt: `2026-11-${day}T05:00:00.000Z`, batch: 50 });
+    // Simula la base de producción: filas de corridas viejas que la poda de una sola sentencia nunca alcanzó a borrar.
+    d.exec(`INSERT INTO "TaxonomyRun"("id","startedAt","mappingVersion","status","finishedAt") VALUES ('viejo','2026-10-01T00:00:00.000Z','v','aborted','2026-10-01T00:20:00.000Z')`);
+    for (let i = 0; i < 7; i++) d.prepare(`INSERT INTO "ExperienceTaxonomy" VALUES ('tour',?,'formato','tour','r','v','viejo','2026-10-01')`).run(`x${i}`);
+    const repo = createTaxonomyRepo(asD1(d));
+    expect(await repo.prune(3, 5)).toBe(5);
+    expect(await repo.prune(3, 5)).toBe(2);
+    expect(await repo.prune(3, 5)).toBe(0);
+    expect(d.prepare(`SELECT COUNT(DISTINCT "runId") AS n FROM "ExperienceTaxonomy"`).all()).toEqual([{ n: 3 }]);
+  });
   it("REQ-409 si cambia el diccionario o un mapeo, la corrida en curso se reemplaza", async () => {
     const d = db();
     await step(d, "2026-11-06T06:00:00.000Z");
