@@ -1934,3 +1934,4 @@ REQ-3519	feat/tangol-copia-en-sync	2026-11-13 09:59
 REQ-3520	feat/mila-acceso-catalogo	2026-11-13 14:37	REQ-3355 opción A (PO 13 nov): definición, carga de condiciones y aplicar 0030
 REQ-3521	feat/mila-acceso-catalogo	2026-11-13 14:37	REQ-3355 opción A (PO 13 nov): definición, carga de condiciones y aplicar 0030
 REQ-3522	feat/mila-acceso-catalogo	2026-11-13 14:37	REQ-3355 opción A (PO 13 nov): definición, carga de condiciones y aplicar 0030
+REQ-3523	feat/constancia-pago	2026-11-13 14:38	constancia de contratación en el correo de pago (REQ-3388)
