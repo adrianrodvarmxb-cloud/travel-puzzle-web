@@ -93,8 +93,8 @@ describe("REQ-1257 las cachés que guardan el formato cambian de llave con la re
   it("REQ-1257 índice del catálogo, lista de /tours, API, viajes, /destinos e inicio", async () => {
     const { readFileSync } = await import("node:fs");
     const has = (f: string, s: string) => expect(readFileSync(f, "utf8"), f).toContain(s);
-    has("src/catalog/snapshot.ts", "v: 5"); // REQ-1260
-    has("src/actions/tours.ts", "v: 'tipos-1260'");
+    has("src/catalog/snapshot.ts", "v: 6"); // REQ-1260; REQ-1421: v6 = temas y atributos
+    has("src/actions/tours.ts", "v: 'temas-1421'"); // REQ-1421
     has("src/app/api/tours/route.ts", "v: 'tipos-1260'");
     has("src/trips/public-load.ts", 'v: "10"');
     has("src/destinations/server.ts", 'v: "10" /* REQ-1359');

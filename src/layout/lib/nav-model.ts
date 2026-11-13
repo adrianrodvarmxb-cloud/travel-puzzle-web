@@ -57,6 +57,9 @@ const LABELS: Record<string, { howItWorks: string; help: string; whatsapp: strin
   en: { howItWorks: "How it works", help: "Help center", whatsapp: "WhatsApp" },
 };
 
+/** REQ-3458: el enlace a «La Primera Pieza» en el pie queda oculto, no borrado. */
+export const FOOTER_PRIMERA_PIEZA = false;
+
 /** REQ-1400: pie por columnas. Las páginas institucionales solo aparecen con su bandera encendida. */
 export function footerColumns(o: FooterOptions): FooterColumn[] {
   const t = TITLES[o.lang] ?? TITLES.en;
@@ -68,7 +71,8 @@ export function footerColumns(o: FooterOptions): FooterColumn[] {
     { href: "/tours", label: o.labels.tours },
     ...(o.transfers ? [{ href: "/traslados", label: o.labels.transfers }] : []),
     { href: "/#como-funciona", label: l.howItWorks },
-    ...(o.primeraPieza ? [{ href: ROUTES.primeraPieza, label: PRIMERA_PIEZA_LABEL }] : []),
+    // REQ-3458: «La Primera Pieza» fuera del pie (PO, 12 nov 2026). Regreso: FOOTER_PRIMERA_PIEZA = true.
+    ...(o.primeraPieza && FOOTER_PRIMERA_PIEZA ? [{ href: ROUTES.primeraPieza, label: PRIMERA_PIEZA_LABEL }] : []),
   ];
 
   const company: NavLink[] = [];

@@ -21,6 +21,8 @@ export const VOLATILE_FIELDS: Record<string, readonly string[]> = {
   extime: [],
   exoticescapes: [],
   bigbus: [],
+  // REQ-3415: catálogo de Big Bus por la API Ventrata OCTO (copia exacta de cada producto; sin volátiles conocidos).
+  "bigbus-octo": [],
   incaworld: [],
   destinocolombia: [],
   fantasticachina: [],

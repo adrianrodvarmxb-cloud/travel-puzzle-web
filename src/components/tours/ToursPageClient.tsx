@@ -352,9 +352,13 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N actividades")
+    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N experiencias")
     // T4 (REQ-412): conteos por formato = catálogo (del servidor) + viajes propios con los mismos filtros salvo el formato.
     const formatCounts: Record<string, number> | null = taxonomy ? { ...((currentToursData as { facets?: { formato: Record<string, number> } } | undefined)?.facets?.formato ?? {}) } : null;
+    // REQ-1421 / REQ-1422: conteos de tema y atributo del servidor (los viajes propios no suman: aún no los traen).
+    const facets = (currentToursData as { facets?: { tema?: Record<string, number>; atrib?: Record<string, number> } } | undefined)?.facets;
+    const temaCounts = taxonomy ? facets?.tema ?? {} : null;
+    const atribCounts = taxonomy ? facets?.atrib ?? {} : null;
     if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
         if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
     }
@@ -410,7 +414,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters formatDefs={formatDefs} mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters formatDefs={formatDefs} mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} temaCounts={temaCounts} atribCounts={atribCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 

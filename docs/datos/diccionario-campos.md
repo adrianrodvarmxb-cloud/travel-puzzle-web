@@ -42,6 +42,7 @@ Transformación: `src/catalog/lib/tour-rows.ts` (`toTourRows`). Volátiles fuera
 | Taxonomía: temas | `categoryId` + `title`/`brief` | Temas de la categoría y palabras del diccionario |
 | Taxonomía: atributos | `categoryId`, `title`, `guideLanguages` (eventos), `rating`/`reviewsNumber` | `classifyAtributos()` |
 
+
 ## tangol (API por la pasarela firmada; ola 2 de `docs/plan-tangol.md`)
 
 Copia exacta: `src/ingest/lib/tangol-raw.ts` (REQ-3472) e índice `ProviderRecord` con `provider='tangol'` (REQ-3473).
@@ -66,6 +67,18 @@ Volátiles fuera de la huella: **ninguno**. Tangol no manda marca de tiempo del 
 | `ProviderRecord.originalField` / `originalCategory` | `TypeCode` | Denominación original del proveedor (REQ-753), para la reclasificación con linaje |
 | `ProviderRecord.schemaOk` | (todo el registro) | 0 si no pasa el esquema del sitio; el registro se guarda igual (la copia no se filtra) |
 | — (solo copia exacta) | `Utilidad`, `NetRate*`, `UrlTour`, cualquier campo extra | Nunca se publican; quedan en la copia privada |
+
+## Big Bus por API Ventrata OCTO (`bigbus-octo`, `GET /products`)
+
+REQ-3413 a REQ-3415. Proveedor `bigbus-octo` (distinto de `bigbus`, que es la carga por archivo de las 29 ciudades).
+
+| Campo de Travel Puzzle | Campo OCTO | Nota |
+|---|---|---|
+| `ProviderRecord.externalId` | `id` del producto | Huella sin volátiles conocidos |
+| Ciudad (ref de `imports/bigbus-2026.json`) | `internalName` + `reference` | Mapa curado `src/octo/data/bigbus-ciudades.json`; sin coincidencia única no se liga |
+| Opción y personas | `options[].id`, `options[].units[]` (`type`, `restrictions.minAge/maxAge`) | |
+| Precio al cliente | `pricingFrom[].retail` / `pricing.retail` (unidades menores, `currencyPrecision`) | El `net` solo va al archivo privado, nunca al plan ni a la ficha |
+| Se vende directo | Producto presente en la API y con precio en todas sus unidades | Lo que no venga es exclusivo de su web (REQ-1607) |
 
 ## Agencias por archivo (`imports/*.json` → `Trip`)
 
