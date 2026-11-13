@@ -1168,3 +1168,13 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3530 | Guarda: ningún REQ de código queda CUMPLIDO sin prueba que lo cite ni evidencia declarada | agente 13-11 | `src/ops/lib/requisitos-evidencia.ts` | `src/ops/requisitos-evidencia.test.ts` | CUMPLIDO (5 pruebas verdes; roja antes del arreglo con 9 folios) |
 | REQ-3531 | ¿La revisión de estatus se baja a 6 h (REQ-1343) o se queda en 12 h (REQ-1622)? | PO 7-11 | — | — | PENDIENTE (decisión del PO) |
 | REQ-3532 | ¿El OK visual de REQ-3341 aplica a los 19 PR o solo a los que cambian algo visible? | PO 12-11 | — | — | PENDIENTE (decisión del PO) |
+
+## INC-015: el middleware no disfraza un fallo de D1 (PO, 13 nov 2026; frente #524) — matriz de trazabilidad
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3541 | Qué responder cuando D1 falla en una URL vieja: «503 solo en URLs viejas» | PO 13-11 | `docs/requisitos.md` | — | DECIDIDO (respuesta literal del PO) |
+| REQ-3540 | Un fallo de D1 no es «no existe»: reintento y 503 con Retry-After en las URL viejas; las páginas reales siguen sirviéndose | PO 13-11 (INC-015) | `src/destinations/lib/fallo-de-base.ts`, `src/destinations/edge.ts`, `src/destinations/middleware.ts` | `src/destinations/lib/fallo-de-base.test.ts`, `src/destinations/fallo-de-base-edge.test.ts` | CUMPLIDO (rojo → verde en la sesión; 14 pruebas) |
+| REQ-3531 | La revisión de estatus se queda en 12 h | PO 13-11 | `docs/requisitos.md` | — | DECIDIDO («Dejarla en 12 h»); REQ-1343 REEMPLAZADO |
+| REQ-3532 | Se quita el OK visual por PR; la evidencia es el humo con navegador real | PO 13-11 | `docs/requisitos.md` | — | DECIDIDO («Ninguno, basta el humo verde»); REQ-3341 REEMPLAZADO |
+| REQ-3431 | /asesores se enlaza en el pie, columna de la empresa, junto a Contacto | PO 13-11 | PR #443 | — | DECIDIDO («En el pie, junto a Contacto»); el PR #443 se puede fusionar tal cual |
