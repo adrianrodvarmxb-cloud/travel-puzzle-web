@@ -11,6 +11,9 @@ import type { ClassifyInput, ClassifyResult } from "./types";
 export const TAXONOMY_BATCH = 500;
 /** Corridas publicadas que se conservan (las anteriores se podan; nunca datos del proveedor). */
 export const KEEP_TAXONOMY_RUNS = 3;
+/** REQ-3511 (INC-015): filas por sentencia de poda y tandas máximas al cerrar una corrida (~50 mil filas por corrida). */
+export const PRUNE_BATCH = 20000;
+export const PRUNE_MAX_ROUNDS = 5;
 /** Barrera (plan §6.1): se aborta si más de 20 % queda sin formato o si un formato cae más de 30 %. */
 export const MAX_UNCLASSIFIED_PCT = 20;
 export const MAX_FORMAT_DROP_PCT = 30;

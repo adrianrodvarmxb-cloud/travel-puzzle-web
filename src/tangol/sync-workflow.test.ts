@@ -50,3 +50,41 @@ describe("REQ-3464: workflow «Tangol sync de tours (a mano)»", () => {
     expect(wf).toMatch(/UNIQUE/);
   });
 });
+
+describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al escribir", () => {
+  const pasos = wf.split(/\n {6}- /).slice(1);
+  const paso = (nombre: string) => pasos.find((p) => p.split("\n")[0].includes(nombre)) ?? "";
+
+  it("REQ-3519: el export de solo lectura trae lo que ya está archivado de Tangol", () => {
+    expect(paso("Export de D1")).toMatch(/FROM "ProviderRecord" WHERE "provider" = '"'"'tangol'"'"'[\s\S]*provider-record\.json/);
+  });
+
+  it("REQ-3519: solo el plan de escritura arma la copia, en una carpeta FUERA del artefacto público", () => {
+    expect(paso("Plan de escritura")).toMatch(/--copia tmp\/tangol-copia/);
+    expect(paso("Ensayo")).not.toMatch(/--copia/);
+    expect(wf).toMatch(/path: tmp\/tangol-salida/);
+    expect(wf).not.toMatch(/path: tmp\/tangol-copia/);
+  });
+
+  it("REQ-3519: sube los objetos al bucket PRIVADO y aplica el índice solo si la subida salió bien", () => {
+    const subir = paso("Copia exacta a R2");
+    expect(subir).toMatch(/if: \$\{\{ inputs\.escribir \}\}/);
+    expect(subir).toMatch(/r2 object put "travel-puzzle-raw\//);
+    expect(subir).toMatch(/--remote/);
+    expect(subir).toMatch(/continue-on-error: true/);
+    const indice = paso("Índice de la copia");
+    expect(indice).toMatch(/if: \$\{\{ inputs\.escribir \}\}/);
+    expect(indice).toMatch(/COPIA: \$\{\{ steps\.copia\.outcome \}\}/);
+    expect(indice).toMatch(/\[ "\$COPIA" = "success" \]/);
+    expect(indice).toMatch(/provider-record\.sql/);
+    expect(pasos.indexOf(subir)).toBeLessThan(pasos.indexOf(paso("Escribir en D1")));
+  });
+});
+
+// REQ-3536: la carga real con lotes de 60 destinos necesita más de 30 min (corrida 43466215988 cancelada en la copia a R2).
+describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos", () => {
+  it("REQ-3536: timeout-minutes de al menos 120", () => {
+    const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+    expect(Number(y.match(/timeout-minutes:\s*(\d+)/)?.[1])).toBeGreaterThanOrEqual(120);
+  });
+});

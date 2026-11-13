@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseCoords } from "./coords";
+import { parseCoords, firstPoint } from "./coords";
 
 describe("coordenadas del punto de encuentro", () => {
   it("lee 'lat,lng'", () => {
@@ -11,5 +11,17 @@ describe("coordenadas del punto de encuentro", () => {
   });
   it("descarta vacías, inválidas o en 0,0", () => {
     for (const v of [null, undefined, "", "abc", "91,200", "0,0", "12", "12,"]) expect(parseCoords(v)).toBeNull();
+  });
+});
+
+describe("REQ-3526: primer punto de encuentro válido de un viaje", () => {
+  it("REQ-3526: toma el primer punto con lat y lng en rango", () => {
+    expect(firstPoint([{ lat: null, lng: null }, { lat: 4.7016, lng: -74.1469 }, { lat: 10, lng: 10 }])).toEqual({ lat: 4.7016, lng: -74.1469 });
+  });
+  it("REQ-3526: descarta 0,0, fuera de rango, nulos y listas vacías o ausentes", () => {
+    expect(firstPoint([{ lat: 0, lng: 0 }, { lat: 91, lng: 10 }, { lat: 10, lng: 181 }, { lat: null, lng: 5 }])).toBeNull();
+    expect(firstPoint([])).toBeNull();
+    expect(firstPoint(undefined)).toBeNull();
+    expect(firstPoint(null)).toBeNull();
   });
 });

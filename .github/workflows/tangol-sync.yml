@@ -34,7 +34,9 @@ env:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # REQ-3536 (INC-015 / carga real): con 60 destinos el plan tarda ~19 min y la copia a R2 (2,756 objetos) ~15; 30 min cortaba la
+    # corrida 43466215988 antes de escribir. El job no toca D1 hasta el paso «Escribir en D1», así que un corte largo no deja nada a medias.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -84,6 +86,9 @@ jobs:
             --command 'SELECT c."id", c."countryId", c."translations", c."slug", c."stateCode", c."geonameid", co."iso2" FROM "City" c JOIN "Country" co ON co."id" = c."countryId"' > tmp/tangol-export/cities.json
           npx wrangler d1 execute travel-puzzle --remote --json \
             --command 'SELECT "status", "nextPage", "totalPages", "runStartedAt" FROM "SyncMetadata" WHERE "provider" = '"'"'tangol'"'"'' > tmp/tangol-export/sync.json
+          # REQ-3519: lo que ya está en la copia exacta de Tangol (para no reescribir lo que no cambió).
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "externalId", "rawHash", "lastSeenAt" FROM "ProviderRecord" WHERE "provider" = '"'"'tangol'"'"'' > tmp/tangol-export/provider-record.json
 
       - name: Ensayo (cuenta y reporta; no escribe)
         if: ${{ !inputs.escribir }}
@@ -99,7 +104,8 @@ jobs:
           TANGOL_SYNC_ENABLED: "true"
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
-        run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
+        # REQ-3519: --copia arma la copia exacta (con el neto) en tmp/tangol-copia, FUERA del artefacto público.
+        run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir --copia tmp/tangol-copia ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -113,6 +119,32 @@ jobs:
           bookmark=$(jq -r '.bookmark' tmp/time-travel.json)
           [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
           echo "Instante $(date -u +%Y-%m-%dT%H:%M:%SZ) · bookmark \`$bookmark\` (regreso: wrangler d1 time-travel restore travel-puzzle --bookmark=$bookmark)" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # REQ-3519: la copia exacta va al bucket R2 PRIVADO travel-puzzle-raw ANTES de escribir el catálogo
+      # (primero se guarda, luego se reclasifica). Si la subida falla, el catálogo se escribe igual (REQ-744)
+      # y el índice no se aplica: la siguiente corrida vuelve a intentar lo que falte.
+      - name: Copia exacta a R2 privado
+        id: copia
+        if: ${{ inputs.escribir }}
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          n=$(grep -c . tmp/tangol-copia/llaves.txt || true)
+          echo "Copia exacta: $n objeto(s) nuevos a travel-puzzle-raw" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$n" -gt 0 ] || exit 0
+          grep . tmp/tangol-copia/llaves.txt | xargs -P 8 -I{} ./node_modules/.bin/wrangler r2 object put "travel-puzzle-raw/{}" \
+            --file "tmp/tangol-copia/objetos/{}" --content-type application/json --remote > tmp/tangol-copia/subida.log 2>&1 \
+            || { tail -20 tmp/tangol-copia/subida.log; exit 1; }
+
+      - name: Índice de la copia (ProviderRecord)
+        if: ${{ inputs.escribir }}
+        env:
+          COPIA: ${{ steps.copia.outcome }}
+        run: |
+          set -euo pipefail
+          [ "$COPIA" = "success" ] || { echo "::warning::La copia exacta no se subió completa; el índice no se aplica." | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
+          [ -s tmp/tangol-copia/provider-record.sql ] || { echo "Índice: nada nuevo."; exit 0; }
+          npx wrangler d1 execute travel-puzzle --remote --file tmp/tangol-copia/provider-record.sql
 
       - name: Escribir en D1
         if: ${{ inputs.escribir }}

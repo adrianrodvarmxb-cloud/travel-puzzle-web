@@ -27,6 +27,7 @@ import { summarizeRates } from "./lib/rates";
 import { categoriaIdDeTangol } from "./lib/taxonomia";
 import type { TangolTour } from "./lib/schemas";
 import { TANGOL_PROVIDER_ID, type TangolTourRow } from "./lib/tour-rows";
+import { checkTourCounts, type DestinationCount, type TourCountCheck } from "./lib/tour-count";
 import {
   DESTINATIONS_PER_STEP,
   TANGOL_LANGUAGE,
@@ -96,6 +97,8 @@ export interface TangolSyncReport {
   /** Registros que la validación de Zod tiró en la lista de tours. */
   invalidos: number;
   conteo?: TangolBatchPlan["conteo"];
+  /** REQ-3505: «tours que dice el destino» contra «tours que llegaron en la lista», en este lote. */
+  cuadre?: TourCountCheck;
   paisesNuevos: { id: number; iso2: string }[];
   ciudadesNuevas: { id: number; name: string; countryId: number; slug: string | null; idSource: NewCity["idSource"] }[];
   ciudadesPendientes: { externalId: string; name: string; countryCode: string; reason: string }[];
@@ -111,7 +114,7 @@ export interface TangolSyncReport {
 const msg = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
 /** REQ-3463: un paso del sync de Tangol. Devuelve lo que hizo (o lo que haría, en ensayo). */
-// REQ-3463
+// REQ-3463, REQ-3505
 export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyncReport> {
   const {
     api, repo, now, agencyTrips, ensayo = true, batch = DESTINATIONS_PER_STEP,
@@ -176,12 +179,15 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   const cities = await repo.existingCities();
   const toursPorDestino = new Map<number, TangolTour[]>();
   const tarifas = new Map<number, ReturnType<typeof summarizeRates> | null>();
+  const conteos: DestinationCount[] = [];
   let invalidos = 0;
   for (const destino of lote) {
     try {
       const lista = await api.getTourList({ destinationId: destino.id, languageCode, currency, includeDetails: true });
       invalidos += lista.discarded;
       toursPorDestino.set(destino.id, lista.items);
+      // REQ-3505: lo que dice el destino contra lo que llegó en su lista.
+      conteos.push({ id: destino.id, name: destino.name, declarados: destino.toursQty, recibidos: lista.items.length, invalidos: lista.discarded });
       for (const tour of lista.items) {
         try {
           tarifas.set(tour.tourId, summarizeRates(await api.getTourRates({ tourId: tour.tourId, languageCode: ratesLanguage, currency: ratesCurrency })));
@@ -192,6 +198,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
       }
     } catch (e) {
       toursPorDestino.set(destino.id, []);
+      conteos.push({ id: destino.id, name: destino.name, declarados: destino.toursQty, recibidos: 0, invalidos: 0, fallo: true });
       errores.push({ donde: `tours del destino ${destino.id} (${destino.name})`, error: msg(e) });
     }
   }
@@ -222,6 +229,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
     lote: { from: step.from, to: step.to },
     invalidos,
     conteo: plan.conteo,
+    cuadre: checkTourCounts(conteos),
     paisesNuevos: paisesNuevos.map((p) => ({ id: p.id, iso2: p.iso2 })),
     ciudadesNuevas: plan.cities.nuevas.map((c) => ({ id: c.id, name: c.name, countryId: c.countryId, slug: c.slug, idSource: c.idSource })),
     ciudadesPendientes: plan.cities.pendientes,
