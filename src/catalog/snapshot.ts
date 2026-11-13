@@ -11,7 +11,7 @@ import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from '@/taxonomy/data';
  * cada 30 min por centro de datos; si D1 falla se sirve la copia anterior hasta 1 día.
  */
 const SQL = `
-SELECT t.id, t.cityId, t.countryId, t.categoryId, t.priceValue, t.rating, t.reviewsNumber, t.durationMinutes,
+SELECT t.id, t.providerId, t.cityId, t.countryId, t.categoryId, t.priceValue, t.rating, t.reviewsNumber, t.durationMinutes,
        t.createdAt, t.updatedAt, t.guideLanguages, t.departureDates, t.departuresSyncedAt, tr.title, tr.brief, c.translations AS cityTr, co.translations AS countryTr
 FROM Tour t
 LEFT JOIN TourTranslation tr ON tr.tourId = t.id AND tr.language = ?1
@@ -29,7 +29,7 @@ export function loadCatalog(language: string): Promise<CatalogEntry[]> {
       const classify = catalogClassifier(DEFAULT_DICTIONARY, DEFAULT_MAPPINGS);
       return results.map((r) => {
         const entry = toEntry(r, language);
-        const c = classify({ categoryId: r.categoryId === null ? null : Number(r.categoryId), price: r.priceValue === null ? null : Number(r.priceValue), durationMinutes: r.durationMinutes === null ? null : Number(r.durationMinutes), title: String(r.title ?? ''), cities: cityNamesOf(r.cityTr), languages: entry.languages }); // REQ-1253
+        const c = classify({ providerId: r.providerId == null ? null : String(r.providerId) /* REQ-3502 */, categoryId: r.categoryId === null ? null : Number(r.categoryId), price: r.priceValue === null ? null : Number(r.priceValue), durationMinutes: r.durationMinutes === null ? null : Number(r.durationMinutes), title: String(r.title ?? ''), cities: cityNamesOf(r.cityTr), languages: entry.languages }); // REQ-1253
         return { ...entry, formato: c.formato, ...catalogFacets(c) }; // REQ-1421 / REQ-1422
       });
     }),

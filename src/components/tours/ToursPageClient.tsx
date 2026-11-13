@@ -352,7 +352,7 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N actividades")
+    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N experiencias")
     // T4 (REQ-412): conteos por formato = catálogo (del servidor) + viajes propios con los mismos filtros salvo el formato.
     const formatCounts: Record<string, number> | null = taxonomy ? { ...((currentToursData as { facets?: { formato: Record<string, number> } } | undefined)?.facets?.formato ?? {}) } : null;
     // REQ-1421 / REQ-1422: conteos de tema y atributo del servidor (los viajes propios no suman: aún no los traen).

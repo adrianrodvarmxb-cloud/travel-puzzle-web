@@ -1,0 +1,414 @@
+{
+  "fuente": "REQ-3487, corrida de solo lectura 43303152904 (12 nov 2026): 184 destinos, 0 errores, 2,059 tours, 39 tipos. Sin precios ni datos del proveedor.",
+  "destinos": 184,
+  "toursLeidos": 2059,
+  "tipos": [
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "CLASICAS",
+      "tourType": 2,
+      "tours": 843,
+      "ejemplos": [
+        "Campo De Piedra Pomez",
+        "Salar De Antofalla",
+        "Salar Del Hombre Muerto"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "AVENTURA",
+      "tourType": 2,
+      "tours": 406,
+      "ejemplos": [
+        "Circuito Chico En Mountain Bike",
+        "Alquiler Equipo De Ski",
+        "Alquiler Equipo De Snowboard"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "IN",
+      "tourType": 2,
+      "tours": 160,
+      "ejemplos": [
+        "Traslado Desde Aeropuerto A Hotel Céntrico",
+        "Traslado En Privado Desde Aeropuerto A Hotel Centro De Bariloche",
+        "Traslado Privado Desde Terminal De Bus A Hotel En El Centro De Bariloche"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "OUT",
+      "tourType": 2,
+      "tours": 93,
+      "ejemplos": [
+        "Traslado Desde Hotel Centro De Bariloche Al Aeropuerto",
+        "Traslado Privado Desde Hotel Centro De Bariloche Al Aeropuerto",
+        "Traslado Privado Desde Hotel En El Centro De Bariloche A Terminal De Bus"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "GASTRONOMICO",
+      "tourType": 2,
+      "tours": 92,
+      "ejemplos": [
+        "Visita A Bodega, Destilería Y Chocolatería",
+        "Moto De Nieve Y Cena En La Cueva Catedral",
+        "Cabalgata Con Degustación De Vinos Y Quesos En Bodega El Esteco"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "CLASICOS",
+      "tourType": 2,
+      "tours": 77,
+      "ejemplos": [
+        "3 Dias De Ski En El Cerro Catedral",
+        "Esteros Del Ibera Con Excursiones Y Alojamiento",
+        "Esteros Del Ibera Paquete 2 Noches"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "CLASICOS",
+      "tourType": 1,
+      "tours": 73,
+      "ejemplos": [
+        "Paquete Córdoba Clásica",
+        "Paquete A Calafate Y Ushuaia",
+        "El Chalten Aventura"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "IN/OUT",
+      "tourType": 2,
+      "tours": 45,
+      "ejemplos": [
+        "Transfer Desde El Centro Al Cerro Catedral Ida Y Vuelta",
+        "Traslado Ida Y Vuelta Al Glaciar Perito Moreno",
+        "Traslado Round Trip Aeropuerto Ilheus - Hotel Itacare - Aeropuerto Ilheus"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "ALLINCLUSIVE",
+      "tourType": 1,
+      "tours": 45,
+      "ejemplos": [
+        "Paquete Aventura",
+        "Paquete Clásico",
+        "Paquete Deluxe"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "ESCAPADAS",
+      "tourType": 2,
+      "tours": 44,
+      "ejemplos": [
+        "Experiencia En Alma Del Lago Suites & Spa",
+        "Experiencia Estancia & Bodega Colomé",
+        "Experiencia En Hotel Casino Catamarca"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "TRF",
+      "tourType": 2,
+      "tours": 21,
+      "ejemplos": [
+        "Traslado De Ida Y Vuelta Entre Aeropuerto A Hotel Del Centro De Bariloche",
+        "Traslado Privado Desde Aeropuerto Hasta Hotel En San Fernando Del Valle De Catamarca",
+        "Ruta 40 De Sur A Norte: De El Calafate A Bariloche"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "TRF IN",
+      "tourType": 2,
+      "tours": 20,
+      "ejemplos": [
+        "Ruta 40 De Norte A Sur En Bus",
+        "Traslado Potosí - Uyuni En Bus",
+        "Traslado Uyuni - Potosí En Bus"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "ATRACCIONES",
+      "tourType": 2,
+      "tours": 18,
+      "ejemplos": [
+        "Experiencia En Quilmes, Amaicha Y Tafi Del Valle",
+        "Excursión En Fiambalá, Termas Y Ruta Del Adobe",
+        "Glaciar Perito Moreno En Privado"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "WALKINGTOURS",
+      "tourType": 2,
+      "tours": 17,
+      "ejemplos": [
+        "Tour De Bossa Nova A Pie",
+        "Tour A Pie Por El Centro Histórico",
+        "Bike Tour Mercados Y Vida Local"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "TRFOUTBUS",
+      "tourType": 2,
+      "tours": 14,
+      "ejemplos": [
+        "Traslado Desde Hotel En El Calafate A Terminal De Buses",
+        "Transfer Out De Salida Hotel Al Terminal De Bus",
+        "Traslado Hotel Centro En Puerto Varas A Terminal De Bus"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "ESTANCIAS",
+      "tourType": 2,
+      "tours": 13,
+      "ejemplos": [
+        "Cabalgata En Estancia Peuma Hue",
+        "Dia De Estancia En Peuma Hue",
+        "El Galpón Del Glaciar - Estancia De La Patagonia"
+      ]
+    },
+    {
+      "typeCode": "TRASLADO",
+      "subTypeCode": "TRFINBUS",
+      "tourType": 2,
+      "tours": 13,
+      "ejemplos": [
+        "Transfer In De Llegada Terminal De Bus Al Hotel",
+        "Bus De Línea Regular Desde Puerto Natales A El Calafate",
+        "Traslado Terminal De Bus A Hotel Centro En Puerto Varas"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "AVENTURA",
+      "tourType": 2,
+      "tours": 8,
+      "ejemplos": [
+        "Semana De Esqui En El Cerro Catedral",
+        "Cabalgata De 2 Días Desde Estancia Nibepo Aike",
+        "Experiencia De 4 Dias Con Ski"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "SHOREEXCURSIONS",
+      "tourType": 2,
+      "tours": 7,
+      "ejemplos": [
+        "Experiencia De Buceo",
+        "Navegación Escénica Puerto Montt – Chaitén",
+        "Islas Ballestas Y Reserva Nacional Desde Puerto San Martin"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "EN TREN",
+      "tourType": 2,
+      "tours": 6,
+      "ejemplos": [
+        "Tren Solar De La Quebrada - Experiencia 180",
+        "Tren A Las Nubes",
+        "Tren Solar De La Quebrada"
+      ]
+    },
+    {
+      "typeCode": "PASES",
+      "subTypeCode": "PASS",
+      "tourType": 2,
+      "tours": 6,
+      "ejemplos": [
+        "Pases De Ski En El Cerro Catedral",
+        "Entrada Al Parque Nacional Iguazú",
+        "Tren Del Fin Del Mundo"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "SELF-DRIVE",
+      "tourType": 2,
+      "tours": 6,
+      "ejemplos": [
+        "Viaje Por Bariloche En Auto",
+        "Viaje En Auto Por La Patagonia Argentina Y Chilena",
+        "Viaje Por Iguazu En Auto"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "HELICOPTERO",
+      "tourType": 2,
+      "tours": 5,
+      "ejemplos": [
+        "Sobrevuelo Helicoptero Con Traslados",
+        "Sobrevuelo En Helicoptero",
+        "Vuelo En Helicóptero Cañón Del Chicamocha"
+      ]
+    },
+    {
+      "typeCode": "SHOW",
+      "subTypeCode": "SHOW",
+      "tourType": 2,
+      "tours": 4,
+      "ejemplos": [
+        "Cena Show Polinesico Rapa Nui",
+        "Cirque Du Soleil",
+        "Coco Bongo"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "ALLINCLUSIVE",
+      "tourType": 2,
+      "tours": 3,
+      "ejemplos": [
+        "Selva Misionera 3 Dias 2 Noches",
+        "Selva Misionera 4 Dias 3 Noches",
+        "Programa Full Day Antártica - 5 Días Y 4 Noches"
+      ]
+    },
+    {
+      "typeCode": "CLASES",
+      "subTypeCode": "CLASES POR HORA",
+      "tourType": 2,
+      "tours": 2,
+      "ejemplos": [
+        "Paddleboard Al Atardecer En La Bahía",
+        "Wakeboard En La Bahía"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "CLASICAS",
+      "tourType": 1,
+      "tours": 2,
+      "ejemplos": [
+        "Promo: Corcovado Con City Tour + Pao De Açucar Con Playas",
+        "Promo Cristo Y Pan De Azucar + Samba En Vivo"
+      ]
+    },
+    {
+      "typeCode": "PASES",
+      "subTypeCode": "TKTBUS",
+      "tourType": 2,
+      "tours": 2,
+      "ejemplos": [
+        "Ruta 40 - Bariloche / El Chalten / El Calafate",
+        "Ruta 40 - El Calafate / Bariloche"
+      ]
+    },
+    {
+      "typeCode": "SHOW",
+      "subTypeCode": "TANGO",
+      "tourType": 2,
+      "tours": 2,
+      "ejemplos": [
+        "Madero Tango Iguazú",
+        "Cena Show Primuseum Con Traslado - Montevideo"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "FESTIVALES",
+      "tourType": 2,
+      "tours": 2,
+      "ejemplos": [
+        "Festa Do Peão De Barretos",
+        "Tomorrowland Brasil"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "ESCAPADAS",
+      "tourType": 1,
+      "tours": 2,
+      "ejemplos": [
+        "Caribe Express",
+        "Escapada Romántica"
+      ]
+    },
+    {
+      "typeCode": "ALQUILERES",
+      "subTypeCode": "ALQUILER POR HORA",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Alquiler De Scooter"
+      ]
+    },
+    {
+      "typeCode": "ALQUILERES",
+      "subTypeCode": "ALQUILERDEAUTO",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Alquiler De Buggy Playero"
+      ]
+    },
+    {
+      "typeCode": "CLASES",
+      "subTypeCode": "CLASES DE SAMBA",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Clase De Samba Brasileña"
+      ]
+    },
+    {
+      "typeCode": "CRUCERO",
+      "subTypeCode": "CRUCERO",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Exploración Clásica De La Antártida En Air-Cruise – 8 Días A Bordo Del Magellan Explorer"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "[METHOD ERROR 504]",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Mountain Bike Cuesta Del Obispo"
+      ]
+    },
+    {
+      "typeCode": "EXCURSION",
+      "subTypeCode": "WALKINGTOURS",
+      "tourType": 1,
+      "tours": 1,
+      "ejemplos": [
+        "Promo: 4 Wonders Jeep Tour + Walking Tour En El Centro Historico"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "FLYDRIVE",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Self Drive: El Calafate, El Chalten Y Torres Del Paine"
+      ]
+    },
+    {
+      "typeCode": "VIAJES",
+      "subTypeCode": "GLAMPING",
+      "tourType": 2,
+      "tours": 1,
+      "ejemplos": [
+        "Experiencia Glamping Con Trekking A La Laguna De Los Tres"
+      ]
+    }
+  ]
+}
