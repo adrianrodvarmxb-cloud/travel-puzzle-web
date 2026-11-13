@@ -1124,3 +1124,4 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3357 | Verificación por número o folio + correo | NUEVO | src/agente/lib/cliente.ts | src/agente/lib/cliente.test.ts | EN CURSO (verde; falta el lado de Mila) |
 | REQ-3355 | Condiciones del anexo de proveedores | NUEVO | — | — | BLOQUEADO (Proveedor ya en producción, sin columnas de condiciones; definir dónde viven, con REQ-3446) |
 | REQ-3409 | «Agregar a mi calendario» (.ics y liga de Google Calendar) | NUEVO | zoefel-mila src/catalogo/lib/calendario.js | zoefel-mila tests/catalogo/calendario.test.js | EN CURSO (PR #205 de zoefel-mila, 7 verdes; falta formato de entrega) |
+| REQ-3408 | «¿Cómo llego?» el día del tour (ubicación y ruta al punto) | NUEVO | zoefel-mila src/catalogo/lib/comoLlego.js | zoefel-mila tests/catalogo/como-llego.test.js | EN CURSO (PR #206 de zoefel-mila, 7 verdes; falta conectarla) |
