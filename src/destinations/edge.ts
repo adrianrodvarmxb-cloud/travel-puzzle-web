@@ -1,14 +1,16 @@
 /**
  * Decisión del middleware para las URLs de destinos (solo con PRIMERA_PIEZA_ENABLED="true"):
  * 301 desde /tours/{id}, /tours?countryId= y /viajes/{destino}/{slug} cuando ya hay slug; 410 para tours
- * removed; rewrite de /sitemap-tours-{pais}.xml. El repositorio se inyecta. Si D1 falla, no hace nada
- * (la URL sigue funcionando como hoy).
+ * removed; rewrite de /sitemap-tours-{pais}.xml. El repositorio se inyecta.
+ * REQ-3540 (INC-015): si D1 falla, el error sale como `FalloDeBase` y lo decide la raíz (middleware.ts).
+ * Antes se devolvía null y la URL vieja respondía 200 declarándose canónica de sí misma.
  */
 import { planDestinationsRequest } from "./lib/request-plan";
 import { legacyCountryResolution, legacyTourResolution, ownTripResolution, type Resolution } from "./lib/routes";
 import { ownTripPlace } from "./lib/catalog";
 import { goneRewritePath } from "./lib/page-model";
 import type { DestinationsRepo, TourPlaceRow } from "./repository";
+import { FalloDeBase } from "./lib/fallo-de-base";
 
 export type EdgeDecision =
   | { type: "redirect"; status: 301; location: string }
@@ -70,7 +72,7 @@ export async function decideDestinationsRequest(pathname: string, search: URLSea
       }
     }
   } catch (error) {
-    console.error("[destinos] middleware sin decisión (sigue la URL de hoy):", (error as Error).message);
-    return null;
+    // REQ-3540: un fallo de la base no es «no existe» (regla 7). Sale tipado; lo resuelve middleware.ts.
+    throw new FalloDeBase(error);
   }
 }
