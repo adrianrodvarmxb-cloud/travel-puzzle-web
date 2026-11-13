@@ -95,3 +95,29 @@ export function buildHeldTeamEmail(i: PayMailInput, adminUrl: string) {
   const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · retenida`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
   return { subject, html, text };
 }
+
+// REQ-3483
+export function buildReleasedCustomerEmail(i: PayMailInput) {
+  const subject = `Travel Puzzle / Liberamos tu tarjeta · ${i.ref}`;
+  const lead = `Hola ${i.firstName}, no pudimos confirmar tu viaje y liberamos la retención de ${formatMXN(i.centavos)} en tu tarjeta, sin cargo. Tu banco puede tardar unos días en mostrarlo.`;
+  const note = "Si quieres, tu asesor te propone otra fecha u otra opción. Escríbenos cuando quieras.";
+  const s = summary({ ...i, kind: "total" });
+  const body = `<tr><td style="padding:26px 26px 0">
+<h1 style="margin:0 0 8px;font-size:24px;line-height:1.2;color:${UI.N9}">Tu tarjeta quedó libre</h1>
+<p style="font-size:15px;line-height:1.55;color:${UI.N9};margin:0">${esc(lead)}</p>
+${s.html}
+<p style="font-size:12px;color:${B.muted};margin:12px 0 0">${esc(note)}</p>
+</td></tr>`;
+  const text = [subject, "", lead, "", ...s.text, "", note].join("\n");
+  return { subject, html: shell(subject, lead, i.logoUrl, body), text };
+}
+
+// REQ-3483
+export function buildReleasedTeamEmail(i: PayMailInput, adminUrl: string, reason?: string) {
+  const subject = `Retención liberada ${i.ref} · ${formatMXN(i.centavos)}`;
+  const lines = [`Folio: ${i.ref}`, `Viaje: ${i.tripTitle}`, `Monto liberado: ${formatMXN(i.centavos)}`, ...(reason ? [`Motivo: ${reason}`] : []), "", `Panel: ${adminUrl}`];
+  const text = lines.join("\n");
+  const body = `<tr><td style="padding:26px"><h1 style="margin:0 0 10px;font-size:22px;color:${UI.N9}">${esc(subject)}</h1><pre style="font-family:inherit;font-size:14px;line-height:1.6;color:${UI.N9};white-space:pre-wrap;margin:0">${esc(text)}</pre></td></tr>`;
+  const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · liberada`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
+  return { subject, html, text };
+}
