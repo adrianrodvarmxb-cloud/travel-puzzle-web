@@ -20,6 +20,7 @@ const { GET: detalle } = await import("@/app/api/agente/detalle/route");
 const { GET: contenido } = await import("@/app/api/agente/contenido/route");
 const { GET: legal } = await import("@/app/api/agente/legal/route");
 const { GET: cliente } = await import("@/app/api/agente/cliente/route");
+const { GET: condiciones } = await import("@/app/api/agente/condiciones/route");
 
 const LLAVE = "k".repeat(32);
 const req = (url: string, llave: string | null = LLAVE) => new NextRequest(`https://travelpuzzle.com.mx${url}`, { headers: llave ? { authorization: `Bearer ${llave}` } : {} });
@@ -107,5 +108,13 @@ describe("REQ-3356: reservas del titular por la ventana del agente", () => {
     env.AGENTE_CLIENTES_ON = "true";
     expect((await cliente(req("/api/agente/cliente?telefono=5216181129459", null))).status).toBe(401);
     delete env.AGENTE_CLIENTES_ON;
+  });
+});
+
+describe("REQ-3355: condiciones de proveedores por la ventana del agente", () => {
+  it("REQ-3355: con la bandera apagada no existe (404) y sin llave es 401", async () => {
+    expect((await condiciones(req("/api/agente/condiciones", null))).status).toBe(401);
+    env.AGENTE_API_ENABLED = "false";
+    expect((await condiciones(req("/api/agente/condiciones"))).status).toBe(404);
   });
 });
