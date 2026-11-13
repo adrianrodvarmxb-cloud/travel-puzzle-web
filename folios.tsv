@@ -1937,3 +1937,6 @@ REQ-3522	feat/mila-acceso-catalogo	2026-11-13 14:37	REQ-3355 opción A (PO 13 no
 REQ-3523	feat/constancia-pago	2026-11-13 14:38	constancia de contratación en el correo de pago (REQ-3388)
 REQ-3524	feat/mila-acceso-catalogo	2026-11-13 14:54	REQ-3521 fuente de condiciones: PO elige A (13 nov)
 REQ-3525	feat/mila-acceso-catalogo	2026-11-13 14:55	REQ-3521 fuente B: T&C públicos mientras no haya firmas (PO 13 nov)
+REQ-3526	main	2026-11-13 15:45	Mapa /tours: viajes de todos los proveedores
+REQ-3527	main	2026-11-13 15:45	Mapa /tours: viajes de todos los proveedores
+REQ-3528	main	2026-11-13 15:45	Mapa /tours: viajes de todos los proveedores
