@@ -99,3 +99,15 @@ describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos",
     expect(Number(y.match(/timeout-minutes:\s*(\d+)/)?.[1])).toBeGreaterThanOrEqual(120);
   });
 });
+
+// REQ-10509: los tours de Tangol reciben slug en el mismo workflow, después de escribir y antes del humo.
+describe("REQ-10509: paso de slugs faltantes en el sync de Tangol", () => {
+  const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+  it("REQ-10509: existe, solo con escribir=true, y va entre «Escribir en D1» y el humo", () => {
+    const i = y.indexOf("name: Escribir en D1"), s = y.indexOf("name: Slugs faltantes de Tangol"), h = y.indexOf("name: Prueba de humo en producción");
+    expect(i).toBeGreaterThan(0); expect(s).toBeGreaterThan(i); expect(h).toBeGreaterThan(s);
+    expect(y.slice(s, h)).toMatch(/if: \$\{\{ inputs\.escribir \}\}/);
+    expect(y.slice(s, h)).toMatch(/tangol-slugs\.ts/);
+    expect(y.slice(s, h)).toMatch(/"slug" IS NULL/);
+  });
+});
