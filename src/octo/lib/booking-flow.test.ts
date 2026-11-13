@@ -35,6 +35,16 @@ describe("entrega al cliente", () => {
     ]);
   });
 
+  it("REQ-3328: si la reserva trae voucher y tickets, solo va el voucher (un método)", () => {
+    const d = deliverables(bk({ deliveryMethods: ["VOUCHER", "TICKET"] }));
+    expect(d.items).toEqual([{ kind: "voucher", qr: "BB-K3RM568F", pdfUrl: "https://example.test/voucher.pdf" }]);
+  });
+
+  it("REQ-3328: si trae los dos pero el voucher no tiene código, van los tickets", () => {
+    const d = deliverables(bk({ deliveryMethods: ["VOUCHER", "TICKET"], voucher: { deliveryOptions: [] } }));
+    expect(d.items.map((i) => i.kind)).toEqual(["ticket", "ticket"]);
+  });
+
   it("REQ-3328: sin confirmar no se entrega nada", () => {
     expect(deliverables(bk({ status: "ON_HOLD" })).items).toEqual([]);
     expect(deliverables(bk({ status: "CANCELLED" })).items).toEqual([]);
