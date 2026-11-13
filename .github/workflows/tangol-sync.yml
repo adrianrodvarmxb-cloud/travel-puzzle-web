@@ -150,6 +150,20 @@ jobs:
         if: ${{ inputs.escribir }}
         run: npx wrangler d1 execute travel-puzzle --remote --file tmp/tangol-salida/tangol.sql
 
+      # REQ-10509: slugs de los tours de Tangol que quedaron sin slug (sin él no salen en /destinos, sitemaps ni en el
+      # árbol de países). Misma regla que Freetour (REQ-086); el UPDATE solo llena los que están en NULL. Corre en toda
+      # corrida con escribir=true, también cuando el catálogo ya está completo (así rellena los de cargas anteriores).
+      - name: Slugs faltantes de Tangol
+        if: ${{ inputs.escribir }}
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "id", "providerId", "externalId", "slug" FROM "Tour" WHERE "slug" IS NOT NULL' > tmp/tangol-export/slugs-existentes.json
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT t."id", t."externalId", es."title" AS "titleEs", en."title" AS "titleEn" FROM "Tour" t LEFT JOIN "TourTranslation" es ON es."tourId" = t."id" AND es."language" = '"'"'es'"'"' LEFT JOIN "TourTranslation" en ON en."tourId" = t."id" AND en."language" = '"'"'en'"'"' WHERE t."providerId" = '"'"'tangol'"'"' AND t."slug" IS NULL' > tmp/tangol-export/tours-sin-slug.json
+          npx tsx src/scripts/tangol-slugs.ts tmp/tangol-export tmp/tangol-salida | tee -a "$GITHUB_STEP_SUMMARY"
+          if grep -q '^UPDATE' tmp/tangol-salida/slugs.sql; then npx wrangler d1 execute travel-puzzle --remote --file tmp/tangol-salida/slugs.sql; fi
+
       - name: Prueba de humo en producción
         if: ${{ inputs.escribir }}
         # REQ-3539: el runner no trae el navegador; sin esto el humo cae aunque el sitio esté bien.
