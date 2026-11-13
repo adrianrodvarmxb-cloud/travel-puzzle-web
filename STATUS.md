@@ -1120,4 +1120,5 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3360 | frente.ts con Content-Type | NUEVO | — | — | REEMPLAZADO por REQ-1621 |
 | REQ-3356 | Reservas y pagos del titular para Mila | NUEVO | src/agente/lib/cliente.ts, src/app/api/agente/cliente/route.ts, wrangler.jsonc (AGENTE_CLIENTES_ON) | src/agente/lib/cliente.test.ts, src/agente/rutas.test.ts | EN CURSO (verde; bandera apagada hasta REQ-3359 y OK del PO) |
 | REQ-3357 | Verificación por número o folio + correo | NUEVO | src/agente/lib/cliente.ts | src/agente/lib/cliente.test.ts | EN CURSO (verde; falta el lado de Mila) |
-| REQ-3355 | Condiciones del anexo de proveedores | NUEVO | — | — | BLOQUEADO (la tabla Proveedor vive en feat/proveedores-mila, sin merge ni migración) |
+| REQ-3355 | Condiciones del anexo de proveedores | NUEVO | — | — | BLOQUEADO (Proveedor ya en producción, sin columnas de condiciones; definir dónde viven, con REQ-3446) |
+| REQ-3409 | «Agregar a mi calendario» (.ics y liga de Google Calendar) | NUEVO | zoefel-mila src/catalogo/lib/calendario.js | zoefel-mila tests/catalogo/calendario.test.js | EN CURSO (PR #205 de zoefel-mila, 7 verdes; falta formato de entrega) |
