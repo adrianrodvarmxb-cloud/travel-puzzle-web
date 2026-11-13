@@ -7,6 +7,8 @@ import { isStripeEnabled, type PaymentKind } from "./lib/checkout";
 import { verifyStripeSignature } from "./lib/webhook";
 import type { LinkDeps, WebhookDeps, PayRequest } from "./service";
 import { purchaseHooksFromEnv } from "@/octo/deps";
+import { directBuyHook } from "@/trips/direct-buy-deps";
+import { chainAfterPaid } from "@/trips/lib/direct-buy";
 
 const env = () => process.env as Record<string, string | undefined>;
 
@@ -61,6 +63,7 @@ export function webhookDeps(): WebhookDeps {
   const prisma = getPrisma();
   const site = e.SITE_URL ?? "";
   const m = mailer();
+  const octo: { afterPaid?: (id: string) => Promise<boolean>; afterExpired?: (id: string) => Promise<unknown> } = purchaseHooksFromEnv();
   return {
     enabled: stripeEnabled(),
     secret: e.STRIPE_WEBHOOK_SECRET ?? "",
@@ -84,7 +87,9 @@ export function webhookDeps(): WebhookDeps {
     sendCustomer: m.send,
     sendTeam: m.team,
     // REQ-3419: compra directa de Big Bus (solo con BIGBUS_OCTO_ENABLED encendida; si no, no agrega nada).
-    ...purchaseHooksFromEnv(),
+    ...octo,
+    // REQ-3533: compra directa de viajes de proveedor primero; si no es una, sigue Big Bus.
+    afterPaid: chainAfterPaid(directBuyHook(), octo.afterPaid),
   };
 }
 

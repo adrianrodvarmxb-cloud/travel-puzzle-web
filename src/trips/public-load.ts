@@ -17,6 +17,7 @@ import { priceInEur } from "@/tours/lib/price-filter";
 import { getFxRates } from "./fx";
 import type { StoredTrip } from "./manage";
 import { anyVisible, isKindVisible, visibilityFromEnv } from "./lib/visibility";
+import { isPubliclyReachable } from "./lib/trip";
 import { cached, cacheKey, POLICY } from "@/cache/edge";
 import { pairById } from "./lib/cards";
 import { ownTripDepartures } from "@/departures/sources/own-trips";
@@ -180,7 +181,7 @@ export async function requestDeps(): Promise<import("./requests").RequestDeps> {
     whatsapp: env.WHATSAPP_NUMBER,
     async findTrip(id) {
       const t = await repo.findById(id);
-      return t && t.status === "published" && isKindVisible(t.kind, siteVisibility()) ? { ...t, path: tripPath(t) } : null;
+      return t && isPubliclyReachable(t.status) /* REQ-3535 */ && isKindVisible(t.kind, siteVisibility()) ? { ...t, path: tripPath(t) } : null;
     },
     async save(row) { await prisma.tripRequest.create({ data: row as unknown as import("@prisma/client").Prisma.TripRequestUncheckedCreateInput }); },
     sendCustomer: send,

@@ -4,7 +4,8 @@
  */
 export const TRIP_KINDS = ["tour", "circuito", "unica", "personalizado", "transporte"] as const;
 export const PURCHASE_MODES = ["quote", "buy"] as const;
-export const TRIP_STATUSES = ["draft", "published", "hidden"] as const;
+/** REQ-3535: "unlisted" = se abre solo con su enlace (no sale en listados, búsqueda, mapa ni sitemap; noindex). */
+export const TRIP_STATUSES = ["draft", "published", "hidden", "unlisted"] as const;
 export const CURRENCIES = ["MXN", "USD", "EUR"] as const;
 export const MAX_TIMES_PER_DAY = 4;
 export const MAX_MEETING_POINTS = 4;
@@ -15,7 +16,12 @@ export type TripStatus = (typeof TRIP_STATUSES)[number];
 export type Currency = (typeof CURRENCIES)[number];
 
 export const KIND_LABEL: Record<TripKind, string> = { tour: "Tour", circuito: "Circuito", unica: "Experiencia única", personalizado: "Personalizado", transporte: "Transporte" };
-export const STATUS_LABEL: Record<TripStatus, string> = { draft: "Borrador", published: "Publicado", hidden: "Oculto" };
+export const STATUS_LABEL: Record<TripStatus, string> = { draft: "Borrador", published: "Publicado", hidden: "Oculto", unlisted: "Solo con enlace" };
+
+// REQ-3535: la ficha y la compra abren publicados y «solo con enlace»; los listados siguen pidiendo "published".
+export function isPubliclyReachable(status: string): boolean {
+  return status === "published" || status === "unlisted";
+}
 
 export interface TripDate { date: string; times: string[] }
 

@@ -16,12 +16,13 @@ const ES = {
   option: "Opción", adults: "Adultos", children: "Niños", infants: "Infantes", childAge: (n: number) => `Edad del niño ${n}`, start: "Inicio", end: "Fin", serviceType: "Tipo de servicio",
   firstName: "Nombre(s)", lastName: "Apellidos", email: "Correo", phone: "Celular (con lada)", hotelName: "Nombre de tu hotel (si quieres que te recojamos)", comments: "Comentarios",
   consentA: "Acepto los", terms: "Términos y Condiciones", consentB: "y el", privacy: "Aviso de Privacidad", send: "Enviar solicitud", sending: "Enviando…", estimate: "Estimado", estimateNote: "Tu asesor confirma precio y disponibilidad.",
+  /* REQ-3533: compra directa */ buyTitle: "Reserva y paga", buy: "Reservar y pagar", buyTotal: "Total a pagar", buyNote: "Pagas el total ahora con tarjeta, en pesos. El proveedor confirma tu lugar en máximo 48 h; si no hay lugar, te devolvemos el total.", buyRedirect: "Abriendo el pago…",
   thanksTitle: "¡Gracias! Recibimos tu solicitud", thanksLead: "En breve un agente se comunicará contigo para dar seguimiento a tu solicitud.", thanksFolio: "Tu folio", thanksWa: "Escríbenos por WhatsApp", thanksBack: "Volver al viaje", thanksMail: "Te enviamos una copia a tu correo.",
 };
 type Copy = typeof ES;
 
 const EN: Copy = {
-  ...ES, from: "From", perPerson: "per person", days: (n) => `${n} ${n === 1 ? "day" : "days"}`, recommended: "Recommended by Travel Puzzle",
+  ...ES, buyTitle: "Book and pay", buy: "Book and pay", buyTotal: "Total to pay", buyNote: "You pay the full amount now by card, in Mexican pesos. The provider confirms your spot within 48 h; if there is no availability, we refund the full amount.", buyRedirect: "Opening payment…", from: "From", perPerson: "per person", days: (n) => `${n} ${n === 1 ? "day" : "days"}`, recommended: "Recommended by Travel Puzzle",
   highlights: "Highlights", description: "Description", itinerary: "Itinerary", day: "Day", includes: "Included", excludes: "Not included",
   important: "Important information", bring: "What to bring", accessibility: "Accessibility", visa: "Visa & requirements", meeting: "Meeting point",
   hotel: "Hotel pickup also available.", endPoint: "Ends at", options: "Options & prices", adult: "Adult", child: (a, b) => `Child (${a}–${b} yrs)`, infant: "Infant",

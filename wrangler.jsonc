@@ -104,6 +104,9 @@
     "STRIPE_HOLD_ENABLED": "false",
     // Enlace de pago de Stripe para solicitudes (REQ-114..119). "true" solo tras migración 0013, webhook creado y OK del PO.
     "STRIPE_ENABLED": "true",
+    // REQ-3533: «Reservar y pagar» en viajes de proveedor en modo «comprar» (cobro automático del total; el proveedor
+    // confirma en 48 h o se reembolsa solo). "true" solo con la prueba de $10 (REQ-1324) verde y OK del PO.
+    "TRIPS_DIRECT_BUY_ENABLED": "false",
     // Colchón de tipo de cambio para cobros en USD/EUR (gate B1).
     "STRIPE_FX_CUSHION_PCT": "3",
     // REQ-081: post-tour (correo o WhatsApp) que promueva tours de FREETOUR. "true" solo con autorización escrita en docs/freetour/autorizaciones.md.

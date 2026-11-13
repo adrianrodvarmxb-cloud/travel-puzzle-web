@@ -16,6 +16,8 @@ import { TripGuarantees } from '@/components/trips/TripGuarantees';
 import { guaranteeItems, onlinePaymentsFromEnv } from '@/trips/lib/guarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
 import { TripRequestForm } from '@/components/trips/TripRequestForm';
+import { canBuyDirect, isDirectBuyEnabled } from '@/trips/lib/direct-buy';
+import { isStripeEnabled } from '@/payments/lib/checkout';
 import { BigBusBuyBox } from '@/components/trips/BigBusBuyBox';
 import { bigBusRefForTrip } from '@/octo/lib/public-view';
 import { bigBusOctoConfig } from '@/octo/lib/config';
@@ -58,6 +60,8 @@ export async function tripMetadata(data: TripData, path: string): Promise<Metada
         description,
         alternates: { canonical: path },
         openGraph: { type: 'website', title, description, url: path, ...(image && { images: [{ url: image }] }) },
+        // REQ-3535: «solo con enlace» no se indexa.
+        ...(data.trip.status === 'unlisted' && { robots: { index: false, follow: false } }),
     };
 }
 
@@ -72,6 +76,8 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     const env = process.env as Record<string, string | undefined>;
     const facts = taxonomyCircuitsEnabled(env as Record<string, string | undefined>) ? circuitFacts({ kind: trip.kind, difficulty: trip.difficulty, difficultyLevel: trip.difficultyLevel ?? null, durationDays: trip.durationDays, options: trip.options }, DEFAULT_DICTIONARY, lang) : null;
     const contact = contactFromEnv(env);
+    // REQ-3533: «Reservar y pagar» con cobro automático (bandera + Stripe + viaje en modo «comprar»).
+    const directBuy = canBuyDirect(trip, { enabled: isDirectBuyEnabled(env.TRIPS_DIRECT_BUY_ENABLED), stripe: isStripeEnabled(env.STRIPE_ENABLED) });
     const wa = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(`Hola Travel Puzzle, quiero cotizar "${trip.titleEs}" (${trip.code}).`)}` : null;
     // REQ-112: opciones en la moneda original del operador con pesos aproximados (decisión del PO, 5 nov 2026). Reversible: false vuelve a pesos primero.
     const OPTIONS_IN_ORIGINAL = true;
@@ -199,7 +205,7 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
                             <TripRequestForm tripId={trip.id} custom={trip.kind === 'personalizado'} currency={trip.currency} lang={lang} returnPath={path}
                                 options={trip.options.map((o) => ({ ...o, name: L(`options.${o.id}.name`, o.name) }))} availability={trip.availability}
                                 minNoticeHours={trip.minNoticeHours} hotelPickup={trip.hotelPickup} policy={policy.text}
-                                policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} prellenado={prellenado} />
+                                policyItems={cancel} policyTitle={c.cancellation} closeLabel="OK" bookTitle={steps.formTitle} bookNote={steps.formNote} prellenado={prellenado} directBuy={directBuy} />
                             <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5 text-sm text-[#D5DCEE]">
                                 <ul className="space-y-2">
                                     {trip.languages.length > 0 && <li>{/* REQ-146 */}{isAudio ? '🎧' : '🗣️'} {languagesLabel(trip, c)}{isAudio ? ' ' : ': '}{languageNames.join(', ')}</li>}

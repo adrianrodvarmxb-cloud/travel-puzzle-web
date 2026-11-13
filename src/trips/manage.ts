@@ -48,7 +48,7 @@ export async function saveTrip(id: string | null, input: TripInput, d: TripsDeps
   const data: TripData = { ...base, code, seq, codeLocked: current?.codeLocked ?? false, priceFrom: priceFrom(base.options), slug: slugify(base.titleEs, code) };
   if (!current) return { ok: true, trip: await d.create({ ...data, status: "draft" }) };
 
-  if (current.status === "published") {
+  if (current.status === "published" || current.status === "unlisted") {
     const missing = publishChecklist(data);
     if (missing.length) return { ok: false, error: publishError(missing) };
   }
@@ -58,7 +58,8 @@ export async function saveTrip(id: string | null, input: TripInput, d: TripsDeps
 export async function setTripStatus(id: string, status: TripStatus, d: TripsDeps): Promise<{ ok: true } | { ok: false; error: string }> {
   const trip = await d.findById(id);
   if (!trip) return { ok: false, error: "No encontramos ese viaje" };
-  if (status === "published") {
+  // REQ-3535: «solo con enlace» pide la misma lista que publicar (se puede comprar).
+  if (status === "published" || status === "unlisted") {
     const missing = publishChecklist(trip);
     if (missing.length) return { ok: false, error: publishError(missing) };
   }

@@ -1,5 +1,12 @@
 # Prueba real de cobro con Stripe: viaje de agencia y viaje propio (REQ-1324)
 
+> **Actualización 13 nov 2026 (REQ-3533 a REQ-3535):** el PO pidió que el cobro sea automático, sin gestor ni aprobación. Cuando se publique la compra directa, la prueba se hace así (y el flujo de abajo queda solo para viajes en «cotizar»):
+> 1. En el gestor, un viaje de prueba en modo **comprar**, con una opción de **$10 MXN** por adulto, estado **Solo con enlace** y la agencia con tu correo como contacto (así el aviso al proveedor te llega a ti).
+> 2. Con `TRIPS_DIRECT_BUY_ENABLED="true"` (PR propio, OK del PO), abrir la ficha por su enlace, 1 adulto, «Reservar y pagar» → Stripe muestra $10.00 MXN → pagar.
+> 3. Llegan «Recibimos tu pago» (cliente) y «Nueva reserva por confirmar» (proveedor). En la página del enlace, «Sí, confirmo» → llega «Tu viaje está confirmado».
+> 4. Segunda compra de $10: «No hay lugar» → Stripe muestra el cobro «Reembolsado» sin tocar nada → llega «Te devolvimos tu pago».
+> 5. Anotar en la tabla de abajo las referencias (folio, pago y reembolso).
+
 PO, 11 nov 2026: «las pruebas con freetour ya se hicieron… las que faltan son las de tour de otros proveedores y propios con nuestro Stripe».
 Flujo en producción (REQ-159, REQ-115, REQ-116): solicitud desde la ficha → enlace de pago desde el gestor → Stripe Checkout → webhook → reembolso.
 Requisitos: `STRIPE_ENABLED="true"` (ya está en main), cuenta ADMIN del gestor y la tarjeta del PO. Nada de esto lo puede hacer un agente: el pago y el gestor piden la sesión y la tarjeta del PO.

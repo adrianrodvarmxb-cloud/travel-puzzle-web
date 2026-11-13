@@ -66,4 +66,11 @@ describe("setTripStatus v2", () => {
     await setTripStatus("t1", "hidden", d);
     expect(d.setStatus).toHaveBeenCalledWith("t1", "hidden", false);
   });
+  it("REQ-3535: «solo con enlace» pide el mismo checklist que publicar", async () => {
+    const d = deps();
+    expect(await setTripStatus("t1", "unlisted", d)).toEqual({ ok: true });
+    expect(d.setStatus).toHaveBeenCalledWith("t1", "unlisted", false);
+    const incomplete = deps({ findById: vi.fn(async () => stored({ highlights: [] })) });
+    expect(await setTripStatus("t1", "unlisted", incomplete)).toEqual({ ok: false, error: "Para publicar falta: 3 a 5 puntos destacados" });
+  });
 });

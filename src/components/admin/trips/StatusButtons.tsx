@@ -7,6 +7,7 @@ import { smallBtn } from './fields';
 const ACTIONS: { to: TripStatus; label: string }[] = [
     { to: 'published', label: 'Publicar' },
     { to: 'hidden', label: 'Ocultar' },
+    { to: 'unlisted', label: 'Solo con enlace' }, // REQ-3535
     { to: 'draft', label: 'Regresar a borrador' },
 ];
 

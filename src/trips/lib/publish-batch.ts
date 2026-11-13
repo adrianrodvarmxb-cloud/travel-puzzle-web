@@ -65,7 +65,7 @@ export function publishSql(ids: readonly string[], agencyId: string, nowIso: str
 export function restoreSql(rows: readonly { id: string; status: string; codeLocked: number; updatedAt: string }[]): string[] {
   return rows.map((r) => {
     guard(r.id, r.updatedAt);
-    if (!["draft", "published", "hidden"].includes(r.status)) throw new Error(`status inválido: ${r.status}`);
+    if (!["draft", "published", "hidden", "unlisted"].includes(r.status)) throw new Error(`status inválido: ${r.status}`);
     return `UPDATE "Trip" SET "status" = '${r.status}', "codeLocked" = ${r.codeLocked ? 1 : 0}, "updatedAt" = '${r.updatedAt}' WHERE "id" = '${r.id}';`;
   });
 }

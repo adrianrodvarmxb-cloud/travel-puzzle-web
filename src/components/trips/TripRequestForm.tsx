@@ -29,6 +29,8 @@ interface Props {
     bookNote?: string;
     /** REQ-150: fecha y personas que manda el agente de WhatsApp en la liga (?fecha=&adultos=&ninos=). Opcional. */
     prellenado?: { fecha?: string; adultos?: number; ninos?: number };
+    /** REQ-3533: «Reservar y pagar» con cobro automático (lo decide el servidor: bandera + Stripe + modo «comprar»). */
+    directBuy?: boolean;
 }
 
 const field = 'w-full rounded-xl border border-white/15 bg-[#0A1330] px-3.5 py-2.5 text-sm text-white placeholder:text-[#5F73AD] focus:border-[#008DFF] focus:outline-none';
@@ -50,6 +52,7 @@ export function TripRequestForm(p: Props) {
     const times = date ? availableTimes(date, p.availability, p.minNoticeHours, now) : [];
     const option = p.options.find((o) => o.id === optionId) ?? null;
     const est = !p.custom && date ? estimate(option, pax, date, p.availability.seasons) : null;
+    const buying = !p.custom && !!p.directBuy;
     const setChildren = (n: number) => { setPax({ ...pax, children: n }); setAges((a) => Array.from({ length: n }, (_, i) => a[i] ?? 7)); };
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -65,10 +68,12 @@ export function TripRequestForm(p: Props) {
             ? { kind: 'personalizado', startDate: f.get('startDate'), endDate: f.get('endDate'), serviceType: f.get('serviceType'), ...common }
             : { kind: 'reserva', date, time, optionId, ...common };
         setBusy(true);
-        const res = await fetch('/api/viajes/solicitud', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        // REQ-3533: con compra directa el servidor calcula el total y devuelve el enlace de Stripe.
+        const res = await fetch(buying ? '/api/viajes/compra' : '/api/viajes/solicitud', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
         const json = await res.json().catch(() => ({}));
+        if (!res.ok) { setBusy(false); return setError(json.error ?? 'No se pudo enviar'); }
+        if (buying && typeof json.url === 'string') { window.location.assign(json.url); return; }
         setBusy(false);
-        if (!res.ok) return setError(json.error ?? 'No se pudo enviar');
         router.push(`/viajes/gracias?folio=${encodeURIComponent(json.ref)}&volver=${encodeURIComponent(p.returnPath)}`);
     }
 
@@ -82,7 +87,7 @@ export function TripRequestForm(p: Props) {
 
     return (
         <form onSubmit={onSubmit} className="space-y-3 rounded-2xl border border-white/10 bg-[#121D45] p-5" id="solicitar">
-            <h2 className="font-display text-xl font-semibold text-white">{p.custom ? c.formTitleCustom : p.bookTitle ?? c.formTitle}</h2>
+            <h2 className="font-display text-xl font-semibold text-white">{p.custom ? c.formTitleCustom : buying ? c.buyTitle : p.bookTitle ?? c.formTitle}</h2>
             {!p.custom && p.bookNote && <p className="mt-1 text-sm font-semibold text-[#7EE2A8]">{p.bookNote}</p>}
             {p.custom ? (
                 <div className="grid grid-cols-2 gap-2">
@@ -128,9 +133,9 @@ export function TripRequestForm(p: Props) {
                 <input name="consent" type="checkbox" required className="mt-0.5" />
                 <span>{c.consentA} <a href={LEGAL_PATHS.terms} target="_blank" className="underline">{c.terms}</a>{p.policyItems?.length ? <>, <PolicyLink label={c.policyAccept} title={p.policyTitle ?? c.policyAccept} items={p.policyItems} closeLabel={p.closeLabel ?? "OK"} /></> : p.policy ? <>, <a href="#cancelacion" className="underline">{c.policyAccept}</a> ({p.policy})</> : null} {c.consentB} <a href={LEGAL_PATHS.privacy} target="_blank" className="underline">{c.privacy}</a>.</span>
             </label>
-            {est !== null && <p className="text-sm text-[#D5DCEE]">{c.estimate}: <strong className="text-white">{formatMoney(est, p.currency, p.lang)}</strong> <span className="block text-xs text-[#7F8DB0]">{c.estimateNote}</span></p>}
+            {est !== null && <p className="text-sm text-[#D5DCEE]">{buying ? c.buyTotal : c.estimate}: <strong className="text-white">{formatMoney(est, p.currency, p.lang)}</strong> <span className="block text-xs text-[#7F8DB0]">{buying ? c.buyNote : c.estimateNote}</span></p>}
             {error && <p className="text-sm text-[#FF8A73]">{error}</p>}
-            <button type="submit" disabled={busy || (!p.custom && (!date || (p.availability.slots.length > 0 && !time)))} className="w-full rounded-full bg-[#008DFF] px-5 py-3 text-sm font-bold text-white disabled:opacity-40">{busy ? c.sending : c.send}</button>
+            <button type="submit" disabled={busy || (!p.custom && (!date || (p.availability.slots.length > 0 && !time))) || (buying && est === null)} className="w-full rounded-full bg-[#008DFF] px-5 py-3 text-sm font-bold text-white disabled:opacity-40">{busy ? (buying ? c.buyRedirect : c.sending) : buying ? c.buy : c.send}</button>
         </form>
     );
 }
