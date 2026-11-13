@@ -3,8 +3,13 @@ import type { FxRates } from "@/trips/lib/money";
 import { chargeAmount, buildCheckoutParams, sessionExpiry, type PayCurrency, type PaymentKind } from "./lib/checkout";
 import { parsePaymentEvent } from "./lib/webhook";
 import { buildPaymentLinkEmail, buildPaidCustomerEmail, buildPaidTeamEmail } from "./lib/email";
+import { TERMINOS } from "@/legal/lib/terminos";
 
-export interface PayRequest { id: string; ref: string; tripTitle: string; email: string; firstName: string; language: string }
+// REQ-3523: razón social, nombre comercial, domicilio y RNT (primer párrafo de los términos publicados).
+const datosEmpresa = (t: string) => t.split("\n")[0].trim();
+
+export interface PayRequest { id: string; ref: string; tripTitle: string; email: string; firstName: string; language: string;
+  date?: string | null; adults?: number; children?: number; infants?: number } // REQ-3523: para la constancia
 type Mail = { to: string; subject: string; html: string; text: string };
 
 export interface PaymentRow {
@@ -116,7 +121,10 @@ export async function handleStripeWebhook(payload: string, signature: string | n
   const handled = d.afterPaid ? await d.afterPaid(changed.requestId).catch((e) => { console.error(`[pagos] compra directa ${changed.requestId}:`, (e as Error).message); return false; }) : false;
   const req = await d.findRequest(changed.requestId);
   if (req) {
-    const info = { ref: req.ref, tripTitle: req.tripTitle, firstName: req.firstName, kind: changed.kind, centavos: changed.amountCentavos, logoUrl: d.logoUrl };
+    // REQ-3523 (REQ-3388): constancia de contratación con los datos vigentes de la agencia (términos publicados).
+    const personas = [req.adults && `${req.adults} adulto${req.adults === 1 ? "" : "s"}`, req.children && `${req.children} niño${req.children === 1 ? "" : "s"}`, req.infants && `${req.infants} infante${req.infants === 1 ? "" : "s"}`].filter(Boolean).join(", ");
+    const info = { ref: req.ref, tripTitle: req.tripTitle, firstName: req.firstName, kind: changed.kind, centavos: changed.amountCentavos, logoUrl: d.logoUrl,
+      fecha: req.date ?? null, personas: personas || undefined, empresa: datosEmpresa(TERMINOS), siteUrl: d.siteUrl };
     if (!handled) await d.sendCustomer({ to: req.email, ...buildPaidCustomerEmail(info) }).catch((e) => console.error(`[pagos] correo pagado ${req.ref}:`, (e as Error).message));
     await d.sendTeam(buildPaidTeamEmail(info, `${d.siteUrl}/admin/solicitudes`)).catch((e) => console.error(`[pagos] aviso equipo ${req.ref}:`, (e as Error).message));
   }
