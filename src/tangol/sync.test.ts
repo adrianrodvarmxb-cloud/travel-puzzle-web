@@ -112,6 +112,43 @@ describe("REQ-3463: un paso del sync de Tangol", () => {
     expect(filas.map((f) => [f.tour.externalId, f.tour.categoryId])).toEqual([[1234, 9_000_011], [5678, 9_000_018]]);
   });
 
+  it("REQ-10510: las tarifas se piden en USD por omisión (antes «0» = moneda por omisión de Tangol, que daba ARS)", async () => {
+    const pedidas: { tourId: number; currency: string; languageCode: string }[] = [];
+    const api = fakeApi({ getTourRates: async (p) => { pedidas.push(p); return tarifas(Number(p.tourId)); } });
+    await correr({ api });
+    expect(pedidas.map((p) => p.currency)).toEqual(["USD", "USD"]);
+    pedidas.length = 0;
+    await correr({ api, ratesCurrency: "ARS" });
+    expect(pedidas.map((p) => p.currency)).toEqual(["ARS", "ARS"]);
+  });
+
+  it("REQ-10510: el reporte dice qué moneda se pidió y cuántos tours vinieron en cada moneda que DEVOLVIÓ Tangol", async () => {
+    const api = fakeApi({
+      getTourRates: async ({ tourId }) => {
+        const crudas = tarifasCrudas(Number(tourId));
+        return Number(tourId) === 5678
+          ? parseTourRates({ ...crudas, Currency: "ARS", ListTourRate: crudas.ListTourRate.map((r) => ({ ...r, Currency: "ARS" })) })
+          : parseTourRates(crudas);
+      },
+    });
+    const report = await correr({ api });
+    expect(report.monedaPedida).toBe("USD");
+    expect(report.monedas).toEqual({ USD: 1, ARS: 1 });
+  });
+
+  it("REQ-10510: la fila guarda la moneda que devolvió Tangol, no la pedida", async () => {
+    const { repo, guardado } = spyRepo();
+    const api = fakeApi({
+      getTourRates: async ({ tourId }) => {
+        const crudas = tarifasCrudas(Number(tourId));
+        return parseTourRates({ ...crudas, Currency: "ARS", ListTourRate: crudas.ListTourRate.map((r) => ({ ...r, Currency: "ARS" })) });
+      },
+    });
+    await correr({ ensayo: false, api }, repo);
+    const filas = guardado[0] as { tour: { priceCurrency: string } }[];
+    expect(filas.map((f) => f.tour.priceCurrency)).toEqual(["ARS", "ARS"]);
+  });
+
   it("REQ-3463: México no se le pide a Tangol (una llamada menos, REQ-3373)", async () => {
     const getDestinations = vi.fn(fakeApi().getDestinations);
     await correr({ api: fakeApi({ getDestinations }) });

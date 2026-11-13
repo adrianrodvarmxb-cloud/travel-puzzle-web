@@ -15,6 +15,7 @@ import { renderSqlFile } from "@/lib/d1/sql-file";
 import type { ExistingCountry } from "@/catalog/lib/provider-countries";
 import type { ExistingCity } from "./lib/cities";
 import { TANGOL_PROVIDER_ID } from "./lib/tour-rows";
+import { tangolExtraStatements } from "./lib/extra-sql";
 import { cityTranslations, type TangolSyncRepo } from "./sync";
 import type { TangolSyncState } from "./lib/sync-plan";
 
@@ -83,9 +84,11 @@ export function createTangolSqlRepo(data: TangolExport, newId: () => string = ()
       );
     },
 
-    // REQ-3461
+    // REQ-3461, REQ-10514
     async upsertTours(rows) {
       stmts.push(...tourStatements([...rows], new Date(), newId));
+      // REQ-10514: columnas de la 0031 y guideLanguages, que el escritor común no conoce.
+      stmts.push(...tangolExtraStatements(rows.map((r) => r.tour)));
     },
 
     statements() {

@@ -2,6 +2,7 @@
 
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
+Actualizado: 13 nov 2026, 17:30 (CDMX) — sync enriquecido de Tangol (REQ-10510 a REQ-10514).
 
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
@@ -64,6 +65,16 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1608 | `folio.ts revisar` detecta el folio duplicado en el PR | NUEVO | `src/ops/lib/folios.ts` | `src/ops/lib/folios.test.ts` | CUMPLIDO (#382; 2/2 verdes el 12 nov) |
 | REQ-1609 | Redes del día: nadie publica hasta que el artículo y las láminas respondan 200 | NUEVO | `src/redes/run.ts`, `src/redes/lib/espera.ts` | `src/redes/lib/espera.test.ts`, `src/redes/run.test.ts` | EN CURSO (5/5 verdes el 12 nov; código en `main`, falta cerrar el estado) |
 | REQ-1633 | Verificador de publicación: relanza el deploy revertido una vez al día | NUEVO | `src/ops/lib/publicacion.ts`, `src/scripts/verificar-publicacion.ts`, `.github/workflows/verificar-publicacion.yml` | `src/ops/lib/publicacion.test.ts`, `src/ops/verificar-publicacion-workflow.test.ts` | CUMPLIDO (#387/03a797f; workflow en verde el 12 nov 05:24 UTC) |
+## Sync enriquecido de Tangol (PO, 13 nov 2026 16:00; frente #533) — matriz de trazabilidad
+Hallazgo (consulta de solo lectura a D1, 13 nov): los 1,202 tours de Tangol en producción están en ARS (1,179) o «0» (23) y ninguno tiene resumen, descripción ni más de una imagen: `details.ts` buscaba `ShortDescription`/`ListPictures` y el swagger real trae `Summary`/`PicList`. Requiere aplicar la migración 0031 (candado del PO) y volver a correr los lotes del sync con `escribir=true`.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10510 | Tarifas en USD por omisión (`ratesCurrency`, `TANGOL_RATES_CURRENCY`, casilla `moneda`); la fila guarda la moneda devuelta; el reporte cuenta `monedas`; USD se muestra con MXN aprox. igual que EUR | NUEVO | `src/tangol/sync.ts`, `src/tangol/lib/currency-report.ts`, `src/scripts/tangol-sync.ts`, `.github/workflows/tangol-sync.yml` | `src/tangol/sync.test.ts`, `src/tangol/lib/currency-report.test.ts`, `src/tangol/sync-workflow.test.ts`, `src/tours/lib/price-label.test.ts`, `src/tours/lib/card-price.test.ts`, `src/payments/lib/checkout.test.ts` | CUMPLIDO en código (tests verdes); el significado del código de moneda lo confirma la primera corrida (el resumen imprime la devuelta) |
+| REQ-10511 | Detalle con los nombres del swagger → brief, imágenes, `meetingPoint`, `includes`, `excludes`, `cancellationPolicy`, `guideLanguages`, `rating`/`reviewsNumber` (solo reseñas reales) | NUEVO | `src/tangol/lib/details.ts`, `src/tangol/lib/tour-rows.ts` | `src/tangol/lib/details.test.ts`, `src/tangol/lib/tour-rows.test.ts` | CUMPLIDO en código (tests verdes); en producción tras migración 0031 + corrida |
+| REQ-10512 | Migración 0031: `Tour.excludes`, `Tour.cancellationPolicy`, `Tour.availabilityRules` (sin declarar en Prisma) | NUEVO | `migrations/0031_tour_detalle_proveedor.sql` | `src/tangol/migration-0031.test.ts` | EN CURSO (escrita y probada; aplicarla es candado del PO) |
+| REQ-10513 | Días de operación y anticipación: `OperationDays` en el esquema, `parseOperationDays`, `availabilityRules`, `isDateBookable` con `{ now }` | NUEVO | `src/tangol/lib/schemas.ts`, `src/tangol/lib/operation-days.ts`, `src/tangol/lib/rates.ts` | `src/tangol/lib/rates.test.ts` | CUMPLIDO en código (tests verdes); formato real de `OperationDays` sin confirmar por Tangol (lo que no se entiende queda en null y no restringe) |
+| REQ-10514 | El hash cambia con los campos nuevos; el repo SQL escribe el UPDATE de la 0031 + `guideLanguages` por tour; el sync reescribe todo el lote (no clasifica por hash) | NUEVO | `src/tangol/lib/extra-sql.ts`, `src/tangol/repository.ts` | `src/tangol/lib/extra-sql.test.ts`, `src/tangol/repository.test.ts`, `src/catalog/lib/content-hash.test.ts` | CUMPLIDO en código (tests verdes); los 1,202 tours se actualizan al volver a correr los lotes |
+
 ## API de Tangol, ola 1 (11 nov 2026) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|

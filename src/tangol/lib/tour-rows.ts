@@ -2,7 +2,7 @@ import type { TourRow, TranslationRow } from "@/catalog/lib/tour-rows";
 import { LANGUAGES } from "@/catalog/lib/tour-rows";
 import { durationMinutes } from "@/tours/lib/duration";
 import type { TangolRate, TangolTour } from "./schemas";
-import { publicPrice, type RatesSummary } from "./rates";
+import { availabilityRules, publicPrice, type AvailabilityRules, type RatesSummary } from "./rates";
 import { parseTourDetails } from "./details";
 import { scrubProviderName } from "./text";
 import { findProviderErrorValue } from "./data-hygiene";
@@ -17,7 +17,12 @@ import { findProviderErrorValue } from "./data-hygiene";
  *   TourDetails       → TourTranslation.description / brief y Tour.images (validado en `details.ts`)
  *   Duration          → Tour.duration (texto tal cual) y Tour.durationMinutes (minutos)
  *   RackRateAdu       → Tour.priceValue       (tarifa pública más baja; el neto, la comisión y `Utilidad` jamás entran)
- *   Currency (tarifas)→ Tour.priceCurrency
+ *   Currency (tarifas)→ Tour.priceCurrency (la que DEVUELVE Tangol; se le pide USD por omisión, REQ-10510)
+ *   StartPoint        → Tour.meetingPoint.title (REQ-10511; sin coordenadas: Tangol no las manda)
+ *   DetIncluye        → Tour.includes (renglones)      DetNoIncluye → Tour.excludes (columna de la 0031)
+ *   CancelationPolicy → Tour.cancellationPolicy (0031)  TourLanguages → Tour.guideLanguages (ISO 639-1)
+ *   Reviews/ReviewsQty→ Tour.rating / Tour.reviewsNumber (solo reseñas reales, REQ-450)
+ *   OperationDays, HoursBooking, vigencias y bloqueos (tarifas) → Tour.availabilityRules (0031, REQ-10513)
  *   UrlHomePic        → Tour.titleImageURL y primera imagen
  *   UrlTour           → NO se guarda: nunca se enlaza ni se nombra al proveedor
  *   cityId / countryId→ los entrega el mapeo de ciudades por parámetro (REQ-1624, otro frente)
@@ -37,6 +42,11 @@ export interface TangolPlace {
 
 export interface TangolTourRow extends TourRow {
   providerId: string;
+  /** REQ-10511/REQ-10512: columnas de la migración 0031 y `guideLanguages`; las escribe `tangolExtraStatements`. */
+  excludes: string[];
+  cancellationPolicy: string | null;
+  availabilityRules: AvailabilityRules | null;
+  guideLanguages: string[];
 }
 
 export type DiscardReason =
@@ -105,7 +115,7 @@ function cheapestPublicRate(summary: RatesSummary): TangolRate | null {
   );
 }
 
-// REQ-3370, REQ-3371, REQ-3372, REQ-3504
+// REQ-3370, REQ-3371, REQ-3372, REQ-3504, REQ-10510, REQ-10511, REQ-10513
 export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): ConvertedRow {
   // REQ-3504: un error del servidor de Tangol metido como dato tira el tour entero; no se adivina el valor.
   const junk = findProviderErrorValue(tour);
@@ -140,20 +150,25 @@ export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): Converte
     durationMinutes: tangolDurationMinutes(tour.duration),
     titleImageURL: tour.homePic,
     categoryId: deps.categoryId(tour),
-    // Tangol no manda calificación ni reseñas: la ficha no inventa números.
-    rating: null,
-    reviewsNumber: 0,
+    // REQ-10511: solo reseñas reales (≥ 1 y entre 1 y 5); si no, la ficha no inventa números.
+    rating: details.rating,
+    reviewsNumber: details.reviewsNumber,
     cityId: place.cityId,
     countryId: place.countryId,
-    // La lista de Tangol no trae punto de encuentro ni «incluye»; la columna no acepta nulos, así que van vacíos.
-    meetingPoint: {},
-    includes: [],
+    // REQ-10511: misma forma que Freetour; sin coordenadas la ficha muestra el texto y no el mapa. Sin detalle, vacío (la columna no acepta nulos).
+    meetingPoint: details.startPoint ? { title: details.startPoint, coordinates: "", googlePlaceId: "" } : {},
+    includes: details.includes,
     POIs: null,
     images,
     videoURL: null,
     // Gate C (REQ-1625): se carga activo y el sitio lo oculta mientras `TANGOL_ENABLED` no sea "true".
     isActive: true,
     lastSeenAt: deps.seenAt,
+    // REQ-10511 / REQ-10513: columnas de la 0031 (las escribe el repositorio aparte del UPSERT de Tour).
+    excludes: details.excludes,
+    cancellationPolicy: details.cancellationPolicy,
+    availabilityRules: availabilityRules(summary),
+    guideLanguages: details.languages,
   };
 
   const translations: TranslationRow[] = [

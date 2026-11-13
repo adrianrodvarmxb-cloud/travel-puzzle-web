@@ -22,8 +22,9 @@ import { archiveTangolResponse } from "../ingest/tangol-archive";
 import { createTangolApi } from "../tangol/api";
 import { tangolConfig } from "../tangol/lib/config";
 import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catalog-rules";
-import { runTangolSyncStep } from "../tangol/sync";
+import { DEFAULT_RATES_CURRENCY, runTangolSyncStep } from "../tangol/sync";
 import { formatTourCountCheck, formatTourCountDetail } from "../tangol/lib/tour-count";
+import { formatCurrencyReport } from "../tangol/lib/currency-report";
 import {
   createTangolSqlRepo,
   readExportRows,
@@ -112,12 +113,15 @@ function agencyTrips(): AgencyTripPlace[] {
       }
     : undefined;
 
+  // REQ-10510: moneda de las tarifas; por omisión USD (DEFAULT_RATES_CURRENCY). Se cambia con la casilla «moneda» del workflow.
+  const ratesCurrency = (process.env.TANGOL_RATES_CURRENCY ?? "").trim() || DEFAULT_RATES_CURRENCY;
   const report = await runTangolSyncStep({
     api: createTangolApi({ config, fetch, onRaw }),
     repo,
     now: new Date(),
     agencyTrips: agencyTrips(),
     ensayo: !escribir,
+    ratesCurrency,
     ...(lote !== undefined && Number.isFinite(lote) && lote > 0 ? { batch: lote } : {}),
   });
 
@@ -131,6 +135,8 @@ function agencyTrips(): AgencyTripPlace[] {
     console.log(`Destinos del lote: ${c.destinos} (pendientes ${c.destinosPendientes}) · ciudades nuevas: ${c.ciudadesNuevas}`);
     console.log(`Tours vistos: ${c.tours} → se escribirían ${c.escritos}; excluidos por reglas ${c.excluidos}; descartados ${c.descartados}; inválidos ${report.invalidos}`);
   }
+  // REQ-10510: la moneda que devolvió Tangol se ve en el resumen (la pedida no garantiza la devuelta).
+  console.log(formatCurrencyReport(report));
   // REQ-3505: la diferencia entre lo que dice cada destino y lo que llegó nunca pasa callada.
   if (report.cuadre) {
     console.log(formatTourCountCheck(report.cuadre));
