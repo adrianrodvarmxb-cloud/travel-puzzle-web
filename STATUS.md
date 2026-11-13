@@ -1144,3 +1144,8 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3522 | Aplicar 0030 en producción | NUEVO | — | — | PENDIENTE (PO) |
 | REQ-3409 | «Agregar a mi calendario» (.ics y liga de Google Calendar) | NUEVO | zoefel-mila src/catalogo/lib/calendario.js | zoefel-mila tests/catalogo/calendario.test.js | EN CURSO (PR #205 de zoefel-mila, 7 verdes; falta formato de entrega) |
 | REQ-3408 | «¿Cómo llego?» el día del tour (ubicación y ruta al punto) | NUEVO | zoefel-mila src/catalogo/lib/comoLlego.js | zoefel-mila tests/catalogo/como-llego.test.js | EN CURSO (PR #206 de zoefel-mila, 7 verdes; falta conectarla) |
+| REQ-3400 | (journey) pieza pura copiarFolio.js | NUEVO | zoefel-mila src/catalogo/lib/copiarFolio.js | zoefel-mila tests/catalogo/journey-piezas.test.js | EN CURSO (PR #209 de zoefel-mila) |
+| REQ-3391 | (journey) pieza pura accesosRapidos.js | NUEVO | zoefel-mila src/catalogo/lib/accesosRapidos.js | zoefel-mila tests/catalogo/journey-piezas.test.js | EN CURSO (PR #209 de zoefel-mila) |
+| REQ-3407 | (journey) pieza pura comprobante.js | NUEVO | zoefel-mila src/catalogo/lib/comprobante.js | zoefel-mila tests/catalogo/journey-piezas.test.js | EN CURSO (PR #209 de zoefel-mila) |
+| REQ-3410 | (journey) pieza pura resena.js | NUEVO | zoefel-mila src/catalogo/lib/resena.js | zoefel-mila tests/catalogo/journey-piezas.test.js | EN CURSO (PR #209 de zoefel-mila) |
+| REQ-3405 | (journey) pieza pura codigoAcceso.js | NUEVO | zoefel-mila src/catalogo/lib/codigoAcceso.js | zoefel-mila tests/catalogo/journey-piezas.test.js | EN CURSO (PR #209 de zoefel-mila) |
