@@ -25,7 +25,7 @@ function mailer() {
 }
 
 async function findRequest(id: string): Promise<PayRequest | null> {
-  const r = await getPrisma().tripRequest.findUnique({ where: { id }, select: { id: true, ref: true, tripTitle: true, email: true, firstName: true, language: true } });
+  const r = await getPrisma().tripRequest.findUnique({ where: { id }, select: { id: true, ref: true, tripTitle: true, email: true, firstName: true, language: true, date: true, adults: true, children: true, infants: true } }); // REQ-3523
   return r ?? null;
 }
 

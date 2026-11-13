@@ -5,6 +5,25 @@ import { kindLabel, type PaymentKind } from "./checkout";
 
 export interface PayMailInput {
   ref: string; tripTitle: string; firstName: string; kind: PaymentKind; centavos: number; logoUrl: string;
+  // REQ-3523 (REQ-3388): constancia de contratación (NOM-010-TUR); opcionales para no cambiar los usos de antes.
+  fecha?: string | null; personas?: string; empresa?: string; siteUrl?: string;
+}
+
+// REQ-3523: constancia con membrete (el correo ya va con la marca) y los datos de la agencia.
+function constancia(i: PayMailInput): { html: string; text: string[] } | null {
+  if (!i.empresa) return null;
+  const site = (i.siteUrl ?? "https://travelpuzzle.com.mx").replace(/\/$/, "");
+  const lineas = [
+    "Constancia de contratación",
+    `Agencia: ${i.empresa}`,
+    `Folio: ${i.ref} · Servicio: ${i.tripTitle}${i.fecha ? ` · Fecha: ${i.fecha}` : ""}${i.personas ? ` · Personas: ${i.personas}` : ""}`,
+    `Pago recibido: ${kindLabel(i.kind)} por ${formatMXN(i.centavos)}`,
+    `Contrato (términos y condiciones): ${site}/terminos · Aviso de privacidad: ${site}/privacidad`,
+    "La confirmación del prestador final te la enviamos en cuanto la emita.",
+  ];
+  const html = `<div style="margin-top:18px;padding:14px 16px;border:1px solid ${UI.LINE};border-radius:12px"><p style="margin:0 0 6px;font-weight:700;color:${UI.N9}">${esc(lineas[0])}</p>${lineas
+    .slice(1).map((l) => `<p style="margin:4px 0;font-size:13px;line-height:1.5;color:${UI.N9}">${esc(l)}</p>`).join("")}</div>`;
+  return { html, text: lineas };
 }
 
 const LABELS = { myBooking: "", help: "", follow: "", footer: "Travel Puzzle México", slogan: "Te armamos tu viaje" };
@@ -50,12 +69,13 @@ export function buildPaidCustomerEmail(i: PayMailInput) {
   const subject = `Travel Puzzle / Recibimos tu pago · ${i.ref}`;
   const lead = `Gracias, ${i.firstName}. Recibimos tu pago y tu asesor te enviará la confirmación de tu viaje.`;
   const s = summary(i);
+  const c = constancia(i); // REQ-3523
   const body = `<tr><td style="padding:26px 26px 0">
 <h1 style="margin:0 0 8px;font-size:24px;line-height:1.2;color:${UI.N9}">Pago recibido</h1>
 <p style="font-size:15px;line-height:1.55;color:${UI.N9};margin:0">${esc(lead)}</p>
-${s.html}
+${s.html}${c ? c.html : ""}
 </td></tr>`;
-  const text = [subject, "", lead, "", ...s.text].join("\n");
+  const text = [subject, "", lead, "", ...s.text, ...(c ? ["", ...c.text] : [])].join("\n");
   return { subject, html: shell(subject, lead, i.logoUrl, body), text };
 }
 

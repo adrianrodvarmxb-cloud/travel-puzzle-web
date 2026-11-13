@@ -1130,3 +1130,8 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-3503 | Pruebas del mapeo contra la tabla real de tipos (38 válidos sin «por-revisar», traslados en traslados, cobertura en cero) | NUEVO (PO 12-11) | `tests/fixtures/tangol-tipos-2026-11-12.json` | `src/taxonomy/data/mapping/tangol-tipos.test.ts` | CUMPLIDO (verde en la sesión) |
 | REQ-3510 | Recálculo de taxonomía detenido (INC-015): `TAXONOMY_SYNC_ENABLED` en `"false"`; reemplaza a REQ-615 | NUEVO (PO 13-11) | `wrangler.jsonc` | `src/taxonomy/flag-sync-detenido.test.ts`, `src/taxonomy/recompute.test.ts` | EN CURSO (verde en la sesión; merge del PO) |
 | REQ-3511 | Poda por tandas al cerrar cada recálculo (también al abortar) y limpieza única en producción con OK del PO | NUEVO (INC-015) | `src/taxonomy/repository.ts`, `src/taxonomy/recompute.ts`, `src/taxonomy/lib/run-plan.ts`, `.github/workflows/limpieza-taxonomia.yml` | `src/taxonomy/recompute.test.ts`, `src/ops/lib/limpieza-taxonomia-workflow.test.ts` | EN CURSO (verde en la sesión; merge del PO) |
+
+## Constancia de contratación en el correo de pago (13 nov 2026) — matriz
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3523 | Constancia de contratación en «Recibimos tu pago» (implementa REQ-3388) | NUEVO | src/payments/lib/email.ts, src/payments/service.ts, src/payments/deps.ts | src/payments/lib/email.test.ts, src/payments/service.test.ts | EN CURSO (verde; espera merge) |

@@ -154,6 +154,16 @@ describe("handleStripeWebhook", () => {
     expect(team.subject).toContain("TP-ABC");
   });
 
+  it("REQ-3523: el correo de pago al cliente lleva la constancia con el RNT de los términos publicados y las ligas al contrato y al aviso", async () => {
+    const d = whDeps({ findRequest: vi.fn(async () => ({ ...request, date: "2027-04-01", adults: 2, children: 1, infants: 0 })) });
+    await handleStripeWebhook(paidEvent, "sig", d);
+    const mail = (d.sendCustomer as ReturnType<typeof vi.fn>).mock.calls[0][0];
+    expect(mail.text).toContain("Constancia de contratación");
+    expect(mail.text).toContain("04100050179");
+    expect(mail.text).toContain("2 adultos, 1 niño");
+    expect(mail.text).toContain("https://travelpuzzle.com.mx/terminos");
+  });
+
   it("REQ-117: aviso repetido (ya pagado) no duplica correos", async () => {
     const d = whDeps({ markPaid: vi.fn(async () => null) });
     expect(await handleStripeWebhook(paidEvent, "sig", d)).toBe("duplicate");
