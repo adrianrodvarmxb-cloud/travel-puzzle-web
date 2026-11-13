@@ -21,6 +21,7 @@ import { createTangolApi } from "../tangol/api";
 import { tangolConfig } from "../tangol/lib/config";
 import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catalog-rules";
 import { runTangolSyncStep } from "../tangol/sync";
+import { formatTourCountCheck, formatTourCountDetail } from "../tangol/lib/tour-count";
 import {
   createTangolSqlRepo,
   readExportRows,
@@ -97,7 +98,13 @@ function agencyTrips(): AgencyTripPlace[] {
     console.log(`Destinos del lote: ${c.destinos} (pendientes ${c.destinosPendientes}) · ciudades nuevas: ${c.ciudadesNuevas}`);
     console.log(`Tours vistos: ${c.tours} → se escribirían ${c.escritos}; excluidos por reglas ${c.excluidos}; descartados ${c.descartados}; inválidos ${report.invalidos}`);
   }
-  console.log(`Países nuevos: ${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
+  // REQ-3505: la diferencia entre lo que dice cada destino y lo que llegó nunca pasa callada.
+  if (report.cuadre) {
+    console.log(formatTourCountCheck(report.cuadre));
+    for (const l of formatTourCountDetail(report.cuadre)) console.log(l);
+    if (report.cuadre.destinos.length) console.log(`::warning::${formatTourCountCheck(report.cuadre)}`);
+  }
+  console.log(`Países nuevos:${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
   for (const p of report.ciudadesPendientes) console.log(`Pendiente: destino ${p.externalId} «${p.name}» (${p.countryCode}) — ${p.reason}`);
   for (const e of report.errores) console.log(`Error contenido: ${e.donde} — ${e.error}`);
 
