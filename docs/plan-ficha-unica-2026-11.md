@@ -206,9 +206,10 @@ Cada bandera se enciende sola, en su propio PR, con preview encendido, humo verd
 
 Fuente: revisión del 12 nov 2026 (REQ-3314), documento `claude/adicionales-por-proveedor-2026-11-12.md` del Proyecto de Claude. Es confidencial porque trae montos netos: no entra al repo; a la ficha solo llega el precio final.
 
-- **Con adicionales y precio:** Exotic Escapes, Fantástica China, Turismo Asiático, Mondial Trails, Jordan Experience, Destino Colombia, Canadian Receptive Tours, Multitravel, Extime Travel y Eurowelcome / Anglovision. Tipos: habitación individual, media pensión y pensión completa, vuelos internos, extensiones, noches extra, opcionales, traslados y recargos de fecha.
+- **Con adicionales y precio:** Tangol (traslado), Exotic Escapes, Fantástica China, Turismo Asiático, Mondial Trails, Jordan Experience, Destino Colombia, Canadian Receptive Tours, Multitravel, Extime Travel y Eurowelcome / Anglovision. Tipos: habitación individual, media pensión y pensión completa, vuelos internos, extensiones, noches extra, opcionales, traslados y recargos de fecha.
 - **Sin precio o a cotizar:** Oku Japan, Central Inca World y Big Bus (solo combos). Se muestran como «a cotizar con un asesor» o no se muestran; nunca con un precio inventado.
-- **Sin adicionales:** Tangol (sus variantes son las opciones con y sin traslado), FREETOUR, Kyoto Tours, Eurorutas, BeMyGuest y Hotelbeds.
+- **Tangol sí tiene adicionales** (corrección del PO, 14 nov 06:01: «Tangol sí tiene, con transporte y sin transporte»): el traslado es su adicional. Sale de las opciones de la API (con y sin traslado) y se muestra igual que los adicionales de los demás proveedores, con la diferencia de precio a la vista.
+- **Sin adicionales:** FREETOUR, Kyoto Tours, Eurorutas, BeMyGuest y Hotelbeds.
 - Reglas: precio final con el markup firmado, cada temporada con su fecha («si no está clara, no publicar»), vuelos internos con su cláusula de deslinde, un proveedor por PR y tras la bandera `FICHA_ADDONS_ENABLED`.
 
 ## 9. Puntos abiertos que este plan no inventa
