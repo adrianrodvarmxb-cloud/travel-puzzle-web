@@ -109,7 +109,7 @@ Decisiones que Adri firmó una por una, en conversación, sobre la propuesta `cl
 - Reservas de Tangol, G1: cobra Travel Puzzle con retención en Stripe y paga el neto a Tangol por quincena (firmado en conversación el 14 nov; falta escribirlo en el PR #553).
 
 ## Estado
-Las 52 decisiones y las confirmaciones finales quedaron firmadas el 14 nov 2026 (una confirmación con supuesto por validar, REQ-10634). Falta la firma del plan (REQ-10579); sin ella no se escribe código de la ficha única.
+Las 52 decisiones y las confirmaciones finales quedaron firmadas el 14 nov 2026 (una confirmación con supuesto por validar, REQ-10634). El plan quedó firmado por el PO el 14 nov 2026 a las 06:07 (REQ-10579).
 
 ## Puntos que el plan debe resolver antes de construir
 1. Decisión 38 reemplaza REQ-10542: quitar «Tangol Tours» de la casilla Proveedor y de «En breve», y moverlo a la línea «Opera en destino» (PR propio; requiere otra vuelta del sync o resolverlo al pintar).

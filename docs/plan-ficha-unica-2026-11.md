@@ -1,6 +1,6 @@
 # Plan: ficha única para todos los proveedores (do-plan, para firma del PO)
 
-**Folio del plan:** REQ-10579 (PENDIENTE de firma). **Frente:** #549. **Rama:** `plan/ficha-unica` (solo documentos).
+**Folio del plan:** REQ-10579 (FIRMADO por el PO el 14 nov 2026, 06:07). **Frente:** #549. **Rama:** `plan/ficha-unica` (solo documentos).
 **Petición del PO (14 nov 2026):** «tenemos que buscar una vista que se vea lo más homologada posible… proponer una estructura única considerando todas las variables y homologar todo»; después: taxonomía para todos los proveedores, carrito en todas las fichas, transporte por ubicación, mapas, diferencia entre pago y reserva, Mila, proceso obligatorio de alta, do-plan y reglas de JADE SPARK.
 **Decisiones:** las 52 decisiones y las confirmaciones finales están firmadas en `docs/gates-ficha-unica-2026-11.md` (REQ-10580 a REQ-10634). Este plan las aplica; no decide nada nuevo.
 **Regla de este plan:** no se escribe código de la ficha única hasta que el PO firme REQ-10579.
@@ -226,4 +226,4 @@ Todo merge (merge = publicar); las migraciones de coordenadas, opciones y carrit
 
 ## 11. Firma del plan
 
-- [ ] **PO:** «Firmo el plan de la ficha única» (REQ-10579). Con la firma arranca la ola 0.
+- [x] **PO:** firmado el 14 nov 2026, 06:07: «Sí» a «¿firmas el plan de la ficha única?» (REQ-10579), con sus cambios de las 05:57 y 06:01 ya incluidos. Arranca la ola 0.

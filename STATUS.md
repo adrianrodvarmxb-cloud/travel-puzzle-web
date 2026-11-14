@@ -1207,7 +1207,7 @@ Plan para firma en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en
 
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-10579 | Firma del plan de la ficha única | NUEVO | `docs/plan-ficha-unica-2026-11.md` | — (definición) | PENDIENTE (falta la firma del PO) |
+| REQ-10579 | Firma del plan de la ficha única | NUEVO | `docs/plan-ficha-unica-2026-11.md` | — (definición) | CUMPLIDO (firmado por el PO, 14 nov 2026 06:07) |
 | REQ-10580 a REQ-10629 | 50 decisiones del PO (alcance, taxonomía, Tangol, carrito, mapas, cobro, Mila, alta de proveedores) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — (definiciones; la construcción lleva sus folios) | CUMPLIDO (firmadas 14 nov 2026) |
 | REQ-10630 a REQ-10633 | Confirmaciones: preguntas frecuentes, idiomas de la taxonomía, T&C traducidos, rendimiento | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — (definiciones) | CUMPLIDO (firmadas 14 nov 2026) |
 | REQ-10634 | Requisitos sin folio (accesibilidad, voucher, cancelación con reembolso) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — | PENDIENTE (supuesto por validar con el PO) |
