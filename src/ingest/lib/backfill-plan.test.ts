@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { matchDocument, pageOf, unclaimed, docStem } from "./backfill-plan";
+import { matchDocument, pageOf, unclaimed, docStem, webSnapshotName, snapshotValido } from "./backfill-plan";
 
 // Nombres de archivo de ejemplo (sin contenido): la carpeta real de PDF nunca entra al repo (REQ-748).
 const FILES = [
@@ -49,5 +49,30 @@ describe("REQ-10534 Extime: el viaje se liga al Excel del programa que contiene 
   it("REQ-10534 sin el código en ningún programa queda como hueco; nunca se inventa", () => {
     expect(matchDocument("extime", { ref: "ZZZ" }, XLS, contiene)).toMatchObject({ kind: "ninguno", file: null });
     expect(matchDocument("extime", { ref: "VAM" }, XLS).kind).toBe("ninguno");
+  });
+});
+
+describe("REQ-10575 Big Bus: la copia HTML de la página del producto es su documento original", () => {
+  const URL_NY = "https://www.bigbustours.com/en/new-york/new-york-tour-tickets-and-passes";
+  it("REQ-10575 el nombre de la copia sale de la URL (sin www, sin query ni diagonal final) y es el mismo con o sin www", () => {
+    expect(webSnapshotName(URL_NY)).toBe("bigbus_web_en_new-york_new-york-tour-tickets-and-passes.html");
+    expect(webSnapshotName("https://bigbustours.com/en/new-york/new-york-tour-tickets-and-passes/?utm=x#a")).toBe(webSnapshotName(URL_NY));
+    expect(webSnapshotName("https://bigbustours.com/en/boston")).toBe("bigbus_web_en_boston.html");
+  });
+  it("REQ-10575 con la copia en la carpeta, el viaje se liga a ese archivo HTML y conserva la URL", () => {
+    const files = [...FILES, `0a1b2c3d-${webSnapshotName(URL_NY)}`];
+    expect(matchDocument("bigbus", { ref: "NYC", source: URL_NY }, files)).toEqual({ kind: "web", file: `0a1b2c3d-${webSnapshotName(URL_NY)}`, url: URL_NY, pageToken: null, note: "" });
+  });
+  it("REQ-10575 sin la copia sigue como pendiente de guardar; sin URL completa, hueco (nunca se adivina)", () => {
+    expect(matchDocument("bigbus", { ref: "NYC", source: URL_NY }, FILES)).toMatchObject({ kind: "web", file: null, url: URL_NY });
+    expect(matchDocument("bigbus", { ref: "MIA", source: "miami-tour-tickets-and-passes" }, FILES).kind).toBe("ninguno");
+  });
+  it("REQ-10575 solo se guarda una respuesta 200 en HTML de bigbustours.com con página completa", () => {
+    const html = `<!doctype html><html><head><title>Big Bus</title></head><body>${"x".repeat(3000)}</body></html>`;
+    expect(snapshotValido({ status: 200, contentType: "text/html; charset=utf-8", finalUrl: URL_NY, body: html })).toEqual({ ok: true, motivo: "" });
+    expect(snapshotValido({ status: 404, contentType: "text/html", finalUrl: URL_NY, body: html }).ok).toBe(false);
+    expect(snapshotValido({ status: 200, contentType: "application/json", finalUrl: URL_NY, body: html }).ok).toBe(false);
+    expect(snapshotValido({ status: 200, contentType: "text/html", finalUrl: "https://captcha.example.com/x", body: html }).ok).toBe(false);
+    expect(snapshotValido({ status: 200, contentType: "text/html", finalUrl: URL_NY, body: "<html></html>" }).ok).toBe(false);
   });
 });

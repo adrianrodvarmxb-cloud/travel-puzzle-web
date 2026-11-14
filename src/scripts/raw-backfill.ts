@@ -7,6 +7,8 @@
  *
  * --salida escribe los objetos (raw/… y source/…), crudo.sql y subir.sh (comandos de wrangler, sin correr) en una
  *   carpeta FUERA del repo (o en tmp/, que está en .gitignore). La copia exacta lleva netos: nunca va al repo.
+ * REQ-10575: las copias HTML de Big Bus (`bigbus_web_<ruta>.html`) que estén en --docs cuentan como su documento
+ *   original; las baja `src/scripts/bigbus-copias.ts` (este script no hace red).
  * --freetour-paginas solo MIDE (FREETOUR se respalda encendiendo RAW_ARCHIVE_ENABLED: el siguiente sync diario ya
  *   recorre /tours completo y guarda la versión 1 de cada tour, sin otro login ni más carga a la API, E4).
  */
@@ -74,8 +76,8 @@ async function main() {
       // REQ-10534: en un Excel la «página» es el renglón donde aparece el código.
       const page = m.kind === "pdf" && m.file ? pageOf(pdfPages(m.file), m.pageToken)
         : m.kind === "xlsx" && m.file ? (xlsxRows(m.file).findIndex((r) => conCodigo(r, e.ref)) + 1 || null) : null;
-      const esDoc = (m.kind === "pdf" || m.kind === "xlsx") && !!m.file;
-      inventory.push({ provider, ref: e.ref, kind: m.kind, file: m.file, url: m.url, page, note: m.note || (esDoc && page === null ? "página por confirmar" : "") });
+      const esDoc = (m.kind === "pdf" || m.kind === "xlsx" || m.kind === "web") && !!m.file; // REQ-10575: la copia HTML cuenta
+      inventory.push({ provider, ref: e.ref, kind: m.kind, file: m.file, url: m.url, page, note: m.note || (esDoc && m.kind !== "web" && page === null ? "página por confirmar" : "") });
       if (esDoc && m.file) {
         if (!docs.has(m.file)) docs.set(m.file, await documentFor(provider, m.file.split("/").pop()!, new Uint8Array(readFileSync(m.file)), now));
         docsByRef.set(e.ref, { key: docs.get(m.file)!.key, page });
@@ -101,7 +103,7 @@ async function main() {
     freetour = { items: items.length, promedioBytes: Math.round(sum(bytes) / Math.max(1, items.length)), promedioGzip: Math.round(sum(gz) / Math.max(1, items.length)), maxBytes: Math.max(0, ...bytes) };
   }
 
-  const missing = inventory.filter((r) => r.kind !== "pdf" && r.kind !== "xlsx");
+  const missing = inventory.filter((r) => !r.file);
   const noPage = inventory.filter((r) => (r.kind === "pdf" || r.kind === "xlsx") && r.page === null);
   const report = { generado: now.toISOString(), ensayo: !out, tamanos: sizes, freetour, documentos: docs.size, faltan: missing, sinPagina: noPage.map((r) => `${r.provider}:${r.ref}`), noReclamados: unclaimed(files, inventory).map((f) => f.split("/").pop()) };
 

@@ -44,9 +44,13 @@ export function matchDocument(provider: string, entry: { ref: string; source?: u
   }
   if (provider === "bigbus") {
     const url = typeof entry.source === "string" && /^https?:\/\//.test(entry.source) ? entry.source : null;
-    return url
-      ? { kind: "web", file: null, url, pageToken: null, note: "página del producto: falta guardar su copia (HTML) para subirla" }
-      : { kind: "ninguno", file: null, url: null, pageToken: null, note: "source sin URL completa: falta la página original" };
+    if (!url) return { kind: "ninguno", file: null, url: null, pageToken: null, note: "source sin URL completa: falta la página original" };
+    // REQ-10575: la copia HTML guardada de la página del producto es su documento original.
+    const name = webSnapshotName(url);
+    const file = files.find((f) => docStem(f) === name) ?? null;
+    return file
+      ? { kind: "web", file, url, pageToken: null, note: "" }
+      : { kind: "web", file: null, url, pageToken: null, note: "página del producto: falta guardar su copia (HTML) para subirla" };
   }
   for (const r of RULES[provider] ?? []) {
     if (!r.ref.test(entry.ref)) continue;
@@ -56,6 +60,29 @@ export function matchDocument(provider: string, entry: { ref: string; source?: u
     return { kind: "ninguno", file: null, url: null, pageToken: null, note: `no está el PDF que corresponde (${doc.source})` };
   }
   return { kind: "ninguno", file: null, url: null, pageToken: null, note: provider === "extime" ? "no hay documento original de Extime (programa invierno 2026-27 / verano 2027)" : "sin regla de documento" };
+}
+
+/**
+ * REQ-10575: nombre del archivo con la copia HTML de una página de producto (Big Bus). Determinista: el mismo para la
+ * URL con o sin www, query, ancla o diagonal final, así el respaldo encuentra la copia sin adivinar.
+ */
+// REQ-10575
+export function webSnapshotName(url: string): string {
+  const u = new URL(url);
+  const path = u.pathname.toLowerCase().replace(/\/+$/, "").split("/").filter(Boolean).join("_").replace(/[^a-z0-9_-]/g, "-");
+  return `bigbus_web_${path || "inicio"}.html`;
+}
+
+/** REQ-10575: solo se guarda como original una página completa (200, HTML, de bigbustours.com); un error o captcha no. */
+// REQ-10575
+export function snapshotValido(r: { status: number; contentType: string | null; finalUrl: string; body: string }): { ok: boolean; motivo: string } {
+  if (r.status !== 200) return { ok: false, motivo: `respondió ${r.status}` };
+  if (!/text\/html/i.test(r.contentType ?? "")) return { ok: false, motivo: `no es HTML (${r.contentType ?? "sin tipo"})` };
+  let host = "";
+  try { host = new URL(r.finalUrl).hostname.replace(/^www\./, ""); } catch { /* URL inválida */ }
+  if (host !== "bigbustours.com") return { ok: false, motivo: `terminó en otro sitio (${host || r.finalUrl})` };
+  if (!/<html[\s>]/i.test(r.body) || r.body.length < 2000) return { ok: false, motivo: "página incompleta" };
+  return { ok: true, motivo: "" };
 }
 
 /** Página (1-based) del primer texto de página que contiene el token; un PDF de una sola ficha es la página 1. */
