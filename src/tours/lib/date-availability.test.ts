@@ -69,3 +69,58 @@ describe("disponibilidad y precio por fecha (igual para todos los proveedores)",
     expect(Object.keys(r[0]).sort()).toEqual(["adult", "currency", "from", "option", "to"]);
   });
 });
+
+// REQ-10650: los viajes de proveedores de PDF entran al mismo calendario que Freetour y Tangol (plan REQ-3454, G1 = A).
+describe("fromTripAvailability (REQ-10650)", async () => {
+  const { fromTripAvailability } = await import("./date-availability");
+  // Fantástica China: lunes, martes y jueves; invierno solo lunes; Feria de Cantón se suma; Navidad «por confirmar».
+  const china = {
+    weekdays: [1, 2, 4],
+    closedDates: ["2027-04-13"],
+    seasons: [{ name: "Media", from: "2027-04-01", to: "2027-05-31", supplement: 100 }],
+    validFrom: "2027-03-23",
+    validTo: "2028-03-20",
+    weekdayRules: [{ from: "2027-11-09", to: "2028-01-17", weekdays: [1] }],
+    surcharges: [{ name: "Feria de Cantón", from: "2027-04-06", to: "2027-04-26", weekdays: [], amount: 70, byOption: { sgl: 140 } }],
+    quoteRanges: [{ from: "2027-12-20", to: "2028-01-05" }],
+  };
+  const opciones = [{ id: "dbl", adult: 1000 }, { id: "sgl", adult: 1400 }];
+
+  it("REQ-10650: cada día de salida da el precio final por opción (temporada + recargo) en la moneda del viaje", () => {
+    const a = fromTripAvailability({ availability: china, options: opciones, currency: "USD" }, "2027-04");
+    // 2027-04-12 es lunes, en temporada media y en Feria de Cantón.
+    expect(a.rules.filter((r) => r.from === "2027-04-12")).toEqual([
+      { option: "dbl", from: "2027-04-12", to: "2027-04-12", adult: 1170, currency: "USD" },
+      { option: "sgl", from: "2027-04-12", to: "2027-04-12", adult: 1640, currency: "USD" },
+    ]);
+    const dias = monthAvailability(a, "2027-04", { today: "2027-01-01" });
+    expect(dias.find((d) => d.date === "2027-04-12")).toEqual({ date: "2027-04-12", bookable: true, from: 1170, currency: "USD" });
+    expect(dias.find((d) => d.date === "2027-04-14")?.bookable).toBe(false); // miércoles: no sale
+    expect(dias.find((d) => d.date === "2027-04-13")?.bookable).toBe(false); // cerrado
+  });
+
+  it("REQ-10650 (G3): un día «por confirmar» se ve y se puede solicitar, sin precio", () => {
+    const a = fromTripAvailability({ availability: china, options: opciones, currency: "USD" }, "2027-12");
+    const dias = monthAvailability(a, "2027-12", { today: "2027-01-01" });
+    // 2027-12-27 es lunes (invierno: solo lunes) y cae en Navidad: por confirmar.
+    expect(dias.find((d) => d.date === "2027-12-27")).toEqual({ date: "2027-12-27", bookable: true, from: null, currency: "USD", quote: true });
+    expect(dias.find((d) => d.date === "2027-12-28")?.bookable).toBe(false); // martes en invierno: no sale
+    expect(dias.find((d) => d.date === "2027-12-06")).toEqual({ date: "2027-12-06", bookable: true, from: 1000, currency: "USD" }); // lunes normal
+  });
+
+  it("REQ-10650 (G4): fuera de vigencia no se ofrece nada; un mes inválido no da reglas", () => {
+    expect(fromTripAvailability({ availability: china, options: opciones, currency: "USD" }, "2028-04").rules).toEqual([]);
+    expect(fromTripAvailability({ availability: china, options: opciones, currency: "USD" }, "2027-13").rules).toEqual([]);
+    expect(fromTripAvailability({ availability: china, options: opciones, currency: "USD" }, "abril").rules).toEqual([]);
+  });
+
+  it("REQ-10650 (LSP): un viaje sin campos nuevos ni opción con precio sale «por confirmar» y uno viejo con temporada como siempre", () => {
+    const viejo = { weekdays: [], closedDates: [], seasons: [{ name: "Verano", from: "2027-07-01", to: "2027-08-31", supplement: 100 }] };
+    const a = fromTripAvailability({ availability: viejo, options: [{ id: "dbl", adult: 1000 }], currency: "MXN" }, "2027-07");
+    expect(a.rules.find((r) => r.from === "2027-07-10")?.adult).toBe(1100);
+    expect(a.rules).toHaveLength(31);
+    const cotizar = fromTripAvailability({ availability: viejo, options: [{ id: "dbl", adult: null }], currency: "MXN" }, "2027-07");
+    expect(cotizar.rules.every((r) => r.adult === null)).toBe(true);
+    expect(monthAvailability(cotizar, "2027-07", { today: "2027-01-01" })[0]).toMatchObject({ bookable: true, from: null, quote: true });
+  });
+});

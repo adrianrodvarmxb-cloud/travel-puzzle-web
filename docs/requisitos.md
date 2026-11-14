@@ -1689,3 +1689,11 @@ Petición (PO, 14 nov 2026 06:09): «Los seis ahora» a «¿cuáles abro ahora?�
 | REQ-10644 | DEFINICIÓN | Cupones. El PO pidió abrirlo ahora («Los seis ahora»). Choca con la regla firmada el 12 nov en el recorrido de Mila: «Cupones y ofertas con cuenta regresiva: no manejamos descuentos ni urgencia falsa». Falta que el PO diga cuál regla manda y, si hay cupones, quién los emite, sobre qué precio y con qué tope | PO | Decisión del PO | PENDIENTE (falta la definición del PO) |
 | REQ-10645 | DEFINICIÓN | Lista de espera. Dada una fecha sin lugares, cuando el cliente quiere esa fecha, entonces puede dejar sus datos para que se le avise si se libera un lugar. Falta definir por qué canal se avisa (correo, WhatsApp por Mila) y cuánto dura el aviso | PO | Decisión del PO; ola 8 | PENDIENTE (falta la definición del PO) |
 | REQ-10646 | DEFINICIÓN | Menores. Dada una experiencia con edades de niño e infante o con restricción de edad, cuando se reserva para un menor, entonces la ficha y el paso de reserva dicen la edad mínima, la tarifa que aplica y si debe ir acompañado de un adulto. Falta definir con el abogado el texto de consentimiento del tutor | PO | Abogado; ola 8 | PENDIENTE (falta la definición del PO y la revisión del abogado) |
+
+## REQ-10650: los viajes de proveedores de PDF entran al calendario común (frente #444, plan REQ-3454, 14 nov 2026)
+
+Plan firmado por el PO el 14 nov 2026 (PR #446: G1–G5 = A). Depende de #440 (REQ-3443…3445) y #475 (REQ-3454, ola 1).
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-10650 | CÓDIGO | «no se si esto de para hacer un calendario con costos como los que s ehara apra freutour y Tangol» (PO, 12 nov 2026; G1 = A: una sola forma para todos). Dado un viaje de proveedor de PDF con su disponibilidad y opciones, cuando se pide un mes, entonces `fromTripAvailability` da una regla de un día por opción con el precio final de `dayPrice` (temporada + recargos), nada fuera de vigencia o en días que no sale, y un día «por confirmar» se ofrece sin precio (`quote: true`) y se puede solicitar (G3); `monthAvailability` lo pinta igual que a Freetour y Tangol. Sin neto. | agente | Merge de #440 y #475 | CUMPLIDO (4 pruebas verdes el 14 nov 2026, `npx vitest run src/tours/lib/date-availability.test.ts`; sin pantalla; merge con OK del PO) |
