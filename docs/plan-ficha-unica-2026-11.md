@@ -35,6 +35,7 @@ src/ficha/
   lib/whatsapp-context.ts   mensaje con código, fecha, personas y opción (decisión 41)
   lib/prefill.ts            lectura de ?fecha&adultos&ninos&opcion
   lib/local-price.ts        precio en la moneda del visitante y moneda del cargo (decisión 32)
+  lib/addons.ts             adicionales por proveedor a precio final, sin neto (REQ-10636)
   lib/quality.ts            mínimo de publicación para tours por API (decisión 50)
   lib/agent-view.ts         vista de Mila desde el modelo, sin FREETOUR
   lib/readers/              un lector por superficie: page, mila, email, booking, search (decisión 3)
@@ -87,7 +88,7 @@ Un adaptador por proveedor convierte sus datos al modelo; la plantilla no sabe d
 | 9 | Itinerario | Por día en circuitos |
 | 10 | Incluye / No incluye | Una columna si falta la otra |
 | 11 | Punto de encuentro y mapa | Punto exacto con «Cómo llegar», o círculo de «Zona aproximada» sin botón |
-| 12 | Opciones y precios | Tarjetas por opción (con y sin traslado); oculto con una sola |
+| 12 | Opciones, adicionales y precios | Tarjetas por opción (con y sin traslado); oculto con una sola. Adicionales del proveedor (habitación individual, noches extra, extensiones, comidas, opcionales) a precio final, nunca el neto |
 | 13 | Antes de ir | Qué llevar, requisitos, accesibilidad |
 | 14 | Condiciones | Una sola cancelación, resumida también junto al precio; «Cómo funciona tu reserva» y 48 horas hábiles |
 | 15 | Información importante | Notas del proveedor y la línea discreta «Opera en destino: …» (decisión 38), igual para todos |
@@ -119,6 +120,8 @@ Panel de reserva en computadora: precio en la moneda del visitante con la moneda
 | Precio local | Moneda del visitante, luego la del proveedor; siempre dice la moneda del cargo; sin dato de cambio no convierte | `npx vitest run src/ficha/lib/local-price.test.ts` |
 | Vista de Mila | Igual que la pública; FREETOUR nunca sale; sin neto ni teléfonos | `npx vitest run src/ficha/lib/agent-view.test.ts` |
 | Lectores | Página, Mila, correo, reserva y buscador dan el mismo dato para la misma ficha | `npx vitest run src/ficha/lib/readers/parity.test.ts` |
+| Adicionales | Cada adicional sale con precio final y su moneda; sin precio confirmado no se muestra; el neto nunca llega al navegador | `npx vitest run src/ficha/lib/addons.test.ts` |
+| Filtros | Un producto de cada proveedor con idioma y fecha aparece al filtrar; sin el dato, no se inventa | `npx vitest run src/search/lib/filtros-proveedor.test.ts` |
 | Mínimo de calidad | Sin descripción, foto o precio queda oculto y sale en el reporte | `npx vitest run src/ficha/lib/quality.test.ts` |
 | Paso de reserva | Un flujo; cada producto llega a su control sin perder datos | `npx vitest run src/booking/lib/flow.test.ts` |
 | Taxonomía | Tarjeta, ficha y marcado dan lo mismo; «minitrekking» = Excursión de un día con Aventura y Montaña; «Día completo» desde 6 h | `npx vitest run src/taxonomy/lib/block.test.ts` |
@@ -161,6 +164,7 @@ Ya existen y se extienden: `src/seo/lib/ficha-contract.test.ts` (REQ-580) y las 
 | `CART_ADD_ENABLED` | Botón «Agregar a mi viaje» |
 | `CART_SERVER_ENABLED` | Carrito guardado en servidor |
 | `TANGOL_OPTIONS_ENABLED` | Tarjetas por opción de Tangol |
+| `FICHA_ADDONS_ENABLED` | Adicionales del proveedor en la ficha |
 | `FICHA_FAQ_ENABLED` | Preguntas frecuentes |
 | `FICHA_FAQ_FREETOUR_ENABLED` | Preguntas en fichas de FREETOUR (tras revisión de cumplimiento) |
 | `PROVIDER_QUALITY_GATE_ENABLED` | Ocultar tours por API que no cumplen el mínimo |
@@ -179,13 +183,13 @@ Cada bandera se enciende sola, en su propio PR, con preview encendido, humo verd
 | 5 · Cercanía y transporte | «Cerca» único; transporte en toda ficha; tarjeta de Kiwitaxi fuera de FREETOUR | Ola 4 | Apagar la bandera | Variable de rutas de afiliado; cada encendido |
 | 6 · Modelo común | Modelo, esquema y adaptadores con fixtures reales, sin pantalla; después un lector por PR: página, Mila (rama #468 rehecha), correos, página de reserva, buscador; prueba de paridad entre lectores | Olas 1 y 3 | Código sin usar tras bandera; revertir | Merge |
 | 7 · Plantilla | Bloques y panel; encendido en Tangol; encendido en viajes y Big Bus; encendido en FREETOUR (tras revisión de cumplimiento); sección Traslados; campos nuevos en el gestor | Ola 6 | Apagar la bandera del proveedor devuelve la plantilla actual | Cada encendido |
-| 8 · Paso de reserva único | Flujo único tras el botón; versión en inglés de carrito, reserva y eventos | Ola 7 | Apagar la bandera | Encendido; toca cobros |
+| 8 · Paso de reserva único | Flujo único tras el botón; carrito, reserva y eventos en inglés **y en cada idioma disponible en la página** (REQ-10635) | Ola 7 | Apagar la bandera | Encendido; toca cobros |
 | 9 · Moneda del visitante | País del visitante; tipos de cambio; precio local calculado fuera del HTML en caché; moneda del cargo siempre a la vista | Ola 7 | Apagar la bandera: vuelve la moneda del proveedor | Fuente de tipos de cambio; encendido |
 | 10 · Carrito | Migración del carrito; carrito en servidor; botón «Agregar» en toda ficha; pieza «por cotizar»; Mila lo lee | Ola 7; aviso de cookies revisado por el abogado | Punto de regreso de D1; apagar banderas | Migración; encendido |
 | 11 · Mila en la ficha | WhatsApp con contexto; Mila lee Tangol; bloque de Mila; regla de derivación a persona; texto de emergencias según el requisito de WhatsApp Business | Olas 6 y 7 | Apagar banderas; conversaciones de prueba antes y después | Cada encendido |
-| 12 · Datos de Tangol | Tabla de opciones (migración); vuelta del sync con opciones, temporada, popularidad y categoría; tarjetas por opción; Tangol en filtros de idioma y fecha | Ola 7 | Punto de regreso de D1; nunca a la par de un deploy | Migración; llamar a Tangol; escritura en producción; encendido |
+| 12 · Opciones, adicionales y filtros | Tabla de opciones de Tangol (migración); vuelta del sync con opciones, temporada, popularidad y categoría; tarjetas por opción; **adicionales de cada proveedor en sus fichas** (REQ-10636), un proveedor por PR; **Tangol, FREETOUR y el resto de los proveedores en los filtros de idioma y fecha** (REQ-10637) | Ola 7 | Punto de regreso de D1; nunca a la par de un deploy | Migración; llamar a Tangol; escritura en producción; encendido |
 | 13 · Cobro | Registro automático de reembolsos; después lo que firme el plan de reservas (#553) | Acuerdo firmado y cuenta verificada | Apagar la bandera; prueba real mínima con reembolso | Pagos, secretos, datos reales, uno por uno |
-| 14 · Contenido y legal | Preguntas frecuentes; garantías por experiencia; apartado por proveedor en T&C; T&C en cada idioma con la cláusula de que prevalece el español | Ola 7; abogado | Apagar la bandera | Cada encendido; abogado |
+| 14 · Contenido y legal | Preguntas frecuentes; garantías por experiencia; apartado por proveedor en T&C; **preguntas, garantías y términos traducidos a cada idioma disponible en la página**, con la cláusula de que prevalece el español (REQ-10638) | Ola 7; abogado | Apagar la bandera | Cada encendido; abogado |
 | 15 · Rendimiento | REQ-1560, REQ-1562 y REQ-1563 corregidos; la plantilla nueva no pesa más que la actual (medición antes y después en cada PR de la ola 7) | En paralelo desde la ola 0 | Revertir el PR | Merge |
 | P · Alta de proveedores | Proceso en `docs/proveedores/alta.md` y en `CLAUDE.md`; prueba del expediente; expediente de Tangol y luego de las 7 agencias; informe de calidad con el número de tours que quedarían ocultos; paridad de conteos; mínimo de calidad | En paralelo | Documentos y pruebas; la bandera apagada no oculta nada | Merge; encendido del mínimo |
 
@@ -194,14 +198,23 @@ Cada bandera se enciende sola, en su propio PR, con preview encendido, humo verd
 
 ## 8. Folios y reemplazos
 
-- Decisiones: REQ-10580 a REQ-10629. Confirmaciones: REQ-10630 a REQ-10634. Plan: REQ-10579.
+- Decisiones: REQ-10580 a REQ-10629. Confirmaciones: REQ-10630 a REQ-10634. Plan: REQ-10579. Cambios del PO al plan (14 nov, 05:57): REQ-10635 a REQ-10639.
 - Los folios de construcción (bloques, banderas, migraciones, tareas del PO) se apartan con `folio.ts apartar` al abrir cada ola, no antes, para no bloquear a las otras sesiones.
 - Reemplazos: REQ-10542 → REQ-10615 (operador discreto); REQ-005 → REQ-10607 (transporte en toda ficha); REQ-428 → REQ-10601 (circuitos entran al carrito «por cotizar»); gate G-T5 del 12 nov → REQ-10587 (clasificación en memoria). En producción sigue lo anterior hasta que se publique el PR de cada uno.
+
+## 8 bis. Adicionales por proveedor (REQ-10636)
+
+Fuente: revisión del 12 nov 2026 (REQ-3314), documento `claude/adicionales-por-proveedor-2026-11-12.md` del Proyecto de Claude. Es confidencial porque trae montos netos: no entra al repo; a la ficha solo llega el precio final.
+
+- **Con adicionales y precio:** Exotic Escapes, Fantástica China, Turismo Asiático, Mondial Trails, Jordan Experience, Destino Colombia, Canadian Receptive Tours, Multitravel, Extime Travel y Eurowelcome / Anglovision. Tipos: habitación individual, media pensión y pensión completa, vuelos internos, extensiones, noches extra, opcionales, traslados y recargos de fecha.
+- **Sin precio o a cotizar:** Oku Japan, Central Inca World y Big Bus (solo combos). Se muestran como «a cotizar con un asesor» o no se muestran; nunca con un precio inventado.
+- **Sin adicionales:** Tangol (sus variantes son las opciones con y sin traslado), FREETOUR, Kyoto Tours, Eurorutas, BeMyGuest y Hotelbeds.
+- Reglas: precio final con el markup firmado, cada temporada con su fecha («si no está clara, no publicar»), vuelos internos con su cláusula de deslinde, un proveedor por PR y tras la bandera `FICHA_ADDONS_ENABLED`.
 
 ## 9. Puntos abiertos que este plan no inventa
 
 1. **Preguntas frecuentes en FREETOUR:** primero la revisión de cumplimiento; salida propuesta: bloque no indexable y fuera del marcado estructurado.
-2. **Decisión 45:** el requisito de «cliente ↔ proveedor por medio de Mila» (WhatsApp Business) no está en este repo; hay que ubicarlo antes de escribir el texto de emergencias.
+2. **Decisión 45 (ubicada, REQ-10639):** es el chat puente «Escribirle a mi guía» del recorrido de Mila en WhatsApp (`docs/journey-mila-whatsapp.md`, rama `feat/mila-acceso-catalogo`, etapa 8, REQ-3432 y REQ-3412): el cliente escribe por el número de Travel Puzzle, solo durante la ventana del tour, y nunca recibe el teléfono del operador ni del guía; las emergencias van siempre por Travel Puzzle. Del lado de Mila vive en el repo `zoefel-mila` (PR #203 a #209, todos en borrador y con sus banderas apagadas; el puente de avisos es el #207). La ficha y la confirmación solo lo prometen cuando esté encendido en producción.
 3. **Quinta confirmación (REQ-10634):** supuesto por validar: abrir ahora accesibilidad, voucher y cancelación con reembolso; cupones, lista de espera y menores después.
 4. **Moneda del visitante:** la fuente de tipos de cambio para monedas distintas de USD y EUR se propone y se firma al abrir la ola 9.
 5. **Terceros que bloquean olas:** el abogado (cookies, T&C traducidos, cláusulas 1.3 y 7.3 del acuerdo con Tangol), Tangol (detalle de reseñas, descuento por API, moneda, políticas de cancelación), FREETOUR (permisos de Mila, preguntas y taxonomía ampliada), el contador (CFDI) y Claudia (garantías).

@@ -120,3 +120,14 @@ Las 52 decisiones y las confirmaciones finales quedaron firmadas el 14 nov 2026 
 6. Decisiones 3 y 7 agrandan la entrega (todos los lectores a la vez; paso de reserva unificado): repartir en PR chicos tras bandera.
 7. Decisión 24: migración del carrito y revisión del abogado del aviso de cookies.
 8. Decisión 32: país del visitante, fuente de tipos de cambio y compatibilidad con la caché de 5 minutos.
+
+## Cambios del PO al plan (14 nov 2026, 05:57)
+
+| Folio | Cambio (frase literal del PO) | Dónde entra |
+|---|---|---|
+| REQ-10635 | «Un solo paso de reserva para todos, también en inglés y en cada idioma disponible en la página» | Ola 8 |
+| REQ-10636 | «buscar conversación en este proyecto donde se ubicaron los adicionales de cada proveedor para agregarlos a sus fichas» | Ola 12 y sección 8 bis del plan |
+| REQ-10637 | «Tangol, Freetour y resto de proveedores en filtros de idioma y fecha» | Ola 12. Amplía la decisión 22 (REQ-10600) |
+| REQ-10638 | «Preguntas frecuentes, garantías y términos traducidos en cada idioma con la cláusula del español» | Ola 14 |
+| REQ-10639 | «agregar a este proyecto el repo de ZoeFel IA, ahí vienen detalles de cómo funcionará Mila en Travel Puzzle, incluyendo la funcionalidad de comunicarse con proveedor por medio de Mila» | Repo `zoefel-mila` agregado a la sesión; la funcionalidad es el chat puente «Escribirle a mi guía» (REQ-3432, REQ-3412). Resuelve el punto abierto de la decisión 45 |
+
