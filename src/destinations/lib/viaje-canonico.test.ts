@@ -79,7 +79,8 @@ describe("REQ-1349: las URLs alternativas redirigen con 301 a la canónica", () 
   });
   it("REQ-1349: un tour de FREETOUR con ese slug no consulta viajes; si la base falla, no se redirige", async () => {
     expect(await go(`/destinos/be/brujas/${BRUJAS.slug}`, repo({ tourPlaceBySlug: async () => ({ id: "t", slug: BRUJAS.slug, status: "active", title: "", countrySlug: "be", citySlug: "brujas", cityName: "Brujas", cityLive: true }), tripBySlug: async () => { throw new Error("no debía consultarse"); } }))).toBeNull();
-    expect(await go(`/destinos/be/brujas/${BRUJAS.slug}`, repo({ tripBySlug: async () => { throw new Error("D1"); } }))).toBeNull();
+    // REQ-3540: el fallo de D1 ya no se traga aquí; sale tipado. Para /destinos/… la raíz sigue dejando pasar la petición.
+    await expect(go(`/destinos/be/brujas/${BRUJAS.slug}`, repo({ tripBySlug: async () => { throw new Error("D1"); } }))).rejects.toThrow(/D1/);
   });
   it("REQ-1349: la ficha, si el middleware no decidió, también manda a la canónica (permanentRedirect)", () => {
     const page = readFileSync("src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx", "utf8");
