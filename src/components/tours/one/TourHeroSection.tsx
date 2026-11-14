@@ -11,6 +11,7 @@ import { TravelerFavoriteBadge } from '@/components/tours/TravelerFavoriteBadge'
 import type { TourEvent } from '@/lib/api/freetour-client';
 import { PrimeraPiezaInfo, type PrimeraPiezaView } from './PrimeraPiezaInfo';
 import { FichaEnBreve } from '@/components/seo/FichaEnBreve';
+import { plainText } from '@/tours/lib/provider-html';
 
 interface TourHeroSectionProps {
     tour: Tour;
@@ -81,7 +82,7 @@ export function TourHeroSection({ tour, primeraPieza = null, events = [], practi
             {/* REQ-577 / REQ-581: «En breve» bajo el H1 solo si el proveedor permite enriquecimiento (nunca FREETOUR). */}
             {primeraPieza?.enrichment && <FichaEnBreve text={primeraPieza.enBreve ?? null} tipo={primeraPieza.facets?.tipo} etiquetas={primeraPieza.facets?.etiquetas} />}
             {primeraPieza && <PrimeraPiezaInfo view={primeraPieza} events={events} />}
-            {tour.brief && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{tour.brief}</p>}
+            {plainText(tour.brief) && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#C9D6F5]">{plainText(tour.brief)}</p>} {/* REQ-10544 */}
 
             <dl className={layout.list}>
                 {shown.map((f) => (
