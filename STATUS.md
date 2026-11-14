@@ -1200,3 +1200,17 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-10573 | El panel de reserva no aplica reglas de FREETOUR a otros proveedores (INC-020) | NUEVO (PO 14-11) | `src/tours/lib/sidebar-plan.ts`, `src/components/tours/one/TourDetailClient.tsx` | `src/tours/lib/booking-cta.test.ts` | EN CURSO (verde en la sesión; PR pendiente) |
 | REQ-10578 | Reseñas, eventos y datos de FREETOUR solo para tours de FREETOUR (INC-021) | NUEVO (INC-021, 14-11) | `src/tours/lib/provider-source.ts`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `src/reviews/repository.ts` | `src/tours/lib/provider-source.test.ts` | EN CURSO (verde en la sesión; PR pendiente) |
 | REQ-10529 | El filtro de país de Experiencias ya no redirige a /destinos/{país}; la 301 queda para enlaces externos | NUEVO (PO, 13-11) | `src/destinations/lib/request-plan.ts`, `src/destinations/middleware.ts` | `src/destinations/lib/request-plan.test.ts` | EN CURSO (verde en la sesión; falta revisión visual del PO) |
+
+## Ficha única para todos los proveedores (frente #549, 14 nov 2026)
+
+Plan para firma en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `docs/gates-ficha-unica-2026-11.md`. Sin código todavía.
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10579 | Firma del plan de la ficha única | NUEVO | `docs/plan-ficha-unica-2026-11.md` | — (definición) | CUMPLIDO (firmado por el PO, 14 nov 2026 06:07) |
+| REQ-10580 a REQ-10629 | 50 decisiones del PO (alcance, taxonomía, Tangol, carrito, mapas, cobro, Mila, alta de proveedores) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — (definiciones; la construcción lleva sus folios) | CUMPLIDO (firmadas 14 nov 2026) |
+| REQ-10630 a REQ-10633 | Confirmaciones: preguntas frecuentes, idiomas de la taxonomía, T&C traducidos, rendimiento | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — (definiciones) | CUMPLIDO (firmadas 14 nov 2026) |
+| REQ-10634 | Requisitos sin folio (accesibilidad, voucher, cancelación con reembolso) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — | PENDIENTE (supuesto por validar con el PO) |
+| REQ-10542, REQ-005, REQ-428 | Operador en la casilla Proveedor; transporte solo en tours; circuitos fuera del carrito | — | — | — | REEMPLAZADOS por REQ-10615, REQ-10607 y REQ-10601 (en producción sigue lo anterior hasta su PR) |
+| REQ-10635 a REQ-10639 | Cambios del PO al plan: idiomas en reserva y contenido, adicionales por proveedor en fichas, todos los proveedores en filtros de idioma y fecha, repo de Mila | NUEVO | `docs/plan-ficha-unica-2026-11.md`, `docs/gates-ficha-unica-2026-11.md` | — (definiciones) | CUMPLIDO (firmadas 14 nov 2026) |
+| REQ-10640 | Tablero de seguimiento de Mila en los dos repos | NUEVO | `docs/seguimiento-mila-2026-11.md` | — (definición) | EN CURSO |
