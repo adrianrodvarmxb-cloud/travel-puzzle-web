@@ -1213,3 +1213,4 @@ Plan para firma en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en
 | REQ-10634 | Requisitos sin folio (accesibilidad, voucher, cancelación con reembolso) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — | PENDIENTE (supuesto por validar con el PO) |
 | REQ-10542, REQ-005, REQ-428 | Operador en la casilla Proveedor; transporte solo en tours; circuitos fuera del carrito | — | — | — | REEMPLAZADOS por REQ-10615, REQ-10607 y REQ-10601 (en producción sigue lo anterior hasta su PR) |
 | REQ-10635 a REQ-10639 | Cambios del PO al plan: idiomas en reserva y contenido, adicionales por proveedor en fichas, todos los proveedores en filtros de idioma y fecha, repo de Mila | NUEVO | `docs/plan-ficha-unica-2026-11.md`, `docs/gates-ficha-unica-2026-11.md` | — (definiciones) | CUMPLIDO (firmadas 14 nov 2026) |
+| REQ-10640 | Tablero de seguimiento de Mila en los dos repos | NUEVO | `docs/seguimiento-mila-2026-11.md` | — (definición) | EN CURSO |
