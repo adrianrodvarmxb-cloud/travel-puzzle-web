@@ -16,6 +16,7 @@ import { crossSellDeps } from '@/trips/cross-sell-deps';
 import type { SupportedLanguage } from '@/types';
 import { getD1 } from '@/lib/prisma';
 import { loadPracticalInfo } from '@/tours/practical-load';
+import { freetourSourceId } from '@/tours/lib/provider-source';
 
 export async function loadTourDetailProps(tourId: string, language: SupportedLanguage) {
     const tourData = await fetchTourById(tourId, language);
@@ -26,9 +27,10 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
 
     // Reseñas reales de Freetour (caché de 7 días en D1)
     // REQ-032: caché compartida 1 h; si falla, la ficha sigue sin reseñas (regla 7).
-    const externalId = (tourData as { externalId: number }).externalId;
-    const { reviews, total } = await cached(cacheKey('tour-reviews', { externalId, language }), { ttlSec: 3600, staleSec: 86400 },
-        () => withRetry(() => loadTourReviews(externalId, language, 30)))
+    // REQ-10578: solo los tours de FREETOUR tienen reseñas en esa caché; otro proveedor con el mismo número no consulta.
+    const sourceId = freetourSourceId((tourData as { providerId?: string | null }).providerId, (tourData as { externalId: number }).externalId);
+    const { reviews, total } = sourceId === null ? { reviews: [], total: 0 } : await cached(cacheKey('tour-reviews', { externalId: sourceId, language }), { ttlSec: 3600, staleSec: 86400 },
+        () => withRetry(() => loadTourReviews(sourceId, language, 30)))
         .catch((e) => { console.error('[reseñas]', (e as Error).message); return { reviews: [], total: 0 }; });
 
     const env = process.env as Record<string, string | undefined>;

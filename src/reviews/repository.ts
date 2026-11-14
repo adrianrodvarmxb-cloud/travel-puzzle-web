@@ -35,7 +35,8 @@ export function createReviewRepo(prisma: PrismaClient, db: D1Like): ReviewRepo {
     async listStaleTours(limit, staleBefore) {
       // Candidatos: los tours activos con más reseñas; se descartan los que tienen caché vigente.
       const tours = await prisma.tour.findMany({
-        where: { isActive: true, reviewsNumber: { gt: 0 } },
+        // REQ-10578: la caché de reseñas es de FREETOUR; no se piden reseñas con el número de otro proveedor.
+        where: { isActive: true, reviewsNumber: { gt: 0 }, providerId: "freetour" },
         orderBy: { reviewsNumber: "desc" },
         select: { externalId: true },
         take: 300,

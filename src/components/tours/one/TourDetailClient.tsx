@@ -32,6 +32,7 @@ import { TourMeetingPoint } from './TourMeetingPoint';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
 import { sidebarPlan } from '@/tours/lib/sidebar-plan'; // REQ-10573
+import { freetourSourceId } from '@/tours/lib/provider-source'; // REQ-10578
 import { tipGuide } from '@/tours/lib/tip-guide';
 import { paidPolicyConfirmed } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
@@ -86,9 +87,9 @@ export function TourDetailClient({
     });
 
     // Fetch FreeTour data if externalId exists (fallback)
-    const { data: tourFTData } = useToursFTData(
-        tourMockData?.externalId ? tourMockData.externalId.toString() : null
-    );
+    // REQ-10578: solo se consulta a FREETOUR por un tour de FREETOUR (los números se repiten entre proveedores).
+    const ftId = freetourSourceId((tourMockData as { providerId?: string | null } | null | undefined)?.providerId, tourMockData?.externalId ?? null);
+    const { data: tourFTData } = useToursFTData(ftId === null ? null : String(ftId));
 
     // Transform DB tour to UI tour format
     const tourDB = tourMockData
@@ -132,7 +133,7 @@ export function TourDetailClient({
         if (href) window.open(href, '_blank', 'noopener,noreferrer');
     };
 
-    const { data: eventsFTData, isLoading: isLoadingEvents } = useEventsByTourFTData(tour?.externalId?.toString() || null);
+    const { data: eventsFTData, isLoading: isLoadingEvents } = useEventsByTourFTData(freetourSourceId((tourMockData as { providerId?: string | null } | null | undefined)?.providerId, tour?.externalId ?? null)?.toString() ?? null); // REQ-10578
 
     if (isLoading && !tour) {
         return (
