@@ -52,6 +52,8 @@ Fuentes: swagger `tangolapi.tangol.com` v1 (20 operaciones, leído el 14-11-2026
 - C. Solicitud sin pago; un asesor confirma y manda liga de pago.
 - Por qué B: si Tangol rechaza no hay que reembolsar (sin comisiones de Stripe ni espera de días del cliente) y sirve igual si la reserva es inmediata (se captura en segundos) o bajo solicitud (hasta 7 días de retención de Stripe). El swagger **no dice** si `MakeBooking` confirma en el acto o queda pendiente: pregunta 1 para Hernán. Depende de REQ-3483 (captura y liberación), hoy EN CURSO.
 
+- **FIRMADO (PO, 14 nov 2026): B.** Respuesta literal: «Nosotros, con retención». Cobra Travel Puzzle con retención en Stripe y paga el neto a Tangol por quincena (correos de Hernán del 9 y 12 nov: por API «uds se ocupan de la cobranza»). Ratificado en la ficha única: decisión 5, solo retención (REQ-10584).
+
 **G2 — Moneda del cobro (REQ-10548).**
 - A. USD en Stripe, igual que la tarifa de Tangol.
 - **B. MXN con el tipo de cambio del día y el colchón de `Payment.fxCushionPct` (`chargeAmount`), mostrando también el USD de referencia; `MakeBooking` en USD.** ← recomendada
