@@ -1,0 +1,55 @@
+# REQ-3515: después de cada push a main, actualiza los PR abiertos que chocan SOLO en STATUS.md o docs/requisitos.md
+# (unión + filas REQ sin repetir). Un PR con choque de código no se toca: lo resuelve su sesión.
+# Apagado mientras no exista el secreto PR_SYNC_TOKEN (token de GitHub con Contents y Pull requests en escritura):
+# con el GITHUB_TOKEN el push no dispararía la prueba de humo del PR, y el PR quedaría sin check «smoke».
+name: Actualizar PR en conflicto
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      ensayo:
+        description: "Solo revisar, sin empujar"
+        type: boolean
+        default: true
+concurrency:
+  group: actualizar-prs
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Revisar el secreto
+        id: token
+        env:
+          T: ${{ secrets.PR_SYNC_TOKEN }}
+        run: |
+          if [ -z "$T" ]; then
+            echo "listo=false" >> "$GITHUB_OUTPUT"
+            echo "Falta el secreto PR_SYNC_TOKEN (REQ-3515): no se actualiza ningún PR." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "listo=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v5
+        if: steps.token.outputs.listo == 'true'
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PR_SYNC_TOKEN }}
+      - uses: actions/setup-node@v5
+        if: steps.token.outputs.listo == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - if: steps.token.outputs.listo == 'true'
+        run: npm ci
+      - name: Actualizar los PR con choque de documentos
+        if: steps.token.outputs.listo == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PR_SYNC_TOKEN }}
+          ENSAYO: ${{ github.event_name == 'workflow_dispatch' && inputs.ensayo && '--ensayo' || '' }}
+        run: |
+          git config user.name "travel-puzzle-bot"
+          git config user.email "actions@users.noreply.github.com"
+          npx tsx src/scripts/actualizar-prs.ts $ENSAYO
