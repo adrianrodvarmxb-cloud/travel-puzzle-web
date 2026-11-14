@@ -3,17 +3,18 @@ import { PolicyLink } from './PolicyLink';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { tripCopy } from '@/trips/lib/copy';
-import { availableTimes, estimate } from '@/trips/lib/request';
+import { availableTimes, estimateFor } from '@/trips/lib/request';
+import type { DayAvailability } from '@/trips/lib/day-price';
 import { formatMoney } from '@/trips/lib/money';
 import { LEGAL_PATHS } from '@/legal/lib/labels';
-import type { TripOption, Season } from '@/trips/lib/pricing';
+import type { TripOption } from '@/trips/lib/pricing';
 
 interface Props {
     tripId: string;
     custom: boolean;
     currency: 'MXN' | 'USD' | 'EUR';
     options: TripOption[];
-    availability: { weekdays: number[]; slots: { time: string; capacity: number | null }[]; closedDates: string[]; seasons: Season[] };
+    availability: DayAvailability & { slots: { time: string; capacity: number | null }[] };
     minNoticeHours: number;
     hotelPickup: boolean;
     lang: string;
@@ -49,7 +50,7 @@ export function TripRequestForm(p: Props) {
     const now = useMemo(() => new Date(), []);
     const times = date ? availableTimes(date, p.availability, p.minNoticeHours, now) : [];
     const option = p.options.find((o) => o.id === optionId) ?? null;
-    const est = !p.custom && date ? estimate(option, pax, date, p.availability.seasons) : null;
+    const est = !p.custom && date ? estimateFor(option, pax, date, p.availability) : null; // REQ-3454
     const setChildren = (n: number) => { setPax({ ...pax, children: n }); setAges((a) => Array.from({ length: n }, (_, i) => a[i] ?? 7)); };
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
