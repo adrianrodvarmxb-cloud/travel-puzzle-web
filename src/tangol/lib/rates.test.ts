@@ -150,3 +150,25 @@ describe("REQ-3468: tarifas de Tangol → disponibilidad común", () => {
     expect(rangeRatesFromTangol({ ...parseTourRates(raw), options: [] }).hoursBooking).toBeNull();
   });
 });
+
+describe("REQ-10525: los bloqueos se compactan en rangos contiguos (INC: SQLITE_TOOBIG en el tour 2490)", () => {
+  // Tangol mandó 2,602 bloqueos de un día cada uno, repetidos por opción: la sentencia pasó de 100 KB y D1 la rechazó.
+  const dia = (d: string) => ({ from: d, to: d });
+  it("REQ-10525: días seguidos, repetidos y desordenados quedan en un solo rango", () => {
+    const s = { ...summarizeRates(parseTourRates(raw)), blackouts: [dia("2026-11-16"), dia("2026-11-14"), dia("2026-11-15"), dia("2026-11-14"), dia("2026-11-16")] };
+    expect(availabilityRules(s).blackouts).toEqual([{ from: "2026-11-14", to: "2026-11-16" }]);
+  });
+  it("REQ-10525: rangos que se tocan o traslapan se unen; los separados se respetan, en orden", () => {
+    const s = { ...summarizeRates(parseTourRates(raw)), blackouts: [{ from: "2026-12-24", to: "2026-12-26" }, { from: "2026-12-27", to: "2026-12-28" }, { from: "2026-12-25", to: "2026-12-30" }, dia("2027-01-01"), dia("2026-11-20")] };
+    expect(availabilityRules(s).blackouts).toEqual([{ from: "2026-11-20", to: "2026-11-20" }, { from: "2026-12-24", to: "2026-12-30" }, { from: "2027-01-01", to: "2027-01-01" }]);
+  });
+  it("REQ-10525: compactar no cambia qué fechas están bloqueadas", () => {
+    const base = parseTourRates(raw);
+    const sueltos = { ...summarizeRates(base), blackouts: ["2026-12-01", "2026-12-02", "2026-12-03", "2026-12-10"].map(dia) };
+    const compacto = { ...sueltos, blackouts: availabilityRules(sueltos).blackouts };
+    const now = new Date("2026-11-01T00:00:00Z");
+    for (const d of ["2026-11-30", "2026-12-01", "2026-12-02", "2026-12-03", "2026-12-04", "2026-12-10", "2026-12-11"]) {
+      expect(isDateBookable({ rates: sueltos.rates, blackouts: compacto.blackouts }, d, { now }), d).toBe(isDateBookable({ rates: sueltos.rates, blackouts: sueltos.blackouts }, d, { now }));
+    }
+  });
+});
