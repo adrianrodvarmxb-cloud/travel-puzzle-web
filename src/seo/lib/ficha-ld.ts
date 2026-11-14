@@ -36,6 +36,8 @@ export interface FichaInput {
   images: (string | null | undefined)[];
   /** Operador real del dato (sin filtrar; aquí se quita FREETOUR). */
   operator: string | null;
+  /** REQ-10651: false = «En breve» no nombra al operador (va en la línea «Opera en destino»). Por omisión, como antes. */
+  operatorInBrief?: boolean;
   free: boolean;
   /** Precio «desde» por persona en `currency`. */
   price: number | null;
@@ -176,7 +178,7 @@ export function enBreve(i: FichaInput): string | null {
     clean(i.duration) ? `${c.duration}: ${clean(i.duration)}.` : "",
     langs.length ? `${clean(i.languagesTitle) || c.languages}: ${list(langs, i.lang)}.` : "",
     i.free ? `${c.price}: ${c.free}.` : priceText ? `${c.price}: ${priceText.charAt(0).toLowerCase()}${priceText.slice(1)}.` : "",
-    operator ? `${c.operatedBy} ${operator} ${c.bookWith}.` : "",
+    operator && i.operatorInBrief !== false ? `${c.operatedBy} ${operator} ${c.bookWith}.` : "", // REQ-10651
     clean(i.cancellation) ? `${clean(i.cancellation).replace(/\.$/, "")}.` : "",
   ].filter(Boolean);
   // Lo que incluye y el resumen del proveedor completan la respuesta mientras quepan en 80 palabras.
