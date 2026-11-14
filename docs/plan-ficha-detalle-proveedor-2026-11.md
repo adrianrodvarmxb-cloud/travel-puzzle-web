@@ -42,6 +42,11 @@ SRP: un componente por bloque y la lógica en `lib/`. OCP: bloques genéricos po
 - **B. Alcance:** bloques genéricos para cualquier proveedor que traiga el dato (recomendado, catálogo único) o solo para Tangol.
 - **C. Orden de entrega:** primero lo que no necesita migración (Condiciones, Idiomas y la franja: REQ-10536, 10539, 10540, 10541) y después Antes de ir y Detalles prácticos con la 0032 (recomendado). La otra opción es todo junto.
 
+## Gates firmados por el PO (13 nov 2026, 22:40)
+- **A: una columna por dato** (no JSON): `endPoint`, `whatToBring`, `physicalRequirements`, `difficulty`, `providerNotes`, `childAgeFrom`, `childAgeTo`, `infantAgeFrom`, `infantAgeTo` en `Tour`, migración 0032.
+- **B: cualquier proveedor.** El bloque aparece cuando el tour tiene el dato.
+- **C: todo junto.** Un solo PR con la migración y los seis REQ.
+
 ## Candados
 - Migración 0032: OK explícito del PO, punto de regreso de D1 antes de aplicar.
 - Después de la migración, otra vuelta del sync (~1 h 15 min) para llenar los datos nuevos.
