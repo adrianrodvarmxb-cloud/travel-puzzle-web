@@ -1103,6 +1103,12 @@ Petición literal (PO): «crea revisión cada 6 horas hasta que se cumpla todo y
 | REQ-1413 | CÓDIGO | Trigger de revisión cada 6 h: ampliar su alcance de REQ-1374–1397 a REQ-1359–1412 y que actualice el estado de cada folio con evidencia | agente | — | CUMPLIDO (trig_01YNgNBCEn6nTULZ2N3bSc4v actualizado 11 nov 2026 11:21 CDMX; próxima corrida 12:53 CDMX; cron 53 */6) |
 | REQ-1358 | CÓDIGO | INC-009: la preview de workers.dev no calienta la caché de producción; con una llave nueva, la primera petición a /destinos se arma en frío (11–18 s) y dio 503. Paso «Calentar la caché de producción» entre «Publicar» y el humo de producción (`src/ops/deploy-calentar-workflow.test.ts`) | agente | — || CUMPLIDO (deploy 42428767660 de main: paso Calentar y humo de producción en verde, 8-11) |
 
+## REQ-3457: Mila toma los seguimientos de todos los proveedores (PO, 12 nov 2026)
+Petición literal (PO): «de una vez que mila tome los eguimientos de todos estos provedores». Plan en `docs/plan-mila-seguimientos-proveedores.md` (frente #445), sobre el PR #385. Folio apartado con folio.ts.
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-3457 | CÓDIGO | Dado un proveedor del directorio con preguntas abiertas, cuando le toca recordatorio, entonces Mila le escribe en su idioma y horario con sus preguntas propias primero y luego lo que falta de la lista de alta (que ahora pide también los elementos del calendario de REQ-3456); no negocia el acuerdo, no cierra preguntas sola y no escribe dos veces a un contacto que representa a varios proveedores. FREETOUR queda fuera (B3) | agente | PR #385 (merge, migración 0027, bandera) | PENDIENTE (plan firmado por el PO el 12 nov 2026: G1 a G5 en `docs/plan-mila-seguimientos-proveedores.md`; correos de Jordan Experience, Mondial Trails, Canadian Receptive Tours y Multitravel aprobados y en borrador en Gmail; construcción sobre el PR #385) |
+
 ## REQ-1359: copia anterior al cambiar la versión de la caché (coordinador, 7 nov 2026; de INC-009)
 Petición literal (coordinador): «primera petición en frío de /destinos de 11 a 18 s después de un cambio de versión de la caché. La idea es servir la copia anterior mientras se arma la nueva (stale-while-revalidate)».
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
