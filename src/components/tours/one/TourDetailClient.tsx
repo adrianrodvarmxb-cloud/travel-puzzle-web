@@ -39,6 +39,7 @@ import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import type { PrimeraPiezaView } from './PrimeraPiezaInfo';
 import type { TourPriceLabel } from '@/tours/lib/price-label';
+import type { CalendarViewModel } from '@/tours/lib/calendar-view';
 
 interface TourDetailClientProps {
     tourId: string;
@@ -59,6 +60,8 @@ interface TourDetailClientProps {
     primeraPieza?: PrimeraPiezaView | null;
     /** REQ-170: precio en EUR con MXN aproximado, calculado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
     priceLabel?: TourPriceLabel | null;
+    /** REQ-3469: fechas y precios por día del proveedor (PROVIDER_CALENDAR_ENABLED). Sin esto, la ficha queda como hoy. */
+    providerCalendar?: CalendarViewModel | null;
     /** REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos, armados y validados en el servidor. */
     practical?: PracticalView | null;
 }
@@ -76,6 +79,7 @@ export function TourDetailClient({
     crossSell = null,
     primeraPieza = null,
     priceLabel = null,
+    providerCalendar = null,
     practical = null,
 }: TourDetailClientProps) {
     const router = useRouter();
@@ -214,6 +218,7 @@ export function TourDetailClient({
                         <TourSidebar
                             tour={tour}
                             priceLabel={priceLabel}
+                            providerCalendar={providerCalendar}
                             events={eventsFTData || []}
                             isLoadingEvents={isLoadingEvents}
                             mode={plan.mode}
