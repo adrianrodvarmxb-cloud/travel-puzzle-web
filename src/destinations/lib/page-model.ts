@@ -16,6 +16,7 @@ import { tourHeading, type TourHeading } from "@/tours/lib/title";
 import { primeraPiezaBadge } from "@/tours/lib/badge";
 import { eventNotice } from "@/tours/lib/notice";
 import { operatedBy } from "@/tours/lib/favorite";
+import { operatorInBrief, underTitleOperator } from "@/ficha/lib/operator";
 import type { HubGroup } from "@/companions/lib/registry";
 import type { SitemapInput } from "@/seo/lib/sitemaps";
 import { enBreve, fichaJsonLd, guideLanguagesLabel, nextAvailability, type FichaInput } from "@/seo/lib/ficha-ld";
@@ -235,8 +236,10 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const notice = eventNotice({ fullPricePerGroup: tour.isFreeTour ? {} : { "1": tour.price }, currency: "EUR", rates: null, lang }).lines;
   // T5 (REQ-415, REQ-416, G-T9): con TAXONOMY_LABELS_ENABLED y formato, el copy y el title dependen del formato.
   const tax = labels && tour.formato ? { formato: tour.formato, guia: tour.guiaEnPersona !== false } : null;
-  const by = tax ? operatedByFor(tour.provider, tax.guia, operatedBy(tour.provider, lang)) : operatedBy(tour.provider, lang);
   const provider = detail?.providerId?.trim() || tour.providerId?.trim() || "freetour";
+  // REQ-10651: bajo el título no se nombra al operador de un proveedor por API (va en «Opera en destino»).
+  const named = underTitleOperator(provider, tour.provider);
+  const by = tax ? operatedByFor(named, tax.guia, operatedBy(named, lang)) : operatedBy(named, lang);
   const enrichment = indexableEnrichment(provider);
   const duration = cardDuration({ raw: tour.duration }, lang);
   // REQ-588 (auditoría FREETOUR #212 y PO 22:29): sin enriquecimiento, ni idiomas ni punto de encuentro en el marcado,
@@ -246,7 +249,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
   const ficha: FichaInput = {
     provider, lang, url: urlIn(siteUrl, tour.href, L), name: tour.title, images: [image ?? tour.image, ...(detail?.images ?? [])], // REQ-820: fichaImages quita repetidas y deja 4
-    operator: tour.provider, free: tour.isFreeTour, price: tour.isFreeTour ? 0 : tour.price, currency: tour.currency,
+    operator: tour.provider, operatorInBrief: operatorInBrief(provider), free: tour.isFreeTour, price: tour.isFreeTour ? 0 : tour.price, currency: tour.currency,
     availability: today && fresh(detail?.departuresSyncedAt, today) ? nextAvailability(detail?.departureDates, today) : null,
     duration, languages: langs, place: `${city.name}, ${country.name}`,
     meetingPoint: mp && enrichment ? { name: mp.title!.trim(), address: mp.address ?? null, lat: mp.lat ?? null, lng: mp.lng ?? null } : null,

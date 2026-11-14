@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { availableTimes, isDateOpen, estimate, requestRef, REQUEST_STATUSES } from "./request";
+import { availableTimes, isDateOpen, estimate, estimateFor, requestRef, REQUEST_STATUSES } from "./request";
 
 const av = { weekdays: [1, 3, 5], slots: [{ time: "09:00", capacity: 10 }, { time: "16:00", capacity: null }], closedDates: ["2027-03-03"], seasons: [{ name: "Verano", from: "2027-07-01", to: "2027-08-31", supplement: 100 }] };
 const now = new Date("2027-03-01T12:00:00Z"); // lunes
@@ -30,6 +30,25 @@ describe("estimate", () => {
   it("si falta un precio, no se estima", () => {
     expect(estimate({ adult: 1000, child: null, infant: null }, { adults: 1, children: 1, infants: 0 }, "2027-03-05", [])).toBeNull();
     expect(estimate(null, { adults: 1, children: 0, infants: 0 }, "2027-03-05", [])).toBeNull();
+  });
+});
+
+describe("calendario de proveedores de PDF (REQ-3454)", () => {
+  const pdf = { ...av, weekdays: [], validFrom: "2027-03-01", validTo: "2027-12-31", weekdayRules: [{ from: "2027-11-01", to: "2027-12-31", weekdays: [1] }],
+    surcharges: [{ name: "Feria", from: "2027-04-06", to: "2027-04-26", weekdays: [], amount: 70, byOption: { sgl: 140 } }], quoteRanges: [{ from: "2027-12-20", to: "2027-12-31" }] };
+  it("REQ-3454: fuera de vigencia o fuera de los días del periodo, la fecha no se puede pedir", () => {
+    expect(isDateOpen("2028-01-03", pdf, 24, now)).toBe(false); // fuera de vigencia
+    expect(isDateOpen("2027-11-02", pdf, 24, now)).toBe(false); // martes en periodo de solo lunes
+    expect(isDateOpen("2027-11-01", pdf, 24, now)).toBe(true);
+  });
+  it("REQ-3454: el estimado suma temporada y recargo por opción; un día a cotizar no se estima", () => {
+    const opt = { id: "sgl", adult: 1000, child: 600, infant: 0 };
+    expect(estimateFor(opt, { adults: 2, children: 1, infants: 0 }, "2027-04-12", pdf)).toBe(2 * (1000 + 140) + 600);
+    expect(estimateFor(opt, { adults: 1, children: 0, infants: 0 }, "2027-12-20", pdf)).toBeNull();
+  });
+  it("REQ-3454: sin campos nuevos, estimateFor da lo mismo que estimate", () => {
+    const opt = { id: "a", adult: 1000, child: 600, infant: 0 };
+    for (const d of ["2027-03-05", "2027-07-10"]) expect(estimateFor(opt, { adults: 2, children: 1, infants: 1 }, d, av)).toBe(estimate(opt, { adults: 2, children: 1, infants: 1 }, d, av.seasons));
   });
 });
 
