@@ -34,6 +34,14 @@ describe("contenido de /nosotros", () => {
     expect(hasPendingGap(historia)).toBe(true);
   });
 
+  it("REQ-3497: /nosotros no muestra la sección de cifras (oculta, reversible) en es ni en en", () => {
+    for (const lang of ["es", "en"] as const) {
+      const v = visibleAboutSections(aboutContent(lang));
+      expect(v.map((s) => s.id)).not.toContain("cifras");
+      expect(aboutContent(lang).sections.some((s) => s.id === "cifras")).toBe(true);
+    }
+  });
+
   it("REQ-244: sin vocabulario prohibido, sin FREETOUR ni proveedores, sin «expertos» ni garantías (es y en)", () => {
     for (const lang of ["es", "en"]) {
       const all = textsOf(visibleAboutSections(aboutContent(lang))).concat(textsOf(aboutContent(lang).meta), aboutContent(lang).lead);
@@ -49,7 +57,9 @@ describe("contenido de /nosotros", () => {
   });
 
   it("REQ-243 (D8): sin cifras del catálogo, «Hoy en el sitio» no sale ni con su título", () => {
-    const v = visibleAboutSections(aboutContent("es"));
+    // REQ-3497 ocultó «cifras»; la regla de REQ-243 se sigue probando con la sección forzada a aprobada.
+    const c = aboutContent("es");
+    const v = c.sections.map((s) => ({ ...s, status: "aprobado" as const })).filter((s) => s.kind === "stats");
     expect(aboutSectionsToShow(v, null).map((s) => s.id)).not.toContain("cifras");
     expect(aboutSectionsToShow(v, { tours: 0, cities: 0, countries: 0, rating: null }).map((s) => s.id)).not.toContain("cifras");
     expect(aboutSectionsToShow(v, { tours: 5, cities: 0, countries: 0, rating: null }).map((s) => s.id)).toContain("cifras");

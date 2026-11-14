@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildHeldCustomerEmail, buildHeldTeamEmail, buildPaidCustomerEmail, buildPaidTeamEmail, buildPaymentLinkEmail, type PayMailInput } from "./email";
+import { buildHeldCustomerEmail, buildHeldTeamEmail, buildReleasedCustomerEmail, buildReleasedTeamEmail, buildPaidCustomerEmail, buildPaidTeamEmail, buildPaymentLinkEmail, type PayMailInput } from "./email";
 
 const LOGO = "https://travelpuzzle.com.mx/brand/logo-tp-oscuro.png";
 const info: PayMailInput = { ref: "TP-0001", tripTitle: "Lima <virreinal>", firstName: "Ana", kind: "anticipo", centavos: 150000, logoUrl: LOGO };
@@ -42,5 +42,20 @@ describe("Correos de retención (REQ-3482)", () => {
     expect(m.subject).toContain("retenida");
     expect(m.text).toContain("confirmar con el proveedor");
     expect(m.text).toContain("/admin/solicitudes");
+  });
+});
+
+describe("Correos de liberación (REQ-3483)", () => {
+  const rel: PayMailInput = { ...info, kind: "total" };
+  it("REQ-3483: el cliente sabe que su tarjeta quedó libre y que no se le cobró nada", () => {
+    const m = buildReleasedCustomerEmail(rel);
+    expect(m.subject).toContain("TP-0001");
+    expect(m.text).toContain("sin cargo");
+    expect(m.text).toContain("MXN $1,500");
+  });
+  it("REQ-3483: el equipo ve el motivo de la liberación", () => {
+    const m = buildReleasedTeamEmail(rel, "https://travelpuzzle.com.mx/admin/solicitudes", "sin lugar");
+    expect(m.subject).toContain("liberada");
+    expect(m.text).toContain("sin lugar");
   });
 });
