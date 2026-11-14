@@ -1,3 +1,4 @@
+import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import type { PrismaClient } from "@prisma/client";
 import { cityPoints, cardTours } from "./lib/cities";
 import { placeTrips, toMapTrip, tripCardTour, type MapTrip, type MapCityRef } from "./lib/trips";
@@ -122,7 +123,7 @@ export async function loadCityCard(cityId: number, { prisma, includePaid, vis }:
     const { trips, cities } = await loadMapTrips(prisma, vis);
     const tripsHere = trips.length ? (placeTrips(trips, cities).byCity.get(cityId) ?? []) : [];
     const select = {
-      id: true, titleImageURL: true, rating: true, reviewsNumber: true, priceValue: true, priceCurrency: true,
+      id: true, titleImageURL: true, rating: true, reviewsNumber: true, priceValue: true, priceCurrency: true, providerId: true, // REQ-10652
       translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true } },
     } as const;
     const base = { cityId, isActive: true };
@@ -138,8 +139,8 @@ export async function loadCityCard(cityId: number, { prisma, includePaid, vis }:
       id: t.id,
       titles: Object.fromEntries(t.translations.map((x) => [x.language, x.title])),
       image: t.titleImageURL?.startsWith("https://") ? t.titleImageURL : null,
-      rating: t.rating ? Number(t.rating) : null,
-      reviews: t.reviewsNumber,
+      // REQ-10652 (decisión 18): la nota de Tangol no sale en la tarjeta del mapa; el orden ya vino de la consulta.
+      ...publicRating(t.providerId, t.rating ? Number(t.rating) : null, t.reviewsNumber),
       isFree: Number(t.priceValue) === 0,
       price: Number(t.priceValue) as number | null,
       currency: t.priceCurrency,

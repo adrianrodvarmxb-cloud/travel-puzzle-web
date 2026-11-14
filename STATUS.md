@@ -2,6 +2,7 @@
 
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
+Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
 
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
@@ -1236,7 +1237,7 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 
 ## Ficha única para todos los proveedores (frente #549, 14 nov 2026)
 
-Plan para firma en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `docs/gates-ficha-unica-2026-11.md`. Sin código todavía.
+Plan firmado en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `docs/gates-ficha-unica-2026-11.md`. Olas 0 y 1 cerradas el 14 nov 2026 (#556, #559, #561; #472, #440, #462, #475, #548, #551, #528 fusionados). Ola 2 en curso: operador discreto (REQ-10651) y nota de Tangol oculta (REQ-10652) hechos; la regla única de «Favorito» ya la cumplía REQ-1290; faltan una sola cancelación y el plazo único de 48 horas hábiles.
 
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
@@ -1254,3 +1255,6 @@ Plan para firma en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en
 | REQ-10647 | Fichas de Tangol y FREETOUR de pago en el humo | NUEVO | `tests/smoke/pages.json` | `src/ops/lib/smoke-fichas-proveedores.test.ts` | CUMPLIDO (falta el merge) |
 | REQ-10651 | Operador discreto en la ficha (decisión 38) | NUEVO | `src/ficha/lib/operator.ts`, `src/destinations/lib/page-model.ts`, `src/tours/lib/practical-info.ts`, `src/seo/lib/ficha-ld.ts`, ficha `[slug]/page.tsx` | `src/ficha/lib/operator.test.ts`, `src/lib/db/tour-transformer.test.ts` | CUMPLIDO (casilla Proveedor corregida tras INC-022; verificado en producción el 14 nov 2026: la ficha de Minitrekking dice «Proveedor: Travel Puzzle» y «Opera en destino: Tangol Tours» una sola vez) |
 | REQ-10653 | Plazo único de confirmación, 48 horas hábiles (decisión 33): una fuente para «Cómo funciona tu reserva» y el panel del asesor | NUEVO | `src/ficha/lib/payment-copy.ts`, `src/trips/lib/booking-steps.ts`, `src/tours/lib/booking-cta.ts` | `src/ficha/lib/payment-copy.test.ts` | CUMPLIDO (4 pruebas verdes el 14 nov 2026; suite y tsc en verde) |
+| REQ-10651 | Operador discreto en la ficha (decisión 38) | NUEVO | `src/ficha/lib/operator.ts`, `src/destinations/lib/page-model.ts`, `src/tours/lib/practical-info.ts`, `src/seo/lib/ficha-ld.ts`, ficha `[slug]/page.tsx` | `src/ficha/lib/operator.test.ts`, `src/lib/db/tour-transformer.test.ts` | CUMPLIDO (casilla Proveedor corregida tras INC-022; falta verificar en producción) |
+| REQ-10594 | Decisión 16: «Favorito de los viajeros» con una sola regla, 4.9 y 180 reseñas | NUEVO | `src/tours/lib/favorite.ts`, `src/taxonomy/lib/gates.ts` (`GATE_GT1_FAVORITO = "D"`) | `src/tours/lib/favorite.test.ts` | CUMPLIDO (ya lo cumplía REQ-1290 desde el 7 nov; verificado el 14 nov 2026, sin código nuevo) |
+| REQ-10652 | La nota y el conteo de Tangol no se muestran en ficha ni tarjetas (decisión 18); el dato sigue ordenando por dentro | NUEVO | `src/ficha/lib/rating-visibility.ts`, `src/lib/db/tour-transformer.ts`, `src/tours/lib/experience-card.ts`, `src/tours/lib/card-sources.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/components/destinations/DestinationTourCard.tsx`, ficha `[slug]/page.tsx` | `src/ficha/lib/rating-visibility.test.ts` | CUMPLIDO (4 pruebas verdes el 14 nov 2026; suite 556/4064 y tsc en verde) |
