@@ -31,6 +31,8 @@ env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
   NEXT_TELEMETRY_DISABLED: "1"
+  # REQ-3494: el preview se construye igual que producción (REQ-1598); sin esto, /mi-cuenta/entrar da 404 en el humo.
+  NEXT_PUBLIC_ACCOUNTS_ENABLED: "true"
   GH_TOKEN: ${{ github.token }}
   REPO: ${{ github.repository }}
 

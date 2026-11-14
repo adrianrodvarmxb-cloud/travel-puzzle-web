@@ -26,6 +26,8 @@ const SCOPE: readonly RegExp[] = [
   /^\/traslados$/,
   // REQ-3334: índice de guías de ciudad (gate B2: existe en español y en inglés).
   /^\/guias$/,
+  // REQ-3450: blog (índice, pilar y artículo), en español y en inglés (gate B2).
+  /^\/blog(\/[^/]+){0,2}$/,
 ];
 export function inScope(path: string): boolean {
   const p = path.length > 1 ? path.replace(/\/+$/, "") : path;

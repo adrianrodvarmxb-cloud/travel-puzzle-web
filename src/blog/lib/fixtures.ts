@@ -71,6 +71,27 @@ export function sampleDaily(over: Partial<PostInput> = {}): PostInput {
     cta: { kind: "comercial", label: "Ver tours en Europa" },
     cover: sampleImage("portada"),
     imagenes: [{ formato: "dos", despues: 1, fotos: [sampleImage("a"), sampleImage("b")] }],
+    // REQ-3452: versión en inglés (gate B2), misma estructura que la española.
+    en: sampleDailyEn({ targetTerm: `english ${String(over.targetTerm ?? "termino diario de prueba")}` }),
+    ...over,
+  };
+}
+
+/** REQ-3452: versión en inglés de la entrada diaria de prueba. */
+export function sampleDailyEn(over: Record<string, unknown> = {}) {
+  return {
+    targetTerm: "test daily term",
+    title: "Test daily entry?",
+    summary: "Test summary of the daily entry.",
+    enBreve: Array.from({ length: 45 }, () => "word").join(" "),
+    entrada: "Part of the guide [Traveling to Europe from Mexico](/blog/europa). See the [tours in Europe](/tours?search=Europa).",
+    sections: ["one", "two", "three", "four"].map((n) => ({ h2: `Daily question ${n}?`, answer: "Short test answer.", body: ["Test paragraph with **bold**."] })),
+    datos: [{ text: "Test fact with 90 days." }],
+    comoLoSabemos: "Written by the editorial team with help from AI, based on the public sources linked and the site's catalog.",
+    visual: { caption: "Test table", head: ["A", "B"], rows: [["one", "two"]] },
+    cta: { label: "See tours in Europe" },
+    cover: { alt: "Test cover" },
+    imagenes: [{ alts: ["Photo a", "Photo b"] }],
     ...over,
   };
 }

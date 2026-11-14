@@ -2,7 +2,7 @@
 import type { FxRates } from "@/trips/lib/money";
 import { chargeAmount, buildCheckoutParams, sessionExpiry, type PayCurrency, type PaymentKind } from "./lib/checkout";
 import { parsePaymentEvent } from "./lib/webhook";
-import { buildPaymentLinkEmail, buildPaidCustomerEmail, buildPaidTeamEmail } from "./lib/email";
+import { buildPaymentLinkEmail, buildPaidCustomerEmail, buildPaidTeamEmail, buildHeldCustomerEmail, buildHeldTeamEmail } from "./lib/email";
 
 export interface PayRequest { id: string; ref: string; tripTitle: string; email: string; firstName: string; language: string }
 type Mail = { to: string; subject: string; html: string; text: string };
@@ -33,7 +33,7 @@ export type LinkResult =
 
 // REQ-159, REQ-115, REQ-116, REQ-118
 export async function createPaymentLink(
-  input: { requestId: string; amount: number; currency: PayCurrency; kind: PaymentKind },
+  input: { requestId: string; amount: number; currency: PayCurrency; kind: PaymentKind; /** REQ-3482: retiene sin cobrar. */ hold?: boolean },
   d: LinkDeps
 ): Promise<LinkResult> {
   if (!d.enabled) return { ok: false, code: "disabled" };
@@ -55,7 +55,7 @@ export async function createPaymentLink(
   let session: { id: string; url: string };
   try {
     session = await d.createSession(
-      buildCheckoutParams({ paymentId, requestId: req.id, ref: req.ref, tripTitle: req.tripTitle, kind: input.kind, centavos: charge.centavos, email: req.email, siteUrl: d.siteUrl, expiresAt })
+      buildCheckoutParams({ paymentId, requestId: req.id, ref: req.ref, tripTitle: req.tripTitle, kind: input.kind, centavos: charge.centavos, email: req.email, siteUrl: d.siteUrl, expiresAt, manualCapture: input.hold })
     );
   } catch (e) {
     console.error(`[pagos] Stripe no creó la sesión de ${req.ref}:`, (e as Error).message);
@@ -67,6 +67,8 @@ export async function createPaymentLink(
     originalAmount: input.amount, originalCurrency: input.currency, fxRate: charge.fxRate, fxCushionPct: input.currency === "MXN" ? 0 : d.cushionPct,
     stripeSessionId: session.id, checkoutUrl: session.url, expiresAt: new Date(expiresAt * 1000), status: "pending",
   });
+  // REQ-3482: la retención redirige al cliente al checkout al enviar la solicitud: ni correo de enlace ni estado «Cotizada».
+  if (input.hold) return { ok: true, url: session.url, centavos: charge.centavos };
   await d.setRequestStatus(req.id, "quoted");
   const mail = buildPaymentLinkEmail({ ref: req.ref, tripTitle: req.tripTitle, firstName: req.firstName, kind: input.kind, centavos: charge.centavos, logoUrl: d.logoUrl }, session.url);
   await d.sendCustomer({ to: req.email, ...mail }).catch((e) => console.error(`[pagos] correo de enlace ${req.ref}:`, (e as Error).message));
@@ -79,13 +81,22 @@ export interface WebhookDeps {
   /** Pasa a "paid" solo si no lo estaba; devuelve el pago si cambió, null si ya estaba pagado o no existe. */
   markPaid(paymentId: string, data: { sessionId: string; paymentIntent: string | null; amountCentavos: number; paidAt: Date }): Promise<{ id: string; requestId: string; kind: PaymentKind; amountCentavos: number } | null>;
   markExpired(paymentId: string): Promise<unknown>;
+  /** REQ-3482: pasa a «retenido» solo si no lo estaba; devuelve el pago si cambió, null si ya estaba retenido/pagado. Sin él, el aviso se ignora. */
+  markHeld?(paymentId: string, data: { sessionId: string; paymentIntent: string | null; amountCentavos: number; heldAt: Date }): Promise<{ id: string; requestId: string; kind: PaymentKind; amountCentavos: number } | null>;
   findRequest(id: string): Promise<PayRequest | null>;
   setRequestStatus(id: string, status: string): Promise<unknown>;
   sendCustomer(m: Mail): Promise<unknown>;
   sendTeam(m: Omit<Mail, "to">): Promise<unknown>;
+  /**
+   * REQ-3419: compra directa (Big Bus por OCTO). Si devuelve true, la compra manda su propio correo (el boleto)
+   * y se omite el «Recibimos tu pago» genérico. Sin este gancho, todo sigue igual.
+   */
+  afterPaid?(requestId: string): Promise<boolean>;
+  /** REQ-3419: libera lo apartado cuando la sesión de Stripe vence sin pago. */
+  afterExpired?(paymentId: string): Promise<unknown>;
 }
 
-export type WebhookResult = "disabled" | "invalid" | "ignored" | "paid" | "duplicate" | "expired";
+export type WebhookResult = "disabled" | "invalid" | "ignored" | "paid" | "held" | "duplicate" | "expired";
 
 // REQ-117, REQ-118
 export async function handleStripeWebhook(payload: string, signature: string | null, d: WebhookDeps): Promise<WebhookResult> {
@@ -94,16 +105,37 @@ export async function handleStripeWebhook(payload: string, signature: string | n
   let event: unknown;
   try { event = JSON.parse(payload); } catch { return "ignored"; }
   const ev = parsePaymentEvent(event);
-  if (ev.type === "expired") { await d.markExpired(ev.paymentId); return "expired"; }
+  if (ev.type === "expired") {
+    await d.markExpired(ev.paymentId);
+    // REQ-3419
+    await d.afterExpired?.(ev.paymentId).catch((e) => console.error(`[pagos] liberar apartado ${ev.paymentId}:`, (e as Error).message));
+    return "expired";
+  }
+  if (ev.type === "held") {
+    // REQ-3482: tarjeta retenida, todavía sin cobro; el cobro o la liberación llegan al confirmar con el proveedor.
+    if (!d.markHeld) return "ignored";
+    const heldNow = await d.markHeld(ev.paymentId, { sessionId: ev.sessionId, paymentIntent: ev.paymentIntent, amountCentavos: ev.amountCentavos, heldAt: d.now });
+    if (!heldNow) return "duplicate";
+    await d.setRequestStatus(heldNow.requestId, "held");
+    const hreq = await d.findRequest(heldNow.requestId);
+    if (hreq) {
+      const info = { ref: hreq.ref, tripTitle: hreq.tripTitle, firstName: hreq.firstName, kind: heldNow.kind, centavos: heldNow.amountCentavos, logoUrl: d.logoUrl };
+      await d.sendCustomer({ to: hreq.email, ...buildHeldCustomerEmail(info) }).catch((e) => console.error(`[pagos] correo retenida ${hreq.ref}:`, (e as Error).message));
+      await d.sendTeam(buildHeldTeamEmail(info, `${d.siteUrl}/admin/solicitudes`)).catch((e) => console.error(`[pagos] aviso equipo retenida ${hreq.ref}:`, (e as Error).message));
+    }
+    return "held";
+  }
   if (ev.type !== "paid") return "ignored";
 
   const changed = await d.markPaid(ev.paymentId, { sessionId: ev.sessionId, paymentIntent: ev.paymentIntent, amountCentavos: ev.amountCentavos, paidAt: d.now });
   if (!changed) return "duplicate";
   await d.setRequestStatus(changed.requestId, "paid");
+  // REQ-3419: la compra directa confirma con el operador y manda el boleto.
+  const handled = d.afterPaid ? await d.afterPaid(changed.requestId).catch((e) => { console.error(`[pagos] compra directa ${changed.requestId}:`, (e as Error).message); return false; }) : false;
   const req = await d.findRequest(changed.requestId);
   if (req) {
     const info = { ref: req.ref, tripTitle: req.tripTitle, firstName: req.firstName, kind: changed.kind, centavos: changed.amountCentavos, logoUrl: d.logoUrl };
-    await d.sendCustomer({ to: req.email, ...buildPaidCustomerEmail(info) }).catch((e) => console.error(`[pagos] correo pagado ${req.ref}:`, (e as Error).message));
+    if (!handled) await d.sendCustomer({ to: req.email, ...buildPaidCustomerEmail(info) }).catch((e) => console.error(`[pagos] correo pagado ${req.ref}:`, (e as Error).message));
     await d.sendTeam(buildPaidTeamEmail(info, `${d.siteUrl}/admin/solicitudes`)).catch((e) => console.error(`[pagos] aviso equipo ${req.ref}:`, (e as Error).message));
   }
   return "paid";

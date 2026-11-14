@@ -1,0 +1,112 @@
+-- REQ-1291, REQ-1295, REQ-1296 (gates docs/gates-proveedores-mila-2026-11.md). Mila administra la relación con proveedores.
+-- Solo crea tablas nuevas: no toca Agency, Trip ni Tour. Con PROVEEDORES_MILA_ON="false" nadie las lee ni las escribe.
+-- Se aplica con OK del PO, sola en su deploy. Plan de regreso: apagar la bandera; las tablas pueden quedarse vacías.
+
+CREATE TABLE IF NOT EXISTS "Proveedor" (
+  "id"                TEXT PRIMARY KEY,            -- slug (destino-colombia)
+  "nombre"            TEXT NOT NULL,
+  "tipo"              TEXT NOT NULL DEFAULT 'dmc', -- dmc | plataforma | api
+  "publicado"         INTEGER NOT NULL DEFAULT 0 CHECK ("publicado" IN (0,1)),
+  "bloqueado"         INTEGER NOT NULL DEFAULT 0 CHECK ("bloqueado" IN (0,1)),  -- FREETOUR siempre 1
+  "agencyId"          TEXT,                         -- ficha Agency cuando ya está dado de alta (REQ-1295)
+  "etapa"             TEXT NOT NULL DEFAULT 'por_contactar'
+                      CHECK ("etapa" IN ('por_contactar','contactado','respondio','en_alta','activo','sin_respuesta')),
+  "canal"             TEXT NOT NULL DEFAULT 'correo' CHECK ("canal" IN ('api','portal','correo','whatsapp')),
+  -- REQ-1298 (P9): lo que sabemos de su integración; orden de preferencia api > plugin > portal > manual
+  "integracion"       TEXT NOT NULL DEFAULT 'desconocida' CHECK ("integracion" IN ('api','plugin','portal','manual','desconocida')),
+  "tiempoRespuesta"   TEXT NOT NULL DEFAULT '',     -- lo que el proveedor dice (p. ej. «24 h hábiles»)
+  -- REQ-1299 (P10): quién cobra al viajero
+  "cobro"             TEXT NOT NULL DEFAULT 'desconocido' CHECK ("cobro" IN ('proveedor','travelpuzzle','desconocido')),
+  "idioma"            TEXT NOT NULL DEFAULT 'es' CHECK ("idioma" IN ('es','en')),
+  "contacto"          TEXT NOT NULL DEFAULT '',
+  "correos"           TEXT NOT NULL DEFAULT '[]',   -- JSON: direcciones exactas
+  "dominios"          TEXT NOT NULL DEFAULT '[]',   -- JSON: dominios propios (nunca gmail, hotmail…)
+  "correosInvalidos"  TEXT NOT NULL DEFAULT '[]',   -- JSON: direcciones que rebotaron (REQ-1565); Mila ya no les escribe
+  "telefono"          TEXT NOT NULL DEFAULT '',
+  "destinos"          TEXT NOT NULL DEFAULT '',
+  "zonaHoraria"       TEXT NOT NULL DEFAULT 'America/Mexico_City', -- REQ-1566: IANA (Asia/Kuala_Lumpur, Europe/Paris…)
+  "ultimoSuyo"        TEXT,
+  "ultimoNuestro"     TEXT,
+  "ultimoAsunto"      TEXT,
+  "hiloId"            TEXT,                         -- Message-ID del último correo, para responder en el mismo hilo
+  "recordatorios"     INTEGER NOT NULL DEFAULT 0,
+  "sinRespuestaDesde" TEXT,
+  "proximaAccion"     TEXT NOT NULL DEFAULT '',
+  "notas"             TEXT NOT NULL DEFAULT '',
+  "checklist"         TEXT NOT NULL DEFAULT '[]',   -- REQ-1665: JSON con los puntos de alta recibidos (tarifas, cancelacion, legal…)
+  "bloqueos"          TEXT NOT NULL DEFAULT '{}',   -- REQ-1669: JSON {borradorSinEnviar, acuerdoEnNegociacion, folioAbierto}
+  "createdAt"         TEXT NOT NULL,
+  "updatedAt"         TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "Proveedor_etapa" ON "Proveedor" ("etapa");
+
+CREATE TABLE IF NOT EXISTS "ProveedorMensaje" (
+  "id"          TEXT PRIMARY KEY,                   -- Message-ID
+  "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
+  "direccion"   TEXT NOT NULL CHECK ("direccion" IN ('entrada','salida')),
+  "asunto"      TEXT NOT NULL DEFAULT '',
+  "resumen"     TEXT NOT NULL DEFAULT '',           -- primeros 500 caracteres del texto
+  "fecha"       TEXT NOT NULL,
+  "tipo"        TEXT NOT NULL DEFAULT ''            -- presentacion | recordatorio | reintento | alta | respuesta
+);
+CREATE INDEX IF NOT EXISTS "ProveedorMensaje_proveedor" ON "ProveedorMensaje" ("proveedorId", "fecha");
+
+CREATE TABLE IF NOT EXISTS "ProveedorDocumento" (
+  "id"          TEXT PRIMARY KEY,                   -- ruta en cPanel
+  "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
+  "mensajeId"   TEXT NOT NULL,
+  "nombre"      TEXT NOT NULL,
+  "bytes"       INTEGER NOT NULL,
+  "fecha"       TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "ProveedorDocumento_proveedor" ON "ProveedorDocumento" ("proveedorId", "fecha");
+
+-- REQ-1672 (cl. 8.2): anexo de tarifas por proveedor. Cada renglón liga un producto del proveedor con la opción del viaje publicada.
+CREATE TABLE IF NOT EXISTS "ProveedorTarifa" (
+  "id"          TEXT PRIMARY KEY,
+  "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
+  "producto"    TEXT NOT NULL,                    -- como lo nombra el proveedor (Triángulo de Oro)
+  "neto"        REAL NOT NULL CHECK ("neto" > 0),
+  "moneda"      TEXT NOT NULL DEFAULT 'USD' CHECK ("moneda" IN ('USD','EUR','MXN')),
+  "kind"        TEXT NOT NULL DEFAULT 'programa' CHECK ("kind" IN ('programa','tour','privado','traslado')),
+  "publicado"   REAL,                             -- precio publicado del operador (piso del programa, REQ-038)
+  "tripId"      TEXT,
+  "optionId"    TEXT,
+  "desde"       TEXT NOT NULL,                    -- desde cuándo rige este neto
+  "updatedAt"   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "ProveedorTarifa_proveedor" ON "ProveedorTarifa" ("proveedorId");
+
+-- REQ-1672, REQ-1580, REQ-1582: avisos de cambio de tarifa. Nada cambia hasta que el PO confirma.
+CREATE TABLE IF NOT EXISTS "TarifaAviso" (
+  "id"          TEXT PRIMARY KEY,
+  "numero"      INTEGER NOT NULL UNIQUE,          -- código T-<numero> para «confirmo T-12»
+  "proveedorId" TEXT NOT NULL REFERENCES "Proveedor"("id"),
+  "mensajeId"   TEXT NOT NULL,
+  "asunto"      TEXT NOT NULL DEFAULT '',
+  "texto"       TEXT NOT NULL DEFAULT '',
+  "tarifaId"    TEXT REFERENCES "ProveedorTarifa"("id"),
+  "netoAntes"   REAL,
+  "netoNuevo"   REAL,
+  "moneda"      TEXT,
+  "desde"       TEXT,
+  "estado"      TEXT NOT NULL CHECK ("estado" IN ('falta_fecha','falta_monto','por_confirmar','confirmado','aplicado','descartado')),
+  "nota"        TEXT NOT NULL DEFAULT '',
+  "confirmadoPor" TEXT,
+  "confirmadoEn"  TEXT,
+  "createdAt"   TEXT NOT NULL,
+  "updatedAt"   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "TarifaAviso_estado" ON "TarifaAviso" ("estado");
+
+-- REQ-3430: lista privada compartida entre Mila y la revisión cada 6 h; cada una consulta a la otra antes de escribirle a un proveedor (REQ-3429, gate G1 = A).
+CREATE TABLE IF NOT EXISTS "ProveedorContacto" (
+  "id"          INTEGER PRIMARY KEY AUTOINCREMENT,
+  "proveedorId" TEXT NOT NULL,
+  "agente"      TEXT NOT NULL CHECK ("agente" IN ('mila','revision6h')),
+  "motivo"      TEXT NOT NULL CHECK ("motivo" IN ('borrador','negociacion','folio','envio')),
+  "desde"       TEXT NOT NULL,
+  "hasta"       TEXT NOT NULL,
+  "nota"        TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS "ProveedorContacto_proveedor" ON "ProveedorContacto" ("proveedorId", "hasta");

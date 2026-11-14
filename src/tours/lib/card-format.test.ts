@@ -33,3 +33,13 @@ describe("REQ-522: categoría de la tarjeta = formato de la taxonomía", () => {
     ])).toEqual({ a: "pieza-libre", b: "excursion-dia" });
   });
 });
+
+describe("REQ-10515: catalogTourFormat con el proveedor de la fila", () => {
+  it("REQ-10515: una categoría de Tangol con el mapeo de Tangol da su formato; con freetour (o un proveedor sin mapeo) sería por-revisar", () => {
+    const t = { categoryId: 9000002, price: 120, durationMinutes: 600, titles: ["Excursión a Bariloche y Cerro Catedral"] };
+    expect(catalogTourFormat(t, "tangol")).toBe("excursion-dia");
+    expect(catalogTourFormat(t)).toBe("por-revisar");
+    expect(catalogTourFormat(t, "sin-mapeo")).toBe("por-revisar"); // cae al mapeo de freetour (como cardFormatsFor)
+    expect(catalogTourFormat(t, null)).toBe("por-revisar");
+  });
+});
