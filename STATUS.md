@@ -1099,6 +1099,12 @@ Gates A–D firmados en `docs/gates-cuentas-cliente-2026-11.md`. Todo tras `NEXT
 | REQ-3369 | Tabla de mapeo `ProviderCity` (proveedor, destino) → ciudad, con el origen del cruce | PO 11 nov (REQ-1624) | `migrations/0028_provider_city.sql`, `prisma/schema.prisma` | `src/tangol/lib/cities.test.ts` | NO APLICADA (migración escrita y probada; aplicarla es candado del PO) |
 | REQ-3441 | Plan puro de alta de países de proveedor: cruce por `iso2`, id del rango reservado (desde 9,000,000, igual que las ciudades de REQ-1624/REQ-3368), `code` único con `avoidCodeClashes`, nombres es/en; dedup entre proveedores; sin rango o ISO-2 inválido = PENDIENTE | PO 12-11 | `src/catalog/lib/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
 | REQ-3442 | El dato de los países propios de proveedor en el repo, empezando por Paraguay (`PY`) para Tangol | PO 12-11 | `data/paises-de-proveedor.json`, `src/catalog/provider-countries.ts` | `src/catalog/lib/provider-countries.test.ts` | EN CURSO (19 pruebas verdes; falta OK del PO) |
+
+
+## Calendario con precio por día para proveedores de PDF, ola 1 (12 nov 2026)
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-3454 | Precio del día: vigencia (G4), días de salida por periodo, temporada y recargos que se suman por opción (G2), días «por confirmar» (G3); el estimado usa el mismo cálculo (G1) | PO 12-11 | `src/trips/lib/day-price.ts`, `src/trips/lib/request.ts`, `src/trips/schemas/trip.ts`, `src/trips/requests.ts`, `src/components/trips/TripRequestForm.tsx`, `src/components/admin/trips/types.ts` | `src/trips/lib/day-price.test.ts`, `src/trips/lib/request.test.ts`, `src/trips/schemas/trip.test.ts` | EN CURSO (pruebas en verde; faltan datos y pantalla) |
 | REQ-3495 | Ruta de la salida según la versión de Freetour (2.2: /events/{id}) | PO 12-11 | `src/freetour/lib/event-path.ts`, `src/app/api/freetour/booking/route.ts` | `src/freetour/lib/event-path.test.ts` | CUMPLIDO |
 | REQ-3496 | FREETOUR_API_VERSION="2.2" en el Worker | PO 12-11 | `wrangler.jsonc` | humo PR #479 + publicación 9c24be7 + reserva y cancelación reales (ref 6782-20261113174614-281) | CUMPLIDO |
 | REQ-3373 | México nunca entra al catálogo de Tangol; el resto de Sudamérica sí | PO 11-11 (REQ-1554) | `src/tangol/lib/catalog-rules.ts` | `src/tangol/lib/catalog-rules.test.ts` | CUMPLIDO (10 tests verdes; falta merge del PO) |

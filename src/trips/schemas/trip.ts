@@ -43,6 +43,19 @@ export const availabilitySchema = z.object({
   slots: z.array(z.object({ time: z.string().regex(TIME), capacity: z.number().int().min(1).max(999).nullable().default(null) })).max(MAX_SLOTS).default([]),
   closedDates: z.array(z.string().regex(ISO_DATE)).max(366).default([]),
   seasons: z.array(z.object({ name: text(60).min(1), from: z.string().regex(ISO_DATE), to: z.string().regex(ISO_DATE), supplement: z.number().min(-1_000_000).max(1_000_000) })).max(12).default([]),
+  // REQ-3454: calendario de proveedores de PDF. Todo opcional: vacío = como siempre.
+  validFrom: z.string().regex(ISO_DATE).nullable().default(null),
+  validTo: z.string().regex(ISO_DATE).nullable().default(null),
+  weekdayRules: z.array(z.object({ from: z.string().regex(ISO_DATE), to: z.string().regex(ISO_DATE), weekdays: z.array(z.number().int().min(0).max(6)).max(7) })).max(12).default([]),
+  surcharges: z.array(z.object({
+    name: text(60).min(1),
+    from: z.string().regex(ISO_DATE).nullable().default(null),
+    to: z.string().regex(ISO_DATE).nullable().default(null),
+    weekdays: z.array(z.number().int().min(0).max(6)).max(7).default([]),
+    amount: z.number().min(0).max(1_000_000),
+    byOption: z.record(z.string().min(1).max(40), z.number().min(0).max(1_000_000)).default({}),
+  })).max(24).default([]),
+  quoteRanges: z.array(z.object({ from: z.string().regex(ISO_DATE), to: z.string().regex(ISO_DATE) })).max(12).default([]),
 });
 
 export const cancellationSchema = z.object({
@@ -96,7 +109,13 @@ export const tripInputSchema = z.object({
   videoCaption: text(200).default(""),
 }).refine((t) => !t.minPax || !t.maxPax || t.minPax <= t.maxPax, { message: "El cupo mínimo no puede ser mayor que el máximo", path: ["maxPax"] })
   .refine((t) => t.options.every((o) => o.childAgeMin <= o.childAgeMax), { message: "Rango de edad de niño inválido", path: ["options"] })
-  .refine((t) => t.availability.seasons.every((s) => s.from <= s.to), { message: "Temporada con fechas al revés", path: ["availability"] });
+  .refine((t) => t.availability.seasons.every((s) => s.from <= s.to), { message: "Temporada con fechas al revés", path: ["availability"] })
+  // REQ-3454: ningún rango del calendario al revés.
+  .refine((t) => {
+    const a = t.availability;
+    const ok = (f: string | null, to: string | null) => !f || !to || f <= to;
+    return ok(a.validFrom, a.validTo) && a.weekdayRules.every((r) => ok(r.from, r.to)) && a.surcharges.every((r) => ok(r.from, r.to)) && a.quoteRanges.every((r) => ok(r.from, r.to));
+  }, { message: "Rango de fechas al revés en el calendario", path: ["availability"] });
 
 export type TripInput = z.infer<typeof tripInputSchema>;
 
