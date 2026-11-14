@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDownIcon } from '@/assets/svg';
+import { peopleLabel } from '@/booking/lib/people-label'; // REQ-1626
 
 interface EventDetailData {
     id: number;
@@ -80,7 +81,7 @@ export function PeopleSelector({
                         {isLoading
                             ? 'Cargando...'
                             : eventDetailData
-                                ? `${value} personas`
+                                ? peopleLabel(value)
                                 : 'Seleccionar personas'}
                     </span>
                     <ChevronDownIcon isOpen={isPeopleDropdownOpen} className="w-4 h-4" />
@@ -101,7 +102,7 @@ export function PeopleSelector({
                                 className={`w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors ${value === num ? 'bg-blue-50 font-medium' : ''
                                     }`}
                             >
-                                {num} personas
+                                {peopleLabel(num)}
                             </button>
                         ))}
                     </div>

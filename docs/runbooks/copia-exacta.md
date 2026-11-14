@@ -25,3 +25,17 @@ revertir ese paso y avisar; nunca improvisar. Nada de esto se ejecutó al prepar
   original verdadero es el documento del proveedor (paso 7). Faltan: Extime (179 viajes, sin documento) y la página web de
   cada ciudad de Big Bus (29, hay que guardar su HTML). La lista completa sale en el reporte del ensayo.
 - La reclasificación sí es retroactiva completa: el paso 10 recalcula todo desde el catálogo y las denominaciones guardadas.
+
+## Tangol (REQ-3472 a REQ-3474, 12 nov 2026) — candados que faltan
+La pieza pura, el índice y el enganche ya están (`src/ingest/lib/tangol-raw.ts`, `src/ingest/tangol-archive.ts`), con
+la bandera **apagada** y sin conectar al sync. Para que Tangol se empiece a respaldar faltan, en este orden y uno a
+la vez, con OK explícito del PO:
+
+| # | Paso | Quién | Verificación | Regreso |
+|---|---|---|---|---|
+| T1 | **Firmar qué se guarda**: la copia incluye el neto y la utilidad (`Utilidad`, `NetRate*`) que el sitio descarta (REQ-1543). Vive solo en el bucket PRIVADO `travel-puzzle-raw` (`raw/tangol/…`); la ven el PO desde Cloudflare y el código de `src/ingest` más el cron (REQ-747). En `ProviderRecord` no va ningún campo de dinero | PO | **FIRMADO** el 12 nov 2026 12:00: «A» (se guarda íntegra, con neto, solo en el bucket privado). Registrado en `docs/requisitos.md` (REQ-3472) | Si el PO dice que no: recorte en la pieza pura y huellas recalculadas (cambio de una función pura con sus pruebas) |
+| T2 | **Conectar el enganche al sync de Tangol**: el paso de lectura llama `archiveTangolResponse(rawArchive, …)` con el cuerpo de la pasarela **antes** de validarlo con Zod, y mete `tangolRawField(report)` en el resumen | Agente del frente del sync de Tangol, PR propio | Pruebas del sync en verde con y sin archivador; el catálogo publicado no cambia | Quitar la llamada: el sync queda igual |
+| T3 | **Pasos 1 a 4 de la tabla de arriba** (bucket, binding, migración 0022, bandera `RAW_ARCHIVE_ENABLED="true"`): son los mismos candados, compartidos con FREETOUR; el bucket y el binding ya están, la migración 0022 se aplicó el 7 nov 2026 | PO / coordinador | Logs del sync de Tangol: campo `raw` por lectura (`written`, `same`, `failed`) | Volver la bandera a `"false"`: el sync sigue igual |
+
+**Límite honesto:** el historial de Tangol empieza el día que se enciende la bandera con el enganche conectado (T2 + T3);
+lo que Tangol mandó antes nunca se guardó y no se puede recuperar.

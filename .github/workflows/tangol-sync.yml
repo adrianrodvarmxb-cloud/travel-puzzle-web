@@ -1,0 +1,180 @@
+# REQ-3464 (Tangol ola 2): sync de tours de Tangol A MANO. No corre solo: no tiene `schedule` ni `push`.
+# Por omisión es ENSAYO: exporta de D1 en SOLO LECTURA, pide a Tangol (lectura), planea y cuenta lo que
+# haría; no genera SQL y no escribe nada. Escribir en producción (Country, City, Tour, TourTranslation,
+# SyncMetadata) solo con workflow_dispatch, escribir=true y OK del PO (candado: datos de producción).
+#
+# Candados y avisos (hay que leerlos antes de marcar la casilla):
+#  - La migración 0026 (quita "Tour_externalId_key") puede NO estar aplicada. Si no lo está, el primer
+#    tour de Tangol cuyo TourId ya exista en Freetour hace fallar el INSERT con UNIQUE constraint: D1
+#    aplica el archivo sentencia por sentencia, así que se detiene ahí y lo demás no entra. No corrompe
+#    nada, pero la carga queda a medias. El ENSAYO es la forma segura de probar.
+#  - La migración 0027 (ProviderCity) tampoco está aplicada; este sync NO escribe en esa tabla. El mapeo
+#    destino → ciudad se vuelve a calcular en cada corrida (REQ-3367), así que nada depende de ella.
+#  - Este workflow no toca TANGOL_ENABLED de wrangler.jsonc: gobierna lo que ve el público (gate C,
+#    REQ-1625; se enciende en su propio PR, REQ-3506). La pasarela del sync va por TANGOL_SYNC_ENABLED.
+#  - Antes de escribir se anota el punto de regreso de D1 (Time Travel) y se deja en el resumen.
+name: Tangol sync de tours (a mano)
+on:
+  workflow_dispatch:
+    inputs:
+      escribir:
+        description: "Escribir en producción (Country, City, Tour) — candado del PO"
+        type: boolean
+        default: false
+      reiniciar:
+        description: "Empezar desde el destino 1 aunque hoy ya haya corrido (REQ-10518: refrescar todo el catálogo)"
+        type: boolean
+        default: false
+      lote:
+        description: "Destinos por paso (vacío = 10)"
+        required: false
+        default: ""
+      moneda:
+        description: "Moneda que se le pide a Tangol en las tarifas (REQ-10510; vacío = USD). La fila guarda la que Tangol devuelve."
+        required: false
+        default: "USD"
+permissions:
+  contents: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # REQ-3536 (INC-015 / carga real): con 60 destinos el plan tarda ~19 min y la copia a R2 (2,756 objetos) ~15; 30 min cortaba la
+    # corrida 43466215988 antes de escribir. El job no toca D1 hasta el paso «Escribir en D1», así que un corte largo no deja nada a medias.
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+
+      # REQ-3499: igual que «Publicar en Cloudflare». data/countries.json no está en el repo (CLAUDE.md): sin este
+      # paso el build falla con «Can't resolve data/countries.json» (corrida 43287869528, primer ensayo del 12 nov).
+      - name: Lista de países (desde Freetour)
+        if: hashFiles('data/countries.json') == ''
+        env:
+          FREETOUR_ENV: production
+          FREETOUR_EMAIL: ${{ secrets.FREETOUR_EMAIL }}
+          FREETOUR_PASSWORD: ${{ secrets.FREETOUR_PASSWORD }}
+        run: npm run countries:generate
+
+      # REQ-3500: igual que «Publicar en Cloudflare». Sin el cliente generado, el build falla con «implicitly has an
+      # 'any' type» (corrida 43298923440, segundo ensayo del 12 nov).
+      - name: Cliente de Prisma
+        run: npx prisma generate
+        env:
+          DATABASE_URL: file:./dev.db
+
+      # Blindaje 1: nada corre si la suite o el build están rojos.
+      - name: Pruebas unitarias
+        run: npx vitest run
+      - name: Build de producción
+        run: npm run build
+
+      # La URL de la pasarela es un var público de wrangler.jsonc (no un secreto): se lee de ahí para
+      # que no haya dos lugares donde cambiarla. La clave sí es secreto del repo (GATEWAY_SECRET).
+      - name: URL de la pasarela (de wrangler.jsonc)
+        id: pasarela
+        run: |
+          url=$(grep -oE '"GATEWAY_URL":[[:space:]]*"[^"]+"' wrangler.jsonc | head -1 | sed -E 's/.*"([^"]+)"$/\1/')
+          [ -n "$url" ] || { echo "::error::wrangler.jsonc no declara GATEWAY_URL."; exit 1; }
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Pasarela: $url"
+
+      - name: Export de D1 (SOLO LECTURA)
+        run: |
+          set -euo pipefail
+          mkdir -p tmp/tangol-export
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "id", "code", "iso2" FROM "Country"' > tmp/tangol-export/countries.json
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT c."id", c."countryId", c."translations", c."slug", c."stateCode", c."geonameid", co."iso2" FROM "City" c JOIN "Country" co ON co."id" = c."countryId"' > tmp/tangol-export/cities.json
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "status", "nextPage", "totalPages", "runStartedAt" FROM "SyncMetadata" WHERE "provider" = '"'"'tangol'"'"'' > tmp/tangol-export/sync.json
+          # REQ-3519: lo que ya está en la copia exacta de Tangol (para no reescribir lo que no cambió).
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "externalId", "rawHash", "lastSeenAt" FROM "ProviderRecord" WHERE "provider" = '"'"'tangol'"'"'' > tmp/tangol-export/provider-record.json
+
+      - name: Ensayo (cuenta y reporta; no escribe)
+        if: ${{ !inputs.escribir }}
+        env:
+          TANGOL_SYNC_ENABLED: "true"
+          GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
+          GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+          TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
+        run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Plan de escritura (genera el SQL; todavía NO lo aplica)
+        if: ${{ inputs.escribir }}
+        env:
+          TANGOL_SYNC_ENABLED: "true"
+          GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
+          GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+          TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
+        # REQ-3519: --copia arma la copia exacta (con el neto) en tmp/tangol-copia, FUERA del artefacto público.
+        run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir --copia tmp/tangol-copia ${{ inputs.reiniciar && '--reiniciar' || '' }} ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: tangol-sync, path: tmp/tangol-salida, retention-days: 7 }
+
+      - name: Respaldo previo (instante de Time Travel)
+        if: ${{ inputs.escribir }}
+        run: |
+          set -euo pipefail
+          npx wrangler d1 time-travel info travel-puzzle --json > tmp/time-travel.json
+          bookmark=$(jq -r '.bookmark' tmp/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "Instante $(date -u +%Y-%m-%dT%H:%M:%SZ) · bookmark \`$bookmark\` (regreso: wrangler d1 time-travel restore travel-puzzle --bookmark=$bookmark)" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # REQ-3519: la copia exacta va al bucket R2 PRIVADO travel-puzzle-raw ANTES de escribir el catálogo
+      # (primero se guarda, luego se reclasifica). Si la subida falla, el catálogo se escribe igual (REQ-744)
+      # y el índice no se aplica: la siguiente corrida vuelve a intentar lo que falte.
+      - name: Copia exacta a R2 privado
+        id: copia
+        if: ${{ inputs.escribir }}
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          n=$(grep -c . tmp/tangol-copia/llaves.txt || true)
+          echo "Copia exacta: $n objeto(s) nuevos a travel-puzzle-raw" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$n" -gt 0 ] || exit 0
+          grep . tmp/tangol-copia/llaves.txt | xargs -P 8 -I{} ./node_modules/.bin/wrangler r2 object put "travel-puzzle-raw/{}" \
+            --file "tmp/tangol-copia/objetos/{}" --content-type application/json --remote > tmp/tangol-copia/subida.log 2>&1 \
+            || { tail -20 tmp/tangol-copia/subida.log; exit 1; }
+
+      - name: Índice de la copia (ProviderRecord)
+        if: ${{ inputs.escribir }}
+        env:
+          COPIA: ${{ steps.copia.outcome }}
+        run: |
+          set -euo pipefail
+          [ "$COPIA" = "success" ] || { echo "::warning::La copia exacta no se subió completa; el índice no se aplica." | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
+          [ -s tmp/tangol-copia/provider-record.sql ] || { echo "Índice: nada nuevo."; exit 0; }
+          npx wrangler d1 execute travel-puzzle --remote --file tmp/tangol-copia/provider-record.sql
+
+      - name: Escribir en D1
+        if: ${{ inputs.escribir }}
+        run: npx wrangler d1 execute travel-puzzle --remote --file tmp/tangol-salida/tangol.sql
+
+      # REQ-10509: slugs de los tours de Tangol que quedaron sin slug (sin él no salen en /destinos, sitemaps ni en el
+      # árbol de países). Misma regla que Freetour (REQ-086); el UPDATE solo llena los que están en NULL. Corre en toda
+      # corrida con escribir=true, también cuando el catálogo ya está completo (así rellena los de cargas anteriores).
+      - name: Slugs faltantes de Tangol
+        if: ${{ inputs.escribir }}
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "id", "providerId", "externalId", "slug" FROM "Tour" WHERE "slug" IS NOT NULL' > tmp/tangol-export/slugs-existentes.json
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT t."id", t."externalId", es."title" AS "titleEs", en."title" AS "titleEn" FROM "Tour" t LEFT JOIN "TourTranslation" es ON es."tourId" = t."id" AND es."language" = '"'"'es'"'"' LEFT JOIN "TourTranslation" en ON en."tourId" = t."id" AND en."language" = '"'"'en'"'"' WHERE t."providerId" = '"'"'tangol'"'"' AND t."slug" IS NULL' > tmp/tangol-export/tours-sin-slug.json
+          npx tsx src/scripts/tangol-slugs.ts tmp/tangol-export tmp/tangol-salida | tee -a "$GITHUB_STEP_SUMMARY"
+          if grep -q '^UPDATE' tmp/tangol-salida/slugs.sql; then npx wrangler d1 execute travel-puzzle --remote --file tmp/tangol-salida/slugs.sql; fi
+
+      - name: Prueba de humo en producción
+        if: ${{ inputs.escribir }}
+        # REQ-3539: el runner no trae el navegador; sin esto el humo cae aunque el sitio esté bien.
+        run: npx playwright install --with-deps chromium && npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx

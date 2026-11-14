@@ -3,17 +3,8 @@ import { CancelBooking } from './CancelBooking';
 import { TripLinkCard } from '@/components/booking/TripLinkCard';
 import type { SiteFooterData } from '@/layout/lib/site-footer';
 import { mono, Eyebrow, Ghost, EmailFrame, Hero, BookingPass, SupportCard } from '@/components/booking/email-ui';
+import { bookingHeadline } from '@/booking/lib/booking-status';
 
-const STATUS: Record<string, { label: string; dot: string; text: string }> = {
-    active: { label: 'Reserva confirmada', dot: 'bg-[#3DDC84]', text: 'text-[#7CE3A1]' },
-    canceled: { label: 'Reserva cancelada', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
-    rejected: { label: 'Reserva rechazada', dot: 'bg-[#FF6B5A]', text: 'text-[#FFB3A8]' },
-    // REQ-017
-    cancel_requested: { label: 'Cancelación en proceso', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
-    // REQ-931: tour de pago reservado y todavía sin pagar (FREETOUR lo marca «unpaid»).
-    pending_payment: { label: 'Pago pendiente', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
-    unpaid: { label: 'Pago pendiente', dot: 'bg-[#EAF54F]', text: 'text-[#F3F8B0]' },
-};
 
 export interface BookingPageViewProps {
     token: string;
@@ -51,8 +42,9 @@ export interface BookingPageViewProps {
 
 /** Vista de la página (solo presentación). */
 export function BookingPageView({ token, title, firstName, refNumber, status, canCancel, canEdit, changed, offline, days, imageUrl, rows, when, people, tourLang, maps, cal, wa, socials, site, tripUrl, payHref, cancelNotice, accountInvite }: BookingPageViewProps) {
-    const active = status === 'active';
-    const st = STATUS[status] ?? { label: status, dot: 'bg-gray-300', text: 'text-gray-200' };
+    // REQ-065: el titular sale del estado; solo «active» promete el lugar.
+    const st = bookingHeadline(status, payHref);
+    const active = st.active;
     let sec = 0;
 
     return (
@@ -64,7 +56,7 @@ export function BookingPageView({ token, title, firstName, refNumber, status, ca
                     dot={st.dot}
                     statusText={st.text}
                     extra={days !== null ? <span className="text-[#EAF54F]">{days === 0 ? '¡Es hoy!' : days === 1 ? '¡Es mañana!' : `Faltan ${days} días`}</span> : undefined}
-                    title={active ? '¡Tu lugar está apartado!' : status === 'canceled' ? 'Tu reserva quedó cancelada' : status === 'cancel_requested' ? 'Recibimos tu cancelación' : payHref ? 'Falta completar tu pago' : 'Tu reserva no pudo confirmarse'}
+                    title={st.title}
                     subtitle={<>Hola {firstName}: <span className="font-semibold text-white">{title}</span></>}
                 />
 

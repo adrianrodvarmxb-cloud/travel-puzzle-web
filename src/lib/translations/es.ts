@@ -246,6 +246,7 @@ export const es = {
   "tours.map.loading": "Cargando mapa…",
   "tours.map.error": "No pudimos cargar el mapa.",
   "tours.map.empty": "Las experiencias de esta página no tienen punto de encuentro en el mapa.",
+  "tours.map.onRequest": "Cotizar",
   "tours.map.view": "Ver experiencia",
   "tours.map.show": "Mapa",
   "tours.map.list": "Lista",

@@ -7,15 +7,22 @@ import { addDays, HORIZON_DAYS } from '@/departures/lib/summary';
 import { FilterSection, FilterCheck } from './FilterSection';
 import { DurationSlider } from './DurationSlider';
 import { PriceSlider } from './PriceSlider';
-import { formatoOptions } from '@/taxonomy/lib/filters';
+import { ATRIBUTO_LABEL, EXTRAS_FILTRO, MEDIOS_FILTRO, TEMAS_FILTRO, TEMA_LABEL, facetOptions, formatoOptions } from '@/taxonomy/lib/filters';
 import type { FormatDef } from '@/taxonomy/lib/format-defs';
 import { TIPO_EN_PANEL } from '@/tours/lib/filters-visibility';
 
 /** REQ-049..056: filtros estilo Civitatis (tipo, características, idioma, fecha, duración). */
-export function MoreFilters({ value, onChange, today, lang, price, onPrice, priceLabel, showDepartures = false, taxonomy = false, formatCounts = null, formatDefs, mxnPerEur = null, tipoEnPanel = TIPO_EN_PANEL }: { tipoEnPanel?: boolean; formatDefs?: FormatDef[]; mxnPerEur?: number | null; showDepartures?: boolean; taxonomy?: boolean; formatCounts?: Record<string, number> | null; value: ExtraFilters; onChange: (v: ExtraFilters) => void; today: string; lang: string; price?: { min?: number; max?: number }; onPrice?: (min: number | undefined, max: number | undefined) => void; priceLabel?: string }) {
+export function MoreFilters({ value, onChange, today, lang, price, onPrice, priceLabel, showDepartures = false, taxonomy = false, formatCounts = null, formatDefs, mxnPerEur = null, tipoEnPanel = TIPO_EN_PANEL, temaCounts = null, atribCounts = null }: { temaCounts?: Record<string, number> | null; atribCounts?: Record<string, number> | null; tipoEnPanel?: boolean; formatDefs?: FormatDef[]; mxnPerEur?: number | null; showDepartures?: boolean; taxonomy?: boolean; formatCounts?: Record<string, number> | null; value: ExtraFilters; onChange: (v: ExtraFilters) => void; today: string; lang: string; price?: { min?: number; max?: number }; onPrice?: (min: number | undefined, max: number | undefined) => void; priceLabel?: string }) {
     const c = filtersCopy(lang);
     const set = (patch: Partial<ExtraFilters>) => onChange({ ...value, ...patch });
     const toggleGroup = (id: string, on: boolean) => set({ groups: on ? [...value.groups, id] : value.groups.filter((g) => g !== id) });
+    // REQ-1421 / REQ-1422: temas y atributos del diccionario, solo con resultados (como REQ-412).
+    const temas = taxonomy ? facetOptions(TEMAS_FILTRO, TEMA_LABEL, temaCounts, value.temas, lang) : [];
+    const medios = taxonomy ? facetOptions(MEDIOS_FILTRO, ATRIBUTO_LABEL, atribCounts, value.atributos, lang) : [];
+    const extras = taxonomy ? facetOptions(EXTRAS_FILTRO, ATRIBUTO_LABEL, atribCounts, value.atributos, lang) : [];
+    const flip = (list: string[], slug: string, on: boolean): string[] => (on ? [...list, slug] : list.filter((x) => x !== slug));
+    const toggleTema = (slug: string, on: boolean) => set({ temas: flip(value.temas, slug, on) });
+    const toggleAtrib = (slug: string, on: boolean) => set({ atributos: flip(value.atributos, slug, on) });
     const input = 'w-full rounded-xl border border-white/20 bg-[#0E1A40] px-3 py-2.5 text-[15px] text-white outline-none focus:border-[#008DFF]';
     return (
         <div className="mt-4 rounded-2xl border border-white/10 bg-[#121D45] p-5">
@@ -34,11 +41,22 @@ export function MoreFilters({ value, onChange, today, lang, price, onPrice, pric
                 {CATEGORY_GROUPS.map((g) => <FilterCheck key={g.id} label={groupLabel(g.id, lang)} checked={value.groups.includes(g.id)} onChange={(on) => toggleGroup(g.id, on)} />)}
             </FilterSection>
             )}
+            {temas.length > 0 && (
+                <FilterSection title={lang === 'es' ? 'Tema' : 'Theme'}>
+                    {temas.map((o) => <FilterCheck key={o.slug} label={`${o.label} (${o.count})`} checked={value.temas.includes(o.slug)} onChange={(on) => toggleTema(o.slug, on)} />)}
+                </FilterSection>
+            )}
+            {medios.length > 0 && (
+                <FilterSection title={lang === 'es' ? 'Cómo te mueves' : 'Getting around'}>
+                    {medios.map((o) => <FilterCheck key={o.slug} label={`${o.label} (${o.count})`} checked={value.atributos.includes(o.slug)} onChange={(on) => toggleAtrib(o.slug, on)} />)}
+                </FilterSection>
+            )}
             <FilterSection title={c.features}>
                 <FilterCheck label={c.freeCancel} checked={value.freeCancel} onChange={(v) => set({ freeCancel: v })} />
                 <FilterCheck label={c.private} checked={value.privateOnly} onChange={(v) => set({ privateOnly: v })} />
                 <FilterCheck label={c.pickup} checked={value.hotelPickup} onChange={(v) => set({ hotelPickup: v })} />
                 <FilterCheck label={c.novelty} checked={value.novelty} onChange={(v) => set({ novelty: v })} />
+                {extras.map((o) => <FilterCheck key={o.slug} label={`${o.label} (${o.count})`} checked={value.atributos.includes(o.slug)} onChange={(on) => toggleAtrib(o.slug, on)} />)}
             </FilterSection>
             {/* REQ-061: idioma y fecha ocultos hasta que la lectura de salidas cubra el catálogo (DEPARTURE_FILTERS_ENABLED) */}
             {showDepartures && (
