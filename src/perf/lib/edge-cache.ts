@@ -26,3 +26,15 @@ export function edgeCacheHeader(r: { method: string; pathname: string; cookieNam
   if (isPrivatePath(r.pathname) || hasSessionCookie(r.cookieNames)) return null;
   return EDGE_CACHE_VALUE;
 }
+
+/**
+ * REQ-3318: solo una respuesta 200 puede quedarse con el encabezado del borde. El plan gratis de
+ * Cloudflare no permite TTL por código de estado en la Cache Rule, así que un 5xx (o un 404/redirección)
+ * nunca debe llegar al borde marcado como guardable.
+ */
+export function stripEdgeCacheUnlessOk(res: Response): Response {
+  if (res.status === 200 || !res.headers.has(EDGE_CACHE_HEADER)) return res;
+  const out = new Response(res.body, res);
+  out.headers.delete(EDGE_CACHE_HEADER);
+  return out;
+}

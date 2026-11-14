@@ -4,6 +4,8 @@ Corrida de `npm run inventario-tangol` en la pasarela de cPanel (REQ-1558), sali
 
 **Total: 2,237 tours en 10 países y 184 ciudades.**
 
+> **Corrección (REQ-3505, 12 nov 2026).** El 2,237 NO es el número de tours que se pueden cargar: es la suma del `ToursQty` que cada **país** declara en `GetTourCountries` (`summarizeInventory` suma `c.ToursQty`; la tabla de abajo suma exactamente 2,237). La lista real (`GetTourListByDestination`, corrida de solo lectura 43303152904 del 12 nov, REQ-3487) devolvió **2,059 tours válidos** (+1 tirado por validación = 2,060) en los mismos 10 países y 184 destinos, sin llamadas con error. Diferencia: 177 tours que los países declaran y las listas no traen. La causa no se puede saber sin preguntar a Tangol (ver REQ-3505 en `docs/requisitos.md`). Para planear, la cifra que vale es **2,059**.
+
 | País | Tours | Ciudades principales |
 |---|---|---|
 | Argentina | 921 | Buenos Aires 184, Bariloche 91, Ushuaia 90, El Calafate 86, Mendoza 70, Salta 47, Puerto Madryn 40, Iguazú 32, Córdoba 30 |

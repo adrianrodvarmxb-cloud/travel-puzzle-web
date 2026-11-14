@@ -9,6 +9,7 @@
  */
 // @ts-ignore: lo genera `opennextjs-cloudflare build` (puede no existir aún)
 import { default as handler } from "./.open-next/worker.js";
+import { serveWithCache, type PageCache } from "./src/perf/worker-cache";
 
 interface Env {
   CRON_SECRET?: string;
@@ -23,7 +24,10 @@ interface WorkerContext {
 interface IncomingEmail { raw: ReadableStream; from: string; to: string }
 
 export default {
-  fetch: handler.fetch,
+  // REQ-3318 + REQ-3498: páginas públicas sin sesión salen de la Cache API (5 min); solo un 200 se guarda.
+  async fetch(request: Request, env: Env, ctx: WorkerContext): Promise<Response> {
+    return serveWithCache(request, () => handler.fetch(request, env, ctx), (caches as unknown as { default: PageCache }).default, ctx);
+  },
 
   async email(message: IncomingEmail, env: Env, ctx: WorkerContext) {
     if (!env.CRON_SECRET) return;

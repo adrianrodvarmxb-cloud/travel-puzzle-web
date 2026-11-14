@@ -1,0 +1,4 @@
+# REQ-3513: estos dos archivos se agregan desde muchas sesiones en paralelo. La unión evita
+# conflictos de merge triviales en los PR (lección del 13 nov 2026: 13 PR en «dirty» por estas dos rutas).
+STATUS.md merge=union
+docs/requisitos.md merge=union

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { summarizeRates, isDateBookable, publicPrice } from "./rates";
+import { summarizeRates, isDateBookable, publicPrice, availabilityRules } from "./rates";
+import { parseOperationDays } from "./operation-days";
 import { parseTourRates } from "./schemas";
 
 const raw = {
@@ -24,8 +25,8 @@ describe("tarifas de Tangol", () => {
     expect(s.tourId).toBe(10);
     expect(s.currency).toBe("USD");
     expect(s.options).toEqual([
-      { code: "AM", description: "Mañana", startTime: "09:00", fromAdult: 45, hoursBooking: 24, hoursCancelation: 48 },
-      { code: "PM", description: "Tarde", startTime: "15:00", fromAdult: 60, hoursBooking: 12, hoursCancelation: 24 },
+      { code: "AM", description: "Mañana", startTime: "09:00", fromAdult: 45, hoursBooking: 24, hoursCancelation: 48, operationDays: null, operationDaysRaw: null },
+      { code: "PM", description: "Tarde", startTime: "15:00", fromAdult: 60, hoursBooking: 12, hoursCancelation: 24, operationDays: null, operationDaysRaw: null },
     ]);
     expect(s.fromAdult).toBe(45);
     expect(s.blackouts).toEqual([{ from: "2026-12-24", to: "2026-12-25" }]);
@@ -52,5 +53,83 @@ describe("tarifas de Tangol", () => {
     const s = summarizeRates(parseTourRates(roto));
     expect(s.rates).toHaveLength(3);
     expect(s.discarded).toBe(1);
+  });
+
+  // ───────── REQ-10513: días de operación y anticipación ─────────
+  it("REQ-10513: OperationDays se entiende en los formatos previsibles; lo que no se entiende queda en null", () => {
+    expect(parseOperationDays("Lunes, Miércoles y Viernes")).toEqual([1, 3, 5]);
+    expect(parseOperationDays("Mon,Tue,Wed,Thu,Fri,Sat,Sun")).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(parseOperationDays("1,2,3,4,5")).toEqual([1, 2, 3, 4, 5]);
+    expect(parseOperationDays("7")).toEqual([0]);
+    expect(parseOperationDays("LMXJVSD")).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(parseOperationDays("NNNNNSS")).toEqual([0, 6]);
+    expect(parseOperationDays("1111100")).toEqual([1, 2, 3, 4, 5]);
+    expect(parseOperationDays("Todos los días")).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(parseOperationDays("Daily")).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(parseOperationDays("")).toBeNull();
+    expect(parseOperationDays(null)).toBeNull();
+    expect(parseOperationDays("según temporada")).toBeNull();
+  });
+
+  const conDias = {
+    ...raw,
+    ListTourOption: [
+      { ...raw.ListTourOption[0], OperationDays: "Lunes, Miércoles, Viernes" },
+      { ...raw.ListTourOption[1], OperationDays: "Sábado" },
+    ],
+  };
+
+  it("REQ-10513: el resumen conserva los días de operación de cada opción (0=domingo…6=sábado) y el texto original", () => {
+    const s = summarizeRates(parseTourRates(conDias));
+    expect(s.options[0]).toMatchObject({ code: "AM", operationDays: [1, 3, 5], operationDaysRaw: "Lunes, Miércoles, Viernes" });
+    expect(s.options[1]).toMatchObject({ code: "PM", operationDays: [6], operationDaysRaw: "Sábado" });
+  });
+
+  it("REQ-10513: con 2 argumentos isDateBookable sigue igual (solo vigencia y bloqueos)", () => {
+    const s = summarizeRates(parseTourRates(conDias));
+    expect(isDateBookable(s, "2026-12-01")).toBe(true); // martes: sin días de operación en la regla vieja
+  });
+
+  it("REQ-10513: con { now } la fecha debe caer en un día de operación de una opción con tarifa vigente", () => {
+    const s = summarizeRates(parseTourRates(conDias));
+    const now = new Date("2026-11-20T12:00:00Z");
+    expect(isDateBookable(s, "2026-12-01", { now })).toBe(false); // martes: ni AM (L,X,V) ni PM (S)
+    expect(isDateBookable(s, "2026-12-02", { now })).toBe(true); // miércoles: AM
+    expect(isDateBookable(s, "2026-12-05", { now })).toBe(true); // sábado: PM
+    expect(isDateBookable(s, "2026-12-24", { now })).toBe(false); // jueves y además bloqueado
+    expect(isDateBookable(s, "2027-04-02", { now })).toBe(false); // viernes fuera de vigencia
+  });
+
+  it("REQ-10513: con { now } se respeta la anticipación HoursBooking de la opción", () => {
+    const s = summarizeRates(parseTourRates(conDias));
+    // AM sale 09:00 con 24 h de anticipación: el miércoles 2 de diciembre ya no se puede el 1 a las 12:00.
+    expect(isDateBookable(s, "2026-12-02", { now: new Date("2026-12-01T12:00:00Z") })).toBe(false);
+    expect(isDateBookable(s, "2026-12-02", { now: new Date("2026-12-01T08:00:00Z") })).toBe(true);
+    // PM sale 15:00 con 12 h: el sábado 5 sí se puede el 5 a las 02:00, no a las 04:00.
+    expect(isDateBookable(s, "2026-12-05", { now: new Date("2026-12-05T02:00:00Z") })).toBe(true);
+    expect(isDateBookable(s, "2026-12-05", { now: new Date("2026-12-05T04:00:00Z") })).toBe(false);
+  });
+
+  it("REQ-10513: una opción sin días entendidos no restringe; sin opciones manda la regla vieja", () => {
+    const sinDias = summarizeRates(parseTourRates(raw));
+    const now = new Date("2026-11-20T12:00:00Z");
+    expect(isDateBookable(sinDias, "2026-12-01", { now })).toBe(true);
+    expect(isDateBookable({ rates: sinDias.rates, blackouts: sinDias.blackouts }, "2026-12-01", { now })).toBe(true);
+  });
+
+  it("REQ-10513: availabilityRules guarda lo necesario para calcular disponibilidad después, sin dinero", () => {
+    const a = availabilityRules(summarizeRates(parseTourRates(conDias)));
+    expect(a).toEqual({
+      options: [
+        { code: "AM", startTime: "09:00", operationDays: [1, 3, 5], operationDaysRaw: "Lunes, Miércoles, Viernes", hoursBooking: 24, hoursCancelation: 48 },
+        { code: "PM", startTime: "15:00", operationDays: [6], operationDaysRaw: "Sábado", hoursBooking: 12, hoursCancelation: 24 },
+      ],
+      validity: [
+        { option: "AM", from: "2026-11-01", to: "2027-03-31" },
+        { option: "PM", from: "2026-11-01", to: "2027-03-31" },
+      ],
+      blackouts: [{ from: "2026-12-24", to: "2026-12-25" }],
+    });
+    expect(JSON.stringify(a)).not.toMatch(/Rack|rack|Utilidad|Net|price|Price/);
   });
 });

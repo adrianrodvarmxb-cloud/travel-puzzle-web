@@ -12,24 +12,29 @@ import { classify } from "./classify";
 import { DEFAULT_GATES, porRevisarVisibleEn, type Gates } from "./gates";
 import type { FormatoOEstado, Seccion } from "./types";
 import { TEMAS_FILTRO, atributosDeClase } from "./filters";
+import { DEFAULT_PROVIDER } from "@/destinations/lib/ids";
 
 /** Solo "true" exacto la enciende. */
 export function taxonomyPublishEnabled(env: { TAXONOMY_PUBLISH_ENABLED?: string }): boolean {
   return env.TAXONOMY_PUBLISH_ENABLED === "true";
 }
 
-export interface CatalogTour { categoryId?: number | null; price: number | null; durationMinutes?: number | null; title: string; /** REQ-1253 */ cities?: readonly string[]; /** REQ-1422: idiomas del guía (para «En español»). */ languages?: readonly string[] | null }
+export interface CatalogTour { /** REQ-3502: proveedor de la fila (Tour.providerId); sin él, FREETOUR (el valor por defecto de la base). */ providerId?: string | null; categoryId?: number | null; price: number | null; durationMinutes?: number | null; title: string; /** REQ-1253 */ cities?: readonly string[]; /** REQ-1422: idiomas del guía (para «En español»). */ languages?: readonly string[] | null }
 /** `guiaEnPersona`: el formato tiene guía en persona y el título no dice autoguiado o self-guided (decisión del PO, 6-11). */
 export interface CatalogClass { formato: FormatoOEstado; seccion: Seccion; guiaEnPersona: boolean; /** REQ-544: atributos (chips de la ficha). */ atributos?: string[]; /** REQ-1421 */ temas?: string[] }
 export type CatalogClassifier = (t: CatalogTour) => CatalogClass;
 
-/** Clasificador de filas de FREETOUR del catálogo (sin categoría = por-revisar: falla cerrada). */
+/**
+ * Clasificador de filas del catálogo con el mapeo de su proveedor (sin categoría o sin mapeo = por-revisar: falla cerrada).
+ * REQ-3502: antes clasificaba TODA fila como FREETOUR, así que el mapeo de Tangol nunca se usaba.
+ */
+// REQ-3502
 export function catalogClassifier(dict: Dictionary, mappings: Record<string, Mapping>, gates: Gates = DEFAULT_GATES): CatalogClassifier {
   const memo = new WeakMap<CatalogTour, CatalogClass>();
   return (t) => {
     const hit = memo.get(t);
     if (hit) return hit;
-    const r = classify({ proveedor: "freetour", categoriaId: t.categoryId ?? null, precio: t.price, durationMinutes: t.durationMinutes ?? null, titulo: t.title, ciudades: t.cities, idiomas: t.languages ? [...t.languages] : undefined }, dict, mappings, gates);
+    const r = classify({ proveedor: t.providerId || DEFAULT_PROVIDER, categoriaId: t.categoryId ?? null, precio: t.price, durationMinutes: t.durationMinutes ?? null, titulo: t.title, ciudades: t.cities, idiomas: t.languages ? [...t.languages] : undefined }, dict, mappings, gates);
     const term = dict.terminos.find((x) => x.eje === "formato" && x.slug === r.formato) as { guiaEnPersona?: boolean } | undefined;
     const out: CatalogClass = { formato: r.formato, seccion: r.seccion, guiaEnPersona: !!term?.guiaEnPersona && !r.atributos.includes("autoguiado"), atributos: r.atributos, temas: r.temas };
     memo.set(t, out);

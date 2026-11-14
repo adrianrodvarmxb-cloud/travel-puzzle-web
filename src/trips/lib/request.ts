@@ -3,9 +3,9 @@ import { seasonFor, type Season } from "./pricing";
 import { dayPrice, isOffered, type DayAvailability } from "./day-price";
 
 // REQ-117: "paid" lo pone el webhook de Stripe (también se puede elegir a mano).
-export const REQUEST_STATUSES = ["new", "contacted", "quoted", "paid", "closed"] as const;
+export const REQUEST_STATUSES = ["new", "contacted", "quoted", "held", "paid", "closed"] as const;
 export type RequestStatus = (typeof REQUEST_STATUSES)[number];
-export const REQUEST_STATUS_LABEL: Record<RequestStatus, string> = { new: "Nueva", contacted: "En contacto", quoted: "Cotizada", paid: "Pagada", closed: "Cerrada" };
+export const REQUEST_STATUS_LABEL: Record<RequestStatus, string> = { new: "Nueva", contacted: "En contacto", quoted: "Cotizada", held: "Tarjeta retenida", paid: "Pagada", closed: "Cerrada" };
 
 interface Availability extends Omit<DayAvailability, "seasons"> { slots: { time: string; capacity: number | null }[]; seasons?: Season[] }
 
