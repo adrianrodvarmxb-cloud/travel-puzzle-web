@@ -34,3 +34,20 @@ describe("REQ-766 respaldo retroactivo: documento original y página de cada via
     expect(docStem("/x/a1b2c3d4-PC_016.pdf")).toBe("PC_016.pdf");
   });
 });
+
+describe("REQ-10534 Extime: el viaje se liga al Excel del programa que contiene su código", () => {
+  const XLS = ["2026_Extime_Travel_Program_from_November_1st_2026.xlsx", "2027_Extime_Travel_Program_from_April_1st_2027.xlsx"];
+  const tiene: Record<string, string[]> = { [XLS[0]]: ["VAM", "PAR"], [XLS[1]]: ["PAR", "VER"] };
+  const contiene = (f: string, ref: string) => (tiene[docStem(f)] ?? []).includes(ref);
+  it("REQ-10534 elige el primer programa (invierno) que trae el código, con el código como renglón a buscar", () => {
+    expect(matchDocument("extime", { ref: "VAM" }, XLS, contiene)).toMatchObject({ kind: "xlsx", file: XLS[0], pageToken: "VAM" });
+    expect(matchDocument("extime", { ref: "PAR" }, XLS, contiene).file).toBe(XLS[0]);
+  });
+  it("REQ-10534 si solo viene en el de verano, liga ese", () => {
+    expect(matchDocument("extime", { ref: "VER" }, XLS, contiene)).toMatchObject({ kind: "xlsx", file: XLS[1] });
+  });
+  it("REQ-10534 sin el código en ningún programa queda como hueco; nunca se inventa", () => {
+    expect(matchDocument("extime", { ref: "ZZZ" }, XLS, contiene)).toMatchObject({ kind: "ninguno", file: null });
+    expect(matchDocument("extime", { ref: "VAM" }, XLS).kind).toBe("ninguno");
+  });
+});

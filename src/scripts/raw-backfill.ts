@@ -32,6 +32,19 @@ function guardOutside(dir: string) {
   if (inside && !rel.startsWith("tmp/") && rel !== "tmp") throw new Error(`--salida ${dir} está dentro del repo: usa una carpeta fuera o tmp/ (la copia exacta nunca se commitea)`);
 }
 
+// REQ-10534: filas de un Excel del proveedor (una por renglón) con python3 + openpyxl; si no se puede leer, sin filas
+// (el viaje queda como hueco, nunca se adivina). Lectura local, solo para el respaldo.
+const XLSX_PY = "import sys,openpyxl\nwb=openpyxl.load_workbook(sys.argv[1],read_only=True,data_only=True)\nfor ws in wb.worksheets:\n  for r in ws.iter_rows(values_only=True):\n    sys.stdout.write(' | '.join('' if c is None else str(c) for c in r)+'\\f')";
+const rowsCache = new Map<string, string[]>();
+function xlsxRows(file: string): string[] {
+  if (!rowsCache.has(file)) {
+    try { rowsCache.set(file, execFileSync("python3", ["-I", "-c", XLSX_PY, file], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 }).split("\f")); }
+    catch { rowsCache.set(file, []); }
+  }
+  return rowsCache.get(file)!;
+}
+const conCodigo = (row: string, ref: string) => row.split(" | ").some((c) => c.trim() === ref);
+const contiene = (file: string, ref: string) => file.endsWith(".xlsx") && xlsxRows(file).some((r) => conCodigo(r, ref));
 const pagesCache = new Map<string, string[]>();
 function pdfPages(file: string): string[] {
   if (!pagesCache.has(file)) {
@@ -44,7 +57,7 @@ function pdfPages(file: string): string[] {
 async function main() {
   if (out) guardOutside(out);
   const now = new Date();
-  const files = docsDir ? readdirSync(docsDir).filter((f) => /\.(pdf|html?)$/i.test(f)).map((f) => join(docsDir, f)) : [];
+  const files = docsDir ? readdirSync(docsDir).filter((f) => /\.(pdf|xlsx|html?)$/i.test(f)).map((f) => join(docsDir, f)) : [];
   const inventory: InventoryRow[] = [];
   const sizes: Record<string, { items: number; bytes: number; gzip: number; docs: number; docBytes: number }> = {};
   const docs = new Map<string, SourceDocument>();
@@ -57,10 +70,13 @@ async function main() {
     if (!provider) { console.log(`SIN PROVEEDOR ${f}`); continue; }
     const docsByRef = new Map<string, { key: string; page: number | null }>();
     for (const e of bundle.trips) {
-      const m = matchDocument(provider, e, files);
-      const page = m.kind === "pdf" && m.file ? pageOf(pdfPages(m.file), m.pageToken) : null;
-      inventory.push({ provider, ref: e.ref, kind: m.kind, file: m.file, url: m.url, page, note: m.note || (m.kind === "pdf" && page === null ? "página por confirmar" : "") });
-      if (m.kind === "pdf" && m.file) {
+      const m = matchDocument(provider, e, files, contiene);
+      // REQ-10534: en un Excel la «página» es el renglón donde aparece el código.
+      const page = m.kind === "pdf" && m.file ? pageOf(pdfPages(m.file), m.pageToken)
+        : m.kind === "xlsx" && m.file ? (xlsxRows(m.file).findIndex((r) => conCodigo(r, e.ref)) + 1 || null) : null;
+      const esDoc = (m.kind === "pdf" || m.kind === "xlsx") && !!m.file;
+      inventory.push({ provider, ref: e.ref, kind: m.kind, file: m.file, url: m.url, page, note: m.note || (esDoc && page === null ? "página por confirmar" : "") });
+      if (esDoc && m.file) {
         if (!docs.has(m.file)) docs.set(m.file, await documentFor(provider, m.file.split("/").pop()!, new Uint8Array(readFileSync(m.file)), now));
         docsByRef.set(e.ref, { key: docs.get(m.file)!.key, page });
       }
@@ -85,8 +101,8 @@ async function main() {
     freetour = { items: items.length, promedioBytes: Math.round(sum(bytes) / Math.max(1, items.length)), promedioGzip: Math.round(sum(gz) / Math.max(1, items.length)), maxBytes: Math.max(0, ...bytes) };
   }
 
-  const missing = inventory.filter((r) => r.kind !== "pdf");
-  const noPage = inventory.filter((r) => r.kind === "pdf" && r.page === null);
+  const missing = inventory.filter((r) => r.kind !== "pdf" && r.kind !== "xlsx");
+  const noPage = inventory.filter((r) => (r.kind === "pdf" || r.kind === "xlsx") && r.page === null);
   const report = { generado: now.toISOString(), ensayo: !out, tamanos: sizes, freetour, documentos: docs.size, faltan: missing, sinPagina: noPage.map((r) => `${r.provider}:${r.ref}`), noReclamados: unclaimed(files, inventory).map((f) => f.split("/").pop()) };
 
   console.log(`${out ? "PREPARADO" : "ENSAYO"} · ${objects.length} objetos (${inventory.length} viajes + ${docs.size} documentos) · nada se sube`);

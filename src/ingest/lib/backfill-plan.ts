@@ -4,7 +4,7 @@
  * archivos que el PO compartió (PDF) o de la URL del producto (página web). Lo que no se encuentra se lista como hueco.
  */
 
-export type DocKind = "pdf" | "web" | "ninguno";
+export type DocKind = "pdf" | "xlsx" | "web" | "ninguno";
 export interface DocMatch { kind: DocKind; file: string | null; url: string | null; pageToken: string | null; note: string }
 
 type Rule = { ref: RegExp; doc: RegExp; pageToken?: (ref: string) => string | null };
@@ -30,7 +30,18 @@ const RULES: Record<string, Rule[]> = {
 };
 
 // REQ-766
-export function matchDocument(provider: string, entry: { ref: string; source?: unknown }, files: string[]): DocMatch {
+/**
+ * REQ-10534: `contiene` lo inyecta quien lee los archivos (la lib sigue pura). Extime manda su programa en Excel
+ * (invierno y verano): el viaje se liga al primer programa cuyo contenido trae su código; sin `contiene` no se adivina.
+ */
+export function matchDocument(provider: string, entry: { ref: string; source?: unknown }, files: string[], contiene?: (file: string, ref: string) => boolean): DocMatch {
+  if (provider === "extime" && contiene) {
+    const programas = files.filter((f) => /Extime_Travel_Program/.test(docStem(f))).sort();
+    const file = programas.find((f) => contiene(f, entry.ref)) ?? null;
+    return file
+      ? { kind: "xlsx", file, url: null, pageToken: entry.ref, note: "" }
+      : { kind: "ninguno", file: null, url: null, pageToken: null, note: "el código no aparece en los programas de Extime" };
+  }
   if (provider === "bigbus") {
     const url = typeof entry.source === "string" && /^https?:\/\//.test(entry.source) ? entry.source : null;
     return url
