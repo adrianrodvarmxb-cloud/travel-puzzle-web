@@ -42,8 +42,9 @@
   "vars": {
     // El catálogo se lee de producción (los tours reales). Las reservas pasan por la pasarela de Namecheap.
     "FREETOUR_ENV": "production",
-    // REQ-062: versión de la API de Freetour. Sin la variable = "2.0" (hoy). Para 2.2 se agrega
-    // "FREETOUR_API_VERSION": "2.2" solo con OK del PO y después de la pasarela (docs/plan-freetour-v22.md).
+    // REQ-062 / REQ-3496: versión de la API de Freetour. Encendida en 2.2 con OK del PO (12 nov 2026), después de
+    // la pasarela (REQ-063) y de la ruta /events/{id} (REQ-3495). Regreso: borrar esta línea y publicar (vuelve a 2.0).
+    "FREETOUR_API_VERSION": "2.2",
     // Auth.js fuera de Vercel necesita confiar en el host del Worker
     "AUTH_TRUST_HOST": "true",
     // Pasarela de reservas en el servidor de Namecheap (IP registrada en Freetour)
@@ -52,6 +53,11 @@
     "BOOKINGS_ENABLED": "true",
     // Correos de confirmación (Resend). "true" solo con OK; la llave va como secreto RESEND_API_KEY.
     "EMAILS_ENABLED": "true",
+    // REQ-1291: Mila administra proveedores (docs/gates-proveedores-mila-2026-11.md). Se prende con OK del PO tras aprobar las plantillas.
+    "PROVEEDORES_MILA_ON": "false",
+    // REQ-1568: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1663; el secreto MILA_AVISOS_SECRET lo carga el PO.
+    "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
+    "MILA_AVISOS_URL": "",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "true",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
@@ -63,7 +69,12 @@
     "OWN_TOURS_ENABLED": "true",
     // REQ-1552: API de Tangol (ola 1, solo lectura en src/tangol). El sitio va por la pasarela (/tangol), que sale por
     // la IP registrada; TANGOL_EMAIL y TANGOL_CLAVE viven en cPanel (REQ-1553). "true" con preview, humo y OK del PO.
-    "TANGOL_ENABLED": "false",
+    // REQ-3506: encendida = el gate C (REQ-3311) deja ver los tours de Tangol. Regreso: volver a "false" (no toca datos).
+    "TANGOL_ENABLED": "true",
+    // REQ-3324, REQ-3329: Big Bus por la API Ventrata OCTO (src/octo). Llama directo (sin IP registrada); la llave va
+    // como secreto BIGBUS_OCTO_API_KEY. "true" en preview con la llave de prueba, humo y OK del PO; "live" tras certificar.
+    "BIGBUS_OCTO_ENABLED": "false",
+    "BIGBUS_OCTO_ENV": "test",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
@@ -105,7 +116,9 @@
     "TAXONOMY_CART_ENABLED": "true",
     // REQ-408 / REQ-409 (taxonomía T2b): recálculo de la clasificación en las tablas propias al cerrar cada sync.
     // "true" solo con la migración 0017 aplicada, preview, prueba de humo y OK del PO. Nada del sitio la lee todavía (T3).
-    "TAXONOMY_SYNC_ENABLED": "true",
+    // REQ-3510 (INC-015): detenida. Cada corrida dejaba ~50 mil filas en ExperienceTaxonomy sin borrarlas y la base D1
+    // llegó a ~9,998 MB de 10 GB. Se vuelve a encender solo con la limpieza de REQ-3511, preview, humo y OK del PO.
+    "TAXONOMY_SYNC_ENABLED": "false",
     // Taxonomía T3 (REQ-406…408, REQ-261): Free tour = formato pieza-libre (sin 8, 17, 20, 24, 26, 28, 29, 30, 31, 35), sin online,
     // servicios ni categorías sin mapear en /destinos, /la-primera-pieza, sitemaps, inicio y venta cruzada; traslados de FREETOUR a Traslados.
     // "true" con preview, prueba de humo y OK del PO (después de PRIMERA_PIEZA_ENABLED, ya encendida).

@@ -26,10 +26,15 @@ import { FiltersSheet } from '@/components/tours/filters/FiltersSheet';
 import { matchesToursFilter } from '@/trips/lib/public';
 import { experienciasDisponibles } from '@/tours/lib/available';
 import { parseExtraFilters, extraFiltersToParams, countActive, EMPTY_EXTRA, type ExtraFilters } from '@/tours/lib/extra-filters';
+import dynamic from 'next/dynamic';
 import { ToursMap } from '@/components/tours/ToursMap';
+import { TOURS_MAP_SHOWS_ALL } from '@/tours/lib/map-mode';
+
+// REQ-3537: el mismo mapa agrupado de Destinos; la librería solo se carga en el navegador.
+const WorldMap = dynamic(() => import('@/components/map/WorldMap').then((m) => m.WorldMap), { ssr: false });
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
 import { parseDurationRange, type DurationRange } from '@/tours/lib/duration';
-import { toursToPins } from '@/tours/lib/map-pins';
+import { toursToPins, tripsToPins } from '@/tours/lib/map-pins';
 import { parseSort, sortToPagination, type TourSort } from '@/tours/lib/sort';
 import { useTours, useCitiesFromAPI, useTourHighlights } from '@/lib/queries/tours';
 import { transformDBToursToUITours, transformCountryForFilter } from '@/lib/db/tour-transformer';
@@ -352,15 +357,28 @@ export function ToursPageClient({
         setPagination(prev => ({ ...prev, page: 1 }));
     };
 
-    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N actividades")
+    // REQ-056: viajes propios que coinciden (para el conteo del botón "Ver N experiencias")
     // T4 (REQ-412): conteos por formato = catálogo (del servidor) + viajes propios con los mismos filtros salvo el formato.
     const formatCounts: Record<string, number> | null = taxonomy ? { ...((currentToursData as { facets?: { formato: Record<string, number> } } | undefined)?.facets?.formato ?? {}) } : null;
+    // REQ-1421 / REQ-1422: conteos de tema y atributo del servidor (los viajes propios no suman: aún no los traen).
+    const facets = (currentToursData as { facets?: { tema?: Record<string, number>; atrib?: Record<string, number> } } | undefined)?.facets;
+    const temaCounts = taxonomy ? facets?.tema ?? {} : null;
+    const atribCounts = taxonomy ? facets?.atrib ?? {} : null;
     if (formatCounts) for (const trip of ownTrips.filter((x) => matchesToursFilter(x, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: 'all', search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((c) => c.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra, formatos: [] }))) {
         if (trip.formato) formatCounts[trip.formato] = (formatCounts[trip.formato] ?? 0) + 1;
     }
     // REQ-1346 (INC-008): viajes que coinciden con los filtros en cualquier página; el encabezado suma catálogo + viajes
     // (el mismo total que el inicio y que la suma del filtro).
     const ownMatches = ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra }));
+    // REQ-3527 / REQ-3528 (REQ-1605): los viajes de cualquier proveedor que coinciden con los filtros también van al mapa,
+    // en la misma página donde la lista los muestra (la 1). Sin lista de proveedores: uno nuevo entra solo.
+    const ownPinKey = (pagination.page ?? 1) === 1 ? ownMatches.map((t) => t.id).join(',') : '';
+    const tripPins = useMemo(
+        () => (ownPinKey ? tripsToPins(ownMatches) : []),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [ownPinKey],
+    );
+    const mapPins = useMemo(() => [...pins, ...tripPins], [pins, tripPins]);
     const ownCount = (pagination.page ?? 1) === 1 ? ownTrips.filter((t) => matchesToursFilter(t, { countryCode: uiFilters.countryId ? countryCodeById[uiFilters.countryId] ?? null : null, kind: taxonomy ? "all" : kind, search: uiFilters.search, cityName: uiFilters.cityId ? cities.find((x) => x.id === uiFilters.cityId)?.name ?? null : null, minPrice: uiFilters.minPrice, maxPrice: uiFilters.maxPrice, ...extra })).length : 0;
     const clearAllFilters = () => {
         setUiFilters((prev) => ({ search: prev.search }));
@@ -410,7 +428,7 @@ export function ToursPageClient({
                                 hidePrice
                             />
                             {false && <DurationFilter value={duration} onChange={handleDurationChange} /> /* REQ-056: reemplazado por el deslizador de duración */}
-                            <MoreFilters formatDefs={formatDefs} mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
+                            <MoreFilters formatDefs={formatDefs} mxnPerEur={mxnPerEur} showDepartures={showDepartures} taxonomy={taxonomy} formatCounts={formatCounts} temaCounts={temaCounts} atribCounts={atribCounts} value={extra} onChange={changeExtra} today={today} lang={language} priceLabel={t('tours.filters.priceRange')} price={{ min: uiFilters.minPrice, max: uiFilters.maxPrice }} onPrice={(minPrice, maxPrice) => handleFilterChange({ minPrice, maxPrice })} />
                         </FiltersSheet>
                     </aside>
 
@@ -445,7 +463,7 @@ export function ToursPageClient({
                                         <div key={tour.id} onMouseEnter={() => setActiveId(tour.id)} onMouseLeave={() => setActiveId(null)}
                                             onClickCapture={logSearches ? () => logClick(((pagination.page ?? 1) - 1) * (pageInfo?.perPage ?? 20) + i + 1) : undefined}>
                                             {/* REQ-520: tarjeta única (TourCard queda sin uso, no se borra). */}
-                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null, href: cardExtras?.cardHrefs?.[tour.id] })} priority={i < 2 && (pagination.page ?? 1) === 1 && !ownTrips.length} />
+                                            <ExperienceCard card={fromCatalogTour(tour, { lang: language, highlight: highlights?.[tour.externalId]?.text, formato: cardExtras?.cardFormats?.[tour.id], priceLabel: cardExtras?.priceLabels?.[tour.id] ?? null, href: cardExtras?.cardHrefs?.[tour.id] })} priority={i < 1 && (pagination.page ?? 1) === 1 && !ownTrips.length} />
                                         </div>
                                     ))}
                                 </div>
@@ -478,7 +496,7 @@ export function ToursPageClient({
                     {/* Mapa: columna fija en escritorio; en celular y tablet, con el botón Mapa/Lista */}
                     <div className={`${view === 'map' ? 'block' : 'hidden'} lg:col-span-3 lg:col-start-2 xl:col-span-4 xl:col-start-auto xl:block`}>
                         <div className="h-[calc(100vh-180px)] xl:sticky xl:top-24 xl:h-[calc(100vh-112px)]">
-                            <ToursMap pins={pins} activeId={activeId} />
+                            {TOURS_MAP_SHOWS_ALL ? <WorldMap fill /> : <ToursMap pins={mapPins} activeId={activeId} />}
                         </div>
                     </div>
                 </div>

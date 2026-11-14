@@ -5,7 +5,7 @@ import { FILTERS_DESKTOP_CLASS } from '@/tours/lib/filters-layout';
 
 /**
  * REQ-056: en celular los filtros abren a pantalla completa (como Civitatis), con "Quitar filtros"
- * y "Ver N actividades" abajo; en escritorio el contenido queda en la columna lateral de siempre.
+ * y "Ver N experiencias" abajo (REQ-3509); en escritorio el contenido queda en la columna lateral de siempre.
  * REQ-530: en escritorio esa columna es sticky bajo el header y tiene su propio scroll (antes, `lg:top-6` sin alto
  * máximo: la columna quedaba bajo el header y no se podía recorrer hasta que pasaba toda la cuadrícula).
  */

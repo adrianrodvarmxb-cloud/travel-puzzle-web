@@ -360,7 +360,7 @@
      "eje": "tema",
      "slug": "cultural",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -409,7 +409,7 @@
      "eje": "tema",
      "slug": "gastronomia",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -434,7 +434,7 @@
      "eje": "tema",
      "slug": "naturaleza",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -459,7 +459,7 @@
      "eje": "tema",
      "slug": "montana-senderismo",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -484,7 +484,7 @@
      "eje": "tema",
      "slug": "aventura",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -509,7 +509,7 @@
      "eje": "tema",
      "slug": "playa-mar",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -534,7 +534,7 @@
      "eje": "tema",
      "slug": "noche-espectaculos",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -559,7 +559,7 @@
      "eje": "tema",
      "slug": "religioso",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -584,7 +584,7 @@
      "eje": "tema",
      "slug": "bienestar",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -609,7 +609,7 @@
      "eje": "tema",
      "slug": "talleres-aprendizaje",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -634,7 +634,7 @@
      "eje": "tema",
      "slug": "deportivo",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -659,7 +659,7 @@
      "eje": "tema",
      "slug": "parques-ocio",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -1036,7 +1036,7 @@
      "eje": "tema",
      "slug": "gastronomia",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -1060,7 +1060,7 @@
      "eje": "tema",
      "slug": "parques-ocio",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -1108,7 +1108,7 @@
      "eje": "tema",
      "slug": "aventura",
      "estados": [
-      "muestra"
+      "activo"
      ]
     }
    ],
@@ -1127,7 +1127,7 @@
      "eje": "tema",
      "slug": "cultural",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -1151,7 +1151,7 @@
      "eje": "tema",
      "slug": "naturaleza",
      "estados": [
-      "muestra"
+      "activo"
      ]
     }
    ],
@@ -1170,7 +1170,7 @@
      "eje": "tema",
      "slug": "deportivo",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -1194,7 +1194,7 @@
      "eje": "tema",
      "slug": "religioso",
      "estados": [
-      "muestra"
+      "activo"
      ]
     },
     {
@@ -1218,7 +1218,7 @@
      "eje": "tema",
      "slug": "bienestar",
      "estados": [
-      "muestra"
+      "activo"
      ]
     }
    ],

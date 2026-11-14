@@ -54,8 +54,11 @@ describe("REQ-1400: pie por columnas", () => {
   it("REQ-1400: columnas Explora · Empresa · Ayuda, en ese orden", () => {
     expect(footer().map((c) => c.title)).toEqual(["Explora", "Empresa", "Ayuda"]);
   });
-  it("REQ-1400: Explora lleva Destinos, Experiencias, Traslados, Cómo funciona y La Primera Pieza (REQ-601)", () => {
-    expect(footer()[0].links.map((l) => l.href)).toEqual(["/destinos", "/tours", "/traslados", "/#como-funciona", "/la-primera-pieza"]);
+  it("REQ-1400: Explora lleva Destinos, Experiencias, Traslados y Cómo funciona", () => {
+    expect(footer()[0].links.map((l) => l.href)).toEqual(["/destinos", "/tours", "/traslados", "/#como-funciona"]);
+  });
+  it("REQ-3458: el pie ya no muestra «La Primera Pieza» (PO, 12 nov 2026; reemplaza el enlace de REQ-601)", () => {
+    expect(footer()[0].links.map((l) => l.label)).not.toContain("La Primera Pieza");
   });
   it("REQ-1400: Empresa solo muestra Nosotros, Blog y Contacto con su bandera", () => {
     expect(footer()[1].links).toEqual([]);

@@ -23,7 +23,8 @@ describe("REQ-271 «Pieza libre» en la ciudad, los pines del mapa y los asuntos
     expect((en as Record<string, string>)["tours.freePin"]).toBe("Free Puzzle");
     expect((es as Record<string, string>)["tours.free"]).toBe("Free tour");
     const map = readFileSync("src/components/tours/ToursMap.tsx", "utf8");
-    expect(map).toMatch(/el\.textContent = priceText\(p\.price, p\.currency, pin\)/);
+    expect(map).toMatch(/el\.textContent = labelOf\(p, pin\)/); // REQ-3527: labelOf = «Cotizar» sin precio; si no, priceText
+    expect(map).toMatch(/priceText\(p\.price, p\.currency, zero\)/);
   });
   it("REQ-271 la página de la ciudad y los correos usan estas funciones", () => {
     const city = readFileSync("src/app/destinos/[pais]/[ciudad]/page.tsx", "utf8");

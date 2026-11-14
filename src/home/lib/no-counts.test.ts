@@ -4,44 +4,50 @@ import { homeCopy } from "./copy";
 
 const read = (f: string) => readFileSync(`src/components/home/v2/${f}.tsx`, "utf8");
 
-/** REQ-3315: el home ya no muestra cifras de catálogo ni promedio global (PO, 11 nov 2026). */
-describe("REQ-3315: home sin cifras", () => {
-  it("REQ-3315: las secciones del home no pintan conteos ni el promedio global", () => {
+/** REQ-3315 (REEMPLAZADO en parte por REQ-3380): franja, enlace de destinos, chips y reseñas siguen sin cifras. */
+describe("REQ-3315: home sin cifras fuera de las tarjetas", () => {
+  it("REQ-3315: la franja, el enlace de destinos, los chips y las reseñas no pintan cifras", () => {
     expect(read("ProofStrip")).not.toMatch(/counts\.|statTours|statCities|statCountries/);
-    expect(read("HeroSearch")).not.toMatch(/c\.tours\(/);
-    expect(read("PopularDestinations")).not.toMatch(/c\.tours\(|destAll\(formatCount/);
-    expect(read("ContinentExplorer")).not.toMatch(/c\.tours\(|countriesN\(|formatCount\(t\.tours/);
+    expect(read("PopularDestinations")).not.toMatch(/destAll\(formatCount/);
+    expect(read("ContinentExplorer")).not.toMatch(/countriesN\(|formatCount\(t\.tours/);
     expect(read("HomeReviews")).not.toMatch(/avgLabel|formatRating\(/);
-  });
-  it("REQ-3315: la franja trae las tres piezas en es y en, sin números", () => {
-    for (const lang of ["es", "en"]) {
-      const c = homeCopy(lang);
-      expect(c.pillars).toHaveLength(3);
-      expect(c.pillars.flat().join(" ")).not.toMatch(/\d/);
-    }
-    expect(homeCopy("es").pillars[0][0]).toBe("Aliados en cada región");
-    expect(homeCopy("es").pillars[2][0]).toBe("Mexicana, de principio a fin");
-  });
-  it("REQ-3315: enlaces, continentes y tarjetas sin número", () => {
-    const es = homeCopy("es");
-    expect(es.destAllPlain).toBe("Ver todos los destinos →");
-    expect(es.contLine).toBe("Seleccionado por nuestros aliados en la región.");
-    expect(es.heroSlideLine).toBe("De la mano de nuestros aliados en la región");
+    expect(homeCopy("es").destAllPlain).toBe("Ver todos los destinos →");
   });
 });
 
-/** REQ-3316: Mila, asesora con inteligencia artificial, dicho con cuidado (PO, 11 nov 2026). */
-describe("REQ-3316: Mila en el home", () => {
-  it("REQ-3316: franja y asesoría dicen que Mila es inteligencia artificial con respaldo del equipo", () => {
-    const es = homeCopy("es");
-    expect(es.pillars[1][0]).toBe("Mila, tu asesora de viaje con inteligencia artificial");
-    expect(es.pillars[1][1]).toMatch(/nuestro equipo/);
-    expect(es.expertTitle).toBe("Tu viaje, armado contigo.");
-    expect(es.expertSub).toMatch(/inteligencia artificial/);
-    expect(es.expertCta).toBe("Hablar con Mila");
-    expect(homeCopy("en").expertSub).toMatch(/artificial intelligence/);
+/** REQ-3380: «en las tarjetas, en todas, sí deja el número de tours»; sin la línea repetida «De la mano de nuestros aliados». */
+describe("REQ-3380: tarjetas con número de tours", () => {
+  it("REQ-3380: hero, destinos y continentes vuelven a mostrar el número de tours", () => {
+    expect(read("HeroSearch")).toMatch(/c\.tours\(current\.toursText/);
+    expect(read("PopularDestinations")).toMatch(/c\.tours\(formatCount\(d\.tours/);
+    expect(read("ContinentExplorer")).toMatch(/c\.tours\(formatCount\(k\.tours/);
   });
-  it("REQ-3316: no promete atención 24/7 ni a cualquier hora", () => {
+  it("REQ-3380: la tarjeta del hero ya no repite «De la mano de nuestros aliados»", () => {
+    expect(read("HeroSearch")).not.toMatch(/heroSlideLine/);
+  });
+});
+
+/** REQ-3381: franja con íconos, menos texto, alto impacto (PO, 12 nov 2026). Mila sigue dicha como IA (REQ-3316). */
+describe("REQ-3381: franja visual con íconos", () => {
+  it("REQ-3381: tres piezas con ícono, título corto y bajada corta, sin números", () => {
+    for (const lang of ["es", "en"]) {
+      const p = homeCopy(lang).pillars;
+      expect(p.map((x) => x.icon)).toEqual(["aliados", "mila", "mx"]);
+      for (const x of p) {
+        expect(x.title.split(" ").length).toBeLessThanOrEqual(5);
+        expect(x.sub.split(" ").length).toBeLessThanOrEqual(5);
+        expect(x.title + x.sub).not.toMatch(/\d/);
+      }
+    }
+    expect(read("ProofStrip")).toMatch(/<svg/);
+  });
+  it("REQ-3316: Mila se presenta como IA con respaldo del equipo, sin «24/7»", () => {
+    const es = homeCopy("es");
+    expect(es.pillars[1].title).toMatch(/Mila/);
+    expect(es.pillars[1].title + es.pillars[1].sub).toMatch(/IA|inteligencia artificial/);
+    expect(es.pillars[1].sub).toMatch(/humano|equipo/);
+    expect(es.expertCta).toBe("Hablar con Mila");
+    expect(es.expertSub).toMatch(/inteligencia artificial/);
     for (const lang of ["es", "en"]) expect(JSON.stringify(homeCopy(lang).pillars) + homeCopy(lang).expertSub).not.toMatch(/24\/7|cualquier hora|any time/i);
   });
 });

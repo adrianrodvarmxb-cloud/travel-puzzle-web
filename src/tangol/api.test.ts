@@ -56,3 +56,32 @@ describe("createTangolApi (por la pasarela)", () => {
     expect(sent(f).body).toEqual({ op: "getTourRates", payload: { tourId: 1, languageCode: "1", currency: "0" } });
   });
 });
+
+describe("REQ-3517: el cliente entrega la respuesta íntegra antes de validarla (copia exacta)", () => {
+  it("REQ-3517: onRaw recibe la operación, los parámetros y el cuerpo tal cual, con el neto que Zod descarta", async () => {
+    const cuerpo = { TourId: 9, Currency: "USD", ListTourOption: [], ListTourRate: [{ NetRate: 80, Utilidad: 20 }], ListBlackDate: [] };
+    const onRaw = vi.fn();
+    const api = createTangolApi({ config, fetch: fakeFetch(cuerpo) as unknown as typeof fetch, onRaw });
+    await api.getTourRates({ tourId: 9, languageCode: "1", currency: "0" });
+    expect(onRaw).toHaveBeenCalledWith("getTourRates", { tourId: 9, languageCode: "1", currency: "0" }, cuerpo);
+  });
+
+  it("REQ-3517: también en países, destinos y lista de tours, y antes de validar (un cuerpo inválido igual llega)", async () => {
+    const onRaw = vi.fn();
+    const api = createTangolApi({ config, fetch: fakeFetch({ ListTours: [{ basura: true }] }) as unknown as typeof fetch, onRaw });
+    const lista = await api.getTourList({ destinationId: 7, languageCode: 0, currency: 0 });
+    expect(lista.discarded).toBe(1);
+    expect(onRaw).toHaveBeenCalledWith("getTourList", { destinationId: 7, languageCode: 0, currency: 0 }, { ListTours: [{ basura: true }] });
+  });
+
+  it("REQ-3517: si onRaw falla, la lectura sigue y devuelve lo validado", async () => {
+    const onRaw = vi.fn(async () => { throw new Error("disco lleno"); });
+    const api = createTangolApi({ config, fetch: fakeFetch({ ListCountries: [] }) as unknown as typeof fetch, onRaw });
+    await expect(api.getCountries()).resolves.toEqual(expect.objectContaining({ items: [] }));
+  });
+
+  it("REQ-3517: sin onRaw el cliente funciona igual que hoy", async () => {
+    const api = createTangolApi({ config, fetch: fakeFetch({ ListCountries: [] }) as unknown as typeof fetch });
+    await expect(api.getCountries()).resolves.toEqual(expect.objectContaining({ items: [] }));
+  });
+});

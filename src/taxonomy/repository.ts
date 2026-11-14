@@ -23,7 +23,8 @@ export interface TaxonomyRepo {
   porRevisarRules(runId: string): Promise<{ ruleId: string; n: number }[]>;
   finishRun(runId: string, f: { status: "published" | "aborted"; counts: string; unmapped: string; unclassified: number; abortReason: string | null; now: string }): Promise<void>;
   /** Borra las filas de términos de corridas que ya no se leen (conserva las `keep` publicadas más recientes y la en curso). */
-  prune(keep: number): Promise<void>;
+  /** REQ-3511: borra a lo más `limit` filas de corridas que ya no se leen; regresa cuántas borró. */
+  prune(keep: number, limit: number): Promise<number>;
 }
 
 const toRun = (r: Record<string, unknown> | undefined): RunInfo | null =>
@@ -39,7 +40,7 @@ export function createTaxonomyRepo(db: TaxonomyD1): TaxonomyRepo {
     async abortRun(id, reason, now) { await run(`UPDATE "TaxonomyRun" SET "status"='aborted',"abortReason"=?,"finishedAt"=? WHERE "id"=?`, reason, now, id); },
     async toursAfter(cursor, limit) {
       return (await all(
-        `SELECT t."id", t."categoryId", t."priceValue", t."durationMinutes", t."guideLanguages", t."rating", t."reviewsNumber",
+        `SELECT t."id", t."providerId", t."categoryId", t."priceValue", t."durationMinutes", t."guideLanguages", t."rating", t."reviewsNumber",
                 es."title" AS "titleEs", en."title" AS "titleEn", es."brief" AS "briefEs", en."brief" AS "briefEn", c."translations" AS "cityTr"
            FROM "Tour" t
            LEFT JOIN "City" c ON c."id" = t."cityId"
@@ -70,11 +71,15 @@ export function createTaxonomyRepo(db: TaxonomyD1): TaxonomyRepo {
       await run(`UPDATE "TaxonomyRun" SET "status"=?,"counts"=?,"unmapped"=?,"unclassified"=?,"abortReason"=?,"finishedAt"=? WHERE "id"=?`,
         f.status, f.counts, f.unmapped, f.unclassified, f.abortReason, f.now, runId);
     },
-    async prune(keep) {
-      await run(
-        `DELETE FROM "ExperienceTaxonomy" WHERE "runId" NOT IN (
-           SELECT "id" FROM "TaxonomyRun" WHERE "status"='running'
-           UNION SELECT "id" FROM (SELECT "id" FROM "TaxonomyRun" WHERE "status"='published' ORDER BY "finishedAt" DESC LIMIT ?))`, keep);
+    // REQ-3511 (INC-015): por tandas. Una sola sentencia sobre millones de filas rebasa los límites de D1 y fallaba en silencio.
+    async prune(keep, limit) {
+      const r = (await db.prepare(
+        `DELETE FROM "ExperienceTaxonomy" WHERE rowid IN (
+           SELECT rowid FROM "ExperienceTaxonomy" WHERE "runId" NOT IN (
+             SELECT "id" FROM "TaxonomyRun" WHERE "status"='running'
+             UNION SELECT "id" FROM (SELECT "id" FROM "TaxonomyRun" WHERE "status"='published' ORDER BY "finishedAt" DESC LIMIT ?))
+           LIMIT ?)`).bind(keep, limit).run()) as { meta?: { changes?: number }; changes?: number | bigint };
+      return Number(r.meta?.changes ?? r.changes ?? 0);
     },
   };
 }
