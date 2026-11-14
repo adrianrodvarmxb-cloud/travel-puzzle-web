@@ -2,7 +2,10 @@
 // Uso:
 //   npx tsx src/scripts/folio.ts apartar [n] ["motivo"]          → aparta n folios (1 por omisión) y los imprime
 //   npx tsx src/scripts/folio.ts apartar --exacto REQ-N ["motivo"] → aparta un folio concreto (falla si ya es de otra sesión)
-//   npx tsx src/scripts/folio.ts revisar                          → compara docs/requisitos.md de HEAD con origin/main
+//   npx tsx src/scripts/folio.ts revisar                          → compara docs/requisitos.md de HEAD con origin/main,
+//                                                                    y además (INC-014): números de migración que chocan
+//                                                                    y filas de requisitos que main tiene y la rama perdió
+//   npx tsx src/scripts/folio.ts migracion                        → siguiente número de migración libre (main + todas las ramas)
 // El registro vive en la rama `folios/registro` (archivo folios.tsv). Cada reserva es un commit empujado SIN force:
 // si otra sesión empujó antes, GitHub lo rechaza (no es fast-forward), se relee y se reintenta. No toca main ni tu rama.
 import { execFileSync } from "node:child_process";
@@ -13,7 +16,10 @@ import {
   apartarExacto,
   apartarFolios,
   choques,
+  filasPerdidas,
   leerFolios,
+  migracionesEnChoque,
+  siguienteMigracion,
   leerFoliosTodos,
   leerReservas,
   maxFolio,
@@ -105,6 +111,22 @@ function apartar(args: string[]): void {
   for (const id of apartarFolios(n, desde, registroGit, datos(args[1] ?? ""))) console.log(id);
 }
 
+/** Nombres de los archivos de migraciones en una revisión (vacío si no hay carpeta). */
+function migracionesDe(rev: string): string[] {
+  try {
+    return git(["ls-tree", "--name-only", rev, "migrations/"]).split("\n").map((l) => l.replace(/^migrations\//, "")).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+// REQ-3492
+function migracion(): void {
+  git(["fetch", "--quiet", "--prune", "--no-tags", "origin"]);
+  const ramas = git(["for-each-ref", "--format=%(refname:short)", "refs/remotes/origin"]).split("\n").filter((r) => r && !r.endsWith("/HEAD"));
+  console.log(siguienteMigracion([migracionesDe("HEAD"), ...ramas.map(migracionesDe)]));
+}
+
 function revisar(): void {
   const main = mostrar("origin/main");
   if (!main) {
@@ -119,17 +141,27 @@ function revisar(): void {
   const faltan = sinReserva(nuevos, reservados);
   for (const x of c) console.error(`CHOQUE ${x.id}: en esta rama «${x.rama.slice(0, 80)}», en main «${x.main.slice(0, 80)}»`);
   for (const id of faltan) console.error(`SIN APARTAR ${id}: apártalo con \`npx tsx src/scripts/folio.ts apartar --exacto ${id}\` o toma uno nuevo`);
-  if (c.length || faltan.length) {
-    console.error(`REQ-1587: ${c.length} choque(s) y ${faltan.length} folio(s) sin apartar. Renumera con folios apartados.`);
+  // INC-014 (REQ-3492): migraciones con número repetido frente a main o dentro de la rama.
+  const mig = migracionesEnChoque(migracionesDe("HEAD"), migracionesDe("origin/main"));
+  for (const m of mig) console.error(`MIGRACIÓN ${m.numero} REPETIDA: «${m.rama}» choca con «${m.main}». Renumera con \`npx tsx src/scripts/folio.ts migracion\`.`);
+  // INC-014 (REQ-3493): filas de requisitos que la rama perdió. Se compara con la BASE común (merge-base), no con la
+  // punta de main: lo que main agregó después no es «perdido», lo que la base tenía y la rama ya no, sí.
+  let base = "origin/main";
+  try { base = git(["merge-base", "origin/main", "HEAD"]).trim() || base; } catch { /* sin base: contra main */ }
+  const perdidas = filasPerdidas(mostrar("HEAD"), mostrar(base));
+  for (const id of perdidas) console.error(`FILA PERDIDA ${id}: estaba en la base de esta rama y ya no está. Un PR no borra filas de requisitos; restáurala.`);
+  if (c.length || faltan.length || mig.length || perdidas.length) {
+    console.error(`REQ-1587/INC-014: ${c.length} choque(s), ${faltan.length} sin apartar, ${mig.length} migración(es) repetida(s), ${perdidas.length} fila(s) perdida(s).`);
     process.exit(1);
   }
-  console.log(`REQ-1587: folios en orden (${nuevos.length} nuevos frente a main, ninguno choca).`);
+  console.log(`REQ-1587: folios en orden (${nuevos.length} nuevos frente a main, ninguno choca; migraciones sin repetir; ninguna fila de main perdida).`);
 }
 
 const [cmd, ...resto] = process.argv.slice(2);
 if (cmd === "apartar") apartar(resto);
 else if (cmd === "revisar") revisar();
+else if (cmd === "migracion") migracion();
 else {
-  console.error("Uso: folio.ts apartar [n] [\"motivo\"] | apartar --exacto REQ-N [\"motivo\"] | revisar");
+  console.error("Uso: folio.ts apartar [n] [\"motivo\"] | apartar --exacto REQ-N [\"motivo\"] | revisar | migracion");
   process.exit(1);
 }
