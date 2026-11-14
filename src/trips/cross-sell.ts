@@ -3,6 +3,7 @@
  * Recibe sus dependencias por parámetro; `crossSellDeps()` las arma con D1.
  */
 import { pickByPlace, normPlace, type Place } from "./lib/match";
+import { complementItems, type ProviderTransfer } from "./lib/transfer-cross-sell";
 import type { TripCard } from "./public-load";
 
 /** Lo que pinta la franja y la ventana (todo calculado en el servidor, REQ-008). */
@@ -15,12 +16,19 @@ export interface CrossSellDeps {
   tripCards(lang: string): Promise<TripCard[]>;
   /** Tours de Freetour de un país (los más reseñados primero). */
   toursInCountry(countryCode: string, lang: string): Promise<TourRow[]>;
+  /** REQ-3428: traslados y transporte turístico de proveedor de un país, ya validados y sin nombre de proveedor. */
+  providerTransfersInCountry(countryCode: string, lang: string): Promise<ProviderTransfer[]>;
 }
 
-// REQ-005, REQ-006
+// REQ-005, REQ-006, REQ-3428
 export async function transportForPlace(place: Place, lang: string, d: CrossSellDeps): Promise<CrossItem[]> {
   const cards = (await d.tripCards(lang)).filter((t) => t.kind === "transporte");
-  return pickByPlace(cards, place).map((t) => ({ id: t.id, path: t.path, title: t.title, image: t.image, price: t.price?.main ?? null }));
+  const own = pickByPlace(cards, place).map((t) => ({ id: t.id, path: t.path, title: t.title, image: t.image, price: t.price?.main ?? null }));
+  // REQ-3428: si los traslados de proveedor fallan, la franja sigue con los viajes propios (regla 7 del blindaje).
+  const transfers = place.country
+    ? await d.providerTransfersInCountry(place.country, lang).catch((e) => { console.error("[venta cruzada] traslados de proveedor:", (e as Error).message); return [] as ProviderTransfer[]; })
+    : [];
+  return complementItems(own, transfers, place);
 }
 
 // REQ-007
