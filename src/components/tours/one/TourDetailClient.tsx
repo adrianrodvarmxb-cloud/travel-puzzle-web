@@ -25,6 +25,9 @@ import { TourErrorState } from './TourErrorState';
 import { TourHeroSection } from './TourHeroSection';
 import { TourDescription } from './TourDescription';
 import { TourIncludes } from './TourIncludes';
+import { TourConditions } from './TourConditions';
+import { TourBeforeYouGo } from './TourBeforeYouGo';
+import type { PracticalView } from '@/tours/lib/practical-info';
 import { TourMeetingPoint } from './TourMeetingPoint';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
@@ -55,6 +58,8 @@ interface TourDetailClientProps {
     primeraPieza?: PrimeraPiezaView | null;
     /** REQ-170: precio en EUR con MXN aproximado, calculado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
     priceLabel?: TourPriceLabel | null;
+    /** REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos, armados y validados en el servidor. */
+    practical?: PracticalView | null;
 }
 
 export function TourDetailClient({
@@ -70,6 +75,7 @@ export function TourDetailClient({
     crossSell = null,
     primeraPieza = null,
     priceLabel = null,
+    practical = null,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -166,7 +172,7 @@ export function TourDetailClient({
                 )}
 
                 {/* Hero Section */}
-                <TourHeroSection tour={tour} primeraPieza={primeraPieza} events={eventsFTData || []} />
+                <TourHeroSection tour={tour} primeraPieza={primeraPieza} events={eventsFTData || []} practicalFacts={practical?.facts ?? []} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content */}
@@ -174,9 +180,23 @@ export function TourDetailClient({
                         {/* Description */}
                         {tour.description && <TourDescription description={tour.description} />}
 
+                        {/* REQ-10537: Antes de ir (solo si el tour tiene el dato) */}
+                        {practical?.beforeYouGo && (
+                            <SectionBoundary name="antes-de-ir">
+                                <TourBeforeYouGo info={practical.beforeYouGo} />
+                            </SectionBoundary>
+                        )}
+
                         {/* What's Included */}
                         {tour.includes && tour.includes.length > 0 && (
                             <TourIncludes includes={tour.includes} />
+                        )}
+
+                        {/* REQ-10536: Condiciones bajo «Qué incluye» (solo si el tour tiene el dato) */}
+                        {practical?.conditions && (
+                            <SectionBoundary name="condiciones">
+                                <TourConditions conditions={practical.conditions} />
+                            </SectionBoundary>
                         )}
 
                         {/* Meeting Point */}

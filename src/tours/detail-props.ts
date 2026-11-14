@@ -14,6 +14,8 @@ import { contactFromEnv } from '@/booking/tour-summary';
 import { cityLabel, transportForPlace } from '@/trips/cross-sell';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import type { SupportedLanguage } from '@/types';
+import { getD1 } from '@/lib/prisma';
+import { loadPracticalInfo } from '@/tours/practical-load';
 
 export async function loadTourDetailProps(tourId: string, language: SupportedLanguage) {
     const tourData = await fetchTourById(tourId, language);
@@ -40,6 +42,11 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
     const place = { city: cityLabel(rel.city?.translations, 'es'), country: rel.country?.code ?? null };
     const items = await transportForPlace(place, language, crossSellDeps()).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; });
     const crossSell = items.length ? { city: cityLabel(rel.city?.translations, language) ?? place.city ?? '', items } : null;
+    // REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos (columnas 0031/0032, SQL aparte). Si falla, null
+    // y la ficha sigue sin esos bloques (regla 7); se validan antes de salir al cliente (regla 8).
+    const practical = await Promise.resolve()
+        .then(() => loadPracticalInfo(getD1() as never, (tourData as { id: string }).id, language, env))
+        .catch((e) => { console.error('[ficha] datos prácticos:', (e as Error).message); return null; });
     return {
         tourId,
         initialTour,
@@ -51,5 +58,6 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
         paidEnabled: env.PAID_TOURS_ENABLED === 'true',
         whatsapp: contactFromEnv(env).whatsapp,
         crossSell,
+        practical,
     };
 }
