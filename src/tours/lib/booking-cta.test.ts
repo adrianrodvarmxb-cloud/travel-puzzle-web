@@ -33,3 +33,24 @@ describe("crossSellSlot", () => {
     expect(crossSellSlot("calendar")).toBe("under-calendar");
   });
 });
+
+describe("REQ-10573: el panel de reserva no aplica reglas de FREETOUR a otros proveedores (INC-020)", () => {
+  it("REQ-10573: FREETOUR sigue igual: calendario con reservas encendidas, política de pago de FREETOUR", async () => {
+    const { sidebarPlan } = await import("./sidebar-plan");
+    expect(sidebarPlan({ providerId: "freetour", bookingsEnabled: true, paidEnabled: true, price: 20 })).toEqual({ mode: "calendar", freetourPaidPolicy: true });
+    expect(sidebarPlan({ providerId: "freetour", bookingsEnabled: false, paidEnabled: true, price: 20 })).toEqual({ mode: "advisor", freetourPaidPolicy: true });
+    expect(sidebarPlan({ providerId: null, bookingsEnabled: true, paidEnabled: true, price: 20 })).toEqual({ mode: "calendar", freetourPaidPolicy: true });
+  });
+  it("REQ-10573: Tangol (o cualquier otro proveedor) se aparta con un asesor y sin el texto de euros y reembolso de FREETOUR, aunque las reservas estén encendidas", async () => {
+    const { sidebarPlan } = await import("./sidebar-plan");
+    expect(sidebarPlan({ providerId: "tangol", bookingsEnabled: true, paidEnabled: true, price: 450 })).toEqual({ mode: "advisor", freetourPaidPolicy: false });
+    expect(sidebarPlan({ providerId: "otro", bookingsEnabled: true, paidEnabled: true, price: 10 })).toEqual({ mode: "advisor", freetourPaidPolicy: false });
+  });
+  it("REQ-10573: la ficha usa sidebarPlan y no pinta «No hay disponibilidad» a un proveedor sin calendario", async () => {
+    const { readFileSync } = await import("node:fs");
+    const client = readFileSync("src/components/tours/one/TourDetailClient.tsx", "utf8");
+    expect(client).toContain("sidebarPlan(");
+    expect(client).not.toMatch(/paidPolicy=\{paidEnabled \? paidPolicyConfirmed/);
+    expect(client).not.toMatch(/mode=\{bookingMode\(bookingsEnabled\)\}/);
+  });
+});
