@@ -204,3 +204,58 @@ describe("handleStripeWebhook", () => {
     expect(afterExpired).toHaveBeenCalledWith("pay_1");
   });
 });
+
+describe("retención al solicitar (REQ-3482)", () => {
+  it("REQ-3482: createPaymentLink con hold crea la sesión con captura manual, sin correo ni cambio de estado", async () => {
+    const d = linkDeps();
+    const r = await createPaymentLink({ requestId: "req_1", amount: 1500, currency: "MXN", kind: "total", hold: true }, d);
+    expect(r).toEqual({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_new", centavos: 150000 });
+    const params = (d.createSession as ReturnType<typeof vi.fn>).mock.calls[0][0] as Record<string, string>;
+    expect(params["payment_intent_data[capture_method]"]).toBe("manual");
+    expect(d.rows[0]).toMatchObject({ kind: "total", amountCentavos: 150000, status: "pending" });
+    expect(d.sendCustomer).not.toHaveBeenCalled();
+    expect(d.setRequestStatus).not.toHaveBeenCalled();
+  });
+
+  const heldEvent = JSON.stringify({
+    type: "checkout.session.completed",
+    data: { object: { id: "cs_h1", payment_status: "unpaid", amount_total: 150000, currency: "mxn", payment_intent: "pi_h1", metadata: { payment_id: "pay_h1", hold: "1" } } },
+  });
+  const held = { id: "pay_h1", requestId: "req_1", kind: "total" as const, amountCentavos: 150000 };
+  function whDeps(over: Partial<WebhookDeps> = {}): WebhookDeps {
+    return {
+      enabled: true, secret: "whsec_x", now: new Date("2026-11-13T18:00:00Z"), siteUrl: "https://travelpuzzle.com.mx",
+      logoUrl: "https://travelpuzzle.com.mx/brand/logo-tp-oscuro.png",
+      verify: vi.fn(async () => true),
+      markPaid: vi.fn(async () => null), markExpired: vi.fn(async () => undefined),
+      markHeld: vi.fn(async () => held),
+      findRequest: vi.fn(async () => request), setRequestStatus: vi.fn(async () => undefined),
+      sendCustomer: vi.fn(async () => "m"), sendTeam: vi.fn(async () => "m"),
+      ...over,
+    };
+  }
+
+  it("REQ-3482: tarjeta retenida → pago retenido, solicitud 'held' y correos que dicen que NO se ha cobrado", async () => {
+    const d = whDeps();
+    expect(await handleStripeWebhook(heldEvent, "sig", d)).toBe("held");
+    expect(d.markHeld).toHaveBeenCalledWith("pay_h1", { sessionId: "cs_h1", paymentIntent: "pi_h1", amountCentavos: 150000, heldAt: d.now });
+    expect(d.markPaid).not.toHaveBeenCalled();
+    expect(d.setRequestStatus).toHaveBeenCalledWith("req_1", "held");
+    const mail = (d.sendCustomer as ReturnType<typeof vi.fn>).mock.calls[0][0];
+    expect(mail.to).toBe("ana@example.com");
+    expect(mail.text).toContain("no se cobra");
+    expect(mail.subject).not.toContain("Recibimos tu pago");
+    expect(d.sendTeam).toHaveBeenCalledTimes(1);
+  });
+  it("REQ-3482: aviso repetido de una retención no duplica correos", async () => {
+    const d = whDeps({ markHeld: vi.fn(async () => null) });
+    expect(await handleStripeWebhook(heldEvent, "sig", d)).toBe("duplicate");
+    expect(d.sendCustomer).not.toHaveBeenCalled();
+    expect(d.setRequestStatus).not.toHaveBeenCalled();
+  });
+  it("REQ-3482: sin markHeld (retención sin conectar) el aviso se ignora y no toca nada", async () => {
+    const d = whDeps({ markHeld: undefined });
+    expect(await handleStripeWebhook(heldEvent, "sig", d)).toBe("ignored");
+    expect(d.setRequestStatus).not.toHaveBeenCalled();
+  });
+});

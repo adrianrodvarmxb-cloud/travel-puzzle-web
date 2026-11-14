@@ -10,6 +10,10 @@ on:
       max_destinos:
         description: "Cuántos destinos leer como máximo (0 = todos, ~184)"
         default: "20"
+      forma_detalles:
+        description: "REQ-10527: solo mostrar la forma de TourDetails (llaves y tipos, sin contenido) de 3 destinos de AR"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -25,7 +29,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Forma de TourDetails (REQ-10527, solo lectura)
+        if: ${{ inputs.forma_detalles }}
+        env:
+          GATEWAY_URL: https://pasarela.travelpuzzle.com.mx
+          GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
+        run: npx tsx src/scripts/forma-detalles-tangol.ts 3
       - name: Leer tipos de Tangol
+        if: ${{ !inputs.forma_detalles }}
         env:
           GATEWAY_URL: https://pasarela.travelpuzzle.com.mx
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}

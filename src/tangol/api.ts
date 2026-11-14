@@ -15,14 +15,21 @@ interface Deps {
   fetch: typeof fetch;
   now?: () => number;
   timeoutMs?: number;
+  /**
+   * REQ-3517: recibe la respuesta ÍNTEGRA de cada lectura antes de validarla (copia exacta, REQ-3474).
+   * Si falla, se registra y la lectura sigue.
+   */
+  onRaw?: (op: TangolReadOp, params: Record<string, unknown>, body: unknown) => unknown;
 }
+
+export type TangolReadOp = "getCountries" | "getDestinations" | "getTourList" | "getTourDetailsList" | "getTourRates";
 
 /**
  * Cliente de solo lectura de Tangol (ola 1). Todo va por la pasarela firmada (`POST /tangol`), que se
  * autentica con Tangol y sale por la IP registrada. Reservas y cancelaciones van en la ola 4 (REQ-1548).
  */
 // REQ-1552, REQ-1541, REQ-1542
-export function createTangolApi({ config, fetch: fetchImpl, now = Date.now, timeoutMs = 35_000 }: Deps) {
+export function createTangolApi({ config, fetch: fetchImpl, now = Date.now, timeoutMs = 35_000, onRaw }: Deps) {
   // REQ-1552
   async function call(op: string, payload: Record<string, unknown> = {}): Promise<unknown> {
     const body = JSON.stringify({ op, payload });
@@ -42,25 +49,44 @@ export function createTangolApi({ config, fetch: fetchImpl, now = Date.now, time
     return json;
   }
 
+  // REQ-3517: la pasarela devuelve el cuerpo de Tangol tal cual; se entrega íntegro antes de validar.
+  async function read(op: TangolReadOp, payload: Record<string, unknown> = {}): Promise<unknown> {
+    const body = await call(op, payload);
+    if (onRaw) {
+      try {
+        await onRaw(op, payload, body);
+      } catch (e) {
+        console.error(`[tangol] no se guardó la copia de ${op}: ${(e as Error)?.message ?? String(e)}; la lectura sigue`);
+      }
+    }
+    return body;
+  }
+
   return {
     // REQ-1541
     async getCountries() {
-      const body = (await call("getCountries")) as { ListCountries?: unknown } | null;
+      const body = (await read("getCountries")) as { ListCountries?: unknown } | null;
       return parseEach(countrySchema, body?.ListCountries);
     },
     // REQ-1541
     async getDestinations(countryCode: string) {
-      const body = (await call("getDestinations", { countryCode })) as { ListDestinations?: unknown } | null;
+      const body = (await read("getDestinations", { countryCode })) as { ListDestinations?: unknown } | null;
       return parseEach(destinationSchema, body?.ListDestinations);
     },
     // REQ-1541
     async getTourList(p: { destinationId: number; languageCode: number; currency: number; includeDetails?: boolean }) {
-      const body = (await call("getTourList", { ...p })) as { ListTours?: unknown } | null;
+      const body = (await read("getTourList", { ...p })) as { ListTours?: unknown } | null;
       return parseEach(infoTourSchema, body?.ListTours);
+    },
+    // REQ-10528: detalle (descripción, fotos, punto de encuentro, cancelación, reseñas) de hasta 50 tours.
+    // La lista por destino nunca trae `TourDetails` aunque se pida (INC-017); este es el único camino.
+    async getTourDetailsList(p: { tourIds: number[]; languageCode: string; currency: string }): Promise<unknown[]> {
+      const body = await read("getTourDetailsList", { ...p });
+      return Array.isArray(body) ? body : [];
     },
     // REQ-1542
     async getTourRates(p: { tourId: number; languageCode: string; currency: string }) {
-      return parseTourRates(await call("getTourRates", { ...p }));
+      return parseTourRates(await read("getTourRates", { ...p }));
     },
   };
 }

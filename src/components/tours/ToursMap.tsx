@@ -15,12 +15,15 @@ interface ToursMapProps {
   activeId?: string | null;
 }
 
-/** Mapa de /tours: un pin con el precio por tour de la página actual; al tocarlo abre una tarjeta. */
+/** Mapa de /tours: un pin con el precio por tour de la página actual y por viaje de cualquier proveedor (REQ-3527); al tocarlo abre una tarjeta. */
 export function ToursMap({ pins, activeId }: ToursMapProps) {
   const { t } = useLanguage();
   const free = t('tours.free', 'Free');
   // REQ-271: el pin dice «Pieza libre»; la tarjeta del pin conserva el precio verde «Free tour».
   const pin = t('tours.freePin', 'Free tour');
+  // REQ-3527: un viaje sin precio «Desde» dice «Cotizar», no «Free tour».
+  const quote = t('tours.map.onRequest', 'Quote');
+  const labelOf = (p: TourPin, zero: string) => (p.onRequest ? quote : priceText(p.price, p.currency, zero));
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import('maplibre-gl').Map | null>(null);
   const libRef = useRef<typeof import('maplibre-gl') | null>(null);
@@ -80,7 +83,7 @@ export function ToursMap({ pins, activeId }: ToursMapProps) {
       const el = document.createElement('button');
       el.type = 'button';
       el.className = 'tp-pin';
-      el.textContent = priceText(p.price, p.currency, pin);
+      el.textContent = labelOf(p, pin);
       el.setAttribute('aria-label', p.title);
       el.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -112,14 +115,14 @@ export function ToursMap({ pins, activeId }: ToursMapProps) {
       {selected && (
         <div className="absolute inset-x-3 top-3 overflow-hidden rounded-2xl border border-white/15 bg-[#121D45] shadow-2xl sm:inset-x-auto sm:left-3 sm:w-80">
           <button type="button" onClick={() => setSelected(null)} aria-label={t('common.close', 'Close')} className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#0A1330]/80 text-white hover:bg-[#0A1330]">×</button>
-          <Link href={`/tours/${selected.id}`} className="flex gap-3 p-3 text-white">
+          <Link href={selected.href ?? `/tours/${selected.id}`} className="flex gap-3 p-3 text-white">
             {selected.image && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={selected.image} alt="" className="h-20 w-24 shrink-0 rounded-xl object-cover" />
             )}
             <div className="min-w-0 pr-6">
               <p className="line-clamp-2 font-semibold leading-snug">{selected.title}</p>
-              <p className="mt-1 font-semibold text-[#EAF54F]">{priceText(selected.price, selected.currency, free)}</p>
+              <p className="mt-1 font-semibold text-[#EAF54F]">{labelOf(selected, free)}</p>
               <p className="mt-1 text-sm font-semibold text-[#008DFF]">{t('tours.map.view', 'View tour')} →</p>
             </div>
           </Link>

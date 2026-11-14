@@ -18,3 +18,11 @@ export function parseCoords(value: string | null | undefined): LatLng | null {
   if (valid(b, a)) return { lat: b, lng: a };
   return null;
 }
+
+/** REQ-3526: primer punto de encuentro de un viaje (`meetingPoints[].lat/lng`) con coordenadas en rango; null si ninguno sirve. */
+export function firstPoint(points: ReadonlyArray<{ lat: number | null; lng: number | null }> | null | undefined): LatLng | null {
+  for (const p of points ?? []) {
+    if (typeof p.lat === "number" && typeof p.lng === "number" && valid(p.lat, p.lng)) return { lat: p.lat, lng: p.lng };
+  }
+  return null;
+}

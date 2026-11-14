@@ -3,9 +3,12 @@ import { getPrisma } from "@/lib/prisma";
 import { sendEmail } from "@/notifications/resend";
 import { loadFx } from "@/trips/public-load";
 import { createStripeClient } from "./stripe-client";
-import { isStripeEnabled, type PaymentKind } from "./lib/checkout";
+import { isStripeEnabled, type PaymentKind, type PayCurrency } from "./lib/checkout";
+import { isHoldEnabled } from "./lib/hold";
 import { verifyStripeSignature } from "./lib/webhook";
-import type { LinkDeps, WebhookDeps, PayRequest } from "./service";
+import { createPaymentLink, type LinkDeps, type WebhookDeps, type PayRequest } from "./service";
+import type { HoldDeps } from "./hold";
+import type { SettleDeps } from "./settle";
 import { purchaseHooksFromEnv } from "@/octo/deps";
 
 const env = () => process.env as Record<string, string | undefined>;
@@ -79,6 +82,16 @@ export function webhookDeps(): WebhookDeps {
       return p ? { ...p, kind: p.kind as PaymentKind } : null;
     },
     markExpired: (id) => prisma.payment.updateMany({ where: { id, status: "pending" }, data: { status: "expired" } }),
+    // REQ-3482: solo desde «pendiente»: un aviso repetido o tardío nunca baja un pago ya retenido, pagado o liberado.
+    async markHeld(id, data) {
+      const { count } = await prisma.payment.updateMany({
+        where: { id, status: "pending" },
+        data: { status: "held", paymentIntent: data.paymentIntent, amountCentavos: data.amountCentavos || undefined },
+      });
+      if (count === 0) return null;
+      const p = await prisma.payment.findUnique({ where: { id }, select: { id: true, requestId: true, kind: true, amountCentavos: true } });
+      return p ? { ...p, kind: p.kind as PaymentKind } : null;
+    },
     findRequest,
     setRequestStatus,
     sendCustomer: m.send,
@@ -95,4 +108,56 @@ export async function listPayments(requestIds: string[]) {
     orderBy: { createdAt: "desc" },
     select: { id: true, requestId: true, kind: true, amountCentavos: true, originalAmount: true, originalCurrency: true, status: true, expiresAt: true, paidAt: true, checkoutUrl: true },
   });
+}
+
+/** REQ-3482: retención al solicitar (STRIPE_HOLD_ENABLED). */
+export function holdDeps(): HoldDeps {
+  const e = env();
+  return {
+    holdFlag: e.STRIPE_HOLD_ENABLED,
+    stripeFlag: e.STRIPE_ENABLED,
+    async findByRef(ref) {
+      const r = await getPrisma().tripRequest.findUnique({ where: { ref }, select: { id: true, kind: true, estimate: true, currency: true } });
+      return r ? { id: r.id, kind: r.kind, estimate: r.estimate, currency: r.currency as PayCurrency } : null;
+    },
+    createHold: (input) => createPaymentLink(input, linkDeps()),
+  };
+}
+
+/** REQ-3483: cobrar o liberar lo retenido (STRIPE_HOLD_ENABLED). */
+export function settleDeps(): SettleDeps {
+  const e = env();
+  const prisma = getPrisma();
+  const stripe = createStripeClient({ secretKey: e.STRIPE_SECRET_KEY ?? "", fetch });
+  const site = e.SITE_URL ?? "";
+  const m = mailer();
+  return {
+    enabled: isHoldEnabled(e.STRIPE_HOLD_ENABLED) && stripeEnabled(),
+    now: new Date(),
+    siteUrl: site,
+    logoUrl: `${site}/brand/logo-tp-oscuro.png`,
+    async findHeld(ref) {
+      const r = await prisma.tripRequest.findUnique({ where: { ref }, select: { id: true, ref: true, tripTitle: true, email: true, firstName: true, date: true, adults: true, children: true, infants: true } });
+      if (!r) return null;
+      const p = await prisma.payment.findFirst({
+        where: { requestId: r.id, status: "held" }, orderBy: { createdAt: "desc" },
+        select: { id: true, paymentIntent: true, amountCentavos: true, originalAmount: true, originalCurrency: true, kind: true },
+      });
+      return p ? { request: r, payment: { ...p, kind: p.kind as PaymentKind } } : null;
+    },
+    capture: (pi, centavos, key) => stripe.capturePaymentIntent(pi, centavos, key),
+    cancel: (pi, key) => stripe.cancelPaymentIntent(pi, key),
+    // Condicional desde «held»: un reintento nunca cobra ni avisa dos veces.
+    async markCaptured(id, data) {
+      const { count } = await prisma.payment.updateMany({ where: { id, status: "held" }, data: { status: "paid", paidAt: data.paidAt, amountCentavos: data.amountCentavos } });
+      return count > 0;
+    },
+    async markReleased(id) {
+      const { count } = await prisma.payment.updateMany({ where: { id, status: "held" }, data: { status: "released" } });
+      return count > 0;
+    },
+    setRequestStatus,
+    sendCustomer: m.send,
+    sendTeam: m.team,
+  };
 }
