@@ -279,3 +279,46 @@ describe("REQ-3463: un paso del sync de Tangol", () => {
     });
   });
 });
+
+describe("REQ-10528: el detalle se pide con GetTourDetailsList (la lista nunca trae TourDetails, INC-017)", () => {
+  const crudo = (TourId: number) => ({ TourId, Summary: `Resumen ${TourId}`, Description: `Paseo ${TourId} por la ciudad.`, PicList: [`https://img.ejemplo/${TourId}-1.jpg`, `https://img.ejemplo/${TourId}-2.jpg`], StartPoint: `Punto ${TourId}`, CancelationPolicy: "Sin cargo hasta 24 h antes." });
+  type Fila = { tour: { externalId: number; images: string[]; meetingPoint: { title?: string }; cancellationPolicy: string | null }; translations: { description: string | null; brief: string | null }[] };
+
+  it("REQ-10528: pide el detalle de los tours del destino, lo pega por TourId y llega a la fila", async () => {
+    const pedidos: unknown[] = [];
+    const { repo, guardado } = spyRepo();
+    await correr({ ensayo: false, api: fakeApi({ getTourDetailsList: async (p) => { pedidos.push(p); return p.tourIds.map(crudo).reverse(); } }) }, repo);
+    expect(pedidos).toEqual([{ tourIds: [1234], languageCode: "0", currency: "USD" }, { tourIds: [5678], languageCode: "0", currency: "USD" }]);
+    const filas = guardado[0] as Fila[];
+    const f = filas.find((x) => x.tour.externalId === 1234)!;
+    expect(f.translations[0].description).toBe("Paseo 1234 por la ciudad.");
+    expect(f.translations[0].brief).toBe("Resumen 1234");
+    expect(f.tour.images).toEqual(["https://cdn.ejemplo/portada.jpg", "https://img.ejemplo/1234-1.jpg", "https://img.ejemplo/1234-2.jpg"]);
+    expect(f.tour.meetingPoint.title).toBe("Punto 1234");
+    expect(f.tour.cancellationPolicy).toBe("Sin cargo hasta 24 h antes.");
+  });
+
+  it("REQ-10528: de 50 en 50 (límite de la pasarela)", async () => {
+    const pedidos: number[][] = [];
+    const muchos = Array.from({ length: 120 }, (_, i) => tour(i + 1));
+    await correr({ api: fakeApi({ getTourList: async ({ destinationId }) => ({ items: destinationId === 100 ? muchos : [], discarded: 0 }), getTourDetailsList: async (p) => { pedidos.push(p.tourIds); return []; } }) });
+    expect(pedidos.map((p) => p.length)).toEqual([50, 50, 20]);
+  });
+
+  it("REQ-10528: si el detalle falla, el tour se escribe igual (sin detalle) y el error se reporta", async () => {
+    const { repo, guardado } = spyRepo();
+    const report = await correr({ ensayo: false, api: fakeApi({ getTourDetailsList: async () => { throw new Error("pasarela 502"); } }) }, repo);
+    expect((guardado[0] as Fila[]).map((f) => f.tour.externalId)).toEqual([1234, 5678]);
+    expect(report.errores.filter((e) => e.donde.startsWith("detalle de tours del destino"))).toHaveLength(2);
+  });
+
+  it("REQ-10528: el cliente real de Tangol expone getTourDetailsList por la pasarela", async () => {
+    const { createTangolApi } = await import("./api");
+    const llamadas: { op: string; body: unknown }[] = [];
+    const fetchFalso = (async (_u: string, init: RequestInit) => { const b = JSON.parse(String(init.body)); llamadas.push(b); return new Response(JSON.stringify([crudo(9)]), { status: 200 }); }) as unknown as typeof fetch;
+    const api = createTangolApi({ config: { gatewayUrl: "https://pasarela.ejemplo", secret: "s" }, fetch: fetchFalso });
+    const r = await api.getTourDetailsList({ tourIds: [9], languageCode: "0", currency: "USD" });
+    expect(r).toHaveLength(1);
+    expect(JSON.stringify(llamadas[0])).toContain("getTourDetailsList");
+  });
+});

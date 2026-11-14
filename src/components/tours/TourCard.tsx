@@ -6,6 +6,7 @@ import { Tour } from '@/types';
 import { useLanguage } from '@/lib/language-context';
 import { formatRating } from '@/home/lib/format';
 import { TravelerFavoriteBadge } from './TravelerFavoriteBadge';
+import { plainText } from '@/tours/lib/provider-html'; // REQ-10544
 
 interface TourCardProps {
   tour: Tour;
@@ -47,7 +48,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, highlight, priceLabel 
         {highlight ? (
           <p className="line-clamp-2 text-sm italic leading-relaxed text-[#C9D6F5]">“{highlight}”</p>
         ) : (
-          tour.brief && <p className="line-clamp-2 text-sm leading-relaxed text-[#A9B6D6]">{tour.brief}</p>
+          plainText(tour.brief) && <p className="line-clamp-2 text-sm leading-relaxed text-[#A9B6D6]">{plainText(tour.brief)}</p>
         )}
         <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-3.5 text-sm">
           <span>

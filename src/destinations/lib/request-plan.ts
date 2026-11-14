@@ -33,3 +33,16 @@ export function planDestinationsRequest(pathname: string, search: URLSearchParam
   if (sm) return { kind: "sitemap-tours", pais: sm[1] };
   return null;
 }
+
+/**
+ * REQ-10529: la 301 de /tours?countryId= es para enlaces viejos (Google, otros sitios). Si la petición
+ * viene del propio sitio (navegación RSC de Next o mismo origen), es el filtro de país de Experiencias
+ * y debe quedarse en la lista filtrada. Puro.
+ */
+export function isSiteNavigation(get: (name: string) => string | null, host: string): boolean {
+  if (get("rsc")) return true;
+  if (get("sec-fetch-site") === "same-origin") return true;
+  const ref = get("referer");
+  if (!ref) return false;
+  try { return new URL(ref).host === host; } catch { return false; }
+}
