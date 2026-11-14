@@ -1,3 +1,4 @@
+import { sellerFor } from "@/ficha/lib/operator";
 import { Tour, MeetingPoint, CountryWithTranslations, CityWithTranslations, TourAPI, SupportedLanguage } from '@/types';
 import type { TourWithRelations } from './repositories/tour-repository';
 
@@ -38,7 +39,8 @@ export function transformDBTourToUITour(dbTour: TourWithRelations, language: str
     brief: translation?.brief || null,
     description: translation?.description || null,
     destination: cityName,
-    provider: dbTour.providerTitle,
+    // REQ-10651 (INC-022): el navegador recalcula el tour con esta función; la casilla Proveedor dice la marca que vende.
+    provider: sellerFor((dbTour as { providerId?: string | null }).providerId, dbTour.providerTitle) ?? dbTour.providerTitle,
     providerPhone: dbTour.providerPhone,
     price: Number(dbTour.priceValue),
     currency: dbTour.priceCurrency,
