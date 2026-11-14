@@ -1220,7 +1220,9 @@ Plan para firma en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en
 | REQ-10579 | Firma del plan de la ficha única | NUEVO | `docs/plan-ficha-unica-2026-11.md` | — (definición) | CUMPLIDO (firmado por el PO, 14 nov 2026 06:07) |
 | REQ-10580 a REQ-10629 | 50 decisiones del PO (alcance, taxonomía, Tangol, carrito, mapas, cobro, Mila, alta de proveedores) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — (definiciones; la construcción lleva sus folios) | CUMPLIDO (firmadas 14 nov 2026) |
 | REQ-10630 a REQ-10633 | Confirmaciones: preguntas frecuentes, idiomas de la taxonomía, T&C traducidos, rendimiento | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — (definiciones) | CUMPLIDO (firmadas 14 nov 2026) |
-| REQ-10634 | Requisitos sin folio (accesibilidad, voucher, cancelación con reembolso) | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — | PENDIENTE (supuesto por validar con el PO) |
+| REQ-10634 | Requisitos sin folio | NUEVO | `docs/gates-ficha-unica-2026-11.md` | — | CUMPLIDO (PO: «Los seis ahora») |
+| REQ-10641 a REQ-10646 | Accesibilidad, voucher, cancelación con reembolso, cupones, lista de espera y menores | NUEVO | — (sin código todavía) | — | PENDIENTE (cupones, lista de espera y menores esperan definición del PO) |
+| REQ-10525, 10527, 10528, 10544, 10545, 10573, 10578 | Arreglos de Tangol ya publicados (#542, #543, #552, #554, #555) | NUEVO | ver sus filas | 28 pruebas en verde el 14 nov (`npx vitest run -t`) | CUMPLIDO |
 | REQ-10542, REQ-005, REQ-428 | Operador en la casilla Proveedor; transporte solo en tours; circuitos fuera del carrito | — | — | — | REEMPLAZADOS por REQ-10615, REQ-10607 y REQ-10601 (en producción sigue lo anterior hasta su PR) |
 | REQ-10635 a REQ-10639 | Cambios del PO al plan: idiomas en reserva y contenido, adicionales por proveedor en fichas, todos los proveedores en filtros de idioma y fecha, repo de Mila | NUEVO | `docs/plan-ficha-unica-2026-11.md`, `docs/gates-ficha-unica-2026-11.md` | — (definiciones) | CUMPLIDO (firmadas 14 nov 2026) |
 | REQ-10640 | Tablero de seguimiento de Mila en los dos repos | NUEVO | `docs/seguimiento-mila-2026-11.md` | — (definición) | EN CURSO |
