@@ -164,10 +164,14 @@ describe("REQ-094/095/097/098: ficha", () => {
     expect(paid.notice.join(" ")).toMatch(/24 h/);
   });
   it("REQ-098: «Operado por un guía local · {proveedor}» sin mencionar FREETOUR", () => {
-    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
+    // REQ-10651: el contrato de REQ-098 sigue igual para los tours del primer proveedor (providerId "freetour").
+    const p = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], providerId: "freetour" }, siteUrl: site, lang: "es" });
     expect(p.operatedBy).toBe("Operado por un guía local · Guía Ana");
-    const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], provider: "FREETOUR.com" }, siteUrl: site, lang: "es" });
+    const ft = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.freeTours[0], providerId: "freetour", provider: "FREETOUR.com" }, siteUrl: site, lang: "es" });
     expect(ft.operatedBy).toBe("Operado por un guía local");
+    // REQ-10651: en un proveedor por API el operador ya no se nombra bajo el título (va en «Opera en destino»).
+    const api = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
+    expect(api.operatedBy).toBe("Operado por un guía local");
   });
 });
 
