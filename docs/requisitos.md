@@ -1729,6 +1729,11 @@ Plan firmado por el PO el 14 nov 2026 (PR #447: G1-A, G2-A, G3-A, G4-A, G5-A). C
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
 |---|---|---|---|---|---|
 | REQ-10651 | CÓDIGO | Construye la decisión 38 (REQ-10615; reemplaza REQ-10542): «sí se muestre en ficha pero en un lugar no tan visible». Dada la ficha de un tour de proveedor por API (hoy Tangol), cuando se abre, entonces la casilla Proveedor y la tarjeta lateral dicen «Travel Puzzle», «En breve» y la línea bajo el título no nombran al operador, y «Antes de ir» cierra con «Opera en destino: Tangol Tours». El dato no cambia (`Tour.providerTitle`). Los tours de FREETOUR quedan como hoy hasta su revisión de cumplimiento; las tarjetas de listado, la confirmación y los términos van en PR aparte | agente | — | CUMPLIDO (pruebas en verde el 14 nov 2026; la casilla Proveedor se corrigió tras INC-022; falta verificar la corrección en producción) |
+## REQ-10653: plazo único de confirmación, 48 horas hábiles (frente #549, ola 2, 14 nov 2026)
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-10653 | CÓDIGO | Construye la decisión 33 (REQ-10611): «B: un solo texto de 48 horas hábiles para todos; lo leen igual la ficha y Mila». Dada cualquier ficha, cuando dice en cuánto se confirma una solicitud («Cómo funciona tu reserva» de los viajes, con y sin retención, y el panel «Apártalo con un asesor» de los tours), entonces el plazo sale de una sola fuente (`src/ficha/lib/payment-copy.ts`, `CONFIRMATION_BUSINESS_HOURS = 48`) en los seis idiomas del sitio y ningún texto promete otro plazo (`promisesAnotherDeadline`). El lector de Mila lo toma de aquí cuando entre el modelo común (ola 6) | agente | — | CUMPLIDO (4 pruebas verdes el 14 nov 2026, `npx vitest run src/ficha/lib/payment-copy.test.ts`; suite completa y tsc en verde; merge por autopilot de la ola 2 con humo verde) |
 ## REQ-10652: la nota de Tangol no se muestra (frente #549, ola 2, 14 nov 2026)
 
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
