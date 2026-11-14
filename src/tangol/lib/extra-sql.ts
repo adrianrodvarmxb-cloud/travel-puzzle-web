@@ -7,9 +7,17 @@ import type { TangolTourRow } from "./tour-rows";
  * UPSERT de `Tour`, acotado a (proveedor, número) como todo lo de REQ-3461. Si la 0031 no está aplicada
  * la sentencia falla y el archivo .sql del sync no se aplica a medias. Puro: devuelve sentencias.
  */
-export const TANGOL_EXTRA_COLUMNS = ["excludes", "cancellationPolicy", "availabilityRules", "guideLanguages"] as const;
+// REQ-10537 / REQ-10538: más las 9 columnas de la migración 0032 (una por dato, gate A). Si la 0032 no está aplicada
+// la sentencia falla y el archivo .sql del sync no se aplica a medias (mismo criterio que con la 0031).
+export const TANGOL_EXTRA_COLUMNS = [
+  "excludes", "cancellationPolicy", "availabilityRules", "guideLanguages",
+  "endPoint", "whatToBring", "physicalRequirements", "difficulty", "providerNotes", "childAgeFrom", "childAgeTo", "infantAgeFrom", "infantAgeTo",
+] as const;
 
-// REQ-10514
+/** REQ-10537: textos largos del proveedor que se sueltan (NULL) si la sentencia aun sin reglas no cabe. */
+const TEXTOS_LARGOS = ["whatToBring", "physicalRequirements", "providerNotes", "cancellationPolicy", "difficulty"] as const;
+
+// REQ-10514, REQ-10537, REQ-10538
 export function tangolExtraStatements(rows: readonly Pick<TangolTourRow, "providerId" | "externalId" | (typeof TANGOL_EXTRA_COLUMNS)[number]>[]): Stmt[] {
   const set = TANGOL_EXTRA_COLUMNS.map((c) => `"${c}" = ?`).join(", ");
   return rows.map((t) => ({
@@ -27,7 +35,7 @@ export function tangolExtraStatements(rows: readonly Pick<TangolTourRow, "provid
  */
 export const MAX_STMT_BYTES = 90_000;
 
-// REQ-10525
+// REQ-10525, REQ-10537
 export function tangolExtraStatementsAcotadas(
   rows: readonly Pick<TangolTourRow, "providerId" | "externalId" | (typeof TANGOL_EXTRA_COLUMNS)[number]>[]
 ): { stmts: Stmt[]; recortados: number[] } {
@@ -37,7 +45,11 @@ export function tangolExtraStatementsAcotadas(
     const [stmt] = tangolExtraStatements([t]);
     if (bytes(stmt) < MAX_STMT_BYTES) return stmt;
     recortados.push(t.externalId);
-    return tangolExtraStatements([{ ...t, availabilityRules: null }])[0];
+    const sinReglas = { ...t, availabilityRules: null };
+    const [segundo] = tangolExtraStatements([sinReglas]);
+    if (bytes(segundo) < MAX_STMT_BYTES) return segundo;
+    // REQ-10537: textos del proveedor enormes; se escriben en NULL (la ficha oculta ese bloque) y lo demás sí se escribe.
+    return tangolExtraStatements([{ ...sinReglas, ...Object.fromEntries(TEXTOS_LARGOS.map((c) => [c, null])) }])[0];
   });
   return { stmts, recortados };
 }

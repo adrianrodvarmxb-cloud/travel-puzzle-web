@@ -3,7 +3,8 @@ import { getPrisma } from '@/lib/prisma';
 import { REQUEST_STATUSES, REQUEST_STATUS_LABEL, type RequestStatus } from '@/trips/lib/request';
 import { formatMoney } from '@/trips/lib/money';
 import { RequestStatusControl } from '@/components/admin/RequestStatusControl';
-import { PaymentLinkControl, PaymentList } from '@/components/admin/PaymentLinkControl';
+import { PaymentLinkControl, PaymentList, HoldControl } from '@/components/admin/PaymentLinkControl';
+import { isHoldEnabled } from '@/payments/lib/hold';
 import { stripeEnabled, listPayments } from '@/payments/deps';
 import { formatMXN } from '@/payments/lib/email';
 
@@ -46,6 +47,9 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
                                 return (
                                     <>
                                         <PaymentList items={mine.map((p) => ({ ...p, amountText: formatMXN(p.amountCentavos), paidAt: p.paidAt ? p.paidAt.toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : null }))} />
+                                        {isHoldEnabled(process.env.STRIPE_HOLD_ENABLED) && mine.some((p) => p.status === 'held') && (
+                                            <HoldControl id={r.id} amountText={formatMXN(mine.find((p) => p.status === 'held')!.amountCentavos)} />
+                                        )}
                                         {r.status !== 'paid' && r.status !== 'closed' && (
                                             <PaymentLinkControl id={r.id} hasPending={mine.some((p) => p.status === 'pending')} defaultAmount={r.estimate} defaultCurrency={r.currency} />
                                         )}
