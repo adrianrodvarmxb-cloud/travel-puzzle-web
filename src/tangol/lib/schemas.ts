@@ -22,6 +22,8 @@ export function parseEach<S extends z.ZodTypeAny>(schema: S, list: unknown): Par
 
 const str = z.string().nullish().transform((v) => v ?? null);
 const num = z.number().nullish().transform((v) => v ?? null);
+/** REQ-10543: la moneda puede llegar como texto («USD») o como código numérico (1); se guarda como texto crudo. */
+const currencyCode = z.union([z.string(), z.number()]).nullish().transform((v) => (v === null || v === undefined ? null : String(v)));
 
 export const countrySchema = z
   .object({ IsoCode: z.string().min(1), Description: z.string(), ToursQty: num })
@@ -100,7 +102,7 @@ const optionSchema = z
 const rateSchema = z
   .object({
     TourOption: z.string().min(1),
-    Currency: str,
+    Currency: currencyCode, // REQ-10543
     PaxFrom: num,
     PaxTo: num,
     RackRateAdu: z.number(),
@@ -137,7 +139,7 @@ export interface TangolRates {
   discarded: number;
 }
 
-// REQ-1542, REQ-1543, REQ-10513
+// REQ-1542, REQ-1543, REQ-10513, REQ-10543
 export function parseTourRates(raw: unknown): TangolRates {
   const r = (raw ?? {}) as Record<string, unknown>;
   const tourId = z.number().int().parse(r.TourId);
@@ -146,7 +148,7 @@ export function parseTourRates(raw: unknown): TangolRates {
   const blackouts = parseEach(blackoutSchema, r.ListBlackDate);
   return {
     tourId,
-    currency: typeof r.Currency === "string" ? r.Currency : null,
+    currency: typeof r.Currency === "string" || typeof r.Currency === "number" ? String(r.Currency) : null, // REQ-10543
     options: options.items,
     rates: rates.items,
     blackouts: blackouts.items,

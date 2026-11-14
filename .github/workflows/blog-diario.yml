@@ -214,29 +214,23 @@ jobs:
 
       # G2: el merge es la publicación. `sha` asegura que se fusiona exactamente lo que se probó.
       - name: Merge squash (publicación)
+        id: merge
         run: |
           echo "Merge squash" > "$RUNNER_TEMP/blog/paso"
           git checkout -- wrangler.jsonc
-          gh api -X PUT "repos/$REPO/pulls/${{ steps.pr.outputs.number }}/merge" -f merge_method=squash -f sha="${{ steps.pr.outputs.sha }}" --jq .merged | grep -q true
+          r=$(gh api -X PUT "repos/$REPO/pulls/${{ steps.pr.outputs.number }}/merge" -f merge_method=squash -f sha="${{ steps.pr.outputs.sha }}" --jq '(.merged|tostring) + " " + .sha')
+          [ "${r%% *}" = "true" ] || exit 1
+          # REQ-10521: el sha del merge, para seguir al deploy que lo publique aunque la cola cancele el despachado.
+          echo "sha=${r#* }" >> "$GITHUB_OUTPUT"
 
       - name: Publicar en Cloudflare (deploy con su humo y regreso automático)
         run: |
           echo "Deploy de producción" > "$RUNNER_TEMP/blog/paso"
           desde=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           gh api -X POST "repos/$REPO/actions/workflows/deploy-cloudflare.yml/dispatches" -f ref=main
-          id=""
-          for i in $(seq 1 20); do
-            sleep 15
-            id=$(gh api "repos/$REPO/actions/workflows/deploy-cloudflare.yml/runs?event=workflow_dispatch&branch=main&per_page=5" --jq "[.workflow_runs[] | select(.created_at >= \"$desde\")][0].id // empty")
-            [ -n "$id" ] && break
-          done
-          [ -n "$id" ] || { echo "- no arrancó el deploy" > "$RUNNER_TEMP/blog/motivo"; exit 1; }
-          for i in $(seq 1 120); do
-            st=$(gh api "repos/$REPO/actions/runs/$id" --jq '.status + " " + (.conclusion // "")')
-            case "$st" in completed\ success) echo "Deploy $id en verde."; exit 0;; completed*) echo "- el deploy $id terminó: $st (con su regreso automático si falló el humo de producción)" > "$RUNNER_TEMP/blog/motivo"; exit 1;; esac
-            sleep 30
-          done
-          echo "- el deploy $id no terminó en 60 min" > "$RUNNER_TEMP/blog/motivo"; exit 1
+          # REQ-10521 (INC-018): si un push a main reemplaza en la cola al deploy despachado («cancelled»), el que lo
+          # reemplaza también publica la entrada; se espera a cualquier deploy de main que contenga el merge.
+          npx tsx src/scripts/esperar-deploy.ts "${{ steps.merge.outputs.sha }}" --desde "$desde" --minutos 60 --motivo "$RUNNER_TEMP/blog/motivo"
 
       - name: Aviso a IndexNow (si está encendido)
         continue-on-error: true

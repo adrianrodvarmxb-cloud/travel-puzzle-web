@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { infoTourSchema, parseTourRates } from "./schemas";
 import { summarizeRates } from "./rates";
-import { toTangolTourRow, toTangolTourRows, tangolDurationMinutes, type TangolRowDeps } from "./tour-rows";
+import { toTangolTourRow, toTangolTourRows, tangolDurationMinutes, TANGOL_OPERATOR_TITLE, type TangolRowDeps } from "./tour-rows";
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -61,7 +61,7 @@ describe("toTangolTourRow", () => {
     expect(r.tour).toMatchObject({
       providerId: "tangol",
       externalId: 12345,
-      providerTitle: "Travel Puzzle",
+      providerTitle: "Tangol Tours", // REQ-10542 (antes «Travel Puzzle», decisión REEMPLAZADA por el PO el 13-11 22:47)
       providerPhone: null,
       priceValue: 2200,
       priceCurrency: "ARS",
@@ -136,6 +136,20 @@ describe("toTangolTourRow", () => {
     expect(toTangolTourRow(tour, deps({ rates: () => sinMoneda }))).toEqual({ ok: false, reason: "sin-moneda" });
     const r = toTangolTourRow(tour, deps({ rates: () => sinMoneda, fallbackCurrency: "USD" }));
     expect(r.ok && r.tour.priceCurrency).toBe("USD");
+  });
+
+  it("REQ-10543: Tangol devuelve la moneda de la tarifa como 1 (número o texto) → la fila queda en USD, sin tocar el monto", () => {
+    for (const code of [1, "1"]) {
+      const enUno = summarizeRates(parseTourRates({ ...rawRates, Currency: code, ListTourRate: rawRates.ListTourRate.map((x) => ({ ...x, Currency: code })) }));
+      const r = toTangolTourRow(tour, deps({ rates: () => enUno }));
+      expect(r.ok && r.tour.priceCurrency).toBe("USD");
+      expect(r.ok && r.tour.priceValue).toBe(2200);
+    }
+  });
+
+  it("REQ-10543: un código de moneda desconocido no se adivina: el tour se descarta con «moneda-desconocida» y el código crudo", () => {
+    const rara = summarizeRates(parseTourRates({ ...rawRates, Currency: "7", ListTourRate: rawRates.ListTourRate.map((x) => ({ ...x, Currency: "7" })) }));
+    expect(toTangolTourRow(tour, deps({ rates: () => rara, fallbackCurrency: "USD" }))).toEqual({ ok: false, reason: "moneda-desconocida", detail: "moneda «7»" });
   });
 
   it("REQ-3372: un tour cuyo título es solo el nombre del proveedor se descarta", () => {
@@ -224,6 +238,34 @@ describe("REQ-10511 / REQ-10510 / REQ-10513: la fila enriquecida", () => {
       blackouts: [],
     });
     expect(JSON.stringify(r.tour.availabilityRules)).not.toMatch(/Rack|Utilidad|Net/);
+  });
+});
+
+describe("REQ-10542: la casilla Proveedor dice quién opera", () => {
+  it("REQ-10542: los tours de Tangol se escriben con providerTitle «Tangol Tours» (como FREETOUR muestra a su operador)", () => {
+    expect(TANGOL_OPERATOR_TITLE).toBe("Tangol Tours");
+    const r = toTangolTourRow(tour, deps());
+    expect(r.ok && r.tour.providerTitle).toBe("Tangol Tours");
+    expect(r.ok && r.tour.providerPhone).toBeNull();
+  });
+});
+
+describe("REQ-10537 / REQ-10538: los datos prácticos del detalle llegan a la fila", () => {
+  const rawPractico = {
+    ...rawTour,
+    TourDetails: { EndPoint: "Plaza de Mayo", WhatToBring: "Agua", PhysicalReq: "Caminar 2 km", Difficulty: "Baja", Others: "Sale con lluvia.", ChdFrom: 3, ChdTo: 11, InfFrom: 0, InfTo: 2 },
+  };
+  it("REQ-10537: qué llevar, requisitos físicos, dificultad y notas van a sus columnas de la 0032", () => {
+    const r = toTangolTourRow(infoTourSchema.parse(rawPractico), deps());
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.tour).toMatchObject({ whatToBring: "Agua", physicalRequirements: "Caminar 2 km", difficulty: "Baja", providerNotes: "Sale con lluvia." });
+  });
+  it("REQ-10538: punto de término y edades (una columna por dato); sin detalle, todo en null", () => {
+    const r = toTangolTourRow(infoTourSchema.parse(rawPractico), deps());
+    expect(r.ok && r.tour).toMatchObject({ endPoint: "Plaza de Mayo", childAgeFrom: 3, childAgeTo: 11, infantAgeFrom: 0, infantAgeTo: 2 });
+    const vacio = toTangolTourRow(infoTourSchema.parse({ ...rawTour, TourDetails: {} }), deps());
+    expect(vacio.ok && vacio.tour).toMatchObject({ endPoint: null, whatToBring: null, physicalRequirements: null, difficulty: null, providerNotes: null, childAgeFrom: null, childAgeTo: null, infantAgeFrom: null, infantAgeTo: null });
   });
 });
 
