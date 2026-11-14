@@ -43,6 +43,7 @@ Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un 
 
 ## Sesiones en paralelo (REQ-1587; obligatorio para toda sesión, agente y trigger)
 Hay varias sesiones trabajando a la vez. Antes de empezar cualquier frente (código, documento, acuerdo o correo), el paso 0:
+1. **Migraciones:** nunca «el último + 1»: `npx tsx src/scripts/folio.ts migracion` da el siguiente número libre (INC-014); el PR falla si se repite.
 1. **Frente:** `npx tsx src/scripts/frente.ts buscar "<tema>"`. Si ya hay un issue `en-curso` de ese tema, te sumas a ese frente (y a su rama); no abres otro. Si no hay, `frente.ts abrir "<tema>"`. Al terminar, `frente.ts cerrar <n>`. En la nube de Claude, antepón `NODE_USE_ENV_PROXY=1` (el `fetch` de Node no usa el proxy solo).
 2. **Folios:** nunca tomes «el último + 1» de tu copia. Aparta con `npx tsx src/scripts/folio.ts apartar <n>` y usa solo los que imprime. El PR corre `folio.ts revisar` y falla si un folio choca con main o no está apartado (desde REQ-1588).
 3. **Correos:** antes de crear un borrador en Gmail, revisa los borradores que ya hay para ese proveedor. Debe quedar un solo borrador vigente: creas el nuevo, borras el anterior (solo borradores, nunca enviados) y anotas el ID del borrador vigente en el issue del frente (`frente.ts nota <n> "Borrador vigente: r-…"`).

@@ -9,6 +9,7 @@ const LABEL: Record<BeforeYouGoKey, string> = {
     physicalRequirements: 'tours.physicalRequirements',
     difficulty: 'tours.difficulty',
     providerNotes: 'tours.providerNotes',
+    operator: 'tours.operatedLocally', // REQ-10651
 };
 
 /**

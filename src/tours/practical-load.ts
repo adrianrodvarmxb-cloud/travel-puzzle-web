@@ -13,7 +13,7 @@ import { practicalInfo, type PracticalView } from "./lib/practical-info";
 type D1 = { prepare(sql: string): { bind(...v: unknown[]): { all(): Promise<{ results: Record<string, unknown>[] }> } } };
 
 /** 0031 (+ providerId y guideLanguages, que ya existían). */
-export const BASE_COLUMNS = ["providerId", "guideLanguages", "excludes", "cancellationPolicy", "availabilityRules"] as const;
+export const BASE_COLUMNS = ["providerId", "providerTitle", "guideLanguages", "excludes", "cancellationPolicy", "availabilityRules"] as const;
 /** 0031 + 0032. */
 export const PRACTICAL_COLUMNS = [
   ...BASE_COLUMNS,
