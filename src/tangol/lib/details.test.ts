@@ -111,4 +111,56 @@ describe("parseTourDetails", () => {
     expect(splitLines(null)).toEqual([]);
     expect(splitLines("  ")).toEqual([]);
   });
+
+  // ───────── REQ-10537 / REQ-10538 / REQ-10539: lo que faltaba guardar del detalle ─────────
+  const practico = {
+    EndPoint: "  Plaza de Mayo  ",
+    WhatToBring: "Calzado cómodo y protector solar",
+    PhysicalReq: "Caminar 2 km",
+    Difficulty: "Baja",
+    Others: "Sale con lluvia.",
+    ChdFrom: 3, ChdTo: 11, InfFrom: 0, InfTo: 2,
+  };
+
+  it("REQ-10537: qué llevar, requisitos físicos, dificultad y notas (Others) se leen del detalle", () => {
+    const d = parseTourDetails(practico);
+    expect(d).toMatchObject({ whatToBring: "Calzado cómodo y protector solar", physicalRequirements: "Caminar 2 km", difficulty: "Baja", providerNotes: "Sale con lluvia." });
+    expect(d.discarded).toBe(0);
+  });
+
+  it("REQ-10537: textos vacíos o solo espacios quedan en null (la ficha no pinta el bloque)", () => {
+    const d = parseTourDetails({ WhatToBring: "", PhysicalReq: "   ", Difficulty: null, Others: "" , EndPoint: "" });
+    expect(d).toMatchObject({ whatToBring: null, physicalRequirements: null, difficulty: null, providerNotes: null, endPoint: null });
+    expect(parseTourDetails(null)).toMatchObject({ whatToBring: null, childAges: null, infantAges: null });
+  });
+
+  it("REQ-10538: punto de término y edades de niño e infante; 0–0 o rangos imposibles quedan en null", () => {
+    const d = parseTourDetails(practico);
+    expect(d.endPoint).toBe("Plaza de Mayo");
+    expect(d.childAges).toEqual({ from: 3, to: 11 });
+    expect(d.infantAges).toEqual({ from: 0, to: 2 });
+    expect(parseTourDetails({ ChdFrom: 0, ChdTo: 0, InfFrom: 0, InfTo: 0 })).toMatchObject({ childAges: null, infantAges: null });
+    expect(parseTourDetails({ ChdFrom: 12, ChdTo: 4 }).childAges).toBeNull();
+    expect(parseTourDetails({ ChdFrom: 3.5, ChdTo: 200 }).childAges).toBeNull();
+  });
+
+  it("REQ-10538: una edad con otra forma (texto) descarta solo ese dato, no el detalle completo", () => {
+    const d = parseTourDetails({ ...practico, ChdFrom: "tres" });
+    expect(d.childAges).toBeNull();
+    expect(d.whatToBring).toBe("Calzado cómodo y protector solar");
+    expect(d.infantAges).toEqual({ from: 0, to: 2 });
+  });
+
+  it("REQ-10539: los códigos reales de TourLanguages (ESP, ESP,ENG, ESP,ENG,POR) pasan a ISO 639-1", () => {
+    expect(tangolLanguages("ESP")).toEqual(["es"]);
+    expect(tangolLanguages("ESP,ENG")).toEqual(["es", "en"]);
+    expect(tangolLanguages("ESP,ENG,POR")).toEqual(["es", "en", "pt"]);
+    expect(tangolLanguages("esp / eng")).toEqual(["es", "en"]);
+    expect(tangolLanguages("")).toEqual([]);
+    expect(parseTourDetails({ TourLanguages: "ESP,ENG,POR" }).languages).toEqual(["es", "en", "pt"]);
+  });
+
+  it("REQ-10539: un código de tres letras que no se conoce no se inventa", () => {
+    expect(tangolLanguages("ESP,XYZ")).toEqual(["es"]);
+  });
 });
