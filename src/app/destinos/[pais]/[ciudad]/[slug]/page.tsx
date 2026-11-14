@@ -1,4 +1,5 @@
 import { sellerFor } from "@/ficha/lib/operator";
+import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
@@ -145,7 +146,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         notice: model.notice,
                         operatedBy: model.operatedBy,
                         isFreeTour: tour.isFreeTour,
-                        favorite: isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews }),
+                        favorite: isTravelerFavorite(publicRating(row?.providerId ?? tour.providerId, tour.rating, tour.reviews)), // REQ-10652
                         rates,
                         labels: model.labels,
                         facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [], clientOnly: guideClientOnly },

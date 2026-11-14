@@ -17,6 +17,7 @@ import { catalogTourFormat } from "@/tours/lib/card-format";
 import { isHomeDayTrip } from "./lib/day-trip";
 import { parseTourRankRows, tripCandidate, type TourCandidate, type TripCandidate } from "./lib/rank-row";
 import { hiddenProviders, type ProviderVisibilityEnv } from "@/catalog/lib/provider-visibility"; // REQ-3311
+import { showsProviderRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 
 export interface HomeTour {
   id: string;
@@ -34,6 +35,8 @@ export interface HomeTour {
   reviews: number;
   /** REQ-524: operador real (providerTitle); la tarjeta descarta FREETOUR. */
   provider?: string | null;
+  /** REQ-10652: true = la nota del proveedor es solo interna (Tangol); la tarjeta no la pinta. El orden se calcula con el dato real. */
+  ratingHidden?: true;
   /** REQ-522: formato de la taxonomía (src/tours/lib/card-format.ts), calculado aquí en el servidor. */
   formato?: string | null;
   durationMinutes?: number | null;
@@ -193,6 +196,7 @@ type CardExtrasRow = { providerTitle: string | null; /** REQ-10515 */ providerId
 function cardExtras(t: CardExtrasRow) {
   return {
     provider: t.providerTitle ?? null,
+    ...(showsProviderRating(t.providerId) ? {} : { ratingHidden: true as const }), // REQ-10652
     formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title), cities: cityNamesOf(t.city?.translations) }, t.providerId), // REQ-1253; REQ-10515
     durationMinutes: t.durationMinutes ?? null,
     briefs: Object.fromEntries(t.translations.filter((x) => x.brief && x.brief.trim()).map((x) => [x.language, x.brief as string])),
