@@ -16,11 +16,36 @@ describe("carruseles del inicio completos y por páginas (PO, 6-11 22:05)", () =
   const tours = Array.from({ length: 140 }, (_, i) => tour(i));
   const noFav = [tour(900, { rating: 4.8, reviews: 5000 }), tour(901, { rating: 5, reviews: FAVORITE_MIN_REVIEWS - 1 })];
 
-  it("REQ-850: «Los más elegidos» trae TODOS los Favoritos, una sola vez, y nada que no lo sea", () => {
+  it("REQ-850 (parte «nada que no sea Favorito» REEMPLAZADA por REQ-10515): «Los más elegidos» trae primero TODOS los Favoritos, una sola vez, y después el resto por puntaje", () => {
     const out = orderMostChosen([...tours, ...noFav], prior);
-    expect(out).toHaveLength(140);
-    expect(new Set(out.map((x) => x.key)).size).toBe(140);
-    for (const x of out) expect(x.rating! >= FAVORITE_MIN_RATING && x.reviews >= FAVORITE_MIN_REVIEWS).toBe(true);
+    expect(out).toHaveLength(142);
+    expect(new Set(out.map((x) => x.key)).size).toBe(142);
+    for (const x of out.slice(0, 140)) expect(x.rating! >= FAVORITE_MIN_RATING && x.reviews >= FAVORITE_MIN_REVIEWS).toBe(true);
+    // REQ-10515: el resto por puntaje: 5.0 con 179 reseñas (4.95) antes que 4.8 con 5,000 (4.80)
+    expect(out.slice(140).map((x) => x.key)).toEqual(["tour:901", "tour:900"]);
+  });
+
+  it("REQ-10515: un tour sin reseñas (p. ej. Tangol) entra a «Los más elegidos» con el puntaje del prior, después de los Favoritos y de lo que supera C", () => {
+    const sin = tour(950, { rating: null, reviews: 0, providerId: "tangol" }); // mismo formato que los demás: así el orden es solo por puntaje
+    const bajo = tour(951, { rating: 4.0, reviews: 300 }); // 4.08 < C
+    const out = orderMostChosen([...tours.slice(0, 5), bajo, sin], prior);
+    expect(out.slice(0, 5).map((x) => x.key).sort()).toEqual(["tour:0", "tour:1", "tour:2", "tour:3", "tour:4"]);
+    expect(out.slice(5).map((x) => x.key)).toEqual(["tour:950", "tour:951"]);
+  });
+
+  it("REQ-10516: primera página con tope por proveedor: 140 Favoritos de freetour + 50 de tangol sin reseñas → tangol en la primera página; después, por puntaje", () => {
+    const tangol = Array.from({ length: 50 }, (_, i) => tour(600 + i, { rating: null, reviews: 0, providerId: "tangol", format: "tour", city: `ar${i % 10}`, country: "AR" }));
+    const out = orderMostChosen([...tours, ...tangol], prior);
+    expect(out).toHaveLength(190);
+    const first = out.slice(0, HOME_FIRST_PAGE);
+    expect(first.filter((x) => x.providerId === "tangol").length).toBeGreaterThanOrEqual(1);
+    expect(first.filter((x) => x.providerId !== "tangol").length).toBeLessThanOrEqual(8);
+    expect(out.slice(HOME_FIRST_PAGE).filter((x) => x.providerId === "tangol")).toHaveLength(50 - first.filter((x) => x.providerId === "tangol").length);
+    // las páginas siguientes: todos los Favoritos que faltan antes que el resto de tangol
+    const rest = out.slice(HOME_FIRST_PAGE);
+    const lastFav = rest.map((x) => x.providerId !== "tangol").lastIndexOf(true);
+    const firstTangol = rest.findIndex((x) => x.providerId === "tangol");
+    expect(lastFav).toBeLessThan(firstTangol);
   });
 
   it("REQ-850: el orden es el del medidor de reseñas con la diversidad de REQ-450: la primera página no cambia", () => {
@@ -93,5 +118,14 @@ describe("REQ-858: «Excursiones de un día» solo con tarjetas que dicen «Excu
     const trip = (formato: string) => tripCandidate({ id: formato, kind: "tour", durationDays: 1, cities: ["París"], countries: ["FR"], titles: ["Versalles"], dayTrip: formato === "excursion-dia" });
     expect(trip("autoguiado").dayTrip).toBe(false);
     expect(trip("excursion-dia").dayTrip).toBe(true);
+  });
+});
+
+describe("REQ-10515: isHomeDayTrip con el proveedor de la fila", () => {
+  it("REQ-10515: una excursión de Tangol (cat 9000002, 10 h) es excursión de un día; sin providerId no lo sería", async () => {
+    const { isHomeDayTrip } = await import("./day-trip");
+    const i = { categoryId: 9000002, price: 120, durationMinutes: 600, titles: ["Excursión a Bariloche y Cerro Catedral"] };
+    expect(isHomeDayTrip({ ...i, providerId: "tangol" })).toBe(true);
+    expect(isHomeDayTrip(i)).toBe(false);
   });
 });

@@ -39,11 +39,17 @@ jobs:
       - name: Borrar por tandas
         if: inputs.borrar
         run: |
+          # REQ-3511: cada tanda se reintenta hasta 3 veces (D1 responde a veces con error por carga; corrida 43445820673);
+          # la respuesta se valida antes de leerla y, si no trae el conteo, se imprime entera para diagnosticar.
           total=0; ronda=0
           while :; do
-            ronda=$((ronda+1))
-            n=$(npx wrangler d1 execute travel-puzzle --remote --json --command "DELETE FROM \"ExperienceTaxonomy\" WHERE rowid IN (SELECT rowid FROM \"ExperienceTaxonomy\" WHERE \"runId\" NOT IN ($CONSERVAR) LIMIT 20000)" \
-                | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const j=JSON.parse(s);console.log(j[0].meta.changes??0)})')
+            ronda=$((ronda+1)); n=""
+            for intento in 1 2 3; do
+              n=$(npx wrangler d1 execute travel-puzzle --remote --json --command "DELETE FROM \"ExperienceTaxonomy\" WHERE rowid IN (SELECT rowid FROM \"ExperienceTaxonomy\" WHERE \"runId\" NOT IN ($CONSERVAR) LIMIT 20000)" \
+                | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{let j;try{j=JSON.parse(s)}catch{j=null}const c=Array.isArray(j)&&j[0]&&j[0].meta?j[0].meta.changes:undefined;if(typeof c==="number"){console.log(c)}else{console.error("respuesta inesperada de D1: "+s.slice(0,800));process.exit(2)}})') && break
+              echo "ronda $ronda: intento $intento falló; espero 15 s"; sleep 15; n=""
+            done
+            [ -n "$n" ] || { echo "ronda $ronda: 3 intentos fallidos; se detiene (lo borrado se queda borrado, no hay nada a medias)"; echo "## Filas borradas: $total en $((ronda-1)) rondas (DETENIDA por error de D1)" >> "$GITHUB_STEP_SUMMARY"; exit 1; }
             total=$((total+n)); echo "ronda $ronda: $n filas (total $total)"
             [ "$n" -gt 0 ] || break
             sleep 2   # deja respirar a D1: el sitio sigue leyendo la misma base
