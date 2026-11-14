@@ -174,3 +174,51 @@ describe("REQ-1090: registro y tope en el publicador", () => {
     expect(r.resultados.every((x) => x.detalle.includes("ig-2.jpg"))).toBe(true);
   });
 });
+
+// REQ-10520 (INC-016): las redes esperan, con reintentos, a que el artículo y las láminas respondan 200.
+describe("REQ-10520: esperar la publicación antes de publicar en redes", () => {
+  const fbOnly = () => redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets);
+  const ok = (u: string) => (u.includes("fields=access_token") ? res(200, { access_token: "PAGE-TOK", id: "1" }) : res(200, { id: "fb1" }));
+
+  it("REQ-10520: si el artículo aún da 404 y luego 200, espera y publica (caso 13 nov: deploy de 19:24 a 19:47)", async () => {
+    let comprobaciones = 0;
+    const pausas: number[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: fbOnly(), historial: historialLibre,
+      espera: { intentos: 5, pausaMs: 60_000 },
+      wait: async (ms) => { pausas.push(ms); },
+      fetch: async (u, init) => {
+        if (init?.method === "HEAD") { if (u.endsWith(postPath(post))) comprobaciones++; return res(comprobaciones <= 2 ? 404 : 200, {}); }
+        return ok(u);
+      },
+    });
+    expect(r.resultados.find((x) => x.red === "facebook")?.estado).toBe("publicado");
+    expect(comprobaciones).toBe(3);
+    expect(pausas.slice(0, 2)).toEqual([60_000, 60_000]);
+  });
+
+  it("REQ-10520: si nunca responde 200, se rinde tras los intentos y nada se publica", async () => {
+    let comprobaciones = 0;
+    const posts: string[] = [];
+    const r = await runRedes({
+      post, siteUrl: SITE, config: fbOnly(), historial: historialLibre,
+      espera: { intentos: 4, pausaMs: 1 }, wait: async () => {},
+      fetch: async (u, init) => {
+        if (init?.method === "HEAD") { if (u.endsWith(postPath(post))) comprobaciones++; return res(404, {}); }
+        posts.push(u); return ok(u);
+      },
+    });
+    expect(comprobaciones).toBe(4);
+    expect(posts).toEqual([]);
+    expect(r.resultados.find((x) => x.red === "facebook")).toMatchObject({ estado: "fallo" });
+    expect(r.resultados.find((x) => x.red === "facebook")?.detalle).toMatch(/esperando/);
+  });
+
+  it("REQ-10520: por omisión espera hasta 60 min (60 intentos de 60 s) y el workflow da tiempo para eso", async () => {
+    const { ESPERA_PUBLICACION } = await import("./run");
+    expect(ESPERA_PUBLICACION).toEqual({ intentos: 60, pausaMs: 60_000 });
+    const wf = readFileSync(".github/workflows/redes-diario.yml", "utf8");
+    const t = Number(wf.match(/timeout-minutes:\s*(\d+)/)?.[1]);
+    expect(t).toBeGreaterThanOrEqual(75);
+  });
+});

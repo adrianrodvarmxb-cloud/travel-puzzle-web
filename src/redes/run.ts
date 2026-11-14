@@ -23,9 +23,12 @@ async function sendForm(f: Fetch, r: FormRequest): Promise<Record<string, unknow
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+/** REQ-10520 (INC-016): cuánto esperan las redes a que el artículo y las láminas respondan 200 (hasta 60 min). */
+export const ESPERA_PUBLICACION = { intentos: 60, pausaMs: 60_000 };
+
 export type Historial = { yaPublicadoEnRed(red: RedName): Promise<boolean>; registrar(red: RedName): Promise<void> };
 
-export async function runRedes(o: { post: Post; siteUrl: string; config: RedesConfig; fetch: Fetch; wait?: (ms: number) => Promise<void>; historial?: Historial }): Promise<{ pack: SocialPack; problemas: string[]; resultados: Resultado[]; laminas: string[] }> {
+export async function runRedes(o: { post: Post; siteUrl: string; config: RedesConfig; fetch: Fetch; wait?: (ms: number) => Promise<void>; espera?: { intentos: number; pausaMs: number }; historial?: Historial }): Promise<{ pack: SocialPack; problemas: string[]; resultados: Resultado[]; laminas: string[] }> {
   const site = o.siteUrl.replace(/\/+$/, "");
   const url = `${site}${postPath(o.post)}`;
   const pack = socialPack(o.post, site);
@@ -37,11 +40,19 @@ export async function runRedes(o: { post: Post; siteUrl: string; config: RedesCo
 
   // REQ-1609: antes de tocar cualquier red, el artículo y las láminas deben responder 200 (si no, nada se publica).
   const algunaAuto = [o.config.linkedin, o.config.facebook, o.config.instagram].some((c) => c.mode === "auto");
-  const espera = algunaAuto
-    ? laminasYArticuloListos(await Promise.all([url, ...laminas].map(async (u) => {
-        try { return { url: u, status: (await o.fetch(u, { method: "HEAD" })).status }; } catch { return { url: u, status: null }; }
-      })))
-    : { listo: true, faltan: [] as string[] };
+  // REQ-10520: si aún no responden (el deploy sigue corriendo), se reintenta cada pausa hasta agotar los intentos.
+  const comprobar = async () => laminasYArticuloListos(await Promise.all([url, ...laminas].map(async (u) => {
+    try { return { url: u, status: (await o.fetch(u, { method: "HEAD" })).status }; } catch { return { url: u, status: null }; }
+  })));
+  let espera = { listo: true, faltan: [] as string[] };
+  if (algunaAuto) {
+    const { intentos, pausaMs } = o.espera ?? ESPERA_PUBLICACION;
+    for (let i = 1; i <= Math.max(1, intentos); i++) {
+      espera = await comprobar();
+      if (espera.listo) break;
+      if (i < intentos) await wait(pausaMs);
+    }
+  }
 
   // REQ-1080: cada red en su propio try; una falla no detiene a las demás.
   const tryRed = async (red: RedName, cfg: RedesConfig[RedName], go: () => Promise<string>) => {

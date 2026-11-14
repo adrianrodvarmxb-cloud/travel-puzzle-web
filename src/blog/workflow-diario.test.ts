@@ -43,3 +43,16 @@ describe("workflow blog-diario.yml", () => {
     expect(wf).toContain("blog-diario.ts validar \"$B/entrada.json\" --agregar --archivos");
   });
 });
+
+// REQ-10521 (INC-016): un deploy cancelado por la cola no es «NO PUBLICADO»; se sigue al que publica el commit.
+describe("REQ-10521: blog-diario sigue al deploy que publica la entrada", () => {
+  it("REQ-10521: guarda el sha del merge y espera con esperar-deploy.ts (no se rinde ante un «cancelled»)", () => {
+    const merge = wf.slice(step("Merge squash (publicación)"), step("Publicar en Cloudflare (deploy con su humo y regreso automático)"));
+    expect(merge).toMatch(/id: merge/);
+    expect(merge).toContain('echo "sha=');
+    const dep = wf.slice(step("Publicar en Cloudflare (deploy con su humo y regreso automático)"), step("Aviso a IndexNow (si está encendido)"));
+    expect(dep).toContain("npx tsx src/scripts/esperar-deploy.ts");
+    expect(dep).toContain("${{ steps.merge.outputs.sha }}");
+    expect(dep).not.toMatch(/completed\*\) echo/);
+  });
+});
