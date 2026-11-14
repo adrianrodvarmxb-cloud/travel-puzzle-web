@@ -1,4 +1,5 @@
 /** Cómo se aparta un tour desde su ficha. Funciones puras (gate 3 y 4 de la auditoría de diseño, nov 2026). */
+import { advisorConfirmation } from "@/ficha/lib/payment-copy";
 export type BookingMode = "advisor" | "calendar";
 
 /** Con `BOOKINGS_ENABLED` apagado se aparta con un asesor por WhatsApp; encendido, con el calendario. */
@@ -32,14 +33,14 @@ interface BookingCopy {
 
 const ES: BookingCopy = {
   advisorTitle: "Apártalo con un asesor",
-  advisorSub: "Te confirmamos fecha, horario e idioma por WhatsApp.",
+  advisorSub: advisorConfirmation("es"), // REQ-10653: plazo único de confirmación
   advisorCta: "Hablar con un asesor",
   barCta: (m: BookingMode) => (m === "advisor" ? "Apartar con un asesor" : "Reservar"),
 };
 
 const EN: BookingCopy = {
   advisorTitle: "Book it with an advisor",
-  advisorSub: "We confirm date, time and language on WhatsApp.",
+  advisorSub: advisorConfirmation("en"), // REQ-10653
   advisorCta: "Talk to an advisor",
   barCta: (m) => (m === "advisor" ? "Book with an advisor" : "Book now"),
 };
