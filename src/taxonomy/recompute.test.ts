@@ -16,11 +16,12 @@ const asD1 = (d: Db): TaxonomyD1 => {
 function db() {
   const d = new DatabaseSync(":memory:");
   d.exec(`CREATE TABLE "Tour"("id" TEXT PRIMARY KEY, "categoryId" INTEGER, "priceValue" TEXT, "durationMinutes" INTEGER, "isActive" BOOLEAN, "guideLanguages" TEXT DEFAULT '[]', "rating" TEXT, "reviewsNumber" INTEGER DEFAULT 0, "contentHash" TEXT)`);
+  d.exec(`ALTER TABLE "Tour" ADD COLUMN "providerId" TEXT NOT NULL DEFAULT 'freetour'`); // como la 0015 en producción (REQ-3502 la lee)
   d.exec(`CREATE TABLE "TourTranslation"("tourId" TEXT, "language" TEXT, "title" TEXT, "brief" TEXT)`);
   d.exec(`CREATE TABLE "Trip"("id" TEXT PRIMARY KEY, "kind" TEXT, "category" TEXT, "durationDays" INTEGER, "titleEs" TEXT, "titleEn" TEXT, "priceFrom" REAL, "languages" TEXT, "options" TEXT, "flightsIncluded" BOOLEAN, "status" TEXT)`);
   d.exec(readFileSync("migrations/0017_taxonomia.sql", "utf8"));
   const tour = (id: string, cat: number, price: number, title: string, active = 1, minutes = 120) => {
-    d.prepare(`INSERT INTO "Tour" VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
+    d.prepare(`INSERT INTO "Tour"("id","categoryId","priceValue","durationMinutes","isActive","guideLanguages","rating","reviewsNumber","contentHash") VALUES (?,?,?,?,?,'["Spanish"]','4.9',200,?)`) /* REQ-1290: favorito = ≥4.9 y ≥180 */.run(id, cat, String(price), minutes, active, `h-${id}`);
     d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(id, "es", title, "");
   };
   tour("a", 12, 0, "Free tour por el casco antiguo");
@@ -52,10 +53,10 @@ async function fullRun(d: Db, now: string, over = {}) {
 }
 
 describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => {
-  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"true\" (REQ-615, gate de encendido)", () => {
+  it("REQ-409 bandera TAXONOMY_SYNC_ENABLED: solo \"true\" exacto; wrangler.jsonc la trae en \"false\" (REQ-615 reemplazado por REQ-3510, INC-015)", () => {
     expect(taxonomySyncEnabled({})).toBe(false);
     expect(taxonomySyncEnabled({ TAXONOMY_SYNC_ENABLED: "true" })).toBe(true);
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"true"/);
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"TAXONOMY_SYNC_ENABLED":\s*"false"/); // REQ-3510
   });
   it("REQ-409 una corrida completa: arranca, clasifica activos por tandas, luego viajes publicados, y publica", async () => {
     const d = db();
@@ -88,7 +89,7 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
   it("REQ-409 barrera: si un formato cae más de 30 %, la corrida se aborta y se sigue leyendo la anterior", async () => {
     const d = db();
     for (let i = 0; i < 30; i++) {
-      d.prepare(`INSERT INTO "Tour" VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
+      d.prepare(`INSERT INTO "Tour"("id","categoryId","priceValue","durationMinutes","isActive","guideLanguages","rating","reviewsNumber","contentHash","cityId") VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
       d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", ""); // REQ-541: «Caminata» en el título ya es a pie en cualquier categoría
     }
     await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
@@ -102,6 +103,32 @@ describe("REQ-409 recálculo por tandas tras el sync, en tablas propias", () => 
     const d = db();
     for (const day of ["01", "02", "03", "04", "05"]) await fullRun(d, `2026-11-${day}T06:00:00.000Z`, { lastSyncAt: `2026-11-${day}T05:00:00.000Z`, batch: 50 });
     expect(d.prepare(`SELECT COUNT(*) AS n FROM "TaxonomyRun" WHERE "status"='published'`).all()).toEqual([{ n: 5 }]);
+    expect(d.prepare(`SELECT COUNT(DISTINCT "runId") AS n FROM "ExperienceTaxonomy"`).all()).toEqual([{ n: 3 }]);
+  });
+  it("REQ-3511: una corrida abortada también poda: sus filas no se quedan en ExperienceTaxonomy (INC-015)", async () => {
+    const d = db();
+    for (let i = 0; i < 30; i++) {
+      d.prepare(`INSERT INTO "Tour"("id","categoryId","priceValue","durationMinutes","isActive","guideLanguages","rating","reviewsNumber","contentHash","cityId") VALUES (?,12,'15',120,1,'[]',NULL,0,'h',NULL)`).run(`w${String(i).padStart(2, "0")}`);
+      d.prepare(`INSERT INTO "TourTranslation" VALUES (?,?,?,?)`).run(`w${String(i).padStart(2, "0")}`, "es", "Visita", "");
+    }
+    await fullRun(d, "2026-11-06T06:00:00.000Z", { batch: 50 });
+    d.exec(`UPDATE "Tour" SET "categoryId"=19 WHERE "id" LIKE 'w%'`);
+    const last = (await fullRun(d, "2026-11-07T06:00:00.000Z", { batch: 50, lastSyncAt: "2026-11-07T05:00:00.000Z" })).at(-1)!;
+    expect(last.action).toBe("abort");
+    const aborted = d.prepare(`SELECT "id" FROM "TaxonomyRun" WHERE "status"='aborted'`).all() as { id: string }[];
+    expect(d.prepare(`SELECT COUNT(*) AS n FROM "ExperienceTaxonomy" WHERE "runId"=?`).all(aborted[0].id)).toEqual([{ n: 0 }]);
+    expect(d.prepare(`SELECT COUNT(DISTINCT "runId") AS n FROM "ExperienceTaxonomy"`).all()).toEqual([{ n: 1 }]); // la publicada se queda
+  });
+  it("REQ-3511: la poda va por tandas: borra a lo más el límite y dice cuántas filas borró", async () => {
+    const d = db();
+    for (const day of ["01", "02", "03", "04"]) await fullRun(d, `2026-11-${day}T06:00:00.000Z`, { lastSyncAt: `2026-11-${day}T05:00:00.000Z`, batch: 50 });
+    // Simula la base de producción: filas de corridas viejas que la poda de una sola sentencia nunca alcanzó a borrar.
+    d.exec(`INSERT INTO "TaxonomyRun"("id","startedAt","mappingVersion","status","finishedAt") VALUES ('viejo','2026-10-01T00:00:00.000Z','v','aborted','2026-10-01T00:20:00.000Z')`);
+    for (let i = 0; i < 7; i++) d.prepare(`INSERT INTO "ExperienceTaxonomy" VALUES ('tour',?,'formato','tour','r','v','viejo','2026-10-01')`).run(`x${i}`);
+    const repo = createTaxonomyRepo(asD1(d));
+    expect(await repo.prune(3, 5)).toBe(5);
+    expect(await repo.prune(3, 5)).toBe(2);
+    expect(await repo.prune(3, 5)).toBe(0);
     expect(d.prepare(`SELECT COUNT(DISTINCT "runId") AS n FROM "ExperienceTaxonomy"`).all()).toEqual([{ n: 3 }]);
   });
   it("REQ-409 si cambia el diccionario o un mapeo, la corrida en curso se reemplaza", async () => {
@@ -138,6 +165,9 @@ describe("REQ-409 lógica pura del recálculo", () => {
     expect(unmappedFrom([{ ruleId: "sin mapeo: freetour:99", n: 3 }, { ruleId: "#3 base freetour:26", n: 1 }])).toEqual([{ provider: "freetour", categoryId: "99", tours: 3 }]);
   });
   it("REQ-409 la versión del mapeo junta diccionario y proveedores", () => {
-    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07b|propios:2026-11-06"); // REQ-1250; REQ-1260: mapeo de FREETOUR nuevo: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida
+    // REQ-1250; REQ-1260: mapeo de FREETOUR nuevo: diccionario y FREETOUR nuevos; el recálculo arranca otra corrida.
+    // REQ-3465: entra el mapeo de Tangol, así que la huella cambia y el recálculo arranca una corrida nueva (lo esperado).
+    // REQ-3502: el mapeo de Tangol pasa a categoría por categoría (versión 2026-11-12b): otra corrida nueva, también esperada.
+    expect(mappingVersion(D, M)).toBe("dict:2026-11-07|freetour:2026-11-07b|propios:2026-11-06|tangol:2026-11-12b");
   });
 });

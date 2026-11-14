@@ -11,6 +11,7 @@ import { getPrisma } from '@/lib/prisma';
 import { getPreferredLanguage } from '@/lib/utils/cookies';
 import { createFreetourApi } from '@/freetour/api';
 import { resolveFreetourConfig } from '@/freetour/lib/hosts';
+import { eventDetailPath } from '@/freetour/lib/event-path';
 import { zFTEventDetail } from '@/lib/api/schemas/FTEvent.Schema';
 import { isBookingsEnabled } from '@/booking/lib/flags';
 import { isOverlap, parseIdempotencyKey } from '@/booking/lib/overlap';
@@ -46,7 +47,8 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const freetour = createFreetourApi({ config: resolveFreetourConfig(process.env), fetch });
+        const ftConfig = resolveFreetourConfig(process.env);
+        const freetour = createFreetourApi({ config: ftConfig, fetch });
         const repo = createBookingRepo(getPrisma());
         const { booking, price, fullPrice, isPaid } = await placeBooking({ ...parsed.data, idempotencyKey: parseIdempotencyKey(raw?.idempotencyKey), contactIsAdult: raw?.contactIsAdult === true }, {
             enabled: isBookingsEnabled(process.env.BOOKINGS_ENABLED),
@@ -55,7 +57,8 @@ export async function POST(request: NextRequest) {
             // REQ-083: contacto adulto, tras ADULT_CONTACT_CHECK_ENABLED (apagada).
             adultContactRequired: isAdultContactCheckEnabled(process.env.ADULT_CONTACT_CHECK_ENABLED),
             hasActiveBooking: async (eventId, email) => isOverlap(await repo.findByEventAndEmail(eventId, email), { eventId, email }),
-            getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(`/event/${id}`)) as { data: unknown }).data),
+            // REQ-3495: /event/{id} en 2.0, /events/{id} en 2.2.
+            getEvent: async (id) => zFTEventDetail.parse(((await freetour.get(eventDetailPath(ftConfig.apiVersion, id))) as { data: unknown }).data),
             gateway: createGatewayClient({
                 url: process.env.GATEWAY_URL ?? '',
                 secret: process.env.GATEWAY_SECRET ?? '',

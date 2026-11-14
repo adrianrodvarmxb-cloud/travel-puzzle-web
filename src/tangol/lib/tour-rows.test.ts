@@ -154,6 +154,79 @@ describe("toTangolTourRow", () => {
   });
 });
 
+describe("REQ-10511 / REQ-10510 / REQ-10513: la fila enriquecida", () => {
+  /** Detalle con los nombres del swagger real de Tangol (GetTourDetailsResponse). */
+  const rawRico = {
+    ...rawTour,
+    TourDetails: {
+      Description: "Paseo de 3 horas por la ciudad.",
+      Summary: "Paseo por la ciudad",
+      PicList: ["https://img.ejemplo.com/1.jpg"],
+      StartPoint: "Obelisco, Av. 9 de Julio",
+      CancelationPolicy: "Sin cargo hasta 48 h antes.",
+      DetIncluye: "Guía\r\nTransporte",
+      DetNoIncluye: "Propinas",
+      TourLanguages: "Español, Inglés",
+      Reviews: 4.7,
+      ReviewsQty: 120,
+    },
+  };
+  const rico = infoTourSchema.parse(rawRico);
+  const rawRatesUsd = {
+    ...rawRates,
+    Currency: "USD",
+    ListTourOption: [{ ...rawRates.ListTourOption[0], OperationDays: "Lunes, Miércoles, Viernes" }],
+    ListTourRate: rawRates.ListTourRate.map((r) => ({ ...r, Currency: "USD", RackRateAdu: r.RackRateAdu / 100, RackRateChd: r.RackRateChd / 100 })),
+  };
+  const ratesUsd = summarizeRates(parseTourRates(rawRatesUsd));
+
+  it("REQ-10511: punto de encuentro, incluye, no incluye, política, idiomas y reseñas llegan a la fila", () => {
+    const r = toTangolTourRow(rico, deps({ rates: () => ratesUsd }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.tour.meetingPoint).toEqual({ title: "Obelisco, Av. 9 de Julio", coordinates: "", googlePlaceId: "" });
+    expect(r.tour.includes).toEqual(["Guía", "Transporte"]);
+    expect(r.tour.excludes).toEqual(["Propinas"]);
+    expect(r.tour.cancellationPolicy).toBe("Sin cargo hasta 48 h antes.");
+    expect(r.tour.guideLanguages).toEqual(["es", "en"]);
+    expect(r.tour.rating).toBe(4.7);
+    expect(r.tour.reviewsNumber).toBe(120);
+    expect(r.translations[0].brief).toBe("Paseo por la ciudad");
+    expect(r.tour.images).toEqual(["https://img.ejemplo.com/portada.jpg", "https://img.ejemplo.com/1.jpg"]);
+  });
+
+  it("REQ-10511: sin detalle la fila queda como antes (punto de encuentro vacío, listas vacías, sin reseñas)", () => {
+    const r = toTangolTourRow(tour, deps());
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.tour.meetingPoint).toEqual({});
+    expect(r.tour.includes).toEqual([]);
+    expect(r.tour.excludes).toEqual([]);
+    expect(r.tour.cancellationPolicy).toBeNull();
+    expect(r.tour.guideLanguages).toEqual([]);
+    expect(r.tour.availabilityRules).not.toBeNull();
+    expect(r.tour).toMatchObject({ rating: null, reviewsNumber: 0 });
+  });
+
+  it("REQ-10510: la moneda guardada es la que DEVOLVIÓ Tangol en la tarifa (USD) y el precio es la pública más baja", () => {
+    const r = toTangolTourRow(rico, deps({ rates: () => ratesUsd }));
+    expect(r.ok && r.tour.priceCurrency).toBe("USD");
+    expect(r.ok && r.tour.priceValue).toBe(22);
+  });
+
+  it("REQ-10513: las reglas de disponibilidad (días, anticipación, vigencia, bloqueos) van en la fila sin dinero", () => {
+    const r = toTangolTourRow(rico, deps({ rates: () => ratesUsd }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.tour.availabilityRules).toEqual({
+      options: [{ code: "REG", startTime: "09:00", operationDays: [1, 3, 5], operationDaysRaw: "Lunes, Miércoles, Viernes", hoursBooking: 48, hoursCancelation: 24 }],
+      validity: [{ option: "REG", from: "2026-11-01", to: "2027-03-31" }],
+      blackouts: [],
+    });
+    expect(JSON.stringify(r.tour.availabilityRules)).not.toMatch(/Rack|Utilidad|Net/);
+  });
+});
+
 describe("toTangolTourRows", () => {
   it("REQ-3371: los registros malos se descartan y se cuentan, la carga sigue con los buenos", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -185,5 +258,31 @@ describe("toTangolTourRows", () => {
     const batch = toTangolTourRows([tour], deps());
     expect(batch.rows[0].tour.isActive).toBe(true);
     expect(batch.discarded).toEqual([]);
+  });
+});
+
+describe("REQ-3504: basura del servidor de Tangol dentro de los datos", () => {
+  /** El caso real de la corrida 43303152904: «Mountain Bike Cuesta Del Obispo» con un 504 como subtipo. */
+  const basura = infoTourSchema.parse({ ...rawTour, TourId: 777, Name: "Mountain Bike Cuesta Del Obispo", SubTypeCode: "[METHOD ERROR 504]" });
+
+  it("REQ-3504: un tour con un valor de error del proveedor se descarta con motivo legible, sin adivinar el valor", () => {
+    const r = toTangolTourRow(basura, deps());
+    expect(r).toEqual({ ok: false, reason: "dato-de-error-del-proveedor", detail: "subTypeCode = «[METHOD ERROR 504]»" });
+  });
+
+  it("REQ-3504: se cuenta, se registra con el campo, y los tours buenos siguen entrando", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const batch = toTangolTourRows([tour, basura], deps());
+    expect(batch.rows.map((r) => r.tour.externalId)).toEqual([12345]);
+    expect(batch.discarded).toEqual([{ tourId: 777, reason: "dato-de-error-del-proveedor" }]);
+    const logs = warn.mock.calls.map((c) => String(c[0]));
+    expect(logs.some((l) => l.includes("777") && l.includes("subTypeCode") && l.includes("[METHOD ERROR 504]"))).toBe(true);
+    expect(logs.some((l) => l.includes("dato-de-error-del-proveedor: 1"))).toBe(true);
+  });
+
+  it("REQ-3504: un título normal que dice «error» en otro sentido NO se descarta", () => {
+    const escape = infoTourSchema.parse({ ...rawTour, Name: "Escape Room Error 404", SubTypeCode: "AVENTURA" });
+    const r = toTangolTourRow(escape, deps());
+    expect(r.ok).toBe(true);
   });
 });

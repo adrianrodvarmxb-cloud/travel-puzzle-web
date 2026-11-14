@@ -33,6 +33,7 @@ export async function verifyStripeSignature(payload: string, header: string | nu
 
 export type PaymentEvent =
   | { type: "paid"; paymentId: string; sessionId: string; amountCentavos: number; paymentIntent: string | null }
+  | { type: "held"; paymentId: string; sessionId: string; amountCentavos: number; paymentIntent: string | null }
   | { type: "expired"; paymentId: string; sessionId: string }
   | { type: "ignore" };
 
@@ -44,6 +45,15 @@ export function parsePaymentEvent(event: unknown): PaymentEvent {
   const paymentId = (o.metadata as Record<string, unknown> | undefined)?.payment_id;
   const sessionId = o.id;
   if (typeof paymentId !== "string" || !paymentId || typeof sessionId !== "string") return { type: "ignore" };
+  const meta = o.metadata as Record<string, unknown>;
+  // REQ-3482: la tarjeta quedó retenida (captura manual): nunca se toma por un cobro, diga lo que diga payment_status.
+  if (e.type === "checkout.session.completed" && meta.hold === "1") {
+    return {
+      type: "held", paymentId, sessionId,
+      amountCentavos: typeof o.amount_total === "number" ? o.amount_total : 0,
+      paymentIntent: typeof o.payment_intent === "string" ? o.payment_intent : null,
+    };
+  }
   if (e.type === "checkout.session.completed" || e.type === "checkout.session.async_payment_succeeded") {
     if (o.payment_status !== "paid") return { type: "ignore" };
     return {

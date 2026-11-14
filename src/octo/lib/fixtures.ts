@@ -17,6 +17,7 @@ export function sampleProduct(): Record<string, unknown> {
     deliveryMethods: ["VOUCHER"],
     redemptionMethod: "DIGITAL",
     defaultCurrency: "USD",
+    availableCurrencies: ["USD"],
     pricingPer: "UNIT",
     options: [
       {

@@ -151,7 +151,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy
   };
   const select = {
     id: true, externalId: true, cityId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
-    providerTitle: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524 (y T3)
+    providerTitle: true, providerId: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524 (y T3); REQ-3502
     country: { select: { code: true } },
     city: { select: { translations: true } },
     translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true, brief: true } },
@@ -163,7 +163,7 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy
   ]);
   // REQ-219: fuera del inicio los tours con «FreeTour» / «Free Tour» en el título (antes de elegir, para llenar los 6).
   // T3: free = formato pieza-libre; de pago = publicable, presencial y no Free tour (sin online, servicios ni traslados).
-  const fmt = (t: (typeof free)[number]) => taxonomy?.({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, title: t.translations.map((x) => x.title).join(" | ") }).formato;
+  const fmt = (t: (typeof free)[number]) => taxonomy?.({ providerId: t.providerId, categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, title: t.translations.map((x) => x.title).join(" | ") }).formato;
   const okFree = (t: (typeof free)[number]) => !taxonomy || fmt(t) === "pieza-libre";
   const okPaid = (t: (typeof free)[number]) => !taxonomy || (FORMATOS_PRESENCIALES.includes(fmt(t)!) && fmt(t) !== "pieza-libre");
   const clean = <T extends (typeof free)[number]>(list: T[]) => list.filter((t) => !titlesMentionBrand(t.translations.map((x) => x.title)) && (Number(t.priceValue) === 0 ? okFree(t) : okPaid(t)));
@@ -182,17 +182,18 @@ async function loadFeatured(prisma: PrismaClient, includePaid: boolean, taxonomy
 
 const TOUR_SELECT = {
   id: true, externalId: true, titleImageURL: true, priceValue: true, priceCurrency: true, duration: true, rating: true, reviewsNumber: true,
-  providerTitle: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524
+  providerTitle: true, providerId: true, categoryId: true, durationMinutes: true, // REQ-522, REQ-524; REQ-10515 providerId (formato por mapeo)
   city: { select: { translations: true } },
   translations: { where: { language: { in: TITLE_LANGS } }, select: { language: true, title: true, brief: true } },
 } as const;
 
 /** REQ-522…524: lo que la tarjeta única necesita además (proveedor, formato, duración y descripción breve). */
-type CardExtrasRow = { providerTitle: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[]; city?: { translations: unknown } | null };
+type CardExtrasRow = { providerTitle: string | null; /** REQ-10515 */ providerId?: string | null; categoryId: number; durationMinutes: number | null; priceValue: unknown; translations: { language: string; title: string; brief: string | null }[]; city?: { translations: unknown } | null };
+// REQ-10515: el formato se clasifica con el mapeo del proveedor de la fila (Tangol no cae en «por-revisar»). El providerId no sale en HomeTour.
 function cardExtras(t: CardExtrasRow) {
   return {
     provider: t.providerTitle ?? null,
-    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title), cities: cityNamesOf(t.city?.translations) }), // REQ-1253
+    formato: catalogTourFormat({ categoryId: t.categoryId, price: Number(t.priceValue), durationMinutes: t.durationMinutes, titles: t.translations.filter((x) => x.language === "es" || x.language === "en").map((x) => x.title), cities: cityNamesOf(t.city?.translations) }, t.providerId), // REQ-1253; REQ-10515
     durationMinutes: t.durationMinutes ?? null,
     briefs: Object.fromEntries(t.translations.filter((x) => x.brief && x.brief.trim()).map((x) => [x.language, x.brief as string])),
   };
@@ -215,28 +216,42 @@ async function loadPrior(prisma: PrismaClient): Promise<Prior> {
 
 /**
  * REQ-450/453: candidatas del catálogo de tours (cualquier providerId). El SQL solo PREFILTRA y preordena con la misma
- * fórmula (lib/review-score.ts → bayesScore); el orden final, el formato y la diversidad los decide la lib.
- * Fuera desde aquí: 8 y 31 (fuera), 29 (traslado), 30 (transporte), 26 (alquiler). Sin PAID_TOURS_ENABLED, solo precio 0
- * (no se recomienda lo que no se puede reservar, recommendations.ts).
+ * fórmula (lib/review-score.ts → priorScore); el orden final, el formato y la diversidad los decide la lib.
+ * REQ-10515 (PO 13-11 16:00): ya no exige reseñas (sin reseñas el puntaje es C) ni usa la lista de categorías de
+ * FREETOUR: fuera/traslado/transporte/alquiler/en-línea los descarta la taxonomía por `providerId` (parseTourRankRows).
+ * REQ-10516: el límite es POR PROVEEDOR (ventana ROW_NUMBER), así el prefiltro nunca deja fuera a un proveedor sin
+ * reseñas detrás de los que sí tienen. Sin PAID_TOURS_ENABLED, solo precio 0 (no se recomienda lo que no se puede
+ * reservar, recommendations.ts).
  */
+// REQ-10515 // REQ-10516
 async function loadTourCandidates(prisma: PrismaClient, prior: Prior, includePaid: boolean, dayTripsOnly: boolean, taxonomy?: CatalogClassifier): Promise<TourCandidate[]> {
   // Banderas como parámetros (no fragmentos Prisma.sql): la consulta no depende del cliente generado.
   const paid = includePaid ? 1 : 0;
   const day = dayTripsOnly ? 1 : 0;
+  const perProvider = dayTripsOnly ? 1500 : 800; /* REQ-850/612: el carrusel completo (todos los Favoritos y todas las excursiones), por proveedor */
   const rows = await prisma.$queryRaw<unknown[]>`
-    SELECT t.id AS id, t.externalId AS externalId, t.cityId AS cityId, json_extract(c.translations, '$.en') AS cityName,
-      co.code AS countryCode, t.categoryId AS categoryId, t.durationMinutes AS durationMinutes,
-      CAST(t.priceValue AS REAL) AS price, CAST(t.rating AS REAL) AS rating, t.reviewsNumber AS reviews,
-      (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'es') AS titleEs,
-      (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'en') AS titleEn
-    FROM Tour t JOIN Country co ON co.id = t.countryId LEFT JOIN City c ON c.id = t.cityId
-    WHERE t.isActive = 1 AND t.titleImageURL LIKE 'https://%' AND t.reviewsNumber > 0 AND t.rating IS NOT NULL
-      AND t.categoryId NOT IN (8, 31, 29, 30, 26)
-      AND t.providerId NOT IN (SELECT value FROM json_each(${ocultos()})) /* REQ-3311 */
-      AND (${paid} = 1 OR CAST(t.priceValue AS REAL) = 0)
-      AND (${day} = 0 OR t.durationMinutes >= 360 OR (t.categoryId = 4 AND t.durationMinutes IS NULL))
-    ORDER BY (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m}) DESC
-    LIMIT ${dayTripsOnly ? 1500 : 800}`; /* REQ-850/612: el carrusel completo (todos los Favoritos y todas las excursiones) */
+    SELECT id, externalId, providerId, cityId, cityName, countryCode, categoryId, durationMinutes, price, rating, reviews, titleEs, titleEn
+    FROM (
+      SELECT t.id AS id, t.externalId AS externalId, t.providerId AS providerId, t.cityId AS cityId, json_extract(c.translations, '$.en') AS cityName,
+        co.code AS countryCode, t.categoryId AS categoryId, t.durationMinutes AS durationMinutes,
+        CAST(t.priceValue AS REAL) AS price, CAST(t.rating AS REAL) AS rating, t.reviewsNumber AS reviews,
+        (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'es') AS titleEs,
+        (SELECT x.title FROM TourTranslation x WHERE x.tourId = t.id AND x.language = 'en') AS titleEn,
+        CASE WHEN t.reviewsNumber > 0 AND t.rating IS NOT NULL
+          THEN (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m})
+          ELSE ${prior.C} END AS score, /* REQ-10515: sin reseñas = C */
+        ROW_NUMBER() OVER (PARTITION BY t.providerId ORDER BY
+          CASE WHEN t.reviewsNumber > 0 AND t.rating IS NOT NULL
+            THEN (t.reviewsNumber * CAST(t.rating AS REAL) + ${prior.m * prior.C}) / (t.reviewsNumber + ${prior.m})
+            ELSE ${prior.C} END DESC, t.reviewsNumber DESC, t.id) AS rn /* REQ-10516 */
+      FROM Tour t JOIN Country co ON co.id = t.countryId LEFT JOIN City c ON c.id = t.cityId
+      WHERE t.isActive = 1 AND t.titleImageURL LIKE 'https://%'
+        AND t.providerId NOT IN (SELECT value FROM json_each(${ocultos()})) /* REQ-3311 */
+        AND (${paid} = 1 OR CAST(t.priceValue AS REAL) = 0)
+        AND (${day} = 0 OR t.durationMinutes IS NULL OR t.durationMinutes >= 360) /* prefiltro; la regla de excursión es de la lib (REQ-858, C11) */
+    )
+    WHERE rn <= ${perProvider}
+    ORDER BY score DESC, reviews DESC, id`;
   // REQ-858: «Excursiones de un día» = lo que la tarjeta etiqueta «Excursión de un día» (mismo clasificador, card-format.ts),
   // más las excursiones gratis (la tarjeta dice «Pieza libre», la categoría de los free tours) que ya cumplían REQ-451.
   const { ok, dropped } = parseTourRankRows(rows, { taxonomy, isDayTrip: isHomeDayTrip }); // REQ-219: también salta los títulos que dicen «free tour»; REQ-270: y lo que la taxonomía no publica

@@ -11,6 +11,9 @@ import type { ClassifyInput, ClassifyResult } from "./types";
 export const TAXONOMY_BATCH = 500;
 /** Corridas publicadas que se conservan (las anteriores se podan; nunca datos del proveedor). */
 export const KEEP_TAXONOMY_RUNS = 3;
+/** REQ-3511 (INC-015): filas por sentencia de poda y tandas máximas al cerrar una corrida (~50 mil filas por corrida). */
+export const PRUNE_BATCH = 20000;
+export const PRUNE_MAX_ROUNDS = 5;
 /** Barrera (plan §6.1): se aborta si más de 20 % queda sin formato o si un formato cae más de 30 %. */
 export const MAX_UNCLASSIFIED_PCT = 20;
 export const MAX_FORMAT_DROP_PCT = 30;
@@ -59,7 +62,7 @@ export function planTaxonomyStep(input: {
 }
 
 export interface TourRowForTaxonomy {
-  id: string; categoryId: number; priceValue: number | string | null; durationMinutes: number | null;
+  id: string; /** REQ-3502: Tour.providerId; sin él, FREETOUR. */ providerId?: string | null; categoryId: number; priceValue: number | string | null; durationMinutes: number | null;
   titleEs: string | null; titleEn: string | null; briefEs: string | null; briefEn: string | null;
   guideLanguages: string | null; rating: number | string | null; reviewsNumber: number | null;
   /** REQ-1253: traducciones de la ciudad base (JSON). */
@@ -74,7 +77,7 @@ const ISO_LANG: Record<string, string> = { spanish: "es", espanol: "es", "españ
 export function tourToInput(t: TourRowForTaxonomy): ClassifyInput {
   const price = t.priceValue === null ? null : Number(t.priceValue);
   return {
-    proveedor: "freetour",
+    proveedor: t.providerId || "freetour", // REQ-3502
     categoriaId: t.categoryId,
     precio: Number.isFinite(price) ? price : null,
     durationMinutes: t.durationMinutes,
