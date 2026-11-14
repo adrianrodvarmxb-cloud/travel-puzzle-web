@@ -1703,6 +1703,14 @@ Petición (PO, 14 nov 2026 06:09): «Los seis ahora» a «¿cuáles abro ahora?�
 | REQ-10645 | DEFINICIÓN | Lista de espera. Dada una fecha sin lugares, cuando el cliente quiere esa fecha, entonces puede dejar sus datos para que se le avise si se libera un lugar. Falta definir por qué canal se avisa (correo, WhatsApp por Mila) y cuánto dura el aviso | PO | Decisión del PO; ola 8 | PENDIENTE (falta la definición del PO) |
 | REQ-10646 | DEFINICIÓN | Menores. Dada una experiencia con edades de niño e infante o con restricción de edad, cuando se reserva para un menor, entonces la ficha y el paso de reserva dicen la edad mínima, la tarifa que aplica y si debe ir acompañado de un adulto. Falta definir con el abogado el texto de consentimiento del tutor | PO | Abogado; ola 8 | PENDIENTE (falta la definición del PO y la revisión del abogado) |
 
+## REQ-10648 y REQ-10649: preguntas abiertas por proveedor para los recordatorios de Mila (frente #445, plan REQ-3457, 14 nov 2026)
+
+Plan firmado por el PO el 14 nov 2026 (PR #447: G1-A, G2-A, G3-A, G4-A, G5-A). Construcción pura, detrás de `PROVEEDORES_MILA_ON` (REQ-1655, apagada).
+
+| ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
+|---|---|---|---|---|---|
+| REQ-10648 | CÓDIGO | «de una vez que mila tome los eguimientos de todos estos provedores» (PO, 12 nov 2026; plan REQ-3457). Dadas las preguntas cargadas de un proveedor, cuando toca el recordatorio, entonces salen solo las abiertas, en el idioma del proveedor, en un solo correo con máximo 5 puntos agrupados por tema (tarifas, calendario, pago, cancelación) y una sección corta «Para cerrar el alta» (2 o 3 líneas); una persona que representa a varios proveedores recibe un solo correo con un apartado por proveedor y no más de uno al día (G4-A); cerrar una pregunta marca la fecha y conserva el historial (G3-A); sin preguntas, el recordatorio sale igual que hoy | agente | — | CUMPLIDO (8 pruebas verdes el 14 nov 2026, `npx vitest run src/proveedores/lib/preguntas.test.ts`; falta conectar `diario.ts` y `entrante.ts` en su PR y el merge con OK del PO) |
+| REQ-10649 | DATOS | Columna `preguntas` TEXT NOT NULL DEFAULT '[]' en `Proveedor`. La 0027 ya está aplicada (#507), así que va en la 0033 (`folio.ts migracion`). Dada la migración, cuando se aplica, entonces las filas existentes quedan con `[]` y no se toca ninguna otra tabla | PO (aplicar) | OK del PO; punto de regreso de D1 | EN CURSO (2 pruebas verdes el 14 nov 2026; aplicar es candado del PO) |
 ## REQ-10651: operador discreto en la ficha (frente #549, ola 2, 14 nov 2026)
 
 | ID | Tipo | Pendiente (fuente) | Responsable | Bloqueado por | Estado |
