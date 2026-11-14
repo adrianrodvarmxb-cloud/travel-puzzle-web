@@ -37,7 +37,7 @@ describe("REQ-10545: la descripción del proveedor se pinta con HTML seguro y si
   });
 });
 
-describe("REQ-10544/REQ-10545: la ficha, la tarjeta y el meta usan el filtro (INC-018)", () => {
+describe("REQ-10544/REQ-10545: la ficha, la tarjeta y el meta usan el filtro (INC-019)", () => {
   it("REQ-10544: resumen en la ficha, la tarjeta y el meta pasa por plainText; REQ-10545: la descripción por safeDescriptionHtml", async () => {
     const { readFileSync } = await import("node:fs");
     const src = (f: string) => readFileSync(f, "utf8");
