@@ -1,7 +1,7 @@
 # Plan: ficha con todo el detalle del proveedor (Tangol primero)
 
 **Petición del PO (13 nov 2026, 22:23):** «jala del API todos los datos disponibles y vemos dónde los acomodamos».
-**Decisiones del PO (22:30):** la casilla Proveedor sigue diciendo «Travel Puzzle» (marca blanca, cláusulas 1.3 y 7.3 del acuerdo con Tangol). Entran los cuatro bloques: Condiciones, Antes de ir, Detalles prácticos e Idiomas del guía.
+**Decisiones del PO (22:30):** ~~la casilla Proveedor sigue diciendo «Travel Puzzle» (marca blanca, cláusulas 1.3 y 7.3 del acuerdo con Tangol)~~ REEMPLAZADA a las 22:47/22:50 por REQ-10542 (ver abajo). Entran los cuatro bloques: Condiciones, Antes de ir, Detalles prácticos e Idiomas del guía.
 
 ## Auditoría (lo que hay hoy)
 - La API entrega en `GetTourDetailsList`: Summary, Description, PicList, StartPoint, EndPoint, DetIncluye, DetNoIncluye, WhatToBring, PhysicalReq, Difficulty, Others, CancelationPolicy, TourLanguages, ChdFrom/To, InfFrom/To, Reviews, ReviewsQty, Popularity. En `GetTourRates`: opciones con horario de salida, HoursBooking, HoursCancelation y días de operación.
@@ -22,7 +22,8 @@
 
 ## Estructura de carpetas
 No cambia. Archivos nuevos:
-- `migrations/0032_tour_info_practica.sql` (una columna JSON).
+- `migrations/0032_tour_info_practica.sql` (una columna por dato, gate A) y su test `src/tangol/migration-0032.test.ts`.
+- `src/tours/practical-load.ts` (+ test): lectura con SQL aparte (no Prisma), con filtro del gate C y regreso a las columnas de la 0031 si la 0032 no está aplicada.
 - `src/tours/lib/practical-info.ts` (+ test): arma los bloques a partir de la fila, puro.
 - `src/components/tours/one/TourConditions.tsx`, `TourBeforeYouGo.tsx` (un componente por bloque, SRP).
 Se tocan: `src/tangol/lib/details.ts`, `tour-rows.ts`, `extra-sql.ts`, `src/tours/lib/hero-facts.ts`, `TourDetailClient.tsx`, la carga de la ficha y los textos es/en.
@@ -46,6 +47,12 @@ SRP: un componente por bloque y la lógica en `lib/`. OCP: bloques genéricos po
 - **A: una columna por dato** (no JSON): `endPoint`, `whatToBring`, `physicalRequirements`, `difficulty`, `providerNotes`, `childAgeFrom`, `childAgeTo`, `infantAgeFrom`, `infantAgeTo` en `Tour`, migración 0032.
 - **B: cualquier proveedor.** El bloque aparece cuando el tour tiene el dato.
 - **C: todo junto.** Un solo PR con la migración y los seis REQ.
+
+## Cambio de alcance (PO, 13 nov 2026 22:47 y 22:50) — REQ-10542
+- Petición literal: «así deben decir los de Tangol» y «así todos dicen quien opera hasta lo freetour».
+- **REEMPLAZA** la decisión de las 22:30 («la casilla Proveedor sigue diciendo Travel Puzzle»). Ahora la casilla «Proveedor» de un tour de Tangol dice **«Tangol Tours»**, igual que FREETOUR muestra a su operador. Sin línea aparte de «Opera en destino».
+- REQ-10540 se ajusta: se filtran URLs, dominios, teléfonos y correos escritos por el proveedor (cláusula 7.2), no el nombre del operador.
+- El dato (`providerTitle`) se refresca con la próxima corrida del sync, ya planeada tras la migración 0032.
 
 ## Candados
 - Migración 0032: OK explícito del PO, punto de regreso de D1 antes de aplicar.

@@ -21,6 +21,8 @@ import { findProviderErrorValue } from "./data-hygiene";
  *   StartPoint        → Tour.meetingPoint.title (REQ-10511; sin coordenadas: Tangol no las manda)
  *   DetIncluye        → Tour.includes (renglones)      DetNoIncluye → Tour.excludes (columna de la 0031)
  *   CancelationPolicy → Tour.cancellationPolicy (0031)  TourLanguages → Tour.guideLanguages (ISO 639-1)
+ *   EndPoint, WhatToBring, PhysicalReq, Difficulty, Others, ChdFrom/To, InfFrom/To → columnas de la 0032 (REQ-10537/10538)
+ *   (proveedor)       → Tour.providerTitle = «Tangol Tours» (REQ-10542: dice quién opera)
  *   Reviews/ReviewsQty→ Tour.rating / Tour.reviewsNumber (solo reseñas reales, REQ-450)
  *   OperationDays, HoursBooking, vigencias y bloqueos (tarifas) → Tour.availabilityRules (0031, REQ-10513)
  *   UrlHomePic        → Tour.titleImageURL y primera imagen
@@ -30,8 +32,18 @@ import { findProviderErrorValue } from "./data-hygiene";
  */
 
 export const TANGOL_PROVIDER_ID = "tangol";
-/** Lo único que ve el cliente como «proveedor»: la marca propia. */
+/**
+ * Antes (REQ-10511) la casilla «Proveedor» decía la marca propia. Se conserva sin usar (no se borra código):
+ * la decisión quedó REEMPLAZADA por REQ-10542.
+ */
 export const BRAND_TITLE = "Travel Puzzle";
+/**
+ * REQ-10542 (PO, 13 nov 2026 22:47/22:50: «así deben decir los de Tangol», «así todos dicen quien opera hasta lo
+ * freetour»): la casilla «Proveedor» dice quién opera, igual que FREETOUR muestra a su operador. Solo el nombre:
+ * sin teléfono, correo ni URL del proveedor (REQ-10540, cláusula 7.2).
+ */
+// REQ-10542
+export const TANGOL_OPERATOR_TITLE = "Tangol Tours";
 
 type Lang = (typeof LANGUAGES)[number];
 
@@ -47,6 +59,16 @@ export interface TangolTourRow extends TourRow {
   cancellationPolicy: string | null;
   availabilityRules: AvailabilityRules | null;
   guideLanguages: string[];
+  /** REQ-10537 / REQ-10538: columnas de la migración 0032 (una por dato, gate A). */
+  endPoint: string | null;
+  whatToBring: string | null;
+  physicalRequirements: string | null;
+  difficulty: string | null;
+  providerNotes: string | null;
+  childAgeFrom: number | null;
+  childAgeTo: number | null;
+  infantAgeFrom: number | null;
+  infantAgeTo: number | null;
 }
 
 export type DiscardReason =
@@ -115,7 +137,7 @@ function cheapestPublicRate(summary: RatesSummary): TangolRate | null {
   );
 }
 
-// REQ-3370, REQ-3371, REQ-3372, REQ-3504, REQ-10510, REQ-10511, REQ-10513
+// REQ-3370, REQ-3371, REQ-3372, REQ-3504, REQ-10510, REQ-10511, REQ-10513, REQ-10537, REQ-10538, REQ-10542
 export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): ConvertedRow {
   // REQ-3504: un error del servidor de Tangol metido como dato tira el tour entero; no se adivina el valor.
   const junk = findProviderErrorValue(tour);
@@ -142,7 +164,7 @@ export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): Converte
   const row: TangolTourRow = {
     providerId: TANGOL_PROVIDER_ID,
     externalId: tour.tourId,
-    providerTitle: BRAND_TITLE,
+    providerTitle: TANGOL_OPERATOR_TITLE, // REQ-10542
     providerPhone: null,
     priceValue: price.adult,
     priceCurrency: currency,
@@ -169,6 +191,16 @@ export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): Converte
     cancellationPolicy: details.cancellationPolicy,
     availabilityRules: availabilityRules(summary),
     guideLanguages: details.languages,
+    // REQ-10537 / REQ-10538: columnas de la 0032.
+    endPoint: details.endPoint,
+    whatToBring: details.whatToBring,
+    physicalRequirements: details.physicalRequirements,
+    difficulty: details.difficulty,
+    providerNotes: details.providerNotes,
+    childAgeFrom: details.childAges?.from ?? null,
+    childAgeTo: details.childAges?.to ?? null,
+    infantAgeFrom: details.infantAges?.from ?? null,
+    infantAgeTo: details.infantAges?.to ?? null,
   };
 
   const translations: TranslationRow[] = [
