@@ -92,6 +92,7 @@ export const en = {
   'tours.physicalRequirements': "Physical requirements",
   'tours.difficulty': "Difficulty",
   'tours.providerNotes': "Notes",
+  'tours.operatedLocally': "Operated locally by",
   'tours.departureTime': "Departure time",
   'tours.departureTimes': "Departure times",
   'tours.endPoint': "End point",

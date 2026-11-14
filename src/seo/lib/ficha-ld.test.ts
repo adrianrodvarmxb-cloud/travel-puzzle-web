@@ -149,6 +149,8 @@ describe("REQ-823: Offer sin datos que no existen", () => {
   });
 });
 
+// REQ-10542 quedó REEMPLAZADO por REQ-10615 (código REQ-10651): la ficha manda operatorInBrief=false y «En breve»
+// ya no nombra al operador (src/ficha/lib/operator.test.ts). Aquí queda el comportamiento por omisión de la función.
 describe("REQ-10542: «En breve» dice quién opera un tour de Tangol (sale de Tour.providerTitle)", () => {
   // Cadena: sync (toTangolTourRow) → Tour.providerTitle → destinations/repository.ts (provider) → page-model (operator) → enBreve.
   it("REQ-10542: con el valor que escribe el sync, dice «Lo opera Tangol Tours y lo reservas con Travel Puzzle.»", async () => {
