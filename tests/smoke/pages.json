@@ -21,7 +21,11 @@
     "/tours?search=trekking",
     "/arma-tu-viaje",
     "/en/blog",
-    "/en/blog/europa/requisitos-para-entrar-a-europa-2026"
+    "/en/blog/europa/requisitos-para-entrar-a-europa-2026",
+    "/destinos/ar/el-calafate",
+    "/destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno",
+    "/en/destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno",
+    "/destinos/co/medellin/tour-comuna-trece-con-guias-locales-reales"
   ],
   "discover": [
     {
@@ -45,6 +49,12 @@
     {
       "from": "/tours?search=museos",
       "pattern": "^/(viajes/[^/]+/[^/?#]+|destinos/[^/]+/[^/]+/[^/?#]+)$",
+      "take": 1,
+      "required": true
+    },
+    {
+      "from": "/destinos/ar/el-calafate",
+      "pattern": "^/destinos/ar/el-calafate/[^/?#]+$",
       "take": 1,
       "required": true
     }
