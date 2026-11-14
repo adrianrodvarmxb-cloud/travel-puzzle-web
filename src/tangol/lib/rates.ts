@@ -1,4 +1,5 @@
 import type { TangolRate, TangolRates } from "./schemas";
+import type { RangeRates } from "../../tours/lib/provider-availability";
 import { parseOperationDays, weekdayOf } from "./operation-days";
 
 export interface OptionSummary {
@@ -94,8 +95,36 @@ export function availabilityRules(s: RatesSummary): AvailabilityRules {
       hoursBooking: o.hoursBooking, hoursCancelation: o.hoursCancelation,
     })),
     validity,
-    blackouts: s.blackouts.map((b) => ({ from: b.from, to: b.to })),
+    blackouts: mergeBlackouts(s.blackouts),
   };
+}
+
+/** Día siguiente en ISO (YYYY-MM-DD), en UTC. */
+function diaSiguiente(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+/**
+ * REQ-10525: Tangol manda los bloqueos día por día y repetidos por opción (el tour 2490 trajo 2,602 de un
+ * día: la sentencia pasó de 100 KB y D1 la rechazó con SQLITE_TOOBIG, tumbando la escritura de 773 tours).
+ * Se ordenan y se unen los rangos que se traslapan o se tocan; el conjunto de fechas bloqueadas no cambia
+ * (`isDateBookable` da lo mismo antes y después). Pura.
+ */
+// REQ-10525
+export function mergeBlackouts(blackouts: readonly { from: string; to: string }[]): { from: string; to: string }[] {
+  const ordenados = blackouts
+    .map((b) => (b.from <= b.to ? { from: b.from, to: b.to } : { from: b.to, to: b.from }))
+    .sort((a, b) => (a.from < b.from ? -1 : a.from > b.from ? 1 : a.to < b.to ? -1 : a.to > b.to ? 1 : 0));
+  const out: { from: string; to: string }[] = [];
+  for (const b of ordenados) {
+    const last = out[out.length - 1];
+    if (last && b.from <= diaSiguiente(last.to)) {
+      if (b.to > last.to) last.to = b.to;
+    } else out.push({ ...b });
+  }
+  return out;
 }
 
 /**
@@ -105,4 +134,21 @@ export function availabilityRules(s: RatesSummary): AvailabilityRules {
 // REQ-1543
 export function publicPrice(rate: TangolRate): { adult: number; child: number | null; infant: number | null; currency: string | null } {
   return { adult: rate.rackAdult, child: rate.rackChild, infant: rate.rackInfant, currency: rate.currency };
+}
+
+/**
+ * Tarifas de Tangol en la forma común que pinta el calendario de la ficha (`src/tours/lib/provider-availability.ts`).
+ * Solo viajan tarifa pública, vigencia y bloqueos: el neto, la comisión y `Utilidad` ya no existen aquí
+ * (los descarta `parseTourRates`, REQ-1543). El aviso mínimo es el de la opción MENOS exigente: si una
+ * opción acepta con 12 h, el día se ofrece.
+ */
+// REQ-3468
+export function rangeRatesFromTangol(r: TangolRates): RangeRates {
+  const horas = r.options.map((o) => o.hoursBooking).filter((h): h is number => typeof h === "number");
+  return {
+    currency: r.currency,
+    rates: r.rates.map((x) => ({ option: x.option, validFrom: x.validFrom, validTo: x.validTo, rackAdult: x.rackAdult, currency: x.currency })),
+    blackouts: r.blackouts,
+    hoursBooking: horas.length ? Math.min(...horas) : null,
+  };
 }

@@ -14,6 +14,7 @@ import { legacyTourCanonical } from '@/seo/lib/legacy-canonical';
 import { providerRobots } from '@/seo/lib/enrichment';
 import { tourPriceLabel } from '@/tours/lib/price-label';
 import { loadFx } from '@/trips/public-load';
+import { plainText } from '@/tours/lib/provider-html';
 
 interface TourDetailPageProps {
     params: Promise<{ id: string }>;
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: TourDetailPageProps): Promise
         const data = await fetchTourById(id, language);
         if (!data) return {};
         const tour = transformDBTourToUITour(data as unknown as TourWithRelations, language);
-        const m = tourMeta({ title: tour.title, brief: tour.brief, rating: tour.rating, reviews: tour.reviewsNumber, image: tour.titleImageURL ?? tour.images[0] ?? null }, language);
+        const m = tourMeta({ title: tour.title, brief: plainText(tour.brief), /* REQ-10544 */ rating: tour.rating, reviews: tour.reviewsNumber, image: tour.titleImageURL ?? tour.images[0] ?? null }, language);
         // REQ-579: con PRIMERA_PIEZA_ENABLED esta URL redirige (301) a su ficha de /destinos; el canonical es ese destino final.
         const canonical = primeraPiezaOn() ? legacyTourCanonical(await getDestinations().catch(() => null), id) : `/tours/${id}`;
         // REQ-831: «noindex hasta su permiso» también en la URL vieja (cuando no redirige a /destinos).

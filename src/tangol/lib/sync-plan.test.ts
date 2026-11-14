@@ -133,7 +133,7 @@ describe("REQ-3463: un lote de destinos se convierte en filas de Tour", () => {
     expect(fila.tour.countryId).toBe(1);
     expect(fila.tour.priceValue).toBe(100);
     expect(fila.tour.priceCurrency).toBe("USD");
-    expect(fila.tour.providerTitle).toBe("Travel Puzzle");
+    expect(fila.tour.providerTitle).toBe("Tangol Tours"); // REQ-10542: la casilla Proveedor dice quién opera
     expect(fila.tour.categoryId).toBe(TANGOL_UNCLASSIFIED_CATEGORY_ID);
     // La URL es propia (REQ-3372): nunca la del proveedor.
     expect(fila.translations[0].url).toBe("/destinos/ar/buenos-aires");
