@@ -53,4 +53,23 @@ describe("classify", () => {
     expect(classify("h1", { rating: 4.5, reviewsNumber: 11 }, { contentHash: "h1", rating: 4.5, reviewsNumber: 10 })).toBe("rating");
     expect(classify("h1", { rating: null, reviewsNumber: 0 }, { contentHash: "h1", rating: null, reviewsNumber: 0 })).toBe("same");
   });
+
+  it("REQ-10514: punto de encuentro, incluye/no incluye, política, idiomas y reglas de disponibilidad SÍ cambian el hash", async () => {
+    const rico = () => ({
+      ...base(),
+      tour: { ...base().tour, excludes: ["Propinas"], cancellationPolicy: "48 h", guideLanguages: ["es"], availabilityRules: { options: [] } },
+    });
+    const h = await contentHash(rico());
+    expect(await contentHash(rico())).toBe(h);
+    expect(await contentHash(base())).not.toBe(h);
+    const con = (tour: Record<string, unknown>) => contentHash({ ...rico(), tour: { ...rico().tour, ...tour } });
+    expect(await con({ includes: ["Guía"] })).not.toBe(h);
+    expect(await con({ excludes: [] })).not.toBe(h);
+    expect(await con({ cancellationPolicy: "24 h" })).not.toBe(h);
+    expect(await con({ guideLanguages: ["es", "en"] })).not.toBe(h);
+    expect(await con({ availabilityRules: { options: [{ code: "A" }] } })).not.toBe(h);
+    expect(await con({ meetingPoint: { title: "Obelisco" } })).not.toBe(h);
+    // La calificación y las reseñas siguen fuera del hash (REQ-073): las actualiza la vía de «rating».
+    expect(await con({ rating: 4.9, reviewsNumber: 1 })).toBe(h);
+  });
 });

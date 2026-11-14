@@ -74,3 +74,32 @@ describe("isStripeEnabled", () => {
     expect(isStripeEnabled("TRUE")).toBe(false);
   });
 });
+
+describe("buildCheckoutParams con retención", () => {
+  const input = { paymentId: "pay_1", requestId: "req_1", ref: "TP-ABC", tripTitle: "Machu Picchu 2D", kind: "total" as const, centavos: 150000, email: "ana@example.com", siteUrl: "https://travelpuzzle.com.mx", expiresAt: 1800000000 };
+  it("REQ-3482: manualCapture retiene en la tarjeta sin cobrar (capture_method manual) y marca la sesión", () => {
+    const p = buildCheckoutParams({ ...input, manualCapture: true });
+    expect(p["payment_intent_data[capture_method]"]).toBe("manual");
+    expect(p["metadata[hold]"]).toBe("1");
+    expect(p["payment_intent_data[metadata][hold]"]).toBe("1");
+    expect(p["line_items[0][price_data][product_data][name]"]).toContain("Retención");
+    expect(p["line_items[0][price_data][unit_amount]"]).toBe("150000");
+    expect(p.success_url).toBe("https://travelpuzzle.com.mx/viajes/gracias?folio=TP-ABC");
+  });
+  it("REQ-3482: sin manualCapture el cobro es el de siempre", () => {
+    const p = buildCheckoutParams(input);
+    expect(p["payment_intent_data[capture_method]"]).toBeUndefined();
+    expect(p["metadata[hold]"]).toBeUndefined();
+    expect(p["line_items[0][price_data][product_data][name]"]).not.toContain("Retención");
+  });
+});
+
+describe("REQ-10510: el cobro en pesos acepta USD igual que EUR", () => {
+  it("REQ-10510: 22 USD × 18.5 × 1.03 = 419.21 → 420 pesos; con EUR el mismo camino", () => {
+    expect(chargeAmount(22, "USD", rates, 3)).toEqual({ centavos: 42000, fxRate: 18.5 });
+    expect(chargeAmount(22, "EUR", rates, 3)).toEqual({ centavos: 45400, fxRate: 20 });
+  });
+  it("REQ-10510: sin tipo de cambio no se cobra en USD (null), nunca se adivina", () => {
+    expect(chargeAmount(22, "USD", null, 3)).toBeNull();
+  });
+});

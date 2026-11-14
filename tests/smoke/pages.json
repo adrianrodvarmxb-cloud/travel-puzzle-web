@@ -89,6 +89,13 @@
       "/en/tours",
       "/en/destinos",
       "/en/destinos/mx/ciudad-de-mexico"
+    ],
+    "TANGOL_ENABLED": [
+      "/destinos/ar",
+      "/destinos/ar/bariloche",
+      "/destinos/cl",
+      "/tours?search=bariloche",
+      "/destinos/py"
     ]
   },
   "flaggedDiscover": {
@@ -97,6 +104,32 @@
         "from": "/en/destinos/mx/ciudad-de-mexico",
         "pattern": "^/en/destinos/mx/ciudad-de-mexico/[^/?#]+$",
         "take": 1,
+        "required": true
+      }
+    ],
+    "TANGOL_ENABLED": [
+      {
+        "from": "/destinos/ar/bariloche",
+        "pattern": "^/destinos/ar/bariloche/[^/?#]+$",
+        "take": 3,
+        "required": true
+      },
+      {
+        "from": "/destinos/cl",
+        "pattern": "^/destinos/cl/[^/]+/[^/?#]+$",
+        "take": 2,
+        "required": true
+      },
+      {
+        "from": "/destinos/py",
+        "pattern": "^/destinos/py/[^/]+/[^/?#]+$",
+        "take": 2,
+        "required": true
+      },
+      {
+        "from": "/tours?search=bariloche",
+        "pattern": "^/(viajes/[^/]+/[^/?#]+|destinos/[^/]+/[^/]+/[^/?#]+)$",
+        "take": 2,
         "required": true
       }
     ]
