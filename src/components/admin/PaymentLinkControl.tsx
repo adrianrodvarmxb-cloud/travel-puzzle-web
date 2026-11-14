@@ -43,7 +43,7 @@ export function PaymentLinkControl({ id, hasPending, defaultAmount, defaultCurre
     );
 }
 
-const STATUS_LABEL: Record<string, string> = { pending: 'Pendiente', paid: 'Pagado', expired: 'Vencido', replaced: 'Reemplazado' };
+const STATUS_LABEL: Record<string, string> = { pending: 'Pendiente', held: 'Retenido', paid: 'Pagado', released: 'Liberado', expired: 'Vencido', replaced: 'Reemplazado' };
 const KIND_LABEL: Record<string, string> = { anticipo: 'Anticipo', liquidacion: 'Liquidación', total: 'Pago total' };
 
 export interface PaymentItem { id: string; kind: string; amountCentavos: number; originalAmount: number; originalCurrency: string; status: string; paidAt: string | null }
@@ -59,5 +59,40 @@ export function PaymentList({ items }: { items: (PaymentItem & { amountText: str
                 </li>
             ))}
         </ul>
+    );
+}
+
+/** Cobrar o liberar una tarjeta retenida (REQ-3483). Solo se pinta con STRIPE_HOLD_ENABLED y un pago «held». Pide confirmación en dos pasos. */
+export function HoldControl({ id, amountText }: { id: string; amountText: string }) {
+    const router = useRouter();
+    const [ask, setAsk] = useState<'capture' | 'release' | null>(null);
+    const [busy, setBusy] = useState(false);
+    const [msg, setMsg] = useState<string | null>(null);
+    async function run(action: 'capture' | 'release') {
+        setBusy(true);
+        setMsg(null);
+        const res = await fetch(`/api/admin/solicitudes/${id}/retencion`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action }) });
+        const json = (await res.json().catch(() => ({}))) as { message?: string; error?: string };
+        setBusy(false);
+        setAsk(null);
+        setMsg(res.ok ? (action === 'capture' ? 'Cobrado.' : 'Retención liberada.') : json.message ?? json.error ?? 'No se pudo completar.');
+        router.refresh();
+    }
+    return (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+            {ask === null ? (
+                <>
+                    <button type="button" disabled={busy} className={smallBtn} onClick={() => setAsk('capture')}>Cobrar retención</button>
+                    <button type="button" disabled={busy} className={smallBtn} onClick={() => setAsk('release')}>Liberar retención</button>
+                </>
+            ) : (
+                <>
+                    <span className="text-xs text-white">{ask === 'capture' ? `¿Cobrar ${amountText} a la tarjeta?` : '¿Liberar la tarjeta sin cargo?'}</span>
+                    <button type="button" disabled={busy} className={smallBtn} onClick={() => run(ask)}>Sí, confirmar</button>
+                    <button type="button" disabled={busy} className={smallBtn} onClick={() => setAsk(null)}>Cancelar</button>
+                </>
+            )}
+            {msg && <p className="w-full text-xs text-white">{msg}</p>}
+        </div>
     );
 }

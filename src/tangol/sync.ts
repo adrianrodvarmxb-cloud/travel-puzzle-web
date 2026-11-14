@@ -62,7 +62,12 @@ export interface TangolReadApi {
   getDestinations(countryCode: string): Promise<Parsed<{ id: number; name: string; countryCode: string; toursQty: number | null }>>;
   getTourList(p: { destinationId: number; languageCode: number; currency: number; includeDetails?: boolean }): Promise<Parsed<TangolTour>>;
   getTourRates(p: { tourId: number; languageCode: string; currency: string }): Promise<Parameters<typeof summarizeRates>[0]>;
+  /** REQ-10528: detalle de hasta 50 tours (crudo; lo valida `parseTourDetails`). */
+  getTourDetailsList?(p: { tourIds: number[]; languageCode: string; currency: string }): Promise<unknown[]>;
 }
+
+/** REQ-10528: tope de la pasarela por llamada de detalle. */
+export const DETAILS_BATCH = 50;
 
 export interface TangolSyncDeps {
   api: TangolReadApi;
@@ -198,6 +203,22 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
     try {
       const lista = await api.getTourList({ destinationId: destino.id, languageCode, currency, includeDetails: true });
       invalidos += lista.discarded;
+      // REQ-10528: el detalle se pide aparte, de 50 en 50, y se pega por TourId. Si falla, el tour sigue sin detalle.
+      if (api.getTourDetailsList && lista.items.length > 0) {
+        try {
+          const porId = new Map<number, NonNullable<TangolTour["details"]>>();
+          for (let i = 0; i < lista.items.length; i += DETAILS_BATCH) {
+            const ids = lista.items.slice(i, i + DETAILS_BATCH).map((t) => t.tourId);
+            for (const d of await api.getTourDetailsList({ tourIds: ids, languageCode: ratesLanguage, currency: ratesCurrency })) {
+              const id = Number((d as { TourId?: unknown } | null)?.TourId);
+              if (Number.isInteger(id) && d) porId.set(id, d);
+            }
+          }
+          lista.items = lista.items.map((t) => ({ ...t, details: porId.get(t.tourId) ?? t.details }));
+        } catch (e) {
+          errores.push({ donde: `detalle de tours del destino ${destino.id} (${destino.name})`, error: msg(e) });
+        }
+      }
       toursPorDestino.set(destino.id, lista.items);
       // REQ-3505: lo que dice el destino contra lo que llegó en su lista.
       conteos.push({ id: destino.id, name: destino.name, declarados: destino.toursQty, recibidos: lista.items.length, invalidos: lista.discarded });
