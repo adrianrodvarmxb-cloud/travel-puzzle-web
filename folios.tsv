@@ -9059,3 +9059,6 @@ REQ-10644	docs/ola0-ficha-unica	2026-11-14 12:41	ola 0 ficha unica: requisitos s
 REQ-10645	docs/ola0-ficha-unica	2026-11-14 12:41	ola 0 ficha unica: requisitos sin folio (los seis)
 REQ-10646	docs/ola0-ficha-unica	2026-11-14 12:41	ola 0 ficha unica: requisitos sin folio (los seis)
 REQ-10647	test/humo-fichas-proveedores	2026-11-14 12:44	ola 0: fichas de Tangol y FREETOUR de pago en el humo
+REQ-10648	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
+REQ-10649	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
+REQ-10650	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
