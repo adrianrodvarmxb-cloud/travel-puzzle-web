@@ -7,6 +7,7 @@ import { parseDictionary, parseMapping, type Dictionary, type Mapping } from "..
 import rawDictionary from "./dictionary.json";
 import rawFreetour from "./mapping/freetour.json";
 import rawPropios from "./mapping/propios.json";
+import rawTangol from "./mapping/tangol.json";
 import rawExtime from "./mapping/extime.json";
 import rawExoticEscapes from "./mapping/exoticescapes.json";
 import rawBigBus from "./mapping/bigbus.json";
@@ -17,7 +18,7 @@ import rawTurismoAsiatico from "./mapping/turismoasiatico.json";
 
 export const DEFAULT_DICTIONARY: Dictionary = parseDictionary(rawDictionary);
 export const DEFAULT_MAPPINGS: Record<string, Mapping> = Object.fromEntries(
-  [rawFreetour, rawPropios].map((raw) => { const m = parseMapping(raw); return [m.proveedor, m]; }),
+  [rawFreetour, rawPropios, rawTangol].map((raw) => { const m = parseMapping(raw); return [m.proveedor, m]; }),
 );
 
 /**

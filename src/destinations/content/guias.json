@@ -41,7 +41,46 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Paris",
+      "targetTerm": "paris travel guide for mexican travelers",
+      "titulo": "Paris guide: what to know before your first trip",
+      "enBreve": "Paris is best enjoyed with two or three booked visits and the rest of the day free to walk. The Louvre closes on Tuesdays and recommends booking online, according to its [hours and prices page](https://www.louvre.fr/es/visita/horario-y-tarifas). Mexican passport holders don't need a visa for tourism of up to 90 days in a 180-day period, according to the [Embassy of Mexico in Germany](https://embamex.sre.gob.mx/alemania/index.php/es/de-turista-en-alemania).",
+      "sections": [
+        {
+          "h2": "What days and hours is the Louvre open?",
+          "answer": "It opens from 9:00 to 18:00 on Mondays, Thursdays, Saturdays and Sundays, and until 21:00 on Wednesdays and Fridays; it closes on Tuesdays, according to the [Louvre's official page](https://www.louvre.fr/es/visita/horario-y-tarifas).",
+          "body": [
+            "Last admission is one hour before closing, and the museum also closes on 1 January, 1 May and 25 December, says the same [Louvre page](https://www.louvre.fr/es/visita/horario-y-tarifas). For Monday 9 November 2026 it posted a notice: it might open later and only partially.",
+            "If it's your first time, pick one or two galleries you really want to see and leave the rest for another trip: it's a huge museum and it's more enjoyable without rushing."
+          ]
+        },
+        {
+          "h2": "How much is admission and who gets in free?",
+          "answer": "Since 14 January 2026, general admission costs 32 euros for visitors from outside the European Economic Area, according to the [Louvre's prices page](https://www.louvre.fr/es/visita/horario-y-tarifas).",
+          "body": [
+            "Visitors under 18 with ID get in free, and so does everyone on the first Friday of each month from 18:00, except in July and August, explains the same [museum page](https://www.louvre.fr/es/visita/horario-y-tarifas). The museum recommends booking online even if your ticket is free."
+          ]
+        },
+        {
+          "h2": "What do they ask for at the border when you arrive in France?",
+          "answer": "A passport valid for at least three months after you leave the Schengen area and issued within the last ten years, according to the [Embassy of Mexico in Germany](https://embamex.sre.gob.mx/alemania/index.php/es/de-turista-en-alemania).",
+          "body": [
+            "The same [Embassy page](https://embamex.sre.gob.mx/alemania/index.php/es/de-turista-en-alemania) recommends carrying your return ticket and any document that shows your travel plans. Since 10 April 2026, the border records fingerprints and a photo instead of stamping the passport, according to [France's Ministry for Europe and Foreign Affairs](https://www.diplomatie.gouv.fr/en/services-to-foreigners/visiting-france/ees-the-new-european-border-entryexit-system-goes-live-on-10-april-2026)."
+          ]
+        },
+        {
+          "h2": "How should you plan your days in Paris?",
+          "answer": "Combine a ticketed visit in the morning with a walking tour in the afternoon, and leave the evening free to stroll along the river or have dinner without watching the clock.",
+          "body": [
+            "Grouping visits by area saves time and transfers. Book first what has limited capacity or time slots, such as the Louvre, and plan everything else around it.",
+            "On the [Paris page](/destinos/fr/paris) you'll find the experiences you can book with Travel Puzzle. If you'd rather we help you organize your days, write to us and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 7 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "cn",
@@ -86,7 +125,47 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Beijing",
+      "targetTerm": "beijing travel guide",
+      "titulo": "Beijing guide: Forbidden City, Temple of Heaven and Great Wall",
+      "enBreve": "In Beijing it pays to book before you arrive: the Palace Museum, in the Forbidden City, doesn't sell same-day tickets and closes on Mondays except public holidays, according to the [Beijing Municipal Government](https://english.beijing.gov.cn/travellinginbeijing/museums/202603/t20260320_4562527.html). The Temple of Heaven and the Great Wall at Badaling round out a first visit of several days, not counting transfers.",
+      "sections": [
+        {
+          "h2": "How do you visit the Forbidden City?",
+          "answer": "With a ticket bought before the date on the museum's official website or WeChat mini program, because there are no same-day sales; it closes on Mondays except public holidays, according to the [Beijing Municipal Government page](https://english.beijing.gov.cn/travellinginbeijing/museums/202603/t20260320_4562527.html).",
+          "body": [
+            "From 1 November to 31 March the entrance opens at 8:30, last admission is at 15:30 and the ticket costs 40 yuan; from April to October last admission is at 16:10 and the ticket goes up to 60 yuan, details the same [Beijing Government page](https://english.beijing.gov.cn/travellinginbeijing/museums/202603/t20260320_4562527.html).",
+            "The palace was completed in 1420, was home to 24 emperors of the Ming and Qing dynasties and was inscribed by UNESCO as a World Heritage Site in 1987, according to the [same official page](https://english.beijing.gov.cn/travellinginbeijing/museums/202603/t20260320_4562527.html). Allow at least half a day."
+          ]
+        },
+        {
+          "h2": "What is the Temple of Heaven?",
+          "answer": "It's a complex of sacrificial buildings founded in the first half of the 15th century, surrounded by gardens and ancient pines, according to the [UNESCO listing](https://whc.unesco.org/en/list/881/).",
+          "body": [
+            "[UNESCO](https://whc.unesco.org/en/list/881/) explains that its layout and buildings represent the relationship between earth and heaven, and the emperor's role in it; the site covers 273 hectares.",
+            "If you arrive early, you can walk around the park calmly before the day gets crowded."
+          ]
+        },
+        {
+          "h2": "How do you visit the Great Wall at Badaling?",
+          "answer": "Badaling is about 60 kilometers northwest of Beijing and doesn't require a reservation: tickets are sold on site, according to the [official Badaling listing](https://english.beijing.gov.cn/specials/ticketing/attractions/202407/t20240717_3751609.html).",
+          "body": [
+            "From November to March it opens from 7:30 to 16:00 and an adult ticket costs 35 yuan; from April to October it opens from 6:30 to 16:30 and costs 40 yuan, according to the same [Beijing Government listing](https://english.beijing.gov.cn/specials/ticketing/attractions/202407/t20240717_3751609.html). Visitors under 18 and over 60 get in free with ID. Check these details shortly before your visit, because the page dates from July 2024.",
+            "A day trip with transfer included saves time on connections and leaves more hours to walk the wall."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Beijing with Travel Puzzle?",
+          "answer": "On the [Beijing page](/destinos/cn/pekin) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "If you want to combine Beijing with other cities in the country, take a look at [China](/destinos/cn). Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 7 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "cn",
@@ -130,7 +209,46 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Shanghai",
+      "targetTerm": "shanghai travel guide",
+      "titulo": "Shanghai guide: the Bund, Yuyuan Garden and the Shanghai Museum",
+      "enBreve": "Shanghai makes sense in three stops: the Bund waterfront, the Ming-dynasty Yuyuan Garden and the Shanghai Museum, which since 1 September 2025 no longer requires reservations for individual visitors, according to the [Shanghai Government](https://english.shanghai.gov.cn/en-EditorsPick-travelinshanghai/20250828/e77b240fab254a3db8fbadec14645a9d.html). With a Mexican passport you can use the 240-hour visa-free transit if you continue to a third country.",
+      "sections": [
+        {
+          "h2": "Can I enter Shanghai without a visa on a Mexican passport?",
+          "answer": "Only in transit: Mexico is on the list for the 240-hour visa-free transit, which requires a confirmed ticket to a third country or region, according to the [Shanghai Government](https://english.shanghai.gov.cn/en-Individuals-ImmigrationandVisas-Visa-freepolicies/20260709/d70a1231ba4641ff9a024e53751ad480.html), on a page updated in August 2026.",
+          "body": [
+            "Pudong and Hongqiao airports are among the program's ports of entry; your passport must be valid for more than three months on arrival and you fill in a transit card, explains [China Briefing](https://china-briefing.com/news/china-upgrades-144-hour-visa-free-transit-to-10-day-stay-adds-21-ports). The same article warns that some airlines have refused boarding because they didn't know the rule, so confirm it with yours.",
+            "To work, study or do journalism you need the corresponding visa, clarifies the [Shanghai Government](https://english.shanghai.gov.cn/en-Individuals-ImmigrationandVisas-Visa-freepolicies/20260709/d70a1231ba4641ff9a024e53751ad480.html)."
+          ]
+        },
+        {
+          "h2": "What is the Bund?",
+          "answer": "It's a 1.5-kilometer waterfront and protected historic area in the city center, with 52 Gothic and Baroque buildings that housed banks and trading houses, according to the [Shanghai Government](https://english.shanghai.gov.cn/en-ScenicSpots/20231205/584672cc6d044eabb5f7f6fc9049a19f.html).",
+          "body": [
+            "The buildings stand on the west bank of the Huangpu River, says the same [official page](https://english.shanghai.gov.cn/en-ScenicSpots/20231205/584672cc6d044eabb5f7f6fc9049a19f.html). Walking it by day and coming back at night are two different outings."
+          ]
+        },
+        {
+          "h2": "What is Yuyuan Garden?",
+          "answer": "It's a garden that began as a private garden during the Ming dynasty and stands at 168 Fuyou Road, in Huangpu District, according to the [Shanghai Government](https://english.shanghai.gov.cn/en-ScenicSpots/20231205/dc76893b94c248d195eaf7f4d44c6597.html).",
+          "body": [
+            "It's close to the Bund, so you can combine both in the same afternoon on foot."
+          ]
+        },
+        {
+          "h2": "When is the Shanghai Museum open?",
+          "answer": "The People's Square site opens from 9:00 to 17:00 and closes on Mondays; the East site, in Pudong, opens from 10:00 to 18:00 and closes on Tuesdays, according to the [Shanghai Government guide](https://english.shanghai.gov.cn/en-EditorsPick-travelinshanghai/20250828/e77b240fab254a3db8fbadec14645a9d.html) from August 2025.",
+          "body": [
+            "You enter both with your passport, and in peak seasons or for very popular exhibitions the People's Square site may require a reservation with a QR code, explains the same [official guide](https://english.shanghai.gov.cn/en-EditorsPick-travelinshanghai/20250828/e77b240fab254a3db8fbadec14645a9d.html).",
+            "On the [Shanghai page](/destinos/cn/shanghai) you'll find the experiences you can book with Travel Puzzle; if you add it to a trip around [China](/destinos/cn), we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 7 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "pe",
@@ -173,7 +291,45 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio. Algunas fuentes son de 2023 y 2024; lo indicamos junto a cada dato."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio. Algunas fuentes son de 2023 y 2024; lo indicamos junto a cada dato.",
+    "en": {
+      "nombre": "Cusco",
+      "targetTerm": "cusco travel guide",
+      "titulo": "Cusco guide: Qoricancha, Sacsayhuamán and the Tourist Ticket",
+      "enBreve": "Cusco was the capital of the Inca empire and today blends Inca walls with colonial churches and mansions, at about 3,400 meters above sea level, according to [UNESCO](https://whc.unesco.org/en/list/273/). For Sacsayhuamán and other nearby sites you need the Tourist Ticket; the general one costs 130 soles for adults, according to [Agencia Andina](https://andina.pe/agencia/noticia-sacsayhuaman-aprecia-este-portento-monumental-inca-y-patrimonio-cultural-de-nacion-968223.aspx) in a January 2024 article.",
+      "sections": [
+        {
+          "h2": "What makes Cusco's historic center special?",
+          "answer": "It keeps the Inca street layout, with colonial churches, convents and mansions built on top of it, according to [UNESCO](https://whc.unesco.org/en/list/273/).",
+          "body": [
+            "[UNESCO](https://whc.unesco.org/en/list/273/) notes that the city was the capital of Tawantinsuyu under Pachacútec in the 15th century and that ruins of the Temple of the Sun, the Qoricancha, survive. The city sits at about 3,400 meters above sea level, so it's wise to take the first day slowly."
+          ]
+        },
+        {
+          "h2": "How does the Cusco Tourist Ticket work?",
+          "answer": "The general ticket gives access to 14 sites and cost 130 soles for adults and 70 for students and children; the partial one, valid for one day, 70 and 40 soles, according to [Agencia Andina](https://andina.pe/agencia/noticia-sacsayhuaman-aprecia-este-portento-monumental-inca-y-patrimonio-cultural-de-nacion-968223.aspx), in an article published in January 2024.",
+          "body": [
+            "It's sold by Cosituc, a non-profit institution, and the revenue funds heritage conservation, explains another [Agencia Andina article](https://andina.pe/agencia/noticia-viajas-a-cusco-conoce-lugares-interes-puedes-visitar-la-ciudad-imperial-944524.aspx) from June 2023. Check the current prices before buying, because these articles aren't recent."
+          ]
+        },
+        {
+          "h2": "When can you visit Sacsayhuamán?",
+          "answer": "It opens Monday to Sunday from 7:00 to 17:30 and is about 2 kilometers north of central Cusco, according to [Agencia Andina](https://andina.pe/agencia/noticia-sacsayhuaman-aprecia-este-portento-monumental-inca-y-patrimonio-cultural-de-nacion-968223.aspx).",
+          "body": [
+            "The archaeological park covers 2,997 hectares and 96 sites, and every 24 June it hosts Inti Raymi, details the same [Andina article](https://andina.pe/agencia/noticia-sacsayhuaman-aprecia-este-portento-monumental-inca-y-patrimonio-cultural-de-nacion-968223.aspx). If you travel on that date, book your accommodation early."
+          ]
+        },
+        {
+          "h2": "What can you see for free in Cusco?",
+          "answer": "The Plaza de Armas, the San Pedro, San Blas and Wanchaq markets, the twelve-angled stone and the Cristo Blanco viewpoint don't charge admission, according to [Agencia Andina](https://andina.pe/agencia/noticia-viajas-a-cusco-conoce-lugares-interes-puedes-visitar-la-ciudad-imperial-944524.aspx).",
+          "body": [
+            "The same [Andina article](https://andina.pe/agencia/noticia-viajas-a-cusco-conoce-lugares-interes-puedes-visitar-la-ciudad-imperial-944524.aspx) lists the hours of the Qoricancha Site Museum, included in the Tourist Ticket: Monday to Saturday from 9:00 to 18:00 and Sunday from 9:00 to 12:00.",
+            "On the [Cusco page](/destinos/pe/cusco) you'll find the experiences you can book with Travel Puzzle; if you want to add Machu Picchu and Lima, take a look at [Peru](/destinos/pe) and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 7 November 2026) and the site's catalog. Some sources are from 2023 and 2024; we note it next to each fact."
+    }
   },
   {
     "pais": "cn",
@@ -215,7 +371,44 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio. Algunas fuentes son de 2023 y 2024; lo indicamos junto a cada dato."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 7 de noviembre de 2026) y del catálogo del sitio. Algunas fuentes son de 2023 y 2024; lo indicamos junto a cada dato.",
+    "en": {
+      "nombre": "Guilin",
+      "targetTerm": "guilin travel guide",
+      "titulo": "Guilin guide: karst mountains, the airport and visa-free transit",
+      "enBreve": "Guilin is famous for its tower- and cone-shaped limestone mountains: the Guilin karst has been part of UNESCO's World Heritage since 2014, according to [UNESCO](https://whc.unesco.org/en/list/1248/). Its airport is among the ports for the 240-hour visa-free transit, which Mexicans can use, according to [China Briefing](https://china-briefing.com/news/china-upgrades-144-hour-visa-free-transit-to-10-day-stay-adds-21-ports).",
+      "sections": [
+        {
+          "h2": "Why is Guilin's landscape a World Heritage Site?",
+          "answer": "Because it's the best-known example of continental tower karst, with rock towers and cones side by side in a low basin, according to [UNESCO](https://whc.unesco.org/en/list/1248/).",
+          "body": [
+            "The Guilin karst is in Guangxi province, within Lijiang National Park, and joined the list in 2014 as part of the South China Karst site, explains the [UNESCO listing](https://whc.unesco.org/en/list/1248/). The full site spans four provinces: Guizhou, Guangxi, Yunnan and Chongqing."
+          ]
+        },
+        {
+          "h2": "How do you get from the airport to the city?",
+          "answer": "Liangjiang International Airport is about 28 kilometers southwest of the center and the drive along the expressway takes about 30 minutes, according to [China Services Info](https://www.chinaservicesinfo.com/s/202308/14/WS66b1d06a498ed2d7b7eb5fe0/guilin-liangjiang-international-airport.html), in an August 2023 article.",
+          "body": [
+            "If you arrive at night, it's best to have your hotel transfer sorted before you land."
+          ]
+        },
+        {
+          "h2": "Can I visit Guilin without a visa on a Mexican passport?",
+          "answer": "Yes, in transit: Mexico is among the countries eligible for the 240-hour visa-free transit, which requires a confirmed ticket to a third country, according to the [Shanghai Government](https://english.shanghai.gov.cn/en-Individuals-ImmigrationandVisas-Visa-freepolicies/20260709/d70a1231ba4641ff9a024e53751ad480.html).",
+          "body": [
+            "Guilin airport is listed as a port of the program and Guilin is among the cities in Guangxi where the stay is allowed, according to [China Briefing](https://china-briefing.com/news/china-upgrades-144-hour-visa-free-transit-to-10-day-stay-adds-21-ports). Your passport must be valid for more than three months on arrival. Confirm with your airline before flying: the same article warns that some have refused boarding because they didn't know the rule."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Guilin with Travel Puzzle?",
+          "answer": "On the [Guilin page](/destinos/cn/guilin) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "Guilin pairs well with Beijing and Shanghai on the same trip around [China](/destinos/cn). Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 7 November 2026) and the site's catalog. Some sources are from 2023 and 2024; we note it next to each fact."
+    }
   },
   {
     "pais": "in",
@@ -258,7 +451,45 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. La página oficial de horarios del Taj Mahal no muestra fecha de actualización."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. La página oficial de horarios del Taj Mahal no muestra fecha de actualización.",
+    "en": {
+      "nombre": "Agra",
+      "targetTerm": "agra travel guide for mexican travelers",
+      "titulo": "Agra guide: how to plan your visit to the Taj Mahal",
+      "enBreve": "Agra revolves around the Taj Mahal, so the day of the week matters: it closes on Fridays and opens half an hour before sunrise, according to its [official visiting hours page](https://tajmahal.gov.in/visiting-hours.aspx). For a foreign visitor admission costs Rs 1,100, plus Rs 200 if you want to enter the mausoleum, says the same page. Plan your visit for a day other than Friday and arrive early.",
+      "sections": [
+        {
+          "h2": "What days and times is the Taj Mahal open?",
+          "answer": "It opens 30 minutes before sunrise and closes 30 minutes before sunset, and it's closed to the public on Fridays, according to the [Taj Mahal's official visiting hours page](https://tajmahal.gov.in/visiting-hours.aspx).",
+          "body": [
+            "The ticket counters work from one hour before sunrise until 45 minutes before sunset, explains the same [Taj Mahal page](https://tajmahal.gov.in/visiting-hours.aspx). If your itinerary goes through Agra on a Friday, change the order of the cities so you don't miss the main visit."
+          ]
+        },
+        {
+          "h2": "How much is admission for a foreign tourist?",
+          "answer": "Rs 1,100 for general admission and an optional Rs 200 extra to enter the main mausoleum, according to the [official ticket table](https://tajmahal.gov.in/visiting-hours.aspx).",
+          "body": [
+            "If you buy online, each foreigner ticket has a Rs 50 discount, and children under 15 get in free, says the same [official page](https://tajmahal.gov.in/visiting-hours.aspx).",
+            "With the Agra authority toll ticket paid together with the Taj Mahal ticket, a foreign visitor can enter Agra Fort, Fatehpur Sikri, Akbar's tomb and Itimad-ud-Daulah's tomb on the same day without buying other tolls, according to the [Archaeological Survey of India](https://asi.nic.in/pages/WorldHeritageAgra). Keep that ticket all day."
+          ]
+        },
+        {
+          "h2": "Who built the Taj Mahal and how long did it take?",
+          "answer": "It was commissioned by the Mughal emperor Shah Jahan in memory of his wife Mumtaz Mahal, and the complex took 17 years until it was finished in 1648, according to the [Archaeological Survey of India](https://asi.nic.in/pages/WorldHeritageAgra).",
+          "body": [
+            "Shah Jahan reigned from 1628 to 1658 and is also buried there, explains the same [Archaeological Survey page](https://asi.nic.in/pages/WorldHeritageAgra). Knowing this before you go in changes what you look at: it's a mausoleum, not a palace, and it's visited in silence."
+          ]
+        },
+        {
+          "h2": "How does Agra fit into a trip around northern India?",
+          "answer": "It's usually the last stop on the Delhi, Jaipur and Agra route, as on the [«Golden Triangle: Delhi, Jaipur and Agra»](/destinos/in/delhi/triangulo-de-oro-delhi-jaipur-y-agra-exe-in-c07-001) circuit, 7 days and from MXN $11,067 · USD $594.",
+          "body": [
+            "That circuit also stops at Fatehpur Sikri before reaching Agra, according to its [listing](/destinos/in/delhi/triangulo-de-oro-delhi-jaipur-y-agra-exe-in-c07-001). You can see what else there is in the city on the [Agra](/destinos/in/agra) page."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 8 November 2026) and the site's catalog. The Taj Mahal's official visiting hours page doesn't show an update date."
+    }
   },
   {
     "pais": "in",
@@ -301,7 +532,45 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. La ficha de la UNESCO y la página de turismo de Delhi no muestran horarios ni precios, por eso esta guía no los incluye."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. La ficha de la UNESCO y la página de turismo de Delhi no muestran horarios ni precios, por eso esta guía no los incluye.",
+    "en": {
+      "nombre": "Delhi",
+      "targetTerm": "delhi travel guide for mexican travelers",
+      "titulo": "Delhi guide: its three World Heritage monuments",
+      "enBreve": "Delhi has three monuments inscribed as World Heritage Sites: Humayun's Tomb, the Qutab Minar and the Red Fort, according to [Delhi's tourism department](https://delhitourism.gov.in/heritage/world_heritage_monuments.html). If you're short on time, start with Humayun's Tomb: UNESCO describes it as the first garden-tomb on the subcontinent and a forerunner of the Taj Mahal, in its [site listing](https://whc.unesco.org/en/list/232).",
+      "sections": [
+        {
+          "h2": "Which Delhi monuments are World Heritage Sites?",
+          "answer": "Humayun's Tomb, the Qutab Minar and the Red Fort, according to the [Delhi tourism world heritage page](https://delhitourism.gov.in/heritage/world_heritage_monuments.html).",
+          "body": [
+            "The same [Delhi tourism page](https://delhitourism.gov.in/heritage/world_heritage_monuments.html) dates Humayun's Tomb to 1570, the Qutab Minar to the early 13th century and the Red Fort's walls to 1638. They're in different parts of the city, so it's best to group them by area and not try all three in a rush."
+          ]
+        },
+        {
+          "h2": "Why is Humayun's Tomb a good first visit?",
+          "answer": "Because it was the first garden-tomb on the Indian subcontinent and opened the path that ended in the Taj Mahal, according to [UNESCO](https://whc.unesco.org/en/list/232).",
+          "body": [
+            "The mausoleum stands on a terraced platform and is crowned by a double dome of about 42.5 meters, describes the [UNESCO listing](https://whc.unesco.org/en/list/232). The complex covers 27.04 hectares and includes other 16th-century Mughal tombs with gardens, according to the same [listing](https://whc.unesco.org/en/list/232).",
+            "If you're going to Agra afterwards, seeing it first helps you recognize in the Taj Mahal the ideas that started here: the garden divided into four and the tomb at the center."
+          ]
+        },
+        {
+          "h2": "How tall is the Qutab Minar?",
+          "answer": "The red sandstone tower is 72.5 meters tall, according to [Delhi tourism](https://delhitourism.gov.in/heritage/world_heritage_monuments.html).",
+          "body": [
+            "It dates from the 13th century, says the same [Delhi tourism page](https://delhitourism.gov.in/heritage/world_heritage_monuments.html). It's in the south of the city; if you're on a circuit, check the listing to see which day it's visited."
+          ]
+        },
+        {
+          "h2": "How do you visit Delhi as part of a circuit?",
+          "answer": "The circuits in the catalog usually start in Delhi; the [«Golden Triangle: Delhi, Jaipur and Agra»](/destinos/in/delhi/triangulo-de-oro-delhi-jaipur-y-agra-exe-in-c07-001) lasts 7 days and starts from MXN $11,067 · USD $594.",
+          "body": [
+            "Its visits include Old Delhi by rickshaw and the Qutub Minar, according to its [listing](/destinos/in/delhi/triangulo-de-oro-delhi-jaipur-y-agra-exe-in-c07-001). On the [Delhi](/destinos/in/delhi) page you can compare routes that add Varanasi or Rajasthan."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 8 November 2026) and the site's catalog. The UNESCO listing and the Delhi tourism page don't show opening hours or prices, so this guide doesn't include them."
+    }
   },
   {
     "pais": "in",
@@ -343,7 +612,44 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. Los precios de 2026 salen de una nota de prensa local que cita la gaceta oficial del Rajastán; no consultamos la gaceta directamente."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. Los precios de 2026 salen de una nota de prensa local que cita la gaceta oficial del Rajastán; no consultamos la gaceta directamente.",
+    "en": {
+      "nombre": "Jaipur",
+      "targetTerm": "jaipur travel guide for mexican travelers",
+      "titulo": "Jaipur guide: the Pink City and its tickets for 2026",
+      "enBreve": "Jaipur has been a World Heritage Site since 2019 as an 18th-century city, according to the [Government of India portal](https://indbiz.gov.in/india-gets-38th-unesco-world-heritage-site). Since 1 January 2026, Amber Fort costs Rs 1,000 for foreign tourists and there's a Rs 5,500 pass for Rajasthan's monuments, reports [Pink City Post](https://www.pinkcitypost.com/visiting-jaipurs-heritage-sites-to-cost-more-from-jan-1-what-tourists-should-know/). If you'll see several, do the math first.",
+      "sections": [
+        {
+          "h2": "Why is Jaipur a World Heritage Site?",
+          "answer": "UNESCO inscribed it at its 43rd session, in Baku, as an exemplary 18th-century city in India, according to the [Government of India portal](https://indbiz.gov.in/india-gets-38th-unesco-world-heritage-site).",
+          "body": [
+            "The [official portal](https://indbiz.gov.in/india-gets-38th-unesco-world-heritage-site) article, from 6 July 2019, presents it as India's 38th World Heritage Site. Walking through the walled city is part of the visit, not just the way between monuments."
+          ]
+        },
+        {
+          "h2": "How much do Jaipur's monuments cost for foreigners in 2026?",
+          "answer": "Since 1 January 2026, Amber Fort costs Rs 1,000 and the Hawa Mahal and Jantar Mantar Rs 600 each for foreign tourists, according to [Pink City Post](https://www.pinkcitypost.com/visiting-jaipurs-heritage-sites-to-cost-more-from-jan-1-what-tourists-should-know/).",
+          "body": [
+            "Each one used to cost Rs 300, and the change was published by Rajasthan's Department of Archaeology and Museums in the state's official gazette, explains the same [article from 29 December 2025](https://www.pinkcitypost.com/visiting-jaipurs-heritage-sites-to-cost-more-from-jan-1-what-tourists-should-know/). Confirm the price at the ticket office on the day of your visit."
+          ]
+        },
+        {
+          "h2": "Is Rajasthan's composite pass worth it?",
+          "answer": "If you're going to several sites, maybe: it costs Rs 5,500, lasts 10 days and covers the monuments, museums and galleries run by the state of Rajasthan, according to [Pink City Post](https://www.pinkcitypost.com/visiting-jaipurs-heritage-sites-to-cost-more-from-jan-1-what-tourists-should-know/).",
+          "body": [
+            "With the prices in the same [article](https://www.pinkcitypost.com/visiting-jaipurs-heritage-sites-to-cost-more-from-jan-1-what-tourists-should-know/), Amber Fort, Hawa Mahal and Jantar Mantar add up to Rs 2,200; the pass pays off if your route includes more cities in Rajasthan. If you're on a circuit, first check which admissions it already includes."
+          ]
+        },
+        {
+          "h2": "How do you visit Jaipur as part of a circuit?",
+          "answer": "The [«Golden Triangle: Delhi, Jaipur and Agra»](/destinos/in/delhi/triangulo-de-oro-delhi-jaipur-y-agra-exe-in-c07-001) circuit, 7 days and from MXN $11,067 · USD $594, includes Amber Fort and the City Palace.",
+          "body": [
+            "The route reaches Jaipur after Delhi and continues to Agra, according to its [listing](/destinos/in/delhi/triangulo-de-oro-delhi-jaipur-y-agra-exe-in-c07-001). On the [Jaipur](/destinos/in/jaipur) page you'll find the other options that go through the city."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 8 November 2026) and the site's catalog. The 2026 prices come from a local press article that cites Rajasthan's official gazette; we didn't check the gazette directly."
+    }
   },
   {
     "pais": "cn",
@@ -385,7 +691,44 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. La página del Gobierno de Hangzhou se actualizó en marzo de 2021 y la nota de la UNESCO es de junio de 2011."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. La página del Gobierno de Hangzhou se actualizó en marzo de 2021 y la nota de la UNESCO es de junio de 2011.",
+    "en": {
+      "nombre": "Hangzhou",
+      "targetTerm": "hangzhou travel guide for mexican travelers",
+      "titulo": "Hangzhou guide: how to explore West Lake",
+      "enBreve": "In Hangzhou the plan revolves around West Lake, a World Heritage Site since 2011 according to [UNESCO](https://whc.unesco.org/en/news/767). Entry to the lake is free and each point of interest has its own hours, explains the [Hangzhou Government portal](https://www.ehangzhou.gov.cn/2021-03/22/c_276590.htm). Allow time to walk its causeways and choose one or two of its classic views depending on the time of day.",
+      "sections": [
+        {
+          "h2": "Why is West Lake a World Heritage Site?",
+          "answer": "Because since the 9th century it has inspired poets, scholars and artists, and its landscape influenced garden design in China, Japan and Korea, according to [UNESCO](https://whc.unesco.org/en/news/767).",
+          "body": [
+            "The site covers the lake and the hills that surround it on three sides, with temples, pagodas, pavilions, gardens, causeways and artificial islands, describes [UNESCO's June 2011 news item](https://whc.unesco.org/en/news/767). In other words: it's not a monument you see in an hour, but a landscape you explore."
+          ]
+        },
+        {
+          "h2": "How much does it cost to visit West Lake?",
+          "answer": "Entry to the lake is free, according to the [Hangzhou Government portal](https://www.ehangzhou.gov.cn/2021-03/22/c_276590.htm).",
+          "body": [
+            "The same [portal](https://www.ehangzhou.gov.cn/2021-03/22/c_276590.htm) points out that each spot opens at different times; if you want to go into a particular temple, pagoda or garden, check its hours before heading out. That page was updated in March 2021."
+          ]
+        },
+        {
+          "h2": "What are the Ten Scenes of West Lake?",
+          "answer": "They're the lake's classic views; among them, the Su Causeway, snow on the Broken Bridge, Leifeng Pagoda at sunset and the Three Pools Mirroring the Moon, according to the [Hangzhou Government portal](https://www.ehangzhou.gov.cn/2021-03/22/c_276590.htm).",
+          "body": [
+            "Several are tied to a time of day or a season: Leifeng Pagoda is named for the sunset and the Broken Bridge for the snow, says the same [portal](https://www.ehangzhou.gov.cn/2021-03/22/c_276590.htm). Use that idea to plan your day: leave the pagoda for the late afternoon."
+          ]
+        },
+        {
+          "h2": "How does Hangzhou fit into a trip around China?",
+          "answer": "Hangzhou appears on several circuits in the catalog that also go through Beijing and Shanghai; you can see the options on the [Hangzhou](/destinos/cn/hangzhou) page.",
+          "body": [
+            "If it's your first trip to China, also look at the [trips to China](/destinos/cn) in the catalog to sort out dates and cities before choosing a route."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 8 November 2026) and the site's catalog. The Hangzhou Government page was updated in March 2021 and the UNESCO news item is from June 2011."
+    }
   },
   {
     "pais": "co",
@@ -428,7 +771,45 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. Las tarifas de Monserrate y del Museo del Oro salen de páginas de la Alcaldía publicadas en 2025."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 8 de noviembre de 2026) y del catálogo del sitio. Las tarifas de Monserrate y del Museo del Oro salen de páginas de la Alcaldía publicadas en 2025.",
+    "en": {
+      "nombre": "Bogotá",
+      "targetTerm": "bogota travel guide for mexican travelers",
+      "titulo": "Bogotá guide: Gold Museum, Monserrate and entry requirements",
+      "enBreve": "With a Mexican passport you don't need a visa to travel to Colombia as a tourist for up to 90 days, according to the [SRE travel guide](https://portales.sre.gob.mx/guiadeviaje/103-ficha-de-paises/255-colombia). In Bogotá, the Gold Museum is free on Sundays and closes on Mondays, according to the [Bogotá City Hall](https://bogota.gov.co/que-hacer/cultura/planes-en-bogota-visita-el-museo-del-oro-durante-el-2025). Plan your week around those two facts and save Monserrate for a clear day.",
+      "sections": [
+        {
+          "h2": "What do you need to enter Colombia on a Mexican passport?",
+          "answer": "No visa is required for tourism of up to 90 days, extendable for another 90 up to 180 days per calendar year, according to the [SRE travel guide](https://portales.sre.gob.mx/guiadeviaje/103-ficha-de-paises/255-colombia).",
+          "body": [
+            "The same [SRE guide](https://portales.sre.gob.mx/guiadeviaje/103-ficha-de-paises/255-colombia) recommends carrying a return ticket, showing sufficient funds and traveling with medical insurance, and warns that immigration may authorize fewer days."
+          ]
+        },
+        {
+          "h2": "What are the Gold Museum's hours and price?",
+          "answer": "It opens Tuesday to Saturday from 9:00 to 19:00 and on Sundays and public holidays from 10:00 to 17:00, with admission at 5,000 Colombian pesos, according to the [Bogotá City Hall](https://bogota.gov.co/que-hacer/cultura/planes-en-bogota-visita-el-museo-del-oro-durante-el-2025).",
+          "body": [
+            "On Sundays admission is free for everyone, and on any day children under 12 and adults over 60 get in free, says the same [City Hall page](https://bogota.gov.co/que-hacer/cultura/planes-en-bogota-visita-el-museo-del-oro-durante-el-2025). The museum closes on Mondays, including when they're public holidays.",
+            "It's at Carrera Sexta #15-88, in La Candelaria, according to the same [page](https://bogota.gov.co/que-hacer/cultura/planes-en-bogota-visita-el-museo-del-oro-durante-el-2025); you can combine it with a walk around the historic center."
+          ]
+        },
+        {
+          "h2": "How do you go up Monserrate and how much does it cost?",
+          "answer": "By cable car or funicular, Monday to Saturday from 6:30 to 22:00 and on Sundays from 5:30 to 18:00, with a round-trip ticket of 32,000 Colombian pesos on weekdays, according to the [Bogotá City Hall](https://bogota.gov.co/mi-ciudad/cultura-recreacion-y-deporte/semana-santa-bogota-conoce-horarios-de-monserrate-y-tarifas-teleferico).",
+          "body": [
+            "Those are 2025 prices: on Sundays the round trip dropped to 19,000 Colombian pesos, according to the same [City Hall article](https://bogota.gov.co/mi-ciudad/cultura-recreacion-y-deporte/semana-santa-bogota-conoce-horarios-de-monserrate-y-tarifas-teleferico), which recommends confirming the current price with the operator before going."
+          ]
+        },
+        {
+          "h2": "How do you visit Bogotá as part of a circuit around Colombia?",
+          "answer": "The [«Essential Colombia: Bogotá, Medellín and Cartagena, 8 days»](/destinos/co/bogota/colombia-esencial-bogota-medellin-y-cartagena-8-dias-dco-co-c08-001) circuit, from MXN $14,979 · USD $804, includes Monserrate, the Gold Museum and La Candelaria.",
+          "body": [
+            "On the [Bogotá](/destinos/co/bogota) page you can compare other routes that leave the capital for the Coffee Region or the Caribbean."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 8 November 2026) and the site's catalog. The Monserrate and Gold Museum prices come from City Hall pages published in 2025."
+    }
   },
   {
     "author": "editorial",
@@ -474,7 +855,48 @@
           "En la [página de Chengdu](/destinos/cn/chengdu) están las experiencias que puedes reservar con Travel Puzzle."
         ]
       }
-    ]
+    ],
+    "en": {
+      "nombre": "Chengdu",
+      "targetTerm": "chengdu travel guide for mexican travelers",
+      "titulo": "Chengdu guide: the panda base and how to book it",
+      "enBreve": "Chengdu, in China's Sichuan province according to [China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html), is a starting point for seeing giant pandas. The Chengdu Research Base of Giant Panda Breeding doesn't sell tickets at the gate: they're booked online in advance, according to its [official tickets page](https://www.panda.org.cn/en/pandavalley/tickets/). Book the base as the first piece of your day and leave the afternoon free to explore the city calmly.",
+      "sections": [
+        {
+          "h2": "How do you book a visit to the panda base?",
+          "answer": "Only online: the base has no ticket office and bookings are made in advance, according to the [official tickets page](https://www.panda.org.cn/en/pandavalley/tickets/).",
+          "body": [
+            "The official page says bookings are made through its official WeChat account, that you have to enter each visitor's details and complete payment for the booking to be confirmed, according to the [same page](https://www.panda.org.cn/en/pandavalley/tickets/).",
+            "At the entrance they scan the original document you booked with or the ticket's QR code, and refunds are requested from the orders section before the visit, says the [same page](https://www.panda.org.cn/en/pandavalley/tickets/). Children under 6 or under 1.3 meters tall get in without booking, according to the [visitor services page](https://www.panda.org.cn/en/service/ticket/)."
+          ]
+        },
+        {
+          "h2": "What time should you arrive?",
+          "answer": "Opening hours change between high and low season, and the official pages don't agree on every detail, so confirm them before leaving your hotel.",
+          "body": [
+            "From May to October, according to the [official tickets page](https://www.panda.org.cn/en/pandavalley/tickets/), high-season entry slots run until before 17:00. From November to April the slots end earlier, around 16:30, so in autumn and winter it's best to plan the morning for the pandas.",
+            "The [visitor services page](https://www.panda.org.cn/en/service/ticket/) lists morning and afternoon entry times, which confirms that bookings work in time slots. Check the slot shown on your confirmation."
+          ]
+        },
+        {
+          "h2": "What is the base and what do you see inside?",
+          "answer": "It's a research and breeding center that recreates the pandas' natural environment, according to [China Daily](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html).",
+          "body": [
+            "The Chinese government article describes how the base simulates the pandas' wild habitat, according to the [same China Daily page](https://govt.chinadaily.com.cn/s/202001/08/WS5e157db9498e1ed196a6bc4f/chengdu-research-base-of-giant-panda-breeding.html).",
+            "Allow at least half a morning for the visit, because the route has several areas and it's best to arrive with time to walk them without rushing."
+          ]
+        },
+        {
+          "h2": "How should you plan the rest of the day in Chengdu?",
+          "answer": "Book the base first, because it's the one that depends on capacity, and plan everything else around that time.",
+          "body": [
+            "After the base, the afternoon can go to walking around the center and eating at a relaxed pace. If you'd like us to help you organize your days, write to us and we'll put your trip together.",
+            "On the [Chengdu page](/destinos/cn/chengdu) you'll find the experiences you can book with Travel Puzzle."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 9 November 2026) and the site's catalog."
+    }
   },
   {
     "author": "editorial",
@@ -519,7 +941,47 @@
           "En la [página de Lima](/destinos/pe/lima) encuentras las experiencias que puedes reservar con Travel Puzzle. Si prefieres que te ayudemos a ordenar los días, escríbenos con tus fechas y te armamos tu viaje."
         ]
       }
-    ]
+    ],
+    "en": {
+      "nombre": "Lima",
+      "targetTerm": "lima travel guide for mexican travelers",
+      "titulo": "Lima guide: the historic center and how to explore it",
+      "enBreve": "Lima was founded by Francisco Pizarro in January 1535, according to the [article on its historic center](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima). UNESCO inscribed that center as a World Heritage Site in 1988, in its [official listing](https://whc.unesco.org/en/list/500). Spend a morning on the squares and churches and leave the afternoon to walk through the neighborhoods without rushing.",
+      "sections": [
+        {
+          "h2": "Why is Lima's historic center special?",
+          "answer": "Because UNESCO declared it a World Heritage Site in 1988, according to its [official listing](https://whc.unesco.org/en/list/500) and the [article on the historic center](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+          "body": [
+            "The same article says the central area covers about 278 hectares and lies in the districts of Lima and Rímac, according to the [historic center page](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+            "According to the same page, Lima's balconies are part of the walk through the center, so it's worth looking up as you walk the streets."
+          ]
+        },
+        {
+          "h2": "What should you see in the Plaza Mayor?",
+          "answer": "The Plaza Mayor is the natural starting point for the walk, and Lima Cathedral stands on it, according to the [historic center page](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima).",
+          "body": [
+            "From the square it's easy to walk to Plaza San Martín and to the area around the University of San Marcos, which the same [article](https://es.wikipedia.org/wiki/Centro_hist%C3%B3rico_de_Lima) also includes within the historic center.",
+            "Set aside an hour for the cathedral and the area around the square; the rest of the walk can follow side streets with fewer people."
+          ]
+        },
+        {
+          "h2": "How do you organize the visit without wearing yourself out?",
+          "answer": "Split the center into two mornings: one for squares and churches and another for the nearby neighborhoods, instead of trying to see it all in one day.",
+          "body": [
+            "Starting early lets you enjoy the squares more calmly and take photos with fewer people around.",
+            "Wear comfortable shoes, because the walk through the center is long and it's worth taking breaks in the squares."
+          ]
+        },
+        {
+          "h2": "What can you do after the center?",
+          "answer": "The experiences in the city that you can book with Travel Puzzle are on the Lima page.",
+          "body": [
+            "On the [Lima page](/destinos/pe/lima) you'll find the experiences you can book with Travel Puzzle. If you'd rather we help you organize your days, write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 9 November 2026) and the site's catalog."
+    }
   },
   {
     "author": "editorial",
@@ -564,7 +1026,47 @@
           "En la [página de Arequipa](/destinos/pe/arequipa) encuentras las experiencias que puedes reservar con Travel Puzzle. Escríbenos con tus fechas si quieres que armemos tu viaje."
         ]
       }
-    ]
+    ],
+    "en": {
+      "nombre": "Arequipa",
+      "targetTerm": "arequipa travel guide for mexican travelers",
+      "titulo": "Arequipa guide: Santa Catalina Monastery and the city center",
+      "enBreve": "In Arequipa, Santa Catalina Monastery is the visit that deserves the most time. According to [Andina, Peru's news agency](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx), the complex works like a citadel inside the city. Set aside the morning for the monastery and leave the afternoon to walk around the center.",
+      "sections": [
+        {
+          "h2": "Why is Santa Catalina Monastery so important?",
+          "answer": "Because it's a religious citadel inside the city, protected by high walls, according to [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+          "body": [
+            "The same article describes how the complex, of about 20,000 square meters, began in 1580 with doña María de Guzmán, widow of Diego Hernández de Mendoza, according to [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+            "The [free encyclopedia](https://es.wikipedia.org/wiki/Monasterio_de_Santa_Catalina_(Arequipa)) places it at the end of the 16th century and records a site of 20,426 square meters, with a wall about 4 meters high that kept the nuns' life apart from the outside world."
+          ]
+        },
+        {
+          "h2": "What can you visit inside the monastery?",
+          "answer": "Cloisters, cells and an old kitchen with its hearth, according to the [Andina](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx) article.",
+          "body": [
+            "The article mentions the painting of the Last Supper in one of its rooms and the Cloister of the Passion, with five arches and three crosses in the courtyard, according to the same [Andina article](https://andina.pe/agencia/noticia-arequipa-conoce-los-bellos-secretos-del-monasterio-santa-catalina-677172.aspx).",
+            "The three crosses in the cloister are part of a monastery tradition in which the nuns re-enact the Passion of Christ every Good Friday, according to the [free encyclopedia page](https://es.wikipedia.org/wiki/Monasterio_de_Santa_Catalina_(Arequipa))."
+          ]
+        },
+        {
+          "h2": "How do you explore it without rushing?",
+          "answer": "Set aside the morning for the monastery, because the complex is large and its courtyards and cells call for a slow pace.",
+          "body": [
+            "In this guide we don't give opening hours or prices, because the public sources we checked don't agree on every detail. Confirm them on the monastery's website before you go.",
+            "In the afternoon, the city center is easy to walk at a relaxed pace, with its squares to discover."
+          ]
+        },
+        {
+          "h2": "What can you do after the monastery?",
+          "answer": "The Arequipa experiences you can book with Travel Puzzle are on the city's page.",
+          "body": [
+            "On the [Arequipa page](/destinos/pe/arequipa) you'll find the experiences you can book with Travel Puzzle. Write to us with your dates if you'd like us to put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 9 November 2026) and the site's catalog."
+    }
   },
   {
     "author": "editorial",
@@ -610,7 +1112,48 @@
           "En la [página de Benarés](/destinos/in/benares) están las experiencias que puedes reservar con Travel Puzzle. Escríbenos con tus fechas si quieres que armemos tu viaje."
         ]
       }
-    ]
+    ],
+    "en": {
+      "nombre": "Varanasi",
+      "targetTerm": "varanasi travel guide",
+      "titulo": "Varanasi guide: ghats, Ganga Aarti and the city of light",
+      "enBreve": "Varanasi, also known as Benares or Kashi, faces the Ganges River through flights of steps called ghats, according to the [free encyclopedia](https://en.wikipedia.org/wiki/Varanasi). Every evening the Ganga Aarti is held at Dashashwamedh Ghat, according to [Incredible India](https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/). Get to the riverbank early and save the ceremony for the evening.",
+      "sections": [
+        {
+          "h2": "What is the Ganga Aarti and where can you see it?",
+          "answer": "It's the ceremony held every evening at Dashashwamedh Ghat, according to [Incredible India](https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/).",
+          "body": [
+            "The same source describes the riverbank as the image that defines the city, so it's worth finding a spot well before the ceremony.",
+            "The [free encyclopedia](https://en.wikipedia.org/wiki/Varanasi) lists Dashashwamedh Ghat among the best known, along with Panchganga, Manikarnika and Harishchandra."
+          ]
+        },
+        {
+          "h2": "What do the ghats mean to the city?",
+          "answer": "They're flights of steps leading down to the bank of the Ganges, where pilgrims perform their rites, according to the [free encyclopedia](https://en.wikipedia.org/wiki/Varanasi).",
+          "body": [
+            "Varanasi is known worldwide for its ghats, and at the same time silk weaving, carpets, handicrafts and tourism employ much of its population, according to the [same page](https://en.wikipedia.org/wiki/Varanasi).",
+            "Walking the ghats in the morning lets you see daily life on the riverbank at a calmer pace."
+          ]
+        },
+        {
+          "h2": "What should you know about Manikarnika Ghat?",
+          "answer": "It's a cremation ghat, described as the sacred cremation ground on the banks of the Ganges, according to the [free encyclopedia](https://en.wikipedia.org/wiki/Varanasi).",
+          "body": [
+            "It's a place of mourning and ritual. Out of respect, ask permission before taking photos and avoid photographing the cremations.",
+            "Harishchandra Ghat is the other cremation site mentioned by the same [source](https://en.wikipedia.org/wiki/Varanasi), so it's best to get information from your guide before walking through that area."
+          ]
+        },
+        {
+          "h2": "How should you organize your visit?",
+          "answer": "Spend a morning seeing the ghats from the water and an evening at the ceremony on the riverbank.",
+          "body": [
+            "A boat ride on the Ganges lets you see the ghats from the river, and it's a way to understand the distance between them.",
+            "On the [Varanasi page](/destinos/in/benares) you'll find the experiences you can book with Travel Puzzle. Write to us with your dates if you'd like us to put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 9 November 2026) and the site's catalog."
+    }
   },
   {
     "author": "editorial",
@@ -656,7 +1199,48 @@
           "En la [página de Medellín](/destinos/co/medellin) están las experiencias que puedes reservar con Travel Puzzle. Si quieres que armemos tu viaje, escríbenos con tus fechas."
         ]
       }
-    ]
+    ],
+    "en": {
+      "nombre": "Medellín",
+      "targetTerm": "medellin travel guide for mexican travelers",
+      "titulo": "Medellín guide: Arví Park and how to get there by Metrocable",
+      "enBreve": "Arví Park is Medellín's best-known nature escape. According to the [city's official tourism page](https://www.medellin.travel/parque-arvi), it has been a forest reserve since 1970, about 30 kilometers from the center. You get there by Metrocable, on the [Metro de Medellín's line L](https://www.metrodemedellin.gov.co/), and it's best to set aside the morning to walk its trails.",
+      "sections": [
+        {
+          "h2": "How do you get to Arví Park by Metrocable?",
+          "answer": "From any Metro station, ride to Acevedo, take Line K to Santo Domingo and transfer to Line L, according to the [official tourism page](https://www.medellin.travel/parque-arvi).",
+          "body": [
+            "The ride from the transfer takes about 20 minutes, according to the [official tourism page](https://www.medellin.travel/parque-arvi), and the park is in the district of Santa Elena.",
+            "There's also a bus: from Placita de Flórez, downtown, the Transacoop company runs to Santa Elena from 6:00 a.m., every 30 minutes, according to the [park's official PDF guide](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf)."
+          ]
+        },
+        {
+          "h2": "What does the park have?",
+          "answer": "Trails, culture and archaeological heritage, as well as landscapes to walk through, according to the [park's official PDF guide](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf).",
+          "body": [
+            "The [park's official page](https://www.medellin.travel/parque-arvi) mentions Chorro Clarín and Laguna de Guarne as free public areas, while other experiences have a cost and are offered by the park's corporation.",
+            "Because it's a forest reserve, it's best to stay on the marked trails and respect the vegetation, in line with the general approach of the [PDF guide](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf)."
+          ]
+        },
+        {
+          "h2": "How much time should you spend there?",
+          "answer": "A morning is enough for the Metrocable and a few trails; that's this guide's recommendation, not official information.",
+          "body": [
+            "Check current Metro and Metrocable fares on the [Metro de Medellín page](https://www.metrodemedellin.gov.co/) before heading out, because the fare isn't the same as the price of the park's experiences.",
+            "If you want to make a full day of it, combine the park with another visit in the city in the afternoon."
+          ]
+        },
+        {
+          "h2": "What should you bring to the park?",
+          "answer": "Sunscreen and a light layer, because Medellín's weather can be unpredictable, according to the [park's official PDF guide](https://medellin.travel/wp-content/uploads/2024/09/Parque-Arvi.pdf).",
+          "body": [
+            "Bring water and comfortable shoes for the trails. That's practical advice for the visit, not information from the park.",
+            "On the [Medellín page](/destinos/co/medellin) you'll find the experiences you can book with Travel Puzzle. If you'd like us to put your trip together, write to us with your dates."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 9 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "pe",
@@ -702,7 +1286,48 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Ica",
+      "targetTerm": "ica peru travel guide",
+      "titulo": "Ica guide: Huacachina, vineyards and day tours",
+      "enBreve": "Ica is the base for visiting Huacachina, a small oasis about five kilometers from the city, surrounded by dunes that reach 500 meters high, according to [Wikipedia](https://en.wikipedia.org/wiki/Huacachina). Mexicans with an ordinary passport can enter Peru as tourists for up to 183 days, according to [Andina](https://andina.pe/ingles/noticia-visa-requirement-for-mexican-citizens-wishing-to-visit-peru-officially-revoked-981525.aspx). Our catalog has one free tour and five tours in Ica, according to the [Ica page](/destinos/pe/ica).",
+      "sections": [
+        {
+          "h2": "What is Huacachina and why visit it from Ica?",
+          "answer": "Huacachina is a village built around a small oasis about five kilometers from the city of Ica, according to [Wikipedia](https://en.wikipedia.org/wiki/Huacachina).",
+          "body": [
+            "The same [Wikipedia entry](https://en.wikipedia.org/wiki/Huacachina) describes it as a resort for Ica families that today also draws tourists for sandboarding on its dunes. The oasis is a small natural lake that the entry calls the «oasis of America».",
+            "If you're short on time, the [Ica](/destinos/pe/ica) catalog offers day tours of the city and the dunes, so you can choose according to your travel pace."
+          ]
+        },
+        {
+          "h2": "What do you do on the dunes: buggies and sandboarding?",
+          "answer": "On the dunes you ride in vehicles locally called areneros, and you can go sandboarding, according to [Wikipedia](https://en.wikipedia.org/wiki/Huacachina).",
+          "body": [
+            "Sandboarding means sliding down the dunes on a board, and the nearby dunes reach up to 500 meters high, according to the same [Wikipedia entry](https://en.wikipedia.org/wiki/Huacachina).",
+            "In our catalog, the buggy and sandboarding experience on the dunes is a day tour, according to the [Ica](/destinos/pe/ica) listing. Bring water and sunscreen, as on any desert outing."
+          ]
+        },
+        {
+          "h2": "Are there tours of the city and its vineyards?",
+          "answer": "Yes. In Ica there's a free tour by tuk tuk and a two-hour tuk tuk visit to the Tacama vineyard, according to the [Ica catalog](/destinos/pe/ica).",
+          "body": [
+            "The free tour is booked at no cost, and at the end you give the guide what you think is fair, according to the [Ica page](/destinos/pe/ica).",
+            "If you want to secure a spot on both experiences during your stay, book ahead."
+          ]
+        },
+        {
+          "h2": "What does a Mexican citizen need to enter Peru?",
+          "answer": "A Mexican citizen with an ordinary passport can enter Peru without a visa for tourism, with a maximum stay of 183 days in a year, according to [Andina](https://andina.pe/ingles/noticia-visa-requirement-for-mexican-citizens-wishing-to-visit-peru-officially-revoked-981525.aspx).",
+          "body": [
+            "The decree that reinstated that exemption was published in El Peruano in April 2024, according to the same [Andina article](https://andina.pe/ingles/noticia-visa-requirement-for-mexican-citizens-wishing-to-visit-peru-officially-revoked-981525.aspx).",
+            "Since immigration rules can change, check the Peruvian government's official information before buying your flight."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 10 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "in",
@@ -740,7 +1365,41 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Udaipur",
+      "targetTerm": "udaipur travel guide",
+      "titulo": "Udaipur guide: lakes, the City Palace and countryside trips",
+      "enBreve": "Udaipur is known as the City of Lakes and its center revolves around Lake Pichola and the City Palace, according to [Incredible India](https://www.incredibleindia.gov.in/en/rajasthan/udaipur). The city is surrounded by artificial lakes, according to [Wikipedia](https://en.wikipedia.org/wiki/Udaipur). Our catalog has two Free Puzzle experiences and eight tours with local guides, according to the [Udaipur page](/destinos/in/udaipur).",
+      "sections": [
+        {
+          "h2": "Why is it called the City of Lakes?",
+          "answer": "Because it has several lakes, and the best known is Pichola, where its marble palaces are reflected, according to [Incredible India](https://www.incredibleindia.gov.in/en/rajasthan/udaipur).",
+          "body": [
+            "The [official page](https://www.incredibleindia.gov.in/en/rajasthan/udaipur) describes it as a city of shimmering lakes and palaces that seem to float between earth and sky. Its landscape also earned it the nickname «Venice of the East», which [Wikipedia](https://en.wikipedia.org/wiki/Udaipur) says it shares with other Asian cities with many lakes.",
+            "If you arrive during the day, make the most of the light to photograph the lake and leave the afternoon for the old town."
+          ]
+        },
+        {
+          "h2": "What can you visit in the city?",
+          "answer": "The City Palace is a complex of courtyards, museums and carved buildings that the listing describes as a maze, according to [Incredible India](https://www.incredibleindia.gov.in/en/rajasthan/udaipur).",
+          "body": [
+            "Inside the palace, the [same official page](https://www.incredibleindia.gov.in/en/rajasthan/udaipur) mentions the Bada Mahal, known as the men's section.",
+            "On our [Udaipur](/destinos/in/udaipur) page there's a two-hour walk through the lakes and hidden viewpoints, as a Free Puzzle free tour, according to the catalog."
+          ]
+        },
+        {
+          "h2": "What tours are there in Udaipur with Travel Puzzle?",
+          "answer": "There are eight tours with local guides, including trips to rural villages and cooking classes, according to the [Udaipur page](/destinos/in/udaipur).",
+          "body": [
+            "A three-hour trip to a rural village includes lunch and dinner, and a two-hour cooking class takes place with a local family, according to the [Udaipur](/destinos/in/udaipur) listings.",
+            "The 10-day Rajasthan circuits shown on that same page include Udaipur together with Jodhpur, according to the [Udaipur catalog](/destinos/in/udaipur).",
+            "Before booking, check each listing for its duration, meeting point and what's included, so you can fit the tours into the rest of your days in the city."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 10 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "in",
@@ -786,7 +1445,48 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Jodhpur",
+      "targetTerm": "jodhpur travel guide",
+      "titulo": "Jodhpur guide: the Blue City, Mehrangarh Fort and its tours",
+      "enBreve": "Jodhpur is the Blue City because of the color that dominates the buildings of its old town, which surrounds Mehrangarh Fort, according to [Wikipedia](https://en.wikipedia.org/wiki/Jodhpur). The city was founded on 12 May 1459, according to the same source. The fort's museum opens every day from 9:00 to 17:00, according to its [official page](https://www.mehrangarh.org/?p=928). Our catalog has six tours with local guides, according to the [Jodhpur page](/destinos/in/jodhpur).",
+      "sections": [
+        {
+          "h2": "Why is it called the Blue City?",
+          "answer": "Because of the color that dominates the buildings of the old town, according to [Wikipedia](https://en.wikipedia.org/wiki/Jodhpur).",
+          "body": [
+            "The [same entry](https://en.wikipedia.org/wiki/Jodhpur) explains that the old town surrounds Mehrangarh Fort and is protected by a wall with several gates.",
+            "Starting at the fort and then walking down to the old town is a practical order for your first day in the city."
+          ]
+        },
+        {
+          "h2": "What can you see at Mehrangarh Fort?",
+          "answer": "The Mehrangarh Museum opens every day from 9:00 to 17:00, and ticket sales close at 17:00, according to its [official page](https://www.mehrangarh.org/?p=928).",
+          "body": [
+            "The [same page](https://www.mehrangarh.org/?p=928) organizes its collections into paintings, textiles, arms and armor, and decorative arts.",
+            "There's a separate charge for the fort's lift, according to the same [official page](https://www.mehrangarh.org/?p=928). Check the prices before your visit, because they may change."
+          ]
+        },
+        {
+          "h2": "What tours are there in Jodhpur with Travel Puzzle?",
+          "answer": "On the [Jodhpur page](/destinos/in/jodhpur) there are six tours with local guides and no Free Puzzle experiences, according to the site's catalog.",
+          "body": [
+            "A two-hour heritage walk through the Blue City and a three-and-a-half-hour visit to Mehrangarh Fort and Jaswant Thada are two of the options, according to the [Jodhpur page](/destinos/in/jodhpur).",
+            "The 10- to 12-day Rajasthan circuits shown on the page include Jodhpur together with Udaipur, Jaipur and Agra, according to the [Jodhpur catalog](/destinos/in/jodhpur)."
+          ]
+        },
+        {
+          "h2": "How does Jodhpur fit into a trip around Rajasthan?",
+          "answer": "Jodhpur is near the geographic center of the state of Rajasthan, which makes it a practical base for exploring it, according to [Wikipedia](https://en.wikipedia.org/wiki/Jodhpur).",
+          "body": [
+            "That's why it appears on several circuits in the [Jodhpur catalog](/destinos/in/jodhpur) together with Udaipur, Jaipur and Agra.",
+            "Before booking, confirm with the circuit provider how transfers between cities work."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 10 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "be",
@@ -825,7 +1525,41 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Bruges",
+      "targetTerm": "bruges travel guide",
+      "titulo": "Bruges guide: medieval center, belfry and guided visits",
+      "enBreve": "Bruges is a medieval center with canals that UNESCO declared a World Heritage Site in 2000, according to the [UNESCO listing](https://whc.unesco.org/en/list/996). Its belfry has 366 steps and is 83 meters tall, according to [Wikipedia](https://en.wikipedia.org/wiki/Belfry_of_Bruges). Our catalog has 13 Free Puzzle experiences and 16 paid tours and experiences, according to the [Bruges page](/destinos/be/brujas).",
+      "sections": [
+        {
+          "h2": "Why is Bruges a World Heritage Site?",
+          "answer": "Because its historic center joined the UNESCO list in 2000, according to the [UNESCO listing](https://whc.unesco.org/en/list/996).",
+          "body": [
+            "The [Wikipedia entry](https://en.wikipedia.org/wiki/Historic_Centre_of_Brugge) describes the city as one of the best-preserved medieval cities in Europe, and notes that the center is surrounded by a ring of canals.",
+            "Its location made it a trading hub of northern Europe, where the Hanseatic League had a «kontor», according to the same Wikipedia entry.",
+            "That's why it's best explored without rushing, stopping in the squares and along the canals."
+          ]
+        },
+        {
+          "h2": "What is the Bruges belfry like?",
+          "answer": "The belfry, or Belfort, has 366 steps and is 83 meters tall, according to [Wikipedia](https://en.wikipedia.org/wiki/Belfry_of_Bruges).",
+          "body": [
+            "Climbing it requires a ticket, and from the top there are panoramic views of the city, says the same entry. The belfry has a carillon, and in the tower you can see the city's old treasury, according to the [Wikipedia entry](https://en.wikipedia.org/wiki/Belfry_of_Bruges).",
+            "The staircase is narrow and steep, according to the [belfry entry](https://en.wikipedia.org/wiki/Belfry_of_Bruges), so if climbing stairs is hard for you, plan the visit calmly."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Bruges with Travel Puzzle?",
+          "answer": "On our [Bruges](/destinos/be/brujas) page there are 13 Free Puzzle experiences, where booking is free and at the end you give the guide what you think is fair.",
+          "body": [
+            "The catalog's themes range from medieval legends with chocolate tasting to a night visit through hidden corners, myths and legends, according to the [Bruges page](/destinos/be/brujas).",
+            "There are also 16 paid tours and experiences, including small-group guided visits, according to the [Bruges catalog](/destinos/be/brujas)."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 10 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "pe",
@@ -863,7 +1597,40 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 10 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Machu Picchu",
+      "targetTerm": "machu picchu travel guide",
+      "titulo": "Machu Picchu guide: tickets, capacity and how to get there from Cusco",
+      "enBreve": "Machu Picchu is an Inca citadel at 2,430 meters above sea level, a World Heritage Site since 1983, according to [Wikipedia](https://en.wikipedia.org/wiki/Machu_Picchu). Tickets are booked on the Ministry of Culture's official platform, and the 2026 capacity is 5,600 visitors per day in high season, according to [Andina](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx). Our catalog has four tours, according to the [Machu Picchu page](/destinos/pe/machu-picchu).",
+      "sections": [
+        {
+          "h2": "How do you get there from Cusco?",
+          "answer": "The most popular route is the train from Cusco to the town of Aguas Calientes, and from there an 8.6-kilometer bus ride or a hike to the entrance, according to [Wikipedia](https://en.wikipedia.org/wiki/Machu_Picchu).",
+          "body": [
+            "The site is about 80 kilometers northwest of Cusco, in the eastern range of southern Peru, according to the same [Wikipedia entry](https://en.wikipedia.org/wiki/Machu_Picchu).",
+            "Another option is the Inca Trail, which the [Wikipedia entry](https://en.wikipedia.org/wiki/Machu_Picchu) describes as the most famous hike in South America according to Lonely Planet."
+          ]
+        },
+        {
+          "h2": "How do you buy tickets and what do they ask for at the entrance?",
+          "answer": "Booking and payment are done on the official platform tuboleto.cultura.pe, according to the [Andina article](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx).",
+          "body": [
+            "To enter you show a valid ID, such as a foreigner's card or a passport, as applicable, says the [same Andina article](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx).",
+            "Daily availability is 3,500 tickets in regular season and 4,600 in high season, and in February 2026 visits are suspended for maintenance, according to the same [Andina article](https://andina.pe/agencia/noticia-iras-a-machu-picchu-2026-ten-cuenta-estas-medidas-para-una-optima-visita-1056293.aspx)."
+          ]
+        },
+        {
+          "h2": "What tours are there at Machu Picchu with Travel Puzzle?",
+          "answer": "On our [Machu Picchu](/destinos/pe/machu-picchu) page there are four tours with local guides, including a day trip on the Vistadome train.",
+          "body": [
+            "The nine-, eleven- and twelve-day circuits around Peru include Machu Picchu together with Cusco, Paracas and, in some cases, Lake Titicaca, according to the [Machu Picchu page](/destinos/pe/machu-picchu).",
+            "If you want to combine this visit with other cities in the country, take a look at [Peru](/destinos/pe) and the [Cusco](/destinos/pe/cusco) page, which also has experiences."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 10 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "co",
@@ -908,7 +1675,47 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio. Las tarifas son las publicadas para 2026; confírmalas antes de viajar."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio. Las tarifas son las publicadas para 2026; confírmalas antes de viajar.",
+    "en": {
+      "nombre": "Santa Marta",
+      "targetTerm": "santa marta travel guide",
+      "titulo": "Santa Marta guide: Tayrona Park, Teyuna and when it closes",
+      "enBreve": "Santa Marta is organized around two outings: Tayrona National Natural Park and the Teyuna archaeological park, in the Sierra Nevada. Tayrona closes three times a year under agreements with the Indigenous peoples, and its fees changed in January 2026, according to [Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/). Check the dates before buying flights.",
+      "sections": [
+        {
+          "h2": "How much does it cost to enter Tayrona Park?",
+          "answer": "Walk-in admission for non-resident foreigners is 81,000 pesos in low season and 96,500 in high season; for Colombians and residents aged 25 and over, 36,500 and 43,000, according to [Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/), which cites Resolution 551 of 19 December 2025.",
+          "body": [
+            "Colombians and residents under 25 pay 27,500 pesos in low season and 30,500 in high season, and the Bahía Concha sector has separate fees, details the same [Infobae article](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/). A car entry costs 21,000 pesos and a motorcycle 14,500.",
+            "Bring cash and plan the transfer from the city: the entrances are on the highway, far from the town, and inside almost the entire route is on foot."
+          ]
+        },
+        {
+          "h2": "When does Tayrona Park close?",
+          "answer": "From 1 to 15 February, from 1 to 15 June and from 19 October to 2 November, for the periods of retreat agreed with the peoples who live in the territory, according to [Infobae](https://www.infobae.com/colombia/2026/01/07/parque-tayrona-ajusto-sus-tarifas-para-2026-asi-quedaron-los-precios-por-temporada-edad-y-tipo-de-visitante/).",
+          "body": [
+            "If your trip falls in those weeks, move your park day or change plans: the closure applies to tourist visits, not to the city, which keeps running as usual.",
+            "Before paying for accommodation in the beach area, check that your dates don't fall within one of those periods."
+          ]
+        },
+        {
+          "h2": "What is Teyuna or the Lost City?",
+          "answer": "An archaeological park in the Sierra Nevada de Santa Marta, within the Kogui-Malayo-Arhuaco reserve, open from 7:00 to 15:00, according to the [ICANH](https://icanh.gov.co/investigacion/recursos-para-investigacion/publicaciones/colecciones/guias-turisticas-los-parques-arqueologicos-nacionales/teyuna-ciudad-perdida-1).",
+          "body": [
+            "The site was officially made known in 1976 and the [ICANH](https://icanh.gov.co/investigacion/recursos-para-investigacion/publicaciones/colecciones/guias-turisticas-los-parques-arqueologicos-nacionales/teyuna-ciudad-perdida-1) itself acknowledges that little is still known about the Tairona.",
+            "The visit isn't a morning outing: it means hiking several days through the sierra, so it's prepared well in advance and with your physical condition in mind."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Santa Marta with Travel Puzzle?",
+          "answer": "On the [Santa Marta page](/destinos/co/santa-marta) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "Santa Marta combines well with other cities in [Colombia](/destinos/co) on the same trip. Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 11 November 2026) and the site's catalog. Fees are those published for 2026; confirm them before you travel."
+    }
   },
   {
     "pais": "cn",
@@ -952,7 +1759,46 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Lhasa",
+      "targetTerm": "lhasa travel guide",
+      "titulo": "Lhasa guide: Potala Palace, the Tibet permit and altitude",
+      "enBreve": "Lhasa calls for two preparations before anything else: the permit to enter Tibet and a couple of days to acclimatize, because the Potala Palace stands at about 3,700 meters, according to [UNESCO](https://whc.unesco.org/en/list/707/). The palace closes on Mondays from 1 December, reported [China Services Info](https://www.chinaservicesinfo.com/s/202511/18/WS691bcaa4498e368550337a6f/lhasas-potala-palace-to-implement-monday-closure-policy_2.html).",
+      "sections": [
+        {
+          "h2": "What is the Potala Palace ensemble?",
+          "answer": "The Dalai Lama's winter palace, on Red Mountain in the center of the Lhasa valley, at about 3,700 meters above sea level; [UNESCO](https://whc.unesco.org/en/list/707/) inscribed it in 1994.",
+          "body": [
+            "The ensemble later added the Jokhang Temple, a 2.5-hectare complex in the old town, and Norbulingka, the summer palace with 36 hectares of gardens, according to the same [UNESCO listing](https://whc.unesco.org/en/list/707/).",
+            "They're three separate visits and it's best to spread them over different days, especially in the first days, when your body is still getting used to the altitude."
+          ]
+        },
+        {
+          "h2": "What days and hours is the Potala Palace open?",
+          "answer": "Tuesday to Sunday: from 9:00 to 15:40 from 1 May to 31 October, and from 9:30 to 15:20 from 1 November to 30 April, closing on Mondays from 1 December, according to [China Services Info](https://www.chinaservicesinfo.com/s/202511/18/WS691bcaa4498e368550337a6f/lhasas-potala-palace-to-implement-monday-closure-policy_2.html).",
+          "body": [
+            "The same [article](https://www.chinaservicesinfo.com/s/202511/18/WS691bcaa4498e368550337a6f/lhasas-potala-palace-to-implement-monday-closure-policy_2.html) only asks visitors to plan their trip with that schedule in mind. Confirm the hours shortly before you go, because the Monday closure is recent."
+          ]
+        },
+        {
+          "h2": "What do you need to travel to Tibet?",
+          "answer": "In addition to a Chinese visa, a permit to enter Tibet, arranged through a specialized agency in the country, and traveling on an organized tour, according to the [UK government](https://www.gov.uk/foreign-travel-advice/china/regional-risks).",
+          "body": [
+            "The same [official page](https://www.gov.uk/foreign-travel-advice/china/regional-risks) warns that the Chinese authorities sometimes stop issuing permits without notice and that in Buddhist monasteries you must ask permission before taking photographs.",
+            "Sort out the paperwork before buying flights: it's what shapes the rest of the trip."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Lhasa with Travel Puzzle?",
+          "answer": "On the [Lhasa page](/destinos/cn/lhasa) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "Lhasa is usually added to a longer trip around [China](/destinos/cn). Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 11 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "cn",
@@ -995,7 +1841,45 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio. La página de tarifas es de 2018; lo indicamos junto al dato."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio. La página de tarifas es de 2018; lo indicamos junto al dato.",
+    "en": {
+      "nombre": "Chongqing",
+      "targetTerm": "chongqing travel guide",
+      "titulo": "Chongqing guide: the Dazu carvings, opening hours and tickets",
+      "enBreve": "Chongqing's big outing is the Dazu rock carvings, in the district of the same name: 75 protected sites and more than 50,000 statues, according to the [Chongqing Government](https://english.cq.gov.cn/aboutchongqing/culture/CulturalHeritage/202606/t20260612_15751040.html), which notes they've been on the World Heritage list since December 1999. Allow a full day, because they're outside the city.",
+      "sections": [
+        {
+          "h2": "What are the Dazu rock carvings?",
+          "answer": "Five groups of rock carvings from the 9th to the 13th centuries, with themes from Tantric Buddhism, Taoism and Confucianism alongside scenes of everyday life, according to [UNESCO](https://whc.unesco.org/en/list/912/).",
+          "body": [
+            "The [Chongqing Government](https://english.cq.gov.cn/aboutchongqing/culture/CulturalHeritage/202606/t20260612_15751040.html) counts 75 protected sites and more than 50,000 statues, spread across groups such as Beishan, Baodingshan, Nanshan, Shimenshan and Shizhuanshan, with carvings that begin in the early Tang dynasty and continue through the Ming and Qing.",
+            "You can't see them all in one visit: Baodingshan and Beishan are the two groups usually seen together in the same day."
+          ]
+        },
+        {
+          "h2": "What are the opening hours and prices?",
+          "answer": "The [Chongqing Government](https://english.cq.gov.cn/aboutchongqing/culture/CulturalHeritage/202606/t20260612_15751040.html) lists hours from 8:30 to 17:30 on Beishan Road; [China Daily](https://govt.chinadaily.com.cn/s/201812/17/WS5d074398498e12256565dcdc/dazu-rock-carvings-chongqing.html) gave 140 yuan in high season, from 1 February to 30 November, and 120 yuan the rest of the year.",
+          "body": [
+            "That [China Daily page](https://govt.chinadaily.com.cn/s/201812/17/WS5d074398498e12256565dcdc/dazu-rock-carvings-chongqing.html) was updated in December 2018 and also mentions an English-speaking guide for 260 yuan, so confirm the price before you go."
+          ]
+        },
+        {
+          "h2": "How do you plan a day in Chongqing?",
+          "answer": "Give the Dazu outing a full day and keep the rest of your time for the city, which is built on hills and is best walked slowly.",
+          "body": [
+            "If you arrive by train or plane in the morning, use that first day to get your bearings and leave the carvings for the next, with the transfer already arranged."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Chongqing with Travel Puzzle?",
+          "answer": "On the [Chongqing page](/destinos/cn/chongqing) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "Chongqing combines well with other cities in [China](/destinos/cn) on the same trip. Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 11 November 2026) and the site's catalog. The prices page is from 2018; we note it next to the figure."
+    }
   },
   {
     "pais": "co",
@@ -1039,7 +1923,46 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Barranquilla",
+      "targetTerm": "barranquilla travel guide",
+      "titulo": "Barranquilla guide: when the Carnival is and what you'll see",
+      "enBreve": "Barranquilla is visited around its Carnival: the 2027 edition runs from 6 to 9 February, according to the [Carnival organization](https://www.carnavaldebarranquilla.org/). [UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051) inscribed it in 2008 on the Representative List of the Intangible Cultural Heritage. Outside those days, the city is experienced differently, calmer and coastal.",
+      "sections": [
+        {
+          "h2": "When is the Barranquilla Carnival?",
+          "answer": "The four days before Lent. In 2027 it runs from Saturday 6 to Tuesday 9 February, according to the [Carnival organization](https://www.carnavaldebarranquilla.org/).",
+          "body": [
+            "[UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051) describes the festival with the same rule: every year, the four days before Lent. If you want to go, book accommodation well in advance."
+          ]
+        },
+        {
+          "h2": "What do you see at the Carnival?",
+          "answer": "Dances with different roots (the congo, of African origin; the paloteo, of Spanish origin; and the mico y micas), with cumbia as the predominant genre, according to [UNESCO](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051).",
+          "body": [
+            "The same [UNESCO listing](https://ich.unesco.org/en/RL/carnival-of-barranquilla-00051) mentions the puya and the porro, drum and wind ensembles with tambora, alegre, maracas and claves, as well as animal masks and acts that mock the political life of the moment.",
+            "It's a street festival: you watch it standing, walking and in the heat, so dress light and bring water."
+          ]
+        },
+        {
+          "h2": "What if you travel outside Carnival?",
+          "answer": "The city is still an easy gateway to Colombia's Caribbean and a practical base for getting to other points on the coast.",
+          "body": [
+            "Without the festival there's more accommodation available and transfers take less effort. Barranquilla works well as a base for a few days.",
+            "It's worth leaving a couple of nights for the city and spending the rest of your time in the nearby towns and beaches, which are a short drive away."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Barranquilla with Travel Puzzle?",
+          "answer": "On the [Barranquilla page](/destinos/co/barranquilla) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "Barranquilla combines well with other cities in [Colombia](/destinos/co). Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 11 November 2026) and the site's catalog."
+    }
   },
   {
     "pais": "np",
@@ -1083,6 +2006,965 @@
         ]
       }
     ],
-    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio."
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 11 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Kathmandu",
+      "targetTerm": "kathmandu travel guide",
+      "titulo": "Kathmandu guide: the valley, its seven zones and arriving",
+      "enBreve": "The Kathmandu valley holds seven monument zones: the Durbar squares of Kathmandu, Patan and Bhaktapur, Swayambhu, Bauddhanath, Pashupati and Changu Narayan, according to [UNESCO](https://whc.unesco.org/en/list/121/). The visa can be obtained on arrival at the airport, and your passport should be valid for six months from entry, according to the [UK government](https://www.gov.uk/foreign-travel-advice/nepal/entry-requirements).",
+      "sections": [
+        {
+          "h2": "What does the Kathmandu valley include?",
+          "answer": "Seven monument zones: the Durbar squares of Hanuman Dhoka, Patan and Bhaktapur, the Buddhist ensemble of Swayambhu, the Bauddhanath stupa, the Hindu precinct of Pashupati and Changu Narayan, according to [UNESCO](https://whc.unesco.org/en/list/121/).",
+          "body": [
+            "The same [UNESCO listing](https://whc.unesco.org/en/list/121/) describes Swayambhu as the ensemble with the valley's oldest Buddhist stupa and Bauddhanath as Nepal's largest stupa; Changu Narayan is a Newar settlement with its Hindu temple.",
+            "The zones are spread across the valley, so it's best to group them by proximity instead of trying to see them all in one day."
+          ]
+        },
+        {
+          "h2": "How do you enter Nepal?",
+          "answer": "With a visa: you can apply online before the trip and collect and pay for it at the airport, or get it on the spot at the arrival terminals, according to the [UK government](https://www.gov.uk/foreign-travel-advice/nepal/entry-requirements).",
+          "body": [
+            "The same [official page](https://www.gov.uk/foreign-travel-advice/nepal/entry-requirements) recommends a passport valid for six months or more from the date of entry, notes that there are visas of different lengths and prices, and that the stay can be extended online. Bring US dollars in cash as a backup for payment."
+          ]
+        },
+        {
+          "h2": "How should you plan your days in Kathmandu?",
+          "answer": "Leave the first days for the valley and its monument zones, and add the trips outside the city afterwards, since they involve long road transfers.",
+          "body": [
+            "Traffic and distances matter more than opening hours: allow generous margins between visits, especially if you cross the valley from one end to the other.",
+            "If you arrive in the afternoon, use that time to get your bearings in your hotel's neighborhood and leave the monument zones for the next day."
+          ]
+        },
+        {
+          "h2": "What experiences are there in Kathmandu with Travel Puzzle?",
+          "answer": "On the [Kathmandu page](/destinos/np/katmandu) you'll find the experiences you can book with Travel Puzzle in the city.",
+          "body": [
+            "Kathmandu combines well with other cities in [Nepal](/destinos/np). Write to us with your dates and we'll put your trip together."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 11 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "np",
+    "ciudad": "bhaktapur",
+    "nombre": "Bhaktapur",
+    "targetTerm": "que ver en bhaktapur nepal",
+    "titulo": "Bhaktapur: la ciudad medieval de Nepal antes de tu visita",
+    "publishedAt": "2026-11-12",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Bhaktapur es una ciudad medieval a unos 14 kilómetros al este de Katmandú, con calles de ladrillo y un centro histórico casi libre de autos, según la [guía de In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the). Para extranjeros la entrada conjunta cuesta US$18 o NPR 1,800. Conviene llegar temprano, cuando la plaza tiene menos gente y los alfareros están trabajando.",
+    "sections": [
+      {
+        "h2": "¿Dónde está Bhaktapur y cómo es?",
+        "answer": "Es una ciudad medieval a unos 14 kilómetros al este de Katmandú, según la [guía de In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the). Sus calles están pavimentadas con ladrillo y su centro histórico casi no tiene autos.",
+        "body": [
+          "La guía la describe como la vitrina del valle, mucho más conservada que Katmandú, con tallados en madera de estilo newar entre los más finos que existen. La ciudad es una de las siete zonas Patrimonio Mundial de la UNESCO del valle de Katmandú, según la [misma guía](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the), y el valle entero se declaró en 1979, según [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur)."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en la plaza Durbar?",
+        "answer": "El palacio de las 55 ventanas es su pieza central: es un palacio del siglo XV y sus ventanas talladas están entre los ejemplos más finos de talla newar, según la [guía de In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the).",
+        "body": [
+          "La entrada principal a la plaza es la Puerta del León, también llamada Singha Durbar, según [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur). Ya dentro, date tiempo para recorrer los templos y palacios a tu ritmo.",
+          "Muy cerca está la plaza Taumadhi, con la pagoda Nyatapola, de cinco pisos y fechada en 1702, que sobrevivió al terremoto de 2015 casi sin daños, según la [guía de In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the)."
+        ]
+      },
+      {
+        "h2": "¿Cuánto cuesta la entrada y qué incluye?",
+        "answer": "Para extranjeros cuesta US$18 o NPR 1,800 y cubre la plaza Durbar, la plaza Taumadhi, la plaza Dattatreya y el área histórica alrededor, según la [guía de In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the).",
+        "body": [
+          "El boleto sirve para varias visitas durante varios días seguidos, y los niños menores de 10 años entran gratis, de acuerdo con la [misma guía](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the). Como las tarifas pueden cambiar, confírmalas antes de viajar.",
+          "El palacio de las 55 ventanas suele quedar incluido en ese mismo boleto, así que no hace falta pagarlo aparte, según [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur)."
+        ]
+      },
+      {
+        "h2": "¿Cuándo conviene ir?",
+        "answer": "Conviene llegar temprano, porque la plaza suele estar abierta de 9:00 a 17:00, según [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur).",
+        "body": [
+          "En la mañana puedes ver a los alfareros trabajar en la Plaza de los Alfareros, donde las técnicas tradicionales de alfarería se conservan desde hace siglos, de acuerdo con la misma fuente. Evita el mediodía, cuando hace más calor.",
+          "Para fotografiar las ventanas talladas con buena luz, la media mañana y la tarde temprana son buenos momentos."
+        ]
+      },
+      {
+        "h2": "Cómo combinar tu visita con Katmandú",
+        "answer": "Bhaktapur encaja bien como excursión de un día desde Katmandú. Revisa los [tours de Travel Puzzle](/tours) para ver qué incluye cada experiencia y compara los [destinos](/destinos) de la región.",
+        "body": [
+          "Si tienes poco tiempo, prioriza la plaza Durbar y la plaza Taumadhi, que están a poca distancia una de otra, y deja los talleres para una visita más tranquila.",
+          "Lleva efectivo para el boleto, calzado cómodo para el empedrado y agua; el centro histórico se recorre mejor a pie."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Esta guía la redactó el equipo editorial con ayuda de IA, a partir de fuentes públicas enlazadas. Cada cifra viene de la fuente que la cita; si una fuente cambia, la guía se vuelve a revisar.",
+    "en": {
+      "nombre": "Bhaktapur",
+      "targetTerm": "things to see in bhaktapur nepal",
+      "titulo": "Bhaktapur: Nepal's medieval city before your visit",
+      "enBreve": "Bhaktapur is a medieval city about 14 kilometres east of Kathmandu, with brick-paved streets and a historic centre that is almost free of cars, according to [In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the). For foreigners the combined ticket costs US$18 or NPR 1,800. Go early, when the square is quieter and the potters are at work.",
+      "sections": [
+        {
+          "h2": "Where is Bhaktapur, and what is it like?",
+          "answer": "It is a medieval city about 14 kilometres east of Kathmandu, according to [In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the). Its streets are paved with brick and its historic centre is almost free of cars.",
+          "body": [
+            "The guide calls it the showpiece of the valley and says it is far better preserved than Kathmandu, with Newari woodcarving among the finest anywhere. The city is one of the seven UNESCO World Heritage Sites in the Kathmandu Valley, according to the [same guide](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the), and the whole valley was designated in 1979, per [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur)."
+          ]
+        },
+        {
+          "h2": "What is there to see on Durbar Square?",
+          "answer": "The 55-Window Palace is its centrepiece. It is a 15th-century royal palace, and its carved windows are among the finest examples of Newari woodcarving, according to [In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the).",
+          "body": [
+            "The main entrance to the square is the Lion's Gate, also called Singha Durbar, according to [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur). Once inside, give yourself time to walk past the temples and palaces at your own pace.",
+            "Nearby, Taumadhi Square holds the Nyatapola Temple, a five-storey pagoda dating from 1702 that came through the 2015 earthquake almost unscathed, according to [In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the)."
+          ]
+        },
+        {
+          "h2": "How much is the entrance, and what does it cover?",
+          "answer": "For foreigners it costs US$18 or NPR 1,800. The ticket covers Durbar Square, Taumadhi Square, Dattatreya Square and the historic area around them, according to [In Your Pocket](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the).",
+          "body": [
+            "The ticket is valid for several visits over several consecutive days, and children under 10 enter free, according to the [same guide](https://www.inyourpocket.com/nepal/kathmandu/articles/a-guide-to-the-unesco-world-heritage-sites-of-the). Fees can change, so confirm them before you travel.",
+            "The 55-Window Palace is usually included in the square ticket, so you do not need to pay for it separately, per [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur)."
+          ]
+        },
+        {
+          "h2": "When should you go?",
+          "answer": "Go early: the square is typically open from about 9:00 AM to 5:00 PM, according to [Encounters Travel](https://www.encounterstravel.com/blog/bhaktapur).",
+          "body": [
+            "In the morning you can watch potters at work in Pottery Square, where traditional techniques have been kept for centuries, the same source notes. Avoid midday, when the heat is strongest.",
+            "For photographing the carved windows in good light, mid-morning and early afternoon are good moments."
+          ]
+        },
+        {
+          "h2": "How to combine your visit with Kathmandu",
+          "answer": "Bhaktapur works well as a day trip from Kathmandu. Browse [Travel Puzzle tours](/tours) to see what each experience includes, and compare [destinations](/destinos) in the region.",
+          "body": [
+            "If your time is short, prioritise Durbar Square and Taumadhi Square, which are a short walk apart, and leave the workshops for a calmer visit.",
+            "Bring cash for the ticket, comfortable shoes for the paved streets and water; the historic centre is best explored on foot."
+          ]
+        }
+      ],
+      "comoLoSabemos": "This guide was written by the editorial team with AI assistance, based on the linked public sources. Each figure comes from the source that cites it; if a source changes, the guide is reviewed again."
+    }
+  },
+  {
+    "pais": "lk",
+    "ciudad": "sigiriya",
+    "nombre": "Sigiriya",
+    "targetTerm": "que ver en sigiriya sri lanka",
+    "titulo": "Sigiriya: la roca fortaleza de Sri Lanka antes de subir",
+    "publishedAt": "2026-11-12",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Sigiriya es una antigua fortaleza-palacio que mandó construir el rey Kashyapa I, que reinó de 477 a 495, según la [UNESCO](https://whc.unesco.org/en/documents/124445). La subida tiene unos 1,200 escalones y dura de 1.5 a 2 horas, según el [Centro Cultural Nacional de Sri Lanka](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/). Conviene salir temprano, cuando hace más fresco.",
+    "sections": [
+      {
+        "h2": "¿Quién construyó Sigiriya y cuándo?",
+        "answer": "La fortaleza-palacio la mandó hacer el rey Kashyapa I, que reinó de 477 a 495, según la [UNESCO](https://whc.unesco.org/en/documents/124445). Según el [Centro Cultural Nacional de Sri Lanka](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/), el rey tomó el trono y levantó el conjunto en apenas dieciocho años.",
+        "body": [
+          "La UNESCO describe la roca como un pico de granito que domina la selva que la rodea, y la entrada del sitio se marca con un gigantesco león de ladrillo y yeso, según la [página oficial](https://whc.unesco.org/en/documents/124445)."
+        ]
+      },
+      {
+        "h2": "¿Qué son las doncellas pintadas?",
+        "answer": "Son frescos de figuras femeninas adornadas, en la cara oeste de la roca y a media altura. Hoy se conservan solo 22, de los cientos que hubo, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/).",
+        "body": [
+          "Están protegidas en un pequeño refugio de la roca. Los especialistas las interpretan como apsaras, reinas o consortes, o diosas, y la misma [página del Centro Cultural](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/) lo explica, así que vale la pena leer la explicación en el sitio antes de subir."
+        ]
+      },
+      {
+        "h2": "¿Qué es el muro de los espejos?",
+        "answer": "Es un muro que estuvo terminado con yeso de cal muy pulido y brillante. Entre los siglos VI y XIV los visitantes escribieron poemas y reflexiones en él, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/).",
+        "body": [
+          "Hoy se han documentado más de 1,800 inscripciones, de acuerdo con la [misma fuente](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/). Muestran que el lugar siguió siendo visitado durante siglos después de su construcción."
+        ]
+      },
+      {
+        "h2": "¿Cuánto tarda la subida y cuándo conviene hacerla?",
+        "answer": "La subida dura de 1.5 a 2 horas y tiene unos 1,200 escalones, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/).",
+        "body": [
+          "Se recomienda subir temprano en la mañana o al final de la tarde, cuando hace menos calor. Lleva agua, calzado cómodo y tiempo para descansar en los tramos más empinados.",
+          "No pudimos confirmar los horarios de apertura ni los precios de entrada en la fuente oficial que consultamos, así que confírmalos antes de viajar."
+        ]
+      },
+      {
+        "h2": "Cómo planear tu visita",
+        "answer": "Sigiriya se puede combinar con otras paradas del centro de Sri Lanka. Revisa los [tours de Travel Puzzle](/tours) y compara los [destinos](/destinos) de la isla antes de decidir tu ruta.",
+        "body": [
+          "La visita a la roca y al sitio arqueológico puede ocupar buena parte del día, así que conviene empezar temprano y seguir las indicaciones del personal.",
+          "No toques las pinturas ni las inscripciones: son frágiles y forman parte de lo que da valor al lugar."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Esta guía la redactó el equipo editorial con ayuda de IA, a partir de fuentes públicas enlazadas. Cada cifra viene de la fuente que la cita; si una fuente cambia, la guía se vuelve a revisar.",
+    "en": {
+      "nombre": "Sigiriya",
+      "targetTerm": "things to see in sigiriya sri lanka",
+      "titulo": "Sigiriya: Sri Lanka's rock fortress before you climb",
+      "enBreve": "Sigiriya is an ancient fortress palace built by King Kashyapa I, who reigned from 477 to 495, according to [UNESCO](https://whc.unesco.org/en/documents/124445). The climb has about 1,200 steps and takes 1.5 to 2 hours, according to the [Central Cultural Fund of Sri Lanka](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/). Go early, when it is cooler.",
+      "sections": [
+        {
+          "h2": "Who built Sigiriya, and when?",
+          "answer": "King Kashyapa I built the fortress palace; he reigned from 477 to 495, according to [UNESCO](https://whc.unesco.org/en/documents/124445). According to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/), he seized the throne and built the complex in just eighteen years.",
+          "body": [
+            "UNESCO describes the rock as a granite peak that dominates the jungle around it, and the site entrance is marked by a gigantic lion made of brick and plaster, per the [UNESCO page](https://whc.unesco.org/en/documents/124445)."
+          ]
+        },
+        {
+          "h2": "What are the painted maidens?",
+          "answer": "They are frescoes of adorned female figures on the western face of the rock, halfway up. Only 22 survive, out of the hundreds that once existed, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/).",
+          "body": [
+            "They are sheltered in a shallow recess in the rock. Scholars interpret them as apsaras, queens or consorts, or goddesses, and the same [Central Cultural Fund page](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/) explains this, so read the on-site explanation before you climb."
+          ]
+        },
+        {
+          "h2": "What is the mirror wall?",
+          "answer": "It is a wall below the frescoes that was once finished with highly polished lime plaster. Between the 6th and 14th centuries visitors scratched poems and reflections into it, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/).",
+          "body": [
+            "More than 1,800 inscriptions have been documented, per the [same source](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/), which shows the site kept drawing visitors for centuries after it was built."
+          ]
+        },
+        {
+          "h2": "How long does the climb take, and when should you go?",
+          "answer": "The ascent takes 1.5 to 2 hours and involves about 1,200 steps, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/sigiriya-rock-fortress/).",
+          "body": [
+            "Early morning or late afternoon is recommended for cooler temperatures, per the same source. Bring water, comfortable shoes and time to rest on the steeper sections.",
+            "We could not confirm opening hours or ticket prices from the official source we checked, so confirm them before you travel."
+          ]
+        },
+        {
+          "h2": "How to plan your visit",
+          "answer": "Sigiriya can be combined with other stops in central Sri Lanka. Browse [Travel Puzzle tours](/tours) and compare [destinations](/destinos) on the island before choosing your route.",
+          "body": [
+            "The visit to the rock and the archaeological site can take a good part of the day, so start early and follow the staff's instructions.",
+            "Do not touch the paintings or the inscriptions; they are fragile and are part of what gives the site its value."
+          ]
+        }
+      ],
+      "comoLoSabemos": "This guide was written by the editorial team with AI assistance, based on the linked public sources. Each figure comes from the source that cites it; if a source changes, the guide is reviewed again."
+    }
+  },
+  {
+    "pais": "lk",
+    "ciudad": "kandy",
+    "nombre": "Kandy",
+    "targetTerm": "que ver en kandy sri lanka",
+    "titulo": "Kandy: el Templo del Diente y la antigua sede del reino de Sri Lanka",
+    "publishedAt": "2026-11-12",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Kandy fue sede del reino kandiano desde 1592 hasta que tropas británicas entraron en 1815, según la [UNESCO](https://whc.unesco.org/document/163325). Su centro sagrado, con el Templo del Diente, es Patrimonio Mundial desde 1988. Para entrar al templo cubre hombros y rodillas y quítate los zapatos, según el [Centro Cultural Nacional de Sri Lanka](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+    "sections": [
+      {
+        "h2": "¿Por qué Kandy es tan importante?",
+        "answer": "Se convirtió en capital del reino en 1592 y fue el último centro de la monarquía en la isla, según la [UNESCO](https://whc.unesco.org/document/163325).",
+        "body": [
+          "Las tropas británicas entraron a la ciudad el 14 de febrero de 1815, de acuerdo con la misma [página de la UNESCO](https://whc.unesco.org/document/163325). El complejo del templo se construyó sobre todo durante la época del reino, entre 1592 y 1815, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/)."
+        ]
+      },
+      {
+        "h2": "¿Qué es el Templo del Diente?",
+        "answer": "Es el templo que guarda la reliquia del diente de Buda, muy venerada, según la [UNESCO](https://whc.unesco.org/document/163325). Según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/), la reliquia llegó a Kandy en 1595.",
+        "body": [
+          "La tradición dice que la reliquia se tomó de la pira funeraria de Buda en Kushinagar en 543 antes de nuestra era, y que llegó a Sri Lanka en el siglo IV, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+          "Un atentado con bomba en 1998 dañó gravemente el templo, que después fue restaurado por completo, según la [UNESCO](https://whc.unesco.org/document/163325)."
+        ]
+      },
+      {
+        "h2": "¿Cuándo se celebra la gran procesión?",
+        "answer": "El Esala Perahera se celebra en julio o agosto y dura diez noches, con su momento culminante en el Randoli Perahera, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+        "body": [
+          "En esa procesión, un cofre dorado que se cree contiene la reliquia del diente va sobre un elefante decorado por las calles de Kandy. La celebración también honra a cuatro deidades guardianas: Natha, Vishnu, Kataragama y Pattini, según la misma fuente."
+        ]
+      },
+      {
+        "h2": "¿Cómo debes vestirte y comportarte en el templo?",
+        "answer": "Cubre hombros y rodillas, y quítate los zapatos al entrar, según el [Centro Cultural Nacional](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+        "body": [
+          "Hay tres ceremonias diarias, al amanecer, al mediodía y al atardecer, según la misma fuente, aunque no indica las horas exactas. Confírmalas en el lugar antes de ir.",
+          "Los horarios de apertura y el precio para extranjeros no aparecen en las páginas oficiales que revisamos, así que confírmalos antes de viajar."
+        ]
+      },
+      {
+        "h2": "Cómo planear tu visita",
+        "answer": "Kandy se puede combinar con otras paradas de la isla. Revisa los [tours de Travel Puzzle](/tours) y compara los [destinos](/destinos) de Sri Lanka antes de decidir tu ruta.",
+        "body": [
+          "La visita al templo puede ocupar buena parte de la mañana o de la tarde, así que llega con tiempo para ver las ceremonias sin prisa."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Esta guía la redactó el equipo editorial con ayuda de IA, a partir de fuentes públicas enlazadas. Cada cifra viene de la fuente que la cita; si una fuente cambia, la guía se vuelve a revisar.",
+    "en": {
+      "nombre": "Kandy",
+      "targetTerm": "kandy temple of the tooth travel guide",
+      "titulo": "Kandy: the Temple of the Tooth and Sri Lanka's last royal seat",
+      "enBreve": "Kandy was the seat of the Kandyan kingdom from 1592 until British troops entered in 1815, according to [UNESCO](https://whc.unesco.org/document/163325). Its sacred city, with the Temple of the Tooth, has been a World Heritage site since 1988. To enter the temple, cover your shoulders and knees and remove your shoes, per the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+      "sections": [
+        {
+          "h2": "Why is Kandy so important?",
+          "answer": "It became the capital of the kingdom in 1592 and was the last seat of royal power on the island, according to [UNESCO](https://whc.unesco.org/document/163325).",
+          "body": [
+            "British troops entered the city on 14 February 1815, per the same [UNESCO page](https://whc.unesco.org/document/163325). The temple complex was built mainly during the Kandyan era, from 1592 to 1815, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/)."
+          ]
+        },
+        {
+          "h2": "What is the Temple of the Tooth?",
+          "answer": "It houses the relic of the Buddha's tooth, which has long been greatly venerated, according to [UNESCO](https://whc.unesco.org/document/163325). The relic moved to Kandy in 1595, per the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+          "body": [
+            "Tradition holds that the relic was taken from the Buddha's funeral pyre in Kushinagar in 543 BCE and reached Sri Lanka in the 4th century CE, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+            "A terrorist bomb blast in 1998 caused serious damage to the temple, which was then fully restored, according to [UNESCO](https://whc.unesco.org/document/163325)."
+          ]
+        },
+        {
+          "h2": "When is the great procession?",
+          "answer": "The Esala Perahera takes place in July or August and lasts ten nights, peaking in the Randoli Perahera, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+          "body": [
+            "A golden casket, believed to hold the tooth relic, is carried through the streets on a decorated elephant. The procession also honours four guardian deities: Natha, Vishnu, Kataragama and Pattini, per the same [source](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/)."
+          ]
+        },
+        {
+          "h2": "How should you dress and behave at the temple?",
+          "answer": "Cover your shoulders and knees, and remove your shoes on entry, according to the [Central Cultural Fund](https://ccf.gov.lk/heritage-sites/temple-of-the-tooth/).",
+          "body": [
+            "Three daily ceremonies take place at dawn, noon and evening, per the same source, though it does not give exact times, so confirm them locally.",
+            "We could not find opening hours or foreigner ticket prices on the official pages we checked, so confirm them before you travel."
+          ]
+        },
+        {
+          "h2": "How to plan your visit",
+          "answer": "Kandy can be combined with other stops on the island. Browse [Travel Puzzle tours](/tours) and compare [destinations](/destinos) in Sri Lanka before choosing your route.",
+          "body": [
+            "A visit to the temple can take a good part of the morning or afternoon, so arrive early enough to watch the ceremonies without rushing."
+          ]
+        }
+      ],
+      "comoLoSabemos": "This guide was written by the editorial team with AI assistance, based on the linked public sources. Each figure comes from the source that cites it; if a source changes, the guide is reviewed again."
+    }
+  },
+  {
+    "pais": "lk",
+    "ciudad": "galle",
+    "nombre": "Galle",
+    "targetTerm": "fuerte holandes de galle sri lanka",
+    "titulo": "Galle: el fuerte holandés junto al mar en Sri Lanka",
+    "publishedAt": "2026-11-12",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "El fuerte de Galle es Patrimonio Mundial de la UNESCO desde 1988, según [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka). Los holandeses lo tomaron en 1640 y comenzaron una gran reconstrucción en 1649. Sus 14 bastiones y la muralla de unos 2 kilómetros se pueden recorrer a pie, según [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+    "sections": [
+      {
+        "h2": "¿Quién construyó el fuerte?",
+        "answer": "Los portugueses llegaron en 1505 y levantaron un primer fuerte; los holandeses lo tomaron en 1640 y empezaron una gran obra de reconstrucción en 1649, según [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+        "body": [
+          "Los británicos tomaron el control en 1796, según [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka). Las fuentes no coinciden sobre cuándo se levantó el primer fuerte portugués, así que esta guía no da esa fecha."
+        ]
+      },
+      {
+        "h2": "¿Qué se puede ver dentro?",
+        "answer": "El fuerte cubre 52 hectáreas dentro de sus muros y tiene 14 bastiones, según [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka), con murallas de unos 2 kilómetros, según [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+        "body": [
+          "Puedes caminar por las murallas y visitar el faro, que está sobre el bastión Utrecht, según [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka).",
+          "Entre los edificios religiosos está la iglesia reformada holandesa, de 1775, y la mezquita Meeran Jumma, de 1904, construida sobre las ruinas de una capilla portuguesa, según [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort)."
+        ]
+      },
+      {
+        "h2": "¿Qué torre y qué museos hay?",
+        "answer": "Una torre se levantó en 1883 para el jubileo de la reina Victoria, y en el fuerte están el Museo Marítimo y el Museo Nacional de Galle, según [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka).",
+        "body": [
+          "La inscripción de la UNESCO cubre el casco antiguo de Galle y sus fortificaciones, y se hizo en 1988, según la misma página de [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka)."
+        ]
+      },
+      {
+        "h2": "¿Qué conviene saber antes de ir?",
+        "answer": "Las fuentes que consultamos no indican precios de entrada ni horarios del fuerte, así que confírmalos en el lugar antes de viajar, según [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+        "body": [
+          "Lleva agua y gorra, porque gran parte del recorrido por las murallas es al aire libre y con sol.",
+          "Si combinas Galle con otros destinos de la isla, revisa los [tours de Travel Puzzle](/tours) y los [destinos](/destinos) de Sri Lanka."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Esta guía la redactó el equipo editorial con ayuda de IA, a partir de fuentes públicas enlazadas. Cada cifra viene de la fuente que la cita; si una fuente cambia, la guía se vuelve a revisar.",
+    "en": {
+      "nombre": "Galle",
+      "targetTerm": "galle dutch fort sri lanka guide",
+      "titulo": "Galle: the Dutch fort by the sea in Sri Lanka",
+      "enBreve": "Galle Fort has been a UNESCO World Heritage site since 1988, according to [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka). The Dutch took it in 1640 and began a major rebuilding in 1649. Its 14 bastions and walls of about 2 kilometres can be walked, according to [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+      "sections": [
+        {
+          "h2": "Who built the fort?",
+          "answer": "The Portuguese arrived in 1505 and built an early fort; the Dutch captured it in 1640 and began a major rebuilding in 1649, according to [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+          "body": [
+            "The British took control in 1796, per [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka). The sources disagree on when the first Portuguese fort went up, so this guide does not give that date."
+          ]
+        },
+        {
+          "h2": "What can you see inside?",
+          "answer": "The fort covers 52 hectares inside its walls and has 14 bastions, according to [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka), with walls about 2 kilometres long, per [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+          "body": [
+            "You can walk along the ramparts and visit the lighthouse, which stands on the Utrecht bastion, according to [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka).",
+            "Among the religious buildings are a Dutch Reformed church dating from 1775 and the Meeran Jumma Mosque, built in 1904 over the ruins of an earlier Portuguese chapel, per [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort)."
+          ]
+        },
+        {
+          "h2": "Which tower and museums are there?",
+          "answer": "A tower was erected in 1883 for Queen Victoria's jubilee, and the fort hosts the Maritime Museum and the Galle National Museum, according to [Ceylon Expeditions](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka).",
+          "body": [
+            "The UNESCO inscription covers the Old Town of Galle and its Fortifications, inscribed in 1988, as the same [Ceylon Expeditions page](https://www.ceylonexpeditions.com/galle-dutch-fort-sri-lanka) describes."
+          ]
+        },
+        {
+          "h2": "What should you check before you go?",
+          "answer": "The sources we used do not give entry fees or opening hours for the fort, so confirm them locally before you travel, per [Wonders of Ceylon](https://www.wondersofceylon.com/galle-fort).",
+          "body": [
+            "Bring water and a hat, because much of the walk along the ramparts is in the open sun.",
+            "If you combine Galle with other destinations on the island, browse [Travel Puzzle tours](/tours) and compare [destinations](/destinos) in Sri Lanka."
+          ]
+        }
+      ],
+      "comoLoSabemos": "This guide was written by the editorial team with AI assistance, based on the linked public sources. Each figure comes from the source that cites it; if a source changes, the guide is reviewed again."
+    }
+  },
+  {
+    "pais": "lk",
+    "ciudad": "ella",
+    "nombre": "Ella",
+    "targetTerm": "puente de los nueve arcos ella sri lanka",
+    "titulo": "Ella: el puente de los nueve arcos y sus caminatas",
+    "publishedAt": "2026-11-12",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "El puente de los nueve arcos, en Ella, mide 90 metros y tiene nueve arcos de piedra, según [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/). Se terminó en 1919 y los trenes pasan a unos 24 metros sobre el valle, según [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka). Antes de viajar, revisa la línea de tren desde Kandy, porque uno de sus tramos está cerrado.",
+    "sections": [
+      {
+        "h2": "¿Qué es el puente de los nueve arcos?",
+        "answer": "Es un puente de piedra de 90 metros con nueve arcos, que se ubica entre Ella y Demodara, según [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/) y [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka).",
+        "body": [
+          "Según [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka), se terminó en 1919, está hecho por completo de concreto y piedra, y los trenes pasan a unos 24 metros sobre el fondo del valle.",
+          "La misma guía advierte que el puente no tiene barandillas de seguridad, así que cuando escuches un tren, aléjate del paso, según [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka)."
+        ]
+      },
+      {
+        "h2": "¿Qué caminatas puedes hacer desde Ella?",
+        "answer": "La subida a Ella Rock suma unos 9 kilómetros en total, toma cerca de dos horas desde la estación y llega a un punto más alto de 900 metros, según [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/).",
+        "body": [
+          "Little Adam's Peak está a unos 2 kilómetros del puente y su última parte tiene 450 escalones, según [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/).",
+          "Los tiempos varían según la fuente: [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka) da de 3 a 4 horas de ida y vuelta a Ella Rock desde la estación, así que conviene empezar temprano."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar en tren desde Kandy?",
+        "answer": "Según [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/), el trayecto completo de Kandy a Ella dura alrededor de siete horas.",
+        "body": [
+          "El tramo de Kandy a Nanu Oya está cerrado desde el ciclón de noviembre de 2025 y no tiene fecha confirmada de reapertura, según [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka). Revisa el estado del servicio antes de planear el viaje.",
+          "La misma guía indica que el tramo de Nanu Oya a Ella sigue en servicio y sugiere contratar un chofer de Kandy a Nanu Oya, según [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka)."
+        ]
+      },
+      {
+        "h2": "Cómo organizar tu día en Ella",
+        "answer": "Ella funciona bien como parada de un día en la ruta por la isla. Revisa los [tours de Travel Puzzle](/tours) y compara los [destinos](/destinos) de Sri Lanka.",
+        "body": [
+          "Empieza temprano con la caminata a Little Adam's Peak o a Ella Rock, cuando hay menos calor, y deja la tarde para el puente y el centro del pueblo.",
+          "Lleva agua, calzado para caminar y ropa ligera para el sol."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Esta guía la redactó el equipo editorial con ayuda de IA, a partir de fuentes públicas enlazadas. Cada cifra viene de la fuente que la cita; si una fuente cambia, la guía se vuelve a revisar.",
+    "en": {
+      "nombre": "Ella",
+      "targetTerm": "nine arch bridge ella sri lanka",
+      "titulo": "Ella: the Nine Arch Bridge and its walks",
+      "enBreve": "The Nine Arch Bridge in Ella is 90 metres long, with nine stone arches, according to [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/). It was completed in 1919, and trains pass about 24 metres above the valley floor, per [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka). Check the train line from Kandy before you travel, because one section is closed.",
+      "sections": [
+        {
+          "h2": "What is the Nine Arch Bridge?",
+          "answer": "It is a stone bridge 90 metres long with nine arches, located between Ella and Demodara, according to [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/) and [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka).",
+          "body": [
+            "According to [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka), it was completed in 1919, is built entirely of concrete and stone, and trains run about 24 metres above the valley floor.",
+            "The same guide warns that the bridge has no safety railings, so step away from the track when you hear a train, per [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka)."
+          ]
+        },
+        {
+          "h2": "Which walks can you do from Ella?",
+          "answer": "The climb to Ella Rock covers about 9 kilometres in total, takes roughly two hours from the station and reaches a summit at 900 metres, according to [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/).",
+          "body": [
+            "Little Adam's Peak is about 2 kilometres from the bridge, and its final stretch has 450 steps, per [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/).",
+            "Walking times vary by source: [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka) gives 3 to 4 hours return for Ella Rock from the station, so start early."
+          ]
+        },
+        {
+          "h2": "How do you reach Ella by train from Kandy?",
+          "answer": "According to [22 Places](https://www.22places.com/ella-sri-lanka-travel-guide/), the full Kandy to Ella route takes about seven hours.",
+          "body": [
+            "The Kandy to Nanu Oya section has been closed since the cyclone of November 2025, with no confirmed reopening date, according to [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka). Check the current service before you plan your trip.",
+            "The same guide says the Nanu Oya to Ella section is running and suggests hiring a driver from Kandy to Nanu Oya, per [The Common Wanderer](https://www.thecommonwanderer.com/blog/things-to-do-ella-sri-lanka)."
+          ]
+        },
+        {
+          "h2": "How to plan your day in Ella",
+          "answer": "Ella works well as a one-day stop on a route around the island. Browse [Travel Puzzle tours](/tours) and compare [destinations](/destinos) in Sri Lanka.",
+          "body": [
+            "Start early with the walk to Little Adam's Peak or Ella Rock, when there is less heat, and leave the afternoon for the bridge and the town centre.",
+            "Bring water, walking shoes and light clothing for the sun."
+          ]
+        }
+      ],
+      "comoLoSabemos": "This guide was written by the editorial team with AI assistance, based on the linked public sources. Each figure comes from the source that cites it; if a source changes, the guide is reviewed again."
+    }
+  },
+  {
+    "pais": "lk",
+    "ciudad": "colombo",
+    "nombre": "Colombo",
+    "targetTerm": "guia de viaje de colombo para mexicanos",
+    "titulo": "Guía de Colombo: templos, lago y paseo por la capital de Sri Lanka",
+    "publishedAt": "2026-11-13",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Colombo es la puerta de entrada a Sri Lanka y se recorre bien en uno o dos días. El templo Gangaramaya, junto al lago Beira, abre de 6:00 a 22:00 y cobra 300 rupias de Sri Lanka, según [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple). Para entrar hay que cubrir hombros y rodillas, según [Eris Goes To](https://erisgoesto.com/2026/05/07/the-complete-visitors-guide-to-gangaramaya-temple-colombo-sri-lanka/).",
+    "sections": [
+      {
+        "h2": "¿Cuántos días conviene dedicar a Colombo?",
+        "answer": "Uno o dos días bastan para la ciudad, y el resto del viaje puedes usarlo para salir a otras partes de la isla. Es una ciudad para caminar por tramos cortos, con templos, un lago y barrios de mercado.",
+        "body": [
+          "Según [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple), Galle Face Green, el Colombo City Centre y el parque Viharamahadevi quedan a unos 2 o 3 kilómetros del templo Gangaramaya, así que puedes combinarlos en un mismo día.",
+          "Si llegas de noche, empieza con una cena cerca de Galle Face Green y deja las visitas para el día siguiente. La primera mañana puede ser para el templo, cuando hay menos gente."
+        ]
+      },
+      {
+        "h2": "¿Cómo se visita el templo Gangaramaya?",
+        "answer": "El templo abre todos los días de 6:00 a 22:00 y cobra una entrada de 300 rupias de Sri Lanka por persona, según [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple). La entrada incluye el templo, el museo, la biblioteca y el Seema Malaka.",
+        "body": [
+          "Para entrar hay que cubrir hombros y rodillas, y quitarse los zapatos y los sombreros antes de pasar a las zonas de culto, indica [Eris Goes To](https://erisgoesto.com/2026/05/07/the-complete-visitors-guide-to-gangaramaya-temple-colombo-sri-lanka/). Dentro se ven un gran Buda en el santuario principal, el pabellón del Buda de jade y un árbol Bodhi sobre una plataforma en el patio.",
+          "La misma guía recomienda ir temprano, cuando hay menos visitantes, o hacia las 18:00 para la ceremonia vespertina con tambores. Las fotos suelen estar permitidas, pero conviene preguntar antes de retratar a monjes y devotos. [Eris Goes To](https://erisgoesto.com/2026/05/07/the-complete-visitors-guide-to-gangaramaya-temple-colombo-sri-lanka/)"
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar desde el centro?",
+        "answer": "El templo queda sobre la calle Jinaratana, junto al lago Beira, y desde Colombo Fort o Pettah se llega en autobús, tren, taxi o tuk-tuk, según [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple).",
+        "body": [
+          "En tuk-tuk el trayecto dura unos 10 a 15 minutos y en taxi unos 15 a 20, con tarifas aproximadas de 150 a 300 rupias en tuk-tuk y de 300 a 500 en taxi, según la misma fuente. Uber y PickMe también funcionan en la ciudad. [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple)",
+          "Desde el templo puedes caminar hasta el lago y seguir hacia el centro con calma, sin apuro por el tráfico."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar tu visita a Colombo con Travel Puzzle?",
+        "answer": "En la [página de Colombo](/destinos/lk/colombo) están las experiencias que puedes reservar con Travel Puzzle. Si quieres combinar la capital con otras partes de Sri Lanka, escríbenos con tus fechas y te ayudamos a armar el viaje.",
+        "body": [
+          "Una buena forma de ordenar el día es empezar con el templo temprano, comer cerca del lago y dejar el paseo por la costa para el atardecer. Así evitas los traslados más largos en las horas de más calor."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 13 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Colombo",
+      "targetTerm": "colombo travel guide for mexican travelers",
+      "titulo": "Colombo guide: temples, the lake and a walk through Sri Lanka's capital",
+      "enBreve": "Colombo is the gateway to Sri Lanka and is easy to explore in one or two days. The Gangaramaya Temple, by Beira Lake, is open from 6:00 to 22:00 and charges 300 Sri Lankan rupees, according to [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple). Visitors must cover their shoulders and knees to enter, according to [Eris Goes To](https://erisgoesto.com/2026/05/07/the-complete-visitors-guide-to-gangaramaya-temple-colombo-sri-lanka/).",
+      "sections": [
+        {
+          "h2": "How many days should you spend in Colombo?",
+          "answer": "One or two days are enough for the city, and you can use the rest of the trip to head out to other parts of the island. It is a city for walking short distances, with temples, a lake and market neighborhoods.",
+          "body": [
+            "According to [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple), Galle Face Green, Colombo City Centre and Viharamahadevi Park are each about 2 to 3 kilometers from the Gangaramaya Temple, so you can combine them in a single day.",
+            "If you arrive at night, start with dinner near Galle Face Green and leave the sights for the next day. Your first morning can go to the temple, when there are fewer people."
+          ]
+        },
+        {
+          "h2": "How do you visit the Gangaramaya Temple?",
+          "answer": "The temple opens every day from 6:00 to 22:00 and charges an entry fee of 300 Sri Lankan rupees per person, according to [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple). The ticket covers the temple, the museum, the library and the Seema Malaka.",
+          "body": [
+            "To enter, you need to cover your shoulders and knees and take off your shoes and hats before entering worship areas, says [Eris Goes To](https://erisgoesto.com/2026/05/07/the-complete-visitors-guide-to-gangaramaya-temple-colombo-sri-lanka/). Inside you will find a large Buddha statue in the main shrine, the Jade Buddha pavilion and a Bodhi tree on a raised platform in the courtyard.",
+            "The same guide recommends going early, when there are fewer visitors, or around 18:00 for the evening pooja with traditional drumming. Photography is generally allowed, but it is wise to ask before photographing monks and devotees. [Eris Goes To](https://erisgoesto.com/2026/05/07/the-complete-visitors-guide-to-gangaramaya-temple-colombo-sri-lanka/)"
+          ]
+        },
+        {
+          "h2": "How do you get there from the center?",
+          "answer": "The temple is on Jinaratana Road, near Beira Lake, and from Colombo Fort or Pettah you can reach it by bus, train, taxi or tuk-tuk, according to [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple).",
+          "body": [
+            "A tuk-tuk ride takes about 10 to 15 minutes and a taxi about 15 to 20 minutes, with approximate fares of 150 to 300 rupees by tuk-tuk and 300 to 500 by taxi, says the same source. Uber and PickMe also work in the city. [Tripoto](https://www.tripoto.com/colombo/places-to-visit/gangaramaya-temple)",
+            "From the temple you can walk to the lake and then continue toward the center at a relaxed pace, without rushing through traffic."
+          ]
+        },
+        {
+          "h2": "How do you plan your visit to Colombo with Travel Puzzle?",
+          "answer": "The [Colombo page](/destinos/lk/colombo) lists the experiences you can book with Travel Puzzle. If you want to combine the capital with other parts of Sri Lanka, write to us with your dates and we will help you put the trip together.",
+          "body": [
+            "A good way to organize the day is to start at the temple early, eat near the lake and leave the seafront walk for sunset. That way you avoid long transfers during the hottest hours."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 13 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "in",
+    "ciudad": "bombay",
+    "nombre": "Bombay (Mumbai)",
+    "targetTerm": "guia de viaje de bombay mumbai para mexicanos",
+    "titulo": "Guía de Bombay (Mumbai): la Puerta de la India, las cuevas de Elefanta y cómo moverte",
+    "publishedAt": "2026-11-13",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Bombay, también llamada Mumbai, se recorre bien en un día con la Puerta de la India y el barrio de Colaba. El monumento abre las 24 horas y la entrada es gratuita, según [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/). Desde sus muelles salen lanchas a las cuevas de Elefanta, a cerca de una hora de trayecto, según [Indiaesque](https://indiaesque.com/mumbai/heritage-guide).",
+    "sections": [
+      {
+        "h2": "¿Qué ver primero en Bombay?",
+        "answer": "Empieza en la Puerta de la India, en Apollo Bandar, frente al hotel Taj Mahal Palace, y deja tiempo para caminar por Colaba. El monumento abre todo el día y la entrada es gratuita, según [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/).",
+        "body": [
+          "La Puerta de la India se construyó entre 1915 y 1924 y se inauguró el 4 de diciembre de 1924. La diseñó el arquitecto escocés George Wittet para conmemorar la visita de 1911 de los reyes Jorge V y María, según [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/).",
+          "Indiaesque describe el monumento como un arco de piedra de estilo indo-sarraceno y advierte que siempre hay mucha gente, así que conviene ir temprano por la mañana para verlo con menos visitantes. Desde ahí se ven el puerto y el hotel Taj Mahal Palace. [Indiaesque](https://indiaesque.com/mumbai/heritage-guide)"
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar a las cuevas de Elefanta?",
+        "answer": "Las lanchas salen de los muelles junto a la Puerta de la India y el cruce dura cerca de una hora por trayecto, según [Indiaesque](https://indiaesque.com/mumbai/heritage-guide).",
+        "body": [
+          "Las cuevas, declaradas Patrimonio Mundial en 1987, tienen lanchas de las 9:00 a las 15:30, y están cerradas los lunes y durante el monzón, indica la misma fuente. Revisa el día antes de planear el viaje. [Indiaesque](https://indiaesque.com/mumbai/heritage-guide)",
+          "Las fuentes consultadas no nombran a las empresas de lanchas, así que conviene confirmar en el muelle cuál opera el día de tu visita. El viaje de ida y vuelta se ubica entre 150 y 250 rupias, según la misma guía. [Indiaesque](https://indiaesque.com/mumbai/heritage-guide)"
+        ]
+      },
+      {
+        "h2": "¿Cómo moverte desde el centro?",
+        "answer": "El metro más cercano es Hutatma Chowk, en la Línea 3 (Aqua Line), a unos 1.5 kilómetros de la Puerta, según [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/).",
+        "body": [
+          "Los trenes locales de Churchgate y de CSMT quedan a unos 2 kilómetros, así que para muchos visitantes caminar o tomar un taxi desde esas estaciones resulta lo más sencillo. [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/)",
+          "La zona se concurre más de cinco a nueve de la noche, según la misma página, así que conviene planear el paseo por Colaba fuera de esa franja. [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/)"
+        ]
+      },
+      {
+        "h2": "¿Cómo armar tu día en Bombay con Travel Puzzle?",
+        "answer": "En la [página de Bombay](/destinos/in/bombay) están las experiencias que puedes reservar con Travel Puzzle. Si quieres combinar la ciudad con otras partes de la India, escríbenos con tus fechas y te ayudamos a armar el viaje.",
+        "body": [
+          "Un orden práctico es la mañana en Colaba, la comida cerca del puerto y la lancha a Elefanta antes de la tarde, o dejar la lancha para otro día si el clima no acompaña. El monzón cierra las cuevas, así que revisa la temporada antes de elegir fechas."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 13 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Mumbai (Bombay)",
+      "targetTerm": "mumbai bombay travel guide for mexican travelers",
+      "titulo": "Mumbai guide: the Gateway of India, the Elephanta Caves and how to get around",
+      "enBreve": "Mumbai, also known as Bombay, is easy to cover in a day with the Gateway of India and the Colaba neighborhood. The monument is open 24 hours and entry is free, according to [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/). Boats to the Elephanta Caves leave from its jetties, a crossing of about one hour, according to [Indiaesque](https://indiaesque.com/mumbai/heritage-guide).",
+      "sections": [
+        {
+          "h2": "What should you see first in Mumbai?",
+          "answer": "Start at the Gateway of India, at Apollo Bandar, opposite the Taj Mahal Palace hotel, and leave time to walk around Colaba. The monument is open all day and entry is free, according to [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/).",
+          "body": [
+            "The Gateway of India was built between 1915 and 1924 and opened on 4 December 1924. It was designed by the Scottish architect George Wittet to commemorate the 1911 visit of King George V and Queen Mary, according to [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/).",
+            "Indiaesque describes it as a stone arch in the Indo-Saracenic style and warns that crowds are constant, so going early in the morning means fewer visitors. From there you can see the harbour and the Taj Mahal Palace hotel. [Indiaesque](https://indiaesque.com/mumbai/heritage-guide)"
+          ]
+        },
+        {
+          "h2": "How do you get to the Elephanta Caves?",
+          "answer": "Boats leave from the jetties beside the Gateway of India and the crossing takes about one hour each way, according to [Indiaesque](https://indiaesque.com/mumbai/heritage-guide).",
+          "body": [
+            "The caves, listed as a UNESCO site in 1987, have boats running from 9:00 to 15:30, and they are closed on Mondays and during the monsoon, the same source says. Check the day before you plan the trip. [Indiaesque](https://indiaesque.com/mumbai/heritage-guide)",
+            "The sources consulted do not name the ferry operators, so it is wise to confirm at the jetty which one is running on the day of your visit. A return trip is priced between 150 and 250 rupees, according to the same guide. [Indiaesque](https://indiaesque.com/mumbai/heritage-guide)"
+          ]
+        },
+        {
+          "h2": "How do you get around from the center?",
+          "answer": "The nearest metro station is Hutatma Chowk, on Line 3 (Aqua Line), about 1.5 kilometers from the Gateway, according to [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/).",
+          "body": [
+            "Local trains from Churchgate and CSMT are about 2 kilometers away, so for many visitors walking or taking a taxi from those stations is the simplest option. [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/)",
+            "The area gets busiest from 5 to 9 in the evening, according to the same page, so it is wise to plan your walk along Colaba outside that window. [Mumbai Metro Times](https://www.mumbaimetrotimes.com/places/gateway-of-india/)"
+          ]
+        },
+        {
+          "h2": "How do you plan your day in Mumbai with Travel Puzzle?",
+          "answer": "The [Mumbai page](/destinos/in/bombay) lists the experiences you can book with Travel Puzzle. If you want to combine the city with other parts of India, write to us with your dates and we will help you put the trip together.",
+          "body": [
+            "A practical order is the morning in Colaba, lunch near the port and the boat to Elephanta before the afternoon, or leaving the boat for another day if the weather does not cooperate. The monsoon closes the caves, so check the season before you choose dates."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 13 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "in",
+    "ciudad": "amritsar",
+    "nombre": "Amritsar",
+    "targetTerm": "guia de viaje de amritsar para mexicanos",
+    "titulo": "Guía de Amritsar: el Templo Dorado, el langar y la ceremonia de Wagah",
+    "publishedAt": "2026-11-13",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Amritsar gira en torno al Templo Dorado, un santuario sij al que se entra sin pagar. Hay que cubrir la cabeza y quitarse los zapatos, según [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar). Cerca de la ciudad, la ceremonia de la frontera de Wagah es gratuita, sin reservación y dura unos 45 minutos, según [India Guide](https://india-guide.in/guides/wagah-border-guide/).",
+    "sections": [
+      {
+        "h2": "¿Qué hace especial al Templo Dorado?",
+        "answer": "El Harmandir Sahib fue concebido como el centro de culto de los sijs por el gurú Arjan, según [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar). La entrada no tiene costo y no hay restricciones por religión ni nacionalidad, de acuerdo con [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm).",
+        "body": [
+          "El complejo se describe como abierto las 24 horas, aunque el santuario interior sigue un ciclo de ceremonias: tras el cierre nocturno del Palki Sahib, hacia las 21:30 o 22:00, el acceso se pausa y vuelve a abrir entre las 2:00 y las 3:00 de la madrugada, según [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm).",
+          "Esa misma guía fecha sus horarios en noviembre de 2024 y pide confirmarlos antes de viajar, así que tómalos como referencia. [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm)"
+        ]
+      },
+      {
+        "h2": "¿Qué hay que cumplir al entrar?",
+        "answer": "Hay que cubrir la cabeza y quitarse los zapatos antes de entrar. En la entrada hay pañuelos para quien no traiga uno, según [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm).",
+        "body": [
+          "Antes de pasar, la misma guía recomienda lavarse los pies en las pozas designadas, como parte de la entrada al complejo.",
+          "GoAsia señala que el lugar se llena menos temprano en la mañana, sobre todo los fines de semana, así que es buen momento para llegar con calma. [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar)"
+        ]
+      },
+      {
+        "h2": "¿Cómo funciona el langar?",
+        "answer": "El langar es una comida comunitaria gratuita que se sirve a todas las personas, sin importar religión, casta, credo o nacionalidad, según [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar).",
+        "body": [
+          "La cocina está hacia la entrada oriental del complejo y el costo lo cubren los fondos del templo, indica la misma fuente. El menú, según [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm), es vegetariano: chapati, dal, verduras y arroz.",
+          "Shanti Travel señala que la cocina alimenta a un gran número de peregrinos, aunque sus horarios aparecen en dos versiones distintas en la misma guía, así que conviene preguntar en el lugar. [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm)"
+        ]
+      },
+      {
+        "h2": "¿Qué ver en Wagah y cuándo salir?",
+        "answer": "La ceremonia Beating Retreat en la frontera de Wagah está a unos 30 kilómetros de Amritsar, y el trayecto dura entre 1 y 1.5 horas, según [India Guide](https://india-guide.in/guides/wagah-border-guide/).",
+        "body": [
+          "La hora cambia con el atardecer. Según la misma guía, en verano la ceremonia ocurre entre las 17:15 y las 18:30 y en invierno entre las 16:00 y las 16:30, y dura unos 45 minutos. Confirma la hora en el lugar antes de salir. [India Guide](https://india-guide.in/guides/wagah-border-guide/)",
+          "Los asientos son por orden de llegada, así que conviene llegar una o dos horas antes entre semana y más temprano en fin de semana. No se permiten bolsas grandes ni power banks, y hay guardarropa cerca de la entrada, según la misma guía. [India Guide](https://india-guide.in/guides/wagah-border-guide/)"
+        ]
+      },
+      {
+        "h2": "¿Cómo armar tu visita a Amritsar con Travel Puzzle?",
+        "answer": "En la [página de Amritsar](/destinos/in/amritsar) están las experiencias que puedes reservar con Travel Puzzle. Si quieres combinar Amritsar con otras ciudades del norte de la India, escríbenos con tus fechas y te ayudamos a armar el viaje.",
+        "body": [
+          "Una tarde para el Templo Dorado y la ceremonia de Wagah da una buena idea de la ciudad, pero conviene reservar un día completo si también quieres visitar Jallianwala Bagh."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 13 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Amritsar",
+      "targetTerm": "amritsar travel guide for mexican travelers",
+      "titulo": "Amritsar guide: the Golden Temple, the langar and the Wagah border ceremony",
+      "enBreve": "Amritsar revolves around the Golden Temple, a Sikh shrine that visitors enter without paying. You must cover your head and take off your shoes, according to [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar). Near the city, the Wagah border ceremony is free, needs no reservation and lasts about 45 minutes, according to [India Guide](https://india-guide.in/guides/wagah-border-guide/).",
+      "sections": [
+        {
+          "h2": "What makes the Golden Temple special?",
+          "answer": "The Harmandir Sahib was conceived as the central place of worship for Sikhs by Guru Arjan, according to [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar). Entry is free and is not restricted by religion or nationality, according to [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm).",
+          "body": [
+            "The complex is described as open 24 hours a day, although the inner sanctum follows a ceremony cycle: after the Palki Sahib closes at about 21:30 or 22:00, access pauses and reopens between 2:00 and 3:00 in the morning, according to [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm).",
+            "The same guide dates its hours to November 2024 and asks readers to confirm them before traveling, so treat them as a reference. [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm)"
+          ]
+        },
+        {
+          "h2": "What do you need to follow when entering?",
+          "answer": "You must cover your head and take off your shoes before entering. Head coverings are available at the entrance for anyone who does not bring a scarf, according to [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm).",
+          "body": [
+            "Before going in, the same guide recommends washing your feet in the designated pools as part of entering the complex.",
+            "GoAsia notes that the site is less crowded early in the morning, especially on weekends, so it is a good moment to arrive at a relaxed pace. [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar)"
+          ]
+        },
+        {
+          "h2": "How does the langar work?",
+          "answer": "The langar is a free community meal served to everyone, regardless of religion, caste, creed or nationality, according to [GoAsia](https://goasia.cc/en/article/golden-temple-amritsar).",
+          "body": [
+            "The kitchen is toward the eastern entrance of the complex and the cost is covered by the temple funds, the same source says. The menu, according to [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm), is vegetarian: chapati, dal, vegetables and rice.",
+            "Shanti Travel notes that the kitchen feeds a large number of pilgrims, although its hours appear in two different versions within the same guide, so it is wise to ask on site. [Shanti Travel](https://www.shantitravel.com/en/blog/10-facts-need-know-visiting-golden-temple-amritsar.htm)"
+          ]
+        },
+        {
+          "h2": "What is there to see at Wagah and when should you go?",
+          "answer": "The Beating Retreat ceremony at the Wagah border is about 30 kilometers from Amritsar, and the trip takes between 1 and 1.5 hours, according to [India Guide](https://india-guide.in/guides/wagah-border-guide/).",
+          "body": [
+            "The time changes with sunset. According to the same guide, in summer the ceremony runs between 17:15 and 18:30 and in winter between 16:00 and 16:30, and lasts about 45 minutes. Confirm the time on site before you leave. [India Guide](https://india-guide.in/guides/wagah-border-guide/)",
+            "Seats are first come, first served, so it is wise to arrive one or two hours early on weekdays and earlier on weekends. Large bags and power banks are not allowed, and there is a cloakroom near the entrance, according to the same guide. [India Guide](https://india-guide.in/guides/wagah-border-guide/)"
+          ]
+        },
+        {
+          "h2": "How do you plan your visit to Amritsar with Travel Puzzle?",
+          "answer": "The [Amritsar page](/destinos/in/amritsar) lists the experiences you can book with Travel Puzzle. If you want to combine Amritsar with other cities in northern India, write to us with your dates and we will help you put the trip together.",
+          "body": [
+            "An afternoon for the Golden Temple and the Wagah ceremony gives a good idea of the city, but it is wise to set aside a full day if you also want to visit Jallianwala Bagh."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 13 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "cn",
+    "ciudad": "kunming",
+    "nombre": "Kunming",
+    "targetTerm": "guia de viaje de kunming para mexicanos",
+    "titulo": "Guía de Kunming: el Bosque de Piedra, la Ciudad de la Primavera y cuándo viajar",
+    "publishedAt": "2026-11-13",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Kunming, en la provincia de Yunnan, es conocida como la Ciudad de la Primavera Eterna por su clima suave, según [Wander in China](https://www.wanderinchina.com/destinations/kunming/). El Bosque de Piedra, o Shilin, está a unos 88 kilómetros y se llega en unas dos horas en autobús, según [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/).",
+    "sections": [
+      {
+        "h2": "¿Por qué le llaman Ciudad de la Primavera?",
+        "answer": "Kunming tiene un clima suave casi todo el año, con temperaturas promedio de unos 15 a 24 grados Celsius, según [Wander in China](https://www.wanderinchina.com/destinations/kunming/).",
+        "body": [
+          "Esa temperatura templada hace cómodo caminar por la ciudad, incluso fuera de temporada. Wander in China recomienda visitarla en primavera y en otoño, cuando el clima es más agradable. [Wander in China](https://www.wanderinchina.com/destinations/kunming/)",
+          "China Explorer Tour, en cambio, indica que los meses de marzo a octubre son los más propicios para el Bosque de Piedra, y que octubre es fresco y seco, aunque también es temporada alta con más visitantes. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)"
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar al Bosque de Piedra?",
+        "answer": "El Bosque de Piedra está a unos 88 kilómetros de la ciudad. En autobús desde la estación oriental tarda cerca de dos horas, según [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/).",
+        "body": [
+          "En auto, el trayecto desde el centro dura cerca de hora y media, según la misma guía, aunque puede variar con el tráfico. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)",
+          "La guía también menciona el tren bala hasta Shilin West, de unos 20 minutos, y luego el autobús 99 hasta el sitio. En una tabla aparecen 30 minutos, así que conviene confirmar el tiempo antes de salir. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)"
+        ]
+      },
+      {
+        "h2": "¿Qué horario tiene y cómo se compran los boletos?",
+        "answer": "La mayoría de los días se entra de 8:00 a 18:00, aunque otra sección de la misma guía da las 7:30 como hora de apertura, según [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/).",
+        "body": [
+          "Los boletos se compran en la entrada o en línea, y sus precios pueden cambiar. Estudiantes, personas mayores y niños pueden tener descuento, indica la misma guía. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)",
+          "El Bosque de Piedra es un paisaje kárstico clásico, con columnas de caliza que se levantan del suelo. Por eso la visita sirve para caminar entre las formaciones sin prisa, según [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)."
+        ]
+      },
+      {
+        "h2": "¿Qué más hay en Kunming?",
+        "answer": "Además del bosque, la guía de [Wander in China](https://www.wanderinchina.com/destinations/kunming/) menciona el lago Dianchi, el Parque del Lago Verde y las Colinas Occidentales, aunque no los describe en detalle.",
+        "body": [
+          "El Museo de la Ciudad de Kunming aparece como opción en la misma guía. No hay distancias ni horarios para estos puntos, así que conviene confirmarlos antes de salir. [Wander in China](https://www.wanderinchina.com/destinations/kunming/)"
+        ]
+      },
+      {
+        "h2": "¿Cómo armar tu viaje a Kunming con Travel Puzzle?",
+        "answer": "En la [página de Kunming](/destinos/cn/kunming) están las experiencias que puedes reservar con Travel Puzzle. Si quieres unir Kunming con otras ciudades de China, escríbenos con tus fechas y te ayudamos a armar el viaje.",
+        "body": [
+          "Como el bosque implica un trayecto largo de ida y vuelta, lo práctico es reservarlo como una salida de día completo y dejar el resto de los días en la ciudad para los parques y el lago."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 13 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Kunming",
+      "targetTerm": "kunming travel guide for mexican travelers",
+      "titulo": "Kunming guide: the Stone Forest, the City of Spring and when to go",
+      "enBreve": "Kunming, in Yunnan province, is known as the City of Eternal Spring for its mild climate, according to [Wander in China](https://www.wanderinchina.com/destinations/kunming/). The Stone Forest, or Shilin, is about 88 kilometers away and takes roughly two hours by bus, according to [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/).",
+      "sections": [
+        {
+          "h2": "Why is it called the City of Spring?",
+          "answer": "Kunming has a mild climate almost all year, with average temperatures of about 15 to 24 degrees Celsius, according to [Wander in China](https://www.wanderinchina.com/destinations/kunming/).",
+          "body": [
+            "That mild temperature makes it comfortable to walk around the city, even outside peak season. Wander in China recommends visiting in spring and autumn, when the weather is most pleasant. [Wander in China](https://www.wanderinchina.com/destinations/kunming/)",
+            "China Explorer Tour, on the other hand, says March through October is the most suitable period for the Stone Forest, and that October is cool and dry but also a busy season with more visitors. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)"
+          ]
+        },
+        {
+          "h2": "How do you get to the Stone Forest?",
+          "answer": "The Stone Forest is about 88 kilometers from the city. By bus from the East Coach Station it takes close to two hours, according to [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/).",
+          "body": [
+            "By car, the trip from downtown takes about an hour and a half, according to the same guide, although traffic can change that. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)",
+            "The guide also mentions the bullet train to Shilin West, about 20 minutes, and then bus 99 to the site. A table in it lists 30 minutes, so it is wise to confirm the time before you leave. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)"
+          ]
+        },
+        {
+          "h2": "What are the opening hours and how are tickets bought?",
+          "answer": "Most days you can enter from 8:00 to 18:00, although another section of the same guide gives 7:30 as the opening time, according to [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/).",
+          "body": [
+            "Tickets can be bought at the entrance or online, and prices may change. Students, seniors and children may get discounts, the same guide says. [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)",
+            "The Stone Forest is a classic karst landscape, with limestone columns rising from the ground. That is why a visit works well for walking among the formations at an unhurried pace, according to [China Explorer Tour](https://www.chinaexplorertour.com/2026/blog/kunming-stone-forest-travel-tips-itinerary-guide/)."
+          ]
+        },
+        {
+          "h2": "What else is there in Kunming?",
+          "answer": "Besides the forest, the [Wander in China](https://www.wanderinchina.com/destinations/kunming/) guide mentions Dianchi Lake, Green Lake Park and the Western Hills, although it does not describe them in detail.",
+          "body": [
+            "The Kunming City Museum appears as an option in the same guide. There are no distances or opening hours listed for these places, so it is wise to confirm them before you go. [Wander in China](https://www.wanderinchina.com/destinations/kunming/)"
+          ]
+        },
+        {
+          "h2": "How do you plan your trip to Kunming with Travel Puzzle?",
+          "answer": "The [Kunming page](/destinos/cn/kunming) lists the experiences you can book with Travel Puzzle. If you want to combine Kunming with other cities in China, write to us with your dates and we will help you put the trip together.",
+          "body": [
+            "Because the forest means a long round trip, the practical choice is to book it as a full-day outing and keep the other days in the city for the parks and the lake."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 13 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "sg",
+    "ciudad": "singapur",
+    "nombre": "Singapur",
+    "targetTerm": "guia de viaje de singapur para mexicanos",
+    "titulo": "Guía de Singapur: Gardens by the Bay, los Supertrees y cómo entrar al país",
+    "publishedAt": "2026-11-13",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Singapur se recorre bien en tres o cuatro días. Para turismo, quienes tienen pasaporte mexicano no necesitan visa y pueden quedarse hasta 30 días, según [Wikipedia](https://en.wikipedia.org/wiki/Visa_requirements_for_Mexican_citizens). Gardens by the Bay, junto a Marina Bay, reúne dos invernaderos y los Supertrees iluminados, según [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+    "sections": [
+      {
+        "h2": "¿Necesitan visa los mexicanos para entrar?",
+        "answer": "Para turismo no se pide visa a quienes tienen pasaporte mexicano, y pueden permanecer hasta 30 días, según [Wikipedia](https://en.wikipedia.org/wiki/Visa_requirements_for_Mexican_citizens).",
+        "body": [
+          "Antes de llegar conviene enviar la SG Arrival Card, que se presenta en línea junto con la declaración electrónica de salud, según la [ICA](https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card).",
+          "El trámite es gratuito, y la ICA indica que no respalda a las empresas que cobran por enviarla en nombre de quien viaja. Conviene hacerlo directamente en el sitio oficial. [ICA](https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card)"
+        ]
+      },
+      {
+        "h2": "¿Qué ver en Gardens by the Bay?",
+        "answer": "El complejo tiene el Cloud Forest, un invernadero con una montaña artificial de 35 metros y una cascada de 30, y el Flower Dome, que la guía describe como el invernadero de vidrio más grande del mundo por volumen, según [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+        "body": [
+          "El Cloud Forest recrea un ambiente de montaña tropical entre 1,000 y 3,500 metros de altura, y su boleto para adultos cuesta 26 dólares de Singapur. Los dos invernaderos juntos cuestan 46 dólares de Singapur, según [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+          "La Supertree Grove al aire libre es gratuita y tiene 18 estructuras verticales de entre 25 y 50 metros, cubiertas de plantas y encendidas de noche, según [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/)."
+        ]
+      },
+      {
+        "h2": "¿Cuándo es el show de luces y cómo llegar?",
+        "answer": "El show Garden Rhapsody se proyecta sobre los Supertrees cada noche a las 19:45 y a las 20:45, sin boleto, según [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+        "body": [
+          "En fines de semana el área al aire libre se llena desde cerca de las 19:15, así que conviene llegar temprano para elegir lugar con calma. [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/)",
+          "Para llegar, toma el MRT a la estación Bayfront (CE1/DT16), que es un cruce de las líneas Circle y Downtown. Desde la salida B hay un paso subterráneo hacia Marina Bay Sands, y de ahí el recorrido a pie dura de 10 a 15 minutos, según [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/)."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar tu visita a Singapur con Travel Puzzle?",
+        "answer": "En la [página de Singapur](/destinos/sg/singapur) están las experiencias que puedes reservar con Travel Puzzle. Si quieres combinar la ciudad con otros destinos del sudeste asiático, escríbenos con tus fechas y te ayudamos a armar el viaje.",
+        "body": [
+          "Un buen orden es dejar Gardens by the Bay para la tarde y la noche, y reservar la mañana para moverte entre barrios o visitar otra parte de la ciudad. Así llegas al show sin prisa."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 13 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Singapore",
+      "targetTerm": "singapore travel guide for mexican travelers",
+      "titulo": "Singapore guide: Gardens by the Bay, the Supertrees and how to enter the country",
+      "enBreve": "Singapore is easy to cover in three or four days. For tourism, holders of Mexican passports do not need a visa and can stay up to 30 days, according to [Wikipedia](https://en.wikipedia.org/wiki/Visa_requirements_for_Mexican_citizens). Gardens by the Bay, next to Marina Bay, combines two conservatories and the illuminated Supertrees, according to [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+      "sections": [
+        {
+          "h2": "Do Mexicans need a visa to enter?",
+          "answer": "For tourism, no visa is required for holders of Mexican passports, who can stay up to 30 days, according to [Wikipedia](https://en.wikipedia.org/wiki/Visa_requirements_for_Mexican_citizens).",
+          "body": [
+            "Before arriving, it is wise to submit the SG Arrival Card, which is filed online together with the electronic health declaration, according to the [ICA](https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card).",
+            "Submitting it is free, and the ICA states that it does not support businesses that charge a fee to submit it on behalf of travelers. It is best to file it directly on the official site. [ICA](https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card)"
+          ]
+        },
+        {
+          "h2": "What is there to see at Gardens by the Bay?",
+          "answer": "The complex has the Cloud Forest, a conservatory with a 35-meter artificial mountain and a 30-meter waterfall, and the Flower Dome, which the guide describes as the world's largest glass greenhouse by volume, according to [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+          "body": [
+            "The Cloud Forest recreates a tropical mountain environment between 1,000 and 3,500 meters in elevation, and the adult ticket costs 26 Singapore dollars. Both conservatories together cost 46 Singapore dollars, according to [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+            "The outdoor Supertree Grove is free to enter and has 18 vertical structures between 25 and 50 meters tall, covered in plants and lit up at night, according to [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/)."
+          ]
+        },
+        {
+          "h2": "When is the light show and how do you get there?",
+          "answer": "The Garden Rhapsody show is projected onto the Supertrees every night at 19:45 and 20:45, with no ticket required, according to [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/).",
+          "body": [
+            "On weekends the outdoor area fills up from around 19:15, so it is wise to arrive early and pick a spot at a relaxed pace. [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/)",
+            "To get there, take the MRT to Bayfront station (CE1/DT16), where the Circle and Downtown lines meet. From exit B an underground passage leads to Marina Bay Sands, and the walk from there takes 10 to 15 minutes, according to [Singapore Spirit](https://www.singapore-spirit.com/guides/gardens-by-the-bay-guide/)."
+          ]
+        },
+        {
+          "h2": "How do you plan your visit to Singapore with Travel Puzzle?",
+          "answer": "The [Singapore page](/destinos/sg/singapur) lists the experiences you can book with Travel Puzzle. If you want to combine the city with other destinations in Southeast Asia, write to us with your dates and we will help you put the trip together.",
+          "body": [
+            "A good order is to leave Gardens by the Bay for the afternoon and evening, and use the morning to move between neighborhoods or visit another part of the city. That way you reach the show without rushing."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 13 November 2026) and the site's catalog."
+    }
   }
 ]

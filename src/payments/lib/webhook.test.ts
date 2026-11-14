@@ -64,3 +64,21 @@ describe("parsePaymentEvent", () => {
     expect(parsePaymentEvent(null)).toEqual({ type: "ignore" });
   });
 });
+
+describe("parsePaymentEvent: retención", () => {
+  const hold = (over: Record<string, unknown> = {}) => ({
+    id: "cs_h1", payment_status: "unpaid", amount_total: 150000, currency: "mxn", payment_intent: "pi_h1",
+    metadata: { payment_id: "pay_h1", request_id: "req_1", kind: "total", hold: "1" }, ...over,
+  });
+  it("REQ-3482: sesión completada con la marca de retención → held (aunque Stripe diga unpaid)", () => {
+    expect(parsePaymentEvent({ type: "checkout.session.completed", data: { object: hold() } })).toEqual({
+      type: "held", paymentId: "pay_h1", sessionId: "cs_h1", amountCentavos: 150000, paymentIntent: "pi_h1",
+    });
+  });
+  it("REQ-3482: la marca de retención gana sobre payment_status paid (nunca se toma por cobro)", () => {
+    expect(parsePaymentEvent({ type: "checkout.session.completed", data: { object: hold({ payment_status: "paid" }) } }).type).toBe("held");
+  });
+  it("REQ-3482: sin la marca, 'unpaid' sigue siendo ignore", () => {
+    expect(parsePaymentEvent({ type: "checkout.session.completed", data: { object: hold({ metadata: { payment_id: "pay_h1" } }) } })).toEqual({ type: "ignore" });
+  });
+});

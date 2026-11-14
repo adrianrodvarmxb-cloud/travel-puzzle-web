@@ -80,6 +80,8 @@ const optionSchema = z
     StartTime: str,
     HoursBooking: num,
     HoursCancelation: num,
+    /** REQ-10513: días de operación (texto; formato sin confirmar por Tangol). */
+    OperationDays: str,
   })
   .transform((o) => ({
     code: o.Code,
@@ -88,6 +90,7 @@ const optionSchema = z
     minRate: o.MinRate,
     hoursBooking: o.HoursBooking,
     hoursCancelation: o.HoursCancelation,
+    operationDaysRaw: o.OperationDays,
   }));
 
 /**
@@ -134,7 +137,7 @@ export interface TangolRates {
   discarded: number;
 }
 
-// REQ-1542, REQ-1543
+// REQ-1542, REQ-1543, REQ-10513
 export function parseTourRates(raw: unknown): TangolRates {
   const r = (raw ?? {}) as Record<string, unknown>;
   const tourId = z.number().int().parse(r.TourId);

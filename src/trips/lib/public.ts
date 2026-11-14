@@ -70,6 +70,8 @@ export interface ToursFilter {
   /** REQ-051..056 */
   /** T4: formatos de la taxonomía (?formato=). */
   formatos?: string[];
+  /** REQ-1421 / REQ-1422 */
+  temas?: string[]; atributos?: string[];
   groups?: string[]; freeCancel?: boolean; privateOnly?: boolean; hotelPickup?: boolean; novelty?: boolean;
   durMin?: number | null; durMax?: number | null; nowMs?: number;
 }
@@ -92,6 +94,8 @@ export function matchesToursFilter(t: FilterableTrip, f: ToursFilter): boolean {
   if (f.date && !(t.dates ?? []).includes(f.date)) return false;
   if (f.groups?.length && !f.groups.includes(t.group ?? "otros")) return false; // REQ-051
   if (f.formatos?.length && !f.formatos.includes(t.formato ?? "")) return false; // T4 (REQ-413)
+  // REQ-1421 / REQ-1422: los viajes propios aún no traen temas ni atributos; con esos filtros no se afirma que cumplen.
+  if (f.temas?.length || f.atributos?.length) return false;
   if (f.freeCancel && !t.freeCancel) return false; // REQ-052
   if (f.privateOnly && !t.private) return false; // REQ-053
   if (f.hotelPickup && !t.hotelPickup) return false; // REQ-054

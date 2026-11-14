@@ -75,6 +75,8 @@ export function tripFormat(t: TripInput): ExperienceFormat {
 
 export const isDayTripTrip = (t: TripInput): boolean => tripFormat(t) === "excursion-dia";
 
-const NOT_RANKED = new Set<ExperienceFormat>(["fuera", "traslado", "transporte", "alquiler", "por-revisar"]);
-/** REQ-450: formatos que entran a los carruseles por reseñas (fuera online/servicios, traslados y transporte). */
-export const isOnSiteForRanking = (f: ExperienceFormat): boolean => !NOT_RANKED.has(f);
+/** REQ-10515: también los formatos de la taxonomía (`FormatoOEstado`) que no son «cosas que hacer» en el lugar. */
+const NOT_RANKED = new Set<string>(["fuera", "traslado", "transporte", "alquiler", "por-revisar", "en-linea", "esenciales-viaje"]);
+/** REQ-450: formatos que entran a los carruseles por reseñas (fuera online/servicios, traslados, transporte y alquiler). */
+// REQ-10515: acepta el formato de la regla temporal o el de la taxonomía (string).
+export const isOnSiteForRanking = (f: ExperienceFormat | string): boolean => !NOT_RANKED.has(f);
