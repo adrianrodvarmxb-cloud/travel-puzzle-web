@@ -2,6 +2,16 @@
 
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
+Actualizado: 14 nov 2026, 06:45 (CDMX).
+
+## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
+Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10534 | Extime se liga a su Excel original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (PR #551) |
+| REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (pruebas verdes; bigbustours.com da 403 a la descarga) |
+| REQ-10576 | Subir a R2 y D1 los originales ligados | NUEVO | `src/scripts/raw-backfill.ts` | — (DATOS) | PENDIENTE (candado del PO) |
+| REQ-10577 | OK para mergear #507, #548, #551 | NUEVO | — | — (VALIDACIÓN) | PENDIENTE |
 
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
