@@ -1,5 +1,5 @@
 /**
- * REQ-10521 (INC-016): espera a que el commit del blog quede publicado en producción.
+ * REQ-10521 (INC-017): espera a que el commit del blog quede publicado en producción.
  *   npx tsx src/scripts/esperar-deploy.ts <sha del merge> --desde <ISO> [--minutos 60] [--motivo archivo]
  * Revisa cada 30 s las corridas de «Publicar en Cloudflare» en main creadas desde --desde; una corrida cuenta si su
  * commit es el del merge o lo contiene (API compare). Sale con 0 cuando una de ellas termina en verde, con 1 si una

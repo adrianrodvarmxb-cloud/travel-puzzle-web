@@ -175,7 +175,7 @@ describe("REQ-1090: registro y tope en el publicador", () => {
   });
 });
 
-// REQ-10520 (INC-016): las redes esperan, con reintentos, a que el artículo y las láminas respondan 200.
+// REQ-10520 (INC-017): las redes esperan, con reintentos, a que el artículo y las láminas respondan 200.
 describe("REQ-10520: esperar la publicación antes de publicar en redes", () => {
   const fbOnly = () => redesConfig({ SOCIAL_FACEBOOK_ENABLED: "true" }, secrets);
   const ok = (u: string) => (u.includes("fields=access_token") ? res(200, { access_token: "PAGE-TOK", id: "1" }) : res(200, { id: "fb1" }));

@@ -1,5 +1,5 @@
 /**
- * REQ-10521 (INC-016): decide si el commit del blog ya quedó publicado, a partir de las corridas de «Publicar en
+ * REQ-10521 (INC-017): decide si el commit del blog ya quedó publicado, a partir de las corridas de «Publicar en
  * Cloudflare» en main creadas después del merge. Función pura: quien llama dice, por corrida, si incluye el commit.
  *
  * La cola de concurrencia de deploy-cloudflare.yml deja una sola corrida pendiente: si llega un push a main, la

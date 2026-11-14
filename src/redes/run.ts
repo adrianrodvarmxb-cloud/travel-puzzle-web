@@ -23,7 +23,7 @@ async function sendForm(f: Fetch, r: FormRequest): Promise<Record<string, unknow
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/** REQ-10520 (INC-016): cuánto esperan las redes a que el artículo y las láminas respondan 200 (hasta 60 min). */
+/** REQ-10520 (INC-017): cuánto esperan las redes a que el artículo y las láminas respondan 200 (hasta 60 min). */
 export const ESPERA_PUBLICACION = { intentos: 60, pausaMs: 60_000 };
 
 export type Historial = { yaPublicadoEnRed(red: RedName): Promise<boolean>; registrar(red: RedName): Promise<void> };

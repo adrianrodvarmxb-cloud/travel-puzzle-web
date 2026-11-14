@@ -228,7 +228,7 @@ jobs:
           echo "Deploy de producción" > "$RUNNER_TEMP/blog/paso"
           desde=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           gh api -X POST "repos/$REPO/actions/workflows/deploy-cloudflare.yml/dispatches" -f ref=main
-          # REQ-10521 (INC-016): si un push a main reemplaza en la cola al deploy despachado («cancelled»), el que lo
+          # REQ-10521 (INC-017): si un push a main reemplaza en la cola al deploy despachado («cancelled»), el que lo
           # reemplaza también publica la entrada; se espera a cualquier deploy de main que contenga el merge.
           npx tsx src/scripts/esperar-deploy.ts "${{ steps.merge.outputs.sha }}" --desde "$desde" --minutos 60 --motivo "$RUNNER_TEMP/blog/motivo"
 

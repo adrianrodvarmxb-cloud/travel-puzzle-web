@@ -3,7 +3,7 @@ import { estadoPublicacion, type RunDeploy } from "./seguimiento-deploy";
 
 const run = (id: number, status: string, conclusion: string | null, incluye = true): RunDeploy => ({ id, status, conclusion, incluye });
 
-// REQ-10521 (INC-016): el deploy que lanza blog-diario puede quedar «cancelled» porque un push a main lo reemplaza en
+// REQ-10521 (INC-017): el deploy que lanza blog-diario puede quedar «cancelled» porque un push a main lo reemplaza en
 // la cola de concurrencia; el que lo reemplaza también publica la entrada. Se sigue a ese, no se declara NO PUBLICADO.
 describe("REQ-10521: seguir al deploy que publica el commit del blog", () => {
   it("REQ-10521: el despachado cancelado y uno posterior que incluye el commit en verde → verde con el posterior", () => {
