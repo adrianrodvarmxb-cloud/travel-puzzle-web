@@ -51,7 +51,7 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1341 | lastmod real de sitemap-paginas.xml en el índice | NUEVO | `src/seo/lib/sitemaps.ts`, `src/destinations/sitemaps.ts` | `src/seo/lib/sitemaps-paginas-lastmod.test.ts` | CUMPLIDO (#358) |
 | REQ-1355 | El sync blindado ve las guías de ciudad del repo | NUEVO | `src/destinations/lib/indexing.ts`, `src/catalog/guarded-repository.ts` | `src/destinations/lib/indexing-guias-repo.test.ts`, `src/catalog/guarded-repository-guias.test.ts` | CUMPLIDO (#359) |
 | REQ-1306 | Carrito: `ARMA_TU_VIAJE_ENABLED` encendido y `CART_PAYMENTS_ENABLED` | NUEVO | `wrangler.jsonc` | humo de #135 y deploy 43154278943 | EN CURSO (pagos del carrito en "false"; faltan pruebas de otros proveedores y viajes propios) |
-| REQ-1600 | INC-011: 500 aislado en /tours al encender SEARCH_STEM_ENABLED | NUEVO | `docs/incidentes/INC-011.md` | — (falta causa raíz) | EN CURSO |
+| REQ-1600 | INC-011: 500 aislado en /tours al encender SEARCH_STEM_ENABLED | NUEVO | `docs/incidentes/INC-011.md` | REQ-3489/REQ-3490 (INC-013) | CUMPLIDO (causa raíz con Workers Logs 13-11: «D1 DB is overloaded»; igual que docs/requisitos.md) |
 | REQ-1602 | `frente.ts abrir` funciona en la nube (415) | NUEVO | `src/scripts/frente.ts` | `src/ops/lib/frentes-api.test.ts` (REQ-1621) | REEMPLAZADO por REQ-1621 (#399) |
 | REQ-1603 | Sin rojo falso de 0 jobs en el humo de PR del bot | NUEVO | `.github/workflows/prueba-humo.yml` | — | PENDIENTE |
 
