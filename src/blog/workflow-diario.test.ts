@@ -44,7 +44,7 @@ describe("workflow blog-diario.yml", () => {
   });
 });
 
-// REQ-10521 (INC-017): un deploy cancelado por la cola no es «NO PUBLICADO»; se sigue al que publica el commit.
+// REQ-10521 (INC-018): un deploy cancelado por la cola no es «NO PUBLICADO»; se sigue al que publica el commit.
 describe("REQ-10521: blog-diario sigue al deploy que publica la entrada", () => {
   it("REQ-10521: guarda el sha del merge y espera con esperar-deploy.ts (no se rinde ante un «cancelled»)", () => {
     const merge = wf.slice(step("Merge squash (publicación)"), step("Publicar en Cloudflare (deploy con su humo y regreso automático)"));
