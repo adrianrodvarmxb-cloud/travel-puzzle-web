@@ -19,7 +19,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { dirname, join } from "node:path";
 import { createFileRawArchive } from "../ingest/file-raw-archive";
 import { archiveTangolResponse } from "../ingest/tangol-archive";
-import { createTangolApi } from "../tangol/api";
+import { createTangolApi, type TangolReadOp } from "../tangol/api";
 import { tangolConfig } from "../tangol/lib/config";
 import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catalog-rules";
 import { DEFAULT_RATES_CURRENCY, runTangolSyncStep } from "../tangol/sync";
@@ -102,7 +102,9 @@ function agencyTrips(): AgencyTripPlace[] {
       : null;
   const copiaReporte = { written: 0, revisited: 0, same: 0, failed: 0 };
   const onRaw = archivo
-    ? async (op: "getCountries" | "getDestinations" | "getTourList" | "getTourRates", params: Record<string, unknown>, body: unknown) => {
+    ? async (op: TangolReadOp, params: Record<string, unknown>, body: unknown) => {
+        // REQ-10528: el detalle aún no se archiva en R2 (TangolOperation no lo conoce); se lee y se usa, sin copia.
+        if (op === "getTourDetailsList") return;
         const r = await archiveTangolResponse(archivo.archive, {
           operation: op,
           body,
