@@ -81,10 +81,42 @@ describe("REQ-3519: el sync de Tangol guarda la copia exacta en R2 privado al es
   });
 });
 
+/**
+ * REQ-3539 (13-11, runs 43475677142 y 43477829263): los lotes escribieron bien, pero la prueba de humo final
+ * cayó porque el runner no tenía el navegador de Playwright.
+ */
+describe("REQ-3539: el humo del sync de Tangol tiene navegador", () => {
+  it("REQ-3539: el paso de humo instala Chromium antes de correr smoke.ts", () => {
+    const humo = wf.split(/\n {6}- /).find((p) => p.startsWith("name: Prueba de humo en producción")) ?? "";
+    expect(humo).toMatch(/npx playwright install --with-deps chromium[\s\S]*src\/scripts\/smoke\.ts/);
+  });
+});
+
 // REQ-3536: la carga real con lotes de 60 destinos necesita más de 30 min (corrida 43466215988 cancelada en la copia a R2).
 describe("REQ-3536: el sync de Tangol tiene tiempo para un lote de 60 destinos", () => {
   it("REQ-3536: timeout-minutes de al menos 120", () => {
     const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
     expect(Number(y.match(/timeout-minutes:\s*(\d+)/)?.[1])).toBeGreaterThanOrEqual(120);
+  });
+});
+
+// REQ-10509: los tours de Tangol reciben slug en el mismo workflow, después de escribir y antes del humo.
+describe("REQ-10509: paso de slugs faltantes en el sync de Tangol", () => {
+  const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+  it("REQ-10509: existe, solo con escribir=true, y va entre «Escribir en D1» y el humo", () => {
+    const i = y.indexOf("name: Escribir en D1"), s = y.indexOf("name: Slugs faltantes de Tangol"), h = y.indexOf("name: Prueba de humo en producción");
+    expect(i).toBeGreaterThan(0); expect(s).toBeGreaterThan(i); expect(h).toBeGreaterThan(s);
+    expect(y.slice(s, h)).toMatch(/if: \$\{\{ inputs\.escribir \}\}/);
+    expect(y.slice(s, h)).toMatch(/tangol-slugs\.ts/);
+    expect(y.slice(s, h)).toMatch(/"slug" IS NULL/);
+  });
+
+  it("REQ-10510: la casilla «moneda» existe con USD por omisión y llega al script en el ensayo y en el plan de escritura", () => {
+    const wf = y;
+    const pasos = wf.split(/\n {6}- /).slice(1);
+    expect(wf).toMatch(/moneda:\n\s+description: .*\n\s+required: false\n\s+default: "USD"/);
+    const corren = pasos.filter((p) => p.includes("src/scripts/tangol-sync.ts"));
+    expect(corren).toHaveLength(2);
+    for (const p of corren) expect(p).toMatch(/TANGOL_RATES_CURRENCY: \$\{\{ inputs\.moneda \|\| 'USD' \}\}/);
   });
 });

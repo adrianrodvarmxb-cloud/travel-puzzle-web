@@ -13,10 +13,10 @@ import { CityCard } from './CityCard';
 export const MAP_STYLE = 'https://tiles.openfreemap.org/styles/fiord';
 
 /**
- * Mapa del inicio: ciudades con tours reales, agrupadas al alejar.
+ * Mapa del inicio, de Destinos y de /tours (REQ-3537, `fill`): ciudades con tours reales, agrupadas al alejar.
  * La librería se carga solo cuando el mapa entra en pantalla.
  */
-export function WorldMap() {
+export function WorldMap({ fill = false }: { fill?: boolean } = {}) {
   const { language } = useLanguage();
   const c = homeCopy(language);
   const box = useRef<HTMLDivElement>(null);
@@ -146,7 +146,7 @@ export function WorldMap() {
   }, []);
 
   return (
-    <div className="tp-map relative h-[520px] overflow-hidden rounded-3xl border border-white/10 bg-[#0E1A40] md:h-[600px]">
+    <div className={`tp-map relative overflow-hidden rounded-3xl border border-white/10 bg-[#0E1A40] ${fill ? 'h-full' : 'h-[520px] md:h-[600px]'}`}>
       <div ref={box} className="h-full w-full" />
       {status !== 'ready' && status !== 'error' && (
         <p className="font-data absolute inset-0 flex items-center justify-center text-xs uppercase tracking-[0.2em] text-[#A9B6D6]">{c.mapLoading}</p>

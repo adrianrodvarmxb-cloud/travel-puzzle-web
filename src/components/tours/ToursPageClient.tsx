@@ -26,7 +26,12 @@ import { FiltersSheet } from '@/components/tours/filters/FiltersSheet';
 import { matchesToursFilter } from '@/trips/lib/public';
 import { experienciasDisponibles } from '@/tours/lib/available';
 import { parseExtraFilters, extraFiltersToParams, countActive, EMPTY_EXTRA, type ExtraFilters } from '@/tours/lib/extra-filters';
+import dynamic from 'next/dynamic';
 import { ToursMap } from '@/components/tours/ToursMap';
+import { TOURS_MAP_SHOWS_ALL } from '@/tours/lib/map-mode';
+
+// REQ-3537: el mismo mapa agrupado de Destinos; la librería solo se carga en el navegador.
+const WorldMap = dynamic(() => import('@/components/map/WorldMap').then((m) => m.WorldMap), { ssr: false });
 import { ViewToggle, type ToursView } from '@/components/tours/ViewToggle';
 import { parseDurationRange, type DurationRange } from '@/tours/lib/duration';
 import { toursToPins, tripsToPins } from '@/tours/lib/map-pins';
@@ -491,7 +496,7 @@ export function ToursPageClient({
                     {/* Mapa: columna fija en escritorio; en celular y tablet, con el botón Mapa/Lista */}
                     <div className={`${view === 'map' ? 'block' : 'hidden'} lg:col-span-3 lg:col-start-2 xl:col-span-4 xl:col-start-auto xl:block`}>
                         <div className="h-[calc(100vh-180px)] xl:sticky xl:top-24 xl:h-[calc(100vh-112px)]">
-                            <ToursMap pins={mapPins} activeId={activeId} />
+                            {TOURS_MAP_SHOWS_ALL ? <WorldMap fill /> : <ToursMap pins={mapPins} activeId={activeId} />}
                         </div>
                     </div>
                 </div>

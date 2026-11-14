@@ -98,7 +98,7 @@ describe("REQ-1257 las cachés que guardan el formato cambian de llave con la re
     has("src/app/api/tours/route.ts", "v: 'tipos-1260'");
     has("src/trips/public-load.ts", 'v: "11"'); // REQ-3526: las tarjetas llevan mapPoint
     has("src/destinations/server.ts", 'v: "10" /* REQ-1359');
-    has("src/app/page.tsx", 'v: "carruseles-610-tipos-1260"');
-    has("src/home/carousel-load.ts", "v: 4 /* REQ-668 href final; REQ-1250 tipos; REQ-1260 cat. 8 */");
+    has("src/app/page.tsx", 'v: "carruseles-610-tipos-1260-proveedores-10515"'); // REQ-10515/10516: llave nueva con todos los proveedores
+    has("src/home/carousel-load.ts", "v: 5 /* REQ-668 href final; REQ-1250 tipos; REQ-1260 cat. 8; REQ-10515/10516 todos los proveedores */");
   });
 });

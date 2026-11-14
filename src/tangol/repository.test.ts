@@ -18,6 +18,10 @@ const fila = (externalId: number, providerId: string) => ({
     duration: "3 Horas", durationMinutes: 180, titleImageURL: null, categoryId: 0, rating: null, reviewsNumber: 0,
     cityId: 10, countryId: 1, meetingPoint: {}, includes: [], POIs: null, images: [], videoURL: null,
     isActive: true as const, lastSeenAt: new Date("2026-11-12T18:00:00Z"),
+    excludes: ["Propinas"], cancellationPolicy: "Sin cargo hasta 48 h antes.", availabilityRules: null, guideLanguages: ["es"],
+    // REQ-10537 / REQ-10538: columnas de la 0032.
+    endPoint: "Plaza de Mayo", whatToBring: "Agua", physicalRequirements: null, difficulty: "Baja", providerNotes: null,
+    childAgeFrom: 3, childAgeTo: 11, infantAgeFrom: null, infantAgeTo: null,
   },
   translations: [{ language: "es" as const, title: `Tour ${externalId}`, brief: null, description: null, url: "/destinos/ar/buenos-aires" }],
 });
@@ -40,6 +44,21 @@ describe("REQ-3464: el repositorio junta sentencias en vez de escribir", () => {
     // La traducción busca su tour por (proveedor, número): nunca pisaría el tour 1234 de Freetour.
     expect(sql).toContain('(SELECT "id" FROM "Tour" WHERE "providerId" = \'tangol\' AND "externalId" = 1234)');
     expect(sql).not.toContain("'freetour'");
+  });
+
+  it("REQ-10514: después del UPSERT de Tour va el UPDATE de las columnas de la 0031 y guideLanguages, por tour", async () => {
+    const repo = createTangolSqlRepo(vacio, newId);
+    await repo.upsertTours([fila(1234, "tangol"), fila(5678, "tangol")]);
+    const stmts = repo.statements();
+    const upsert = stmts.findIndex((s) => s.sql.startsWith('INSERT INTO "Tour"'));
+    const updates = stmts.filter((s) => s.sql.startsWith('UPDATE "Tour" SET "excludes"'));
+    expect(upsert).toBeGreaterThanOrEqual(0);
+    expect(updates).toHaveLength(2);
+    expect(stmts.indexOf(updates[0])).toBeGreaterThan(upsert);
+    // REQ-10537 / REQ-10538: el mismo UPDATE lleva las columnas de la 0032.
+    expect(updates[0].params).toEqual(['["Propinas"]', "Sin cargo hasta 48 h antes.", null, '["es"]', "Plaza de Mayo", "Agua", null, "Baja", null, 3, 11, null, null, "tangol", 1234]);
+    expect(updates[1].params[14]).toBe(5678);
+    expect(repo.sql()).toContain(`"cancellationPolicy" = 'Sin cargo hasta 48 h antes.'`);
   });
 
   it("REQ-3463: el avance se guarda en la fila de SyncMetadata del proveedor, no en la de Freetour", async () => {

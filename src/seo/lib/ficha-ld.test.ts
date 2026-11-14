@@ -148,3 +148,17 @@ describe("REQ-823: Offer sin datos que no existen", () => {
     expect(all).not.toContain("hasMerchantReturnPolicy");
   });
 });
+
+// REQ-10542 quedó REEMPLAZADO por REQ-10615 (código REQ-10651): la ficha manda operatorInBrief=false y «En breve»
+// ya no nombra al operador (src/ficha/lib/operator.test.ts). Aquí queda el comportamiento por omisión de la función.
+describe("REQ-10542: «En breve» dice quién opera un tour de Tangol (sale de Tour.providerTitle)", () => {
+  // Cadena: sync (toTangolTourRow) → Tour.providerTitle → destinations/repository.ts (provider) → page-model (operator) → enBreve.
+  it("REQ-10542: con el valor que escribe el sync, dice «Lo opera Tangol Tours y lo reservas con Travel Puzzle.»", async () => {
+    const { TANGOL_OPERATOR_TITLE } = await import("@/tangol/lib/tour-rows");
+    const tangol = { ...base, provider: "tangol", operator: TANGOL_OPERATOR_TITLE };
+    expect(enBreve(tangol)).toContain("Lo opera Tangol Tours y lo reservas con Travel Puzzle.");
+    expect(enBreve(tangol)).not.toContain("Lo opera Travel Puzzle");
+    expect(enBreve({ ...tangol, lang: "en" })).toContain("Operated by Tangol Tours and booked with Travel Puzzle.");
+    expect(fichaJsonLd(tangol).provider).toEqual({ "@type": "Organization", name: "Tangol Tours" });
+  });
+});

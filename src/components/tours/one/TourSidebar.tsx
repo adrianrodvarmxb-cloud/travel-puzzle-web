@@ -20,6 +20,9 @@ import { TourEvent } from '@/lib/api/freetour-client';
 import type { TourPriceLabel } from '@/tours/lib/price-label';
 import { TourAvailabilityCalendar } from './TourAvailabilityCalendar';
 import { TourAvailabilityCalendarSkeleton } from './TourAvailabilityCalendarSkeleton';
+import { ProviderDateCalendar } from './ProviderDateCalendar';
+import { SectionBoundary } from '@/components/common/SectionBoundary';
+import type { CalendarViewModel } from '@/tours/lib/calendar-view';
 
 interface TourSidebarProps {
     tour: Tour;
@@ -38,12 +41,18 @@ interface TourSidebarProps {
     below?: React.ReactNode;
     /** REQ-170: EUR con MXN aproximado (del servidor). Sin esto, el precio queda como hoy. */
     priceLabel?: TourPriceLabel | null;
+    /**
+     * REQ-3469: fechas y precios por día del proveedor, ya armados en el servidor
+     * (PROVIDER_CALENDAR_ENABLED). Sin esto —bandera apagada o tarifas que no cargaron— la ficha
+     * queda exactamente como hoy, con su precio «desde» (REQ-3470, REQ-3471).
+     */
+    providerCalendar?: CalendarViewModel | null;
 }
 
 /** Duración, destino y proveedor ya se muestran arriba del tour; aquí se repetían (auditoría de diseño, nov 2026). */
 const SHOW_DETAILS = false;
 
-export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy, onAdvisorClick, below, priceLabel = null }: TourSidebarProps) {
+export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode = 'calendar', whatsapp, tipGuide, paidPolicy, onAdvisorClick, below, priceLabel = null, providerCalendar = null }: TourSidebarProps) {
     // REQ-170: solo si el precio del servidor es el mismo que pinta la ficha.
     const label = priceLabel && tour.price > 0 && priceLabel.amount === tour.price ? priceLabel : null;
     const { t, language } = useLanguage();
@@ -86,6 +95,16 @@ export function TourSidebar({ tour, events = [], isLoadingEvents = false, mode =
                         </div>
                     )}
                 </div>
+
+                {/* REQ-3469: fechas y precios por día (tras PROVIDER_CALENDAR_ENABLED). Si falla el pintado,
+                    se oculta la sección y la ficha sigue de pie (regla 7 del blindaje). */}
+                {providerCalendar && (
+                    <div id="fechas" className="mb-6 scroll-mt-24 border-t pt-6">
+                        <SectionBoundary name="calendario-fechas-proveedor">
+                            <ProviderDateCalendar view={providerCalendar} />
+                        </SectionBoundary>
+                    </div>
+                )}
 
                 {/* Apartar con un asesor mientras las reservas en línea están apagadas */}
                 {mode === 'advisor' && (

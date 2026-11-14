@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import type { PrismaClient } from "@prisma/client";
-import { loadHomeData } from "./load";
+import { homeTaxonomy, loadCarouselOrder, loadHomeData } from "./load";
 import type { HighlightRepo } from "@/reviews/repository";
 
 const fail = () => Promise.reject(new Error("D1 caído"));
@@ -83,8 +83,8 @@ describe("REQ-450/453: carruseles con el medidor de reseñas (CARRUSELES_HOME_EN
     vi.spyOn(console, "error").mockImplementation(() => {});
     const prisma = prismaWith({ all: [tourRow("t1", { rating: 4.6, reviews: 20000 }), tourRow("t2", { rating: 4.95, reviews: 900 }), tourRow("t3", { categoryId: 8, rating: 5, reviews: 9000 })], day: [] });
     const out = await loadHomeData({ prisma, highlights: noHighlights, includePaid: false, lang: "es", carousels: true });
-    // REQ-850 (PO 6-11 22:05): solo Favoritos (≥4.9 y ≥180); t1 (4.6) ya no entra.
-    expect(out.featured.map((t) => t.id)).toEqual(["t2"]);
+    // REQ-850 (PO 6-11 22:05): primero los Favoritos (≥4.9 y ≥180); REQ-10515 (PO 13-11 16:00): después el resto por puntaje (t1, 4.6).
+    expect(out.featured.map((t) => t.id)).toEqual(["t2", "t1"]);
   });
 
   it("REQ-270: con la taxonomía (TAXONOMY_PUBLISH_ENABLED), lo que no se publica no entra a los carruseles; sin ella, como hoy", async () => {
@@ -180,5 +180,59 @@ describe("REQ-803 reseñas del inicio siempre ligadas a su tour", () => {
     const out = await loadHomeData({ prisma, highlights: { ...noHighlights, listRecentFiveStar: async () => [rv(1, 1), rv(2, 2)] }, includePaid: false, lang: "es" });
     expect(out.reviews.map((r) => r.id)).toEqual([2]);
     expect(out.reviews.every((r) => r.tour !== null)).toBe(true);
+  });
+});
+
+// REQ-10517: caracterización de punta a punta (en memoria) de los carruseles con un proveedor sin reseñas (Tangol).
+describe("REQ-10517: un Tour de providerId «tangol» sin reseñas sale en los carruseles del inicio", () => {
+  type Row = Record<string, unknown>;
+  const ft = (i: number, o: Row = {}): Row => ({ id: `ft${i}`, externalId: i, providerId: "freetour", cityId: i, cityName: `Ciudad ${i}`, countryCode: "es", categoryId: 12, durationMinutes: 150, price: 0, rating: 4.9 + (i % 10) / 100, reviews: 200 + i, titleEs: `Recorrido ${i}`, titleEn: `Walk ${i}`, ...o });
+  const tangolTour: Row = { id: "tg1", externalId: 5001, providerId: "tangol", cityId: 900, cityName: "Buenos Aires", countryCode: "ar", categoryId: 9000001, durationMinutes: 180, price: 95, rating: null, reviews: 0, titleEs: "Recorrido por San Telmo y La Boca", titleEn: "San Telmo and La Boca walk" };
+  const tangolDay: Row = { id: "tg2", externalId: 5002, providerId: "tangol", cityId: 901, cityName: "Bariloche", countryCode: "ar", categoryId: 9000002, durationMinutes: 600, price: 140, rating: null, reviews: 0, titleEs: "Excursión a Cerro Catedral", titleEn: "Cerro Catedral excursion" };
+  const tangolTransfer: Row = { id: "tg3", externalId: 5003, providerId: "tangol", cityId: 900, cityName: "Buenos Aires", countryCode: "ar", categoryId: 9000011, durationMinutes: 45, price: 30, rating: null, reviews: 0, titleEs: "Traslado aeropuerto Ezeiza a hotel", titleEn: "Ezeiza airport transfer" };
+  const ftDay = (i: number): Row => ft(100 + i, { categoryId: 4, durationMinutes: 600, price: 60, titleEs: `Excursión ${i} desde Madrid`, titleEn: `Day trip ${i} from Madrid`, countryCode: `c${i % 15}` });
+
+  /** Base en memoria: el SQL de candidatas devuelve las filas tal cual (el filtro lo hace la lib); la hidratación devuelve la tarjeta. */
+  function memoryPrisma(all: Row[], day: Row[]) {
+    const $queryRaw = async (strings: TemplateStringsArray, ...values: unknown[]) => {
+      if (strings.join("?").includes("SUM(")) return [{ s: 4800, v: 1000 }];
+      return values.includes(1500) ? day : all;
+    };
+    const byId = new Map([...all, ...day].map((r) => [r.id as string, r]));
+    const findMany = async (q: { where: { id: { in: string[] } } }) => q.where.id.in.flatMap((id) => {
+      const r = byId.get(id); if (!r) return [];
+      return [{ id, externalId: r.externalId, providerId: r.providerId, providerTitle: r.providerId === "tangol" ? "Travel Puzzle" : "Guía local", categoryId: r.categoryId, durationMinutes: r.durationMinutes, titleImageURL: `https://img/${id}.jpg`, priceValue: r.price, priceCurrency: "USD", duration: "3:00", rating: r.rating, reviewsNumber: r.reviews, city: { translations: { es: r.cityName } }, translations: [{ language: "es", title: r.titleEs }, { language: "en", title: r.titleEn }] }];
+    });
+    const base = fakePrisma({ tour: { findMany } }) as unknown as Record<string, unknown>;
+    return { ...base, $queryRaw } as unknown as PrismaClient;
+  }
+
+  it("REQ-10517: loadCarouselOrder (taxonomía encendida, como en producción) devuelve el tour de Tangol en «Los más elegidos» y su excursión en «Excursiones»; el traslado no entra a ninguno", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const all = [...Array.from({ length: 40 }, (_, i) => ft(i)), tangolTour, tangolTransfer];
+    const day = [...Array.from({ length: 20 }, (_, i) => ftDay(i)), tangolDay, tangolTransfer];
+    const order = await loadCarouselOrder(memoryPrisma(all, day), true, [], homeTaxonomy(true));
+    const elegidos = order.elegidos.map((x) => x.id);
+    expect(elegidos).toContain("tg1");
+    expect(elegidos.slice(0, 12)).toContain("tg1"); // REQ-10516: en la primera página
+    expect(elegidos.slice(0, 12).filter((id) => id.startsWith("ft"))).toHaveLength(11);
+    expect(elegidos).not.toContain("tg3");
+    const excursiones = order.excursiones.map((x) => x.id);
+    expect(excursiones.slice(0, 12)).toContain("tg2");
+    expect(excursiones).not.toContain("tg3");
+    expect(excursiones).not.toContain("tg1"); // no es excursión (3 h, red de seguridad → tour)
+  });
+
+  it("REQ-10517: la tarjeta hidratada del tour de Tangol lleva su formato por el mapeo de Tangol y no nombra al proveedor (providerTitle = marca propia)", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const all = [...Array.from({ length: 5 }, (_, i) => ft(i)), tangolTour];
+    const out = await loadHomeData({ prisma: memoryPrisma(all, [tangolDay]), highlights: noHighlights, includePaid: true, lang: "es", carousels: true, taxonomy: homeTaxonomy(true) });
+    const tg = out.featured.find((t) => t.id === "tg1");
+    expect(tg).toBeDefined();
+    expect(tg!.formato).not.toBe("por-revisar");
+    expect(tg!.rating).toBeNull();
+    expect(tg!.reviews).toBe(0);
+    expect(JSON.stringify(tg)).not.toMatch(/tangol/i);
+    expect(out.dayTrips.map((d) => (d.type === "tour" ? d.tour.id : d.trip.id))).toEqual(["tg2"]);
   });
 });

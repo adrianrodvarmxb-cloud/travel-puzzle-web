@@ -1,3 +1,4 @@
+import { sellerFor } from "@/ficha/lib/operator";
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
@@ -20,6 +21,10 @@ import { getRouteLanguage } from '@/i18n/server';
 import { leerPrellenado } from '@/agente/lib/catalogo';
 import { guideLanguagesLabel } from '@/seo/lib/ficha-ld';
 import { filtersCopy } from '@/tours/lib/filters-copy';
+import { loadProviderAvailability } from '@/tours/availability';
+import { availabilityDeps } from '@/tours/availability-deps';
+import { isProviderCalendarEnabled } from '@/tours/lib/provider-availability';
+import { calendarView } from '@/tours/lib/calendar-view';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
@@ -107,13 +112,33 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
         // REQ-588: con enriquecimiento, del servidor; en FREETOUR se pinta en el cliente (como antes del #204), con data-nosnippet.
         const guide = full.facts.guideLanguages ? guideLanguagesLabel(row?.guideLanguages, language) : [];
+        // REQ-10651: la casilla Proveedor y la tarjeta lateral dicen la marca que vende; el operador va en «Opera en destino».
+        const shownTour = props.initialTour ? { ...props.initialTour, provider: sellerFor(row?.providerId, props.initialTour.provider) ?? props.initialTour.provider } : props.initialTour;
         const guideClientOnly = !full.enrichment ? { label: filtersCopy(language).language, codes: row?.guideLanguages ?? null } : null;
+        // REQ-3468…REQ-3471: fechas y precios por día del proveedor, tras PROVIDER_CALENDAR_ENABLED.
+        // Si la bandera está apagada, si el proveedor no da tarifas o si la llamada falla, queda en null y
+        // la ficha se ve como hoy, con su precio «desde» (nunca un calendario vacío ni un precio inventado).
+        const env = process.env as Record<string, string | undefined>;
+        const calendario = isProviderCalendarEnabled(env.PROVIDER_CALENDAR_ENABLED)
+            ? await loadProviderAvailability(
+                {
+                    providerId: row?.providerId ?? 'freetour',
+                    externalId: Number((props.initialTourData as unknown as { externalId?: number } | null)?.externalId ?? 0),
+                    departureDates: row?.departureDates,
+                    fromPrice: props.initialTour ? { adult: props.initialTour.price, currency: props.initialTour.currency } : null,
+                },
+                { months: 6 },
+                availabilityDeps(env, new Date().toISOString().slice(0, 10)),
+            ).catch((e) => { console.error('[destinos] disponibilidad:', (e as Error).message); return null; })
+            : null;
         return (
             <>
                 <JsonLd data={full.jsonLd} />
                 <TourDetailClient
                     {...props}
+                    initialTour={shownTour}
                     priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null}
+                    providerCalendar={calendario ? calendarView(calendario, language) : null}
                     primeraPieza={{
                         crumbs: model.crumbs,
                         badge: model.badge,

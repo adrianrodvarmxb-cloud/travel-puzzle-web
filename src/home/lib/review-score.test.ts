@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { bayesScore, catalogPrior, hasRealReviews, rankByReviews, diversify, REVIEW_PRIOR_M, REVIEW_PRIOR_C_FALLBACK } from "./review-score";
+import { bayesScore, catalogPrior, hasRealReviews, rankByReviews, rankWithPrior, priorScore, ensureEachGroup, diversify, REVIEW_PRIOR_M, REVIEW_PRIOR_C_FALLBACK } from "./review-score";
 
 describe("REQ-450: medidor de reseñas (calificación bayesiana)", () => {
   it("REQ-450: m = 50 y C de respaldo 4.5 (documentados en docs/gates-carruseles-home-2026-11.md)", () => {
@@ -69,5 +69,49 @@ describe("REQ-450: diversidad en las primeras posiciones", () => {
     const list = [t("1", "Roma", "a"), t("2", "Roma", "a")];
     expect(diversify(list, 9, caps)).toHaveLength(2);
     expect(diversify([], 9, caps)).toEqual([]);
+  });
+});
+
+describe("REQ-10515: sin reseñas entran con el puntaje del prior (PO 13-11 16:00, opción A)", () => {
+  const p = { m: 50, C: 4.7 };
+
+  it("REQ-10515: sin reseñas reales el puntaje es C (bayes con v = 0); con reseñas buenas sube y con malas baja", () => {
+    expect(priorScore({ rating: null, reviews: 0 }, p)).toBe(p.C);
+    expect(priorScore({ rating: 4.8, reviews: 0 }, p)).toBe(p.C); // 0 reseñas: la nota no cuenta
+    expect(priorScore({ rating: 7, reviews: 30 }, p)).toBe(p.C); // dato malo: como sin reseñas
+    expect(priorScore({ rating: 5, reviews: 100 }, p)).toBeGreaterThan(p.C);
+    expect(priorScore({ rating: 3, reviews: 100 }, p)).toBeLessThan(p.C);
+    expect(priorScore({ rating: 4.9, reviews: 500 }, p)).toBe(bayesScore(4.9, 500, p));
+  });
+
+  it("REQ-10515: rankWithPrior ordena a todos (con y sin reseñas) por puntaje; desempate: más reseñas, luego la llave", () => {
+    const items = [
+      { key: "sin-b", rating: null, reviews: 0 },
+      { key: "malo", rating: 3.5, reviews: 400 },
+      { key: "sin-a", rating: null, reviews: 0 },
+      { key: "top", rating: 4.95, reviews: 3000 },
+      { key: "igual", rating: 4.7, reviews: 80 }, // exactamente C, pero con reseñas: antes que los sin reseñas
+    ];
+    expect(rankWithPrior(items, p).map((x) => x.key)).toEqual(["top", "igual", "sin-a", "sin-b", "malo"]);
+    expect(rankWithPrior([], p)).toEqual([]);
+  });
+});
+
+describe("REQ-10516: todos los proveedores con candidatos aparecen en la primera página", () => {
+  type T = { key: string; provider: string };
+  const t = (key: string, provider: string): T => ({ key, provider });
+  const of = (x: T) => x.provider;
+
+  it("REQ-10516: si un proveedor con candidatos no entró, sustituye la última tarjeta del proveedor más repetido (al final de la página)", () => {
+    const pool = [t("f1", "freetour"), t("f2", "freetour"), t("f3", "freetour"), t("p1", "propios"), t("t1", "tangol"), t("t2", "tangol")];
+    const head = [t("f1", "freetour"), t("f2", "freetour"), t("f3", "freetour"), t("p1", "propios")];
+    expect(ensureEachGroup(head, pool, of).map((x) => x.key)).toEqual(["f1", "f2", "p1", "t1"]);
+  });
+
+  it("REQ-10516: no cambia nada si ya están todos, si la página está vacía o si quitar uno dejaría fuera a otro proveedor", () => {
+    const pool = [t("a", "x"), t("b", "y")];
+    expect(ensureEachGroup([t("a", "x"), t("b", "y")], pool, of).map((x) => x.key)).toEqual(["a", "b"]);
+    expect(ensureEachGroup([], pool, of)).toEqual([]);
+    expect(ensureEachGroup([t("a", "x")], pool, of).map((x) => x.key)).toEqual(["a"]); // una sola tarjeta: no hay a quién quitar
   });
 });

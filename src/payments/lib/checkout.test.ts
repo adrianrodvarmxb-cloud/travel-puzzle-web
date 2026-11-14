@@ -93,3 +93,13 @@ describe("buildCheckoutParams con retención", () => {
     expect(p["line_items[0][price_data][product_data][name]"]).not.toContain("Retención");
   });
 });
+
+describe("REQ-10510: el cobro en pesos acepta USD igual que EUR", () => {
+  it("REQ-10510: 22 USD × 18.5 × 1.03 = 419.21 → 420 pesos; con EUR el mismo camino", () => {
+    expect(chargeAmount(22, "USD", rates, 3)).toEqual({ centavos: 42000, fxRate: 18.5 });
+    expect(chargeAmount(22, "EUR", rates, 3)).toEqual({ centavos: 45400, fxRate: 20 });
+  });
+  it("REQ-10510: sin tipo de cambio no se cobra en USD (null), nunca se adivina", () => {
+    expect(chargeAmount(22, "USD", null, 3)).toBeNull();
+  });
+});
