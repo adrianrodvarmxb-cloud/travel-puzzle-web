@@ -2337,5 +2337,319 @@
         }
       ]
     }
+  },
+  {
+    "slug": "visita-guiada-a-la-ciudad-prohibida",
+    "pillar": "china",
+    "targetTerm": "visita guiada a la ciudad prohibida",
+    "title": "¿Cómo visitar la Ciudad Prohibida de Pekín con guía desde México?",
+    "summary": "Cómo reservar la Ciudad Prohibida de Pekín: documento, días de cierre y qué visitas guiadas hay en el catálogo, con fuentes públicas.",
+    "draft": false,
+    "publishedAt": "2026-11-14",
+    "author": "claudia",
+    "categoria": "viajes",
+    "origen": "agente-diario",
+    "mix": "pago",
+    "tema": {
+      "tipo": "calendario",
+      "clusterId": "CN-03",
+      "fuentes": []
+    },
+    "enBreve": "Para entrar a la Ciudad Prohibida tienes que reservar antes: el Museo del Palacio no vende boletos el mismo día, según las [pautas del gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html) de junio de 2023. La reservación se hace en su mini-programa oficial con tu pasaporte y el museo cierra los lunes, salvo festivos nacionales. En el catálogo hay [visitas guiadas en Pekín](/destinos/cn/pekin) que la incluyen.",
+    "entrada": "Reservar la Ciudad Prohibida es el primer reto de quien llega a Pekín, porque no hay boleto del día. Aquí juntamos lo que dicen las fuentes públicas y las visitas que hay en el catálogo. Es parte de la guía [Viajar a China desde México](/blog/china); cuando tengas fechas, mira los [viajes a China](/destinos/cn).",
+    "sections": [
+      {
+        "h2": "¿Puedo comprar el boleto de la Ciudad Prohibida el mismo día?",
+        "answer": "No: el Museo del Palacio no tiene boletos del mismo día y toda visita se reserva antes, según las [pautas publicadas por el gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html) en junio de 2023.",
+        "body": [
+          "La reservación se hace solo en el mini-programa oficial del museo, que no tiene agentes autorizados de venta, y cada persona puede tener un boleto de entrada por fecha, según la [misma nota](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html).",
+          "Las citas se abren siete días antes de la visita, a las 20:00, de acuerdo con esa [nota del gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html). Es una página de 2023: antes de comprar tus vuelos, confirma las reglas vigentes con el museo."
+        ]
+      },
+      {
+        "h2": "¿Qué documento tengo que llevar?",
+        "answer": "Tu pasaporte original, el mismo con el que hiciste la reservación, según el [gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html).",
+        "body": [
+          "Los visitantes internacionales pueden reservar y entrar con pasaporte o con tarjeta de residente permanente extranjero, y presentan el original en la Puerta del Meridiano, la entrada sur, según la [nota del gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html)."
+        ]
+      },
+      {
+        "h2": "¿Qué días y a qué hora puedo ir?",
+        "answer": "El museo cierra los lunes, salvo festivos nacionales, según el [gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html).",
+        "body": [],
+        "list": [
+          "Temporada baja, del 1 de noviembre al 31 de marzo: la taquilla de la plaza Duanmen atiende de 08:30 a 15:40 ([nota del gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html)).",
+          "Temporada alta, del 1 de abril al 31 de octubre: de 08:30 a 16:10 ([misma nota](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html))."
+        ]
+      },
+      {
+        "h2": "¿Hay un límite de visitantes al día?",
+        "answer": "Sí hubo tope diario: [China Daily](https://govt.chinadaily.com.cn/s/202510/29/WS6901bbba498e368550336f12/palace-museum-introduces-daily-visitor-cap-in-2015.html) cuenta que empezó el 13 de junio de 2015 como prueba, con 80,000 personas al día, y que después se redujo a 40,000.",
+        "body": [
+          "La nota es del 29 de octubre de 2025 ([China Daily](https://govt.chinadaily.com.cn/s/202510/29/WS6901bbba498e368550336f12/palace-museum-introduces-daily-visitor-cap-in-2015.html)). El texto del [gobierno de Pekín](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html) no menciona una cifra de aforo, así que toma esos números como referencia y confirma con el museo."
+        ]
+      },
+      {
+        "h2": "¿Qué es la Ciudad Prohibida y por qué conviene verla con guía?",
+        "answer": "Fue sede del poder supremo durante más de cinco siglos, de 1416 a 1911, y la [UNESCO](https://whc.unesco.org/en/list/439) la inscribió en la Lista del Patrimonio Mundial en 1987.",
+        "body": [
+          "Una visita guiada te ayuda a ordenar el recorrido y a entender lo que ves en cada palacio. Revisa en cada ficha qué incluye y cuánto dura."
+        ]
+      },
+      {
+        "h2": "¿Qué visitas a la Ciudad Prohibida hay en el catálogo desde Pekín?",
+        "answer": "Hay desde la entrada sola hasta visitas guiadas de medio día y excursiones de un día que la combinan con otros sitios, según el [catálogo de Pekín](/destinos/cn/pekin).",
+        "body": [
+          "Los precios son aproximados y en euros, como en cada ficha. Si también quieres la muralla, lee la guía de la [excursión a la Gran Muralla desde Pekín](/blog/china/excursion-a-la-gran-muralla-desde-pekin) o mira los [viajes a China](/destinos/cn)."
+        ],
+        "list": [
+          "«Entrada a la Ciudad Prohibida de Pekín: Excluida la Galería del Tesoro»: boletos y entradas, 4 h, desde aprox. MXN $329 · EUR €16 ([ficha](/destinos/cn/pekin)).",
+          "Visita de medio día a la Ciudad Prohibida, con museo del tesoro: visita guiada, 4 h, desde aprox. MXN $1,046 · EUR €51 ([ficha](/destinos/cn/pekin)).",
+          "«Visita fotográfica y de vídeo privada a la Ciudad Prohibida»: visita guiada, 5 h, desde aprox. MXN $1,641 · EUR €80 ([ficha](/destinos/cn/pekin)).",
+          "«Explora la Plaza de Tiananmen, la Ciudad Prohibida y el Templo del Cielo»: excursión de un día, 7 h, desde aprox. MXN $1,641 · EUR €80 ([ficha](/destinos/cn/pekin))."
+        ]
+      }
+    ],
+    "datos": [
+      {
+        "text": "El Museo del Palacio no tiene boletos del mismo día: la visita se reserva antes.",
+        "source": {
+          "label": "Gobierno de Pekín (nota de junio de 2023)",
+          "url": "https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html"
+        },
+        "checkedAt": "2026-11-14"
+      },
+      {
+        "text": "La Ciudad Prohibida fue sede del poder supremo de 1416 a 1911 y está en la Lista del Patrimonio Mundial desde 1987.",
+        "source": {
+          "label": "UNESCO",
+          "url": "https://whc.unesco.org/en/list/439"
+        },
+        "checkedAt": "2026-11-14"
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 14 de noviembre de 2026) y del catálogo del sitio. La página oficial del Museo del Palacio no se pudo consultar directamente; las reglas de visita salen de una nota del gobierno de Pekín de junio de 2023 y pueden haber cambiado.",
+    "visual": {
+      "kind": "tabla",
+      "caption": "Cuatro visitas a la Ciudad Prohibida en el catálogo de Pekín. Precios aproximados de cada ficha.",
+      "head": [
+        "Visita",
+        "Tipo y duración",
+        "Desde aprox. (MXN · EUR)"
+      ],
+      "rows": [
+        [
+          "Entrada a la Ciudad Prohibida (sin Galería del Tesoro)",
+          "Boletos y entradas · 4 h",
+          "$329 · €16"
+        ],
+        [
+          "Medio día con museo del tesoro",
+          "Visita guiada · 4 h",
+          "$1,046 · €51"
+        ],
+        [
+          "Visita fotográfica y de vídeo privada",
+          "Visita guiada · 5 h",
+          "$1,641 · €80"
+        ],
+        [
+          "Tiananmen, Ciudad Prohibida y Templo del Cielo",
+          "Excursión de un día · 7 h",
+          "$1,641 · €80"
+        ]
+      ],
+      "source": {
+        "label": "Catálogo de Travel Puzzle · Pekín",
+        "url": "https://travelpuzzle.com.mx/destinos/cn/pekin"
+      }
+    },
+    "cta": {
+      "kind": "comercial",
+      "label": "Ver viajes a China"
+    },
+    "cover": {
+      "src": "/blog/img/visita-guiada-a-la-ciudad-prohibida/portada-ciudad-prohibida",
+      "alt": "Vista aérea de los palacios y patios de la Ciudad Prohibida, en Pekín",
+      "credit": "Foto: Gang Hao / Unsplash",
+      "license": {
+        "name": "Unsplash License",
+        "url": "https://unsplash.com/license"
+      },
+      "origen": {
+        "banco": "unsplash",
+        "id": "2RGwK0NDLv8",
+        "pagina": "https://unsplash.com/photos/an-aerial-view-of-the-forbidden-city-2RGwK0NDLv8",
+        "autor": "Gang Hao",
+        "descarga": "https://images.unsplash.com/photo-1746243044880-4b71e10be164"
+      }
+    },
+    "imagenes": [
+      {
+        "formato": "columna",
+        "despues": 1,
+        "pie": "El pasaporte con el que reservas es el que presentas en la Puerta del Meridiano.",
+        "fotos": [
+          {
+            "src": "/blog/img/visita-guiada-a-la-ciudad-prohibida/edificio-rojo",
+            "alt": "Edificio rojo con muchas ventanas y un banco al frente, en la Ciudad Prohibida",
+            "credit": "Foto: Eean Chen / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "kIkjAQkO3V4",
+              "pagina": "https://unsplash.com/photos/a-red-building-with-many-windows-and-a-bench-in-front-of-it-kIkjAQkO3V4",
+              "autor": "Eean Chen",
+              "descarga": "https://images.unsplash.com/photo-1699173563538-b1a3611be50c"
+            }
+          }
+        ]
+      },
+      {
+        "formato": "columna",
+        "despues": 4,
+        "pie": "Muros rojos de Pekín con la Ciudad Prohibida al fondo.",
+        "fotos": [
+          {
+            "src": "/blog/img/visita-guiada-a-la-ciudad-prohibida/muros-rojos",
+            "alt": "Gran edificio rojo con muchas ventanas y la Ciudad Prohibida al fondo",
+            "credit": "Foto: Kevin Engelke / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "hXMLU0KjdAs",
+              "pagina": "https://unsplash.com/photos/a-large-red-building-with-many-windows-with-forbidden-city-in-the-background-hXMLU0KjdAs",
+              "autor": "Kevin Engelke",
+              "descarga": "https://images.unsplash.com/photo-1659466233393-954cc43ab16d"
+            }
+          }
+        ]
+      }
+    ],
+    "en": {
+      "targetTerm": "guided tour of the forbidden city",
+      "title": "How do you visit Beijing's Forbidden City with a guide from Mexico?",
+      "summary": "How to book Beijing's Forbidden City: ID, closing days and which guided visits are in the catalog, with public sources.",
+      "enBreve": "To enter the Forbidden City you have to book ahead: the Palace Museum doesn't sell same-day tickets, according to the [Beijing government's guidelines](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html) of June 2023. Booking is done in its official mini-program with your passport, and the museum closes on Mondays except national holidays. The catalog has [guided visits in Beijing](/destinos/cn/pekin) that include it.",
+      "entrada": "Booking the Forbidden City is the first challenge for anyone arriving in Beijing, because there's no same-day ticket. Here we gather what the public sources say and the visits in the catalog. It's part of the guide [Traveling to China from Mexico](/blog/china); once you have dates, look at the [trips to China](/destinos/cn).",
+      "sections": [
+        {
+          "h2": "Can I buy a Forbidden City ticket on the same day?",
+          "answer": "No: the Palace Museum has no same-day tickets and every visit is booked in advance, according to the [guidelines published by the Beijing government](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html) in June 2023.",
+          "body": [
+            "Booking is only through the museum's official mini-program, which has no authorized sales agents, and each person can hold one entry ticket per date, according to the [same note](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html).",
+            "Appointments open seven days before the visit, at 20:00, according to that [Beijing government note](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html). It's a 2023 page: before buying your flights, confirm the current rules with the museum."
+          ]
+        },
+        {
+          "h2": "What ID do I need to bring?",
+          "answer": "Your original passport, the same one you used to book, according to the [Beijing government](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html).",
+          "body": [
+            "International visitors can book and enter with a passport or a foreign permanent resident card, and show the original at the Meridian Gate, the south entrance, according to the [Beijing government note](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html)."
+          ]
+        },
+        {
+          "h2": "Which days and hours can I go?",
+          "answer": "The museum closes on Mondays except national holidays, according to the [Beijing government](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html).",
+          "body": [],
+          "list": [
+            "Low season, 1 November to 31 March: the Duanmen Square ticket office is open from 08:30 to 15:40 ([Beijing government note](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html)).",
+            "High season, 1 April to 31 October: from 08:30 to 16:10 ([same note](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html))."
+          ]
+        },
+        {
+          "h2": "Is there a daily visitor limit?",
+          "answer": "There was a daily cap: [China Daily](https://govt.chinadaily.com.cn/s/202510/29/WS6901bbba498e368550336f12/palace-museum-introduces-daily-visitor-cap-in-2015.html) reports it began on 13 June 2015 as a trial, at 80,000 people a day, and was later reduced to 40,000.",
+          "body": [
+            "The article is from 29 October 2025 ([China Daily](https://govt.chinadaily.com.cn/s/202510/29/WS6901bbba498e368550336f12/palace-museum-introduces-daily-visitor-cap-in-2015.html)). The [Beijing government](https://english.beijing.gov.cn/latest/news/202306/t20230629_3150036.html) text doesn't mention a capacity figure, so treat those numbers as a reference and confirm with the museum."
+          ]
+        },
+        {
+          "h2": "What is the Forbidden City and why see it with a guide?",
+          "answer": "It was the seat of supreme power for more than five centuries, from 1416 to 1911, and [UNESCO](https://whc.unesco.org/en/list/439) inscribed it on the World Heritage List in 1987.",
+          "body": [
+            "A guided visit helps you organize the route and understand what you see in each palace. Check each listing for what it includes and how long it lasts."
+          ]
+        },
+        {
+          "h2": "Which Forbidden City visits are in the catalog from Beijing?",
+          "answer": "From the entry ticket alone to half-day guided visits and day trips that combine it with other sites, according to the [Beijing catalog](/destinos/cn/pekin).",
+          "body": [
+            "Prices are approximate and in euros, as in each listing. If you also want the Great Wall, read the guide to the [Great Wall excursion from Beijing](/blog/china/excursion-a-la-gran-muralla-desde-pekin) or see the [trips to China](/destinos/cn)."
+          ],
+          "list": [
+            "«Entrada a la Ciudad Prohibida de Pekín: Excluida la Galería del Tesoro»: tickets, 4 h, from approx. MXN $329 · EUR €16 ([listing](/destinos/cn/pekin)).",
+            "Visita de medio día a la Ciudad Prohibida, con museo del tesoro: guided visit, 4 h, from approx. MXN $1,046 · EUR €51 ([listing](/destinos/cn/pekin)).",
+            "«Visita fotográfica y de vídeo privada a la Ciudad Prohibida»: guided visit, 5 h, from approx. MXN $1,641 · EUR €80 ([listing](/destinos/cn/pekin)).",
+            "«Explora la Plaza de Tiananmen, la Ciudad Prohibida y el Templo del Cielo»: day trip, 7 h, from approx. MXN $1,641 · EUR €80 ([listing](/destinos/cn/pekin))."
+          ]
+        }
+      ],
+      "datos": [
+        {
+          "text": "The Palace Museum has no same-day tickets: the visit is booked in advance."
+        },
+        {
+          "text": "The Forbidden City was the seat of supreme power from 1416 to 1911 and has been on the World Heritage List since 1987."
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI (AI-assisted), based on the public sources linked (checked on 14 November 2026) and the site's catalog. The Palace Museum's official page couldn't be checked directly; the visiting rules come from a Beijing government note of June 2023 and may have changed.",
+      "visual": {
+        "caption": "Four Forbidden City visits in the Beijing catalog. Approximate prices from each listing.",
+        "head": [
+          "Visit",
+          "Type and duration",
+          "From approx. (MXN · EUR)"
+        ],
+        "rows": [
+          [
+            "Forbidden City entry (without the Treasure Gallery)",
+            "Tickets · 4 h",
+            "$329 · €16"
+          ],
+          [
+            "Half day with the treasure museum",
+            "Guided visit · 4 h",
+            "$1,046 · €51"
+          ],
+          [
+            "Private photo and video visit",
+            "Guided visit · 5 h",
+            "$1,641 · €80"
+          ],
+          [
+            "Tiananmen, Forbidden City and Temple of Heaven",
+            "Day trip · 7 h",
+            "$1,641 · €80"
+          ]
+        ]
+      },
+      "cta": {
+        "label": "See trips to China"
+      },
+      "cover": {
+        "alt": "Aerial view of the palaces and courtyards of the Forbidden City in Beijing"
+      },
+      "imagenes": [
+        {
+          "pie": "The passport you book with is the one you show at the Meridian Gate.",
+          "alts": [
+            "Red building with many windows and a bench in front, in the Forbidden City"
+          ]
+        },
+        {
+          "pie": "Red walls in Beijing with the Forbidden City in the background.",
+          "alts": [
+            "Large red building with many windows and the Forbidden City in the background"
+          ]
+        }
+      ]
+    }
   }
 ]

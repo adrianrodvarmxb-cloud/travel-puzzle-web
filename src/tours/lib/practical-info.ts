@@ -15,6 +15,7 @@
 import { z } from "zod";
 import { guideLanguagesLabel } from "@/seo/lib/ficha-ld";
 import { indexableEnrichment } from "@/seo/lib/enrichment";
+import { operatorLine } from "@/ficha/lib/operator";
 
 export interface PracticalFact { key: string; label: string; value: string; clientOnly: boolean }
 export interface ConditionsView {
@@ -23,7 +24,7 @@ export interface ConditionsView {
   /** Horas mínimas para cancelar sin cargo; `varies` = las opciones del tour no piden lo mismo. */
   freeCancellation: { hours: number; varies: boolean } | null;
 }
-export type BeforeYouGoKey = "whatToBring" | "physicalRequirements" | "difficulty" | "providerNotes";
+export type BeforeYouGoKey = "whatToBring" | "physicalRequirements" | "difficulty" | "providerNotes" | "operator";
 export interface BeforeYouGoView { items: { key: BeforeYouGoKey; text: string }[] }
 export interface PracticalView {
   conditions: ConditionsView | null;
@@ -181,7 +182,10 @@ export function practicalInfo(raw: unknown, { lang, tr }: { lang: string; tr: (k
   const conditions = excludes.length || cancellationPolicy || free ? { excludes, cancellationPolicy, freeCancellation: free } : null;
 
   // REQ-10537
-  const items = BEFORE_KEYS.flatMap((key) => { const t = text(key, key === "difficulty"); return t ? [{ key, text: t }] : []; });
+  const items: { key: BeforeYouGoKey; text: string }[] = BEFORE_KEYS.flatMap((key) => { const t = text(key, key === "difficulty"); return t ? [{ key, text: t }] : []; });
+  // REQ-10651: línea discreta «Opera en destino», al cierre del bloque; el nombre del operador no se limpia.
+  const op = operatorLine(typeof row.providerId === "string" ? row.providerId : null, typeof row.providerTitle === "string" ? row.providerTitle : null);
+  if (op) items.push({ key: "operator", text: op });
   const beforeYouGo = items.length ? { items } : null;
 
   // REQ-10538 / REQ-10539
