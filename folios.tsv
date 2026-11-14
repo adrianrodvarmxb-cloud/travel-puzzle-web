@@ -9062,3 +9062,4 @@ REQ-10647	test/humo-fichas-proveedores	2026-11-14 12:44	ola 0: fichas de Tangol 
 REQ-10648	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
 REQ-10649	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
 REQ-10650	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
+REQ-10651	feat/operador-discreto	2026-11-14 14:55	ola 2: operador discreto en la ficha (codigo de REQ-10615)
