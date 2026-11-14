@@ -17,3 +17,27 @@ export function tangolExtraStatements(rows: readonly Pick<TangolTourRow, "provid
     params: [...TANGOL_EXTRA_COLUMNS.map((c) => sqlValue(t[c])), t.providerId, t.externalId],
   }));
 }
+
+/**
+ * REQ-10525: D1 rechaza una sentencia de más de 100 KB (SQLITE_TOOBIG) y con `--file` eso tumba el archivo
+ * entero. Si las reglas de disponibilidad de un tour no caben ni compactadas (REQ-10525 en rates.ts), ese
+ * campo se escribe como NULL (la ficha lo trata como "sin reglas", igual que antes de la 0031) y el número
+ * del tour se devuelve para reportarlo; lo demás del tour sí se escribe. Para filas normales devuelve
+ * exactamente lo mismo que `tangolExtraStatements`.
+ */
+export const MAX_STMT_BYTES = 90_000;
+
+// REQ-10525
+export function tangolExtraStatementsAcotadas(
+  rows: readonly Pick<TangolTourRow, "providerId" | "externalId" | (typeof TANGOL_EXTRA_COLUMNS)[number]>[]
+): { stmts: Stmt[]; recortados: number[] } {
+  const recortados: number[] = [];
+  const bytes = (s: Stmt) => s.sql.length + s.params.reduce<number>((n, p) => n + String(p ?? "").length, 0);
+  const stmts = rows.map((t) => {
+    const [stmt] = tangolExtraStatements([t]);
+    if (bytes(stmt) < MAX_STMT_BYTES) return stmt;
+    recortados.push(t.externalId);
+    return tangolExtraStatements([{ ...t, availabilityRules: null }])[0];
+  });
+  return { stmts, recortados };
+}
