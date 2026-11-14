@@ -15,7 +15,7 @@ import { renderSqlFile } from "@/lib/d1/sql-file";
 import type { ExistingCountry } from "@/catalog/lib/provider-countries";
 import type { ExistingCity } from "./lib/cities";
 import { TANGOL_PROVIDER_ID } from "./lib/tour-rows";
-import { tangolExtraStatements } from "./lib/extra-sql";
+import { tangolExtraStatementsAcotadas } from "./lib/extra-sql";
 import { cityTranslations, type TangolSyncRepo } from "./sync";
 import type { TangolSyncState } from "./lib/sync-plan";
 
@@ -88,7 +88,10 @@ export function createTangolSqlRepo(data: TangolExport, newId: () => string = ()
     async upsertTours(rows) {
       stmts.push(...tourStatements([...rows], new Date(), newId));
       // REQ-10514: columnas de la 0031 y guideLanguages, que el escritor común no conoce.
-      stmts.push(...tangolExtraStatements(rows.map((r) => r.tour)));
+      // REQ-10525: ninguna sentencia pasa el límite de D1; un tour con reglas enormes no tumba la escritura.
+      const extra = tangolExtraStatementsAcotadas(rows.map((r) => r.tour));
+      if (extra.recortados.length) console.warn(`[tangol] availabilityRules recortadas a NULL por tamaño en ${extra.recortados.length} tour(s): ${extra.recortados.join(", ")}`);
+      stmts.push(...extra.stmts);
     },
 
     statements() {
