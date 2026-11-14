@@ -9063,3 +9063,4 @@ REQ-10648	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (fr
 REQ-10649	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
 REQ-10650	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (frente #445), migración preguntas, traductor fromTripAvailability (frente #444)
 REQ-10651	feat/operador-discreto	2026-11-14 14:55	ola 2: operador discreto en la ficha (codigo de REQ-10615)
+REQ-10652	feat/ficha-nota-tangol-oculta	2026-11-14 20:48	
