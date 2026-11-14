@@ -138,6 +138,20 @@ describe("toTangolTourRow", () => {
     expect(r.ok && r.tour.priceCurrency).toBe("USD");
   });
 
+  it("REQ-10543: Tangol devuelve la moneda de la tarifa como 1 (número o texto) → la fila queda en USD, sin tocar el monto", () => {
+    for (const code of [1, "1"]) {
+      const enUno = summarizeRates(parseTourRates({ ...rawRates, Currency: code, ListTourRate: rawRates.ListTourRate.map((x) => ({ ...x, Currency: code })) }));
+      const r = toTangolTourRow(tour, deps({ rates: () => enUno }));
+      expect(r.ok && r.tour.priceCurrency).toBe("USD");
+      expect(r.ok && r.tour.priceValue).toBe(2200);
+    }
+  });
+
+  it("REQ-10543: un código de moneda desconocido no se adivina: el tour se descarta con «moneda-desconocida» y el código crudo", () => {
+    const rara = summarizeRates(parseTourRates({ ...rawRates, Currency: "7", ListTourRate: rawRates.ListTourRate.map((x) => ({ ...x, Currency: "7" })) }));
+    expect(toTangolTourRow(tour, deps({ rates: () => rara, fallbackCurrency: "USD" }))).toEqual({ ok: false, reason: "moneda-desconocida", detail: "moneda «7»" });
+  });
+
   it("REQ-3372: un tour cuyo título es solo el nombre del proveedor se descarta", () => {
     const soloMarca = infoTourSchema.parse({ ...rawTour, Name: "Tangol" });
     expect(toTangolTourRow(soloMarca, deps())).toEqual({ ok: false, reason: "sin-titulo" });

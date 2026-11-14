@@ -6,6 +6,7 @@ import { availabilityRules, publicPrice, type AvailabilityRules, type RatesSumma
 import { parseTourDetails } from "./details";
 import { scrubProviderName } from "./text";
 import { findProviderErrorValue } from "./data-hygiene";
+import { normalizeCurrency } from "./currency";
 
 /**
  * Ola 2 de Tangol: convierte un tour YA validado (`infoTourSchema`) en la fila de `Tour` y su traducción.
@@ -76,6 +77,7 @@ export type DiscardReason =
   | "sin-titulo"
   | "sin-precio-publico"
   | "sin-moneda"
+  | "moneda-desconocida"
   | "dato-de-error-del-proveedor"
   | "error-inesperado";
 
@@ -137,7 +139,7 @@ function cheapestPublicRate(summary: RatesSummary): TangolRate | null {
   );
 }
 
-// REQ-3370, REQ-3371, REQ-3372, REQ-3504, REQ-10510, REQ-10511, REQ-10513, REQ-10537, REQ-10538, REQ-10542
+// REQ-3370, REQ-3371, REQ-3372, REQ-3504, REQ-10510, REQ-10511, REQ-10513, REQ-10537, REQ-10538, REQ-10542, REQ-10543
 export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): ConvertedRow {
   // REQ-3504: un error del servidor de Tangol metido como dato tira el tour entero; no se adivina el valor.
   const junk = findProviderErrorValue(tour);
@@ -154,8 +156,12 @@ export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): Converte
   if (!summary || !rate) return { ok: false, reason: "sin-precio-publico" };
 
   const price = publicPrice(rate);
-  const currency = (price.currency ?? summary.currency ?? deps.fallbackCurrency ?? "").trim().toUpperCase();
-  if (!currency) return { ok: false, reason: "sin-moneda" };
+  // REQ-10543: el código crudo (el de la tarifa, el del encabezado o el de respaldo) se normaliza con un mapa
+  // explícito (1 → USD); uno desconocido no se adivina: el tour se descarta y queda en el reporte.
+  const rawCurrency = [price.currency, summary.currency, deps.fallbackCurrency].map((c) => (c ?? "").trim()).find(Boolean) ?? "";
+  if (!rawCurrency) return { ok: false, reason: "sin-moneda" };
+  const currency = normalizeCurrency(rawCurrency);
+  if (!currency) return { ok: false, reason: "moneda-desconocida", detail: `moneda «${rawCurrency}»` };
 
   const details = parseTourDetails(tour.details);
   const images: string[] = [];
