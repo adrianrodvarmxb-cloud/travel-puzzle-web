@@ -31,7 +31,7 @@ import type { PracticalView } from '@/tours/lib/practical-info';
 import { TourMeetingPoint } from './TourMeetingPoint';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
-import { bookingMode } from '@/tours/lib/booking-cta';
+import { sidebarPlan } from '@/tours/lib/sidebar-plan'; // REQ-10573
 import { tipGuide } from '@/tours/lib/tip-guide';
 import { paidPolicyConfirmed } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
@@ -111,6 +111,8 @@ export function TourDetailClient({
         }
         return null;
     }, [tourDB, tourFTData, initialTour, language, initialLanguage]);
+    // REQ-10573: el calendario y la política de FREETOUR solo para FREETOUR; otros proveedores, con asesor.
+    const plan = sidebarPlan({ providerId: (initialTourData as { providerId?: string | null } | null)?.providerId ?? null, bookingsEnabled, paidEnabled, price: tour?.price ?? 0 });
 
     // REQ-006: ventana "Completa tu viaje" antes de abrir WhatsApp (una vez por visita).
     const [sheetOpen, setSheetOpen] = useState(false);
@@ -213,9 +215,9 @@ export function TourDetailClient({
                             priceLabel={priceLabel}
                             events={eventsFTData || []}
                             isLoadingEvents={isLoadingEvents}
-                            mode={bookingMode(bookingsEnabled)}
+                            mode={plan.mode}
                             whatsapp={whatsapp}
-                            paidPolicy={paidEnabled ? paidPolicyConfirmed(null, language) : null}
+                            paidPolicy={plan.freetourPaidPolicy ? paidPolicyConfirmed(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                             onAdvisorClick={onAdvisorClick}
                             below={crossSell && csItems.length > 0 ? (
@@ -227,7 +229,7 @@ export function TourDetailClient({
                     </div>
                 </div>
             </div>
-            <TourMobileBar tour={tour} priceLabel={priceLabel} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
+            <TourMobileBar tour={tour} priceLabel={priceLabel} mode={plan.mode} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
             {sheetOpen && crossSell && (
                 <SectionBoundary name="ventana-completa-tu-viaje">
                     <CompleteTripSheet city={crossSell.city} items={csItems} copy={csCopy} onDone={onSheetDone} />
