@@ -4,5 +4,6 @@ export { TourDescription } from './TourDescription';
 export { TourIncludes } from './TourIncludes';
 export { TourMeetingPoint } from './TourMeetingPoint';
 export { TourSidebar } from './TourSidebar';
+export { ProviderDateCalendar } from './ProviderDateCalendar';
 export { TourDetailClient } from './TourDetailClient';
 
