@@ -1,13 +1,14 @@
 /** Solicitudes de cotización (gate M): validar contra el viaje, guardar y avisar. Dependencias por parámetro. */
-import { isDateOpen, availableTimes, estimate, requestRef } from "./lib/request";
+import { isDateOpen, availableTimes, estimateFor, requestRef } from "./lib/request";
+import type { DayAvailability } from "./lib/day-price";
 import { buildRequestCustomerEmail, buildRequestTeamEmail } from "./lib/request-email";
 import { formatMoney } from "./lib/money";
 import type { RequestInput } from "./schemas/request";
-import type { TripOption, Season } from "./lib/pricing";
+import type { TripOption } from "./lib/pricing";
 
 interface PublicTrip {
   id: string; code: string; titleEs: string; kind: string; currency: "MXN" | "USD" | "EUR"; minNoticeHours: number; path: string;
-  options: TripOption[]; availability: { weekdays: number[]; slots: { time: string; capacity: number | null }[]; closedDates: string[]; seasons: Season[] };
+  options: TripOption[]; availability: DayAvailability & { slots: { time: string; capacity: number | null }[] };
 }
 type Mail = { to: string; subject: string; html: string; text: string };
 
@@ -38,7 +39,7 @@ export async function submitRequest(r: RequestInput, d: RequestDeps): Promise<{ 
     if (option && r.childAges.some((a) => a < option!.childAgeMin || a > option!.childAgeMax)) {
       return { ok: false, error: `Los niños de esta opción son de ${option.childAgeMin} a ${option.childAgeMax} años; los mayores cuentan como adultos.` };
     }
-    est = estimate(option, r, r.date, trip.availability.seasons);
+    est = estimateFor(option, r, r.date, trip.availability); // REQ-3454
     when = r.time ? `${r.date} · ${r.time}` : r.date;
   } else {
     when = `${r.startDate} → ${r.endDate} · ${r.serviceType === "private" ? "Privado" : "En grupo"}`;
