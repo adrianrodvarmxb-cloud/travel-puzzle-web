@@ -22,4 +22,10 @@ describe("REQ-3511: workflow de limpieza de taxonomía", () => {
     expect(y).not.toMatch(/DELETE FROM \\"TaxonomyRun\\"/);
     expect(y).toMatch(/concurrency: \{ group: datos-produccion/);
   });
+  it("REQ-3511: cada tanda se reintenta hasta 3 veces y una respuesta sin conteo no se toma como cero (corrida 43445820673)", () => {
+    expect(y).toMatch(/for intento in 1 2 3; do/);
+    expect(y).toMatch(/typeof c==="number"/);
+    expect(y).toMatch(/respuesta inesperada de D1/);
+    expect(y).toMatch(/3 intentos fallidos; se detiene/);
+  });
 });

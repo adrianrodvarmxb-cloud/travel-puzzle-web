@@ -73,10 +73,17 @@ export interface TangolSyncDeps {
   /** Por omisión SÍ: cuenta y reporta lo que haría, sin escribir nada. */
   ensayo?: boolean;
   batch?: number;
+  /** REQ-10518: ignora el avance guardado y arranca desde el destino 1 (p. ej. para refrescar todo el catálogo tras un cambio del sync). */
+  reiniciar?: boolean;
   /** Códigos de idioma y moneda de Tangol (sin confirmar, REQ-1546: entran por parámetro). */
   languageCode?: number;
   currency?: number;
   ratesLanguage?: string;
+  /**
+   * REQ-10510: moneda que se le pide a `GetTourRates`. Por omisión `"USD"`; antes era `"0"` (la moneda por
+   * omisión de Tangol), que en producción resultó ARS. El significado de los códigos no está confirmado por
+   * Tangol: la fila guarda la moneda que DEVUELVE la tarifa y el reporte la cuenta (`monedas`).
+   */
   ratesCurrency?: string;
   /** Moneda a usar cuando las tarifas no la declaran. */
   fallbackCurrency?: string | null;
@@ -105,6 +112,9 @@ export interface TangolSyncReport {
   mapeoCiudades?: ProviderCityRow[];
   excluidos: TangolBatchPlan["excluidos"];
   descartados: TangolBatchPlan["descartados"];
+  /** REQ-10510: moneda pedida a Tangol y, por moneda que devolvió, cuántos tours (para verla en el resumen). */
+  monedaPedida: string;
+  monedas: Record<string, number>;
   /** Fallos que no tumbaron la corrida (un destino, una tarifa). */
   errores: { donde: string; error: string }[];
   /** Solo cuando el paso se detuvo sin escribir. */
@@ -114,18 +124,21 @@ export interface TangolSyncReport {
 const msg = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
 /** REQ-3463: un paso del sync de Tangol. Devuelve lo que hizo (o lo que haría, en ensayo). */
-// REQ-3463, REQ-3505
+export const DEFAULT_RATES_CURRENCY = "USD"; // REQ-10510
+
+// REQ-3463, REQ-3505, REQ-10510
 export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyncReport> {
   const {
-    api, repo, now, agencyTrips, ensayo = true, batch = DESTINATIONS_PER_STEP,
-    languageCode = 0, currency = 0, ratesLanguage = "0", ratesCurrency = "0",
+    api, repo, now, agencyTrips, ensayo = true, batch = DESTINATIONS_PER_STEP, reiniciar = false,
+    languageCode = 0, currency = 0, ratesLanguage = "0", ratesCurrency = DEFAULT_RATES_CURRENCY,
     fallbackCurrency = null, categoryId = categoriaIdDeTangol /* REQ-3502 */, rules, planCountries = planCountriesFromRepoData,
   } = deps;
 
   const errores: TangolSyncReport["errores"] = [];
+  const monedas: Record<string, number> = {};
   const base: TangolSyncReport = {
     provider: TANGOL_PROVIDER_ID, ensayo, action: "idle", totalDestinos: 0, invalidos: 0,
-    paisesNuevos: [], ciudadesNuevas: [], ciudadesPendientes: [], excluidos: [], descartados: [], errores,
+    paisesNuevos: [], ciudadesNuevas: [], ciudadesPendientes: [], excluidos: [], descartados: [], monedaPedida: ratesCurrency, monedas, errores,
   };
 
   const state = await repo.getState();
@@ -153,7 +166,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   }
 
   // 2. Lote de este paso.
-  const step = planTangolStep(state, { total: orden.length, now, batch });
+  const step = planTangolStep(reiniciar ? null : state, { total: orden.length, now, batch }); // REQ-10518
   if (step.action === "idle") return { ...base, action: "idle" };
   if (step.action === "finish") {
     if (!ensayo) await repo.saveState({ status: "completed", lastSyncAt: now });
@@ -190,7 +203,11 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
       conteos.push({ id: destino.id, name: destino.name, declarados: destino.toursQty, recibidos: lista.items.length, invalidos: lista.discarded });
       for (const tour of lista.items) {
         try {
-          tarifas.set(tour.tourId, summarizeRates(await api.getTourRates({ tourId: tour.tourId, languageCode: ratesLanguage, currency: ratesCurrency })));
+          const resumen = summarizeRates(await api.getTourRates({ tourId: tour.tourId, languageCode: ratesLanguage, currency: ratesCurrency }));
+          tarifas.set(tour.tourId, resumen);
+          // REQ-10510: la moneda que devolvió Tangol (la de la tarifa, o la del encabezado), para el resumen.
+          const moneda = (resumen.rates[0]?.currency ?? resumen.currency ?? "").trim().toUpperCase() || "sin-moneda";
+          monedas[moneda] = (monedas[moneda] ?? 0) + 1;
         } catch (e) {
           tarifas.set(tour.tourId, null);
           errores.push({ donde: `tarifas del tour ${tour.tourId}`, error: msg(e) });
