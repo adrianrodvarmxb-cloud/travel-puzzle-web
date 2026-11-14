@@ -47,3 +47,4 @@ const EN: BookingCopy = {
 export function bookingCopy(lang: string): BookingCopy {
   return lang === "es" ? ES : EN;
 }
+

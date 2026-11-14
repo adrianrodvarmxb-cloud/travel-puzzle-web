@@ -25,10 +25,13 @@ import { TourErrorState } from './TourErrorState';
 import { TourHeroSection } from './TourHeroSection';
 import { TourDescription } from './TourDescription';
 import { TourIncludes } from './TourIncludes';
+import { TourConditions } from './TourConditions';
+import { TourBeforeYouGo } from './TourBeforeYouGo';
+import type { PracticalView } from '@/tours/lib/practical-info';
 import { TourMeetingPoint } from './TourMeetingPoint';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
-import { bookingMode } from '@/tours/lib/booking-cta';
+import { sidebarPlan } from '@/tours/lib/sidebar-plan'; // REQ-10573
 import { tipGuide } from '@/tours/lib/tip-guide';
 import { paidPolicyConfirmed } from '@/tours/lib/paid-policy';
 import { useEventsByTourFTData } from '@/lib/api/hooks/useEventsByTourFTData';
@@ -55,6 +58,8 @@ interface TourDetailClientProps {
     primeraPieza?: PrimeraPiezaView | null;
     /** REQ-170: precio en EUR con MXN aproximado, calculado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
     priceLabel?: TourPriceLabel | null;
+    /** REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos, armados y validados en el servidor. */
+    practical?: PracticalView | null;
 }
 
 export function TourDetailClient({
@@ -70,6 +75,7 @@ export function TourDetailClient({
     crossSell = null,
     primeraPieza = null,
     priceLabel = null,
+    practical = null,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -105,6 +111,8 @@ export function TourDetailClient({
         }
         return null;
     }, [tourDB, tourFTData, initialTour, language, initialLanguage]);
+    // REQ-10573: el calendario y la política de FREETOUR solo para FREETOUR; otros proveedores, con asesor.
+    const plan = sidebarPlan({ providerId: (initialTourData as { providerId?: string | null } | null)?.providerId ?? null, bookingsEnabled, paidEnabled, price: tour?.price ?? 0 });
 
     // REQ-006: ventana "Completa tu viaje" antes de abrir WhatsApp (una vez por visita).
     const [sheetOpen, setSheetOpen] = useState(false);
@@ -166,7 +174,7 @@ export function TourDetailClient({
                 )}
 
                 {/* Hero Section */}
-                <TourHeroSection tour={tour} primeraPieza={primeraPieza} events={eventsFTData || []} />
+                <TourHeroSection tour={tour} primeraPieza={primeraPieza} events={eventsFTData || []} practicalFacts={practical?.facts ?? []} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content */}
@@ -174,9 +182,23 @@ export function TourDetailClient({
                         {/* Description */}
                         {tour.description && <TourDescription description={tour.description} />}
 
+                        {/* REQ-10537: Antes de ir (solo si el tour tiene el dato) */}
+                        {practical?.beforeYouGo && (
+                            <SectionBoundary name="antes-de-ir">
+                                <TourBeforeYouGo info={practical.beforeYouGo} />
+                            </SectionBoundary>
+                        )}
+
                         {/* What's Included */}
                         {tour.includes && tour.includes.length > 0 && (
                             <TourIncludes includes={tour.includes} />
+                        )}
+
+                        {/* REQ-10536: Condiciones bajo «Qué incluye» (solo si el tour tiene el dato) */}
+                        {practical?.conditions && (
+                            <SectionBoundary name="condiciones">
+                                <TourConditions conditions={practical.conditions} />
+                            </SectionBoundary>
                         )}
 
                         {/* Meeting Point */}
@@ -193,9 +215,9 @@ export function TourDetailClient({
                             priceLabel={priceLabel}
                             events={eventsFTData || []}
                             isLoadingEvents={isLoadingEvents}
-                            mode={bookingMode(bookingsEnabled)}
+                            mode={plan.mode}
                             whatsapp={whatsapp}
-                            paidPolicy={paidEnabled ? paidPolicyConfirmed(null, language) : null}
+                            paidPolicy={plan.freetourPaidPolicy ? paidPolicyConfirmed(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                             onAdvisorClick={onAdvisorClick}
                             below={crossSell && csItems.length > 0 ? (
@@ -207,7 +229,7 @@ export function TourDetailClient({
                     </div>
                 </div>
             </div>
-            <TourMobileBar tour={tour} priceLabel={priceLabel} mode={bookingMode(bookingsEnabled)} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
+            <TourMobileBar tour={tour} priceLabel={priceLabel} mode={plan.mode} whatsapp={whatsapp} onAdvisorClick={onAdvisorClick} />
             {sheetOpen && crossSell && (
                 <SectionBoundary name="ventana-completa-tu-viaje">
                     <CompleteTripSheet city={crossSell.city} items={csItems} copy={csCopy} onDone={onSheetDone} />
