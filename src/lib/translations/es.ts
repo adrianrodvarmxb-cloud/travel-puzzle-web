@@ -92,6 +92,7 @@ export const es = {
   'tours.physicalRequirements': "Requisitos físicos",
   'tours.difficulty': "Dificultad",
   'tours.providerNotes': "Notas",
+  'tours.operatedLocally': "Opera en destino",
   'tours.departureTime': "Horario de salida",
   'tours.departureTimes': "Horarios de salida",
   'tours.endPoint': "Punto de término",

@@ -1,3 +1,4 @@
+import { sellerFor } from "@/ficha/lib/operator";
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
@@ -111,6 +112,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
         // REQ-588: con enriquecimiento, del servidor; en FREETOUR se pinta en el cliente (como antes del #204), con data-nosnippet.
         const guide = full.facts.guideLanguages ? guideLanguagesLabel(row?.guideLanguages, language) : [];
+        // REQ-10651: la casilla Proveedor y la tarjeta lateral dicen la marca que vende; el operador va en «Opera en destino».
+        const shownTour = props.initialTour ? { ...props.initialTour, provider: sellerFor(row?.providerId, props.initialTour.provider) ?? props.initialTour.provider } : props.initialTour;
         const guideClientOnly = !full.enrichment ? { label: filtersCopy(language).language, codes: row?.guideLanguages ?? null } : null;
         // REQ-3468…REQ-3471: fechas y precios por día del proveedor, tras PROVIDER_CALENDAR_ENABLED.
         // Si la bandera está apagada, si el proveedor no da tarifas o si la llamada falla, queda en null y
@@ -133,6 +136,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 <JsonLd data={full.jsonLd} />
                 <TourDetailClient
                     {...props}
+                    initialTour={shownTour}
                     priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null}
                     providerCalendar={calendario ? calendarView(calendario, language) : null}
                     primeraPieza={{
