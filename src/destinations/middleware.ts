@@ -6,7 +6,7 @@
  */
 import { NextResponse, type NextRequest } from 'next/server';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
-import { planDestinationsRequest } from './lib/request-plan';
+import { planDestinationsRequest, isSiteNavigation } from './lib/request-plan';
 import { decideDestinationsRequest } from './edge';
 import { destinationsRepo } from './load';
 import type { D1Read } from './repository';
@@ -24,6 +24,8 @@ export async function destinationsMiddleware(request: NextRequest, opts: Destina
     const req = opts.headers ? { request: { headers: opts.headers } } : {};
     const plan = planDestinationsRequest(pathname, searchParams);
     if (!plan) return null; // sin consulta a D1 para lo demás
+    // REQ-10529: el filtro de país de Experiencias navega a /tours?countryId=; no es un enlace viejo.
+    if (plan.kind === 'legacy-country' && isSiteNavigation((n) => request.headers.get(n), request.nextUrl.host)) return null;
     try {
         const { env } = await getCloudflareContext({ async: true });
         const db = (env as unknown as { DB?: D1Read }).DB;

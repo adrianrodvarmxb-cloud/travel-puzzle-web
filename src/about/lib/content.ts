@@ -104,7 +104,7 @@ const ES = (): AboutContent => ({
         { title: "Reglas a la vista", text: "Las condiciones de reserva y cancelación están publicadas antes de que reserves.", link: { label: "Términos y condiciones", href: "/terminos" } },
       ],
     },
-    { id: "cifras", kind: "stats", status: "aprobado", eyebrow: "Hoy en el sitio", title: "Lo que puedes reservar hoy" },
+    { id: "cifras", kind: "stats", status: "pendiente", /* REQ-3497: oculta; volver a "aprobado" para mostrarla */ eyebrow: "Hoy en el sitio", title: "Lo que puedes reservar hoy" },
     {
       id: "agencia", kind: "facts", status: "aprobado", eyebrow: "Datos de la agencia", title: "Quién está detrás",
       intro: "Estos datos son los mismos de nuestros Términos y condiciones.",
@@ -147,7 +147,7 @@ const EN = (): AboutContent => ({
         { title: "Clear rules", text: "Booking and cancellation conditions are published before you book.", link: { label: "Terms and conditions", href: "/terminos" } },
       ],
     },
-    { id: "cifras", kind: "stats", status: "aprobado", eyebrow: "On the site today", title: "What you can book today" },
+    { id: "cifras", kind: "stats", status: "pendiente", /* REQ-3497: oculta; volver a "aprobado" para mostrarla */ eyebrow: "On the site today", title: "What you can book today" },
     {
       id: "agencia", kind: "facts", status: "aprobado", eyebrow: "Agency details", title: "Who is behind it",
       intro: "These details match our Terms and conditions (in Spanish).",

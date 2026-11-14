@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { tourPriceLabel } from "./price-label";
+import { tourPriceLabel, priceLabelsFor } from "./price-label";
 
 const rates = { USD: 18.5, EUR: 20.37, date: "05/11/2026" };
 
@@ -33,5 +33,25 @@ describe("REQ-170: tarjetas de /tours y destacadas del inicio (EUR + MXN aprox.,
   it("REQ-170: sin tipo de cambio, solo EUR; precio como texto (Decimal serializado) también sirve", async () => {
     const { priceLabelsFor } = await import("./price-label");
     expect(priceLabelsFor([{ id: "a", price: "12.5", currency: "EUR" }], null, "en")).toEqual({ a: { main: "EUR €12.50", approx: null } });
+  });
+});
+
+describe("REQ-10510: un tour en USD (Tangol) se muestra con MXN aproximado igual que EUR, sin cambiar EUR", () => {
+  it("REQ-10510: ficha: USD con el FIX de Banxico, hacia arriba al peso, y la nota no nombra al proveedor ni al neto", () => {
+    const l = tourPriceLabel(22, "USD", rates, "es");
+    expect(l).toEqual({ amount: 22, main: "USD $22", approx: "aprox. MXN $407", note: "La conversión a pesos es aproximada." });
+    expect(JSON.stringify(l).toLowerCase()).not.toMatch(/tangol|neto|comisi/);
+    expect(tourPriceLabel(22, "USD", rates, "en")?.approx).toBe("approx. MXN $407");
+  });
+  it("REQ-10510: sin tipo de cambio, solo USD (no se inventan pesos)", () => {
+    expect(tourPriceLabel(22, "USD", null, "es")).toMatchObject({ main: "USD $22", approx: null });
+  });
+  it("REQ-10510: EUR queda exactamente como hoy", () => {
+    expect(tourPriceLabel(25, "EUR", rates, "es")).toMatchObject({ main: "EUR €25", approx: "aprox. MXN $510" });
+  });
+  it("REQ-10510: el mapa por id incluye el tour en USD junto a los de EUR", () => {
+    const labels = priceLabelsFor([{ id: "t1", price: 22, currency: "USD" }, { id: "t2", price: "25", currency: "EUR" }], rates, "es");
+    expect(labels.t1).toEqual({ main: "USD $22", approx: "aprox. MXN $407" });
+    expect(labels.t2).toEqual({ main: "EUR €25", approx: "aprox. MXN $510" });
   });
 });

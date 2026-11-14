@@ -20,12 +20,19 @@ export interface CatalogTourFormatInput {
 
 const joinTitles = (titles: readonly (string | null | undefined)[]) => titles.filter((t): t is string => !!t && !!t.trim()).join(" · ");
 
-// REQ-522: tours del catálogo (hoy FREETOUR, providerId «freetour»).
-export function catalogTourFormat(t: CatalogTourFormatInput, provider = "freetour"): FormatoOEstado {
+/** REQ-10515: proveedor con mapeo propio; sin mapeo (o sin proveedor), el de FREETOUR (valor por defecto de la base). */
+// REQ-10515
+export function mappedProvider(provider: string | null | undefined): string {
+  return provider && DEFAULT_MAPPINGS[provider] ? provider : "freetour";
+}
+
+// REQ-522: tours del catálogo (FREETOUR por defecto; REQ-10515: cualquier providerId con mapeo, p. ej. «tangol»).
+export function catalogTourFormat(t: CatalogTourFormatInput, provider: string | null | undefined = "freetour"): FormatoOEstado {
   const price = t.price === null || t.price === undefined ? null : Number(t.price);
+  const p = mappedProvider(provider);
   return classifyFormato(
-    { proveedor: provider, categoriaId: t.categoryId ?? null, precio: Number.isFinite(price) ? price : null, durationMinutes: t.durationMinutes ?? null, titulo: joinTitles(t.titles), ciudades: t.cities },
-    DEFAULT_DICTIONARY, DEFAULT_MAPPINGS[provider], DEFAULT_GATES,
+    { proveedor: p, categoriaId: t.categoryId ?? null, precio: Number.isFinite(price) ? price : null, durationMinutes: t.durationMinutes ?? null, titulo: joinTitles(t.titles), ciudades: t.cities },
+    DEFAULT_DICTIONARY, DEFAULT_MAPPINGS[p], DEFAULT_GATES,
   ).valor;
 }
 
@@ -62,6 +69,6 @@ export function tripFormatDecision(t: TripFormatInput): { valor: FormatoOEstado;
 /** REQ-522: formato por id para las tarjetas de /tours (lo arma la acción del servidor, como los precios). */
 export function cardFormatsFor(rows: readonly ({ id: string } & CatalogTourFormatInput & { providerId?: string | null })[]): Record<string, FormatoOEstado> {
   const out: Record<string, FormatoOEstado> = {};
-  for (const r of rows) out[r.id] = catalogTourFormat(r, r.providerId && DEFAULT_MAPPINGS[r.providerId] ? r.providerId : "freetour");
+  for (const r of rows) out[r.id] = catalogTourFormat(r, r.providerId); // REQ-10515: mappedProvider resuelve el mapeo
   return out;
 }

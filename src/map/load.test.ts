@@ -56,4 +56,20 @@ describe("datos del mapa", () => {
     expect(card).toMatchObject({ place: "pe-chachapoyas", tours: 1, top: [{ id: "trip:b", href: "/viajes/peru/kuelap" }] });
     expect(await loadPlaceCard("no-existe", { prisma: fakePrisma(), vis })).toBeNull();
   });
+
+  it("REQ-3538: agencias y tipos distintos de una misma ciudad suman solos; el transporte no", async () => {
+    const rows = ["circuito", "tour", "unica", "personalizado"].map((kind, i) => ({
+      id: `n${i}`, slug: `nuevo-${i}`, kind, titleEs: `Nuevo ${i}`, images: [], priceFrom: 50, currency: "EUR", countries: ["IT"], cities: ["Venecia"], meetingPoints: [],
+    }));
+    const prisma = {
+      $queryRaw: async () => [{ cityId: 7, c: "45.43,12.33" }],
+      trip: { findMany: async () => [...rows, { ...rows[0], id: "t", slug: "bus", kind: "transporte" }] },
+      city: {
+        findMany: async (q: { where: { country?: unknown } }) =>
+          q.where.country ? [{ id: 7, translations: { es: "Venecia" }, country: { iso2: "IT" } }] : [{ id: 7, countryId: 75, translations: { es: "Venecia" } }],
+      },
+    } as unknown as PrismaClient;
+    const out = await loadMapCities({ prisma, vis: { own: true, transport: false } });
+    expect(out.find((c) => c.cityId === 7)?.tours).toBe(1 + rows.length); // 1 tour + 4 viajes de tipos distintos, sin transporte
+  });
 });

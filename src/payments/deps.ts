@@ -4,9 +4,11 @@ import { sendEmail } from "@/notifications/resend";
 import { loadFx } from "@/trips/public-load";
 import { createStripeClient } from "./stripe-client";
 import { isStripeEnabled, type PaymentKind, type PayCurrency } from "./lib/checkout";
+import { isHoldEnabled } from "./lib/hold";
 import { verifyStripeSignature } from "./lib/webhook";
 import { createPaymentLink, type LinkDeps, type WebhookDeps, type PayRequest } from "./service";
 import type { HoldDeps } from "./hold";
+import type { SettleDeps } from "./settle";
 import { purchaseHooksFromEnv } from "@/octo/deps";
 
 const env = () => process.env as Record<string, string | undefined>;
@@ -119,5 +121,43 @@ export function holdDeps(): HoldDeps {
       return r ? { id: r.id, kind: r.kind, estimate: r.estimate, currency: r.currency as PayCurrency } : null;
     },
     createHold: (input) => createPaymentLink(input, linkDeps()),
+  };
+}
+
+/** REQ-3483: cobrar o liberar lo retenido (STRIPE_HOLD_ENABLED). */
+export function settleDeps(): SettleDeps {
+  const e = env();
+  const prisma = getPrisma();
+  const stripe = createStripeClient({ secretKey: e.STRIPE_SECRET_KEY ?? "", fetch });
+  const site = e.SITE_URL ?? "";
+  const m = mailer();
+  return {
+    enabled: isHoldEnabled(e.STRIPE_HOLD_ENABLED) && stripeEnabled(),
+    now: new Date(),
+    siteUrl: site,
+    logoUrl: `${site}/brand/logo-tp-oscuro.png`,
+    async findHeld(ref) {
+      const r = await prisma.tripRequest.findUnique({ where: { ref }, select: { id: true, ref: true, tripTitle: true, email: true, firstName: true, date: true, adults: true, children: true, infants: true } });
+      if (!r) return null;
+      const p = await prisma.payment.findFirst({
+        where: { requestId: r.id, status: "held" }, orderBy: { createdAt: "desc" },
+        select: { id: true, paymentIntent: true, amountCentavos: true, originalAmount: true, originalCurrency: true, kind: true },
+      });
+      return p ? { request: r, payment: { ...p, kind: p.kind as PaymentKind } } : null;
+    },
+    capture: (pi, centavos, key) => stripe.capturePaymentIntent(pi, centavos, key),
+    cancel: (pi, key) => stripe.cancelPaymentIntent(pi, key),
+    // Condicional desde «held»: un reintento nunca cobra ni avisa dos veces.
+    async markCaptured(id, data) {
+      const { count } = await prisma.payment.updateMany({ where: { id, status: "held" }, data: { status: "paid", paidAt: data.paidAt, amountCentavos: data.amountCentavos } });
+      return count > 0;
+    },
+    async markReleased(id) {
+      const { count } = await prisma.payment.updateMany({ where: { id, status: "held" }, data: { status: "released" } });
+      return count > 0;
+    },
+    setRequestStatus,
+    sendCustomer: m.send,
+    sendTeam: m.team,
   };
 }
