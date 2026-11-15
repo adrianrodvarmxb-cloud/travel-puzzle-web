@@ -43,9 +43,11 @@ export const DIRECTORIO_APROBADO: ProveedorSemilla[] = [
     zonaHoraria: "America/Bogota", notas: "reservas5@ 1-20 pax; grupos2@ 21+. También WhatsApp; portal de socios por dar de alta." }),
   dmc({ id: "exotic-escapes", nombre: "Exotic Escapes", publicado: true, correos: ["angela.ballen@exoticescapes.co.in"], dominios: ["exoticescapes.co.in"],
     zonaHoraria: "Asia/Kolkata", contacto: "Angela Ballén", notas: "Acuerdo enviado el 11 nov 2026 (lo sigue la revisión cada 6 h)." }),
-  dmc({ id: "extime-travel", nombre: "Extime Travel (Paris City Vision)", publicado: true, canal: "portal", integracion: "portal",
+  // REQ-10696 / REQ-10692 (5): integración api (credenciales pendientes, REQ-10692 pendiente 1) y canal api; el correo queda
+  // para el buzón operativo (cancelaciones y cambios). El portal pro.extimetravel.com NO se automatiza (REQ-10691): captura una persona.
+  dmc({ id: "extime-travel", nombre: "Extime Travel (Paris City Vision)", publicado: true, canal: "api", integracion: "api",
     correos: ["intlsales@extimetravel.com", "a.alves@extimetravel.com"], dominios: ["extimetravel.com", "pariscityvision.com"],
-    zonaHoraria: "Europe/Paris", contacto: "Amandine Da Cal Alves", notas: "Portal B2B nuevo pro.extimetravel.com desde el 17 nov 2026." }),
+    zonaHoraria: "Europe/Paris", contacto: "Amandine Da Cal Alves", notas: "Reserva por API (pendiente credenciales) y correo para cancelaciones y cambios; portal B2B pro.extimetravel.com desde el 17 nov 2026, sin automatizar (REQ-10691)." }),
   dmc({ id: "fantastica-china", nombre: "Fantástica China", publicado: true,
     correos: ["beibei@fantasticachina.com", "zhoufan@fantasticachina.com"], dominios: ["fantasticachina.com"], zonaHoraria: "Asia/Shanghai" }),
   dmc({ id: "inca-world-peru", nombre: "Inca World Peru", publicado: true, correos: ["centralincaworldtravel@gmail.com"],
