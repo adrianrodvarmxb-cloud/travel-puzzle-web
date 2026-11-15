@@ -9130,3 +9130,4 @@ REQ-10715	feat/ola3-tangol-bus-transporte	2026-11-15 18:59	PO 15-11: revisar bor
 REQ-10716	feat/ola3-tangol-bus-transporte	2026-11-15 19:03	PO 15-11: expediente de Tangol + regla de actualizar el expediente siempre + barrido de correos de cada proveedor
 REQ-10717	feat/ola3-tangol-bus-transporte	2026-11-15 19:03	PO 15-11: expediente de Tangol + regla de actualizar el expediente siempre + barrido de correos de cada proveedor
 REQ-10718	docs/folios-chat-2026-11-15	2026-11-15 19:05	PO 15-11: expedientes disponibles para consulta del PO y de Mila; Mila comparte al cliente solo lo que le corresponde
+REQ-10719	docs/folios-chat-2026-11-15	2026-11-15 19:20	PO 15-11: acuerdo Tangol en Word con control de cambios con los datos ya dados, listo para firma; actualizar correo (corte 15 y 30, base de liquidación según referentes, sin pedir acreditación)
