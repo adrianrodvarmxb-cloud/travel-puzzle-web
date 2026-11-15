@@ -8,6 +8,7 @@ import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, type Gates } from "./gates
 import { matches, namesCity, norm } from "./text";
 import { combinado } from "./combined";
 import { veredictoDecision9 } from "./aventura-senderismo";
+import { esTrayectoEntreCiudades } from "./trayecto";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
@@ -44,6 +45,11 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   const palabrasPermitidas = gates.palabrasAntesDeFree || !free;
 
   // 1 traslado
+  // REQ-10708 (PO 15-11-2026; reemplaza REQ-10704): en una base traslado que lo permite, el trayecto entre ciudades
+  // («Potosí - Uyuni en bus») es Transporte; llegar o salir de aeropuerto, terminal, muelle u oficina sigue como Traslado.
+  if (b === "traslado" && cat.reglasPorPalabra.includes("trayecto-entre-ciudades") && esTrayectoEntreCiudades(input.titulo)) {
+    return { valor: "transporte", regla: `#2 trayecto entre ciudades (${id})` };
+  }
   if (b === "traslado") return { valor: "traslado", regla: `#1 base ${id}` };
   if (palabrasPermitidas && cat.reglasPorPalabra.includes("traslado") && kw("traslado", todo) && !matches(formatoTerm(dict, "traslado").palabrasNoEnTitulo, titulo)) {
     return { valor: "traslado", regla: `#1 palabra traslado en ${id}` };
