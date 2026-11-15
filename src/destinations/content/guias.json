@@ -3389,5 +3389,446 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 14 November 2026) and the site's catalog."
     }
+  },
+  {
+    "pais": "ar",
+    "ciudad": "salta",
+    "nombre": "Salta",
+    "targetTerm": "guia de viaje de salta",
+    "titulo": "Guía de Salta: qué ver en la ciudad y en sus valles antes de viajar",
+    "publishedAt": "2026-11-15",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Salta, en el noroeste argentino, combina una ciudad colonial a 1187 metros de altura con valles, salinas y cerros de colores. La ciudad sirve de base para excursiones de un día, y la [guía de Welcome Argentina](https://www.welcomeargentina.com/salta/) recomienda destinar de 8 a 10 días si se combina con la provincia vecina de Jujuy.",
+    "sections": [
+      {
+        "h2": "¿Cómo organizar los días en Salta?",
+        "answer": "Usa la ciudad como base y reserva una excursión distinta por día, porque encadenar varios trayectos largos en una sola jornada cansa mucho.",
+        "body": [
+          "La [guía de Welcome Argentina](https://www.welcomeargentina.com/salta/) recomienda destinar de 8 a 10 días si combinas Salta con Jujuy, que están a solo 90 km de distancia. Si tu viaje es más corto, elige entre la ciudad, Cafayate o la Quebrada de Humahuaca y deja el resto para otra visita.",
+          "La misma [fuente](https://www.welcomeargentina.com/salta/) indica que la ciudad está a 1187 metros sobre el nivel del mar y no genera apunamiento, pero las excursiones a más altura sí pueden causar síntomas. Revisa el [listado de Salta en Travel Puzzle](/destinos/ar/salta) antes de reservar."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en la ciudad de Salta?",
+        "answer": "El centro gira en torno a la Plaza 9 de Julio y la Iglesia San Francisco, con su fachada rosa, según la [guía de Welcome Argentina](https://www.welcomeargentina.com/salta/). A pocas cuadras están la catedral y los museos históricos y antropológicos.",
+        "body": [
+          "Para ver la ciudad desde arriba, sube al Cerro San Bernardo en teleférico, una de las experiencias más recomendadas de la provincia según [Welcome Argentina](https://www.welcomeargentina.com/salta/). Conviene llevar ropa en capas, porque la temperatura cambia bastante entre el día y la noche.",
+          "La media anual ronda los 22 °C, de acuerdo con la [misma guía](https://www.welcomeargentina.com/salta/), así que los días suelen ser cálidos y las noches frescas. Aprovecha las mañanas para caminar por el centro antes del calor del mediodía.",
+          "El Cabildo, sede del gobierno del Virreinato desde el siglo XVI hasta principios del siglo XIX, da a la Plaza 9 de Julio y hoy alberga el Museo Regional del Norte, según [TodoJujuy](https://www.todojujuy.com/pais/escapadas-el-norte-los-5-lugares-salta-que-si-o-si-hay-que-visitar-n266712/amp)."
+        ]
+      },
+      {
+        "h2": "¿Qué excursiones se hacen desde Salta?",
+        "answer": "Las salidas más populares llevan a la Quebrada de las Conchas, Cafayate, Purmamarca y las Salinas Grandes, según la [guía de Welcome Argentina](https://www.welcomeargentina.com/salta/).",
+        "body": [
+          "El Tren a las Nubes cruza la Cordillera de los Andes a unos 4220 metros de altura, de acuerdo con [Welcome Argentina](https://www.welcomeargentina.com/salta/). Es una excursión de día completo, así que conviene revisar con anticipación las salidas disponibles.",
+          "El viaducto La Polvorilla, las Salinas Grandes y el Cerro de los Siete Colores, en Purmamarca, aparecen entre los atractivos del norte de la provincia, de acuerdo con la [misma guía](https://www.welcomeargentina.com/salta/). Revisa los horarios de cada excursión, porque dependen del clima y del estado de los caminos."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar a Salta?",
+        "answer": "El Aeropuerto El Aybal está a 9 km de la ciudad por la Ruta Nacional 51, y tiene conexiones con Buenos Aires, Córdoba, Tucumán y Jujuy, según [Welcome Argentina](https://www.welcomeargentina.com/salta/).",
+        "body": [
+          "También se llega por carretera, por la Ruta Provincial 9 o la Ruta Nacional 34, de acuerdo con la [misma guía](https://www.welcomeargentina.com/salta/). Si llegas en avión, un traslado al centro es el camino más sencillo para empezar el viaje.",
+          "Antes de salir, revisa que tu itinerario tenga margen para los trayectos, sobre todo si combinas la ciudad con excursiones a los valles."
+        ]
+      },
+      {
+        "h2": "¿Qué comer y qué llevar?",
+        "answer": "Las empanadas salteñas tienen renombre mundial, según la [guía de Welcome Argentina](https://www.welcomeargentina.com/salta/), así que son una buena forma de empezar el día.",
+        "body": [
+          "Lleva ropa en capas y una chaqueta ligera para las excursiones a más altura, y considera agua para los recorridos a pie. En septiembre se celebra la Fiesta del Milagro, un buen motivo para planear el viaje con más detalle."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 15 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Salta",
+      "targetTerm": "salta travel guide",
+      "titulo": "Salta guide: what to see in the city and its valleys before you go",
+      "enBreve": "Salta, in northwestern Argentina, pairs a colonial city at 1187 metres above sea level with valleys, salt flats and multicoloured hills. The city works as a base for day trips, and the [Welcome Argentina guide](https://www.welcomeargentina.com/salta/) suggests spending 8 to 10 days if you combine it with the neighbouring province of Jujuy.",
+      "sections": [
+        {
+          "h2": "How should you plan your days in Salta?",
+          "answer": "Use the city as a base and book a different excursion each day, because chaining long trips into one day is tiring.",
+          "body": [
+            "The [Welcome Argentina guide](https://www.welcomeargentina.com/salta/) suggests 8 to 10 days if you combine Salta with Jujuy, which are only 90 km apart. If your trip is shorter, choose between the city, Cafayate or the Quebrada de Humahuaca and leave the rest for another visit.",
+            "The same [source](https://www.welcomeargentina.com/salta/) notes that the city sits at 1187 metres above sea level and does not cause altitude sickness, but excursions to higher ground can. Check the [Salta listing on Travel Puzzle](/destinos/ar/salta) before you book."
+          ]
+        },
+        {
+          "h2": "What is there to see in the city of Salta?",
+          "answer": "The centre revolves around Plaza 9 de Julio and the San Francisco church with its pink facade, according to the [Welcome Argentina guide](https://www.welcomeargentina.com/salta/). A few blocks away are the cathedral and the history and anthropology museums.",
+          "body": [
+            "To see the city from above, take the cable car up San Bernardo hill, one of the most recommended experiences in the province according to [Welcome Argentina](https://www.welcomeargentina.com/salta/). Bring layers, because the temperature changes a lot between day and night.",
+            "The annual average is around 22 °C, according to the [same guide](https://www.welcomeargentina.com/salta/), so days tend to be warm and nights cool. Use the mornings to walk the centre before the midday heat.",
+            "The Cabildo, seat of the viceroyalty government from the 16th century to the early 19th, faces the square and now houses the Museo Regional del Norte, according to [TodoJujuy](https://www.todojujuy.com/pais/escapadas-el-norte-los-5-lugares-salta-que-si-o-si-hay-que-visitar-n266712/amp)."
+          ]
+        },
+        {
+          "h2": "Which excursions leave from Salta?",
+          "answer": "The most popular trips go to the Quebrada de las Conchas, Cafayate, Purmamarca and the Salinas Grandes, according to the [Welcome Argentina guide](https://www.welcomeargentina.com/salta/).",
+          "body": [
+            "The Tren a las Nubes crosses the Andes at about 4220 metres above sea level, according to [Welcome Argentina](https://www.welcomeargentina.com/salta/). It is a full-day excursion, so check the departures available well in advance.",
+            "The La Polvorilla viaduct, the Salinas Grandes and the Cerro de los Siete Colores in Purmamarca are among the attractions of the north of the province, according to the [same guide](https://www.welcomeargentina.com/salta/). Check the timetable of each excursion, since they depend on the weather and the state of the roads."
+          ]
+        },
+        {
+          "h2": "How do you get to Salta?",
+          "answer": "El Aybal airport is 9 km from the city via National Route 51, and it has connections to Buenos Aires, Córdoba, Tucumán and Jujuy, according to [Welcome Argentina](https://www.welcomeargentina.com/salta/).",
+          "body": [
+            "You can also arrive by road, via Provincial Route 9 or National Route 34, according to the [same guide](https://www.welcomeargentina.com/salta/). If you fly in, a transfer to the centre is the simplest way to start the trip.",
+            "Before you leave, make sure your itinerary leaves room for travel time, especially if you combine the city with valley excursions."
+          ]
+        },
+        {
+          "h2": "What should you eat and what should you pack?",
+          "answer": "Salta empanadas have a worldwide reputation, according to the [Welcome Argentina guide](https://www.welcomeargentina.com/salta/), so they are a good way to start the day.",
+          "body": [
+            "Pack layers and a light jacket for higher excursions, and bring water for walks. The Fiesta del Milagro is held in September, a good reason to plan the trip in more detail."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "cl",
+    "ciudad": "santiago-de-chile",
+    "nombre": "Santiago de Chile",
+    "targetTerm": "guia de viaje de santiago de chile",
+    "titulo": "Guía de Santiago de Chile: el Cerro San Cristóbal, museos y barrios",
+    "publishedAt": "2026-11-15",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Santiago de Chile combina cerros, museos y barrios con mucho carácter. El Cerro San Cristóbal ofrece vista de la ciudad y se puede subir a pie o en funicular, y la [guía de Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/) indica que el recorrido completo toma un día.",
+    "sections": [
+      {
+        "h2": "¿Cómo subir al Cerro San Cristóbal?",
+        "answer": "Puedes subir caminando por el sendero principal, que toma entre 60 y 90 minutos, o en funicular, que tarda unos 10 minutos, según [Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/).",
+        "body": [
+          "El ingreso principal está en la calle Pío Nono, a pocos pasos de la estación Baquedano del Metro, en las líneas 1 y 5, de acuerdo con la [misma guía](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/). En la cima está la imagen de la Virgen de la Inmaculada Concepción.",
+          "El teleférico baja desde la estación Cumbre hasta la estación Oasis, a pocos pasos del Jardín Japonés. [Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/) recomienda comprar los boletos en línea para evitar filas, sobre todo los fines de semana y festivos."
+        ]
+      },
+      {
+        "h2": "¿Cuáles son los horarios y precios?",
+        "answer": "Según una [nota de Meganoticias del 12 de junio de 2026](https://www.meganoticias.cl/dato-util/524489-teleferico-funicular-santiago-precios-entradas-horarios-vacaciones-invierno-12-06-2026.html), el recinto abre de martes a domingo, de 10:00 a 18:45 horas.",
+        "body": [
+          "Los precios cambian según el trayecto y las combinaciones. La misma [nota](https://www.meganoticias.cl/dato-util/524489-teleferico-funicular-santiago-precios-entradas-horarios-vacaciones-invierno-12-06-2026.html) reporta, en pesos chilenos, un boleto de ida y vuelta por la línea Pío Nono desde $1.130, y combos desde $8.000, con la aclaración de que son precios «desde» que se confirman en la plataforma oficial.",
+          "Revisa esos datos el día de tu visita, porque pueden cambiar según la temporada y las vacaciones. Según [Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/), el parque abre todo el año."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en Santiago además del cerro?",
+        "answer": "El Museo Nacional de Bellas Artes tiene entrada gratuita, con horario de martes a domingo de 10:00 a 18:30, según [Chile Travel](https://chile.travel/pt-br/blog/santiago-cultural-os-seus-museus-e-bairros-mais-importantes/).",
+        "body": [
+          "El Barrio Lastarria queda entre la Alameda, el Parque Forestal y el Cerro Santa Lucía, y su calle de referencia es José Victorino Lastarria, con metro en Universidad Católica o Bellas Artes, según la [misma fuente](https://chile.travel/pt-br/blog/santiago-cultural-os-seus-museus-e-bairros-mais-importantes/).",
+          "El Barrio Bellavista está en las laderas del Cerro San Cristóbal, al norte del río Mapocho, y allí está La Chascona, una de las casas de Pablo Neruda, de acuerdo con la [misma fuente](https://chile.travel/pt-br/blog/santiago-cultural-os-seus-museus-e-bairros-mais-importantes/)."
+        ]
+      },
+      {
+        "h2": "¿Cuánto tiempo dedicar a la ciudad?",
+        "answer": "Con cuatro o cinco días alcanzas para el cerro, los museos y dos barrios sin prisas, como recomendación general de planeación.",
+        "body": [
+          "Reserva el teleférico y el funicular temprano para evitar filas, y guarda la tarde para caminar por Lastarria o Bellavista. La estación Baquedano es el punto de partida más práctico para el cerro."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 15 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Santiago de Chile",
+      "targetTerm": "santiago de chile travel guide",
+      "titulo": "Santiago de Chile guide: San Cristóbal hill, museums and neighbourhoods",
+      "enBreve": "Santiago de Chile mixes hills, museums and neighbourhoods with plenty of character, suited to travellers who enjoy both city life and mountain views. Cerro San Cristóbal offers city views and can be climbed on foot or by funicular, and the [Chile Travel guide](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/) says the full visit takes one day.",
+      "sections": [
+        {
+          "h2": "How do you get up Cerro San Cristóbal?",
+          "answer": "You can walk up the main trail, which takes between 60 and 90 minutes, or ride the funicular, which takes about 10 minutes, according to [Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/).",
+          "body": [
+            "The main entrance is on Pío Nono street, a few steps from Baquedano Metro station on lines 1 and 5, according to the [same guide](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/). At the summit stands the image of the Virgin of the Immaculate Conception.",
+            "The cable car goes down from the Cumbre station to the Oasis station, a few steps from the Japanese Garden. [Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/) recommends buying tickets online to avoid queues, especially on weekends and holidays."
+          ]
+        },
+        {
+          "h2": "What are the opening hours and prices?",
+          "answer": "According to a [Meganoticias report from 12 June 2026](https://www.meganoticias.cl/dato-util/524489-teleferico-funicular-santiago-precios-entradas-horarios-vacaciones-invierno-12-06-2026.html), the site opens Tuesday to Sunday, from 10:00 to 18:45.",
+          "body": [
+            "Prices depend on the route and the combinations. The same [report](https://www.meganoticias.cl/dato-util/524489-teleferico-funicular-santiago-precios-entradas-horarios-vacaciones-invierno-12-06-2026.html) lists, in Chilean pesos, a return ticket on the Pío Nono line from $1,130, and bundles from $8,000, noting these are starting prices that are confirmed on the official platform.",
+            "Check these details on the day of your visit, since they can change with the season and holidays. According to [Chile Travel](https://chile.travel/itinerarios/que-hacer-en-el-cerro-san-cristobal/), the park is open all year."
+          ]
+        },
+        {
+          "h2": "What else is there to see in Santiago?",
+          "answer": "The Museo Nacional de Bellas Artes has free admission, open Tuesday to Sunday from 10:00 to 18:30, according to [Chile Travel](https://chile.travel/pt-br/blog/santiago-cultural-os-seus-museus-e-bairros-mais-importantes/).",
+          "body": [
+            "Barrio Lastarria lies between the Alameda, the Parque Forestal and Cerro Santa Lucía, with José Victorino Lastarria street as its reference and Metro stops at Universidad Católica or Bellas Artes, according to the [same source](https://chile.travel/pt-br/blog/santiago-cultural-os-seus-museus-e-bairros-mais-importantes/).",
+            "Barrio Bellavista sits on the slopes of Cerro San Cristóbal, north of the Mapocho river, and is home to La Chascona, one of Pablo Neruda's houses, according to the [same source](https://chile.travel/pt-br/blog/santiago-cultural-os-seus-museus-e-bairros-mais-importantes/)."
+          ]
+        },
+        {
+          "h2": "How many days should you spend in the city?",
+          "answer": "Four or five days give you time for the hill, the museums and two neighbourhoods without rushing, as a general planning suggestion.",
+          "body": [
+            "Book the cable car and funicular early to avoid queues, and keep the afternoon for walking around Lastarria or Bellavista. Baquedano station is the most practical starting point for the hill."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "ar",
+    "ciudad": "puerto-madryn",
+    "nombre": "Puerto Madryn",
+    "targetTerm": "guia de viaje de puerto madryn",
+    "titulo": "Guía de Puerto Madryn: ballenas, Península Valdés y la costa de Chubut",
+    "publishedAt": "2026-11-15",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Puerto Madryn, en la costa de Chubut, es la base para ver ballenas francas en la Península Valdés, declarada Patrimonio Natural de la Humanidad por la UNESCO en 1999, y la región también tiene pingüinos y lobos marinos. La temporada de avistaje va de junio a diciembre, según [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp).",
+    "sections": [
+      {
+        "h2": "¿Cuándo conviene ver las ballenas?",
+        "answer": "La temporada de avistaje arrancó el 10 de junio de 2025 y se extiende de junio a diciembre, según [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp).",
+        "body": [
+          "Las salidas en bote parten todos los días de Puerto Pirámides, dentro de la península, duran cerca de 90 minutos y llevan de 20 a 60 pasajeros, de acuerdo con la [misma nota](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp). Las mañanas suelen tener el mar más calmo, así que es el horario que se recomienda.",
+          "Si prefieres ver ballenas desde la orilla, El Doradillo está a unos 15 km del centro de Puerto Madryn, y allí las ballenas se acercan a la costa sobre todo con marea alta, según la [misma fuente](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp)."
+        ]
+      },
+      {
+        "h2": "¿Qué fauna se puede ver en la Península Valdés?",
+        "answer": "Además de la ballena franca austral, la península tiene orcas, delfines, lobos y elefantes marinos, según [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp).",
+        "body": [
+          "Punta Loma, según la [guía de Welcome Argentina](https://www.welcomeargentina.com/chubut/peninsula-valdes.html), alberga una colonia de lobos marinos de un pelo y es una de las primeras áreas protegidas de Chubut. En Playa Unión, las toninas overas juguetean junto a las embarcaciones, de acuerdo con la misma guía.",
+          "Punta Tombo es una reserva aparte, con pingüinos magallánicos, que la [misma guía](https://www.welcomeargentina.com/chubut/peninsula-valdes.html) menciona como otro destino de la región. Planea esa visita como excursión separada."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer en Puerto Madryn además de ver ballenas?",
+        "answer": "El Ecocentro Puerto Madryn y el Golfo Nuevo, un destino de buceo muy conocido, completan una estancia de varios días, según [Welcome Argentina](https://www.welcomeargentina.com/chubut/peninsula-valdes.html).",
+        "body": [
+          "Desde Puerto Madryn también se llega a Gaiman, Trelew y Dolavon, ciudades de origen galés, de acuerdo con la [misma guía](https://www.welcomeargentina.com/chubut/peninsula-valdes.html). Son una buena excursión de medio día si te interesa la historia galesa de la región.",
+          "Para pagar la entrada al parque, según [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp), lleva efectivo. Consulta también el [listado de Puerto Madryn en Travel Puzzle](/destinos/ar/puerto-madryn)."
+        ]
+      },
+      {
+        "h2": "¿Cómo planear la visita?",
+        "answer": "Reserva el avistaje con anticipación en temporada alta, porque el clima y la presencia de las ballenas cambian cada día.",
+        "body": [
+          "Deja al menos dos días en la zona para tener más oportunidades de avistaje, y guarda una mañana libre por si el mar no permite salir. Mantén el itinerario flexible y revisa el pronóstico antes de cada salida."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 15 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Puerto Madryn",
+      "targetTerm": "puerto madryn travel guide",
+      "titulo": "Puerto Madryn guide: whales, Valdés Peninsula and the Chubut coast",
+      "enBreve": "Puerto Madryn, on the Chubut coast, is the base for watching southern right whales on the Valdés Peninsula, a UNESCO Natural World Heritage Site since 1999, and the region also has penguins and sea lions. The whale season runs from June to December, according to [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp).",
+      "sections": [
+        {
+          "h2": "When is the ideal time to see whales?",
+          "answer": "The whale season officially opened on 10 June 2025 and runs from June to December, according to [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp).",
+          "body": [
+            "Boat trips leave every day from Puerto Pirámides, inside the peninsula, last about 90 minutes and carry 20 to 60 passengers, according to the [same report](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp). Mornings usually have calmer seas, so that is the recommended time.",
+            "If you prefer to watch from the shore, El Doradillo is about 15 km from downtown Puerto Madryn, and whales often come close to the coast there, especially at high tide, according to the [same source](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp)."
+          ]
+        },
+        {
+          "h2": "What wildlife can you see on the Valdés Peninsula?",
+          "answer": "Besides the southern right whale, the peninsula has orcas, dolphins, sea lions and elephant seals, according to [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp).",
+          "body": [
+            "Punta Loma, according to the [Welcome Argentina guide](https://www.welcomeargentina.com/chubut/peninsula-valdes.html), is home to a colony of sea lions and is one of the first protected areas in Chubut. At Playa Unión, toninas overas swim close to the boats, according to the same guide.",
+            "Punta Tombo is a separate reserve with Magellanic penguins, which the [same guide](https://www.welcomeargentina.com/chubut/peninsula-valdes.html) mentions as another destination in the region. Plan that visit as a separate excursion."
+          ]
+        },
+        {
+          "h2": "What is there to do in Puerto Madryn besides whales?",
+          "answer": "The Ecocentro Puerto Madryn and the Golfo Nuevo, a well-known diving destination, round out a stay of several days, according to [Welcome Argentina](https://www.welcomeargentina.com/chubut/peninsula-valdes.html).",
+          "body": [
+            "From Puerto Madryn you can also reach Gaiman, Trelew and Dolavon, towns of Welsh origin, according to the [same guide](https://www.welcomeargentina.com/chubut/peninsula-valdes.html). They make a good half-day trip if you are interested in the region's Welsh history.",
+            "To pay the park entrance fee, according to [La Capital](https://www.lacapital.com.ar/turismo/puerto-madryn-ya-recibio-sus-primeras-visitantes-ilustres-las-ballenas-n10201642.html/amp), bring cash. You can also check the [Puerto Madryn listing on Travel Puzzle](/destinos/ar/puerto-madryn)."
+          ]
+        },
+        {
+          "h2": "How should you plan the visit?",
+          "answer": "Book whale watching ahead in high season, because the weather and the presence of whales change every day.",
+          "body": [
+            "Stay at least two days in the area to have more chances to see whales, and keep one morning free in case the sea does not allow departures. Keep the itinerary flexible and check the forecast before each trip."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "cl",
+    "ciudad": "puerto-varas",
+    "nombre": "Puerto Varas",
+    "targetTerm": "guia de viaje de puerto varas",
+    "titulo": "Guía de Puerto Varas: Saltos del Petrohué, Lago Llanquihue y Volcán Osorno",
+    "publishedAt": "2026-11-15",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Puerto Varas, a orillas del Lago Llanquihue, es la puerta de entrada a los Saltos del Petrohué y al Volcán Osorno, en el sur de Chile, junto al Lago Llanquihue, el segundo más grande del país. El aeropuerto El Tepual queda a unos 30 minutos, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+    "sections": [
+      {
+        "h2": "¿Cómo llegar a Puerto Varas?",
+        "answer": "El aeropuerto El Tepual está a unos 30 minutos de Puerto Varas, de acuerdo con [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+        "body": [
+          "Desde Santiago también se puede llegar en autobús, un viaje de unas 12 horas según [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388). Es un trayecto largo, así que conviene elegir el vuelo si tu tiempo es limitado.",
+          "Si vas a comunidades rurales como Ensenada, lleva efectivo, como sugiere la [misma fuente](https://www.rutadelosparques.org/en/?p=1388). Puedes revisar también el [listado de Puerto Varas en Travel Puzzle](/destinos/cl/puerto-varas)."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en el Parque Nacional Vicente Pérez Rosales?",
+        "answer": "Los Saltos del Petrohué están dentro del Parque Nacional Vicente Pérez Rosales, el más antiguo de Chile, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+        "body": [
+          "La recomendación es llegar temprano, idealmente antes de las 10:00, y el parque aplica sistemas de reserva previa para evitar el sobrecupo, de acuerdo con [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+          "El sendero Los Enamorados atraviesa un bosque nativo de coigües y arrayanes y termina en una pequeña playa a orillas del río, según la [misma fuente](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue). También se puede navegar hasta Peulla por el Lago Todos Los Santos, según [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388)."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer en el Lago Llanquihue y el Volcán Osorno?",
+        "answer": "El Lago Llanquihue es el segundo lago más grande de Chile, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue), y desde la costanera se ven los volcanes Osorno y Calbuco, de acuerdo con [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388).",
+        "body": [
+          "Ensenada, a unos 45 kilómetros, es la puerta de entrada al Volcán Osorno. Desde allí se puede llegar en vehículo hasta el refugio principal, y telesillas llevan a estaciones superiores, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+          "En invierno también es posible bajar el volcán en esquís, según [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388). Frutillar, a orillas del lago, es un viaje corto de un par de horas desde Puerto Varas, de acuerdo con la primera fuente."
+        ]
+      },
+      {
+        "h2": "¿Qué clima esperar?",
+        "answer": "De diciembre a marzo, las temperaturas agradables oscilan entre 15 y 25 °C, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+        "body": [
+          "Lleva capas, porque el clima cambia rápido cerca del lago y de los volcanes, y considera un impermeable en cualquier época del año. Para las excursiones de montaña, revisa el pronóstico el mismo día."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 15 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Puerto Varas",
+      "targetTerm": "puerto varas travel guide",
+      "titulo": "Puerto Varas guide: Petrohué Falls, Llanquihue Lake and Osorno Volcano",
+      "enBreve": "Puerto Varas, on the shore of Llanquihue Lake, is the gateway to Petrohué Falls and Osorno Volcano in southern Chile, on Llanquihue Lake, the second largest in the country. El Tepual airport is about 30 minutes away, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+      "sections": [
+        {
+          "h2": "How do you get to Puerto Varas?",
+          "answer": "El Tepual airport is about 30 minutes from Puerto Varas, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+          "body": [
+            "From Santiago you can also take a bus, a journey of about 12 hours according to [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388). It is a long ride, so choose the flight if your time is limited.",
+            "If you visit rural communities such as Ensenada, bring cash, as the [same source](https://www.rutadelosparques.org/en/?p=1388) suggests. You can also check the [Puerto Varas listing on Travel Puzzle](/destinos/cl/puerto-varas)."
+          ]
+        },
+        {
+          "h2": "What is there to see in Vicente Pérez Rosales National Park?",
+          "answer": "The Petrohué Falls lie inside Vicente Pérez Rosales National Park, Chile's oldest, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+          "body": [
+            "The advice is to arrive early, ideally before 10:00, and the park uses advance booking systems to avoid overcrowding, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+            "The Los Enamorados trail crosses native forest of coigües and arrayanes and ends on a small beach by the river, according to the [same source](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue). You can also sail across Todos Los Santos Lake to Peulla, according to [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388)."
+          ]
+        },
+        {
+          "h2": "What is there to do on Llanquihue Lake and Osorno Volcano?",
+          "answer": "Llanquihue is the second largest lake in Chile, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue), and Osorno and Calbuco volcanoes can be seen from the waterfront, according to [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388).",
+          "body": [
+            "Ensenada, about 45 km away, is the gateway to Osorno Volcano. From there you can drive to the main refuge, and chairlifts take visitors to higher stations, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+            "In winter it is also possible to ski down the volcano, according to [Ruta de los Parques](https://www.rutadelosparques.org/en/?p=1388). Frutillar, on the lakeshore, is a short trip of a couple of hours from Puerto Varas, according to the first source."
+          ]
+        },
+        {
+          "h2": "What weather should you expect?",
+          "answer": "From December to March, pleasant temperatures range between 15 and 25 °C, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-puerto-varas-en-2026-guia-de-turismo-saltos-del-petrohue-y-panoramas-en-el-lago-llanquihue).",
+          "body": [
+            "Pack layers, because the weather changes quickly near the lake and the volcanoes, and consider a rain jacket at any time of year. For mountain excursions, check the forecast the same day."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "ar",
+    "ciudad": "cordoba",
+    "nombre": "Córdoba",
+    "targetTerm": "guia de viaje de cordoba",
+    "titulo": "Guía de Córdoba: Manzana Jesuítica, sierras y pueblos cercanos",
+    "publishedAt": "2026-11-15",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Córdoba, capital de la provincia del mismo nombre, es una de las tres ciudades más pobladas de Argentina, según [Argentina.travel](https://www.argentina.travel/cordoba). Su centro conserva la Manzana Jesuítica, y a unos 30 minutos de la capital, La Calera abre la puerta a las sierras.",
+    "sections": [
+      {
+        "h2": "¿Qué ver en la ciudad de Córdoba?",
+        "answer": "La Manzana Jesuítica es Patrimonio de la Humanidad, según [Argentina.travel](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano), y es el punto de partida para conocer el legado jesuita de la ciudad.",
+        "body": [
+          "El Parque Sarmiento es otro lugar para caminar, de acuerdo con la [misma guía](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano). Para comer, la guía menciona el Mercado Norte para la cocina regional, y para la noche, Nueva Córdoba.",
+          "Antes de salir, prueba el clásico Fernet con Coca y los alfajores cordobeses, que la misma [fuente](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano) recomienda como imperdibles."
+        ]
+      },
+      {
+        "h2": "¿Qué pueblos se visitan desde la capital?",
+        "answer": "La Calera está a unos 30 minutos de la capital, según [Argentina.travel](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano), y es una salida corta para quien quiere conocer las sierras.",
+        "body": [
+          "Villa Carlos Paz tiene el Reloj Cucú y las aerosillas, desde donde se ve el lago San Roque. Villa General Belgrano celebra la Oktoberfest, la Fiesta Nacional de la Cerveza, en octubre, según la [misma guía](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano).",
+          "Alta Gracia tiene una Estancia Jesuítica Patrimonio de la Humanidad, y Capilla del Monte es el pueblo del Cerro Uritorco, asociado a avistamientos ovni, de acuerdo con la misma fuente. El Cerro Uritorco está a solo 3 kilómetros del centro de Capilla del Monte, según [Welcome Argentina](https://www.welcomeargentina.com/provincia-cordoba/). Consulta el [listado de Córdoba en Travel Puzzle](/destinos/ar/cordoba) para ver las experiencias disponibles."
+        ]
+      },
+      {
+        "h2": "¿Cómo moverse por la provincia?",
+        "answer": "Argentina.travel recomienda alquilar un auto para moverse con más comodidad por la provincia, según la [guía de la región](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano).",
+        "body": [
+          "Para visitar varios pueblos en un solo viaje, un auto da más libertad que los autobuses. Si prefieres no manejar, elige una o dos excursiones guiadas desde la capital y deja los pueblos más lejanos para otro día."
+        ]
+      },
+      {
+        "h2": "¿Qué clima esperar?",
+        "answer": "En verano, de enero a marzo, las temperaturas promedio van de 25 a 30 °C, y en otoño e invierno, de abril a julio, oscilan entre 10 y 20 °C, según [Argentina.travel](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano).",
+        "body": [
+          "Lleva ropa ligera para el verano y una chaqueta para las noches de otoño e invierno. Si tu viaje es en octubre, revisa las fechas de la Oktoberfest en Villa General Belgrano, porque el pueblo se llena esos días."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 15 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Córdoba",
+      "targetTerm": "cordoba travel guide",
+      "titulo": "Córdoba guide: Jesuit Block, hills and nearby towns",
+      "enBreve": "Córdoba, capital of the province of the same name, is one of the three most populous cities in Argentina, according to [Argentina.travel](https://www.argentina.travel/cordoba). Its centre keeps the Jesuit Block, and La Calera, about 30 minutes from the capital, opens the way to the sierras.",
+      "sections": [
+        {
+          "h2": "What is there to see in the city of Córdoba?",
+          "answer": "The Jesuit Block is a World Heritage Site, according to [Argentina.travel](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano), and it is the starting point for the city's Jesuit legacy.",
+          "body": [
+            "Parque Sarmiento is another place to walk, according to the [same guide](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano). For food, the guide mentions the Mercado Norte for regional cooking, and for nightlife, Nueva Córdoba.",
+            "Before you leave, try the classic Fernet with Coca and the Córdoba alfajores, which the [same source](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano) recommends as must-tries."
+          ]
+        },
+        {
+          "h2": "Which towns can you visit from the capital?",
+          "answer": "La Calera is about 30 minutes from the capital, according to [Argentina.travel](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano), and makes a short trip for anyone who wants to see the sierras.",
+          "body": [
+            "Villa Carlos Paz has the Reloj Cucú clock and the chairlifts, from which you can see Lake San Roque. Villa General Belgrano hosts the Oktoberfest, the National Beer Festival, in October, according to the [same guide](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano).",
+            "Alta Gracia has a Jesuit Estancia that is a World Heritage Site, and Capilla del Monte is the town of Cerro Uritorco, linked to UFO sightings, according to the same source. Cerro Uritorco is only 3 km from the centre of Capilla del Monte, according to [Welcome Argentina](https://www.welcomeargentina.com/provincia-cordoba/). Check the [Córdoba listing on Travel Puzzle](/destinos/ar/cordoba) for the experiences available."
+          ]
+        },
+        {
+          "h2": "How should you get around the province?",
+          "answer": "Argentina.travel recommends renting a car for more comfortable travel around the province, according to the [regional guide](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano).",
+          "body": [
+            "To visit several towns in one trip, a car gives you more freedom than buses. If you prefer not to drive, pick one or two guided excursions from the capital and leave the farther towns for another day."
+          ]
+        },
+        {
+          "h2": "What weather should you expect?",
+          "answer": "In summer, from January to March, average temperatures run from 25 to 30 °C, and in autumn and winter, from April to July, they range between 10 and 20 °C, according to [Argentina.travel](https://www.argentina.travel/es/novedades/guia-turistica-cordoba-villa-carlos-paz-y-villa-general-belgrano).",
+          "body": [
+            "Pack light clothing for summer and a jacket for autumn and winter evenings. If you travel in October, check the Oktoberfest dates in Villa General Belgrano, since the town fills up on those days."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog."
+    }
   }
 ]

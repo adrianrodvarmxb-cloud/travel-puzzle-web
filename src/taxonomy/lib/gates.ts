@@ -48,6 +48,13 @@ export const CIRCUITO_MIN_MINUTOS = 1440;
 export const GATE_GT8_DIFICULTAD: "A" | "B" = "A";
 export const DIFICULTAD_DESDE_GESTOR = { facil: 2, moderada: 3, exigente: 4 } as const;
 
+/**
+ * D9 · Aventura y senderismo con guía (decisión 9 de la ficha única, REQ-10588; lista firmada por el PO el 15 nov 2026,
+ * REQ-10661, G-A1 a G-A4 = A). A: la caminata con guía y el lugar de montaña sin otra actividad de Tangol 9000003 pasan a
+ * «Excursión de un día» con Aventura y Montaña y senderismo. B: como antes (todo Momentos de autor). Regreso = B.
+ */
+export const GATE_D9_SENDERISMO: "A" | "B" = "A";
+
 /** G-T9 (opcional) · Title de la ficha por formato. A: «{título real} – Excursión desde {Ciudad}» en excursion-dia (cambia REQ-099). B: se queda el patrón firmado. Se usa en T5. */
 export const GATE_GT9_TITLE: "A" | "B" = "A";
 
@@ -70,6 +77,8 @@ export interface Gates {
   caminata: ABC;
   favorito: ABC | "D"; // REQ-1290
   excursion: AB;
+  /** REQ-10662: decisión 9, aventura y senderismo con guía. */
+  senderismo: AB;
   dificultad: AB;
   porRevisar: AB;
   autoguiadoCarrito: AB;
@@ -88,6 +97,7 @@ export const DEFAULT_GATES: Gates = {
   caminata: GATE_G2_CAMINATA,
   favorito: GATE_GT1_FAVORITO,
   excursion: GATE_GT7_EXCURSION,
+  senderismo: GATE_D9_SENDERISMO,
   dificultad: GATE_GT8_DIFICULTAD,
   porRevisar: GATE_GT10_POR_REVISAR,
   autoguiadoCarrito: GATE_GT11_AUTOGUIADO,
