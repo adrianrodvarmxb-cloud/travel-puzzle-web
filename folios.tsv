@@ -9127,3 +9127,5 @@ REQ-10712	docs/folios-chat-2026-11-15	2026-11-15 18:25	PO 15-11: autopilot para 
 REQ-10713	feat/proveedores-borrador-programado	2026-11-15 18:46	migración 0034 ProveedorBorrador (bandeja de borradores REQ-10693)
 REQ-10714	feat/proveedores-borrador-programado	2026-11-15 18:47	bandera PROVEEDORES_BORRADORES_ON
 REQ-10715	feat/ola3-tangol-bus-transporte	2026-11-15 18:59	PO 15-11: revisar borradores e hilo con Hernán (Tangol) y la doc de su API; un solo correo actualizado
+REQ-10716	feat/ola3-tangol-bus-transporte	2026-11-15 19:03	PO 15-11: expediente de Tangol + regla de actualizar el expediente siempre + barrido de correos de cada proveedor
+REQ-10717	feat/ola3-tangol-bus-transporte	2026-11-15 19:03	PO 15-11: expediente de Tangol + regla de actualizar el expediente siempre + barrido de correos de cada proveedor
