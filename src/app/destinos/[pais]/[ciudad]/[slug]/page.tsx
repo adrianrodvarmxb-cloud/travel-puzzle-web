@@ -143,7 +143,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                     primeraPieza={{
                         crumbs: model.crumbs,
                         badge: model.badge,
-                        notice: model.notice,
+                        notice: full.notice, // REQ-10655 (INC-023): el modelo completo conoce el plazo del proveedor
                         operatedBy: model.operatedBy,
                         isFreeTour: tour.isFreeTour,
                         favorite: isTravelerFavorite(publicRating(row?.providerId ?? tour.providerId, tour.rating, tour.reviews)), // REQ-10652
