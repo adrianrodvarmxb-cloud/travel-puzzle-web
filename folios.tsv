@@ -9065,3 +9065,5 @@ REQ-10650	HEAD	2026-11-14 14:54	autopilot 14 nov: preguntas.ts por proveedor (fr
 REQ-10651	feat/operador-discreto	2026-11-14 14:55	ola 2: operador discreto en la ficha (codigo de REQ-10615)
 REQ-10652	feat/ficha-nota-tangol-oculta	2026-11-14 20:48	
 REQ-10653	feat/ficha-plazo-unico-48h	2026-11-14 21:08	
+REQ-10654	feat/cancelacion-unica	2026-11-15 00:04	ola 2: una sola cancelacion, la mas estricta (gate del PO y codigo)
+REQ-10655	feat/cancelacion-unica	2026-11-15 00:04	ola 2: una sola cancelacion, la mas estricta (gate del PO y codigo)
