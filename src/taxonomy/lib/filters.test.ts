@@ -25,7 +25,8 @@ describe("T4 filtro ?formato= en /tours (REQ-412, REQ-413)", () => {
       expect(FORMATO_LABEL[f].es).toBe(term(f).termino_es);
       expect(FORMATO_LABEL[f].en).toBe(term(f).termino_en);
     }
-    expect(FORMATO_LABEL["experiencia-unica"].es).toBe("Momentos de autor");
+    // REQ-10700 (PO 15-11-2026): «Momentos de autor» pasa a «Actividades» / «Activities»; reemplaza el nombre firmado el 6-11.
+    expect(FORMATO_LABEL["experiencia-unica"].es).toBe("Actividades");
   });
   it("REQ-413 ?formato= con slugs válidos, sin repetir y en orden; ?tipo_act= viejo se traduce o se ignora", () => {
     expect(parseFormatos(q("formato=tour,caminata,tour,12,traslado"))).toEqual(["caminata", "tour"]);
