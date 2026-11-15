@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { TourEvent } from "@/lib/api/freetour-client";
+import { LIVE_TIMEOUT_MS, TIMEOUT_STATUS } from "@/lib/api/lib/live-timeout";
 
 interface FreeTourEventsResponse {
     data: TourEvent[];
@@ -11,7 +12,8 @@ export function useEventsByTourFTData(tourId: string | number | null | undefined
         queryKey: ['tour-events-ft-data', tourId],
         queryFn: async () => {
             // Call our Next.js API route instead of FreeTour API directly
-            const response = await fetch(`/api/freetour/tours/${tourId}/events`);
+            // REQ-10664 (INC-024): tope en el navegador; si vence, la ficha se queda con lo del sync y la red queda en reposo.
+            const response = await fetch(`/api/freetour/tours/${tourId}/events`, { signal: AbortSignal.timeout(LIVE_TIMEOUT_MS) });
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
@@ -26,8 +28,8 @@ export function useEventsByTourFTData(tourId: string | number | null | undefined
         enabled: !!tourId,
         staleTime: 10 * 60 * 1000, // 10 minutes
         retry: (failureCount, error: any) => {
-            // Don't retry on 404 (Not Found) or 400 (Bad Request) errors
-            if (error?.status === 404 || error?.status === 400) {
+            // Don't retry on 404 (Not Found) or 400 (Bad Request) errors, ni un tiempo vencido (REQ-10664: 504 o aborto)
+            if (error?.status === 404 || error?.status === 400 || error?.status === TIMEOUT_STATUS || error?.name === "TimeoutError" || error?.name === "AbortError") {
                 return false;
             }
             // Retry up to 2 times for other errors
