@@ -405,6 +405,10 @@ Tours revisados: 350 · cambian: 77 · se quedan: 260 · dudas: 13
 | tangol | valdivia | 3 h | Circuito Navegacion A Isla Tejas En Valdivia | otra actividad de aventura («navegacion»): Momentos de autor con tema Aventura |
 | tangol | villa-union | 11 h | Tour En 4X4 A Laguna Brava | otra actividad de aventura («4x4»): Momentos de autor con tema Aventura |
 
+## Aplicación (REQ-10662, 15 nov 2026)
+
+Con la firma, la regla entró al clasificador en memoria: la categoría 9000003 de Tangol permite la regla por palabra `senderismo-guiado`; `classifyFormato` la evalúa después de circuito (#7) y antes de excursión (#8), y `classify` pone Aventura y Montaña y senderismo al frente de los temas. Gate `GATE_D9_SENDERISMO = "A"` en `src/taxonomy/lib/gates.ts`; `"B"` regresa todo a como estaba. Antes y después con los 350 tours reales (`tests/fixtures/tangol/aventura-decision9-2026-11-15.tsv`, prueba `decision9-aplicada.test.ts`): de los 274 de Tangol, 182 siguen como Momentos de autor, **72 pasan de Momentos de autor a Excursión de un día**, 12 ya eran Excursión de un día (5 de ellos de la lista de 77, por su palabra «desde»), 6 circuitos y 2 autoguiados no cambian; FREETOUR: 0 cambios.
+
 ## Qué no hace este PR
 
 No cambia la clasificación en producción, no escribe en D1 y no toca la ficha ni el buscador: solo deja el veredicto por título con sus pruebas, el script de solo lectura y esta lista. La aplicación (regla por palabra en el mapeo de Tangol 9000003 y, si el PO lo pide, en FREETOUR 16) va en el siguiente PR de la ola 3, con la firma de REQ-10661.
