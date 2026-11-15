@@ -1250,8 +1250,8 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10663 | Incidente abierto, sin reintentar el deploy; producción en `9014b61a` (#578), `main` en `47b13d69` (#579) | INC-024 | `docs/incidentes/INC-024.md` | — (validación: run 43681018472, artefacto `evidencia-humo-43681018472-1`) | CUMPLIDO |
-| REQ-10664 | Calentar las fichas fijas del humo antes del humo de producción | INC-024 | `.github/workflows/deploy-cloudflare.yml` (propuesto) | — | PENDIENTE (OK del PO) |
-| REQ-10665 | Evidencia del humo con status y tiempo de la respuesta principal cuando vence `networkidle` | INC-024 | `src/scripts/smoke.ts` (propuesto) | — | PENDIENTE (OK del PO) |
+| REQ-10664 | Tiempo máximo (10 s) en las llamadas en vivo de la ficha de FREETOUR (proxies y `fetch` del navegador); al vencer, lo del sync | INC-024 | `src/lib/api/freetour-client.ts`, `src/lib/api/hooks/useEventsByTourFTData.ts`, `src/components/tours/one/PrimeraPiezaInfo.tsx` (propuesto) | — | PENDIENTE (OK del PO) |
+| REQ-10665 | Evidencia del humo con status y tiempo de la respuesta principal y las peticiones abiertas cuando vence `networkidle` | INC-024 | `src/scripts/smoke.ts` (propuesto) | — | PENDIENTE (OK del PO) |
 
 ## Ficha única para todos los proveedores (frente #549, 14 nov 2026)
 
