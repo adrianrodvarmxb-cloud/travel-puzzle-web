@@ -29,7 +29,7 @@ Los conteos salen de la tabla real de tipos (`tests/fixtures/tangol-tipos-2026-1
 | G-R3 | «B: crear «Campo y vida rural»» | Tema nuevo con filtro | REQ-10701 |
 | G-R4 | «A: se quedan como hoy (Recomendado)» | Sin cambio | REQ-10702 |
 | G-R5 | «B: crear «En tren» ya» | Medio nuevo, también para otros proveedores | REQ-10703 |
-| G-R6 | «A: pasan a Transporte (Recomendado)» | 20 tours a Transporte | REQ-10704 |
+| G-R6 | «A: pasan a Transporte (Recomendado)»; al ver la lista real, que no coincidía con la categoría, eligió «1» (por trayecto real) y luego «Sí, publica los 62 (Recomendado)» | Por trayecto real en las 7 categorías de traslado: 62 de 243 a Transporte | REQ-10704 REEMPLAZADO por REQ-10708 |
 | G-R7 | «A: siguen como Circuito (Recomendado)» | Sin cambio | REQ-10705 |
 | G-R8 | «A: se quedan como Circuito (Recomendado)» | Sin cambio | REQ-10706 |
 | G-R9 | «B y revisa con que otros proveedores aplica por ejemplo los de China»; después: «tambien agrega las etiquetas «tren incluido» «autobus incluido» , «hotel incluido», «desayuno incluido»,«comida incluida»,«cena incluido»» | Etiquetas de incluido: vuelo, tren, autobús, hotel, desayuno, comida, cena; lista por proveedor al PO antes de aplicar | REQ-10707 |
