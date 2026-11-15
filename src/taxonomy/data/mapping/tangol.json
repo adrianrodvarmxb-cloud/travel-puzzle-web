@@ -45,9 +45,11 @@
         "aventura"
       ],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "senderismo-guiado"
+      ],
       "estado": "activo",
-      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Momentos de autor con tema aventura. PENDIENTE PO: el alquiler de equipo de ski y snowboard queda como aventura y no como `alquiler` (tras bandera en el diccionario)."
+      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Momentos de autor con tema aventura. PENDIENTE PO: el alquiler de equipo de ski y snowboard queda como aventura y no como `alquiler` (tras bandera en el diccionario). REQ-10662 (decisión 9, REQ-10588; lista firmada REQ-10661, 15-11-2026): la caminata con guía y el lugar de montaña sin otra actividad pasan a excursion-dia con aventura y montana-senderismo; el resto se queda."
     },
     {
       "id": "9000004",

@@ -136,6 +136,10 @@
     // Taxonomía T5 (REQ-414…416, REQ-433, G-T9): chips de formato en la ciudad, etiqueta en la ficha y copy por formato
     // («con un guía local» solo con guía en persona). Requiere TAXONOMY_PUBLISH_ENABLED. "true" con preview, humo y OK del PO.
     "TAXONOMY_LABELS_ENABLED": "true",
+    // Ficha única, ola 3 (REQ-10686, REQ-10687): bloque único de taxonomía (tipo + hasta 3 temas + atributos) que leen
+    // igual la tarjeta, la ficha y el marcado; prende los atributos de la decisión 11 (REQ-10659). Requiere
+    // TAXONOMY_PUBLISH_ENABLED. "true" solo en su propio PR, con preview, humo a 390/1366 y OK del PO.
+    "TAXONOMY_BLOCK_ENABLED": "false",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
     "TAXONOMY_CIRCUITS_ENABLED": "true",

@@ -23,6 +23,7 @@ import type { SitemapInput } from "@/seo/lib/sitemaps";
 import { enBreve, fichaJsonLd, guideLanguagesLabel, nextAvailability, type FichaInput } from "@/seo/lib/ficha-ld";
 import { indexableEnrichment, indexableProvider } from "@/seo/lib/enrichment";
 import { fichaFacets } from "@/seo/lib/taxonomy-facets";
+import { blockFacets, blockLabels, classifyBlock, taxonomyBlock } from "@/taxonomy/lib/block";
 import { cardDuration } from "@/tours/lib/experience-card";
 import { freshSummary } from "@/departures/lib/summary";
 import type { SupportedLanguage } from "@/types";
@@ -228,7 +229,8 @@ export interface TourDetailFacts {
 // REQ-094 REQ-095 REQ-096 REQ-097 REQ-098 REQ-099 REQ-100: ficha bajo /destinos.
 // REQ-831: noindex por proveedor (FREETOUR hasta su permiso).
 // REQ-570…578, REQ-581: marcado ["Product","TouristTrip"], datos de servidor, «En breve» y facetas según el interruptor del proveedor.
-export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false, detail = null, today = null }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean; detail?: TourDetailFacts | null; today?: string | null }): TourPageModel {
+// REQ-10686: con `block` (TAXONOMY_BLOCK_ENABLED) los chips y el marcado leen el mismo bloque único de taxonomía.
+export function tourPage({ country, city, tour, siteUrl, lang, image, labels = false, detail = null, today = null, block = false }: { country: CountryNode; city: CityNode; tour: TourCardModel; siteUrl: string; lang: string; image?: string | null; labels?: boolean; detail?: TourDetailFacts | null; today?: string | null; block?: boolean }): TourPageModel {
   const L: SupportedLanguage = (["es", "en", "pt", "fr", "it", "de"] as const).find((x) => x === lang) ?? "es";
   const k = hubCopy(L);
   const crumbs = [homeCrumb(L), destinosCrumb(L), { name: country.name, href: country.href }, { name: city.name, href: city.href }, { name: tour.title, href: tour.href }];
@@ -252,7 +254,17 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   // REQ-588 (auditoría FREETOUR #212 y PO 22:29): sin enriquecimiento, ni idiomas ni punto de encuentro en el marcado,
   // y el idioma del guía no sale del servidor (la ficha lo pinta en el cliente con data-nosnippet).
   const langs = enrichment ? guideLanguagesLabel(detail?.guideLanguages, lang) : [];
-  const facets = enrichment ? fichaFacets({ proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title }, lang) : { tipo: null, etiquetas: [] };
+  const clasificable = { proveedor: provider, categoriaId: detail?.categoryId ?? null, precio: tour.isFreeTour ? 0 : tour.price, durationMinutes: detail?.durationMinutes ?? null, titulo: tour.title };
+  // REQ-10686 (bloque único, tras TAXONOMY_BLOCK_ENABLED): un solo bloque para chips y marcado. Con enriquecimiento se
+  // clasifica en vivo (como fichaFacets); sin él (FREETOUR), el bloque sale del formato y los atributos publicados y la
+  // decisión 10 lo deja en tipo + dos facetas. Apagado: fichaFacets y tourLabels, como hoy.
+  const bloque = block
+    ? enrichment
+      ? classifyBlock(clasificable, { lang, decision11: true })
+      : taxonomyBlock({ formato: (tour.formato ?? "por-revisar") as "por-revisar", temas: [], atributos: tour.atributos ?? [] }, { proveedor: provider, lang, decision11: true })
+    : null;
+  // REQ-581: sin enriquecimiento (FREETOUR) las facetas siguen vacías también con el bloque; los chips sí salen (decisión 10).
+  const facets = !enrichment ? { tipo: null, etiquetas: [] } : bloque ? blockFacets(bloque) : fichaFacets(clasificable, lang);
   const mp = detail?.meetingPoint?.title?.trim() ? detail.meetingPoint : null;
   const ficha: FichaInput = {
     provider, lang, url: urlIn(siteUrl, tour.href, L), name: tour.title, images: [image ?? tour.image, ...(detail?.images ?? [])], // REQ-820: fichaImages quita repetidas y deja 4
@@ -278,7 +290,7 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
     badge: primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 }),
     notice,
     operatedBy: by,
-    labels: tax ? tourLabels(tax.formato, lang, tour.atributos ?? []) : [], // REQ-544: chips de atributos fuera de la foto
+    labels: tax ? (bloque ? blockLabels(bloque) : tourLabels(tax.formato, lang, tour.atributos ?? [])) : [], // REQ-544: chips de atributos fuera de la foto; REQ-10686: del bloque único
     jsonLd: [
       // REQ-571…574: reemplaza a productJsonLd (EUR fijo y AggregateRating del proveedor); productJsonLd queda sin uso, no se borra.
       fichaJsonLd(ficha),
