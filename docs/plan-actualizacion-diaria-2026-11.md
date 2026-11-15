@@ -1,6 +1,6 @@
 # Plan: actualización diaria de proveedores y taxonomía guardada en la base (do-plan, para firma del PO)
 
-**Folio del plan:** REQ-10671 (PENDIENTE de firma). **Peticiones:** REQ-10668, REQ-10669 y REQ-10670.
+**Folio del plan:** REQ-10671 (FIRMADO por el PO el 15 nov 2026). **Peticiones:** REQ-10668, REQ-10669 y REQ-10670.
 **Petición literal del PO (15 nov 2026, 02:06 hora de México):** «Sí ambos puntos, para Freetour y Tangol, y también Mila debe revisar todos los días si hay actualizaciones en mail de los otros proveedores». Antes (02:02): «confirmar que tanto Freetour como Tangol sigan conservando la instrucción de actualización diaria de base de datos y que la página consume la información actualizada de base de datos ya con nuestra taxonomía para que la página sea más rápida».
 **Regla:** nada de esto se enciende con este documento. Cada pieza va en su PR, con su bandera apagada, preview, humo y OK del PO.
 
@@ -93,4 +93,4 @@ SRP: decidir (puro) separado de leer y escribir. OCP: proveedor nuevo = entra al
 Todo merge; el horario diario de Tangol; cada llamada a la API de Tangol; borrar filas en producción (limpieza de INC-015); migraciones; cada encendido de bandera; el envío de cualquier correo a un proveedor.
 
 ## 10. Firma del plan
-- [ ] **PO:** «Firmo el plan de actualización diaria» (REQ-10671).
+- [x] **PO:** firmado el 15 nov 2026, ~02:15 hora de México. Pregunta: «¿Firmas el plan de actualización diaria (PR #587)? … Firmarlo no enciende nada.» Respuesta literal: «Firmo el plan» (REQ-10671). Los gates G-D1 a G-D6 se preguntan uno por uno.
