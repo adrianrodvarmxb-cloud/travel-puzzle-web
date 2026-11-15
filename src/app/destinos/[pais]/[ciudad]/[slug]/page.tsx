@@ -1,4 +1,5 @@
 import { sellerFor } from "@/ficha/lib/operator";
+import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
@@ -106,7 +107,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         const [lat, lng] = (mp?.coordinates ?? '').split(',').map((x) => Number(x.trim()));
         const full = tourPage({
             country, city, tour, siteUrl: siteUrl(), lang, labels, today: new Date().toISOString().slice(0, 10),
-            detail: { providerId: row?.providerId, guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
+            detail: { providerId: row?.providerId, cancellationHours: props.practical?.conditions?.freeCancellation?.hours ?? null, /* REQ-10655 */ guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
@@ -142,10 +143,10 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                     primeraPieza={{
                         crumbs: model.crumbs,
                         badge: model.badge,
-                        notice: model.notice,
+                        notice: full.notice, // REQ-10655 (INC-023): el modelo completo conoce el plazo del proveedor
                         operatedBy: model.operatedBy,
                         isFreeTour: tour.isFreeTour,
-                        favorite: isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews }),
+                        favorite: isTravelerFavorite(publicRating(row?.providerId ?? tour.providerId, tour.rating, tour.reviews)), // REQ-10652
                         rates,
                         labels: model.labels,
                         facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [], clientOnly: guideClientOnly },

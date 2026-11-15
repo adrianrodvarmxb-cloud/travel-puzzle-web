@@ -1,3 +1,4 @@
+import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import Link from '@/components/i18n/LocalizedLink';
 import type { TourCardModel } from '@/destinations/lib/catalog';
 import { formatRating } from '@/home/lib/format';
@@ -23,8 +24,10 @@ export const price = (t: TourCardModel) =>
 /** T5 (REQ-416): con `guideCopy`, «guía local» solo si el tour tiene guía en persona. */
 export function DestinationTourCard({ tour, rates = null, guideCopy = false }: { tour: TourCardModel; rates?: FxRates | null; guideCopy?: boolean }) {
     const p = cardPrice(tour, rates);
-    const rating = formatRating(tour.rating);
-    const favorite = isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews });
+    // REQ-10652 (decisión 18): la nota de Tangol no se pinta; el orden de la lista se calculó con el dato real.
+    const shown = publicRating(tour.providerId, tour.rating, tour.reviews);
+    const rating = formatRating(shown.rating);
+    const favorite = isTravelerFavorite({ rating: shown.rating, reviews: shown.reviews });
     // REQ-804 (D2): la insignia de propina solo por primeraPiezaBadge (oculta si fullPricePerGroup > 0). Sin evento elegido, como la ficha.
     const badge = primeraPiezaBadge({ isFreeTour: tour.isFreeTour, fullPricePerGroup: {}, groupSize: 1 });
     return (
@@ -48,7 +51,7 @@ export function DestinationTourCard({ tour, rates = null, guideCopy = false }: {
                 {tour.kind !== 'own' && <p className="line-clamp-1 text-xs text-[#A9B6D6]">{guideCopy ? operatedByFor(tour.provider, tour.guiaEnPersona !== false, operatedBy(tour.provider, 'es')) : operatedBy(tour.provider, 'es')}</p>}
                 <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/10 pt-3 text-sm">
                     <span className="text-[#C9D6F5]">
-                        {rating ? <><span className="text-[#F5B301]">★</span> <b>{rating}</b> <span className="text-[#A9B6D6]">· {tour.reviews.toLocaleString('es-MX')}</span></> : tour.duration ? `${tour.duration} h` : ''}
+                        {rating ? <><span className="text-[#F5B301]">★</span> <b>{rating}</b> <span className="text-[#A9B6D6]">· {shown.reviews.toLocaleString('es-MX')}</span></> : tour.duration ? `${tour.duration} h` : ''}
                     </span>
                     <span className="text-right">
                         <span className="block font-semibold text-[#EAF54F]">{p.main}</span>
