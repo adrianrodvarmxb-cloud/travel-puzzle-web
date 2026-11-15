@@ -12,7 +12,7 @@ describe("REQ-10700 «Momentos de autor» pasa a llamarse «Actividades»", () =
   const e = D.terminos.find((t) => t.slug === "experiencia-unica")!;
   it("REQ-10700: el término del diccionario es «Actividades» / «Activities» y el slug sigue siendo experiencia-unica", () => {
     expect(e).toMatchObject({ slug: "experiencia-unica", termino_es: "Actividades", termino_en: "Activities" });
-    expect((e as { nombres?: Record<string, string> }).nombres).toEqual({ pt: "Atividades", de: "Aktivitäten", fr: "Activités", it: "Attività" });
+    expect(e.nombres).toEqual({ pt: "Atividades", de: "Aktivitäten", fr: "Activités", it: "Attività" });
   });
   it("REQ-10700: el nombre anterior sigue como sinónimo para el buscador", () => {
     expect(e.sinonimos).toEqual(expect.arrayContaining(["momentos de autor", "signature moments", "actividades", "activities"]));
