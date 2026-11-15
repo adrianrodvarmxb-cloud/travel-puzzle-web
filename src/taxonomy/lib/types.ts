@@ -56,6 +56,10 @@ export interface ClassifyInput {
   /** Modos de las opciones del viaje propio. */
   modos?: ("group" | "private")[];
   vueloIncluido?: boolean;
+  /** REQ-10659 (decisión 11): el producto trae traslado (opción o «incluye» del proveedor). Nunca se infiere del título. */
+  conTraslado?: boolean;
+  /** REQ-10659 (decisión 11): cancelación gratuita según el dato del proveedor (plazo real), nunca por palabra. */
+  cancelacionGratis?: boolean;
   /** Solo reseñas reales (REQ-100). */
   calificacion?: number | null;
   resenas?: number | null;
