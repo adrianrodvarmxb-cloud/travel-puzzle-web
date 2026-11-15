@@ -30,7 +30,22 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
     if (!res.ok) throw new Error(`avisos ${res.status}`);
   };
   const destinos = (env.RESUMEN_DESTINOS ?? "").split(",").map((x) => x.trim()).filter(Boolean);
-  return { repo, enviar, subir, avisar, destinos, contacto };
+  // REQ-10693: nunca directo. El borrador programado lo crea Mila (zoefel-mila, POST /api/borradores, REQ-043) en el Gmail
+  // de comercial@; solo existe con el puente configurado (MILA_BORRADORES_URL + MILA_BORRADORES_SECRET como Secret).
+  const borrador = env.MILA_BORRADORES_URL
+    ? async (c: Correo, enviarEn: string) => {
+        const res = await fetch(env.MILA_BORRADORES_URL ?? "", { method: "POST", headers: { authorization: `Bearer ${env.MILA_BORRADORES_SECRET ?? ""}`, "content-type": "application/json" },
+          body: JSON.stringify({ negocio: "travel-puzzle", enviarEn, correo: { from: c.from, to: c.to, cc: c.cc, subject: c.subject, text: c.text, inReplyTo: c.inReplyTo ?? null } }) });
+        if (!res.ok) throw new Error(`borradores ${res.status}`);
+        const d = (await res.json()) as { id?: string; enlace?: string };
+        if (!d.id || !d.enlace) throw new Error("borradores: respuesta sin id o enlace");
+        return { id: d.id, enlace: d.enlace, enviarEn };
+      }
+    : undefined;
+  // REQ-10693: el enlace del borrador le llega al PO por el puente de avisos (primer número de RESUMEN_DESTINOS o TARIFAS_AVISO_A).
+  const po = env.TARIFAS_AVISO_A || destinos[0];
+  const avisarPO = env.MILA_AVISOS_URL && po ? (texto: string) => avisar(po, texto) : undefined;
+  return { repo, enviar, subir, avisar, destinos, contacto, borrador, avisarPO };
 }
 
 // REQ-1672: márgenes desde el secreto MARKUP_RATES (JSON {"pct":{"programa":…,"tour":…,"privado":…,"traslado":…},"minTourUsd":…}); no viven en el repo (REQ-038).
