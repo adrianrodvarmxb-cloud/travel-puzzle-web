@@ -11,6 +11,11 @@ Sigue el estándar do-plan y las reglas fijas de Adri:
 - Typecheck: `data/countries.json` no está en el repo; usar el fixture temporal y no commitearlo.
 - Al cerrar un frente: actualizar `STATUS.md`. Gates firmados en `docs/`.
 
+## Autopilot general (REQ-10712, regla del PO, 15-11-2026: «aplicalo a todo necesitamos avanzar»)
+- En cualquier frente con plan firmado por el PO, un PR con suite, build y humo 390/1366 en verde se fusiona, se aplican las migraciones de ese plan y se encienden sus banderas y variables sin pedir OK; se le avisa al PO de cada paso con la evidencia. Esto reemplaza, para esos casos, el «merge solo con OK del PO» y los candados de migraciones y banderas de este archivo. El blindaje de publicación sigue completo: sin humo verde, «NO PUBLICAR».
+- Sigue igual: las decisiones de producto y cada lista de reclasificación se le preguntan al PO, una por una, antes de aplicarlas; los valores de secretos los carga el PO y nunca se escriben en el chat ni en el repo; nunca push a `main` ni force-push.
+- Se confirman con el PO en el momento, una por una, porque no se pueden deshacer: cobros o reembolsos reales, DNS, borrar datos o ramas, y mensajes o correos a clientes, leads o proveedores escritos por un agente que no sea Mila.
+
 ## Catálogo único (REQ-1605, regla del PO)
 - Todo producto publicado de cualquier proveedor sale en el mapa, en /tours, en el buscador y en los filtros, como en GetYourGuide, Civitatis y Viator. Proveedor nuevo = mismo trato; una excepción solo con decisión escrita del PO.
 
