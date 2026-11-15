@@ -9077,3 +9077,5 @@ REQ-10662	feat/ficha-unica-ola3-aventura	2026-11-15 04:47	ficha única ola 3: ap
 REQ-10663	docs/inc-024-humo-bariloche	2026-11-15 05:55	INC-024: humo de producción sin respuesta en la ficha de Bariloche, rollback automático de #579
 REQ-10664	docs/inc-024-humo-bariloche	2026-11-15 05:56	INC-024: calentar fichas antes del humo (REQ-10664) y evidencia de respuesta principal (REQ-10665)
 REQ-10665	docs/inc-024-humo-bariloche	2026-11-15 05:56	INC-024: calentar fichas antes del humo (REQ-10664) y evidencia de respuesta principal (REQ-10665)
+REQ-10666	fix/inc-024-limite-llamadas-vivo	2026-11-15 08:02	INC-024: limite de tiempo en llamadas en vivo al proveedor y evidencia de peticiones pendientes en el humo
+REQ-10667	fix/inc-024-limite-llamadas-vivo	2026-11-15 08:02	INC-024: limite de tiempo en llamadas en vivo al proveedor y evidencia de peticiones pendientes en el humo
