@@ -18,7 +18,7 @@ export function classify(
   const cat = findCategoria(mapping, input.categoriaId);
   const f = classifyFormato(input, dict, mapping, gates);
   // REQ-10662: lo que cambió por la decisión 9 lleva Aventura y Montaña y senderismo al frente.
-  const temas = esDecision9(f.regla) ? temasDecision9(classifyTemas(input, f.valor, dict, mapping, cat)) : classifyTemas(input, f.valor, dict, mapping, cat);
+  const temas = esDecision9(f.regla) ? temasDecision9(classifyTemas(input, f.valor, dict, mapping, cat), f.regla) : classifyTemas(input, f.valor, dict, mapping, cat);
   const { atributos, avisos } = classifyAtributos(input, f.valor, dict, mapping, cat, gates);
   if (f.valor === "por-revisar") avisos.push(`por-revisar: ${input.proveedor}:${input.categoriaId ?? "sin categoría"}`);
   return {

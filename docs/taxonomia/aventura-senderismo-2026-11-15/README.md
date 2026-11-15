@@ -407,6 +407,8 @@ Tours revisados: 350 · cambian: 77 · se quedan: 260 · dudas: 13
 
 ## Aplicación (REQ-10662, 15 nov 2026)
 
+**Firma vigente (REQ-10661, «Firmo, pero los 7 paseos sin senderismo»):** los siete paseos de la firma (`PASEOS_SIN_SENDERISMO` en `src/taxonomy/lib/aventura-senderismo.ts`) salen como Excursión de un día con **Aventura y Naturaleza**, sin Montaña y senderismo. Los otros 70 llevan Aventura y Montaña y senderismo. En la tabla de arriba esos siete figuran con la regla «lugar de montaña sin otra actividad»; en el clasificador su regla dice «lugar de montaña, paseo sin caminata».
+
 Con la firma, la regla entró al clasificador en memoria: la categoría 9000003 de Tangol permite la regla por palabra `senderismo-guiado`; `classifyFormato` la evalúa después de circuito (#7) y antes de excursión (#8), y `classify` pone Aventura y Montaña y senderismo al frente de los temas. Gate `GATE_D9_SENDERISMO = "A"` en `src/taxonomy/lib/gates.ts`; `"B"` regresa todo a como estaba. Antes y después con los 350 tours reales (`tests/fixtures/tangol/aventura-decision9-2026-11-15.tsv`, prueba `decision9-aplicada.test.ts`): de los 274 de Tangol, 182 siguen como Momentos de autor, **72 pasan de Momentos de autor a Excursión de un día**, 12 ya eran Excursión de un día (5 de ellos de la lista de 77, por su palabra «desde»), 6 circuitos y 2 autoguiados no cambian; FREETOUR: 0 cambios.
 
 ## Qué no hace este PR

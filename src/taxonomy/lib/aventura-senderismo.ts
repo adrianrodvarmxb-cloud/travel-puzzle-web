@@ -27,6 +27,24 @@ export const PALABRAS_SENDERISMO = {
 /** Un día o menos; desde 24 h es circuito y no entra a la regla (va a dudas). */
 export const MAX_MINUTOS_UN_DIA = 1439;
 
+/**
+ * Firma vigente del PO a la lista (REQ-10661, 14 nov 2026): «Firmo, pero los 7 paseos sin senderismo». Estos siete
+ * «lugar de montaña» son paseos, no caminata: cambian a Excursión de un día, pero con Aventura y Naturaleza.
+ * Son títulos reales de la lista firmada; un título nuevo no entra aquí sin otra firma.
+ */
+export const PASEOS_SIN_SENDERISMO: readonly string[] = [
+  "Laguna Del Toro Con Avistaje De Flamencos",
+  "Full Day Piedras Rojas + Lagunas Altiplánicas Miscanti Y Miñiques + Laguna Chaxa + Salar De Atacama",
+  "Laguna Baltinache O Lagunas Escondidas",
+  "Tour De Dia Completo A Laguna De Los Pozuelos",
+  "Nevado Pastoruri Y Puya Raimondi",
+  "Cruzando La Cordillera",
+  "Montañas Y Glaciares Del Tronador",
+];
+const limpio = (titulo: string): string => norm(titulo).replace(/\s+/g, " ").trim();
+const PASEOS = new Set(PASEOS_SIN_SENDERISMO.map(limpio));
+const MARCA_PASEO = "paseo sin caminata";
+
 export type Veredicto = "cambia" | "queda" | "duda";
 export interface VeredictoDecision9 {
   veredicto: Veredicto;
@@ -57,6 +75,8 @@ export function veredictoDecision9(titulo: string, minutos: number | null): Vere
   const otra = t.match(rx.otra);
   if (otra) return { ...QUEDA, regla: `otra actividad de aventura («${otra[1]}»): Momentos de autor con tema Aventura` };
   const lugar = t.match(rx.lugar);
+  // REQ-10661 (firma vigente): los siete paseos cambian de tipo, pero sin el tema Montaña y senderismo.
+  if (lugar && PASEOS.has(t)) return { veredicto: "cambia", formato: "excursion-dia", temas: ["aventura", "naturaleza"], regla: `lugar de montaña, ${MARCA_PASEO} («${lugar[1]}»)` };
   if (lugar) return { veredicto: "cambia", formato: "excursion-dia", temas: ["aventura", "montana-senderismo"], regla: `lugar de montaña sin otra actividad («${lugar[1]}»)` };
   return QUEDA;
 }
@@ -88,8 +108,11 @@ export function esDecision9(reglaFormato: string): boolean {
 }
 
 /** REQ-10662: Aventura y Montaña y senderismo al frente, sin repetir y sin pasar del tope de temas. */
-export function temasDecision9(temas: readonly Decision<Tema>[]): Decision<Tema>[] {
-  const fijos: Decision<Tema>[] = (["aventura", "montana-senderismo"] as Tema[]).map((t) => temas.find((x) => x.valor === t) ?? { valor: t, regla: "decisión 9 (REQ-10588)" });
-  const resto = temas.filter((x) => x.valor !== "aventura" && x.valor !== "montana-senderismo");
+export function temasDecision9(temas: readonly Decision<Tema>[], reglaFormato = ""): Decision<Tema>[] {
+  // REQ-10661 (firma vigente): un paseo lleva Aventura y Naturaleza y nunca Montaña y senderismo.
+  const paseo = reglaFormato.includes(MARCA_PASEO);
+  const frente: Tema[] = paseo ? ["aventura", "naturaleza"] : ["aventura", "montana-senderismo"];
+  const fijos: Decision<Tema>[] = frente.map((t) => temas.find((x) => x.valor === t) ?? { valor: t, regla: "decisión 9 (REQ-10588)" });
+  const resto = temas.filter((x) => !frente.includes(x.valor) && x.valor !== "montana-senderismo");
   return [...fijos, ...resto].slice(0, MAX_TEMAS);
 }

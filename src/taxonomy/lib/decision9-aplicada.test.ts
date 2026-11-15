@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DICTIONARY as D, DEFAULT_MAPPINGS as M } from "../data/index";
-import { veredictoDecision9 } from "./aventura-senderismo";
+import { PASEOS_SIN_SENDERISMO, veredictoDecision9 } from "./aventura-senderismo";
 import { classify } from "./classify";
 import { DEFAULT_GATES, GATE_D9_SENDERISMO, type Gates } from "./gates";
 import type { ClassifyInput } from "./types";
@@ -34,9 +34,16 @@ describe("REQ-10662: la decisión 9 aplicada al clasificador (fixture real, ante
       const r = classify(input(f), D, M, DESPUES);
       expect(r.formato, f.titulo).toBe("excursion-dia");
       expect(r.reglaFormato, f.titulo).toMatch(/^#8 decisión 9:/);
-      expect(r.temas.slice(0, 2), f.titulo).toEqual(["aventura", "montana-senderismo"]);
+      // Firma vigente del PO (REQ-10661): «Firmo, pero los 7 paseos sin senderismo».
+      if (PASEOS_SIN_SENDERISMO.includes(f.titulo)) {
+        expect(r.temas.slice(0, 2), f.titulo).toEqual(["aventura", "naturaleza"]);
+        expect(r.temas, f.titulo).not.toContain("montana-senderismo");
+      } else expect(r.temas.slice(0, 2), f.titulo).toEqual(["aventura", "montana-senderismo"]);
       expect(r.temas.length, f.titulo).toBeLessThanOrEqual(3);
     }
+    // Los siete paseos de la firma existen tal cual en la lista real y los siete cambian de tipo.
+    expect(cambian.filter((f) => PASEOS_SIN_SENDERISMO.includes(f.titulo))).toHaveLength(7);
+    expect(PASEOS_SIN_SENDERISMO).toHaveLength(7);
     const porDecision9 = filas.filter((f) => classify(input(f), D, M, DESPUES).reglaFormato.startsWith("#8 decisión 9:"));
     expect(porDecision9.map((f) => f.titulo).sort()).toEqual(cambian.map((f) => f.titulo).sort());
   });
