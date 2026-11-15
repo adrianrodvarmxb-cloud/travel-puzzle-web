@@ -9067,3 +9067,6 @@ REQ-10652	feat/ficha-nota-tangol-oculta	2026-11-14 20:48
 REQ-10653	feat/ficha-plazo-unico-48h	2026-11-14 21:08	
 REQ-10654	feat/cancelacion-unica	2026-11-15 00:04	ola 2: una sola cancelacion, la mas estricta (gate del PO y codigo)
 REQ-10655	feat/cancelacion-unica	2026-11-15 00:04	ola 2: una sola cancelacion, la mas estricta (gate del PO y codigo)
+REQ-10656	feat/ficha-unica-ola3-dificultad	2026-11-15 02:44	ficha única ola 3: tabla de dificultad Tangol (decisión 12), cierre ola 2
+REQ-10657	feat/ficha-unica-ola3-dificultad	2026-11-15 02:44	ficha única ola 3: tabla de dificultad Tangol (decisión 12), cierre ola 2
+REQ-10658	feat/ficha-unica-ola3-dificultad	2026-11-15 02:44	ficha única ola 3: tabla de dificultad Tangol (decisión 12), cierre ola 2
