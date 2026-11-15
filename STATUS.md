@@ -1220,7 +1220,7 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 
 ## Agente de Adri · 14 nov 2026 (frente proveedores)
 - main mezclado en `feat/proveedores-mila` sin conflictos. `npx vitest run src/proveedores`: 92 verdes; `npm run build` verde (fixture temporal `data/countries.json`, sin commitear, y `prisma generate`); `folio.ts revisar` sin choques; `requisitos-unicos` verde.
-- REQ-1291, 1293, 1295 a 1299: el código ya está en main (#385) y en producción tras `PROVEEDORES_MILA_ON = false`; siguen EN CURSO hasta encender la bandera (REQ-1655).
+- REQ-1291, 1293, 1295 a 1299: el código está en main (#385); PROVEEDORES_MILA_ON encendida el 14 nov 2026 con OK del PO (REQ-1655); forwarder, Email Routing y secretos de cPanel cargados (REQ-1657, 1658, 1659).
 | REQ-10520 | Redes del día: reintentan cada 60 s hasta 60 min a que el artículo y las láminas respondan 200 | NUEVO (PO 14-11, INC-018) | `src/redes/run.ts`, `.github/workflows/redes-diario.yml` | `src/redes/run.test.ts` | EN CURSO (verde en la sesión; PR) |
 | REQ-10521 | Blog diario: un deploy «cancelled» por la cola no es NO PUBLICADO; sigue al deploy de main que contiene el merge | NUEVO (PO 14-11, INC-018) | `src/ops/lib/seguimiento-deploy.ts`, `src/scripts/esperar-deploy.ts`, `.github/workflows/blog-diario.yml` | `src/ops/lib/seguimiento-deploy.test.ts`, `src/blog/workflow-diario.test.ts` | EN CURSO (verde en la sesión; PR) |
 | REQ-10522 | Registro de INC-018 con causa raíz | NUEVO (PO 14-11) | `docs/incidentes/INC-018.md` | — | CUMPLIDO |
