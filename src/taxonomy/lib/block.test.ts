@@ -125,9 +125,11 @@ describe("REQ-10686: bloque único de taxonomía (tipo + hasta 3 temas + atribut
 });
 
 describe("REQ-10687: bandera TAXONOMY_BLOCK_ENABLED", () => {
-  it("REQ-10687: en wrangler.jsonc existe y está en \"false\"", () => {
+  it("REQ-10687: en wrangler.jsonc existe, encendida junto con TAXONOMY_PUBLISH_ENABLED (15 nov 2026; regreso = \"false\")", () => {
     const vars = wranglerVars(readFileSync("wrangler.jsonc", "utf8"));
-    expect(vars.TAXONOMY_BLOCK_ENABLED).toBe("false");
+    expect(vars.TAXONOMY_BLOCK_ENABLED).toBe("true");
+    expect(vars.TAXONOMY_PUBLISH_ENABLED).toBe("true");
+    expect(taxonomyBlockEnabled(vars)).toBe(true);
   });
   it("REQ-10687: solo \"true\" exacto la enciende, y solo con TAXONOMY_PUBLISH_ENABLED", () => {
     expect(taxonomyBlockEnabled({ TAXONOMY_BLOCK_ENABLED: "true", TAXONOMY_PUBLISH_ENABLED: "true" })).toBe(true);
