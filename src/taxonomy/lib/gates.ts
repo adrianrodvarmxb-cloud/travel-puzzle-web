@@ -76,6 +76,12 @@ export interface Gates {
   palabrasAntesDeFree: boolean;
   /** Bandera de atributos sin dato (REQ-417); llega de fuera, nunca de process.env aquí. */
   atributosExtra: boolean;
+  /**
+   * REQ-10659 · decisión 11 de la ficha única (REQ-10590, PO 14-11): «Con traslado», «Día completo» para toda actividad
+   * de 6 h o más y «Cancelación gratuita», siempre por dato real. Apagado = como hoy. Lo prende `TAXONOMY_BLOCK_ENABLED`
+   * (bloque único de taxonomía, ola 3) desde fuera, nunca process.env aquí.
+   */
+  atributosDecision11: boolean;
 }
 
 export const DEFAULT_GATES: Gates = {
@@ -87,6 +93,7 @@ export const DEFAULT_GATES: Gates = {
   autoguiadoCarrito: GATE_GT11_AUTOGUIADO,
   palabrasAntesDeFree: REGLAS_POR_PALABRA_ANTES_DE_FREE,
   atributosExtra: false,
+  atributosDecision11: false,
 };
 
 /** G-T10: dónde puede verse un producto `por-revisar`. */

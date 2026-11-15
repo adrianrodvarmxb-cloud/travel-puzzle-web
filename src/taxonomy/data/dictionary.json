@@ -1396,6 +1396,16 @@
       "estado": "activo"
     },
     {
+      "slug": "con-traslado",
+      "eje": "atributo",
+      "termino_es": "Con traslado",
+      "termino_en": "With transfer",
+      "definicion_es": "El producto incluye el traslado desde y hacia el hotel o el punto acordado.",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "nota": "REQ-10659 (decisión 11 de la ficha única, PO 14-11-2026): solo por dato del producto (opción con traslado o «incluye» del proveedor); nunca por palabra del título. Se enciende con TAXONOMY_BLOCK_ENABLED."
+    },
+    {
       "slug": "entrada-incluida",
       "eje": "atributo",
       "termino_es": "Entrada incluida",

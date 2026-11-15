@@ -2,6 +2,8 @@
  * REQ-417, REQ-419: Eje C. Atributos activos solo con dato (privado, nocturno, medio, en español, calificación,
  * favorito, vuelo incluido); los que no tienen dato hoy salen solo con la bandera encendida Y una casilla declarada
  * (nunca se infieren). Pares excluyentes: guiado/autoguiado, privado/grupo pequeño, familias/solo adultos. Puro.
+ * REQ-10659 (decisión 11 de la ficha única): con traslado, día completo ampliado y cancelación gratuita, por dato real,
+ * tras `gates.atributosDecision11`.
  */
 import type { Categoria, Dictionary, Mapping, TerminoAtributo, TerminoFormato } from "../schemas/dictionary";
 import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, FAVORITO_CRITERIO, type Gates } from "./gates";
@@ -14,6 +16,12 @@ export const PARES_EXCLUYENTES = [
   { queda: "privado", sale: "grupo-pequeno" },
   { queda: "solo-adultos", sale: "familias" },
 ] as const;
+
+/** REQ-10659: formatos que son una actividad (no un traslado, transporte, alquiler, servicio ni circuito de varios días). */
+const NO_ACTIVIDAD: ReadonlySet<string> = new Set(["transporte", "traslado", "alquiler", "en-linea", "esenciales-viaje", "circuito", "a-la-medida", "fuera", "por-revisar"]);
+export function esActividad(formato: FormatoOEstado): boolean {
+  return !NO_ACTIVIDAD.has(formato);
+}
 
 function atributo(dict: Dictionary, slug: string): TerminoAtributo | undefined {
   return dict.terminos.find((t): t is TerminoAtributo => t.eje === "atributo" && t.slug === slug);
@@ -56,6 +64,11 @@ export function classifyAtributos(
   const min = input.durationMinutes ?? null;
   const largo = (min !== null && min >= EXCURSION_MIN_MINUTOS && min < CIRCUITO_MIN_MINUTOS) || matches(atributo(dict, "dia-completo")?.palabras, todo);
   if ((formato === "tour" || formato === "visita-guiada" || formato === "caminata") && largo) add("dia-completo", "día completo sin salir de la ciudad");
+  // REQ-10659 (decisión 11, REQ-10590): «Día completo» para toda actividad de 6 h o más; nunca traslados, transporte,
+  // alquiler, en línea ni circuitos de varios días (esos tienen su propia duración en días).
+  if (gates.atributosDecision11 && largo && esActividad(formato)) add("dia-completo", "actividad de 6 h o más (decisión 11)");
+  if (gates.atributosDecision11 && input.conTraslado === true) add("con-traslado", "dato del producto: con traslado (decisión 11)");
+  if (gates.atributosDecision11 && input.cancelacionGratis === true) add("cancelacion-gratis", "dato del producto: cancelación gratuita (decisión 11)");
 
   const fmt = dict.terminos.find((t): t is TerminoFormato => t.eje === "formato" && t.slug === formato);
   if (formato === "autoguiado") add("autoguiado", "formato autoguiado");
