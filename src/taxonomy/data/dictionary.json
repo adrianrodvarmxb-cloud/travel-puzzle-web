@@ -1316,6 +1316,18 @@
           ]
         },
         {
+          "slug": "tren",
+          "termino_es": "En tren",
+          "termino_en": "By train",
+          "palabras": [
+            "tren",
+            "train",
+            "ferrocarril",
+            "railway",
+            "rail"
+          ]
+        },
+        {
           "slug": "vehiculo",
           "termino_es": "En vehículo",
           "termino_en": "By vehicle",
@@ -1334,8 +1346,6 @@
             "moto*",
             "teleferico",
             "cable car",
-            "tren",
-            "train",
             "carrito",
             "carriage",
             "carruaje",
@@ -1356,7 +1366,7 @@
           ]
         }
       ],
-      "nota": "Un solo valor. Gana la palabra del título (bici, barco, vehículo, a pie); sin palabra, el de la categoría."
+      "nota": "Un solo valor. Gana la palabra del título (bici, barco, tren, vehículo, a pie); sin palabra, el de la categoría. REQ-10703 (G-R5 firmado «B», 15-11-2026): «En tren» para Tangol y cualquier proveedor."
     },
     {
       "slug": "idioma-es",
