@@ -14,6 +14,10 @@ Sigue el estándar do-plan y las reglas fijas de Adri:
 ## Catálogo único (REQ-1605, regla del PO)
 - Todo producto publicado de cualquier proveedor sale en el mapa, en /tours, en el buscador y en los filtros, como en GetYourGuide, Civitatis y Viator. Proveedor nuevo = mismo trato; una excepción solo con decisión escrita del PO.
 
+## Definiciones del PO: valen para todos los proveedores (REQ-10709, regla del PO, 15-11-2026)
+- Toda definición que dé el PO (taxonomía, etiquetas, nombres, reglas de ficha, cobro, textos) aplica siempre a todos los proveedores, actuales y futuros, aunque la haya dado al revisar uno solo. Se implementa como regla del diccionario o del dominio, no como caso de un proveedor.
+- Si al aplicarla se detecta que un proveedor necesita una excepción, no se decide por cuenta propia: se le comenta al PO con el caso concreto y se espera su respuesta.
+
 ## Blindaje de publicación (obligatorio; ISO/IEC/IEEE 29119, ISO/IEC 27001 A.8.32, ISO/IEC 20000-1 8.5)
 
 Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un paso no se puede cumplir, se dice "NO PUBLICAR" y por qué; nunca se simula.
