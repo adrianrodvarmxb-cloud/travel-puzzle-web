@@ -1,6 +1,7 @@
 import { sellerFor } from "@/ficha/lib/operator";
 import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
+import { taxonomyBlockEnabled } from '@/taxonomy/lib/block';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
@@ -83,7 +84,9 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
     const { country, city, tour } = r;
     // T5 (REQ-415, REQ-416, G-T9): etiqueta de formato y copy por formato, tras TAXONOMY_LABELS_ENABLED.
     const labels = taxonomyLabelsEnabled(process.env as Record<string, string | undefined>);
-    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang, labels }); // REQ-667
+    // REQ-10686: bloque único de taxonomía (chips y marcado), tras TAXONOMY_BLOCK_ENABLED.
+    const block = taxonomyBlockEnabled(process.env as Record<string, string | undefined>);
+    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang, labels, block }); // REQ-667
 
     if (tour.kind === 'own') {
         const data = await loadTripBySlug((await params).slug);
@@ -106,7 +109,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         const mp = props.initialTour?.meetingPoint as { title?: string; coordinates?: string } | undefined;
         const [lat, lng] = (mp?.coordinates ?? '').split(',').map((x) => Number(x.trim()));
         const full = tourPage({
-            country, city, tour, siteUrl: siteUrl(), lang, labels, today: new Date().toISOString().slice(0, 10),
+            country, city, tour, siteUrl: siteUrl(), lang, labels, block, today: new Date().toISOString().slice(0, 10),
             detail: { providerId: row?.providerId, cancellationHours: props.practical?.conditions?.freeCancellation?.hours ?? null, /* REQ-10655 */ guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
