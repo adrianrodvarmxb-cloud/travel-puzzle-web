@@ -27,6 +27,10 @@ Los 274 tours de «Excursiones de aventura» de Tangol (categoría 9000003) y lo
 
 Con «A» en todo: 77 cambian, 260 se quedan, 13 dudas. Cambia también el título SEO por formato de las 77 fichas (G-T9 A: «{título} – Excursión desde {Ciudad}»).
 
+## Firma del PO
+
+- [x] **Firmada el 15 nov 2026** (REQ-10661), gate por gate en conversación: G-A1 «A: solo caminata con guía» (77 tours de Tangol cambian); G-A2 «A: cambian igual que la caminata» (los 12 de lugar de montaña van con Aventura y Montaña y senderismo); G-A3 «A: no cambian en este PR» (las 13 dudas quedan como hoy, anotadas); G-A4 «A: ningún cambio» en FREETOUR. La regla se aplica al clasificador en memoria en su propio PR (REQ-10662), con la lista antes/después y el índice del buscador reconstruido.
+
 ## Resultado con la regla propuesta
 
 Tours revisados: 350 · cambian: 77 · se quedan: 260 · dudas: 13
