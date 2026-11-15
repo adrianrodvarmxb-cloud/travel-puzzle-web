@@ -11,8 +11,17 @@ Sigue el estándar do-plan y las reglas fijas de Adri:
 - Typecheck: `data/countries.json` no está en el repo; usar el fixture temporal y no commitearlo.
 - Al cerrar un frente: actualizar `STATUS.md`. Gates firmados en `docs/`.
 
+## Autopilot general (REQ-10712, regla del PO, 15-11-2026: «aplicalo a todo necesitamos avanzar»)
+- En cualquier frente con plan firmado por el PO, un PR con suite, build y humo 390/1366 en verde se fusiona, se aplican las migraciones de ese plan y se encienden sus banderas y variables sin pedir OK; se le avisa al PO de cada paso con la evidencia. Esto reemplaza, para esos casos, el «merge solo con OK del PO» y los candados de migraciones y banderas de este archivo. El blindaje de publicación sigue completo: sin humo verde, «NO PUBLICAR».
+- Sigue igual: las decisiones de producto y cada lista de reclasificación se le preguntan al PO, una por una, antes de aplicarlas; los valores de secretos los carga el PO y nunca se escriben en el chat ni en el repo; nunca push a `main` ni force-push.
+- Se confirman con el PO en el momento, una por una, porque no se pueden deshacer: cobros o reembolsos reales, DNS, borrar datos o ramas, y mensajes o correos a clientes, leads o proveedores escritos por un agente que no sea Mila.
+
 ## Catálogo único (REQ-1605, regla del PO)
 - Todo producto publicado de cualquier proveedor sale en el mapa, en /tours, en el buscador y en los filtros, como en GetYourGuide, Civitatis y Viator. Proveedor nuevo = mismo trato; una excepción solo con decisión escrita del PO.
+
+## Definiciones del PO: valen para todos los proveedores (REQ-10709, regla del PO, 15-11-2026)
+- Toda definición que dé el PO (taxonomía, etiquetas, nombres, reglas de ficha, cobro, textos) aplica siempre a todos los proveedores, actuales y futuros, aunque la haya dado al revisar uno solo. Se implementa como regla del diccionario o del dominio, no como caso de un proveedor.
+- Si al aplicarla se detecta que un proveedor necesita una excepción, no se decide por cuenta propia: se le comenta al PO con el caso concreto y se espera su respuesta.
 
 ## Blindaje de publicación (obligatorio; ISO/IEC/IEEE 29119, ISO/IEC 27001 A.8.32, ISO/IEC 20000-1 8.5)
 
