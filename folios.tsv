@@ -9125,3 +9125,4 @@ REQ-10710	docs/folios-chat-2026-11-15	2026-11-15 18:20	Autopilot con candados pa
 REQ-10711	docs/folios-chat-2026-11-15	2026-11-15 18:23	PO 15-11: plan diario sin pedir OK para migraciones ni secretos
 REQ-10712	docs/folios-chat-2026-11-15	2026-11-15 18:25	PO 15-11: autopilot para todos los frentes de Travel Puzzle
 REQ-10713	feat/proveedores-borrador-programado	2026-11-15 18:46	migración 0034 ProveedorBorrador (bandeja de borradores REQ-10693)
+REQ-10714	feat/proveedores-borrador-programado	2026-11-15 18:47	bandera PROVEEDORES_BORRADORES_ON
