@@ -20,7 +20,21 @@ Los conteos salen de la tabla real de tipos (`tests/fixtures/tangol-tipos-2026-1
 
 ## Firma del PO
 
-- [ ] **PO:** pendiente (REQ-10689). Pregunta: «¿Firmas los nueve gates de las dudas de Tangol con la recomendación (A en todos)?» Si cambia alguno, se anota aquí gate por gate.
+- [x] **PO:** respondió gate por gate en el chat de la ficha única (15 nov 2026, 10:25–11:51 CDMX), tras pedir «Quiero ver las 9 antes». **No fue «A en todos».**
+
+| Gate | Respuesta literal del PO | Qué queda | Folio |
+|---|---|---|---|
+| G-R1 | «Se clasifica y se asigna de acuerdo a la taxonomía definida si determinas que no encaja se notifica a PO por mail y WA para definicion esto aplica para TAngol y cualquier proveedor» | Regla nueva (ni A ni B): clasificar solo; si no encaja, aviso al PO por correo y WhatsApp; todo proveedor | REQ-10698 |
+| G-R2 | «3 y Dame opciones mas claras para la categoria momentos de autor» (3 = encender «Alquiler» y moverlos) | Se enciende Renta y el alquiler de ski pasa ahí. «Momentos de autor» pasa a «Actividades» (respuesta: «Actividades (Recomendado)») | REQ-10699, REQ-10700 |
+| G-R3 | «B: crear «Campo y vida rural»» | Tema nuevo con filtro | REQ-10701 |
+| G-R4 | «A: se quedan como hoy (Recomendado)» | Sin cambio | REQ-10702 |
+| G-R5 | «B: crear «En tren» ya» | Medio nuevo, también para otros proveedores | REQ-10703 |
+| G-R6 | «A: pasan a Transporte (Recomendado)» | 20 tours a Transporte | REQ-10704 |
+| G-R7 | «A: siguen como Circuito (Recomendado)» | Sin cambio | REQ-10705 |
+| G-R8 | «A: se quedan como Circuito (Recomendado)» | Sin cambio | REQ-10706 |
+| G-R9 | «B y revisa con que otros proveedores aplica por ejemplo los de China»; después: «tambien agrega las etiquetas «tren incluido» «autobus incluido» , «hotel incluido», «desayuno incluido»,«comida incluida»,«cena incluido»» | Etiquetas de incluido: vuelo, tren, autobús, hotel, desayuno, comida, cena; lista por proveedor al PO antes de aplicar | REQ-10707 |
+
+Cada cambio entra en su propio PR con lista «antes y después» y humo. Donde este documento dice «Con A en los nueve gates…» describe la recomendación, no lo firmado.
 
 Categorías del mapeo: 34 · con duda: 15 · gates: 9 · tours que tocan las dudas: 735 de 2059 leídos (corrida de solo lectura REQ-3487, 12 nov 2026)
 
