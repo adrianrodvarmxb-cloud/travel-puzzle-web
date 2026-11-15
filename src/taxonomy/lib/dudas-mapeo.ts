@@ -93,7 +93,7 @@ export const GATES_DUDAS_TANGOL: readonly GateDuda[] = [
     pregunta: "Red de seguridad 9000001 (un par TypeCode|SubTypeCode nuevo que Tangol empiece a mandar)",
     categorias: ["9000001"],
     a: "Falla abierta, como hoy: el tour se publica como Tour (visita guiada por omisión) y la prueba de cobertura avisa del par nuevo",
-    b: "Falla cerrada, como FREETOUR con una categoría desconocida: el tour queda «por-revisar» (oculto) hasta mapear el par",
+    b: "Falla cerrada, como el otro proveedor de tours con una categoría desconocida: el tour queda «por-revisar» (oculto) hasta mapear el par",
     recomendada: "A",
     porQue: "Los 38 pares reales ya tienen categoría propia; un par nuevo sería raro y la prueba de cobertura (REQ-3467) lo detecta. Ocultar vende menos sin ganar exactitud.",
   },
@@ -131,7 +131,7 @@ export const GATES_DUDAS_TANGOL: readonly GateDuda[] = [
     a: "Se queda con medio «vehículo», el más cercano, como hoy",
     b: "Se agrega el medio «tren» al diccionario (es/en), al filtro y a las tarjetas",
     recomendada: "A",
-    porQue: "6 tours; el medio «tren» es un cambio del diccionario que conviene hacer con FREETOUR (Tren a las Nubes también está ahí) en su propio PR.",
+    porQue: "6 tours; el medio «tren» es un cambio del diccionario que conviene hacer junto con los tours en tren del otro proveedor (Tren a las Nubes también está ahí) en su propio PR.",
   },
   {
     gate: "G-R6",
