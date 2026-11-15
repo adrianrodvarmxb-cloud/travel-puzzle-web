@@ -80,7 +80,16 @@ describe("REQ-3503 los traslados de Tangol van a la sección de traslados", () =
   it.each(traslados.flatMap((t) => t.ejemplos.map((e) => [claveTangol(t), e] as const)))("REQ-3503: %s «%s» → traslados", (clave, titulo) => {
     const r = classify({ proveedor: "tangol", categoriaId: CODIGOS_TANGOL[clave], precio: 50, durationMinutes: 60, titulo }, D, M);
     expect(r.seccion).toBe("traslados");
-    expect(cartTypeFor(r.formato)).toBe(clave === "PASES|TKTBUS" ? "transport" : "transfer");
+    // REQ-10704 (firma G-R6, PO 15-11-2026): el bus entre ciudades (TRF IN) va al carrito `transport`, como el boleto de bus.
+    expect(cartTypeFor(r.formato)).toBe(clave === "PASES|TKTBUS" || clave === "TRASLADO|TRF IN" ? "transport" : "transfer");
+  });
+  it("REQ-10704: «Traslado en bus entre ciudades» (TRF IN) es Transporte y «Traslados varios» (TRF) sigue como Traslado; las dos en traslados", () => {
+    expect(catDe(CODIGOS_TANGOL["TRASLADO|TRF IN"])).toMatchObject({ formato: "transporte" });
+    expect(catDe(CODIGOS_TANGOL["TRASLADO|TRF"])).toMatchObject({ formato: "traslado" });
+    for (const clave of ["TRASLADO|TRF IN", "TRASLADO|TRF"]) {
+      const r = classify({ proveedor: "tangol", categoriaId: CODIGOS_TANGOL[clave], precio: 50, durationMinutes: 600, titulo: "Ruta 40 en bus" }, D, M);
+      expect(r.seccion).toBe("traslados");
+    }
   });
 });
 

@@ -197,18 +197,18 @@
       "atributos": [],
       "reglasPorPalabra": [],
       "estado": "activo",
-      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
+      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). FIRMADO PO (REQ-10704, gate G-R6, 15-11-2026): se queda como Traslado. PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
     },
     {
       "id": "9000015",
       "nombre_es": "Traslado en bus entre ciudades",
       "nombre_en": "Intercity bus transfer",
-      "formato": "traslado",
+      "formato": "transporte",
       "temas": [],
       "atributos": [],
       "reglasPorPalabra": [],
       "estado": "activo",
-      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
+      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). FIRMADO PO (REQ-10704, gate G-R6, 15-11-2026): Transporte, sección traslados, carrito `transport`, como los boletos de bus 9000027. Antes: Traslado, carrito `transfer` (REQ-3428). PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
     },
     {
       "id": "9000016",
