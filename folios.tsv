@@ -9104,3 +9104,7 @@ REQ-10689	feat/ficha-unica-ola3-dudas-tangol	2026-11-15 14:47	ficha única ola 3
 REQ-10690	feat/req-expediente-modelo-b2b	2026-11-15 16:45	
 REQ-10691	feat/req-expediente-modelo-b2b	2026-11-15 16:45	
 REQ-10692	feat/req-expediente-modelo-b2b	2026-11-15 16:45	
+REQ-10693	feat/proveedores-borrador-programado	2026-11-15 17:30	regla de correos a proveedores en borrador programado 5:00 CDMX; conector API>portal>persona (REQ-10691) base, bandera y folio hijo Extime
+REQ-10694	feat/proveedores-borrador-programado	2026-11-15 17:30	regla de correos a proveedores en borrador programado 5:00 CDMX; conector API>portal>persona (REQ-10691) base, bandera y folio hijo Extime
+REQ-10695	feat/proveedores-borrador-programado	2026-11-15 17:30	regla de correos a proveedores en borrador programado 5:00 CDMX; conector API>portal>persona (REQ-10691) base, bandera y folio hijo Extime
+REQ-10696	feat/proveedores-borrador-programado	2026-11-15 17:30	regla de correos a proveedores en borrador programado 5:00 CDMX; conector API>portal>persona (REQ-10691) base, bandera y folio hijo Extime
