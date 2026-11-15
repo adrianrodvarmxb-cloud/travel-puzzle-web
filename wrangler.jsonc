@@ -138,8 +138,9 @@
     "TAXONOMY_LABELS_ENABLED": "true",
     // Ficha única, ola 3 (REQ-10686, REQ-10687): bloque único de taxonomía (tipo + hasta 3 temas + atributos) que leen
     // igual la tarjeta, la ficha y el marcado; prende los atributos de la decisión 11 (REQ-10659). Requiere
-    // TAXONOMY_PUBLISH_ENABLED. "true" solo en su propio PR, con preview, humo a 390/1366 y OK del PO.
-    "TAXONOMY_BLOCK_ENABLED": "false",
+    // TAXONOMY_PUBLISH_ENABLED. Encendida el 15 nov 2026 en su propio PR (autopilot, opción C del PO en #556: olas 0–7),
+    // con preview, humo a 390/1366 y revisión visual. Regreso: "false".
+    "TAXONOMY_BLOCK_ENABLED": "true",
     // Taxonomía T6b (REQ-421…424): ficha del viaje con dificultad 1–5, tipo de grupo y rango de días. Extras (confort, guía,
     // perfil, altitud) tras TAXONOMY_CIRCUIT_EXTRA_ENABLED (sin dato hoy). "true" con preview, humo y OK del PO.
     "TAXONOMY_CIRCUITS_ENABLED": "true",
