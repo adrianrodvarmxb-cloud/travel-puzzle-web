@@ -97,6 +97,16 @@ describe("REQ-10686: bloque único de taxonomía (tipo + hasta 3 temas + atribut
     expect(classifyBlock(largo, { lang: "es", decision11: false }).atributos.map((a) => a.slug)).not.toContain("dia-completo");
   });
 
+  it("REQ-10686: la fila real de Minitrekking (Tangol 9000003, 10 h, decisión 9 aplicada en #580) da Excursión de un día · Aventura · Montaña y senderismo · Naturaleza y «Día completo»", () => {
+    const fila: ClassifyInput = { proveedor: "tangol", categoriaId: "9000003", precio: 80, durationMinutes: 600, titulo: "Minitrekking Glaciar Perito Moreno", ciudades: ["el-calafate"] };
+    const b = classifyBlock(fila, { lang: "es", decision11: true });
+    expect(b.tipo?.label).toBe("Excursión de un día");
+    expect(b.temas.map((t) => t.label)).toEqual(["Aventura", "Montaña y senderismo", "Naturaleza"]);
+    expect(b.atributos.map((a) => a.slug)).toContain("dia-completo");
+    expect(blockCardLabel(b)).toBe(blockFacets(b).tipo);
+    expect(blockLabels(classifyBlock(fila, { lang: "en", decision11: true })).slice(0, 4)).toEqual(["Day trip", "Adventure", "Mountains & hiking", "Nature"]);
+  });
+
   it("REQ-10686: con el bloque apagado, el marcado da lo mismo que fichaFacets de hoy (nada cambia al publicar apagado)", () => {
     for (const i of [tg("9000002", "Excursión a El Chaltén", { durationMinutes: 600 }), tg("9000001", "City tour por Buenos Aires"), ft(4, "Excursión a Toledo desde Madrid", { durationMinutes: 540 }), ft(1, "Free tour por Madrid", { precio: 0 })]) {
       for (const lang of ["es", "en"]) {
