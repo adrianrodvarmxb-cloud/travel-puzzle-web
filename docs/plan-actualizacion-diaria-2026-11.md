@@ -89,6 +89,18 @@ SRP: decidir (puro) separado de leer y escribir. OCP: proveedor nuevo = entra al
 | G-D5 | A dónde llega el resumen diario de Mila | Al correo del PO; WhatsApp cuando el puente de avisos esté publicado |
 | G-D6 | Qué puede hacer Mila sola con un cambio de tarifas | Nada: propone y el PO aprueba |
 
+### Gates firmados (PO, 15 nov 2026)
+| Gate | Firma literal | Folio |
+|---|---|---|
+| G-D1 | «1:00 a. m.» | REQ-10673 |
+| G-D2 | «Tras dos corridas» | REQ-10674 |
+| G-D3 | «2 pero consulta si hay algo sobre el tema en documentación antes» (avisar y encender; la documentación no pone límites) | REQ-10675 |
+| G-D4 | «Recalcular al publicar» (la página lee solo lo guardado) | REQ-10676 |
+| G-D5 | «A tu correo» | REQ-10677 |
+| G-D6 | «3 hay que meter validaciones con ISO para garantizar que la lectura sea óptima» (Mila aplica todo y avisa) | REQ-10678 |
+
+Con G-D6 cambia la sección 2.C: Mila **sí aplica sola** los cambios que pasen las validaciones, envía ella la confirmación al proveedor (REQ-10679) y después el correo de aplicación con el detalle de cada cambio (REQ-10680), siempre con copia al PO y a Claudia; todo correo de Mila a proveedores lleva esa copia (REQ-10681).
+
 ## 9. Candados (OK explícito del PO, uno por uno)
 Todo merge; el horario diario de Tangol; cada llamada a la API de Tangol; borrar filas en producción (limpieza de INC-015); migraciones; cada encendido de bandera; el envío de cualquier correo a un proveedor.
 
