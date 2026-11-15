@@ -23,6 +23,12 @@ Sigue el estándar do-plan y las reglas fijas de Adri:
 - Toda definición que dé el PO (taxonomía, etiquetas, nombres, reglas de ficha, cobro, textos) aplica siempre a todos los proveedores, actuales y futuros, aunque la haya dado al revisar uno solo. Se implementa como regla del diccionario o del dominio, no como caso de un proveedor.
 - Si al aplicarla se detecta que un proveedor necesita una excepción, no se decide por cuenta propia: se le comenta al PO con el caso concreto y se espera su respuesta.
 
+## Expediente de proveedor (REQ-10717 y REQ-10718, regla del PO, 15-11-2026)
+- Cada proveedor tiene un expediente en el Proyecto de Claude: `proveedores/<slug>-expediente-<fecha>.md`, con las 11 secciones de `proveedores/plantilla-expediente-proveedor.md` (REQ-10690).
+- Siempre que una sesión, agente o Mila encuentre información legal, operativa, comercial o de cualquier tipo de un proveedor (cuerpo de un correo, adjunto, enlace compartido, documento o conversación), actualiza el expediente en ese momento, con la fuente y la fecha. Antes de escribirle a un proveedor se lee su expediente, su hilo completo y su documentación, para no preguntar lo que ya respondió.
+- Nunca van al expediente ni al repo: claves, tokens y números de cuenta. Netos, comisiones y acuerdos solo en el Proyecto y en almacenamiento privado, nunca en el repo (es público).
+- El expediente está para consulta del PO y de Mila. Frente a un cliente, Mila solo comparte lo que le corresponde al cliente (cómo se reserva, cancelación y cambios, reglas operativas, quién opera); nunca netos, comisiones, cuentas de pago, contactos internos, acuerdos ni pendientes.
+
 ## Blindaje de publicación (obligatorio; ISO/IEC/IEEE 29119, ISO/IEC 27001 A.8.32, ISO/IEC 20000-1 8.5)
 
 Nada llega a producción sin evidencia de que el sitio sigue funcionando. Si un paso no se puede cumplir, se dice "NO PUBLICAR" y por qué; nunca se simula.
