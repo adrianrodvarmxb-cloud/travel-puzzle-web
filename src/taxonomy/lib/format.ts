@@ -7,6 +7,7 @@ import type { Categoria, Dictionary, Mapping, TerminoFormato } from "../schemas/
 import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, type Gates } from "./gates";
 import { matches, namesCity, norm } from "./text";
 import { combinado } from "./combined";
+import { veredictoDecision9 } from "./aventura-senderismo";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
@@ -72,6 +73,12 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   const dias = input.durationDays ?? null;
   if ((min !== null && min >= CIRCUITO_MIN_MINUTOS) || (dias !== null && dias >= 2) || kw("circuito", titulo)) {
     return { valor: "circuito", regla: min !== null && min >= CIRCUITO_MIN_MINUTOS ? "#7 ≥1440 min" : dias !== null && dias >= 2 ? "#7 2+ días" : "#7 «N días» en el título" };
+  }
+  // REQ-10662 (decisión 9, REQ-10588; lista firmada REQ-10661): en las categorías de aventura que lo permiten, la caminata
+  // con guía o el lugar de montaña sin otra actividad es Excursión de un día (los temas los pone classify). Regreso: gate B.
+  if (gates.senderismo === "A" && cat.reglasPorPalabra.includes("senderismo-guiado")) {
+    const v = veredictoDecision9(input.titulo, min);
+    if (v.veredicto === "cambia") return { valor: "excursion-dia", regla: `#8 decisión 9: ${v.regla} (${id})` };
   }
   // 8 excursión de un día (gate G-T7)
   // REQ-534: la base «excursión» (FREETOUR cat. 4) exige ≥ 6 h cuando se conoce la duración (la regla práctica del PO:
