@@ -5,6 +5,7 @@ Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
 Actualizado: 15 nov 2026, 03:00 (CDMX): ficha única, ola 2 cerrada (REQ-10658); ola 3 abierta con la tabla de dificultad de Tangol (REQ-10656, gate REQ-10657).
 Actualizado: 15 nov 2026, 04:00 (CDMX): tabla de dificultad firmada por el PO (REQ-10657, #577); atributos de la decisión 11 tras gate (REQ-10659); lista de aventura y senderismo para firma (REQ-10660, gate REQ-10661).
+Actualizado: 15 nov 2026, 06:30 (CDMX 00:30): INC-024, la publicación de #579 se regresó sola (humo de producción sin respuesta en la ficha de Bariloche); main un commit adelante de producción; corrección REQ-10664 construida con OK del PO (timeouts en las llamadas en vivo a FREETOUR); REQ-10665 pendiente.
 Actualizado: 15 nov 2026, 04:00 (CDMX): tabla de dificultad firmada por el PO (REQ-10657, #577); atributos de la decisión 11 tras gate (REQ-10659).
 
 
@@ -1243,6 +1244,14 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 | REQ-10573 | El panel de reserva no aplica reglas de FREETOUR a otros proveedores (INC-020) | NUEVO (PO 14-11) | `src/tours/lib/sidebar-plan.ts`, `src/components/tours/one/TourDetailClient.tsx` | `src/tours/lib/booking-cta.test.ts` | EN CURSO (verde en la sesión; PR pendiente) |
 | REQ-10578 | Reseñas, eventos y datos de FREETOUR solo para tours de FREETOUR (INC-021) | NUEVO (INC-021, 14-11) | `src/tours/lib/provider-source.ts`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `src/reviews/repository.ts` | `src/tours/lib/provider-source.test.ts` | EN CURSO (verde en la sesión; PR pendiente) |
 | REQ-10529 | El filtro de país de Experiencias ya no redirige a /destinos/{país}; la 301 queda para enlaces externos | NUEVO (PO, 13-11) | `src/destinations/lib/request-plan.ts`, `src/destinations/middleware.ts` | `src/destinations/lib/request-plan.test.ts` | EN CURSO (verde en la sesión; falta revisión visual del PO) |
+
+## INC-024: la publicación de #579 se regresó sola por la ficha de Bariloche (15 nov 2026)
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10663 | Incidente abierto, sin reintentar el deploy; producción en `9014b61a` (#578), `main` en `47b13d69` (#579) | INC-024 | `docs/incidentes/INC-024.md` | — (validación: run 43681018472, artefacto `evidencia-humo-43681018472-1`) | CUMPLIDO |
+| REQ-10664 | Tiempo máximo (10 s) en las llamadas en vivo de la ficha de FREETOUR (proxies y `fetch` del navegador); al vencer, falla con 504, sin reintento, y la ficha se queda con lo del sync | INC-024 | `src/lib/api/lib/live-timeout.ts`, `src/lib/api/freetour-client.ts`, `src/lib/api/hooks/useEventsByTourFTData.ts`, `src/components/tours/one/PrimeraPiezaInfo.tsx` | `src/lib/api/lib/live-timeout.test.ts` (5, con cableado) | CUMPLIDO (15 nov 2026, OK del PO; falta humo y verificar Bariloche en producción) |
+| REQ-10665 | Evidencia del humo con status y tiempo de la respuesta principal y las peticiones abiertas cuando vence `networkidle` | INC-024 | `src/scripts/smoke.ts` (propuesto) | — | PENDIENTE (OK del PO) |
 
 ## Ficha única para todos los proveedores (frente #549, 14 nov 2026)
 

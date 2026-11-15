@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { LIVE_TIMEOUT_MS } from '@/lib/api/lib/live-timeout';
 import type { TourEvent } from '@/lib/api/freetour-client';
 import type { FxRates } from '@/trips/lib/money';
 import { liveEventInfo, type LiveEventDetail } from '@/tours/lib/live-notice';
@@ -37,7 +38,8 @@ export function PrimeraPiezaInfo({ view, events }: { view: PrimeraPiezaView; eve
     useEffect(() => {
         if (!next) return;
         let off = false;
-        fetch(`/api/freetour/event/${next}`)
+        // REQ-10664 (INC-024): tope en el navegador; si vence, se queda el aviso del sync.
+        fetch(`/api/freetour/event/${next}`, { signal: AbortSignal.timeout(LIVE_TIMEOUT_MS) })
             .then((r) => (r.ok ? r.json() : null))
             .then((body: { data?: LiveEventDetail } | null) => {
                 if (off || !body?.data?.fullPricePerGroup) return;

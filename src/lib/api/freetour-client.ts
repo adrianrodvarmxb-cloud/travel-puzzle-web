@@ -1,5 +1,6 @@
 import { TourAPI } from '@/types';
 import { IzFTEventDetail } from './schemas/FTEvent.Schema';
+import { fetchConLimite } from './lib/live-timeout'; // REQ-10664 (INC-024): tope en las llamadas en vivo
 
 interface FreeTourAuthResponse {
   data: {
@@ -287,7 +288,7 @@ export class FreeTourClient {
       throw new Error('FreeTour authentication failed: No access token available');
     }
 
-    const response = await fetch(`${this.baseURL}/tours/${tourId}/events`, {
+    const response = await fetchConLimite(`${this.baseURL}/tours/${tourId}/events`, {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json',
@@ -307,7 +308,7 @@ export class FreeTourClient {
         }
 
         // Retry the request once
-        const retryResponse = await fetch(`${this.baseURL}/tours/${tourId}/events`, {
+        const retryResponse = await fetchConLimite(`${this.baseURL}/tours/${tourId}/events`, {
           headers: {
             'Authorization': `Bearer ${this.accessToken}`,
             'Content-Type': 'application/json',
@@ -338,7 +339,7 @@ export class FreeTourClient {
       throw new Error('FreeTour authentication failed: No access token available');
     }
 
-    const response = await fetch(`${this.baseURL}/event/${eventId}`, {
+    const response = await fetchConLimite(`${this.baseURL}/event/${eventId}`, {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json',
@@ -358,7 +359,7 @@ export class FreeTourClient {
         }
 
         // Retry the request once
-        const retryResponse = await fetch(`${this.baseURL}/event/${eventId}`, {
+        const retryResponse = await fetchConLimite(`${this.baseURL}/event/${eventId}`, {
           headers: {
             'Authorization': `Bearer ${this.accessToken}`,
             'Content-Type': 'application/json',
