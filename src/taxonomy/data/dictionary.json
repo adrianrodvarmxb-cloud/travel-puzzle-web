@@ -416,10 +416,12 @@
     {
       "slug": "experiencia-unica",
       "eje": "formato",
-      "termino_es": "Momentos de autor",
-      "termino_en": "Signature moments",
+      "termino_es": "Actividades",
+      "termino_en": "Activities",
       "definicion_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
       "sinonimos": [
+        "actividades",
+        "activities",
         "momentos de autor",
         "signature moments",
         "experiencia única",
@@ -437,10 +439,10 @@
       "definicion_en": "Something to do, not just to see: workshops, classes, shows, adventure or nightlife.",
       "termino_en_estado": "firmado",
       "nombres": {
-        "pt": "Momentos de autor",
-        "de": "Signature-Momente",
-        "fr": "Moments signature",
-        "it": "Momenti d'autore"
+        "pt": "Atividades",
+        "de": "Aktivitäten",
+        "fr": "Activités",
+        "it": "Attività"
       },
       "apoyo_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
       "apoyo_estado": "firmado",
@@ -564,8 +566,8 @@
           "navegacion"
         ]
       },
-      "etiqueta_corta_es": "Momentos de autor",
-      "etiqueta_corta_en": "Signature moments",
+      "etiqueta_corta_es": "Actividades",
+      "etiqueta_corta_en": "Activities",
       "orden_chip": 6
     },
     {

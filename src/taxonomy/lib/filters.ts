@@ -23,7 +23,7 @@ export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = 
   "visita-guiada": { es: "Visita guiada", en: "Guided visit" },
   tour: { es: "Tour", en: "Tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
-  "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
+  "experiencia-unica": { es: "Actividades", en: "Activities" },
   entradas: { es: "Boletos y entradas", en: "Tickets & passes" },
   autoguiado: { es: "Autoguiado (audioguía)", en: "Self-guided / audio guide" },
   circuito: { es: "Circuito (varios días)", en: "Multi-day tour" },
@@ -43,7 +43,7 @@ export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string 
   "visita-guiada": { es: "Visita guiada", en: "Guided visit" }, // REQ-1250
   tour: { es: "Tour", en: "Tour" }, // REQ-1250 reemplaza «Tour → Visita guiada» de REQ-531/D15
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
-  "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
+  "experiencia-unica": { es: "Actividades", en: "Activities" },
   entradas: { es: "Boletos", en: "Tickets" },
   autoguiado: { es: "Autoguiado", en: "Self-guided" },
   circuito: { es: "Circuito", en: "Multi-day tour" },
