@@ -136,11 +136,11 @@
       "formato": "tour",
       "temas": [],
       "atributos": [
-        "medio:vehiculo"
+        "medio:tren"
       ],
       "reglasPorPalabra": [],
       "estado": "activo",
-      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
+      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). FIRMADO PO (REQ-10703, G-R5 «B: crear «En tren» ya», 15-11-2026): medio «tren» en el diccionario, también para otros proveedores. PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
     },
     {
       "id": "9000010",
