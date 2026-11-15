@@ -1,11 +1,19 @@
-// Puro · REQ-10693 (regla del PO, 15 nov 2026): ningún correo a un proveedor se envía directo. Se deja como borrador
-// programado a las 5:00 de la mañana (hora de la Ciudad de México) del siguiente día hábil y el PO recibe el enlace de
-// Gmail para revisarlo; si lo borra, no sale. Vale para los recordatorios y reintentos de Mila (reemplaza la hora de
-// envío de REQ-1566: la ventana 9:00–11:00 del proveedor deja de decidir el envío) y para cualquier otro correo a proveedores.
+// Puro · REQ-10693 (regla del PO, 15 nov 2026, precisada en el chat): ningún correo a un proveedor se envía directo.
+// Todo correo queda como borrador de Gmail con envío programado y el PO recibe el enlace (si lo borra, no sale; si lo
+// corrige, sale corregido). La hora:
+//  - Recordatorios y reintentos de Mila: dentro del horario del proveedor, de 5:00 a 16:00 de su hora local, lunes a
+//    viernes (reemplaza la ventana 9:00–11:00 de REQ-1566). Si ya cabe hoy, sale a la hora que toca; si es antes de las
+//    5:00, a las 5:00 de hoy; si ya pasaron las 16:00 o no es día hábil, a las 5:00 del siguiente día hábil.
+//  - Correos que pide el PO fuera del horario del proveedor: a las 5:00 del siguiente día hábil (misma función).
+// Sin zona del proveedor, la de México. Sin red, reloj ni process.env: la hora llega por parámetro.
 import { ZONA_MX } from "./horario";
 
-/** Hora local (CDMX) a la que sale el borrador programado. */
-export const HORA_ENVIO = 5;
+/** Horario en que un correo puede llegarle al proveedor (su hora local). */
+export const VENTANA_ENVIO = { desde: 5, hasta: 16 } as const;
+/** Hora a la que sale lo que se pasa al siguiente día hábil. */
+export const HORA_ENVIO = VENTANA_ENVIO.desde;
+
+const zonaValida = (tz?: string) => { try { if (!tz) return ZONA_MX; new Intl.DateTimeFormat("en-US", { timeZone: tz }); return tz; } catch { return ZONA_MX; } };
 
 function partesEn(ms: number, tz: string) {
   const f = new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23", weekday: "short" });
@@ -24,13 +32,19 @@ function instanteLocal(y: number, m: number, d: number, hora: number, tz: string
 const esHabil = (dia: string) => dia !== "Sat" && dia !== "Sun";
 
 /**
- * REQ-10693: cuándo sale el borrador: el siguiente día hábil (lunes a viernes) a las 5:00 de CDMX, siempre después de
- * `ahora`. Un sábado o domingo cae en lunes; un viernes a las 6:00 cae en lunes; un jueves a las 3:00 cae ese mismo
- * jueves no: siempre es el día siguiente (el PO necesita la noche para revisar).
+ * REQ-10693: cuándo sale el borrador para que le llegue al proveedor en su horario (5:00–16:00, lunes a viernes).
+ * Dentro del horario: ahora mismo. Antes de las 5:00 de un día hábil: a las 5:00 de hoy. Después de las 16:00 o en fin
+ * de semana: a las 5:00 del siguiente día hábil.
  */
-export function proximoEnvio(ahoraIso: string, tz: string = ZONA_MX): string {
+export function proximoEnvio(ahoraIso: string, zonaProveedor?: string): string {
   const base = Date.parse(ahoraIso);
   if (!Number.isFinite(base)) throw new Error(`fecha inválida: ${ahoraIso}`);
+  const tz = zonaValida(zonaProveedor);
+  const hoy = partesEn(base, tz);
+  if (esHabil(hoy.dia)) {
+    if (hoy.h >= VENTANA_ENVIO.desde && hoy.h < VENTANA_ENVIO.hasta) return new Date(base).toISOString();
+    if (hoy.h < VENTANA_ENVIO.desde) return instanteLocal(hoy.y, hoy.m, hoy.d, HORA_ENVIO, tz);
+  }
   for (let d = 1; d <= 7; d++) {
     const p = partesEn(base + d * 86_400_000, tz);
     if (!esHabil(p.dia)) continue;
@@ -39,12 +53,20 @@ export function proximoEnvio(ahoraIso: string, tz: string = ZONA_MX): string {
   throw new Error("sin día hábil en la semana");
 }
 
+/** REQ-10693: ¿el instante cae dentro del horario del proveedor (5:00–16:00, lunes a viernes)? */
+export function enHorarioProveedor(iso: string, zonaProveedor?: string): boolean {
+  const p = partesEn(Date.parse(iso), zonaValida(zonaProveedor));
+  return esHabil(p.dia) && p.h >= VENTANA_ENVIO.desde && p.h < VENTANA_ENVIO.hasta;
+}
+
 export interface BorradorProgramado { id: string; enlace: string; enviarEn: string }
 
-/** REQ-10693: el aviso al PO con el enlace, corto, para WhatsApp o correo. */
-export function avisoDeBorrador(p: { proveedor: string; asunto: string; tipo: string; enviarEn: string; enlace: string }, tz: string = ZONA_MX): string {
-  const f = new Intl.DateTimeFormat("es-MX", { timeZone: tz, weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
-  return `Borrador programado (${p.tipo}) a ${p.proveedor}: «${p.asunto}». Sale el ${f.format(new Date(p.enviarEn))} (CDMX) si no lo borras. Revisar: ${p.enlace}`;
+/** REQ-10693: el aviso al PO con el enlace, corto, para WhatsApp o correo; la hora se dice en CDMX y en la del proveedor. */
+export function avisoDeBorrador(p: { proveedor: string; asunto: string; tipo: string; enviarEn: string; enlace: string; zonaProveedor?: string }): string {
+  const fmt = (tz: string) => new Intl.DateTimeFormat("es-MX", { timeZone: tz, weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(p.enviarEn));
+  const tz = zonaValida(p.zonaProveedor);
+  const hora = tz === ZONA_MX ? `${fmt(ZONA_MX)} (CDMX)` : `${fmt(ZONA_MX)} (CDMX; ${fmt(tz)} hora del proveedor)`;
+  return `Borrador programado (${p.tipo}) a ${p.proveedor}: «${p.asunto}». Sale el ${hora} si no lo borras. Revisar: ${p.enlace}`;
 }
 
 /** REQ-10693: motivo con el que la revisión se detiene cuando no hay buzón de borradores (nunca se manda directo). */

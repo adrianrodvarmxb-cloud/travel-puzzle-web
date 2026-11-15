@@ -61,7 +61,7 @@ describe("REQ-1293/REQ-1294: revisión diaria", () => {
     const enviados: Correo[] = [];
     const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados) });
     expect(r).toEqual({ enviados: 1, sinRespuesta: 0, errores: [], porPresentar: ["publicado", "nuevo"], detenidos: [],
-      borradores: [{ proveedor: "P", tipo: "recordatorio", enviarEn: "2026-11-10T11:00:00.000Z", enlace: "https://mail.google.com/mail/u/0/#drafts/1" }] }); // REQ-10693: martes 5:00 CDMX
+      borradores: [{ proveedor: "P", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z", enlace: "https://mail.google.com/mail/u/0/#drafts/1" }] }); // REQ-10693: 9:00 CDMX, dentro del horario → sale ya
     expect(enviados.map((c) => c.to[0])).toEqual(["c@callado.com"]);
     expect(enviados[0].subject).toBe("Re: Travel Puzzle · hola");
     expect(enviados[0].cc).toHaveLength(2);
@@ -130,14 +130,14 @@ describe("REQ-1566: horario hábil del proveedor", () => {
     expect(zonaPorDestino("Perú")).toBe("America/Lima");
     expect(zonaPorDestino("Marte")).toBe("America/Mexico_City");
   });
-  it("REQ-1566 → REQ-10693: los días se cuentan en la zona del proveedor, pero la hora de salida es el borrador programado (5:00 CDMX del siguiente día hábil), una sola vez", async () => {
+  it("REQ-1566 → REQ-10693: la hora de salida es el borrador programado en el horario del proveedor (5:00–16:00 de su hora); fuera de él, 5:00 del siguiente día hábil; una sola vez", async () => {
     const asia = base({ id: "ta", correos: ["r@ta.com"], zonaHoraria: "Asia/Kuala_Lumpur", etapa: "contactado", ultimoNuestro: "2026-11-02T01:00:00Z", ultimoAsunto: "X", hiloId: "<h@x>" });
     const m = memoria([asia]);
     const enviados: Correo[] = []; const programados: string[] = [];
     const borrador = buzon(enviados, programados);
-    await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador }); // 23:00 en KL: ya no espera a su mañana
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador }); // 23:00 en KL: ya no espera, deja el borrador
     expect(enviados).toHaveLength(1);
-    expect(programados).toEqual(["2026-11-10T11:00:00.000Z"]); // martes 10 nov, 5:00 CDMX
+    expect(programados).toEqual(["2026-11-09T21:00:00.000Z"]); // martes 10 nov, 5:00 en Kuala Lumpur
     await revisionDiaria({ repo: m.repo, hoy: "2026-11-10T01:00:00Z", borrador }); // la siguiente vuelta no duplica el borrador
     expect(enviados).toHaveLength(1);
   });
@@ -205,15 +205,21 @@ describe("REQ-3430: Mila consulta a la revisión cada 6 h antes de enviar", () =
   });
 });
 
-import { HORA_ENVIO, SIN_BUZON, avisoDeBorrador, proximoEnvio } from "./lib/programacion";
+import { HORA_ENVIO, SIN_BUZON, VENTANA_ENVIO, avisoDeBorrador, enHorarioProveedor, proximoEnvio } from "./lib/programacion";
 describe("REQ-10693: todo correo a proveedores queda como borrador programado a las 5:00 CDMX del siguiente día hábil (nunca directo)", () => {
-  it("REQ-10693: el siguiente día hábil a las 5:00 de CDMX (11:00 UTC); viernes y fin de semana caen en lunes; siempre después de hoy", () => {
+  it("REQ-10693: dentro del horario del proveedor (5:00–16:00, lunes a viernes) sale ya; antes de las 5:00, a las 5:00 de hoy; después o en fin de semana, a las 5:00 del siguiente día hábil", () => {
+    expect(VENTANA_ENVIO).toEqual({ desde: 5, hasta: 16 });
     expect(HORA_ENVIO).toBe(5);
-    expect(proximoEnvio("2026-11-09T15:00:00Z")).toBe("2026-11-10T11:00:00.000Z"); // lunes → martes
-    expect(proximoEnvio("2026-11-13T12:00:00Z")).toBe("2026-11-16T11:00:00.000Z"); // viernes → lunes
-    expect(proximoEnvio("2026-11-14T03:00:00Z")).toBe("2026-11-16T11:00:00.000Z"); // sábado → lunes
-    expect(proximoEnvio("2026-11-12T08:00:00Z")).toBe("2026-11-13T11:00:00.000Z"); // jueves 2:00 CDMX → viernes (nunca el mismo día)
-    expect(proximoEnvio("2026-11-13T05:30:00Z")).toBe("2026-11-13T11:00:00.000Z"); // jueves 12 a las 23:30 CDMX → viernes 13
+    expect(proximoEnvio("2026-11-09T15:00:00Z")).toBe("2026-11-09T15:00:00.000Z"); // lunes 9:00 CDMX → ya
+    expect(proximoEnvio("2026-11-09T08:00:00Z")).toBe("2026-11-09T11:00:00.000Z"); // lunes 2:00 CDMX → 5:00 de hoy
+    expect(proximoEnvio("2026-11-09T23:30:00Z")).toBe("2026-11-10T11:00:00.000Z"); // lunes 17:30 CDMX → martes 5:00
+    expect(proximoEnvio("2026-11-13T23:00:00Z")).toBe("2026-11-16T11:00:00.000Z"); // viernes 17:00 → lunes 5:00
+    expect(proximoEnvio("2026-11-14T15:00:00Z")).toBe("2026-11-16T11:00:00.000Z"); // sábado → lunes 5:00
+    expect(proximoEnvio("2026-11-09T15:00:00Z", "Asia/Kuala_Lumpur")).toBe("2026-11-09T21:00:00.000Z"); // 23:00 en KL → martes 5:00 KL
+    expect(proximoEnvio("2026-11-09T03:00:00Z", "Asia/Kuala_Lumpur")).toBe("2026-11-09T03:00:00.000Z"); // 11:00 en KL → ya
+    expect(proximoEnvio("2026-11-09T15:00:00Z", "zona/rota")).toBe("2026-11-09T15:00:00.000Z"); // zona inválida = México
+    expect(enHorarioProveedor("2026-11-09T15:00:00Z")).toBe(true);
+    expect(enHorarioProveedor("2026-11-09T23:30:00Z")).toBe(false);
   });
   it("REQ-10693: sin buzón de borradores, la revisión se detiene y no manda nada directo aunque haya `enviar`", async () => {
     const m = memoria([base({ id: "x", correos: ["c@x.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Hola", hiloId: "<h@x>" })]);
@@ -229,14 +235,16 @@ describe("REQ-10693: todo correo a proveedores queda como borrador programado a 
     const enviados: Correo[] = []; const avisos: string[] = [];
     const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados), avisarPO: async (t) => { avisos.push(t); } });
     expect(r.enviados).toBe(1);
-    expect(r.borradores[0]).toMatchObject({ proveedor: "Tangol", tipo: "recordatorio", enviarEn: "2026-11-10T11:00:00.000Z" });
+    expect(r.borradores[0]).toMatchObject({ proveedor: "Tangol", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z" });
     expect(m.mensajes[0]).toMatchObject({ id: "<1@gmail>", direccion: "salida", tipo: "recordatorio" });
-    expect(m.lista[0].ultimoNuestro).toBe("2026-11-10T11:00:00.000Z");
+    expect(m.lista[0].ultimoNuestro).toBe("2026-11-09T15:00:00.000Z");
     expect(avisos).toHaveLength(1);
-    expect(avisos[0]).toBe("Borrador programado (recordatorio) a Tangol: «Re: Hola». Sale el martes, 10 de noviembre, 05:00 (CDMX) si no lo borras. Revisar: https://mail.google.com/mail/u/0/#drafts/1");
+    expect(avisos[0]).toBe("Borrador programado (recordatorio) a Tangol: «Re: Hola». Sale el lunes, 9 de noviembre, 09:00 (CDMX) si no lo borras. Revisar: https://mail.google.com/mail/u/0/#drafts/1");
   });
-  it("REQ-10693: el aviso al PO lleva proveedor, asunto, hora de CDMX y enlace", () => {
+  it("REQ-10693: el aviso al PO lleva proveedor, asunto, hora de CDMX (y la del proveedor si es otra) y enlace", () => {
     expect(avisoDeBorrador({ proveedor: "Exotic", asunto: "Re: 2027", tipo: "reintento", enviarEn: "2026-11-16T11:00:00.000Z", enlace: "https://mail.google.com/x" }))
       .toBe("Borrador programado (reintento) a Exotic: «Re: 2027». Sale el lunes, 16 de noviembre, 05:00 (CDMX) si no lo borras. Revisar: https://mail.google.com/x");
+    expect(avisoDeBorrador({ proveedor: "TA", asunto: "X", tipo: "recordatorio", enviarEn: "2026-11-09T21:00:00.000Z", enlace: "https://g/x", zonaProveedor: "Asia/Kuala_Lumpur" }))
+      .toBe("Borrador programado (recordatorio) a TA: «X». Sale el lunes, 9 de noviembre, 15:00 (CDMX; martes, 10 de noviembre, 05:00 hora del proveedor) si no lo borras. Revisar: https://g/x");
   });
 });

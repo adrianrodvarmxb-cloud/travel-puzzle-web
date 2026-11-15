@@ -1,6 +1,7 @@
 // I/O · REQ-1293, REQ-1294: la revisión diaria de Mila (recordatorios, «sin respuesta», reintentos y la tanda de nuevos).
-// REQ-10693 (PO, 15 nov 2026): Mila NUNCA envía directo. Cada correo queda como borrador programado a las 5:00 CDMX del
-// siguiente día hábil (`proximoEnvio`) y el PO recibe el enlace de Gmail; sin buzón de borradores, el correo se detiene.
+// REQ-10693 (PO, 15 nov 2026): Mila NUNCA envía directo. Cada correo queda como borrador con envío programado dentro del
+// horario del proveedor (5:00–16:00 de su hora; si ya pasó, 5:00 del siguiente día hábil; `proximoEnvio`) y el PO recibe
+// el enlace de Gmail; sin buzón de borradores, el correo se detiene.
 import { aplicarEvento } from "./lib/etapas";
 import { siguienteAccion } from "./lib/seguimiento";
 import { tandaDelDia } from "./lib/tandas";
@@ -46,14 +47,14 @@ async function mandar(p: ProveedorFila, tipo: TipoCorreo, deps: DepsDiario, r: R
   if (!correo) return false;
   // REQ-10693: nunca directo. Borrador programado al siguiente día hábil a las 5:00 CDMX; el PO recibe el enlace.
   if (!deps.borrador) throw new Error(SIN_BUZON);
-  const enviarEn = proximoEnvio(deps.hoy);
+  const enviarEn = proximoEnvio(deps.hoy, p.zonaHoraria);
   const b = await deps.borrador(correo, enviarEn);
   await deps.repo.registrarMensaje({ id: b.id, proveedorId: p.id, direccion: "salida", asunto: correo.subject, resumen: `[borrador programado ${enviarEn}] ${correo.text}`, fecha: enviarEn, tipo });
   // El seguimiento cuenta desde la hora programada (si el PO lo borra, el siguiente ciclo vuelve a proponerlo).
   const s = aplicarEvento(p, "enviamos", enviarEn, tipo === "recordatorio");
   await deps.repo.guardarEstado(p.id, { ...s, ultimoAsunto: correo.subject }, deps.hoy);
   r.borradores.push({ proveedor: p.nombre, tipo, enviarEn, enlace: b.enlace });
-  await deps.avisarPO?.(avisoDeBorrador({ proveedor: p.nombre, asunto: correo.subject, tipo, enviarEn, enlace: b.enlace })).catch((e) => r.errores.push(`aviso al PO: ${(e as Error).message}`));
+  await deps.avisarPO?.(avisoDeBorrador({ proveedor: p.nombre, asunto: correo.subject, tipo, enviarEn, enlace: b.enlace, zonaProveedor: p.zonaHoraria })).catch((e) => r.errores.push(`aviso al PO: ${(e as Error).message}`));
   return true;
 }
 
@@ -75,8 +76,8 @@ export async function revisionDiaria(deps: DepsDiario): Promise<Reporte> {
     } catch (e) { r.errores.push(`${p.id}: ${(e as Error).message}`); }
   };
   for (const p of todos) {
-    // REQ-1566: los días se cuentan con el calendario del proveedor. REQ-10693: la hora de envío ya no la decide su
-    // ventana 9:00–11:00 sino el borrador programado (5:00 CDMX del siguiente día hábil), así que la revisión decide a cualquier hora.
+    // REQ-1566: los días se cuentan con el calendario del proveedor. REQ-10693: la hora de envío la decide el borrador
+    // programado (5:00–16:00 del proveedor; si no, 5:00 del siguiente día hábil), así que la revisión decide a cualquier hora.
     const local = { ...p, ultimoNuestro: p.ultimoNuestro && fechaLocal(p.ultimoNuestro, p.zonaHoraria), ultimoSuyo: p.ultimoSuyo && fechaLocal(p.ultimoSuyo, p.zonaHoraria),
       sinRespuestaDesde: p.sinRespuestaDesde && fechaLocal(p.sinRespuestaDesde, p.zonaHoraria) };
     const a = siguienteAccion(local, fechaLocal(deps.hoy, p.zonaHoraria));
