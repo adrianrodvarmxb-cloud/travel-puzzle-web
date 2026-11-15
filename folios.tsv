@@ -9135,3 +9135,4 @@ REQ-10720	feat/ola3-actividades	2026-11-15 19:31	PO 15-11: agregar al correo del
 REQ-10721	feat/ola3-actividades	2026-11-15 19:33	PO 15-11: pedir a Tangol la documentación pendiente (no ha enviado ninguna) y dejarlo en el expediente
 REQ-10722	feat/ola3-actividades	2026-11-15 19:52	PO 15-11: cada expediente siempre actualizado con control de cambios en el Proyecto, guardado y actualización automáticos
 REQ-10723	feat/ola3-actividades	2026-11-15 19:59	PO 15-11: Jordan Experience: preguntar API, encolar carga para la ficha única, correo de consulta con dudas, expediente, acuerdo para revisión, pedir documentos y datos
+REQ-10724	docs/folios-tablero-maestro-15-11	2026-11-15 20:51	status maestro §3 punto 26: programas de Travelpayouts a activar (TAREA-PO)
