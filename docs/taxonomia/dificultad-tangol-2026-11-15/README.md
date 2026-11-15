@@ -20,6 +20,8 @@ Escala del diccionario (`circuito-dificultad`): 1 Relajado · 2 Ligero · 3 Mode
 
 ## Gates para el PO (REQ-10657)
 
+**FIRMADOS (PO, 14 nov 2026, 21:31 hora de México).** Pregunta: «¿firmas lo recomendado en las cinco decisiones («Alta» = 4, «Fácil/Baja» = 1, «Baja/Media» = 2, «Media/Alta» = 4, las 27 dudas sin mostrar) o las revisamos una por una?». Respuesta literal: «Firmo las cinco». Queda la columna recomendada en G-D1 a G-D5.
+
 | Gate | Pregunta | A (recomendada) | B |
 |---|---|---|---|
 | G-D1 | «Alta» o «Alto» solo, sin más señal | **4 Exigente**; el 5 queda para «muy alta / muy exigente» o altura desde 4,500 m (igual que la escala del 11 nov: 5 = trekking de varios días o 4,500 m) | 5 Muy exigente |
@@ -29,10 +31,6 @@ Escala del diccionario (`circuito-dificultad`): 1 Relajado · 2 Ligero · 3 Mode
 | G-D5 | Las 27 dudas de abajo (27 tours) | **No se muestran** hasta que el PO las resuelva una por una o Tangol corrija el dato | Se leen a mano ahora, una por una, en esta tabla |
 
 Con la tabla A en todo: 629 tours con nivel, 27 en duda, 558 sin dato.
-
-## Firma del PO
-
-- [x] **Firmada el 15 nov 2026** (REQ-10657): «A» en los cinco gates (G-D1 «Alta» = 4 Exigente; G-D2 «Fácil/Baja» = 1 Relajado; G-D3 rangos bajo-medio = 2 Ligero; G-D4 rangos medio-alto = 4 Exigente; G-D5 las 27 dudas no se muestran hasta resolverlas). La tabla de `src/taxonomy/lib/difficulty.ts` queda como está; la aplica en memoria el adaptador de Tangol de la ola 6 y la muestra la ficha única (ola 7) tras su bandera.
 
 ## Resultado con la tabla propuesta
 
