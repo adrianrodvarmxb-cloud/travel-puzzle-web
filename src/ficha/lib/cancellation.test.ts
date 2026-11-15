@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { cancellationSummary, hoursFromPolicyText, singleCancellation } from "./cancellation";
 import { practicalInfo } from "@/tours/lib/practical-info";
@@ -51,3 +52,15 @@ describe("REQ-10655: una sola cancelación por ficha, la más estricta", () => {
     expect(primero.notice.join(" ")).toMatch(/24 h/);
   });
 });
+
+// INC-023: la página arma dos modelos (uno sin detalle para migas y otro completo). El aviso junto al título
+// tiene que salir del completo, que es el que conoce el plazo del proveedor.
+describe("REQ-10655: cableado del aviso en la ficha (INC-023)", () => {
+  it("REQ-10655: el aviso junto al título sale del modelo completo, no del modelo sin detalle", () => {
+    const page = readFileSync("src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx", "utf8");
+    expect(page).toContain("notice: full.notice");
+    expect(page).not.toContain("notice: model.notice");
+    expect(page).toMatch(/cancellationHours: props\.practical\?\.conditions\?\.freeCancellation\?\.hours/);
+  });
+});
+
