@@ -9110,3 +9110,5 @@ REQ-10695	feat/proveedores-borrador-programado	2026-11-15 17:30	regla de correos
 REQ-10696	feat/proveedores-borrador-programado	2026-11-15 17:30	regla de correos a proveedores en borrador programado 5:00 CDMX; conector API>portal>persona (REQ-10691) base, bandera y folio hijo Extime
 REQ-10697	docs/plan-actualizacion-diaria	2026-11-15 17:39	Firma PO G-R1 Tangol: tipo nuevo se clasifica con la taxonomía; si no encaja, aviso al PO por correo y WhatsApp; todo proveedor
 REQ-10698	docs/plan-actualizacion-diaria	2026-11-15 17:39	Firma PO G-R1 Tangol: tipo nuevo se clasifica con la taxonomia
+REQ-10699	docs/plan-actualizacion-diaria	2026-11-15 17:40	Firma PO G-R2 Tangol: encender formato Renta y mover alquiler de ski; opciones de nombre para Momentos de autor
+REQ-10700	docs/plan-actualizacion-diaria	2026-11-15 17:40	Firma PO G-R2 Tangol: encender formato Renta y mover alquiler de ski; opciones de nombre para Momentos de autor
