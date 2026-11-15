@@ -17,6 +17,7 @@ import { primeraPiezaBadge } from "@/tours/lib/badge";
 import { eventNotice } from "@/tours/lib/notice";
 import { operatedBy } from "@/tours/lib/favorite";
 import { operatorInBrief, underTitleOperator } from "@/ficha/lib/operator";
+import { cancellationSummary } from "@/ficha/lib/cancellation";
 import type { HubGroup } from "@/companions/lib/registry";
 import type { SitemapInput } from "@/seo/lib/sitemaps";
 import { enBreve, fichaJsonLd, guideLanguagesLabel, nextAvailability, type FichaInput } from "@/seo/lib/ficha-ld";
@@ -218,6 +219,8 @@ export interface TourDetailFacts {
   meetingPoint?: { title?: string | null; address?: string | null; lat?: number | null; lng?: number | null } | null;
   categoryId?: number | null;
   durationMinutes?: number | null;
+  /** REQ-10655: plazo único de cancelación sin cargo de un proveedor por API; null si no se conoce. */
+  cancellationHours?: number | null;
   /** REQ-820: galería del tour (portada primero). */
   images?: (string | null | undefined)[] | null;
 }
@@ -233,10 +236,14 @@ export function tourPage({ country, city, tour, siteUrl, lang, image, labels = f
   const twins = allTours(city).filter((t) => t.id !== tour.id && fold(t.title) === fold(tour.title)).length > 0;
   const shownTitle = twins && tour.provider ? `${tour.title} (${tour.provider})` : tour.title;
   // Sin evento elegido: aviso y insignia del sync de hoy. La ficha los recalcula con el evento en vivo (REQ-095/096).
-  const notice = eventNotice({ fullPricePerGroup: tour.isFreeTour ? {} : { "1": tour.price }, currency: "EUR", rates: null, lang }).lines;
+  const provider = detail?.providerId?.trim() || tour.providerId?.trim() || "freetour";
+  // REQ-10655: el «24 h» es la regla de los tours de pago del primer proveedor; un proveedor por API muestra su
+  // propio plazo, el mismo de Condiciones, o nada si no se conoce.
+  const propia = provider !== "freetour" && !tour.isFreeTour;
+  const resumen = propia ? cancellationSummary(detail?.cancellationHours, lang) : null;
+  const notice = propia ? (resumen ? [resumen] : []) : eventNotice({ fullPricePerGroup: tour.isFreeTour ? {} : { "1": tour.price }, currency: "EUR", rates: null, lang }).lines;
   // T5 (REQ-415, REQ-416, G-T9): con TAXONOMY_LABELS_ENABLED y formato, el copy y el title dependen del formato.
   const tax = labels && tour.formato ? { formato: tour.formato, guia: tour.guiaEnPersona !== false } : null;
-  const provider = detail?.providerId?.trim() || tour.providerId?.trim() || "freetour";
   // REQ-10651: bajo el título no se nombra al operador de un proveedor por API (va en «Opera en destino»).
   const named = underTitleOperator(provider, tour.provider);
   const by = tax ? operatedByFor(named, tax.guia, operatedBy(named, lang)) : operatedBy(named, lang);

@@ -1,5 +1,6 @@
 'use client';
 
+import { cancellationSummary } from '@/ficha/lib/cancellation';
 import { useLanguage } from '@/lib/language-context';
 import { Card, CardContent } from '@/components/ui/Card';
 import { CloseIcon, ClockIcon } from '@/assets/svg';
@@ -12,9 +13,10 @@ import type { ConditionsView } from '@/tours/lib/practical-info';
  */
 // REQ-10536
 export function TourConditions({ conditions }: { conditions: ConditionsView }) {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const free = conditions.freeCancellation;
-    const freeText = free ? t(free.varies ? 'tours.freeCancelVaries' : 'tours.freeCancel').replace('{hours}', String(free.hours)) : null;
+    // REQ-10655: el mismo texto que el resumen junto al título (una sola política); idioma fijo, sin Intl (INC-001).
+    const freeText = free ? cancellationSummary(free.hours, language) : null;
 
     return (
         <Card data-bloque="condiciones">

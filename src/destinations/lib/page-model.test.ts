@@ -159,9 +159,13 @@ describe("REQ-094/095/097/098: ficha", () => {
     const free = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.freeTours[0], siteUrl: site, lang: "es" });
     expect(free.badge).toBe("🧩 Primera Pieza · Tú decides cuánto vale");
     expect(free.notice[0]).toMatch(/^Reservar es gratis/);
-    const paid = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.paidTours[0], siteUrl: site, lang: "es" });
+    // REQ-10655: el «24 h» es la regla del primer proveedor; un proveedor por API muestra su propio plazo o nada.
+    const paid = tourPage({ country: cdmx.country, city: cdmx.city, tour: { ...cdmx.city.paidTours[0], providerId: "freetour" }, siteUrl: site, lang: "es", detail: { providerId: "freetour" } });
     expect(paid.badge).toBeNull();
     expect(paid.notice.join(" ")).toMatch(/24 h/);
+    const api = tourPage({ country: cdmx.country, city: cdmx.city, tour: cdmx.city.paidTours[0], siteUrl: site, lang: "es" });
+    expect(api.badge).toBeNull();
+    expect(api.notice).toEqual([]);
   });
   it("REQ-098: «Operado por un guía local · {proveedor}» sin mencionar FREETOUR", () => {
     // REQ-10651: el contrato de REQ-098 sigue igual para los tours del primer proveedor (providerId "freetour").

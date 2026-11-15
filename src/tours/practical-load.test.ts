@@ -52,7 +52,7 @@ describe("REQ-10536 / REQ-10537: la ficha carga los datos prácticos con SQL apa
     const db = fakeDb([...BASE_COLUMNS], fila);
     const v = await loadPracticalInfo(db, "tour-1", "es", ON);
     expect(db.calls).toHaveLength(2);
-    expect(v?.conditions).toEqual({ excludes: ["Propinas"], cancellationPolicy: "Sin cargo hasta 24 h.", freeCancellation: { hours: 24, varies: false } });
+    expect(v?.conditions).toEqual({ excludes: ["Propinas"], cancellationPolicy: null, freeCancellation: { hours: 24, varies: false } }); // REQ-10655: una sola política
     expect(v?.beforeYouGo).toBeNull();
     expect(v?.facts.map((f) => f.key)).toEqual(["horario-salida", "idioma-guia"]);
   });

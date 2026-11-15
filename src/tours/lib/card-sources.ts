@@ -26,7 +26,7 @@ export function fromHomeTour(t: HomeTour, o: { lang: string; priceLabel?: PriceP
     key: t.id, href: t.href || `/tours/${t.id}` /* REQ-668 */, title: nameIn(t.titles, o.lang), image: t.image,
     city: nameIn(t.cityNames, o.lang), duration: cardDuration({ minutes: t.durationMinutes ?? null, raw: t.duration }, o.lang),
     description: t.quote ? `“${t.quote}”` : t.briefs ? nameIn(t.briefs, o.lang) || null : null,
-    formato: t.formato, rating: t.rating, reviews: t.reviews, provider: t.provider ?? null,
+    formato: t.formato, rating: t.rating, reviews: t.reviews, ratingHidden: t.ratingHidden /* REQ-10652 */, provider: t.provider ?? null,
     price: cardPrice({ free: t.isFree, label: o.priceLabel ?? null, price: t.price, currency: t.currency }, o.lang),
   }, o.lang);
 }
@@ -42,7 +42,7 @@ export function fromDestinationTour(t: TourCardModel, o: { price: PriceParts | n
   return experienceCard({
     key: t.id, href: t.href, title: t.title, image: t.image, city: t.city ?? o.city ?? null,
     duration: cardDuration({ raw: t.duration, days: t.durationDays ?? null }, lang), description: t.summary ?? null,
-    formato: t.formato, rating: t.rating, reviews: t.reviews, provider: t.provider, price,
+    formato: t.formato, rating: t.rating, reviews: t.reviews, providerId: t.providerId ?? null /* REQ-10652 */, provider: t.provider, price,
   }, lang);
 }
 
