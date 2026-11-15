@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
+Actualizado: 15 nov 2026, 03:00 (CDMX): ficha única, ola 2 cerrada (REQ-10658); ola 3 abierta con la tabla de dificultad de Tangol (REQ-10656, gate REQ-10657).
 
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
@@ -1243,7 +1244,7 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 
 ## Ficha única para todos los proveedores (frente #549, 14 nov 2026)
 
-Plan firmado en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `docs/gates-ficha-unica-2026-11.md`. Olas 0 y 1 cerradas el 14 nov 2026 (#556, #559, #561; #472, #440, #462, #475, #548, #551, #528 fusionados). Ola 2 en curso: operador discreto (REQ-10651) y nota de Tangol oculta (REQ-10652) hechos; la regla única de «Favorito» ya la cumplía REQ-1290; el plazo único de 48 horas hábiles ya es una sola fuente (REQ-10653); falta una sola cancelación (gate pendiente del PO: qué fuente manda cuando Tangol se contradice).
+Plan firmado en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `docs/gates-ficha-unica-2026-11.md`. Olas 0 y 1 cerradas el 14 nov 2026 (#556, #559, #561; #472, #440, #462, #475, #548, #551, #528 fusionados). Ola 2 cerrada el 15 nov 2026 (REQ-10658): operador discreto (REQ-10651), nota de Tangol oculta (REQ-10652), plazo único de 48 horas hábiles (REQ-10653), «Favorito» con una sola regla (REQ-10594) y una sola cancelación (REQ-10655, gate REQ-10654 «el más estricto»), todo publicado (#570–#573) y verificado en producción. Ola 3 (taxonomía) abierta el 15 nov: tabla de dificultad de Tangol lista para firma (REQ-10656, gate REQ-10657); folios REQ-10659 a REQ-10661 apartados para los siguientes PR de la ola (atributos nuevos, lista de aventura y senderismo, categoría original). Olas 15 y P siguen en paralelo.
 
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
@@ -1264,4 +1265,7 @@ Plan firmado en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `d
 | REQ-10594 | Decisión 16: «Favorito de los viajeros» con una sola regla, 4.9 y 180 reseñas | NUEVO | `src/tours/lib/favorite.ts`, `src/taxonomy/lib/gates.ts` (`GATE_GT1_FAVORITO = "D"`) | `src/tours/lib/favorite.test.ts` | CUMPLIDO (ya lo cumplía REQ-1290 desde el 7 nov; verificado el 14 nov 2026, sin código nuevo) |
 | REQ-10652 | La nota y el conteo de Tangol no se muestran en ficha ni tarjetas (decisión 18); el dato sigue ordenando por dentro | NUEVO | `src/ficha/lib/rating-visibility.ts`, `src/lib/db/tour-transformer.ts`, `src/tours/lib/experience-card.ts`, `src/tours/lib/card-sources.ts`, `src/home/load.ts`, `src/map/load.ts`, `src/components/destinations/DestinationTourCard.tsx`, ficha `[slug]/page.tsx` | `src/ficha/lib/rating-visibility.test.ts` | CUMPLIDO (4 pruebas verdes el 14 nov 2026; suite 556/4064 y tsc en verde) |
 | REQ-10654 | Gate: entre dos plazos de cancelación, el más estricto | NUEVO | `docs/requisitos.md` | — (definición) | CUMPLIDO |
-| REQ-10655 | Una sola cancelación por ficha (decisión 34) | NUEVO | `src/ficha/lib/cancellation.ts`, `src/tours/lib/practical-info.ts`, `src/destinations/lib/page-model.ts`, `TourConditions.tsx`, ficha `[slug]/page.tsx` | `src/ficha/lib/cancellation.test.ts` | CUMPLIDO (falta verificar en producción) |
+| REQ-10655 | Una sola cancelación por ficha (decisión 34) | NUEVO | `src/ficha/lib/cancellation.ts`, `src/tours/lib/practical-info.ts`, `src/destinations/lib/page-model.ts`, `TourConditions.tsx`, ficha `[slug]/page.tsx` | `src/ficha/lib/cancellation.test.ts` | CUMPLIDO (verificado en producción el 15 nov 2026: Minitrekking dice un solo plazo de 48 h junto al título y en Condiciones, sin «24 h») |
+| REQ-10658 | Cierre de la ola 2: los cinco arreglos sin datos nuevos publicados y verificados en producción | NUEVO | — (validación) | — | CUMPLIDO (15 nov 2026) |
+| REQ-10656 | Ola 3, decisión 12: dificultad de Tangol a la escala 1–5 por tabla de equivalencias, con dudas; puro, sin pantalla | NUEVO | `src/taxonomy/lib/difficulty.ts`, `src/scripts/dificultad-tangol.ts` (solo lectura), `docs/taxonomia/dificultad-tangol-2026-11-15/README.md` | `src/taxonomy/lib/difficulty.test.ts` | CUMPLIDO (10 pruebas verdes el 15 nov 2026; no se muestra hasta la firma de REQ-10657) |
+| REQ-10657 | Gate: firma de la tabla de dificultad de Tangol y de sus 27 dudas (G-D1 a G-D5) | NUEVO | `docs/taxonomia/dificultad-tangol-2026-11-15/README.md` | — (definición) | PENDIENTE (PO) |
