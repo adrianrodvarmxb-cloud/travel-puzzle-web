@@ -6,6 +6,7 @@ Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2
 Actualizado: 15 nov 2026, 03:00 (CDMX): ficha única, ola 2 cerrada (REQ-10658); ola 3 abierta con la tabla de dificultad de Tangol (REQ-10656, gate REQ-10657).
 Actualizado: 15 nov 2026, 04:00 (CDMX): tabla de dificultad firmada por el PO (REQ-10657, #577); atributos de la decisión 11 tras gate (REQ-10659); lista de aventura y senderismo para firma (REQ-10660, gate REQ-10661).
 Actualizado: 15 nov 2026, 06:30 (CDMX 00:30): INC-024, la publicación de #579 se regresó sola (humo de producción sin respuesta en la ficha de Bariloche); main un commit adelante de producción; corrección REQ-10664 construida con OK del PO (timeouts en las llamadas en vivo a FREETOUR); REQ-10665 pendiente.
+Actualizado: 15 nov 2026, 09:30 (CDMX 03:30): INC-024 corregido (#583) y cerrado; decisión 9 publicada (#580) y verificada en producción; sigue la ola 3 con la categoría original (decisión 14) y el bloque único.
 Actualizado: 15 nov 2026, 04:00 (CDMX): tabla de dificultad firmada por el PO (REQ-10657, #577); atributos de la decisión 11 tras gate (REQ-10659).
 
 
@@ -1249,8 +1250,8 @@ Petición literal del PO: «se le debe dar el mismo tratamiento que se le da la 
 
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-10663 | Incidente abierto, sin reintentar el deploy; producción en `9014b61a` (#578), `main` en `47b13d69` (#579) | INC-024 | `docs/incidentes/INC-024.md` | — (validación: run 43681018472, artefacto `evidencia-humo-43681018472-1`) | CUMPLIDO |
-| REQ-10664 | Tiempo máximo (10 s) en las llamadas en vivo de la ficha de FREETOUR (proxies y `fetch` del navegador); al vencer, falla con 504, sin reintento, y la ficha se queda con lo del sync | INC-024 | `src/lib/api/lib/live-timeout.ts`, `src/lib/api/freetour-client.ts`, `src/lib/api/hooks/useEventsByTourFTData.ts`, `src/components/tours/one/PrimeraPiezaInfo.tsx` | `src/lib/api/lib/live-timeout.test.ts` (5, con cableado) | CUMPLIDO (15 nov 2026, OK del PO; falta humo y verificar Bariloche en producción) |
+| REQ-10663 | Incidente INC-024 abierto sin reintentar el deploy y cerrado el 15 nov 2026 tras la corrección REQ-10664 y dos deploys verdes | INC-024 | `docs/incidentes/INC-024.md` | — (validación: run 43681018472, artefacto `evidencia-humo-43681018472-1`) | CUMPLIDO |
+| REQ-10664 | Tiempo máximo (10 s) en las llamadas en vivo de la ficha de FREETOUR (proxies y `fetch` del navegador); al vencer, falla con 504, sin reintento, y la ficha se queda con lo del sync | INC-024 | `src/lib/api/lib/live-timeout.ts`, `src/lib/api/freetour-client.ts`, `src/lib/api/hooks/useEventsByTourFTData.ts`, `src/components/tours/one/PrimeraPiezaInfo.tsx` | `src/lib/api/lib/live-timeout.test.ts` (5, con cableado) | CUMPLIDO (publicado el 15 nov 2026, #583; dos deploys seguidos con Bariloche en verde; INC-024 cerrado) |
 | REQ-10665 | Evidencia del humo con status y tiempo de la respuesta principal y las peticiones abiertas cuando vence `networkidle` | INC-024 | `src/scripts/smoke.ts` (propuesto) | — | PENDIENTE (OK del PO) |
 
 ## Ficha única para todos los proveedores (frente #549, 14 nov 2026)
