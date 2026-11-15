@@ -61,13 +61,5 @@ export function enHorarioProveedor(iso: string, zonaProveedor?: string): boolean
 
 export interface BorradorProgramado { id: string; enlace: string; enviarEn: string }
 
-/** REQ-10693: el aviso al PO con el enlace, corto, para WhatsApp o correo; la hora se dice en CDMX y en la del proveedor. */
-export function avisoDeBorrador(p: { proveedor: string; asunto: string; tipo: string; enviarEn: string; enlace: string; zonaProveedor?: string }): string {
-  const fmt = (tz: string) => new Intl.DateTimeFormat("es-MX", { timeZone: tz, weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(p.enviarEn));
-  const tz = zonaValida(p.zonaProveedor);
-  const hora = tz === ZONA_MX ? `${fmt(ZONA_MX)} (CDMX)` : `${fmt(ZONA_MX)} (CDMX; ${fmt(tz)} hora del proveedor)`;
-  return `Borrador programado (${p.tipo}) a ${p.proveedor}: «${p.asunto}». Sale el ${hora} si no lo borras. Revisar: ${p.enlace}`;
-}
-
 /** REQ-10693: motivo con el que la revisión se detiene cuando no hay buzón de borradores (nunca se manda directo). */
 export const SIN_BUZON = "sin buzón de borradores programados (REQ-10693): no se envía directo";

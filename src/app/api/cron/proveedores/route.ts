@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { proveedoresDeps, proveedoresEncendido } from '@/proveedores/deps';
+import { borradoresEncendido, proveedoresDeps, proveedoresEncendido } from '@/proveedores/deps';
+import { enviarVencidos } from '@/proveedores/borradores';
+import { REMITENTE } from '@/proveedores/lib/correo';
 import { revisionDiaria } from '@/proveedores/diario';
 import { mandarResumen } from '@/proveedores/resumen';
 import { esHoraResumen } from '@/proveedores/lib/resumen';
@@ -15,13 +17,15 @@ export async function GET(request: Request) {
     }
     const env = process.env as Record<string, string | undefined>;
     if (!proveedoresEncendido(env)) return NextResponse.json({ success: true, skipped: 'proveedores_off' });
-    const { repo, avisar, destinos, contacto, borrador, avisarPO } = proveedoresDeps(env);
+    const { repo, enviar, avisar, destinos, contacto, borrador, borradores, avisarPO } = proveedoresDeps(env);
     const hoy = new Date().toISOString();
-    // REQ-10693: sin `borrador` (puente de Mila sin configurar) la revisión no manda nada directo: lo reporta como detenido.
-    const reporte = await revisionDiaria({ repo, borrador, avisarPO, hoy, log: console.log, contacto }) /* REQ-3430 */;
+    // REQ-10693: sin `borrador` (bandeja apagada) la revisión no manda nada directo: lo reporta como detenido.
+    const reporte = await revisionDiaria({ repo, borrador, hoy, log: console.log, contacto }) /* REQ-3430 */;
+    // REQ-10693: lo que llegó a su hora sale ahora; lo cancelado por el PO no.
+    const salidas = borradoresEncendido(env) ? await enviarVencidos({ repo: borradores, enviar, hoy, siteUrl: env.SITE_URL ?? "", avisarPO, log: console.log }, REMITENTE) : null;
     // REQ-1568: lunes 9:00 de México, el resumen semanal (solo con el puente de avisos configurado).
     const resumen = esHoraResumen(hoy) && env.MILA_AVISOS_URL ? await mandarResumen({ repo, avisar, destinos, hoy }) : null;
     // REQ-1672: los cambios de tarifa confirmados cuya fecha ya llegó pasan al precio de la página.
     const tarifas = await aplicarVigentes(tarifaDeps(env, hoy));
-    return NextResponse.json({ success: true, ...reporte, resumen, tarifas });
+    return NextResponse.json({ success: true, ...reporte, salidas, resumen, tarifas });
 }

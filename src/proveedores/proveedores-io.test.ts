@@ -11,7 +11,7 @@ const base = (x: Partial<ProveedorFila>): ProveedorFila => ({
 });
 
 // REQ-10693: Mila nunca envía directo; en las pruebas el «buzón» guarda el correo y simula el borrador programado.
-const buzon = (enviados: Correo[], programados: string[] = []) => async (c: Correo, enviarEn: string) => { enviados.push(c); programados.push(enviarEn); return { id: `<${enviados.length}@gmail>`, enlace: `https://mail.google.com/mail/u/0/#drafts/${enviados.length}`, enviarEn }; };
+const buzon = (enviados: Correo[], programados: string[] = []) => async (c: Correo, p: { enviarEn: string }) => { enviados.push(c); programados.push(p.enviarEn); return { id: `b${enviados.length}`, enlace: `https://travelpuzzle.com.mx/admin/borradores#b${enviados.length}`, enviarEn: p.enviarEn }; };
 
 function memoria(lista: ProveedorFila[]) {
   const mensajes: { id: string; proveedorId: string; direccion: string; tipo: string }[] = [];
@@ -61,7 +61,7 @@ describe("REQ-1293/REQ-1294: revisión diaria", () => {
     const enviados: Correo[] = [];
     const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados) });
     expect(r).toEqual({ enviados: 1, sinRespuesta: 0, errores: [], porPresentar: ["publicado", "nuevo"], detenidos: [],
-      borradores: [{ proveedor: "P", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z", enlace: "https://mail.google.com/mail/u/0/#drafts/1" }] }); // REQ-10693: 9:00 CDMX, dentro del horario → sale ya
+      borradores: [{ proveedor: "P", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z", enlace: "https://travelpuzzle.com.mx/admin/borradores#b1" }] }); // REQ-10693: 9:00 CDMX, dentro del horario → sale ya
     expect(enviados.map((c) => c.to[0])).toEqual(["c@callado.com"]);
     expect(enviados[0].subject).toBe("Re: Travel Puzzle · hola");
     expect(enviados[0].cc).toHaveLength(2);
@@ -205,7 +205,7 @@ describe("REQ-3430: Mila consulta a la revisión cada 6 h antes de enviar", () =
   });
 });
 
-import { HORA_ENVIO, SIN_BUZON, VENTANA_ENVIO, avisoDeBorrador, enHorarioProveedor, proximoEnvio } from "./lib/programacion";
+import { HORA_ENVIO, SIN_BUZON, VENTANA_ENVIO, enHorarioProveedor, proximoEnvio } from "./lib/programacion";
 describe("REQ-10693: todo correo a proveedores queda como borrador programado a las 5:00 CDMX del siguiente día hábil (nunca directo)", () => {
   it("REQ-10693: dentro del horario del proveedor (5:00–16:00, lunes a viernes) sale ya; antes de las 5:00, a las 5:00 de hoy; después o en fin de semana, a las 5:00 del siguiente día hábil", () => {
     expect(VENTANA_ENVIO).toEqual({ desde: 5, hasta: 16 });
@@ -230,21 +230,14 @@ describe("REQ-10693: todo correo a proveedores queda como borrador programado a 
     expect(r.detenidos).toEqual([`x: ${SIN_BUZON}`]);
     expect(m.lista[0].etapa).toBe("contactado");
   });
-  it("REQ-10693: con buzón, el correo se registra como borrador programado, el seguimiento cuenta desde esa hora y el PO recibe el enlace", async () => {
+  it("REQ-10693: con bandeja, el correo se registra como borrador programado y el seguimiento cuenta desde esa hora", async () => {
     const m = memoria([base({ id: "x", nombre: "Tangol", correos: ["c@x.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Hola", hiloId: "<h@x>" })]);
-    const enviados: Correo[] = []; const avisos: string[] = [];
-    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados), avisarPO: async (t) => { avisos.push(t); } });
+    const enviados: Correo[] = [];
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados) });
     expect(r.enviados).toBe(1);
     expect(r.borradores[0]).toMatchObject({ proveedor: "Tangol", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z" });
-    expect(m.mensajes[0]).toMatchObject({ id: "<1@gmail>", direccion: "salida", tipo: "recordatorio" });
+    expect(m.mensajes[0]).toMatchObject({ id: "b1", direccion: "salida", tipo: "recordatorio" });
     expect(m.lista[0].ultimoNuestro).toBe("2026-11-09T15:00:00.000Z");
-    expect(avisos).toHaveLength(1);
-    expect(avisos[0]).toBe("Borrador programado (recordatorio) a Tangol: «Re: Hola». Sale el lunes, 9 de noviembre, 09:00 (CDMX) si no lo borras. Revisar: https://mail.google.com/mail/u/0/#drafts/1");
   });
-  it("REQ-10693: el aviso al PO lleva proveedor, asunto, hora de CDMX (y la del proveedor si es otra) y enlace", () => {
-    expect(avisoDeBorrador({ proveedor: "Exotic", asunto: "Re: 2027", tipo: "reintento", enviarEn: "2026-11-16T11:00:00.000Z", enlace: "https://mail.google.com/x" }))
-      .toBe("Borrador programado (reintento) a Exotic: «Re: 2027». Sale el lunes, 16 de noviembre, 05:00 (CDMX) si no lo borras. Revisar: https://mail.google.com/x");
-    expect(avisoDeBorrador({ proveedor: "TA", asunto: "X", tipo: "recordatorio", enviarEn: "2026-11-09T21:00:00.000Z", enlace: "https://g/x", zonaProveedor: "Asia/Kuala_Lumpur" }))
-      .toBe("Borrador programado (recordatorio) a TA: «X». Sale el lunes, 9 de noviembre, 15:00 (CDMX; martes, 10 de noviembre, 05:00 hora del proveedor) si no lo borras. Revisar: https://g/x");
-  });
+
 });

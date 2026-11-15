@@ -13,7 +13,7 @@ import { pedidosDeAlta, type TipoProveedor } from "./lib/checklist";
 import { puedeEscribir } from "./lib/choques";
 import { fechaLocal } from "./lib/horario";
 import { apartarEnvio, consultar, type Apartado } from "./lib/consulta";
-import { SIN_BUZON, avisoDeBorrador, proximoEnvio, type BorradorProgramado } from "./lib/programacion";
+import { SIN_BUZON, proximoEnvio, type BorradorProgramado } from "./lib/programacion";
 
 // REQ-3430: lista privada compartida con la revisión cada 6 h (opcional para no romper usos actuales; en producción la arma deps.ts).
 export interface ContactoCompartido { listar: (proveedorId: string) => Promise<Apartado[]>; apartar: (a: Apartado) => Promise<void> }
@@ -21,10 +21,8 @@ export interface DepsDiario {
   repo: ProveedoresRepo;
   /** REQ-10693: ya no se usa para proveedores (nunca se envía directo); queda por compatibilidad con otros usos. */
   enviar?: (c: Correo) => Promise<string>;
-  /** REQ-10693: deja el correo como borrador de Gmail programado para `enviarEn` y devuelve su id y enlace. */
-  borrador?: (c: Correo, enviarEn: string) => Promise<BorradorProgramado>;
-  /** REQ-10693: le entrega al PO el enlace del borrador (WhatsApp por el puente de Mila o correo). */
-  avisarPO?: (texto: string) => Promise<void>;
+  /** REQ-10693: deja el correo en la bandeja de borradores programados (/admin/borradores) y devuelve su id y enlace; la bandeja avisa al PO. */
+  borrador?: (c: Correo, p: { proveedorId: string; proveedor: string; tipo: string; enviarEn: string; zonaHoraria?: string }) => Promise<BorradorProgramado>;
   hoy: string; log?: (m: string) => void; contacto?: ContactoCompartido;
 }
 // REQ-1297: «porPresentar» = los proveedores de la tanda del día cuyo primer correo manda Adri (Mila no lo envía).
@@ -48,13 +46,12 @@ async function mandar(p: ProveedorFila, tipo: TipoCorreo, deps: DepsDiario, r: R
   // REQ-10693: nunca directo. Borrador programado al siguiente día hábil a las 5:00 CDMX; el PO recibe el enlace.
   if (!deps.borrador) throw new Error(SIN_BUZON);
   const enviarEn = proximoEnvio(deps.hoy, p.zonaHoraria);
-  const b = await deps.borrador(correo, enviarEn);
+  const b = await deps.borrador(correo, { proveedorId: p.id, proveedor: p.nombre, tipo, enviarEn, zonaHoraria: p.zonaHoraria });
   await deps.repo.registrarMensaje({ id: b.id, proveedorId: p.id, direccion: "salida", asunto: correo.subject, resumen: `[borrador programado ${enviarEn}] ${correo.text}`, fecha: enviarEn, tipo });
   // El seguimiento cuenta desde la hora programada (si el PO lo borra, el siguiente ciclo vuelve a proponerlo).
   const s = aplicarEvento(p, "enviamos", enviarEn, tipo === "recordatorio");
   await deps.repo.guardarEstado(p.id, { ...s, ultimoAsunto: correo.subject }, deps.hoy);
   r.borradores.push({ proveedor: p.nombre, tipo, enviarEn, enlace: b.enlace });
-  await deps.avisarPO?.(avisoDeBorrador({ proveedor: p.nombre, asunto: correo.subject, tipo, enviarEn, enlace: b.enlace, zonaProveedor: p.zonaHoraria })).catch((e) => r.errores.push(`aviso al PO: ${(e as Error).message}`));
   return true;
 }
 
