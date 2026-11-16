@@ -12,6 +12,12 @@ const NOMBRE: Record<ConceptoIncluido, string> = { desayuno: "desayuno", comida:
 /** Firmas del PO, una por proveedor (REQ-10728): respuesta literal a la pregunta de la lista. */
 const FIRMAS = [
   { proveedor: "Fantástica China", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 12:49" },
+  { proveedor: "Exotic Escapes", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 14:01" },
+  { proveedor: "Destino Colombia", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 14:02" },
+  { proveedor: "Turismo Asiático", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 14:02" },
+  { proveedor: "Inca World Peru", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 14:09" },
+  { proveedor: "Extime Travel", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 14:10" },
+  { proveedor: "Big Bus Tours", respuesta: "Etiqueta «Autobús turístico incluido» (REQ-10733)", fecha: "16-11-2026 14:10" },
 ];
 
 const salida = process.argv[2];
