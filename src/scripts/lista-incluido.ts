@@ -9,6 +9,11 @@ import { etiquetasIncluido, type ConceptoIncluido } from "../taxonomy/lib/inclui
 type Fila = { ref: string; titulo: string; etiquetas: string[]; sin: ConceptoIncluido[] };
 const NOMBRE: Record<ConceptoIncluido, string> = { desayuno: "desayuno", comida: "comida", cena: "cena", hotel: "hotel", tren: "tren", autobus: "autobús" };
 
+/** Firmas del PO, una por proveedor (REQ-10728): respuesta literal a la pregunta de la lista. */
+const FIRMAS = [
+  { proveedor: "Fantástica China", respuesta: "Sí, firmo (Recomendado)", fecha: "16-11-2026 12:49" },
+];
+
 const salida = process.argv[2];
 if (!salida) throw new Error("Falta la carpeta de salida");
 const porAgencia = new Map<string, Map<string, Fila>>();
@@ -34,6 +39,12 @@ const out: string[] = [
   "Folios: **REQ-10707** y **REQ-10728**. Regla (PO, 15-11-2026: «Etiqueta con cantidad»): la etiqueta dice cuánto incluye el producto y nunca sugiere más; si la cantidad no se sabe, no hay etiqueta y el detalle se queda en «Incluye». Vale para todos los proveedores (REQ-10709).",
   "",
   "Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de carga. **No está aplicada**: se aplica proveedor por proveedor con la firma del PO.",
+  "",
+  "## Firmas del PO (una por proveedor)",
+  "",
+  "| Proveedor | Respuesta literal | Fecha y hora (CDMX) |",
+  "|---|---|---|",
+  ...FIRMAS.map((f) => `| ${f.proveedor} | «${f.respuesta}» | ${f.fecha} |`),
   "",
   "## Resumen",
   "",
