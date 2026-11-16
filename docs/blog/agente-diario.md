@@ -24,6 +24,7 @@ npx tsx src/scripts/blog-tema.ts
 Te devuelve `hoy`, `toca` (`pago`, `free` o `ninguno`), `motivo`, `clusterSugerido` (siguiente ID pendiente del calendario), `pilaresActivos` (con su página comercial), `siguientesPendientes` y `terminosUsados`.
 - Si `toca` es `ninguno`: **termina aquí** y reporta el motivo. No escribas ni envíes nada. Un ejemplo: los días de free tour mientras la autorización B1 no exista.
 - La mezcla es 80/20 (de cada 10 días, 8 de experiencias de pago y 2 de free tours). Ya viene calculada: respeta `toca`.
+- REQ-10725 (PO, 15 nov 2026): mientras `FREE_TOUR_POSTS_B1` siga en `false`, los días que tocarían free tour se escriben de **pago** (siguiente pendiente de pago del calendario) y el tope 8/10 no aplica: se publica todos los días. Con B1 autorizado vuelve el 80/20.
 
 ## Paso 2 — Elige el tema (deep-research ligero: 2 o 3 búsquedas)
 1. **Trending primero.** Busca noticias del sector o de un destino de un pilar activo, publicadas en los **últimos 14 días**:

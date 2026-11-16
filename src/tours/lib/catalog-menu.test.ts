@@ -58,8 +58,9 @@ describe("REQ-174: «Experiencias» reemplaza a «Tours» en el menú, el H1 y e
   });
 
   it("REQ-174 (PO, 06:22): el chip de formato de viajes únicos se llama «Momentos de autor» y ya no repite «Experiencias»", () => {
-    expect(tripCopy("es").filterExp).toBe("Momentos de autor");
-    expect(tripCopy("en").filterExp).toBe("Signature moments");
+    // REQ-10700 (PO 15-11-2026): «Momentos de autor» pasa a «Actividades» / «Activities»; reemplaza el nombre firmado el 6-11.
+    expect(tripCopy("es").filterExp).toBe("Actividades");
+    expect(tripCopy("en").filterExp).toBe("Activities");
     for (const lang of LANGS) expect(tripCopy(lang).filterExp).not.toBe(catalogName(lang));
   });
 });

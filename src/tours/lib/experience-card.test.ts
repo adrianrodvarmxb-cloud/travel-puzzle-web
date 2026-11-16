@@ -24,7 +24,8 @@ describe("tarjeta única de experiencia", () => {
     expect(categoryLabel("pieza-libre", "es")).toBe("Pieza libre");
     expect(categoryLabel("pieza-libre", "en")).toBe("Free Puzzle");
     expect(categoryLabel("excursion-dia", "es")).toBe("Excursión de un día");
-    expect(categoryLabel("experiencia-unica", "es")).toBe("Momentos de autor");
+    // REQ-10700 (PO 15-11-2026): «Momentos de autor» pasa a «Actividades» / «Activities»; reemplaza el nombre firmado el 6-11.
+    expect(categoryLabel("experiencia-unica", "es")).toBe("Actividades");
     expect(categoryLabel("caminata", "es")).toBe("Caminata"); // REQ-531: corto en la foto
     expect(categoryLabel("transporte", "es")).toBe("Transporte turístico");
   });

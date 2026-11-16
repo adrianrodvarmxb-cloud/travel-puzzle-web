@@ -136,11 +136,11 @@
       "formato": "tour",
       "temas": [],
       "atributos": [
-        "medio:vehiculo"
+        "medio:tren"
       ],
       "reglasPorPalabra": [],
       "estado": "activo",
-      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
+      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). FIRMADO PO (REQ-10703, G-R5 «B: crear «En tren» ya», 15-11-2026): medio «tren» en el diccionario, también para otros proveedores. PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
     },
     {
       "id": "9000010",
@@ -162,7 +162,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|IN. 160 tours (aeropuerto o terminal → hotel). Trato de FREETOUR 29 «Traslados»: sección traslados, carrito `transfer` (complemento, REQ-3428)."
     },
@@ -173,7 +175,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|OUT. 93 tours (hotel → aeropuerto o terminal). Trato de FREETOUR 29: sección traslados, carrito `transfer` (REQ-3428)."
     },
@@ -184,7 +188,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|IN/OUT. 45 tours (aeropuerto–hotel–aeropuerto, centro–Cerro Catedral ida y vuelta, ida y vuelta al Glaciar Perito Moreno). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
     },
@@ -195,9 +201,11 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
-      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
+      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). FIRMADO PO (REQ-10708, 15-11-2026; reemplaza la firma por categoría REQ-10704): por trayecto real, el viaje entre ciudades es Transporte (carrito `transport`) y la llegada o salida de aeropuerto, terminal, muelle u oficina sigue como Traslado. PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
     },
     {
       "id": "9000015",
@@ -206,9 +214,11 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
-      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
+      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). FIRMADO PO (REQ-10708, 15-11-2026; reemplaza la firma por categoría REQ-10704): por trayecto real, el viaje entre ciudades es Transporte (carrito `transport`) y la llegada o salida de aeropuerto, terminal, muelle u oficina sigue como Traslado. PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
     },
     {
       "id": "9000016",
@@ -217,7 +227,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|TRFOUTBUS. 14 tours (hotel → terminal de buses). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
     },
@@ -228,7 +240,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|TRFINBUS. 13 tours (terminal de bus → hotel; también «Bus de línea regular Puerto Natales–El Calafate»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
     },
