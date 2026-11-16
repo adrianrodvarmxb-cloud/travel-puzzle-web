@@ -4,6 +4,12 @@ Folios: **REQ-10707** y **REQ-10728**. Regla (PO, 15-11-2026: «Etiqueta con can
 
 Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de carga. **No está aplicada**: se aplica proveedor por proveedor con la firma del PO.
 
+## Firmas del PO (una por proveedor)
+
+| Proveedor | Respuesta literal | Fecha y hora (CDMX) |
+|---|---|---|
+| Fantástica China | «Sí, firmo (Recomendado)» | 16-11-2026 12:49 |
+
 ## Resumen
 
 | Proveedor | Viajes | Con al menos una etiqueta | Sin etiqueta | Con algún concepto sin cantidad |
