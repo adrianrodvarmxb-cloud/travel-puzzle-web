@@ -3830,5 +3830,294 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog."
     }
+  },
+  {
+    "pais": "br",
+    "ciudad": "foz-de-iguazu",
+    "nombre": "Foz de Iguazú",
+    "targetTerm": "guia de foz de iguazu para mexicanos",
+    "titulo": "Guía de Foz de Iguazú: cataratas, lados y qué revisar antes de ir",
+    "publishedAt": "2026-11-16",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Foz de Iguazú es la base para ver las cataratas desde Brasil y también desde Argentina. El lado argentino abre de 8:00 a 18:00, con última entrada a las 16:30, según [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml). Antes de elegir, revisa qué senderos están habilitados y la tarifa vigente, que publica la [Administración de Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/tarifas).",
+    "sections": [
+      {
+        "h2": "¿Se pueden ver las cataratas desde Brasil y desde Argentina?",
+        "answer": "Sí: el parque argentino y el brasileño están a pocos kilómetros uno del otro, y cada país tiene su propio acceso y sus propios senderos; en el [catálogo de Foz de Iguazú](/destinos/br/foz-de-iguazu) hay excursiones para ambos lados.",
+        "body": [
+          "Hay opciones que combinan los dos lados en una misma excursión, además de la visita al lado argentino por separado, como se ve en el [catálogo de la ciudad](/destinos/br/foz-de-iguazu). Si tu tiempo es corto, conviene decidir primero qué lado te interesa y reservar con holgura."
+        ]
+      },
+      {
+        "h2": "¿Cuándo abre el parque argentino y a qué hora?",
+        "answer": "El Parque Nacional Iguazú abre todos los días del año, de 8:00 a 18:00, con última entrada a las 16:30, según [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml), en una nota del 19 de septiembre de 2026.",
+        "body": [
+          "La misma nota indica que estaban habilitados los circuitos Superior e Inferior, el Sendero Verde, el Sendero Macuco y el centro de visitantes, y que las pasarelas de la Garganta del Diablo se retiraron de forma preventiva en agosto por la crecida, según [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml). Es una nota de septiembre: confirma el estado de los circuitos antes de ir."
+        ]
+      },
+      {
+        "h2": "¿Cuánto cuesta la entrada al lado argentino?",
+        "answer": "El pase diario general cuesta $60.000 pesos argentinos desde el 1 de junio de 2026, según la [tabla de tarifas de Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/tarifas).",
+        "body": [
+          "La misma [página oficial](https://www.argentina.gob.ar/parquesnacionales/tarifas) indica que se pide el DNI o el pasaporte en la taquilla o en el acceso, y que hay un descuento del 50 % para un segundo día dentro de las 72 horas posteriores a la primera entrada. La página no distingue una categoría para extranjeros, así que confirma cuál te corresponde antes de pagar."
+        ]
+      },
+      {
+        "h2": "¿Qué más se puede hacer en Foz de Iguazú además de las cataratas?",
+        "answer": "El [catálogo de la ciudad](/destinos/br/foz-de-iguazu) incluye una visita panorámica a la hidroeléctrica de Itaipú, una excursión al parque de las aves, cenas con espectáculo y excursiones con paseo en barco.",
+        "body": [
+          "Son recorridos de media jornada o de un día; cada ficha del [catálogo](/destinos/br/foz-de-iguazu) indica su duración y su precio de referencia. Para organizar varios días, mezcla un día de cataratas con otro de actividades más tranquilas."
+        ]
+      },
+      {
+        "h2": "¿Qué conviene revisar antes de reservar?",
+        "answer": "Qué lado visitas, qué circuitos están abiertos y si la entrada al parque va incluida o se paga aparte, datos que detalla cada [ficha de Foz de Iguazú](/destinos/br/foz-de-iguazu).",
+        "body": [
+          "Las cataratas dependen del caudal del río: en 2026 hubo cierres de miradores por crecida, según [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml). Por eso conviene mirar las noticias oficiales unos días antes del viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 16 de noviembre de 2026) y del catálogo del sitio. La tarifa es de la página de Parques Nacionales vigente desde el 1 de junio de 2026 y el horario sale de una nota del 19 de septiembre de 2026; confirma ambos antes de viajar.",
+    "en": {
+      "nombre": "Foz de Iguazú",
+      "targetTerm": "foz de iguazu travel guide for mexicans",
+      "titulo": "Foz de Iguazú guide: waterfalls, sides and what to check before you go",
+      "enBreve": "Foz de Iguazú is the base for seeing the falls from Brazil and also from Argentina. The Argentine side opens from 8:00 to 18:00, with last entry at 16:30, according to [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml). Before choosing, check which trails are open and the current fare, published by the [National Parks Administration](https://www.argentina.gob.ar/parquesnacionales/tarifas).",
+      "sections": [
+        {
+          "h2": "Can you see the falls from both Brazil and Argentina?",
+          "answer": "Yes: the Argentine and Brazilian parks are a few kilometers apart, and each country has its own access and trails; the [Foz de Iguazú catalog](/destinos/br/foz-de-iguazu) has excursions for both sides.",
+          "body": [
+            "Some options combine both sides in one excursion, besides the visit to the Argentine side on its own, as the [city catalog](/destinos/br/foz-de-iguazu) shows. If your time is short, decide first which side interests you and book with room to spare."
+          ]
+        },
+        {
+          "h2": "When does the Argentine park open and at what time?",
+          "answer": "Iguazú National Park opens every day of the year, from 8:00 to 18:00, with last entry at 16:30, according to [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml), in an article of 19 September 2026.",
+          "body": [
+            "The same article says the Upper and Lower circuits, the Sendero Verde, the Sendero Macuco and the visitor center were open, and that the Garganta del Diablo walkways were removed as a precaution in August because of the flood, according to [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml). It is a September article: confirm the state of the circuits before you go."
+          ]
+        },
+        {
+          "h2": "How much does admission to the Argentine side cost?",
+          "answer": "The general day pass costs 60,000 Argentine pesos from 1 June 2026, according to the [National Parks fee table](https://www.argentina.gob.ar/parquesnacionales/tarifas).",
+          "body": [
+            "The same [official page](https://www.argentina.gob.ar/parquesnacionales/tarifas) says an ID or passport is requested at the ticket office or at the entrance, and that there is a 50% discount for a second day within 72 hours of the first entry. The page does not distinguish a category for foreigners, so confirm which applies to you before paying."
+          ]
+        },
+        {
+          "h2": "What else can you do in Foz de Iguazú besides the falls?",
+          "answer": "The [city catalog](/destinos/br/foz-de-iguazu) includes a panoramic visit to the Itaipú hydroelectric plant, a trip to the bird park, dinner shows and excursions with a boat ride.",
+          "body": [
+            "These are half-day or full-day outings; each listing in the [catalog](/destinos/br/foz-de-iguazu) shows its duration and reference price. To plan several days, mix a falls day with a calmer activity day."
+          ]
+        },
+        {
+          "h2": "What should you check before booking?",
+          "answer": "Which side you visit, which circuits are open and whether park admission is included or paid separately, details that each [Foz de Iguazú listing](/destinos/br/foz-de-iguazu) gives.",
+          "body": [
+            "The falls depend on the river's flow: in 2026 some viewpoints closed because of floods, according to [Perfil](https://www.perfil.com/noticias/nea/parque-nacional-iguazu-abierto-todo-el-ano-aclararon-confusion-con-brasil-tras-crecida.phtml). That is why it is worth checking official news a few days before the trip."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 16 November 2026) and the site's catalog. The fare is from the National Parks page in force since 1 June 2026 and the hours come from an article of 19 September 2026; confirm both before you travel."
+    }
+  },
+  {
+    "pais": "uy",
+    "ciudad": "montevideo",
+    "nombre": "Montevideo",
+    "targetTerm": "guia de viaje de montevideo para mexicanos",
+    "titulo": "Guía de Montevideo: Ciudad Vieja, Rambla y Mercado del Puerto",
+    "publishedAt": "2026-11-16",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Montevideo se recorre bien a pie por la Ciudad Vieja y en bicicleta o caminando por la Rambla. Su guía turística oficial describe un casco histórico nacido de la fortificación española y una costa de casi 25 kilómetros, según la [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). Para planear el día, mira las [experiencias en Montevideo](/destinos/uy/montevideo).",
+    "sections": [
+      {
+        "h2": "¿Qué se ve en la Ciudad Vieja y la plaza Independencia?",
+        "answer": "La Ciudad Vieja es el casco histórico que nació de la fortificación española y reúne edificios patrimoniales, museos, cafés y la peatonal Sarandí, según la [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+        "body": [
+          "La plaza Independencia une la Ciudad Vieja con la Ciudad Nueva y marca el inicio de la avenida 18 de Julio; en el centro está el monumento a Artigas, con un mausoleo debajo, de acuerdo con la [guía oficial](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). Alrededor se ubican el Teatro Solís, la Puerta de la Ciudadela y la Torre Ejecutiva.",
+          "El puerto está dentro del centro histórico, cerca de la Ciudad Vieja, según un [documento del sitio oficial Descubre Montevideo](https://www.descubrimontevideo.uy/sites/default/files/2025-02/Destino%20de%20cruceros.pdf). Por eso es una zona cómoda para empezar a pie y no depender de transporte."
+        ]
+      },
+      {
+        "h2": "¿Vale la pena entrar al Teatro Solís?",
+        "answer": "Sí, si te interesa la arquitectura: se inauguró en 1856 con la ópera Ernani, de Verdi, y ofrece visitas guiadas, según la [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+        "body": [
+          "El teatro fue reestructurado en 2004 y mantiene programación durante todo el año, indica la misma [guía oficial](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). La guía no publica horarios ni precios de las visitas, así que confírmalos con el teatro antes de ir."
+        ]
+      },
+      {
+        "h2": "¿Qué es el Mercado del Puerto y qué se come ahí?",
+        "answer": "Es un mercado inaugurado en 1868 que fue el mayor de Sudamérica y hoy funciona como centro gastronómico con parrillas de carne uruguaya, según la [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+        "body": [
+          "Su bebida tradicional es el «medio y medio», de acuerdo con la [guía oficial](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). Si prefieres no armar el plan por tu cuenta, el catálogo de [Montevideo](/destinos/uy/montevideo) incluye recorridos a pie y visitas guiadas por la ciudad."
+        ]
+      },
+      {
+        "h2": "¿Qué tan larga es la Rambla y qué se hace ahí?",
+        "answer": "La costa sobre el Río de la Plata mide casi 25 kilómetros según la [guía de la Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf) y casi 30 según un [documento de Descubre Montevideo](https://www.descubrimontevideo.uy/sites/default/files/2025-02/Destino%20de%20cruceros.pdf); las dos fuentes difieren en la cifra.",
+        "body": [
+          "La guía de la Intendencia señala que tiene playas de arena blanca con guardavidas y que se usa para caminar, andar en bicicleta y hacer deporte, según la [misma guía](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). En el catálogo hay un [recorrido en bicicleta por Montevideo](/destinos/uy/montevideo) para verla sin planear la ruta."
+        ]
+      },
+      {
+        "h2": "¿Hay algo para ver fuera del centro?",
+        "answer": "Sí: el Cerro mide 135 metros y en su cima está la Fortaleza General Artigas, terminada en 1811, con un museo histórico militar, según la [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+        "body": [
+          "El documento de [Descubre Montevideo](https://www.descubrimontevideo.uy/sites/default/files/2025-02/Destino%20de%20cruceros.pdf) añade que la zona rural de la ciudad queda a menos de 30 minutos y que ahí hay bodegas con visitas y degustación; la uva destacada es la Tannat. Con ese plan se relacionan las visitas a bodegas del [catálogo de la ciudad](/destinos/uy/montevideo).",
+          "Si buscas una salida de un día, el catálogo también lista excursiones a Colonia del Sacramento desde [Montevideo](/destinos/uy/montevideo)."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 16 de noviembre de 2026) y del catálogo del sitio. Ambos documentos oficiales no muestran fecha de publicación; la guía de la Intendencia parece de poco antes de 2024. No se encontraron requisitos de ingreso para mexicanos en una fuente oficial, por eso no se afirman.",
+    "en": {
+      "nombre": "Montevideo",
+      "targetTerm": "montevideo travel guide for mexicans",
+      "titulo": "Montevideo guide: Ciudad Vieja, the Rambla and Mercado del Puerto",
+      "enBreve": "Montevideo is easy to explore on foot through the Ciudad Vieja and on foot or by bike along the Rambla. Its official tourist guide describes a historic quarter born of the Spanish fortification and a coastline of almost 25 kilometers, according to the [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). To plan your day, see the [experiences in Montevideo](/destinos/uy/montevideo).",
+      "sections": [
+        {
+          "h2": "What is there to see in the Ciudad Vieja and Independence Square?",
+          "answer": "The Ciudad Vieja is the historic quarter that grew out of the Spanish fortification and gathers heritage buildings, museums, cafés and the Sarandí pedestrian street, according to the [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+          "body": [
+            "Independence Square links the Ciudad Vieja with the Ciudad Nueva and marks the start of 18 de Julio Avenue; at its center is the monument to Artigas, with a mausoleum beneath, according to the [official guide](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). Around it stand the Solís Theatre, the Ciudadela Gate and the Torre Ejecutiva.",
+            "The port lies inside the historic center, close to the Ciudad Vieja, according to a [document on the official Descubre Montevideo site](https://www.descubrimontevideo.uy/sites/default/files/2025-02/Destino%20de%20cruceros.pdf). That makes it a comfortable area to start on foot without relying on transport."
+          ]
+        },
+        {
+          "h2": "Is the Solís Theatre worth entering?",
+          "answer": "Yes, if you like architecture: it opened in 1856 with Verdi's opera Ernani and offers guided visits, according to the [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+          "body": [
+            "The theatre was restructured in 2004 and keeps a program all year, notes the same [official guide](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). The guide does not publish hours or prices for the visits, so confirm them with the theatre before you go."
+          ]
+        },
+        {
+          "h2": "What is the Mercado del Puerto and what do you eat there?",
+          "answer": "It is a market that opened in 1868 and was the largest in South America; today it works as a food center with Uruguayan beef grills, according to the [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+          "body": [
+            "Its traditional drink is the «medio y medio», according to the [official guide](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). If you prefer not to plan on your own, the [Montevideo](/destinos/uy/montevideo) catalog includes walking tours and guided visits around the city."
+          ]
+        },
+        {
+          "h2": "How long is the Rambla and what do people do there?",
+          "answer": "The coast along the Río de la Plata measures almost 25 kilometers according to the [Intendencia de Montevideo guide](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf) and almost 30 according to a [Descubre Montevideo document](https://www.descubrimontevideo.uy/sites/default/files/2025-02/Destino%20de%20cruceros.pdf); the two sources differ on the figure.",
+          "body": [
+            "The Intendencia guide says it has white-sand beaches with lifeguards and that it is used for walking, cycling and sports, according to the [same guide](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf). The catalog has a [bike tour of Montevideo](/destinos/uy/montevideo) to see it without planning the route."
+          ]
+        },
+        {
+          "h2": "Is there anything to see outside the center?",
+          "answer": "Yes: the Cerro is 135 meters high and its summit holds the General Artigas Fortress, finished in 1811, with a military history museum, according to the [Intendencia de Montevideo](https://montevideo.gub.uy/sites/default/files/biblioteca/guiadescubrimontevideo2021.pdf).",
+          "body": [
+            "The [Descubre Montevideo](https://www.descubrimontevideo.uy/sites/default/files/2025-02/Destino%20de%20cruceros.pdf) document adds that the city's rural area is less than 30 minutes away and has wineries with visits and tastings; the highlighted grape is Tannat. Winery visits in the [city catalog](/destinos/uy/montevideo) relate to that plan.",
+            "If you want a day trip, the catalog also lists excursions to Colonia del Sacramento from [Montevideo](/destinos/uy/montevideo)."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 16 November 2026) and the site's catalog. Neither official document shows a publication date; the Intendencia guide seems to date from shortly before 2024. No entry requirements for Mexicans were found in an official source, so none are stated."
+    }
+  },
+  {
+    "pais": "br",
+    "ciudad": "manaus",
+    "nombre": "Manaus",
+    "targetTerm": "guia de viaje de manaus",
+    "titulo": "Guía de Manaus: Teatro Amazonas, Encontro das Águas y excursiones a la selva",
+    "publishedAt": "2026-11-16",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Manaus, en el corazón de la Amazonía brasileña, combina un centro histórico con el Teatro Amazonas, inaugurado en 1896 según el [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/), y el Encontro das Águas, donde los ríos Negro y Solimões se juntan sin mezclarse de inmediato, según [Portal Amazônia](https://portalamazonia.com/amazonia-de-a-a-z/encontro-das-aguas-manaus/). Desde la ciudad salen excursiones a la selva y a cascadas.",
+    "sections": [
+      {
+        "h2": "¿Qué ver en el centro histórico de Manaus?",
+        "answer": "El punto de partida es el Teatro Amazonas, en el Largo de São Sebastião, inaugurado en 1896, según el [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/).",
+        "body": [
+          "El edificio es de estilo Belle Époque, con mármol de Carrara, lámparas de cristal y 36 mil piezas de cerámica francesa, de acuerdo con el [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). Sigue activo con óperas y conciertos, y cada mayo se celebra el Festival Amazonas de Ópera, indica la misma nota, publicada el 13 de octubre de 2026.",
+          "Cerca está el Mercado Municipal Adolpho Lisboa, de hierro y arquitectura Art Nouveau, junto al río Negro, según el [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). En agosto de 2026 la UNESCO inscribió el teatro como Patrimonio Mundial junto con el Theatro da Paz, de Belém, bajo el nombre «Teatros da Amazônia», informa [Portal Amazônia](https://portalamazonia.com/turismo/teatro-amazonas-patrimonio-mundo/)."
+        ]
+      },
+      {
+        "h2": "¿Cómo se visita el Teatro Amazonas y cuánto cuesta?",
+        "answer": "Se visita de martes a sábado de 9:00 a 17:00 y los domingos y feriados de 9:00 a 13:00, según [Portal Amazônia](https://portalamazonia.com/cultura/visitas-teatro-amazonas/), en una nota del 16 de agosto de 2025.",
+        "body": [
+          "La entrada para visitantes de otros países cuesta R$ 20 completa y R$ 10 media, de acuerdo con la misma nota de [Portal Amazônia](https://portalamazonia.com/cultura/visitas-teatro-amazonas/). Es un dato de 2025: confirma horarios y tarifas antes de ir."
+        ]
+      },
+      {
+        "h2": "¿Qué es el Encontro das Águas y cómo se ve?",
+        "answer": "Es el punto de Manaus donde el río Negro, de aguas oscuras, y el Solimões, de aguas más claras y con sedimentos, corren juntos sin mezclarse de inmediato, según [Portal Amazônia](https://portalamazonia.com/amazonia-de-a-a-z/encontro-das-aguas-manaus/).",
+        "body": [
+          "La misma fuente explica que la diferencia de pH, temperatura y velocidad retrasa la mezcla, y que al unirse forman el río Amazonas. Menciona visitas diarias en barco para ver el fenómeno; [Estado de Minas](https://www.em.com.br/emfoco/2025/03/28/conheca-o-encontro-das-aguas-e-outras-maravilhas-dessa-capital/), en una nota del 28 de marzo de 2025, también lo cuenta entre los atractivos de la ciudad.",
+          "En el [catálogo de Manaus](/destinos/br/manaus) hay actividades que combinan el encuentro de las aguas con otras paradas del río."
+        ]
+      },
+      {
+        "h2": "¿Qué excursiones salen desde Manaus?",
+        "answer": "El [catálogo de Manaus](/destinos/br/manaus) reúne excursiones de un día, actividades en la selva y circuitos de varios días.",
+        "body": [
+          "Presidente Figueiredo, a 130 km de la ciudad por la carretera BR-174, tiene cascadas, grutas y lagunas y se visita en un día, según el [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). En el [catálogo](/destinos/br/manaus) hay una excursión a esas cascadas, además de caminatas y salidas nocturnas por la selva.",
+          "Si buscas algo más corto, el [Museo de la Amazonía (MUSA)](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/) ocupa 100 hectáreas de reserva forestal, con senderos y una torre de observación de 42 metros."
+        ]
+      },
+      {
+        "h2": "¿Cuándo hay playa en Ponta Negra?",
+        "answer": "La franja de arena aparece en la bajante del río, entre septiembre y febrero, según el [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/).",
+        "body": [
+          "La playa de Ponta Negra está a orillas del río Negro y es de agua dulce, de acuerdo con la [misma nota](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). Si tu viaje cae fuera de esos meses, el nivel del río cambia el paisaje; revisa las condiciones antes de planear la visita."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 16 de noviembre de 2026) y del catálogo del sitio. Los horarios y tarifas del teatro salen de una nota de agosto de 2025; confirma antes de viajar.",
+    "en": {
+      "nombre": "Manaus",
+      "targetTerm": "manaus travel guide",
+      "titulo": "Manaus guide: Teatro Amazonas, Meeting of Waters and jungle excursions",
+      "enBreve": "Manaus, in the heart of the Brazilian Amazon, combines a historic center with the Teatro Amazonas, opened in 1896 according to the [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/), and the Meeting of Waters, where the Negro and Solimões rivers join without mixing right away, according to [Portal Amazônia](https://portalamazonia.com/amazonia-de-a-a-z/encontro-das-aguas-manaus/). Excursions to the jungle and to waterfalls leave from the city.",
+      "sections": [
+        {
+          "h2": "What is there to see in Manaus's historic center?",
+          "answer": "The starting point is the Teatro Amazonas, in the Largo de São Sebastião, opened in 1896, according to the [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/).",
+          "body": [
+            "The building is Belle Époque in style, with Carrara marble, crystal chandeliers and 36 thousand pieces of French ceramic, according to the [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). It is still active with operas and concerts, and the Amazonas Opera Festival takes place every May, says the same article, published on 13 October 2026.",
+            "Nearby is the Adolpho Lisboa Municipal Market, built of iron in Art Nouveau style, next to the Negro River, according to the [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). In August 2026 UNESCO inscribed the theater as a World Heritage Site together with the Theatro da Paz in Belém, under the name «Teatros da Amazônia», reports [Portal Amazônia](https://portalamazonia.com/turismo/teatro-amazonas-patrimonio-mundo/)."
+          ]
+        },
+        {
+          "h2": "How do you visit the Teatro Amazonas and how much does it cost?",
+          "answer": "It can be visited Tuesday to Saturday from 9:00 to 17:00 and on Sundays and holidays from 9:00 to 13:00, according to [Portal Amazônia](https://portalamazonia.com/cultura/visitas-teatro-amazonas/), in an article from 16 August 2025.",
+          "body": [
+            "Admission for visitors from other countries costs R$ 20 full and R$ 10 half, according to the same [Portal Amazônia](https://portalamazonia.com/cultura/visitas-teatro-amazonas/) article. This is 2025 data: confirm hours and fares before you go."
+          ]
+        },
+        {
+          "h2": "What is the Meeting of Waters and how does it look?",
+          "answer": "It is the point in Manaus where the dark-water Negro River and the clearer, sediment-carrying Solimões run side by side without mixing right away, according to [Portal Amazônia](https://portalamazonia.com/amazonia-de-a-a-z/encontro-das-aguas-manaus/).",
+          "body": [
+            "The same source explains that differences in pH, temperature and speed delay the mixing, and that together they form the Amazon River. It mentions daily boat visits to see the phenomenon; [Estado de Minas](https://www.em.com.br/emfoco/2025/03/28/conheca-o-encontro-das-aguas-e-outras-maravilhas-dessa-capital/), in an article from 28 March 2025, also counts it among the city's attractions.",
+            "In the [Manaus catalog](/destinos/br/manaus) there are activities that combine the meeting of the waters with other stops on the river."
+          ]
+        },
+        {
+          "h2": "What excursions leave from Manaus?",
+          "answer": "The [Manaus catalog](/destinos/br/manaus) gathers day trips, jungle activities and multi-day circuits.",
+          "body": [
+            "Presidente Figueiredo, 130 km from the city on the BR-174 highway, has waterfalls, caves and lagoons and can be visited in a day, according to the [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). In the [catalog](/destinos/br/manaus) there is an excursion to those waterfalls, as well as walks and night outings in the jungle.",
+            "If you want something shorter, the [Museum of the Amazon (MUSA)](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/) covers 100 hectares of forest reserve, with trails and a 42-meter observation tower."
+          ]
+        },
+        {
+          "h2": "When is there a beach at Ponta Negra?",
+          "answer": "The strip of sand appears when the river is low, between September and February, according to the [Correio Braziliense](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/).",
+          "body": [
+            "Ponta Negra beach is on the banks of the Negro River and has fresh water, according to the [same article](https://www.correiobraziliense.com.br/cbradar/uma-capital-cercada-pela-amazonia-que-guarda-um-teatro-historico-com-materiais-franceses-e-uma-arquitetura-impossivel-de-ignora/). If your trip falls outside those months, the river level changes the landscape; check conditions before planning the visit."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 16 November 2026) and the site's catalog. The theater's hours and fares come from an August 2025 article; confirm before you travel."
+    }
   }
 ]
