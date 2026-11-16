@@ -103,6 +103,7 @@
       "nombre_en": "Ranch day",
       "formato": "excursion-dia",
       "temas": [
+        "campo-vida-rural",
         "naturaleza"
       ],
       "atributos": [],
@@ -111,7 +112,7 @@
       ],
       "estado": "activo",
       "porDefecto": "visita-guiada",
-      "nota": "Tangol EXCURSION|ESTANCIAS. 13 tours (día de estancia en Peuma Hue, cabalgata en estancia, El Galpón del Glaciar). Salida de día al campo: base excursión, tema naturaleza. PENDIENTE PO: el diccionario no tiene tema «rural / campo / estancia»; se usa naturaleza, el más cercano."
+      "nota": "Tangol EXCURSION|ESTANCIAS. 13 tours (día de estancia en Peuma Hue, cabalgata en estancia, El Galpón del Glaciar). Salida de día al campo: base excursión. FIRMADO PO (REQ-10701, G-R3 «B: crear «Campo y vida rural»», 15-11-2026): tema «Campo y vida rural» por categoría, Naturaleza se conserva. PENDIENTE PO (resuelto con G-R3): el diccionario no tenía tema «rural / campo / estancia»; se usaba naturaleza, el más cercano."
     },
     {
       "id": "9000008",

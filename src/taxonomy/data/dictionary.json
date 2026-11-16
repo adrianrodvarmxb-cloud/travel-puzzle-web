@@ -1262,6 +1262,55 @@
       ]
     },
     {
+      "slug": "campo-vida-rural",
+      "eje": "tema",
+      "termino_es": "Campo y vida rural",
+      "termino_en": "Countryside & rural life",
+      "definicion_es": "Estancias, granjas, fincas y tradiciones del campo.",
+      "sinonimos": [
+        "estancia",
+        "día de campo",
+        "granja",
+        "finca",
+        "hacienda",
+        "rancho",
+        "gaucho",
+        "agroturismo",
+        "vida rural",
+        "farm stay",
+        "countryside"
+      ],
+      "estado": "activo",
+      "prioridad": 14,
+      "chip": true,
+      "palabras": [
+        "estancia*",
+        "granja*",
+        "finca*",
+        "hacienda*",
+        "rancho",
+        "ranch",
+        "gaucho*",
+        "dia de campo",
+        "de campo",
+        "campestre*",
+        "rural*",
+        "farm",
+        "farms",
+        "farmstay",
+        "countryside",
+        "agroturismo",
+        "agrotourism"
+      ],
+      "excluir": [
+        "granja de san ildefonso",
+        "palacio de la granja",
+        "la granja de san",
+        "palacio real de la granja"
+      ],
+      "nota": "REQ-10701 (ficha única, ola 3, G-R3 firmado por el PO «B: crear «Campo y vida rural»», 15-11-2026). Tangol 9000007 (Día de estancia) lo lleva por categoría; cualquier proveedor por la palabra del título (REQ-10709). «La Granja» de San Ildefonso (palacio) se excluye."
+    },
+    {
       "slug": "privado",
       "eje": "atributo",
       "termino_es": "Privado",
