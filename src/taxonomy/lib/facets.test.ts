@@ -31,9 +31,9 @@ describe("REQ-1421: temas en el filtro de /tours", () => {
 });
 
 describe("REQ-1422: atributos en el filtro de /tours", () => {
-  it("REQ-1422: la lista firmada: cómo te mueves (4), nocturno, entrada incluida, día completo, en español y con vuelo", () => {
-    expect([...ATRIBUTOS_FILTRO]).toEqual(["a-pie", "bici", "vehiculo", "barco", "nocturno", "entrada-incluida", "dia-completo", "idioma-es", "vuelo-incluido"]);
-    expect([...MEDIOS_FILTRO]).toEqual(["a-pie", "bici", "vehiculo", "barco"]);
+  it("REQ-1422: la lista firmada: cómo te mueves (4 + tren por REQ-10703), nocturno, entrada incluida, día completo, en español y con vuelo", () => {
+    expect([...ATRIBUTOS_FILTRO]).toEqual(["a-pie", "bici", "vehiculo", "tren", "barco", "nocturno", "entrada-incluida", "dia-completo", "idioma-es", "vuelo-incluido"]);
+    expect([...MEDIOS_FILTRO]).toEqual(["a-pie", "bici", "vehiculo", "tren", "barco"]);
   });
   it("REQ-1422: etiquetas del diccionario", () => {
     const medio = terms.find((x) => x.slug === "medio")!;

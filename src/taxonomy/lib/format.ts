@@ -8,6 +8,7 @@ import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, type Gates } from "./gates
 import { matches, namesCity, norm } from "./text";
 import { combinado } from "./combined";
 import { veredictoDecision9 } from "./aventura-senderismo";
+import { esTrayectoEntreCiudades } from "./trayecto";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
@@ -44,6 +45,11 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   const palabrasPermitidas = gates.palabrasAntesDeFree || !free;
 
   // 1 traslado
+  // REQ-10708 (PO 15-11-2026; reemplaza REQ-10704): en una base traslado que lo permite, el trayecto entre ciudades
+  // («Potosí - Uyuni en bus») es Transporte; llegar o salir de aeropuerto, terminal, muelle u oficina sigue como Traslado.
+  if (b === "traslado" && cat.reglasPorPalabra.includes("trayecto-entre-ciudades") && esTrayectoEntreCiudades(input.titulo)) {
+    return { valor: "transporte", regla: `#2 trayecto entre ciudades (${id})` };
+  }
   if (b === "traslado") return { valor: "traslado", regla: `#1 base ${id}` };
   if (palabrasPermitidas && cat.reglasPorPalabra.includes("traslado") && kw("traslado", todo) && !matches(formatoTerm(dict, "traslado").palabrasNoEnTitulo, titulo)) {
     return { valor: "traslado", regla: `#1 palabra traslado en ${id}` };
@@ -158,7 +164,7 @@ function recorridoGuiado(dict: Dictionary, cat: Categoria, titulo: string, resum
     enOtroMedio(dict, t) ? "tour" : matches(medioPalabras(dict, "a-pie"), t) ? "caminata" : matches(sitio, t) ? "visita-guiada" : null;
   const enTitulo = señal(titulo);
   if (enTitulo) return { valor: enTitulo, regla: `#11 ${nombre(enTitulo)} en el título; ${motivo}` };
-  if (cat.atributos.some((a) => /^medio:(barco|bici|vehiculo)$/.test(a))) return { valor: "tour", regla: `#11 la categoría dice el medio de transporte; ${motivo}` };
+  if (cat.atributos.some((a) => /^medio:(barco|bici|tren|vehiculo)$/.test(a))) return { valor: "tour", regla: `#11 la categoría dice el medio de transporte; ${motivo}` }; // REQ-10703: tren
   if (cat.formato === "visita-guiada" || base === "visita-guiada" && cat.formato === "entradas") return { valor: "visita-guiada", regla: `#11 la categoría es sitio o museo; ${motivo}` };
   const enResumen = resumen ? señal(resumen) : null;
   if (enResumen) return { valor: enResumen, regla: `#11 ${nombre(enResumen)} en el resumen; ${motivo}` };
@@ -168,15 +174,15 @@ function recorridoGuiado(dict: Dictionary, cat: Categoria, titulo: string, resum
 
 const nombre = (f: FormatoOEstado) => (f === "tour" ? "transporte" : f === "caminata" ? "a pie" : "sitio o museo");
 
-/** Palabras de un valor del atributo «medio» (bici, barco, vehiculo, a-pie) del diccionario. */
+/** Palabras de un valor del atributo «medio» (bici, barco, tren, vehiculo, a-pie) del diccionario. */
 function medioPalabras(dict: Dictionary, valor: string): string[] {
   const medio = dict.terminos.find((t) => t.eje === "atributo" && t.slug === "medio") as { valores?: { slug: string; palabras?: string[] }[] } | undefined;
   return medio?.valores?.find((v) => v.slug === valor)?.palabras ?? [];
 }
 
-/** REQ-532: ¿el título dice barco, bici o vehículo? */
+/** REQ-532: ¿el título dice barco, bici, tren (REQ-10703) o vehículo? */
 function enOtroMedio(dict: Dictionary, titulo: string): boolean {
-  return ["barco", "bici", "vehiculo"].some((m) => matches(medioPalabras(dict, m), titulo));
+  return ["barco", "bici", "tren", "vehiculo"].some((m) => matches(medioPalabras(dict, m), titulo));
 }
 
 /** Gate G2: qué cuenta como «Caminata» al filtrar (T4). El formato del producto no cambia. */
