@@ -21,7 +21,7 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 Decisiones 27, 28 y 30 (REQ-10605, REQ-10606, REQ-10608). PR 1: migración, regla pura y banderas apagadas; nada visible. Plan de regreso: revertir el PR; la 0035 puede quedarse con las columnas en NULL.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-10734 | Migración 0035: `City.lat`, `City.lng`, `City.coordsSource` | NUEVO | `migrations/0035_city_coordenadas.sql`, `prisma/schema.prisma` | `src/map/lib/city-pin.test.ts` (`cityLatLng`) | CUMPLIDO en código; aplicar en D1 = REQ-10741 |
+| REQ-10734 | Migración 0035: `City.lat`, `City.lng`, `City.coordsSource` (sin declarar en Prisma hasta aplicarla: lección del humo de #627) | NUEVO | `migrations/0035_city_coordenadas.sql`, `prisma/schema.prisma` (solo comentario) | `src/map/lib/city-pin.test.ts` (`cityLatLng`) | CUMPLIDO en código; aplicar en D1 = REQ-10741 |
 | REQ-10735 | Pin de respaldo por coordenadas de ciudad (decisión 27) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO en código (sin conectar a pantalla hasta el encendido) |
 | REQ-10736 | «Zona aproximada» sin «Cómo llegar» (decisión 28) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO en código (sin conectar a pantalla hasta el encendido) |
 | REQ-10737 | Banderas `CITY_PIN_FALLBACK_ENABLED`, `ZONE_MAP_ENABLED` | NUEVO | `wrangler.jsonc`, `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | PENDIENTE (apagadas) |
