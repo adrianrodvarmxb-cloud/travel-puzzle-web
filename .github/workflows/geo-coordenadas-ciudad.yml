@@ -1,0 +1,209 @@
+# Ficha única, ola 4 «Geografía» (decisión 27, REQ-10605). REQ-10741: aplica la migración 0035 (City.lat/lng/coordsSource)
+# con punto de regreso. REQ-10740: llena las coordenadas desde GeoNames (cities15000) y la mediana de puntos de encuentro.
+# Solo se dispara a mano. Siempre: anota el bookmark de Time Travel, guarda una copia de City (id, lat, lng, coordsSource)
+# con su SQL de restauración (artifact, 90 días) y corre el ENSAYO de solo lectura. Sin marcar nada, no escribe.
+# aplicar_migracion=true: `wrangler d1 migrations apply` (solo la 0035 queda pendiente si main ya trae las anteriores).
+# escribir=true: lotes de 25 UPDATE … WHERE lat IS NULL → verificación (conteo antes/después) → humo de producción.
+# Si algo falla después de escribir, restaura D1 al bookmark anotado y el job queda en rojo.
+# restaurar_bookmark: solo regreso manual a ese bookmark. Dentro del autopilot (opción C en #556, olas 0–7); se avisa al PO.
+# No corre si hay una publicación de main en curso o en fila.
+name: "Geo: coordenadas de ciudad"
+on:
+  workflow_dispatch:
+    inputs:
+      aplicar_migracion:
+        description: "Aplicar la migración 0035 en D1 (REQ-10741). Sin marcar = no se aplica"
+        type: boolean
+        default: false
+      escribir:
+        description: "Escribir las coordenadas en producción (REQ-10740). Sin marcar = solo ensayo"
+        type: boolean
+        default: false
+      restaurar_bookmark:
+        description: "Solo regreso: bookmark de Time Travel al que restaurar D1 (vacío = no restaurar)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  DB: travel-puzzle
+jobs:
+  geo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-10740, REQ-10741, REQ-10734…10738
+        run: npx vitest run src/geo/lib/coordenadas-ciudad.test.ts src/map/lib/city-pin.test.ts
+      - name: Sin publicación de main en curso
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for st in in_progress queued; do
+            c=$(gh api "repos/${{ github.repository }}/actions/workflows/deploy-cloudflare.yml/runs?status=$st&per_page=1" --jq '.total_count')
+            n=$((n + c))
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) de main en curso o en fila: no se toca la base."; exit 1; fi
+          echo "Sin publicación en curso."
+
+      - name: Restaurar D1 (solo con restaurar_bookmark)
+        if: inputs.restaurar_bookmark != ''
+        env:
+          BOOKMARK: ${{ inputs.restaurar_bookmark }}
+        run: |
+          [[ "$BOOKMARK" =~ ^[0-9a-f-]+$ ]] || { echo "::error::Bookmark con formato inesperado."; exit 1; }
+          yes | npx wrangler d1 time-travel restore "$DB" --bookmark="$BOOKMARK"
+          echo "D1 restaurada al bookmark $BOOKMARK." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Instante para Time Travel (punto de regreso)
+        id: tt
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          mkdir -p geo
+          date -u +%Y-%m-%dT%H:%M:%SZ > geo/instante.txt
+          npx wrangler d1 time-travel info "$DB" --json > geo/time-travel.json
+          bookmark=$(jq -r '.bookmark' geo/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "bookmark=$bookmark" >> "$GITHUB_OUTPUT"
+          echo "Instante: $(cat geo/instante.txt) · bookmark: \`$bookmark\`" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: ¿La 0035 ya está aplicada?
+        id: col
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$1"; }
+          n=$(q "SELECT COUNT(*) AS n FROM pragma_table_info('City') WHERE name = 'lat'" | jq -r '.[0].results[0].n')
+          echo "aplicada=$n" >> "$GITHUB_OUTPUT"
+          echo "Columna City.lat: $([ "$n" = "1" ] && echo presente || echo ausente)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Copia de City antes de tocar nada (REQ-10741)
+        if: inputs.restaurar_bookmark == ''
+        env:
+          APLICADA: ${{ steps.col.outputs.aplicada }}
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$1"; }
+          if [ "$APLICADA" = "1" ]; then COLS='"id", "geonameid", "lat", "lng", "coordsSource"'; else COLS='"id", "geonameid", NULL AS "lat", NULL AS "lng", NULL AS "coordsSource"'; fi
+          q "SELECT $COLS FROM \"City\" ORDER BY \"id\"" > geo/copia-city.json
+          npx tsx src/scripts/geo-coordenadas-ciudad.ts restaurar geo/copia-city.json geo/restaurar | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "Copia de City: $(jq '.[0].results | length' geo/copia-city.json) filas (artifact geo-coordenadas-ciudad/copia-city.json y restaurar/restaurar.sql)." | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Migraciones pendientes (solo lectura)
+        if: inputs.restaurar_bookmark == ''
+        run: npx wrangler d1 migrations list "$DB" --remote | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Aplicar la migración 0035 (solo con aplicar_migracion=true)
+        if: inputs.aplicar_migracion && inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          npx wrangler d1 migrations list "$DB" --remote > geo/pendientes.txt
+          otras=$(grep -oE '00[0-9]{2}_[A-Za-z0-9_]+\.sql' geo/pendientes.txt | grep -v '^0035_city_coordenadas.sql$' || true)
+          if [ -n "$otras" ]; then echo "::error::Hay otras migraciones pendientes además de la 0035: $otras. Una por corrida; no se aplica nada."; exit 1; fi
+          grep -q '0035_city_coordenadas.sql' geo/pendientes.txt || { echo "La 0035 no está pendiente (ya aplicada): nada que hacer." | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
+          yes | npx wrangler d1 migrations apply "$DB" --remote | tee -a "$GITHUB_STEP_SUMMARY"
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$1"; }
+          n=$(q "SELECT COUNT(*) AS n FROM pragma_table_info('City') WHERE name IN ('lat','lng','coordsSource')" | jq -r '.[0].results[0].n')
+          [ "$n" = "3" ] || { echo "::error::Tras aplicar, City no tiene las 3 columnas (tiene $n)."; exit 1; }
+          echo "Migración 0035 aplicada: City.lat, City.lng, City.coordsSource presentes." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Exportar ciudades y puntos de encuentro (solo lectura)
+        if: inputs.restaurar_bookmark == ''
+        env:
+          APLICADA: ${{ steps.col.outputs.aplicada }}
+          APLICAR: ${{ inputs.aplicar_migracion }}
+        run: |
+          set -euo pipefail
+          mkdir -p export
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$1"; }
+          if [ "$APLICADA" = "1" ] || [ "$APLICAR" = "true" ]; then COLS='"id", "geonameid", "lat", "lng", "coordsSource"'; else COLS='"id", "geonameid", NULL AS "lat", NULL AS "lng", NULL AS "coordsSource"'; fi
+          q "SELECT $COLS FROM \"City\" ORDER BY \"id\"" > export/cities.json
+          total=$(q 'SELECT COUNT(*) AS n FROM "Tour" WHERE "isActive" = 1' | jq -r '.[0].results[0].n')
+          for off in $(seq 0 2000 "$total"); do
+            q "SELECT \"cityId\", json_extract(\"meetingPoint\", '\$.coordinates') AS \"coords\" FROM \"Tour\" WHERE \"isActive\" = 1 ORDER BY \"id\" LIMIT 2000 OFFSET $off" > "export/tours-$off.json"
+          done
+          jq -s '[.[] | .[0].results[]]' export/tours-*.json > export/tours.json
+          rm export/tours-*.json
+          echo "Ciudades: $(jq '.[0].results | length' export/cities.json) · tours activos: $(jq length export/tours.json)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Bajar GeoNames cities15000
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          mkdir -p geonames
+          curl -sSfL -o geonames/cities15000.zip https://download.geonames.org/export/dump/cities15000.zip
+          unzip -o -q geonames/cities15000.zip -d geonames
+      - name: Plan (simulación: solo archivos)
+        id: plan
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          npx tsx src/scripts/geo-coordenadas-ciudad.ts plan geonames/cities15000.txt export geo/plan | tee geo/plan.log
+          cat geo/plan/resumen.md >> "$GITHUB_STEP_SUMMARY"
+          echo "$(grep '^esperadas=' geo/plan.log)" >> "$GITHUB_OUTPUT"
+          npx tsx src/scripts/geo-coordenadas-ciudad.ts validar geo/plan/coordenadas.sql
+      - name: Ensayo (solo lectura)
+        id: ensayo
+        if: inputs.restaurar_bookmark == '' && (steps.col.outputs.aplicada == '1' || inputs.aplicar_migracion)
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$1")"; }
+          q geo/plan/ensayo.sql > geo/ensayo-antes.json
+          r=$(jq -c '.[0].results[0]' geo/ensayo-antes.json); echo "Ensayo: $r" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "se_actualizarian=$(jq -r '.se_actualizarian' <<<"$r")" >> "$GITHUB_OUTPUT"
+          echo "con_coordenadas=$(jq -r '.con_coordenadas' <<<"$r")" >> "$GITHUB_OUTPUT"
+      - name: Escribir en lotes (solo con escribir=true)
+        id: escribir
+        if: inputs.escribir && inputs.restaurar_bookmark == ''
+        env:
+          APLICADA: ${{ steps.col.outputs.aplicada }}
+          APLICAR: ${{ inputs.aplicar_migracion }}
+        run: |
+          set -euo pipefail
+          if [ "$APLICADA" != "1" ] && [ "$APLICAR" != "true" ]; then echo "::error::La 0035 no está aplicada: primero aplicar_migracion=true."; exit 1; fi
+          total=0
+          for f in geo/plan/lote-*.sql; do
+            [ -e "$f" ] || break
+            npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$f")" > "${f%.sql}.json"
+            c=$(jq '[.[].meta.changes] | add' "${f%.sql}.json")
+            total=$((total + c)); echo "$(basename "$f"): $c filas"
+          done
+          echo "cambios=$total" >> "$GITHUB_OUTPUT"
+          echo "Escritas: $total filas" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Verificar (conteo antes/después)
+        if: inputs.escribir && inputs.restaurar_bookmark == ''
+        env:
+          ESPERADAS: ${{ steps.ensayo.outputs.se_actualizarian }}
+          ANTES: ${{ steps.ensayo.outputs.con_coordenadas }}
+          CAMBIOS: ${{ steps.escribir.outputs.cambios }}
+        run: |
+          set -euo pipefail
+          q() { npx wrangler d1 execute "$DB" --remote --json --command "$(cat "$1")"; }
+          q geo/plan/ensayo.sql > geo/ensayo-despues.json
+          r=$(jq -c '.[0].results[0]' geo/ensayo-despues.json); echo "Después: $r" | tee -a "$GITHUB_STEP_SUMMARY"
+          despues=$(jq -r '.con_coordenadas' <<<"$r")
+          echo "Ciudades con coordenadas: antes $ANTES, después $despues (esperado $((ANTES + ESPERADAS)))" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$CAMBIOS" = "$ESPERADAS" ] || { echo "::error::Se escribieron $CAMBIOS filas y el ensayo esperaba $ESPERADAS."; exit 1; }
+          [ "$despues" = "$((ANTES + ESPERADAS))" ] || { echo "::error::El conteo no cuadra."; exit 1; }
+          [ "$(jq -r '.se_actualizarian' <<<"$r")" = "0" ] || { echo "::error::Quedaron filas del plan sin escribir."; exit 1; }
+      - name: Navegador
+        if: (inputs.escribir || inputs.aplicar_migracion) && inputs.restaurar_bookmark == ''
+        run: npx playwright install --with-deps chromium
+      - name: Prueba de humo (producción)
+        if: (inputs.escribir || inputs.aplicar_migracion) && inputs.restaurar_bookmark == ''
+        run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
+      - name: Restaurar D1 al instante anotado si algo falló después de escribir
+        if: failure() && inputs.restaurar_bookmark == '' && steps.tt.outputs.bookmark != '' && ((inputs.escribir && steps.escribir.outcome != 'skipped') || inputs.aplicar_migracion)
+        env:
+          BOOKMARK: ${{ steps.tt.outputs.bookmark }}
+        run: |
+          yes | npx wrangler d1 time-travel restore "$DB" --bookmark="$BOOKMARK"
+          echo "::error::Algo falló después de escribir: D1 restaurada al bookmark $BOOKMARK. Avisar al PO."
+          echo "RESTAURADA al bookmark $BOOKMARK" >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: geo-coordenadas-ciudad, path: geo, retention-days: 90 }
