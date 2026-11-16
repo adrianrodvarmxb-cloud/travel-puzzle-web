@@ -21,6 +21,7 @@ import { planArchive, type KnownVersions, type ProviderRecordRow, type RawItem }
 import { rawHash } from "./raw-hash";
 import { rawKey } from "./raw-keys";
 import { countrySchema, destinationSchema, infoTourSchema, parseTourRates } from "@/tangol/lib/schemas";
+import { originalDeTangol } from "./tangol-original";
 
 export const TANGOL_PROVIDER = "tangol";
 
@@ -59,7 +60,8 @@ const SHAPES: Record<TangolOperation, {
     externalId: (r) => id(r.TourId),
     experience: true,
     // REQ-753: denominación original del proveedor, para la reclasificación con linaje.
-    original: (r) => (text(r.TypeCode) ? { field: "TypeCode", value: text(r.TypeCode)! } : null),
+    // REQ-10729 (decisión 14): completa, tipo y subtipo tal cual (`TypeCode|SubTypeCode`); sin subtipo, solo el tipo como antes.
+    original: (r) => originalDeTangol(r),
   },
   getTourRates: {
     // La respuesta de tarifas ES un registro (no una lista): se guarda completa, con sus opciones y fechas.
