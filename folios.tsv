@@ -9155,3 +9155,4 @@ REQ-10740	main	2026-11-16 20:48	ficha única ola 4 geografía: migración coorde
 REQ-10741	main	2026-11-16 20:48	ficha única ola 4 geografía: migración coordenadas de ciudad, pin de respaldo, zona aproximada, banderas, medición FREETOUR Londres, llenado GeoNames, respaldo City
 REQ-10742	HEAD	2026-11-16 22:10	Casos bloqueados por una pieza en borrador en otro repo o sin construir (como el puente de avisos de Mila): inventario y alta en la constructora
 REQ-10743	docs/req-10742-dependencias-detenidas	2026-11-16 22:20	Autorización global de la constructora: todo salvo lo irreversible, en los dos repos
+REQ-10744	feat/aviso-varios-correos	2026-11-16 23:58	Aviso por tipo nuevo: varios correos destinatarios en AVISO_PO_EMAIL
