@@ -39,14 +39,25 @@ export async function avisarTipoNuevo(tipos: readonly TipoNuevo[], deps: DepsAvi
 
 /** Canales reales desde el entorno (Actions o Worker). Sin variables, sin canal: el aviso se omite y queda en el log. */
 // REQ-10730
+/** REQ-10744: lista de correos de `AVISO_PO_EMAIL` (separados por coma o punto y coma), sin vacíos ni repetidos. */
+export function destinatarios(valor: string | undefined): string[] {
+  return [...new Set((valor ?? "").split(/[,;]/).map((x) => x.trim().toLowerCase()).filter(Boolean))];
+}
+
 export function avisoTipoNuevoDeps(
   env: Record<string, string | undefined>,
   io: { fetch: typeof fetch; sendEmail: (o: { apiKey: string; fetch: typeof fetch }, e: { from: string; to: string; subject: string; text: string; html: string }) => Promise<string>; hoy?: string; log?: (l: string) => void },
 ): DepsAvisoTipoNuevo {
   const encendido = env.AVISO_TIPO_NUEVO_ENABLED === "true";
-  const correo = env.RESEND_API_KEY && env.AVISO_PO_EMAIL
+  const correo = env.RESEND_API_KEY && destinatarios(env.AVISO_PO_EMAIL).length > 0
     ? async (c: { asunto: string; texto: string }) => {
-        await io.sendEmail({ apiKey: env.RESEND_API_KEY!, fetch: io.fetch }, { from: env.AVISO_FROM ?? "Travel Puzzle <no-reply@travelpuzzle.com.mx>", to: env.AVISO_PO_EMAIL!, subject: c.asunto, text: c.texto, html: "" });
+        // REQ-10744: varios destinatarios separados por coma; uno por envío, y uno que falla no detiene a los demás.
+        const destinos = destinatarios(env.AVISO_PO_EMAIL);
+        const r = await Promise.allSettled(destinos.map((to) =>
+          io.sendEmail({ apiKey: env.RESEND_API_KEY!, fetch: io.fetch }, { from: env.AVISO_FROM ?? "Travel Puzzle <no-reply@travelpuzzle.com.mx>", to, subject: c.asunto, text: c.texto, html: "" })));
+        const fallos = r.filter((x) => x.status === "rejected").length;
+        if (fallos > 0) io.log?.(`[aviso-tipo-nuevo] correo: ${fallos} de ${destinos.length} destinatarios fallaron`);
+        if (fallos === destinos.length) throw new Error("el correo falló para todos los destinatarios");
       }
     : undefined;
   const numero = env.AVISO_PO_WHATSAPP || (env.RESUMEN_DESTINOS ?? "").split(",").map((x) => x.trim()).filter(Boolean)[0];

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { avisarTipoNuevo, avisoTipoNuevoDeps } from "./aviso-tipo-nuevo";
+import { avisarTipoNuevo, avisoTipoNuevoDeps, destinatarios } from "./aviso-tipo-nuevo";
 import type { TipoNuevo } from "./lib/tipo-nuevo";
 
 const tipos: TipoNuevo[] = [{ proveedor: "tangol", clave: "WELLNESS|SPA", tours: 2, ejemplos: ["Spa"] }];
@@ -65,5 +65,25 @@ describe("REQ-10730 aviso al PO por correo y WhatsApp", () => {
     const body = JSON.parse((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].body as string);
     expect(body).toMatchObject({ negocio: "travel-puzzle", numero: "5215512345678" });
     expect(body.texto).toContain("WELLNESS|SPA");
+  });
+
+  it("REQ-10744: varios correos separados por coma reciben el aviso, uno por envío; si uno falla los demás salen", async () => {
+    expect(destinatarios(" a@example.com, B@example.com ;a@example.com,, ")).toEqual(["a@example.com", "b@example.com"]);
+    expect(destinatarios(undefined)).toEqual([]);
+    const sendEmail = vi.fn(async (_o: unknown, e: { to: string }) => { if (e.to === "malo@example.com") throw new Error("rebote"); return "id"; });
+    const deps = avisoTipoNuevoDeps(
+      { AVISO_TIPO_NUEVO_ENABLED: "true", RESEND_API_KEY: "k", AVISO_PO_EMAIL: "uno@example.com, malo@example.com, dos@example.com" },
+      { fetch: vi.fn() as unknown as typeof fetch, sendEmail },
+    );
+    const r = await avisarTipoNuevo(tipos, deps);
+    expect(r.canales).toEqual(["correo"]);
+    expect(sendEmail.mock.calls.map((c) => (c[1] as { to: string }).to)).toEqual(["uno@example.com", "malo@example.com", "dos@example.com"]);
+  });
+
+  it("REQ-10744: si el correo falla para todos, el canal se reporta como fallido", async () => {
+    const sendEmail = vi.fn(async () => { throw new Error("rebote"); });
+    const deps = avisoTipoNuevoDeps({ AVISO_TIPO_NUEVO_ENABLED: "true", RESEND_API_KEY: "k", AVISO_PO_EMAIL: "uno@example.com" }, { fetch: vi.fn() as unknown as typeof fetch, sendEmail });
+    const r = await avisarTipoNuevo(tipos, deps);
+    expect(r.canales).toEqual([]);
   });
 });
