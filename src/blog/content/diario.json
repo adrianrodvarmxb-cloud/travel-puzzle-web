@@ -2651,5 +2651,308 @@
         }
       ]
     }
+  },
+  {
+    "slug": "visita-guiada-acropolis-atenas",
+    "pillar": "europa",
+    "targetTerm": "visita guiada a la acropolis de atenas",
+    "title": "¿Cómo es una visita guiada a la Acrópolis de Atenas y cuántas personas entran al día?",
+    "summary": "Dos visitas guiadas de 2 horas en el catálogo y lo que dicen dos fuentes sobre el aforo y los boletos con franja horaria de la Acrópolis.",
+    "draft": false,
+    "publishedAt": "2026-11-15",
+    "author": "claudia",
+    "origen": "agente-diario",
+    "mix": "pago",
+    "tema": {
+      "tipo": "calendario",
+      "clusterId": "EU-04",
+      "fuentes": []
+    },
+    "enBreve": "Una visita guiada a la Acrópolis dura 2 horas en las dos fichas del [catálogo de Atenas](/destinos/gr/atenas), desde aprox. MXN $677 · EUR €33. El sitio abre a las 8:00 y, según [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap), recibe hasta 20,000 personas al día con boletos por franja horaria. Esa nota es de 2023: confirma el horario antes de ir.",
+    "entrada": "Si vas a Atenas por primera vez, la Acrópolis es la visita que más se planea y la que más conviene entender antes de comprar: cuánto dura, cuánto cuesta y cómo entra la gente. Aquí juntamos lo que dicen las fuentes y las fichas de Travel Puzzle. Es parte de la guía [Viajar a Europa desde México](/blog/europa); si ya tienes fechas, mira los [tours en Europa](/tours?search=Europa). Para los trámites de entrada al continente, lee [qué cambió en 2026 para entrar a Europa](/blog/europa/requisitos-para-entrar-a-europa-2026).",
+    "sections": [
+      {
+        "h2": "¿Cuánto dura y cuánto cuesta una visita guiada a la Acrópolis?",
+        "answer": "En el [catálogo de Atenas](/destinos/gr/atenas) hay dos visitas guiadas a la Acrópolis, ambas de 2 horas: «Atenas: Visita guiada a la Acrópolis y al Partenón», desde aprox. MXN $677 · EUR €33, y «Visita de la Acrópolis con Excelente Guía Oficial», desde aprox. MXN $718 · EUR €35.",
+        "body": [
+          "Las dos son de tipo Caminata. Los precios son aproximados y vienen en euros, como en cada ficha; abre la ficha que te guste para ver qué incluye y qué fechas hay."
+        ]
+      },
+      {
+        "h2": "¿Cuántas personas pueden entrar a la Acrópolis al día?",
+        "answer": "Hasta 20,000 personas al día, según [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423), en una nota de agosto de 2023 que anunciaba el límite por la saturación del sitio.",
+        "body": [
+          "La medida empezó el lunes 11 de septiembre de 2023, de acuerdo con [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423). Antes, en verano, se llegaron a registrar hasta 23,000 visitantes al día, según [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap)."
+        ]
+      },
+      {
+        "h2": "¿Qué es la franja horaria del boleto?",
+        "answer": "Quien compra el boleto en línea elige una franja horaria y el boleto se escanea de forma electrónica, según [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap).",
+        "body": [
+          "El aforo por hora cambia durante el día: no más de 3,000 personas entre las 8:00 y las 9:00, y no más de 2,000 en la hora siguiente, según [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423). Los grupos turísticos grandes tienen una entrada aparte, de acuerdo con [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap)."
+        ]
+      },
+      {
+        "h2": "¿A qué hora conviene ir?",
+        "answer": "El sitio abre a las 8:00, según [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap), y esa primera hora es la que admite más gente: hasta 3,000 personas, de acuerdo con [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423).",
+        "body": [
+          "Con visita guiada, la hora de encuentro depende de cada ficha. Elige primero el tour que te guste y después la fecha y el horario disponibles."
+        ]
+      },
+      {
+        "h2": "¿Qué debo saber del boleto antes de ir?",
+        "answer": "En 2023 la taquilla del sitio solo aceptaba efectivo, según [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap), así que conviene confirmar cómo se paga antes de llegar.",
+        "body": [
+          "Los descuentos que menciona esa nota son para estudiantes y menores de 25 años de países de la Unión Europea, según [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap). Las dos notas son de 2023: antes de viajar, confirma el horario y el boleto en el sitio oficial de la Acrópolis."
+        ]
+      },
+      {
+        "h2": "¿Qué otras experiencias hay en Atenas además de la Acrópolis?",
+        "answer": "En [Atenas](/destinos/gr/atenas) hay caminatas como la «Visita nocturna de Atenas», de 2 h, desde aprox. MXN $431 · EUR €21, y el «Recorrido Filosófico por Atenas», de 2 h 30 min, desde aprox. MXN $595 · EUR €29.",
+        "body": [
+          "Si prefieres comer mientras caminas, la «Ruta gastronómica y a pie por Atenas» del [catálogo de Atenas](/destinos/gr/atenas) dura 3 h y sale desde aprox. MXN $1,416 · EUR €69. Para ver todo lo de la región, abre los [tours en Europa](/tours?search=Europa)."
+        ]
+      }
+    ],
+    "datos": [
+      {
+        "text": "La Acrópolis limita las visitas a 20,000 personas al día desde el 11 de septiembre de 2023.",
+        "source": {
+          "label": "Time Out",
+          "url": "https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423"
+        },
+        "checkedAt": "2026-11-15"
+      },
+      {
+        "text": "El sitio abre a las 8:00 y los boletos en línea llevan una franja horaria.",
+        "source": {
+          "label": "Lonely Planet",
+          "url": "https://www.lonelyplanet.com/articles/acropolis-visitor-cap"
+        },
+        "checkedAt": "2026-11-15"
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 15 de noviembre de 2026) y del catálogo del sitio. Las notas de Lonely Planet y Time Out son de 2023 y no pudimos consultar el sitio oficial de la Acrópolis, así que los horarios y el boleto deben confirmarse antes de viajar.",
+    "visual": {
+      "kind": "tabla",
+      "caption": "Lo que dicen las notas de 2023 sobre el aforo de la Acrópolis. Fuente: Time Out (4 ago 2023).",
+      "head": [
+        "Tema",
+        "Lo que dice la fuente"
+      ],
+      "rows": [
+        [
+          "Visitantes al día",
+          "Hasta 20,000 personas"
+        ],
+        [
+          "De 8:00 a 9:00",
+          "No más de 3,000 personas"
+        ],
+        [
+          "Hora siguiente",
+          "No más de 2,000 personas"
+        ],
+        [
+          "Boleto en línea",
+          "Franja horaria con escaneo electrónico"
+        ]
+      ],
+      "source": {
+        "label": "Time Out",
+        "url": "https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423"
+      }
+    },
+    "cta": {
+      "kind": "comercial",
+      "label": "Ver tours en Europa"
+    },
+    "cover": {
+      "src": "/blog/img/visita-guiada-acropolis-atenas/portada-acropolis",
+      "alt": "La Acrópolis de Atenas con el Partenón vista desde la colina de Filopapo en un día soleado",
+      "credit": "Foto: Constantinos Kollias / Unsplash",
+      "license": {
+        "name": "Unsplash License",
+        "url": "https://unsplash.com/license"
+      },
+      "origen": {
+        "banco": "unsplash",
+        "id": "yqBvJJ8jGBQ",
+        "pagina": "https://unsplash.com/photos/acropolis-of-athens-at-golden-hour-yqBvJJ8jGBQ",
+        "autor": "Constantinos Kollias",
+        "descarga": "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb"
+      }
+    },
+    "imagenes": [
+      {
+        "formato": "columna",
+        "despues": 1,
+        "pie": "Ruinas de piedra en Atenas, la ciudad donde se encuentra la Acrópolis.",
+        "fotos": [
+          {
+            "src": "/blog/img/visita-guiada-acropolis-atenas/ruinas-atenas",
+            "alt": "Ruinas de piedra bajo un cielo despejado en Atenas",
+            "credit": "Foto: Spencer Davis / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "ilQmlVIMN4c",
+              "pagina": "https://unsplash.com/photos/view-of-brown-ruin-during-daytime-ilQmlVIMN4c",
+              "autor": "Spencer Davis",
+              "descarga": "https://images.unsplash.com/photo-1555993539-1732b0258235"
+            }
+          }
+        ]
+      },
+      {
+        "formato": "dos",
+        "despues": 3,
+        "pie": "La Acrópolis vista desde arriba y desde lejos.",
+        "fotos": [
+          {
+            "src": "/blog/img/visita-guiada-acropolis-atenas/acropolis-colina",
+            "alt": "Gran construcción de piedra sobre una colina en Atenas",
+            "credit": "Foto: Leonhard Niederwimmer / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "-n1UnPPKgf4",
+              "pagina": "https://unsplash.com/photos/a-large-stone-building-on-a-hill--n1UnPPKgf4",
+              "autor": "Leonhard Niederwimmer",
+              "descarga": "https://images.unsplash.com/photo-1661501760606-88ee3a22d645"
+            }
+          },
+          {
+            "src": "/blog/img/visita-guiada-acropolis-atenas/partenon-aereo",
+            "alt": "Vista aérea del Partenón de Atenas junto a la ciudad",
+            "credit": "Foto: Dimitris Kiriakakis / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "ZGF0_S20uRw",
+              "pagina": "https://unsplash.com/photos/brown-concrete-building-near-body-of-water-during-daytime-ZGF0_S20uRw",
+              "autor": "Dimitris Kiriakakis",
+              "descarga": "https://images.unsplash.com/photo-1599423217192-34da246be9e8"
+            }
+          }
+        ]
+      }
+    ],
+    "categoria": "viajes",
+    "en": {
+      "targetTerm": "guided tour of the acropolis of athens",
+      "title": "What is a guided visit to the Acropolis of Athens like, and how many people enter per day?",
+      "summary": "Two 2-hour guided visits in the catalog, and what two sources say about the Acropolis visitor cap and timed-entry tickets.",
+      "enBreve": "A guided visit to the Acropolis lasts 2 hours in the two listings of the [Athens catalog](/destinos/gr/atenas), from approx. MXN $677 · EUR €33. The site opens at 8:00 and, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap), admits up to 20,000 people a day with timed-entry tickets. That article is from 2023: confirm the schedule before you go.",
+      "entrada": "If you're going to Athens for the first time, the Acropolis is the visit people plan most, and the one worth understanding before you buy: how long it lasts, what it costs and how people get in. Here we gather what the sources and the Travel Puzzle listings say. It's part of the guide [Traveling to Europe from Mexico](/blog/europa); if you already have dates, look at the [tours in Europe](/tours?search=Europa). For entry paperwork to the continent, read [what changed in 2026 to enter Europe](/blog/europa/requisitos-para-entrar-a-europa-2026).",
+      "sections": [
+        {
+          "h2": "How long does a guided Acropolis visit last and how much does it cost?",
+          "answer": "The [Athens catalog](/destinos/gr/atenas) has two guided Acropolis visits, both 2 hours: «Atenas: Visita guiada a la Acrópolis y al Partenón», from approx. MXN $677 · EUR €33, and «Visita de la Acrópolis con Excelente Guía Oficial», from approx. MXN $718 · EUR €35.",
+          "body": [
+            "Both are walking tours. Prices are approximate and shown in euros, as in each listing; open the one you like to see what it includes and which dates are available."
+          ]
+        },
+        {
+          "h2": "How many people can enter the Acropolis per day?",
+          "answer": "Up to 20,000 people a day, according to [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423), in an August 2023 article announcing the cap because of overcrowding at the site.",
+          "body": [
+            "The measure started on Monday 11 September 2023, according to [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423). Before that, up to 23,000 visitors a day were recorded in summer, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap)."
+          ]
+        },
+        {
+          "h2": "What is the timed-entry slot on the ticket?",
+          "answer": "Whoever buys the ticket online picks a time slot and the ticket is scanned electronically, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap).",
+          "body": [
+            "The hourly cap changes through the day: no more than 3,000 people between 8:00 and 9:00, and no more than 2,000 the following hour, according to [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423). Large tour groups have a separate entrance, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap)."
+          ]
+        },
+        {
+          "h2": "What time is best to go?",
+          "answer": "The site opens at 8:00, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap), and that first hour admits the most people: up to 3,000, according to [Time Out](https://www.timeout.com/news/the-acropolis-in-athens-is-set-to-limit-visitor-numbers-due-to-overcrowding-080423).",
+          "body": [
+            "With a guided visit, the meeting time depends on each listing. Pick the tour you like first, then the date and available time."
+          ]
+        },
+        {
+          "h2": "What should I know about the ticket before going?",
+          "answer": "In 2023 the site's ticket office accepted cash only, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap), so it's worth confirming how to pay before you arrive.",
+          "body": [
+            "The discounts that article mentions are for students and under-25s from European Union countries, according to [Lonely Planet](https://www.lonelyplanet.com/articles/acropolis-visitor-cap). Both articles are from 2023: before you travel, confirm the schedule and the ticket on the Acropolis's official site."
+          ]
+        },
+        {
+          "h2": "What other experiences are there in Athens besides the Acropolis?",
+          "answer": "In [Athens](/destinos/gr/atenas) there are walks such as the «Visita nocturna de Atenas», 2 h, from approx. MXN $431 · EUR €21, and the «Recorrido Filosófico por Atenas», 2 h 30 min, from approx. MXN $595 · EUR €29.",
+          "body": [
+            "If you'd rather eat while you walk, the «Ruta gastronómica y a pie por Atenas» in the [Athens catalog](/destinos/gr/atenas) lasts 3 h and starts at approx. MXN $1,416 · EUR €69. To see everything in the region, open the [tours in Europe](/tours?search=Europa)."
+          ]
+        }
+      ],
+      "datos": [
+        {
+          "text": "The Acropolis has capped visits at 20,000 people a day since 11 September 2023."
+        },
+        {
+          "text": "The site opens at 8:00 and online tickets carry a time slot."
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 15 November 2026) and the site's catalog. The Lonely Planet and Time Out articles are from 2023 and we couldn't check the Acropolis's official site, so schedules and tickets must be confirmed before travelling.",
+      "visual": {
+        "caption": "What the 2023 articles say about the Acropolis visitor cap. Source: Time Out (4 Aug 2023).",
+        "head": [
+          "Topic",
+          "What the source says"
+        ],
+        "rows": [
+          [
+            "Visitors per day",
+            "Up to 20,000 people"
+          ],
+          [
+            "8:00 to 9:00",
+            "No more than 3,000 people"
+          ],
+          [
+            "Following hour",
+            "No more than 2,000 people"
+          ],
+          [
+            "Online ticket",
+            "Time slot with electronic scanning"
+          ]
+        ]
+      },
+      "cta": {
+        "label": "See tours in Europe"
+      },
+      "cover": {
+        "alt": "The Acropolis of Athens with the Parthenon seen from Philopappos Hill on a sunny day"
+      },
+      "imagenes": [
+        {
+          "pie": "Stone ruins in Athens, the city where the Acropolis stands.",
+          "alts": [
+            "Stone ruins under a clear sky in Athens"
+          ]
+        },
+        {
+          "pie": "The Acropolis seen from above and from afar.",
+          "alts": [
+            "Large stone building on a hill in Athens",
+            "Aerial view of the Parthenon in Athens next to the city"
+          ]
+        }
+      ]
+    }
   }
 ]
