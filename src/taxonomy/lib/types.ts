@@ -31,7 +31,7 @@ export type EstadoTermino = (typeof ESTADOS_TERMINO)[number];
 export const SECCIONES = ["experiencias", "traslados", "ninguna"] as const;
 export type Seccion = (typeof SECCIONES)[number];
 
-export const MEDIOS = ["bici", "barco", "vehiculo", "a-pie"] as const;
+export const MEDIOS = ["bici", "barco", "tren", "vehiculo", "a-pie"] as const; // REQ-10703: «tren» (G-R5)
 export type Medio = (typeof MEDIOS)[number];
 
 /** Lo que sabe el clasificador de un producto. Todo opcional salvo proveedor, categoría y título. */

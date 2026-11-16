@@ -1,5 +1,6 @@
 /**
  * REQ-962, REQ-983: mezcla 80/20 del blog diario y plan del día. Puro (fechas como texto AAAA-MM-DD; sin reloj).
+ * REQ-10725: con B1 bloqueado no hay tope de pago (los días de free tour se escriben de pago).
  * Ventana móvil de 10 días que termina en la fecha de la entrada: máximo 8 de pago y 2 de free, una por día.
  * Se mide en días y no en entradas: un día sin publicar (p. ej. free tour bloqueado por B1) no rompe la cuenta.
  */
@@ -32,9 +33,11 @@ export function mixWindow(posts: MixPost[], date: string): Record<Mix, number> {
 }
 
 // REQ-962
-export function mixProblems(candidate: { publishedAt: string; mix: Mix }, published: MixPost[]): string[] {
+// REQ-10725: con B1 bloqueado los días de free tour se escriben de pago, así que el tope 8/10 de pago no aplica.
+export function mixProblems(candidate: { publishedAt: string; mix: Mix }, published: MixPost[], b1: boolean = FREE_TOUR_POSTS_B1): string[] {
   if (published.some((p) => !p.draft && p.publishedAt === candidate.publishedAt)) return [`ya hay una entrada publicada el ${candidate.publishedAt}`];
   const w = mixWindow(published, candidate.publishedAt);
+  if (candidate.mix === "pago" && !b1) return [];
   if (w[candidate.mix] + 1 > MIX_MAX[candidate.mix]) {
     return [`mezcla 80/20: ya hay ${w[candidate.mix]} entradas de ${candidate.mix} en los ${MIX_WINDOW_DAYS} días que terminan el ${candidate.publishedAt}`];
   }
@@ -50,7 +53,8 @@ export function planDelDia(o: { posts: MixPost[]; calendar: CalendarItem[]; toda
   const usedTerms = new Set(o.posts.map((p) => (p.targetTerm ?? "").trim().toLowerCase()));
   const pending = o.calendar.filter((c) => !usedIds.has(c.id) && !usedTerms.has(c.term.toLowerCase()));
   const w = mixWindow(o.posts, o.today);
-  const fits = (m: Mix) => w[m] + 1 <= MIX_MAX[m] && (m === "pago" || o.b1);
+  // REQ-10725: con B1 bloqueado, pago siempre cabe (los días de free tour se escriben de pago)
+  const fits = (m: Mix) => (m === "pago" ? !o.b1 || w[m] + 1 <= MIX_MAX[m] : o.b1 && w[m] + 1 <= MIX_MAX[m]);
   const order = o.b1 ? pending : pending.filter((c) => c.mix === "pago");
   const pick = order.find((c) => c.mix === order[0]?.mix && fits(c.mix)) ?? order.find((c) => fits(c.mix));
   if (pick) return { kind: pick.mix, item: pick, motivo: `siguiente pendiente del calendario (${pick.id})` };

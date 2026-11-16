@@ -92,7 +92,7 @@ describe("validador de la entrada diaria", () => {
     expect(problems({ updatedAt: "2026-11-07" })).toContain("una entrada nueva no lleva updatedAt");
     const days = ["2026-10-29", "2026-10-30", "2026-10-31", "2026-11-01", "2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05"];
     const eight = days.map((d, i) => parsed({ slug: `p${i}`, targetTerm: `pago ${"abcdefgh"[i]}`, pillar: "peru", publishedAt: d, mix: "pago", origen: "agente-diario" }));
-    expect(problems({}, { existing: eight }).join(" ")).toMatch(/mezcla 80\/20/);
+    expect(problems({}, { existing: eight, b1FreeTours: true }).join(" ")).toMatch(/mezcla 80\/20/);
   });
 
   it("REQ-983: una entrada free se rechaza mientras B1 no esté autorizado", () => {

@@ -44,7 +44,8 @@ describe("T5 copy y etiquetas por formato (REQ-414, REQ-415, REQ-416, REQ-433, G
     expect(cityFormatChips([])).toEqual([]);
   });
   it("REQ-415 la etiqueta de la ficha es el nombre del formato; Momentos de autor con su nombre firmado", () => {
-    expect(tourLabels("experiencia-unica")).toEqual(["Momentos de autor"]);
+    // REQ-10700 (PO 15-11-2026): «Momentos de autor» pasa a «Actividades» / «Activities»; reemplaza el nombre firmado el 6-11.
+    expect(tourLabels("experiencia-unica")).toEqual(["Actividades"]);
     expect(tourLabels("fuera")).toEqual([]);
   });
   it("REQ-433 ningún texto de T5 promete pagos, MSI, «guía en español» ni nombra al proveedor", () => {
