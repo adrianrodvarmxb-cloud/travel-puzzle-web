@@ -13,4 +13,8 @@ Un «caso así» es algo ya construido o ya firmado que no se puede encender o t
 | 5 | Tabla de códigos de tipo en el sync de los demás proveedores | `src/taxonomy/lib/tipo-nuevo.ts` solo engancha Tangol | El aviso por tipo nuevo (REQ-10730) para proveedores que no son Tangol | Sin construir |
 | 6 | Calendario con precio por día y carga de adicionales | Rama `feat/calendario-proveedores-pdf`, plan firmado (PR #446) | Adicionales de Fantástica China definidos y sin cargar (REQ-3439, REQ-3456); temporadas de Exotic | En curso, sin publicar |
 
-Inventario inicial del 16-11-2026, hecho con `docs/seguimiento-mila-2026-11.md`, `docs/requisitos.md` y el código; no es exhaustivo: la constructora lo completa en cada corrida.
+## Inventario completo
+
+Petición del PO (16-11-2026 16:17 CDMX): «Haz lista exhaustiva». El inventario completo de todo lo que no está cerrado, con qué lo detiene, vive en `docs/dependencias-detenidas-inventario.md` y se regenera con `npx tsx src/scripts/dependencias-detenidas.ts` (lee `docs/requisitos.md`, `wrangler.jsonc` y los workflows). Al 16-11-2026: 1,200 folios, 509 sin cerrar. La tabla de arriba son los casos ya revisados a mano en los que la pieza que falta está sin construir.
+
+Límites del inventario, dichos tal cual: 149 folios tienen un estado que no dice qué les falta («PENDIENTE» o «EN CURSO» a secas) y 18 quedaron sin clasificar; esos se revisan a mano, folio por folio, y se les escribe qué falta. Las banderas de `zoefel-mila` (`wrangler.toml`: `STRIPE_CONNECT_ON`, `LEAD_ADS_ON`, `MP_ON`, `CLIENT_FLOWS_ON`, `VOZ_ON`, `EMAIL_SEQ_ON`) y sus PR en borrador (#203 a #209) no entran al script porque viven en el otro repo; su tablero es `docs/seguimiento-mila-2026-11.md`.
