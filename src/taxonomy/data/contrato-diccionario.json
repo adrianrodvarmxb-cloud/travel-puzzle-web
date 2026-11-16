@@ -290,19 +290,29 @@
    "tabla": "termino",
    "slug": "alquiler",
    "termino": "Alquiler",
-   "estadoCsv": "tras bandera (0)",
-   "cumplimiento": "TRAS BANDERA",
+   "estadoCsv": "activo (/traslados; REQ-10699)",
+   "cumplimiento": "OK",
    "evidencia": [
     {
      "tipo": "termino",
      "eje": "formato",
      "slug": "alquiler",
      "estados": [
-      "tras_bandera"
+      "activo"
      ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/format.ts",
+     "contiene": "#3 palabra alquiler en"
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/app/traslados/page.tsx",
+     "contiene": "export default"
     }
    ],
-   "nota": "estado tras_bandera del diccionario (sin variable propia)"
+   "nota": "REQ-10699 (G-R2, 15-11-2026): activo; sección /traslados; regla por palabra en Tangol 9000003"
   },
   {
    "fila": 14,

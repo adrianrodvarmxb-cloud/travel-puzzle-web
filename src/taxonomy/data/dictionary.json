@@ -130,18 +130,26 @@
       "eje": "formato",
       "termino_es": "Renta",
       "termino_en": "Rentals",
-      "definicion_es": "Renta de bici, moto o auto.",
+      "definicion_es": "Renta de bici, moto, auto o equipo (ski, snowboard).",
       "sinonimos": [
         "renta",
         "alquiler",
         "rent a car",
         "bike rental"
       ],
-      "estado": "tras_bandera",
+      "estado": "activo",
       "precedencia": 3,
       "seccion": "traslados",
       "guiaEnPersona": false,
-      "nota": "0 tours hoy. Término mexicano «renta» (pedido del PO, punto 4)."
+      "palabras": [
+        "alquiler",
+        "alquileres",
+        "rental",
+        "rentals",
+        "renta de",
+        "rent a"
+      ],
+      "nota": "Término mexicano «renta» (pedido del PO, punto 4). REQ-10699 (G-R2 firmado por el PO, 15-11-2026): activo; la palabra del título («alquiler», «rental») vale donde el mapeo permite la regla «alquiler» (Tangol 9000003: equipo de ski y snowboard). Vive en la sección Traslados (REQ-261), no en /tours."
     },
     {
       "slug": "entradas",

@@ -46,10 +46,11 @@
       ],
       "atributos": [],
       "reglasPorPalabra": [
-        "senderismo-guiado"
+        "senderismo-guiado",
+        "alquiler"
       ],
       "estado": "activo",
-      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Momentos de autor con tema aventura. PENDIENTE PO: el alquiler de equipo de ski y snowboard queda como aventura y no como `alquiler` (tras bandera en el diccionario). REQ-10662 (decisión 9, REQ-10588; lista firmada REQ-10661, 15-11-2026): la caminata con guía y el lugar de montaña sin otra actividad pasan a excursion-dia con aventura y montana-senderismo; el resto se queda."
+      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Actividades con tema aventura. FIRMADO PO (REQ-10699, G-R2 «3 … Encender «Alquiler» y moverlos», 15-11-2026): el alquiler de equipo de ski y snowboard pasa a Renta por la palabra del título (regla «alquiler»). PENDIENTE PO (resuelto con G-R2): el alquiler de equipo de ski y snowboard quedaba como aventura y no como `alquiler` (tras bandera en el diccionario). REQ-10662 (decisión 9, REQ-10588; lista firmada REQ-10661, 15-11-2026): la caminata con guía y el lugar de montaña sin otra actividad pasan a excursion-dia con aventura y montana-senderismo; el resto se queda."
     },
     {
       "id": "9000004",
@@ -438,8 +439,8 @@
       "temas": [],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "tras_bandera",
-      "nota": "Tangol ALQUILERES|ALQUILER POR HORA. 1 tour (alquiler de scooter). Trato de FREETOUR 26 «Alquileres»: formato alquiler (tras bandera en el diccionario), sección traslados, carrito `car_rental`."
+      "estado": "activo",
+      "nota": "Tangol ALQUILERES|ALQUILER POR HORA. 1 tour (alquiler de scooter). Trato de FREETOUR 26 «Alquileres»: formato alquiler (activo desde REQ-10699, 15-11-2026), sección traslados, carrito `car_rental`."
     },
     {
       "id": "9000033",
@@ -449,8 +450,8 @@
       "temas": [],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "tras_bandera",
-      "nota": "Tangol ALQUILERES|ALQUILERDEAUTO. 1 tour (alquiler de buggy playero). Trato de FREETOUR 26: formato alquiler (tras bandera), carrito `car_rental`."
+      "estado": "activo",
+      "nota": "Tangol ALQUILERES|ALQUILERDEAUTO. 1 tour (alquiler de buggy playero). Trato de FREETOUR 26: formato alquiler (activo desde REQ-10699, 15-11-2026), carrito `car_rental`."
     },
     {
       "id": "9000034",
