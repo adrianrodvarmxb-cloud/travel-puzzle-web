@@ -24,7 +24,8 @@ export interface AvisoTipoNuevo { asunto: string; texto: string; whatsapp: strin
 const EJEMPLOS = 3;
 const WHATSAPP_MAX = 3800; // WhatsApp admite 4096; se deja margen (igual que el resumen de proveedores, REQ-1568)
 
-const NOMBRES: Record<string, string> = { tangol: "Tangol", freetour: "FREETOUR", extime: "Extime Travel", bigbus: "Big Bus Tours" };
+// Nombres para el aviso (interno, al PO). Sin el proveedor de free tours: sus tours llegan ya clasificados por categoryId (REQ-751) y REQ-806.
+const NOMBRES: Record<string, string> = { tangol: "Tangol", extime: "Extime Travel", bigbus: "Big Bus Tours" };
 const nombre = (p: string) => NOMBRES[p] ?? p;
 
 /** Clave única del aviso: `proveedor:PAR`. Sirve para no avisar dos veces el mismo tipo. */
