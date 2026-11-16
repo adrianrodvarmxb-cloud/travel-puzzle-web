@@ -1,0 +1,80 @@
+# REQ-10726: corrección puntual de campos de viajes ya cargados, a partir de un archivo de imports/.
+# Solo escribe los campos de la lista cerrada de src/trips/lib/field-patch.ts (hoy: minPax e importantInfo).
+# No toca estado, código, slug, fotos, taxonomía ni dificultad. Solo se dispara a mano.
+# Con escribir=false (default): respaldo de las filas, SQL como artefacto y conteo; no escribe.
+# Con escribir=true: respaldo → UPDATE por id y agencia → verificación (mismo número de filas, valores iguales al archivo).
+# Candado: datos de producción. Plan de regreso: el respaldo del artefacto trae los valores anteriores por id.
+name: "Actualizar campos de viajes"
+on:
+  workflow_dispatch:
+    inputs:
+      archivo:
+        description: "Archivo en imports/ (p. ej. fantasticachina-2027.json)"
+        required: true
+      campos:
+        description: "Campos, separados por coma (minPax,importantInfo)"
+        required: true
+        default: "minPax,importantInfo"
+      escribir:
+        description: "Escribir en producción (candado: datos de producción)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  ARCHIVO: imports/${{ inputs.archivo }}
+  CAMPOS: ${{ inputs.campos }}
+jobs:
+  campos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-10726
+        run: npx vitest run src/trips/lib/field-patch.test.ts
+      - name: Contrato de ingesta (obligatorio)
+        run: npx tsx src/scripts/ingest-contract.ts "$ARCHIVO"
+      - name: Preparar SQL (no toca producción)
+        run: |
+          set -euo pipefail
+          npx tsx src/scripts/patch-trips.ts "$ARCHIVO" salida "$CAMPOS"
+          echo "AGENCIA=$(cat salida/agencia.txt)" >> "$GITHUB_ENV"
+          echo "ESPERADOS=$(grep -c . salida/ids.txt)" >> "$GITHUB_ENV"
+      - name: Respaldo de las filas (solo lectura)
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute travel-puzzle --remote --json --command "SELECT \"id\", \"code\", \"status\", \"minPax\", \"importantInfo\", \"updatedAt\" FROM \"Trip\" WHERE \"agencyId\" = '$AGENCIA'" > salida/antes.json
+          n=$(jq '[.[0].results[].id] | length' salida/antes.json)
+          jq -r '.[0].results[].id' salida/antes.json | sort > salida/ids-base.txt
+          faltan=$(sort salida/ids.txt | comm -23 - salida/ids-base.txt | wc -l)
+          echo "Viajes de la agencia en la base: $n · en el archivo: $ESPERADOS · del archivo que no están en la base: $faltan"
+          if [ "$faltan" != "0" ]; then echo "::error::Hay viajes del archivo que no existen en la base: no se escribe."; exit 1; fi
+      - name: Escribir (solo con escribir=true)
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute travel-puzzle --remote --file salida/patch.sql > salida/escritura.log 2>&1 || { tail -20 salida/escritura.log; exit 1; }
+          npx wrangler d1 execute travel-puzzle --remote --json --command "SELECT \"id\", \"status\", \"minPax\", \"importantInfo\" FROM \"Trip\" WHERE \"agencyId\" = '$AGENCIA'" > salida/despues.json
+          antes=$(jq -c '[.[0].results[] | {id, status}] | sort_by(.id)' salida/antes.json)
+          despues=$(jq -c '[.[0].results[] | {id, status}] | sort_by(.id)' salida/despues.json)
+          [ "$antes" = "$despues" ] || { echo "::error::Cambió el estado o el número de viajes"; exit 1; }
+          npx tsx -e "
+            const fs=require('node:fs');
+            const b=JSON.parse(fs.readFileSync(process.env.ARCHIVO,'utf8'));
+            const d=JSON.parse(fs.readFileSync('salida/despues.json','utf8'))[0].results;
+            const campos=process.env.CAMPOS.split(',').map(s=>s.trim());
+            const id=(r)=>(b.agency.initials+'-'+r).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+            let mal=0;
+            for(const t of b.trips){const f=d.find(x=>x.id===id(t.ref)); for(const c of campos){ if(!f||f[c]!==t.trip[c]) mal++; }}
+            console.log('Viajes verificados:',b.trips.length,'· diferencias:',mal);
+            if(mal) process.exit(1);
+          "
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: campos-viajes, path: salida, retention-days: 90 }
