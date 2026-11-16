@@ -18,7 +18,7 @@ describe("mezcla 80/20", () => {
     expect(addDays("2026-11-07", -9)).toBe("2026-10-29");
     const eight = Array.from({ length: 8 }, (_, i) => p(addDays("2026-11-01", i), "pago"));
     expect(mixWindow(eight, "2026-11-10")).toEqual({ pago: 8, free: 0 });
-    expect(mixProblems({ publishedAt: "2026-11-10", mix: "pago" }, eight)).toEqual(["mezcla 80/20: ya hay 8 entradas de pago en los 10 días que terminan el 2026-11-10"]);
+    expect(mixProblems({ publishedAt: "2026-11-10", mix: "pago" }, eight, true)).toEqual(["mezcla 80/20: ya hay 8 entradas de pago en los 10 días que terminan el 2026-11-10"]);
     expect(mixProblems({ publishedAt: "2026-11-10", mix: "free" }, eight)).toEqual([]);
     // El día 11 sale la primera del día 1 de la ventana: vuelve a caber una de pago.
     expect(mixProblems({ publishedAt: "2026-11-11", mix: "pago" }, eight)).toEqual([]);
@@ -37,10 +37,17 @@ describe("mezcla 80/20", () => {
     const used = [p("2026-11-06", "pago", "A"), p("2026-11-05", "pago", "B")];
     expect(planDelDia({ posts: used, calendar: cal, today: "2026-11-07", b1: false })).toMatchObject({ kind: "pago", item: { id: "C" } });
     const eight = Array.from({ length: 8 }, (_, i) => p(addDays("2026-10-29", i), "pago", `x${i}`));
+    // REQ-10725: con B1 bloqueado el tope de pago no aplica: el día de free tour se escribe de pago
     const r = planDelDia({ posts: eight, calendar: cal, today: "2026-11-07", b1: false });
-    expect(r.kind).toBe("ninguno");
-    expect(r.motivo).toMatch(/B1/);
+    expect(r).toMatchObject({ kind: "pago", item: { id: "A" } });
     expect(planDelDia({ posts: [p("2026-11-07", "pago", "A")], calendar: cal, today: "2026-11-07", b1: false }).kind).toBe("ninguno");
+  });
+
+  it("REQ-10725: con B1 bloqueado, la entrada de pago no choca con el tope 8/10; con B1 autorizado sí", () => {
+    const eight = Array.from({ length: 8 }, (_, i) => p(addDays("2026-10-29", i), "pago", `x${i}`));
+    expect(mixProblems({ publishedAt: "2026-11-07", mix: "pago" }, eight, false)).toEqual([]);
+    expect(mixProblems({ publishedAt: "2026-11-07", mix: "pago" }, eight, true)[0]).toMatch(/8 entradas de pago/);
+    expect(mixProblems({ publishedAt: "2026-11-07", mix: "free" }, eight, false)).toEqual([]);
   });
 
   it("REQ-962: con B1 autorizado sigue el orden del calendario y respeta la ventana", () => {

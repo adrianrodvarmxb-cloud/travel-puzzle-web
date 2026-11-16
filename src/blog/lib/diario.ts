@@ -163,7 +163,7 @@ export function validateDailyEntry(input: unknown, ctx: DiarioCtx): DailyResult 
   if (p.mix) {
     if (p.mix === "free" && !ctx.b1FreeTours) problems.push("free tour bloqueado: falta la autorización B1 del proveedor por escrito (registro de autorizaciones, pregunta 7)");
     const mixPosts: MixPost[] = ctx.existing.map((x) => ({ publishedAt: x.publishedAt, mix: x.mix, draft: x.draft }));
-    problems.push(...mixProblems({ publishedAt: p.publishedAt, mix: p.mix }, mixPosts));
+    problems.push(...mixProblems({ publishedAt: p.publishedAt, mix: p.mix }, mixPosts, ctx.b1FreeTours));
   }
 
   // REQ-970: término y slug únicos, sin canibalización
