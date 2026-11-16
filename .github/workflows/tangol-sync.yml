@@ -105,6 +105,8 @@ jobs:
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
+          # REQ-10731: aviso al PO por tipo nuevo (REQ-10730); apagado hasta que el PO cargue los canales (RESEND_API_KEY, AVISO_PO_EMAIL, MILA_AVISOS_URL/SECRET) y lo encienda.
+          AVISO_TIPO_NUEVO_ENABLED: "false"
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Plan de escritura (genera el SQL; todavía NO lo aplica)
@@ -114,6 +116,8 @@ jobs:
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
+          # REQ-10731: aviso al PO por tipo nuevo (REQ-10730); apagado hasta que el PO cargue los canales (RESEND_API_KEY, AVISO_PO_EMAIL, MILA_AVISOS_URL/SECRET) y lo encienda.
+          AVISO_TIPO_NUEVO_ENABLED: "false"
         # REQ-3519: --copia arma la copia exacta (con el neto) en tmp/tangol-copia, FUERA del artefacto público.
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir --copia tmp/tangol-copia ${{ inputs.reiniciar && '--reiniciar' || '' }} ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
