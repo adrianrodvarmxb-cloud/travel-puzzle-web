@@ -63,7 +63,7 @@ function plural(n: number, uno: string, varios: string): string {
   return n === 1 ? `1 ${uno}` : `${n} ${varios}`;
 }
 
-const TEXTO: Record<ConceptoIncluido, (n: number | "diario" | "turistico") => string> = {
+const TEXTO: Record<ConceptoIncluido, (n: number | "diario") => string> = {
   desayuno: (n) => (n === "diario" ? "Desayuno diario" : plural(n, "desayuno incluido", "desayunos incluidos")),
   comida: (n) => (n === "diario" ? "Comida diaria" : plural(n, "comida incluida", "comidas incluidas")),
   cena: (n) => (n === "diario" ? "Cena diaria" : plural(n, "cena incluida", "cenas incluidas")),
