@@ -2929,6 +2929,35 @@
     }
    ],
    "nota": "descartado sin término destino: no hay a qué buscarlo"
+  },
+  {
+   "fila": 146,
+   "tabla": "termino",
+   "slug": "campo-vida-rural",
+   "termino": "Campo y vida rural",
+   "estadoCsv": "activo (chip y filtro; REQ-10701)",
+   "cumplimiento": "OK",
+   "evidencia": [
+    {
+     "tipo": "termino",
+     "eje": "tema",
+     "slug": "campo-vida-rural",
+     "estados": [
+      "activo"
+     ]
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/filters.ts",
+     "contiene": "\"campo-vida-rural\": { es: \"Campo y vida rural\""
+    },
+    {
+     "tipo": "codigo",
+     "archivo": "src/taxonomy/lib/themes.ts",
+     "contiene": "export function"
+    }
+   ],
+   "nota": "REQ-10701 (G-R3, 15-11-2026): tema nuevo con chip y filtro; Tangol 9000007 por categoría"
   }
  ]
 }

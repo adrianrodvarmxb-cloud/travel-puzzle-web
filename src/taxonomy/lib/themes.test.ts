@@ -19,7 +19,7 @@ describe("REQ-403 temas: de 0 a 3, de los 13", () => {
       ["aventura", ft(13, "Rafting y tirolesa")], ["playa-mar", ft(13, "Snorkel en la isla")], ["cultural", ft(13, "Historia del castillo")],
       ["religioso", ft(13, "Monasterios y santuario")], ["urbano", ft(13, "Barrios de la ciudad")], ["noche-espectaculos", ft(13, "Show de flamenco")],
       ["bienestar", ft(13, "Spa y temazcal")], ["talleres-aprendizaje", ft(13, "Workshop de cerámica")], ["deportivo", ft(13, "Estadio de futbol")],
-      ["parques-ocio", ft(13, "Escape room")],
+      ["parques-ocio", ft(13, "Escape room")], ["campo-vida-rural", ft(13, "Día de campo en una estancia")], // REQ-10701
     ];
     expect(casos.map((c) => c[0]).sort()).toEqual([...TEMAS].sort());
     for (const [tema, input] of casos) expect(temas(input)).toContain(tema);
@@ -55,6 +55,6 @@ describe("REQ-411 falsos positivos conocidos y urbano sin chip", () => {
   it("REQ-411 «Ciudad y barrios» se asigna como etiqueta pero no es chip", () => {
     expect(temas(ft(12, "Visita Alfa"))).toEqual(["urbano"]);
     expect(temasConChip(D)).not.toContain("urbano");
-    expect(temasConChip(D)).toHaveLength(12);
+    expect(temasConChip(D)).toHaveLength(13); // REQ-10701: + «Campo y vida rural»
   });
 });

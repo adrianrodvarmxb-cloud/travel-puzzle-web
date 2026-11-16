@@ -62,13 +62,13 @@ const nombre = (f: Fila) => `fila ${f.fila} ${f.tabla}:${f.slug} («${f.estadoCs
 
 describe("REQ-1348: contrato diccionario ↔ código, fila por fila", () => {
   it("REQ-1348: el contrato cubre las 145 filas del CSV, en orden y con el mismo slug y estado", () => {
-    expect(csv).toHaveLength(145);
+    expect(csv).toHaveLength(146); // REQ-10701: + «Campo y vida rural»
     const fallas = csv.flatMap((r, i) => {
       const f = filas[i];
       return !f || f.slug !== r[col("slug")] || f.estadoCsv !== r[col("estado")] || f.fila !== i + 1 ? [`fila ${i + 1} ${r[col("slug")]}: sin entrada igual en el contrato`] : [];
     });
     expect(fallas).toEqual([]);
-    expect(filas).toHaveLength(145);
+    expect(filas).toHaveLength(146);
   });
   it("REQ-1348: toda evidencia declarada se cumple en el código", () => {
     const fallas = filas.flatMap((f) => f.evidencia.flatMap((e) => { const m = check(e); return m ? [`${nombre(f)}: ${m}`] : []; }));
