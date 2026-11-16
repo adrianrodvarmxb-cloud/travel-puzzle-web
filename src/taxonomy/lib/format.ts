@@ -59,6 +59,9 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   if (palabrasPermitidas && kw("transporte", titulo)) return { valor: "transporte", regla: "#2 palabra hop-on en el título" };
   // 3 alquiler
   if (b === "alquiler") return { valor: "alquiler", regla: `#3 base ${id}` };
+  // REQ-10699 (G-R2 firmado por el PO, 15-11-2026): donde la categoría lo permite (Tangol 9000003 mezcla rentas de equipo
+  // con actividades), «alquiler» o «rental» en el título es Renta, para cualquier proveedor (REQ-10709).
+  if (palabrasPermitidas && cat.reglasPorPalabra.includes("alquiler") && kw("alquiler", titulo)) return { valor: "alquiler", regla: `#3 palabra alquiler en ${id}` };
   // 4 entradas
   // REQ-540 (PO 6-11 21:14): boletos solo SIN guía. Con guía en el título o el resumen es visita guiada (la entrada va
   // como atributo «entrada-incluida»); una base «entradas» con guía se trata como «tour» en el resto de las reglas.
