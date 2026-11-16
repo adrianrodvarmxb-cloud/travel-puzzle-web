@@ -25,6 +25,8 @@ import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catal
 import { DEFAULT_RATES_CURRENCY, runTangolSyncStep } from "../tangol/sync";
 import { formatTourCountCheck, formatTourCountDetail } from "../tangol/lib/tour-count";
 import { formatCurrencyReport } from "../tangol/lib/currency-report";
+import { avisarTipoNuevo, avisoTipoNuevoDeps } from "../taxonomy/aviso-tipo-nuevo";
+import { sendEmail } from "../notifications/resend";
 import {
   createTangolSqlRepo,
   readExportRows,
@@ -150,6 +152,10 @@ function agencyTrips(): AgencyTripPlace[] {
   console.log(`Países nuevos:${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
   for (const p of report.ciudadesPendientes) console.log(`Pendiente: destino ${p.externalId} «${p.name}» (${p.countryCode}) — ${p.reason}`);
   for (const e of report.errores) console.log(`Error contenido: ${e.donde} — ${e.error}`);
+  // REQ-10730 (regla REQ-10698): tipos nuevos que no encajan en la taxonomía: siempre en el resumen; correo y WhatsApp al PO tras AVISO_TIPO_NUEVO_ENABLED (REQ-10731).
+  for (const t of report.tiposNuevos) console.log(`::warning::Tipo nuevo de Tangol sin mapear: ${t.clave} · ${t.tours} tour(s) (p. ej. ${t.ejemplos.join("; ")})`);
+  const aviso = await avisarTipoNuevo(report.tiposNuevos, avisoTipoNuevoDeps(process.env, { fetch, sendEmail, log: console.log }));
+  if (aviso.tipos > 0) console.log(`Aviso al PO: canales ${aviso.canales.join(", ") || "ninguno"}${aviso.omitidos.length ? ` · omitidos: ${aviso.omitidos.join(", ")}` : ""}${aviso.errores.length ? ` · errores: ${aviso.errores.join(" | ")}` : ""}`);
 
   if (escribir) {
     const stmts = repo.statements();
