@@ -19,6 +19,7 @@ export type FormatoOEstado = Formato | (typeof ESTADOS_FORMATO)[number];
 export const TEMAS = [
   "gastronomia", "naturaleza", "montana-senderismo", "aventura", "playa-mar", "cultural", "religioso", "urbano",
   "noche-espectaculos", "bienestar", "talleres-aprendizaje", "deportivo", "parques-ocio",
+  "campo-vida-rural", // REQ-10701 (G-R3, PO 15-11-2026)
 ] as const;
 export type Tema = (typeof TEMAS)[number];
 export const MAX_TEMAS = 3;

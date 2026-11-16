@@ -111,6 +111,7 @@ export function formatoOptions(counts: Partial<Record<string, number>> | null | 
 export const TEMAS_FILTRO = [
   "gastronomia", "naturaleza", "montana-senderismo", "aventura", "playa-mar", "cultural", "religioso",
   "noche-espectaculos", "bienestar", "talleres-aprendizaje", "deportivo", "parques-ocio",
+  "campo-vida-rural", // REQ-10701 (G-R3, PO 15-11-2026): «Campo y vida rural»
 ] as const;
 export type TemaFiltro = (typeof TEMAS_FILTRO)[number];
 export const TEMA_LABEL: Record<TemaFiltro, { es: string; en: string }> = {
@@ -126,6 +127,7 @@ export const TEMA_LABEL: Record<TemaFiltro, { es: string; en: string }> = {
   "talleres-aprendizaje": { es: "Talleres y aprendizaje", en: "Classes & workshops" },
   deportivo: { es: "Deportes", en: "Sports" },
   "parques-ocio": { es: "Parques y ocio", en: "Theme parks & leisure" },
+  "campo-vida-rural": { es: "Campo y vida rural", en: "Countryside & rural life" }, // REQ-10701
 };
 
 /**
