@@ -136,7 +136,7 @@ jobs:
           mkdir -p geonames
           curl -sSfL -o geonames/cities15000.zip https://download.geonames.org/export/dump/cities15000.zip
           unzip -o -q geonames/cities15000.zip -d geonames
-      - name: Plan (simulación: solo archivos)
+      - name: "Plan (simulación: solo archivos)"
         id: plan
         if: inputs.restaurar_bookmark == ''
         run: |

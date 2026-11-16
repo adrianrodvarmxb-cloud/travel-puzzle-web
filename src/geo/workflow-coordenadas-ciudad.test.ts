@@ -35,8 +35,8 @@ describe("REQ-10741: aplicar la 0035 y escribir coordenadas solo a mano, con boo
   });
 
   it("REQ-10740: el plan es simulación (archivos), el SQL se valida línea por línea y los export son solo SELECT", () => {
-    expect(paso(/^Plan \(simulación/)).toMatch(/geo-coordenadas-ciudad\.ts plan[\s\S]*geo-coordenadas-ciudad\.ts validar/);
-    expect(paso(/^Plan \(simulación/)).not.toMatch(/wrangler d1 execute/);
+    expect(paso(/^"?Plan \(simulación/)).toMatch(/geo-coordenadas-ciudad\.ts plan[\s\S]*geo-coordenadas-ciudad\.ts validar/);
+    expect(paso(/^"?Plan \(simulación/)).not.toMatch(/wrangler d1 execute/);
     const consultas = [...wf.matchAll(/(?:^|[\s;(])q ["']([^"']+)/gm)].map((m) => m[1].trim());
     expect(consultas.length).toBeGreaterThanOrEqual(3);
     for (const c of consultas) expect(c, c).toMatch(/^(SELECT\b|\$\(cat )/);
