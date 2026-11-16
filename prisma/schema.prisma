@@ -53,6 +53,11 @@ model City {
   indexableSince DateTime? // REQ-090: desde cuándo es indexable (null = noindex)
   failingSince   DateTime? // REQ-090: primer día sin cumplir la regla; al día 14 pasa a noindex
   providerCities ProviderCity[] // REQ-3369: destinos de proveedores que apuntan a esta ciudad
+  // Ficha única, ola 4 (migración 0035, REQ-10734): coordenadas de la ciudad para el pin de respaldo (decisión 27) y la
+  // «Zona aproximada» (decisiones 28 y 30). NULL hasta que las llene GeoNames (REQ-10740) o el PO a mano.
+  lat          Float? // REQ-10734
+  lng          Float? // REQ-10734
+  coordsSource String? // REQ-10734: geonames | manual | mediana
 
   @@unique([countryId, slug])
   @@index([countryId])
