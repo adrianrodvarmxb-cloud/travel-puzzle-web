@@ -112,6 +112,30 @@ describe("REQ-3463: un paso del sync de Tangol", () => {
     expect(filas.map((f) => [f.tour.externalId, f.tour.categoryId])).toEqual([[1234, 9_000_011], [5678, 9_000_018]]);
   });
 
+  it("REQ-10730: el reporte lista los pares TypeCode|SubTypeCode que el mapeo no conoce, con sus tours; lo mapeado no sale", async () => {
+    const api = fakeApi({
+      getTourList: async ({ destinationId }) => ({
+        items: destinationId === 100
+          ? [tour(1234, { typeCode: "WELLNESS", subTypeCode: "SPA", name: "Spa en Bariloche" }), tour(1235, { typeCode: "WELLNESS", subTypeCode: "SPA", name: "Termas" })]
+          : [tour(5678, { typeCode: "VIAJES", subTypeCode: "CLASICOS" })],
+        discarded: 0,
+      }),
+    });
+    const r = await correr({ api });
+    expect(r.tiposNuevos).toEqual([{ proveedor: "tangol", clave: "WELLNESS|SPA", tours: 2, ejemplos: ["Spa en Bariloche", "Termas"] }]);
+  });
+
+  it("REQ-10730: con todos los pares conocidos, tiposNuevos va vacío", async () => {
+    const api = fakeApi({
+      getTourList: async ({ destinationId }) => ({
+        items: destinationId === 100 ? [tour(1234, { typeCode: "TRASLADO", subTypeCode: "IN" })] : [tour(5678, { typeCode: "VIAJES", subTypeCode: "CLASICOS" })],
+        discarded: 0,
+      }),
+    });
+    const r = await correr({ api });
+    expect(r.tiposNuevos).toEqual([]);
+  });
+
   it("REQ-10510: las tarifas se piden en USD por omisión (antes «0» = moneda por omisión de Tangol, que daba ARS)", async () => {
     const pedidas: { tourId: number; currency: string; languageCode: string }[] = [];
     const api = fakeApi({ getTourRates: async (p) => { pedidas.push(p); return tarifas(Number(p.tourId)); } });
