@@ -121,7 +121,7 @@ describe("REQ-3473 índice ProviderRecord de Tangol: de dónde salió este tour"
       provider: "tangol", externalId: "7", experienceKind: "tour", experienceId: null, schemaOk: 1,
       sourceRef: "tangol:getTourList?destinationId=12", runId: "corrida-1",
       fetchedAt: "2026-11-12T06:00:00.000Z", lastSeenAt: "2026-11-12T06:00:00.000Z",
-      originalField: "TypeCode", originalCategory: "SIC",
+      originalField: "TypeCode|SubTypeCode", originalCategory: "SIC|REG", // REQ-10729: completa (decisión 14)
     });
     // La fila apunta a la copia con la misma llave y huella que la entrada pura (REQ-3472).
     const entries = await tangolRawEntries(batch);
