@@ -14,7 +14,7 @@ export interface EntradaIncluido {
 export interface EtiquetaIncluido {
   concepto: ConceptoIncluido;
   /** Número de veces o noches; "diario" para el desayuno de todos los días con hotel. */
-  cantidad: number | "diario";
+  cantidad: number | "diario" | "turistico";
   /** Solo tren y autobús: los dos trayectos son la ida y la vuelta de una misma ruta. */
   idaYVuelta?: boolean;
   etiqueta: string;
@@ -63,7 +63,7 @@ function plural(n: number, uno: string, varios: string): string {
   return n === 1 ? `1 ${uno}` : `${n} ${varios}`;
 }
 
-const TEXTO: Record<ConceptoIncluido, (n: number | "diario") => string> = {
+const TEXTO: Record<ConceptoIncluido, (n: number | "diario" | "turistico") => string> = {
   desayuno: (n) => (n === "diario" ? "Desayuno diario" : plural(n, "desayuno incluido", "desayunos incluidos")),
   comida: (n) => (n === "diario" ? "Comida diaria" : plural(n, "comida incluida", "comidas incluidas")),
   cena: (n) => (n === "diario" ? "Cena diaria" : plural(n, "cena incluida", "cenas incluidas")),
@@ -91,6 +91,12 @@ function contarAlimento(seg: string, re: RegExp, palabra: "almuerzo" | "cena", c
 
 const REDONDO = /ida y vuelta|subida y bajada|de ida .* y de regreso/i;
 
+/** Una ruta «A – B – A» (sale y vuelve al mismo punto) es una ida y vuelta. */
+function rutaRedonda(linea: string): boolean {
+  const paradas = linea.replace(/^(boletos? de )?(tren(es)?|bus( tur[ií]stico)?|autob[uú]s)\s+/i, "").split(/\s[–-]\s|–/).map((x) => x.trim().toLowerCase());
+  return paradas.length === 3 && paradas[0] === paradas[2].split(/\s+(en|por|con)\s+/)[0];
+}
+
 /** Trayectos de un medio en una línea que empieza por ese medio: ida y vuelta = 2, ruta A–B = 1 por tramo. */
 function trayectos(linea: string): number | undefined {
   if (REDONDO.test(linea)) return 2;
@@ -102,7 +108,7 @@ function trayectos(linea: string): number | undefined {
 export function etiquetasIncluido(input: EntradaIncluido): ResultadoIncluido {
   const des = vacio(), com = vacio(), cen = vacio(), tren = vacio(), bus = vacio();
   const noches: number[] = [];
-  let hotel = false, hotelDuda = false;
+  let hotel = false, hotelDuda = false, busTuristico = false;
 
   for (const linea of input.includes) {
     for (const seg of segmentos(linea)) {
@@ -135,12 +141,14 @@ export function etiquetasIncluido(input: EntradaIncluido): ResultadoIncluido {
         tren.mencion = true;
         if (depende || /\bo trenes\b|\bo vuelos\b/i.test(seg)) tren.duda = true;
         else if (VER_ITINERARIO.test(seg)) tren.itinerario = true;
-        else { const t = trayectos(seg.split(/ y vuelos?\b/i)[0]); if (t) { tren.n += t; tren.lineas += 1; tren.redondo = REDONDO.test(seg); } else tren.duda = true; }
+        else { const t = trayectos(seg.split(/ y vuelos?\b/i)[0]); if (t) { tren.n += t; tren.lineas += 1; tren.redondo = REDONDO.test(seg) || rutaRedonda(seg); } else tren.duda = true; }
       }
       if (/^(boletos? de )?(bus|autob[uú]s)\b/i.test(seg)) {
         bus.mencion = true;
-        const t = depende || /hop-on/i.test(seg) ? undefined : trayectos(seg);
-        if (t) { bus.n += t; bus.lineas += 1; bus.redondo = REDONDO.test(seg); } else bus.duda = true;
+        // REQ-10733: el bus turístico hop-on hop-off no tiene trayectos que contar; lleva su propia etiqueta.
+        if (/hop-on/i.test(seg)) { busTuristico = true; continue; }
+        const t = depende ? undefined : trayectos(seg);
+        if (t) { bus.n += t; bus.lineas += 1; bus.redondo = REDONDO.test(seg) || rutaRedonda(seg); } else bus.duda = true;
       }
     }
   }
@@ -183,5 +191,11 @@ export function etiquetasIncluido(input: EntradaIncluido): ResultadoIncluido {
   }
   cerrar("tren", tren, RE.tren);
   cerrar("autobus", bus);
+  // REQ-10733 (excepción firmada por el PO a la regla de cantidad, vale para todo hop-on hop-off de cualquier proveedor).
+  if (busTuristico && !etiquetas.some((e) => e.concepto === "autobus")) {
+    etiquetas.push({ concepto: "autobus", cantidad: "turistico", etiqueta: "Autobús turístico incluido", fuente: "incluye" });
+    const i = sinCantidad.indexOf("autobus");
+    if (i >= 0) sinCantidad.splice(i, 1);
+  }
   return { etiquetas, sinCantidad };
 }
