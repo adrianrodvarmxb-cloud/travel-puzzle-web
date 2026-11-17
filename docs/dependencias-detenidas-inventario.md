@@ -2,18 +2,18 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1224 · sin cerrar: 480
+Filas de requisitos: 1237 · sin cerrar: 463
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 164 |
+| Decisión, firma u OK del PO | 165 |
 | Depende de otro folio sin cerrar | 83 |
-| A medias (el estado no dice qué falta) | 63 |
-| Sin iniciar (el estado no dice qué falta) | 50 |
+| Sin iniciar (el estado no dice qué falta) | 48 |
+| A medias (el estado no dice qué falta) | 46 |
 | Falta publicar (PR, humo o merge) | 41 |
-| Pieza sin construir o en borrador | 21 |
+| Pieza sin construir o en borrador | 22 |
 | Tarea a mano del PO | 17 |
 | Carga de datos o migración | 10 |
 | Secreto o variable por cargar | 10 |
@@ -26,10 +26,10 @@ Filas de requisitos: 1224 · sin cerrar: 480
 
 | Bandera o variable | Estado | Dónde | Folio que la nombra | Estado del folio |
 |---|---|---|---|---|
-| `PROVEEDORES_BORRADORES_ON` | apagada | wrangler.jsonc | REQ-10762 | PENDIENTE (siguiente corrida: bandera de modo, botón «Enviar ahora», aviso; encendido en modo manual con humo) |
-| `BIGBUS_OCTO_ENABLED` | apagada | wrangler.jsonc | REQ-3424 | PENDIENTE |
+| `BIGBUS_OCTO_ENABLED` | apagada | wrangler.jsonc | REQ-10774 | CUMPLIDO (firmada) |
 | `PROVIDER_CALENDAR_ENABLED` | apagada | wrangler.jsonc | REQ-3471 | EN CURSO (PR abierto; el merge es del PO) |
 | `NEARBY_UNIFIED_ENABLED` | apagada | wrangler.jsonc | REQ-10752 | CUMPLIDO en código (17-11-2026, constructora): `transportOrigin` (punto exacto no relleno → coordenadas de la ciudad, REQ-10735 → null) y `pickTransport` (con ` |
+| `FICHA_TRANSFER_CARD_ENABLED` | apagada | wrangler.jsonc | REQ-10753 | CUMPLIDO en código (17-11-2026, firma REQ-10764 «A: la que ya está en el código»: sin variable nueva, enlace de `kiwitaxiLink`; `src/trips/lib/transfer-card.ts` |
 | `SEARCH_LOG_ENABLED` | apagada | wrangler.jsonc | REQ-1311 | BLOQUEADO |
 | `STRIPE_HOLD_ENABLED` | apagada | wrangler.jsonc | REQ-3483 | EN CURSO (pruebas en verde; PR) |
 | `FREETOUR_POSTTOUR_PROMO_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
@@ -41,11 +41,11 @@ Filas de requisitos: 1224 · sin cerrar: 480
 | `COOKIES_POLICY_ENABLED` | apagada | wrangler.jsonc | REQ-1313 | BLOQUEADO (las dos que quedan en "false" en main; esperan la revisión del abogado, REQ-1323) |
 | `BLOG_SHOW_DRAFTS` | apagada | wrangler.jsonc | REQ-256 | CUMPLIDO (apagado; src/blog/lib/registry.test.ts) |
 | `SOCIAL_LINKEDIN_ENABLED` | apagada | wrangler.jsonc | REQ-1310 | EN CURSO (Facebook encendida: #293, deploy 42561967397 verde, 8-11; Instagram encendida: #301, deploy 42577832647 verde, 9-11; falta `SOCIAL_LINKEDIN_ENABLED`,  |
-| `CART_PAYMENTS_ENABLED` | apagada | wrangler.jsonc | REQ-1306 | EN CURSO (revisión REQ-1604, 12-11 23:5x UTC: #135 fusionado el 12-11 04:21 UTC con humo verde; deploy 43154278943 verde; en main `ARMA_TU_VIAJE_ENABLED`="true" |
+| `CART_PAYMENTS_ENABLED` | apagada | wrangler.jsonc | REQ-10775 | CUMPLIDO (firmada); construcción en la ola 8 |
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (164)
+## Decisión, firma u OK del PO (165)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -157,6 +157,7 @@ Filas de requisitos: 1224 · sin cerrar: 480
 | REQ-1265 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1306 | VALIDACIÓN | — | EN CURSO (revisión REQ-1604, 12-11 23:5x UTC: #135 fusionado el 12-11 04:21 UTC con humo verde; deploy 43154278943 verde; en main `ARMA_TU_VIAJE_ENABLED`="true" y `CART_PAYMENTS_ENABLED`="false". Faltan, según el PO 11-1 |
 | REQ-1314 | DEFINICIÓN | — | PENDIENTE (solo `STRIPE_HOLD_ENABLED`, en "false" en main; falta la definición del PO) |
+| REQ-1316 | DATOS | — | EN CURSO (revisión 17-11-2026, constructora): sin marca `// REQ-1316` en src (es DATOS); el script y el workflow del backfill existen con pruebas (REQ-767, REQ-775 `src/ingest/backfill.test.ts`) pero el workflow «Respald |
 | REQ-1328 | VALIDACIÓN | — | PENDIENTE |
 | REQ-1331 | DEFINICIÓN | — | PENDIENTE |
 | REQ-1332 | DEFINICIÓN | — | PENDIENTE |
@@ -206,13 +207,13 @@ Filas de requisitos: 1224 · sin cerrar: 480
 | REQ-10684 | DEFINICIÓN | — | PENDIENTE (definición del PO citada; falta el código, ola D6 del plan de actualización diaria) |
 | REQ-10690 | DEFINICIÓN | — | EN CURSO (15 nov 2026: 8 de 16 expedientes: Extime (revisor) y, con las 11 secciones y sin datos confidenciales, Tangol primero (decisión 52) y luego Big Bus, Destino Colombia, Exotic Escapes, Fantástica China, Inca Worl |
 | REQ-10700 | DEFINICIÓN | — | EN CURSO (aplicado en `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/filters.ts` y `src/trips/lib/copy.ts`; prueba `src/taxonomy/lib/actividades.test.ts` en verde; publicado en #600 y verificado en producción el  |
-| REQ-10714 | BANDERA | — | PENDIENTE (apagada; el PO firmó el 17-11-2026 encenderla en modo manual por 3 envíos y luego automático, REQ-10762; se prueba en `borradores.test.ts`) |
 | REQ-10717 | DEFINICIÓN | — | EN CURSO (regla en CLAUDE.md; barrido: Extime y Tangol hechos; faltan los demás proveedores) |
 | REQ-10718 | DEFINICIÓN | — | PENDIENTE (definición del PO citada; falta el plan) |
 | REQ-10722 | DEFINICIÓN | — | EN CURSO (tarea creada; primera corrida el 16-11-2026) |
 | REQ-10742 | CÓDIGO | — | EN CURSO (6 casos revisados a mano en `docs/dependencias-detenidas.md`; inventario completo pedido por el PO el 16-11-2026 16:17 CDMX, «Haz lista exhaiustiva», en `docs/dependencias-detenidas-inventario.md`: 509 folios s |
 | REQ-10743 | DEFINICIÓN | — | CUMPLIDO (definición escrita en `CLAUDE.md` y en la tarea «Constructora cada 6 h»; falta la misma sección en el `CLAUDE.md` de `zoefel-mila`) |
 | REQ-10749 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `originals.test.ts` 2 pruebas nuevas, suite ingest+taxonomy 667 verdes; los 179 huecos de Extime salen de `contrato-huecos.json`). Lista antes/después en `docs/taxonomia/reclasificacion-ag |
+| REQ-10760 | CÓDIGO | — | EN CURSO (17-11-2026): correo de confirmación en es/en con la línea «Antes del tour (48 h y el mismo día) te recordamos por correo el punto de encuentro y la hora; si necesitas algo antes, escríbenos por WhatsApp» (2 pru |
 
 ## Depende de otro folio sin cerrar (83)
 
@@ -300,77 +301,9 @@ Filas de requisitos: 1224 · sin cerrar: 480
 | REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha. Mostrada en la ficha el 17-11-2026 (`incluido-ficha.ts`, prueba REQ-10733: «Autobús turísti |
 | REQ-10744 | CÓDIGO | REQ-10731 | CUMPLIDO en código (16-11-2026 17:59 CDMX: 8 pruebas en verde, `npx vitest run src/taxonomy/aviso-tipo-nuevo.test.ts`; tsc en verde); falta cargar el secreto y encender la bandera (REQ-10731) |
 | REQ-10755 | TAREA | REQ-10754 | PENDIENTE |
-| REQ-10762 | CÓDIGO | REQ-10714 | PENDIENTE (siguiente corrida: bandera de modo, botón «Enviar ahora», aviso; encendido en modo manual con humo) |
+| REQ-10763 | CÓDIGO | REQ-3331 | EN CURSO (pieza pura `src/octo/lib/raw-items.ts` + conexión en `catalog-sync.ts` y `octo/deps.ts`) |
 
-## A medias (el estado no dice qué falta) (63)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-076 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026): el código ya consulta `GET /events/{id}` en vivo (`src/booking/service.ts:73`, `src/app/api/freetour/booking/route.ts:61`, API 2.2 encendida); falta marcar `// REQ-076` y un test `it('REQ- |
-| REQ-077 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026): 14 pruebas verdes (`retry`, `guarded-sync`, `api`, `guard-plan`), incluida la regla del error 63; falta conectar `canCheckPaymentStatus` a un cron de estado de pago, que hoy no existe (tou |
-| REQ-078 | (tabla vieja) | — | EN CURSO (log por corrida y horas desde el último sync: test verde; falta canal de aviso y registro de reservas de prueba) |
-| REQ-086 | (tabla vieja) | — | EN CURSO |
-| REQ-102 | (tabla vieja) | — | EN CURSO |
-| REQ-110 | (tabla vieja) | — | EN CURSO (vista, agregada y WhatsApp se registran en los logs del Worker; «reservada» está definida y probada, se emite cuando exista la reserva desde el carrito) |
-| REQ-154 | (tabla vieja) | — | EN CURSO |
-| REQ-156 | (tabla vieja) | — | EN CURSO |
-| REQ-157 | (tabla vieja) | — | EN CURSO |
-| REQ-062 | (tabla vieja) | — | EN CURSO (revisión visual) |
-| REQ-068 | (tabla vieja) | — | EN CURSO (revisión visual) |
-| REQ-300 | (tabla vieja) | — | EN CURSO (revisión visual) |
-| REQ-159 | (tabla vieja) | — | EN CURSO |
-| REQ-115 | (tabla vieja) | — | EN CURSO |
-| REQ-116 | (tabla vieja) | — | EN CURSO |
-| REQ-117 | (tabla vieja) | — | EN CURSO |
-| REQ-118 | (tabla vieja) | — | EN CURSO |
-| REQ-471 | (tabla vieja) | — | EN CURSO |
-| REQ-472 | (tabla vieja) | — | EN CURSO |
-| REQ-473 | (tabla vieja) | — | EN CURSO |
-| REQ-155 | (tabla vieja) | — | EN CURSO (tests verdes; falta el primer deploy con el workflow nuevo) |
-| REQ-625 | (tabla vieja) | — | EN CURSO (falta la reserva de prueba del PO) |
-| REQ-975 | (tabla vieja) | — | EN CURSO (tests de estructura en verde; falta la primera corrida real del workflow) |
-| REQ-677 | (tabla vieja) | — | EN CURSO (Olas 0–3 y #224 en main; en la fila) |
-| REQ-775 | (tabla vieja) | — | EN CURSO (src/ingest/backfill.test.ts; falta la corrida) |
-| REQ-1086 | (tabla vieja) | — | EN CURSO |
-| REQ-1232 | (tabla vieja) | — | EN CURSO (tests de estructura en verde; falta la primera corrida real) |
-| REQ-1252 | (tabla vieja) | — | EN CURSO (test verde; falta la revisión del PO) |
-| REQ-1263 | (tabla vieja) | — | EN CURSO (test verde) |
-| REQ-1294 | (tabla vieja) | — | EN CURSO (la presentación la reemplaza REQ-1297; recordatorio, reintento y alta siguen aquí) |
-| REQ-1316 | DATOS | — | EN CURSO |
-| REQ-1344 | CÓDIGO | — | EN CURSO |
-| REQ-1345 | CÓDIGO | — | EN CURSO |
-| REQ-1346 | CÓDIGO | — | EN CURSO |
-| REQ-1357 | CÓDIGO | — | EN CURSO |
-| REQ-1392 | CÓDIGO | — | EN CURSO (falta guardar) |
-| REQ-1564 | (tabla vieja) | — | EN CURSO (prod 12-11: Lighthouse sin imágenes fuera de pantalla en las 3 páginas, móvil y escritorio; falta la prueba Playwright del criterio) |
-| REQ-1577 | (tabla vieja) | — | EN CURSO |
-| REQ-3322 | CÓDIGO | — | EN CURSO (PR abierto) |
-| REQ-3370 | CÓDIGO | — | EN CURSO |
-| REQ-3371 | CÓDIGO | — | EN CURSO |
-| REQ-3372 | CÓDIGO | — | EN CURSO |
-| REQ-3333 | CÓDIGO | — | EN CURSO |
-| REQ-3336 | CÓDIGO | — | EN CURSO |
-| REQ-3443 | CÓDIGO | — | EN CURSO (9 pruebas en verde; sin conectar, gates G1-G4 del PO) |
-| REQ-3449 | CÓDIGO | — | EN CURSO |
-| REQ-3451 | CÓDIGO | — | EN CURSO |
-| REQ-3452 | CÓDIGO | — | EN CURSO |
-| REQ-3435 | CÓDIGO | — | EN CURSO |
-| REQ-1604 | TAREA | — | EN CURSO (tarea programada creada el 11-11) |
-| REQ-3423 | CÓDIGO | — | EN CURSO (lógica con test verde en `public-view.test.ts`; falta la revisión visual, REQ-3424) |
-| REQ-3441 | CÓDIGO | — | EN CURSO |
-| REQ-3497 | CÓDIGO | — | EN CURSO (tests verdes; PR) |
-| REQ-3486 | CÓDIGO | — | EN CURSO (3 pruebas en verde; falta la corrida) |
-| REQ-3536 | CÓDIGO | — | EN CURSO (prueba en verde; PR) |
-| REQ-3482 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) |
-| REQ-3483 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) |
-| REQ-10509 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) |
-| REQ-10510 | CÓDIGO | — | EN CURSO |
-| REQ-10511 | CÓDIGO | — | EN CURSO |
-| REQ-10512 | DATOS | — | EN CURSO |
-| REQ-10513 | CÓDIGO | — | EN CURSO |
-| REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
-
-## Sin iniciar (el estado no dice qué falta) (50)
+## Sin iniciar (el estado no dice qué falta) (48)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -421,9 +354,58 @@ Filas de requisitos: 1224 · sin cerrar: 480
 | REQ-10643 | CÓDIGO | — | PENDIENTE |
 | REQ-10665 | CÓDIGO | — | PENDIENTE |
 | REQ-10681 | CÓDIGO | — | PENDIENTE |
-| REQ-10753 | CÓDIGO | — | PENDIENTE |
 | REQ-10754 | DATOS | — | PENDIENTE (medición hecha; fuente de respaldo por proponer en el PR) |
-| REQ-10760 | CÓDIGO | — | PENDIENTE (siguiente corrida: copy en 6 idiomas con test; mensaje del día anterior con #206 de zoefel-mila) |
+
+## A medias (el estado no dice qué falta) (46)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-076 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026): el código ya consulta `GET /events/{id}` en vivo (`src/booking/service.ts:73`, `src/app/api/freetour/booking/route.ts:61`, API 2.2 encendida); falta marcar `// REQ-076` y un test `it('REQ- |
+| REQ-077 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026): 14 pruebas verdes (`retry`, `guarded-sync`, `api`, `guard-plan`), incluida la regla del error 63; falta conectar `canCheckPaymentStatus` a un cron de estado de pago, que hoy no existe (tou |
+| REQ-078 | (tabla vieja) | — | EN CURSO (log por corrida y horas desde el último sync: test verde; falta canal de aviso y registro de reservas de prueba) |
+| REQ-110 | (tabla vieja) | — | EN CURSO (vista, agregada y WhatsApp se registran en los logs del Worker; «reservada» está definida y probada, se emite cuando exista la reserva desde el carrito) |
+| REQ-062 | (tabla vieja) | — | EN CURSO (revisión visual) |
+| REQ-068 | (tabla vieja) | — | EN CURSO (revisión visual) |
+| REQ-300 | (tabla vieja) | — | EN CURSO (revisión visual) |
+| REQ-471 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026, constructora): código y pruebas verdes (`src/ops/geo-escribir-workflow.test.ts` 6/6, `src/geo/lib/escritura.test.ts` 26/26; workflow `.github/workflows/geo-escribir-geonameid.yml`); falta l |
+| REQ-473 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026, constructora): el paso `escribir_pais` está en el workflow y en `src/scripts/geo-escribir.ts preparar-pais`, con pruebas verdes (`src/geo/lib/escritura.test.ts` 26/26 incluye las de REQ-473 |
+| REQ-155 | (tabla vieja) | — | EN CURSO (tests verdes; falta el primer deploy con el workflow nuevo) |
+| REQ-625 | (tabla vieja) | — | EN CURSO (falta la reserva de prueba del PO) |
+| REQ-975 | (tabla vieja) | — | EN CURSO (tests de estructura en verde; falta la primera corrida real del workflow) |
+| REQ-677 | (tabla vieja) | — | EN CURSO (Olas 0–3 y #224 en main; en la fila) |
+| REQ-775 | (tabla vieja) | — | EN CURSO (src/ingest/backfill.test.ts; falta la corrida) |
+| REQ-1232 | (tabla vieja) | — | EN CURSO (tests de estructura en verde; falta la primera corrida real) |
+| REQ-1252 | (tabla vieja) | — | EN CURSO (test verde; falta la revisión del PO) |
+| REQ-1263 | (tabla vieja) | — | EN CURSO (test verde) |
+| REQ-1294 | (tabla vieja) | — | EN CURSO (la presentación la reemplaza REQ-1297; recordatorio, reintento y alta siguen aquí) |
+| REQ-1392 | CÓDIGO | — | EN CURSO (falta guardar) |
+| REQ-1564 | (tabla vieja) | — | EN CURSO (prod 12-11: Lighthouse sin imágenes fuera de pantalla en las 3 páginas, móvil y escritorio; falta la prueba Playwright del criterio) |
+| REQ-1577 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026, constructora): folio PLAN, sin marca propia en src; `TANGOL_ENABLED="true"` ya en `wrangler.jsonc:81` y REQ-1554 firmado; faltan por cerrar sus hijos: REQ-3370, REQ-3371 y REQ-3372 (filas d |
+| REQ-3322 | CÓDIGO | — | EN CURSO (PR abierto) |
+| REQ-3370 | CÓDIGO | — | EN CURSO |
+| REQ-3371 | CÓDIGO | — | EN CURSO |
+| REQ-3372 | CÓDIGO | — | EN CURSO |
+| REQ-3333 | CÓDIGO | — | EN CURSO |
+| REQ-3336 | CÓDIGO | — | EN CURSO |
+| REQ-3443 | CÓDIGO | — | EN CURSO (9 pruebas en verde; sin conectar, gates G1-G4 del PO) |
+| REQ-3449 | CÓDIGO | — | EN CURSO |
+| REQ-3451 | CÓDIGO | — | EN CURSO |
+| REQ-3452 | CÓDIGO | — | EN CURSO |
+| REQ-3435 | CÓDIGO | — | EN CURSO |
+| REQ-1604 | TAREA | — | EN CURSO (tarea programada creada el 11-11) |
+| REQ-3423 | CÓDIGO | — | EN CURSO (lógica con test verde en `public-view.test.ts`; falta la revisión visual, REQ-3424) |
+| REQ-3441 | CÓDIGO | — | EN CURSO |
+| REQ-3497 | CÓDIGO | — | EN CURSO (tests verdes; PR) |
+| REQ-3486 | CÓDIGO | — | EN CURSO (3 pruebas en verde; falta la corrida) |
+| REQ-3536 | CÓDIGO | — | EN CURSO (prueba en verde; PR) |
+| REQ-3482 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) |
+| REQ-3483 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) |
+| REQ-10509 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) |
+| REQ-10510 | CÓDIGO | — | EN CURSO |
+| REQ-10511 | CÓDIGO | — | EN CURSO |
+| REQ-10512 | DATOS | — | EN CURSO |
+| REQ-10513 | CÓDIGO | — | EN CURSO |
+| REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
 ## Falta publicar (PR, humo o merge) (41)
 
@@ -471,10 +453,11 @@ Filas de requisitos: 1224 · sin cerrar: 480
 | REQ-10745 | CÓDIGO | — | CUMPLIDO en código (prueba roja → verde, 2 pruebas `REQ-10745` + 5 de REQ-10741 y `workflows-build.test.ts`). Pendiente: humo en la siguiente corrida real del workflow `geo-coordenadas-ciudad.yml` (17-11-2026 (constructo |
 | REQ-10746 | CÓDIGO | — | CUMPLIDO (17-11-2026): `src/ops/lib/migracion-una.test.ts` 5/5, `src/ops/migracion-una-workflow.test.ts` 4/4; corridas reales en producción con la 0033 (run 44016153517) y la 0034 (run 44025171251), ambas con humo verde  |
 
-## Pieza sin construir o en borrador (21)
+## Pieza sin construir o en borrador (22)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
+| REQ-472 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026, constructora): la verificación (conteo, repetidos, alias firmados, `permitir_repetidos`) y la restauración están en código con pruebas verdes (`src/geo/lib/escritura.test.ts` 26/26, `src/op |
 | REQ-620 | (tabla vieja) | — | BLOQUEADO: depende de REQ-625 (va después); sin cambio (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1075 | (tabla vieja) | — | CUMPLIDO en código. Pendiente: la primera corrida real del workflow `redes-diario.yml` lanzado por `blog-diario.yml`, que depende de REQ-3494 (preview de los agentes diarios) (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1565 | (tabla vieja) | — | EN CURSO (código y 4 tests verdes; el aviso en el resumen depende de la mejora 4) |
