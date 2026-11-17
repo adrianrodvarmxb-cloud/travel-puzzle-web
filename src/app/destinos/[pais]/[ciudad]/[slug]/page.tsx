@@ -27,6 +27,8 @@ import { loadProviderAvailability } from '@/tours/availability';
 import { availabilityDeps } from '@/tours/availability-deps';
 import { isProviderCalendarEnabled } from '@/tours/lib/provider-availability';
 import { calendarView } from '@/tours/lib/calendar-view';
+import { loadFichaMap } from '@/map/ficha-map'; // REQ-10736
+import { getPrisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
@@ -135,11 +137,14 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 availabilityDeps(env, new Date().toISOString().slice(0, 10)),
             ).catch((e) => { console.error('[destinos] disponibilidad:', (e as Error).message); return null; })
             : null;
+        // REQ-10736 (decisión 28): sin punto exacto y con ZONE_MAP_ENABLED, «Zona aproximada» en el centro de la ciudad (City.lat/lng).
+        const fichaMap = await loadFichaMap({ prisma: getPrisma(), cityId: city.id, coords: mp?.coordinates, env }).catch(() => null);
         return (
             <>
                 <JsonLd data={full.jsonLd} />
                 <TourDetailClient
                     {...props}
+                    fichaMap={fichaMap}
                     initialTour={shownTour}
                     priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null}
                     providerCalendar={calendario ? calendarView(calendario, language) : null}
