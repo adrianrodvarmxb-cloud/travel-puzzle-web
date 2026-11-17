@@ -353,3 +353,17 @@ describe("REQ-1596: invitación opcional a guardar las reservas en la cuenta", (
     expect(html).toContain("Keep your bookings in your account");
   });
 });
+
+// REQ-10760 (REQ-10759, PO 17-11-2026 «A ahora y B después»): la confirmación le dice al cliente que un día antes recibe
+// los últimos detalles y que para cualquier duda escriba al WhatsApp de Travel Puzzle; nunca promete un chat con el guía
+// ni trae un teléfono del guía u operador.
+describe("REQ-10760: contacto con el guía en la confirmación", () => {
+  for (const lang of ["es", "en"] as const) {
+    it(`REQ-10760: en ${lang} avisa del recordatorio del día anterior y manda al WhatsApp de Travel Puzzle, sin chat con el guía`, () => {
+      const { text } = buildBookingConfirmationEmail({ ...data, lang });
+      expect(text).toMatch(lang === "es" ? /Antes del tour \(48 h y el mismo día\) te recordamos por correo/ : /Before your tour \(48 h ahead and on the day\) we'll email you/);
+      expect(text).toMatch(lang === "es" ? /escríbenos por WhatsApp/i : /message us on WhatsApp/i);
+      expect(text).not.toMatch(/escr[ií]bele a tu gu[ií]a|message your guide|tel[eé]fono del gu[ií]a|guide'?s phone/i);
+    });
+  }
+});
