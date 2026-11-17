@@ -110,7 +110,10 @@ jobs:
           grep -q '0035_city_coordenadas.sql' geo/pendientes.txt || { echo "La 0035 no está pendiente (ya aplicada): nada que hacer." | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
           # REQ-10745 (INC-025): la marca va justo antes de tocar la base; el regreso automático solo corre con ella.
           echo "escribio=1" >> "$GITHUB_OUTPUT"
-          yes | npx wrangler d1 migrations apply "$DB" --remote | tee -a "$GITHUB_STEP_SUMMARY"
+          # REQ-10747 (INC-026): sin alimentar a wrangler con el comando yes: bajo pipefail, yes muere por SIGPIPE cuando wrangler cierra su entrada y el
+          # paso falla DESPUÉS de haber aplicado la migración (y el regreso la deshace). Wrangler contesta «yes» solo
+          # cuando no hay terminal (stdin desde /dev/null).
+          npx wrangler d1 migrations apply "$DB" --remote </dev/null | tee -a "$GITHUB_STEP_SUMMARY"
           q() { npx wrangler d1 execute "$DB" --remote --json --command "$1"; }
           n=$(q "SELECT COUNT(*) AS n FROM pragma_table_info('City') WHERE name IN ('lat','lng','coordsSource')" | jq -r '.[0].results[0].n')
           [ "$n" = "3" ] || { echo "::error::Tras aplicar, City no tiene las 3 columnas (tiene $n)."; exit 1; }
