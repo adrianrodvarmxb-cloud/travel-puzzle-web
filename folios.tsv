@@ -9160,3 +9160,4 @@ REQ-10745	fix/geo-workflow-regreso-solo-si-escribio	2026-11-17 02:13	INC-025: re
 REQ-10746	docs/req-10742-revision-20-folios	2026-11-17 03:04	
 REQ-10747	main	2026-11-17 04:30	
 REQ-10748	feat/ola4-zona-aproximada	2026-11-17 07:30	lista de reclasificación por agencia (decisión 13)
+REQ-10749	feat/req-10749-extime-mapeo	2026-11-17 07:56	Extime: denominación original por Tour Code y propuesta de mapeo
