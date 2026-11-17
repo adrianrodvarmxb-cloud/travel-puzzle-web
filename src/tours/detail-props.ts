@@ -13,6 +13,7 @@ import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { cityLabel, transportForPlace, transportOrigin } from '@/trips/cross-sell';
 import { nearbyUnifiedEnabled } from '@/geo/lib/near';
+import { transferCard, transferCardEnabled } from '@/trips/lib/transfer-card';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import type { SupportedLanguage } from '@/types';
 import { getD1 } from '@/lib/prisma';
@@ -48,6 +49,8 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
     const origin = transportOrigin(rel.meetingPoint, rel.city ? { lat: rel.city.lat ?? null, lng: rel.city.lng ?? null } : null, sourceId === null ? rel.providerId ?? null : 'freetour');
     const items = await transportForPlace(place, language, crossSellDeps(), { unified: nearbyUnifiedEnabled(env), origin }).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; });
     const crossSell = items.length ? { city: cityLabel(rel.city?.translations, language) ?? place.city ?? '', items } : null;
+    // REQ-10753 (decisión 29): tarjeta de Kiwitaxi bajo la franja, solo fuera de FREETOUR y tras FICHA_TRANSFER_CARD_ENABLED.
+    const transfer = transferCard({ cityName: cityLabel(rel.city?.translations, language) ?? place.city, tourId, provider: origin.provider, lang: language, enabled: transferCardEnabled(env) });
     // REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos (columnas 0031/0032, SQL aparte). Si falla, null
     // y la ficha sigue sin esos bloques (regla 7); se validan antes de salir al cliente (regla 8).
     const practical = await Promise.resolve()
@@ -64,6 +67,7 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
         paidEnabled: env.PAID_TOURS_ENABLED === 'true',
         whatsapp: contactFromEnv(env).whatsapp,
         crossSell,
+        transfer,
         practical,
     };
 }

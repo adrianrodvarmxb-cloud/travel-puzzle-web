@@ -14,6 +14,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type React from 'react';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
+import { TransferCard } from '@/components/trips/TransferCard';
+import type { TransferCardView } from '@/trips/lib/transfer-card';
 import { CompleteTripSheet } from '@/components/trips/CompleteTripSheet';
 import type { CrossItem } from '@/trips/cross-sell';
 import { advisorTextWithExtras, crossSellCopy, shouldOfferSheet } from '@/trips/lib/cross-sell-copy';
@@ -57,6 +59,8 @@ interface TourDetailClientProps {
     whatsapp?: string;
     /** REQ-005/006: transporte de la misma ciudad (o país), calculado en el servidor. */
     crossSell?: { city: string; items: CrossItem[] } | null;
+    /** REQ-10753: tarjeta de traslado (Kiwitaxi) bajo la franja; null = no aplica (FREETOUR o bandera apagada). */
+    transfer?: TransferCardView | null;
     /** REQ-094…098: ficha bajo /destinos (PRIMERA_PIEZA_ENABLED). Sin esto la ficha queda igual que hoy. */
     primeraPieza?: PrimeraPiezaView | null;
     /** REQ-170: precio en EUR con MXN aproximado, calculado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
@@ -80,6 +84,7 @@ export function TourDetailClient({
     paidEnabled = false,
     whatsapp,
     crossSell = null,
+    transfer = null,
     primeraPieza = null,
     priceLabel = null,
     providerCalendar = null,
@@ -230,9 +235,10 @@ export function TourDetailClient({
                             paidPolicy={plan.freetourPaidPolicy ? paidPolicyConfirmed(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                             onAdvisorClick={onAdvisorClick}
-                            below={crossSell && csItems.length > 0 ? (
+                            below={(crossSell && csItems.length > 0) || transfer ? (
                                 <SectionBoundary name="franja-transporte">
-                                    <CrossSellStrip eyebrow={csCopy.stripEyebrow(crossSell.city)} question={csCopy.stripQuestion} from={csCopy.from} items={csItems.slice(0, 1)} />
+                                    {crossSell && csItems.length > 0 && <CrossSellStrip eyebrow={csCopy.stripEyebrow(crossSell.city)} question={csCopy.stripQuestion} from={csCopy.from} items={csItems.slice(0, 1)} />}
+                                    <TransferCard card={transfer} />
                                 </SectionBoundary>
                             ) : null}
                         />
