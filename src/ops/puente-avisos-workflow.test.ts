@@ -10,7 +10,7 @@ const tangol = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
 const wrangler = readFileSync("wrangler.jsonc", "utf8");
 
 describe("REQ-10758 / REQ-1663: puente de avisos del lado del sitio", () => {
-  it("REQ-10758 REQ-1663: MILA_AVISOS_SECRET es un secreto de GitHub que viaja con la versión del Worker", () => {
+  it("REQ-10758: MILA_AVISOS_SECRET es un secreto de GitHub que viaja con la versión del Worker", () => {
     expect(SECRETOS_DE_GITHUB).toContain("MILA_AVISOS_SECRET");
     expect(armarSecretos({ env: { MILA_AVISOS_SECRET: "x" }, existentes: ["CRON_SECRET", "AUTH_SECRET"], generar: () => "g" }).secretos).toEqual({ MILA_AVISOS_SECRET: "x" });
     expect(deploy).toMatch(/MILA_AVISOS_SECRET: \$\{\{ secrets\.MILA_AVISOS_SECRET \}\}/);
@@ -19,6 +19,10 @@ describe("REQ-10758 / REQ-1663: puente de avisos del lado del sitio", () => {
     expect(wrangler).toMatch(/"MILA_AVISOS_URL": "https:\/\/mila-zoefel\.adrianrodvarmxb\.workers\.dev\/api\/avisos"/);
     expect(tangol.match(/MILA_AVISOS_URL: https:\/\/mila-zoefel\.adrianrodvarmxb\.workers\.dev\/api\/avisos/g)).toHaveLength(2);
     expect(tangol.match(/MILA_AVISOS_SECRET: \$\{\{ secrets\.MILA_AVISOS_SECRET \}\}/g)).toHaveLength(2);
+  });
+  it("REQ-1663: el sitio tiene URL y secreto para pedirle a Mila el aviso por WhatsApp (contrato de deps.ts)", () => {
+    expect(readFileSync("src/proveedores/deps.ts", "utf8")).toMatch(/env\.MILA_AVISOS_URL/);
+    expect(wrangler).toMatch(/"MILA_AVISOS_URL": "https:/);
   });
   it("REQ-10758: ningún valor de secreto en el repo", () => {
     for (const f of [deploy, tangol, wrangler]) expect(f).not.toMatch(/MILA_AVISOS_SECRET[^\n]*[0-9a-f]{32}/);
