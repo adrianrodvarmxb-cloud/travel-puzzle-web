@@ -53,6 +53,9 @@ model City {
   indexableSince DateTime? // REQ-090: desde cuándo es indexable (null = noindex)
   failingSince   DateTime? // REQ-090: primer día sin cumplir la regla; al día 14 pasa a noindex
   providerCities ProviderCity[] // REQ-3369: destinos de proveedores que apuntan a esta ciudad
+  // Ficha única, ola 4 (migración 0035, REQ-10734): `lat REAL`, `lng REAL` y `coordsSource TEXT` existen en la migración
+  // pero NO se declaran aquí hasta que la 0035 esté aplicada en producción (REQ-10741): `findMany` sin `select` las pediría
+  // y /tours caería con 500 (lo detectó el humo del PR #627 el 16-11-2026). Mientras, se leen con SQL crudo (`City.lat`).
 
   @@unique([countryId, slug])
   @@index([countryId])

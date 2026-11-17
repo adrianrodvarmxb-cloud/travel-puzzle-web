@@ -24,7 +24,8 @@ import { LANGUAGES, type TranslationRow } from "@/catalog/lib/tour-rows";
 import type { AgencyTripPlace, TangolRulesDeps } from "./lib/catalog-rules";
 import type { ExistingCity, NewCity, ProviderCityRow } from "./lib/cities";
 import { summarizeRates } from "./lib/rates";
-import { categoriaIdDeTangol } from "./lib/taxonomia";
+import { CATEGORIA_TANGOL_SIN_TIPO, categoriaIdDeTangol, claveTangol } from "./lib/taxonomia";
+import { tiposNuevos, type TipoNuevo } from "@/taxonomy/lib/tipo-nuevo";
 import type { TangolTour } from "./lib/schemas";
 import { TANGOL_PROVIDER_ID, type TangolTourRow } from "./lib/tour-rows";
 import { checkTourCounts, type DestinationCount, type TourCountCheck } from "./lib/tour-count";
@@ -122,6 +123,8 @@ export interface TangolSyncReport {
   monedas: Record<string, number>;
   /** Fallos que no tumbaron la corrida (un destino, una tarifa). */
   errores: { donde: string; error: string }[];
+  /** REQ-10730: pares TypeCode|SubTypeCode que el mapeo no conoce (cayeron en la red de seguridad 9000001), para avisar al PO. */
+  tiposNuevos: TipoNuevo[];
   /** Solo cuando el paso se detuvo sin escribir. */
   abortReason?: string;
 }
@@ -143,7 +146,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   const monedas: Record<string, number> = {};
   const base: TangolSyncReport = {
     provider: TANGOL_PROVIDER_ID, ensayo, action: "idle", totalDestinos: 0, invalidos: 0,
-    paisesNuevos: [], ciudadesNuevas: [], ciudadesPendientes: [], excluidos: [], descartados: [], monedaPedida: ratesCurrency, monedas, errores,
+    paisesNuevos: [], ciudadesNuevas: [], ciudadesPendientes: [], excluidos: [], descartados: [], monedaPedida: ratesCurrency, monedas, errores, tiposNuevos: [],
   };
 
   const state = await repo.getState();
@@ -242,6 +245,14 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   }
   base.invalidos = invalidos;
 
+  // REQ-10730 (regla REQ-10698): los pares de códigos que el mapeo no conoce, con sus tours, para avisarle al PO.
+  const tiposSinMapear = tiposNuevos(
+    [...toursPorDestino.values()].flat().map((tour) => ({
+      proveedor: TANGOL_PROVIDER_ID, clave: claveTangol(tour), externalId: String(tour.tourId), titulo: tour.name,
+      sinMapear: categoryId(tour) === CATEGORIA_TANGOL_SIN_TIPO,
+    })),
+  );
+
   // 5. Plan y escritura.
   const plan = planTangolBatch({
     destinos: lote, toursPorDestino, cities, countries, agencyTrips, seenAt: runStartedAt,
@@ -275,6 +286,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
     excluidos: plan.excluidos,
     descartados: plan.descartados,
     errores,
+    tiposNuevos: tiposSinMapear,
   };
 }
 

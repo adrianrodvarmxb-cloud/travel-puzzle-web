@@ -78,6 +78,13 @@
     // REQ-3469: calendario de fechas y precios por día en la ficha (cualquier proveedor). Apagado: la ficha
     // se ve como hoy. "true" solo con preview, prueba de humo con la bandera encendida y OK del PO.
     "PROVIDER_CALENDAR_ENABLED": "false",
+    // Ficha única, ola 4 «Geografía» (REQ-10737; decisiones 27, 28 y 30 del PO, 14 nov 2026). Requieren la migración 0035
+    // (City.lat/lng, REQ-10734) aplicada y llena (REQ-10740). CITY_PIN_FALLBACK_ENABLED: en /tours y Destinos, una
+    // experiencia sin punto exacto usa las coordenadas de su ciudad como pin. ZONE_MAP_ENABLED: la ficha sin punto exacto
+    // pinta un círculo de «Zona aproximada» sin «Cómo llegar». Apagadas, nada cambia. "true" solas, cada una en su PR,
+    // con preview, humo a 390/1366 y revisión visual (autopilot, opción C en #556). Regreso: "false" (no toca datos).
+    "CITY_PIN_FALLBACK_ENABLED": "false",
+    "ZONE_MAP_ENABLED": "false",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
