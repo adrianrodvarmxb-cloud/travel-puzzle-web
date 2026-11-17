@@ -4,6 +4,7 @@
  * (inicio, /destinos, acción de /tours, tarjetas de viajes) y al cliente solo llega el slug.
  */
 import { DEFAULT_DICTIONARY, DEFAULT_MAPPINGS } from "@/taxonomy/data";
+import { formatoFirmado } from "@/taxonomy/lib/formato-firmado"; // REQ-10756
 import { classifyFormato } from "@/taxonomy/lib/format";
 import { DEFAULT_GATES } from "@/taxonomy/lib/gates";
 import type { FormatoOEstado } from "@/taxonomy/lib/types";
@@ -45,6 +46,8 @@ export interface TripFormatInput {
   dayTrip?: boolean;
   /** REQ-535: resumen (y descripción) del viaje: dice si sale de la ciudad base. */
   resumen?: string | null;
+  /** REQ-10756: `Trip.id`, para aplicar el formato firmado por el PO viaje por viaje (gana sobre la regla por título). */
+  id?: string | null;
 }
 
 /**
@@ -58,6 +61,9 @@ export function tripFormat(t: TripFormatInput): FormatoOEstado {
 
 /** REQ-1348: el mismo formato con su regla (una regla «duda:» va a la lista de dudas del PO). */
 export function tripFormatDecision(t: TripFormatInput): { valor: FormatoOEstado; regla: string } {
+  // REQ-10756: lo que el PO firmó viaje por viaje (decisión 13) gana sobre la regla por título.
+  const firmado = formatoFirmado(t.id);
+  if (firmado) return { valor: firmado, regla: `firma del PO (REQ-10756) para ${t.id}` };
   const d = classifyFormato(
     { proveedor: "propios", categoriaId: t.kind, precio: t.priceFrom ?? null, durationDays: t.durationDays ?? null, titulo: joinTitles(t.titles), resumen: t.resumen ?? undefined },
     DEFAULT_DICTIONARY, DEFAULT_MAPPINGS.propios, DEFAULT_GATES,

@@ -110,7 +110,7 @@ export function toCard(t: StoredTrip & { translations?: unknown; createdAt?: Dat
     provider: (t as { agencyId?: string | null }).agencyId ? (t.agencyName?.trim() || null) : OWN_PROVIDER, // REQ-524
     // T4 y REQ-522: formato de la taxonomía (clasificador oficial, mapeo «propios»); lo usan el filtro ?formato= de /tours
     // y la categoría de la tarjeta. Un viaje que REQ-451 ya pone en «Excursiones de un día» es excursión, no «Tour».
-    formato: tripFormat({ kind: t.kind, priceFrom: t.priceFrom, durationDays: t.durationDays, titles: [t.titleEs, t.titleEn || titles[1]], dayTrip, resumen: t.summaryEs ?? "" }), // REQ-535: el resumen dice si sale de la ciudad
+    formato: tripFormat({ id: t.id, kind: t.kind, priceFrom: t.priceFrom, durationDays: t.durationDays, titles: [t.titleEs, t.titleEn || titles[1]], dayTrip, resumen: t.summaryEs ?? "" }), /* REQ-10756: id para el formato firmado */ // REQ-535: el resumen dice si sale de la ciudad
   };
 }
 

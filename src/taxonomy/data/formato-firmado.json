@@ -1,0 +1,14 @@
+{
+  "nota": "REQ-10756 (decisión 13, REQ-10592; lista REQ-10748): formato que el PO firmó viaje por viaje cuando el mapeo de la agencia y la regla «propios» no coinciden. La clave es Trip.id (idFor(initials, ref)). Gana sobre la clasificación por título; nunca se infiere: solo entra lo firmado con fecha y respuesta literal.",
+  "viajes": {
+    "iwp-prog-trk-05": { "proveedor": "incaworld", "ref": "PROG-TRK-05", "titulo": "Lares Trek y Machu Picchu 5 días", "antes": "a-la-medida", "formato": "circuito", "firma": "PO, 17-11-2026 (punto 1 de la ola 3, respuesta literal «Cambiar a Circuito (Recomendado)»)" },
+    "iwp-mp-04": { "proveedor": "incaworld", "ref": "MP-04", "titulo": "Machu Picchu Overnight 3 días a cotizar", "antes": "a-la-medida", "formato": "circuito", "firma": "PO, 17-11-2026 (punto 1 de la ola 3, respuesta literal «Cambiar a Circuito (Recomendado)»)" }
+  },
+  "seQuedanComoHoy": {
+    "fch-fch-r23": "PO, 17-11-2026: «Se queda: Excursión de un día»",
+    "iwp-lim-07": "PO, 17-11-2026: «Se queda: Actividades»",
+    "iwp-prog-pun-01": "PO, 17-11-2026: «Se queda: Visita guiada»",
+    "iwp-mp-05": "PO, 17-11-2026: «Se queda: A la medida»",
+    "iwp-mp-06": "PO, 17-11-2026: «Se queda: A la medida»"
+  }
+}
