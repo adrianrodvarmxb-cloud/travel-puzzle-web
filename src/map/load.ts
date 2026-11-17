@@ -1,6 +1,7 @@
 import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import type { PrismaClient } from "@prisma/client";
-import { cityPoints, cardTours } from "./lib/cities";
+import { cardTours } from "./lib/cities";
+import { cityLatLng, cityPinFallbackEnabled, cityPointsWithFallback, type GeoFlagsEnv } from "./lib/city-pin"; // REQ-10735, REQ-10737
 import { placeTrips, toMapTrip, tripCardTour, type MapTrip, type MapCityRef } from "./lib/trips";
 import { imageUrl } from "@/trips/lib/image";
 import { isKindVisible, type Visibility } from "@/trips/lib/visibility";
@@ -70,8 +71,8 @@ async function loadMapTrips(prisma: PrismaClient, vis: Visibility): Promise<{ tr
 }
 
 /** Ciudades con tours activos y su ubicación (para el mapa del inicio). Si falla, lista vacía. */
-export async function loadMapCities({ prisma, vis }: { prisma: PrismaClient; vis: Visibility }): Promise<MapCity[]> {
-  const base = await loadTourCities(prisma);
+export async function loadMapCities({ prisma, vis, env = process.env as GeoFlagsEnv }: { prisma: PrismaClient; vis: Visibility; env?: GeoFlagsEnv }): Promise<MapCity[]> {
+  const base = await loadTourCities(prisma, env);
   // REQ-1575, REQ-1578: los viajes suman en su ciudad y los lugares sin ciudad llevan pin propio.
   const { trips, cities } = await loadMapTrips(prisma, vis);
   if (!trips.length) return base;
@@ -80,30 +81,34 @@ export async function loadMapCities({ prisma, vis }: { prisma: PrismaClient; vis
   const present = new Set(base.map((c) => c.cityId));
   const missing = [...byCity.keys()].filter((id) => !present.has(id));
   if (missing.length) {
-    const rows = await prisma.city.findMany({ where: { id: { in: missing } }, select: { id: true, countryId: true, translations: true } }).catch(() => []);
+    const rows = await prisma.city.findMany({ where: { id: { in: missing } }, select: { id: true, countryId: true, translations: true, lat: true, lng: true } }).catch(() => []);
     for (const r of rows) {
       const here = byCity.get(r.id)!;
       const pts = here.flatMap((t) => t.meetingPoints.filter((p) => p.lat !== null && p.lng !== null));
-      if (!pts.length) continue;
-      out.push({ cityId: r.id, countryId: r.countryId, names: asNames(r.translations), lat: pts[0].lat!, lng: pts[0].lng!, tours: here.length });
+      // REQ-10735: viajes sin punto de encuentro en una ciudad del catálogo → pin en las coordenadas de la ciudad (con la bandera).
+      const fallback = pts.length ? null : cityPinFallbackEnabled(env) ? cityLatLng(r) : null;
+      if (!pts.length && !fallback) continue;
+      out.push({ cityId: r.id, countryId: r.countryId, names: asNames(r.translations), lat: pts.length ? pts[0].lat! : fallback!.lat, lng: pts.length ? pts[0].lng! : fallback!.lng, tours: here.length });
     }
   }
   for (const p of places) out.push({ cityId: 0, place: p.key, countryId: 0, names: { es: p.name }, lat: p.lat, lng: p.lng, tours: p.trips.length });
   return out;
 }
 
-async function loadTourCities(prisma: PrismaClient): Promise<MapCity[]> {
+async function loadTourCities(prisma: PrismaClient, env: GeoFlagsEnv = process.env as GeoFlagsEnv): Promise<MapCity[]> {
   try {
     const rows = await prisma.$queryRaw<{ cityId: number; c: string | null }[]>`
       SELECT cityId, json_extract(meetingPoint, '$.coordinates') AS c FROM Tour WHERE isActive = 1
         AND providerId NOT IN (SELECT value FROM json_each(${JSON.stringify(hiddenProviders(process.env as ProviderVisibilityEnv))}))`; /* REQ-3311 */
-    const points = cityPoints(rows.map((r) => ({ cityId: Number(r.cityId), coords: r.c })));
-    const ids = points.map((p) => p.cityId);
-    const cities: { id: number; countryId: number; translations: unknown }[] = [];
+    const tourRows = rows.map((r) => ({ cityId: Number(r.cityId), coords: r.c }));
+    // REQ-10735: se piden todas las ciudades con tours (no solo las con punto) para ubicar en sus coordenadas las que no tienen ninguno.
+    const ids = [...new Set(tourRows.map((r) => r.cityId))];
+    const cities: { id: number; countryId: number; translations: unknown; lat: number | null; lng: number | null }[] = [];
     for (let i = 0; i < ids.length; i += 90) {
-      cities.push(...(await prisma.city.findMany({ where: { id: { in: ids.slice(i, i + 90) } }, select: { id: true, countryId: true, translations: true } })));
+      cities.push(...(await prisma.city.findMany({ where: { id: { in: ids.slice(i, i + 90) } }, select: { id: true, countryId: true, translations: true, lat: true, lng: true } })));
     }
     const byId = new Map(cities.map((c) => [c.id, c]));
+    const points = cityPointsWithFallback(tourRows, byId, env); // REQ-10735, REQ-10737: con la bandera apagada = cityPoints de siempre
     return points.flatMap((p) => {
       const c = byId.get(p.cityId);
       return c ? [{ cityId: p.cityId, countryId: c.countryId, names: asNames(c.translations), lat: p.lat, lng: p.lng, tours: p.tours }] : [];
