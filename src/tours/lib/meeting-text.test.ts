@@ -16,5 +16,6 @@ describe("REQ-10783: HTML del proveedor a texto", () => {
     expect(plainLines("<p>Bajo.</p>")).toBe("Bajo.");
     expect(plainLines("Agua.\nGorra.")).toBe("Agua.\nGorra.");
     expect(plainLines(null)).toBeNull();
+    expect(plainTitle("Guías Español/Inglés.&nbsp;")).toBe("Guías Español/Inglés."); // renglón de «Incluye» de Tangol
   });
 });
