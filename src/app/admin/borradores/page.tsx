@@ -2,6 +2,7 @@ import { getPrisma } from '@/lib/prisma';
 import { createBorradoresRepo } from '@/proveedores/borrador-repo';
 import { dbDePrisma } from '@/proveedores/repository';
 import { borradoresEncendido, proveedoresEncendido } from '@/proveedores/deps';
+import { ENVIOS_MANUALES_PARA_AUTO, enviosManuales, modoBorradores } from '@/proveedores/lib/borradores'; // REQ-10762
 import { BorradorControl } from '@/components/admin/BorradorControl';
 
 const ETIQUETA: Record<string, string> = { programado: 'Programado', enviado: 'Enviado', cancelado: 'Cancelado', vencido: 'Vencido sin enviar', error: 'Error al enviar' };
@@ -20,7 +21,9 @@ export default async function BorradoresPage() {
     return (
         <>
             <h1 className="font-display text-4xl font-bold text-white">Borradores a proveedores</h1>
-            <p className="mt-2 text-sm text-[#A9B6D6]">Cada correo de Mila a un proveedor espera aquí hasta su hora (5:00–16:00 del proveedor). Cancélalo, edítalo o mándalo ya.</p>
+            <p className="mt-2 text-sm text-[#A9B6D6]">{modoBorradores(env) === 'manual'
+                ? `Modo manual (REQ-10762): ningún correo sale solo. Revisa cada borrador y pulsa «Enviar ya»; la hora es solo sugerida. Envíos manuales hasta hoy: ${enviosManuales(filas)} de ${ENVIOS_MANUALES_PARA_AUTO}; al llegar, pasamos a automático.`
+                : 'Cada correo de Mila a un proveedor espera aquí hasta su hora (5:00–16:00 del proveedor). Cancélalo, edítalo o mándalo ya.'}</p>
             <ul className="mt-8 space-y-4">
                 {filas.length === 0 && <li className="text-[#A9B6D6]">No hay borradores.</li>}
                 {filas.map((b) => (
