@@ -2,6 +2,7 @@ import { sellerFor } from "@/ficha/lib/operator";
 import { publicRating } from "@/ficha/lib/rating-visibility";
 import { Tour, MeetingPoint, CountryWithTranslations, CityWithTranslations, TourAPI, SupportedLanguage } from '@/types';
 import type { TourWithRelations } from './repositories/tour-repository';
+import { plainTitle } from '@/tours/lib/meeting-text';
 
 // REQ-10652: nota y conteo que llegan a la pantalla, según el proveedor de la fila.
 function publicRatingOf(dbTour: { providerId?: string | null; rating: unknown; reviewsNumber: number }): { rating: number | null; reviewsNumber: number } {
@@ -34,9 +35,9 @@ export function transformDBTourToUITour(dbTour: TourWithRelations, language: str
   // Parse meeting point
   const meetingPoint = dbTour.meetingPoint as unknown as MeetingPoint;
 
-  // Parse includes
+  // Parse includes. REQ-10783: Tangol manda «&nbsp;» y etiquetas en los renglones; a texto plano.
   const includes = Array.isArray(dbTour.includes)
-    ? (dbTour.includes as string[])
+    ? (dbTour.includes as unknown[]).map((x) => (typeof x === 'string' ? plainTitle(x) ?? '' : '')).filter(Boolean)
     : [];
 
   return {
