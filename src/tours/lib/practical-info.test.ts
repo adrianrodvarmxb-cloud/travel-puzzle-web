@@ -204,3 +204,15 @@ describe("REQ-10540: marca blanca en los textos nuevos (URLs, dominios, teléfon
     expect(v.beforeYouGo?.items).toEqual([{ key: "whatToBring", text: "Agua." }, { key: "providerNotes", text: "Sale con lluvia." }]);
   });
 });
+
+describe("REQ-10783: HTML del proveedor", () => {
+  it("REQ-10783: qué llevar, requisitos, dificultad y notas en HTML (Tangol) salen como texto, renglón por renglón", () => {
+    const v = practicalInfo({ ...vacia, providerId: "tangol", whatToBring: "<p>Cámara de fotos.</p><p>&nbsp;Ropa de abrigo.</p>", difficulty: "<p>Bajo.</p>", providerNotes: "<p>*El pick up se realiza solo desde hoteles del centro.</p>" }, opts);
+    expect(v.beforeYouGo?.items).toEqual(expect.arrayContaining([
+      { key: "whatToBring", text: "Cámara de fotos.\nRopa de abrigo." },
+      { key: "difficulty", text: "Bajo." },
+      { key: "providerNotes", text: "*El pick up se realiza solo desde hoteles del centro." },
+    ]));
+    expect(JSON.stringify(v)).not.toMatch(/<p>|&nbsp;/);
+  });
+});
