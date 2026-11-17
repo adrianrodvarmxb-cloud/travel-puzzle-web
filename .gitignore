@@ -43,7 +43,7 @@ next-env.d.ts
 
 /src/generated/prisma
 
-# data: countries.json se versiona; tours.json es caché local
+# data: tours.json es caché local; countries.json NO se versiona (CLAUDE.md): el build local usa un fixture `[]` y el deploy lo genera desde Freetour
 /data/tours.json
 
 # respaldos de base de datos: nunca en el repo
@@ -57,4 +57,4 @@ next-env.d.ts
 
 # REQ-500: evidencia local de la prueba de humo (en CI se sube como artefacto)
 /smoke-evidencia
-data/countries.json
+/data/countries.json
