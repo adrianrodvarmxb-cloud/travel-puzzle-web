@@ -1,0 +1,1100 @@
+[
+  {
+    "id": "LIM-01",
+    "titulo": "City Tour Virreinal de Lima",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "urbano"
+    ],
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "LIM-02",
+    "titulo": "Tour Gastronómico en Lima",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "gastronomia"
+    ],
+    "temasDespues": [
+      "gastronomia"
+    ],
+    "duda": null
+  },
+  {
+    "id": "LIM-03",
+    "titulo": "Excursión a la Ciudad Sagrada de Caral",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "religioso",
+      "urbano"
+    ],
+    "temasDespues": [
+      "religioso",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "LIM-04",
+    "titulo": "Circuito Mágico del Agua de noche",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "noche-espectaculos"
+    ],
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": null
+  },
+  {
+    "id": "LIM-05",
+    "titulo": "Santuario Arqueológico de Pachacámac",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "religioso"
+    ],
+    "temasDespues": [
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "LIM-06",
+    "titulo": "Nado con lobos marinos en el Callao",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "LIM-07",
+    "titulo": "Espectáculo del Caballo Peruano de Paso",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "experiencia-unica",
+    "despues": "visita-guiada",
+    "cambia": true,
+    "temasAntes": [
+      "noche-espectaculos"
+    ],
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": null
+  },
+  {
+    "id": "LIM-08",
+    "titulo": "Paracas e Islas Ballestas desde Lima",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-01",
+    "titulo": "City Tour Cusco: Qoricancha y Sacsayhuamán",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "urbano"
+    ],
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-02",
+    "titulo": "Maras y Moray en bicicleta",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "tour",
+    "despues": "tour",
+    "cambia": false,
+    "temasAntes": [
+      "religioso"
+    ],
+    "temasDespues": [
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-03",
+    "titulo": "Maras y Moray en cuatrimoto",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "aventura",
+      "religioso"
+    ],
+    "temasDespues": [
+      "aventura",
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-04",
+    "titulo": "Rafting en el río Urubamba",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "aventura"
+    ],
+    "temasDespues": [
+      "aventura"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-07",
+    "titulo": "Tour Maras y Moray",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "CUS-08",
+    "titulo": "Valle Sur de Cusco",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "CUS-09",
+    "titulo": "Valle Sagrado de los Incas: Pisac y Ollantaytambo",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "religioso"
+    ],
+    "temasDespues": [
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-10",
+    "titulo": "Montaña de 7 Colores Vinicunca",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-11",
+    "titulo": "Ruta del Barroco Andino",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-12",
+    "titulo": "Valle Sagrado y Museo Inkary privado",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "religioso"
+    ],
+    "temasDespues": [
+      "cultural",
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-13",
+    "titulo": "Laguna Humantay",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "CUS-14",
+    "titulo": "7 Lagunas del Ausangate",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "CUS-05",
+    "titulo": "Bungee en Action Valley, Cusco",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "aventura"
+    ],
+    "temasDespues": [
+      "aventura"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CUS-06",
+    "titulo": "Slingshot en Action Valley, Cusco",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "MP-01",
+    "titulo": "Machu Picchu Full Day desde Cusco",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "MP-02",
+    "titulo": "Machu Picchu desde Ollantaytambo",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "religioso"
+    ],
+    "temasDespues": [
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "MP-03",
+    "titulo": "Valle Sagrado y Machu Picchu 2 días",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "religioso"
+    ],
+    "temasDespues": [
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PUN-02",
+    "titulo": "Islas Uros y Taquile en el Titicaca",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "playa-mar"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "playa-mar"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PUN-05",
+    "titulo": "Islas flotantes de los Uros medio día",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PUN-01",
+    "titulo": "Kayak en el lago Titicaca",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "tour",
+    "despues": "tour",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "aventura"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "aventura"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PUN-03",
+    "titulo": "Chullpas de Sillustani",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PUN-04",
+    "titulo": "Ruta Aymara en el altiplano de Puno",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "AQP-03",
+    "titulo": "City Tour Arequipa y Monasterio de Santa Catalina",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "religioso",
+      "urbano"
+    ],
+    "temasDespues": [
+      "religioso",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "AQP-02",
+    "titulo": "Cañón del Colca y Cruz del Cóndor en 1 día",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "AQP-07",
+    "titulo": "Valle del Colca 2 días",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "noche-espectaculos"
+    ],
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": null
+  },
+  {
+    "id": "AQP-05",
+    "titulo": "Caminata en el Cañón del Colca 2 días",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "AQP-06",
+    "titulo": "Ascenso al volcán Misti 2 días",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "AQP-01",
+    "titulo": "Rafting en el río Chili, Arequipa",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "aventura"
+    ],
+    "temasDespues": [
+      "aventura"
+    ],
+    "duda": null
+  },
+  {
+    "id": "AQP-04",
+    "titulo": "Cañón de Cotahuasi 4 días privado",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "NAZ-01",
+    "titulo": "Sobrevuelo de las Líneas de Nazca 30 min",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "NAZ-02",
+    "titulo": "Sobrevuelo de las Líneas de Nazca 60 min",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "NAZ-03",
+    "titulo": "Cementerio de Chauchilla, Nazca",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "NAZ-04",
+    "titulo": "Buggies y sandboarding en las dunas",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "caminata",
+    "despues": "caminata",
+    "cambia": false,
+    "temasAntes": [
+      "aventura"
+    ],
+    "temasDespues": [
+      "aventura"
+    ],
+    "duda": null
+  },
+  {
+    "id": "NAZ-05",
+    "titulo": "Sandboarding en el Cerro Blanco, Nazca",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "CHH-01",
+    "titulo": "Fortaleza de Kuélap",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "CHH-02",
+    "titulo": "Mausoleos de Revash y Museo Leymebamba",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
+  },
+  {
+    "id": "CHH-03",
+    "titulo": "Sarcófagos de Karajía",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-CUS-03",
+    "titulo": "Cusco y Machu Picchu 3 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-CUS-04",
+    "titulo": "Cusco y Machu Picchu 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-CUS-05",
+    "titulo": "Cusco y Machu Picchu 5 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-CUS-06",
+    "titulo": "Cusco y Machu Picchu 6 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-01",
+    "titulo": "Camino Inca a Machu Picchu 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-02",
+    "titulo": "Camino Inca corto 2 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "noche-espectaculos"
+    ],
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-03",
+    "titulo": "Salkantay Trek 5 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-04",
+    "titulo": "Lares Trek 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-06",
+    "titulo": "Huchuy Qosqo y Machu Picchu",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-07",
+    "titulo": "Inca Jungle",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-08",
+    "titulo": "Choquequirao Trek 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TRK-05",
+    "titulo": "Lares Trek y Machu Picchu 5 días",
+    "kind": "personalizado",
+    "original": "PROGRAMA",
+    "antes": "a-la-medida",
+    "despues": "circuito",
+    "cambia": true,
+    "temasAntes": [
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-TAM-01",
+    "titulo": "Tambopata Mágico 3 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-TAM-02",
+    "titulo": "Tambopata Mágico 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-MAN-01",
+    "titulo": "Excursión a Manu 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-MAN-02",
+    "titulo": "Excursión a Manu 5 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-IQT-01",
+    "titulo": "Iquitos Programa Delfín 2 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-IQT-02",
+    "titulo": "Iquitos Programa Tucán 3 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-IQT-03",
+    "titulo": "Iquitos Programa Papagayo 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-PUN-01",
+    "titulo": "Uros y Taquile en Puno, 1 día",
+    "kind": "tour",
+    "original": "PROGRAMA",
+    "antes": "visita-guiada",
+    "despues": "circuito",
+    "cambia": true,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-PUN-02",
+    "titulo": "Ruta Aymara en Puno 2 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-PUN-03",
+    "titulo": "Ruta Quechua en Puno 3 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-PUN-04",
+    "titulo": "Sillustani, Umayo y Puno 4 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-IWP-01",
+    "titulo": "Descubriendo el Perú en 9 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PROG-IWP-02",
+    "titulo": "Misterios naturales y arqueológicos del Perú",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-IWP-03",
+    "titulo": "Siguiendo la Ruta del Sur en 9 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "religioso"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "religioso"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PROG-IWP-04",
+    "titulo": "Maravillas del Perú en 12 días",
+    "kind": "circuito",
+    "original": "PROGRAMA",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": null
+  },
+  {
+    "id": "MP-04",
+    "titulo": "Machu Picchu Overnight 3 días a cotizar",
+    "kind": "personalizado",
+    "original": "SERVICIO",
+    "antes": "a-la-medida",
+    "despues": "circuito",
+    "cambia": true,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "MP-05",
+    "titulo": "Machu Picchu y tren panorámico a cotizar",
+    "kind": "personalizado",
+    "original": "SERVICIO",
+    "antes": "a-la-medida",
+    "despues": "tour",
+    "cambia": true,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "MP-06",
+    "titulo": "Machu Picchu Premium o Luxury a cotizar",
+    "kind": "personalizado",
+    "original": "SERVICIO",
+    "antes": "a-la-medida",
+    "despues": "tour",
+    "cambia": true,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "MP-01#2",
+    "titulo": "Machu Picchu Full Day desde Cusco",
+    "kind": "tour",
+    "original": "SERVICIO",
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  }
+]
