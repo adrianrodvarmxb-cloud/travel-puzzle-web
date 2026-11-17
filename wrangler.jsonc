@@ -60,7 +60,8 @@
     "PROVEEDORES_BORRADORES_ON": "false",
     // REQ-1568: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1663; el secreto MILA_AVISOS_SECRET lo carga el PO.
     "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
-    "MILA_AVISOS_URL": "",
+    // REQ-10758 (17-11-2026): puente de Mila encendido (zoefel-mila REQ-045); el secreto MILA_AVISOS_SECRET viaja con la versión (worker-secrets.ts).
+    "MILA_AVISOS_URL": "https://mila-zoefel.adrianrodvarmxb.workers.dev/api/avisos",
     // Correo post-tour pidiendo reseña: se enciende cuando exista la página de reseñas.
     "REVIEW_EMAILS_ENABLED": "true",
     // Tours de pago en recomendaciones (60 % pago / 40 % free): se enciende cuando el pago en línea esté activo.
