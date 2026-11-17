@@ -4,6 +4,7 @@ import { requireAdmin } from '@/trips/deps';
 import { borradoresEncendido, proveedoresDeps, proveedoresEncendido } from '@/proveedores/deps';
 import { accionDelPO, enviarVencidos } from '@/proveedores/borradores';
 import { REMITENTE } from '@/proveedores/lib/correo';
+import { modoBorradores } from '@/proveedores/lib/borradores'; // REQ-10762
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +26,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     const { id } = await params;
     const r = await accionDelPO(id, parsed.data, { repo: borradores, hoy });
     if (!r.ok) return NextResponse.json(r, { status: 409 });
-    const salida = parsed.data.accion === 'enviar_ahora' ? await enviarVencidos({ repo: borradores, enviar, hoy, siteUrl: env.SITE_URL ?? '', avisarPO, log: console.log }, REMITENTE) : null;
+    // REQ-10762: «Enviar ya» manda solo este borrador (en modo manual, nada más sale).
+    const salida = parsed.data.accion === 'enviar_ahora' ? await enviarVencidos({ repo: borradores, enviar, hoy, siteUrl: env.SITE_URL ?? '', avisarPO, log: console.log, modo: modoBorradores(env), soloId: id }, REMITENTE) : null;
     return NextResponse.json({ ok: true, estado: r.borrador.estado, salida });
 }
