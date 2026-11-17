@@ -11,7 +11,8 @@ import { loadTourReviews } from '@/reviews/load';
 import { withoutPlatformMentions } from '@/reviews/lib/platform-mention';
 import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
 import { contactFromEnv } from '@/booking/tour-summary';
-import { cityLabel, transportForPlace } from '@/trips/cross-sell';
+import { cityLabel, transportForPlace, transportOrigin } from '@/trips/cross-sell';
+import { nearbyUnifiedEnabled } from '@/geo/lib/near';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import type { SupportedLanguage } from '@/types';
 import { getD1 } from '@/lib/prisma';
@@ -40,9 +41,12 @@ export async function loadTourDetailProps(tourId: string, language: SupportedLan
     const REVIEW_FILTER_ONLY_WITH_FLAG = false;
     const shown = !REVIEW_FILTER_ONLY_WITH_FLAG || isPrimeraPiezaEnabled(env.PRIMERA_PIEZA_ENABLED) ? withoutPlatformMentions(reviews) : reviews;
     // REQ-005/006: transporte de la misma ciudad o país (vacío si TRANSPORT_ENABLED está apagado). Si falla, la ficha sigue.
-    const rel = tourData as unknown as { city?: { translations?: unknown }; country?: { code?: string } };
+    const rel = tourData as unknown as { city?: { translations?: unknown; lat?: number | null; lng?: number | null }; country?: { code?: string }; meetingPoint?: { coordinates?: string | null } | null; providerId?: string | null };
     const place = { city: cityLabel(rel.city?.translations, 'es'), country: rel.country?.code ?? null };
-    const items = await transportForPlace(place, language, crossSellDeps()).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; });
+    // REQ-10752 (decisión 29): con NEARBY_UNIFIED_ENABLED, la franja sale de nearUnified() con el punto de la ficha o el de
+    // su ciudad (REQ-10735) como origen; apagada, pickByPlace como hoy.
+    const origin = transportOrigin(rel.meetingPoint, rel.city ? { lat: rel.city.lat ?? null, lng: rel.city.lng ?? null } : null, sourceId === null ? rel.providerId ?? null : 'freetour');
+    const items = await transportForPlace(place, language, crossSellDeps(), { unified: nearbyUnifiedEnabled(env), origin }).catch((e) => { console.error('[venta cruzada]', (e as Error).message); return []; });
     const crossSell = items.length ? { city: cityLabel(rel.city?.translations, language) ?? place.city ?? '', items } : null;
     // REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos (columnas 0031/0032, SQL aparte). Si falla, null
     // y la ficha sigue sin esos bloques (regla 7); se validan antes de salir al cliente (regla 8).
