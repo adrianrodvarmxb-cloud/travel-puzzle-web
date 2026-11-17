@@ -98,6 +98,7 @@ jobs:
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+          MILA_AVISOS_SECRET: ${{ secrets.MILA_AVISOS_SECRET }} # REQ-10758: puente de avisos (Mila)
         run: npx tsx src/scripts/worker-secrets.ts "$SECRETOS_FILE"
 
       # REQ-003 (INC-001): ningún deploy llega a producción si la prueba de humo falla.

@@ -106,10 +106,13 @@ jobs:
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
           # REQ-10731: aviso al PO por tipo nuevo (REQ-10730), encendido el 16-11-2026 solo por correo (REQ-10744: varios destinatarios).
-          # El WhatsApp se suma cuando exista el puente de Mila (MILA_AVISOS_URL y MILA_AVISOS_SECRET; REQ-10742, caso 1).
+          # REQ-10758: también por WhatsApp al PO por el puente de Mila (REQ-035/REQ-045), solo a los números permitidos allá.
           AVISO_TIPO_NUEVO_ENABLED: "true"
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           AVISO_PO_EMAIL: ${{ secrets.AVISO_PO_EMAIL }}
+          MILA_AVISOS_URL: https://mila-zoefel.adrianrodvarmxb.workers.dev/api/avisos
+          MILA_AVISOS_SECRET: ${{ secrets.MILA_AVISOS_SECRET }}
+          RESUMEN_DESTINOS: "5215548538822,5215536490320,5216181129459"
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Plan de escritura (genera el SQL; todavía NO lo aplica)
@@ -120,10 +123,13 @@ jobs:
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
           # REQ-10731: aviso al PO por tipo nuevo (REQ-10730), encendido el 16-11-2026 solo por correo (REQ-10744: varios destinatarios).
-          # El WhatsApp se suma cuando exista el puente de Mila (MILA_AVISOS_URL y MILA_AVISOS_SECRET; REQ-10742, caso 1).
+          # REQ-10758: también por WhatsApp al PO por el puente de Mila (REQ-035/REQ-045), solo a los números permitidos allá.
           AVISO_TIPO_NUEVO_ENABLED: "true"
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           AVISO_PO_EMAIL: ${{ secrets.AVISO_PO_EMAIL }}
+          MILA_AVISOS_URL: https://mila-zoefel.adrianrodvarmxb.workers.dev/api/avisos
+          MILA_AVISOS_SECRET: ${{ secrets.MILA_AVISOS_SECRET }}
+          RESUMEN_DESTINOS: "5215548538822,5215536490320,5216181129459"
         # REQ-3519: --copia arma la copia exacta (con el neto) en tmp/tangol-copia, FUERA del artefacto público.
         run: npx tsx src/scripts/tangol-sync.ts tmp/tangol-export tmp/tangol-salida --escribir --copia tmp/tangol-copia ${{ inputs.reiniciar && '--reiniciar' || '' }} ${{ inputs.lote && format('--lote {0}', inputs.lote) || '' }} | tee -a "$GITHUB_STEP_SUMMARY"
 
