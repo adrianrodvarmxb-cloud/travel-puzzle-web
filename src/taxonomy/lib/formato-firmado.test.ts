@@ -31,3 +31,21 @@ describe("REQ-10756: formato firmado por viaje", () => {
     expect(tripFormatDecision({ ...lares, id: "iwp-prog-trk-99" }).valor).toBe("a-la-medida");
   });
 });
+
+// REQ-10757: firma de Extime por bloques (17-11-2026): 24 cambian, 18 se quedan como hoy.
+describe("REQ-10757: formato firmado de Extime", () => {
+  it("REQ-10757: 24 viajes de Extime firmados (18 excursiones, 4 boletos, NDML visita guiada, CAA entradas) y 18 anotados como «se quedan»", () => {
+    const ext = Object.entries(FORMATO_FIRMADO.viajes).filter(([, v]) => v.proveedor === "extime");
+    expect(ext).toHaveLength(24);
+    expect(ext.filter(([, v]) => v.formato === "excursion-dia")).toHaveLength(18);
+    expect(ext.filter(([, v]) => v.formato === "entradas").map(([, v]) => v.ref).sort()).toEqual(["BBM", "BBP", "BVPN", "CAA", "ORC"]);
+    expect(formatoFirmado(idFor("EXT", "NDML"))).toBe("visita-guiada");
+    expect(Object.keys(FORMATO_FIRMADO.seQuedanComoHoy).filter((k) => k.startsWith("ext-"))).toHaveLength(18);
+  });
+  it("REQ-10757: lo que el PO dejó como hoy no tiene firma de cambio (VAC, transportes, bicitaxi, combos, comidas en la torre)", () => {
+    for (const r of ["VAC", "NAVV", "NAVVJ", "ND", "ASN", "MFP", "TRT", "TRTM", "TRTS", "TRTE", "CDT", "CDTM", "CDTMC", "DJT", "MLTRT", "TEADJ", "TEA3DJ", "DJTEHB"]) {
+      expect(formatoFirmado(idFor("EXT", r)), r).toBeNull();
+      expect(FORMATO_FIRMADO.seQuedanComoHoy[idFor("EXT", r)], r).toMatch(/PO, 17-11-2026/);
+    }
+  });
+});

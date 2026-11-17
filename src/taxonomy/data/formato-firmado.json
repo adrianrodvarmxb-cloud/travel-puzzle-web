@@ -1,14 +1,238 @@
 {
   "nota": "REQ-10756 (decisión 13, REQ-10592; lista REQ-10748): formato que el PO firmó viaje por viaje cuando el mapeo de la agencia y la regla «propios» no coinciden. La clave es Trip.id (idFor(initials, ref)). Gana sobre la clasificación por título; nunca se infiere: solo entra lo firmado con fecha y respuesta literal.",
   "viajes": {
-    "iwp-prog-trk-05": { "proveedor": "incaworld", "ref": "PROG-TRK-05", "titulo": "Lares Trek y Machu Picchu 5 días", "antes": "a-la-medida", "formato": "circuito", "firma": "PO, 17-11-2026 (punto 1 de la ola 3, respuesta literal «Cambiar a Circuito (Recomendado)»)" },
-    "iwp-mp-04": { "proveedor": "incaworld", "ref": "MP-04", "titulo": "Machu Picchu Overnight 3 días a cotizar", "antes": "a-la-medida", "formato": "circuito", "firma": "PO, 17-11-2026 (punto 1 de la ola 3, respuesta literal «Cambiar a Circuito (Recomendado)»)" }
+    "iwp-prog-trk-05": {
+      "proveedor": "incaworld",
+      "ref": "PROG-TRK-05",
+      "titulo": "Lares Trek y Machu Picchu 5 días",
+      "antes": "a-la-medida",
+      "formato": "circuito",
+      "firma": "PO, 17-11-2026 (punto 1 de la ola 3, respuesta literal «Cambiar a Circuito (Recomendado)»)"
+    },
+    "iwp-mp-04": {
+      "proveedor": "incaworld",
+      "ref": "MP-04",
+      "titulo": "Machu Picchu Overnight 3 días a cotizar",
+      "antes": "a-la-medida",
+      "formato": "circuito",
+      "firma": "PO, 17-11-2026 (punto 1 de la ola 3, respuesta literal «Cambiar a Circuito (Recomendado)»)"
+    },
+    "ext-vt": {
+      "proveedor": "extime",
+      "ref": "VT",
+      "titulo": "Versalles completo: palacio, jardines y Aldea de la Reina",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-vgpm": {
+      "proveedor": "extime",
+      "ref": "VGPM",
+      "titulo": "Versalles guiado en grupo pequeño por la tarde",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-vgap8": {
+      "proveedor": "extime",
+      "ref": "VGAP8",
+      "titulo": "Versalles privado medio día con recogida (1-7)",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-gjo": {
+      "proveedor": "extime",
+      "ref": "GJO",
+      "titulo": "Día impresionista en Giverny: Monet y museo",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-gva": {
+      "proveedor": "extime",
+      "ref": "GVA",
+      "titulo": "Giverny y Versalles guiados con almuerzo",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-gyp8": {
+      "proveedor": "extime",
+      "ref": "GYP8",
+      "titulo": "Giverny privado medio día con recogida (1-7)",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-gv": {
+      "proveedor": "extime",
+      "ref": "GV",
+      "titulo": "Giverny y Versalles en grupo pequeño con almuerzo",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-gvp8": {
+      "proveedor": "extime",
+      "ref": "GVP8",
+      "titulo": "Giverny y Versalles privado con almuerzo (1-7)",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-msf": {
+      "proveedor": "extime",
+      "ref": "MSF",
+      "titulo": "Mont-Saint-Michel guiado con recogida en tu hotel",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-chl": {
+      "proveedor": "extime",
+      "ref": "CHL",
+      "titulo": "Castillos del Loira guiados con recogida en hotel",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-clp8": {
+      "proveedor": "extime",
+      "ref": "CLP8",
+      "titulo": "Castillos del Loira privado (1 a 7 personas)",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-np1l": {
+      "proveedor": "extime",
+      "ref": "NP1L",
+      "titulo": "Playas del Desembarco de Normandía con almuerzo",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-npm": {
+      "proveedor": "extime",
+      "ref": "NPM",
+      "titulo": "Desembarco de Normandía en grupo pequeño con almuerzo",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-npp8": {
+      "proveedor": "extime",
+      "ref": "NPP8",
+      "titulo": "Desembarco de Normandía privado con almuerzo (1-7)",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-npf": {
+      "proveedor": "extime",
+      "ref": "NPF",
+      "titulo": "Desembarco de Normandía con recogida en hotel",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-ed1": {
+      "proveedor": "extime",
+      "ref": "ED1",
+      "titulo": "Disneyland París con transporte, 1 parque",
+      "antes": "visita-guiada",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-brf": {
+      "proveedor": "extime",
+      "ref": "BRF",
+      "titulo": "Brujas guiado con recogida en hotel",
+      "antes": "tour",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-dag2": {
+      "proveedor": "extime",
+      "ref": "DAG2",
+      "titulo": "Disneyland París 2 parques y crucero por el Sena",
+      "antes": "tour",
+      "formato": "excursion-dia",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 1, respuesta literal «Todos menos VAC (Recomendado)»"
+    },
+    "ext-bbp": {
+      "proveedor": "extime",
+      "ref": "BBP",
+      "titulo": "Crucero por el Sena con Bateaux Parisiens",
+      "antes": "tour",
+      "formato": "entradas",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 3, respuesta literal «Pasan a Boletos y entradas (Recomendado)»"
+    },
+    "ext-bbm": {
+      "proveedor": "extime",
+      "ref": "BBM",
+      "titulo": "Crucero por el Sena con Bateaux Mouches",
+      "antes": "tour",
+      "formato": "entradas",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 3, respuesta literal «Pasan a Boletos y entradas (Recomendado)»"
+    },
+    "ext-bvpn": {
+      "proveedor": "extime",
+      "ref": "BVPN",
+      "titulo": "Crucero por el Sena con Vedettes du Pont Neuf",
+      "antes": "tour",
+      "formato": "entradas",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 3, respuesta literal «Pasan a Boletos y entradas (Recomendado)»"
+    },
+    "ext-orc": {
+      "proveedor": "extime",
+      "ref": "ORC",
+      "titulo": "Museo de Orsay y crucero por el Sena",
+      "antes": "tour",
+      "formato": "entradas",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 3, respuesta literal «Pasan a Boletos y entradas (Recomendado)»"
+    },
+    "ext-ndml": {
+      "proveedor": "extime",
+      "ref": "NDML",
+      "titulo": "Louvre, Île de la Cité y Notre-Dame",
+      "antes": "caminata",
+      "formato": "visita-guiada",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 7, respuesta literal «Pasa a Visita guiada (Recomendado)»"
+    },
+    "ext-caa": {
+      "proveedor": "extime",
+      "ref": "CAA",
+      "titulo": "Catacumbas con audioguía y crucero por el Sena",
+      "antes": "autoguiado",
+      "formato": "entradas",
+      "firma": "PO, 17-11-2026 (punto 2 de la ola 3, Extime por bloques, REQ-10757), bloque 8, respuesta literal «Pasa a Boletos y entradas»"
+    }
   },
   "seQuedanComoHoy": {
     "fch-fch-r23": "PO, 17-11-2026: «Se queda: Excursión de un día»",
     "iwp-lim-07": "PO, 17-11-2026: «Se queda: Actividades»",
     "iwp-prog-pun-01": "PO, 17-11-2026: «Se queda: Visita guiada»",
     "iwp-mp-05": "PO, 17-11-2026: «Se queda: A la medida»",
-    "iwp-mp-06": "PO, 17-11-2026: «Se queda: A la medida»"
+    "iwp-mp-06": "PO, 17-11-2026: «Se queda: A la medida»",
+    "ext-vac": "PO, 17-11-2026, Extime bloque 1: «Todos menos VAC»: sin transporte, se queda como Visita guiada",
+    "ext-navv": "PO, 17-11-2026, Extime bloque 2: «Se quedan como Transporte (Recomendado)»",
+    "ext-navvj": "PO, 17-11-2026, Extime bloque 2: «Se quedan como Transporte (Recomendado)»",
+    "ext-nd": "PO, 17-11-2026, Extime bloque 2: «Se quedan como Transporte (Recomendado)»",
+    "ext-asn": "PO, 17-11-2026, Extime bloque 2: «Se quedan como Transporte (Recomendado)»",
+    "ext-mfp": "PO, 17-11-2026, Extime bloque 4: «Se quedan como Actividades»",
+    "ext-trt": "PO, 17-11-2026, Extime bloque 4: «Se quedan como Actividades»",
+    "ext-trtm": "PO, 17-11-2026, Extime bloque 4: «Se quedan como Actividades»",
+    "ext-trts": "PO, 17-11-2026, Extime bloque 4: «Se quedan como Actividades»",
+    "ext-trte": "PO, 17-11-2026, Extime bloque 4: «Se quedan como Actividades»",
+    "ext-cdt": "PO, 17-11-2026, Extime bloque 5: «Se quedan como Actividades (Recomendado)»",
+    "ext-cdtm": "PO, 17-11-2026, Extime bloque 5: «Se quedan como Actividades (Recomendado)»",
+    "ext-cdtmc": "PO, 17-11-2026, Extime bloque 5: «Se quedan como Actividades (Recomendado)»",
+    "ext-djt": "PO, 17-11-2026, Extime bloque 5: «Se quedan como Actividades (Recomendado)»",
+    "ext-mltrt": "PO, 17-11-2026, Extime bloque 5: «Se quedan como Actividades (Recomendado)»",
+    "ext-teadj": "PO, 17-11-2026, Extime bloque 6: «Se quedan como Actividades (Recomendado)»",
+    "ext-tea3dj": "PO, 17-11-2026, Extime bloque 6: «Se quedan como Actividades (Recomendado)»",
+    "ext-djtehb": "PO, 17-11-2026, Extime bloque 6: «Se quedan como Actividades (Recomendado)»"
   }
 }
