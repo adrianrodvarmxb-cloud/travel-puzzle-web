@@ -1,0 +1,73 @@
+{
+ "id": "a97aae00-92ef-4f69-8c08-cb03bb40c2f9",
+ "externalId": 30042,
+ "providerId": "freetour",
+ "slug": "free-tour-esencial-de-edimburgo-centro-historico",
+ "providerTitle": "Somos Escocia",
+ "priceValue": 0,
+ "priceCurrency": "EUR",
+ "duration": "2:00",
+ "durationMinutes": 120,
+ "titleImageURL": "https://www.freetour.com/images/tours/30042/free-tour-esencial-de-edimburgo-01.jpg",
+ "categoryId": 12,
+ "rating": 4.83,
+ "reviewsNumber": 1387,
+ "meetingPoint": {
+  "title": "351 High Street (Royal Mile), frente a la Catedral de St. Giles.",
+  "coordinates": "55.94973722793411,-3.1912206033568036",
+  "googlePlaceId": "ChIJHzJ3q5rHh0gRbgAld-Ol-Jc"
+ },
+ "includes": [
+  "St Giles' Cathedral",
+  "Edinburgh City Chambers",
+  "The Royal Mile",
+  "Greyfriars Bobby Statue",
+  "Guía local"
+ ],
+ "images": [
+  {
+   "id": 96919,
+   "URL": "https://www.freetour.com/images/tours/30042/free-tour-esencial-de-edimburgo-01.jpg"
+  },
+  {
+   "id": 96920,
+   "URL": "https://www.freetour.com/images/tours/30042/free-tour-esencial-de-edimburgo-02.jpg"
+  },
+  {
+   "id": 96921,
+   "URL": "https://www.freetour.com/images/tours/30042/free-tour-esencial-de-edimburgo-03.jpg"
+  }
+ ],
+ "guideLanguages": [
+  "de",
+  "en",
+  "es",
+  "fr",
+  "it"
+ ],
+ "excludes": null,
+ "cancellationPolicy": null,
+ "whatToBring": null,
+ "physicalRequirements": null,
+ "difficulty": null,
+ "providerNotes": null,
+ "childAgeFrom": null,
+ "childAgeTo": null,
+ "translation": {
+  "language": "es",
+  "title": "Free Tour Esencial de Edimburgo: Centro Histórico",
+  "brief": "Gracias a la geología del terreno, Edimburgo se ha convertido en una de las ciudades más hermosas de Europa. Conoceremos la historia de esta ciudad medieval, desde las primeras tribus que la poblaron, los Pictos, hasta los hombres con falda.",
+  "description": "En este recorrido hablaremos de algunos de los edificios más importantes de Edimburgo, como la impresionante catedral de St. Giles y el impresionante City Chambers. Pasearemos por sus calles más famosas, como The Royal Mile, Chambers Street y Victoria Street, la calle que inspiró a la escritora de las novelas de Harry Potter para crear el Callejón Diagon.\r\n\r\nTambién visitaremos la escultura del perro guardián más famoso de Escocia, Bobby, situada justo a la salida del cementerio de Greyfriars."
+ },
+ "city": {
+  "slug": "edimburgo",
+  "name": "Edimburgo",
+  "lat": 55.95206,
+  "lng": -3.19648
+ },
+ "country": {
+  "code": "SCT",
+  "name": "Escocia"
+ },
+ "_fuente": "D1 de producción, 17-11-2026, solo lectura (datos públicos de la ficha; fotos y textos recortados)."
+}

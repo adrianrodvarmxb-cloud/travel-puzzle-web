@@ -39,6 +39,15 @@ Actualizado: 15 nov 2026, 22:30 UTC (16:30 CDMX): ficha única, ola 3: medio «E
 Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque único de taxonomía construido tras `TAXONOMY_BLOCK_ENABLED="false"` (REQ-10686, REQ-10687); sigue la aplicación de la decisión 9 (#580, REQ-10662) y la categoría original (decisión 14).
 
 
+## Ficha única, ola 6 «Modelo común» (17 nov 2026) — matriz de trazabilidad
+Frente #661. PR 1: modelo, esquema y adaptador de Tangol con fixture real; sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
+| REQ-10777 | Adaptador Tangol → modelo con fixture real | NUEVO | `src/ficha/adapters/tangol.ts`, `src/ficha/lib/text.ts`, `tests/fixtures/tangol/tour-43-glaciar-perito-moreno.json` | `src/ficha/adapters/tangol.test.ts` (5) | CUMPLIDO en código |
+| REQ-10778 | Adaptador FREETOUR → modelo con fixture real | NUEVO | `src/ficha/adapters/freetour.ts`, `tests/fixtures/freetour/tour-30042-edimburgo.json` | `src/ficha/adapters/freetour.test.ts` (5) | CUMPLIDO en código |
+| REQ-10779 | Adaptador viajes de agencia y Big Bus → modelo con fixture real | NUEVO | `src/ficha/adapters/trip.ts`, `tests/fixtures/trips/tas-mys-01-malasia-esencial.json` | `src/ficha/adapters/trip.test.ts` (4) | CUMPLIDO en código |
+
 ## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad
 Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y bandera apagada; nada visible. Plan de regreso: revertir el PR (no toca datos).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
@@ -46,7 +55,7 @@ Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y b
 | REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (conectado a la franja de /tours en REQ-10752, tras bandera) |
 | REQ-10751 | Bandera `NEARBY_UNIFIED_ENABLED` | NUEVO | `wrangler.jsonc`, `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` | CUMPLIDO (encendida 17-11-2026, humo en preview con la bandera encendida) |
 | REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | `src/trips/cross-sell.test.ts` (14) | CUMPLIDO en código (tras `NEARBY_UNIFIED_ENABLED="false"`) |
-| REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | `src/trips/lib/transfer-card.ts`, `src/components/trips/TransferCard.tsx`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `wrangler.jsonc` | `src/trips/lib/transfer-card.test.ts` (4) | CUMPLIDO en código (firma REQ-10764: cuenta de afiliado ya en el código; apagada) |
+| REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | `src/trips/lib/transfer-card.ts`, `src/components/trips/TransferCard.tsx`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `wrangler.jsonc` | `src/trips/lib/transfer-card.test.ts` (4) | CUMPLIDO (firma REQ-10764; encendida 17-11-2026 con humo en preview) |
 | REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE |
 | REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
 

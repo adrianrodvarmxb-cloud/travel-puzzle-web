@@ -1,0 +1,119 @@
+{
+ "id": "cddaef80-f34c-47a2-9361-ccc368da8a76",
+ "externalId": 43,
+ "providerId": "tangol",
+ "slug": "glaciar-perito-moreno",
+ "providerTitle": "Tangol Tours",
+ "priceValue": 98,
+ "priceCurrency": "USD",
+ "duration": "8 Horas",
+ "durationMinutes": 480,
+ "titleImageURL": "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_202407101028303.JPG",
+ "categoryId": 9000002,
+ "rating": 4.5,
+ "reviewsNumber": 45,
+ "meetingPoint": {
+  "title": "<p>Hoteles céntricos de El Calafate</p><ul><li><span style=\"background-color:rgb(255,255,255);color:rgb(79,107,114);\">Abril a Septiembre: Pick up a partir de las 09.00 hs.</span></li><li><span style=\"background-color:rgb(255,255,255);color:rgb(79,107,114);\">Octubre a Marzo: Pick &nbsp;up a partir de las 07.15 hs.</span></li></ul>",
+  "coordinates": "",
+  "googlePlaceId": ""
+ },
+ "includes": [
+  "Servicio de transporte.",
+  "Guías Español/Inglés.&nbsp;",
+  "Opcional: Navegación frente al Glaciar Perito Moreno."
+ ],
+ "images": [
+  "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_202407101028303.JPG",
+  "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_202407101028282.JPG",
+  "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_202006041053470.JPG",
+  "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_202407101028230.JPG",
+  "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_202407101028261.JPG",
+  "https://www.tangol.com/Fotos/Tours/glaciar-perito-moreno_43_201910030714170.JPG"
+ ],
+ "guideLanguages": [
+  "es",
+  "en"
+ ],
+ "excludes": [
+  "Costo de las entradas al Parque Nacional.",
+  "Almuerzo.",
+  "Gastos personales.",
+  "Actividades opcionales."
+ ],
+ "cancellationPolicy": "Gratis Hasta 24hs Antes",
+ "availabilityRules": {
+  "options": [
+   {
+    "code": "38",
+    "startTime": "09:00",
+    "operationDays": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "operationDaysRaw": "SSSSSSS",
+    "hoursBooking": 18,
+    "hoursCancelation": 48
+   },
+   {
+    "code": "53673",
+    "startTime": "07:15",
+    "operationDays": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "operationDaysRaw": "SSSSSSS",
+    "hoursBooking": 24,
+    "hoursCancelation": 24
+   }
+  ],
+  "validity": [
+   {
+    "option": "38",
+    "from": "2026-11-14",
+    "to": "2027-04-30"
+   },
+   {
+    "option": "53673",
+    "from": "2026-11-14",
+    "to": "2026-12-31"
+   }
+  ],
+  "blackouts": []
+ },
+ "endPoint": "<p>Hoteles céntricos de El Calafate</p><ul><li>Abril a Septiembre: Drop off a partir de las 17.00 hs.</li><li>Octubre a Marzo: Drop off a partir de las 16.00 hs.</li></ul>",
+ "whatToBring": "<p>Cámara de fotos.</p><p>&nbsp;Ropa de abrigo.</p><p>&nbsp;Lentes de sol.</p><p>&nbsp;Dinero para gastos personales.</p>",
+ "physicalRequirements": "<p>Bajo.</p>",
+ "difficulty": "<p>Bajo.</p>",
+ "providerNotes": "<p>*El pick up se realiza solo desde hoteles ubicados en el centro de la ciudad, si su alojamiento se encuentra fuera de este área se le otorgará un punto de encuentro. *El horario de recogida será confirmado 24 horas antes del tour, el mismo es aproximado y puede variar según las condiciones del tránsito y otras variables.</p>",
+ "childAgeFrom": 3,
+ "childAgeTo": 9,
+ "infantAgeFrom": 0,
+ "infantAgeTo": 2,
+ "translation": {
+  "language": "es",
+  "title": "Glaciar Perito Moreno",
+  "brief": "<p style=\"text-align:justify;\">La excursión al <strong>Glaciar Perito Moreno </strong>es perfecta para aquellos amantes de la naturaleza que desean visitar este increíble glaciar y<strong> uno de los Parques Nacionales más maravillosos de Argentina.</strong></p>",
+  "description": "<p style=\"text-align:justify;\">El tour comienza con la recogida por su hotel, para salir acompañados de un guía, rumbo hacia el <strong>Parque Nacional Los Glaciares.</strong> Iremos por la<strong> pintoresca Ruta 11</strong>, que bordea el cuerpo principal del<strong> Lago Argentino</strong> camino hacia el brazo Rico.</p>"
+ },
+ "city": {
+  "slug": "el-calafate",
+  "name": "El Calafate",
+  "lat": null,
+  "lng": null
+ },
+ "country": {
+  "code": "AR",
+  "name": "Argentina"
+ },
+ "_fuente": "D1 de producción, 17-11-2026, solo lectura (datos públicos de la ficha; descripción recortada). Sin netos."
+}
