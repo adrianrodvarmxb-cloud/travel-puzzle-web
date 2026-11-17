@@ -3,7 +3,9 @@ import { getPrisma } from "@/lib/prisma";
 import { sendEmail } from "@/notifications/resend";
 import { createProveedoresRepo, dbDePrisma } from "./repository";
 import { subirDocumento } from "./cpanel";
-import type { Correo } from "./lib/correo";
+import { COPIAS, REMITENTE, type Correo } from "./lib/correo";
+import { createBorradoresRepo } from "./borrador-repo";
+import { dejarBorrador } from "./borradores";
 import { createTarifasRepo } from "./tarifa-repo";
 import { createContactoRepo } from "./contacto-repo";
 import type { DepsTarifa } from "./tarifa";
@@ -30,8 +32,25 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
     if (!res.ok) throw new Error(`avisos ${res.status}`);
   };
   const destinos = (env.RESUMEN_DESTINOS ?? "").split(",").map((x) => x.trim()).filter(Boolean);
-  return { repo, enviar, subir, avisar, destinos, contacto };
+  // REQ-10693: nunca directo. El borrador queda en la bandeja del sitio (D1, migración 0034; /admin/borradores) y sale por
+  // Resend a su hora desde el cron. Solo con PROVEEDORES_BORRADORES_ON; apagada, la revisión se detiene (nunca envía).
+  const po = env.TARIFAS_AVISO_A || destinos[0];
+  const avisoCorreo = (env.PROVEEDORES_AVISO_EMAIL ?? "adrianrodvar@travelpuzzle.com.mx").split(",").map((x) => x.trim()).filter((x) => x.includes("@"));
+  // Aviso interno al PO: WhatsApp por el puente de Mila si está configurado; si no (o si falla), correo interno a adrianrodvar@ con copia a Claudia.
+  const avisarPO = async (asunto: string, texto: string) => {
+    if (env.MILA_AVISOS_URL && po) { try { await avisar(po, texto); return; } catch { /* cae al correo */ } }
+    await enviar({ from: REMITENTE, to: [avisoCorreo[0] ?? COPIAS[1]], cc: COPIAS.filter((c) => c !== (avisoCorreo[0] ?? COPIAS[1])), subject: asunto, text: texto });
+  };
+  const borradores = createBorradoresRepo(db);
+  const borrador = borradoresEncendido(env)
+    ? async (c: Correo, p: { proveedorId: string; proveedor: string; tipo: string; enviarEn: string; zonaHoraria?: string }) =>
+        dejarBorrador(c, p, { repo: borradores, enviar, hoy: new Date().toISOString(), siteUrl: env.SITE_URL ?? "https://travelpuzzle.com.mx", avisarPO, log: console.log })
+    : undefined;
+  return { repo, enviar, subir, avisar, destinos, contacto, borrador, borradores, avisarPO };
 }
+
+/** REQ-10693: la bandeja de borradores programados; exige la migración 0034 aplicada. */
+export const borradoresEncendido = (env: Record<string, string | undefined>) => env.PROVEEDORES_BORRADORES_ON === "true";
 
 // REQ-1672: márgenes desde el secreto MARKUP_RATES (JSON {"pct":{"programa":…,"tour":…,"privado":…,"traslado":…},"minTourUsd":…}); no viven en el repo (REQ-038).
 export function leerRates(raw?: string): MarkupRates | null {
