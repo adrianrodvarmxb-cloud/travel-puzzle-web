@@ -29,6 +29,7 @@ import { TourConditions } from './TourConditions';
 import { TourBeforeYouGo } from './TourBeforeYouGo';
 import type { PracticalView } from '@/tours/lib/practical-info';
 import { TourMeetingPoint } from './TourMeetingPoint';
+import type { FichaMapView } from '@/map/lib/city-pin';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
 import { sidebarPlan } from '@/tours/lib/sidebar-plan'; // REQ-10573
@@ -64,6 +65,8 @@ interface TourDetailClientProps {
     providerCalendar?: CalendarViewModel | null;
     /** REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos, armados y validados en el servidor. */
     practical?: PracticalView | null;
+    /** REQ-10736: qué pinta el mapa del punto de encuentro (exacto o «Zona aproximada»), decidido en el servidor. Sin esto, como hoy. */
+    fichaMap?: FichaMapView | null;
 }
 
 export function TourDetailClient({
@@ -81,6 +84,7 @@ export function TourDetailClient({
     priceLabel = null,
     providerCalendar = null,
     practical = null,
+    fichaMap,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -207,7 +211,7 @@ export function TourDetailClient({
                         )}
 
                         {/* Meeting Point */}
-                        {tour.meetingPoint && <TourMeetingPoint meetingPoint={tour.meetingPoint} />}
+                        {tour.meetingPoint && <TourMeetingPoint meetingPoint={tour.meetingPoint} fichaMap={fichaMap} />}
 
                         {/* Reseñas reales */}
                         <TourReviews reviews={reviews} total={reviewsTotal} />
