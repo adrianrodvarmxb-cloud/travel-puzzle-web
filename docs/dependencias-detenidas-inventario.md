@@ -2,36 +2,36 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1217 · sin cerrar: 485
+Filas de requisitos: 1223 · sin cerrar: 485
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 162 |
+| Decisión, firma u OK del PO | 161 |
 | Depende de otro folio sin cerrar | 84 |
 | A medias (el estado no dice qué falta) | 63 |
-| Sin iniciar (el estado no dice qué falta) | 50 |
-| Falta publicar (PR, humo o merge) | 33 |
+| Sin iniciar (el estado no dice qué falta) | 52 |
+| Falta publicar (PR, humo o merge) | 34 |
 | Sin clasificar (revisar a mano) | 19 |
-| Pieza sin construir o en borrador | 19 |
+| Pieza sin construir o en borrador | 18 |
 | Tarea a mano del PO | 17 |
 | Tercero (proveedor u otra empresa) | 10 |
 | Abogado | 8 |
 | Secreto o variable por cargar | 8 |
 | Carga de datos o migración | 7 |
-| Ola posterior del plan | 4 |
+| Ola posterior del plan | 3 |
 | Bandera apagada sin motivo escrito | 1 |
 
 ## Banderas apagadas y variables vacías
 
 | Bandera o variable | Estado | Dónde | Folio que la nombra | Estado del folio |
 |---|---|---|---|---|
-| `PROVEEDORES_BORRADORES_ON` | apagada | wrangler.jsonc | REQ-10714 | PENDIENTE (apagada; se prueba en `borradores.test.ts`) |
+| `PROVEEDORES_BORRADORES_ON` | apagada | wrangler.jsonc | REQ-10762 | PENDIENTE (siguiente corrida: bandera de modo, botón «Enviar ahora», aviso; encendido en modo manual con humo) |
 | `MILA_AVISOS_URL` | vacía | wrangler.jsonc | REQ-10731 | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secreto |
 | `BIGBUS_OCTO_ENABLED` | apagada | wrangler.jsonc | REQ-3424 | PENDIENTE |
 | `PROVIDER_CALENDAR_ENABLED` | apagada | wrangler.jsonc | REQ-3471 | EN CURSO (PR abierto; el merge es del PO) |
-| `NEARBY_UNIFIED_ENABLED` | apagada | wrangler.jsonc | REQ-10752 | PENDIENTE (siguiente PR de la ola 5) |
+| `NEARBY_UNIFIED_ENABLED` | apagada | wrangler.jsonc | REQ-10752 | CUMPLIDO en código (17-11-2026, constructora): `transportOrigin` (punto exacto no relleno → coordenadas de la ciudad, REQ-10735 → null) y `pickTransport` (con ` |
 | `SEARCH_LOG_ENABLED` | apagada | wrangler.jsonc | REQ-1311 | BLOQUEADO |
 | `STRIPE_HOLD_ENABLED` | apagada | wrangler.jsonc | REQ-3483 | EN CURSO (pruebas en verde; PR) |
 | `FREETOUR_POSTTOUR_PROMO_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
@@ -47,7 +47,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (162)
+## Decisión, firma u OK del PO (161)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -195,7 +195,6 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-3425 | DEFINICIÓN | — | PENDIENTE |
 | REQ-3433 | DEFINICIÓN | — | PENDIENTE |
 | REQ-10534 | DATOS | — | EN CURSO (ensayo del 14 nov con los originales bajados de Gmail a tmp/: Exotic 15/15, Turismo Asiático 11/11, Destino Colombia 10/10, Fantástica China 51/51, Extime 179/179 con renglón del Excel, regla en `matchDocument` |
-| REQ-10577 | VALIDACIÓN | — | PENDIENTE |
 | REQ-10640 | DEFINICIÓN | — | EN CURSO (tablero creado el 14 nov 2026; se mantiene en cada cierre) |
 | REQ-10644 | DEFINICIÓN | — | PENDIENTE (definición del PO dada el 15-11-2026; falta el código en su ola, tras bandera apagada) |
 | REQ-10645 | DEFINICIÓN | — | PENDIENTE (falta la definición del PO) |
@@ -206,12 +205,12 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10684 | DEFINICIÓN | — | PENDIENTE (definición del PO citada; falta el código, ola D6 del plan de actualización diaria) |
 | REQ-10690 | DEFINICIÓN | — | EN CURSO (15 nov 2026: 8 de 16 expedientes: Extime (revisor) y, con las 11 secciones y sin datos confidenciales, Tangol primero (decisión 52) y luego Big Bus, Destino Colombia, Exotic Escapes, Fantástica China, Inca Worl |
 | REQ-10700 | DEFINICIÓN | — | EN CURSO (aplicado en `src/taxonomy/data/dictionary.json`, `src/taxonomy/lib/filters.ts` y `src/trips/lib/copy.ts`; prueba `src/taxonomy/lib/actividades.test.ts` en verde; publicado en #600 y verificado en producción el  |
+| REQ-10714 | BANDERA | — | PENDIENTE (apagada; el PO firmó el 17-11-2026 encenderla en modo manual por 2 semanas / 10 envíos, REQ-10762; se prueba en `borradores.test.ts`) |
 | REQ-10717 | DEFINICIÓN | — | EN CURSO (regla en CLAUDE.md; barrido: Extime y Tangol hechos; faltan los demás proveedores) |
 | REQ-10718 | DEFINICIÓN | — | PENDIENTE (definición del PO citada; falta el plan) |
 | REQ-10722 | DEFINICIÓN | — | EN CURSO (tarea creada; primera corrida el 16-11-2026) |
 | REQ-10742 | CÓDIGO | — | EN CURSO (6 casos revisados a mano en `docs/dependencias-detenidas.md`; inventario completo pedido por el PO el 16-11-2026 16:17 CDMX, «Haz lista exhaiustiva», en `docs/dependencias-detenidas-inventario.md`: 509 folios s |
 | REQ-10743 | DEFINICIÓN | — | CUMPLIDO (definición escrita en `CLAUDE.md` y en la tarea «Constructora cada 6 h»; falta la misma sección en el `CLAUDE.md` de `zoefel-mila`) |
-| REQ-10748 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/taxonomy/lib/reclasificacion-agencia.test.ts` 5/5; lista generada en `docs/taxonomia/reclasificacion-agencias-2026-11-17/`: 371 viajes, 7 cambiarían (Fantástica China 1, Inca World 6) |
 | REQ-10749 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `originals.test.ts` 2 pruebas nuevas, suite ingest+taxonomy 667 verdes; los 179 huecos de Extime salen de `contrato-huecos.json`). Lista antes/después en `docs/taxonomia/reclasificacion-ag |
 
 ## Depende de otro folio sin cerrar (84)
@@ -292,7 +291,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10520 | CÓDIGO | REQ-1609 | EN CURSO (tests verdes; PR) |
 | REQ-10521 | CÓDIGO | REQ-975 | EN CURSO (tests verdes; PR) |
 | REQ-10535 | CÓDIGO | REQ-10534 | PENDIENTE |
-| REQ-10576 | DATOS | REQ-10575 | PENDIENTE |
+| REQ-10576 | DATOS | REQ-10575 | PENDIENTE (fuente firmada 17-11-2026, REQ-10761: respuesta OCTO como original; construir el guardado en R2 y la liga en D1 con tests, siguiente corrida) |
 | REQ-10669 | DEFINICIÓN | REQ-3511 | PENDIENTE (plan para firma) |
 | REQ-10691 | DEFINICIÓN | REQ-10690 | CUMPLIDO como definición (15 nov 2026, firma del PO); el código queda PENDIENTE con folios propios al construir cada conector |
 | REQ-10692 | TAREA | REQ-10691 | EN CURSO (15 nov 2026: expediente creado por el revisor, secciones 1–7 llenas sin datos confidenciales; pendientes 1–5 abiertos) |
@@ -300,8 +299,8 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10727 | DEFINICIÓN | REQ-3454 | APROBADO (definición) |
 | REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha. Mostrada en la ficha el 17-11-2026 (`incluido-ficha.ts`, prueba REQ-10733: «Autobús turísti |
 | REQ-10744 | CÓDIGO | REQ-10731 | CUMPLIDO en código (16-11-2026 17:59 CDMX: 8 pruebas en verde, `npx vitest run src/taxonomy/aviso-tipo-nuevo.test.ts`; tsc en verde); falta cargar el secreto y encender la bandera (REQ-10731) |
-| REQ-10753 | CÓDIGO | REQ-10752 | PENDIENTE |
 | REQ-10755 | TAREA | REQ-10754 | PENDIENTE |
+| REQ-10762 | CÓDIGO | REQ-10714 | PENDIENTE (siguiente corrida: bandera de modo, botón «Enviar ahora», aviso; encendido en modo manual con humo) |
 
 ## A medias (el estado no dice qué falta) (63)
 
@@ -371,7 +370,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10513 | CÓDIGO | — | EN CURSO |
 | REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
-## Sin iniciar (el estado no dice qué falta) (50)
+## Sin iniciar (el estado no dice qué falta) (52)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -424,9 +423,11 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10643 | CÓDIGO | — | PENDIENTE |
 | REQ-10665 | CÓDIGO | — | PENDIENTE |
 | REQ-10681 | CÓDIGO | — | PENDIENTE |
+| REQ-10753 | CÓDIGO | — | PENDIENTE |
 | REQ-10754 | DATOS | — | PENDIENTE (medición hecha; fuente de respaldo por proponer en el PR) |
+| REQ-10760 | CÓDIGO | — | PENDIENTE (siguiente corrida: copy en 6 idiomas con test; mensaje del día anterior con #206 de zoefel-mila) |
 
-## Falta publicar (PR, humo o merge) (33)
+## Falta publicar (PR, humo o merge) (34)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -461,6 +462,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-3511 | CÓDIGO | — | CUMPLIDO (PR #504, b1dbb494, y el reintento por tanda del PR #506, 09ed1b64, fusionados en main el 13 nov 2026. Falta volver a correr «Limpieza de taxonomía (INC-015)» con la casilla «Borrar en producción» marcada: la co |
 | REQ-3526 | CÓDIGO | — | EN CURSO (tests verdes; PR abierto, falta humo y merge del PO) |
 | REQ-10518 | CÓDIGO | — | EN CURSO (prueba en verde; PR #537) |
+| REQ-10577 | VALIDACIÓN | — | CUMPLIDO (17-11-2026, constructora: #507 fusionado el 14-11, #548 y #551 fusionados el 17-11 bajo la autorización global REQ-10743; la fila seguía en PENDIENTE por omisión) |
 | REQ-10647 | CÓDIGO | — | CUMPLIDO (prueba en verde y humo contra producción el 14 nov 2026; falta el merge) |
 | REQ-10746 | CÓDIGO | — | CUMPLIDO (17-11-2026): `src/ops/lib/migracion-una.test.ts` 5/5, `src/ops/migracion-una-workflow.test.ts` 4/4; corridas reales en producción con la 0033 (run 44016153517) y la 0034 (run 44025171251), ambas con humo verde  |
 
@@ -488,7 +490,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10655 | CÓDIGO | — | CUMPLIDO (8 pruebas en verde el 14 nov 2026, `npx vitest run src/ficha/lib/cancellation.test.ts`; Condiciones verificado en producción; el resumen junto al título se corrigió tras INC-023 y falta verificarlo en producció |
 | REQ-10745 | CÓDIGO | — | CUMPLIDO en código (prueba roja → verde, 2 pruebas `REQ-10745` + 5 de REQ-10741 y `workflows-build.test.ts`, 17-11-2026); verificación en la siguiente corrida del workflow pendiente |
 
-## Pieza sin construir o en borrador (19)
+## Pieza sin construir o en borrador (18)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -505,7 +507,6 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-3507 | VALIDACIÓN | — | EN CURSO (configuración y prueba en verde; humo con datos de Tangol y capturas NO CUMPLIDO: aún no hay tours de Tangol) |
 | REQ-10685 | TAREA-PO | — | PENDIENTE (borrador sin armar) |
 | REQ-10698 | DEFINICIÓN | — | CUMPLIDO (definición, respuesta literal citada); código PENDIENTE |
-| REQ-10714 | BANDERA | — | PENDIENTE (apagada; se prueba en `borradores.test.ts`) |
 | REQ-10715 | TAREA | — | EN CURSO (borrador vigente creado el 15-11-2026; sin enviar) |
 | REQ-10719 | TAREA | — | EN CURSO (Word entregado y adjunto al borrador vigente; sin enviar) |
 | REQ-10720 | TAREA | — | EN CURSO (borrador actualizado; sin enviar) |
@@ -587,14 +588,13 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1388 | CÓDIGO | — | EN CURSO (datos sin periodos) |
 | REQ-1665 | CÓDIGO | — | EN CURSO (11 nov 2026: código y tests verdes en feat/proveedores-mila; falta migración y bandera) |
 
-## Ola posterior del plan (4)
+## Ola posterior del plan (3)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
 | REQ-075 | (tabla vieja) | — | PENDIENTE (updatedSince solo existe en /events; /tours sigue completo. Ver STATUS.md, Ola 1) |
 | REQ-111 | (tabla vieja) | — | EN CURSO (funciones y metas firmadas listas; faltan los valores de producción: dependen del log de corridas de la Ola 1 y de los slugs de la Ola 3) |
 | REQ-416 | (tabla vieja) | — | EN CURSO (17-11-2026, constructora: es/en desde el diccionario con 13 pruebas verdes en `tour-card-guia.test.ts`, `page-model.test.ts` y `copy.test.ts`; FALTA: el diccionario en pt, de, fr e it (`src/taxonomy/data/i18n/` |
-| REQ-10752 | CÓDIGO | — | PENDIENTE (siguiente PR de la ola 5) |
 
 ## Bandera apagada sin motivo escrito (1)
 
