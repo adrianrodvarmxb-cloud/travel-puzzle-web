@@ -10,6 +10,7 @@ import { isStripeEnabled } from "@/payments/lib/checkout";
 import { requestRef } from "@/trips/lib/request";
 import { idFor } from "@/trips/lib/bulk-import";
 import { createOctoApi } from "./api";
+import { rawArchiveFromEnv } from "@/ingest/deps";
 import { bigBusOctoConfig } from "./lib/config";
 import type { CatalogPlan, CityKeywords } from "./lib/catalog";
 import type { PlanStore, CatalogSyncDeps } from "./catalog-sync";
@@ -66,9 +67,10 @@ export function catalogSyncDeps(now: Date): CatalogSyncDeps {
   return {
     api: octoApiFromEnv(),
     store: planStoreFromEnv(),
-    // REQ-3433: la copia exacta al archivo privado espera la decisión del PO sobre REQ-747 (hoy solo sync-tours
-    // puede tocar ese bucket). La sincronización ya la soporta (`archive`); aquí queda sin conectar.
-    archive: undefined,
+    // REQ-10763 (REQ-10761, firma del PO 17-11-2026: la respuesta OCTO es el documento original de Big Bus): la copia
+    // exacta va al archivo privado RAW_ARCHIVE (solo con RAW_ARCHIVE_ENABLED="true") y cada producto se liga a su viaje.
+    archive: rawArchiveFromEnv(env()),
+    tripIdFor: (ref) => idFor(AGENCY_INITIALS, ref),
     cityRefs: BIGBUS_CITY_REFS,
     map: BIGBUS_CITY_KEYWORDS,
     now,

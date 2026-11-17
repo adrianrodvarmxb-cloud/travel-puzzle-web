@@ -50,7 +50,8 @@ export function matchDocument(provider: string, entry: { ref: string; source?: u
     const file = files.find((f) => docStem(f) === name) ?? null;
     return file
       ? { kind: "web", file, url, pageToken: null, note: "" }
-      : { kind: "web", file: null, url, pageToken: null, note: "página del producto: falta guardar su copia (HTML) para subirla" };
+      // REQ-10763 (REQ-10761): sin copia HTML, el original es la respuesta OCTO que archiva el sync de Big Bus.
+      : { kind: "web", file: null, url, pageToken: null, note: "original = respuesta OCTO del sync de Big Bus (ProviderRecord bigbus-octo); la copia HTML ya no hace falta" };
   }
   for (const r of RULES[provider] ?? []) {
     if (!r.ref.test(entry.ref)) continue;
