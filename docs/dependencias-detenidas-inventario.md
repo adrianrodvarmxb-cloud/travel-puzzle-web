@@ -2,24 +2,23 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1217 · sin cerrar: 485
+Filas de requisitos: 1217 · sin cerrar: 480
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 162 |
+| Decisión, firma u OK del PO | 164 |
 | Depende de otro folio sin cerrar | 84 |
 | A medias (el estado no dice qué falta) | 63 |
-| Sin iniciar (el estado no dice qué falta) | 50 |
-| Falta publicar (PR, humo o merge) | 33 |
-| Sin clasificar (revisar a mano) | 19 |
-| Pieza sin construir o en borrador | 19 |
+| Sin iniciar (el estado no dice qué falta) | 48 |
+| Falta publicar (PR, humo o merge) | 40 |
+| Pieza sin construir o en borrador | 22 |
 | Tarea a mano del PO | 17 |
-| Tercero (proveedor u otra empresa) | 10 |
+| Tercero (proveedor u otra empresa) | 11 |
+| Carga de datos o migración | 9 |
+| Secreto o variable por cargar | 9 |
 | Abogado | 8 |
-| Secreto o variable por cargar | 8 |
-| Carga de datos o migración | 7 |
 | Ola posterior del plan | 4 |
 | Bandera apagada sin motivo escrito | 1 |
 
@@ -47,7 +46,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (162)
+## Decisión, firma u OK del PO (164)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -183,6 +182,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-3427 | DEFINICIÓN | — | APROBADO (desbloquea los periodos de REQ-1388 para India) |
 | REQ-3455 | DEFINICIÓN | — | APROBADO (definición; construcción con los complementos) |
 | REQ-1420 | CÓDIGO | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
+| REQ-1402 a REQ-1409 | (tabla vieja) | — | NO VERIFICADO: sin registro en el archivo ni commit identificado; quedan como RETRO sin caracterizar hasta que el PO o una sesión identifique a qué código corresponden (decisión del PO: cerrar como CANCELADO o caracteriz |
 | REQ-1541 | CÓDIGO | — | EN CURSO (bandera `TANGOL_ENABLED` apagada; el código ya está en `main` con #367/fd29f96. Falta preview con la bandera encendida, humo verde y OK del PO) |
 | REQ-1542 | CÓDIGO | — | EN CURSO (bandera `TANGOL_ENABLED` apagada; el código ya está en `main` con #367/fd29f96. Falta preview con la bandera encendida, humo verde y OK del PO) |
 | REQ-1543 | CÓDIGO | — | EN CURSO (bandera `TANGOL_ENABLED` apagada; el código ya está en `main` con #367/fd29f96. Falta preview con la bandera encendida, humo verde y OK del PO) |
@@ -194,6 +194,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-3323 | CÓDIGO | — | EN CURSO (3 pruebas en verde; falta humo del PR y OK del PO) |
 | REQ-3425 | DEFINICIÓN | — | PENDIENTE |
 | REQ-3433 | DEFINICIÓN | — | PENDIENTE |
+| REQ-3519 | CÓDIGO | — | CUMPLIDO en código (test verde). Pendiente: la primera corrida real del workflow «Tangol sync de tours» con la casilla de escritura; es carga de datos a R2 privado y D1 (candado del PO) (17-11-2026 (constructora, REQ-107 |
 | REQ-10534 | DATOS | — | EN CURSO (ensayo del 14 nov con los originales bajados de Gmail a tmp/: Exotic 15/15, Turismo Asiático 11/11, Destino Colombia 10/10, Fantástica China 51/51, Extime 179/179 con renglón del Excel, regla en `matchDocument` |
 | REQ-10577 | VALIDACIÓN | — | PENDIENTE |
 | REQ-10640 | DEFINICIÓN | — | EN CURSO (tablero creado el 14 nov 2026; se mantiene en cada cierre) |
@@ -371,7 +372,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10513 | CÓDIGO | — | EN CURSO |
 | REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
-## Sin iniciar (el estado no dice qué falta) (50)
+## Sin iniciar (el estado no dice qué falta) (48)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -410,14 +411,12 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1648 | (tabla vieja) | — | PENDIENTE |
 | REQ-1651 | (tabla vieja) | — | PENDIENTE |
 | REQ-1652 | (tabla vieja) | — | PENDIENTE |
-| REQ-1569 | (tabla vieja) | — | PENDIENTE |
 | REQ-1317 | DATOS | — | PENDIENTE |
 | REQ-1338 | CÓDIGO | — | PENDIENTE |
 | REQ-1371 | CÓDIGO | — | PENDIENTE |
 | REQ-1548 | (tabla vieja) | — | PENDIENTE |
 | REQ-1634 | (tabla vieja) | — | PENDIENTE (gate C1: plan y gates propios antes de código; viene de INC-009) |
 | REQ-3338 | CÓDIGO | — | PENDIENTE |
-| REQ-3320 | CÓDIGO | — | PENDIENTE |
 | REQ-1603 | CÓDIGO | — | PENDIENTE |
 | REQ-10641 | CÓDIGO | — | PENDIENTE |
 | REQ-10642 | CÓDIGO | — | PENDIENTE |
@@ -426,10 +425,12 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-10681 | CÓDIGO | — | PENDIENTE |
 | REQ-10754 | DATOS | — | PENDIENTE (medición hecha; fuente de respaldo por proponer en el PR) |
 
-## Falta publicar (PR, humo o merge) (33)
+## Falta publicar (PR, humo o merge) (40)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
+| REQ-006 | (tabla vieja) | — | CUMPLIDO en código (4 pruebas verdes, `cross-sell-copy.test.ts`, `match.test.ts`; `TRANSPORT_ENABLED="true"`). Pendiente: humo visual 390/1366 de la ventana en producción, sin evidencia en el repo; se registra cuando una |
+| REQ-007 | (tabla vieja) | — | CUMPLIDO en código (3 pruebas verdes, `cross-sell.test.ts`, `match.test.ts`; franja en `TripDetailView.tsx:189`). Pendiente: humo visual 390/1366 de la franja en producción, sin evidencia en el repo (17-11-2026 (construc |
 | REQ-093 | (tabla vieja) | — | PENDIENTE → **REEMPLAZADO** por REQ-400 (menú con «Experiencias»; la etiqueta la implementa REQ-174, PR #141) (6-11-2026, plan de taxonomía; el código actual sigue vigente hasta que el nuevo esté CUMPLIDO) |
 | REQ-158 | (tabla vieja) | — | EN CURSO (PR #127) |
 | REQ-221 | (tabla vieja) | — | CUMPLIDO (unitarias); verificación en logs de producción PENDIENTE tras el merge |
@@ -448,7 +449,9 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1298 | (tabla vieja) | — | EN CURSO (14 nov 2026: código en main desde el PR #385 (12 nov) y publicado tras PROVEEDORES_MILA_ON apagada; 92 tests de src/proveedores y `npm run build` verdes en esta sesión; falta encender la bandera, REQ-1655) |
 | REQ-1299 | (tabla vieja) | — | EN CURSO (14 nov 2026: código en main desde el PR #385 (12 nov) y publicado tras PROVEEDORES_MILA_ON apagada; 92 tests de src/proveedores y `npm run build` verdes en esta sesión; falta encender la bandera, REQ-1655) |
 | REQ-1266 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR) |
+| REQ-1348 | CÓDIGO | — | CUMPLIDO en código (#279 en main; test de contrato y sinónimos verde). Pendiente: humo del deploy no registrado en el repo (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1349 | CÓDIGO | — | EN MAIN (#277, test verde; deploy y humo NO VERIFICADOS) |
+| REQ-1359 | CÓDIGO | — | CUMPLIDO en código (deploy 42428767660 verde). Pendiente: medición en frío con humo de producción, sin evidencia en el repo (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1615 | CÓDIGO | — | EN CURSO (tests verdes; falta humo y merge) |
 | REQ-3316 | CÓDIGO | — | EN CURSO (PR abierto; el merge es del PO) |
 | REQ-1623 | DEFINICIÓN | — | EN CURSO (migración escrita y probada, consultas actualizadas, suite verde; falta merge y luego el OK para aplicarla) |
@@ -462,36 +465,17 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-3526 | CÓDIGO | — | EN CURSO (tests verdes; PR abierto, falta humo y merge del PO) |
 | REQ-10518 | CÓDIGO | — | EN CURSO (prueba en verde; PR #537) |
 | REQ-10647 | CÓDIGO | — | CUMPLIDO (prueba en verde y humo contra producción el 14 nov 2026; falta el merge) |
+| REQ-10651 | CÓDIGO | — | CUMPLIDO en código (pruebas en verde el 14 nov 2026; la casilla Proveedor se corrigió tras INC-022). Pendiente: humo visual de la corrección en producción, sin evidencia en el repo (17-11-2026 (constructora, REQ-10742)) |
+| REQ-10655 | CÓDIGO | — | CUMPLIDO en código (8 pruebas en verde, `cancellation.test.ts`; Condiciones verificado en producción). Pendiente: humo visual del resumen junto al título tras INC-023 en producción (17-11-2026 (constructora, REQ-10742)) |
+| REQ-10745 | CÓDIGO | — | CUMPLIDO en código (prueba roja → verde, 2 pruebas `REQ-10745` + 5 de REQ-10741 y `workflows-build.test.ts`). Pendiente: humo en la siguiente corrida real del workflow `geo-coordenadas-ciudad.yml` (17-11-2026 (constructo |
 | REQ-10746 | CÓDIGO | — | CUMPLIDO (17-11-2026): `src/ops/lib/migracion-una.test.ts` 5/5, `src/ops/migracion-una-workflow.test.ts` 4/4; corridas reales en producción con la 0033 (run 44016153517) y la 0034 (run 44025171251), ambas con humo verde  |
 
-## Sin clasificar (revisar a mano) (19)
+## Pieza sin construir o en borrador (22)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
-| REQ-006 | (tabla vieja) | — | CUMPLIDO en código (revisión 17-11-2026): 4 pruebas verdes (`cross-sell-copy.test.ts`, `match.test.ts`), `TRANSPORT_ENABLED="true"`; falta registrar la revisión visual 390/1366 de la ventana en producción (sin evidencia  |
-| REQ-007 | (tabla vieja) | — | CUMPLIDO en código (revisión 17-11-2026): 3 pruebas verdes (`cross-sell.test.ts`, `match.test.ts`), franja montada en `TripDetailView.tsx:189`; falta registrar la revisión visual 390/1366 (sin evidencia en el repo) |
-| REQ-008 | (tabla vieja) | — | CUMPLIDO en código (revisión 17-11-2026): 1 prueba verde (`cross-sell-copy.test.ts`: 6 idiomas con respaldo en inglés); bandera y `SectionBoundary` están en el código pero ningún test cita REQ-008 para ellos: falta un `i |
-| REQ-122 | (tabla vieja) | — | CUMPLIDO (17-11-2026): 20 pruebas verdes (`query`, `fts-query`, `fts-search`, `busqueda-destino` con la 0011 real); `SEARCH_V2_ENABLED="true"` y la 0011 la aplica el deploy (`deploy-cloudflare.yml:84`); «falta 0011 y enc |
-| REQ-087 | (tabla vieja) | — | CUMPLIDO en código (17-11-2026, constructora: 8 pruebas verdes en `assign-slugs.test.ts` y `dry-run.test.ts`); FALTA: medir en D1 (solo lectura) cuántas ciudades homónimas viven hoy con sufijo, en la siguiente corrida |
-| REQ-153 | (tabla vieja) | — | SUSTITUIDO por REQ-452 (carrusel borrado, PO 6 nov 2026) |
-| REQ-620 | (tabla vieja) | — | BLOQUEADO (va después de REQ-625) |
-| REQ-547 | (tabla vieja) | — | CUMPLIDO (17-11-2026): 1 prueba verde (`format-chips.test.ts`) y `TAXONOMY_FILTERS_ENABLED="true"` en `wrangler.jsonc`; nada pendiente |
-| REQ-548 | (tabla vieja) | — | CUMPLIDO (falta encender la bandera) |
-| REQ-1075 | (tabla vieja) | — | CUMPLIDO (falta la primera corrida real) |
-| REQ-1348 | CÓDIGO | — | EN MAIN (#279, test de contrato y sinónimos verde; deploy NO VERIFICADO) |
-| REQ-1354 | CÓDIGO | — | SIN VERIFICAR |
-| REQ-1359 | CÓDIGO | — | EN MAIN (deploy 42428767660 verde; medición en frío NO VERIFICADA) |
-| REQ-1402 a REQ-1409 | (tabla vieja) | — | NO VERIFICADO |
-| REQ-3494 | CÓDIGO | — | SIN VERIFICAR (cambia `.github/workflows/guias-ciudad.yml` y `blog-diario.yml`, pero no hay ninguna prueba que cite el folio; incumple el punto 2 del protocolo. PR abierto) — revisión REQ-3529 |
-| REQ-3519 | CÓDIGO | — | CUMPLIDO (test); falta la primera corrida real |
-| REQ-10651 | CÓDIGO | — | CUMPLIDO (pruebas en verde el 14 nov 2026; la casilla Proveedor se corrigió tras INC-022; falta verificar la corrección en producción) |
-| REQ-10655 | CÓDIGO | — | CUMPLIDO (8 pruebas en verde el 14 nov 2026, `npx vitest run src/ficha/lib/cancellation.test.ts`; Condiciones verificado en producción; el resumen junto al título se corrigió tras INC-023 y falta verificarlo en producció |
-| REQ-10745 | CÓDIGO | — | CUMPLIDO en código (prueba roja → verde, 2 pruebas `REQ-10745` + 5 de REQ-10741 y `workflows-build.test.ts`, 17-11-2026); verificación en la siguiente corrida del workflow pendiente |
-
-## Pieza sin construir o en borrador (19)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
+| REQ-620 | (tabla vieja) | — | BLOQUEADO: depende de REQ-625 (va después); sin cambio (17-11-2026 (constructora, REQ-10742)) |
+| REQ-1075 | (tabla vieja) | — | CUMPLIDO en código. Pendiente: la primera corrida real del workflow `redes-diario.yml` lanzado por `blog-diario.yml`, que depende de REQ-3494 (preview de los agentes diarios) (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1565 | (tabla vieja) | — | EN CURSO (código y 4 tests verdes; el aviso en el resumen depende de la mejora 4) |
 | REQ-1664 | (tabla vieja) | — | EN CURSO (corrida del 12 nov 2026 12:40: main mezclado sin conflictos; `vitest -t "REQ-"` 408 archivos y 2718 tests verdes; REQ-1668 hecho; REQ-1663 sigue sin plan firmado) |
 | REQ-1395 | TAREA-PO | — | PENDIENTE (borrador nuevo sin enviar r6097433612910371205 a sales4@jordanexperience.com, 12 nov 2026 15:25 UTC; sin respuesta nueva de Jordan; Corrida 12 nov 2026 18:54 UTC) |
@@ -502,6 +486,7 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1560 | (tabla vieja) | — | NO CUMPLIDO (prod 12-11 tras caché del Worker, mediana 3 corridas móvil: / 3.37 s, /tours 4.16 s, ficha 2.90 s. Ya no lo frena el servidor: retraso en descubrir la imagen LCP 1.3–1.5 s y JS del chunk 1255) |
 | REQ-1562 | (tabla vieja) | — | NO CUMPLIDO (prod 12-11, mediana TBT móvil: 152 / 535 / 511 ms) |
 | REQ-1563 | (tabla vieja) | — | NO CUMPLIDO (prod 12-11: móvil CUMPLE 1.46 / 1.03 / 0.83 MB; escritorio / 1.52 MB y /tours 3.05 MB no) |
+| REQ-3494 | CÓDIGO | — | SIN VERIFICAR: cambia `.github/workflows/guias-ciudad.yml` y `blog-diario.yml` sin ninguna prueba que cite el folio (punto 2 del protocolo); sin construir la prueba `it('REQ-3494')` sobre `workflows-build.test.ts`; revis |
 | REQ-3507 | VALIDACIÓN | — | EN CURSO (configuración y prueba en verde; humo con datos de Tangol y capturas NO CUMPLIDO: aún no hay tours de Tangol) |
 | REQ-10685 | TAREA-PO | — | PENDIENTE (borrador sin armar) |
 | REQ-10698 | DEFINICIÓN | — | CUMPLIDO (definición, respuesta literal citada); código PENDIENTE |
@@ -534,10 +519,11 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1409 | TAREA-PO | — | PENDIENTE |
 | REQ-1584 | TAREA-PO | — | PENDIENTE |
 
-## Tercero (proveedor u otra empresa) (10)
+## Tercero (proveedor u otra empresa) (11)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
+| REQ-1569 | (tabla vieja) | — | BLOQUEADO: plantilla de Meta (candado: la envía a aprobación el PO); depende de REQ-1663 encendido para que el resumen tenga canal; sin redactar (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1663 | (tabla vieja) | — | EN CURSO (13 nov 2026: zoefel-mila REQ-035, PR #207 borrador: ruta POST /api/avisos con Bearer, Zod con el contrato de `deps.ts`, lista permitida (403 a otro número) y envío desde el número de la ficha de Travel Puzzle,  |
 | REQ-1363 | TAREA-PO | — | EN CURSO (pedido por escrito: adrianrodvar@ a Angela Ballén, 11 nov 2026 17:06 UTC, con el acuerdo para revisión. Acuse de Angela, 12 nov 2026 01:17 UTC: «De inmediato comparto el documento con mis jefes y quedo atenta d |
 | REQ-1375 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 2; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
@@ -548,6 +534,34 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1399 | VALIDACIÓN | — | EN CURSO (enviado: claulet@ a a.alves@ e intlsales@, 11 nov 2026 23:56 UTC, con el texto reescrito: fotos de 20 productos, idioma de 46, cancelación 48/72 h frente a la política del 16 oct y llamada el 17 o 18 nov; adjun |
 | REQ-1406 | TAREA-PO | — | PENDIENTE (borrador sin enviar r-1099995071414724985 a roberto@canadianreceptivetours.com, 12 nov 2026 15:25 UTC; sin respuesta de Canadian ni de Kyoto; Corrida 12 nov 2026 18:54 UTC) |
 | REQ-10728 | DEFINICIÓN | — | APROBADO (definición); construcción EN CURSO (16-11-2026: regla pura `src/taxonomy/lib/incluido-cantidad.ts` con su prueba y lista por proveedor en `docs/taxonomia/etiquetas-incluido-2026-11-16/README.md`; publicadas en  |
+
+## Carga de datos o migración (9)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-048 | (tabla vieja) | — | EN CURSO (falta migración y encender con OK) |
+| REQ-049 | (tabla vieja) | — | EN CURSO (migración 0012 y sync tras DEPARTURES_SYNC_ENABLED) |
+| REQ-087 | (tabla vieja) | — | CUMPLIDO en código (8 pruebas verdes, `assign-slugs.test.ts`, `dry-run.test.ts`). Pendiente: medición en D1 (solo lectura) de cuántas ciudades homónimas viven hoy con sufijo; es carga de datos, no código (17-11-2026 (con |
+| REQ-366 | (tabla vieja) | — | CUMPLIDO (migración pendiente de OK) |
+| REQ-418 | (tabla vieja) | — | EN CURSO (17-11-2026, constructora: 2 pruebas verdes en `attributes.test.ts`; FALTA: la bandera `TAXONOMY_ATTRS_EXTRA_ENABLED` no existe en `wrangler.jsonc`, el gate es `DEFAULT_GATES.atributosExtra = false` fijo en `src |
+| REQ-1354 | CÓDIGO | — | SIN VERIFICAR: es carga de datos, no código: medir en D1 (solo lectura) los viajes de Inca World contra los 76 importados y explicar la diferencia (1 viaje); ningún test puede cerrarlo (17-11-2026 (constructora, REQ-1074 |
+| REQ-1361 | CÓDIGO | — | PENDIENTE (verificado con curl, Corrida 12 nov 2026 12:55 UTC: /tours muestra «8,343 experiencias disponibles» y el inicio trae 8,343 en sus datos; /nosotros trae 8,127. Las dos cifras subieron desde la corrida de 06:54  |
+| REQ-1388 | CÓDIGO | — | EN CURSO (datos sin periodos) |
+| REQ-1665 | CÓDIGO | — | EN CURSO (11 nov 2026: código y tests verdes en feat/proveedores-mila; falta migración y bandera) |
+
+## Secreto o variable por cargar (9)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-1077 | (tabla vieja) | — | CUMPLIDO (sin probar contra Meta: faltan tokens) |
+| REQ-1078 | (tabla vieja) | — | CUMPLIDO (sin probar contra Meta: faltan tokens) |
+| REQ-1079 | (tabla vieja) | — | CUMPLIDO (sin probar contra LinkedIn: falta token) |
+| REQ-1658 | (tabla vieja) | — | EN CURSO (14 nov 2026: CPANEL_HOST, CPANEL_USER y CPANEL_TOKEN cargados en Cloudflare; token `mila-docs` perdido y revocado, sustituido por `mila-docs-2` que pasó por chat: rotarlo cuando el canal esté estable. Falta la  |
+| REQ-3313 | VALIDACIÓN | — | EN CURSO (enviado; sin respuesta; confirmar si el adjunto era intencional y rotar la credencial citada) |
+| REQ-3430 | CÓDIGO | — | EN CURSO (12 nov 2026: código y 15 tests REQ-3430 verdes en `src/proveedores/lib/consulta.test.ts`, `src/proveedores/contacto.test.ts` y `proveedores-io.test.ts`; suite 3155 verde, tsc y build verdes; falta aplicar la mi |
+| REQ-3330 | TAREA-PO | — | EN CURSO (12-11, 05:53: «ya tego las llaves deprueba»; 06:26: «listo», guardada en GitHub como BIGBUS_OCTO_TEST_KEY y probada en REQ-3438; falta el secreto de Cloudflare para la preview, REQ-3424) |
+| REQ-3320 | CÓDIGO | — | PENDIENTE: el token ya existe como secreto de Actions `CLOUDFLARE_PURGE_TOKEN`; sin construir el paso de purga de `deploy-cloudflare.yml` (todo al publicar) y la purga de las URL del viaje al guardar en el gestor; es cód |
+| REQ-10731 | BANDERA | — | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secretos de Actions y `RESEND_API_KEY` ya existía; bandera encendid |
 
 ## Abogado (8)
 
@@ -561,31 +575,6 @@ Filas de requisitos: 1217 · sin cerrar: 485
 | REQ-1636 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado) |
 | REQ-1637 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado) |
 | REQ-10646 | DEFINICIÓN | — | PENDIENTE (falta la definición del PO y la revisión del abogado) |
-
-## Secreto o variable por cargar (8)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-1077 | (tabla vieja) | — | CUMPLIDO (sin probar contra Meta: faltan tokens) |
-| REQ-1078 | (tabla vieja) | — | CUMPLIDO (sin probar contra Meta: faltan tokens) |
-| REQ-1079 | (tabla vieja) | — | CUMPLIDO (sin probar contra LinkedIn: falta token) |
-| REQ-1658 | (tabla vieja) | — | EN CURSO (14 nov 2026: CPANEL_HOST, CPANEL_USER y CPANEL_TOKEN cargados en Cloudflare; token `mila-docs` perdido y revocado, sustituido por `mila-docs-2` que pasó por chat: rotarlo cuando el canal esté estable. Falta la  |
-| REQ-3313 | VALIDACIÓN | — | EN CURSO (enviado; sin respuesta; confirmar si el adjunto era intencional y rotar la credencial citada) |
-| REQ-3430 | CÓDIGO | — | EN CURSO (12 nov 2026: código y 15 tests REQ-3430 verdes en `src/proveedores/lib/consulta.test.ts`, `src/proveedores/contacto.test.ts` y `proveedores-io.test.ts`; suite 3155 verde, tsc y build verdes; falta aplicar la mi |
-| REQ-3330 | TAREA-PO | — | EN CURSO (12-11, 05:53: «ya tego las llaves deprueba»; 06:26: «listo», guardada en GitHub como BIGBUS_OCTO_TEST_KEY y probada en REQ-3438; falta el secreto de Cloudflare para la preview, REQ-3424) |
-| REQ-10731 | BANDERA | — | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secretos de Actions y `RESEND_API_KEY` ya existía; bandera encendid |
-
-## Carga de datos o migración (7)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-048 | (tabla vieja) | — | EN CURSO (falta migración y encender con OK) |
-| REQ-049 | (tabla vieja) | — | EN CURSO (migración 0012 y sync tras DEPARTURES_SYNC_ENABLED) |
-| REQ-366 | (tabla vieja) | — | CUMPLIDO (migración pendiente de OK) |
-| REQ-418 | (tabla vieja) | — | EN CURSO (17-11-2026, constructora: 2 pruebas verdes en `attributes.test.ts`; FALTA: la bandera `TAXONOMY_ATTRS_EXTRA_ENABLED` no existe en `wrangler.jsonc`, el gate es `DEFAULT_GATES.atributosExtra = false` fijo en `src |
-| REQ-1361 | CÓDIGO | — | PENDIENTE (verificado con curl, Corrida 12 nov 2026 12:55 UTC: /tours muestra «8,343 experiencias disponibles» y el inicio trae 8,343 en sus datos; /nosotros trae 8,127. Las dos cifras subieron desde la corrida de 06:54  |
-| REQ-1388 | CÓDIGO | — | EN CURSO (datos sin periodos) |
-| REQ-1665 | CÓDIGO | — | EN CURSO (11 nov 2026: código y tests verdes en feat/proveedores-mila; falta migración y bandera) |
 
 ## Ola posterior del plan (4)
 
