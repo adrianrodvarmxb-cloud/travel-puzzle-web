@@ -1,21 +1,416 @@
 {
   "proveedor": "extime",
-  "version": "2026-11-06",
-  "revisado": "propuesta Claude 6-11-2026 desde el documento original del proveedor; pendiente de firma del PO",
+  "version": "2026-11-17",
+  "revisado": "propuesta Claude 17-11-2026 desde el programa oficial de Extime Travel (invierno 2026-27 V2 y verano 2027 V2, columna INTL por Tour Code, src/taxonomy/data/extime-codigos.json); pendiente de firma del PO (decisión 13, REQ-10592)",
   "precioCeroEsPiezaLibre": false,
   "permiteConfirmacionInmediata": false,
   "categorias": [
     {
-      "id": "por-revisar",
-      "nombre_es": "Sin denominación",
-      "nombre_en": "No category",
-      "formato": "por-revisar",
-      "temas": [],
+      "id": "CITY TOUR",
+      "nombre_es": "Recorridos por París",
+      "nombre_en": "Paris city tours",
+      "formato": "tour",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas",
+        "experiencia-unica"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «CITY TOUR» del programa oficial (columna INTL). Bus panorámico, bici, rickshaw y combinados «Paris in a day». Las palabras del título deciden entradas (ticket) o experiencia única."
+    },
+    {
+      "id": "CITY TOUR TOUR EIFFEL",
+      "nombre_es": "Iluminaciones + Torre Eiffel",
+      "nombre_en": "Illuminations + Eiffel Tower",
+      "formato": "tour",
+      "temas": [
+        "urbano",
+        "noche-espectaculos"
+      ],
+      "atributos": [
+        "nocturno"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «CITY TOUR TOUR EIFFEL» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "TOUR EIFFEL",
+      "nombre_es": "Torre Eiffel",
+      "nombre_en": "Eiffel Tower",
+      "formato": "visita-guiada",
+      "temas": [
+        "cultural",
+        "urbano"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "visita-guiada",
+      "nota": "Línea de producto «TOUR EIFFEL» del programa oficial (columna INTL). Con guía = visita guiada; «ticket»/acceso reservado sin guía = entradas."
+    },
+    {
+      "id": "TOUR EIFFEL RESTAURANT",
+      "nombre_es": "Comer o cenar en la Torre Eiffel",
+      "nombre_en": "Lunch or dinner at the Eiffel Tower",
+      "formato": "experiencia-unica",
+      "temas": [
+        "gastronomia",
+        "urbano"
+      ],
       "atributos": [],
       "reglasPorPalabra": [],
       "estado": "activo",
       "fijo": false,
-      "nota": "No hay documento original en el repo ni en el scratchpad (programa Extime invierno 2026-27 / verano 2027): falta la categoría del proveedor."
+      "nota": "Línea de producto «TOUR EIFFEL RESTAURANT» del programa oficial (columna INTL). Almuerzo o cena en la torre, a veces con crucero y Moulin Rouge."
+    },
+    {
+      "id": "NOTREDAME",
+      "nombre_es": "Île de la Cité y Notre-Dame",
+      "nombre_en": "Île de la Cité & Notre-Dame",
+      "formato": "visita-guiada",
+      "temas": [
+        "cultural",
+        "religioso"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "visita-guiada",
+      "nota": "Línea de producto «NOTREDAME» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "MOULIN ROUGE",
+      "nombre_es": "Moulin Rouge",
+      "nombre_en": "Moulin Rouge",
+      "formato": "experiencia-unica",
+      "temas": [
+        "noche-espectaculos"
+      ],
+      "atributos": [
+        "nocturno"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «MOULIN ROUGE» del programa oficial (columna INTL). Espectáculo con o sin cena, con o sin recorrido de iluminaciones."
+    },
+    {
+      "id": "LOUVRE",
+      "nombre_es": "Museo del Louvre",
+      "nombre_en": "Louvre Museum",
+      "formato": "visita-guiada",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "visita-guiada",
+      "nota": "Línea de producto «LOUVRE» del programa oficial (columna INTL). Con guía = visita guiada; acceso reservado/«ticket» = entradas."
+    },
+    {
+      "id": "ORSAY",
+      "nombre_es": "Museo de Orsay",
+      "nombre_en": "Orsay Museum",
+      "formato": "visita-guiada",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "visita-guiada",
+      "nota": "Línea de producto «ORSAY» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "VERSAILLES",
+      "nombre_es": "Versalles",
+      "nombre_en": "Versailles",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «VERSAILLES» del programa oficial (columna INTL). Sale de París (medio día o día completo); «full access»/«ticket» sin guía = entradas."
+    },
+    {
+      "id": "GIVERNY",
+      "nombre_es": "Giverny",
+      "nombre_en": "Giverny",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural",
+        "naturaleza"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «GIVERNY» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "LOIRE",
+      "nombre_es": "Castillos del Loira",
+      "nombre_en": "Loire Valley castles",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «LOIRE» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "NORMANDIE",
+      "nombre_es": "Normandía (playas del Desembarco)",
+      "nombre_en": "Normandy D-Day beaches",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «NORMANDIE» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "MONT SAINT MICHEL",
+      "nombre_es": "Mont Saint-Michel",
+      "nombre_en": "Mont Saint-Michel",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural",
+        "religioso"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «MONT SAINT MICHEL» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "BRUGES",
+      "nombre_es": "Brujas (Bélgica)",
+      "nombre_en": "Bruges (Belgium)",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «BRUGES» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "LONDON",
+      "nombre_es": "Londres en el día",
+      "nombre_en": "London in a day",
+      "formato": "excursion-dia",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «LONDON» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "FONTAINEBLEAU",
+      "nombre_es": "Vaux-le-Vicomte y Fontainebleau",
+      "nombre_en": "Vaux-le-Vicomte & Fontainebleau",
+      "formato": "excursion-dia",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «FONTAINEBLEAU» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "DISNEYLAND",
+      "nombre_es": "Disneyland® Paris",
+      "nombre_en": "Disneyland® Paris",
+      "formato": "excursion-dia",
+      "temas": [
+        "parques-ocio"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas",
+        "traslado"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «DISNEYLAND» del programa oficial (columna INTL). Entrada + transporte = excursión de un día; solo transporte = traslado; solo e-ticket = entradas."
+    },
+    {
+      "id": "ASTÉRIX",
+      "nombre_es": "Parc Astérix",
+      "nombre_en": "Parc Astérix",
+      "formato": "excursion-dia",
+      "temas": [
+        "parques-ocio"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "entradas",
+        "traslado"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "tour",
+      "nota": "Línea de producto «ASTÉRIX» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "LA VALLEE VILLAGE OUTLET",
+      "nombre_es": "La Vallée Village (outlet)",
+      "nombre_en": "La Vallée Village outlet",
+      "formato": "traslado",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «LA VALLEE VILLAGE OUTLET» del programa oficial (columna INTL). Solo transporte ida y vuelta al outlet."
+    },
+    {
+      "id": "PARIS SEINE",
+      "nombre_es": "Cruceros por el Sena con comida",
+      "nombre_en": "Seine lunch & dinner cruises",
+      "formato": "experiencia-unica",
+      "temas": [
+        "gastronomia",
+        "urbano"
+      ],
+      "atributos": [
+        "medio:barco"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «PARIS SEINE» del programa oficial (columna INTL). Almuerzo o cena a bordo por el Sena: Actividades (el formato «crucero» del diccionario es de varios días y está tras bandera)."
+    },
+    {
+      "id": "BIG BUS",
+      "nombre_es": "Big Bus (hop-on hop-off)",
+      "nombre_en": "Big Bus hop-on hop-off",
+      "formato": "transporte",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [
+        "medio:vehiculo"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «BIG BUS» del programa oficial (columna INTL). Pase de 1 o 2 días; mismo trato que el proveedor Big Bus."
+    },
+    {
+      "id": "TOOT BUS",
+      "nombre_es": "Tootbus (hop-on hop-off)",
+      "nombre_en": "Tootbus hop-on hop-off",
+      "formato": "transporte",
+      "temas": [
+        "urbano"
+      ],
+      "atributos": [
+        "medio:vehiculo"
+      ],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «TOOT BUS» (columna INTL del programa oficial de Extime Travel; Tour Codes en src/taxonomy/data/extime-codigos.json)."
+    },
+    {
+      "id": "TICKETING",
+      "nombre_es": "Boletos (museos, cruceros, pases)",
+      "nombre_en": "Tickets (museums, cruises, passes)",
+      "formato": "entradas",
+      "temas": [
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «TICKETING» del programa oficial (columna INTL). Paris Museum Pass, boletos de crucero y museos sin guía."
+    },
+    {
+      "id": "MULTIDAYS",
+      "nombre_es": "Paquetes de varios días",
+      "nombre_en": "Multi-day packages",
+      "formato": "circuito",
+      "temas": [
+        "urbano",
+        "cultural"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [],
+      "estado": "activo",
+      "fijo": false,
+      "nota": "Línea de producto «MULTIDAYS» del programa oficial (columna INTL). 5 a 7 días con o sin noches de hotel."
+    },
+    {
+      "id": "SEAMLESS",
+      "nombre_es": "Combinados Seamless",
+      "nombre_en": "Seamless packages",
+      "formato": "tour",
+      "temas": [
+        "cultural",
+        "gastronomia"
+      ],
+      "atributos": [],
+      "reglasPorPalabra": [
+        "experiencia-unica"
+      ],
+      "estado": "activo",
+      "fijo": false,
+      "porDefecto": "visita-guiada",
+      "nota": "Línea de producto «SEAMLESS» del programa oficial (columna INTL). Combos de un día (crucero + Torre Eiffel + Louvre, food tour)."
     }
   ]
 }

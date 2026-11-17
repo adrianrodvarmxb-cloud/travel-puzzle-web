@@ -21,8 +21,9 @@ describe("REQ-753 denominación ORIGINAL del proveedor en cada viaje importado",
     expect(originalOf("incaworld", { ref: "PROG-TRK-01" })?.value).toBe("PROGRAMA");
     expect(originalOf("incaworld", { ref: "LIM-01" })?.value).toBe("SERVICIO");
   });
-  it("REQ-753 sin denominación en el registro (Extime, Exotic Escapes, Turismo Asiático hoy): null, nunca se inventa", () => {
-    expect(originalOf("extime", { ref: "VAM", source: "Programa Extime Travel (código VAM)" })).toBeNull();
+  it("REQ-753 sin denominación en el registro (Exotic Escapes, Turismo Asiático hoy): null, nunca se inventa; Extime la saca del código (REQ-10749)", () => {
+    expect(originalOf("extime", { ref: "VAM", source: "Programa Extime Travel (código VAM)" })).toEqual({ field: "ref", value: "VERSAILLES", matchedTerm: "VAM" });
+    expect(originalOf("extime", { ref: "CODIGO-QUE-NO-EXISTE" })).toBeNull();
     expect(originalOf("exoticescapes", { ref: "TO7" })).toBeNull();
     expect(originalOf("turismoasiatico", { ref: "MYS-01" })).toBeNull();
   });
@@ -40,5 +41,18 @@ describe("REQ-753 denominación ORIGINAL del proveedor en cada viaje importado",
     expect(declaredOf({ taxonomia: { formato: "excursion-dia", temas: ["cultural", "inventado"] } })).toBe('{"formato":"excursion-dia","temas":["cultural"]}');
     expect(declaredOf({ taxonomia: { formato: "xyz" } })).toBeNull();
     expect(declaredOf({})).toBeNull();
+  });
+});
+
+// REQ-10749: Extime: la denominación original es la línea de producto (columna INTL) de su programa oficial, por Tour Code.
+describe("REQ-10749: denominación original de Extime por código del programa", () => {
+  it("REQ-10749: un código del programa devuelve su línea de producto", () => {
+    expect(originalOf("extime", { ref: "VAM" })).toEqual({ field: "ref", value: "VERSAILLES", matchedTerm: "VAM" });
+    expect(originalOf("extime", { ref: "5D4N" })).toEqual({ field: "ref", value: "MULTIDAYS", matchedTerm: "5D4N" });
+    expect(originalOf("extime", { ref: "bb1" })?.value).toBe("BIG BUS");
+  });
+  it("REQ-10749: un código que no está en el programa no inventa nada", () => {
+    expect(originalOf("extime", { ref: "NO-EXISTE" })).toBeNull();
+    expect(originalOf("extime", {})).toBeNull();
   });
 });
