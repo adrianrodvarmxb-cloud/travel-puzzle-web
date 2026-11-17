@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 17 nov 2026, 09:30 UTC (03:30 CDMX): constructora. **Ola 5 «Cercanía y transporte» abierta** (REQ-10750…10755): regla pura «Cerca» único (`src/geo/lib/near.ts`, decisión 29) tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: conexión a la franja de toda ficha (REQ-10752), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
 Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.
@@ -31,6 +32,18 @@ Actualizado: 16 nov 2026, 15:40 UTC (09:40 CDMX): ficha única, ola 3: aviso al 
 Actualizado: 16 nov 2026, 13:40 UTC (07:40 CDMX): ficha única, ola 3: publicados y verificados en producción «Renta» encendida (REQ-10699, #612), tema «Campo y vida rural» (REQ-10701, #613) y «Actividades» (REQ-10700, #600); main mezclado en #560, #595 y #596. Siguen en la ola 3: REQ-10707/10728 (etiquetas «incluido» con cantidad, lista por proveedor para firma), REQ-10698 (aviso al PO por tipo nuevo, código), la categoría original guardada (decisión 14), la reclasificación de las 7 agencias y FREETOUR y el mapeo de Extime.
 Actualizado: 15 nov 2026, 22:30 UTC (16:30 CDMX): ficha única, ola 3: medio «En tren» publicado y verificado en producción (REQ-10703, #603); REQ-10724 registrado (#604); siguen REQ-10699 (Renta), REQ-10701 (Campo y vida rural), REQ-10707 (etiquetas incluido) y la categoría original (decisión 14).
 Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque único de taxonomía construido tras `TAXONOMY_BLOCK_ENABLED="false"` (REQ-10686, REQ-10687); sigue la aplicación de la decisión 9 (#580, REQ-10662) y la categoría original (decisión 14).
+
+
+## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad
+Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y bandera apagada; nada visible. Plan de regreso: revertir el PR (no toca datos).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (sin conectar a pantalla hasta REQ-10752) |
+| REQ-10751 | Bandera `NEARBY_UNIFIED_ENABLED` | NUEVO | `wrangler.jsonc`, `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` | CUMPLIDO en código (apagada) |
+| REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | — | PENDIENTE |
+| REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | — | — | PENDIENTE (variable de rutas de afiliado: PO) |
+| REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE |
+| REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
 
 
 ## Ficha única, ola 4 «Geografía» (16 nov 2026) — matriz de trazabilidad
