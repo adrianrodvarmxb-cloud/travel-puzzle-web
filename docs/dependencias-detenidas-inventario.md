@@ -2,22 +2,22 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1222 · sin cerrar: 480
+Filas de requisitos: 1220 · sin cerrar: 478
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 162 |
+| Decisión, firma u OK del PO | 163 |
 | Depende de otro folio sin cerrar | 82 |
 | A medias (el estado no dice qué falta) | 63 |
-| Sin iniciar (el estado no dice qué falta) | 50 |
+| Sin iniciar (el estado no dice qué falta) | 49 |
 | Falta publicar (PR, humo o merge) | 41 |
 | Pieza sin construir o en borrador | 22 |
 | Tarea a mano del PO | 17 |
-| Tercero (proveedor u otra empresa) | 11 |
 | Carga de datos o migración | 10 |
 | Secreto o variable por cargar | 10 |
+| Tercero (proveedor u otra empresa) | 9 |
 | Abogado | 8 |
 | Ola posterior del plan | 3 |
 | Bandera apagada sin motivo escrito | 1 |
@@ -45,7 +45,7 @@ Filas de requisitos: 1222 · sin cerrar: 480
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (162)
+## Decisión, firma u OK del PO (163)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -153,6 +153,7 @@ Filas de requisitos: 1222 · sin cerrar: 480
 | REQ-1255 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1290 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1292 | (tabla vieja) | — | EN CURSO (borrador en docs/proveedores/borrador-directorio-2026-11-07.md; OK del PO el 11 nov 13:11 (REQ-1653); falta la carga, REQ-1656) |
+| REQ-1569 | (tabla vieja) | — | PENDIENTE: plantilla de Meta, candado (la envía a aprobación el PO); el canal ya existe (REQ-1663 encendido el 17-11-2026), así que falta redactarla y mandarla a aprobación (17-11-2026, constructora) |
 | REQ-1265 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1306 | VALIDACIÓN | — | EN CURSO (revisión REQ-1604, 12-11 23:5x UTC: #135 fusionado el 12-11 04:21 UTC con humo verde; deploy 43154278943 verde; en main `ARMA_TU_VIAJE_ENABLED`="true" y `CART_PAYMENTS_ENABLED`="false". Faltan, según el PO 11-1 |
 | REQ-1314 | DEFINICIÓN | — | PENDIENTE (solo `STRIPE_HOLD_ENABLED`, en "false" en main; falta la definición del PO) |
@@ -367,7 +368,7 @@ Filas de requisitos: 1222 · sin cerrar: 480
 | REQ-10513 | CÓDIGO | — | EN CURSO |
 | REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
-## Sin iniciar (el estado no dice qué falta) (50)
+## Sin iniciar (el estado no dice qué falta) (49)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -406,7 +407,6 @@ Filas de requisitos: 1222 · sin cerrar: 480
 | REQ-1648 | (tabla vieja) | — | PENDIENTE |
 | REQ-1651 | (tabla vieja) | — | PENDIENTE |
 | REQ-1652 | (tabla vieja) | — | PENDIENTE |
-| REQ-1569 | (tabla vieja) | — | PENDIENTE |
 | REQ-1317 | DATOS | — | PENDIENTE |
 | REQ-1338 | CÓDIGO | — | PENDIENTE |
 | REQ-1371 | CÓDIGO | — | PENDIENTE |
@@ -517,22 +517,6 @@ Filas de requisitos: 1222 · sin cerrar: 480
 | REQ-1409 | TAREA-PO | — | PENDIENTE |
 | REQ-1584 | TAREA-PO | — | PENDIENTE |
 
-## Tercero (proveedor u otra empresa) (11)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-1569 | (tabla vieja) | — | BLOQUEADO: plantilla de Meta (candado: la envía a aprobación el PO); depende de REQ-1663 encendido para que el resumen tenga canal; sin redactar (17-11-2026 (constructora, REQ-10742)) |
-| REQ-1663 | (tabla vieja) | — | EN CURSO (13 nov 2026: zoefel-mila REQ-035, PR #207 borrador: ruta POST /api/avisos con Bearer, Zod con el contrato de `deps.ts`, lista permitida (403 a otro número) y envío desde el número de la ficha de Travel Puzzle,  |
-| REQ-1363 | TAREA-PO | — | EN CURSO (pedido por escrito: adrianrodvar@ a Angela Ballén, 11 nov 2026 17:06 UTC, con el acuerdo para revisión. Acuse de Angela, 12 nov 2026 01:17 UTC: «De inmediato comparto el documento con mis jefes y quedo atenta d |
-| REQ-1375 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 2; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
-| REQ-1376 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 3; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
-| REQ-1377 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, puntos 4 y 5; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de res |
-| REQ-1378 | DATOS | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 6; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
-| REQ-1398 | TAREA-PO | — | PENDIENTE (vence el 17 nov 2026; Corrida 13 nov 2026 13:16 UTC: faltan 4 días; sin evidencia nueva (Gmail no conectó en esta corrida, no se pudo revisar el hilo). Corrida 13 nov 2026 06:54 UTC: faltan 4 días, sigue sin r |
-| REQ-1399 | VALIDACIÓN | — | EN CURSO (enviado: claulet@ a a.alves@ e intlsales@, 11 nov 2026 23:56 UTC, con el texto reescrito: fotos de 20 productos, idioma de 46, cancelación 48/72 h frente a la política del 16 oct y llamada el 17 o 18 nov; adjun |
-| REQ-1406 | TAREA-PO | — | PENDIENTE (borrador sin enviar r-1099995071414724985 a roberto@canadianreceptivetours.com, 12 nov 2026 15:25 UTC; sin respuesta de Canadian ni de Kyoto; Corrida 12 nov 2026 18:54 UTC) |
-| REQ-10728 | DEFINICIÓN | — | APROBADO (definición); construcción EN CURSO (16-11-2026: regla pura `src/taxonomy/lib/incluido-cantidad.ts` con su prueba y lista por proveedor en `docs/taxonomia/etiquetas-incluido-2026-11-16/README.md`; publicadas en  |
-
 ## Carga de datos o migración (10)
 
 | Folio | Tipo | Depende de | Estado |
@@ -562,6 +546,20 @@ Filas de requisitos: 1222 · sin cerrar: 480
 | REQ-3320 | CÓDIGO | — | PENDIENTE: el token ya existe como secreto de Actions `CLOUDFLARE_PURGE_TOKEN`; sin construir el paso de purga de `deploy-cloudflare.yml` (todo al publicar) y la purga de las URL del viaje al guardar en el gestor; es cód |
 | REQ-10731 | BANDERA | — | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secretos de Actions y `RESEND_API_KEY` ya existía; bandera encendid |
 | REQ-10758 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/ops/puente-avisos-workflow.test.ts` 3/3; ops+aviso+proveedores 327 verdes; tsc limpio). Falta: el PO carga `MILA_AVISOS_SECRET` en GitHub → travel-puzzle-web → Settings → Secrets and  |
+
+## Tercero (proveedor u otra empresa) (9)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-1363 | TAREA-PO | — | EN CURSO (pedido por escrito: adrianrodvar@ a Angela Ballén, 11 nov 2026 17:06 UTC, con el acuerdo para revisión. Acuse de Angela, 12 nov 2026 01:17 UTC: «De inmediato comparto el documento con mis jefes y quedo atenta d |
+| REQ-1375 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 2; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
+| REQ-1376 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 3; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
+| REQ-1377 | DEFINICIÓN | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, puntos 4 y 5; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de res |
+| REQ-1378 | DATOS | — | PENDIENTE (preguntado en el correo del 11 nov 2026 17:06 UTC, punto 6; Angela acusó recibo el 12 nov 01:17 UTC y lo pasó a sus jefes; el 12 nov 16:31 UTC propuso reunión virtual el 18 nov 10:00 (Mex) en lugar de responde |
+| REQ-1398 | TAREA-PO | — | PENDIENTE (vence el 17 nov 2026; Corrida 13 nov 2026 13:16 UTC: faltan 4 días; sin evidencia nueva (Gmail no conectó en esta corrida, no se pudo revisar el hilo). Corrida 13 nov 2026 06:54 UTC: faltan 4 días, sigue sin r |
+| REQ-1399 | VALIDACIÓN | — | EN CURSO (enviado: claulet@ a a.alves@ e intlsales@, 11 nov 2026 23:56 UTC, con el texto reescrito: fotos de 20 productos, idioma de 46, cancelación 48/72 h frente a la política del 16 oct y llamada el 17 o 18 nov; adjun |
+| REQ-1406 | TAREA-PO | — | PENDIENTE (borrador sin enviar r-1099995071414724985 a roberto@canadianreceptivetours.com, 12 nov 2026 15:25 UTC; sin respuesta de Canadian ni de Kyoto; Corrida 12 nov 2026 18:54 UTC) |
+| REQ-10728 | DEFINICIÓN | — | APROBADO (definición); construcción EN CURSO (16-11-2026: regla pura `src/taxonomy/lib/incluido-cantidad.ts` con su prueba y lista por proveedor en `docs/taxonomia/etiquetas-incluido-2026-11-16/README.md`; publicadas en  |
 
 ## Abogado (8)
 
