@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 17 nov 2026, 09:10 UTC (03:10 CDMX): constructora, frente 5 (REQ-10742). Inventario regenerado (1,210 filas, 482 sin cerrar); 22 folios «Sin iniciar» revisados a mano: 18 CUMPLIDOS con pruebas verdes en la sesión y 4 con lo que les falta escrito (REQ-084, 087, 416, 418); casos nuevos 8–10 en `docs/dependencias-detenidas.md`; tablero de Mila: #205 y #207 fusionados en zoefel-mila.
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
 Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.

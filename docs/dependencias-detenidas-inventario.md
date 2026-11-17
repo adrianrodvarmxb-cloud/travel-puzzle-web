@@ -2,25 +2,25 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1208 · sin cerrar: 499
+Filas de requisitos: 1210 · sin cerrar: 482
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 160 |
+| Decisión, firma u OK del PO | 161 |
 | Depende de otro folio sin cerrar | 82 |
-| Sin iniciar (el estado no dice qué falta) | 72 |
 | A medias (el estado no dice qué falta) | 63 |
+| Sin iniciar (el estado no dice qué falta) | 50 |
 | Falta publicar (PR, humo o merge) | 33 |
-| Sin clasificar (revisar a mano) | 19 |
+| Sin clasificar (revisar a mano) | 20 |
 | Pieza sin construir o en borrador | 19 |
 | Tarea a mano del PO | 17 |
 | Tercero (proveedor u otra empresa) | 10 |
+| Abogado | 8 |
 | Secreto o variable por cargar | 8 |
-| Abogado | 7 |
-| Carga de datos o migración | 6 |
-| Ola posterior del plan | 2 |
+| Carga de datos o migración | 7 |
+| Ola posterior del plan | 3 |
 | Bandera apagada sin motivo escrito | 1 |
 
 ## Banderas apagadas y variables vacías
@@ -46,7 +46,7 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (160)
+## Decisión, firma u OK del PO (161)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -210,6 +210,7 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-10722 | DEFINICIÓN | — | EN CURSO (tarea creada; primera corrida el 16-11-2026) |
 | REQ-10742 | CÓDIGO | — | EN CURSO (6 casos revisados a mano en `docs/dependencias-detenidas.md`; inventario completo pedido por el PO el 16-11-2026 16:17 CDMX, «Haz lista exhaiustiva», en `docs/dependencias-detenidas-inventario.md`: 509 folios s |
 | REQ-10743 | DEFINICIÓN | — | CUMPLIDO (definición escrita en `CLAUDE.md` y en la tarea «Constructora cada 6 h»; falta la misma sección en el `CLAUDE.md` de `zoefel-mila`) |
+| REQ-10748 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/taxonomy/lib/reclasificacion-agencia.test.ts` 5/5; lista generada en `docs/taxonomia/reclasificacion-agencias-2026-11-17/`: 371 viajes, 7 cambiarían (Fantástica China 1, Inca World 6) |
 
 ## Depende de otro folio sin cerrar (82)
 
@@ -298,83 +299,6 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha. Mostrada en la ficha el 17-11-2026 (`incluido-ficha.ts`, prueba REQ-10733: «Autobús turísti |
 | REQ-10744 | CÓDIGO | REQ-10731 | CUMPLIDO en código (16-11-2026 17:59 CDMX: 8 pruebas en verde, `npx vitest run src/taxonomy/aviso-tipo-nuevo.test.ts`; tsc en verde); falta cargar el secreto y encender la bandera (REQ-10731) |
 
-## Sin iniciar (el estado no dice qué falta) (72)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-083 | (tabla vieja) | — | PENDIENTE |
-| REQ-084 | (tabla vieja) | — | PENDIENTE |
-| REQ-085 | (tabla vieja) | — | PENDIENTE |
-| REQ-087 | (tabla vieja) | — | PENDIENTE |
-| REQ-103 | (tabla vieja) | — | PENDIENTE |
-| REQ-400 | (tabla vieja) | — | PENDIENTE (gate firmado; la etiqueta está escrita en la rama de REQ-174, en espera sobre #141) |
-| REQ-401 | (tabla vieja) | — | PENDIENTE |
-| REQ-402 | (tabla vieja) | — | PENDIENTE |
-| REQ-403 | (tabla vieja) | — | PENDIENTE |
-| REQ-405 | (tabla vieja) | — | PENDIENTE |
-| REQ-406 | (tabla vieja) | — | PENDIENTE |
-| REQ-407 | (tabla vieja) | — | PENDIENTE |
-| REQ-408 | (tabla vieja) | — | PENDIENTE |
-| REQ-411 | (tabla vieja) | — | PENDIENTE |
-| REQ-412 | (tabla vieja) | — | PENDIENTE |
-| REQ-413 | (tabla vieja) | — | PENDIENTE |
-| REQ-414 | (tabla vieja) | — | PENDIENTE |
-| REQ-415 | (tabla vieja) | — | PENDIENTE |
-| REQ-416 | (tabla vieja) | — | PENDIENTE |
-| REQ-417 | (tabla vieja) | — | PENDIENTE |
-| REQ-418 | (tabla vieja) | — | PENDIENTE |
-| REQ-419 | (tabla vieja) | — | PENDIENTE |
-| REQ-420 | (tabla vieja) | — | PENDIENTE (gate G-T1) |
-| REQ-421 | (tabla vieja) | — | PENDIENTE |
-| REQ-422 | (tabla vieja) | — | PENDIENTE (mapeo de los 3 valores de hoy: gate G-T8) |
-| REQ-423 | (tabla vieja) | — | PENDIENTE |
-| REQ-424 | (tabla vieja) | — | PENDIENTE |
-| REQ-426 | (tabla vieja) | — | PENDIENTE |
-| REQ-427 | (tabla vieja) | — | PENDIENTE (gate G-T2) |
-| REQ-429 | (tabla vieja) | — | PENDIENTE |
-| REQ-430 | (tabla vieja) | — | PENDIENTE |
-| REQ-431 | (tabla vieja) | — | PENDIENTE |
-| REQ-432 | (tabla vieja) | — | PENDIENTE (metas: gate G-T3) |
-| REQ-433 | (tabla vieja) | — | PENDIENTE |
-| REQ-230 | (tabla vieja) | — | PENDIENTE (es firmado; en, pt, de, fr, it por firmar) |
-| REQ-619 | (tabla vieja) | — | PENDIENTE |
-| REQ-621 | (tabla vieja) | — | PENDIENTE |
-| REQ-622 | (tabla vieja) | — | PENDIENTE |
-| REQ-623 | (tabla vieja) | — | PENDIENTE |
-| REQ-960 | (tabla vieja) | — | PENDIENTE |
-| REQ-1535 | (tabla vieja) | — | PENDIENTE |
-| REQ-1638 | (tabla vieja) | — | PENDIENTE |
-| REQ-1537 | (tabla vieja) | — | PENDIENTE |
-| REQ-1538 | (tabla vieja) | — | PENDIENTE |
-| REQ-1539 | (tabla vieja) | — | PENDIENTE |
-| REQ-1639 | (tabla vieja) | — | PENDIENTE |
-| REQ-1640 | (tabla vieja) | — | PENDIENTE |
-| REQ-1641 | (tabla vieja) | — | PENDIENTE |
-| REQ-1642 | (tabla vieja) | — | PENDIENTE |
-| REQ-1643 | (tabla vieja) | — | PENDIENTE |
-| REQ-1644 | (tabla vieja) | — | PENDIENTE |
-| REQ-1645 | (tabla vieja) | — | PENDIENTE |
-| REQ-1646 | (tabla vieja) | — | PENDIENTE |
-| REQ-1673 | (tabla vieja) | — | PENDIENTE |
-| REQ-1648 | (tabla vieja) | — | PENDIENTE |
-| REQ-1651 | (tabla vieja) | — | PENDIENTE |
-| REQ-1652 | (tabla vieja) | — | PENDIENTE |
-| REQ-1569 | (tabla vieja) | — | PENDIENTE |
-| REQ-1317 | DATOS | — | PENDIENTE |
-| REQ-1338 | CÓDIGO | — | PENDIENTE |
-| REQ-1371 | CÓDIGO | — | PENDIENTE |
-| REQ-1548 | (tabla vieja) | — | PENDIENTE |
-| REQ-1634 | (tabla vieja) | — | PENDIENTE (gate C1: plan y gates propios antes de código; viene de INC-009) |
-| REQ-3338 | CÓDIGO | — | PENDIENTE |
-| REQ-3320 | CÓDIGO | — | PENDIENTE |
-| REQ-1603 | CÓDIGO | — | PENDIENTE |
-| REQ-10641 | CÓDIGO | — | PENDIENTE |
-| REQ-10642 | CÓDIGO | — | PENDIENTE |
-| REQ-10643 | CÓDIGO | — | PENDIENTE |
-| REQ-10665 | CÓDIGO | — | PENDIENTE |
-| REQ-10681 | CÓDIGO | — | PENDIENTE |
-| REQ-10739 | TAREA | — | PENDIENTE |
-
 ## A medias (el estado no dice qué falta) (63)
 
 | Folio | Tipo | Depende de | Estado |
@@ -443,6 +367,61 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-10513 | CÓDIGO | — | EN CURSO |
 | REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
+## Sin iniciar (el estado no dice qué falta) (50)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-400 | (tabla vieja) | — | PENDIENTE (gate firmado; la etiqueta está escrita en la rama de REQ-174, en espera sobre #141) |
+| REQ-420 | (tabla vieja) | — | PENDIENTE (gate G-T1) |
+| REQ-422 | (tabla vieja) | — | PENDIENTE (mapeo de los 3 valores de hoy: gate G-T8) |
+| REQ-423 | (tabla vieja) | — | PENDIENTE |
+| REQ-424 | (tabla vieja) | — | PENDIENTE |
+| REQ-426 | (tabla vieja) | — | PENDIENTE |
+| REQ-427 | (tabla vieja) | — | PENDIENTE (gate G-T2) |
+| REQ-429 | (tabla vieja) | — | PENDIENTE |
+| REQ-430 | (tabla vieja) | — | PENDIENTE |
+| REQ-431 | (tabla vieja) | — | PENDIENTE |
+| REQ-432 | (tabla vieja) | — | PENDIENTE (metas: gate G-T3) |
+| REQ-433 | (tabla vieja) | — | PENDIENTE |
+| REQ-230 | (tabla vieja) | — | PENDIENTE (es firmado; en, pt, de, fr, it por firmar) |
+| REQ-619 | (tabla vieja) | — | PENDIENTE |
+| REQ-621 | (tabla vieja) | — | PENDIENTE |
+| REQ-622 | (tabla vieja) | — | PENDIENTE |
+| REQ-623 | (tabla vieja) | — | PENDIENTE |
+| REQ-960 | (tabla vieja) | — | PENDIENTE |
+| REQ-1535 | (tabla vieja) | — | PENDIENTE |
+| REQ-1638 | (tabla vieja) | — | PENDIENTE |
+| REQ-1537 | (tabla vieja) | — | PENDIENTE |
+| REQ-1538 | (tabla vieja) | — | PENDIENTE |
+| REQ-1539 | (tabla vieja) | — | PENDIENTE |
+| REQ-1639 | (tabla vieja) | — | PENDIENTE |
+| REQ-1640 | (tabla vieja) | — | PENDIENTE |
+| REQ-1641 | (tabla vieja) | — | PENDIENTE |
+| REQ-1642 | (tabla vieja) | — | PENDIENTE |
+| REQ-1643 | (tabla vieja) | — | PENDIENTE |
+| REQ-1644 | (tabla vieja) | — | PENDIENTE |
+| REQ-1645 | (tabla vieja) | — | PENDIENTE |
+| REQ-1646 | (tabla vieja) | — | PENDIENTE |
+| REQ-1673 | (tabla vieja) | — | PENDIENTE |
+| REQ-1648 | (tabla vieja) | — | PENDIENTE |
+| REQ-1651 | (tabla vieja) | — | PENDIENTE |
+| REQ-1652 | (tabla vieja) | — | PENDIENTE |
+| REQ-1569 | (tabla vieja) | — | PENDIENTE |
+| REQ-1317 | DATOS | — | PENDIENTE |
+| REQ-1338 | CÓDIGO | — | PENDIENTE |
+| REQ-1371 | CÓDIGO | — | PENDIENTE |
+| REQ-1548 | (tabla vieja) | — | PENDIENTE |
+| REQ-1634 | (tabla vieja) | — | PENDIENTE (gate C1: plan y gates propios antes de código; viene de INC-009) |
+| REQ-3338 | CÓDIGO | — | PENDIENTE |
+| REQ-3320 | CÓDIGO | — | PENDIENTE |
+| REQ-1603 | CÓDIGO | — | PENDIENTE |
+| REQ-10641 | CÓDIGO | — | PENDIENTE |
+| REQ-10642 | CÓDIGO | — | PENDIENTE |
+| REQ-10643 | CÓDIGO | — | PENDIENTE |
+| REQ-10665 | CÓDIGO | — | PENDIENTE |
+| REQ-10681 | CÓDIGO | — | PENDIENTE |
+| REQ-10739 | TAREA | — | PENDIENTE |
+
 ## Falta publicar (PR, humo o merge) (33)
 
 | Folio | Tipo | Depende de | Estado |
@@ -481,7 +460,7 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-10647 | CÓDIGO | — | CUMPLIDO (prueba en verde y humo contra producción el 14 nov 2026; falta el merge) |
 | REQ-10746 | CÓDIGO | — | CUMPLIDO (17-11-2026): `src/ops/lib/migracion-una.test.ts` 5/5, `src/ops/migracion-una-workflow.test.ts` 4/4; corridas reales en producción con la 0033 (run 44016153517) y la 0034 (run 44025171251), ambas con humo verde  |
 
-## Sin clasificar (revisar a mano) (19)
+## Sin clasificar (revisar a mano) (20)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -489,6 +468,7 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-007 | (tabla vieja) | — | CUMPLIDO en código (revisión 17-11-2026): 3 pruebas verdes (`cross-sell.test.ts`, `match.test.ts`), franja montada en `TripDetailView.tsx:189`; falta registrar la revisión visual 390/1366 (sin evidencia en el repo) |
 | REQ-008 | (tabla vieja) | — | CUMPLIDO en código (revisión 17-11-2026): 1 prueba verde (`cross-sell-copy.test.ts`: 6 idiomas con respaldo en inglés); bandera y `SectionBoundary` están en el código pero ningún test cita REQ-008 para ellos: falta un `i |
 | REQ-122 | (tabla vieja) | — | CUMPLIDO (17-11-2026): 20 pruebas verdes (`query`, `fts-query`, `fts-search`, `busqueda-destino` con la 0011 real); `SEARCH_V2_ENABLED="true"` y la 0011 la aplica el deploy (`deploy-cloudflare.yml:84`); «falta 0011 y enc |
+| REQ-087 | (tabla vieja) | — | CUMPLIDO en código (17-11-2026, constructora: 8 pruebas verdes en `assign-slugs.test.ts` y `dry-run.test.ts`); FALTA: medir en D1 (solo lectura) cuántas ciudades homónimas viven hoy con sufijo, en la siguiente corrida |
 | REQ-153 | (tabla vieja) | — | SUSTITUIDO por REQ-452 (carrusel borrado, PO 6 nov 2026) |
 | REQ-620 | (tabla vieja) | — | BLOQUEADO (va después de REQ-625) |
 | REQ-547 | (tabla vieja) | — | CUMPLIDO (17-11-2026): 1 prueba verde (`format-chips.test.ts`) y `TAXONOMY_FILTERS_ENABLED="true"` en `wrangler.jsonc`; nada pendiente |
@@ -566,6 +546,19 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-1406 | TAREA-PO | — | PENDIENTE (borrador sin enviar r-1099995071414724985 a roberto@canadianreceptivetours.com, 12 nov 2026 15:25 UTC; sin respuesta de Canadian ni de Kyoto; Corrida 12 nov 2026 18:54 UTC) |
 | REQ-10728 | DEFINICIÓN | — | APROBADO (definición); construcción EN CURSO (16-11-2026: regla pura `src/taxonomy/lib/incluido-cantidad.ts` con su prueba y lista por proveedor en `docs/taxonomia/etiquetas-incluido-2026-11-16/README.md`; publicadas en  |
 
+## Abogado (8)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-041 | (tabla vieja) | — | CUMPLIDO (pendiente validación del abogado) |
+| REQ-084 | (tabla vieja) | — | EN CURSO (17-11-2026, constructora: código y 9 pruebas verdes en `src/legal/lib/cookies.test.ts` y `marketing-consent.test.ts`; FALTA: la revisión del abogado (REQ-1323) para encender `COOKIES_POLICY_ENABLED` y `MARKETIN |
+| REQ-1367 | CÓDIGO | — | PENDIENTE (el correo a Extime del 11 nov 23:56 UTC cita la política del 16 oct: 24, 72 y 96 h y 21 días; el borrador legal sigue sin corregir; Corrida 12 nov 2026 00:54 UTC) |
+| REQ-1572 | DEFINICIÓN | — | EN CURSO (ENVIADO: el PO confirmó en el chat el 12 nov 2026 «tambien se envio tangol». Evidencia: adrianrodvar@ a Hernán Garriga, cc agencias2@, 11 nov 2026 23:52 UTC, con el acuerdo con control de cambios y 5 preguntas: |
+| REQ-1635 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado; el merge es del PO) |
+| REQ-1636 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado) |
+| REQ-1637 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado) |
+| REQ-10646 | DEFINICIÓN | — | PENDIENTE (falta la definición del PO y la revisión del abogado) |
+
 ## Secreto o variable por cargar (8)
 
 | Folio | Tipo | Depende de | Estado |
@@ -579,35 +572,25 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-3330 | TAREA-PO | — | EN CURSO (12-11, 05:53: «ya tego las llaves deprueba»; 06:26: «listo», guardada en GitHub como BIGBUS_OCTO_TEST_KEY y probada en REQ-3438; falta el secreto de Cloudflare para la preview, REQ-3424) |
 | REQ-10731 | BANDERA | — | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secretos de Actions y `RESEND_API_KEY` ya existía; bandera encendid |
 
-## Abogado (7)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-041 | (tabla vieja) | — | CUMPLIDO (pendiente validación del abogado) |
-| REQ-1367 | CÓDIGO | — | PENDIENTE (el correo a Extime del 11 nov 23:56 UTC cita la política del 16 oct: 24, 72 y 96 h y 21 días; el borrador legal sigue sin corregir; Corrida 12 nov 2026 00:54 UTC) |
-| REQ-1572 | DEFINICIÓN | — | EN CURSO (ENVIADO: el PO confirmó en el chat el 12 nov 2026 «tambien se envio tangol». Evidencia: adrianrodvar@ a Hernán Garriga, cc agencias2@, 11 nov 2026 23:52 UTC, con el acuerdo con control de cambios y 5 preguntas: |
-| REQ-1635 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado; el merge es del PO) |
-| REQ-1636 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado) |
-| REQ-1637 | CÓDIGO | — | EN CURSO (PR abierto; validar con abogado) |
-| REQ-10646 | DEFINICIÓN | — | PENDIENTE (falta la definición del PO y la revisión del abogado) |
-
-## Carga de datos o migración (6)
+## Carga de datos o migración (7)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
 | REQ-048 | (tabla vieja) | — | EN CURSO (falta migración y encender con OK) |
 | REQ-049 | (tabla vieja) | — | EN CURSO (migración 0012 y sync tras DEPARTURES_SYNC_ENABLED) |
 | REQ-366 | (tabla vieja) | — | CUMPLIDO (migración pendiente de OK) |
+| REQ-418 | (tabla vieja) | — | EN CURSO (17-11-2026, constructora: 2 pruebas verdes en `attributes.test.ts`; FALTA: la bandera `TAXONOMY_ATTRS_EXTRA_ENABLED` no existe en `wrangler.jsonc`, el gate es `DEFAULT_GATES.atributosExtra = false` fijo en `src |
 | REQ-1361 | CÓDIGO | — | PENDIENTE (verificado con curl, Corrida 12 nov 2026 12:55 UTC: /tours muestra «8,343 experiencias disponibles» y el inicio trae 8,343 en sus datos; /nosotros trae 8,127. Las dos cifras subieron desde la corrida de 06:54  |
 | REQ-1388 | CÓDIGO | — | EN CURSO (datos sin periodos) |
 | REQ-1665 | CÓDIGO | — | EN CURSO (11 nov 2026: código y tests verdes en feat/proveedores-mila; falta migración y bandera) |
 
-## Ola posterior del plan (2)
+## Ola posterior del plan (3)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
 | REQ-075 | (tabla vieja) | — | PENDIENTE (updatedSince solo existe en /events; /tours sigue completo. Ver STATUS.md, Ola 1) |
 | REQ-111 | (tabla vieja) | — | EN CURSO (funciones y metas firmadas listas; faltan los valores de producción: dependen del log de corridas de la Ola 1 y de los slugs de la Ola 3) |
+| REQ-416 | (tabla vieja) | — | EN CURSO (17-11-2026, constructora: es/en desde el diccionario con 13 pruebas verdes en `tour-card-guia.test.ts`, `page-model.test.ts` y `copy.test.ts`; FALTA: el diccionario en pt, de, fr e it (`src/taxonomy/data/i18n/` |
 
 ## Bandera apagada sin motivo escrito (1)
 
