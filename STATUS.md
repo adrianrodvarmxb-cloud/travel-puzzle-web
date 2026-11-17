@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 17 nov 2026, 08:45 UTC (02:45 CDMX): constructora. **Ola 4 «Geografía» cerrada (REQ-10739):** banderas encendidas y verificadas en producción (#637, #638), cifra real de la decisión 30 leída de D1 (REQ-10738). Abre la ola 5.
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
 Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.
@@ -34,25 +35,23 @@ Actualizado: 15 nov 2026, 22:30 UTC (16:30 CDMX): ficha única, ola 3: medio «E
 Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque único de taxonomía construido tras `TAXONOMY_BLOCK_ENABLED="false"` (REQ-10686, REQ-10687); sigue la aplicación de la decisión 9 (#580, REQ-10662) y la categoría original (decisión 14).
 
 
-## Ficha única, ola 4 «Geografía» (16 nov 2026) — matriz de trazabilidad
-Decisiones 27, 28 y 30 (REQ-10605, REQ-10606, REQ-10608). PR 1: migración, regla pura y banderas apagadas; nada visible. Plan de regreso: revertir el PR; la 0035 puede quedarse con las columnas en NULL.
+## Ficha única, ola 4 «Geografía» (16–17 nov 2026) — matriz de trazabilidad — OLA CERRADA (REQ-10739, 17 nov 2026)
+Decisiones 27, 28 y 30 (REQ-10605, REQ-10606, REQ-10608). PR 1 (#627/#628): migración, regla pura y banderas apagadas. Datos: 0033, 0034 y 0035 aplicadas una por corrida con bookmark; coordenadas escritas en 1,044 de 1,182 ciudades. Encendidos: #637 (`CITY_PIN_FALLBACK_ENABLED`, deploy 44039678346 con humo de producción verde) y #638 (`ZONE_MAP_ENABLED`, deploy 44043939178 verde). Plan de regreso: apagar la bandera en su PR; la 0035 puede quedarse con las columnas en NULL.
+Cifra real de la decisión 30 (lectura de D1 en solo lectura, 17-11-2026 08:40 UTC): Tangol 1,215 tours activos sin punto exacto (457 ya con «Zona aproximada» por su ciudad; 758 en las 138 ciudades sin coordenadas, entrada de la ola 5); FREETOUR 8,155 con punto exacto.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-10734 | Migración 0035: `City.lat`, `City.lng`, `City.coordsSource` (sin declarar en Prisma hasta aplicarla: lección del humo de #627) | NUEVO | `migrations/0035_city_coordenadas.sql`, `prisma/schema.prisma` (solo comentario) | `src/map/lib/city-pin.test.ts` (`cityLatLng`) | CUMPLIDO en código; aplicar en D1 = REQ-10741 |
-| REQ-10735 | Pin de respaldo por coordenadas de ciudad (decisión 27) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts`, `src/map/load.test.ts` (3 nuevas) | CUMPLIDO (conectado al mapa en `src/map/load.ts`, 17-11-2026) |
-| REQ-10736 | «Zona aproximada» sin «Cómo llegar» (decisión 28) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts`, `src/map/ficha-map.test.ts`, `src/components/tours/one/TourMeetingPoint.test.ts`, `src/map/lib/zone.test.ts` | CUMPLIDO (conectado a la ficha, 17-11-2026) |
-| REQ-10737 | Banderas `CITY_PIN_FALLBACK_ENABLED`, `ZONE_MAP_ENABLED` | NUEVO | `wrangler.jsonc`, `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO (ambas encendidas el 17-11-2026, cada una en su PR con humo) |
-| REQ-10736 | «Zona aproximada» sin «Cómo llegar» (decisión 28) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO en código (sin conectar a pantalla hasta el encendido) |
-| REQ-10737 | Banderas `CITY_PIN_FALLBACK_ENABLED`, `ZONE_MAP_ENABLED` | NUEVO | `wrangler.jsonc`, `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | EN CURSO (`CITY_PIN_FALLBACK_ENABLED` encendida 17-11-2026 con humo; `ZONE_MAP_ENABLED` apagada hasta REQ-10736 en pantalla) |
-| REQ-10738 | Medición de tours sin coordenadas por proveedor (decisión 30) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO en código; cifra real pendiente (lectura de D1) |
-| REQ-10739 | Cierre de la ola 4 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
+| REQ-10734 | Migración 0035: `City.lat`, `City.lng`, `City.coordsSource` | NUEVO | `migrations/0035_city_coordenadas.sql`, `prisma/schema.prisma` | `src/map/lib/city-pin.test.ts` (`cityLatLng`) | CUMPLIDO (aplicada en D1: REQ-10741) |
+| REQ-10735 | Pin de respaldo por coordenadas de ciudad (decisión 27) | NUEVO | `src/map/lib/city-pin.ts`, `src/map/load.ts` | `src/map/lib/city-pin.test.ts`, `src/map/load.test.ts` | CUMPLIDO (en producción con #637) |
+| REQ-10736 | «Zona aproximada» sin «Cómo llegar» (decisión 28) | NUEVO | `src/map/lib/city-pin.ts`, `src/map/lib/zone.ts`, ficha | `src/map/lib/city-pin.test.ts`, `src/map/ficha-map.test.ts`, `src/components/tours/one/TourMeetingPoint.test.ts`, `src/map/lib/zone.test.ts` | CUMPLIDO (en producción con #638) |
+| REQ-10737 | Banderas `CITY_PIN_FALLBACK_ENABLED`, `ZONE_MAP_ENABLED` | NUEVO | `wrangler.jsonc`, `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO (ambas encendidas el 17-11-2026, cada una en su PR con humo en preview y en producción) |
+| REQ-10738 | Medición de tours sin coordenadas por proveedor (decisión 30) | NUEVO | `src/map/lib/city-pin.ts` | `src/map/lib/city-pin.test.ts` | CUMPLIDO (código 16-11; cifra real 17-11-2026: Tangol 1,215/1,215 sin punto, 457 con ciudad; FREETOUR 0/8,155) |
+| REQ-10739 | Cierre de la ola 4 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | CUMPLIDO (17-11-2026 08:50 UTC: `npx vitest run -t "REQ-"` 539 archivos, 3,886 pruebas verdes, 437 omitidas, 0 fallas; `npx tsc --noEmit` 0 errores; cruce `grep -r "REQ-" src`: 908 folios, 13 sin fila en `docs/requisitos.md` (REQ-185, 186, 270, 617, 770, 773, 1500, 1512, 1588, 1589, 1590, 3428, 3457; REQ-12, 18 y 900–907 son datos de las pruebas de `src/ops`), anotados para la auditoría RETRO) |
 | REQ-10740 | Llenado de coordenadas desde GeoNames (simula por defecto) | NUEVO | `src/geo/lib/coordenadas-ciudad.ts`, `src/scripts/geo-coordenadas-ciudad.ts`, `.github/workflows/geo-coordenadas-ciudad.yml` | `src/geo/lib/coordenadas-ciudad.test.ts` | CUMPLIDO (17-11-2026, run 44027511080: 1,044 ciudades escritas y verificadas; 138 sin dato para la ola 5) |
 | REQ-10741 | Aplicar la 0035 en D1 con bookmark y copia de `City` | NUEVO | `.github/workflows/geo-coordenadas-ciudad.yml` | `src/geo/workflow-coordenadas-ciudad.test.ts`; humo de producción | CUMPLIDO (17-11-2026, run 44026264818: 0035 aplicada, copia de City 1,182 filas, humo 146 cargas; tras la 0033 y la 0034 con REQ-10746) |
-| REQ-10745 | INC-025: regreso automático solo tras escribir de verdad | NUEVO | `.github/workflows/geo-coordenadas-ciudad.yml`, `docs/incidentes/INC-025.md` | `src/geo/workflow-coordenadas-ciudad.test.ts` | CUMPLIDO (verificado en el run 44026264818: candado de la 0034 detuvo sin restaurar, run 44024922841) |
-| REQ-10746 | Workflow «D1: aplicar una sola migración» (la más baja pendiente, con bookmark, registro en d1_migrations y humo) | NUEVO (constructora 17-11) | `.github/workflows/migracion-una.yml`, `src/ops/lib/migracion-una.ts`, `src/scripts/migracion-una.ts` | `src/ops/lib/migracion-una.test.ts` (5), `src/ops/migracion-una-workflow.test.ts` (4) | CUMPLIDO (corridas reales: 0033 run 44016153517, 0034 run 44025171251) |
-| REQ-10747 | INC-026: el paso que aplica la migración no se alimenta con `yes |` bajo pipefail | NUEVO (constructora 17-11) | `.github/workflows/geo-coordenadas-ciudad.yml`, `docs/incidentes/INC-026.md` | `src/geo/workflow-coordenadas-ciudad.test.ts` (2 nuevas) | CUMPLIDO (verificado en el run 44026264818: 0035 aplicada, regreso `skipped`) |
-| REQ-10740 | Llenado de coordenadas desde GeoNames (simula por defecto) | NUEVO | — (PR 2) | — | PENDIENTE |
-| REQ-10741 | Aplicar la 0035 en D1 con bookmark y copia de `City` en `tmp/` | NUEVO | — | humo de producción | PENDIENTE |
+| REQ-10745 | INC-025: regreso automático solo tras escribir de verdad | NUEVO | `.github/workflows/geo-coordenadas-ciudad.yml`, `docs/incidentes/INC-025.md` | `src/geo/workflow-coordenadas-ciudad.test.ts` | CUMPLIDO (verificado en el run 44026264818) |
+| REQ-10746 | Workflow «D1: aplicar una sola migración» | NUEVO (constructora 17-11) | `.github/workflows/migracion-una.yml`, `src/ops/lib/migracion-una.ts`, `src/scripts/migracion-una.ts` | `src/ops/lib/migracion-una.test.ts` (5), `src/ops/migracion-una-workflow.test.ts` (4) | CUMPLIDO (corridas reales: 0033 run 44016153517, 0034 run 44025171251) |
+| REQ-10747 | INC-026: el paso que aplica la migración no se alimenta con `yes |` bajo pipefail | NUEVO (constructora 17-11) | `.github/workflows/geo-coordenadas-ciudad.yml`, `docs/incidentes/INC-026.md` | `src/geo/workflow-coordenadas-ciudad.test.ts` (2 nuevas) | CUMPLIDO (verificado en el run 44026264818) |
+Siguiente: ola 5 «Cercanía y transporte» («Cerca» único, transporte en toda ficha, tarjeta de Kiwitaxi fuera de FREETOUR), con los 758 tours de Tangol sin pin como primer caso.
 
 ## Big Bus por Ventrata OCTO, olas 2 y 3 (12 nov 2026) — matriz de trazabilidad
 Catálogo diario desde la API y compra directa (apartar → Stripe → confirmar → boleto), todo tras `BIGBUS_OCTO_ENABLED="false"`. El merge no aplica migraciones (REQ-3323); la 0029 se aplica a mano con OK del PO (REQ-3422).
