@@ -184,6 +184,17 @@ jobs:
             if ! tiene "$n"; then openssl rand -base64 32 | tr -d '\n' | npx wrangler secret put "$n"; fi
           done
 
+      # REQ-3320 (gate D): al publicar se purga la caché del borde, incluida la Cache API del Worker (REQ-3498), para que
+      # ninguna página pública siga sirviendo la copia de la versión anterior. Token solo de purga; si falla, no tumba el
+      # deploy (lo juzga la prueba de humo). Zona por nombre o por la variable CLOUDFLARE_ZONE_ID.
+      - name: Purgar la caché del borde (REQ-3320)
+        if: always() && steps.publicar.outcome == 'success'
+        continue-on-error: true
+        env:
+          CLOUDFLARE_PURGE_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
+        run: npx tsx src/scripts/purgar-cache.ts todo
+
       # REQ-1358 (INC-009): la preview de workers.dev no tiene Cache API, así que el humo de antes de publicar no calienta
       # la caché de producción. Con una llave nueva, la primera petición a /destinos reconstruye el árbol en frío (11–18 s)
       # y puede dar 503. Aquí se calientan las páginas pesadas (con reintentos y el tiempo de cada intento en el registro);
