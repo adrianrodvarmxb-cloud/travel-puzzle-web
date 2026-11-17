@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 17 nov 2026, 09:30 UTC (03:30 CDMX): constructora. **Ola 5 «Cercanía y transporte» abierta** (REQ-10750…10755): regla pura «Cerca» único (`src/geo/lib/near.ts`, decisión 29) tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: conexión a la franja de toda ficha (REQ-10752), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 Actualizado: 17 nov 2026, 08:45 UTC (02:45 CDMX): constructora. **Ola 4 «Geografía» cerrada (REQ-10739):** banderas encendidas y verificadas en producción (#637, #638), cifra real de la decisión 30 leída de D1 (REQ-10738). Abre la ola 5.
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
@@ -35,6 +36,20 @@ Actualizado: 15 nov 2026, 22:30 UTC (16:30 CDMX): ficha única, ola 3: medio «E
 Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque único de taxonomía construido tras `TAXONOMY_BLOCK_ENABLED="false"` (REQ-10686, REQ-10687); sigue la aplicación de la decisión 9 (#580, REQ-10662) y la categoría original (decisión 14).
 
 
+## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad
+Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y bandera apagada; nada visible. Plan de regreso: revertir el PR (no toca datos).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (sin conectar a pantalla hasta REQ-10752) |
+| REQ-10751 | Bandera `NEARBY_UNIFIED_ENABLED` | NUEVO | `wrangler.jsonc`, `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` | CUMPLIDO en código (apagada) |
+| REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | — | PENDIENTE |
+| REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | — | — | PENDIENTE (variable de rutas de afiliado: PO) |
+| REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE |
+| REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
+
+
+## Ficha única, ola 4 «Geografía» (16 nov 2026) — matriz de trazabilidad
+Decisiones 27, 28 y 30 (REQ-10605, REQ-10606, REQ-10608). PR 1: migración, regla pura y banderas apagadas; nada visible. Plan de regreso: revertir el PR; la 0035 puede quedarse con las columnas en NULL.
 ## Ficha única, ola 4 «Geografía» (16–17 nov 2026) — matriz de trazabilidad — OLA CERRADA (REQ-10739, 17 nov 2026)
 Decisiones 27, 28 y 30 (REQ-10605, REQ-10606, REQ-10608). PR 1 (#627/#628): migración, regla pura y banderas apagadas. Datos: 0033, 0034 y 0035 aplicadas una por corrida con bookmark; coordenadas escritas en 1,044 de 1,182 ciudades. Encendidos: #637 (`CITY_PIN_FALLBACK_ENABLED`, deploy 44039678346 con humo de producción verde) y #638 (`ZONE_MAP_ENABLED`, deploy 44043939178 verde). Plan de regreso: apagar la bandera en su PR; la 0035 puede quedarse con las columnas en NULL.
 Cifra real de la decisión 30 (lectura de D1 en solo lectura, 17-11-2026 08:40 UTC): Tangol 1,215 tours activos sin punto exacto (457 ya con «Zona aproximada» por su ciudad; 758 en las 138 ciudades sin coordenadas, entrada de la ola 5); FREETOUR 8,155 con punto exacto.
