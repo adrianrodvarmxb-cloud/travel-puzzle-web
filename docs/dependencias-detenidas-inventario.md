@@ -2,22 +2,22 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1219 · sin cerrar: 478
+Filas de requisitos: 1222 · sin cerrar: 480
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
 | Decisión, firma u OK del PO | 162 |
-| Depende de otro folio sin cerrar | 83 |
+| Depende de otro folio sin cerrar | 82 |
 | A medias (el estado no dice qué falta) | 63 |
-| Sin iniciar (el estado no dice qué falta) | 49 |
+| Sin iniciar (el estado no dice qué falta) | 50 |
 | Falta publicar (PR, humo o merge) | 41 |
 | Pieza sin construir o en borrador | 22 |
 | Tarea a mano del PO | 17 |
 | Tercero (proveedor u otra empresa) | 11 |
-| Carga de datos o migración | 9 |
-| Secreto o variable por cargar | 9 |
+| Carga de datos o migración | 10 |
+| Secreto o variable por cargar | 10 |
 | Abogado | 8 |
 | Ola posterior del plan | 3 |
 | Bandera apagada sin motivo escrito | 1 |
@@ -27,7 +27,6 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | Bandera o variable | Estado | Dónde | Folio que la nombra | Estado del folio |
 |---|---|---|---|---|
 | `PROVEEDORES_BORRADORES_ON` | apagada | wrangler.jsonc | REQ-10714 | PENDIENTE (apagada; se prueba en `borradores.test.ts`) |
-| `MILA_AVISOS_URL` | vacía | wrangler.jsonc | REQ-10731 | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secreto |
 | `BIGBUS_OCTO_ENABLED` | apagada | wrangler.jsonc | REQ-3424 | PENDIENTE |
 | `PROVIDER_CALENDAR_ENABLED` | apagada | wrangler.jsonc | REQ-3471 | EN CURSO (PR abierto; el merge es del PO) |
 | `NEARBY_UNIFIED_ENABLED` | apagada | wrangler.jsonc | REQ-10752 | CUMPLIDO en código (17-11-2026, constructora): `transportOrigin` (punto exacto no relleno → coordenadas de la ciudad, REQ-10735 → null) y `pickTransport` (con ` |
@@ -213,7 +212,7 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-10743 | DEFINICIÓN | — | CUMPLIDO (definición escrita en `CLAUDE.md` y en la tarea «Constructora cada 6 h»; falta la misma sección en el `CLAUDE.md` de `zoefel-mila`) |
 | REQ-10749 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `originals.test.ts` 2 pruebas nuevas, suite ingest+taxonomy 667 verdes; los 179 huecos de Extime salen de `contrato-huecos.json`). Lista antes/después en `docs/taxonomia/reclasificacion-ag |
 
-## Depende de otro folio sin cerrar (83)
+## Depende de otro folio sin cerrar (82)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -222,7 +221,7 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-1650 | (tabla vieja) | REQ-1640, REQ-1641 | PENDIENTE |
 | REQ-1655 | (tabla vieja) | REQ-1658 | EN CURSO (14 nov 2026: bandera encendida en wrangler.jsonc con OK del PO «A) Sí, enciéndela»; falta el primer recordatorio real con copia al PO, que solo sale después de que el PO mande el primer correo a ese proveedor) |
 | REQ-1662 | (tabla vieja) | REQ-1655 | PENDIENTE |
-| REQ-1568 | (tabla vieja) | REQ-1569, REQ-1663 | EN CURSO |
+| REQ-1568 | (tabla vieja) | REQ-1569 | EN CURSO |
 | REQ-1305 | BANDERA | REQ-1316 | PENDIENTE |
 | REQ-1310 | BANDERA | REQ-1322 | EN CURSO (Facebook encendida: #293, deploy 42561967397 verde, 8-11; Instagram encendida: #301, deploy 42577832647 verde, 9-11; falta `SOCIAL_LINKEDIN_ENABLED`, que espera REQ-1322 y REQ-1356) |
 | REQ-1311 | BANDERA | REQ-1323 | BLOQUEADO |
@@ -256,7 +255,6 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-1411 | VALIDACIÓN | REQ-1382 | SIN VERIFICAR |
 | REQ-1421 | CÓDIGO | REQ-1420 | EN CURSO (PR abierto: 12 temas activos en el diccionario, índice v6, `?tema=` filtra y conteos sin ceros; tests `facets`, `query-temas`, `MoreFilters` verdes; merge del PO) |
 | REQ-1422 | CÓDIGO | REQ-1421 | EN CURSO (PR abierto: `?atrib=` con cómo te mueves, nocturno, entrada incluida, día completo, en español y con vuelo; tests verdes; merge del PO) |
-| REQ-1672 | CÓDIGO | REQ-1663 | EN CURSO (11 nov 2026: código, tests y build verdes en feat/proveedores-mila; falta migración, bandera, REQ-1584 y REQ-1585) |
 | REQ-3446 | CÓDIGO | REQ-1291 | BLOQUEADO |
 | REQ-3448 | TAREA-PO | REQ-3430 | PENDIENTE |
 | REQ-1609 | CÓDIGO | REQ-1075 | EN CURSO |
@@ -369,7 +367,7 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-10513 | CÓDIGO | — | EN CURSO |
 | REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
-## Sin iniciar (el estado no dice qué falta) (49)
+## Sin iniciar (el estado no dice qué falta) (50)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -408,6 +406,7 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-1648 | (tabla vieja) | — | PENDIENTE |
 | REQ-1651 | (tabla vieja) | — | PENDIENTE |
 | REQ-1652 | (tabla vieja) | — | PENDIENTE |
+| REQ-1569 | (tabla vieja) | — | PENDIENTE |
 | REQ-1317 | DATOS | — | PENDIENTE |
 | REQ-1338 | CÓDIGO | — | PENDIENTE |
 | REQ-1371 | CÓDIGO | — | PENDIENTE |
@@ -534,7 +533,7 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-1406 | TAREA-PO | — | PENDIENTE (borrador sin enviar r-1099995071414724985 a roberto@canadianreceptivetours.com, 12 nov 2026 15:25 UTC; sin respuesta de Canadian ni de Kyoto; Corrida 12 nov 2026 18:54 UTC) |
 | REQ-10728 | DEFINICIÓN | — | APROBADO (definición); construcción EN CURSO (16-11-2026: regla pura `src/taxonomy/lib/incluido-cantidad.ts` con su prueba y lista por proveedor en `docs/taxonomia/etiquetas-incluido-2026-11-16/README.md`; publicadas en  |
 
-## Carga de datos o migración (9)
+## Carga de datos o migración (10)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -547,8 +546,9 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-1361 | CÓDIGO | — | PENDIENTE (verificado con curl, Corrida 12 nov 2026 12:55 UTC: /tours muestra «8,343 experiencias disponibles» y el inicio trae 8,343 en sus datos; /nosotros trae 8,127. Las dos cifras subieron desde la corrida de 06:54  |
 | REQ-1388 | CÓDIGO | — | EN CURSO (datos sin periodos) |
 | REQ-1665 | CÓDIGO | — | EN CURSO (11 nov 2026: código y tests verdes en feat/proveedores-mila; falta migración y bandera) |
+| REQ-1672 | CÓDIGO | — | EN CURSO (11 nov 2026: código, tests y build verdes en feat/proveedores-mila; falta migración, bandera, REQ-1584 y REQ-1585) |
 
-## Secreto o variable por cargar (9)
+## Secreto o variable por cargar (10)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -561,6 +561,7 @@ Filas de requisitos: 1219 · sin cerrar: 478
 | REQ-3330 | TAREA-PO | — | EN CURSO (12-11, 05:53: «ya tego las llaves deprueba»; 06:26: «listo», guardada en GitHub como BIGBUS_OCTO_TEST_KEY y probada en REQ-3438; falta el secreto de Cloudflare para la preview, REQ-3424) |
 | REQ-3320 | CÓDIGO | — | PENDIENTE: el token ya existe como secreto de Actions `CLOUDFLARE_PURGE_TOKEN`; sin construir el paso de purga de `deploy-cloudflare.yml` (todo al publicar) y la purga de las URL del viaje al guardar en el gestor; es cód |
 | REQ-10731 | BANDERA | — | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secretos de Actions y `RESEND_API_KEY` ya existía; bandera encendid |
+| REQ-10758 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/ops/puente-avisos-workflow.test.ts` 3/3; ops+aviso+proveedores 327 verdes; tsc limpio). Falta: el PO carga `MILA_AVISOS_SECRET` en GitHub → travel-puzzle-web → Settings → Secrets and  |
 
 ## Abogado (8)
 

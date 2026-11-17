@@ -17,7 +17,7 @@ Este tablero junta en un solo lugar lo de Mila que vive en dos repos (`travel-pu
 | Resumen antes de pagar | `zoefel-mila` #204 (borrador) | — | Construido en rama | Merge |
 | «Agregar a mi calendario» | `zoefel-mila` #205 **fusionado 17-11-2026** (REQ-033) | — | Construido en `main` (pieza pura) | Conectarlo al mensaje de confirmación cuando el recorrido (#209, `JOURNEY_ON`) se encienda |
 | «¿Cómo llego?» | `zoefel-mila` #206 (borrador) | — | Construido en rama | Merge |
-| Puente de avisos del sitio a WhatsApp | `zoefel-mila` #207 **fusionado 17-11-2026** (REQ-035); sitio REQ-1663 | `AVISOS_ON` apagada | Construido en `main`: ruta `POST /api/avisos`, Zod, Bearer, envío por el número de la ficha | Secrets del PO en el Worker `mila-zoefel`: `MILA_AVISOS_SECRET`, `AVISOS_TENANT`, `AVISOS_PERMITIDOS`; luego prender `AVISOS_ON` y llenar `MILA_AVISOS_URL` aquí |
+| Puente de avisos del sitio a WhatsApp | `zoefel-mila` #207, #213, #214 fusionados (REQ-035, REQ-045); sitio REQ-10758 | `AVISOS_ON` **encendida** 17-11-2026 | En producción con Secrets del PO (3 números permitidos) | El PO carga `MILA_AVISOS_SECRET` en Actions de travel-puzzle-web |
 | RNT al pie de los mensajes | `zoefel-mila` #208 (borrador) | — | Construido en rama | Merge |
 | Comprobante, reseña, folio, accesos rápidos, código | `zoefel-mila` #209 | `JOURNEY_ON` apagada | Construido en rama | Plantillas en Meta, liga de reseña, encendido |
 | Chat puente «Escribirle a mi guía» (REQ-3432) | Sin PR | — | **NO CUMPLIDO: sin construir** | Plan propio; depende del puente de avisos (#207) y de tener el WhatsApp de cada guía u operador en su expediente (decisión 51) |
