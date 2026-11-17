@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { avisarTipoNuevo, avisoTipoNuevoDeps, destinatarios } from "./aviso-tipo-nuevo";
 import type { TipoNuevo } from "./lib/tipo-nuevo";
@@ -85,5 +86,14 @@ describe("REQ-10730 aviso al PO por correo y WhatsApp", () => {
     const deps = avisoTipoNuevoDeps({ AVISO_TIPO_NUEVO_ENABLED: "true", RESEND_API_KEY: "k", AVISO_PO_EMAIL: "uno@example.com" }, { fetch: vi.fn() as unknown as typeof fetch, sendEmail });
     const r = await avisarTipoNuevo(tipos, deps);
     expect(r.canales).toEqual([]);
+  });
+
+  it("REQ-10731: la bandera está encendida en el workflow del sync y recibe la llave de correo y los destinatarios como secretos", () => {
+    const wf = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+    expect(wf.match(/AVISO_TIPO_NUEVO_ENABLED: "true"/g)).toHaveLength(2);
+    expect(wf).not.toContain('AVISO_TIPO_NUEVO_ENABLED: "false"');
+    expect(wf.match(/RESEND_API_KEY: \$\{\{ secrets\.RESEND_API_KEY \}\}/g)).toHaveLength(2);
+    expect(wf.match(/AVISO_PO_EMAIL: \$\{\{ secrets\.AVISO_PO_EMAIL \}\}/g)).toHaveLength(2);
+    expect(wf).not.toMatch(/AVISO_PO_EMAIL: .*@/); // los correos nunca van escritos en el repo
   });
 });
