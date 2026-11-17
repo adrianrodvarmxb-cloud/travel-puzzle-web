@@ -79,3 +79,24 @@ describe("REQ-10745: el regreso automático solo corre si un paso escribió de v
     expect(escribir.indexOf("primero aplicar_migracion=true")).toBeLessThan(iMarcaE);
   });
 });
+
+// INC-026 (17-11-2026 04:29 UTC, run 44017375623): la 0035 se aplicó bien y, acto seguido, el paso falló con
+// «yes: standard output: Broken pipe» (`yes | wrangler … | tee` bajo `set -o pipefail`: `yes` muere por SIGPIPE
+// cuando wrangler cierra su entrada) y el regreso automático deshizo la migración. Wrangler ya contesta «yes» solo
+// en un contexto no interactivo, así que no hace falta alimentarlo.
+describe("REQ-10747: ningún comando que escribe va alimentado por `yes |` dentro de un paso con pipefail", () => {
+  it("REQ-10747: el paso que aplica la migración no usa `yes |` (SIGPIPE bajo pipefail haría fallar un paso que ya escribió)", () => {
+    const migrar = paso(/Aplicar la migración 0035/);
+    expect(migrar).toMatch(/set -euo pipefail/);
+    expect(migrar).not.toMatch(/yes \|/);
+    expect(migrar).toMatch(/wrangler d1 migrations apply "\$DB" --remote <\/dev\/null \| tee/);
+  });
+
+  it("REQ-10747: en todo el workflow, `yes |` solo aparece en pasos sin pipefail (los de restaurar), nunca junto a un `| tee`", () => {
+    for (const p of pasos) {
+      if (!/yes \|/.test(p)) continue;
+      expect(p, p.split("\n")[0]).not.toMatch(/pipefail/);
+      expect(p, p.split("\n")[0]).not.toMatch(/yes \|[^\n]*\| tee/);
+    }
+  });
+});

@@ -2,7 +2,7 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1204 · sin cerrar: 502
+Filas de requisitos: 1205 · sin cerrar: 502
 
 ## Resumen por motivo
 
