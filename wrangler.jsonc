@@ -86,8 +86,11 @@
     // experiencia sin punto exacto usa las coordenadas de su ciudad como pin. ZONE_MAP_ENABLED: la ficha sin punto exacto
     // pinta un círculo de «Zona aproximada» sin «Cómo llegar». Apagadas, nada cambia. "true" solas, cada una en su PR,
     // con preview, humo a 390/1366 y revisión visual (autopilot, opción C en #556). Regreso: "false" (no toca datos).
-    "CITY_PIN_FALLBACK_ENABLED": "false",
-    "ZONE_MAP_ENABLED": "false",
+    // REQ-10728 / REQ-10733 (ficha única, ola 3; firmas del PO por proveedor el 16-11-2026): etiquetas «incluido» con cantidad
+    // en la ficha del viaje. "true" con humo en preview y producción. Regreso: "false" (no toca datos).
+    "INCLUIDO_ETIQUETAS_ENABLED": "true",
+    "CITY_PIN_FALLBACK_ENABLED": "true", // encendida 17-11-2026 (constructora, REQ-10737): 0035 aplicada y 1,044 ciudades con coordenadas (REQ-10740); humo en preview con la bandera encendida en el PR
+    "ZONE_MAP_ENABLED": "true", // encendida 17-11-2026 (constructora, REQ-10737): «Zona aproximada» conectada a la ficha (REQ-10736); humo en preview con la bandera encendida en el PR
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.

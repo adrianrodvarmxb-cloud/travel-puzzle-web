@@ -13,6 +13,7 @@ import { pedidosDeAlta, type TipoProveedor } from "./lib/checklist";
 import { puedeEscribir } from "./lib/choques";
 import { fechaLocal } from "./lib/horario";
 import { apartarEnvio, consultar, type Apartado } from "./lib/consulta";
+import { abiertas, textoRecordatorio } from "./lib/preguntas";
 import { SIN_BUZON, proximoEnvio, type BorradorProgramado } from "./lib/programacion";
 
 // REQ-3430: lista privada compartida con la revisión cada 6 h (opcional para no romper usos actuales; en producción la arma deps.ts).
@@ -39,6 +40,17 @@ async function mandar(p: ProveedorFila, tipo: TipoCorreo, deps: DepsDiario, r: R
     pendientes: undefined as string | undefined, contacto: p.contacto, proveedor: p.nombre, destinos: p.destinos, asunto: p.ultimoAsunto ?? `Travel Puzzle · ${p.nombre}`, fecha: fechaCorta(p.ultimoNuestro), tema: p.destinos ? `trabajar juntos en ${p.destinos}` : undefined };
   // REQ-1665: el recordatorio recuerda lo que falta (sin lista, la línea no sale).
   if (tipo === "recordatorio" && datos.pedidos) datos.pendientes = `${p.idioma === "en" ? "What we still need:" : "Lo que nos falta:"}\n${datos.pedidos}`;
+  // REQ-10732 (plan REQ-3457, G1-A): con preguntas abiertas, el recordatorio pide primero lo que desbloquea vender (hasta 5 puntos por tema)
+  // y abajo «Para cerrar el alta» en 2 o 3 líneas. Sin preguntas, el texto es el de hoy (REQ-1665).
+  if (tipo === "recordatorio" && abiertas(p.preguntas ?? []).length > 0) {
+    const en = p.idioma === "en";
+    const rec = textoRecordatorio({ preguntas: p.preguntas ?? [], idioma: p.idioma, alta: pedidosDeAlta({ tipo: clase, integracion: p.integracion, cobro: p.cobro, idioma: p.idioma, recibidos: p.checklist ?? [] }) });
+    datos.pendientes = [
+      en ? "What would help us move forward:" : "Lo que nos ayudaría a avanzar:",
+      ...rec.arriba.map((x, i) => `${i + 1}. ${x}`),
+      ...(rec.cierre.length ? [en ? "To complete onboarding:" : "Para cerrar el alta:", ...rec.cierre.map((x) => `- ${x}`)] : []),
+    ].join("\n");
+  }
   const t = plantilla(tipo, p.idioma, datos);
   const correo = armarCorreo({ para: p.correos.filter((x) => !p.correosInvalidos.map((y) => y.toLowerCase()).includes(x.toLowerCase())), // REQ-1565
     asunto: rellenar(t.asunto, datos), cuerpo: rellenar(t.cuerpo, datos), idioma: p.idioma, inReplyTo: tipo === "recordatorio" ? p.hiloId ?? undefined : undefined });

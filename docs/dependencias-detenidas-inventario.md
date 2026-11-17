@@ -2,7 +2,7 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1208 · sin cerrar: 500
+Filas de requisitos: 1208 · sin cerrar: 499
 
 ## Resumen por motivo
 
@@ -10,8 +10,8 @@ Filas de requisitos: 1208 · sin cerrar: 500
 |---|---|
 | Decisión, firma u OK del PO | 160 |
 | Depende de otro folio sin cerrar | 82 |
-| Sin iniciar (el estado no dice qué falta) | 73 |
-| A medias (el estado no dice qué falta) | 62 |
+| Sin iniciar (el estado no dice qué falta) | 72 |
+| A medias (el estado no dice qué falta) | 63 |
 | Falta publicar (PR, humo o merge) | 33 |
 | Sin clasificar (revisar a mano) | 19 |
 | Pieza sin construir o en borrador | 19 |
@@ -21,7 +21,7 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | Abogado | 7 |
 | Carga de datos o migración | 6 |
 | Ola posterior del plan | 2 |
-| Bandera apagada sin motivo escrito | 2 |
+| Bandera apagada sin motivo escrito | 1 |
 
 ## Banderas apagadas y variables vacías
 
@@ -31,8 +31,6 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | `MILA_AVISOS_URL` | vacía | wrangler.jsonc | REQ-10731 | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secreto |
 | `BIGBUS_OCTO_ENABLED` | apagada | wrangler.jsonc | REQ-3424 | PENDIENTE |
 | `PROVIDER_CALENDAR_ENABLED` | apagada | wrangler.jsonc | REQ-3471 | EN CURSO (PR abierto; el merge es del PO) |
-| `CITY_PIN_FALLBACK_ENABLED` | apagada | wrangler.jsonc | REQ-10737 | PENDIENTE (apagadas; prueba de la bandera en verde, 16-11-2026) |
-| `ZONE_MAP_ENABLED` | apagada | wrangler.jsonc | REQ-10738 | CUMPLIDO en código (2 pruebas en verde, 16-11-2026); cifra real PENDIENTE (lectura de D1) |
 | `SEARCH_LOG_ENABLED` | apagada | wrangler.jsonc | REQ-1311 | BLOQUEADO |
 | `STRIPE_HOLD_ENABLED` | apagada | wrangler.jsonc | REQ-3483 | EN CURSO (pruebas en verde; PR) |
 | `FREETOUR_POSTTOUR_PROMO_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
@@ -297,10 +295,10 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | REQ-10692 | TAREA | REQ-10691 | EN CURSO (15 nov 2026: expediente creado por el revisor, secciones 1–7 llenas sin datos confidenciales; pendientes 1–5 abiertos) |
 | REQ-10724 | TAREA-PO | REQ-1638, REQ-1537 | PENDIENTE |
 | REQ-10727 | DEFINICIÓN | REQ-3454 | APROBADO (definición) |
-| REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha |
+| REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha. Mostrada en la ficha el 17-11-2026 (`incluido-ficha.ts`, prueba REQ-10733: «Autobús turísti |
 | REQ-10744 | CÓDIGO | REQ-10731 | CUMPLIDO en código (16-11-2026 17:59 CDMX: 8 pruebas en verde, `npx vitest run src/taxonomy/aviso-tipo-nuevo.test.ts`; tsc en verde); falta cargar el secreto y encender la bandera (REQ-10731) |
 
-## Sin iniciar (el estado no dice qué falta) (73)
+## Sin iniciar (el estado no dice qué falta) (72)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -370,7 +368,6 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | REQ-3338 | CÓDIGO | — | PENDIENTE |
 | REQ-3320 | CÓDIGO | — | PENDIENTE |
 | REQ-1603 | CÓDIGO | — | PENDIENTE |
-| REQ-10575 | CÓDIGO | — | PENDIENTE |
 | REQ-10641 | CÓDIGO | — | PENDIENTE |
 | REQ-10642 | CÓDIGO | — | PENDIENTE |
 | REQ-10643 | CÓDIGO | — | PENDIENTE |
@@ -378,7 +375,7 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | REQ-10681 | CÓDIGO | — | PENDIENTE |
 | REQ-10739 | TAREA | — | PENDIENTE |
 
-## A medias (el estado no dice qué falta) (62)
+## A medias (el estado no dice qué falta) (63)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -444,6 +441,7 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | REQ-10511 | CÓDIGO | — | EN CURSO |
 | REQ-10512 | DATOS | — | EN CURSO |
 | REQ-10513 | CÓDIGO | — | EN CURSO |
+| REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
 ## Falta publicar (PR, humo o merge) (33)
 
@@ -611,9 +609,8 @@ Filas de requisitos: 1208 · sin cerrar: 500
 | REQ-075 | (tabla vieja) | — | PENDIENTE (updatedSince solo existe en /events; /tours sigue completo. Ver STATUS.md, Ola 1) |
 | REQ-111 | (tabla vieja) | — | EN CURSO (funciones y metas firmadas listas; faltan los valores de producción: dependen del log de corridas de la Ola 1 y de los slugs de la Ola 3) |
 
-## Bandera apagada sin motivo escrito (2)
+## Bandera apagada sin motivo escrito (1)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
 | REQ-1315 | BANDERA | — | BLOQUEADO (a propósito) |
-| REQ-10737 | BANDERA | — | PENDIENTE (apagadas; prueba de la bandera en verde, 16-11-2026) |

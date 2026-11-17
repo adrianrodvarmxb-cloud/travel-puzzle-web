@@ -250,6 +250,8 @@ export const en = {
   "reviews.seeTour": "See experience",
   "tours.backToTours": "Back to all experiences",
   "tours.directions": "Get directions",
+  "tours.approxZone": "Approximate area", // REQ-10736
+  "tours.approxZoneNote": "the exact meeting point is confirmed when you book.", // REQ-10736
   "tours.headline": "Experiences",
   "tours.eyebrow": "{count} EXPERIENCES AVAILABLE",
   "tours.sort.label": "Sort by",

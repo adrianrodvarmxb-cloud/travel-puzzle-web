@@ -1,5 +1,6 @@
 // I/O · Proveedores en D1 (migrations/0027_proveedores_mila.sql). Recibe la base por parámetro.
 import type { EstadoProveedor, Etapa } from "./lib/etapas";
+import { leerPreguntas, type Pregunta } from "./lib/preguntas";
 import type { Cobro, Integracion } from "./lib/integracion";
 import type { Bloqueos } from "./lib/choques";
 
@@ -17,15 +18,17 @@ export interface ProveedorFila extends EstadoProveedor {
   zonaHoraria: string; // REQ-1566
   checklist: string[]; // REQ-1665
   bloqueos: Bloqueos; // REQ-1669
+  /** REQ-10732: preguntas abiertas por proveedor (columna `preguntas`, migración REQ-10649); opcional para no romper usos actuales. */
+  preguntas?: Pregunta[];
 }
 
-type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos" | "checklist" | "bloqueos"> & {
-  publicado: number; bloqueado: number; correos: string; dominios: string; etapa: Etapa; correosInvalidos: string; checklist?: string; bloqueos?: string;
+type Cruda = Omit<ProveedorFila, "publicado" | "bloqueado" | "correos" | "dominios" | "etapa" | "correosInvalidos" | "checklist" | "bloqueos" | "preguntas"> & {
+  publicado: number; bloqueado: number; correos: string; dominios: string; etapa: Etapa; correosInvalidos: string; checklist?: string; bloqueos?: string; preguntas?: string | null;
 };
 
 const parse = (s: string): string[] => { try { const v = JSON.parse(s); return Array.isArray(v) ? v.map(String) : []; } catch { return []; } };
 const objeto = (s?: string): Bloqueos => { try { const v = JSON.parse(s ?? "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch { return {}; } };
-const fila = (r: Cruda): ProveedorFila => ({ ...r, publicado: !!r.publicado, bloqueado: !!r.bloqueado, correos: parse(r.correos), dominios: parse(r.dominios), correosInvalidos: parse(r.correosInvalidos ?? "[]"), checklist: parse(r.checklist ?? "[]"), bloqueos: objeto(r.bloqueos),
+const fila = (r: Cruda): ProveedorFila => ({ ...r, publicado: !!r.publicado, bloqueado: !!r.bloqueado, correos: parse(r.correos), dominios: parse(r.dominios), correosInvalidos: parse(r.correosInvalidos ?? "[]"), checklist: parse(r.checklist ?? "[]"), bloqueos: objeto(r.bloqueos), preguntas: leerPreguntas(r.preguntas), // REQ-10732
   ultimoSuyo: r.ultimoSuyo ?? undefined, ultimoNuestro: r.ultimoNuestro ?? undefined, sinRespuestaDesde: r.sinRespuestaDesde ?? undefined });
 
 export function createProveedoresRepo(db: Db) {
