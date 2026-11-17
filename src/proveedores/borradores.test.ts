@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { accionDelPO, dejarBorrador, enviarVencidos } from "./borradores";
-import { aplicarAccion, avisoInterno, clasificar, enlaceBorrador, type Borrador } from "./lib/borradores";
+import { aplicarAccion, avisoInterno, clasificar, enlaceBorrador, enviosManuales, modoBorradores, type Borrador } from "./lib/borradores";
 import type { BorradoresRepo } from "./borrador-repo";
 import type { Correo } from "./lib/correo";
 
@@ -93,10 +93,59 @@ describe("REQ-10693: salida a su hora, cancelación y edición del PO", () => {
 });
 
 describe("REQ-10693: bandera y migración 0034", () => {
-  it("REQ-10693: PROVEEDORES_BORRADORES_ON existe en wrangler.jsonc en «false» y la 0034 crea la tabla sin tocar otras", () => {
-    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"PROVEEDORES_BORRADORES_ON":\s*"false"/);
+  it("REQ-10693: PROVEEDORES_BORRADORES_ON existe en wrangler.jsonc (encendida en modo manual desde el 17-11-2026, REQ-10762) y la 0034 crea la tabla sin tocar otras", () => {
+    expect(readFileSync("wrangler.jsonc", "utf8")).toMatch(/"PROVEEDORES_BORRADORES_ON":\s*"(true|false)"/);
     const sql = readFileSync("migrations/0034_proveedor_borrador.sql", "utf8");
     expect(sql).toMatch(/CREATE TABLE IF NOT EXISTS "ProveedorBorrador"/);
     expect(sql).not.toMatch(/ALTER TABLE|DROP/);
+  });
+});
+
+// REQ-10762 (PO, 17-11-2026: «que sean b solo 3 envios y despues ya se activa»): modo manual. El cron no manda nada ni marca
+// vencidos; solo sale lo que el PO manda con «Enviar ya» (ese borrador y nada más). Tras 3 envíos manuales, pasa a «auto».
+describe("REQ-10762: modo manual de la bandeja", () => {
+  async function tres() {
+    const m = memoria(); let n = 0;
+    const deps = { repo: m.repo, enviar: async () => "msg", hoy: HOY, siteUrl: "https://s", nuevoId: () => `b${++n}` };
+    await dejarBorrador(CORREO, { proveedorId: "a", proveedor: "A", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z" }, deps);
+    await dejarBorrador(CORREO, { proveedorId: "b", proveedor: "B", tipo: "recordatorio", enviarEn: "2026-11-09T05:00:00.000Z" }, deps); // venció hace 10 h
+    await dejarBorrador(CORREO, { proveedorId: "c", proveedor: "C", tipo: "recordatorio", enviarEn: "2026-11-10T11:00:00.000Z" }, deps);
+    return { m, deps };
+  }
+  it("REQ-10762: en modo manual el cron no manda nada ni marca vencidos: todo sigue «programado» esperando al PO", async () => {
+    const { m, deps } = await tres();
+    const enviados: Correo[] = [];
+    const r = await enviarVencidos({ ...deps, modo: "manual", enviar: async (c) => { enviados.push(c); return "x"; } }, "Mila <m@x>");
+    expect(enviados).toEqual([]);
+    expect(r).toEqual({ enviados: 0, vencidos: 0, errores: [], esperan: 3 });
+    expect(m.filas.map((f) => f.estado)).toEqual(["programado", "programado", "programado"]);
+  });
+  it("REQ-10762: «Enviar ya» del PO en modo manual manda solo ese borrador, aunque otros ya estén a su hora", async () => {
+    const { m, deps } = await tres();
+    const enviados: Correo[] = [];
+    expect(await accionDelPO("b2", { accion: "enviar_ahora" }, deps)).toMatchObject({ ok: true });
+    const r = await enviarVencidos({ ...deps, modo: "manual", soloId: "b2", enviar: async (c) => { enviados.push(c); return "re_2"; } }, "Mila <m@x>");
+    expect(enviados).toHaveLength(1);
+    expect(r).toMatchObject({ enviados: 1, vencidos: 0, errores: [] });
+    expect(m.filas.map((f) => f.estado)).toEqual(["programado", "enviado", "programado"]);
+    expect(m.filas[1]).toMatchObject({ mensajeId: "re_2", editadoPor: "PO (panel)" });
+  });
+  it("REQ-10762: el aviso al PO en modo manual dice que no sale hasta que lo mande; en auto, la hora", () => {
+    const b = { tipo: "recordatorio", asunto: "Tarifas 2027", enviarEn: "2026-11-10T11:00:00.000Z" };
+    expect(avisoInterno(b, "Tangol", "https://s/admin/borradores#b1", undefined, "manual").texto).toMatch(/no sale hasta que lo mandes/i);
+    expect(avisoInterno(b, "Tangol", "https://s/admin/borradores#b1", undefined, "manual").texto).not.toMatch(/si no lo cancelas/);
+    expect(avisoInterno(b, "Tangol", "https://s/admin/borradores#b1").texto).toMatch(/si no lo cancelas/);
+  });
+  it("REQ-10762: la bandera de modo viene de wrangler.jsonc: PROVEEDORES_BORRADORES_ON encendida y MODO «manual»; sin MODO se asume manual", () => {
+    const w = readFileSync("wrangler.jsonc", "utf8");
+    expect(w).toMatch(/"PROVEEDORES_BORRADORES_ON": "true"/);
+    expect(w).toMatch(/"PROVEEDORES_BORRADORES_MODO": "manual"/);
+    expect(modoBorradores({})).toBe("manual");
+    expect(modoBorradores({ PROVEEDORES_BORRADORES_MODO: "auto" })).toBe("auto");
+    expect(modoBorradores({ PROVEEDORES_BORRADORES_MODO: "AUTO" })).toBe("manual");
+  });
+  it("REQ-10762: enviosManuales cuenta los que mandó el PO desde el panel (para pasar a auto después de 3)", () => {
+    const f = (estado: Borrador["estado"], editadoPor: string | null) => ({ estado, editadoPor }) as Borrador;
+    expect(enviosManuales([f("enviado", "PO (panel)"), f("enviado", null), f("cancelado", "PO (panel)"), f("enviado", "PO (panel)")])).toBe(2);
   });
 });

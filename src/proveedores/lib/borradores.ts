@@ -14,11 +14,23 @@ export const VENCIDO_MAX_MS = 6 * 60 * 60_000;
 /** REQ-10693: enlace que recibe el PO (panel del sitio, solo ADMIN). */
 export const enlaceBorrador = (siteUrl: string, id: string) => `${siteUrl.replace(/\/+$/, "")}/admin/borradores#${encodeURIComponent(id)}`;
 
-/** REQ-10693: qué toca mandar ahora, qué venció y qué sigue esperando. No muta la lista. */
-export function clasificar(lista: readonly Borrador[], ahoraMs: number): { enviar: Borrador[]; vencidos: Borrador[]; esperan: Borrador[] } {
+/** REQ-10762 (PO, 17-11-2026): «manual» = nada sale solo, el PO manda cada borrador con «Enviar ya»; «auto» = REQ-10693. */
+export type ModoBorradores = "manual" | "auto";
+export const modoBorradores = (env: Record<string, string | undefined>): ModoBorradores => (env.PROVEEDORES_BORRADORES_MODO === "auto" ? "auto" : "manual");
+
+/** REQ-10762: envíos hechos por el PO desde el panel; después de 3 se pasa a «auto» (en su propio PR, con aviso). */
+export const ENVIOS_MANUALES_PARA_AUTO = 3;
+export const enviosManuales = (lista: readonly Pick<Borrador, "estado" | "editadoPor">[]): number => lista.filter((b) => b.estado === "enviado" && b.editadoPor === "PO (panel)").length;
+
+/**
+ * REQ-10693: qué toca mandar ahora, qué venció y qué sigue esperando. No muta la lista.
+ * REQ-10762: en modo manual solo sale `soloId` (el que el PO mandó); sin `soloId`, nada sale y nada vence.
+ */
+export function clasificar(lista: readonly Borrador[], ahoraMs: number, o: { modo?: ModoBorradores; soloId?: string } = {}): { enviar: Borrador[]; vencidos: Borrador[]; esperan: Borrador[] } {
   const enviar: Borrador[] = [], vencidos: Borrador[] = [], esperan: Borrador[] = [];
   for (const b of lista) {
     if (b.estado !== "programado") continue;
+    if (o.modo === "manual") { if (o.soloId && b.id === o.soloId) enviar.push(b); else esperan.push(b); continue; }
     const t = Date.parse(b.enviarEn);
     if (!Number.isFinite(t) || t > ahoraMs) esperan.push(b);
     else if (ahoraMs - t <= VENCIDO_MAX_MS) enviar.push(b);
@@ -46,10 +58,17 @@ export function aplicarAccion(b: Borrador, a: Accion, ahoraIso: string, quien = 
 }
 
 /** REQ-10693: el aviso interno al PO (correo o WhatsApp) con el enlace. */
-export function avisoInterno(b: Pick<Borrador, "tipo" | "asunto" | "enviarEn">, proveedor: string, enlace: string, zonaProveedor?: string): { asunto: string; texto: string } {
+export function avisoInterno(b: Pick<Borrador, "tipo" | "asunto" | "enviarEn">, proveedor: string, enlace: string, zonaProveedor?: string, modo: ModoBorradores = "auto"): { asunto: string; texto: string } {
   const fmt = (tz: string) => { try { return new Intl.DateTimeFormat("es-MX", { timeZone: tz, weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(b.enviarEn)); } catch { return b.enviarEn; } };
   const mx = fmt("America/Mexico_City");
   const suya = zonaProveedor && zonaProveedor !== "America/Mexico_City" ? ` (${fmt(zonaProveedor)} hora del proveedor)` : "";
+  if (modo === "manual") {
+    // REQ-10762: en modo manual nada sale solo; el PO lo manda con «Enviar ya».
+    return {
+      asunto: `Borrador listo para ${proveedor}: ${b.asunto}`,
+      texto: `Mila dejó listo un ${b.tipo} para ${proveedor}: «${b.asunto}».\nNo sale hasta que lo mandes desde el panel (hora sugerida: ${mx} CDMX${suya}).\nVer, editar, mandar o cancelar: ${enlace}`,
+    };
+  }
   return {
     asunto: `Borrador programado a ${proveedor}: ${b.asunto}`,
     texto: `Mila dejó listo un ${b.tipo} para ${proveedor}: «${b.asunto}».\nSale el ${mx} (CDMX)${suya} si no lo cancelas.\nVer, editar o cancelar: ${enlace}`,

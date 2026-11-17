@@ -5,6 +5,7 @@ import { createProveedoresRepo, dbDePrisma } from "./repository";
 import { subirDocumento } from "./cpanel";
 import { COPIAS, REMITENTE, type Correo } from "./lib/correo";
 import { createBorradoresRepo } from "./borrador-repo";
+import { modoBorradores } from "./lib/borradores"; // REQ-10762
 import { dejarBorrador } from "./borradores";
 import { createTarifasRepo } from "./tarifa-repo";
 import { createContactoRepo } from "./contacto-repo";
@@ -44,7 +45,7 @@ export function proveedoresDeps(env: Record<string, string | undefined>) {
   const borradores = createBorradoresRepo(db);
   const borrador = borradoresEncendido(env)
     ? async (c: Correo, p: { proveedorId: string; proveedor: string; tipo: string; enviarEn: string; zonaHoraria?: string }) =>
-        dejarBorrador(c, p, { repo: borradores, enviar, hoy: new Date().toISOString(), siteUrl: env.SITE_URL ?? "https://travelpuzzle.com.mx", avisarPO, log: console.log })
+        dejarBorrador(c, p, { repo: borradores, enviar, hoy: new Date().toISOString(), siteUrl: env.SITE_URL ?? "https://travelpuzzle.com.mx", avisarPO, log: console.log, modo: modoBorradores(env) /* REQ-10762 */ })
     : undefined;
   return { repo, enviar, subir, avisar, destinos, contacto, borrador, borradores, avisarPO };
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { borradoresEncendido, proveedoresDeps, proveedoresEncendido } from '@/proveedores/deps';
 import { enviarVencidos } from '@/proveedores/borradores';
 import { REMITENTE } from '@/proveedores/lib/correo';
+import { modoBorradores } from '@/proveedores/lib/borradores'; // REQ-10762
 import { revisionDiaria } from '@/proveedores/diario';
 import { mandarResumen } from '@/proveedores/resumen';
 import { esHoraResumen } from '@/proveedores/lib/resumen';
@@ -21,8 +22,8 @@ export async function GET(request: Request) {
     const hoy = new Date().toISOString();
     // REQ-10693: sin `borrador` (bandeja apagada) la revisión no manda nada directo: lo reporta como detenido.
     const reporte = await revisionDiaria({ repo, borrador, hoy, log: console.log, contacto }) /* REQ-3430 */;
-    // REQ-10693: lo que llegó a su hora sale ahora; lo cancelado por el PO no.
-    const salidas = borradoresEncendido(env) ? await enviarVencidos({ repo: borradores, enviar, hoy, siteUrl: env.SITE_URL ?? "", avisarPO, log: console.log }, REMITENTE) : null;
+    // REQ-10693: lo que llegó a su hora sale ahora; lo cancelado por el PO no. REQ-10762: en modo manual el cron no manda nada.
+    const salidas = borradoresEncendido(env) ? await enviarVencidos({ repo: borradores, enviar, hoy, siteUrl: env.SITE_URL ?? "", avisarPO, log: console.log, modo: modoBorradores(env) }, REMITENTE) : null;
     // REQ-1568: lunes 9:00 de México, el resumen semanal (solo con el puente de avisos configurado).
     const resumen = esHoraResumen(hoy) && env.MILA_AVISOS_URL ? await mandarResumen({ repo, avisar, destinos, hoy }) : null;
     // REQ-1672: los cambios de tarifa confirmados cuya fecha ya llegó pasan al precio de la página.
