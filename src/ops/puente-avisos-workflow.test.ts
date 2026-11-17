@@ -9,8 +9,8 @@ const deploy = readFileSync(".github/workflows/deploy-cloudflare.yml", "utf8");
 const tangol = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
 const wrangler = readFileSync("wrangler.jsonc", "utf8");
 
-describe("REQ-10758: puente de avisos del lado del sitio", () => {
-  it("REQ-10758: MILA_AVISOS_SECRET es un secreto de GitHub que viaja con la versión del Worker", () => {
+describe("REQ-10758 / REQ-1663: puente de avisos del lado del sitio", () => {
+  it("REQ-10758 REQ-1663: MILA_AVISOS_SECRET es un secreto de GitHub que viaja con la versión del Worker", () => {
     expect(SECRETOS_DE_GITHUB).toContain("MILA_AVISOS_SECRET");
     expect(armarSecretos({ env: { MILA_AVISOS_SECRET: "x" }, existentes: ["CRON_SECRET", "AUTH_SECRET"], generar: () => "g" }).secretos).toEqual({ MILA_AVISOS_SECRET: "x" });
     expect(deploy).toMatch(/MILA_AVISOS_SECRET: \$\{\{ secrets\.MILA_AVISOS_SECRET \}\}/);
