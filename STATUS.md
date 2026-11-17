@@ -46,7 +46,7 @@ Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y b
 | REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (conectado a la franja de /tours en REQ-10752, tras bandera) |
 | REQ-10751 | Bandera `NEARBY_UNIFIED_ENABLED` | NUEVO | `wrangler.jsonc`, `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` | CUMPLIDO en código (apagada) |
 | REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | `src/trips/cross-sell.test.ts` (14) | CUMPLIDO en código (tras `NEARBY_UNIFIED_ENABLED="false"`) |
-| REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | `src/trips/lib/transfer-card.ts`, `src/components/trips/TransferCard.tsx`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `wrangler.jsonc` | `src/trips/lib/transfer-card.test.ts` (4) | CUMPLIDO en código (firma REQ-10764: cuenta de afiliado ya en el código; apagada) |
+| REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | `src/trips/lib/transfer-card.ts`, `src/components/trips/TransferCard.tsx`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `wrangler.jsonc` | `src/trips/lib/transfer-card.test.ts` (4) | CUMPLIDO (firma REQ-10764; encendida 17-11-2026 con humo en preview) |
 | REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE |
 | REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
 
