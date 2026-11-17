@@ -4,7 +4,7 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
 Actualizado: 17 nov 2026, 09:10 UTC (03:10 CDMX): constructora, frente 5 (REQ-10742). Inventario regenerado (1,210 filas, 482 sin cerrar); 22 folios «Sin iniciar» revisados a mano: 18 CUMPLIDOS con pruebas verdes en la sesión y 4 con lo que les falta escrito (REQ-084, 087, 416, 418); casos nuevos 8–10 en `docs/dependencias-detenidas.md`; tablero de Mila: #205 y #207 fusionados en zoefel-mila.
-Actualizado: 17 nov 2026, 21:10 UTC (15:10 CDMX): constructora. Frente 5 (REQ-10742), 3.ª revisión del día: 20 folios «A medias» (estado «EN CURSO» a secas) revisados a mano: 14 CUMPLIDOS con pruebas verdes en la sesión (REQ-086, 102, 154, 156, 157, 159, 115, 116, 117, 118, 1086, 1344, 1345, 1346, 1357) y 6 con lo que les falta escrito (REQ-471/472/473: corrida real del workflow de geonameid; REQ-1316: ensayo del backfill; REQ-1577: sus 5 hijos). Inventario sin cerrar 480 → 463. Incidente de deploy: el humo de producción de #658 falló en «/tours: ninguna ficha» y el workflow regresó solo a la versión anterior (rollback automático); #659 volvió a publicar.
+Actualizado: 17 nov 2026, 21:55 UTC (15:55 CDMX): constructora. **Ola 5 «Cercanía y transporte» CERRADA (REQ-10755):** `NEARBY_UNIFIED_ENABLED` (#660) y `FICHA_TRANSFER_CARD_ENABLED` (#663) encendidas con humo en preview y producción; tarjeta de Kiwitaxi verificada en vivo (Tangol sí, FREETOUR no). Queda abierta REQ-10754 (138 ciudades sin coordenadas; no bloquea). **Ola 6 «Modelo común» en curso:** #662 (modelo, esquema y 3 adaptadores con fixtures reales) y #666 (bloques, sección, panel) publicados. Big Bus: #658 original OCTO en código (REQ-10763). Hallazgo REQ-10783 (HTML de Tangol en la ficha) en #667. Firmas del PO de la ronda de olas restantes: REQ-10764…10775.
 Actualizado: 17 nov 2026, 15:05 UTC (09:05 CDMX): constructora. Frente 5 (REQ-10742): 21 folios revisados a mano (4 cerrados, 1 reemplazado), caso 11 nuevo (purga de caché, REQ-3320), inventario sin cerrar 485 → 480. Antes (09:30 UTC): **Ola 5 «Cercanía y transporte» abierta** (REQ-10750…10755): regla pura «Cerca» único (`src/geo/lib/near.ts`, decisión 29) tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: conexión a la franja de toda ficha (REQ-10752), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 Actualizado: 17 nov 2026, 14:50 UTC (08:50 CDMX): constructora. **Ola 5 «Cercanía y transporte»**: REQ-10752 conecta el «Cerca» único a la franja de transporte de la ficha de /tours (`transportOrigin` + `pickTransport`), tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: encender la bandera con preview y humo (REQ-10751), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 Actualizado: 17 nov 2026, 08:45 UTC (02:45 CDMX): constructora. **Ola 4 «Geografía» cerrada (REQ-10739):** banderas encendidas y verificadas en producción (#637, #638), cifra real de la decisión 30 leída de D1 (REQ-10738). Abre la ola 5.
@@ -41,7 +41,7 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 
 
 ## Ficha única, ola 6 «Modelo común» (17 nov 2026) — matriz de trazabilidad
-Frente #661. PR 1: modelo, esquema y adaptador de Tangol con fixture real; sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
@@ -52,16 +52,16 @@ Frente #661. PR 1: modelo, esquema y adaptador de Tangol con fixture real; sin p
 | REQ-10781 | Sección Experiencias / Traslados (decisión 1) | NUEVO | `src/ficha/lib/section.ts` | `src/ficha/lib/section.test.ts` (1) | CUMPLIDO en código |
 | REQ-10782 | Panel en dos ejes (INC-020) | NUEVO | `src/ficha/lib/panel-plan.ts` | `src/ficha/lib/panel-plan.test.ts` (5) | CUMPLIDO en código |
 
-## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad
-Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y bandera apagada; nada visible. Plan de regreso: revertir el PR (no toca datos).
+## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad — OLA CERRADA (REQ-10755, 17 nov 2026)
+Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). Encendidos: #660 (`NEARBY_UNIFIED_ENABLED`) y #663 (`FICHA_TRANSFER_CARD_ENABLED`), humo en preview y producción; tarjeta verificada en vivo. REQ-10754 queda abierta sin bloquear. Cierre: `npx vitest run -t "REQ-"` → 552 archivos, 3,960 verdes (437 omitidos por el filtro); cruce `grep -r "REQ-1075" src tests`: 10750–10753 con código y test; 10754 y 10755 sin código (datos y cierre). Regreso: cada bandera a `"false"`.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (conectado a la franja de /tours en REQ-10752, tras bandera) |
+| REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO (encendida con REQ-10751 el 17-11-2026) |
 | REQ-10751 | Bandera `NEARBY_UNIFIED_ENABLED` | NUEVO | `wrangler.jsonc`, `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` | CUMPLIDO (encendida 17-11-2026, humo en preview con la bandera encendida) |
-| REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | `src/trips/cross-sell.test.ts` (14) | CUMPLIDO en código (tras `NEARBY_UNIFIED_ENABLED="false"`) |
+| REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | `src/trips/cross-sell.test.ts` (14) | CUMPLIDO (encendida 17-11-2026, #660) |
 | REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | `src/trips/lib/transfer-card.ts`, `src/components/trips/TransferCard.tsx`, `src/tours/detail-props.ts`, `src/components/tours/one/TourDetailClient.tsx`, `wrangler.jsonc` | `src/trips/lib/transfer-card.test.ts` (4) | CUMPLIDO (firma REQ-10764; encendida 17-11-2026 con humo en preview) |
-| REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE |
-| REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
+| REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE (abierta tras el cierre de la ola; fuente de respaldo por definir) |
+| REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` (3,960 verdes) | CUMPLIDO (17-11-2026) |
 
 
 ## Ficha única, ola 4 «Geografía» (16 nov 2026) — matriz de trazabilidad
