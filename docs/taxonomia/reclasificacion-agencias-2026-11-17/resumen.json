@@ -22,10 +22,19 @@
   },
   "extime": {
     "viajes": 179,
-    "cambian": 0,
-    "igual": 179,
-    "dudas": 179,
-    "movimientos": {}
+    "cambian": 42,
+    "igual": 137,
+    "dudas": 0,
+    "movimientos": {
+      "visita-guiada → excursion-dia": 17,
+      "tour → entradas": 4,
+      "experiencia-unica → tour": 10,
+      "experiencia-unica → visita-guiada": 3,
+      "caminata → visita-guiada": 1,
+      "transporte → excursion-dia": 4,
+      "tour → excursion-dia": 2,
+      "autoguiado → entradas": 1
+    }
   },
   "fantasticachina": {
     "viajes": 51,
