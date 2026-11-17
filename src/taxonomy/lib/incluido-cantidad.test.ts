@@ -54,11 +54,11 @@ describe("REQ-10728: etiquetas «incluido» con cantidad", () => {
     expect(r.sinCantidad).toEqual(["comida", "cena"]);
   });
 
-  it("REQ-10728: tren y autobús cuentan trayectos; el hop-on hop-off y el «city tour en bus» no llevan etiqueta", () => {
+  it("REQ-10728: tren y autobús cuentan trayectos; el «city tour en bus» no lleva etiqueta", () => {
     expect(textos(etiquetasIncluido({ includes: ["Tren de ida y vuelta"] }))).toEqual(["Tren de ida y vuelta incluido"]);
     expect(textos(etiquetasIncluido({ includes: ["Tren Agra–Jhansi en clase con aire acondicionado y vuelos Khajuraho–Benarés y Benarés–Delhi"] }))).toEqual(["1 trayecto en tren incluido"]);
     expect(textos(etiquetasIncluido({ includes: ["Bus de subida y bajada a Machu Picchu"] }))).toEqual(["Autobús de ida y vuelta incluido"]);
-    expect(textos(etiquetasIncluido({ includes: ["Boleto de autobús turístico hop-on hop-off según la opción elegida", "City tour en bus panorámico"] }))).toEqual([]);
+    expect(textos(etiquetasIncluido({ includes: ["City tour en bus panorámico"] }))).toEqual([]);
     const ambiguo = etiquetasIncluido({ includes: ["Vuelos domésticos o trenes entre ciudades"] });
     expect(textos(ambiguo)).toEqual([]);
     expect(ambiguo.sinCantidad).toEqual(["tren"]);
@@ -96,5 +96,17 @@ describe("REQ-10728: etiquetas «incluido» con cantidad", () => {
     const r = etiquetasIncluido({ includes: ["Hoteles con desayuno buffet"], itinerary: [{ text: "Embarque en el crucero. Cena y alojamiento a bordo." }], durationDays: 12 });
     expect(textos(r)).toEqual(["Desayuno diario"]);
     expect(r.sinCantidad).toEqual(["hotel"]);
+  });
+
+  it("REQ-10733: el bus hop-on hop-off de cualquier proveedor lleva «Autobús turístico incluido», sin número de trayectos", () => {
+    const bigBus = etiquetasIncluido({ includes: ["Boleto de autobús turístico hop-on hop-off según la opción elegida"], durationDays: 1 });
+    expect(bigBus).toEqual({ etiquetas: [{ concepto: "autobus", cantidad: "turistico", etiqueta: "Autobús turístico incluido", fuente: "incluye" }], sinCantidad: [] });
+    expect(textos(etiquetasIncluido({ includes: ["Bus de dos pisos hop-on hop-off, 2 días consecutivos"] }))).toEqual(["Autobús turístico incluido"]);
+    expect(textos(etiquetasIncluido({ includes: ["Bus hop-on hop-off 1 día con comentarios (incluido español)", "Almuerzo de 3 tiempos con bebidas"] }))).toEqual(["1 comida incluida", "Autobús turístico incluido"]);
+  });
+
+  it("REQ-10728: una ruta que sale y vuelve al mismo punto es «ida y vuelta»", () => {
+    expect(textos(etiquetasIncluido({ includes: ["Tren Ollantaytambo – Aguas Calientes – Ollantaytambo"] }))).toEqual(["Tren de ida y vuelta incluido"]);
+    expect(textos(etiquetasIncluido({ includes: ["Bus turístico Cusco – Puno por la Ruta del Sol"] }))).toEqual(["1 trayecto en autobús incluido"]);
   });
 });

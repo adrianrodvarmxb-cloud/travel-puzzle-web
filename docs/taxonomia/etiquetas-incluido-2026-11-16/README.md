@@ -4,14 +4,26 @@ Folios: **REQ-10707** y **REQ-10728**. Regla (PO, 15-11-2026: «Etiqueta con can
 
 Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de carga. **No está aplicada**: se aplica proveedor por proveedor con la firma del PO.
 
+## Firmas del PO (una por proveedor)
+
+| Proveedor | Respuesta literal | Fecha y hora (CDMX) |
+|---|---|---|
+| Fantástica China | «Sí, firmo (Recomendado)» | 16-11-2026 12:49 |
+| Exotic Escapes | «Sí, firmo (Recomendado)» | 16-11-2026 14:01 |
+| Destino Colombia | «Sí, firmo (Recomendado)» | 16-11-2026 14:02 |
+| Turismo Asiático | «Sí, firmo (Recomendado)» | 16-11-2026 14:02 |
+| Inca World Peru | «Sí, firmo (Recomendado)» | 16-11-2026 14:09 |
+| Extime Travel | «Sí, firmo (Recomendado)» | 16-11-2026 14:10 |
+| Big Bus Tours | «Etiqueta «Autobús turístico incluido» (REQ-10733)» | 16-11-2026 14:10 |
+
 ## Resumen
 
 | Proveedor | Viajes | Con al menos una etiqueta | Sin etiqueta | Con algún concepto sin cantidad |
 |---|---|---|---|---|
-| Big Bus Tours | 29 | 0 | 29 | 29 |
+| Big Bus Tours | 29 | 29 | 0 | 0 |
 | Destino Colombia | 10 | 10 | 0 | 0 |
 | Exotic Escapes | 15 | 15 | 0 | 12 |
-| Extime Travel | 179 | 59 | 120 | 11 |
+| Extime Travel | 179 | 64 | 115 | 5 |
 | Fantástica China | 51 | 51 | 0 | 21 |
 | Inca World Peru | 75 | 8 | 67 | 4 |
 | Turismo Asiático | 11 | 3 | 8 | 0 |
@@ -20,35 +32,35 @@ Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de
 
 | Clave | Viaje | Etiquetas | Menciona sin cantidad (sin etiqueta) |
 |---|---|---|---|
-| NYC | Bus turístico hop-on hop-off en Nueva York | — | autobús |
-| CHI | Bus turístico hop-on hop-off en Chicago | — | autobús |
-| BOS | Bus turístico hop-on hop-off en Boston | — | autobús |
-| WAS | Bus turístico hop-on hop-off en Washington DC | — | autobús |
-| PHL | Bus turístico hop-on hop-off en Filadelfia | — | autobús |
-| SFO | Bus turístico hop-on hop-off en San Francisco | — | autobús |
-| LAX | Bus turístico hop-on hop-off en Los Angeles | — | autobús |
-| LAS | Bus turístico hop-on hop-off en Las Vegas | — | autobús |
-| MIA | Bus turístico hop-on hop-off en Miami | — | autobús |
-| LON | Bus turístico hop-on hop-off en Londres | — | autobús |
-| EDI | Bus turístico hop-on hop-off en Edimburgo | — | autobús |
-| DUB | Bus turístico hop-on hop-off en Dublín | — | autobús |
-| PAR | Bus turístico hop-on hop-off en París | — | autobús |
-| ROM | Bus turístico hop-on hop-off en Roma | — | autobús |
-| MAD | Bus turístico hop-on hop-off en Madrid | — | autobús |
-| PRG | Bus turístico hop-on hop-off en Praga | — | autobús |
-| VIE | Bus turístico hop-on hop-off en Viena | — | autobús |
-| BER | Bus turístico hop-on hop-off en Berlín | — | autobús |
-| MUC | Bus turístico hop-on hop-off en Múnich | — | autobús |
-| BUD | Bus turístico hop-on hop-off en Budapest | — | autobús |
-| ATH | Bus turístico hop-on hop-off en Atenas | — | autobús |
-| SKG | Bus turístico hop-on hop-off en Salónica | — | autobús |
-| YVR | Bus turístico hop-on hop-off en Vancouver | — | autobús |
-| DXB | Bus turístico hop-on hop-off en Dubai | — | autobús |
-| AUH | Bus turístico hop-on hop-off en Abu Dhabi | — | autobús |
-| MCT | Bus turístico hop-on hop-off en Mascate | — | autobús |
-| SIN | Bus turístico hop-on hop-off en Singapur | — | autobús |
-| HKG | Bus turístico hop-on hop-off en Hong Kong | — | autobús |
-| SYD | Bus turístico hop-on hop-off en Sydney | — | autobús |
+| NYC | Bus turístico hop-on hop-off en Nueva York | Autobús turístico incluido | — |
+| CHI | Bus turístico hop-on hop-off en Chicago | Autobús turístico incluido | — |
+| BOS | Bus turístico hop-on hop-off en Boston | Autobús turístico incluido | — |
+| WAS | Bus turístico hop-on hop-off en Washington DC | Autobús turístico incluido | — |
+| PHL | Bus turístico hop-on hop-off en Filadelfia | Autobús turístico incluido | — |
+| SFO | Bus turístico hop-on hop-off en San Francisco | Autobús turístico incluido | — |
+| LAX | Bus turístico hop-on hop-off en Los Angeles | Autobús turístico incluido | — |
+| LAS | Bus turístico hop-on hop-off en Las Vegas | Autobús turístico incluido | — |
+| MIA | Bus turístico hop-on hop-off en Miami | Autobús turístico incluido | — |
+| LON | Bus turístico hop-on hop-off en Londres | Autobús turístico incluido | — |
+| EDI | Bus turístico hop-on hop-off en Edimburgo | Autobús turístico incluido | — |
+| DUB | Bus turístico hop-on hop-off en Dublín | Autobús turístico incluido | — |
+| PAR | Bus turístico hop-on hop-off en París | Autobús turístico incluido | — |
+| ROM | Bus turístico hop-on hop-off en Roma | Autobús turístico incluido | — |
+| MAD | Bus turístico hop-on hop-off en Madrid | Autobús turístico incluido | — |
+| PRG | Bus turístico hop-on hop-off en Praga | Autobús turístico incluido | — |
+| VIE | Bus turístico hop-on hop-off en Viena | Autobús turístico incluido | — |
+| BER | Bus turístico hop-on hop-off en Berlín | Autobús turístico incluido | — |
+| MUC | Bus turístico hop-on hop-off en Múnich | Autobús turístico incluido | — |
+| BUD | Bus turístico hop-on hop-off en Budapest | Autobús turístico incluido | — |
+| ATH | Bus turístico hop-on hop-off en Atenas | Autobús turístico incluido | — |
+| SKG | Bus turístico hop-on hop-off en Salónica | Autobús turístico incluido | — |
+| YVR | Bus turístico hop-on hop-off en Vancouver | Autobús turístico incluido | — |
+| DXB | Bus turístico hop-on hop-off en Dubai | Autobús turístico incluido | — |
+| AUH | Bus turístico hop-on hop-off en Abu Dhabi | Autobús turístico incluido | — |
+| MCT | Bus turístico hop-on hop-off en Mascate | Autobús turístico incluido | — |
+| SIN | Bus turístico hop-on hop-off en Singapur | Autobús turístico incluido | — |
+| HKG | Bus turístico hop-on hop-off en Hong Kong | Autobús turístico incluido | — |
+| SYD | Bus turístico hop-on hop-off en Sydney | Autobús turístico incluido | — |
 
 ## Destino Colombia
 
@@ -176,7 +188,7 @@ Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de
 | GLP6 | Louvre con guía privado (1 a 6 personas) | — | — |
 | MLC | Louvre: obras maestras y crucero por el Sena | — | — |
 | MLJ | Louvre, Torre Eiffel y crucero por el Sena | — | — |
-| MLPOT | Louvre: obras maestras y bus turístico 1 día | — | autobús |
+| MLPOT | Louvre: obras maestras y bus turístico 1 día | Autobús turístico incluido | — |
 | GLOR | Louvre guiado y entrada al Museo de Orsay | — | — |
 | GLPOT | Louvre guiado y bus turístico Tootbus 1 día | — | — |
 | GLC | Louvre guiado y crucero por el Sena | — | — |
@@ -212,7 +224,7 @@ Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de
 | BRP8 | Brujas privado desde París (1 a 7 personas) | — | — |
 | BRD | Brujas (Bélgica) por tu cuenta desde París | — | — |
 | BRF | Brujas guiado con recogida en hotel | — | — |
-| EL | Londres por tu cuenta en Eurostar desde París | Tren de ida y vuelta incluido | autobús |
+| EL | Londres por tu cuenta en Eurostar desde París | Tren de ida y vuelta incluido · Autobús turístico incluido | — |
 | DC13HB | Almuerzo en crucero por el Sena, menú Orsay | 1 comida incluida | — |
 | DC21 | Cena de Año Nuevo en crucero por el Sena | 1 cena incluida | — |
 | DC13 | Almuerzo romántico en crucero por el Sena | 1 comida incluida | — |
@@ -225,10 +237,10 @@ Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de
 | DCM21 | Cena en crucero Maxim's, 20:00 | 1 cena incluida | — |
 | DC19S | Cena festiva con jazz en crucero, menú Découverte | 1 cena incluida | — |
 | DC21S | Cena festiva con música en crucero, menú Saveurs | 1 cena incluida | — |
-| BB1 | Big Bus París, boleto de 1 día | — | autobús |
-| BB2 | Big Bus París, boleto de 2 días | — | autobús |
-| POT | Tootbus París, pase de 1 día | — | autobús |
-| POT2 | Tootbus París, pase de 2 días | — | autobús |
+| BB1 | Big Bus París, boleto de 1 día | Autobús turístico incluido | — |
+| BB2 | Big Bus París, boleto de 2 días | Autobús turístico incluido | — |
+| POT | Tootbus París, pase de 1 día | Autobús turístico incluido | — |
+| POT2 | Tootbus París, pase de 2 días | Autobús turístico incluido | — |
 | ORC | Museo de Orsay y crucero por el Sena | — | — |
 | BBM | Crucero por el Sena con Bateaux Mouches | — | — |
 | BVPN | Crucero por el Sena con Vedettes du Pont Neuf | — | — |
@@ -397,10 +409,10 @@ Esta lista sale de `npx tsx src/scripts/lista-incluido.ts` sobre los archivos de
 | PROG-PUN-02 | Ruta Aymara en Puno 2 días | — | — |
 | PROG-PUN-03 | Ruta Quechua en Puno 3 días | — | — |
 | PROG-PUN-04 | Sillustani, Umayo y Puno 4 días | — | — |
-| PROG-IWP-01 | Descubriendo el Perú en 9 días | 1 comida incluida · 8 noches de hotel incluidas · 2 trayectos en tren incluidos · Autobús de ida y vuelta incluido | — |
+| PROG-IWP-01 | Descubriendo el Perú en 9 días | 1 comida incluida · 8 noches de hotel incluidas · Tren de ida y vuelta incluido · Autobús de ida y vuelta incluido | — |
 | PROG-IWP-02 | Misterios naturales y arqueológicos del Perú | Desayuno diario · 1 comida incluida · Tren de ida y vuelta incluido · 5 trayectos en autobús incluidos | hotel |
-| PROG-IWP-03 | Siguiendo la Ruta del Sur en 9 días | 1 comida incluida · 8 noches de hotel incluidas · 2 trayectos en tren incluidos · 3 trayectos en autobús incluidos | — |
-| PROG-IWP-04 | Maravillas del Perú en 12 días | 1 comida incluida · 10 noches de hotel incluidas · 2 trayectos en tren incluidos · 4 trayectos en autobús incluidos | — |
+| PROG-IWP-03 | Siguiendo la Ruta del Sur en 9 días | 1 comida incluida · 8 noches de hotel incluidas · Tren de ida y vuelta incluido · 3 trayectos en autobús incluidos | — |
+| PROG-IWP-04 | Maravillas del Perú en 12 días | 1 comida incluida · 10 noches de hotel incluidas · Tren de ida y vuelta incluido · 4 trayectos en autobús incluidos | — |
 | MP-04 | Machu Picchu Overnight 3 días a cotizar | 2 noches de hotel incluidas | tren |
 | MP-05 | Machu Picchu y tren panorámico a cotizar | — | tren |
 | MP-06 | Machu Picchu Premium o Luxury a cotizar | — | hotel, tren |

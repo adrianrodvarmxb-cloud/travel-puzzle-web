@@ -55,6 +55,9 @@
     "EMAILS_ENABLED": "true",
     // REQ-1291: Mila administra proveedores (docs/gates-proveedores-mila-2026-11.md). Se prende con OK del PO tras aprobar las plantillas.
     "PROVEEDORES_MILA_ON": "true",
+    // REQ-10693 (PO 15-11): bandeja de borradores programados a proveedores (/admin/borradores; migración 0034). Apagada, Mila no
+    // manda ningún correo a proveedores (nunca directo). "true" solo con la 0034 aplicada, preview, humo y OK del PO.
+    "PROVEEDORES_BORRADORES_ON": "false",
     // REQ-1568: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1663; el secreto MILA_AVISOS_SECRET lo carga el PO.
     "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
     "MILA_AVISOS_URL": "",
@@ -78,6 +81,13 @@
     // REQ-3469: calendario de fechas y precios por día en la ficha (cualquier proveedor). Apagado: la ficha
     // se ve como hoy. "true" solo con preview, prueba de humo con la bandera encendida y OK del PO.
     "PROVIDER_CALENDAR_ENABLED": "false",
+    // Ficha única, ola 4 «Geografía» (REQ-10737; decisiones 27, 28 y 30 del PO, 14 nov 2026). Requieren la migración 0035
+    // (City.lat/lng, REQ-10734) aplicada y llena (REQ-10740). CITY_PIN_FALLBACK_ENABLED: en /tours y Destinos, una
+    // experiencia sin punto exacto usa las coordenadas de su ciudad como pin. ZONE_MAP_ENABLED: la ficha sin punto exacto
+    // pinta un círculo de «Zona aproximada» sin «Cómo llegar». Apagadas, nada cambia. "true" solas, cada una en su PR,
+    // con preview, humo a 390/1366 y revisión visual (autopilot, opción C en #556). Regreso: "false" (no toca datos).
+    "CITY_PIN_FALLBACK_ENABLED": "true", // encendida 17-11-2026 (constructora, REQ-10737): 0035 aplicada y 1,044 ciudades con coordenadas (REQ-10740); humo en preview con la bandera encendida en el PR
+    "ZONE_MAP_ENABLED": "false",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.

@@ -10,6 +10,9 @@ const base = (x: Partial<ProveedorFila>): ProveedorFila => ({
   correos: [], dominios: [], destinos: "", integracion: "desconocida", cobro: "desconocido", tiempoRespuesta: "", correosInvalidos: [], zonaHoraria: "America/Mexico_City", checklist: [], bloqueos: {}, ultimoAsunto: null, hiloId: null, notas: "", etapa: "por_contactar", recordatorios: 0, ...x,
 });
 
+// REQ-10693: Mila nunca envía directo; en las pruebas el «buzón» guarda el correo y simula el borrador programado.
+const buzon = (enviados: Correo[], programados: string[] = []) => async (c: Correo, p: { enviarEn: string }) => { enviados.push(c); programados.push(p.enviarEn); return { id: `b${enviados.length}`, enlace: `https://travelpuzzle.com.mx/admin/borradores#b${enviados.length}`, enviarEn: p.enviarEn }; };
+
 function memoria(lista: ProveedorFila[]) {
   const mensajes: { id: string; proveedorId: string; direccion: string; tipo: string }[] = [];
   const documentos: { id: string }[] = [];
@@ -56,8 +59,9 @@ describe("REQ-1293/REQ-1294: revisión diaria", () => {
       base({ id: "callado", correos: ["c@callado.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola", hiloId: "<h@x>" }),
     ]);
     const enviados: Correo[] = [];
-    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@resend>`; } });
-    expect(r).toEqual({ enviados: 1, sinRespuesta: 0, errores: [], porPresentar: ["publicado", "nuevo"], detenidos: [] });
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados) });
+    expect(r).toEqual({ enviados: 1, sinRespuesta: 0, errores: [], porPresentar: ["publicado", "nuevo"], detenidos: [],
+      borradores: [{ proveedor: "P", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z", enlace: "https://travelpuzzle.com.mx/admin/borradores#b1" }] }); // REQ-10693: 9:00 CDMX, dentro del horario → sale ya
     expect(enviados.map((c) => c.to[0])).toEqual(["c@callado.com"]);
     expect(enviados[0].subject).toBe("Re: Travel Puzzle · hola");
     expect(enviados[0].cc).toHaveLength(2);
@@ -100,7 +104,7 @@ describe("REQ-1565: respuestas automáticas y rebotes", () => {
     expect(r).toEqual({ estado: "rebote", proveedorId: "inca", correos: ["vieja@incaworld.com"] });
     expect(m.lista[0]).toMatchObject({ etapa: "contactado", correosInvalidos: ["vieja@incaworld.com"] });
     const enviados: Correo[] = [];
-    await revisionDiaria({ repo: m.repo, hoy: "2026-11-16T15:00:00Z", enviar: async (c) => { enviados.push(c); return "<1@r>"; } });
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-16T15:00:00Z", borrador: buzon(enviados) });
     expect(enviados[0].to).toEqual(["centralincaworldtravel@gmail.com"]);
   });
   it("REQ-1565: una respuesta escrita por una persona sigue contando", async () => {
@@ -126,14 +130,15 @@ describe("REQ-1566: horario hábil del proveedor", () => {
     expect(zonaPorDestino("Perú")).toBe("America/Lima");
     expect(zonaPorDestino("Marte")).toBe("America/Mexico_City");
   });
-  it("REQ-1566: la revisión solo le escribe al proveedor de Asia en su mañana", async () => {
+  it("REQ-1566 → REQ-10693: la hora de salida es el borrador programado en el horario del proveedor (5:00–16:00 de su hora); fuera de él, 5:00 del siguiente día hábil; una sola vez", async () => {
     const asia = base({ id: "ta", correos: ["r@ta.com"], zonaHoraria: "Asia/Kuala_Lumpur", etapa: "contactado", ultimoNuestro: "2026-11-02T01:00:00Z", ultimoAsunto: "X", hiloId: "<h@x>" });
     const m = memoria([asia]);
-    const enviados: Correo[] = [];
-    const enviar = async (c: Correo) => { enviados.push(c); return "<1@r>"; };
-    await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar }); // 23:00 en KL
-    expect(enviados).toHaveLength(0);
-    await revisionDiaria({ repo: m.repo, hoy: "2026-11-10T01:00:00Z", enviar }); // 9:00 del martes en KL
+    const enviados: Correo[] = []; const programados: string[] = [];
+    const borrador = buzon(enviados, programados);
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador }); // 23:00 en KL: ya no espera, deja el borrador
+    expect(enviados).toHaveLength(1);
+    expect(programados).toEqual(["2026-11-09T21:00:00.000Z"]); // martes 10 nov, 5:00 en Kuala Lumpur
+    await revisionDiaria({ repo: m.repo, hoy: "2026-11-10T01:00:00Z", borrador }); // la siguiente vuelta no duplica el borrador
     expect(enviados).toHaveLength(1);
   });
 });
@@ -154,7 +159,7 @@ describe("REQ-1669/REQ-1665: revisión diaria con bloqueos y lista de alta", () 
   const callado = (x: Partial<ProveedorFila>) => base({ correos: ["c@c.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Travel Puzzle · hola", hiloId: "<h@x>", ...x });
   const correr = async (lista: ProveedorFila[]) => {
     const m = memoria(lista); const enviados: Correo[] = [];
-    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@r>`; } });
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados) });
     return { r, enviados };
   };
   it("REQ-1669: no manda recordatorio con folio abierto ni a un hilo sin copia a comercial@, y lo reporta", async () => {
@@ -213,7 +218,7 @@ describe("REQ-3430: Mila consulta a la revisión cada 6 h antes de enviar", () =
     const m = memoria([callado({ id: "negocia" }), callado({ id: "libre" }), callado({ id: "caido" })]);
     const apartados: import("./lib/consulta").Apartado[] = [{ proveedorId: "negocia", agente: "revision6h", motivo: "negociacion", desde: "2026-11-09T10:00:00Z", hasta: "2026-11-20T10:00:00Z" }];
     const enviados: Correo[] = [];
-    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { enviados.push(c); return `<${enviados.length}@r>`; },
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados),
       contacto: {
         listar: async (id) => { if (id === "caido") throw new Error("sin red"); return apartados.filter((a) => a.proveedorId === id); },
         apartar: async (a) => { apartados.push(a); },
@@ -222,4 +227,41 @@ describe("REQ-3430: Mila consulta a la revisión cada 6 h antes de enviar", () =
     expect(r.detenidos).toEqual(["negocia: la revisión cada 6 h tiene una negociación en curso", "caido: no se pudo consultar a la otra"]);
     expect(apartados.at(-1)).toMatchObject({ proveedorId: "libre", agente: "mila", motivo: "envio", hasta: "2026-11-11T15:00:00.000Z" });
   });
+});
+
+import { HORA_ENVIO, SIN_BUZON, VENTANA_ENVIO, enHorarioProveedor, proximoEnvio } from "./lib/programacion";
+describe("REQ-10693: todo correo a proveedores queda como borrador programado a las 5:00 CDMX del siguiente día hábil (nunca directo)", () => {
+  it("REQ-10693: dentro del horario del proveedor (5:00–16:00, lunes a viernes) sale ya; antes de las 5:00, a las 5:00 de hoy; después o en fin de semana, a las 5:00 del siguiente día hábil", () => {
+    expect(VENTANA_ENVIO).toEqual({ desde: 5, hasta: 16 });
+    expect(HORA_ENVIO).toBe(5);
+    expect(proximoEnvio("2026-11-09T15:00:00Z")).toBe("2026-11-09T15:00:00.000Z"); // lunes 9:00 CDMX → ya
+    expect(proximoEnvio("2026-11-09T08:00:00Z")).toBe("2026-11-09T11:00:00.000Z"); // lunes 2:00 CDMX → 5:00 de hoy
+    expect(proximoEnvio("2026-11-09T23:30:00Z")).toBe("2026-11-10T11:00:00.000Z"); // lunes 17:30 CDMX → martes 5:00
+    expect(proximoEnvio("2026-11-13T23:00:00Z")).toBe("2026-11-16T11:00:00.000Z"); // viernes 17:00 → lunes 5:00
+    expect(proximoEnvio("2026-11-14T15:00:00Z")).toBe("2026-11-16T11:00:00.000Z"); // sábado → lunes 5:00
+    expect(proximoEnvio("2026-11-09T15:00:00Z", "Asia/Kuala_Lumpur")).toBe("2026-11-09T21:00:00.000Z"); // 23:00 en KL → martes 5:00 KL
+    expect(proximoEnvio("2026-11-09T03:00:00Z", "Asia/Kuala_Lumpur")).toBe("2026-11-09T03:00:00.000Z"); // 11:00 en KL → ya
+    expect(proximoEnvio("2026-11-09T15:00:00Z", "zona/rota")).toBe("2026-11-09T15:00:00.000Z"); // zona inválida = México
+    expect(enHorarioProveedor("2026-11-09T15:00:00Z")).toBe(true);
+    expect(enHorarioProveedor("2026-11-09T23:30:00Z")).toBe(false);
+  });
+  it("REQ-10693: sin buzón de borradores, la revisión se detiene y no manda nada directo aunque haya `enviar`", async () => {
+    const m = memoria([base({ id: "x", correos: ["c@x.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Hola", hiloId: "<h@x>" })]);
+    const directos: Correo[] = [];
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", enviar: async (c) => { directos.push(c); return "<1@resend>"; } });
+    expect(directos).toEqual([]);
+    expect(r.enviados).toBe(0);
+    expect(r.detenidos).toEqual([`x: ${SIN_BUZON}`]);
+    expect(m.lista[0].etapa).toBe("contactado");
+  });
+  it("REQ-10693: con bandeja, el correo se registra como borrador programado y el seguimiento cuenta desde esa hora", async () => {
+    const m = memoria([base({ id: "x", nombre: "Tangol", correos: ["c@x.com"], etapa: "contactado", ultimoNuestro: "2026-11-02T10:00:00Z", ultimoAsunto: "Hola", hiloId: "<h@x>" })]);
+    const enviados: Correo[] = [];
+    const r = await revisionDiaria({ repo: m.repo, hoy: "2026-11-09T15:00:00Z", borrador: buzon(enviados) });
+    expect(r.enviados).toBe(1);
+    expect(r.borradores[0]).toMatchObject({ proveedor: "Tangol", tipo: "recordatorio", enviarEn: "2026-11-09T15:00:00.000Z" });
+    expect(m.mensajes[0]).toMatchObject({ id: "b1", direccion: "salida", tipo: "recordatorio" });
+    expect(m.lista[0].ultimoNuestro).toBe("2026-11-09T15:00:00.000Z");
+  });
+
 });
