@@ -4,7 +4,7 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
 Actualizado: 17 nov 2026, 09:10 UTC (03:10 CDMX): constructora, frente 5 (REQ-10742). Inventario regenerado (1,210 filas, 482 sin cerrar); 22 folios «Sin iniciar» revisados a mano: 18 CUMPLIDOS con pruebas verdes en la sesión y 4 con lo que les falta escrito (REQ-084, 087, 416, 418); casos nuevos 8–10 en `docs/dependencias-detenidas.md`; tablero de Mila: #205 y #207 fusionados en zoefel-mila.
-Actualizado: 17 nov 2026, 09:30 UTC (03:30 CDMX): constructora. **Ola 5 «Cercanía y transporte» abierta** (REQ-10750…10755): regla pura «Cerca» único (`src/geo/lib/near.ts`, decisión 29) tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: conexión a la franja de toda ficha (REQ-10752), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
+Actualizado: 17 nov 2026, 14:50 UTC (08:50 CDMX): constructora. **Ola 5 «Cercanía y transporte»**: REQ-10752 conecta el «Cerca» único a la franja de transporte de la ficha de /tours (`transportOrigin` + `pickTransport`), tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: encender la bandera con preview y humo (REQ-10751), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 Actualizado: 17 nov 2026, 08:45 UTC (02:45 CDMX): constructora. **Ola 4 «Geografía» cerrada (REQ-10739):** banderas encendidas y verificadas en producción (#637, #638), cifra real de la decisión 30 leída de D1 (REQ-10738). Abre la ola 5.
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
@@ -14,7 +14,7 @@ Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con
 | REQ-10534 | Extime se liga a su Excel original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (PR #551) |
 | REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (pruebas verdes; bigbustours.com da 403 a la descarga) |
 | REQ-10576 | Subir a R2 y D1 los originales ligados | NUEVO | `src/scripts/raw-backfill.ts` | — (DATOS) | PENDIENTE (candado del PO) |
-| REQ-10577 | OK para mergear #507, #548, #551 | NUEVO | — | — (VALIDACIÓN) | PENDIENTE |
+| REQ-10577 | OK para mergear #507, #548, #551 | NUEVO | — | — (VALIDACIÓN) | CUMPLIDO (los tres fusionados; autorización global REQ-10743) |
 Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
 Actualizado: 15 nov 2026, 03:00 (CDMX): ficha única, ola 2 cerrada (REQ-10658); ola 3 abierta con la tabla de dificultad de Tangol (REQ-10656, gate REQ-10657).
 Actualizado: 15 nov 2026, 04:00 (CDMX): tabla de dificultad firmada por el PO (REQ-10657, #577); atributos de la decisión 11 tras gate (REQ-10659); lista de aventura y senderismo para firma (REQ-10660, gate REQ-10661).
@@ -41,9 +41,9 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y bandera apagada; nada visible. Plan de regreso: revertir el PR (no toca datos).
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
-| REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (sin conectar a pantalla hasta REQ-10752) |
+| REQ-10750 | «Cerca» único: ciudad → país → distancia; FREETOUR nunca como candidato; afiliado nunca en FREETOUR | NUEVO | `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` (9) | CUMPLIDO en código (conectado a la franja de /tours en REQ-10752, tras bandera) |
 | REQ-10751 | Bandera `NEARBY_UNIFIED_ENABLED` | NUEVO | `wrangler.jsonc`, `src/geo/lib/near.ts` | `src/geo/lib/near.test.ts` | CUMPLIDO en código (apagada) |
-| REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | — | PENDIENTE |
+| REQ-10752 | Conexión a la franja de transporte de toda ficha (absorbe #433) | NUEVO | `src/tours/detail-props.ts`, `src/trips/cross-sell.ts` | `src/trips/cross-sell.test.ts` (14) | CUMPLIDO en código (tras `NEARBY_UNIFIED_ENABLED="false"`) |
 | REQ-10753 | Tarjeta de Kiwitaxi fuera de FREETOUR (`FICHA_TRANSFER_CARD_ENABLED`) | NUEVO | — | — | PENDIENTE (variable de rutas de afiliado: PO) |
 | REQ-10754 | Coordenadas de las 138 ciudades sin dato (758 tours de Tangol sin pin) | NUEVO | — | — | PENDIENTE |
 | REQ-10755 | Cierre de la ola 5 | NUEVO | `STATUS.md`, `docs/requisitos.md` | `npx vitest run -t "REQ-"` | PENDIENTE |
