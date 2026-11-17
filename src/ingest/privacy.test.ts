@@ -12,7 +12,10 @@ describe("REQ-747 ninguna ruta pública sirve el archivo crudo (raw/ ni source/)
   it("REQ-747 solo src/ingest y el cron del sync tocan el binding RAW_ARCHIVE; ninguna página, API pública, middleware ni worker", () => {
     const files = [...walk("src"), "worker.ts"].filter((f) => !f.endsWith(".test.ts"));
     const users = files.filter((f) => !f.startsWith("src/ingest/") && /RAW_ARCHIVE\b|ingest\/deps/.test(readFileSync(f, "utf8")));
-    expect(users).toEqual(["src/app/api/cron/sync-tours/route.ts"]);
+    // REQ-10763 (REQ-10761, firma del PO 17-11-2026): el sync de Big Bus por OCTO también archiva (solo escritura, desde
+    // su cron con CRON_SECRET); `src/octo/sync-deps.ts` arma sus dependencias con `ingest/deps` y solo ese cron lo importa.
+    expect(users.sort()).toEqual(["src/app/api/cron/sync-tours/route.ts", "src/octo/sync-deps.ts"]);
+    expect(readFileSync("src/app/api/cron/bigbus-sync/route.ts", "utf8")).toMatch(/Bearer \$\{process\.env\.CRON_SECRET\}/);
     // Dentro de src/ingest, solo deps.ts toma el binding del entorno.
     const binders = walk("src/ingest").filter((f) => !f.endsWith(".test.ts") && /getCloudflareContext/.test(readFileSync(f, "utf8")));
     expect(binders).toEqual(["src/ingest/deps.ts"]);
