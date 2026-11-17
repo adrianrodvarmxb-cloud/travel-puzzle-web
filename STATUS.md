@@ -45,7 +45,7 @@ Frente #661. PR 1: modelo, esquema y adaptador de Tangol con fixture real; sin p
 |---|---|---|---|---|---|
 | REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
 | REQ-10777 | Adaptador Tangol → modelo con fixture real | NUEVO | `src/ficha/adapters/tangol.ts`, `src/ficha/lib/text.ts`, `tests/fixtures/tangol/tour-43-glaciar-perito-moreno.json` | `src/ficha/adapters/tangol.test.ts` (5) | CUMPLIDO en código |
-| REQ-10778 | Adaptador FREETOUR → modelo | NUEVO | — | — | PENDIENTE |
+| REQ-10778 | Adaptador FREETOUR → modelo con fixture real | NUEVO | `src/ficha/adapters/freetour.ts`, `tests/fixtures/freetour/tour-30042-edimburgo.json` | `src/ficha/adapters/freetour.test.ts` (5) | CUMPLIDO en código |
 | REQ-10779 | Adaptador viajes/Big Bus → modelo | NUEVO | — | — | PENDIENTE |
 
 ## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad
