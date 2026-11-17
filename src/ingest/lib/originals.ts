@@ -4,6 +4,7 @@
  * `original.categoria` capturada del documento); si no hay, devuelve null: nunca se inventa una categoría.
  */
 import { FORMATOS, TEMAS } from "@/taxonomy/lib/types";
+import extimeCodigos from "@/taxonomy/data/extime-codigos.json";
 
 export interface Original { field: string; value: string; matchedTerm: string | null }
 
@@ -17,10 +18,18 @@ const RULES: Record<string, { field: "ref" | "source"; rx: RegExp; value: string
   incaworld: [{ field: "ref", rx: /^PROG-/, value: "PROGRAMA" }, { field: "ref", rx: /^(LIM|CUS|MP|PUN|AQP|NAZ|CHH)-\d/, value: "SERVICIO" }],
 };
 
+/** REQ-10749: Extime no trae la línea de producto en el código, sino en la columna INTL de su programa oficial; tabla Tour Code → línea. */
+const EXTIME_CODIGOS: Record<string, string> = (extimeCodigos as { codigos: Record<string, string> }).codigos;
+
 // REQ-753
 export function originalOf(provider: string, entry: EntryLike): Original | null {
   const explicit = entry.original?.categoria;
   if (typeof explicit === "string" && explicit.trim()) return { field: "original.categoria", value: explicit.trim(), matchedTerm: null };
+  if (provider === "extime" && typeof entry.ref === "string") {
+    // REQ-10749: el código del programa (VAM, P1V, 5D4N…) identifica la línea de producto del documento original.
+    const linea = EXTIME_CODIGOS[entry.ref.trim().toUpperCase()];
+    if (linea) return { field: "ref", value: linea, matchedTerm: entry.ref.trim() };
+  }
   for (const r of RULES[provider] ?? []) {
     const text = entry[r.field];
     if (typeof text !== "string") continue;

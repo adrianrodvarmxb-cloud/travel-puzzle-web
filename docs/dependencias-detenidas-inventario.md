@@ -2,13 +2,13 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1208 · sin cerrar: 499
+Filas de requisitos: 1210 · sin cerrar: 500
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 160 |
+| Decisión, firma u OK del PO | 161 |
 | Depende de otro folio sin cerrar | 82 |
 | Sin iniciar (el estado no dice qué falta) | 72 |
 | A medias (el estado no dice qué falta) | 63 |
@@ -46,7 +46,7 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (160)
+## Decisión, firma u OK del PO (161)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -210,6 +210,7 @@ Filas de requisitos: 1208 · sin cerrar: 499
 | REQ-10722 | DEFINICIÓN | — | EN CURSO (tarea creada; primera corrida el 16-11-2026) |
 | REQ-10742 | CÓDIGO | — | EN CURSO (6 casos revisados a mano en `docs/dependencias-detenidas.md`; inventario completo pedido por el PO el 16-11-2026 16:17 CDMX, «Haz lista exhaiustiva», en `docs/dependencias-detenidas-inventario.md`: 509 folios s |
 | REQ-10743 | DEFINICIÓN | — | CUMPLIDO (definición escrita en `CLAUDE.md` y en la tarea «Constructora cada 6 h»; falta la misma sección en el `CLAUDE.md` de `zoefel-mila`) |
+| REQ-10748 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/taxonomy/lib/reclasificacion-agencia.test.ts` 5/5; lista generada en `docs/taxonomia/reclasificacion-agencias-2026-11-17/`: 371 viajes, 7 cambiarían (Fantástica China 1, Inca World 6) |
 
 ## Depende de otro folio sin cerrar (82)
 
