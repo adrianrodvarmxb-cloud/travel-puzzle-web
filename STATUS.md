@@ -2,6 +2,16 @@
 
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
+Actualizado: 14 nov 2026, 06:45 (CDMX).
+
+## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
+Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10534 | Extime se liga a su Excel original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (PR #551) |
+| REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (pruebas verdes; bigbustours.com da 403 a la descarga) |
+| REQ-10576 | Subir a R2 y D1 los originales ligados | NUEVO | `src/scripts/raw-backfill.ts` | — (DATOS) | PENDIENTE (candado del PO) |
+| REQ-10577 | OK para mergear #507, #548, #551 | NUEVO | — | — (VALIDACIÓN) | PENDIENTE |
 Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
 Actualizado: 15 nov 2026, 03:00 (CDMX): ficha única, ola 2 cerrada (REQ-10658); ola 3 abierta con la tabla de dificultad de Tangol (REQ-10656, gate REQ-10657).
 Actualizado: 15 nov 2026, 04:00 (CDMX): tabla de dificultad firmada por el PO (REQ-10657, #577); atributos de la decisión 11 tras gate (REQ-10659); lista de aventura y senderismo para firma (REQ-10660, gate REQ-10661).
