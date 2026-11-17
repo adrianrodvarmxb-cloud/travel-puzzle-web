@@ -1,0 +1,144 @@
+{
+ "id": "tas-mys-01",
+ "slug": "malasia-esencial-kuala-lumpur-penang-y-selva-de-belum-tas-my-c07-001",
+ "code": "TAS-MY-C07-001",
+ "agencyId": "ag-tas",
+ "kind": "circuito",
+ "purchaseMode": "quote",
+ "status": "published",
+ "titleEs": "Malasia Esencial: Kuala Lumpur, Penang y selva de Belum",
+ "summaryEs": "7 días en circuito regular en español y grupo reducido: Kuala Lumpur, Batu Caves, plantaciones de té de Cameron Highlands, Penang y la selva de Belum. Extensión opcional a playa.",
+ "descriptionEs": "Circuito regular con guía de habla hispana y grupos reducidos que recorre lo esencial de la Malasia peninsular: la moderna Kuala Lumpur, el templo hindú de Batu Caves, las plantaciones de té de Cameron Highlands, la antigua capital real de Kuala Kangsar, la Georgetown colonial de Penang y la selva.",
+ "countries": [
+  "MY"
+ ],
+ "cities": [
+  "Kuala Lumpur",
+  "Cameron Highlands",
+  "Penang",
+  "Belum",
+  "Islas Perhentian",
+  "Langkawi"
+ ],
+ "durationDays": 7,
+ "priceFrom": 1836,
+ "currency": "USD",
+ "priceNote": "Precio por persona en USD en habitación doble. Triple, individual y extensiones 5*: ver la información importante.",
+ "meetingPoints": [
+  {
+   "name": "Aeropuerto Internacional de Kuala Lumpur (llegada)",
+   "address": "",
+   "lat": 2.7456,
+   "lng": 101.7072,
+   "instructions": "Traslado privado del aeropuerto al hotel incluido (conductor de habla inglesa); llegada el miércoles.",
+   "photoKey": null
+  }
+ ],
+ "hotelPickup": 0,
+ "itinerary": [
+  {
+   "title": "Día 1 (miércoles) · Llegada a Kuala Lumpur",
+   "text": "Llegada al aeropuerto de Kuala Lumpur, encuentro con el conductor y traslado privado al hotel."
+  },
+  {
+   "title": "Día 2 · Kuala Lumpur, tour de medio día",
+   "text": "Visita en español de KLCC y las Torres Petronas (subida al puente no incluida), el templo Thean Hou, la mezquita Masjid Jamek, la plaza Merdeka, el Central Market y Petaling Street. Regreso al hotel a las 13:30 y tarde libre."
+  }
+ ],
+ "includes": [
+  "Traslados y visitas en servicio compartido (mínimo 2 viajeros)",
+  "Guía oficial de habla hispana en los días 2 a 7",
+  "Hoteles de 4* o 5* (según opción) con desayuno, o similares",
+  "1 almuerzo (selva de Belum)",
+  "Entradas a los templos y atracciones del programa",
+  "Asistencia telefónica 24 h en español"
+ ],
+ "excludes": [
+  "Vuelos internacionales",
+  "Vuelos internos (incluido Penang–Langkawi en la extensión)",
+  "Tasa turística local (10 MYR por habitación y noche)",
+  "Seguro de viaje",
+  "Propinas y maleteros"
+ ],
+ "images": [
+  {
+   "key": "trips/1762500000-tasmys011.jpg",
+   "alt": "Plantaciones de té de Cameron Highlands"
+  },
+  {
+   "key": "trips/1762500000-tasmys012.jpg",
+   "alt": "Torres Petronas de noche, Kuala Lumpur"
+  },
+  {
+   "key": "trips/1762500000-tasmys013.jpg",
+   "alt": "Estatua de Murugan en Batu Caves"
+  }
+ ],
+ "category": "cultural",
+ "highlights": [
+  "Kuala Lumpur, Torres Petronas y Batu Caves",
+  "Plantaciones de té de Cameron Highlands",
+  "Georgetown de Penang, Patrimonio de la UNESCO",
+  "Paseo en barco por la selva de Belum",
+  "Extensión opcional a Perhentian o Langkawi"
+ ],
+ "importantInfo": "Salidas regulares todos los miércoles del 3 de marzo al 6 de octubre de 2027, con llegada a Kuala Lumpur (KUL). Mínimo 2 viajeros.\nFin del programa: día 7 (martes) en el aeropuerto de Kota Bharu (KBR)",
+ "whatToBring": "",
+ "accessibility": "",
+ "difficulty": "facil",
+ "difficultyLevel": 2,
+ "flightsIncluded": 0,
+ "languages": [
+  "es"
+ ],
+ "minPax": 2,
+ "maxPax": null,
+ "options": [
+  {
+   "id": "h4",
+   "name": "Programa 7 días · hoteles 4*",
+   "mode": "group",
+   "adult": 1836,
+   "child": null,
+   "infant": null,
+   "childAgeMin": 3,
+   "childAgeMax": 11
+  },
+  {
+   "id": "h5",
+   "name": "Programa 7 días · hoteles 5*",
+   "mode": "group",
+   "adult": 2352,
+   "child": null,
+   "infant": null,
+   "childAgeMin": 3,
+   "childAgeMax": 11
+  }
+ ],
+ "extras": [],
+ "minNoticeHours": 744,
+ "cancellation": {
+  "type": "custom",
+  "tiers": [
+   {
+    "daysBefore": 46,
+    "refundPct": 85
+   },
+   {
+    "daysBefore": 30,
+    "refundPct": 70
+   },
+   {
+    "daysBefore": 15,
+    "refundPct": 30
+   },
+   {
+    "daysBefore": 0,
+    "refundPct": 0
+   }
+  ]
+ },
+ "endPoint": "Aeropuerto de Kota Bharu (KBR), o Kota Bharu / Langkawi con extensión de playa",
+ "agencyName": "Turismo Asiático",
+ "_fuente": "D1 de producción, 17-11-2026, solo lectura (datos públicos de la ficha, recortados). Sin netos."
+}
