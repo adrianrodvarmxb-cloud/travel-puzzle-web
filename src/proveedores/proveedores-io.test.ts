@@ -173,6 +173,30 @@ describe("REQ-1669/REQ-1665: revisión diaria con bloqueos y lista de alta", () 
     expect(enviados[0].text).not.toMatch(/temporada/);
     expect(enviados[0].text).toMatch(/Lo que nos falta:\n1\. /);
   });
+  it("REQ-10732: con preguntas abiertas, el recordatorio pide primero lo que desbloquea vender y abajo «Para cerrar el alta»; las cerradas no salen", async () => {
+    const preguntas = [
+      { id: "q1", tema: "tarifas" as const, es: "¿Nos confirman el tarifario 2027 con temporadas y fechas?", en: "Could you confirm the 2027 rates with seasons and dates?", req: "REQ-1580", desde: "2026-11-05", cerrada: null },
+      { id: "q2", tema: "pago" as const, es: "¿Aceptan pago por transferencia internacional?", en: "Do you accept international wire transfer?", req: null, desde: "2026-11-06", cerrada: null },
+      { id: "q3", tema: "cancelacion" as const, es: "¿Cuál es su política de cancelación?", en: "What is your cancellation policy?", req: null, desde: "2026-11-01", cerrada: "2026-11-08" },
+    ];
+    const { enviados } = await correr([callado({ id: "conpreguntas", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "contenido", "datos", "cobro"], preguntas })]);
+    const texto = enviados[0].text;
+    expect(texto).toMatch(/Lo que nos ayudaría a avanzar:\n1\. Tarifas: ¿Nos confirman el tarifario 2027 con temporadas y fechas\?\.\n2\. Pago: /);
+    expect(texto).not.toMatch(/política de cancelación/);
+    expect(texto).toMatch(/Para cerrar el alta:\n- .*acuerdo de intermediación/);
+    expect(texto).not.toMatch(/Lo que nos falta:/);
+  });
+  it("REQ-10732: en inglés, con las mismas secciones en su idioma", async () => {
+    const preguntas = [{ id: "q1", tema: "calendario" as const, es: "¿Días de salida por periodo?", en: "Departure days per period?", req: null, desde: "2026-11-05", cerrada: null }];
+    const { enviados } = await correr([callado({ id: "en", idioma: "en", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "contenido", "datos", "cobro"], preguntas })]);
+    expect(enviados[0].text).toMatch(/What would help us move forward:\n1\. Calendar: Departure days per period\?\.\nTo complete onboarding:\n- /);
+  });
+  it("REQ-10732: sin preguntas (o todas cerradas) el recordatorio es el de hoy", async () => {
+    const cerradas = [{ id: "q1", tema: "tarifas" as const, es: "x", en: "x", req: null, desde: "2026-11-01", cerrada: "2026-11-02" }];
+    const { enviados } = await correr([callado({ id: "sin", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "contenido", "datos", "cobro"], preguntas: cerradas })]);
+    expect(enviados[0].text).toMatch(/Lo que nos falta:\n1\. /);
+    expect(enviados[0].text).not.toMatch(/ayudaría a avanzar/);
+  });
   it("REQ-1665: si ya no falta nada, el recordatorio no trae la lista", async () => {
     const { enviados } = await correr([callado({ id: "ok", integracion: "api", checklist: ["tarifas", "cancelacion", "operacion", "legal", "acuerdo", "contenido", "datos", "cobro"] })]);
     expect(enviados[0].text).not.toMatch(/nos falta/);
