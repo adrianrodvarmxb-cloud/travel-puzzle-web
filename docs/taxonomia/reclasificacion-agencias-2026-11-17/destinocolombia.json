@@ -1,0 +1,150 @@
+[
+  {
+    "id": "PC-016",
+    "titulo": "Colombia Esencial: Bogotá, Medellín y Cartagena, 8 días",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "urbano"
+    ],
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PC-017",
+    "titulo": "Colombia Herencia y Mar: Bogotá, Cartagena y San Andrés",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "parques-ocio"
+    ],
+    "temasDespues": [
+      "cultural",
+      "parques-ocio"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PC-018",
+    "titulo": "Colombia de Autor: Bogotá, Eje Cafetero y Cartagena, 8 días",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PC-020",
+    "titulo": "Colombia Tres Perlas del Caribe, 8 días",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PC-021",
+    "titulo": "Colombia Legendaria: de Bogotá a Santa Marta, 10 días",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PC-023",
+    "titulo": "Colombia Tesoros Escondidos: Bogotá, Cartagena y Tayrona",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "playa-mar"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "playa-mar"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PC-024",
+    "titulo": "Colombia de los Andes al Caribe con islas, 9 días",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "playa-mar"
+    ],
+    "temasDespues": [
+      "playa-mar"
+    ],
+    "duda": null
+  },
+  {
+    "id": "PC-025",
+    "titulo": "Colombia Auténtica: Bogotá, Café, Medellín y Cartagena",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PC-028",
+    "titulo": "Colombia Imperdible: Medellín, Eje Cafetero y Cartagena",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "PC-030",
+    "titulo": "Colombia Travel Collection: gran circuito de 14 días",
+    "kind": "circuito",
+    "original": "PC",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "playa-mar"
+    ],
+    "temasDespues": [
+      "playa-mar"
+    ],
+    "duda": null
+  }
+]
