@@ -3,7 +3,7 @@
     "id": "VAM",
     "titulo": "Versalles esencial: medio día guiado desde París",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
@@ -11,31 +11,32 @@
       "urbano"
     ],
     "temasDespues": [
+      "cultural",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VT",
     "titulo": "Versalles completo: palacio, jardines y Aldea de la Reina",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "cultural"
     ],
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VO",
     "titulo": "Versalles con audioguía en español: medio día desde París",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -45,13 +46,13 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "JVO",
     "titulo": "Versalles día completo con audioguía desde París",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -61,29 +62,29 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VAC",
     "titulo": "Visita guiada al Palacio de Versalles (sin transporte)",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "cultural"
     ],
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P1V",
     "titulo": "Versalles y Museo de Orsay en un día",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -91,15 +92,16 @@
       "cultural"
     ],
     "temasDespues": [
-      "cultural"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GO",
     "titulo": "Giverny: casa y jardines de Monet, medio día con audioguía",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -107,15 +109,16 @@
       "talleres-aprendizaje"
     ],
     "temasDespues": [
-      "talleres-aprendizaje"
+      "naturaleza",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GOVO",
     "titulo": "Giverny y Versalles en un día con almuerzo",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -123,103 +126,120 @@
       "cultural"
     ],
     "temasDespues": [
+      "naturaleza",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GJO",
     "titulo": "Día impresionista en Giverny: Monet y museo",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "cultural"
     ],
     "temasDespues": [
+      "naturaleza",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "MS1",
     "titulo": "Mont-Saint-Michel guiado en español desde París",
     "kind": "tour",
-    "original": null,
+    "original": "MONT SAINT MICHEL",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "religioso"
+    ],
+    "duda": null
   },
   {
     "id": "MSL",
     "titulo": "Mont-Saint-Michel con audioguía desde París",
     "kind": "tour",
-    "original": null,
+    "original": "MONT SAINT MICHEL",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "religioso"
+    ],
+    "duda": null
   },
   {
     "id": "MSF",
     "titulo": "Mont-Saint-Michel guiado con recogida en tu hotel",
     "kind": "tour",
-    "original": null,
+    "original": "MONT SAINT MICHEL",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "religioso"
+    ],
+    "duda": null
   },
   {
     "id": "CL1",
     "titulo": "Castillos del Loira guiados en español desde París",
     "kind": "tour",
-    "original": null,
+    "original": "LOIRE",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "CLL",
     "titulo": "Castillos del Loira con audioguía desde París",
     "kind": "tour",
-    "original": null,
+    "original": "LOIRE",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "CHL",
     "titulo": "Castillos del Loira guiados con recogida en hotel",
     "kind": "tour",
-    "original": null,
+    "original": "LOIRE",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "ML2",
     "titulo": "Mont-Saint-Michel y castillos del Loira, 2 días",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -227,43 +247,48 @@
       "noche-espectaculos"
     ],
     "temasDespues": [
-      "noche-espectaculos"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "NBC3",
     "titulo": "Normandía, Mont-Saint-Michel y Loira, 3 días",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "BBP",
     "titulo": "Crucero por el Sena con Bateaux Parisiens",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "tour",
-    "despues": "tour",
-    "cambia": false,
+    "despues": "entradas",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DCD18",
     "titulo": "Cena en crucero por el Sena, menú Découverte",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -271,15 +296,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC18R",
     "titulo": "Cena romántica en crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -287,15 +314,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC21HB",
     "titulo": "Cena en crucero por el Sena, menú Saveurs",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -303,39 +332,47 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TEA",
     "titulo": "Torre Eiffel 2.º piso con acceso reservado y audioguía",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "TEA3",
     "titulo": "Torre Eiffel hasta la cima con audioguía",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "PS",
     "titulo": "Torre Eiffel, crucero por el Sena y city tour",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -345,15 +382,16 @@
     ],
     "temasDespues": [
       "playa-mar",
+      "cultural",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CIT",
     "titulo": "París iluminado y Torre Eiffel de noche",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR TOUR EIFFEL",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -361,15 +399,16 @@
       "noche-espectaculos"
     ],
     "temasDespues": [
+      "urbano",
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DEC",
     "titulo": "Cena en la Torre Eiffel y crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL RESTAURANT",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -377,63 +416,73 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GL",
     "titulo": "Louvre con guía en español y acceso reservado",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "ML",
     "titulo": "Louvre: obras maestras con entrada reservada",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "ML1ST",
     "titulo": "Louvre a primera hora: obras maestras",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "P1L",
     "titulo": "París en un día: Louvre, Notre-Dame y Sainte-Chapelle",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "NDG",
     "titulo": "Notre-Dame: Île de la Cité guiada y crucero",
     "kind": "tour",
-    "original": null,
+    "original": "NOTREDAME",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -441,15 +490,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural",
+      "religioso"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PC",
     "titulo": "City tour en bus panorámico y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -461,13 +512,13 @@
       "playa-mar",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "I",
     "titulo": "París iluminado en bus panorámico",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -475,15 +526,15 @@
       "noche-espectaculos"
     ],
     "temasDespues": [
-      "noche-espectaculos"
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "IM",
     "titulo": "París iluminado y show del Moulin Rouge",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -493,37 +544,41 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "ED1",
     "titulo": "Disneyland París con transporte, 1 parque",
     "kind": "tour",
-    "original": null,
+    "original": "DISNEYLAND",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "parques-ocio"
+    ],
+    "duda": null
   },
   {
     "id": "EDH",
     "titulo": "Disneyland París con transporte, 2 parques",
     "kind": "tour",
-    "original": null,
+    "original": "DISNEYLAND",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "parques-ocio"
+    ],
+    "duda": null
   },
   {
     "id": "C",
     "titulo": "City tour por París en bus panorámico",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -533,25 +588,27 @@
     "temasDespues": [
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "MFP",
     "titulo": "París en rickshaw privado con recogida (1-2 pers.)",
     "kind": "unica",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "PBT",
     "titulo": "París en bicicleta con guía",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -561,25 +618,27 @@
     "temasDespues": [
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PBT10",
     "titulo": "París en bicicleta, tour privado (hasta 10 pers.)",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "P1LDJ",
     "titulo": "París en un día con almuerzo en crucero",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -587,15 +646,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P1VDJ",
     "titulo": "Versalles y Orsay en un día con almuerzo",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -603,15 +663,15 @@
       "cultural"
     ],
     "temasDespues": [
-      "cultural"
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P2LV",
     "titulo": "París en 2 días: Louvre, Notre-Dame, Versalles y Orsay",
     "kind": "circuito",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -621,25 +681,27 @@
     "temasDespues": [
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P2LVDJ",
     "titulo": "París en 2 días con almuerzos incluidos",
     "kind": "circuito",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "OGFRAG",
     "titulo": "Ópera Garnier guiada y taller de perfume Fragonard",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -647,67 +709,74 @@
       "talleres-aprendizaje"
     ],
     "temasDespues": [
-      "talleres-aprendizaje"
+      "talleres-aprendizaje",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TRT",
     "titulo": "Lo mejor de París en bicitaxi eléctrico privado",
     "kind": "unica",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "TRTM",
     "titulo": "Montmartre en bicitaxi eléctrico privado",
     "kind": "unica",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "TRTS",
     "titulo": "Saint-Germain-des-Prés en bicitaxi eléctrico privado",
     "kind": "unica",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "TRTE",
     "titulo": "Barrio de la Torre Eiffel en bicitaxi privado",
     "kind": "unica",
-    "original": null,
+    "original": "CITY TOUR",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [
       "urbano"
     ],
     "temasDespues": [
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CIT3",
     "titulo": "París iluminado y cima de la Torre Eiffel de noche",
     "kind": "tour",
-    "original": null,
+    "original": "CITY TOUR TOUR EIFFEL",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -715,15 +784,16 @@
       "noche-espectaculos"
     ],
     "temasDespues": [
+      "urbano",
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PS3",
     "titulo": "Cima de la Torre Eiffel, crucero y city tour",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -733,15 +803,16 @@
     ],
     "temasDespues": [
       "playa-mar",
+      "cultural",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PG",
     "titulo": "Torre Eiffel 2.º piso y city tour",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -749,15 +820,16 @@
       "urbano"
     ],
     "temasDespues": [
+      "cultural",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PG3",
     "titulo": "Cima de la Torre Eiffel y city tour",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -765,15 +837,16 @@
       "urbano"
     ],
     "temasDespues": [
+      "cultural",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TEAC",
     "titulo": "Torre Eiffel 2.º piso y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -781,15 +854,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TEA3C",
     "titulo": "Cima de la Torre Eiffel y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -797,107 +872,122 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TEADJ",
     "titulo": "Torre Eiffel 2.º piso con comida en Madame Brasserie",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "visita-guiada",
+    "cambia": true,
     "temasAntes": [
       "gastronomia"
     ],
     "temasDespues": [
-      "gastronomia"
+      "gastronomia",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TEA3DJ",
     "titulo": "Cima de la Torre Eiffel con comida en Madame Brasserie",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "visita-guiada",
+    "cambia": true,
     "temasAntes": [
       "gastronomia"
     ],
     "temasDespues": [
-      "gastronomia"
+      "gastronomia",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CDT",
     "titulo": "Cena en crucero por el Sena y Torre Eiffel",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CDTM",
     "titulo": "Crucero con cena, Torre Eiffel y Moulin Rouge",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CDTMC",
     "titulo": "Crucero con cena, Torre Eiffel y Moulin Rouge (½ botella)",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TEG",
     "titulo": "Torre Eiffel hasta la cima con guía privado (1-6)",
     "kind": "tour",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "PF",
     "titulo": "Almuerzo en la Torre Eiffel, city tour y crucero",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL RESTAURANT",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -906,16 +996,17 @@
       "urbano"
     ],
     "temasDespues": [
+      "gastronomia",
       "playa-mar",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DECM",
     "titulo": "Cena en la Torre Eiffel, crucero y Moulin Rouge",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL RESTAURANT",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -923,15 +1014,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DECMC",
     "titulo": "Cena en Torre Eiffel, crucero y Moulin Rouge (½ botella)",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL RESTAURANT",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -939,51 +1032,62 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DJTE",
     "titulo": "Almuerzo en Madame Brasserie, Torre Eiffel",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL RESTAURANT",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "gastronomia",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "DJTEHB",
     "titulo": "Almuerzo en Madame Brasserie sin bebidas",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "visita-guiada",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "DTE",
     "titulo": "Cena en Madame Brasserie, Torre Eiffel",
     "kind": "unica",
-    "original": null,
+    "original": "TOUR EIFFEL RESTAURANT",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "gastronomia",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "NDGO",
     "titulo": "Notre-Dame: Île de la Cité guiada y audioguía",
     "kind": "tour",
-    "original": null,
+    "original": "NOTREDAME",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -991,15 +1095,16 @@
       "urbano"
     ],
     "temasDespues": [
-      "urbano"
+      "cultural",
+      "religioso"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CRM",
     "titulo": "Show del Moulin Rouge y crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1011,13 +1116,13 @@
       "playa-mar",
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CRMC",
     "titulo": "Moulin Rouge con ½ botella de champaña y crucero",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1025,15 +1130,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "IMC",
     "titulo": "París iluminado y Moulin Rouge (½ botella)",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1043,13 +1149,13 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DM",
     "titulo": "Cena y show en el Moulin Rouge, menú Toulouse-Lautrec",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1059,13 +1165,13 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DMCC",
     "titulo": "Cena y show en el Moulin Rouge más city tour",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1077,13 +1183,13 @@
       "urbano",
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DMX",
     "titulo": "Cena y show en el Moulin Rouge, menú Belle Époque",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1093,13 +1199,13 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "SM2SC",
     "titulo": "Moulin Rouge 23:00 y city tour otro día",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1107,15 +1213,16 @@
       "urbano"
     ],
     "temasDespues": [
-      "urbano"
+      "urbano",
+      "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "SM1SC",
     "titulo": "Moulin Rouge 21:00 y city tour otro día",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1123,27 +1230,30 @@
       "urbano"
     ],
     "temasDespues": [
-      "urbano"
+      "urbano",
+      "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "SM1",
     "titulo": "Moulin Rouge 1.ª función con transporte de regreso",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": null
   },
   {
     "id": "CRIM",
     "titulo": "París iluminado, Moulin Rouge 2.ª función y crucero",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1151,15 +1261,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "CRIMC",
     "titulo": "París iluminado, Moulin Rouge y crucero (½ botella)",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1167,27 +1278,30 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "SM2",
     "titulo": "Moulin Rouge 2.ª función con transporte de regreso",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": null
   },
   {
     "id": "TIM",
     "titulo": "Torre Eiffel, París iluminado y Moulin Rouge",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1197,13 +1311,13 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "TIMC",
     "titulo": "Torre Eiffel, París iluminado y Moulin Rouge (½ botella)",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1213,13 +1327,13 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "T3IM",
     "titulo": "Cima de la Torre Eiffel, París iluminado y Moulin Rouge",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1229,13 +1343,13 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "T3IMC",
     "titulo": "Cima Torre Eiffel, París iluminado y Moulin Rouge (½ bot.)",
     "kind": "unica",
-    "original": null,
+    "original": "MOULIN ROUGE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1245,25 +1359,27 @@
     "temasDespues": [
       "noche-espectaculos"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GLP6",
     "titulo": "Louvre con guía privado (1 a 6 personas)",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "MLC",
     "titulo": "Louvre: obras maestras y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -1271,15 +1387,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "MLJ",
     "titulo": "Louvre, Torre Eiffel y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -1287,27 +1404,30 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "MLPOT",
     "titulo": "Louvre: obras maestras y bus turístico 1 día",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GLOR",
     "titulo": "Louvre guiado y entrada al Museo de Orsay",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -1317,25 +1437,27 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GLPOT",
     "titulo": "Louvre guiado y bus turístico Tootbus 1 día",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GLC",
     "titulo": "Louvre guiado y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -1343,27 +1465,30 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GLPG",
     "titulo": "Louvre guiado en grupo pequeño (máx. 6)",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "MLOR",
     "titulo": "Louvre: obras maestras y entrada a Orsay",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -1373,25 +1498,27 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "NDML",
     "titulo": "Louvre, Île de la Cité y Notre-Dame",
     "kind": "tour",
-    "original": null,
+    "original": "LOUVRE",
     "antes": "caminata",
-    "despues": "caminata",
-    "cambia": false,
+    "despues": "visita-guiada",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "VAP",
     "titulo": "Versalles esencial guiado por la tarde",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
@@ -1399,15 +1526,16 @@
       "urbano"
     ],
     "temasDespues": [
+      "cultural",
       "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VOA",
     "titulo": "Entrada completa a Versalles: palacio, jardines y Trianon",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -1417,13 +1545,13 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VOC",
     "titulo": "Versalles con audioguía y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -1431,15 +1559,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VOP",
     "titulo": "Versalles con audioguía por la tarde desde París",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -1449,113 +1578,128 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "VGAM",
     "titulo": "Versalles guiado en grupo pequeño (máx. 15)",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "VGPM",
     "titulo": "Versalles guiado en grupo pequeño por la tarde",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "VGAP8",
     "titulo": "Versalles privado medio día con recogida (1-7)",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "NAVV",
     "titulo": "Transporte París–Versalles ida y vuelta, medio día",
     "kind": "transporte",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "transporte",
-    "despues": "transporte",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "NAVVJ",
     "titulo": "Transporte París–Versalles ida y vuelta, día completo",
     "kind": "transporte",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "transporte",
-    "despues": "transporte",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "VTP8",
     "titulo": "Versalles privado día completo con almuerzo (1-7)",
     "kind": "tour",
-    "original": null,
+    "original": "VERSAILLES",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "ND",
     "titulo": "Transporte a Disneyland París ida y vuelta",
     "kind": "transporte",
-    "original": null,
+    "original": "DISNEYLAND",
     "antes": "transporte",
-    "despues": "transporte",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "parques-ocio"
+    ],
+    "duda": null
   },
   {
     "id": "DAG2",
     "titulo": "Disneyland París 2 parques y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "DISNEYLAND",
     "antes": "tour",
-    "despues": "tour",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "parques-ocio"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "AS",
     "titulo": "Parque Astérix con transporte desde París",
     "kind": "tour",
-    "original": null,
+    "original": "ASTÉRIX",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
@@ -1563,91 +1707,102 @@
       "urbano"
     ],
     "temasDespues": [
-      "urbano"
+      "parques-ocio"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "ASN",
     "titulo": "Transporte al Parque Astérix ida y vuelta",
     "kind": "transporte",
-    "original": null,
+    "original": "ASTÉRIX",
     "antes": "transporte",
-    "despues": "transporte",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "urbano"
     ],
     "temasDespues": [
-      "urbano"
+      "parques-ocio"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "LVS",
     "titulo": "Transporte a La Vallée Village, medio día",
     "kind": "transporte",
-    "original": null,
+    "original": "LA VALLEE VILLAGE OUTLET",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "LVSJ",
     "titulo": "Transporte a La Vallée Village, día completo",
     "kind": "transporte",
-    "original": null,
+    "original": "LA VALLEE VILLAGE OUTLET",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "CLP8",
     "titulo": "Castillos del Loira privado (1 a 7 personas)",
     "kind": "tour",
-    "original": null,
+    "original": "LOIRE",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "CLD",
     "titulo": "Castillos del Loira por tu cuenta desde París",
     "kind": "tour",
-    "original": null,
+    "original": "LOIRE",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "MSD",
     "titulo": "Mont-Saint-Michel por tu cuenta desde París",
     "kind": "tour",
-    "original": null,
+    "original": "MONT SAINT MICHEL",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "religioso"
+    ],
+    "duda": null
   },
   {
     "id": "NP1",
     "titulo": "Playas del Desembarco de Normandía desde París",
     "kind": "tour",
-    "original": null,
+    "original": "NORMANDIE",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
@@ -1655,67 +1810,73 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "NP1L",
     "titulo": "Playas del Desembarco de Normandía con almuerzo",
     "kind": "tour",
-    "original": null,
+    "original": "NORMANDIE",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "NPM",
     "titulo": "Desembarco de Normandía en grupo pequeño con almuerzo",
     "kind": "tour",
-    "original": null,
+    "original": "NORMANDIE",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "NPP8",
     "titulo": "Desembarco de Normandía privado con almuerzo (1-7)",
     "kind": "tour",
-    "original": null,
+    "original": "NORMANDIE",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "NPF",
     "titulo": "Desembarco de Normandía con recogida en hotel",
     "kind": "tour",
-    "original": null,
+    "original": "NORMANDIE",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "urbano"
     ],
     "temasDespues": [
-      "urbano"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BR",
     "titulo": "Brujas (Bélgica) guiado desde París",
     "kind": "tour",
-    "original": null,
+    "original": "BRUGES",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
@@ -1725,17 +1886,15 @@
       "urbano"
     ],
     "temasDespues": [
-      "playa-mar",
-      "cultural",
-      "urbano"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BRL",
     "titulo": "Brujas (Bélgica) con audioguía desde París",
     "kind": "tour",
-    "original": null,
+    "original": "BRUGES",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -1744,16 +1903,15 @@
       "urbano"
     ],
     "temasDespues": [
-      "cultural",
-      "urbano"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BRP8",
     "titulo": "Brujas privado desde París (1 a 7 personas)",
     "kind": "tour",
-    "original": null,
+    "original": "BRUGES",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
@@ -1762,16 +1920,15 @@
       "urbano"
     ],
     "temasDespues": [
-      "playa-mar",
-      "urbano"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BRD",
     "titulo": "Brujas (Bélgica) por tu cuenta desde París",
     "kind": "tour",
-    "original": null,
+    "original": "BRUGES",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -1780,34 +1937,32 @@
       "urbano"
     ],
     "temasDespues": [
-      "cultural",
-      "urbano"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BRF",
     "titulo": "Brujas guiado con recogida en hotel",
     "kind": "tour",
-    "original": null,
+    "original": "BRUGES",
     "antes": "tour",
-    "despues": "tour",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [
       "playa-mar",
       "urbano"
     ],
     "temasDespues": [
-      "playa-mar",
-      "urbano"
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "EL",
     "titulo": "Londres por tu cuenta en Eurostar desde París",
     "kind": "tour",
-    "original": null,
+    "original": "LONDON",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
@@ -1816,16 +1971,15 @@
       "talleres-aprendizaje"
     ],
     "temasDespues": [
-      "playa-mar",
-      "talleres-aprendizaje"
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC13HB",
     "titulo": "Almuerzo en crucero por el Sena, menú Orsay",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1833,15 +1987,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC21",
     "titulo": "Cena de Año Nuevo en crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1849,15 +2005,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC13",
     "titulo": "Almuerzo romántico en crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1865,15 +2023,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC13D",
     "titulo": "Almuerzo de Navidad en crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1881,15 +2041,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DCD18D",
     "titulo": "Cena de Nochebuena y Navidad en crucero, 18:45",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1897,15 +2059,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC21R",
     "titulo": "Cena romántica con música en crucero, 21:00",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1913,15 +2077,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC21D",
     "titulo": "Cena en crucero por el Sena en fechas especiales",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1929,15 +2095,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "RNA18",
     "titulo": "Cena temprana de Año Nuevo en crucero por el Sena",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1945,15 +2113,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DCM18",
     "titulo": "Cena en crucero Maxim's, 18:00",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1961,15 +2131,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DCM21",
     "titulo": "Cena en crucero Maxim's, 20:00",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1977,15 +2149,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC19S",
     "titulo": "Cena festiva con jazz en crucero, menú Découverte",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -1993,15 +2167,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "DC21S",
     "titulo": "Cena festiva con música en crucero, menú Saveurs",
     "kind": "unica",
-    "original": null,
+    "original": "PARIS SEINE",
     "antes": "experiencia-unica",
     "despues": "experiencia-unica",
     "cambia": false,
@@ -2009,66 +2185,76 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BB1",
     "titulo": "Big Bus París, boleto de 1 día",
     "kind": "transporte",
-    "original": null,
+    "original": "BIG BUS",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "BB2",
     "titulo": "Big Bus París, boleto de 2 días",
     "kind": "transporte",
-    "original": null,
+    "original": "BIG BUS",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "POT",
     "titulo": "Tootbus París, pase de 1 día",
     "kind": "transporte",
-    "original": null,
+    "original": "TOOT BUS",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "POT2",
     "titulo": "Tootbus París, pase de 2 días",
     "kind": "transporte",
-    "original": null,
+    "original": "TOOT BUS",
     "antes": "transporte",
     "despues": "transporte",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "ORC",
     "titulo": "Museo de Orsay y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "tour",
-    "despues": "tour",
-    "cambia": false,
+    "despues": "entradas",
+    "cambia": true,
     "temasAntes": [
       "playa-mar",
       "cultural"
@@ -2077,45 +2263,47 @@
       "playa-mar",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BBM",
     "titulo": "Crucero por el Sena con Bateaux Mouches",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "tour",
-    "despues": "tour",
-    "cambia": false,
+    "despues": "entradas",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "BVPN",
     "titulo": "Crucero por el Sena con Vedettes du Pont Neuf",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "tour",
-    "despues": "tour",
-    "cambia": false,
+    "despues": "entradas",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P9",
     "titulo": "Paris Museum Pass 2 días",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -2125,13 +2313,13 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P10",
     "titulo": "Paris Museum Pass 4 días",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -2141,13 +2329,13 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P11",
     "titulo": "Paris Museum Pass 6 días",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -2157,13 +2345,13 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P9B",
     "titulo": "Paris Museum Pass 2 días y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -2175,13 +2363,13 @@
       "playa-mar",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P10B",
     "titulo": "Paris Museum Pass 4 días y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -2193,13 +2381,13 @@
       "playa-mar",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "P11B",
     "titulo": "Paris Museum Pass 6 días y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "entradas",
     "despues": "entradas",
     "cambia": false,
@@ -2211,13 +2399,13 @@
       "playa-mar",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "5D",
     "titulo": "París y alrededores en 5 días sin hotel",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2225,15 +2413,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "5D4N",
     "titulo": "París y alrededores en 5 días con 4 noches de hotel 4*",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2241,15 +2430,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "6D",
     "titulo": "París y alrededores en 6 días sin hotel",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2257,15 +2447,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "6D5N",
     "titulo": "París y alrededores en 6 días con 5 noches de hotel 4*",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2273,15 +2464,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "7D",
     "titulo": "París y alrededores en 7 días sin hotel",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2289,15 +2481,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "7D6N",
     "titulo": "París y alrededores en 7 días con 6 noches de hotel 4*",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2305,15 +2498,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "8D",
     "titulo": "París y alrededores en 8 días sin hotel",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2321,15 +2515,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "8D7N",
     "titulo": "París y alrededores en 8 días con 7 noches de hotel 4*",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2337,15 +2532,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "9D",
     "titulo": "París y alrededores en 9 días sin hotel",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2353,15 +2549,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "9D8N",
     "titulo": "París y alrededores en 9 días con 8 noches de hotel 4*",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2369,15 +2566,16 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "ML2F",
     "titulo": "Mont-Saint-Michel y Loira, 2 días con recogida",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2385,15 +2583,16 @@
       "noche-espectaculos"
     ],
     "temasDespues": [
-      "noche-espectaculos"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PM2",
     "titulo": "Normandía, Saint-Malo y Mont-Saint-Michel, 2 días",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
@@ -2401,55 +2600,64 @@
       "noche-espectaculos"
     ],
     "temasDespues": [
-      "noche-espectaculos"
+      "cultural",
+      "urbano"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "PM2F",
     "titulo": "Normandía, Saint-Malo y Mont-Saint-Michel con recogida",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "NBC3F",
     "titulo": "Normandía, Mont-Saint-Michel y Loira, 3 días con recogida",
     "kind": "circuito",
-    "original": null,
+    "original": "MULTIDAYS",
     "antes": "circuito",
     "despues": "circuito",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
   },
   {
     "id": "DJT",
     "titulo": "Almuerzo en crucero y Torre Eiffel 2.º piso",
     "kind": "unica",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GLDT",
     "titulo": "Torre Eiffel, Louvre guiado y cena en crucero",
     "kind": "tour",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -2457,15 +2665,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GLDJ",
     "titulo": "Almuerzo en crucero y Louvre guiado",
     "kind": "tour",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -2473,15 +2683,17 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GLDI",
     "titulo": "Louvre guiado y cena en crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "tour",
     "despues": "tour",
     "cambia": false,
@@ -2489,27 +2701,32 @@
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "gastronomia",
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "MLTRT",
     "titulo": "París en bicitaxi privado y Louvre",
     "kind": "unica",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "experiencia-unica",
-    "despues": "experiencia-unica",
-    "cambia": false,
+    "despues": "tour",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "gastronomia",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "MVG",
     "titulo": "Montmartre a pie con degustaciones",
     "kind": "tour",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "caminata",
     "despues": "caminata",
     "cambia": false,
@@ -2517,15 +2734,16 @@
       "gastronomia"
     ],
     "temasDespues": [
-      "gastronomia"
+      "gastronomia",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "MVGOR",
     "titulo": "Montmartre gastronómico y Museo de Orsay guiado",
     "kind": "tour",
-    "original": null,
+    "original": "SEAMLESS",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -2537,25 +2755,27 @@
       "gastronomia",
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "FVN",
     "titulo": "Vaux-le-Vicomte y Fontainebleau con audioguía",
     "kind": "tour",
-    "original": null,
+    "original": "FONTAINEBLEAU",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "ORP6",
     "titulo": "Museo de Orsay con guía privado (1 a 6 personas)",
     "kind": "tour",
-    "original": null,
+    "original": "ORSAY",
     "antes": "visita-guiada",
     "despues": "visita-guiada",
     "cambia": false,
@@ -2565,94 +2785,113 @@
     "temasDespues": [
       "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   },
   {
     "id": "GVA",
     "titulo": "Giverny y Versalles guiados con almuerzo",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GI",
     "titulo": "Giverny guiado medio día desde París",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "excursion-dia",
     "despues": "excursion-dia",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GID",
     "titulo": "Giverny por tu cuenta medio día desde París",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "autoguiado",
     "despues": "autoguiado",
     "cambia": false,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GYP8",
     "titulo": "Giverny privado medio día con recogida (1-7)",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GV",
     "titulo": "Giverny y Versalles en grupo pequeño con almuerzo",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "GVP8",
     "titulo": "Giverny y Versalles privado con almuerzo (1-7)",
     "kind": "tour",
-    "original": null,
+    "original": "GIVERNY",
     "antes": "visita-guiada",
-    "despues": "visita-guiada",
-    "cambia": false,
+    "despues": "excursion-dia",
+    "cambia": true,
     "temasAntes": [],
-    "temasDespues": [],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": null
   },
   {
     "id": "CAA",
     "titulo": "Catacumbas con audioguía y crucero por el Sena",
     "kind": "tour",
-    "original": null,
+    "original": "TICKETING",
     "antes": "autoguiado",
-    "despues": "autoguiado",
-    "cambia": false,
+    "despues": "entradas",
+    "cambia": true,
     "temasAntes": [
       "playa-mar"
     ],
     "temasDespues": [
-      "playa-mar"
+      "playa-mar",
+      "cultural"
     ],
-    "duda": "sin denominación original del proveedor: se queda como hoy"
+    "duda": null
   }
 ]

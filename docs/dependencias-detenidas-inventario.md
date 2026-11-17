@@ -2,18 +2,18 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1210 · sin cerrar: 482
+Filas de requisitos: 1211 · sin cerrar: 481
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 161 |
+| Decisión, firma u OK del PO | 162 |
 | Depende de otro folio sin cerrar | 82 |
 | A medias (el estado no dice qué falta) | 63 |
-| Sin iniciar (el estado no dice qué falta) | 50 |
+| Sin iniciar (el estado no dice qué falta) | 49 |
 | Falta publicar (PR, humo o merge) | 33 |
-| Sin clasificar (revisar a mano) | 20 |
+| Sin clasificar (revisar a mano) | 19 |
 | Pieza sin construir o en borrador | 19 |
 | Tarea a mano del PO | 17 |
 | Tercero (proveedor u otra empresa) | 10 |
@@ -46,7 +46,7 @@ Filas de requisitos: 1210 · sin cerrar: 482
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (161)
+## Decisión, firma u OK del PO (162)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -211,6 +211,7 @@ Filas de requisitos: 1210 · sin cerrar: 482
 | REQ-10742 | CÓDIGO | — | EN CURSO (6 casos revisados a mano en `docs/dependencias-detenidas.md`; inventario completo pedido por el PO el 16-11-2026 16:17 CDMX, «Haz lista exhaiustiva», en `docs/dependencias-detenidas-inventario.md`: 509 folios s |
 | REQ-10743 | DEFINICIÓN | — | CUMPLIDO (definición escrita en `CLAUDE.md` y en la tarea «Constructora cada 6 h»; falta la misma sección en el `CLAUDE.md` de `zoefel-mila`) |
 | REQ-10748 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/taxonomy/lib/reclasificacion-agencia.test.ts` 5/5; lista generada en `docs/taxonomia/reclasificacion-agencias-2026-11-17/`: 371 viajes, 7 cambiarían (Fantástica China 1, Inca World 6) |
+| REQ-10749 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `originals.test.ts` 2 pruebas nuevas, suite ingest+taxonomy 667 verdes; los 179 huecos de Extime salen de `contrato-huecos.json`). Lista antes/después en `docs/taxonomia/reclasificacion-ag |
 
 ## Depende de otro folio sin cerrar (82)
 
@@ -367,7 +368,7 @@ Filas de requisitos: 1210 · sin cerrar: 482
 | REQ-10513 | CÓDIGO | — | EN CURSO |
 | REQ-10575 | CÓDIGO | — | EN CURSO (11/11 pruebas en verde en la sesión; ensayo 0/29 por el 403) |
 
-## Sin iniciar (el estado no dice qué falta) (50)
+## Sin iniciar (el estado no dice qué falta) (49)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -420,7 +421,6 @@ Filas de requisitos: 1210 · sin cerrar: 482
 | REQ-10643 | CÓDIGO | — | PENDIENTE |
 | REQ-10665 | CÓDIGO | — | PENDIENTE |
 | REQ-10681 | CÓDIGO | — | PENDIENTE |
-| REQ-10739 | TAREA | — | PENDIENTE |
 
 ## Falta publicar (PR, humo o merge) (33)
 
@@ -460,7 +460,7 @@ Filas de requisitos: 1210 · sin cerrar: 482
 | REQ-10647 | CÓDIGO | — | CUMPLIDO (prueba en verde y humo contra producción el 14 nov 2026; falta el merge) |
 | REQ-10746 | CÓDIGO | — | CUMPLIDO (17-11-2026): `src/ops/lib/migracion-una.test.ts` 5/5, `src/ops/migracion-una-workflow.test.ts` 4/4; corridas reales en producción con la 0033 (run 44016153517) y la 0034 (run 44025171251), ambas con humo verde  |
 
-## Sin clasificar (revisar a mano) (20)
+## Sin clasificar (revisar a mano) (19)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -482,7 +482,6 @@ Filas de requisitos: 1210 · sin cerrar: 482
 | REQ-3519 | CÓDIGO | — | CUMPLIDO (test); falta la primera corrida real |
 | REQ-10651 | CÓDIGO | — | CUMPLIDO (pruebas en verde el 14 nov 2026; la casilla Proveedor se corrigió tras INC-022; falta verificar la corrección en producción) |
 | REQ-10655 | CÓDIGO | — | CUMPLIDO (8 pruebas en verde el 14 nov 2026, `npx vitest run src/ficha/lib/cancellation.test.ts`; Condiciones verificado en producción; el resumen junto al título se corrigió tras INC-023 y falta verificarlo en producció |
-| REQ-10738 | CÓDIGO | — | CUMPLIDO en código (2 pruebas en verde, 16-11-2026); cifra real PENDIENTE (lectura de D1) |
 | REQ-10745 | CÓDIGO | — | CUMPLIDO en código (prueba roja → verde, 2 pruebas `REQ-10745` + 5 de REQ-10741 y `workflows-build.test.ts`, 17-11-2026); verificación en la siguiente corrida del workflow pendiente |
 
 ## Pieza sin construir o en borrador (19)
