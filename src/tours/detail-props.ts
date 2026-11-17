@@ -13,6 +13,7 @@ import { isPrimeraPiezaEnabled } from '@/tours/lib/menu';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { cityLabel, transportForPlace, transportOrigin } from '@/trips/cross-sell';
 import { nearbyUnifiedEnabled } from '@/geo/lib/near';
+import { cleanMeetingPoint } from '@/tours/lib/meeting-text';
 import { transferCard, transferCardEnabled } from '@/trips/lib/transfer-card';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import type { SupportedLanguage } from '@/types';
@@ -21,8 +22,10 @@ import { loadPracticalInfo } from '@/tours/practical-load';
 import { freetourSourceId } from '@/tours/lib/provider-source';
 
 export async function loadTourDetailProps(tourId: string, language: SupportedLanguage) {
-    const tourData = await fetchTourById(tourId, language);
-    if (!tourData) return null;
+    const fetched = await fetchTourById(tourId, language);
+    if (!fetched) return null;
+    // REQ-10783: el punto de encuentro de Tangol llega en HTML; a texto antes de cualquier componente.
+    const tourData = { ...fetched, meetingPoint: cleanMeetingPoint((fetched as { meetingPoint?: { title?: string | null } | null }).meetingPoint) };
 
     // Transform DB tour to UI tour format
     const initialTour = transformDBTourToUITour(tourData as unknown as TourWithRelations, language);

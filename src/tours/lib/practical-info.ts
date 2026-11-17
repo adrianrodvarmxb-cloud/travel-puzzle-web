@@ -16,6 +16,7 @@ import { z } from "zod";
 import { guideLanguagesLabel } from "@/seo/lib/ficha-ld";
 import { indexableEnrichment } from "@/seo/lib/enrichment";
 import { operatorLine } from "@/ficha/lib/operator";
+import { plainLines, plainTitle } from "./meeting-text";
 import { singleCancellation } from "@/ficha/lib/cancellation";
 
 export interface PracticalFact { key: string; label: string; value: string; clientOnly: boolean }
@@ -169,7 +170,9 @@ export function practicalInfo(raw: unknown, { lang, tr }: { lang: string; tr: (k
     const v = row[field];
     if (v === null || v === undefined) return null;
     if (typeof v !== "string") { bad(field); return null; }
-    return short ? whiteLabelShort(v) : whiteLabelText(v);
+    // REQ-10783: el HTML del proveedor (Tangol) se convierte a texto antes de la marca blanca.
+    const plain = short ? plainTitle(v) : plainLines(v);
+    return short ? whiteLabelShort(plain) : whiteLabelText(plain);
   };
 
   // REQ-10536
