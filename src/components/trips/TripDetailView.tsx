@@ -35,6 +35,7 @@ import { isHelpVisible } from '@/help/lib/faq';
 import { getRouteLanguage } from '@/i18n/server';
 import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
+import { etiquetasIncluidoFicha } from '@/taxonomy/lib/incluido-ficha'; // REQ-10728
 import { toursForPlace } from '@/trips/cross-sell';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import { crossSellCopy } from '@/trips/lib/cross-sell-copy';
@@ -104,6 +105,8 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
             operator, duration, languageNames, languagesTitle: isAudio ? (lang === 'es' ? 'Audioguía' : 'Audio guide') : null, priceText: card.price ? `${c.from} ${card.price.main}${card.price.original ? ` · ${card.price.original}` : ''}` : null,
             places: [trip.cities.join(', '), trip.countries.map((x) => countryName(x, lang)).join(', ')].filter(Boolean).join(' · ') || null,
             includes: trip.includes.map((x, i) => L(`includes.${i}`, x)), formato: card.formato ?? null,
+            // REQ-10728 / REQ-10733: etiquetas «incluido» con cantidad (regla firmada), tras INCLUIDO_ETIQUETAS_ENABLED; se calculan sobre los textos originales del proveedor.
+            incluido: etiquetasIncluidoFicha({ includes: trip.includes, itinerary: trip.itinerary, durationDays: trip.durationDays ?? undefined }, lang, process.env as Record<string, string | undefined>),
         }),
         images: trip.images.map((im) => imageUrl(im.key)),
         cancellation: SHOW_POLICY_ON_PAGE ? policy.text : null,
