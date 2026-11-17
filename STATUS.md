@@ -47,6 +47,9 @@ Frente #661. PR 1: modelo, esquema y adaptador de Tangol con fixture real; sin p
 | REQ-10777 | Adaptador Tangol → modelo con fixture real | NUEVO | `src/ficha/adapters/tangol.ts`, `src/ficha/lib/text.ts`, `tests/fixtures/tangol/tour-43-glaciar-perito-moreno.json` | `src/ficha/adapters/tangol.test.ts` (5) | CUMPLIDO en código |
 | REQ-10778 | Adaptador FREETOUR → modelo con fixture real | NUEVO | `src/ficha/adapters/freetour.ts`, `tests/fixtures/freetour/tour-30042-edimburgo.json` | `src/ficha/adapters/freetour.test.ts` (5) | CUMPLIDO en código |
 | REQ-10779 | Adaptador viajes de agencia y Big Bus → modelo con fixture real | NUEVO | `src/ficha/adapters/trip.ts`, `tests/fixtures/trips/tas-mys-01-malasia-esencial.json` | `src/ficha/adapters/trip.test.ts` (4) | CUMPLIDO en código |
+| REQ-10780 | Bloques por dato y orden fijo (21) | NUEVO | `src/ficha/lib/blocks.ts` | `src/ficha/lib/blocks.test.ts` (5) | CUMPLIDO en código |
+| REQ-10781 | Sección Experiencias / Traslados (decisión 1) | NUEVO | `src/ficha/lib/section.ts` | `src/ficha/lib/section.test.ts` (1) | CUMPLIDO en código |
+| REQ-10782 | Panel en dos ejes (INC-020) | NUEVO | `src/ficha/lib/panel-plan.ts` | `src/ficha/lib/panel-plan.test.ts` (5) | CUMPLIDO en código |
 
 ## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad
 Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). PR 1: regla pura y bandera apagada; nada visible. Plan de regreso: revertir el PR (no toca datos).
