@@ -63,6 +63,20 @@ describe("sincronización del catálogo de Big Bus por OCTO", () => {
     expect(store.saved[0].cities[0].ref).toBe("NYC");
   });
 
+  it("REQ-10763: con tripIdFor, la copia OCTO queda ligada al viaje de su ciudad en ProviderRecord (REQ-10761: es su original)", async () => {
+    const rows: { externalId: string; experienceKind: string | null; experienceId: string | null; sourceRef: string | null; originalCategory: string | null; schemaOk: number }[] = [];
+    const archive: RawArchive = { knownVersions: async () => new Map(), put: async () => {}, record: async (r) => { rows.push(...r); } };
+    const r = await runBigBusCatalogSync({
+      api: apiWith([{ ...sampleProduct(), id: "p-ny", internalName: "New York Discover" }, { ...sampleProduct(), id: "p-par", internalName: "Paris Discover" }]),
+      store: memStore(), archive, tripIdFor: (ref) => `bbt-${ref.toLowerCase()}`, cityRefs: ["NYC", "LON"], map, now, runId: "r2",
+    });
+    expect(r).toMatchObject({ status: "ok", archive: { written: 2, failed: 0 } });
+    expect(rows.map((x) => [x.externalId, x.experienceKind, x.experienceId, x.sourceRef, x.originalCategory, x.schemaOk])).toEqual([
+      ["p-ny", "trip", "bbt-nyc", "NYC", "New York Discover", 1],
+      ["p-par", null, null, null, "Paris Discover", 1],
+    ]);
+  });
+
   it("REQ-3415: si la API falla, no toca el plan anterior", async () => {
     const store = memStore();
     const err = vi.spyOn(console, "error").mockImplementation(() => {});
