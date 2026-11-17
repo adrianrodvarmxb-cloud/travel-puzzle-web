@@ -101,6 +101,8 @@
     // Apagada, cada superficie sigue con su regla de hoy (`pickByPlace`, `nearbyExperiences`). "true" sola, en su PR, con
     // preview, humo a 390/1366 y revisión visual (autorización global REQ-10743). Regreso: "false" (no toca datos).
     "NEARBY_UNIFIED_ENABLED": "false",
+    // REQ-10753 (decisión 29, firma REQ-10764): tarjeta de traslado con Kiwitaxi bajo la franja, nunca en FREETOUR. "true" con humo verde.
+    "FICHA_TRANSFER_CARD_ENABLED": "false",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.
