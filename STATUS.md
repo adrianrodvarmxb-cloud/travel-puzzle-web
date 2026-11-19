@@ -1429,8 +1429,8 @@ Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proy
 | REQ-10792 | Punto 8 (DEFINICIÓN): Transferencias: informarlas como necesarias, sin casilla; casilla solo si hay fines mercadotécnicos de tercero… | NUEVO | — | — | PENDIENTE |
 | REQ-10793 | Punto 9 (CÓDIGO): Datos sensibles: SÍ requiere casilla expresa, no premarcada (§E), bajo «Régimen alimenticio o necesidades espe… | NUEVO | — | — | PENDIENTE |
 | REQ-10794 | Punto 10 (CÓDIGO): Marca blanca: operador SIEMPRE en el comprobante. Voucher y correo de confirmación con «Servicio operado en de… | NUEVO | — | — | PENDIENTE |
-| REQ-10795 | Punto 11 (CÓDIGO): Terminación y plazo de reclamación (art. 90 LFPC): suspensión o cancelación de cuenta solo por incumplimiento,… | NUEVO | — | — | PENDIENTE |
-| REQ-10796 | Punto 12 (CÓDIGO): Cláusula de no-show lista (§G) en /terminos y en fichas de tours con costo. | NUEVO | — | — | PENDIENTE |
+| REQ-10795 | Punto 11 (CÓDIGO): Terminación y plazo de reclamación (art. 90 LFPC): suspensión o cancelación de cuenta solo por incumplimiento,… | NUEVO | `src/legal/lib/terminos.ts` | `src/legal/lib/terminos-dictamen.test.ts` | CUMPLIDO en código (19-11-2026; `src/legal/lib/terminos-dictamen.test.ts` 3/3) |
+| REQ-10796 | Punto 12 (CÓDIGO): Cláusula de no-show lista (§G) en /terminos y en fichas de tours con costo. | NUEVO | `src/legal/lib/terminos.ts` | `src/legal/lib/terminos-dictamen.test.ts` | EN CURSO (/terminos en código el 19-11-2026, `terminos-dictamen.test.ts` 1/1; falta la cláusula en fichas con costo, ola 7) |
 | REQ-10797 | Punto 13 (TAREA-PO): Publicar el contrato Profeco: PDF íntegro descargable en /terminos y en el flujo de compra de circuitos (arts.… | NUEVO | — | — | PENDIENTE |
 | REQ-10798 | Punto 14 (CÓDIGO): Cl. 1.3 aceptada con blindaje: «Opera en destino: Tangol Tours» en ficha, confirmación y voucher, más datos de… | NUEVO | — | — | PENDIENTE |
 | REQ-10799 | Punto 15 (DEFINICIÓN): Cl. 7.1 contrapropuesta acotada y 7.3 aceptada: reservas desde fichas del catálogo de Tangol van por su API; n… | NUEVO | — | — | PENDIENTE |
