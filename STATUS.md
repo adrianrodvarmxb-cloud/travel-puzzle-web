@@ -60,6 +60,7 @@ Componentes por bloque en `src/components/ficha/blocks/` construidos sobre `src/
 |---|---|---|---|---|---|
 | REQ-10808 | Bloque 1 «Migas de pan» (país y ciudad) | NUEVO | `src/ficha/lib/crumbs.ts`, `src/components/ficha/blocks/MigasBlock.tsx` | `src/ficha/lib/crumbs.test.ts` (3), `src/components/ficha/blocks/migas-galeria.test.ts` (1) | CUMPLIDO en código |
 | REQ-10809 | Bloque 2 «Galería» (1 grande + 4; foto única) | NUEVO | `src/ficha/lib/gallery.ts`, `src/components/ficha/blocks/GaleriaBlock.tsx` | `src/ficha/lib/gallery.test.ts` (3), `src/components/ficha/blocks/migas-galeria.test.ts` (1) | CUMPLIDO en código |
+| REQ-10810 | Bloque 3 «Título, calificación y marca» (sin proveedor; sin nota de Tangol; «Favorito» 4.9/180) | NUEVO | `src/ficha/lib/title.ts`, `src/components/ficha/blocks/TituloBlock.tsx` | `src/ficha/lib/title.test.ts` (3), `src/components/ficha/blocks/titulo.test.ts` (2) | CUMPLIDO en código |
 
 ## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad — OLA CERRADA (REQ-10755, 17 nov 2026)
 Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). Encendidos: #660 (`NEARBY_UNIFIED_ENABLED`) y #663 (`FICHA_TRANSFER_CARD_ENABLED`), humo en preview y producción; tarjeta verificada en vivo. REQ-10754 queda abierta sin bloquear. Cierre: `npx vitest run -t "REQ-"` → 552 archivos, 3,960 verdes (437 omitidos por el filtro); cruce `grep -r "REQ-1075" src tests`: 10750–10753 con código y test; 10754 y 10755 sin código (datos y cierre). Regreso: cada bandera a `"false"`.
