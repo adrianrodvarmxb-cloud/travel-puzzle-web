@@ -52,6 +52,15 @@ Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures re
 | REQ-10781 | Sección Experiencias / Traslados (decisión 1) | NUEVO | `src/ficha/lib/section.ts` | `src/ficha/lib/section.test.ts` (1) | CUMPLIDO en código |
 | REQ-10782 | Panel en dos ejes (INC-020) | NUEVO | `src/ficha/lib/panel-plan.ts` | `src/ficha/lib/panel-plan.test.ts` (5) | CUMPLIDO en código |
 
+## Ficha única, ola 7 «Plantilla» (19 nov 2026) — matriz de trazabilidad
+
+Componentes por bloque en `src/components/ficha/blocks/` construidos sobre `src/ficha/lib/` (ola 6). Sin conectar a ninguna página: el encendido por proveedor es de la ranura de Fable.
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10808 | Bloque 1 «Migas de pan» (país y ciudad) | NUEVO | `src/ficha/lib/crumbs.ts`, `src/components/ficha/blocks/MigasBlock.tsx` | `src/ficha/lib/crumbs.test.ts` (3), `src/components/ficha/blocks/migas-galeria.test.ts` (1) | CUMPLIDO en código |
+| REQ-10809 | Bloque 2 «Galería» (1 grande + 4; foto única) | NUEVO | `src/ficha/lib/gallery.ts`, `src/components/ficha/blocks/GaleriaBlock.tsx` | `src/ficha/lib/gallery.test.ts` (3), `src/components/ficha/blocks/migas-galeria.test.ts` (1) | CUMPLIDO en código |
+
 ## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad — OLA CERRADA (REQ-10755, 17 nov 2026)
 Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). Encendidos: #660 (`NEARBY_UNIFIED_ENABLED`) y #663 (`FICHA_TRANSFER_CARD_ENABLED`), humo en preview y producción; tarjeta verificada en vivo. REQ-10754 queda abierta sin bloquear. Cierre: `npx vitest run -t "REQ-"` → 552 archivos, 3,960 verdes (437 omitidos por el filtro); cruce `grep -r "REQ-1075" src tests`: 10750–10753 con código y test; 10754 y 10755 sin código (datos y cierre). Regreso: cada bandera a `"false"`.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
