@@ -1412,3 +1412,33 @@ Plan firmado en `docs/plan-ficha-unica-2026-11.md`; 52 decisiones firmadas en `d
 | REQ-10729 | Ola 3, decisión 14 (REQ-10593): la categoría original de Tangol se guarda completa, tipo y subtipo (`TypeCode|SubTypeCode`), sin mostrarla; FREETOUR y agencias ya la guardaban | NUEVO (autopilot 16-11) | `src/ingest/lib/tangol-original.ts`, `src/ingest/lib/tangol-raw.ts` | `src/ingest/lib/tangol-original.test.ts` (4), `src/ingest/lib/tangol-raw.test.ts` | CUMPLIDO (publicado el 16-11-2026, #617, dentro del autopilot de la ola 3: humo del PR run 43900205130 y humo de producción en verde; se aplica a las filas nuevas del archivo en la siguiente corrida del sync) |
 | REQ-10730 | Ola 3, código de REQ-10698: pares `TypeCode|SubTypeCode` que el mapeo no conoce salen en el reporte del sync (`tiposNuevos`) y en el resumen del workflow; con la bandera encendida, correo y WhatsApp al PO; nunca propone categoría | NUEVO (autopilot 16-11) | `src/taxonomy/lib/tipo-nuevo.ts`, `src/taxonomy/aviso-tipo-nuevo.ts`, `src/tangol/sync.ts`, `src/scripts/tangol-sync.ts` | `src/taxonomy/lib/tipo-nuevo.test.ts` (8), `src/taxonomy/aviso-tipo-nuevo.test.ts` (6), `src/tangol/sync.test.ts` (REQ-10730, 2) | CUMPLIDO (publicado el 16-11-2026, #618, dentro del autopilot de la ola 3: humo del PR run 43893203234 y humo de producción en verde) |
 | REQ-10731 | Bandera `AVISO_TIPO_NUEVO_ENABLED` del workflow del sync de Tangol | NUEVO (autopilot 16-11) | `.github/workflows/tangol-sync.yml` | `src/taxonomy/aviso-tipo-nuevo.test.ts` (REQ-10731, 2) | EN CURSO (encendida solo por correo el 16-11-2026; WhatsApp espera el puente de Mila; falta ver el primer aviso real) |
+
+## Dictamen del abogado (19-11-2026) — matriz de trazabilidad
+
+Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proyecto: `legal/dictamen-abogado-2026-11-19.md`. Nunca al repo: montos, comisión, cuentas ni el contrato.
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10785 | Punto 1 (CÓDIGO): `tp_cart` es estrictamente necesaria: no requiere consentimiento previo; basta informarla en /cookies y /priva… | NUEVO | — | — | PENDIENTE |
+| REQ-10786 | Punto 2 (DEFINICIÓN): Basta el banner informativo; sin bitácora por visitante; conservar historial interno de versiones de la políti… | NUEVO | — | — | PENDIENTE |
+| REQ-10787 | Punto 3 (DEFINICIÓN): Afiliados (Travelpayouts / Kiwitaxi): en la política, con mención en el banner. | NUEVO | — | — | PENDIENTE |
+| REQ-10788 | Punto 4 (CÓDIGO): Aprobado con ajustes: sustituir `src/legal/lib/cookies.ts` por el texto §A y el banner §B; encender `COOKIES_P… | NUEVO | — | — | PENDIENTE |
+| REQ-10789 | Punto 5 (CÓDIGO): Ajuste crítico: se elimina «cuando el prestador lo permite»; el operador se identifica SIEMPRE en el comproban… | NUEVO | — | — | PENDIENTE |
+| REQ-10790 | Punto 6 (CÓDIGO): Ampliar inciso (d): deslinde expreso de contratación directa con afiliados (ya en §C). | NUEVO | — | — | PENDIENTE |
+| REQ-10791 | Punto 7 (CÓDIGO): ARCO en días HÁBILES, máximo legal 20 + 15 (§D). | NUEVO | — | — | PENDIENTE |
+| REQ-10792 | Punto 8 (DEFINICIÓN): Transferencias: informarlas como necesarias, sin casilla; casilla solo si hay fines mercadotécnicos de tercero… | NUEVO | — | — | PENDIENTE |
+| REQ-10793 | Punto 9 (CÓDIGO): Datos sensibles: SÍ requiere casilla expresa, no premarcada (§E), bajo «Régimen alimenticio o necesidades espe… | NUEVO | — | — | PENDIENTE |
+| REQ-10794 | Punto 10 (CÓDIGO): Marca blanca: operador SIEMPRE en el comprobante. Voucher y correo de confirmación con «Servicio operado en de… | NUEVO | — | — | PENDIENTE |
+| REQ-10795 | Punto 11 (CÓDIGO): Terminación y plazo de reclamación (art. 90 LFPC): suspensión o cancelación de cuenta solo por incumplimiento,… | NUEVO | — | — | PENDIENTE |
+| REQ-10796 | Punto 12 (CÓDIGO): Cláusula de no-show lista (§G) en /terminos y en fichas de tours con costo. | NUEVO | — | — | PENDIENTE |
+| REQ-10797 | Punto 13 (TAREA-PO): Publicar el contrato Profeco: PDF íntegro descargable en /terminos y en el flujo de compra de circuitos (arts.… | NUEVO | — | — | PENDIENTE |
+| REQ-10798 | Punto 14 (CÓDIGO): Cl. 1.3 aceptada con blindaje: «Opera en destino: Tangol Tours» en ficha, confirmación y voucher, más datos de… | NUEVO | — | — | PENDIENTE |
+| REQ-10799 | Punto 15 (DEFINICIÓN): Cl. 7.1 contrapropuesta acotada y 7.3 aceptada: reservas desde fichas del catálogo de Tangol van por su API; n… | NUEVO | — | — | PENDIENTE |
+| REQ-10800 | Punto 16 (TAREA-PO): Anexo 4 con visto bueno condicionado: ningún cambio de cuenta sin validación por llamada o videollamada; llama… | NUEVO | — | — | PENDIENTE |
+| REQ-10801 | Punto 17 (DEFINICIÓN): Integrado en cl. 1.3 y 2.2: Tangol figura como operador efectivo en toda documentación al viajero. | NUEVO | — | — | PENDIENTE |
+| REQ-10802 | Punto 18 (CÓDIGO): Sin traducción certificada: leyenda §J al inicio y al pie de cada versión en/pt/fr/de/it de T&C, Privacidad y… | NUEVO | — | — | PENDIENTE |
+| REQ-10803 | Punto 19 (CÓDIGO): La FAQ obliga (arts. 32 y 42 LFPC): datos dinámicos iguales al voucher y leyenda de remisión §K al cierre del… | NUEVO | — | — | PENDIENTE |
+| REQ-10804 | Punto 20 (CÓDIGO): Garantías compatibles si se acotan a lo pagado a Travel Puzzle: usar exactamente los 4 textos §L; free tour y… | NUEVO | — | — | PENDIENTE |
+| REQ-10805 | Punto 21 (CÓDIGO): Puzzle Rewards necesita reglamento (arts. 46–48 LFPC): sección «Programa Puzzle Rewards» en /terminos con los… | NUEVO | — | — | PENDIENTE |
+| REQ-10806 | Punto 22 (CÓDIGO): Aviso de IA también en el primer mensaje de WhatsApp: bienvenida de Mila §N. Cambio de prompt en el número rea… | NUEVO | — | — | PENDIENTE |
+| REQ-10807 | Punto 23 (DEFINICIÓN): Chat con el guía aprobado con 3 reglas (§O): aviso de monitoreo y conservación, no dirección laboral, ningún g… | NUEVO | — | — | PENDIENTE |
