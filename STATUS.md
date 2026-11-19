@@ -1433,9 +1433,9 @@ Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proy
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10785 | Punto 1 (CÓDIGO): `tp_cart` es estrictamente necesaria: no requiere consentimiento previo; basta informarla en /cookies y /priva… | NUEVO | — | — | PENDIENTE |
-| REQ-10786 | Punto 2 (DEFINICIÓN): Basta el banner informativo; sin bitácora por visitante; conservar historial interno de versiones de la políti… | NUEVO | — | — | PENDIENTE |
+| REQ-10786 | Punto 2 (DEFINICIÓN): Basta el banner informativo; sin bitácora por visitante; conservar historial interno de versiones de la políti… | NUEVO | `src/legal/lib/cookies.ts` (`VERSIONES_POLITICA_COOKIES`, `politicaCookiesVigente`) | `src/legal/lib/cookies.test.ts` (2) | CUMPLIDO en código (19 nov 2026) |
 | REQ-10787 | Punto 3 (DEFINICIÓN): Afiliados (Travelpayouts / Kiwitaxi): en la política, con mención en el banner. | NUEVO | — | — | PENDIENTE |
-| REQ-10788 | Punto 4 (CÓDIGO): Aprobado con ajustes: sustituir `src/legal/lib/cookies.ts` por el texto §A y el banner §B; encender `COOKIES_P… | NUEVO | — | — | PENDIENTE |
+| REQ-10788 | Punto 4 (CÓDIGO): Aprobado con ajustes: sustituir `src/legal/lib/cookies.ts` por el texto §A y el banner §B; encender `COOKIES_P… | NUEVO | `src/legal/lib/cookies.ts`, `src/components/legal/CookiesBanner.tsx`, `src/app/layout.tsx`, `src/app/cookies/page.tsx` | `src/legal/lib/cookies.test.ts` (5) | EN CURSO (código listo, bandera apagada; encendido en su PR) |
 | REQ-10789 | Punto 5 (CÓDIGO): Ajuste crítico: se elimina «cuando el prestador lo permite»; el operador se identifica SIEMPRE en el comproban… | NUEVO | — | — | PENDIENTE |
 | REQ-10790 | Punto 6 (CÓDIGO): Ampliar inciso (d): deslinde expreso de contratación directa con afiliados (ya en §C). | NUEVO | — | — | PENDIENTE |
 | REQ-10791 | Punto 7 (CÓDIGO): ARCO en días HÁBILES, máximo legal 20 + 15 (§D). | NUEVO | `src/legal/lib/privacidad.ts` | `src/legal/lib/privacidad-dictamen.test.ts` | CUMPLIDO en código (19-11-2026; `src/legal/lib/privacidad-dictamen.test.ts` 2/2) |
