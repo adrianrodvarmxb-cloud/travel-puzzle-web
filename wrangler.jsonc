@@ -179,8 +179,9 @@
     "ADULT_CONTACT_CHECK_ENABLED": "true",
     // REQ-084: casilla de marketing (LFPDPPP) en el registro. "true" con texto aprobado por PO y abogado y con el consentimiento guardado (migración).
     "MARKETING_CONSENT_ENABLED": "false",
-    // REQ-084: página /cookies (borrador). "true" con texto aprobado por PO y abogado.
-    "COOKIES_POLICY_ENABLED": "false",
+    // REQ-084, REQ-10788: página /cookies y banner informativo con el texto del dictamen del abogado (19-11-2026, punto 4).
+    // Encendida el 19-11-2026 con humo en preview con la bandera encendida. Regreso: "false" (la página da 404 y el banner no sale).
+    "COOKIES_POLICY_ENABLED": "true",
     // REQ-139 (gate G5): atribución CC BY 4.0 de GeoNames, solo en /terminos (no en el pie). "true" cuando el geonameid
     // o datos de GeoNames se vean en el sitio (JSON-LD, hubs), con preview, prueba de humo y OK del PO.
     // REQ-3309: encendida (PO, 12 nov 2026); GeoNames ya es fuente en producción (GEO_SOURCES_IN_PRODUCTION).
