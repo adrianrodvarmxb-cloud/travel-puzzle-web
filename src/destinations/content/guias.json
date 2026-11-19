@@ -5165,5 +5165,438 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (consulted on November 18, 2026) and on the site's catalog."
     }
+  },
+  {
+    "pais": "ar",
+    "ciudad": "el-chalten",
+    "nombre": "El Chaltén",
+    "targetTerm": "trekking en el chalten guia de viaje",
+    "titulo": "Guía de El Chaltén: senderos al Fitz Roy y a las lagunas",
+    "publishedAt": "2026-11-19",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "El Chaltén es el pueblo base para caminar hacia el Fitz Roy y el Cerro Torre, dentro del Parque Nacional Los Glaciares, en la Patagonia argentina. Conviene planear cada caminata por separado y empezar temprano. Según [Fitz Roy Expediciones](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/), la entrada al parque se paga en las casillas de los senderos, que no aceptan efectivo.",
+    "sections": [
+      {
+        "h2": "¿Qué senderos conviene elegir?",
+        "answer": "Según [Fitz Roy Expediciones](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/), el Mirador Fitz Roy y el Mirador del Torre son opciones cortas, y la Laguna Torre es un paseo intermedio hacia el cerro Torre.",
+        "body": [
+          "El Mirador Fitz Roy tiene unos cuatro kilómetros de ida y una hora y media de caminata, y el Mirador del Torre tiene tres kilómetros y una hora y cuarto. Ambas cifras vienen de la misma [página de Fitz Roy Expediciones](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/).",
+          "La Laguna Torre tiene unos diez kilómetros de ida, se recorre en tres horas y media y sube unos 250 metros, según la [misma fuente](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/). Es una caminata larga para un día, así que conviene salir temprano."
+        ]
+      },
+      {
+        "h2": "¿Cuánto cuesta entrar y cómo se paga?",
+        "answer": "Según la [página de Fitz Roy Expediciones](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/), desde el 1 de junio de 2026 un extranjero paga 50.000 pesos argentinos por un día de entrada al parque.",
+        "body": [
+          "Si regresas dentro de las 72 horas, el segundo día tiene un descuento del 50 %, según la [misma fuente](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/). Las casillas al inicio de los senderos aceptan QR o tarjeta, así que lleva el pago listo.",
+          "Antes de viajar, revisa también la venta en línea de Parques Nacionales, porque la página de la empresa recomienda confirmar la tarifa allí."
+        ]
+      },
+      {
+        "h2": "¿A qué hora conviene salir?",
+        "answer": "Según la [página del pueblo](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php), conviene salir con la primera luz del día y calcular el regreso según la hora de la puesta del sol.",
+        "body": [
+          "Para ver el amanecer sobre el Fitz Roy hay que salir de noche, con linterna. La Laguna de los Tres tiene entre cuatro horas y media y cinco horas de ida, según esa [misma página](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php).",
+          "De mayo a septiembre, el registro en el Centro de Visitantes es obligatorio antes de salir, según la [misma página](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php)."
+        ]
+      },
+      {
+        "h2": "¿Qué llevar en un día de trekking?",
+        "answer": "La [página del pueblo](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php) recomienda llevar al menos 1,5 litros de agua por persona, comida de alto aporte calórico y una campera rompevientos, idealmente impermeable.",
+        "body": [
+          "Calzado de trekking con buen agarre, gorro, lentes con filtro UV, protector solar y una linterna frontal completan la lista. La misma [fuente](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php) pide usar linterna frontal y no el celular.",
+          "En invierno, los bastones y los [crampones](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php) para el hielo son obligatorios, y no conviene caminar sobre lagunas congeladas. Revisa el estado del sendero antes de salir."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 19 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "El Chaltén",
+      "targetTerm": "el chalten hiking travel guide",
+      "titulo": "El Chaltén guide: trails to Fitz Roy and the lagoons",
+      "enBreve": "El Chaltén is the base village for hiking to Fitz Roy and Cerro Torre, inside Los Glaciares National Park in Argentine Patagonia. Plan each hike on its own and start early. According to [Fitz Roy Expediciones](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/), park entry is paid at the trailhead booths, which do not accept cash.",
+      "sections": [
+        {
+          "h2": "Which trails are worth choosing?",
+          "answer": "According to [Fitz Roy Expediciones](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/), Mirador Fitz Roy and Mirador del Torre are short options, and Laguna Torre is a middle-length walk toward Cerro Torre.",
+          "body": [
+            "Mirador Fitz Roy is about four kilometres one way and takes an hour and a half on foot, while Mirador del Torre is three kilometres and takes an hour and a quarter. Both figures come from the same [Fitz Roy Expediciones page](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/).",
+            "Laguna Torre is about ten kilometres one way, takes three and a half hours and climbs roughly 250 metres, according to the [same source](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/). It is a long walk for one day, so leave early."
+          ]
+        },
+        {
+          "h2": "How much does entry cost and how is it paid?",
+          "answer": "According to the [Fitz Roy Expediciones page](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/), from 1 June 2026 a foreign visitor pays 50,000 Argentine pesos for one day of park entry.",
+          "body": [
+            "If you come back within 72 hours, the second day carries a 50 % discount, according to the [same source](https://fitzroyexpediciones.com.ar/es/parque-nacional-los-glaciares-el-chalten/). The booths at the start of the trails accept QR codes or cards, so have your payment ready.",
+            "Before you travel, also check the online sales page of Parques Nacionales, since the company's page recommends confirming the fare there."
+          ]
+        },
+        {
+          "h2": "What time should you set out?",
+          "answer": "According to the [village page](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php), leave with the first daylight and plan your return around sunset.",
+          "body": [
+            "To see the sunrise over Fitz Roy you have to leave in the dark, with a headlamp. Laguna de los Tres takes between four and a half and five hours one way, according to that [same page](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php).",
+            "From May to September, registering at the Visitor Centre before setting out is mandatory, according to the [same page](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php)."
+          ]
+        },
+        {
+          "h2": "What should you bring on a hiking day?",
+          "answer": "The [village page](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php) recommends carrying at least 1.5 litres of water per person, high-energy food and a windproof jacket, ideally waterproof.",
+          "body": [
+            "Trekking shoes with good grip, a hat, sunglasses with UV filter, sunscreen and a head torch complete the list. The same [source](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php) asks for a head torch rather than a phone.",
+            "In winter, trekking poles and [crampons](https://elchalten.com/v4/es/laguna-de-los-tres-el-chalten.php) for ice are mandatory, and you should not walk on frozen lagoons. Check the trail condition before setting out."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (checked on 19 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "ar",
+    "ciudad": "san-martin-de-los-andes",
+    "nombre": "San Martín de los Andes",
+    "targetTerm": "guia de viaje de san martin de los andes",
+    "titulo": "Guía de San Martín de los Andes: lagos, miradores y el Parque Lanín",
+    "publishedAt": "2026-11-19",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "San Martín de los Andes es la base para visitar el Parque Nacional Lanín, en la Patagonia argentina, a orillas del lago Lácar. Desde la ciudad salen caminatas, miradores y paseos en barco. Según [Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar), el parque se accede en auto desde San Martín de los Andes, Junín de los Andes y Aluminé.",
+    "sections": [
+      {
+        "h2": "¿Cómo se llega al parque Lanín desde la ciudad?",
+        "answer": "Según [Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar), el parque se recorre con auto de alquiler, taxi, remís, ómnibus locales o una agencia, y se puede entrar desde el sur, el centro o el norte.",
+        "body": [
+          "El aeropuerto de Chapelco está a 24 km de la ciudad y recibe vuelos diarios desde Buenos Aires y Córdoba, según la misma [página oficial](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar).",
+          "La página no indica tiempos de viaje hasta cada acceso, así que conviene revisar un mapa antes de salir, sobre todo si vas al norte del parque, donde hay pasos hacia Chile."
+        ]
+      },
+      {
+        "h2": "¿Qué horario tiene el parque?",
+        "answer": "Según [Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar), el horario de atención cambia por temporada: de 8 a 20 h de diciembre a marzo, de 10 a 16 h de abril a agosto y de 9 a 18 h de septiembre a noviembre.",
+        "body": [
+          "Revisa el horario del día en que vayas, porque las temporadas cambian. Para caminatas largas conviene salir temprano y volver antes de que caiga la tarde.",
+          "Los pasos a Chile incluyen Hua Hum, Carirriñe y Tromen o Mamuil Malal, según la [misma página](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar); cruzar requiere llevar la documentación al día."
+        ]
+      },
+      {
+        "h2": "¿Qué se puede hacer en el parque?",
+        "answer": "[Visit Argentina](https://www.argentina.travel/actividades/parque-nacional-lanin) describe trekking, montañismo, ciclismo, senderismo y avistaje de fauna en el Parque Nacional Lanín, y sugiere entre uno y cuatro días para visitarlo.",
+        "body": [
+          "En el pueblo, la calle General Roca, la Plaza San Martín y la costanera son el paseo de todos los días. Desde el Puerto Lácar sale una navegación hacia Hua Hum de unos 28 km y siete horas, según [La Nación](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/).",
+          "El mismo artículo de [La Nación](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/) describe el Cerro Colorado, un volcán extinguido, como una caminata difícil de unos 20 km ida y vuelta, con vistas a la cordillera y los lagos."
+        ]
+      },
+      {
+        "h2": "¿Qué miradores y lagunas quedan cerca?",
+        "answer": "Según [La Nación](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/), el mirador Bandurrias está a 8 km del centro, con vista al lago Lácar, y la laguna Yuco, de aguas verdes y celestes, queda a 30 km dentro del parque.",
+        "body": [
+          "La Islita queda a menos de 3 km del mirador Bandurrias, y el Catitre se alcanza a unos 5 km del centro, en bici, a pie o en auto, según el mismo [artículo](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/).",
+          "Los precios y frecuencias de [ese artículo](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/) son de diciembre de 2021, así que tómalos como referencia y confírmalos antes de viajar."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 19 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "San Martín de los Andes",
+      "targetTerm": "san martin de los andes travel guide",
+      "titulo": "San Martín de los Andes guide: lakes, lookouts and Lanín park",
+      "enBreve": "San Martín de los Andes is the base for visiting Lanín National Park in Argentine Patagonia, on the shore of Lake Lácar. From town you can take walks, lookouts and boat trips. According to [Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar), the park is reached by car from San Martín de los Andes, Junín de los Andes and Aluminé.",
+      "sections": [
+        {
+          "h2": "How do you get to Lanín park from town?",
+          "answer": "According to [Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar), you can travel the park by rental car, taxi, remis, local buses or a tour operator, and enter from the south, the centre or the north.",
+          "body": [
+            "Chapelco airport is 24 km from town and receives daily flights from Buenos Aires and Córdoba, according to the same [official page](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar).",
+            "The page gives no travel times to each entrance, so check a map before you leave, especially if you head to the north of the park, where there are crossings into Chile."
+          ]
+        },
+        {
+          "h2": "What are the park's opening hours?",
+          "answer": "According to [Parques Nacionales](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar), opening hours change by season: 8:00 to 20:00 from December to March, 10:00 to 16:00 from April to August, and 9:00 to 18:00 from September to November.",
+          "body": [
+            "Check the hours for the day you plan to go, because the seasons change. For long walks, leave early and return before the afternoon ends.",
+            "The Chile crossings include Hua Hum, Carirriñe and Tromen or Mamuil Malal, according to the [same page](https://www.argentina.gob.ar/parquesnacionales/lanin/como-llegar); crossing requires your documents to be in order."
+          ]
+        },
+        {
+          "h2": "What can you do in the park?",
+          "answer": "[Visit Argentina](https://www.argentina.travel/actividades/parque-nacional-lanin) describes trekking, mountaineering, cycling, hiking and wildlife watching in Lanín National Park, and suggests between one and four days for a visit.",
+          "body": [
+            "In town, General Roca street, Plaza San Martín and the waterfront are the everyday walk. From Puerto Lácar a boat sails to Hua Hum, about 28 km and seven hours, according to [La Nación](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/).",
+            "The same [La Nación article](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/) describes Cerro Colorado, an extinct volcano, as a hard walk of about 20 km return, with views over the mountains and lakes."
+          ]
+        },
+        {
+          "h2": "Which lookouts and lagoons are nearby?",
+          "answer": "According to [La Nación](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/), the Bandurrias lookout is 8 km from the centre, with views over Lake Lácar, and Laguna Yuco, with green and turquoise water, is 30 km away inside the park.",
+          "body": [
+            "La Islita is less than 3 km from the Bandurrias lookout, and Catitre is about 5 km from the centre, reachable by bike, on foot or by car, according to the same [article](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/).",
+            "The prices and frequencies in [that article](https://www.lanacion.com.ar/revista-ohlala/todo-lo-que-tenes-que-saber-antes-de-visitar-san-martin-de-los-andes-nid31122021/) date from December 2021, so treat them as a reference and confirm them before you travel."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (checked on 19 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "br",
+    "ciudad": "sao-paulo",
+    "nombre": "São Paulo",
+    "targetTerm": "guia de viaje de sao paulo",
+    "titulo": "Guía de São Paulo: el MASP, la avenida Paulista y cómo visitarlo",
+    "publishedAt": "2026-11-19",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "El MASP, el Museo de Arte de São Paulo, es un buen punto de partida para conocer la ciudad. Está sobre la avenida Paulista, frente al Parque Trianon, y reúne obras de muchas regiones del mundo. Según [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/), la colección supera las once mil obras de Europa, África, Asia y las Américas.",
+    "sections": [
+      {
+        "h2": "¿Cuándo abre el MASP?",
+        "answer": "Según [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/), el museo abre de martes a domingo, con horario de 10:00 a 18:00 la mayoría de los días y hasta las 20:00 los martes.",
+        "body": [
+          "Según [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/), la entrada se permite hasta una hora antes del cierre, y que el museo cierra el 24, 25 y 31 de diciembre y el 1 de enero. Revisa estas fechas antes de ir.",
+          "Nubank menciona además un horario extendido los viernes hasta las 21:00. [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/masp-guia-para-visitar-o-museu-de-arte-de-sao-paulo/) no lo menciona, así que confírmalo en la web del museo."
+        ]
+      },
+      {
+        "h2": "¿Cuánto cuesta y quién entra gratis?",
+        "answer": "Los precios y las gratuidades cambian, y las fuentes que consultamos no coinciden del todo. [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/masp-guia-para-visitar-o-museu-de-arte-de-sao-paulo/) indica entrada gratuita el primer jueves de cada mes.",
+        "body": [
+          "Los menores de 10 años y las personas con discapacidad entran sin pagar, según [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/masp-guia-para-visitar-o-museu-de-arte-de-sao-paulo/). [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/) describe tarifas reducidas para estudiantes, profesores y mayores de 60 años.",
+          "Como el precio general no tiene una fecha clara en las fuentes, revisa la web oficial del museo antes de comprar y no tomes una cifra de un blog como definitiva."
+        ]
+      },
+      {
+        "h2": "¿Qué se ve dentro del museo?",
+        "answer": "El museo reúne pinturas, esculturas, fotografías y vestuario de Europa, África, Asia y las Américas, con más de once mil obras, según [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/).",
+        "body": [
+          "Entre los nombres que menciona Nubank están Renoir, Van Gogh, Picasso, Monet, Cândido Portinari, Tarsila do Amaral y Anita Malfatti. Si te interesa el arte brasileño, reserva tiempo para buscar a Portinari y a Tarsila.",
+          "Como el museo cambia exposiciones con frecuencia, conviene revisar la programación del día antes de llegar para no quedarte con una sala cerrada."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar y qué hay alrededor?",
+        "answer": "El MASP queda en la avenida Paulista, número 1578, y la estación de metro más cercana es Trianon-Masp, de la Línea 2 Verde, según [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/).",
+        "body": [
+          "Frente al museo está el Parque Trianon, un espacio verde para hacer una pausa entre visitas. La avenida Paulista se recorre a pie con facilidad, así que puedes combinar el museo con otros paseos del mismo tramo.",
+          "Si planeas el día, llega temprano para disfrutar las salas con calma. Este tipo de museo gana cuando se visita sin prisa."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 19 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "São Paulo",
+      "targetTerm": "sao paulo travel guide",
+      "titulo": "São Paulo guide: MASP, Paulista avenue and how to visit",
+      "enBreve": "MASP, the São Paulo Museum of Art, is a good starting point for getting to know the city. It sits on Paulista avenue, in front of Trianon Park, and holds works from many parts of the world. According to [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/), the collection exceeds eleven thousand works from Europe, Africa, Asia and the Americas.",
+      "sections": [
+        {
+          "h2": "When does MASP open?",
+          "answer": "According to [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/), the museum opens from Tuesday to Sunday, with hours of 10:00 to 18:00 on most days and until 20:00 on Tuesdays.",
+          "body": [
+            "According to [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/), entry is allowed until one hour before closing, and that the museum closes on 24, 25 and 31 December and on 1 January. Check these dates before you go.",
+            "Nubank also mentions extended hours on Fridays until 21:00. [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/masp-guia-para-visitar-o-museu-de-arte-de-sao-paulo/) does not mention this, so confirm it on the museum's website."
+          ]
+        },
+        {
+          "h2": "How much does it cost and who gets in free?",
+          "answer": "Prices and free-entry days change, and the sources we checked do not fully agree. [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/masp-guia-para-visitar-o-museu-de-arte-de-sao-paulo/) lists free entry on the first Thursday of each month.",
+          "body": [
+            "Children under 10 and people with disabilities enter for free, according to [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/masp-guia-para-visitar-o-museu-de-arte-de-sao-paulo/). [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/) describes reduced fares for students, teachers and people over 60.",
+            "Because the sources do not give a clear date for the general fare, check the museum's official website before buying and do not treat a figure from a blog as final."
+          ]
+        },
+        {
+          "h2": "What can you see inside the museum?",
+          "answer": "The museum holds paintings, sculptures, photographs and costumes from Europe, Africa, Asia and the Americas, with more than eleven thousand works, according to [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/).",
+          "body": [
+            "The names Nubank mentions include Renoir, Van Gogh, Picasso, Monet, Cândido Portinari, Tarsila do Amaral and Anita Malfatti. If Brazilian art interests you, set aside time to look for Portinari and Tarsila.",
+            "Because the museum changes its exhibitions often, check the day's programme before you arrive so you do not find a room closed."
+          ]
+        },
+        {
+          "h2": "How do you get there and what is nearby?",
+          "answer": "MASP is on Paulista avenue, number 1578, and the nearest metro station is Trianon-Masp, on Line 2 Green, according to [Nubank](https://blog.nubank.com.br/masp-museu-de-arte-de-sao-paulo/).",
+          "body": [
+            "In front of the museum is Trianon Park, a green space for a break between visits. Paulista avenue is easy to walk, so you can combine the museum with other stops along the same stretch.",
+            "If you plan the day, arrive early to enjoy the galleries calmly. A museum like this rewards a visit taken without rushing."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (checked on 19 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "ec",
+    "ciudad": "quito",
+    "nombre": "Quito",
+    "targetTerm": "centro historico de quito guia",
+    "titulo": "Guía de Quito: Centro Histórico, Teleférico y El Panecillo",
+    "publishedAt": "2026-11-19",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Quito tiene un Centro Histórico extenso y fue la primera ciudad de Latinoamérica declarada Patrimonio de la Humanidad. Se recorre sobre todo a pie, y conviene empezar por la Plaza Grande. Según [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs), las iglesias, los museos y los mercados se concentran en el centro.",
+    "sections": [
+      {
+        "h2": "¿Qué ver en el Centro Histórico?",
+        "answer": "La Plaza Grande, o Plaza de la Independencia, reúne el Palacio de Carondelet y la Catedral, según [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs). Conviene visitarla temprano, según [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia).",
+        "body": [
+          "La Iglesia de la Compañía de Jesús tiene interiores cubiertos en pan de oro, y [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia) recomienda dedicarle al menos 45 minutos.",
+          "La Iglesia de San Francisco es un complejo del siglo XVI con más de 3.500 obras de arte colonial, según [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia). La Ronda, una calle empedrada con cafés y tiendas de artesanías, queda cerca."
+        ]
+      },
+      {
+        "h2": "¿Desde cuándo es Patrimonio de la Humanidad?",
+        "answer": "Quito fue declarada Patrimonio de la Humanidad por la Unesco en 1978, y fue la primera ciudad de Latinoamérica con ese título, según [El Colombiano](https://www.elcolombiano.com/entretenimiento/turismo/quito-primera-ciudad-latinoamerica-patrimonio-humanidad-unesco-OA40625218).",
+        "body": [
+          "El reconocimiento se basa en la arquitectura, el trazado urbano y la mezcla de tradiciones indígenas y europeas que aún se aprecia en sus calles, según la misma [fuente](https://www.elcolombiano.com/entretenimiento/turismo/quito-primera-ciudad-latinoamerica-patrimonio-humanidad-unesco-OA40625218).",
+          "Pichincha Es Turismo también ubica en el centro la Iglesia de San Francisco, el Monasterio de Santo Domingo y los mercados artesanales, según [su página](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs)."
+        ]
+      },
+      {
+        "h2": "¿Cómo subir al Teleférico y ver El Panecillo?",
+        "answer": "Según [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia), el Teleférico sube desde unos 2.850 metros hasta unos 4.100 metros en el volcán Pichincha. Pichincha Es Turismo da cifras algo menores, de 2.950 y 4.050 metros.",
+        "body": [
+          "Desde la cima se puede ver el volcán Pichincha, según [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs). Ninguna de las dos fuentes da horario ni precio, así que confírmalos antes de ir.",
+          "El Panecillo tiene un mirador y la estatua de la Virgen de Quito, compuesta por 7000 piezas de aluminio y con un museo en su interior, según [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs)."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar el día en Quito?",
+        "answer": "Un plan práctico es empezar por la Plaza Grande, comer en el Mercado Central y dejar la tarde para el Teleférico o El Panecillo. Esa ruta sigue las paradas que recomiendan [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia) y [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs).",
+        "body": [
+          "El Mercado Central es buen lugar para almorzar, con platos como el locro de papa, el hornado y el ceviche, según [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia).",
+          "Si tienes más tiempo, la ciudad tiene museos y teatros en el centro, sin nombres específicos en las fuentes, así que elige según tus intereses al llegar."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 19 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Quito",
+      "targetTerm": "quito historic centre guide",
+      "titulo": "Quito guide: Historic Centre, cable car and El Panecillo",
+      "enBreve": "Quito has a large Historic Centre and was the first Latin American city declared a World Heritage Site. It is best explored on foot, and it makes sense to start at the Plaza Grande. According to [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs), churches, museums and markets are concentrated in the centre.",
+      "sections": [
+        {
+          "h2": "What should you see in the Historic Centre?",
+          "answer": "The Plaza Grande, or Plaza de la Independencia, holds the Carondelet Palace and the Cathedral, according to [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs). Visiting it early makes sense, according to [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia).",
+          "body": [
+            "The Church of the Company of Jesus has interiors covered in gold leaf, and [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia) recommends allowing at least 45 minutes for it.",
+            "The Church of San Francisco is a 16th-century complex with more than 3,500 colonial artworks, according to [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia). La Ronda, a cobbled street with cafés and craft shops, is close by."
+          ]
+        },
+        {
+          "h2": "Since when has Quito been a World Heritage Site?",
+          "answer": "Quito was declared a World Heritage Site by UNESCO in 1978, and it was the first Latin American city to receive that title, according to [El Colombiano](https://www.elcolombiano.com/entretenimiento/turismo/quito-primera-ciudad-latinoamerica-patrimonio-humanidad-unesco-OA40625218).",
+          "body": [
+            "The recognition rests on its architecture, its urban layout and the mix of Indigenous and European traditions still visible in its streets, according to the same [source](https://www.elcolombiano.com/entretenimiento/turismo/quito-primera-ciudad-latinoamerica-patrimonio-humanidad-unesco-OA40625218).",
+            "Pichincha Es Turismo also places the Church of San Francisco, the Santo Domingo Monastery and craft markets in the centre, according to [its page](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs)."
+          ]
+        },
+        {
+          "h2": "How do you ride the cable car and visit El Panecillo?",
+          "answer": "According to [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia), the cable car climbs from about 2,850 metres to about 4,100 metres on the Pichincha volcano. Pichincha Es Turismo gives slightly lower figures, 2,950 and 4,050 metres.",
+          "body": [
+            "From the top you can see the Pichincha volcano, according to [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs). Neither source gives opening hours or prices, so confirm them before you go.",
+            "El Panecillo has a lookout and the statue of the Virgin of Quito, made of 7,000 aluminium pieces and with a museum inside, according to [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs)."
+          ]
+        },
+        {
+          "h2": "How do you plan a day in Quito?",
+          "answer": "A practical plan is to start at the Plaza Grande, eat at the Central Market and leave the afternoon for the cable car or El Panecillo. This route follows the stops recommended by [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia) and [Pichincha Es Turismo](https://pichinchaesturismo.com/es-ec/pichincha/quito/rutas-paseos/hacer-quito-ax8oqdnvs).",
+          "body": [
+            "The Central Market is a good place for lunch, with dishes such as potato locro, hornado and ceviche, according to [Quito Tour Bus](https://quitotourbus.com/que-hacer-en-quito-en-un-dia).",
+            "If you have more time, the centre has museums and theatres, without specific names in the sources, so choose according to your interests once you arrive."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (checked on 19 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "pe",
+    "ciudad": "trujillo",
+    "nombre": "Trujillo",
+    "targetTerm": "chan chan y huacas de moche desde trujillo",
+    "titulo": "Guía de Trujillo: Chan Chan, las Huacas de Moche y Huanchaco",
+    "publishedAt": "2026-11-19",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Trujillo es la base para conocer tres lugares de las culturas Chimú y Moche: Chan Chan, las Huacas del Sol y de la Luna y el litoral de Huanchaco. Según [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/), Chan Chan es Patrimonio Mundial desde 1986. Con medio día libre, [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/) propone visitar primero las Huacas de Moche y luego Chan Chan.",
+    "sections": [
+      {
+        "h2": "¿Qué es Chan Chan y cuánto dura la visita?",
+        "answer": "Chan Chan fue la capital del Reino Chimú y es Patrimonio Mundial de la Unesco desde 1986, según [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+        "body": [
+          "La visita dura entre una hora y media y dos horas, según [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/), y conviene contratar un guía en la entrada. El sitio abre de 9:00 a 16:00, y el museo de sitio cierra los lunes, según la misma fuente.",
+          "Los horarios pueden cambiar en feriados o durante trabajos de conservación, así que revísalos el día que vayas."
+        ]
+      },
+      {
+        "h2": "¿Cómo se visitan las Huacas de Moche?",
+        "answer": "Las Huacas del Sol y de la Luna fueron centros espirituales y políticos de la cultura Moche, según [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+        "body": [
+          "Están en el distrito de Moche, a unos 20 minutos de Trujillo, según [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/). De martes a domingo abren de 9:00 a 16:00, y el último ingreso a la Huaca de la Luna es a las 15:30, según [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/).",
+          "Lleva sombrero, bloqueador, agua, calzado cerrado y efectivo, porque en la boletería del museo se paga en efectivo, según la misma fuente de Due Hotel."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer en Huanchaco?",
+        "answer": "Huanchaco fue antiguo puerto moche y chimú, con surf, muelle y restaurantes frente al mar, según [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+        "body": [
+          "Está a unos 25 minutos de Trujillo en bus público, según la misma [página de Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+          "Es un buen cierre de día: después de las visitas arqueológicas, [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/) sugiere almorzar aquí."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en el centro de Trujillo?",
+        "answer": "La Plaza de Armas forma parte del Centro Histórico, y los domingos el centro es peatonal, según [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+        "body": [
+          "En la plaza se puede consultar el módulo de iPerú para mapas y orientación gratuita, según la misma [fuente](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/). Es una buena primera parada antes de salir a los sitios arqueológicos."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 19 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Trujillo",
+      "targetTerm": "chan chan and moche huacas from trujillo",
+      "titulo": "Trujillo guide: Chan Chan, the Huacas de Moche and Huanchaco",
+      "enBreve": "Trujillo is the base for three sites from the Chimú and Moche cultures: Chan Chan, the Huacas del Sol and de la Luna, and the Huanchaco shoreline. According to [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/), Chan Chan has been a World Heritage Site since 1986. With a free half day, [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/) suggests visiting the Huacas de Moche first and then Chan Chan.",
+      "sections": [
+        {
+          "h2": "What is Chan Chan and how long does the visit take?",
+          "answer": "Chan Chan was the capital of the Chimú kingdom and has been a UNESCO World Heritage Site since 1986, according to [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+          "body": [
+            "The visit takes between one and a half and two hours, according to [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/), and it is worth hiring a guide at the entrance. The site opens from 9:00 to 16:00, and the site museum closes on Mondays, according to the same source.",
+            "Hours can change on public holidays or during conservation work, so check them on the day you go."
+          ]
+        },
+        {
+          "h2": "How do you visit the Huacas de Moche?",
+          "answer": "The Huacas del Sol and de la Luna were spiritual and political centres of the Moche culture, according to [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+          "body": [
+            "They are in the district of Moche, about 20 minutes from Trujillo, according to [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/). From Tuesday to Sunday they open from 9:00 to 16:00, and the last entry to the Huaca de la Luna is at 15:30, according to [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/).",
+            "Bring a hat, sunscreen, water, closed shoes and cash, because the museum ticket office takes cash only, according to the same Due Hotel source."
+          ]
+        },
+        {
+          "h2": "What is there to do in Huanchaco?",
+          "answer": "Huanchaco was an ancient Moche and Chimú port, with surfing, a pier and seafront restaurants, according to [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+          "body": [
+            "It is about 25 minutes from Trujillo by public bus, according to the same [Marvelous Peru page](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+            "It makes a good end to the day: after the archaeological visits, [Due Hotel](https://duehotel.com/chan-chan-huacas-de-moche-medio-dia/) suggests having lunch here."
+          ]
+        },
+        {
+          "h2": "What is there to see in central Trujillo?",
+          "answer": "The Plaza de Armas is part of the Historic Centre, and on Sundays the centre is pedestrian-only, according to [Marvelous Peru](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/).",
+          "body": [
+            "In the square you can get maps and free orientation at the iPerú booth, according to the same [source](https://www.marvelousperu.com/blog/guia-turistica-de-trujillo/). It is a good first stop before heading out to the archaeological sites."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (checked on 19 November 2026) and the site's catalog."
+    }
   }
 ]
