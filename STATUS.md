@@ -1425,8 +1425,8 @@ Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proy
 | REQ-10788 | Punto 4 (CÓDIGO): Aprobado con ajustes: sustituir `src/legal/lib/cookies.ts` por el texto §A y el banner §B; encender `COOKIES_P… | NUEVO | — | — | PENDIENTE |
 | REQ-10789 | Punto 5 (CÓDIGO): Ajuste crítico: se elimina «cuando el prestador lo permite»; el operador se identifica SIEMPRE en el comproban… | NUEVO | — | — | PENDIENTE |
 | REQ-10790 | Punto 6 (CÓDIGO): Ampliar inciso (d): deslinde expreso de contratación directa con afiliados (ya en §C). | NUEVO | — | — | PENDIENTE |
-| REQ-10791 | Punto 7 (CÓDIGO): ARCO en días HÁBILES, máximo legal 20 + 15 (§D). | NUEVO | — | — | PENDIENTE |
-| REQ-10792 | Punto 8 (DEFINICIÓN): Transferencias: informarlas como necesarias, sin casilla; casilla solo si hay fines mercadotécnicos de tercero… | NUEVO | — | — | PENDIENTE |
+| REQ-10791 | Punto 7 (CÓDIGO): ARCO en días HÁBILES, máximo legal 20 + 15 (§D). | NUEVO | `src/legal/lib/privacidad.ts` | `src/legal/lib/privacidad-dictamen.test.ts` | CUMPLIDO en código (19-11-2026; `src/legal/lib/privacidad-dictamen.test.ts` 2/2) |
+| REQ-10792 | Punto 8 (DEFINICIÓN): Transferencias: informarlas como necesarias, sin casilla; casilla solo si hay fines mercadotécnicos de tercero… | NUEVO | `src/legal/lib/privacidad.ts` | `src/legal/lib/privacidad-dictamen.test.ts` | CUMPLIDO (el aviso ya las informaba como necesarias y sin casilla; test de caracterización 19-11-2026, `privacidad-dictamen.test.ts`) |
 | REQ-10793 | Punto 9 (CÓDIGO): Datos sensibles: SÍ requiere casilla expresa, no premarcada (§E), bajo «Régimen alimenticio o necesidades espe… | NUEVO | — | — | PENDIENTE |
 | REQ-10794 | Punto 10 (CÓDIGO): Marca blanca: operador SIEMPRE en el comprobante. Voucher y correo de confirmación con «Servicio operado en de… | NUEVO | — | — | PENDIENTE |
 | REQ-10795 | Punto 11 (CÓDIGO): Terminación y plazo de reclamación (art. 90 LFPC): suspensión o cancelación de cuenta solo por incumplimiento,… | NUEVO | — | — | PENDIENTE |
