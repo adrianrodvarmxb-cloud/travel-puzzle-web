@@ -265,3 +265,42 @@ describe("REQ-10693: todo correo a proveedores queda como borrador programado a 
   });
 
 });
+
+// REQ-10811 (plan REQ-3457 §2 y G3-A): al llegar la respuesta de un proveedor con preguntas abiertas, Mila avisa al PO qué parece contestado; no cierra nada.
+describe("REQ-10811: respuesta del proveedor → propuesta de cierre al PO", () => {
+  const pregunta = (id: string, tema: "tarifas" | "calendario", es: string, en: string) => ({ id, tema, es, en, req: null, desde: "2026-11-10", cerrada: null });
+  const fila = () => base({ id: "jordan", nombre: "Jordan Experience", dominios: ["jordan.example"], etapa: "contactado", idioma: "en" as const, preguntas: [
+    pregunta("ninos", "tarifas", "Precio y edades de niños.", "Child price and ages."),
+    pregunta("eid", "calendario", "Año de las fechas del Eid.", "Year of the Eid dates."),
+  ] });
+  const correo = (texto: string) => ({ messageId: `<${texto.length}@x>`, fecha: "2026-11-19T15:00:00Z", de: "ops@jordan.example", para: ["comercial@travelpuzzle.com.mx"], cc: [], asunto: "Re: Travel Puzzle", texto, adjuntos: [] });
+
+  it("REQ-10811: avisa al PO con lo que parece contestado y no cierra la pregunta en la ficha", async () => {
+    const m = memoria([fila()]);
+    const avisos: { asunto: string; texto: string }[] = [];
+    const r = await procesarEntrante(correo("Child price is 50 % for ages 2 to 11."), { repo: m.repo, subir: async () => {}, avisarPO: async (asunto, texto) => { avisos.push({ asunto, texto }); } });
+    expect(r).toMatchObject({ estado: "registrado", proveedorId: "jordan", propuestas: 1 });
+    expect(avisos).toHaveLength(1);
+    expect(avisos[0].texto).toContain("Precio y edades de niños");
+    expect(avisos[0].texto).toContain("Año de las fechas del Eid");
+    expect(m.lista[0].preguntas?.every((q) => q.cerrada === null)).toBe(true);
+  });
+
+  it("REQ-10811 (LSP): sin avisarPO o sin preguntas abiertas, el resultado es el de hoy y no se avisa nada", async () => {
+    const m = memoria([fila()]);
+    const r = await procesarEntrante(correo("Child price is 50 %."), { repo: m.repo, subir: async () => {} });
+    expect(r).toEqual({ estado: "registrado", proveedorId: "jordan", documentos: 0, fallidos: 0 });
+    const sin = memoria([base({ id: "a", dominios: ["a.com"], etapa: "contactado" })]);
+    const avisos: string[] = [];
+    const r2 = await procesarEntrante({ ...correo("Hola"), de: "x@a.com" }, { repo: sin.repo, subir: async () => {}, avisarPO: async (_a, t) => { avisos.push(t); } });
+    expect(r2).toEqual({ estado: "registrado", proveedorId: "a", documentos: 0, fallidos: 0 });
+    expect(avisos).toEqual([]);
+  });
+
+  it("REQ-10811: si el aviso al PO falla, el correo queda registrado igual", async () => {
+    const m = memoria([fila()]);
+    const r = await procesarEntrante(correo("Eid dates are in 2027."), { repo: m.repo, subir: async () => {}, avisarPO: async () => { throw new Error("puente caído"); } });
+    expect(r).toMatchObject({ estado: "registrado", proveedorId: "jordan" });
+    expect(m.mensajes).toHaveLength(1);
+  });
+});

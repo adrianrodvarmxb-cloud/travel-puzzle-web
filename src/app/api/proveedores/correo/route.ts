@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const env = process.env as Record<string, string | undefined>;
     if (!proveedoresEncendido(env)) return NextResponse.json({ success: true, skipped: 'proveedores_off' });
     const m = await PostalMime.parse(await request.arrayBuffer());
-    const { repo, subir } = proveedoresDeps(env);
+    const { repo, subir, avisarPO } = proveedoresDeps(env);
     const r = await procesarEntrante({
         messageId: m.messageId ?? `sin-id-${Date.now()}`,
         fecha: m.date ? new Date(m.date).toISOString() : new Date().toISOString(),
@@ -32,6 +32,6 @@ export async function POST(request: Request) {
             tipo: a.mimeType ?? 'application/octet-stream',
             contenido: typeof a.content === 'string' ? new TextEncoder().encode(a.content) : new Uint8Array(a.content),
         })),
-    }, { repo, subir, log: console.log, tarifa: (p, msg) => revisarTarifa(p, msg, tarifaDeps(env)) }); // REQ-1672
+    }, { repo, subir, log: console.log, tarifa: (p, msg) => revisarTarifa(p, msg, tarifaDeps(env)), avisarPO }); // REQ-1672, REQ-10811
     return NextResponse.json({ success: true, ...r });
 }

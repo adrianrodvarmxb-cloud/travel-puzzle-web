@@ -4,6 +4,7 @@ import { aplicarEvento } from "./lib/etapas";
 import { proveedorDeCorreo } from "./lib/identificar";
 import { rutaDocumento } from "./lib/documentos";
 import { tipoEntrante, direccionesRebotadas } from "./lib/clasificar";
+import { abiertas, proponerCierres, textoPropuestaCierre } from "./lib/preguntas"; // REQ-10811
 import type { ProveedorFila, ProveedoresRepo } from "./repository";
 
 export interface CorreoEntrante {
@@ -16,10 +17,12 @@ export interface DepsEntrante {
   repo: ProveedoresRepo; subir: (ruta: string, contenido: Uint8Array, tipo: string) => Promise<void>; log?: (m: string) => void;
   /** REQ-1672: revisa si la respuesta avisa un cambio de tarifa (opcional; DIP). */
   tarifa?: (p: ProveedorFila, m: { messageId: string; asunto: string; texto: string }) => Promise<unknown>;
+  /** REQ-10811 (G3-A): avisa al PO qué preguntas parecen contestadas; opcional (DIP). Nunca cierra preguntas. */
+  avisarPO?: (asunto: string, texto: string) => Promise<void>;
 }
 
 export type ResultadoEntrante = { estado: "duplicado" | "sin_proveedor" | "nuestro" }
-  | { estado: "automatica"; proveedorId: string } | { estado: "rebote"; proveedorId: string; correos: string[] } | { estado: "registrado"; proveedorId: string; documentos: number; fallidos: number };
+  | { estado: "automatica"; proveedorId: string } | { estado: "rebote"; proveedorId: string; correos: string[] } | { estado: "registrado"; proveedorId: string; documentos: number; fallidos: number; propuestas?: number /* REQ-10811 */ };
 
 const INTERNO = /@(.+\.)?travelpuzzle\.com(\.mx)?$/i;
 
@@ -68,5 +71,13 @@ export async function procesarEntrante(c: CorreoEntrante, deps: DepsEntrante): P
   if (recibidos.length !== (p.checklist ?? []).length) await deps.repo.marcarChecklist(id, recibidos, c.fecha);
   // REQ-1672: un fallo aquí no tumba el registro del correo.
   if (deps.tarifa) await deps.tarifa(p, { messageId: c.messageId, asunto: c.asunto, texto: c.texto }).catch((e) => deps.log?.(`[tarifas] ${(e as Error).message}`));
+  // REQ-10811 (plan REQ-3457, G3-A): con preguntas abiertas, Mila le propone al PO cuáles parecen contestadas. No cierra ninguna;
+  // un fallo del aviso no tumba el registro del correo. Sin avisarPO o sin preguntas, el resultado es el de hoy (LSP).
+  if (deps.avisarPO && abiertas(p.preguntas ?? []).length > 0) {
+    const propuesta = proponerCierres(p.preguntas ?? [], c.texto);
+    await deps.avisarPO(`Respondió ${p.nombre}: preguntas de alta`, textoPropuestaCierre({ proveedor: p.nombre, asunto: c.asunto, propuesta }))
+      .catch((e) => deps.log?.(`[preguntas] no se avisó al PO: ${(e as Error).message}`));
+    return { estado: "registrado", proveedorId: id, documentos, fallidos, propuestas: propuesta.contestadas.length };
+  }
   return { estado: "registrado", proveedorId: id, documentos, fallidos };
 }
