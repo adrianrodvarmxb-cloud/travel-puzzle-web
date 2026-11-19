@@ -124,3 +124,82 @@ export function leerPreguntas(json: string | null | undefined): Pregunta[] {
       (o.req === null || typeof o.req === "string");
   });
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// REQ-10811 (plan REQ-3457 §2 y G3-A, PO 12 nov 2026: «Mila propone, tú cierras»): Mila lee la respuesta del proveedor y
+// PROPONE al PO qué preguntas parecen contestadas y cuáles siguen abiertas. Nunca cierra nada sola: un «sí» suelto o un
+// adjunto sin texto no proponen ningún cierre. Puro: sin red, sin base, sin reloj.
+// ---------------------------------------------------------------------------------------------------------------------
+
+export interface PropuestaCierre {
+  /** Preguntas abiertas que la respuesta parece contestar (propuesta; el PO o el agente las cierran). */
+  contestadas: Pregunta[];
+  /** Preguntas abiertas que la respuesta no toca. */
+  abiertas: Pregunta[];
+}
+
+/** Palabras que no distinguen una pregunta de otra (es/en). */
+const VACIAS = new Set([
+  "para", "como", "cual", "cuales", "cuanto", "cuanta", "cuantos", "cuantas", "donde", "cuando", "quien", "desde", "hasta", "sobre",
+  "entre", "este", "esta", "estos", "estas", "ese", "esa", "esos", "esas", "con", "sin", "por", "que", "los", "las", "del", "una", "uno",
+  "unos", "unas", "the", "and", "for", "with", "from", "into", "that", "this", "these", "those", "what", "which", "when", "where",
+  "who", "how", "much", "many", "your", "our", "you", "are", "is", "of", "to", "in", "on", "at", "do", "does", "have", "has",
+  "year", "ano", "dias", "days", "fecha", "fechas", "date", "dates", "cuesta", "cost", "costs",
+  "its", "was", "not", "but", "all", "any", "per", "dia", "mas", "muy", "hay", "ser", "son", "nos", "les", "sus", "aun", "asi",
+]);
+
+const normalizar = (t: string) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+/** Raíz tosca: quita plural y terminación común para que «niños» case con «niño» y «dates» con «date». */
+const raiz = (w: string) => w.replace(/(es|s)$/, "").replace(/(cion|tion|ing|ed|mente)$/, "");
+
+/** Términos clave de una pregunta: palabras de 3+ letras que no sean vacías (así cuentan «Eid», «PDF», «USD», «RNT»), sin repetir. */
+function terminos(texto: string): string[] {
+  const vistos = new Set<string>();
+  for (const w of normalizar(texto).split(/[^a-z0-9]+/)) {
+    if (w.length < 3 || VACIAS.has(w)) continue;
+    vistos.add(raiz(w));
+  }
+  return [...vistos];
+}
+
+/** Cuántos términos de la pregunta aparecen en la respuesta (por raíz, en cualquier idioma de la pregunta). */
+function coincidencias(p: Pregunta, raicesRespuesta: Set<string>): number {
+  const propios = new Set([...terminos(p.es), ...terminos(p.en)]);
+  let n = 0;
+  for (const r of propios) if (raicesRespuesta.has(r)) n++;
+  return n;
+}
+
+/**
+ * REQ-10811 (G3-A): una pregunta abierta «parece contestada» si la respuesta trae al menos 2 de sus términos clave
+ * (o todos, cuando tiene menos de 2). Compara contra el texto en español y en inglés de la pregunta, así que vale para
+ * una respuesta en cualquiera de los dos idiomas. No modifica las preguntas: proponer no es cerrar.
+ */
+export function proponerCierres(preguntas: readonly Pregunta[], respuesta: string): PropuestaCierre {
+  const vivas = abiertas(preguntas);
+  const raices = new Set(terminos(respuesta));
+  const contestadas: Pregunta[] = [];
+  const quedan: Pregunta[] = [];
+  for (const p of vivas) {
+    const total = new Set([...terminos(p.es), ...terminos(p.en)]).size;
+    const n = coincidencias(p, raices);
+    const umbral = Math.min(2, total);
+    (total > 0 && n >= umbral ? contestadas : quedan).push(p);
+  }
+  return { contestadas, abiertas: quedan };
+}
+
+const lista = (ps: Pregunta[]) => ps.map((p) => `- ${p.es.trim().replace(/\.$/, "")}`).join("\n");
+
+/**
+ * REQ-10811: el aviso al PO (siempre en español: es para Adri), corto para WhatsApp. Lista lo que parece contestado y lo
+ * que sigue abierto y recuerda que nadie las cierra solo (G3-A): se cierran en la ficha del proveedor.
+ */
+export function textoPropuestaCierre(d: { proveedor: string; asunto: string; propuesta: PropuestaCierre }): string {
+  const { contestadas, abiertas: quedan } = d.propuesta;
+  const partes = [`Respondió ${d.proveedor} («${d.asunto.trim()}»).`];
+  partes.push(contestadas.length ? `Parecen contestadas:\n${lista(contestadas)}` : "Ninguna parece contestada todavía.");
+  partes.push(quedan.length ? `Siguen abiertas:\n${lista(quedan)}` : "No queda ninguna pregunta abierta.");
+  partes.push("Es una propuesta: nadie las cierra solo. Revísalas en la ficha del proveedor.");
+  return partes.join("\n\n");
+}
