@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 20 nov 2026, 21:10 UTC (15:10 CDMX): constructora (Fable). Dictamen punto 1, **REQ-10785 CUMPLIDO:** `tp_cart` informada en /privacidad como cookie técnica estrictamente necesaria, sin casilla (en /cookies ya estaba con el §A, REQ-10788). `src/legal/lib/privacidad-dictamen.test.ts` 3/3.
 Actualizado: 20 nov 2026, 03:30 UTC (21:30 del 19 nov CDMX): constructora (Opus). Frente 5 (REQ-10742): inventario regenerado; «Qué falta exactamente» escrito en 20 folios de «Sin iniciar» con evidencia del repo (sin cambiar estados; el cierre lo hace la auditoría): REQ-423, 424, 429, 433 y 960 con código y test verdes hoy; REQ-430 y 619/621/622/623 ya cubiertos por folios CUMPLIDOS (proponer REEMPLAZADO); REQ-426 y 431 sin construir; REQ-1535, 1537–1539 y 1638–1641 tareas del PO (altas Civitatis, Travelpayouts, Viator, GetYourGuide).
 
 Actualizado: 17 nov 2026, 09:10 UTC (03:10 CDMX): constructora, frente 5 (REQ-10742). Inventario regenerado (1,210 filas, 482 sin cerrar); 22 folios «Sin iniciar» revisados a mano: 18 CUMPLIDOS con pruebas verdes en la sesión y 4 con lo que les falta escrito (REQ-084, 087, 416, 418); casos nuevos 8–10 en `docs/dependencias-detenidas.md`; tablero de Mila: #205 y #207 fusionados en zoefel-mila.
