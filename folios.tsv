@@ -9235,3 +9235,5 @@ REQ-10820	main	2026-11-20 08:48	ola 6: prefill.ts y whatsapp-context.ts (decisi�
 REQ-10821	main	2026-11-20 08:48	ola 6: prefill.ts y whatsapp-context.ts (decisión 41)
 REQ-10822	feat/req-10820-prefill-whatsapp	2026-11-20 08:53	ola 6: faq.ts (REQ-10630, preguntas por regla con datos reales)
 REQ-10823	feat/req-10822-faq	2026-11-20 08:57	ola 6: local-price.ts (decisión 32)
+REQ-10824	feat/req-10823-local-price	2026-11-20 08:59	ola 6: quality.ts (decisión 50) y agent-view.ts (decisiones 40 y 42)
+REQ-10825	feat/req-10823-local-price	2026-11-20 08:59	ola 6: quality.ts (decisión 50) y agent-view.ts (decisiones 40 y 42)
