@@ -43,7 +43,7 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 
 
 ## Ficha única, ola 6 «Modelo común» (17 nov 2026) — matriz de trazabilidad
-Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp; PR 4: `faq.ts`; PR 5: `local-price.ts`; PR 6: `quality.ts` y `agent-view.ts`. Faltan: lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp; PR 4: `faq.ts`; PR 5: `local-price.ts`; PR 6: `quality.ts` y `agent-view.ts`; PR 7: lectores (`lib/readers/`), paridad y `load.ts`. Con el PR 7 queda todo lo del plan §2 para la ola 6 salvo `guarantees.ts` (dictamen punto 20, REQ-10804, Opus) y `addons.ts` (ola 12, REQ-10636). Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
@@ -59,6 +59,8 @@ Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures re
 | REQ-10823 | Precio en la moneda del visitante y moneda del cargo (decisión 32) | NUEVO | `src/ficha/lib/local-price.ts` | `src/ficha/lib/local-price.test.ts` (7) | CUMPLIDO en código |
 | REQ-10824 | Mínimo de calidad para tours por API, con reporte (decisión 50) | NUEVO | `src/ficha/lib/quality.ts` | `src/ficha/lib/quality.test.ts` (4) | CUMPLIDO en código |
 | REQ-10825 | Vista de Mila desde el modelo, sin FREETOUR (decisiones 40, 42) | NUEVO | `src/ficha/lib/agent-view.ts` | `src/ficha/lib/agent-view.test.ts` (5) | CUMPLIDO en código |
+| REQ-10826 | Lectores página, Mila, correo, reserva y buscador con paridad (decisión 3) | NUEVO | `src/ficha/lib/readers/{common,page,mila,email,booking,search,index}.ts` | `src/ficha/lib/readers/parity.test.ts` (8) | CUMPLIDO en código |
+| REQ-10827 | `load.ts`: lectura con base, banderas y reloj por parámetro | NUEVO | `src/ficha/load.ts` | `src/ficha/load.test.ts` (5) | CUMPLIDO en código |
 
 ## Ficha única, ola 7 «Plantilla» (19 nov 2026) — matriz de trazabilidad
 
