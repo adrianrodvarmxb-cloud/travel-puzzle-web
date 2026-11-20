@@ -4,6 +4,7 @@ Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
 Actualizado: 20 nov 2026, 21:10 UTC (15:10 CDMX): constructora (Fable). Dictamen punto 1, **REQ-10785 CUMPLIDO:** `tp_cart` informada en /privacidad como cookie técnica estrictamente necesaria, sin casilla (en /cookies ya estaba con el §A, REQ-10788). `src/legal/lib/privacidad-dictamen.test.ts` 3/3.
+Actualizado: 20 nov 2026, 21:00 UTC (15:00 CDMX): constructora (Fable). **Frente 2 · Mila con acceso a todo (#422), decisión 39:** primera pieza de #468 rehecha sobre el modelo común: `src/ficha/lib/trip-input.ts` (REQ-10835, viaje guardado → entrada del adaptador), `src/ficha/source.ts` (REQ-10836, fuente con dependencias inyectadas) y `GET /api/agente/detalle` (REQ-10837) desde `readMila`. Sin bandera nueva (ventana tras `AGENTE_API_ENABLED`); FREETOUR nunca llega; sin neto ni teléfonos. Siguen: tours de Tangol por la misma ruta (decisión 40) y `contenido`/`legal`/`cliente` en sus PR.
 Actualizado: 20 nov 2026, 20:50 UTC (14:50 CDMX): constructora (Fable). **Ola 6 «Modelo común» CERRADA (REQ-10834):** deploys de #687…#691 verdes con humo de producción (último ff19806); matriz completa REQ-10776…10782 y REQ-10820…10827 (15 folios, 74 pruebas verdes por folio). Sin pantalla ni bandera: lo conecta la ola 7. Quedan fuera de la ola `guarantees.ts` (REQ-10804, Opus) y `addons.ts` (ola 12).
 Actualizado: 20 nov 2026, 03:30 UTC (21:30 del 19 nov CDMX): constructora (Opus). Frente 5 (REQ-10742): inventario regenerado; «Qué falta exactamente» escrito en 20 folios de «Sin iniciar» con evidencia del repo (sin cambiar estados; el cierre lo hace la auditoría): REQ-423, 424, 429, 433 y 960 con código y test verdes hoy; REQ-430 y 619/621/622/623 ya cubiertos por folios CUMPLIDOS (proponer REEMPLAZADO); REQ-426 y 431 sin construir; REQ-1535, 1537–1539 y 1638–1641 tareas del PO (altas Civitatis, Travelpayouts, Viator, GetYourGuide).
 
@@ -12,6 +13,14 @@ Actualizado: 17 nov 2026, 21:55 UTC (15:55 CDMX): constructora. **Ola 5 «Cercan
 Actualizado: 17 nov 2026, 15:05 UTC (09:05 CDMX): constructora. Frente 5 (REQ-10742): 21 folios revisados a mano (4 cerrados, 1 reemplazado), caso 11 nuevo (purga de caché, REQ-3320), inventario sin cerrar 485 → 480. Antes (09:30 UTC): **Ola 5 «Cercanía y transporte» abierta** (REQ-10750…10755): regla pura «Cerca» único (`src/geo/lib/near.ts`, decisión 29) tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: conexión a la franja de toda ficha (REQ-10752), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 Actualizado: 17 nov 2026, 14:50 UTC (08:50 CDMX): constructora. **Ola 5 «Cercanía y transporte»**: REQ-10752 conecta el «Cerca» único a la franja de transporte de la ficha de /tours (`transportOrigin` + `pickTransport`), tras `NEARBY_UNIFIED_ENABLED="false"`. Sin cambio visible. Siguen: encender la bandera con preview y humo (REQ-10751), tarjeta de Kiwitaxi fuera de FREETOUR (REQ-10753), coordenadas de las 138 ciudades sin dato (REQ-10754).
 Actualizado: 17 nov 2026, 08:45 UTC (02:45 CDMX): constructora. **Ola 4 «Geografía» cerrada (REQ-10739):** banderas encendidas y verificadas en producción (#637, #638), cifra real de la decisión 30 leída de D1 (REQ-10738). Abre la ola 5.
+
+## Frente 2 · Mila con acceso a todo (#422), decisión 39 (20 nov 2026) — matriz de trazabilidad
+Primera pieza de #468 rehecha sobre el modelo común de la ficha (ola 6). Sin pantalla ni bandera nueva. Plan de regreso: revertir el PR (la ruta solo responde con la llave del agente).
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-10835 | Viaje guardado → entrada del adaptador → modelo (puro) | NUEVO | `src/ficha/lib/trip-input.ts` | `src/ficha/lib/trip-input.test.ts` (4) | CUMPLIDO en código |
+| REQ-10836 | Fuente del modelo con dependencias inyectadas (raíz del dominio) | NUEVO | `src/ficha/source.ts` | `src/ficha/source.test.ts` (4) | CUMPLIDO en código |
+| REQ-10837 | `GET /api/agente/detalle` desde el lector de Mila | NUEVO | `src/app/api/agente/detalle/route.ts`, `src/agente/lib/detalle.ts` | `src/agente/detalle.test.ts` (6) | CUMPLIDO en código |
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
 Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.
