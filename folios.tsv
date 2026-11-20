@@ -9237,3 +9237,5 @@ REQ-10822	feat/req-10820-prefill-whatsapp	2026-11-20 08:53	ola 6: faq.ts (REQ-10
 REQ-10823	feat/req-10822-faq	2026-11-20 08:57	ola 6: local-price.ts (decisión 32)
 REQ-10824	feat/req-10823-local-price	2026-11-20 08:59	ola 6: quality.ts (decisión 50) y agent-view.ts (decisiones 40 y 42)
 REQ-10825	feat/req-10823-local-price	2026-11-20 08:59	ola 6: quality.ts (decisión 50) y agent-view.ts (decisiones 40 y 42)
+REQ-10826	feat/req-10824-quality-agent-view	2026-11-20 09:02	ola 6: lectores con paridad (readers/) y load.ts
+REQ-10827	feat/req-10824-quality-agent-view	2026-11-20 09:02	ola 6: lectores con paridad (readers/) y load.ts
