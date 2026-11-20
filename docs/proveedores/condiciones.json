@@ -1,0 +1,29 @@
+[
+  {
+    "id": "big-bus-tours",
+    "cancelacion": "Si Big Bus no puede dar el servicio durante la vigencia del boleto por causas a su cargo, hay reembolso total o parcial; se pide por escrito por correo con el boleto adjunto, a través de quien lo vendió. Los tours nocturnos no son reembolsables salvo que se indique otra cosa.",
+    "cambios": "Los boletos por tiempo se activan en la fecha de viaje elegida; ya activados no se pausan, cancelan, transfieren ni amplían, y valen por días consecutivos. Los tours nocturnos solo valen para la fecha y hora elegidas.",
+    "pagos": "Los precios incluyen los impuestos locales. Pueden pedir mostrar la tarjeta con la que se hizo la compra.",
+    "operacion": "El boleto digital se activa en la app antes de subir (las capturas de pantalla no valen) y se muestra en cada abordaje. No se garantiza asiento ni un horario específico; con mal clima pueden usar autobuses techados y pueden cambiar paradas, horarios o rutas sin aviso.",
+    "fuente": "Términos y condiciones públicos de Big Bus Tours (actualizados en noviembre de 2025): https://www.bigbustours.com/terms-and-conditions",
+    "fecha": "2026-11-13"
+  },
+  {
+    "id": "destino-colombia",
+    "cancelacion": "Tours y traslados: si se cancela con menos de 48 horas de anticipación se cobra el 100 % de los servicios cancelados. Boletos para eventos especiales (conciertos, Desfile de Silleteros y similares): 100 % del boleto desde que se confirma la reserva. Hoteles: según la política de cada hotel, que se informa al confirmar. Vuelos: según la aerolínea y la tarifa. Si el viajero no se presenta a la hora del voucher más 15 minutos, se cobra el 100 %.",
+    "cambios": "Los cambios de horario de vuelos o de transporte durante la estancia se avisan con al menos 8 días de anticipación; el servicio reprogramado depende de con cuánto tiempo se avise. Si el viajero llega en un vuelo distinto al confirmado sin avisar al menos 5 horas antes de la llegada original, se cobra como no presentado.",
+    "pagos": "",
+    "operacion": "Las excursiones incluyen guía en español; otros idiomas tienen costo adicional y se reservan antes. Algunas salen de un punto fijo y otras recogen en el hotel, según la descripción de cada tour. Si un museo o atractivo está cerrado el día del tour, no se entra y no hay reembolso ni reprogramación de esa visita. Por fuerza mayor puede cambiar la operación; lo no prestado se reintegra a través de quien vendió el viaje.",
+    "fuente": "Términos y condiciones de Destino Colombia (actualizados en noviembre de 2023), enviados por el proveedor por correo el 6 nov 2026; versión pública: https://destinocolombia.com/page/terminos-y-condiciones",
+    "fecha": "2026-11-13"
+  },
+  {
+    "id": "extime-travel",
+    "cancelacion": "Cancelación sin costo hasta 24 horas antes del tour (hora de París) en la mayoría de los tours, entradas y cruceros. Excepciones: 72 horas antes en Disneyland y algunos tours de día completo con salida del hotel; 96 horas antes en cruceros con cena o comida en fechas especiales y en paquetes de varios días; 21 días antes en el día en Londres en Eurostar. Pasado ese plazo no hay cancelación sin costo, sin excepciones. El plazo de cada tour sale en su ficha.",
+    "cambios": "Los cambios siguen los mismos plazos que las cancelaciones: sin costo solo dentro del plazo de cada tour.",
+    "pagos": "Pago completo al reservar; la reserva vale al recibir el voucher y la confirmación. Precios por persona; tarifa infantil de 3 a 11 años; menores de 3 años sin costo, pero se reservan para asegurar su asiento.",
+    "operacion": "Desde sus agencias, registro entre 30 y 20 minutos antes y el abordaje cierra 10 minutos antes; en tours en sitio y cruceros, llegar al menos 15 minutos antes. Recogida en domicilio solo dentro de París, con datos enviados 48 h antes. Los cruceros pueden cancelarse o cambiarse por mal clima. No responden por retrasos de tráfico, huelgas o manifestaciones.",
+    "fuente": "Política para agencias de Extime Travel, vigente desde el 26 oct 2026 (correo del proveedor del 22 oct 2026; también en https://pro.extimetravel.com/). Pagos y operación: condiciones públicas de venta (21 dic 2023): https://www.pariscityvision.com/en/general-terms-sales",
+    "fecha": "2026-11-13"
+  }
+]

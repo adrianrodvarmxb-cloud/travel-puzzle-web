@@ -29,3 +29,9 @@ export async function catalogoDeps(): Promise<CatalogoDeps> {
 
 /** REQ-152: la ventana del agente solo existe con la bandera encendida y la llave cargada. */
 export const agenteHabilitado = (env: Record<string, string | undefined>) => env.AGENTE_API_ENABLED === "true" && (env.AGENTE_TOKEN ?? "").length >= 24;
+
+/** REQ-3354: la ficha publicada completa (mismo cargador y caché que la página del viaje). */
+export async function fichaDeps(): Promise<{ trip(slug: string): Promise<{ trip: import("@/trips/manage").StoredTrip } | null> }> {
+  const { loadTripBySlug } = await import("@/trips/public-load");
+  return { trip: (slug) => loadTripBySlug(slug) };
+}
