@@ -43,7 +43,7 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 
 
 ## Ficha única, ola 6 «Modelo común» (17 nov 2026) — matriz de trazabilidad
-Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp. Faltan: `faq.ts`, `local-price.ts`, `quality.ts`, `agent-view.ts`, lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
@@ -53,6 +53,8 @@ Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures re
 | REQ-10780 | Bloques por dato y orden fijo (21) | NUEVO | `src/ficha/lib/blocks.ts` | `src/ficha/lib/blocks.test.ts` (5) | CUMPLIDO en código |
 | REQ-10781 | Sección Experiencias / Traslados (decisión 1) | NUEVO | `src/ficha/lib/section.ts` | `src/ficha/lib/section.test.ts` (1) | CUMPLIDO en código |
 | REQ-10782 | Panel en dos ejes (INC-020) | NUEVO | `src/ficha/lib/panel-plan.ts` | `src/ficha/lib/panel-plan.test.ts` (5) | CUMPLIDO en código |
+| REQ-10820 | Prellenado ?fecha&adultos&ninos&opcion (extiende REQ-150) | NUEVO | `src/ficha/lib/prefill.ts` | `src/ficha/lib/prefill.test.ts` (5) | CUMPLIDO en código |
+| REQ-10821 | Mensaje de WhatsApp con código, fecha, personas y opción (decisión 41) | NUEVO | `src/ficha/lib/whatsapp-context.ts` | `src/ficha/lib/whatsapp-context.test.ts` (6) | CUMPLIDO en código |
 
 ## Ficha única, ola 7 «Plantilla» (19 nov 2026) — matriz de trazabilidad
 
@@ -1443,7 +1445,7 @@ Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proy
 | REQ-10785 | Punto 1 (CÓDIGO): `tp_cart` es estrictamente necesaria: no requiere consentimiento previo; basta informarla en /cookies y /priva… | NUEVO | — | — | PENDIENTE |
 | REQ-10786 | Punto 2 (DEFINICIÓN): Basta el banner informativo; sin bitácora por visitante; conservar historial interno de versiones de la políti… | NUEVO | `src/legal/lib/cookies.ts` (`VERSIONES_POLITICA_COOKIES`, `politicaCookiesVigente`) | `src/legal/lib/cookies.test.ts` (2) | CUMPLIDO en código (19 nov 2026) |
 | REQ-10787 | Punto 3 (DEFINICIÓN): Afiliados (Travelpayouts / Kiwitaxi): en la política, con mención en el banner. | NUEVO | — | — | PENDIENTE |
-| REQ-10788 | Punto 4 (CÓDIGO): Aprobado con ajustes: sustituir `src/legal/lib/cookies.ts` por el texto §A y el banner §B; encender `COOKIES_P… | NUEVO | `src/legal/lib/cookies.ts`, `src/components/legal/CookiesBanner.tsx`, `src/app/layout.tsx`, `src/app/cookies/page.tsx` | `src/legal/lib/cookies.test.ts` (5) | EN CURSO (código listo, bandera apagada; encendido en su PR) |
+| REQ-10788 | Punto 4 (CÓDIGO): Aprobado con ajustes: sustituir `src/legal/lib/cookies.ts` por el texto §A y el banner §B; encender `COOKIES_P… | NUEVO | `src/legal/lib/cookies.ts`, `src/components/legal/CookiesBanner.tsx`, `src/app/layout.tsx`, `src/app/cookies/page.tsx` | `src/legal/lib/cookies.test.ts` (5) | CUMPLIDO (20 nov 2026: encendida en #683 con humo en preview; deploys verdes; /cookies 200 en producción) |
 | REQ-10789 | Punto 5 (CÓDIGO): Ajuste crítico: se elimina «cuando el prestador lo permite»; el operador se identifica SIEMPRE en el comproban… | NUEVO | — | — | PENDIENTE |
 | REQ-10790 | Punto 6 (CÓDIGO): Ampliar inciso (d): deslinde expreso de contratación directa con afiliados (ya en §C). | NUEVO | — | — | PENDIENTE |
 | REQ-10791 | Punto 7 (CÓDIGO): ARCO en días HÁBILES, máximo legal 20 + 15 (§D). | NUEVO | `src/legal/lib/privacidad.ts` | `src/legal/lib/privacidad-dictamen.test.ts` | CUMPLIDO en código (19-11-2026; `src/legal/lib/privacidad-dictamen.test.ts` 2/2) |
