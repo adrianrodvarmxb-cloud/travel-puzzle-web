@@ -3991,5 +3991,333 @@
         }
       ]
     }
+  },
+  {
+    "slug": "excursiones-desde-madrid-a-toledo-y-segovia",
+    "pillar": "europa",
+    "targetTerm": "excursiones desde madrid a toledo y segovia",
+    "title": "¿Cómo hacer una excursión de un día desde Madrid a Toledo y Segovia?",
+    "summary": "Segovia queda a unos 25 minutos en AVE y Toledo es Patrimonio de la Humanidad. Qué ver, cómo llegar y qué excursiones de un día hay en el catálogo.",
+    "draft": false,
+    "publishedAt": "2026-11-20",
+    "author": "claudia",
+    "categoria": "viajes",
+    "origen": "agente-diario",
+    "mix": "pago",
+    "tema": {
+      "tipo": "calendario",
+      "clusterId": "EU-06",
+      "fuentes": []
+    },
+    "cover": {
+      "src": "/blog/img/excursiones-desde-madrid-a-toledo-y-segovia/portada-toledo",
+      "alt": "La ciudad histórica de Toledo con su catedral bajo un cielo azul despejado",
+      "credit": "Foto: Richard Williams / Unsplash",
+      "license": {
+        "name": "Unsplash License",
+        "url": "https://unsplash.com/license"
+      },
+      "origen": {
+        "banco": "unsplash",
+        "id": "b9gPlQQXBKE",
+        "pagina": "https://unsplash.com/photos/toledo-city-and-cathedral-in-spain-b9gPlQQXBKE",
+        "autor": "Richard Williams",
+        "descarga": "https://images.unsplash.com/photo-1786978297258-b6ec9ab2ceaf"
+      }
+    },
+    "imagenes": [
+      {
+        "formato": "columna",
+        "despues": 2,
+        "pie": "El acueducto de Segovia, hecho con piedra de granito sin argamasa.",
+        "fotos": [
+          {
+            "src": "/blog/img/excursiones-desde-madrid-a-toledo-y-segovia/acueducto-segovia",
+            "alt": "El acueducto de Segovia visto desde la calle de San Juan",
+            "credit": "Foto: David de Andrés Martín / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "oZB5QHB6aG8",
+              "pagina": "https://unsplash.com/photos/a-large-brick-building-with-a-massive-arch-in-the-middle-of-it-oZB5QHB6aG8",
+              "autor": "David de Andrés Martín",
+              "descarga": "https://images.unsplash.com/photo-1698223632628-fb28ccb63280"
+            }
+          }
+        ]
+      },
+      {
+        "formato": "dos",
+        "despues": 3,
+        "pie": "Una calle del casco antiguo de Toledo y el Alcázar de Segovia.",
+        "fotos": [
+          {
+            "src": "/blog/img/excursiones-desde-madrid-a-toledo-y-segovia/calle-toledo",
+            "alt": "Calle estrecha del casco antiguo de Toledo, con una mujer caminando entre edificios altos",
+            "credit": "Foto: Alex Nicolopoulos / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "3QxWPGOz1Ig",
+              "pagina": "https://unsplash.com/photos/a-woman-walking-down-a-street-next-to-tall-buildings-3QxWPGOz1Ig",
+              "autor": "Alex Nicolopoulos",
+              "descarga": "https://images.unsplash.com/photo-1709473015515-0b3a8ab40f19"
+            }
+          },
+          {
+            "src": "/blog/img/excursiones-desde-madrid-a-toledo-y-segovia/alcazar-segovia",
+            "alt": "El Alcázar de Segovia sobre una colina rodeada de árboles",
+            "credit": "Foto: Diego Allen / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "tm1DhGqF2gI",
+              "pagina": "https://unsplash.com/photos/a-castle-on-top-of-a-hill-surrounded-by-trees-tm1DhGqF2gI",
+              "autor": "Diego Allen",
+              "descarga": "https://images.unsplash.com/photo-1632494837936-71f1b38e0c37"
+            }
+          }
+        ]
+      }
+    ],
+    "enBreve": "Desde Madrid puedes ver Toledo y Segovia en un día, por tu cuenta o con una excursión guiada. Segovia queda a unos 25 minutos en AVE o 65 en autobús, según [Turismo Madrid](https://www.esmadrid.com/excursion-segovia), y Toledo es Patrimonio de la Humanidad desde 1986, según la [UNESCO](https://whc.unesco.org/es/list/379). Las excursiones de un día del catálogo duran 8 o 10 horas, como indica la [ficha de Toledo y Segovia](/destinos/es/madrid).",
+    "entrada": "Si es tu primer viaje a España, lo más práctico es salir de Madrid y volver a dormir allí. Aquí juntamos cómo llegar, qué ver y qué excursiones hay para elegir. Es parte de la guía [Viajar a Europa desde México](/blog/europa); si ya piensas en fechas, mira los [tours en Europa](/tours?search=Europa) y la [página de Madrid](/destinos/es/madrid). Para otra escapada de un día, lee [excursiones desde Sevilla](/blog/europa/excursiones-de-un-dia-desde-sevilla).",
+    "sections": [
+      {
+        "h2": "¿Se pueden ver Toledo y Segovia en un solo día desde Madrid?",
+        "answer": "Sí, en una excursión guiada: la [Excursión de día completo a Toledo y Segovia](/destinos/es/madrid) dura 10 horas y combina las dos ciudades.",
+        "body": [
+          "Si prefieres ir por tu cuenta, lo más realista es elegir una sola ciudad: la ficha [Experiencia en Toledo](/destinos/es/madrid) ocupa 8 horas y la de [Segovia en autobús con visita a pie](/destinos/es/madrid), 10 horas."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar a Segovia desde Madrid?",
+        "answer": "En AVE son unos 25 minutos, en autobús 65 desde el Intercambiador de Moncloa y en coche 70, según [Turismo Madrid](https://www.esmadrid.com/excursion-segovia).",
+        "body": [
+          "[Spain.info](https://www.spain.info/es/destino/segovia/) da la misma idea, con matices: dice que el tren tarda «media hora» y que la estación Segovia-Guiomar está a unos 6 kilómetros del centro, así que cuenta tiempo extra para el último tramo.",
+          "El número de arcos del acueducto también varía entre fuentes: [Turismo Madrid](https://www.esmadrid.com/excursion-segovia) habla de 166 y [Spain.info](https://www.spain.info/es/destino/segovia/) de 167. Aquí usamos 167, que coincide con la ficha técnica de [Turismo de Segovia](https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf)."
+        ]
+      },
+      {
+        "h2": "¿Qué ver en Segovia?",
+        "answer": "El acueducto, que tiene 167 arcos de granito unidos sin argamasa según [Turismo de Segovia](https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf), además de la catedral y el Alcázar, según [Turismo Madrid](https://www.esmadrid.com/excursion-segovia).",
+        "body": [
+          "El acueducto mide 28,10 metros en su punto más alto y es del siglo II d. C., de acuerdo con la misma [ficha de Turismo de Segovia](https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf).",
+          "En el Alcázar puedes subir los 152 escalones de la Torre de Juan II, según [Spain.info](https://www.spain.info/es/destino/segovia/). La ruta de un día de [Spain.info](https://www.spain.info/es/ruta/segovia-one-day/) recomienda calzado cómodo porque la ciudad tiene cuestas continuas."
+        ]
+      },
+      {
+        "h2": "¿Por qué Toledo es Patrimonio de la Humanidad?",
+        "answer": "La [UNESCO](https://whc.unesco.org/es/list/379) la inscribió en 1986 como ciudad histórica con monumentos de distintas civilizaciones.",
+        "body": [
+          "La misma [página de la UNESCO](https://whc.unesco.org/es/list/379) explica que allí convivieron tres religiones: judaísmo, cristianismo e islamismo, y que la ciudad guarda más de dos milenios de historia.",
+          "En la excursión de la [ficha de Toledo](/destinos/es/madrid) incluye una caminata con guía por el casco histórico de hora y media."
+        ]
+      },
+      {
+        "h2": "¿Qué excursiones de un día hay en el catálogo?",
+        "answer": "Hay cuatro opciones desde Madrid que incluyen Toledo, Segovia o ambas; los precios son aproximados, en euros, como indica cada ficha.",
+        "body": [],
+        "list": [
+          "[«Excursión de día completo a Toledo y Segovia»](/destinos/es/madrid): 10 horas, desde aprox. MXN $1,235 · EUR €59.",
+          "[«Excursion de un Día a Segovia y Ávila»](/destinos/es/madrid): 10 horas, desde aprox. MXN $1,046 · EUR €50.",
+          "[«Visita de un Día a Segovia en Autobús con Tour Guiado a Pie Incluido»](/destinos/es/madrid): 10 horas, desde aprox. MXN $921 · EUR €44.",
+          "[«Excursión desde Madrid: Experiencia en Toledo»](/destinos/es/madrid): 8 horas."
+        ]
+      },
+      {
+        "h2": "¿Qué conviene revisar antes de elegir?",
+        "answer": "Las fichas indican cancelación con reembolso hasta 24 horas antes, por ejemplo en la de [Toledo y Segovia](/destinos/es/madrid).",
+        "body": [
+          "El cobro se hace en euros y la conversión a pesos es aproximada; tu banco puede aplicar comisiones, aclara la ficha de [Segovia en autobús](/destinos/es/madrid). Revisa también el punto de encuentro de cada ficha, porque cambia de una a otra."
+        ]
+      }
+    ],
+    "datos": [
+      {
+        "text": "Toledo es Patrimonio de la Humanidad desde 1986.",
+        "source": {
+          "label": "UNESCO",
+          "url": "https://whc.unesco.org/es/list/379"
+        },
+        "checkedAt": "2026-11-20"
+      },
+      {
+        "text": "Madrid–Segovia en AVE: unos 25 minutos; en autobús, 65 minutos.",
+        "source": {
+          "label": "Turismo Madrid",
+          "url": "https://www.esmadrid.com/excursion-segovia"
+        },
+        "checkedAt": "2026-11-20"
+      },
+      {
+        "text": "El acueducto de Segovia tiene 167 arcos y 28,10 metros de altura máxima.",
+        "source": {
+          "label": "Turismo de Segovia",
+          "url": "https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf"
+        },
+        "checkedAt": "2026-11-20"
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 20 de noviembre de 2026) y del catálogo del sitio. Las páginas consultadas no muestran fecha de publicación. No pudimos leer la página de la UNESCO sobre Segovia, así que los datos de Segovia salen de las páginas de turismo.",
+    "visual": {
+      "kind": "tabla",
+      "caption": "Trayecto Madrid–Segovia según Turismo Madrid; la excursión, según la ficha del catálogo.",
+      "head": [
+        "Opción",
+        "Tiempo"
+      ],
+      "rows": [
+        [
+          "AVE Madrid–Segovia",
+          "Unos 25 minutos"
+        ],
+        [
+          "Autobús desde Moncloa",
+          "65 minutos"
+        ],
+        [
+          "Coche",
+          "70 minutos"
+        ],
+        [
+          "Excursión de día completo a Toledo y Segovia",
+          "10 horas"
+        ]
+      ],
+      "source": {
+        "label": "Turismo Madrid",
+        "url": "https://www.esmadrid.com/excursion-segovia"
+      }
+    },
+    "cta": {
+      "kind": "comercial",
+      "label": "Ver tours en Europa"
+    },
+    "en": {
+      "targetTerm": "day trips from madrid to toledo and segovia",
+      "title": "How to take a day trip from Madrid to Toledo and Segovia?",
+      "summary": "Segovia is about 25 minutes away by AVE and Toledo is a World Heritage city. What to see, how to get there and which day trips the catalog offers.",
+      "enBreve": "From Madrid you can see Toledo and Segovia in one day, on your own or on a guided trip. Segovia is about 25 minutes by AVE or 65 by bus, according to [Turismo Madrid](https://www.esmadrid.com/excursion-segovia), and Toledo has been a World Heritage site since 1986, according to [UNESCO](https://whc.unesco.org/es/list/379). The catalog's day trips last 8 or 10 hours, as the [Toledo and Segovia listing](/destinos/es/madrid) shows.",
+      "entrada": "On a first trip to Spain, the easiest plan is to leave Madrid and come back to sleep there. Here we put together how to get there, what to see and which trips you can choose. It is part of the guide [Traveling to Europe from Mexico](/blog/europa); once you have dates, see the [tours in Europe](/tours?search=Europa) and the [Madrid page](/destinos/es/madrid). For another day trip, read [day trips from Seville](/blog/europa/excursiones-de-un-dia-desde-sevilla).",
+      "sections": [
+        {
+          "h2": "Can you see Toledo and Segovia in one day from Madrid?",
+          "answer": "Yes, on a guided trip: the [Full-day trip to Toledo and Segovia](/destinos/es/madrid) lasts 10 hours and combines both cities.",
+          "body": [
+            "On your own it is more realistic to pick one city: the [Toledo experience](/destinos/es/madrid) listing takes 8 hours and the [Segovia by bus with a walking tour](/destinos/es/madrid) one takes 10 hours."
+          ]
+        },
+        {
+          "h2": "How do you get from Madrid to Segovia?",
+          "answer": "By AVE it is about 25 minutes, by bus 65 from the Moncloa interchange and by car 70, according to [Turismo Madrid](https://www.esmadrid.com/excursion-segovia).",
+          "body": [
+            "[Spain.info](https://www.spain.info/es/destino/segovia/) gives the same idea with nuances: it says the train takes «half an hour» and that Segovia-Guiomar station is about 6 kilometers from the center, so allow extra time for the last stretch.",
+            "The number of arches on the aqueduct also varies between sources: [Turismo Madrid](https://www.esmadrid.com/excursion-segovia) says 166 and [Spain.info](https://www.spain.info/es/destino/segovia/) says 167. We use 167, which matches the technical sheet from [Turismo de Segovia](https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf)."
+          ]
+        },
+        {
+          "h2": "What is there to see in Segovia?",
+          "answer": "The aqueduct, which has 167 granite arches joined without mortar according to [Turismo de Segovia](https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf), plus the cathedral and the Alcázar, according to [Turismo Madrid](https://www.esmadrid.com/excursion-segovia).",
+          "body": [
+            "The aqueduct is 28.10 meters tall at its highest point and dates from the 2nd century AD, according to the same [Turismo de Segovia sheet](https://www.turismodesegovia.com/sites/default/files/Media/Files/2022-10/Acueducto%20de%20Segovia.pdf).",
+            "At the Alcázar you can climb the 152 steps of the Juan II tower, according to [Spain.info](https://www.spain.info/es/destino/segovia/). The one-day route from [Spain.info](https://www.spain.info/es/ruta/segovia-one-day/) recommends comfortable shoes because the city has constant slopes."
+          ]
+        },
+        {
+          "h2": "Why is Toledo a World Heritage city?",
+          "answer": "[UNESCO](https://whc.unesco.org/es/list/379) inscribed it in 1986 as a historic city with monuments from different civilizations.",
+          "body": [
+            "The same [UNESCO page](https://whc.unesco.org/es/list/379) explains that three religions lived there: Judaism, Christianity and Islam, and that the city holds more than two millennia of history.",
+            "On the trip in the [Toledo listing](/destinos/es/madrid) a guide leads an hour-and-a-half walk through the old town."
+          ]
+        },
+        {
+          "h2": "Which day trips does the catalog have?",
+          "answer": "There are four options from Madrid that include Toledo, Segovia or both; prices are approximate, in euros, as each listing states.",
+          "body": [],
+          "list": [
+            "[«Full-day trip to Toledo and Segovia»](/destinos/es/madrid): 10 hours, from approx. MXN $1,235 · EUR €59.",
+            "[«Day trip to Segovia and Ávila»](/destinos/es/madrid): 10 hours, from approx. MXN $1,046 · EUR €50.",
+            "[«One-day visit to Segovia by bus with a walking tour»](/destinos/es/madrid): 10 hours, from approx. MXN $921 · EUR €44.",
+            "[«Day trip from Madrid: Toledo experience»](/destinos/es/madrid): 8 hours."
+          ]
+        },
+        {
+          "h2": "What should you check before choosing?",
+          "answer": "The listings state cancellation with a refund up to 24 hours before, for example the one for [Toledo and Segovia](/destinos/es/madrid).",
+          "body": [
+            "Payment is in euros and the conversion to pesos is approximate; your bank may charge fees, as the [Segovia by bus](/destinos/es/madrid) listing notes. Also check each listing's meeting point, because it differs from one to another."
+          ]
+        }
+      ],
+      "datos": [
+        {
+          "text": "Toledo has been a World Heritage site since 1986."
+        },
+        {
+          "text": "Madrid–Segovia by AVE: about 25 minutes; by bus, 65 minutes."
+        },
+        {
+          "text": "The Segovia aqueduct has 167 arches and a maximum height of 28.10 meters."
+        }
+      ],
+      "comoLoSabemos": "The Travel Puzzle editorial team wrote this with the help of AI, from the linked public sources (consulted on 20 November 2026) and the site's catalog. The pages we read show no publication date. We could not read UNESCO's page on Segovia, so the Segovia data comes from tourism pages.",
+      "visual": {
+        "caption": "Madrid–Segovia travel time according to Turismo Madrid; the day trip, according to the catalog listing.",
+        "head": [
+          "Option",
+          "Time"
+        ],
+        "rows": [
+          [
+            "AVE Madrid–Segovia",
+            "About 25 minutes"
+          ],
+          [
+            "Bus from Moncloa",
+            "65 minutes"
+          ],
+          [
+            "Car",
+            "70 minutes"
+          ],
+          [
+            "Full-day trip to Toledo and Segovia",
+            "10 hours"
+          ]
+        ]
+      },
+      "cta": {
+        "label": "See tours in Europe"
+      },
+      "cover": {
+        "alt": "The historic city of Toledo with its cathedral under a clear blue sky"
+      },
+      "imagenes": [
+        {
+          "pie": "The Segovia aqueduct, built with granite stone without mortar.",
+          "alts": [
+            "The Segovia aqueduct seen from San Juan street"
+          ]
+        },
+        {
+          "pie": "A street in Toledo's old town and the Alcázar of Segovia.",
+          "alts": [
+            "Narrow street in Toledo's old town with a woman walking between tall buildings",
+            "The Alcázar of Segovia on a hill surrounded by trees"
+          ]
+        }
+      ]
+    }
   }
 ]
