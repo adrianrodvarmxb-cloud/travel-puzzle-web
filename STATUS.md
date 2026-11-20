@@ -44,6 +44,8 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 
 ## Ficha única, ola 6 «Modelo común» (17 nov 2026) — matriz de trazabilidad
 Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp; PR 4: `faq.ts`; PR 5: `local-price.ts`. Faltan: `quality.ts`, `agent-view.ts`, lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp; PR 4: `faq.ts`. Faltan: `local-price.ts`, `quality.ts`, `agent-view.ts`, lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp. Faltan: `faq.ts`, `local-price.ts`, `quality.ts`, `agent-view.ts`, lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
