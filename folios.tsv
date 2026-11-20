@@ -9233,3 +9233,4 @@ REQ-10818	feat/ficha-ola7-bloques-7-9	2026-11-20 03:02	ficha única ola 7 bloque
 REQ-10819	feat/ficha-ola7-bloques-7-9	2026-11-20 03:02	ficha única ola 7 bloques 7, 8 y 9 (Opus)
 REQ-10820	main	2026-11-20 08:48	ola 6: prefill.ts y whatsapp-context.ts (decisión 41)
 REQ-10821	main	2026-11-20 08:48	ola 6: prefill.ts y whatsapp-context.ts (decisión 41)
+REQ-10822	feat/req-10820-prefill-whatsapp	2026-11-20 08:53	ola 6: faq.ts (REQ-10630, preguntas por regla con datos reales)
