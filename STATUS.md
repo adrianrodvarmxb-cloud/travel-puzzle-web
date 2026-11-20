@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 20 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). Frente 3: **REQ-10575 REEMPLAZADO** por REQ-10761 (firma del PO 17-11: el original de Big Bus es la respuesta OCTO) y REQ-10763 (#658); frente #558 cerrado. REQ-10576 (R2 + D1) sigue PENDIENTE hasta la llave real de OCTO (`BIGBUS_OCTO_ENABLED=false`).
 Actualizado: 20 nov 2026, 20:50 UTC (14:50 CDMX): constructora (Fable). **Ola 6 «Modelo común» CERRADA (REQ-10834):** deploys de #687…#691 verdes con humo de producción (último ff19806); matriz completa REQ-10776…10782 y REQ-10820…10827 (15 folios, 74 pruebas verdes por folio). Sin pantalla ni bandera: lo conecta la ola 7. Quedan fuera de la ola `guarantees.ts` (REQ-10804, Opus) y `addons.ts` (ola 12).
 Actualizado: 20 nov 2026, 03:30 UTC (21:30 del 19 nov CDMX): constructora (Opus). Frente 5 (REQ-10742): inventario regenerado; «Qué falta exactamente» escrito en 20 folios de «Sin iniciar» con evidencia del repo (sin cambiar estados; el cierre lo hace la auditoría): REQ-423, 424, 429, 433 y 960 con código y test verdes hoy; REQ-430 y 619/621/622/623 ya cubiertos por folios CUMPLIDOS (proponer REEMPLAZADO); REQ-426 y 431 sin construir; REQ-1535, 1537–1539 y 1638–1641 tareas del PO (altas Civitatis, Travelpayouts, Viator, GetYourGuide).
 
@@ -17,7 +18,7 @@ Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10534 | Extime se liga a su Excel original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (PR #551) |
-| REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (pruebas verdes; bigbustours.com da 403 a la descarga) |
+| REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | REEMPLAZADO por REQ-10761/REQ-10763 (original = respuesta OCTO, #658); frente #558 cerrado |
 | REQ-10576 | Subir a R2 y D1 los originales ligados | NUEVO | `src/scripts/raw-backfill.ts` | — (DATOS) | PENDIENTE (candado del PO) |
 | REQ-10577 | OK para mergear #507, #548, #551 | NUEVO | — | — (VALIDACIÓN) | CUMPLIDO (los tres fusionados; autorización global REQ-10743) |
 Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
