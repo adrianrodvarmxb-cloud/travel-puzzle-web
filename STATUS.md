@@ -43,7 +43,7 @@ Actualizado: 15 nov 2026, 09:00 UTC (03:00 CDMX): ficha única, ola 3: bloque ú
 
 
 ## Ficha única, ola 6 «Modelo común» (17 nov 2026) — matriz de trazabilidad
-Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp; PR 4: `faq.ts`. Faltan: `local-price.ts`, `quality.ts`, `agent-view.ts`, lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
+Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures reales; PR 2 (#666): bloques, sección y panel; PR 3 (20 nov 2026): prellenado y mensaje de WhatsApp; PR 4: `faq.ts`; PR 5: `local-price.ts`. Faltan: `quality.ts`, `agent-view.ts`, lectores (`lib/readers/`), paridad y `load.ts`. Sin pantalla ni bandera (código sin usar). Plan de regreso: revertir el PR.
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10776 | Modelo común y esquema Zod (solo datos públicos) | NUEVO | `src/ficha/lib/model.ts`, `src/ficha/schemas/ficha.ts`, `src/ficha/lib/fixtures.ts` | `src/ficha/schemas/ficha.test.ts` (3) | CUMPLIDO en código |
@@ -56,6 +56,7 @@ Frente #661. PR 1 (#662): modelo, esquema y los tres adaptadores con fixtures re
 | REQ-10820 | Prellenado ?fecha&adultos&ninos&opcion (extiende REQ-150) | NUEVO | `src/ficha/lib/prefill.ts` | `src/ficha/lib/prefill.test.ts` (5) | CUMPLIDO en código |
 | REQ-10821 | Mensaje de WhatsApp con código, fecha, personas y opción (decisión 41) | NUEVO | `src/ficha/lib/whatsapp-context.ts` | `src/ficha/lib/whatsapp-context.test.ts` (6) | CUMPLIDO en código |
 | REQ-10822 | Preguntas frecuentes por regla con datos reales y textos de /ayuda (REQ-10630) | NUEVO | `src/ficha/lib/faq.ts` | `src/ficha/lib/faq.test.ts` (8) | CUMPLIDO en código |
+| REQ-10823 | Precio en la moneda del visitante y moneda del cargo (decisión 32) | NUEVO | `src/ficha/lib/local-price.ts` | `src/ficha/lib/local-price.test.ts` (7) | CUMPLIDO en código |
 
 ## Ficha única, ola 7 «Plantilla» (19 nov 2026) — matriz de trazabilidad
 
