@@ -2,7 +2,7 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1308 · sin cerrar: 483
+Filas de requisitos: 1306 · sin cerrar: 481
 
 ## Resumen por motivo
 
@@ -13,7 +13,7 @@ Filas de requisitos: 1308 · sin cerrar: 483
 | Falta publicar (PR, humo o merge) | 51 |
 | A medias (el estado no dice qué falta) | 38 |
 | Pieza sin construir o en borrador | 35 |
-| Sin iniciar (el estado no dice qué falta) | 27 |
+| Sin iniciar (el estado no dice qué falta) | 25 |
 | Tarea a mano del PO | 19 |
 | Tercero (proveedor u otra empresa) | 13 |
 | Carga de datos o migración | 12 |
@@ -450,7 +450,7 @@ Filas de requisitos: 1308 · sin cerrar: 483
 | REQ-10805 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): sin código: /terminos en producción no tiene «Programa Puzzle Rewards» (0 coincidencias); falta dato del PO: mecánica de acumulación, equivalencia de ca |
 | REQ-10812 | BANDERA | — | EN CURSO (19-11-2026: PR preparado en la rama `feat/req-10812-borradores-auto`, sin fusionar; envíos manuales registrados: por confirmar en /admin/borradores) |
 
-## Sin iniciar (el estado no dice qué falta) (27)
+## Sin iniciar (el estado no dice qué falta) (25)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -478,8 +478,6 @@ Filas de requisitos: 1308 · sin cerrar: 483
 | REQ-10576 | DATOS | — | PENDIENTE (fuente firmada 17-11-2026, REQ-10761: respuesta OCTO como original; construir el guardado en R2 y la liga en D1 con tests, siguiente corrida) |
 | REQ-10642 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): espera olas 8 y 13; la línea «Opera en destino» para el correo ya existe (`readEmail().operatorLine`, REQ-10826). |
 | REQ-10754 | DATOS | — | PENDIENTE (medición hecha; fuente de respaldo por proponer en el PR) |
-| REQ-10803 | CÓDIGO | — | PENDIENTE |
-| REQ-10802 | CÓDIGO | — | PENDIENTE |
 | REQ-10804 | CÓDIGO | — | PENDIENTE |
 
 ## Tarea a mano del PO (19)
