@@ -5859,5 +5859,266 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the Visit Chile guide and the Con La Mochila guide. Entry prices differ between sources; confirm the current fare on the park website before you travel."
     }
+  },
+  {
+    "pais": "cl",
+    "ciudad": "coyhaique",
+    "nombre": "Coyhaique",
+    "targetTerm": "guia de viaje a coyhaique para mexicanos",
+    "titulo": "Guía de Coyhaique: cómo llegar y qué hacer en la capital de Aysén",
+    "publishedAt": "2026-11-21",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Coyhaique es la capital de la Región de Aysén, en la Patagonia chilena, y sirve de base para explorar la zona por carretera. Según [VisitChile](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/), la ciudad está junto a los ríos Simpson y Coyhaique, y la Reserva Nacional Cerro Castillo queda a 64 kilómetros al sur. Antes de salir, revisa en [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/) qué senderos están abiertos, porque algunos cierran en invierno.",
+    "sections": [
+      {
+        "h2": "¿Dónde está Coyhaique y cómo se llega?",
+        "answer": "Coyhaique es la capital de la Región de Aysén, y el puerto de Aysén está a 67 kilómetros según [VisitChile](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/).",
+        "body": [
+          "La ciudad se encuentra junto a los ríos Simpson y Coyhaique. Desde el aeropuerto de Balmaceda puedes llegar al centro con un traslado; la [página oficial de turismo de Chile](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/) describe a Coyhaique como punto de partida para la región.",
+          "Si viajas en auto, la Carretera Austral es la vía que atraviesa Aysén. En nuestro catálogo hay [traslados desde el aeropuerto de Balmaceda hasta Coyhaique](/destinos/cl/coyhaique/transfer-aeropuerto-balmaceda-o-coyhaique-hasta-puerto-rio) y de regreso al aeropuerto, para que no tengas que resolver el tramo final por tu cuenta."
+        ]
+      },
+      {
+        "h2": "¿Qué se puede hacer alrededor de la ciudad?",
+        "answer": "VisitChile indica que en Coyhaique se pueden realizar todo tipo de actividades recreativas gracias a sus alrededores, entre ellas visitas a reservas y paseos junto a los ríos.",
+        "body": [
+          "Entre los lugares que menciona la [guía de VisitChile](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/) están la Reserva Nacional Coyhaique, el Monumento Natural Dos Lagunas y el río Simpson. Son paseos de un día que se pueden combinar con la ciudad.",
+          "Si buscas algo más activo, en nuestro catálogo hay una [cabalgata por el río Simpson](/destinos/cl/coyhaique/cabalgata-escenica-por-la-reserva-nacional-rio-simpson) y un [trekking por los miradores del glaciar Exploradores](/destinos/cl/coyhaique/trekking-miradores-glaciar-exploradores). Pregunta siempre qué incluye cada experiencia antes de reservar."
+        ]
+      },
+      {
+        "h2": "¿Qué senderos conviene conocer en Cerro Castillo?",
+        "answer": "El sendero Las Horquetas tiene 53,5 kilómetros y se recorre en 3 a 5 días, según el listado de senderos de [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/).",
+        "body": [
+          "Para caminatas de un día, CONAF describe el Mirador Laguna Castillo, de 14 kilómetros, y la Laguna Chiguay, de 2,5 kilómetros ([CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/)). Son rutas que pueden hacerse en una jornada si sales temprano.",
+          "CONAF también avisa que el Mirador Laguna Castillo y Las Horquetas se recorren solo con guía certificado, y que Las Horquetas cierra de mayo a septiembre. Confirma esa información en [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/) antes de planear el viaje."
+        ]
+      },
+      {
+        "h2": "¿Cuándo conviene ir y qué llevar?",
+        "answer": "VisitChile indica que la visita es posible todo el año, pero el invierno cierra varios senderos de montaña, según [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/).",
+        "body": [
+          "Lleva ropa en capas, impermeable y calzado de montaña, porque el clima cambia rápido en la Patagonia. Si contratas una experiencia con guía, pide que el punto de encuentro esté en Coyhaique para no perder tiempo en traslados.",
+          "Si quieres ver todo lo que ofrece la región, reserva con varios días de margen y consulta la [página de Coyhaique en Travel Puzzle](/destinos/cl/coyhaique) para ver las experiencias disponibles."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 21 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Coyhaique",
+      "targetTerm": "coyhaique travel guide for mexican travelers",
+      "titulo": "Coyhaique guide: how to get there and what to do in Aysén's capital",
+      "enBreve": "Coyhaique is the capital of the Aysén Region in Chilean Patagonia and a good base for exploring the area by road. According to [VisitChile](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/), the city sits along the Simpson and Coyhaique rivers, and Cerro Castillo National Reserve is 64 kilometers south. Before you go, check on [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/) which trails are open, since some close in winter.",
+      "sections": [
+        {
+          "h2": "Where is Coyhaique and how do you get there?",
+          "answer": "Coyhaique is the capital of the Aysén Region, and the port of Aysén is 67 kilometers away, according to [VisitChile](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/).",
+          "body": [
+            "The city lies beside the Simpson and Coyhaique rivers. From Balmaceda airport you can reach downtown by transfer, and the [official Chilean tourism guide](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/) describes Coyhaique as a starting point for the region.",
+            "If you drive, the Carretera Austral is the road that crosses Aysén. Our catalog includes [transfers from Balmaceda airport to Coyhaique](/destinos/cl/coyhaique/transfer-aeropuerto-balmaceda-o-coyhaique-hasta-puerto-rio) and back, so you don't have to sort out the last leg yourself."
+          ]
+        },
+        {
+          "h2": "What can you do around the city?",
+          "answer": "VisitChile says that the surroundings allow all kinds of recreational activities, including visits to reserves and walks along the rivers.",
+          "body": [
+            "Among the places in the [VisitChile guide](https://www.visitchile.com/es/guias-turisticas/coyhaique-y-puerto-aysen/) are the Coyhaique National Reserve, the Dos Lagunas Natural Monument and the Simpson river. They are day trips that pair well with a stay in town.",
+            "If you want something more active, our catalog offers a [horseback ride along the Simpson river](/destinos/cl/coyhaique/cabalgata-escenica-por-la-reserva-nacional-rio-simpson) and a [trek to the Exploradores glacier viewpoints](/destinos/cl/coyhaique/trekking-miradores-glaciar-exploradores). Always ask what each experience includes before you book."
+          ]
+        },
+        {
+          "h2": "Which trails are worth knowing in Cerro Castillo?",
+          "answer": "The Las Horquetas trail is 53.5 kilometers long and takes 3 to 5 days, according to the trail listing from [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/).",
+          "body": [
+            "For day hikes, CONAF describes the Laguna Castillo viewpoint trail, 14 kilometers long, and the Laguna Chiguay trail, 2.5 kilometers long ([CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/)). They can be done in one day if you leave early.",
+            "CONAF also warns that the Laguna Castillo viewpoint and Las Horquetas can only be walked with a certified guide, and that Las Horquetas closes from May to September. Confirm this on [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/) before you plan your trip."
+          ]
+        },
+        {
+          "h2": "When is the top time to go and what should you pack?",
+          "answer": "VisitChile says you can visit all year round, but winter closes several mountain trails, according to [CONAF](https://www.conaf.cl/parque_nacionales/parque-nacional-cerro-castillo/).",
+          "body": [
+            "Pack layers, a rain jacket and mountain footwear, because the weather in Patagonia changes quickly. If you book a guided experience, ask for the meeting point to be in Coyhaique to save transfer time.",
+            "To see everything the region offers, book with several days of margin and check the [Coyhaique page on Travel Puzzle](/destinos/cl/coyhaique) for the experiences available."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (consulted on November 21, 2026) and on the site's catalog."
+    }
+  },
+  {
+    "pais": "co",
+    "ciudad": "san-gil",
+    "nombre": "San Gil",
+    "targetTerm": "guia de viaje a san gil para mexicanos",
+    "titulo": "Guía de San Gil: aventura, ríos y pueblos cerca de Santander",
+    "publishedAt": "2026-11-21",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "San Gil, en el departamento de Santander, se presenta como la capital del turismo de aventura de Colombia. Sus actividades más conocidas son el rafting, el parapente y los recorridos de cañón. Barichara, declarado Monumento Nacional, queda a poca distancia, según [Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander). Antes de reservar, confirma con cada operador el nivel del río y el equipo que incluye.",
+    "sections": [
+      {
+        "h2": "¿Por qué se le llama capital de aventura?",
+        "answer": "Según [Mi Viaje por Colombia](https://miviajeporcolombia.com/san-gil-rafting-parapente-visitas/), San Gil se proclamó capital del turismo de aventura en Colombia.",
+        "body": [
+          "Besabine la describe como un lugar de deportes extremos, con rafting, parapente y cascadas en pocos kilómetros ([Besabine](https://www.besabine.com/en/mini-guide-to-san-gil-colombia-5-times-to-do-and-handy-tips/)). Esa variedad hace que sea fácil combinar varias actividades en un solo viaje.",
+          "Si tienes poca experiencia, elige un río de dificultad baja para tu primer día y avisa al guía desde el inicio para que ajuste la ruta a tu nivel."
+        ]
+      },
+      {
+        "h2": "¿Qué ríos sirven para hacer rafting?",
+        "answer": "Colombia.travel indica que el río Fonce tiene un nivel 3 en la clasificación internacional de rafting, según [Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander).",
+        "body": [
+          "Besabine ubica el río Fonce en niveles 2 y 3, y el río Suárez en niveles 4 y 5 ([Besabine](https://www.besabine.com/en/mini-guide-to-san-gil-colombia-5-times-to-do-and-handy-tips/)). Por eso el Fonce es una buena primera opción, mientras que el Suárez es para quien ya tiene experiencia en corrientes fuertes.",
+          "En nuestro catálogo puedes reservar el [rafting en el río Suárez](/destinos/co/san-gil/rafting-rio-suarez), el [rafting en el río Fonce](/destinos/co/san-gil/rafting-rio-fonce) y el [rafting en el río Chicamocha](/destinos/co/san-gil/rafting-rio-chicamocha)."
+        ]
+      },
+      {
+        "h2": "¿Qué se puede visitar cerca de San Gil?",
+        "answer": "Barichara fue declarado Monumento Nacional en 1978 y está a unos 20 minutos de San Gil, según [Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander).",
+        "body": [
+          "Colombia.travel dice que el pueblo ha sido preservado del paso del tiempo, así que es una visita de media jornada que combina bien con una actividad en el río ([Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander)).",
+          "Desde el pueblo también se cruza el cañón del Chicamocha en teleférico, un trayecto que Colombia.travel describe en 45 minutos ([Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander)). En nuestro catálogo está el [tour a Barichara](/destinos/co/san-gil/tour-a-barichara-el-pueblito-mas-lindo-de-colombia) y el [tour nocturno a Barichara](/destinos/co/san-gil/tour-nocturno-a-barichara)."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar el día en San Gil?",
+        "answer": "Un buen plan combina una actividad de agua por la mañana, una visita al pueblo por la tarde y una noche libre para descansar.",
+        "body": [
+          "Si prefieres vistas desde arriba, el [parapente en el Chicamocha](/destinos/co/san-gil/parapente-chicamocha) es otra opción. Para llegar a la cascada, el [paseo ecológico a las cascadas de Juan Curí](/destinos/co/san-gil/paseo-ecologico-a-cascadas-juan-curi) reúne caminata y naturaleza en una sola salida.",
+          "Si quieres ver la región completa, consulta la [página de San Gil](/destinos/co/san-gil) y compara las experiencias antes de elegir."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 21 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "San Gil",
+      "targetTerm": "san gil travel guide for mexican travelers",
+      "titulo": "San Gil guide: adventure, rivers and villages near Santander",
+      "enBreve": "San Gil, in the Santander department, presents itself as Colombia's adventure tourism capital. Its best-known activities are rafting, paragliding and canyon tours. Barichara, declared a National Monument, is a short trip away, according to [Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander). Before you book, confirm the river level and the equipment included with each operator.",
+      "sections": [
+        {
+          "h2": "Why is it called the adventure capital?",
+          "answer": "According to [Mi Viaje por Colombia](https://miviajeporcolombia.com/san-gil-rafting-parapente-visitas/), San Gil was proclaimed the adventure tourism capital of Colombia.",
+          "body": [
+            "Besabine describes it as a place for extreme sports, with rafting, paragliding and waterfalls within a few kilometers ([Besabine](https://www.besabine.com/en/mini-guide-to-san-gil-colombia-5-times-to-do-and-handy-tips/)). That variety makes it easy to combine several activities in one trip.",
+            "If you have little experience, pick a low-difficulty river for your first day and tell your guide at the start so they can adjust the route to your level."
+          ]
+        },
+        {
+          "h2": "Which rivers are good for rafting?",
+          "answer": "Colombia.travel says the Fonce river has a level 3 rating on the international rafting scale, according to [Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander).",
+          "body": [
+            "Besabine places the Fonce river at levels 2 and 3 and the Suárez river at levels 4 and 5 ([Besabine](https://www.besabine.com/en/mini-guide-to-san-gil-colombia-5-times-to-do-and-handy-tips/)). That makes the Fonce a good first choice, while the Suárez suits people who already have experience with strong currents.",
+            "In our catalog you can book [rafting on the Suárez river](/destinos/co/san-gil/rafting-rio-suarez), [rafting on the Fonce river](/destinos/co/san-gil/rafting-rio-fonce) and [rafting on the Chicamocha river](/destinos/co/san-gil/rafting-rio-chicamocha)."
+          ]
+        },
+        {
+          "h2": "What can you visit near San Gil?",
+          "answer": "Barichara was declared a National Monument in 1978 and is about 20 minutes from San Gil, according to [Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander).",
+          "body": [
+            "Colombia.travel says the village has been preserved from the passage of time, which makes it a half-day visit that pairs well with an activity on the river ([Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander)).",
+            "A cable car also crosses the Chicamocha canyon from the area, a trip that Colombia.travel describes as lasting 45 minutes ([Colombia.travel](https://colombia.travel/es/blog/el-espiritu-de-santander)). Our catalog includes a [tour to Barichara](/destinos/co/san-gil/tour-a-barichara-el-pueblito-mas-lindo-de-colombia) and a [night tour to Barichara](/destinos/co/san-gil/tour-nocturno-a-barichara)."
+          ]
+        },
+        {
+          "h2": "How do you plan a day in San Gil?",
+          "answer": "A good plan combines a water activity in the morning, a village visit in the afternoon and a free evening to rest.",
+          "body": [
+            "If you prefer views from above, [paragliding over the Chicamocha](/destinos/co/san-gil/parapente-chicamocha) is another option. To reach the waterfall, the [ecological walk to the Juan Curí waterfalls](/destinos/co/san-gil/paseo-ecologico-a-cascadas-juan-curi) combines a hike and nature in one outing.",
+            "To see the whole region, check the [San Gil page](/destinos/co/san-gil) and compare experiences before you choose."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (consulted on November 21, 2026) and on the site's catalog."
+    }
+  },
+  {
+    "pais": "br",
+    "ciudad": "maceio",
+    "nombre": "Maceió",
+    "targetTerm": "guia de viaje a maceio para mexicanos",
+    "titulo": "Guía de Maceió: playas, lagunas y cuándo viajar en Alagoas",
+    "publishedAt": "2026-11-21",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Maceió es la capital de Alagoas, en el noreste de Brasil, y combina playas de agua tibia con lagunas y piscinas naturales. La Praia do Gunga, a unos 38 kilómetros de la ciudad según [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/), es una de las playas más bellas de Brasil según [Wikipedia](https://en.wikipedia.org/wiki/Praia_do_Gunga). La temporada de lluvias cae en el invierno, entre mayo y junio, según [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/).",
+    "sections": [
+      {
+        "h2": "¿Dónde queda la Praia do Gunga?",
+        "answer": "La playa está a unos 38 kilómetros de Maceió, según [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/), y Wikipedia la sitúa entre el océano Atlántico y la Lagoa do Roteiro.",
+        "body": [
+          "Se llega en lancha desde Barra de São Miguel o en auto por una propiedad privada, de acuerdo con [Wikipedia](https://en.wikipedia.org/wiki/Praia_do_Gunga). El color del agua cambia con la marea y se ve más azul cuando la marea está baja.",
+          "La [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/) señala que la playa abriga la Lagoa do Roteiro, donde puedes nadar en agua dulce y en agua salada. En nuestro catálogo hay un [tour a la Praia do Gunga](/destinos/br/maceio/tour-a-playa-del-gunga)."
+        ]
+      },
+      {
+        "h2": "¿Qué otros lugares están cerca de la ciudad?",
+        "answer": "La Praia do Francês está a unos 25 kilómetros de Maceió, en el municipio de Marechal Deodoro, según [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/).",
+        "body": [
+          "La Lagoa Mundaú tiene unos 23 kilómetros de extensión, según la misma [guía de Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/). Las piscinas naturales de Pajuçara se alcanzan en jangada en unos 20 minutos, según la [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/).",
+          "Marechal Deodoro está a unos 28 kilómetros de la capital, de acuerdo con la [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/). En nuestro catálogo puedes reservar el [city tour con Praia do Francês](/destinos/br/maceio/city-tour-con-playa-del-frances)."
+        ]
+      },
+      {
+        "h2": "¿Cuándo conviene viajar?",
+        "answer": "La Guía Viajar Melhor indica una temperatura media de 25 ºC durante todo el año, según [Guía Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/).",
+        "body": [
+          "La misma guía recomienda viajar de octubre a enero y evitar mayo y junio, cuando llueve más. [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/) confirma que la lluvia se concentra en el invierno.",
+          "Si vas a Ponta Verde para ver el farol, Queroviajarmais recomienda ir cuando la marea esté baja, según la [misma guía](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/)."
+        ]
+      },
+      {
+        "h2": "¿Cómo organizar tu viaje a Maceió?",
+        "answer": "En nuestro catálogo hay tours a la Praia do Gunga, Maragogi y São Miguel dos Milagres, además de traslados desde el aeropuerto a los hoteles.",
+        "body": [
+          "Si tu viaje incluye Maragogi o São Miguel dos Milagres, pide que el traslado llegue al hotel que elegiste y revisa en cada ficha qué incluye la experiencia y a qué hora sale.",
+          "Consulta la [página de Maceió en Travel Puzzle](/destinos/br/maceio) para ver todas las experiencias disponibles y escoger según la época en la que viajas."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 21 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Maceió",
+      "targetTerm": "maceio travel guide for mexican travelers",
+      "titulo": "Maceió guide: beaches, lagoons and when to travel in Alagoas",
+      "enBreve": "Maceió is the capital of Alagoas, in northeastern Brazil, and combines warm-water beaches with lagoons and natural pools. Praia do Gunga, about 38 kilometers from the city according to [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/), is one of the most beautiful beaches in Brazil according to [Wikipedia](https://en.wikipedia.org/wiki/Praia_do_Gunga). The rainy season falls in winter, between May and June, according to [Guia Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/).",
+      "sections": [
+        {
+          "h2": "Where is Praia do Gunga?",
+          "answer": "The beach is about 38 kilometers from Maceió, according to [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/), and Wikipedia places it between the Atlantic Ocean and Lagoa do Roteiro.",
+          "body": [
+            "You reach it by boat from Barra de São Miguel or by car across private land, according to [Wikipedia](https://en.wikipedia.org/wiki/Praia_do_Gunga). The water color changes with the tide and looks bluer at low tide.",
+            "The [Guia Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/) notes that the beach is home to Lagoa do Roteiro, where you can swim in both fresh and salt water. Our catalog includes a [tour to Praia do Gunga](/destinos/br/maceio/tour-a-playa-del-gunga)."
+          ]
+        },
+        {
+          "h2": "What else is nearby?",
+          "answer": "Praia do Francês is about 25 kilometers from Maceió, in the municipality of Marechal Deodoro, according to [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/).",
+          "body": [
+            "Lagoa Mundaú is about 23 kilometers long, according to the same [Queroviajarmais guide](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/). The natural pools at Pajuçara are reached by jangada in about 20 minutes, according to the [Guia Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/).",
+            "Marechal Deodoro is about 28 kilometers from the capital, according to the [Guia Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/). In our catalog you can book a [city tour with Praia do Francês](/destinos/br/maceio/city-tour-con-playa-del-frances)."
+          ]
+        },
+        {
+          "h2": "When is the top time to travel?",
+          "answer": "The Guia Viajar Melhor gives an average temperature of 25 ºC all year, according to [Guia Viajar Melhor](https://guiaviajarmelhor.com.br/maceio-principais-pontos-turisticos-praias-lugares-para-ir-passeios-e-dicas/).",
+          "body": [
+            "The same guide recommends traveling from October to January and avoiding May and June, when it rains more. [Queroviajarmais](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/) confirms that the rain concentrates in winter.",
+            "If you go to Ponta Verde to see the lighthouse, Queroviajarmais recommends going when the tide is low, according to the [same guide](https://www.queroviajarmais.com/pontos-turisticos-de-maceio/)."
+          ]
+        },
+        {
+          "h2": "How do you plan a trip to Maceió?",
+          "answer": "Our catalog includes tours to Praia do Gunga, Maragogi and São Miguel dos Milagres, plus airport transfers to hotels.",
+          "body": [
+            "If your trip includes Maragogi or São Miguel dos Milagres, ask for the transfer to bring you to the hotel you chose, and check each listing for what the experience includes and when it leaves.",
+            "Check the [Maceió page on Travel Puzzle](/destinos/br/maceio) to see all available experiences and choose according to when you travel."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with AI assistance, based on the public sources linked (consulted on November 21, 2026) and on the site's catalog."
+    }
   }
 ]
