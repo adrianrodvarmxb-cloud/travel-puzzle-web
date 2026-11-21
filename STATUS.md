@@ -1,6 +1,8 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 11 nov 2026, 23:55 (CDMX).
+Actualizado: 21 nov 2026, 14:50 UTC (08:50 CDMX): constructora (Opus). **Ola 7 (ficha única):** bloques 19 «Completa tu viaje», 20 «Otras experiencias» y 21 «Garantías y pie» (REQ-10846…10848; REQ-10804 con §L literal) construidos sin conectar ni bandera; quedan el panel y FichaView.
+
+Anterior: 21 nov 2026, 14:50 UTC (08:50 CDMX): constructora (Opus). **Ola 7 (ficha única):** bloques 19 «Completa tu viaje», 20 «Otras experiencias» y 21 «Garantías y pie» (REQ-10846…10848; REQ-10804 §L literal) construidos sin conectar; quedan el panel y FichaView. Anterior: Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
 Actualizado: 21 nov 2026, 09:40 UTC (03:40 CDMX): constructora (Fable). **Frente 2 (#422), decisión 40:** Mila ya puede leer los tours de Tangol desde el modelo común: `src/ficha/lib/tour-input.ts` (REQ-10843), `src/ficha/source-tour.ts` (REQ-10844) y `/api/agente/detalle` + `proveedores` con `tangol` (REQ-10845). Sin bandera nueva: la ventana sigue tras `AGENTE_API_ENABLED` + llave y Tangol tras `TANGOL_ENABLED`; zoefel-mila decide con `catalogo.proveedores` (REQ-011) si `tangol` se enciende por negocio. Sigue: tours en `buscar` (hoy solo viajes) y `contenido`/`legal` de #468.
@@ -100,6 +102,9 @@ Componentes por bloque en `src/components/ficha/blocks/` construidos sobre `src/
 | REQ-10831 | Bloque 13 «Antes de ir» (qué llevar y requisitos) | NUEVO | `src/ficha/lib/conditions-view.ts`, `src/components/ficha/blocks/AntesDeIrBlock.tsx` | `src/ficha/lib/conditions-view.test.ts` (1), `src/components/ficha/blocks/antes-condiciones-info.test.ts` (1) | CUMPLIDO en código |
 | REQ-10832 | Bloque 14 «Condiciones» (una sola cancelación y 48 horas hábiles) | NUEVO | `src/ficha/lib/conditions-view.ts`, `src/components/ficha/blocks/CondicionesBlock.tsx` | `src/ficha/lib/conditions-view.test.ts` (1), `src/components/ficha/blocks/antes-condiciones-info.test.ts` (1) | CUMPLIDO en código |
 | REQ-10833 | Bloque 15 «Información importante» (notas y «Opera en destino») | NUEVO | `src/ficha/lib/conditions-view.ts`, `src/components/ficha/blocks/InfoImportanteBlock.tsx` | `src/ficha/lib/conditions-view.test.ts` (1), `src/components/ficha/blocks/antes-condiciones-info.test.ts` (1) | CUMPLIDO en código |
+| REQ-10846 | Bloque 19 «Completa tu viaje» (transporte por ubicación; Kiwitaxi con nota §L, nunca en FREETOUR) | NUEVO | `src/ficha/lib/cross-sell-view.ts`, `src/components/ficha/blocks/CompletaTuViajeBlock.tsx` | `src/components/ficha/blocks/completa-otras-garantias.test.ts` (2) | CUMPLIDO en código |
+| REQ-10847 | Bloque 20 «Otras experiencias» (60/40, sin la propia ficha, tope 2 por proveedor) | NUEVO | `src/ficha/lib/cross-sell-view.ts`, `src/components/ficha/blocks/OtrasExperienciasBlock.tsx` | `src/components/ficha/blocks/completa-otras-garantias.test.ts` (1) | CUMPLIDO en código |
+| REQ-10848 | Bloque 21 «Garantías y pie» (garantías por tipo y enlace siempre a /terminos) | NUEVO | `src/ficha/lib/guarantees.ts`, `src/components/ficha/blocks/GarantiasBlock.tsx` | `src/components/ficha/blocks/completa-otras-garantias.test.ts` (1) | CUMPLIDO en código |
 
 ## Ficha única, ola 5 «Cercanía y transporte» (17 nov 2026) — matriz de trazabilidad — OLA CERRADA (REQ-10755, 17 nov 2026)
 Decisión 29 (REQ-10607; reemplaza REQ-005 y absorbe #433). Encendidos: #660 (`NEARBY_UNIFIED_ENABLED`) y #663 (`FICHA_TRANSFER_CARD_ENABLED`), humo en preview y producción; tarjeta verificada en vivo. REQ-10754 queda abierta sin bloquear. Cierre: `npx vitest run -t "REQ-"` → 552 archivos, 3,960 verdes (437 omitidos por el filtro); cruce `grep -r "REQ-1075" src tests`: 10750–10753 con código y test; 10754 y 10755 sin código (datos y cierre). Regreso: cada bandera a `"false"`.
@@ -1492,7 +1497,7 @@ Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proy
 | REQ-10801 | Punto 17 (DEFINICIÓN): Integrado en cl. 1.3 y 2.2: Tangol figura como operador efectivo en toda documentación al viajero. | NUEVO | — | — | PENDIENTE |
 | REQ-10802 | Punto 18 (CÓDIGO): Sin traducción certificada: leyenda §J al inicio y al pie de cada versión en/pt/fr/de/it de T&C, Privacidad y… | NUEVO | — | — | PENDIENTE |
 | REQ-10803 | Punto 19 (CÓDIGO): La FAQ obliga (arts. 32 y 42 LFPC): datos dinámicos iguales al voucher y leyenda de remisión §K al cierre del… | NUEVO | — | — | PENDIENTE |
-| REQ-10804 | Punto 20 (CÓDIGO): Garantías compatibles si se acotan a lo pagado a Travel Puzzle: usar exactamente los 4 textos §L; free tour y… | NUEVO | — | — | PENDIENTE |
+| REQ-10804 | Punto 20 (CÓDIGO): Garantías compatibles si se acotan a lo pagado a Travel Puzzle: usar exactamente los 4 textos §L; free tour y… | NUEVO | `src/ficha/lib/guarantees.ts` | `src/components/ficha/blocks/completa-otras-garantias.test.ts` (2) | CUMPLIDO en código |
 | REQ-10805 | Punto 21 (CÓDIGO): Puzzle Rewards necesita reglamento (arts. 46–48 LFPC): sección «Programa Puzzle Rewards» en /terminos con los… | NUEVO | — | — | PENDIENTE |
 | REQ-10806 | Punto 22 (CÓDIGO): Aviso de IA también en el primer mensaje de WhatsApp: bienvenida de Mila §N. Cambio de prompt en el número rea… | NUEVO | — | — | PENDIENTE |
 | REQ-10807 | Punto 23 (DEFINICIÓN): Chat con el guía aprobado con 3 reglas (§O): aviso de monitoreo y conservación, no dirección laboral, ningún g… | NUEVO | — | — | PENDIENTE |
