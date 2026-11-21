@@ -1,6 +1,7 @@
 # STATUS — travel-puzzle-web
 
 Actualizado: 21 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). **Frente 1 (REQ-10813):** lista inicial de preguntas abiertas de los 7 proveedores publicados (35, es/en, sin montos) y script `carga-preguntas.ts` que simula por defecto con respaldo y regreso; la carga en producción espera a que el PO confirme los 4 correos restantes.
+Actualizado: 21 nov 2026, 21:00 UTC (15:00 CDMX): constructora (Fable). **Frente 2 (#422), decisión 40:** `/api/agente/buscar` ya mezcla los tours de Tangol con los viajes (REQ-10849) desde un índice ligero del modelo común, solo con `tangol` entre los proveedores encendidos y con la liga a la ficha pública; sin bandera nueva. Siguen: `contenido`/`legal` de #468 y `cliente` tras `AGENTE_CLIENTES_ON`.
 
 Actualizado: 21 nov 2026, 14:50 UTC (08:50 CDMX): constructora (Opus). **Ola 7 (ficha única):** bloques 19 «Completa tu viaje», 20 «Otras experiencias» y 21 «Garantías y pie» (REQ-10846…10848; REQ-10804 con §L literal) construidos sin conectar ni bandera; quedan el panel y FichaView.
 
@@ -33,6 +34,7 @@ Primera pieza de #468 rehecha sobre el modelo común de la ficha (ola 6). Sin pa
 | REQ-10843 | Tour de Tangol → entrada del adaptador → modelo (decisión 40) | NUEVO (constructora Fable 21-11) | `src/ficha/lib/tour-input.ts` | `src/ficha/lib/tour-input.test.ts` (8) | CUMPLIDO en código |
 | REQ-10844 | Fuente del modelo para tours (`loadTourFicha`, `loadPracticalRow`) | NUEVO (constructora Fable 21-11) | `src/ficha/source-tour.ts`, `src/tours/practical-load.ts` | `src/ficha/source-tour.test.ts` (5), `src/tours/practical-load.test.ts` (+2) | CUMPLIDO en código |
 | REQ-10845 | `/api/agente/detalle` entrega tours de Tangol; `proveedores` ofrece `tangol` con `TANGOL_ENABLED` | NUEVO (constructora Fable 21-11) | `src/app/api/agente/detalle/route.ts`, `src/app/api/agente/proveedores/route.ts`, `src/agente/lib/detalle.ts`, `src/agente/lib/catalogo.ts` | `src/agente/detalle-tours.test.ts` (5) | CUMPLIDO en código |
+| REQ-10849 | `/api/agente/buscar` también encuentra tours de Tangol (índice ligero de una consulta, caché del catálogo, filtro de proveedores) | NUEVO (constructora Fable 21-11, 14:38) | `src/agente/lib/catalogo.ts`, `src/agente/catalogo.ts`, `src/app/api/agente/buscar/route.ts` | `src/agente/buscar-tours.test.ts` (6) | CUMPLIDO en código |
 
 ## Liga viaje ↔ documento original (14 nov 2026) — matriz de trazabilidad
 Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con el PDF del PO). Faltan los 29 de Big Bus.
