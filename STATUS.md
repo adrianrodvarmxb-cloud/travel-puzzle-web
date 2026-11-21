@@ -1499,10 +1499,8 @@ Registro de los 23 puntos (corrida Opus 19-11 8:38). Textos literales en el Proy
 | REQ-10800 | Punto 16 (TAREA-PO): Anexo 4 con visto bueno condicionado: ningún cambio de cuenta sin validación por llamada o videollamada; llama… | NUEVO | — | — | PENDIENTE |
 | REQ-10801 | Punto 17 (DEFINICIÓN): Integrado en cl. 1.3 y 2.2: Tangol figura como operador efectivo en toda documentación al viajero. | NUEVO | — | — | PENDIENTE |
 | REQ-10802 | Punto 18 (CÓDIGO): Sin traducción certificada: leyenda §J al inicio y al pie de cada versión en/pt/fr/de/it de T&C, Privacidad y… | NUEVO | — | — | PENDIENTE |
-| REQ-10803 | Punto 19 (CÓDIGO): La FAQ obliga (arts. 32 y 42 LFPC): datos dinámicos iguales al voucher y leyenda de remisión §K al cierre del… | NUEVO | — | — | PENDIENTE |
 | REQ-10804 | Punto 20 (CÓDIGO): Garantías compatibles si se acotan a lo pagado a Travel Puzzle: usar exactamente los 4 textos §L; free tour y… | NUEVO | `src/ficha/lib/guarantees.ts` | `src/components/ficha/blocks/completa-otras-garantias.test.ts` (2) | CUMPLIDO en código |
 | REQ-10803 | Punto 19 (CÓDIGO): La FAQ obliga (arts. 32 y 42 LFPC): datos dinámicos iguales al voucher y leyenda de remisión §K al cierre del… | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/PreguntasBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (1) | CUMPLIDO en código |
-| REQ-10804 | Punto 20 (CÓDIGO): Garantías compatibles si se acotan a lo pagado a Travel Puzzle: usar exactamente los 4 textos §L; free tour y… | NUEVO | — | — | PENDIENTE |
 | REQ-10805 | Punto 21 (CÓDIGO): Puzzle Rewards necesita reglamento (arts. 46–48 LFPC): sección «Programa Puzzle Rewards» en /terminos con los… | NUEVO | — | — | PENDIENTE |
 | REQ-10806 | Punto 22 (CÓDIGO): Aviso de IA también en el primer mensaje de WhatsApp: bienvenida de Mila §N. Cambio de prompt en el número rea… | NUEVO | — | — | PENDIENTE |
 | REQ-10807 | Punto 23 (DEFINICIÓN): Chat con el guía aprobado con 3 reglas (§O): aviso de monitoreo y conservación, no dirección laboral, ningún g… | NUEVO | — | — | PENDIENTE |
