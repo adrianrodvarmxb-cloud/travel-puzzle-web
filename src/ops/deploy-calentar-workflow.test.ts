@@ -27,4 +27,10 @@ describe("REQ-1358: calentar la caché de producción antes del humo", () => {
     expect(step).toMatch(/continue-on-error: true/);
     expect(wf).toMatch(/Prueba de humo \(producción\)[\s\S]*smoke\.ts https:\/\/travelpuzzle\.com\.mx/);
   });
+  it("REQ-10842 (INC-027): tras los 200, el calentado exige fichas de viaje en /tours y /en/tours con el script puro", () => {
+    const step = wf.slice(at("Calentar la caché de producción (INC-009)"), at("Prueba de humo (producción)"));
+    expect(step).toMatch(/npx tsx src\/scripts\/calentar-tours\.ts https:\/\/travelpuzzle\.com\.mx/);
+    // El script corre después del bucle de curl (primero 200, luego viajes) y dentro del mismo paso tolerante.
+    expect(step.indexOf("calentar-tours.ts")).toBeGreaterThan(step.indexOf("for intento in 1 2 3 4 5 6"));
+  });
 });
