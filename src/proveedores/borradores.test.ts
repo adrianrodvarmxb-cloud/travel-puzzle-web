@@ -136,10 +136,10 @@ describe("REQ-10762: modo manual de la bandeja", () => {
     expect(avisoInterno(b, "Tangol", "https://s/admin/borradores#b1", undefined, "manual").texto).not.toMatch(/si no lo cancelas/);
     expect(avisoInterno(b, "Tangol", "https://s/admin/borradores#b1").texto).toMatch(/si no lo cancelas/);
   });
-  it("REQ-10762: la bandera de modo viene de wrangler.jsonc: PROVEEDORES_BORRADORES_ON encendida y MODO «manual»; sin MODO se asume manual", () => {
+  it("REQ-10762 / REQ-10812: la bandera de modo viene de wrangler.jsonc: PROVEEDORES_BORRADORES_ON encendida y MODO «auto» tras el tercer envío manual del PO; sin MODO se asume manual", () => {
     const w = readFileSync("wrangler.jsonc", "utf8");
     expect(w).toMatch(/"PROVEEDORES_BORRADORES_ON": "true"/);
-    expect(w).toMatch(/"PROVEEDORES_BORRADORES_MODO": "manual"/);
+    expect(w).toMatch(/"PROVEEDORES_BORRADORES_MODO": "auto"/); // REQ-10812
     expect(modoBorradores({})).toBe("manual");
     expect(modoBorradores({ PROVEEDORES_BORRADORES_MODO: "auto" })).toBe("auto");
     expect(modoBorradores({ PROVEEDORES_BORRADORES_MODO: "AUTO" })).toBe("manual");

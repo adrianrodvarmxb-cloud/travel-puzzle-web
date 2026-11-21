@@ -61,7 +61,9 @@
     // los borradores en /admin/borradores y avisa al PO; nada sale hasta que él pulse «Enviar ya». Tras 3 envíos manuales,
     // la constructora pasa MODO a "auto" en su PR (salen solos a su hora si nadie los cancela). Regreso: ON = "false".
     "PROVEEDORES_BORRADORES_ON": "true",
-    "PROVEEDORES_BORRADORES_MODO": "manual",
+    // REQ-10812 (19-11-2026): tercer envío manual del PO registrado → modo automático (REQ-10762, REQ-10774 punto 11 «A: yo, con PR y aviso»).
+    // Regreso: MODO = "manual" (los borradores vuelven a esperar «Enviar ya»).
+    "PROVEEDORES_BORRADORES_MODO": "auto",
     // REQ-1568: resumen semanal (Adri, Claudia y 618 112 9459). MILA_AVISOS_URL se llena con el puente de REQ-1663; el secreto MILA_AVISOS_SECRET lo carga el PO.
     "RESUMEN_DESTINOS": "5215548538822,5215536490320,5216181129459",
     // REQ-10758 (17-11-2026): puente de Mila encendido (zoefel-mila REQ-045); el secreto MILA_AVISOS_SECRET viaja con la versión (worker-secrets.ts).
