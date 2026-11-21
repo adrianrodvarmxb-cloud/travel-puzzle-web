@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from "vitest";
-import { loadPracticalInfo, PRACTICAL_COLUMNS, BASE_COLUMNS, translator } from "./practical-load";
+import { loadPracticalInfo, loadPracticalRow, PRACTICAL_COLUMNS, BASE_COLUMNS, translator } from "./practical-load";
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -84,5 +84,23 @@ describe("REQ-10536 / REQ-10537: la ficha carga los datos prácticos con SQL apa
     expect(translator("en")("tours.endPoint")).toBe("End point");
     expect(translator("de")("tours.endPoint")).toBe("End point");
     expect(translator("es")("tours.agesRange")).toBe("{from} a {to} años");
+  });
+});
+
+describe("REQ-10844: fila práctica cruda para el modelo común", () => {
+  it("REQ-10844: con la 0032 devuelve la fila completa tal cual (texto JSON incluido) y, sin ella, solo las columnas de la 0031", async () => {
+    const con = fakeDb(PRACTICAL_COLUMNS, fila);
+    expect(await loadPracticalRow(con as never, "t1", ON)).toMatchObject({ whatToBring: "Agua", childAgeFrom: 3, guideLanguages: '["es"]' });
+    const sin = fakeDb(BASE_COLUMNS, fila);
+    const r = await loadPracticalRow(sin as never, "t1", ON);
+    expect(r).toMatchObject({ cancellationPolicy: "Sin cargo hasta 24 h." });
+    expect(r).not.toHaveProperty("whatToBring");
+    expect(sin.calls).toHaveLength(2);
+  });
+  it("REQ-10844: sin fila o con la base caída, null (la ficha sigue sin esos bloques)", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(await loadPracticalRow(fakeDb(PRACTICAL_COLUMNS, null) as never, "x", ON)).toBeNull();
+    const caida = { prepare: () => ({ bind: () => ({ all: async () => { throw new Error("D1_ERROR: timeout"); } }) }) };
+    expect(await loadPracticalRow(caida as never, "x", ON)).toBeNull();
   });
 });
