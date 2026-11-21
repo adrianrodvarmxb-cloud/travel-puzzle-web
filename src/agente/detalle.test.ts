@@ -16,6 +16,11 @@ vi.mock("@/ficha/source", async (orig) => {
     env: { SITE_URL: "https://travelpuzzle.com.mx" }, now: () => new Date("2026-11-20T20:00:00Z"),
   }) };
 });
+// REQ-10845: la ruta también busca tours; aquí ninguno (los tours se prueban en detalle-tours.test.ts).
+vi.mock("@/ficha/source-tour", async (orig) => {
+  const real = await orig<typeof import("@/ficha/source-tour")>();
+  return { ...real, tourFichaDeps: async () => ({ tourBySlug: async () => null, practicalRow: async () => null, env: {}, now: () => new Date("2026-11-20T20:00:00Z") }) };
+});
 const { GET: detalle } = await import("@/app/api/agente/detalle/route");
 
 const LLAVE = "k".repeat(32);

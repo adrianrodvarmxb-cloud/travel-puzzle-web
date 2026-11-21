@@ -16,11 +16,15 @@ export interface Proveedor { id: string; nombre: string; bloqueado: boolean; mot
 // REQ-148
 export const proveedorDe = (v: Pick<ViajeAgente, "agencyId">): string => (v.agencyId ? `agencia:${v.agencyId}` : "propios");
 
-// REQ-148
-export function listaProveedores(agencias: { id: string; name: string }[]): Proveedor[] {
+/** REQ-10845 (decisión 40): proveedor de tours con adaptador en el modelo común; sale solo si el sitio lo tiene encendido. */
+export const TANGOL_PROVEEDOR: Proveedor = { id: "tangol", nombre: "Tangol (tours y excursiones en Sudamérica)", bloqueado: false };
+
+// REQ-148, REQ-10845
+export function listaProveedores(agencias: { id: string; name: string }[], tours: { tangol?: boolean } = {}): Proveedor[] {
   return [
     { id: "propios", nombre: "Viajes propios de Travel Puzzle", bloqueado: false },
     ...agencias.map((a) => ({ id: `agencia:${a.id}`, nombre: a.name, bloqueado: false })),
+    ...(tours.tangol ? [TANGOL_PROVEEDOR] : []),
     { id: FREETOUR, nombre: "FREETOUR.com", bloqueado: true, motivo: MOTIVO_FREETOUR },
   ];
 }
