@@ -174,7 +174,7 @@ export function sqlRegresoPreguntas(ids: readonly string[]): { respaldo: string;
  * cargado; cerrar preguntas conserva el historial, G3-A) y ningún texto trae montos. Devuelve los motivos; vacío = ok.
  */
 // REQ-10813
-export function validarCarga(carga: Partial<Record<string, Pregunta[]>>, directorio: readonly Pick<ProveedorSemilla, "id" | "publicado">[], actuales: Record<string, string | null | undefined>): string[] {
+export function validarCarga(carga: Partial<Record<string, Pregunta[]>>, directorio: readonly Pick<ProveedorSemilla, "id" | "publicado">[], actuales: Record<string, string | null | undefined>, revisiones: Partial<Record<string, RevisionCompleta | null>> = REVISIONES): string[] {
   const motivos: string[] = [];
   for (const [id, lista] of Object.entries(carga)) {
     if (!lista) continue;
@@ -182,9 +182,45 @@ export function validarCarga(carga: Partial<Record<string, Pregunta[]>>, directo
     if (!d || !d.publicado) motivos.push(`${id}: no está publicado en el directorio`);
     const actual = (actuales[id] ?? "[]").trim();
     if (actual && actual !== "[]") motivos.push(`${id}: ya tiene preguntas cargadas; no se pisan`);
+    const sinRevision = motivoSinRevision(id, revisiones[id]); // REQ-10850
+    if (sinRevision) motivos.push(sinRevision);
     for (const pr of lista) if (!sinMontos(pr.es) || !sinMontos(pr.en)) motivos.push(`${pr.id}: trae un monto, porcentaje, cuenta o dato fiscal`);
   }
   return motivos;
+}
+
+/**
+ * REQ-10850 (PO, 21-11-2026 16:02 CDMX): «necesito que asegures que a ningún proveedor se le vaya a enviar ese cuestionario
+ * sin antes haber revisado todo [...] y contestar esas preguntas y en caso de que si falte algo entonces sí se les puede mandar».
+ * Registro de la revisión completa de cada proveedor antes de cargarle preguntas: TODOS sus hilos de correo (cuerpo y
+ * adjuntos), sus documentos, su contrato con control de cambios y su expediente. Lo que ya está contestado en esas fuentes
+ * se quita de su lista. Sin revisión completa registrada aquí, `validarCarga` no deja cargar nada a ese proveedor.
+ */
+export interface RevisionCompleta {
+  fecha: string; // AAAA-MM-DD
+  hilos: number; // hilos de correo leídos completos (por dominio, cuentas alternas y nombre)
+  adjuntos: boolean; // adjuntos y enlaces compartidos leídos
+  contrato: boolean; // contrato o acuerdo, con su control de cambios, revisado
+  expediente: string; // ruta del expediente en el Proyecto que lo registra
+  contestadas: number; // preguntas quitadas porque ya estaban contestadas
+}
+
+// REQ-10850: se llena proveedor por proveedor al terminar su revisión; null = sin revisar = no se carga.
+export const REVISIONES: Record<PublicadoG5, RevisionCompleta | null> = {
+  "big-bus-tours": null,
+  "destino-colombia": null,
+  "exotic-escapes": null,
+  "extime-travel": null,
+  "fantastica-china": null,
+  "inca-world-peru": null,
+  "turismo-asiatico": null,
+};
+
+// REQ-10850
+export function motivoSinRevision(id: string, r: RevisionCompleta | null | undefined): string | null {
+  if (!r) return `${id}: sin revisión completa de hilos, adjuntos, contrato y expediente (REQ-10850)`;
+  const falta = [r.hilos > 0 ? null : "hilos", r.adjuntos ? null : "adjuntos", r.contrato ? null : "contrato", r.expediente ? null : "expediente", /^\d{4}-\d{2}-\d{2}$/.test(r.fecha) ? null : "fecha"].filter(Boolean);
+  return falta.length ? `${id}: revisión incompleta (falta ${falta.join(", ")}) (REQ-10850)` : null;
 }
 
 // REQ-10813
