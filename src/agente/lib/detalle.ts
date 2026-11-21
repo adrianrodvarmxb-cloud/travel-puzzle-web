@@ -41,7 +41,7 @@ export interface DetalleAgente {
 export const proveedorDeViaje = (agencyId: string | null): string => (agencyId ? `agencia:${agencyId}` : "propios");
 
 // REQ-10837
-export function detalleAgente(f: FichaModel, read: MilaRead, o: { base: string; agencyId: string | null }): DetalleAgente {
+export function detalleAgente(f: FichaModel, read: MilaRead, o: { base: string; agencyId: string | null; /** REQ-10845: id del proveedor de un tour (`tangol`); sin él, el de viajes. */ proveedor?: string }): DetalleAgente {
   const v = read.view;
   const enlace = enlacePrellenado(o.base, v.booking.path, {});
   const precio = (p: FichaModel["price"]) => (p ? { monto: p.amount, moneda: p.currency, por: p.per } : null);
@@ -49,7 +49,7 @@ export function detalleAgente(f: FichaModel, read: MilaRead, o: { base: string; 
     slug: f.slug,
     codigo: v.reference,
     titulo: v.title,
-    proveedor: proveedorDeViaje(o.agencyId),
+    proveedor: o.proveedor ?? proveedorDeViaje(o.agencyId), // REQ-10845
     lugar: v.place,
     resumen: v.summary,
     duracion: v.duration,
