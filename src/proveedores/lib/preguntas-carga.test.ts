@@ -1,13 +1,13 @@
 // REQ-10813 (plan REQ-3457 §3 y §8): carga inicial de las preguntas abiertas de los 7 proveedores publicados.
 // npx vitest run src/proveedores/lib/preguntas-carga.test.ts
 import { describe, it, expect } from "vitest";
-import { PREGUNTAS_INICIALES, PUBLICADOS_G5, REVISIONES, motivoSinRevision, sinMontos, sqlCargaPreguntas, sqlRegresoPreguntas, resumenPreguntas, validarCarga, type RevisionCompleta } from "./preguntas-carga";
+import { PREGUNTAS_INICIALES, PUBLICADOS_G5, REVISIONES, motivoSinRevision, preguntasPorCargar, sinMontos, sqlCargaPreguntas, sqlRegresoPreguntas, resumenPreguntas, validarCarga, type RevisionCompleta } from "./preguntas-carga";
 import { leerPreguntas, abiertas, textoRecordatorio } from "./preguntas";
 import { DIRECTORIO_APROBADO } from "./directorio";
 
 const HOY = "2026-11-21";
 
-const REVISADO: RevisionCompleta = { fecha: "2026-11-21", hilos: 3, adjuntos: true, contrato: true, expediente: "proveedores/x-expediente.md", contestadas: 0 };
+const REVISADO: RevisionCompleta = { fecha: "2026-11-21", hilos: 3, adjuntos: true, contrato: true, expediente: "proveedores/x-expediente.md", contestadas: 0, quitadas: {} };
 
 describe("REQ-10813: las preguntas iniciales son las de los 7 publicados (G5-A), sin montos ni datos fiscales", () => {
   it("REQ-10813: cubre exactamente a los 7 publicados del directorio (Tangol va por API, no por correo) y cada id existe en el directorio", () => {
@@ -94,16 +94,27 @@ describe("REQ-10813: SQL de carga con punto de regreso; simula por defecto", () 
 });
 
 describe("REQ-10850: ninguna pregunta a un proveedor sin revisión completa", () => {
-  it("REQ-10850: hoy ningún proveedor tiene revisión registrada, así que no se puede cargar ninguno", () => {
-    for (const id of PUBLICADOS_G5) expect(REVISIONES[id]).toBeNull();
-    const motivos = validarCarga(PREGUNTAS_INICIALES, DIRECTORIO_APROBADO, {});
-    for (const id of PUBLICADOS_G5) expect(motivos).toContain(`${id}: sin revisión completa de hilos, adjuntos, contrato y expediente (REQ-10850)`);
+  it("REQ-10850: Inca World no tiene revisión completa (su tarifario no se pudo abrir) y no se puede cargar", () => {
+    expect(REVISIONES["inca-world-peru"]).toBeNull();
+    expect(validarCarga({ "inca-world-peru": PREGUNTAS_INICIALES["inca-world-peru"] }, DIRECTORIO_APROBADO, {})).toContain("inca-world-peru: sin revisión completa de hilos, adjuntos, contrato y expediente (REQ-10850)");
+  });
+
+  it("REQ-10850: lo ya contestado no se carga; Fantástica China queda sin preguntas y las quitadas cuadran con las contestadas", () => {
+    expect(preguntasPorCargar("fantastica-china")).toEqual([]);
+    expect(preguntasPorCargar("exotic-escapes").map((p) => p.id)).toEqual(["exotic-escapes:03", "exotic-escapes:05"]);
+    for (const id of PUBLICADOS_G5) {
+      const r = REVISIONES[id];
+      if (!r) continue;
+      expect(motivoSinRevision(id, r)).toBeNull();
+      for (const q of Object.keys(r.quitadas)) expect(PREGUNTAS_INICIALES[id].some((p) => p.id === q)).toBe(true);
+    }
   });
 
   it("REQ-10850: una revisión sin contrato, sin adjuntos o sin hilos leídos no cuenta", () => {
     expect(motivoSinRevision("x", { ...REVISADO, contrato: false })).toMatch(/falta contrato/);
     expect(motivoSinRevision("x", { ...REVISADO, adjuntos: false, hilos: 0 })).toMatch(/falta hilos, adjuntos/);
     expect(motivoSinRevision("x", { ...REVISADO, expediente: "" })).toMatch(/falta expediente/);
+    expect(motivoSinRevision("x", { ...REVISADO, contestadas: 2 })).toMatch(/cuenta de quitadas/);
     expect(motivoSinRevision("x", REVISADO)).toBeNull();
   });
 

@@ -15,12 +15,12 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { DIRECTORIO_APROBADO } from "../proveedores/lib/directorio";
-import { PREGUNTAS_INICIALES, PUBLICADOS_G5, resumenPreguntas, sqlCargaPreguntas, sqlRegresoPreguntas, validarCarga } from "../proveedores/lib/preguntas-carga";
+import { PREGUNTAS_INICIALES, PUBLICADOS_G5, preguntasPorCargar, resumenPreguntas, sqlCargaPreguntas, sqlRegresoPreguntas, validarCarga } from "../proveedores/lib/preguntas-carga";
 
 const args = process.argv.slice(2);
 const soloArg = args[args.indexOf("--solo") + 1];
 const ids = args.includes("--solo") && soloArg ? soloArg.split(",").map((s) => s.trim()).filter(Boolean) : [...PUBLICADOS_G5];
-const carga = Object.fromEntries(ids.filter((id): id is (typeof PUBLICADOS_G5)[number] => (PUBLICADOS_G5 as readonly string[]).includes(id)).map((id) => [id, PREGUNTAS_INICIALES[id]]));
+const carga = Object.fromEntries(ids.filter((id): id is (typeof PUBLICADOS_G5)[number] => (PUBLICADOS_G5 as readonly string[]).includes(id)).map((id) => [id, preguntasPorCargar(id)])); // REQ-10850: sin lo ya contestado
 
 const motivos = validarCarga(carga, DIRECTORIO_APROBADO, {});
 if (motivos.length) {

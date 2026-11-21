@@ -40,8 +40,8 @@ export const PREGUNTAS_INICIALES: Record<PublicadoG5, Pregunta[]> = {
       "La política de cancelación exacta por circuito (sus términos de 2023 no la definen) y la cancelación de hoteles por plan.",
       "The exact cancellation policy per circuit (your 2023 terms do not define it) and hotel cancellation per plan."),
     p("destino-colombia", 2, "calendario", "2026-11-11",
-      "La anticipación mínima para reservar (¿24 horas o sin mínimo?) y si habrá tarifas para compras después del 15 de diciembre de 2026.",
-      "Minimum lead time to book (24 hours or none?) and whether there will be rates for purchases after 15 December 2026."),
+      "Las tarifas para compras después del 15 de diciembre de 2026 (nos dijeron que las compartirían la semana siguiente al 13 de noviembre).",
+      "Rates for purchases after 15 December 2026 (you mentioned you would share them the week after 13 November)."),
     p("destino-colombia", 3, "pago", "2026-11-11",
       "Plazo y moneda de la factura por reserva.",
       "Payment term and currency of the invoice per booking."),
@@ -49,8 +49,8 @@ export const PREGUNTAS_INICIALES: Record<PublicadoG5, Pregunta[]> = {
       "La versión 2026 de sus términos y condiciones, marcando lo que cambió frente a 2023.",
       "The 2026 version of your terms and conditions, marking what changed from 2023."),
     p("destino-colombia", 5, "alta", "2026-11-11",
-      "Sus comentarios al acuerdo de intermediación, los datos legales de la empresa y el acceso a su portal de socios.",
-      "Your comments on the intermediation agreement, your company's legal details and access to your partner portal."),
+      "Sus comentarios al acuerdo de intermediación tras revisarlo con su representante legal, incluidas las cláusulas 3.6 y 8.2.",
+      "Your comments on the intermediation agreement after reviewing it with your legal representative, including clauses 3.6 and 8.2."),
   ],
   "exotic-escapes": [
     p("exotic-escapes", 1, "tarifas", "2026-11-11",
@@ -77,14 +77,14 @@ export const PREGUNTAS_INICIALES: Record<PublicadoG5, Pregunta[]> = {
       "El idioma de operación de los 46 productos que les señalamos.",
       "The operating language of the 46 products we flagged."),
     p("extime-travel", 3, "cancelacion", "2026-11-11",
-      "Qué política de cancelación aplica (48/72 horas según su nota del 16 de octubre, o 24 horas según los documentos) y el programa 5D4N que difiere entre documentos.",
-      "Which cancellation policy applies (48/72 h per your 16 October note vs. 24 h in the documents) and the 5D4N programme that differs between documents."),
+      "El programa de 5 días y 4 noches: cuál es la versión vigente, porque difiere entre sus documentos.",
+      "The 5-day/4-night programme: which version is current, since it differs between your documents."),
     p("extime-travel", 4, "pago", "2026-11-11",
       "Una nueva fecha para la llamada que propusimos para el 17 o 18 de noviembre, si no se realizó.",
       "A new slot for the call we proposed for 17–18 November, if it did not take place."),
     p("extime-travel", 5, "alta", "2026-11-11",
-      "Sus comentarios al acuerdo de intermediación, sus términos para socios, datos legales y confirmación de que nuestra cuenta B2B en pro.extimetravel.com está activa.",
-      "Your comments on the intermediation agreement, your partner terms, legal details, and confirmation that our B2B account on pro.extimetravel.com is active.", "REQ-1398"),
+      "Sus comentarios al acuerdo de intermediación que les enviamos el 11 de noviembre.",
+      "Your comments on the intermediation agreement we sent on 11 November.", "REQ-1398"),
   ],
   "fantastica-china": [
     p("fantastica-china", 1, "pago", "2026-11-12",
@@ -105,34 +105,34 @@ export const PREGUNTAS_INICIALES: Record<PublicadoG5, Pregunta[]> = {
   ],
   "inca-world-peru": [
     p("inca-world-peru", 1, "cancelacion", "2026-11-19",
-      "La penalidad entre 61 y 31 días antes (la tabla que tenemos salta de 62 a 16 días) y la regla de las entradas nominativas a Machu Picchu.",
-      "The penalty between 61 and 31 days before departure (our table jumps from 62 to 16 days) and the rule for named Machu Picchu tickets."),
+      "La penalidad de cancelación entre 61 y 31 días antes de la llegada (la tabla del tarifario salta de 62 a 16 días).",
+      "The cancellation penalty between 61 and 31 days before arrival (the rate sheet table jumps from 62 to 16 days)."),
     p("inca-world-peru", 2, "tarifas", "2026-11-19",
       "Vigencia del tarifario, si el precio base es por persona en habitación doble, y los productos que aparecen sin tarifa.",
       "Validity of the rate sheet, whether the base price is per person in a double room, and the products that appear without a rate."),
     p("inca-world-peru", 3, "calendario", "2026-11-19",
-      "La anticipación mínima por producto (vemos 10 y 60 días según el caso) y las duraciones que difieren entre documentos.",
-      "Minimum lead time per product (we see 10 and 60 days depending on the case) and the durations that differ between documents."),
+      "La anticipación mínima para reservar por producto (vemos 10 y 60 días según el caso) y la duración corregida de «Descubriendo el Perú».",
+      "Minimum booking lead time per product (we see 10 and 60 days depending on the case) and the corrected duration of «Descubriendo el Perú»."),
     p("inca-world-peru", 4, "pago", "2026-11-19",
       "El contacto operativo de reservas (además del teléfono 24/7 que ya tenemos) y las fotos oficiales que nos ofrecieron el 9 de noviembre.",
       "The operational booking contact (besides the 24/7 phone we already have) and the official photos offered on 9 November.", "REQ-1524"),
     p("inca-world-peru", 5, "alta", "2026-11-19",
-      "El acuerdo de intermediación para revisión y firma, datos legales y el PDF del tarifario completo.",
-      "The intermediation agreement for review and signature, legal details and the full rate-sheet PDF.", "REQ-10574"),
+      "Los datos legales de Reservas CPM S.A.C., la forma y el plazo de pago, y si tienen API, portal o listado en Excel.",
+      "The legal details of Reservas CPM S.A.C., payment method and terms, and whether you have an API, portal or Excel listing.", "REQ-10574"),
   ],
   "turismo-asiatico": [
     p("turismo-asiatico", 1, "tarifas", "2026-11-19",
-      "Si las tarifas que nos compartieron son netas o comisionables, y el precio de las noches de hotel que aparecen sin monto.",
-      "Whether the rates you shared are net or commissionable, and the price of the hotel nights that appear without an amount."),
+      "Cuándo tendrán el precio de los hoteles que siguen en TBA en los tarifarios de Singapur y Kuala Lumpur.",
+      "When you will have rates for the hotels still marked TBA in the Singapore and Kuala Lumpur rate sheets."),
     p("turismo-asiatico", 2, "cancelacion", "2026-11-19",
-      "La política de cancelación de los 8 tours (los 3 circuitos ya la traen).",
-      "The cancellation policy for the 8 tours (the 3 circuits already include it)."),
+      "Confirmar si la tabla de cancelación de sus términos y condiciones 2026 aplica también a los 8 tours de día de Singapur y Kuala Lumpur.",
+      "Please confirm whether the cancellation table in your 2026 terms and conditions also applies to the 8 day tours in Singapore and Kuala Lumpur."),
     p("turismo-asiatico", 3, "calendario", "2026-11-19",
       "Confirmar las salidas en domingo y los vuelos internos Kuala Lumpur–Sandakan (quién los emite y a qué tarifa).",
       "Confirm Sunday departures and the Kuala Lumpur–Sandakan domestic flights (who issues them and at what fare)."),
     p("turismo-asiatico", 4, "pago", "2026-11-19",
-      "Las incoherencias de almuerzo y horario en algunos tours que les detallamos en archivo aparte, y la foto del tour de Katong/Joo Chiat para publicarlo.",
-      "The lunch and schedule inconsistencies in some tours detailed in a separate file, and the photo of the Katong/Joo Chiat tour so we can publish it."),
+      "Si el almuerzo de los tours de Kuala Lumpur y Melaka está incluido: el itinerario lo menciona y el tarifario lo cobra como extra.",
+      "Whether lunch is included in the Kuala Lumpur and Melaka tours: the itinerary mentions it and the rate sheet charges it as an extra."),
     p("turismo-asiatico", 5, "alta", "2026-11-19",
       "El acuerdo de intermediación para revisión y firma, datos legales (licencia KPL) y permiso de fotos con crédito.",
       "The intermediation agreement for review and signature, legal details (KPL licence) and photo permission with credit."),
@@ -203,23 +203,66 @@ export interface RevisionCompleta {
   contrato: boolean; // contrato o acuerdo, con su control de cambios, revisado
   expediente: string; // ruta del expediente en el Proyecto que lo registra
   contestadas: number; // preguntas quitadas porque ya estaban contestadas
+  /** id de la pregunta quitada → dónde está la respuesta (correo, documento o expediente, con fecha). */
+  quitadas: Record<string, string>;
 }
 
 // REQ-10850: se llena proveedor por proveedor al terminar su revisión; null = sin revisar = no se carga.
 export const REVISIONES: Record<PublicadoG5, RevisionCompleta | null> = {
-  "big-bus-tours": null,
-  "destino-colombia": null,
-  "exotic-escapes": null,
-  "extime-travel": null,
-  "fantastica-china": null,
+  // 21-11-2026: hilo principal (27 correos, 16 sep a 11 nov), acuerdo enviado el 11 nov sin respuesta, casos de Trade Support y recibos; sin correos nuevos desde el 11 nov. Las 5 siguen abiertas.
+  "big-bus-tours": { fecha: "2026-11-21", hilos: 4, adjuntos: true, contrato: true, expediente: "proveedores/big-bus-expediente-2026-11-18.md", contestadas: 0, quitadas: {} },
+  // 21-11-2026: hilo principal (3 al 13 nov), comunicado del IVA y sus términos y condiciones de noviembre 2023 (PDF leído completo); acuerdo enviado el 11 nov, en revisión con su representante legal.
+  "destino-colombia": {
+    fecha: "2026-11-21", hilos: 2, adjuntos: true, contrato: true, expediente: "proveedores/destino-colombia-expediente-2026-11-17.md", contestadas: 2,
+    quitadas: {
+      "destino-colombia:01": "Términos y condiciones (nov 2023, adjunto del 6 nov): tours y traslados con menos de 48 h, 100 %; hoteles según cada hotel, informado al confirmar; no hay política fija por circuito",
+      "destino-colombia:03": "Términos y condiciones (nov 2023): todas las reservas se prepagan en USD en las fechas de la liquidación; correo del 6 nov: pago total antes del ingreso",
+    },
+  },
+  // 21-11-2026: hilo único (12 correos, 24 ago a 19 nov), Condiciones generales 2027 y 15 tarifarios; acuerdo v2 enviado el 16 nov y v4 en el Proyecto.
+  "exotic-escapes": {
+    fecha: "2026-11-21", hilos: 1, adjuntos: true, contrato: true, expediente: "proveedores/exotic-escapes-expediente-2026-11-15.md", contestadas: 3,
+    quitadas: {
+      "exotic-escapes:01": "Correo de Priya Chauhan del 19 nov 2026: emite Exotic o su proveedor autorizado y asiste con cambios o reembolsos según la aerolínea",
+      "exotic-escapes:02": "Correo de Priya Chauhan del 19 nov 2026: Sri Lanka tiene la misma cancelación que India; la de agencias ya está en sus Condiciones generales 2027",
+      "exotic-escapes:04": "Correo de Priya Chauhan del 19 nov 2026: acepta la cláusula 8.2",
+    },
+  },
+  // 21-11-2026: hilo del programa de verano 2027 (4 a 6 nov), hilo de la v2 (11 y 16 nov, nuestros), aviso de cancelación del 22 oct con su hoja de cálculo y programas de verano e invierno (leídos), T&C B2B 2026.
+  "extime-travel": { fecha: "2026-11-21", hilos: 4, adjuntos: true, contrato: true, expediente: "proveedores/extime-expediente-2026-11-15.md", contestadas: 0, quitadas: {} },
+  // 21-11-2026: los 5 hilos (2026-2027 y temporadas anteriores), tarifarios 2027-2028 leídos (condiciones completas) y acuerdo v2 con control de cambios; respuestas del 12, 17 y 19 nov.
+  "fantastica-china": {
+    fecha: "2026-11-21", hilos: 5, adjuntos: true, contrato: true, expediente: "proveedores/fantastica-china-expediente-2026-11-15.md", contestadas: 5,
+    quitadas: {
+      "fantastica-china:01": "Correo de Beibei del 12 nov 2026: la fecha límite va en la factura de cada reserva, solo transferencia; las reservas se mandan a Beibei",
+      "fantastica-china:02": "Tarifario Tour Regular 2027-2028: sin salidas del 18 al 30 ene 2028 (Año Nuevo Chino); Feria de Cantón del 6 al 26 abr y del 7 al 28 oct 2027; suplemento por otros días de la semana",
+      "fantastica-china:03": "Correo de Beibei del 12 nov 2026: Fantástica China reubica al viajero si la aerolínea cambia o cancela",
+      "fantastica-china:04": "Tarifario 2027-2028, notas 14 y 15, confirmado por Beibei el 12 nov 2026: fuera de esas notas las tarifas no cambian",
+      "fantastica-china:05": "Fotos autorizadas con crédito el 4 nov 2026; razón social dada por Zhou Fan el 17 y 19 nov; los datos legales completos llegan con la firma del acuerdo (Anexo 2), ya pedida",
+    },
+  },
+  // Sin revisión completa: su tarifario B2B 2026-2027 (PDF de 23 MB del 4 nov) no se pudo abrir desde aquí; falta leerlo antes de cargar.
   "inca-world-peru": null,
-  "turismo-asiatico": null,
+  // 21-11-2026: hilo único «COTIZACION» (2024 y 4 a 6 nov 2026), T&C 2026 y tarifarios 2027 de Kuala Lumpur y Singapur leídos; sin acuerdo enviado.
+  "turismo-asiatico": {
+    fecha: "2026-11-21", hilos: 1, adjuntos: true, contrato: true, expediente: "proveedores/turismo-asiatico-expediente-2026-11-18.md", contestadas: 2,
+    quitadas: {
+      "turismo-asiatico:03": "Correo de Sergi del 5 nov 2026: llegadas los miércoles a Kuala Lumpur y los domingos a Singapur; no venden vuelos internos",
+      "turismo-asiatico:05": "T&C 2026 y firma de Sergi: razón social, número de empresa y licencia; fotos: no autorizan, recomiendan banco de imágenes (5 nov 2026); el acuerdo lo enviamos nosotros",
+    },
+  },
 };
+
+// REQ-10850: lo que de verdad falta preguntar: la lista inicial menos lo que la revisión encontró contestado.
+export function preguntasPorCargar(id: PublicadoG5, revisiones: Partial<Record<string, RevisionCompleta | null>> = REVISIONES): Pregunta[] {
+  const quitadas = revisiones[id]?.quitadas ?? {};
+  return PREGUNTAS_INICIALES[id].filter((pr) => !(pr.id in quitadas));
+}
 
 // REQ-10850
 export function motivoSinRevision(id: string, r: RevisionCompleta | null | undefined): string | null {
   if (!r) return `${id}: sin revisión completa de hilos, adjuntos, contrato y expediente (REQ-10850)`;
-  const falta = [r.hilos > 0 ? null : "hilos", r.adjuntos ? null : "adjuntos", r.contrato ? null : "contrato", r.expediente ? null : "expediente", /^\d{4}-\d{2}-\d{2}$/.test(r.fecha) ? null : "fecha"].filter(Boolean);
+  const falta = [r.hilos > 0 ? null : "hilos", r.adjuntos ? null : "adjuntos", r.contrato ? null : "contrato", r.expediente ? null : "expediente", /^\d{4}-\d{2}-\d{2}$/.test(r.fecha) ? null : "fecha", Object.keys(r.quitadas ?? {}).length === r.contestadas ? null : "cuenta de quitadas"].filter(Boolean);
   return falta.length ? `${id}: revisión incompleta (falta ${falta.join(", ")}) (REQ-10850)` : null;
 }
 
