@@ -1,5 +1,7 @@
 # STATUS — travel-puzzle-web
 
+Actualizado: 21 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). **Frente 1 (REQ-10813):** lista inicial de preguntas abiertas de los 7 proveedores publicados (35, es/en, sin montos) y script `carga-preguntas.ts` que simula por defecto con respaldo y regreso; la carga en producción espera a que el PO confirme los 4 correos restantes.
+
 Actualizado: 21 nov 2026, 14:50 UTC (08:50 CDMX): constructora (Opus). **Ola 7 (ficha única):** bloques 19 «Completa tu viaje», 20 «Otras experiencias» y 21 «Garantías y pie» (REQ-10846…10848; REQ-10804 con §L literal) construidos sin conectar ni bandera; quedan el panel y FichaView.
 
 Anterior: 21 nov 2026, 14:50 UTC (08:50 CDMX): constructora (Opus). **Ola 7 (ficha única):** bloques 19 «Completa tu viaje», 20 «Otras experiencias» y 21 «Garantías y pie» (REQ-10846…10848; REQ-10804 §L literal) construidos sin conectar; quedan el panel y FichaView. Anterior: Actualizado: 11 nov 2026, 23:55 (CDMX).
@@ -241,7 +243,7 @@ Cliente OCTO tras `BIGBUS_OCTO_ENABLED="false"` (nadie lo llama aún). Plan y ol
 | REQ-1297 | Primer correo lo manda Adri con copia a Mila | NUEVO | src/proveedores/lib/borrador.ts, plantillas.ts, diario.ts | proveedores.test.ts, proveedores-io.test.ts | EN CURSO |
 | REQ-10811 | Respuesta del proveedor → propuesta al PO de qué preguntas parecen contestadas (G3-A; nadie cierra solo) | NUEVO | src/proveedores/lib/preguntas.ts (`proponerCierres`, `textoPropuestaCierre`), entrante.ts, src/app/api/proveedores/correo/route.ts | src/proveedores/lib/preguntas.test.ts (6), proveedores-io.test.ts (3) | CUMPLIDO en código (19 nov 2026) |
 | REQ-10812 | PR preparado `PROVEEDORES_BORRADORES_MODO="auto"` (se fusiona al 3.er envío manual) | NUEVO | wrangler.jsonc (rama feat/req-10812-borradores-auto) | — (BANDERA) | EN CURSO |
-| REQ-10813 | Carga inicial de las preguntas por proveedor (plan REQ-3457 §8) en la columna `preguntas` | NUEVO | — (script de carga pendiente) | — (DATOS) | PENDIENTE |
+| REQ-10813 | Carga inicial de las preguntas por proveedor (plan REQ-3457 §3 y §8) en la columna `preguntas` | NUEVO (constructora Fable 21-11, 14:38) | `src/proveedores/lib/preguntas-carga.ts`, `src/scripts/carga-preguntas.ts` (simula por defecto) | `src/proveedores/lib/preguntas-carga.test.ts` (8) | EN CURSO (lista y script listos; carga en producción tras confirmar los 4 correos restantes) |
 | REQ-1298 | Integración por prioridad API > plugin > portal > manual | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
 | REQ-1299 | Cobro del proveedor primero; cuenta bancaria como segunda opción | NUEVO | src/proveedores/lib/integracion.ts | proveedores.test.ts | EN CURSO |
 | REQ-1565 | Respuestas automáticas y rebotes no cuentan como respuesta | NUEVO | src/proveedores/lib/clasificar.ts, entrante.ts, diario.ts, repository.ts, migrations/0027 | src/proveedores/proveedores-io.test.ts | EN CURSO |
