@@ -59,3 +59,14 @@ describe("Correos de liberación (REQ-3483)", () => {
     expect(m.text).toContain("sin lugar");
   });
 });
+
+describe("buildHoldNoticeTeamEmail", () => {
+  it("REQ-3484: dice el folio, el monto y los días que quedan", async () => {
+    const { buildHoldNoticeTeamEmail } = await import("./email");
+    const m = buildHoldNoticeTeamEmail({ ref: "TP-1", tripTitle: "Tour", firstName: "Ana", kind: "total", centavos: 150000, logoUrl: "https://x/l.png" }, "https://tp.test/admin/solicitudes", 2);
+    expect(m.subject).toContain("TP-1");
+    expect(m.subject).toContain("2 días");
+    expect(m.text).toContain("MXN $1,500");
+    expect(m.text).toContain("se libera sola");
+  });
+});
