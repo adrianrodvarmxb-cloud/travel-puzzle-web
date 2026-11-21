@@ -3,6 +3,7 @@
 Actualizado: 11 nov 2026, 23:55 (CDMX).
 Actualizado: 12 nov 2026, 12:45 (CDMX).
 Actualizado: 14 nov 2026, 06:45 (CDMX).
+Actualizado: 20 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). Frente 3: **REQ-10575 REEMPLAZADO** por REQ-10761 (firma del PO 17-11: el original de Big Bus es la respuesta OCTO) y REQ-10763 (#658); frente #558 cerrado. REQ-10576 (R2 + D1) sigue PENDIENTE hasta la llave real de OCTO (`BIGBUS_OCTO_ENABLED=false`).
 Actualizado: 21 nov 2026, 09:10 UTC (03:10 CDMX): constructora (Fable). **INC-027 CERRADO (REQ-10838):** «Verificar publicación» relanzó el deploy de `80750d6` (run 44861446423) y pasó completo con humo de producción verde; producción = main. Diagnóstico: la caché no guarda la lista vacía por error (hipótesis 2 descartada); causa raíz D1 lenta tras publicar en la ventana de las corridas diarias + calentado que solo pide 200. Corrección preventiva REQ-10842 (el calentado exige viajes en /tours), PR aparte. Publicado el 20 nov además: #698 (cierre ola 6), #699 (`/api/agente/detalle`), #700 (`tp_cart`); zoefel-mila #203 y #209 fusionados apagados (REQ-10769 A).
 Actualizado: 20 nov 2026, 21:10 UTC (15:10 CDMX): constructora (Fable). Dictamen punto 1, **REQ-10785 CUMPLIDO:** `tp_cart` informada en /privacidad como cookie técnica estrictamente necesaria, sin casilla (en /cookies ya estaba con el §A, REQ-10788). `src/legal/lib/privacidad-dictamen.test.ts` 3/3.
 Actualizado: 20 nov 2026, 21:00 UTC (15:00 CDMX): constructora (Fable). **Frente 2 · Mila con acceso a todo (#422), decisión 39:** primera pieza de #468 rehecha sobre el modelo común: `src/ficha/lib/trip-input.ts` (REQ-10835, viaje guardado → entrada del adaptador), `src/ficha/source.ts` (REQ-10836, fuente con dependencias inyectadas) y `GET /api/agente/detalle` (REQ-10837) desde `readMila`. Sin bandera nueva (ventana tras `AGENTE_API_ENABLED`); FREETOUR nunca llega; sin neto ni teléfonos. Siguen: tours de Tangol por la misma ruta (decisión 40) y `contenido`/`legal`/`cliente` en sus PR.
@@ -28,7 +29,7 @@ Ensayo (nada subido): 342/371 viajes ligados a su original (Inca World 76/76 con
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
 |---|---|---|---|---|---|
 | REQ-10534 | Extime se liga a su Excel original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (PR #551) |
-| REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | EN CURSO (pruebas verdes; bigbustours.com da 403 a la descarga) |
+| REQ-10575 | Big Bus: copia HTML de la página como documento original | NUEVO | `src/ingest/lib/backfill-plan.ts`, `src/scripts/raw-backfill.ts` | `src/ingest/lib/backfill-plan.test.ts` | REEMPLAZADO por REQ-10761/REQ-10763 (original = respuesta OCTO, #658); frente #558 cerrado |
 | REQ-10576 | Subir a R2 y D1 los originales ligados | NUEVO | `src/scripts/raw-backfill.ts` | — (DATOS) | PENDIENTE (candado del PO) |
 | REQ-10577 | OK para mergear #507, #548, #551 | NUEVO | — | — (VALIDACIÓN) | CUMPLIDO (los tres fusionados; autorización global REQ-10743) |
 Actualizado: 14 nov 2026, 15:00 (CDMX): ficha única, olas 0–1 cerradas, ola 2 en curso (REQ-10651, REQ-10652).
