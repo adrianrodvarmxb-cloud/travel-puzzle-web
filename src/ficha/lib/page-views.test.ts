@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { FichaView, type FichaBlockViews } from "@/components/ficha/FichaView";
 import { BLOCK_ORDER } from "./blocks";
 import { fichaEjemplo } from "./fixtures";
-import { fichaPageViews, fichaViews, type FichaViews, type PageViewsInput } from "./page-views";
+import { fichaPageViews, fichaViews, transportCardsFrom, type FichaViews, type PageViewsInput } from "./page-views";
 
 const flags: PageViewsInput["flags"] = { bookings: true, paidTours: true, directPurchase: false, milaEnabled: true, freetourFaqEnabled: false, cartEnabled: false, cardHold: false };
 const input = (over: Partial<PageViewsInput> = {}): PageViewsInput => ({
@@ -76,5 +76,14 @@ describe("page-views: las props de los 21 bloques y el panel desde el modelo (ol
     expect(html).toContain("Excelente");
     expect(html).toContain("Traslado");
     expect(html).toContain("Otra");
+  });
+
+  it("REQ-10860: la franja de transporte de hoy se vuelve tarjetas del bloque 19; sin ruta o título, fuera", () => {
+    const cards = transportCardsFrom([
+      { id: "a", path: "/destinos/ar/el-calafate/traslado", title: " Traslado ", image: null },
+      { id: "b", path: "", title: "Sin ruta", image: null },
+      { id: "c", path: "/x", title: "  ", image: "https://img/x.jpg" },
+    ]);
+    expect(cards).toEqual([{ id: "a", title: "Traslado", href: "/destinos/ar/el-calafate/traslado", provider: null, imageUrl: null }]);
   });
 });
