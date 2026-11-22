@@ -31,6 +31,7 @@ import { loadFichaMap } from '@/map/ficha-map'; // REQ-10736
 import { getPrisma } from '@/lib/prisma';
 import { headers } from 'next/headers';
 import { FichaView } from '@/components/ficha/FichaView'; // REQ-10859
+import { Navbar } from '@/components/layout/Navbar';
 import { FichaPanel } from '@/components/ficha/FichaPanel';
 import { loadTourFichaPage, tourUsesFichaUnica } from '@/ficha/page';
 import { tourFichaDeps } from '@/ficha/source-tour';
@@ -142,12 +143,16 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 visitorCountry: h.get('cf-ipcountry'),
             }).catch((e) => { console.error('[destinos] ficha única:', (e as Error).message); return null; });
             if (unica) {
+                // Mismo marco que la ficha de hoy: barra de navegación y fondo oscuro (`tp-dark`), pie una sola vez.
                 return (
-                    <>
+                    <div className="min-h-screen bg-background">
                         <JsonLd data={full.jsonLd} />
-                        <FichaView order={unica.page.order} views={unica.page.views} enrichment={full.enrichment} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
+                        <Navbar />
+                        <div className="tp-dark pt-8">
+                            <FichaView order={unica.page.order} views={unica.page.views} enrichment={full.enrichment} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
+                        </div>
                         {footer}
-                    </>
+                    </div>
                 );
             }
         }
