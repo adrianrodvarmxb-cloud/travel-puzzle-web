@@ -103,6 +103,17 @@
     "NEARBY_UNIFIED_ENABLED": "true", // encendida 17-11-2026 (constructora, REQ-10751/REQ-10752): franja de transporte por ciudad → país → distancia; humo en preview con la bandera encendida en el PR
     // REQ-10753 (decisión 29, firma REQ-10764): tarjeta de traslado con Kiwitaxi bajo la franja, nunca en FREETOUR. "true" con humo verde.
     "FICHA_TRANSFER_CARD_ENABLED": "true", // encendida 17-11-2026 (constructora, REQ-10753/REQ-10764): tarjeta de Kiwitaxi bajo la franja, nunca en FREETOUR; humo en preview con la bandera encendida en el PR
+    // Ficha única, ola 7 «Plantilla» (plan REQ-10579 §7; REQ-10858/REQ-10859). Plantilla de 21 bloques + panel desde el modelo
+    // común, un proveedor por bandera: "false" = la ficha de hoy; "preview" = la plantilla nueva solo en versiones sin tráfico
+    // (*.workers.dev, localhost: humo del PR y revisión visual del PO), producción como hoy; "true" = en producción.
+    // Regreso: "false" (no toca datos). FREETOUR solo tras la revisión de cumplimiento; viajes y Big Bus después de Tangol.
+    "FICHA_UNICA_TANGOL_ENABLED": "preview", // 22-11-2026 (constructora, REQ-10859): humo del PR con la plantilla montada en preview; producción sin cambio
+    "FICHA_UNICA_FREETOUR_ENABLED": "false",
+    "FICHA_UNICA_TRIP_ENABLED": "false",
+    // Bloque 17 «Mila» y ayuda del panel con Mila (decisiones 40/42, REQ-10840/REQ-10856): solo lo lee la plantilla única; nunca en FREETOUR.
+    "FICHA_MILA_ENABLED": "true",
+    // Botón «Agregar a mi viaje» (decisión 23): lo lee la plantilla única; "true" solo con el carrito en servidor (ola 10, REQ-10602).
+    "CART_ADD_ENABLED": "false",
     // Transporte (tipo M, p. ej. Big Bus bajo solicitud). Regreso: "false" (los viajes siguen en D1, solo se ocultan).
     "TRANSPORT_ENABLED": "true",
     // Lectura escalonada de salidas de Freetour (idiomas y fechas, REQ-049). "true" después de la migración 0012 y con OK.

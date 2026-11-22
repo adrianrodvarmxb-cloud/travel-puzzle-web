@@ -1,5 +1,7 @@
 # STATUS — travel-puzzle-web
 
+Actualizado: 22 nov 2026, 09:00 UTC (03:00 CDMX): constructora (Fable). **Ola 7 (ficha única), encendido en Tangol, paso 1:** `fichaPageViews` arma las props de los 21 bloques y el panel desde el modelo común (REQ-10858) y la ficha de un tour de Tangol se pinta con `FichaView` tras `FICHA_UNICA_TANGOL_ENABLED` (REQ-10859), en modo "preview" (solo versiones sin tráfico; producción como hoy). Siguen: control `request-form`, bloques 19–20 con datos reales, mapa, barra de celular y "true" con revisión visual del PO.
+
 Actualizado: 22 nov 2026, 03:00 UTC (21:00 CDMX, 21 nov): constructora (Opus). **Ola 7 (ficha única) construida completa:** 21 bloques, panel (REQ-10851…10856) y `FichaView` (REQ-10857), sin conectar ni bandera. Sigue el encendido de plantilla (ranura de Fable).
 
 Actualizado: 21 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). **Frente 1 (REQ-10813):** lista inicial de preguntas abiertas de los 7 proveedores publicados (35, es/en, sin montos) y script `carga-preguntas.ts` que simula por defecto con respaldo y regreso; la carga en producción espera a que el PO confirme los 4 correos restantes.
@@ -120,6 +122,8 @@ Componentes por bloque en `src/components/ficha/blocks/` construidos sobre `src/
 | REQ-10855 | «Agregar a mi viaje» en toda ficha; «Por cotizar» sin monto | NUEVO | `src/ficha/lib/panel-view.ts`, `src/components/ficha/panel/AddToTripButton.tsx` | `panel-view.test.ts` (1), `panel.test.ts` (1) | CUMPLIDO en código |
 | REQ-10856 | Ayuda del panel: Mila; asesor en FREETOUR | NUEVO | `src/ficha/lib/panel-view.ts`, `src/components/ficha/panel/AdvisorLink.tsx` | `panel-view.test.ts` (1), `panel.test.ts` (1) | CUMPLIDO en código |
 | REQ-10857 | `FichaView`: plantilla que solo compone los 21 bloques y el panel | NUEVO | `src/components/ficha/FichaView.tsx` | `src/components/ficha/FichaView.test.ts` (4) | CUMPLIDO en código |
+| REQ-10858 | Props de los 21 bloques y panel desde el modelo común (`fichaPageViews`) | NUEVO | `src/ficha/lib/page-views.ts` | `src/ficha/lib/page-views.test.ts` (6) | CUMPLIDO en código |
+| REQ-10859 | Plantilla única montada en los tours de Tangol tras `FICHA_UNICA_TANGOL_ENABLED` ("preview": solo versiones sin tráfico) | NUEVO | `src/ficha/lib/flags.ts`, `src/ficha/page.ts`, `src/components/ficha/FichaPanel.tsx`, `src/app/destinos/[pais]/[ciudad]/[slug]/page.tsx`, `wrangler.jsonc` | `src/ficha/page.test.ts` (4), `src/ficha/lib/flags.test.ts` (4) | EN CURSO (preview; faltan formulario, bloques 19–20 con datos, mapa, barra de celular) |
 | REQ-10839 | Bloque 16 «Preguntas frecuentes» (datos reales; menos de tres, oculto) | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/PreguntasBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (1) | CUMPLIDO en código |
 | REQ-10840 | Bloque 17 «Mila» (WhatsApp con contexto y aviso de IA; nunca en FREETOUR) | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/MilaBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (1) | CUMPLIDO en código |
 | REQ-10841 | Bloque 18 «Reseñas» (por proveedor y propias moderadas; Tangol sin conteo) | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/ResenasBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (2) | CUMPLIDO en código |
