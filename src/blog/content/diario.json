@@ -4662,5 +4662,391 @@
         }
       ]
     }
+  },
+  {
+    "slug": "tours-autoguiados-en-la-ciudad-de-mexico",
+    "pillar": "mexico",
+    "targetTerm": "tours autoguiados en la ciudad de mexico",
+    "title": "¿Qué tours autoguiados hay en la Ciudad de México y cuál te conviene?",
+    "summary": "Siete recorridos autoguiados en la CDMX, de 45 min a 3 h y desde aprox. MXN 126: dónde empiezan, cómo se usan y cuál elegir.",
+    "draft": false,
+    "publishedAt": "2026-11-22",
+    "author": "claudia",
+    "categoria": "viajes",
+    "origen": "agente-diario",
+    "mix": "pago",
+    "tema": {
+      "tipo": "calendario",
+      "clusterId": "MX-02",
+      "fuentes": []
+    },
+    "enBreve": "En el [catálogo de la Ciudad de México](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) hay siete tours autoguiados: dos audioguías en app (de 2 h y 3 h, desde aprox. MXN 209) y cinco juegos de exploración de 45 min a 1 h 45 min, desde aprox. MXN 126. Los haces con tu teléfono, a tu ritmo y a cualquier hora. Antes de comprar, revisa en cada ficha el punto de inicio y el idioma: no todos están en español.",
+    "entrada": "Quieres recorrer la CDMX sin depender de un horario de grupo, pero tampoco perderte entre calles y museos. Aquí comparamos los autoguiados del catálogo por duración, precio, punto de inicio e idioma. Es parte de la guía [Ciudad de México](/blog/mexico); si prefieres guía en persona, mira antes [el tour a pie por el Centro Histórico](/blog/mexico/tour-a-pie-por-el-centro-historico-de-la-cdmx) o todas las [experiencias en la Ciudad de México](/destinos/mx/ciudad-de-mexico).",
+    "sections": [
+      {
+        "h2": "¿Qué es un tour autoguiado y en qué se distingue de uno con guía?",
+        "answer": "Es un recorrido que haces por tu cuenta con una app en el teléfono, sin guía ni grupo; en el [catálogo de la Ciudad de México](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) hay siete con la etiqueta «Autoguiado».",
+        "body": [
+          "Tú decides cuándo empezar y cuánto detenerte. Según la ficha de [«El enigma de Coyoacán»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en), compras el acceso, abres la app en el móvil y juegas cualquier día y a cualquier hora."
+        ]
+      },
+      {
+        "h2": "¿Cuántos autoguiados hay en la Ciudad de México y cuánto cuestan?",
+        "answer": "Son siete, de 45 min a 3 h y desde aprox. MXN 126 hasta aprox. MXN 209 por persona, según sus fichas en [la página de la Ciudad de México](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico).",
+        "list": [
+          "[«App Audioguía: Paseo por Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico): 3 h, desde aprox. MXN 209 · EUR 10.",
+          "[«App Audioguía: Pirámides de Teotihuacán, Ciudad de México - sin entrada»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-piramides-de-teotihuacan-ciudad-de-mexico-sin): 2 h, desde aprox. MXN 209 · EUR 10.",
+          "[«El enigma de Coyoacán: juego de exploración autoguiado en Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en): 45 min, desde aprox. MXN 126 · EUR 6.",
+          "[«El misterio azteca de la Ciudad de México: juego de exploración autoguiado»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-misterio-azteca-de-la-ciudad-de-mexico-juego-de): 1 h, desde aprox. MXN 126 · EUR 6.",
+          "[«Joyas ocultas de Ciudad de México: Juego de exploración autoguiada»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/joyas-ocultas-de-ciudad-de-mexico-juego-de-exploracion): 1 h 45 min, desde aprox. MXN 167 · EUR 8.",
+          "[«La ciudad perdida de San Ángel: juego de exploración autoguiada por la Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/la-ciudad-perdida-de-san-angel-juego-de-exploracion): 1 h 45 min, desde aprox. MXN 126 · EUR 6.",
+          "[«Tlaloc en Chapultepec: Juego de exploración autoguiada por la Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la): 45 min, desde aprox. MXN 126 · EUR 6."
+        ],
+        "body": [
+          "El cobro es en euros y la conversión a pesos es aproximada, como avisa cada ficha de [la Ciudad de México](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico)."
+        ]
+      },
+      {
+        "h2": "¿Cómo funciona una audioguía en app?",
+        "answer": "Descargas el recorrido en el teléfono, lo escuchas con auriculares y avanzas a tu ritmo, según la ficha de [«App Audioguía: Paseo por Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico).",
+        "body": [
+          "Esa ficha menciona mapa sin conexión con ruta por GPS y narraciones de un historiador, y el punto de encuentro es Constitution Plaza. Dura 3 h en la cabecera; la descripción habla de unas 2 h, así que cuenta con el tiempo mayor ([ficha](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico))."
+        ]
+      },
+      {
+        "h2": "¿Cómo funciona un juego de exploración?",
+        "answer": "Sigues una historia con acertijos por paradas cercanas entre sí; en [«El enigma de Coyoacán»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en) son 13 paradas en unos 2,7 km.",
+        "body": [
+          "Ahí la ruta sale del Parque de Coyoacán y sigue la historia de Frida, que busca cuadros ocultos de Diego, según la [ficha](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en). En [«Tlaloc en Chapultepec»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la) son 11 paradas en unos 1,9 km desde el Monolito de Tláloc, según su ficha."
+        ]
+      },
+      {
+        "h2": "¿En qué idioma están?",
+        "answer": "Depende de cada ficha: «El enigma de Coyoacán» indica inglés y español ([ficha](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en)) y «Tlaloc en Chapultepec» indica solo inglés ([ficha](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la)).",
+        "body": [
+          "En la audioguía del centro la ficha habla de acceso «en tu idioma preferido» sin listar los idiomas ([ficha](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico)); confírmalo en la página antes de comprar."
+        ]
+      },
+      {
+        "h2": "¿Se puede cancelar?",
+        "answer": "Las fichas de [Coyoacán](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en) y [Chapultepec](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la) indican cancelación con reembolso hasta 24 h antes.",
+        "body": [
+          "La audioguía del centro también ([ficha](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico)). Revisa la política de las demás en [la página de la Ciudad de México](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) antes de reservar."
+        ]
+      },
+      {
+        "h2": "¿Cuál elegir según tu tiempo?",
+        "answer": "Con 45 min elige un juego de Coyoacán o Chapultepec; con 3 h, la audioguía del centro, según las duraciones de [las fichas](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico).",
+        "body": [
+          "Si tienes 1 h 45 min, las fichas de [«Joyas ocultas»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/joyas-ocultas-de-ciudad-de-mexico-juego-de-exploracion) y [«La ciudad perdida de San Ángel»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/la-ciudad-perdida-de-san-angel-juego-de-exploracion) son las más largas entre los juegos. Si quieres explicaciones en vivo, mejor una caminata con guía del [catálogo](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico)."
+        ]
+      }
+    ],
+    "datos": [
+      {
+        "text": "El catálogo de la Ciudad de México tiene siete tours autoguiados, de 45 min a 3 h.",
+        "source": {
+          "label": "Catálogo de Travel Puzzle, Ciudad de México",
+          "url": "https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico"
+        },
+        "checkedAt": "2026-11-22"
+      },
+      {
+        "text": "«El enigma de Coyoacán» tiene 13 paradas en unos 2,7 km y está disponible en inglés y español.",
+        "source": {
+          "label": "Ficha «El enigma de Coyoacán»",
+          "url": "https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en"
+        },
+        "checkedAt": "2026-11-22"
+      },
+      {
+        "text": "«Tlaloc en Chapultepec» tiene 11 paradas en unos 1,9 km y la ficha indica solo inglés.",
+        "source": {
+          "label": "Ficha «Tlaloc en Chapultepec»",
+          "url": "https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la"
+        },
+        "checkedAt": "2026-11-22"
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir del catálogo del sitio (fichas consultadas el 22 de noviembre de 2026). Los datos de cada tour son los que muestran sus fichas; no usamos otras fuentes y no probamos los recorridos.",
+    "visual": {
+      "kind": "tabla",
+      "caption": "Tours autoguiados de la Ciudad de México en el catálogo de Travel Puzzle (fichas consultadas el 22 de noviembre de 2026).",
+      "head": [
+        "Experiencia",
+        "Duración",
+        "Precio en la ficha"
+      ],
+      "rows": [
+        [
+          "App Audioguía: Paseo por Ciudad de México",
+          "3 h",
+          "desde aprox. MXN 209 · EUR 10"
+        ],
+        [
+          "App Audioguía: Pirámides de Teotihuacán, sin entrada",
+          "2 h",
+          "desde aprox. MXN 209 · EUR 10"
+        ],
+        [
+          "El enigma de Coyoacán",
+          "45 min",
+          "desde aprox. MXN 126 · EUR 6"
+        ],
+        [
+          "El misterio azteca de la Ciudad de México",
+          "1 h",
+          "desde aprox. MXN 126 · EUR 6"
+        ],
+        [
+          "Joyas ocultas de Ciudad de México",
+          "1 h 45 min",
+          "desde aprox. MXN 167 · EUR 8"
+        ],
+        [
+          "La ciudad perdida de San Ángel",
+          "1 h 45 min",
+          "desde aprox. MXN 126 · EUR 6"
+        ],
+        [
+          "Tlaloc en Chapultepec",
+          "45 min",
+          "desde aprox. MXN 126 · EUR 6"
+        ]
+      ],
+      "source": {
+        "label": "Catálogo de Travel Puzzle, Ciudad de México",
+        "url": "https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico"
+      }
+    },
+    "cta": {
+      "kind": "comercial",
+      "label": "Ver experiencias en la Ciudad de México"
+    },
+    "cover": {
+      "src": "/blog/img/tours-autoguiados-en-la-ciudad-de-mexico/portada-bellas-artes",
+      "alt": "El Palacio de Bellas Artes en la Ciudad de México",
+      "credit": "Foto: Daniel Lloyd Blunk-Fernández / Unsplash",
+      "license": {
+        "name": "Unsplash License",
+        "url": "https://unsplash.com/license"
+      },
+      "origen": {
+        "banco": "unsplash",
+        "id": "XXsCYnmJ6Co",
+        "pagina": "https://unsplash.com/photos/white-and-brown-concrete-building-XXsCYnmJ6Co",
+        "autor": "Daniel Lloyd Blunk-Fernández",
+        "descarga": "https://images.unsplash.com/photo-1601158582452-df217c5245d9"
+      }
+    },
+    "imagenes": [
+      {
+        "formato": "columna",
+        "despues": 1,
+        "pie": "Un autoguiado se hace con el teléfono, a tu ritmo.",
+        "fotos": [
+          {
+            "src": "/blog/img/tours-autoguiados-en-la-ciudad-de-mexico/telefono-cdmx",
+            "alt": "Dos mujeres miran un teléfono junto a una estación de bicicletas compartidas en la Ciudad de México",
+            "credit": "Foto: Julio Lopez / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "SKdqXjhP2xA",
+              "pagina": "https://unsplash.com/photos/two-women-looking-at-phone-near-bike-share-station-SKdqXjhP2xA",
+              "autor": "Julio Lopez",
+              "descarga": "https://images.unsplash.com/photo-1760420064458-277cd56959d6"
+            }
+          }
+        ]
+      },
+      {
+        "formato": "dos",
+        "despues": 3,
+        "pie": "Coyoacán y Chapultepec: dos de las zonas con juegos de exploración en el catálogo.",
+        "fotos": [
+          {
+            "src": "/blog/img/tours-autoguiados-en-la-ciudad-de-mexico/coyoacan",
+            "alt": "Plaza principal de Coyoacán, en la Ciudad de México",
+            "credit": "Foto: Joe Hernandez / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "0yslBbrXBNw",
+              "pagina": "https://unsplash.com/photos/0yslBbrXBNw",
+              "autor": "Joe Hernandez",
+              "descarga": "https://images.unsplash.com/photo-1488657668041-64743ee491c2"
+            }
+          },
+          {
+            "src": "/blog/img/tours-autoguiados-en-la-ciudad-de-mexico/carcamo-chapultepec",
+            "alt": "Edificio con cúpula y una fuente con una cabeza de piedra tallada en el Bosque de Chapultepec",
+            "credit": "Foto: André Julien / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "pA0wtskz_Cw",
+              "pagina": "https://unsplash.com/photos/building-with-dome-and-fountain-featuring-a-carved-stone-head-pA0wtskz_Cw",
+              "autor": "André Julien",
+              "descarga": "https://images.unsplash.com/photo-1776576292718-cd36fd40e56f"
+            }
+          }
+        ]
+      }
+    ],
+    "en": {
+      "targetTerm": "self-guided tours in mexico city",
+      "title": "Which self-guided tours are there in Mexico City, and which suits you?",
+      "summary": "Seven self-guided tours in CDMX, from 45 min to 3 h and from approx. MXN 126: where they start, how they work and which to pick.",
+      "enBreve": "The [Mexico City catalog](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) has seven self-guided tours: two audio-guide apps (2 h and 3 h, from approx. MXN 209) and five exploration games from 45 min to 1 h 45 min, from approx. MXN 126. You do them with your phone, at your own pace and at any hour. Before buying, check each listing's starting point and language: not all are in Spanish.",
+      "entrada": "You want to see CDMX without depending on a group schedule, but without getting lost among streets and museums either. Here we compare the catalog's self-guided tours by length, price, starting point and language. It's part of the guide [Mexico City](/blog/mexico); if you prefer an in-person guide, first look at [the walking tour of the Historic Center](/blog/mexico/tour-a-pie-por-el-centro-historico-de-la-cdmx) or all the [experiences in Mexico City](/destinos/mx/ciudad-de-mexico).",
+      "sections": [
+        {
+          "h2": "What is a self-guided tour and how is it different from a guided one?",
+          "answer": "It's a route you do on your own with a phone app, with no guide or group; the [Mexico City catalog](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) has seven labeled «Self-guided».",
+          "body": [
+            "You decide when to start and how long to stop. According to the listing for [«El enigma de Coyoacán»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en), you buy access, open the app on your phone and play any day at any time."
+          ]
+        },
+        {
+          "h2": "How many self-guided tours are there in Mexico City and how much do they cost?",
+          "answer": "There are seven, from 45 min to 3 h and from approx. MXN 126 to approx. MXN 209 per person, according to their listings on [the Mexico City page](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico).",
+          "list": [
+            "[«App Audioguía: Paseo por Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico): 3 h, from approx. MXN 209 · EUR 10.",
+            "[«App Audioguía: Pirámides de Teotihuacán, Ciudad de México - sin entrada»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-piramides-de-teotihuacan-ciudad-de-mexico-sin): 2 h, from approx. MXN 209 · EUR 10.",
+            "[«El enigma de Coyoacán: juego de exploración autoguiado en Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en): 45 min, from approx. MXN 126 · EUR 6.",
+            "[«El misterio azteca de la Ciudad de México: juego de exploración autoguiado»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-misterio-azteca-de-la-ciudad-de-mexico-juego-de): 1 h, from approx. MXN 126 · EUR 6.",
+            "[«Joyas ocultas de Ciudad de México: Juego de exploración autoguiada»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/joyas-ocultas-de-ciudad-de-mexico-juego-de-exploracion): 1 h 45 min, from approx. MXN 167 · EUR 8.",
+            "[«La ciudad perdida de San Ángel: juego de exploración autoguiada por la Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/la-ciudad-perdida-de-san-angel-juego-de-exploracion): 1 h 45 min, from approx. MXN 126 · EUR 6.",
+            "[«Tlaloc en Chapultepec: Juego de exploración autoguiada por la Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la): 45 min, from approx. MXN 126 · EUR 6."
+          ],
+          "body": [
+            "Payment is in euros and the peso conversion is approximate, as each listing for [Mexico City](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) warns."
+          ]
+        },
+        {
+          "h2": "How does an audio-guide app work?",
+          "answer": "You download the route on your phone, listen with headphones and move at your own pace, according to the listing for [«App Audioguía: Paseo por Ciudad de México»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico).",
+          "body": [
+            "That listing mentions an offline map with a GPS route and narration by a historian, and the meeting point is Constitution Plaza. It lasts 3 h in the header; the description mentions about 2 h, so plan for the longer time ([listing](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico))."
+          ]
+        },
+        {
+          "h2": "How does an exploration game work?",
+          "answer": "You follow a story with puzzles across stops close to each other; in [«El enigma de Coyoacán»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en) there are 13 stops over about 2.7 km.",
+          "body": [
+            "The route starts at Parque de Coyoacán and follows Frida's story as she looks for Diego's hidden paintings, according to the [listing](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en). In [«Tlaloc en Chapultepec»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la) there are 11 stops over about 1.9 km from the Tláloc Monolith, according to its listing."
+          ]
+        },
+        {
+          "h2": "What language are they in?",
+          "answer": "It depends on each listing: «El enigma de Coyoacán» says English and Spanish ([listing](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en)) and «Tlaloc en Chapultepec» says English only ([listing](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la)).",
+          "body": [
+            "For the downtown audio guide the listing mentions access «in your preferred language» without listing the languages ([listing](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico)); confirm it on the page before buying."
+          ]
+        },
+        {
+          "h2": "Can I cancel?",
+          "answer": "The [Coyoacán](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/el-enigma-de-coyoacan-juego-de-exploracion-autoguiado-en) and [Chapultepec](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/tlaloc-en-chapultepec-juego-de-exploracion-autoguiada-por-la) listings state a refund up to 24 h before.",
+          "body": [
+            "The downtown audio guide too ([listing](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/app-audioguia-paseo-por-ciudad-de-mexico)). Check the policy of the others on [the Mexico City page](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) before booking."
+          ]
+        },
+        {
+          "h2": "Which one to pick for your time?",
+          "answer": "With 45 min pick a Coyoacán or Chapultepec game; with 3 h, the downtown audio guide, according to the durations in [the listings](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico).",
+          "body": [
+            "If you have 1 h 45 min, the listings for [«Joyas ocultas»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/joyas-ocultas-de-ciudad-de-mexico-juego-de-exploracion) and [«La ciudad perdida de San Ángel»](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico/la-ciudad-perdida-de-san-angel-juego-de-exploracion) are the longest among the games. If you want live explanations, a guided walk from the [catalog](https://travelpuzzle.com.mx/destinos/mx/ciudad-de-mexico) is better."
+          ]
+        }
+      ],
+      "datos": [
+        {
+          "text": "The Mexico City catalog has seven self-guided tours, from 45 min to 3 h."
+        },
+        {
+          "text": "«El enigma de Coyoacán» has 13 stops over about 2.7 km and is available in English and Spanish."
+        },
+        {
+          "text": "«Tlaloc en Chapultepec» has 11 stops over about 1.9 km and the listing says English only."
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the site's catalog (listings checked on 22 November 2026). Each tour's details are those shown in its listing; we used no other sources and did not test the routes.",
+      "visual": {
+        "caption": "Self-guided tours in Mexico City in the Travel Puzzle catalog (listings checked on 22 November 2026).",
+        "head": [
+          "Experience",
+          "Duration",
+          "Price in the listing"
+        ],
+        "rows": [
+          [
+            "Audio guide app: Mexico City walk",
+            "3 h",
+            "from approx. MXN 209 · EUR 10"
+          ],
+          [
+            "Audio guide app: Teotihuacán pyramids, no entrance",
+            "2 h",
+            "from approx. MXN 209 · EUR 10"
+          ],
+          [
+            "The Coyoacán Enigma",
+            "45 min",
+            "from approx. MXN 126 · EUR 6"
+          ],
+          [
+            "The Aztec Mystery of Mexico City",
+            "1 h",
+            "from approx. MXN 126 · EUR 6"
+          ],
+          [
+            "Hidden Gems of Mexico City",
+            "1 h 45 min",
+            "from approx. MXN 167 · EUR 8"
+          ],
+          [
+            "The Lost City of San Ángel",
+            "1 h 45 min",
+            "from approx. MXN 126 · EUR 6"
+          ],
+          [
+            "Tlaloc in Chapultepec",
+            "45 min",
+            "from approx. MXN 126 · EUR 6"
+          ]
+        ]
+      },
+      "cta": {
+        "label": "See experiences in Mexico City"
+      },
+      "cover": {
+        "alt": "The Palace of Fine Arts in Mexico City"
+      },
+      "imagenes": [
+        {
+          "pie": "A self-guided tour is done with your phone, at your own pace.",
+          "alts": [
+            "Two women look at a phone next to a bike-share station in Mexico City"
+          ]
+        },
+        {
+          "pie": "Coyoacán and Chapultepec: two of the areas with exploration games in the catalog.",
+          "alts": [
+            "Main square of Coyoacán, in Mexico City",
+            "Domed building with a fountain featuring a carved stone head in Chapultepec Forest"
+          ]
+        }
+      ]
+    }
   }
 ]
