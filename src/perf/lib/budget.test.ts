@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { extractMetrics, evaluateBudget, BUDGET } from './budget';
+import { extractMetrics, evaluateBudget, BUDGET, compareWeight } from './budget';
 
 function lhr(o: { lcp?: number; cls?: number; tbt?: number; bytes?: number; offscreen?: number }) {
   return {
@@ -46,5 +46,18 @@ describe('presupuesto de rendimiento (lógica pura)', () => {
 
   it('un reporte con error de Lighthouse no cuenta como medición verde', () => {
     expect(() => extractMetrics({ ...lhr({}), runtimeError: { code: 'NO_FCP', message: 'x' } })).toThrow(/NO_FCP/);
+  });
+});
+
+describe('REQ-10861: la ficha nueva no pesa más que la actual (medición antes y después)', () => {
+  const m = (bytes: number) => ({ ...extractMetrics(lhr({ bytes })), bytes });
+  it('REQ-10861: compara medianas; igual o menos cumple, más no cumple', () => {
+    expect(compareWeight([m(760), m(741), m(771)], [m(751), m(751), m(751)])).toEqual({ beforeMedian: 760, afterMedian: 751, deltaBytes: -9, ok: true });
+    expect(compareWeight([m(700)], [m(700)]).ok).toBe(true);
+    expect(compareWeight([m(700), m(710)], [m(720), m(730)])).toEqual({ beforeMedian: 705, afterMedian: 725, deltaBytes: 20, ok: false });
+  });
+  it('REQ-10861: sin corridas en alguno de los dos lados no hay medición válida', () => {
+    expect(() => compareWeight([], [m(1)])).toThrow();
+    expect(() => compareWeight([m(1)], [])).toThrow();
   });
 });
