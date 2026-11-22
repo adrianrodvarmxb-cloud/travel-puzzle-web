@@ -1,6 +1,6 @@
 # STATUS — travel-puzzle-web
 
-Actualizado: 22 nov 2026, 02:50 UTC (20:50 CDMX, 21 nov): constructora (Opus). **Ola 7 (ficha única):** panel de reserva (`src/ficha/lib/panel-view.ts` y `src/components/ficha/panel/`: PricePanel, BookingControl, PaymentNote, AddToTripButton, AdvisorLink; REQ-10851…10856) construido sin conectar ni bandera; queda `FichaView`.
+Actualizado: 22 nov 2026, 03:00 UTC (21:00 CDMX, 21 nov): constructora (Opus). **Ola 7 (ficha única) construida completa:** 21 bloques, panel (REQ-10851…10856) y `FichaView` (REQ-10857), sin conectar ni bandera. Sigue el encendido de plantilla (ranura de Fable).
 
 Actualizado: 21 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). **Frente 1 (REQ-10813):** lista inicial de preguntas abiertas de los 7 proveedores publicados (35, es/en, sin montos) y script `carga-preguntas.ts` que simula por defecto con respaldo y regreso; la carga en producción espera a que el PO confirme los 4 correos restantes.
 Actualizado: 21 nov 2026, 21:00 UTC (15:00 CDMX): constructora (Fable). **Frente 2 (#422), decisión 40:** `/api/agente/buscar` ya mezcla los tours de Tangol con los viajes (REQ-10849) desde un índice ligero del modelo común, solo con `tangol` entre los proveedores encendidos y con la liga a la ficha pública; sin bandera nueva. Siguen: `contenido`/`legal` de #468 y `cliente` tras `AGENTE_CLIENTES_ON`.
@@ -119,6 +119,7 @@ Componentes por bloque en `src/components/ficha/blocks/` construidos sobre `src/
 | REQ-10854 | Texto de pago por clave del plan, sin texto de otro proveedor | NUEVO | `src/ficha/lib/panel-view.ts`, `src/components/ficha/panel/PaymentNote.tsx` | `panel-view.test.ts` (1), `panel.test.ts` (1) | CUMPLIDO en código |
 | REQ-10855 | «Agregar a mi viaje» en toda ficha; «Por cotizar» sin monto | NUEVO | `src/ficha/lib/panel-view.ts`, `src/components/ficha/panel/AddToTripButton.tsx` | `panel-view.test.ts` (1), `panel.test.ts` (1) | CUMPLIDO en código |
 | REQ-10856 | Ayuda del panel: Mila; asesor en FREETOUR | NUEVO | `src/ficha/lib/panel-view.ts`, `src/components/ficha/panel/AdvisorLink.tsx` | `panel-view.test.ts` (1), `panel.test.ts` (1) | CUMPLIDO en código |
+| REQ-10857 | `FichaView`: plantilla que solo compone los 21 bloques y el panel | NUEVO | `src/components/ficha/FichaView.tsx` | `src/components/ficha/FichaView.test.ts` (4) | CUMPLIDO en código |
 | REQ-10839 | Bloque 16 «Preguntas frecuentes» (datos reales; menos de tres, oculto) | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/PreguntasBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (1) | CUMPLIDO en código |
 | REQ-10840 | Bloque 17 «Mila» (WhatsApp con contexto y aviso de IA; nunca en FREETOUR) | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/MilaBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (1) | CUMPLIDO en código |
 | REQ-10841 | Bloque 18 «Reseñas» (por proveedor y propias moderadas; Tangol sin conteo) | NUEVO | `src/ficha/lib/closing-view.ts`, `src/components/ficha/blocks/ResenasBlock.tsx` | `src/components/ficha/blocks/preguntas-mila-resenas.test.ts` (2) | CUMPLIDO en código |
