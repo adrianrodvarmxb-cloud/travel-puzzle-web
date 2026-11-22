@@ -2,7 +2,7 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1321 · sin cerrar: 482
+Filas de requisitos: 1322 · sin cerrar: 482
 
 ## Resumen por motivo
 
@@ -403,8 +403,8 @@ Filas de requisitos: 1321 · sin cerrar: 482
 | REQ-1397 | CÓDIGO | — | EN CURSO (última corrida: Corrida 13 nov 2026 13:16 UTC: Gmail no conectó en la sesión, no se revisaron correos; producción y rama de portada revisadas. Corrida 13 nov 2026 06:54 UTC: sin correos nuevos de proveedores de |
 | REQ-1407 | VALIDACIÓN | — | PENDIENTE (borrador sin enviar r9009198869260567051 a angela@mondialtrails.com, 12 nov 2026 15:25 UTC; Corrida 12 nov 2026 18:54 UTC) |
 | REQ-1583 | DATOS | — | EN CURSO (12 nov 2026: cuerpos corregidos en docs/proveedores/borradores-presentacion-2026-11-12.md; falta el asunto real de cada hilo, que necesita Gmail) |
-| REQ-1560 | (tabla vieja) | — | NO CUMPLIDO (prod 12-11 tras caché del Worker, mediana 3 corridas móvil: / 3.37 s, /tours 4.16 s, ficha 2.90 s. Ya no lo frena el servidor: retraso en descubrir la imagen LCP 1.3–1.5 s y JS del chunk 1255) |
-| REQ-1562 | (tabla vieja) | — | NO CUMPLIDO (prod 12-11, mediana TBT móvil: 152 / 535 / 511 ms) |
+| REQ-1560 | (tabla vieja) | — | NO CUMPLIDO (22-11, REQ-10861: la ficha única no lo corrige sola; mediana móvil en contenedor 5.04 → 4.26 s, ver `docs/rendimiento-ficha-unica-2026-11-22.md`. prod 12-11 tras caché del Worker, mediana 3 corridas móvil: / |
+| REQ-1562 | (tabla vieja) | — | NO CUMPLIDO (22-11, REQ-10861: ficha única baja el TBT móvil en contenedor de 1,384 a 593 ms, aún arriba de 200. prod 12-11, mediana TBT móvil: 152 / 535 / 511 ms) |
 | REQ-1563 | (tabla vieja) | — | NO CUMPLIDO (prod 12-11: móvil CUMPLE 1.46 / 1.03 / 0.83 MB; escritorio / 1.52 MB y /tours 3.05 MB no) |
 | REQ-3494 | CÓDIGO | — | SIN VERIFICAR: cambia `.github/workflows/guias-ciudad.yml` y `blog-diario.yml` sin ninguna prueba que cite el folio (punto 2 del protocolo); sin construir la prueba `it('REQ-3494')` sobre `workflows-build.test.ts`; revis |
 | REQ-1603 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): sin pieza en el código (el REQ-1603 de `src/ops/lib/folios.test.ts` es dato de prueba); falta construir el ajuste del workflow para PRs `blog/diario-*` y |
