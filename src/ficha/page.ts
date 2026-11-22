@@ -6,7 +6,8 @@
  * 3. arma orden, props de los 21 bloques y panel con `fichaPageViews` (REQ-10858).
  * Recibe la base, las banderas, las reseñas, los tipos de cambio y el país del visitante por parámetro (DIP); el
  * número de WhatsApp sale de `WHATSAPP_NUMBER`. Lo que llega vacío (reseñas, transporte, otras experiencias) deja su
- * bloque fuera: nunca «N/D». Si el modelo no se arma, devuelve null y la página pinta la plantilla de hoy.
+ * bloque fuera: nunca «N/D». Las otras experiencias de la ciudad las lee la ruta con `loadOtherExperiences` (REQ-10862)
+ * y llegan en `others`. Si el modelo no se arma, devuelve null y la página pinta la plantilla de hoy.
  */
 import type { FxRates } from "@/trips/lib/money";
 import { fichaUnicaOn, fichaUnicaProviderFor } from "./lib/flags";
@@ -15,6 +16,7 @@ import type { FichaLang, FichaModel } from "./lib/model";
 import type { TransferCardView } from "@/trips/lib/transfer-card";
 import { fichaPageViews, transportCardsFrom, type FichaPageViews, type PageViewFlags, type PageViewsInput } from "./lib/page-views";
 import { leerPrefill, type Query } from "./lib/prefill";
+import type { OthersResult } from "./others";
 import { loadTourFicha, type TourFichaDeps } from "./source-tour";
 
 export type Env = Record<string, string | undefined>;
@@ -51,6 +53,8 @@ export interface TourFichaPageExtras {
   /** REQ-10860: franja de transporte de hoy (`transportForPlace`) y tarjeta de Kiwitaxi (`transferCard`), si llegan. */
   transport?: ReadonlyArray<{ id: string; path: string; title: string; image: string | null }>;
   kiwitaxi?: TransferCardView | null;
+  /** REQ-10862: experiencias de pago y gratis de la ciudad (`loadOtherExperiences`) para el bloque 20; sin ellas, el bloque no sale. */
+  others?: OthersResult | null;
 }
 
 export interface TourFichaPage { ficha: FichaModel; path: string; page: FichaPageViews }
@@ -70,7 +74,7 @@ export async function loadTourFichaPage(deps: TourFichaDeps, slug: string, lang:
     reviews: x.reviews,
     transport: transportCardsFrom(x.transport ?? []), // REQ-10860
     kiwitaxi: x.kiwitaxi ?? null,
-    others: { paid: [], free: [], includePaid: true },
+    others: x.others ?? { paid: [], free: [], includePaid: true }, // REQ-10862
   });
   return { ficha: f, path, page };
 }

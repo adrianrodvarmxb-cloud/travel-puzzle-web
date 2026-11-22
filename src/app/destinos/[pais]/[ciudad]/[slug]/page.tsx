@@ -37,6 +37,8 @@ import { FichaMeetingMap } from '@/components/ficha/blocks/FichaMeetingMap'; // 
 import { TourMobileBar } from '@/components/tours/one/TourMobileBar';
 import { loadTourFichaPage, tourUsesFichaUnica } from '@/ficha/page';
 import { tourFichaDeps } from '@/ficha/source-tour';
+import { loadOtherExperiences, otherExperiencesDeps } from '@/ficha/others'; // REQ-10862
+import { paidInRecommendations } from '@/booking/lib/flags'; // REQ-014
 import type { FichaLang } from '@/ficha/lib/model';
 
 export const dynamic = 'force-dynamic';
@@ -138,13 +140,18 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         const footer = <SiteFooter {...siteFooterFromEnv(envUnica)} />;
         const h = await headers();
         if (tourUsesFichaUnica(envUnica, row?.providerId, h.get('host'))) {
-            const unica = await loadTourFichaPage(await tourFichaDeps(), (await params).slug, (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(language) ? language : 'es') as FichaLang, {
+            const fichaLang = (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(language) ? language : 'es') as FichaLang;
+            // REQ-10862: «Otras experiencias en la ciudad» (bloque 20) desde la base; si falla, el bloque no sale y la ficha sigue (regla 7).
+            const others = await loadOtherExperiences(await otherExperiencesDeps(), { cityId: city.id, excludeId: tour.id, lang: fichaLang, includePaid: paidInRecommendations(envUnica), rates })
+                .catch((e) => { console.error('[destinos] otras experiencias:', (e as Error).message); return null; });
+            const unica = await loadTourFichaPage(await tourFichaDeps(), (await params).slug, fichaLang, {
                 query: (await searchParams) ?? {},
                 reviews: { items: props.reviews ?? [], total: props.reviewsTotal ?? 0 },
                 fx: rates,
                 visitorCountry: h.get('cf-ipcountry'),
                 transport: props.crossSell?.items ?? [], // REQ-10860: la franja de hoy (`transportForPlace`) alimenta el bloque 19
                 kiwitaxi: props.transfer ?? null,
+                others, // REQ-10862
             }).catch((e) => { console.error('[destinos] ficha única:', (e as Error).message); return null; });
             if (unica) {
                 // REQ-10860: el mapa del punto de encuentro (mismo mapa de cliente de hoy) va como children del bloque 11.
