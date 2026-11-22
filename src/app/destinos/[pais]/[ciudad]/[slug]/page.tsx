@@ -29,6 +29,13 @@ import { isProviderCalendarEnabled } from '@/tours/lib/provider-availability';
 import { calendarView } from '@/tours/lib/calendar-view';
 import { loadFichaMap } from '@/map/ficha-map'; // REQ-10736
 import { getPrisma } from '@/lib/prisma';
+import { headers } from 'next/headers';
+import { FichaView } from '@/components/ficha/FichaView'; // REQ-10859
+import { Navbar } from '@/components/layout/Navbar';
+import { FichaPanel } from '@/components/ficha/FichaPanel';
+import { loadTourFichaPage, tourUsesFichaUnica } from '@/ficha/page';
+import { tourFichaDeps } from '@/ficha/source-tour';
+import type { FichaLang } from '@/ficha/lib/model';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
@@ -121,6 +128,34 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         // REQ-10651: la casilla Proveedor y la tarjeta lateral dicen la marca que vende; el operador va en «Opera en destino».
         const shownTour = props.initialTour ? { ...props.initialTour, provider: sellerFor(row?.providerId, props.initialTour.provider) ?? props.initialTour.provider } : props.initialTour;
         const guideClientOnly = !full.enrichment ? { label: filtersCopy(language).language, codes: row?.guideLanguages ?? null } : null;
+        // REQ-10859 (ola 7, plan §7: Tangol primero): con FICHA_UNICA_TANGOL_ENABLED ("true", o "preview" solo en versiones
+        // sin tráfico) la ficha se pinta con la plantilla única de 21 bloques desde el modelo común; el JSON-LD es el mismo.
+        // Si el modelo no se arma, sigue la plantilla de hoy. Apagar la bandera devuelve la plantilla de hoy.
+        const envUnica = process.env as Record<string, string | undefined>;
+        // REQ-1101 (D07): el mismo pie del home, una sola vez por ficha, en cualquiera de las dos plantillas.
+        const footer = <SiteFooter {...siteFooterFromEnv(envUnica)} />;
+        const h = await headers();
+        if (tourUsesFichaUnica(envUnica, row?.providerId, h.get('host'))) {
+            const unica = await loadTourFichaPage(await tourFichaDeps(), (await params).slug, (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(language) ? language : 'es') as FichaLang, {
+                query: (await searchParams) ?? {},
+                reviews: { items: props.reviews ?? [], total: props.reviewsTotal ?? 0 },
+                fx: rates,
+                visitorCountry: h.get('cf-ipcountry'),
+            }).catch((e) => { console.error('[destinos] ficha única:', (e as Error).message); return null; });
+            if (unica) {
+                // Mismo marco que la ficha de hoy: barra de navegación y fondo oscuro (`tp-dark`), pie una sola vez.
+                return (
+                    <div className="min-h-screen bg-background">
+                        <JsonLd data={full.jsonLd} />
+                        <Navbar />
+                        <div className="tp-dark pt-8">
+                            <FichaView order={unica.page.order} views={unica.page.views} enrichment={full.enrichment} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
+                        </div>
+                        {footer}
+                    </div>
+                );
+            }
+        }
         // REQ-3468…REQ-3471: fechas y precios por día del proveedor, tras PROVIDER_CALENDAR_ENABLED.
         // Si la bandera está apagada, si el proveedor no da tarifas o si la llamada falla, queda en null y
         // la ficha se ve como hoy, con su precio «desde» (nunca un calendario vacío ni un precio inventado).
@@ -164,7 +199,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                     }}
                 />
                 {/* REQ-1101 (D07): el mismo pie del home que el resto del sitio (la ficha de viaje ya lo trae en TripDetailView). */}
-                <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
+                {footer}
             </>
         );
     } catch (error) {

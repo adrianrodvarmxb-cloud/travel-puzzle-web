@@ -97,3 +97,13 @@ export function localPrice(price: FichaPrice, ctx: { visitorCountry: string | nu
     text: `${formatAmount(price.amount, price.currency, ctx.lang)} ${c.per[price.per]} · ${c.charged} ${price.currency}`,
   };
 }
+
+/** Tabla de la ficha desde las tasas de Banxico (MXN por USD y por EUR): base MXN y cada moneda «por un peso». */
+// REQ-10859
+export function fxTableFromMxn(fx: { USD: number; EUR: number; date: string } | null | undefined): FxTable | null {
+  if (!fx) return null;
+  const rates: Record<string, number> = {};
+  if (Number.isFinite(fx.USD) && fx.USD > 0) rates.USD = 1 / fx.USD;
+  if (Number.isFinite(fx.EUR) && fx.EUR > 0) rates.EUR = 1 / fx.EUR;
+  return { base: "MXN", date: fx.date, rates };
+}
