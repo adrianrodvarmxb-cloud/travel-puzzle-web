@@ -68,4 +68,17 @@ describe("REQ-10859: tour de Tangol → plantilla única", () => {
     expect(tourUsesFichaUnica({ FICHA_UNICA_TANGOL_ENABLED: "true" }, "freetour", prev)).toBe(false);
     expect(tourUsesFichaUnica({}, "tangol", prev)).toBe(false);
   });
+
+  it("REQ-10860: la franja de hoy y la tarjeta de Kiwitaxi alimentan «Completa tu viaje»; sin ellas el bloque no sale", async () => {
+    const con = await loadTourFichaPage(deps(), fixture.slug, "es", {
+      ...extras,
+      transport: [{ id: "t1", path: "/destinos/ar/el-calafate/traslado-aeropuerto", title: "Traslado aeropuerto", image: null }],
+      kiwitaxi: { id: "kiwi", url: "https://kiwitaxi.example/x", title: "Traslado privado", by: "Kiwitaxi", external: true },
+    });
+    expect(con?.page.order).toContain("completa-tu-viaje");
+    expect(con?.page.views["completa-tu-viaje"]?.view?.transport[0]?.href).toBe("/destinos/ar/el-calafate/traslado-aeropuerto");
+    expect(con?.page.views["completa-tu-viaje"]?.view?.affiliate?.by).toBe("Kiwitaxi");
+    const sin = await loadTourFichaPage(deps(), fixture.slug, "es", extras);
+    expect(sin?.page.order).not.toContain("completa-tu-viaje");
+  });
 });
