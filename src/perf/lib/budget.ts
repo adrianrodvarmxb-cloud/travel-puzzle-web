@@ -59,3 +59,19 @@ export function evaluateBudget(m: Metrics): BudgetResult[] {
     { req: 'REQ-1564', label: '0 imágenes fuera del viewport', value: String(m.offscreenImages), ok: m.offscreenImages <= BUDGET.offscreenImages },
   ];
 }
+
+export type WeightComparison = { beforeMedian: number; afterMedian: number; deltaBytes: number; ok: boolean };
+
+function median(xs: number[]): number {
+  const s = [...xs].sort((a, b) => a - b);
+  const h = Math.floor(s.length / 2);
+  return s.length % 2 ? s[h] : (s[h - 1] + s[h]) / 2;
+}
+
+/** REQ-10861: la ficha nueva no pesa más que la actual. Compara la mediana del peso de varias corridas (mismo dispositivo). */
+export function compareWeight(before: Metrics[], after: Metrics[]): WeightComparison {
+  if (!before.length || !after.length) throw new Error('Medición inválida: faltan corridas antes o después');
+  const beforeMedian = median(before.map((m) => m.bytes));
+  const afterMedian = median(after.map((m) => m.bytes));
+  return { beforeMedian, afterMedian, deltaBytes: afterMedian - beforeMedian, ok: afterMedian <= beforeMedian };
+}
