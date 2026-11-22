@@ -145,7 +145,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 return (
                     <>
                         <JsonLd data={full.jsonLd} />
-                        <FichaView order={unica.page.order} views={unica.page.views} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
+                        <FichaView order={unica.page.order} views={unica.page.views} enrichment={full.enrichment} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
                         {footer}
                     </>
                 );
