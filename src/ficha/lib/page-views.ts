@@ -97,6 +97,14 @@ export interface FichaPageViews {
   faq: FichaFaq[];
 }
 
+/** Tarjeta de la franja de transporte de hoy (`transportForPlace`, REQ-10751) → tarjeta del bloque 19; sin ruta o título, fuera. */
+// REQ-10860
+export function transportCardsFrom(items: ReadonlyArray<{ id: string; path: string; title: string; image: string | null; provider?: string | null }>): TransportCard[] {
+  return items
+    .filter((i) => !!i.id && !!i.path?.trim() && !!i.title?.trim())
+    .map((i) => ({ id: i.id, title: i.title.trim(), href: i.path, provider: i.provider ?? null, imageUrl: i.image ?? null }));
+}
+
 /** Las props de los 21 bloques, siempre completas; la plantilla pinta solo los de `order`. */
 // REQ-10858
 export function fichaViews(i: Omit<PageViewsInput, "visitorCountry" | "fx">): FichaViews {

@@ -12,7 +12,8 @@ import type { FxRates } from "@/trips/lib/money";
 import { fichaUnicaOn, fichaUnicaProviderFor } from "./lib/flags";
 import { fxTableFromMxn } from "./lib/local-price";
 import type { FichaLang, FichaModel } from "./lib/model";
-import { fichaPageViews, type FichaPageViews, type PageViewFlags, type PageViewsInput } from "./lib/page-views";
+import type { TransferCardView } from "@/trips/lib/transfer-card";
+import { fichaPageViews, transportCardsFrom, type FichaPageViews, type PageViewFlags, type PageViewsInput } from "./lib/page-views";
 import { leerPrefill, type Query } from "./lib/prefill";
 import { loadTourFicha, type TourFichaDeps } from "./source-tour";
 
@@ -47,6 +48,9 @@ export interface TourFichaPageExtras {
   fx: FxRates | null;
   /** País del visitante (cabecera del borde), fuera del HTML en caché. */
   visitorCountry: string | null;
+  /** REQ-10860: franja de transporte de hoy (`transportForPlace`) y tarjeta de Kiwitaxi (`transferCard`), si llegan. */
+  transport?: ReadonlyArray<{ id: string; path: string; title: string; image: string | null }>;
+  kiwitaxi?: TransferCardView | null;
 }
 
 export interface TourFichaPage { ficha: FichaModel; path: string; page: FichaPageViews }
@@ -64,8 +68,8 @@ export async function loadTourFichaPage(deps: TourFichaDeps, slug: string, lang:
     fx: fxTableFromMxn(x.fx),
     flags: pageFlags(deps.env),
     reviews: x.reviews,
-    transport: [],
-    kiwitaxi: null,
+    transport: transportCardsFrom(x.transport ?? []), // REQ-10860
+    kiwitaxi: x.kiwitaxi ?? null,
     others: { paid: [], free: [], includePaid: true },
   });
   return { ficha: f, path, page };

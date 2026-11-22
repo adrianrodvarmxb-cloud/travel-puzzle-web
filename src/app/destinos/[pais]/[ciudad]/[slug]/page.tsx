@@ -30,9 +30,11 @@ import { calendarView } from '@/tours/lib/calendar-view';
 import { loadFichaMap } from '@/map/ficha-map'; // REQ-10736
 import { getPrisma } from '@/lib/prisma';
 import { headers } from 'next/headers';
-import { FichaView } from '@/components/ficha/FichaView'; // REQ-10859
+import { FichaView, type FichaBlockViews } from '@/components/ficha/FichaView'; // REQ-10859
 import { Navbar } from '@/components/layout/Navbar';
 import { FichaPanel } from '@/components/ficha/FichaPanel';
+import { FichaMeetingMap } from '@/components/ficha/blocks/FichaMeetingMap'; // REQ-10860
+import { TourMobileBar } from '@/components/tours/one/TourMobileBar';
 import { loadTourFichaPage, tourUsesFichaUnica } from '@/ficha/page';
 import { tourFichaDeps } from '@/ficha/source-tour';
 import type { FichaLang } from '@/ficha/lib/model';
@@ -141,15 +143,29 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 reviews: { items: props.reviews ?? [], total: props.reviewsTotal ?? 0 },
                 fx: rates,
                 visitorCountry: h.get('cf-ipcountry'),
+                transport: props.crossSell?.items ?? [], // REQ-10860: la franja de hoy (`transportForPlace`) alimenta el bloque 19
+                kiwitaxi: props.transfer ?? null,
             }).catch((e) => { console.error('[destinos] ficha única:', (e as Error).message); return null; });
             if (unica) {
+                // REQ-10860: el mapa del punto de encuentro (mismo mapa de cliente de hoy) va como children del bloque 11.
+                const punto = unica.page.views['punto-de-encuentro'];
+                const views: FichaBlockViews = punto
+                    ? { ...unica.page.views, 'punto-de-encuentro': { ...punto, children: <FichaMeetingMap view={punto.view} label={punto.text.heading} /> } }
+                    : unica.page.views;
                 // Mismo marco que la ficha de hoy: barra de navegación y fondo oscuro (`tp-dark`), pie una sola vez.
                 return (
                     <div className="min-h-screen bg-background">
                         <JsonLd data={full.jsonLd} />
                         <Navbar />
                         <div className="tp-dark pt-8">
-                            <FichaView order={unica.page.order} views={unica.page.views} enrichment={full.enrichment} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
+                            <FichaView
+                                order={unica.page.order}
+                                views={views}
+                                enrichment={full.enrichment}
+                                panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />}
+                                // REQ-10860 (decisión 25): la barra fija de celular de hoy, sin cambios; Tangol se aparta con el asesor (REQ-10573).
+                                mobileBar={shownTour ? <TourMobileBar tour={shownTour} priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null} mode="advisor" whatsapp={props.whatsapp} /> : undefined}
+                            />
                         </div>
                         {footer}
                     </div>
