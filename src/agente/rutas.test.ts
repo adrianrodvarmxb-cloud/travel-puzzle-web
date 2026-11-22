@@ -14,6 +14,8 @@ vi.mock("@/agente/catalogo", async (orig) => {
 const { GET: buscar } = await import("@/app/api/agente/buscar/route");
 const { GET: proveedores } = await import("@/app/api/agente/proveedores/route");
 const { GET: viaje } = await import("@/app/api/agente/viaje/route");
+const { GET: contenido } = await import("@/app/api/agente/contenido/route"); // REQ-3347
+const { GET: legal } = await import("@/app/api/agente/legal/route"); // REQ-3348
 
 const LLAVE = "k".repeat(32);
 const req = (url: string, llave: string | null = LLAVE) => new NextRequest(`https://travelpuzzle.com.mx${url}`, { headers: llave ? { authorization: `Bearer ${llave}` } : {} });
@@ -58,5 +60,32 @@ describe("REQ-150/151: revisión en vivo y liga prellenada", () => {
   });
   it("REQ-148: un viaje de un proveedor apagado no se entrega", async () => {
     expect((await viaje(req("/api/agente/viaje?slug=cusco&proveedores=propios"))).status).toBe(404);
+  });
+});
+
+describe("REQ-3347/REQ-3348: contenido y legal por la ventana del agente (rehecho sobre main, ola 6)", () => {
+  it("REQ-3348: términos reales del sitio con el RNT y la sección que responde, con liga al apartado", async () => {
+    const r = await (await legal(req("/api/agente/legal?q=cancelación"))).json();
+    expect(r.empresa).toContain("04100050179");
+    expect(r.empresa).not.toMatch(/neto|margen/i);
+    expect(r.secciones.length).toBeGreaterThan(0);
+    expect(r.secciones[0].enlace).toMatch(/^https:\/\/travelpuzzle\.com\.mx\/(terminos|privacidad)#/);
+  });
+  it("REQ-3347/REQ-3348: sin llave o con la bandera apagada no responden (misma puerta que el resto, REQ-152)", async () => {
+    expect((await contenido(req("/api/agente/contenido?q=cusco", null))).status).toBe(401);
+    expect((await legal(req("/api/agente/legal?q=pago", null))).status).toBe(401);
+    env.AGENTE_API_ENABLED = "false";
+    expect((await contenido(req("/api/agente/contenido?q=cusco"))).status).toBe(404);
+    expect((await legal(req("/api/agente/legal?q=pago"))).status).toBe(404);
+  });
+  it("REQ-3347: responde con la lista de resultados publicados (blog, guías y ayuda), con liga absoluta", async () => {
+    const r = await contenido(req("/api/agente/contenido?q=qué llevar a un viaje"));
+    expect(r.status).toBe(200);
+    const { resultados } = await r.json();
+    expect(Array.isArray(resultados)).toBe(true);
+    for (const x of resultados) {
+      expect(["blog", "guia", "ayuda"]).toContain(x.tipo);
+      expect(x.enlace).toMatch(/^https:\/\/travelpuzzle\.com\.mx\//);
+    }
   });
 });
