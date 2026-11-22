@@ -43,8 +43,9 @@ describe("REQ-10859: tour de Tangol → plantilla única", () => {
     expect(p.page.views.mila?.view?.href).toContain("wa.me/525536490320");
     const html = renderToStaticMarkup(createElement(FichaView, {
       order: p.page.order, views: p.page.views,
-      panel: createElement(FichaPanel, { panel: p.page.panel, lang: p.ficha.lang, controls: {} }),
+      panel: createElement(FichaPanel, { panel: p.page.panel, lang: p.ficha.lang, controls: {} }), enrichment: true,
     }));
+    expect(html).toContain('data-enriquecimiento="true"'); // contrato de ficha del humo (REQ-588 / REQ-834)
     expect(html).toContain("Glaciar Perito Moreno");
     expect(html).toContain('data-panel="reserva"');
     expect(html).toContain('data-control="advisor"'); // sin control registrado, cae al asesor (INC-020)

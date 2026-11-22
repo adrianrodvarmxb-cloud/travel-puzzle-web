@@ -64,6 +64,8 @@ export interface FichaViewProps {
     mobileAdd?: React.ReactNode;
     /** Barra fija de celular de hoy, sin cambios (decisión 25). */
     mobileBar?: React.ReactNode;
+    /** REQ-588 / REQ-834: el proveedor tiene enriquecimiento indexable (`data-enriquecimiento`, lo lee el contrato de ficha del humo). */
+    enrichment?: boolean;
 }
 
 /** Pinta el bloque `id` con sus props; el tipo de `FichaBlockViews` ya amarra cada id con las props de su bloque. */
@@ -77,7 +79,7 @@ function Block({ id, props }: { id: BlockId; props: object }) {
  * No decide qué bloque sale (eso es `blocksFor`), no arma vistas (eso es `src/ficha/lib/`), no lee base, banderas ni
  * proveedor (DIP): recibe el orden, las props de cada bloque y el panel ya compuesto (OCP). Un id sin props se salta.
  */
-export function FichaView({ order, views, panel, mobileAdd, mobileBar }: FichaViewProps) {
+export function FichaView({ order, views, panel, mobileAdd, mobileBar, enrichment }: FichaViewProps) {
     const render = (id: BlockId) => {
         const props = views[id];
         return props ? <Block key={id} id={id} props={props} /> : null;
@@ -85,7 +87,7 @@ export function FichaView({ order, views, panel, mobileAdd, mobileBar }: FichaVi
     const top = order.filter((id) => TOP.has(id));
     const main = order.filter((id) => !TOP.has(id));
     return (
-        <article data-ficha="unica" className="mx-auto max-w-6xl px-4 pb-24 lg:pb-8">
+        <article data-ficha="unica" {...(enrichment !== undefined ? { 'data-enriquecimiento': String(enrichment) } : {})} className="mx-auto max-w-6xl px-4 pb-24 lg:pb-8">
             {top.map(render)}
             <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
                 <div>

@@ -157,6 +157,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                         <FichaView
                             order={unica.page.order}
                             views={views}
+                            enrichment={full.enrichment}
                             panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />}
                             // REQ-10860 (decisión 25): la barra fija de celular de hoy, sin cambios; Tangol se aparta con el asesor (REQ-10573).
                             mobileBar={shownTour ? <TourMobileBar tour={shownTour} priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null} mode="advisor" whatsapp={props.whatsapp} /> : undefined}
