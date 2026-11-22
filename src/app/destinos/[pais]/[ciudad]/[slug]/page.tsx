@@ -131,6 +131,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         // sin tráfico) la ficha se pinta con la plantilla única de 21 bloques desde el modelo común; el JSON-LD es el mismo.
         // Si el modelo no se arma, sigue la plantilla de hoy. Apagar la bandera devuelve la plantilla de hoy.
         const envUnica = process.env as Record<string, string | undefined>;
+        // REQ-1101 (D07): el mismo pie del home, una sola vez por ficha, en cualquiera de las dos plantillas.
+        const footer = <SiteFooter {...siteFooterFromEnv(envUnica)} />;
         const h = await headers();
         if (tourUsesFichaUnica(envUnica, row?.providerId, h.get('host'))) {
             const unica = await loadTourFichaPage(await tourFichaDeps(), (await params).slug, (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(language) ? language : 'es') as FichaLang, {
@@ -144,7 +146,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                     <>
                         <JsonLd data={full.jsonLd} />
                         <FichaView order={unica.page.order} views={unica.page.views} panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />} />
-                        <SiteFooter {...siteFooterFromEnv(envUnica)} />
+                        {footer}
                     </>
                 );
             }
@@ -192,7 +194,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                     }}
                 />
                 {/* REQ-1101 (D07): el mismo pie del home que el resto del sitio (la ficha de viaje ya lo trae en TripDetailView). */}
-                <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
+                {footer}
             </>
         );
     } catch (error) {
