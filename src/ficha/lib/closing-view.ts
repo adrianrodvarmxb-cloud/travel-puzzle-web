@@ -45,6 +45,10 @@ const COPY = {
 };
 const copy = (lang: FichaLang) => (lang === "es" ? COPY.es : COPY.en);
 
+/** Rótulo del acceso a Mila; lo reusa el panel de reserva (REQ-10856, decisión 43) sin copiar el texto. */
+// REQ-10840 REQ-10856
+export const milaCta = (lang: FichaLang): string => copy(lang).milaCta;
+
 export interface FaqBlockView { heading: string; items: FichaFaq[]; legend: string }
 
 /** Bloque 16: preguntas y leyenda §K al cierre; null si no hay suficientes preguntas. */
