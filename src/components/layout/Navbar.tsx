@@ -1,7 +1,7 @@
 'use client';
 import { useFeatureFlags } from '@/components/providers/FeatureFlags';
 import { headerLinks, mobileSectionLinks, sessionNavLinks, adminPanelLinks, ACCOUNT_PAGES_READY, LEGACY_DASHBOARD_LINKS, ACCOUNT_ROUTES } from '@/layout/lib/nav-model';
-import { PASSWORD_SIGNUP_ENABLED } from '@/accounts/lib/policy';
+import { PASSWORD_SIGNUP_ENABLED } from '@/accounts/lib/password';
 
 import React, { useState } from 'react';
 import Link from '@/components/i18n/LocalizedLink';
