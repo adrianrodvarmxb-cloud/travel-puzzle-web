@@ -90,7 +90,7 @@
     // (temporada + recargos, días de salida, «por confirmar», vigencia), desde los datos ya cargados del viaje; sin llamadas externas.
     // Apagada, la ficha se ve como hoy. "true" sola, en su PR, con humo en preview con la bandera encendida (autorización global
     // REQ-10743). Regreso: "false" (no toca datos).
-    "TRIP_CALENDAR_ENABLED": "false",
+    "TRIP_CALENDAR_ENABLED": "true", // encendida 23-11-2026 (constructora Fable, REQ-10863): humo del PR en preview con la bandera encendida y revisión visual 390/1366
     // Ficha única, ola 4 «Geografía» (REQ-10737; decisiones 27, 28 y 30 del PO, 14 nov 2026). Requieren la migración 0035
     // (City.lat/lng, REQ-10734) aplicada y llena (REQ-10740). CITY_PIN_FALLBACK_ENABLED: en /tours y Destinos, una
     // experiencia sin punto exacto usa las coordenadas de su ciudad como pin. ZONE_MAP_ENABLED: la ficha sin punto exacto
