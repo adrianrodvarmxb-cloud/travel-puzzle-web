@@ -1792,7 +1792,7 @@
           "definicion_es": "Trekking de varios días o gran altitud; requiere buena condición."
         }
       ],
-      "nota": "Escala propuesta en plan §7.2 G-T8 (por firmar). Sin dato no se muestra."
+      "nota": "Escala firmada por el PO (plan §7.2, G-T8 = A: fácil→2, moderada→3, exigente→4; docs/gates-taxonomia-2026-11.md). Sin dato no se muestra."
     },
     {
       "slug": "dur-dias",
