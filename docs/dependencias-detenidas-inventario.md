@@ -2,15 +2,15 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1333 · sin cerrar: 464
+Filas de requisitos: 1334 · sin cerrar: 464
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
 | Decisión, firma u OK del PO | 191 |
-| Depende de otro folio sin cerrar | 75 |
-| Falta publicar (PR, humo o merge) | 55 |
+| Depende de otro folio sin cerrar | 76 |
+| Falta publicar (PR, humo o merge) | 54 |
 | Pieza sin construir o en borrador | 37 |
 | Tarea a mano del PO | 19 |
 | Sin iniciar (el estado no dice qué falta) | 15 |
@@ -241,7 +241,7 @@ Filas de requisitos: 1333 · sin cerrar: 464
 | REQ-10807 | DEFINICIÓN | — | PENDIENTE |
 | REQ-10813 | DATOS | — | EN CURSO (21-11-2026, constructora Fable 14:38: script `src/scripts/carga-preguntas.ts` que SIMULA por defecto (SQL de carga, respaldo de solo lectura y regreso a `'[]'` en tmp/), lista inicial `PREGUNTAS_INICIALES` de l |
 
-## Depende de otro folio sin cerrar (75)
+## Depende de otro folio sin cerrar (76)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -320,8 +320,9 @@ Filas de requisitos: 1333 · sin cerrar: 464
 | REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha. Mostrada en la ficha el 17-11-2026 (`incluido-ficha.ts`, prueba REQ-10733: «Autobús turísti |
 | REQ-10744 | CÓDIGO | REQ-10731 | CUMPLIDO en código (16-11-2026 17:59 CDMX: 8 pruebas en verde, `npx vitest run src/taxonomy/aviso-tipo-nuevo.test.ts`; tsc en verde); falta cargar el secreto y encender la bandera (REQ-10731) |
 | REQ-10850 | CÓDIGO | REQ-10813 | EN CURSO (21-11-2026 16:04 CDMX: candado construido, `src/proveedores/lib/preguntas-carga.test.ts` 11 verdes, `src/proveedores` 141 verdes, tsc limpio; revisión completa hecha el 21-11-2026 16:11 CDMX para 6 de los 7 (Bi |
+| REQ-10865 | CÓDIGO | REQ-1562 | EN CURSO (23-11-2026: `src/perf/client-zod.test.ts` rojo → verde, 7/7; suite 653 / 4,649 verdes; build: primera carga (gzip, informe de Next) `/` 200 → 172 KB, `/tours` 255 → 205, `/destinos/[pais]/[ciudad]` 196 → 168, f |
 
-## Falta publicar (PR, humo o merge) (55)
+## Falta publicar (PR, humo o merge) (54)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -351,7 +352,6 @@ Filas de requisitos: 1333 · sin cerrar: 464
 | REQ-1348 | CÓDIGO | — | CUMPLIDO en código (#279 en main; test de contrato y sinónimos verde). Pendiente: humo del deploy no registrado en el repo (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1349 | CÓDIGO | — | EN MAIN (#277, test verde; deploy y humo NO VERIFICADOS) |
 | REQ-1359 | CÓDIGO | — | CUMPLIDO en código (deploy 42428767660 verde). Pendiente: medición en frío con humo de producción, sin evidencia en el repo (17-11-2026 (constructora, REQ-10742)) |
-| REQ-1564 | (tabla vieja) | — | EN CURSO (prod 12-11: Lighthouse sin imágenes fuera de pantalla en las 3 páginas, móvil y escritorio; falta la prueba Playwright del criterio) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): 13 pruebas verdes ho |
 | REQ-1615 | CÓDIGO | — | EN CURSO (tests verdes; falta humo y merge) |
 | REQ-1634 | (tabla vieja) | — | PENDIENTE (gate C1: plan y gates propios antes de código; viene de INC-009) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): REQ-1359 (copia anterior al cambiar la versión de la llave `destinos`) ya está CUMPLIDO |
 | REQ-3316 | CÓDIGO | — | EN CURSO (PR abierto; el merge es del PO) |
