@@ -29,3 +29,16 @@ Sin comprimir: móvil 1,631 → 1,600 KB (−31 KB), escritorio 2,130 → 2,100 
 ## Siguiente
 - Al encender `FICHA_UNICA_TANGOL_ENABLED: "true"` (ranura Fable), repetir la medición en el mismo dominio de producción: así la comparación cruda ya es igual a igual.
 - REQ-1560/1562: el JS (`1255-*.js` y el documento) es el principal costo de arranque; se ataca en la ola 15 con PRs propios, midiendo antes y después.
+
+## 23-11-2026 · REQ-10865: zod y el diccionario fuera del navegador (#734)
+- Qué cambió: la barra, el reporte de errores, la tarjeta del mapa y la etiqueta «Favorito» dejaron de arrastrar zod (~96 KB sin comprimir) y el diccionario de la taxonomía con sus mapeos validados al cargar.
+- Primera carga (informe de `next build`, gzip): `/` 200 → 172 KB, `/tours` 255 → 205, `/destinos/[pais]/[ciudad]` 196 → 168, ficha 270 → 219, `/viajes/…` 235 → 183, `/tours/[id]` 231 → 203.
+- Lighthouse 12.2.1 móvil contra producción (`www.travelpuzzle.com.mx`), mismo contenedor, 3 corridas por lado, antes (8:54 CDMX, `ef43df7`) y después (10:55 CDMX, `d73e4a0`):
+
+| Página | TBT antes → después (mediana) | JS transferido | LCP (mediana) |
+|---|---|---|---|
+| Ficha `/destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno` | 1,137 → 783 ms | 305 → 250 KB | 5.68 → 5.41 s |
+| `/tours` | 680 → 401 ms | 297 → 244 KB | 6.95 → 6.00 s |
+
+- REQ-1562 (TBT < 200 ms móvil) y REQ-1560 (LCP < 2.5 s) siguen NO CUMPLIDO; REQ-1563 baja de peso en las dos páginas.
+- Siguiente: revisar qué scripts carga el arranque de la ficha y de `/tours` (Lighthouse `bootup-time` y `unused-javascript`) y atacarlos uno por PR.
