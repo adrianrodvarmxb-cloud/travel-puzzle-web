@@ -103,8 +103,9 @@ describe("REQ-10863: cableado en la ficha del viaje y bandera en wrangler.jsonc"
     expect(src).toContain('<SectionBoundary name="calendario-viaje">');
   });
 
-  it("REQ-10863: la bandera entra apagada (\"false\") en wrangler.jsonc", () => {
+  it("REQ-10863: la bandera está encendida en wrangler.jsonc (23-11-2026, con humo en preview); regreso: \"false\"", () => {
     const wrangler = require("node:fs").readFileSync(new URL("../../../wrangler.jsonc", import.meta.url), "utf-8");
-    expect(wrangler).toMatch(/"TRIP_CALENDAR_ENABLED": "(false|true)"/);
+    expect(wrangler).toMatch(/"TRIP_CALENDAR_ENABLED": "true"/);
+    expect(isTripCalendarEnabled("false")).toBe(false);
   });
 });
