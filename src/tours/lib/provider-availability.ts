@@ -114,14 +114,16 @@ export function monthsFrom(today: string, n: number): string[] {
  * Ventana de meses con su precio por día. Devuelve `null` si en toda la ventana no hay un solo día que se
  * ofrezca: así la ficha se queda con su precio «desde» y no se pinta una fachada vacía (REQ-3470).
  */
-// REQ-3468, REQ-3470
+// REQ-3468, REQ-3470, REQ-10863
 export function buildCalendar(
-  a: Availability,
+  /** Una disponibilidad para toda la ventana, o una por mes (viajes de PDF, REQ-10863: `fromTripAvailability`). */
+  a: Availability | ((month: string) => Availability),
   opts: { today: string; months: number; minDays?: number; currency: string | null },
 ): ProviderCalendar | null {
+  const delMes = typeof a === "function" ? a : () => a;
   const months = monthsFrom(opts.today, opts.months).map((month) => ({
     month,
-    days: monthAvailability(a, month, { today: opts.today, minDays: opts.minDays }),
+    days: monthAvailability(delMes(month), month, { today: opts.today, minDays: opts.minDays }),
   }));
   const start = months.findIndex((m) => m.days.some((d) => d.bookable));
   if (start < 0) return null;

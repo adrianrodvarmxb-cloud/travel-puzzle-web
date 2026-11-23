@@ -14,6 +14,8 @@ export interface CellView {
   bookable: boolean;
   /** Precio público ya formateado (sin Intl), o null si ese día no se ofrece o es gratis. */
   price: string | null;
+  /** Se ofrece sin precio publicado: «por confirmar» (REQ-10863, plan REQ-3454 G3). Ausente en los demás días. */
+  quote?: true;
 }
 
 export interface MonthView {
@@ -31,6 +33,8 @@ export interface CalendarCopy {
   closed: string;
   prev: string;
   next: string;
+  /** Etiqueta del día «por confirmar» (REQ-10863). */
+  quote: string;
 }
 
 export interface CalendarViewModel {
@@ -39,7 +43,7 @@ export interface CalendarViewModel {
   currency: string | null;
   /** Mes que se abre: el primero con alguna fecha que se ofrece. */
   start: number;
-  copy: Pick<CalendarCopy, "title" | "note" | "closed" | "prev" | "next">;
+  copy: Pick<CalendarCopy, "title" | "note" | "closed" | "prev" | "next" | "quote">;
 }
 
 const MESES: Record<string, string> = {
@@ -61,13 +65,13 @@ const DIAS: Record<string, string> = {
   it: "lun|mar|mer|gio|ven|sab|dom",
 };
 
-const TEXTOS: Record<string, Pick<CalendarCopy, "title" | "note" | "closed" | "prev" | "next">> = {
-  es: { title: "Fechas y precios", note: "Precio por adulto de cada fecha. La fecha se confirma al apartar.", closed: "Sin salida", prev: "Mes anterior", next: "Mes siguiente" },
-  en: { title: "Dates and prices", note: "Price per adult for each date. The date is confirmed when you book.", closed: "No departure", prev: "Previous month", next: "Next month" },
-  pt: { title: "Datas e preços", note: "Preço por adulto em cada data. A data se confirma na reserva.", closed: "Sem saída", prev: "Mês anterior", next: "Mês seguinte" },
-  de: { title: "Termine und Preise", note: "Preis pro Erwachsenen für jedes Datum. Das Datum wird bei der Buchung bestätigt.", closed: "Keine Abfahrt", prev: "Voriger Monat", next: "Nächster Monat" },
-  fr: { title: "Dates et prix", note: "Prix par adulte pour chaque date. La date est confirmée à la réservation.", closed: "Pas de départ", prev: "Mois précédent", next: "Mois suivant" },
-  it: { title: "Date e prezzi", note: "Prezzo per adulto per ogni data. La data si conferma alla prenotazione.", closed: "Nessuna partenza", prev: "Mese precedente", next: "Mese successivo" },
+const TEXTOS: Record<string, Pick<CalendarCopy, "title" | "note" | "closed" | "prev" | "next" | "quote">> = {
+  es: { title: "Fechas y precios", note: "Precio por adulto de cada fecha. La fecha se confirma al apartar.", closed: "Sin salida", prev: "Mes anterior", next: "Mes siguiente", quote: "Por confirmar" },
+  en: { title: "Dates and prices", note: "Price per adult for each date. The date is confirmed when you book.", closed: "No departure", prev: "Previous month", next: "Next month", quote: "Price on request" },
+  pt: { title: "Datas e preços", note: "Preço por adulto em cada data. A data se confirma na reserva.", closed: "Sem saída", prev: "Mês anterior", next: "Mês seguinte", quote: "A confirmar" },
+  de: { title: "Termine und Preise", note: "Preis pro Erwachsenen für jedes Datum. Das Datum wird bei der Buchung bestätigt.", closed: "Keine Abfahrt", prev: "Voriger Monat", next: "Nächster Monat", quote: "Preis auf Anfrage" },
+  fr: { title: "Dates et prix", note: "Prix par adulte pour chaque date. La date est confirmée à la réservation.", closed: "Pas de départ", prev: "Mois précédent", next: "Mois suivant", quote: "Prix sur demande" },
+  it: { title: "Date e prezzi", note: "Prezzo per adulto per ogni data. La data si conferma alla prenotazione.", closed: "Nessuna partenza", prev: "Mese precedente", next: "Mese successivo", quote: "Prezzo su richiesta" },
 };
 
 // REQ-3469
@@ -102,7 +106,7 @@ export function monthGrid(days: readonly DayAvailability[]): (CellView | null)[]
   const antes: null[] = Array(LUNES(primero)).fill(null);
   const celdas: (CellView | null)[] = [
     ...antes,
-    ...days.map((d) => ({ day: Number(d.date.slice(8, 10)), date: d.date, bookable: d.bookable, price: dayPrice(d.from, d.currency) })),
+    ...days.map((d) => ({ day: Number(d.date.slice(8, 10)), date: d.date, bookable: d.bookable, price: dayPrice(d.from, d.currency), ...(d.quote && d.bookable ? { quote: true as const } : {}) })),
   ];
   while (celdas.length % 7 !== 0) celdas.push(null);
   return celdas;
@@ -117,6 +121,6 @@ export function calendarView(cal: ProviderCalendar, lang: string): CalendarViewM
     weekdays: copy.weekdays,
     currency: cal.currency,
     start: cal.start,
-    copy: { title: copy.title, note: copy.note, closed: copy.closed, prev: copy.prev, next: copy.next },
+    copy: { title: copy.title, note: copy.note, closed: copy.closed, prev: copy.prev, next: copy.next, quote: copy.quote },
   };
 }

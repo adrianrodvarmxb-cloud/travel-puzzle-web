@@ -60,7 +60,7 @@ export function ProviderDateCalendar({ view }: { view: CalendarViewModel }) {
                         <div
                             key={c.date}
                             data-ofrecido={c.bookable ? 'true' : 'false'}
-                            title={c.bookable ? (c.price ?? undefined) : view.copy.closed}
+                            title={c.bookable ? (c.price ?? (c.quote ? view.copy.quote : undefined)) : view.copy.closed}
                             className={`flex min-h-12 flex-col items-center justify-center rounded-lg px-0.5 py-1 text-center ${
                                 c.bookable
                                     ? 'bg-muted text-foreground border-b-2 border-tp-blue-primary'
@@ -69,6 +69,8 @@ export function ProviderDateCalendar({ view }: { view: CalendarViewModel }) {
                         >
                             <span className="text-sm font-medium leading-none">{c.day}</span>
                             {c.price && <span className="mt-1 block text-[10px] leading-none text-muted-foreground">{c.price}</span>}
+                            {/* REQ-10863 (G3): se ofrece sin precio publicado; se dice, no se inventa. */}
+                            {!c.price && c.quote && <span className="mt-1 block text-[9px] leading-none text-muted-foreground">{view.copy.quote}</span>}
                         </div>
                     ),
                 )}
