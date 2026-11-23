@@ -6543,5 +6543,440 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 22 November 2026) and the catalog data."
     }
+  },
+  {
+    "pais": "uy",
+    "ciudad": "colonia",
+    "nombre": "Colonia del Sacramento",
+    "targetTerm": "guia de viaje de colonia del sacramento",
+    "titulo": "Guía de Colonia del Sacramento: un día junto al Río de la Plata",
+    "enBreve": "Colonia del Sacramento es una ciudad pequeña, declarada Patrimonio de la Humanidad por la UNESCO en 1995, que se recorre a pie. Desde Buenos Aires se llega en ferry en poco más de una hora, según [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton), aunque el ferry rápido tarda 1 hora y 15 minutos desde Puerto Madero, según [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html). Un día basta para lo principal, aunque sus calles invitan a quedarse una noche.",
+    "sections": [
+      {
+        "h2": "¿Qué ver en el Barrio Histórico?",
+        "answer": "El Barrio Histórico conserva calles empedradas, casas coloniales y restos portugueses y españoles, según [Guruguay](https://www.guruguay.com/?p=29365).",
+        "body": [
+          "La ciudad fue fundada por los portugueses en 1680, según [Guruguay](https://www.guruguay.com/?p=29365) y [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html). Entre sus sitios figuran la Calle de los Suspiros, el Faro, la Puerta de la Ciudadela y la Basílica del Santísimo Sacramento, según [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton).",
+          "El Faro se construyó en 1857 y mide 26 metros; [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html) lo describe como monumento histórico nacional y [Guruguay](https://www.guruguay.com/?p=29365) recomienda subir para ver la bahía. Los museos portugués y español y el Museo del Azulejo, con más de 5.000 piezas, están en la misma guía de [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html)."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar desde Buenos Aires o Montevideo?",
+        "answer": "Desde Buenos Aires se llega en ferry y desde Montevideo en autobús, según [Guruguay](https://www.guruguay.com/?p=29365).",
+        "body": [
+          "Según [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html), el ferry rápido sale de la terminal de Puerto Madero y tarda 1 hora y 15 minutos. [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton) indica que el viaje dura poco más de una hora. Conviene revisar horarios con la naviera antes de salir, porque cambian por temporada.",
+          "Desde Montevideo, [Guruguay](https://www.guruguay.com/?p=29365) indica que los autobuses tardan entre dos y tres horas, salen al menos cada hora y cuestan alrededor de 12 dólares por trayecto. Esa página se actualizó en enero de 2025, así que confirma tarifas. La terminal de autobuses, junto al puerto, tiene servicio para dejar maletas."
+        ]
+      },
+      {
+        "h2": "¿Cuánto tiempo dedicarle?",
+        "answer": "Con cuatro o cinco horas, incluido el almuerzo, se recorre lo principal, según [Guruguay](https://www.guruguay.com/?p=29365).",
+        "body": [
+          "[Guruguay](https://www.guruguay.com/?p=29365) considera que la ciudad se puede recorrer en cuatro o cinco horas con almuerzo, y también la describe como un gran destino para pasar la noche. Si tienes tiempo, [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html) menciona una rambla de casi seis kilómetros para caminar junto al río con calma.",
+          "Para una salida de vino o destilados, [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton) menciona la destilería Sur 34 y la bodega Los Cerros de San Juan, a unos 20 minutos. Carmelo queda a una hora de distancia, según [Guruguay](https://www.guruguay.com/?p=29365)."
+        ]
+      },
+      {
+        "h2": "¿Cómo armar tu día en Colonia?",
+        "answer": "Llega temprano en ferry, deja tus maletas en la terminal y reserva tiempo para la comida junto al río.",
+        "body": [
+          "Un día ordenado puede empezar con el ferry de la mañana, seguir con el Barrio Histórico y terminar con una comida frente al agua. Si prefieres que alguien organice los traslados, en [Uruguay](/destinos/uy) encontrarás experiencias de Travel Puzzle para esta zona.",
+          "Antes de viajar, revisa horarios de museos, tarifas del ferry y autobuses, porque las fuentes citadas tienen fechas distintas. Consulta la página de [Colonia del Sacramento](/destinos/uy/colonia) y escríbenos con tus fechas para que te ayudemos a armar el viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 2026-11-23) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Colonia del Sacramento",
+      "targetTerm": "colonia del sacramento travel guide",
+      "titulo": "Colonia del Sacramento guide: a day on the Río de la Plata",
+      "enBreve": "Colonia del Sacramento is a small town, declared a UNESCO World Heritage Site in 1995, best explored on foot. The ferry from Buenos Aires takes a little over an hour, according to [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton), while the fast ferry takes 1 hour and 15 minutes from Puerto Madero, according to [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html). One day covers the highlights, though the streets invite an overnight stay.",
+      "sections": [
+        {
+          "h2": "What to see in the Historic Quarter?",
+          "answer": "The Historic Quarter keeps cobbled streets, colonial houses and Portuguese and Spanish remains, according to [Guruguay](https://www.guruguay.com/?p=29365).",
+          "body": [
+            "The town was founded by the Portuguese in 1680, according to [Guruguay](https://www.guruguay.com/?p=29365) and [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html). Its sights include Calle de los Suspiros, the lighthouse, the Ciudadela gate and the Basilica of the Most Holy Sacrament, according to [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton).",
+            "The lighthouse was built in 1857 and is 26 metres tall; [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html) describes it as a national historic monument, and [Guruguay](https://www.guruguay.com/?p=29365) recommends climbing it for the view of the bay. The Portuguese and Spanish museums and the Tile Museum, with more than 5,000 tiles, also appear in [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html)."
+          ]
+        },
+        {
+          "h2": "How do you get there from Buenos Aires or Montevideo?",
+          "answer": "You reach Colonia by ferry from Buenos Aires and by bus from Montevideo, according to [Guruguay](https://www.guruguay.com/?p=29365).",
+          "body": [
+            "According to [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html), the fast ferry leaves from the Puerto Madero terminal and takes 1 hour and 15 minutes. [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton) says the crossing takes a little over an hour. Check timetables with the ferry operator before you travel, since they change by season.",
+            "From Montevideo, [Guruguay](https://www.guruguay.com/?p=29365) says buses take between two and three hours, leave at least once an hour and cost about 12 dollars each way. That page was updated in January 2025, so confirm fares. The bus station, next to the port, offers a luggage deposit."
+          ]
+        },
+        {
+          "h2": "How much time should you plan?",
+          "answer": "Four or five hours, including lunch, is enough for the main sights, according to [Guruguay](https://www.guruguay.com/?p=29365).",
+          "body": [
+            "[Guruguay](https://www.guruguay.com/?p=29365) considers the town walkable in four or five hours with lunch, and also describes it as a great place to stay overnight. If you have time, [Meteored](https://www.meteored.com.ar/noticias/actualidad/que-hacer-en-colonia-del-sacramento-uruguay-turismo.html) mentions a waterfront promenade of almost six kilometres for a relaxed walk by the river.",
+            "For a wine or spirits outing, [Time Out](https://www.timeout.com/es/buenos-aires/que-hacer-en-colonia-del-sacramento-fin-de-semana-uruguay-sheraton) mentions the Sur 34 gin distillery and the Los Cerros de San Juan winery, about 20 minutes away. Carmelo is an hour away, according to [Guruguay](https://www.guruguay.com/?p=29365)."
+          ]
+        },
+        {
+          "h2": "How do you plan a day in Colonia?",
+          "answer": "Arrive early by ferry, leave your bags at the terminal and set aside time for lunch by the river.",
+          "body": [
+            "A well-ordered day can start with the morning ferry, continue through the Historic Quarter and end with a meal by the water. If you prefer someone to arrange transfers, you will find Travel Puzzle experiences for this area under [Uruguay](/destinos/uy).",
+            "Before you travel, check museum hours, ferry fares and bus times, because the sources above have different dates. Look at the [Colonia del Sacramento](/destinos/uy/colonia) page and write to us with your dates so we can help you plan the trip."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 2026-11-23) and the site's catalog."
+    },
+    "publishedAt": "2026-11-23",
+    "author": "editorial",
+    "origen": "agente-diario"
+  },
+  {
+    "pais": "ar",
+    "ciudad": "purmamarca",
+    "nombre": "Purmamarca",
+    "targetTerm": "guia de viaje de purmamarca",
+    "titulo": "Guía de Purmamarca: el Cerro de los Siete Colores en la Quebrada de Humahuaca",
+    "enBreve": "Purmamarca es un pueblo de la provincia de Jujuy, a pie de la Quebrada de Humahuaca, famoso por el Cerro de los Siete Colores. Su visita es libre, y el momento ideal es temprano o al atardecer, según [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/). Llega desde la capital de Jujuy en unos 60 minutos por la Ruta Nacional 9, según [Argentina.travel](https://www.argentina.travel/actividades/purmamarca).",
+    "sections": [
+      {
+        "h2": "¿Qué se ve en el Cerro de los Siete Colores?",
+        "answer": "Sus colores vienen del origen sedimentario de sus rocas, según [Argentina.travel](https://www.argentina.travel/actividades/purmamarca).",
+        "body": [
+          "Según [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores), las capas tienen unos 70 millones de años y se formaron con sedimentos de ríos, lagos y mares que el movimiento de la tierra levantó. La visita al cerro es libre y se recorre a pie desde la plaza, indica [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/).",
+          "Algunos miradores cobran una entrada pequeña. [Wikivoyage](https://en.wikivoyage.org/wiki/Purmamarca) menciona una tarifa en pesos, pero la cifra es antigua, y [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) advierte que el cobro cambia con la inflación. Confirma el precio en el lugar."
+        ]
+      },
+      {
+        "h2": "¿Cuánto se camina y qué sendero elegir?",
+        "answer": "El sendero Paseo de los Colorados es de dificultad baja y dura cerca de una hora, según [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores).",
+        "body": [
+          "[Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) describe un recorrido circular de una a dos horas. Es buena opción por la mañana, cuando el aire está fresco y la luz da de lado sobre las rocas.",
+          "Purmamarca está a unos 2.200 o 2.300 metros de altura: [Argentina.travel](https://www.argentina.travel/actividades/purmamarca) da 2.324 metros y [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) 2.192. Camina despacio, lleva abrigo porque las mañanas son frías incluso en verano, y [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) recomienda llevar caramelos de coca."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar desde Salta o Jujuy?",
+        "answer": "Desde la capital de Jujuy hay 65 kilómetros por la Ruta Nacional 9, según [Argentina.travel](https://www.argentina.travel/actividades/purmamarca) y [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/).",
+        "body": [
+          "Desde Salta capital, [Argentina.travel](https://www.argentina.travel/actividades/purmamarca) da 188 kilómetros. [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) recomienda llegar primero a Jujuy y seguir desde ahí, y sugiere rentar auto en Salta o Jujuy. [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) señala colectivos regulares entre Jujuy y Purmamarca, sin horarios publicados.",
+          "Si tu ruta sigue hacia los Salinas Grandes, [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) indica 66 kilómetros por la Ruta Nacional 52, unos 75 minutos en auto. Tilcara queda a 22 kilómetros, según [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores). [Wikivoyage](https://en.wikivoyage.org/wiki/Purmamarca) recuerda que la Quebrada de Humahuaca es Patrimonio de la Humanidad."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer además del cerro?",
+        "answer": "La plaza tiene una feria artesanal permanente y el pueblo conserva su iglesia antigua y su vida de peñas.",
+        "body": [
+          "La plaza principal tiene una feria artesanal permanente, mencionada por [Argentina.travel](https://www.argentina.travel/actividades/purmamarca), [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) y [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores). [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) cuenta que la iglesia Santa Rosa de Lima data de 1648 y es monumento nacional.",
+          "[360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) menciona las peñas de folclore sobre la calle Libertad. Para planear mejor, mira la página de [Purmamarca](/destinos/ar/purmamarca) y el país [Argentina](/destinos/ar)."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 2026-11-23) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Purmamarca",
+      "targetTerm": "purmamarca travel guide",
+      "titulo": "Purmamarca guide: the Cerro de los Siete Colores in the Humahuaca Gorge",
+      "enBreve": "Purmamarca is a village in Jujuy province at the foot of the Humahuaca Gorge, famous for the Hill of Seven Colours. The visit to the hill is free, and the ideal time is early morning or sunset, according to [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/). From Jujuy city it takes about 60 minutes by car on National Route 9, according to [Argentina.travel](https://www.argentina.travel/actividades/purmamarca).",
+      "sections": [
+        {
+          "h2": "What do you see on the Hill of Seven Colours?",
+          "answer": "Its colours come from the sedimentary origin of its rocks, according to [Argentina.travel](https://www.argentina.travel/actividades/purmamarca).",
+          "body": [
+            "According to [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores), the layers are about 70 million years old and formed from sediments left by rivers, lakes and seas that tectonic movement later lifted. The visit to the hill is free and you walk there from the main square, says [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/).",
+            "Some viewpoints charge a small entrance fee. [Wikivoyage](https://en.wikivoyage.org/wiki/Purmamarca) mentions a fee in pesos, but that figure is old, and [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) warns that the charge changes with inflation. Confirm the current price on site."
+          ]
+        },
+        {
+          "h2": "How long is the walk and which trail should you pick?",
+          "answer": "The Paseo de los Colorados trail is low difficulty and takes about an hour, according to [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores).",
+          "body": [
+            "[Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) describes a circular route of one to two hours. It is a good choice in the morning, when the air is fresh and the light falls sideways across the rock.",
+            "Purmamarca sits at roughly 2,200 to 2,300 metres above sea level: [Argentina.travel](https://www.argentina.travel/actividades/purmamarca) gives 2,324 metres and [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) gives 2,192. Walk slowly, bring a jacket because mornings are cold even in summer, and [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) suggests carrying coca candies."
+          ]
+        },
+        {
+          "h2": "How do you get there from Salta or Jujuy?",
+          "answer": "From Jujuy city it is 65 kilometres by National Route 9, according to [Argentina.travel](https://www.argentina.travel/actividades/purmamarca) and [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/).",
+          "body": [
+            "From Salta city, [Argentina.travel](https://www.argentina.travel/actividades/purmamarca) gives 188 kilometres. [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) recommends going to Jujuy first and continuing from there, and suggests renting a car in Salta or Jujuy. [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) mentions regular local buses between Jujuy and Purmamarca, without published timetables.",
+            "If your route continues to the Salinas Grandes, [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) gives 66 kilometres on National Route 52, about 75 minutes by car. Tilcara is 22 kilometres away, according to [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores). [Wikivoyage](https://en.wikivoyage.org/wiki/Purmamarca) notes that the Humahuaca Gorge is a UNESCO World Heritage site."
+          ]
+        },
+        {
+          "h2": "What else is there besides the hill?",
+          "answer": "The main square has a permanent craft fair, and the village keeps its old church and its folk music venues.",
+          "body": [
+            "The main square hosts a permanent craft fair, mentioned by [Argentina.travel](https://www.argentina.travel/actividades/purmamarca), [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) and [360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores). [Welcome Argentina](https://www.welcomeargentina.com/purmamarca/) says the church of Santa Rosa de Lima dates from 1648 and is a national monument.",
+            "[360 Meridianos](https://www.360meridianos.com/dica/purmamarca-e-o-cerro-de-los-siete-colores) mentions folk music venues called peñas on Calle Libertad. To plan further, see the [Purmamarca](/destinos/ar/purmamarca) page and the [Argentina](/destinos/ar) country page."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 2026-11-23) and the site's catalog."
+    },
+    "publishedAt": "2026-11-23",
+    "author": "editorial",
+    "origen": "agente-diario"
+  },
+  {
+    "pais": "ar",
+    "ciudad": "san-juan",
+    "nombre": "San Juan",
+    "targetTerm": "guia de viaje a san juan argentina",
+    "titulo": "Guía de San Juan: el Valle de la Luna y la ruta hacia Talampaya",
+    "enBreve": "San Juan, en el oeste argentino, es la puerta al Parque Ischigualasto o Valle de la Luna, Patrimonio de la Humanidad desde el año 2000, según [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/). La visita se hace en caravana con guía, en un circuito de unas tres horas. Desde la capital de la provincia son unos 300 kilómetros por las rutas 40 y 150, según la misma fuente.",
+    "sections": [
+      {
+        "h2": "¿Qué es el Parque Ischigualasto?",
+        "answer": "Es Patrimonio de la Humanidad desde el año 2000, junto con Talampaya, según [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) y [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK).",
+        "body": [
+          "[Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) explica que sus rocas tienen más de 200 millones de años, del Triásico, cuando vivieron algunos de los primeros dinosaurios. Ambos parques forman un solo sistema geológico, según la misma fuente.",
+          "[Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) señala que es un lugar donde se puede encontrar una secuencia completa de sedimentos continentales del Triásico. El parque es provincial desde 1971, y en Valle Pintado el viento ha dejado fósiles a la vista; su museo gira en torno al Eoraptor, hallado en 1991."
+        ]
+      },
+      {
+        "h2": "¿Cómo es la visita?",
+        "answer": "La visita es en caravana detrás de un guía, en un circuito de unos 40 kilómetros y tres horas, según [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) y [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK).",
+        "body": [
+          "[Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) habla de caravanas de unos diez autos con cinco paradas, y [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) indica que la caravana sigue a un vehículo guía.",
+          "Confirma la tarifa de entrada antes de viajar. [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) también describe un circuito nocturno de luna llena que requiere reservación con anticipación."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar y cuánto se maneja?",
+        "answer": "Desde la capital de San Juan son unos 300 kilómetros por las rutas 40 y 150, según [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/).",
+        "body": [
+          "Desde Villa Unión, la distancia es de 140 kilómetros por las rutas 76 y 150. San Agustín del Valle Fértil, a 73 kilómetros del parque por la ruta provincial 510, es el centro de servicios, según [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/). No encontramos una distancia verificada desde Mendoza, así que revisa la ruta en un mapa antes de salir.",
+          "[Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) advierte que en la zona no hay señal de tarjeta y que los cajeros más cercanos están a unos 100 kilómetros en Villa Unión o a 80 en San Agustín. [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) indica que la gasolina más cercana está en San Agustín, así que llena el tanque antes."
+        ]
+      },
+      {
+        "h2": "¿Cuándo ir y qué más ver?",
+        "answer": "Ruta0 recomienda visitar de marzo a mayo y de septiembre a noviembre, según [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/).",
+        "body": [
+          "En verano, [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) sugiere salir a las 8 de la mañana o a las 5 de la tarde; en invierno, cerca de las 2 de la tarde. Lleva agua y protector solar, porque el sol del desierto es intenso.",
+          "Talampaya está en La Rioja, cerca de Villa Unión, y cubre unas 215.000 hectáreas, según [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK). Para planear tu viaje, mira la página de [San Juan](/destinos/ar/san-juan) y el país [Argentina](/destinos/ar)."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 2026-11-23) y del catálogo del sitio.",
+    "en": {
+      "nombre": "San Juan",
+      "targetTerm": "san juan argentina travel guide",
+      "titulo": "San Juan guide: the Valle de la Luna and the road to Talampaya",
+      "enBreve": "San Juan, in western Argentina, is the gateway to Ischigualasto Park, the Valley of the Moon, a UNESCO World Heritage Site since 2000, according to [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/). The visit is made in a guided convoy and takes about three hours. From the provincial capital it is about 300 kilometres by National Routes 40 and 150, according to the same source.",
+      "sections": [
+        {
+          "h2": "What is Ischigualasto Park?",
+          "answer": "It has been a UNESCO World Heritage Site since 2000, together with Talampaya, according to [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) and [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK).",
+          "body": [
+            "[Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) explains that its rocks are more than 200 million years old, from the Triassic, when some of the first dinosaurs lived. The two parks form a single geological system, according to the same source.",
+            "[Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) notes that it is a place where a complete sequence of continental Triassic sediments can be found. The park has been a provincial park since 1971, and at Valle Pintado wind has exposed fossils; its museum centres on Eoraptor, found in 1991."
+          ]
+        },
+        {
+          "h2": "What is the visit like?",
+          "answer": "The visit is made in a convoy behind a guide, on a circuit of about 40 kilometres lasting around three hours, according to [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) and [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK).",
+          "body": [
+            "[Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) describes convoys of about ten cars with five stops, and [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) says the convoy follows a guide vehicle.",
+            "Confirm the entrance fee before you travel. [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) also describes a full-moon night circuit that needs advance booking."
+          ]
+        },
+        {
+          "h2": "How do you get there and what about driving?",
+          "answer": "From San Juan city it is about 300 kilometres by National Routes 40 and 150, according to [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/).",
+          "body": [
+            "From Villa Unión the distance is 140 kilometres by routes 76 and 150. San Agustín del Valle Fértil, 73 kilometres from the park by provincial route 510, is the service hub, according to [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/). We did not find a verified distance from Mendoza, so check the route on a map before you leave.",
+            "[Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) warns that the area has no card signal and that the nearest cash machines are about 100 kilometres away in Villa Unión or 80 in San Agustín. [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/) says the nearest petrol station is in San Agustín, so fill your tank first."
+          ]
+        },
+        {
+          "h2": "When should you go and what else is there?",
+          "answer": "Ruta0 recommends visiting from March to May and from September to November, according to [Ruta0](https://www.ruta0.com/novedades/ischigualasto-un-viaje-a-la-prehistoria/).",
+          "body": [
+            "In summer, [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK) suggests leaving at 8 in the morning or 5 in the afternoon; in winter, around 2 in the afternoon. Bring water and sunscreen, because desert sun is strong.",
+            "Talampaya is in La Rioja, near Villa Unión, and covers about 215,000 hectares, according to [Triptipedia](https://www.triptipedia.com/tip/5mkzkZK). To plan your trip, see the [San Juan](/destinos/ar/san-juan) page and the [Argentina](/destinos/ar) country page."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 2026-11-23) and the site's catalog."
+    },
+    "publishedAt": "2026-11-23",
+    "author": "editorial",
+    "origen": "agente-diario"
+  },
+  {
+    "pais": "br",
+    "ciudad": "fernando-de-noronha",
+    "nombre": "Fernando de Noronha",
+    "targetTerm": "guia de viaje a fernando de noronha",
+    "titulo": "Guía de Fernando de Noronha: cómo llegar, permisos y temporada",
+    "enBreve": "Fernando de Noronha es un archipiélago brasileño al que solo se llega en avión, con vuelos desde Recife y Natal, según [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/). Para entrar al parque hay que pagar una entrada y la Taxa de Preservação Ambiental, de R$ 105,79, según [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) y [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). La época ideal para el mar va de agosto a octubre.",
+    "sections": [
+      {
+        "h2": "¿Cómo llegar a Fernando de Noronha?",
+        "answer": "Solo se llega en avión: hay vuelos regulares desde Recife y Natal y directos desde Guarulhos, según [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/).",
+        "body": [
+          "[360 Meridianos](https://www.360meridianos.com/fernando-de-noronha/) menciona a LATAM, GOL y Azul como aerolíneas. Desde Recife el vuelo dura una hora y 20 minutos, y desde São Paulo unas cuatro horas, según [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/).",
+          "Las rutas y aerolíneas cambian con frecuencia, así que revisa el vuelo antes de reservar. La página de [Fernando de Noronha](/destinos/br/fernando-de-noronha) de Travel Puzzle y el país [Brasil](/destinos/br) te ayudan a comparar."
+        ]
+      },
+      {
+        "h2": "¿Cuánto cuesta entrar y qué es la TPA?",
+        "answer": "La Taxa de Preservação Ambiental, o TPA, cuesta R$ 105,79, según [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) y [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/).",
+        "body": [
+          "Las fuentes no coinciden en cómo se cobra: [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/) la describe como tarifa por persona y por día, mientras [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) dice que baja si pagas más días por adelantado. Confirma el esquema en la web oficial antes de viajar.",
+          "La entrada al parque, que cubre unos 70 por ciento del archipiélago, es de R$ 192 para brasileños y R$ 384 para extranjeros, válida 10 días, según [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) y [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). Algunos senderos y piscinas naturales requieren agendar con el ICMBio, según [360 Meridianos](https://www.360meridianos.com/fernando-de-noronha/)."
+        ]
+      },
+      {
+        "h2": "¿Cuándo ir?",
+        "answer": "La temporada seca va de agosto a febrero y la lluviosa de marzo a julio, según [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/).",
+        "body": [
+          "Para mar y buceo, [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) y [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/) recomiendan agosto a octubre. [360 Meridianos](https://www.360meridianos.com/fernando-de-noronha/) indica que de noviembre a marzo es temporada de surf y de oleaje.",
+          "Como las fechas de tu viaje definen qué playas puedes disfrutar, conviene elegir primero el mes y después las actividades. Revisa también la página de [Brasil](/destinos/br) para otras ciudades del país."
+        ]
+      },
+      {
+        "h2": "¿Qué playas y miradores visitar?",
+        "answer": "Praia do Sancho, Praia do Leão y la Baía dos Golfinhos están dentro del parque, según [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/).",
+        "body": [
+          "Para llegar a la Praia do Sancho hay que bajar por escaleras en las grietas del acantilado, según [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). La Praia do Leão tiene mar abierto y se vigila porque ahí anidan tortugas, según la misma fuente.",
+          "En la Baía dos Golfinhos se ven delfines rotadores desde barcos de paseo, según [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). Para ver más opciones, la página de [Fernando de Noronha](/destinos/br/fernando-de-noronha) reúne experiencias de Travel Puzzle."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 2026-11-23) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Fernando de Noronha",
+      "targetTerm": "fernando de noronha travel guide",
+      "titulo": "Fernando de Noronha guide: how to get there, permits and season",
+      "enBreve": "Fernando de Noronha is a Brazilian archipelago reached only by plane, with flights from Recife and Natal, according to [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/). To enter the park you pay an entrance fee and the Environmental Preservation Tax, R$ 105.79, according to [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) and [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). The ideal season for the sea runs from August to October.",
+      "sections": [
+        {
+          "h2": "How do you get to Fernando de Noronha?",
+          "answer": "You can only get there by plane: there are regular flights from Recife and Natal and direct flights from Guarulhos, according to [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/).",
+          "body": [
+            "[360 Meridianos](https://www.360meridianos.com/fernando-de-noronha/) lists LATAM, GOL and Azul as airlines. From Recife the flight takes one hour and 20 minutes, and from São Paulo about four hours, according to [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/).",
+            "Routes and airlines change often, so check your flight before booking. The [Fernando de Noronha](/destinos/br/fernando-de-noronha) page on Travel Puzzle and the [Brazil](/destinos/br) country page can help you compare."
+          ]
+        },
+        {
+          "h2": "How much does entry cost and what is the TPA?",
+          "answer": "The Environmental Preservation Tax, or TPA, costs R$ 105.79, according to [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) and [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/).",
+          "body": [
+            "The sources do not agree on how it is charged: [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/) describes it as a per-person, per-day fee, while [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) says it drops if you pay for more days in advance. Confirm the scheme on the official website before you travel.",
+            "Park entry, which covers about 70 percent of the archipelago, is R$ 192 for Brazilians and R$ 384 for foreigners, valid for 10 days, according to [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) and [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). Some trails and natural pools need booking with ICMBio, according to [360 Meridianos](https://www.360meridianos.com/fernando-de-noronha/)."
+          ]
+        },
+        {
+          "h2": "When should you go?",
+          "answer": "The dry season runs from August to February and the rainy season from March to July, according to [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/).",
+          "body": [
+            "For sea and diving, [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/) and [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/) recommend August to October. [360 Meridianos](https://www.360meridianos.com/fernando-de-noronha/) says November to March is the surf and swell season.",
+            "Since your travel dates decide which beaches you can enjoy, choose the month first and then the activities. You can also check the [Brazil](/destinos/br) country page for other cities in the country."
+          ]
+        },
+        {
+          "h2": "Which beaches and viewpoints should you visit?",
+          "answer": "Praia do Sancho, Praia do Leão and Baía dos Golfinhos are inside the park, according to [Itatiaia](https://www.itatiaia.com.br/turismo/viagem-e-gastronomia/fernando-de-noronha-como-chegar-taxas-e-melhor-epoca-para-visitar/).",
+          "body": [
+            "To reach Praia do Sancho you go down stairs cut into the cracks of the cliff, according to [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). Praia do Leão faces the open sea and is monitored because turtles nest there, according to the same source.",
+            "At Baía dos Golfinhos you can see spinner dolphins from tour boats, according to [Catraca Livre](https://catracalivre.com.br/viagem-livre/guia-para-planejar-suas-ferias-em-fernando-de-noronha/). For more options, the [Fernando de Noronha](/destinos/br/fernando-de-noronha) page gathers Travel Puzzle experiences."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 2026-11-23) and the site's catalog."
+    },
+    "publishedAt": "2026-11-23",
+    "author": "editorial",
+    "origen": "agente-diario"
+  },
+  {
+    "pais": "cl",
+    "ciudad": "la-serena",
+    "nombre": "La Serena",
+    "targetTerm": "guia de viaje de la serena y valle del elqui",
+    "titulo": "Guía de La Serena y el Valle del Elqui: playas, cielos y pisco",
+    "enBreve": "La Serena combina playas, un Faro Monumental y el Valle del Elqui, de cielos despejados y pueblos como Vicuña, según [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/). Desde Santiago hay vuelos directos de una hora al aeropuerto de La Serena, según [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/). Para el valle, la forma ideal de ver el cielo es con un tour de observatorio.",
+    "sections": [
+      {
+        "h2": "¿Qué ver en La Serena?",
+        "answer": "La ciudad tiene una Plaza de Armas monumental con una catedral neoclásica y el Faro Monumental, según [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/).",
+        "body": [
+          "El Faro Monumental es el símbolo de la ciudad y tiene vista de la bahía de Coquimbo y la Avenida del Mar, indica la misma página. Para la tarde, [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/) recomienda la Playa Cuatro Esquinas.",
+          "Cerca, [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/) menciona los balnearios de Tongoy y Totoralillo y la Cruz del Tercer Milenio en Coquimbo. La misma fuente advierte de corrientes fuertes en el mar: respeta a los salvavidas."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer en el Valle del Elqui?",
+        "answer": "Vicuña, Pisco Elqui y los observatorios son el corazón del valle, según [Chile.travel](https://chile.travel/destinos/valle-del-elqui/).",
+        "body": [
+          "Vicuña se describe como la capital del astroturismo chileno y es cuna de Gabriela Mistral, con un museo sobre su vida y obra, según [Chile.travel](https://chile.travel/atractivos/vicuna/). Pisco Elqui es el pueblo donde se puede conocer la elaboración del pisco, según [Chile.travel](https://chile.travel/destinos/valle-del-elqui/).",
+          "El Observatorio Cerro Tololo ofrece visita diurna solo los sábados, con reserva previa y cupos muy limitados, según [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/). El valle tiene más de 300 noches despejadas al año, según [Chile.travel](https://chile.travel/destinos/valle-del-elqui/). El Observatorio Mamalluca también aparece como sitio turístico, aunque sin horarios verificados. Un folleto de [Sernatur Coquimbo](https://chileestuyo.cl/wp-content/uploads/2020/02/Destino-Valle-de-Elqui.pdf) de 2019 indica que el Cerro Tololo abre todos los sábados del año, con reserva de al menos un mes; verifica esos datos en la fuente."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar desde Santiago?",
+        "answer": "Hay vuelos directos de una hora al aeropuerto de La Serena, o unas seis horas en auto por la Ruta 5 Norte, de 470 kilómetros, según [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/).",
+        "body": [
+          "Desde el aeropuerto al centro hay 7 kilómetros, unos 12 minutos, según [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/). Un bus interurbano también llega a La Serena y Coquimbo, aunque la guía no indica empresas ni frecuencias.",
+          "De La Serena a Vicuña, la Ruta 41 es el camino, y [Chile.travel](https://chile.travel/atractivos/vicuna/) dice que son unos 60 kilómetros, cerca de una hora, con buses regulares o auto de alquiler. Otra página de [Chile.travel](https://chile.travel/destinos/valle-del-elqui/) indica 33 kilómetros, y un folleto de [Sernatur Coquimbo](https://chileestuyo.cl/wp-content/uploads/2020/02/Destino-Valle-de-Elqui.pdf) de 2019 da 34 kilómetros por la Ruta CH-41. Confirma la distancia en un mapa."
+        ]
+      },
+      {
+        "h2": "¿Cuándo ir y cómo es el clima?",
+        "answer": "El Valle del Elqui tiene clima desértico, con días soleados y noches frías incluso en verano, según [Chile.travel](https://chile.travel/destinos/valle-del-elqui/).",
+        "body": [
+          "Vicuña tiene gran oscilación térmica, también según [Chile.travel](https://chile.travel/atractivos/vicuna/). La Serena tiene clima costero templado, según [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/), y [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/) recomienda visitarla durante todo el año.",
+          "Lleva abrigo para la noche en el valle. Para planear, mira la página de [La Serena](/destinos/cl/la-serena) y el país [Chile](/destinos/cl)."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 2026-11-23) y del catálogo del sitio.",
+    "en": {
+      "nombre": "La Serena",
+      "targetTerm": "la serena and elqui valley travel guide",
+      "titulo": "La Serena and Elqui Valley guide: beaches, skies and pisco",
+      "enBreve": "La Serena combines beaches, a Monumental Lighthouse and the Elqui Valley, with clear skies and villages such as Vicuña, according to [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/). There are direct one-hour flights from Santiago to La Serena airport, according to [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/). In the valley, the ideal way to see the sky is on an observatory tour.",
+      "sections": [
+        {
+          "h2": "What to see in La Serena?",
+          "answer": "The city has a monumental main square with a neoclassical cathedral and the Monumental Lighthouse, according to [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/).",
+          "body": [
+            "The Monumental Lighthouse is the city's symbol and overlooks Coquimbo bay and the Avenida del Mar, says the same page. For the afternoon, [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/) recommends Cuatro Esquinas beach.",
+            "Nearby, [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/) mentions the Tongoy and Totoralillo beaches and the Third Millennium Cross in Coquimbo. The same source warns about strong sea currents: respect the lifeguards."
+          ]
+        },
+        {
+          "h2": "What to do in the Elqui Valley?",
+          "answer": "Vicuña, Pisco Elqui and the observatories are the heart of the valley, according to [Chile.travel](https://chile.travel/destinos/valle-del-elqui/).",
+          "body": [
+            "Vicuña is described as the capital of Chilean astrotourism and as the birthplace of Gabriela Mistral, with a museum about her life and work, according to [Chile.travel](https://chile.travel/atractivos/vicuna/). Pisco Elqui is the village where you can learn how pisco is made, according to [Chile.travel](https://chile.travel/destinos/valle-del-elqui/).",
+            "The Cerro Tololo Observatory offers daytime visits only on Saturdays, with advance booking and very limited places, according to [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/). The valley has more than 300 clear nights a year, according to [Chile.travel](https://chile.travel/destinos/valle-del-elqui/). Mamalluca Observatory also appears as a tourist site, although we did not verify its hours. A 2019 [Sernatur Coquimbo](https://chileestuyo.cl/wp-content/uploads/2020/02/Destino-Valle-de-Elqui.pdf) brochure says Cerro Tololo opens every Saturday of the year with at least a month of advance booking; verify those details at the source."
+          ]
+        },
+        {
+          "h2": "How do you get there from Santiago?",
+          "answer": "There are direct one-hour flights to La Serena airport, or about six hours by car on Route 5 North, 470 kilometres, according to [Chile.travel](https://chile.travel/destinos/la-serena-y-coquimbo/).",
+          "body": [
+            "From the airport to the centre is 7 kilometres, about 12 minutes, according to [Chile.travel]({S3}). An intercity bus also reaches La Serena and Coquimbo, although the guide does not name operators or frequencies.",
+            "From La Serena to Vicuña, Route 41 is the road, and [Chile.travel](https://chile.travel/atractivos/vicuna/) gives about 60 kilometres, close to an hour, with regular buses or rental cars. Another [Chile.travel](https://chile.travel/destinos/valle-del-elqui/) page gives 33 kilometres, and a 2019 [Sernatur Coquimbo](https://chileestuyo.cl/wp-content/uploads/2020/02/Destino-Valle-de-Elqui.pdf) brochure gives 34 kilometres on Route CH-41. Confirm the distance on a map."
+          ]
+        },
+        {
+          "h2": "When should you go and what is the weather like?",
+          "answer": "The Elqui Valley has a desert climate, with sunny days and cold nights even in summer, according to [Chile.travel](https://chile.travel/destinos/valle-del-elqui/).",
+          "body": [
+            "Vicuña has a wide daily temperature range, also according to [Chile.travel](https://chile.travel/atractivos/vicuna/). La Serena has a mild coastal climate, according to [Chile.travel](https://chile.travel/itinerarios/2-dias-en-la-serena-y-el-valle-del-elqui/), which recommends visiting all year round.",
+            "Bring a jacket for the night in the valley. To plan further, see the [La Serena](/destinos/cl/la-serena) page and the [Chile](/destinos/cl) country page."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 2026-11-23) and the site's catalog."
+    },
+    "publishedAt": "2026-11-23",
+    "author": "editorial",
+    "origen": "agente-diario"
   }
 ]
