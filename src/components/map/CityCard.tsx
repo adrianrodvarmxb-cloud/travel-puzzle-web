@@ -6,7 +6,7 @@ import { homeCopy } from '@/home/lib/copy';
 import { nameIn } from '@/home/lib/destinations';
 import { formatCount, formatRating } from '@/home/lib/format';
 import type { CityCard as CityCardData } from '@/map/load';
-import { cardHref } from '@/map/lib/trips';
+import { cardHref } from '@/map/lib/card-href';
 
 /** Tarjeta flotante de una ciudad del mapa: total de tours y 3 recomendados (regla 60/40). */
 export function CityCard({ card, loading, onClose }: { card: CityCardData | null; loading: boolean; onClose: () => void }) {

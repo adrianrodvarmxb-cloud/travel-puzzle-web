@@ -99,6 +99,9 @@ jobs:
         env:
           SMOKE_EVIDENCE_DIR: smoke-evidencia/pr
         run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
+      # REQ-1564: la carga inicial (sin scroll) a 390 y 1366 px no descarga imágenes fuera de la pantalla.
+      - name: Imágenes fuera de pantalla (REQ-1564)
+        run: npx tsx src/scripts/offscreen-images.ts "${{ steps.version.outputs.url }}" / /tours /viajes/reino-unido/bus-turistico-hop-on-hop-off-en-londres-bbt-gb-m01-010 /destinos/mx/ciudad-de-mexico /destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno
       - name: Evidencia de la prueba de humo
         if: always()
         uses: actions/upload-artifact@v4
