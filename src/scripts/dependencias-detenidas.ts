@@ -11,9 +11,10 @@ const CERRADO = /^(CUMPLIDO|CERRADO|REEMPLAZADO|DECIDIDO|CANCELADO|DESCARTADO)\b
 /**
  * REQ-10742: el estado de una fila ya está cerrado (CERRADO cuenta igual que CUMPLIDO) y no dice que falte algo.
  * La nota «· Qué falta (inventario …)» que agregan los lotes del frente 5 no cuenta: se juzga el estado antes de ella.
+ * El código citado entre comillas invertidas (p. ej. `status: "pendiente"`) tampoco cuenta como «pendiente».
  */
 export function estaCerrado(estado: string): boolean {
-  return CERRADO.test(estado.split(/\s·\s*Qué falta \(inventario/)[0]);
+  return CERRADO.test(estado.split(/\s·\s*Qué falta \(inventario/)[0].replace(/`[^`]*`/g, "``"));
 }
 
 /** Qué detiene una fila, por las palabras de su estado. El orden importa: la primera que aplica gana. */

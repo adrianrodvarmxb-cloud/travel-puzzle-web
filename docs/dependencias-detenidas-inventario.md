@@ -2,23 +2,23 @@
 
 Generado por `npx tsx src/scripts/dependencias-detenidas.ts` desde `docs/requisitos.md`, `wrangler.jsonc` y los workflows. No se edita a mano. El motivo sale de las palabras del estado de cada fila; «Sin clasificar» se revisa a mano.
 
-Filas de requisitos: 1332 · sin cerrar: 483
+Filas de requisitos: 1334 · sin cerrar: 464
 
 ## Resumen por motivo
 
 | Qué lo detiene | Filas |
 |---|---|
-| Decisión, firma u OK del PO | 192 |
-| Depende de otro folio sin cerrar | 81 |
-| Falta publicar (PR, humo o merge) | 56 |
+| Decisión, firma u OK del PO | 191 |
+| Depende de otro folio sin cerrar | 76 |
+| Falta publicar (PR, humo o merge) | 54 |
 | Pieza sin construir o en borrador | 37 |
-| A medias (el estado no dice qué falta) | 19 |
 | Tarea a mano del PO | 19 |
-| Sin iniciar (el estado no dice qué falta) | 18 |
+| Sin iniciar (el estado no dice qué falta) | 15 |
 | Secreto o variable por cargar | 14 |
 | Tercero (proveedor u otra empresa) | 14 |
 | Carga de datos o migración | 13 |
 | Abogado | 12 |
+| A medias (el estado no dice qué falta) | 11 |
 | Ola posterior del plan | 7 |
 | Bandera apagada sin motivo escrito | 1 |
 
@@ -27,7 +27,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | Bandera o variable | Estado | Dónde | Folio que la nombra | Estado del folio |
 |---|---|---|---|---|
 | `BIGBUS_OCTO_ENABLED` | apagada | wrangler.jsonc | REQ-10774 | CUMPLIDO (firmada) |
-| `PROVIDER_CALENDAR_ENABLED` | apagada | wrangler.jsonc | REQ-3471 | EN CURSO (PR abierto; el merge es del PO) |
+| `PROVIDER_CALENDAR_ENABLED` | apagada | wrangler.jsonc | REQ-3471 | CUMPLIDO en código (auditoría de la constructora, 23-11-2026 02:38 CDMX: 6 pruebas verdes en la sesión, `provider-availability.test.ts` y `ProviderDateCalendar. |
 | `FICHA_UNICA_FREETOUR_ENABLED` | apagada | wrangler.jsonc | REQ-10859 | EN CURSO (22-11-2026, constructora Fable 2:38: `npx vitest run src/ficha/page.test.ts src/ficha/lib/flags.test.ts` 8/8; humo del PR con la plantilla montada en  |
 | `FICHA_UNICA_TRIP_ENABLED` | apagada | wrangler.jsonc | REQ-10859 | EN CURSO (22-11-2026, constructora Fable 2:38: `npx vitest run src/ficha/page.test.ts src/ficha/lib/flags.test.ts` 8/8; humo del PR con la plantilla montada en  |
 | `CART_ADD_ENABLED` | apagada | wrangler.jsonc | REQ-10859 | EN CURSO (22-11-2026, constructora Fable 2:38: `npx vitest run src/ficha/page.test.ts src/ficha/lib/flags.test.ts` 8/8; humo del PR con la plantilla montada en  |
@@ -45,7 +45,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | `VISA_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 | `ETIAS_ENABLED` | apagada | wrangler.jsonc | REQ-1315 | BLOQUEADO (a propósito) |
 
-## Decisión, firma u OK del PO (192)
+## Decisión, firma u OK del PO (191)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -65,7 +65,6 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-409 | (tabla vieja) | — | PENDIENTE (migración 0017: candado) |
 | REQ-425 | (tabla vieja) | — | PENDIENTE (candado) |
 | REQ-432 | (tabla vieja) | — | PENDIENTE (metas: gate G-T3) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): G-T3 sigue como «metas propuestas» (sin firma de los números) en `docs/gates-taxonomia-2026-11.md`; STATUS.md ya tiene la tabla con lo |
-| REQ-230 | (tabla vieja) | — | PENDIENTE (es firmado; en, pt, de, fr, it por firmar) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): el nombre lo reemplazó REQ-10700 (15-11: el PO eligió «Actividades»; `src/taxonomy/lib/actividades.test.ts`). |
 | REQ-450 | (tabla vieja) | — | EN CURSO (tests verdes; falta preview con la bandera y OK del PO) — **REEMPLAZADO en parte por REQ-850** (solo Favoritos, todos, por páginas) y **por REQ-10515/10516** (la parte «solo con reseñas reales»: lo sin reseñas  |
 | REQ-453 | (tabla vieja) | — | EN CURSO (tests verdes; falta preview con la bandera y OK del PO) — **REEMPLAZADO en parte por REQ-852** (todas las excursiones, por páginas; el tope de 9 ya no aplica) y **por REQ-10515/10516** (gate C6: lo sin reseñas, |
 | REQ-174 | (tabla vieja) | — | CUMPLIDO (falta OK del PO para publicar) |
@@ -155,7 +154,6 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-1260 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1261 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1262 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
-| REQ-1263 | (tabla vieja) | — | EN CURSO (test verde) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): lo pedido (tras bandera, en false) ya está: la cat. 31 no se publica ni tiene temas (`src/taxonomy/lib/publish.ts:52`, `themes.ts:18`); 2 pru |
 | REQ-1264 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1254 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
 | REQ-1255 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR y OK del PO) |
@@ -207,6 +205,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-3312 | PRUEBA | — | EN CURSO (4 pruebas en verde; falta humo del PR y OK del PO) |
 | REQ-3443 | CÓDIGO | — | EN CURSO (9 pruebas en verde; sin conectar, gates G1-G4 del PO) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): 4 pruebas verdes hoy con el folio (`src/tours/lib/date-availability.test.ts`); no está conectada a  |
 | REQ-3323 | CÓDIGO | — | EN CURSO (3 pruebas en verde; falta humo del PR y OK del PO) |
+| REQ-1604 | TAREA | — | EN CURSO (tarea programada creada el 11-11) · Qué falta (inventario frente 5, 23-11-2026, 6.º lote; conteos = pruebas con el folio en el nombre en la suite completa de hoy, 4,640 verdes / 0 rojas): la tarea programada «C |
 | REQ-3425 | DEFINICIÓN | — | PENDIENTE |
 | REQ-3433 | DEFINICIÓN | — | PENDIENTE |
 | REQ-3519 | CÓDIGO | — | CUMPLIDO en código (test verde). Pendiente: la primera corrida real del workflow «Tangol sync de tours» con la casilla de escritura; es carga de datos a R2 privado y D1 (candado del PO) (17-11-2026 (constructora, REQ-107 |
@@ -242,7 +241,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-10807 | DEFINICIÓN | — | PENDIENTE |
 | REQ-10813 | DATOS | — | EN CURSO (21-11-2026, constructora Fable 14:38: script `src/scripts/carga-preguntas.ts` que SIMULA por defecto (SQL de carga, respaldo de solo lectura y regreso a `'[]'` en tmp/), lista inicial `PREGUNTAS_INICIALES` de l |
 
-## Depende de otro folio sin cerrar (81)
+## Depende de otro folio sin cerrar (76)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -297,12 +296,8 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-3340 | DATOS | REQ-3336, REQ-3338 | EN CURSO (25 guías en inglés validadas en el PR de la ola 1; el blog va en la ola 3) |
 | REQ-3444 | CÓDIGO | REQ-3443 | EN CURSO (pruebas en verde) |
 | REQ-3445 | PRUEBA | REQ-3443 | EN CURSO (pruebas en verde) |
-| REQ-3468 | CÓDIGO | REQ-3443, REQ-3444, REQ-1542 | EN CURSO (PR abierto; el merge es del PO) |
-| REQ-3469 | CÓDIGO | REQ-3468 | EN CURSO (PR abierto; el merge es del PO) |
-| REQ-3470 | CÓDIGO | REQ-3468 | EN CURSO (PR abierto; el merge es del PO) |
-| REQ-3471 | CÓDIGO | REQ-3468, REQ-1543 | EN CURSO (PR abierto; el merge es del PO) |
 | REQ-3458 | CÓDIGO | REQ-601 | EN CURSO (PR abierto; el merge es del PO) |
-| REQ-3450 | CÓDIGO | REQ-3449 | EN CURSO |
+| REQ-3450 | CÓDIGO | REQ-3449 | EN CURSO · Qué falta (inventario frente 5, 23-11-2026, 6.º lote; conteos = pruebas con el folio en el nombre en la suite completa de hoy, 4,640 verdes / 0 rojas): 4 pruebas verdes hoy; código en main con REQ-3449 y 3451  |
 | REQ-3329 | BANDERA | REQ-3330, REQ-3331 | PENDIENTE |
 | REQ-3331 | TAREA-PO | REQ-3330 | PENDIENTE |
 | REQ-3332 | DATOS | REQ-1607, REQ-1523 | BLOQUEADO |
@@ -310,14 +305,12 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-3437 | VALIDACIÓN | REQ-3330, REQ-3331 | PENDIENTE |
 | REQ-3442 | DATOS | REQ-3441 | EN CURSO |
 | REQ-3461 | CÓDIGO | REQ-1623 | CUMPLIDO (23 pruebas verdes en `src/catalog/lib/sql.test.ts`; falta merge y el OK del PO para aplicar la 0026) |
-| REQ-3487 | CÓDIGO | REQ-3486 | SIN VERIFICAR (el código está en main, `.github/workflows/tipos-tangol.yml` y `src/scripts/tipos-tangol.ts`, pero no hay ninguna prueba que cite el folio; incumple el punto 2 del protocolo. Falta además la corrida) — rev |
 | REQ-3527 | CÓDIGO | REQ-3526 | EN CURSO |
 | REQ-3528 | CÓDIGO | REQ-3527 | EN CURSO |
 | REQ-3537 | CÓDIGO | REQ-3527 | EN CURSO (tests verdes; PR abierto, falta humo y merge del PO) |
 | REQ-3538 | CÓDIGO | REQ-3537 | EN CURSO (tests verdes; PR abierto, falta humo y merge del PO) |
 | REQ-10514 | CÓDIGO | REQ-10512 | EN CURSO |
 | REQ-10520 | CÓDIGO | REQ-1609 | EN CURSO (tests verdes; PR) |
-| REQ-10521 | CÓDIGO | REQ-975 | EN CURSO (tests verdes; PR) |
 | REQ-10535 | CÓDIGO | REQ-10534 | PENDIENTE |
 | REQ-10669 | DEFINICIÓN | REQ-3511 | PENDIENTE (plan para firma) |
 | REQ-10691 | DEFINICIÓN | REQ-10690 | CUMPLIDO como definición (15 nov 2026, firma del PO); el código queda PENDIENTE con folios propios al construir cada conector |
@@ -327,8 +320,9 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-10733 | DEFINICIÓN | REQ-10728 | APROBADO (definición); regla en `src/taxonomy/lib/incluido-cantidad.ts` con prueba verde; falta mostrar la etiqueta en la ficha. Mostrada en la ficha el 17-11-2026 (`incluido-ficha.ts`, prueba REQ-10733: «Autobús turísti |
 | REQ-10744 | CÓDIGO | REQ-10731 | CUMPLIDO en código (16-11-2026 17:59 CDMX: 8 pruebas en verde, `npx vitest run src/taxonomy/aviso-tipo-nuevo.test.ts`; tsc en verde); falta cargar el secreto y encender la bandera (REQ-10731) |
 | REQ-10850 | CÓDIGO | REQ-10813 | EN CURSO (21-11-2026 16:04 CDMX: candado construido, `src/proveedores/lib/preguntas-carga.test.ts` 11 verdes, `src/proveedores` 141 verdes, tsc limpio; revisión completa hecha el 21-11-2026 16:11 CDMX para 6 de los 7 (Bi |
+| REQ-10865 | CÓDIGO | REQ-1562 | EN CURSO (23-11-2026: `src/perf/client-zod.test.ts` rojo → verde, 7/7; suite 653 / 4,649 verdes; build: primera carga (gzip, informe de Next) `/` 200 → 172 KB, `/tours` 255 → 205, `/destinos/[pais]/[ciudad]` 196 → 168, f |
 
-## Falta publicar (PR, humo o merge) (56)
+## Falta publicar (PR, humo o merge) (54)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
@@ -344,7 +338,6 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-619 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): nada técnico: `TAXONOMY_CIRCUITS_ENABLED` ya está en "true" en main (encendido con #355 y humo de producción verde, ver REQ-1303); falta pasarlo a REEMPLAZADO por  |
 | REQ-622 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): nada técnico: `CONTACTO_ENABLED` ya está en "true" en main y /contacto en el humo (REQ-1308 CUMPLIDO, #283); falta pasarlo a REEMPLAZADO por REQ-1308 |
 | REQ-623 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): nada técnico: `EXPERTOS_ENABLED` ya está en "true" en main y /asesores en el humo (REQ-1308 y REQ-3382, #431); falta pasarlo a REEMPLAZADO por REQ-3382 |
-| REQ-677 | (tabla vieja) | — | EN CURSO (Olas 0–3 y #224 en main; en la fila) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): `LOCALE_URLS_ENABLED` ya en "true" (`wrangler.jsonc:211`); `/en` responde 200 en producción hoy; ninguna prueba con  |
 | REQ-774 | (tabla vieja) | — | EN CURSO (src/ingest/lib/flags.test.ts; falta publicar y revisar el primer sync) |
 | REQ-1247 | (tabla vieja) | — | EN CURSO (test verde; falta la corrida tras el merge) |
 | REQ-1257 | (tabla vieja) | — | EN CURSO (test verde; falta humo del PR) |
@@ -359,7 +352,6 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-1348 | CÓDIGO | — | CUMPLIDO en código (#279 en main; test de contrato y sinónimos verde). Pendiente: humo del deploy no registrado en el repo (17-11-2026 (constructora, REQ-10742)) |
 | REQ-1349 | CÓDIGO | — | EN MAIN (#277, test verde; deploy y humo NO VERIFICADOS) |
 | REQ-1359 | CÓDIGO | — | CUMPLIDO en código (deploy 42428767660 verde). Pendiente: medición en frío con humo de producción, sin evidencia en el repo (17-11-2026 (constructora, REQ-10742)) |
-| REQ-1564 | (tabla vieja) | — | EN CURSO (prod 12-11: Lighthouse sin imágenes fuera de pantalla en las 3 páginas, móvil y escritorio; falta la prueba Playwright del criterio) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): 13 pruebas verdes ho |
 | REQ-1615 | CÓDIGO | — | EN CURSO (tests verdes; falta humo y merge) |
 | REQ-1634 | (tabla vieja) | — | PENDIENTE (gate C1: plan y gates propios antes de código; viene de INC-009) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): REQ-1359 (copia anterior al cambiar la versión de la llave `destinos`) ya está CUMPLIDO |
 | REQ-3316 | CÓDIGO | — | EN CURSO (PR abierto; el merge es del PO) |
@@ -379,7 +371,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-3526 | CÓDIGO | — | EN CURSO (tests verdes; PR abierto, falta humo y merge del PO) |
 | REQ-10510 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/tangol/sync.ts`, #537 fusionado); `vitest -t "REQ-10510"` 33 verdes hoy; falta solo el cierre de la auditoría. |
 | REQ-10511 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/tangol/lib/details.ts`, `tour-rows.ts`; #537 y #543 fusionados); `vitest -t "REQ-10511"` 12 verdes hoy; falta solo el cierre de la a |
-| REQ-10518 | CÓDIGO | — | EN CURSO (prueba en verde; PR #537) |
+| REQ-10518 | CÓDIGO | — | EN CURSO (prueba en verde; PR #537) · Qué falta (inventario frente 5, 23-11-2026, 6.º lote; conteos = pruebas con el folio en el nombre en la suite completa de hoy, 4,640 verdes / 0 rojas): PR #537 fusionado el 13-11 (ca |
 | REQ-10577 | VALIDACIÓN | — | CUMPLIDO (17-11-2026, constructora: #507 fusionado el 14-11, #548 y #551 fusionados el 17-11 bajo la autorización global REQ-10743; la fila seguía en PENDIENTE por omisión) |
 | REQ-10647 | CÓDIGO | — | CUMPLIDO (prueba en verde y humo contra producción el 14 nov 2026; falta el merge) |
 | REQ-10651 | CÓDIGO | — | CUMPLIDO en código (pruebas en verde el 14 nov 2026; la casilla Proveedor se corrigió tras INC-022). Pendiente: humo visual de la corrección en producción, sin evidencia en el repo (17-11-2026 (constructora, REQ-10742)) |
@@ -431,30 +423,6 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-10805 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): sin código: /terminos en producción no tiene «Programa Puzzle Rewards» (0 coincidencias); falta dato del PO: mecánica de acumulación, equivalencia de ca |
 | REQ-10812 | BANDERA | — | EN CURSO (19-11-2026: PR preparado en la rama `feat/req-10812-borradores-auto`, sin fusionar; envíos manuales registrados: por confirmar en /admin/borradores) |
 
-## A medias (el estado no dice qué falta) (19)
-
-| Folio | Tipo | Depende de | Estado |
-|---|---|---|---|
-| REQ-076 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026): el código ya consulta `GET /events/{id}` en vivo (`src/booking/service.ts:73`, `src/app/api/freetour/booking/route.ts:61`, API 2.2 encendida); falta marcar `// REQ-076` y un test `it('REQ- |
-| REQ-068 | (tabla vieja) | — | EN CURSO (revisión visual) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): pruebas `src/home/lib/sections.test.ts` y `src/tours/lib/menu.test.ts`; falta la revisión visual en celular del menú en el home y en una |
-| REQ-975 | (tabla vieja) | — | EN CURSO (tests de estructura en verde; falta la primera corrida real del workflow) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): el workflow `blog-diario.yml` ya corre de verdad y en verde (19, 20, 21 y 22-11 |
-| REQ-1232 | (tabla vieja) | — | EN CURSO (tests de estructura en verde; falta la primera corrida real) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): el workflow `guias-ciudad.yml` ya corre de verdad y en verde (19 a 22-11; la del 22-11, run  |
-| REQ-1294 | (tabla vieja) | — | EN CURSO (la presentación la reemplaza REQ-1297; recordatorio, reintento y alta siguen aquí) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): 6 pruebas verdes hoy; la presentación la cubre REQ-1297; recordatorio  |
-| REQ-1392 | CÓDIGO | — | EN CURSO (falta guardar) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): la skill `acuerdo-intermediacion-proveedor` ya está guardada en la cuenta (sale en la lista de skills de la sesión de la constructora del  |
-| REQ-1577 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026, constructora): folio PLAN, sin marca propia en src; `TANGOL_ENABLED="true"` ya en `wrangler.jsonc:81` y REQ-1554 firmado; faltan por cerrar sus hijos: REQ-3370, REQ-3371 y REQ-3372 (filas d |
-| REQ-3322 | CÓDIGO | — | EN CURSO (PR abierto) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): el aviso ya está en main (`src/home/lib/copy.ts:93`, `src/components/home/v2/HomeReviews.tsx:30`) y se ve hoy en el home de producción; 4 pru |
-| REQ-3371 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/tangol/lib/details.ts`, `tour-rows.ts`; #425, #460); `vitest -t "REQ-3371"` 8 verdes hoy; falta solo el cierre de la auditoría. |
-| REQ-3372 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/tangol/lib/text.ts`, `tour-rows.ts`; #425, #537); `vitest -t "REQ-3372"` 7 verdes hoy; falta solo el cierre de la auditoría. |
-| REQ-3336 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`CityGuideView.tsx`, #421 y #441); `vitest -t "REQ-3336"` 16 verdes hoy; /en/guias responde 200 en producción; falta solo el cierre de la |
-| REQ-3451 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/blog/lib/i18n.ts`, #448); `vitest -t "REQ-3451"` 3 verdes hoy; falta solo el cierre de la auditoría. |
-| REQ-3452 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/blog/lib/diario-en.ts`, #448); `vitest -t "REQ-3452"` 12 verdes hoy; falta solo el cierre de la auditoría. |
-| REQ-1604 | TAREA | — | EN CURSO (tarea programada creada el 11-11) |
-| REQ-3497 | CÓDIGO | — | EN CURSO (tests verdes; PR) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): ya en main: la sección «cifras» con `status: "pendiente"` en español e inglés (`src/about/lib/content.ts:107` y `:150`); 1 prueba verde |
-| REQ-3486 | CÓDIGO | — | EN CURSO (3 pruebas en verde; falta la corrida) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): 3 pruebas verdes hoy; el workflow «Tipos de Tangol (solo lectura)» ya corrió en verde 4 veces (12 a 14-11; la últim |
-| REQ-3536 | CÓDIGO | — | EN CURSO (prueba en verde; PR) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): `timeout-minutes: 120` en main (`.github/workflows/tangol-sync.yml:47`); 1 prueba verde hoy; las corridas del 14-11 (43565981883 y 4 |
-| REQ-10509 | CÓDIGO | — | EN CURSO (pruebas en verde; PR) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): el paso «Slugs faltantes de Tangol» ya está en main (`.github/workflows/tangol-sync.yml:182`) y corrió en verde el 14-11 (435659818 |
-| REQ-10512 | DATOS | — | EN CURSO |
-
 ## Tarea a mano del PO (19)
 
 | Folio | Tipo | Depende de | Estado |
@@ -479,13 +447,10 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-10797 | TAREA-PO | — | PENDIENTE |
 | REQ-10800 | TAREA-PO | — | PENDIENTE |
 
-## Sin iniciar (el estado no dice qué falta) (18)
+## Sin iniciar (el estado no dice qué falta) (15)
 
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
-| REQ-400 | (tabla vieja) | — | PENDIENTE (gate firmado; la etiqueta está escrita en la rama de REQ-174, en espera sobre #141) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): la raíz «Experiencias» ya está en `src/taxonomy/data/dictionary.json |
-| REQ-420 | (tabla vieja) | — | PENDIENTE (gate G-T1) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): G-T1 quedó firmado como D (≥4.9 y ≥180, REQ-1290; ficha única REQ-10594) y está aplicado (`GATE_GT1_FAVORITO = "D"`, `src/taxonomy/lib/favori |
-| REQ-422 | (tabla vieja) | — | PENDIENTE (mapeo de los 3 valores de hoy: gate G-T8) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): G-T8 firmado A (fácil→2, moderada→3, exigente→4; `docs/gates-taxonomia-2026-11.md`); `src/taxonomy/lib/circuit |
 | REQ-423 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): código y test ya en main (`src/taxonomy/lib/circuit-facts.ts`, `circuit-facts.test.ts`; `vitest -t "REQ-423"` 9 verdes hoy); falta solo que la auditoría lo cierre  |
 | REQ-424 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): código ya en main tras `TAXONOMY_CIRCUIT_EXTRA_ENABLED="false"` (`circuit-facts.ts`; `vitest -t "REQ-424"` 8 verdes hoy); falta el dato de confort, tipo de guía, p |
 | REQ-429 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): código ya en main tras `TAXONOMY_CART_ENABLED` (`src/companions/lib/carousel.ts`, `firstByFormat`; `vitest -t "REQ-429"` 7 verdes hoy); falta solo que la auditoría |
@@ -499,7 +464,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-1641 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): tarea del PO: crear la cuenta en el programa de partners de GetYourGuide y pegar el correo de alta |
 | REQ-1651 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): Big Bus: módulo `src/octo/` ya en main tras `BIGBUS_OCTO_ENABLED="false"`, falta la llave real de OCTO (REQ-10576); Tiqets: nada en el código (`grep -ri  |
 | REQ-1371 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): `src/companions/registry.json` validado con zod ya en main (`src/companions/lib/registry.ts`, REQ-121, `registry.test.ts`) y sin llaves en el archivo; fa |
-| REQ-3338 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): se construye como REQ-3449, 3450 y 3451 (EN CURSO, `src/blog/lib/i18n.ts`, `schema.ts`); se cierra cuando las tres estén CUMPLIDO. |
+| REQ-3338 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): se construye como REQ-3449, 3450 y 3451 (EN CURSO, `src/blog/lib/i18n.ts`, `schema.ts`); se cierra cuando las tres estén CUMPLIDO. · Qué falta (inventari |
 | REQ-10642 | CÓDIGO | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026, 2.º lote): espera olas 8 y 13; la línea «Opera en destino» para el correo ya existe (`readEmail().operatorLine`, REQ-10826). |
 
 ## Secreto o variable por cargar (14)
@@ -507,7 +472,6 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | Folio | Tipo | Depende de | Estado |
 |---|---|---|---|
 | REQ-300 | (tabla vieja) | — | EN CURSO (revisión visual) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): pruebas `src/layout/site-header.test.ts` y `src/components/booking/email-ui.test.ts`; falta la revisión visual con capturas 390/1366 de  |
-| REQ-155 | (tabla vieja) | — | EN CURSO (tests verdes; falta el primer deploy con el workflow nuevo) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): el workflow ya sube los secretos dentro de la versión (`.github/workflows/deploy-cloudflare.y |
 | REQ-426 | (tabla vieja) | — | PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): sin código con el folio: /destinos ya agrupa con los 6 continentes de `src/home/lib/continents.ts`; falta un test de caracterización con el folio (ninguna URL llev |
 | REQ-1077 | (tabla vieja) | — | CUMPLIDO (sin probar contra Meta: faltan tokens) |
 | REQ-1078 | (tabla vieja) | — | CUMPLIDO (sin probar contra Meta: faltan tokens) |
@@ -518,6 +482,7 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-3430 | CÓDIGO | — | EN CURSO (12 nov 2026: código y 15 tests REQ-3430 verdes en `src/proveedores/lib/consulta.test.ts`, `src/proveedores/contacto.test.ts` y `proveedores-io.test.ts`; suite 3155 verde, tsc y build verdes; falta aplicar la mi |
 | REQ-3330 | TAREA-PO | — | EN CURSO (12-11, 05:53: «ya tego las llaves deprueba»; 06:26: «listo», guardada en GitHub como BIGBUS_OCTO_TEST_KEY y probada en REQ-3438; falta el secreto de Cloudflare para la preview, REQ-3424) |
 | REQ-3320 | CÓDIGO | — | PENDIENTE: el token ya existe como secreto de Actions `CLOUDFLARE_PURGE_TOKEN`; sin construir el paso de purga de `deploy-cloudflare.yml` (todo al publicar) y la purga de las URL del viaje al guardar en el gestor; es cód |
+| REQ-3487 | CÓDIGO | — | SIN VERIFICAR (el código está en main, `.github/workflows/tipos-tangol.yml` y `src/scripts/tipos-tangol.ts`, pero no hay ninguna prueba que cite el folio; incumple el punto 2 del protocolo. Falta además la corrida) — rev |
 | REQ-10731 | BANDERA | — | EN CURSO (16-11-2026 18:02 CDMX: el PO pidió cargar el secreto desde el chat, «hazlo tu», y dio los cinco destinatarios; `AVISO_PO_EMAIL` cargado en los secretos de Actions y `RESEND_API_KEY` ya existía; bandera encendid |
 | REQ-10758 | CÓDIGO | — | CUMPLIDO en código (17-11-2026: `src/ops/puente-avisos-workflow.test.ts` 3/3; ops+aviso+proveedores 327 verdes; tsc limpio). Falta: el PO carga `MILA_AVISOS_SECRET` en GitHub → travel-puzzle-web → Settings → Secrets and  |
 
@@ -574,6 +539,22 @@ Filas de requisitos: 1332 · sin cerrar: 483
 | REQ-10646 | DEFINICIÓN | — | PENDIENTE (falta la definición del PO y la revisión del abogado) |
 | REQ-10788 | CÓDIGO | — | CUMPLIDO (20-11-2026, constructora Fable: `COOKIES_POLICY_ENABLED="true"` en main desde #683 con humo en preview con la bandera encendida; deploys 44616693137 y 44620991162 verdes con humo de producción; /cookies respond |
 | REQ-10837 | CÓDIGO | — | CUMPLIDO en código (20-11-2026, constructora Fable; `src/agente/detalle.test.ts` 6/6, rojo → verde). Pendiente: tours de Tangol por la misma ruta (decisión 40) y `contenido`, `legal`, `cliente` de #468 en sus PR |
+
+## A medias (el estado no dice qué falta) (11)
+
+| Folio | Tipo | Depende de | Estado |
+|---|---|---|---|
+| REQ-076 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026): el código ya consulta `GET /events/{id}` en vivo (`src/booking/service.ts:73`, `src/app/api/freetour/booking/route.ts:61`, API 2.2 encendida); falta marcar `// REQ-076` y un test `it('REQ- |
+| REQ-068 | (tabla vieja) | — | EN CURSO (revisión visual) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): pruebas `src/home/lib/sections.test.ts` y `src/tours/lib/menu.test.ts`; falta la revisión visual en celular del menú en el home y en una |
+| REQ-1294 | (tabla vieja) | — | EN CURSO (la presentación la reemplaza REQ-1297; recordatorio, reintento y alta siguen aquí) · Qué falta (inventario frente 5, 22-11-2026, 5.º lote): 6 pruebas verdes hoy; la presentación la cubre REQ-1297; recordatorio  |
+| REQ-1577 | (tabla vieja) | — | EN CURSO (revisión 17-11-2026, constructora): folio PLAN, sin marca propia en src; `TANGOL_ENABLED="true"` ya en `wrangler.jsonc:81` y REQ-1554 firmado; faltan por cerrar sus hijos: REQ-3370, REQ-3371 y REQ-3372 (filas d |
+| REQ-3371 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/tangol/lib/details.ts`, `tour-rows.ts`; #425, #460); `vitest -t "REQ-3371"` 8 verdes hoy; falta solo el cierre de la auditoría. · Qu |
+| REQ-3372 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/tangol/lib/text.ts`, `tour-rows.ts`; #425, #537); `vitest -t "REQ-3372"` 7 verdes hoy; falta solo el cierre de la auditoría. · Qué f |
+| REQ-3336 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`CityGuideView.tsx`, #421 y #441); `vitest -t "REQ-3336"` 16 verdes hoy; /en/guias responde 200 en producción; falta solo el cierre de la |
+| REQ-3451 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/blog/lib/i18n.ts`, #448); `vitest -t "REQ-3451"` 3 verdes hoy; falta solo el cierre de la auditoría. · Qué falta (inventario frente  |
+| REQ-3452 | CÓDIGO | — | EN CURSO · Qué falta (inventario frente 5, 21-11-2026, 3.er lote): código en main (`src/blog/lib/diario-en.ts`, #448); `vitest -t "REQ-3452"` 12 verdes hoy; falta solo el cierre de la auditoría. |
+| REQ-10512 | DATOS | — | EN CURSO · Qué falta (inventario frente 5, 23-11-2026, 6.º lote; conteos = pruebas con el folio en el nombre en la suite completa de hoy, 4,640 verdes / 0 rojas): nada técnico: en D1 de producción (consulta de solo lectu |
+| REQ-10521 | CÓDIGO | — | EN CURSO (tests verdes; PR) · Qué falta (inventario frente 5, 23-11-2026, 6.º lote; conteos = pruebas con el folio en el nombre en la suite completa de hoy, 4,640 verdes / 0 rojas): el estado «PR» está desfasado: código  |
 
 ## Ola posterior del plan (7)
 

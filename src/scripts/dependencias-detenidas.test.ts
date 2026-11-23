@@ -21,4 +21,8 @@ describe("REQ-10742: qué detiene a cada folio", () => {
     expect(estaCerrado("EN CURSO")).toBe(false);
     expect(estaCerrado("CERRADO (run verde) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): nada del folio")).toBe(true);
   });
+  it("REQ-10742: «pendiente» dentro de código citado (`status: \"pendiente\"`) no reabre una fila CUMPLIDO", () => {
+    expect(estaCerrado('CUMPLIDO (1 prueba verde; la sección está en `status: "pendiente"` en es y en)')).toBe(true);
+    expect(estaCerrado("CUMPLIDO (falta la corrida)")).toBe(false);
+  });
 });
