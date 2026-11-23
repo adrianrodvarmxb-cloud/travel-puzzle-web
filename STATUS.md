@@ -1,5 +1,7 @@
 # STATUS — travel-puzzle-web
 
+Actualizado: 23 nov 2026, 21:20 UTC (15:20 CDMX): constructora (Fable). **INC-028 registrado (REQ-10868):** los deploys de #732 y #735 se regresaron solos por una carga «sin respuesta» (90 s) en el humo de producción (`/destinos/cl/la-serena` @390 y `/` @1366); producción = main desde el deploy de #736 (run 45243933208, 19:20 UTC). Causa provisional: latencia en frío tras publicar en la ventana de las corridas diarias (patrón de fondo de INC-027 y REQ-1560); corrección como decisión A/B/C del PO en `docs/incidentes/INC-028.md`.
+
 Actualizado: 23 nov 2026, 16:30 UTC (10:30 CDMX): constructora (Opus). Ola 15: REQ-1564 CUMPLIDO (#731, Playwright de imágenes fuera de pantalla en el humo de cada PR) y REQ-10865 (zod y el diccionario de la taxonomía fuera del JS del navegador: primera carga de la ficha 270 → 219 KB, /tours 255 → 205, / 200 → 172).
 
 Actualizado: 23 nov 2026, 09:40 UTC (03:40 CDMX): constructora (Fable). **Frente 4 (#444), calendario con precio por día en la ficha de viajes (REQ-10863):** `src/trips/lib/trip-calendar.ts` une `fromTripAvailability` (REQ-10650) con `buildCalendar` (REQ-3468), y la ficha de un viaje (`TripDetailView`) pinta el mismo `ProviderDateCalendar` que la de tours tras `TRIP_CALENDAR_ENABLED` (en "false"): precio final por día (temporada + recargos), días sin salida deshabilitados, «Por confirmar» en los días sin precio publicado (G3), sin llamadas externas. Siguen: encendido con humo en preview (PR de una línea) y la carga de datos por tandas (G5).
