@@ -5048,5 +5048,308 @@
         }
       ]
     }
+  },
+  {
+    "slug": "tours-guiados-en-budapest",
+    "pillar": "europa",
+    "targetTerm": "tours guiados en budapest",
+    "title": "¿Qué tours guiados en Budapest conviene reservar en tu primer viaje?",
+    "summary": "Caminatas, cruceros y bicicleta en Budapest: tipos de tour, precios aproximados del catálogo y cómo moverte, con fuentes oficiales.",
+    "draft": false,
+    "publishedAt": "2026-11-23",
+    "author": "claudia",
+    "categoria": "viajes",
+    "origen": "agente-diario",
+    "mix": "pago",
+    "tema": {
+      "tipo": "calendario",
+      "clusterId": "EU-07",
+      "fuentes": []
+    },
+    "enBreve": "Para tu primer viaje a Budapest, el catálogo de Travel Puzzle reúne [47 tours y experiencias](/destinos/hu/budapest): caminatas, cruceros por el Danubio, visitas guiadas y audioguías. Los precios aproximados arrancan en [MXN $209 · EUR €10](/destinos/hu/budapest) para una caminata de 2 h 30 min. El centro histórico es Patrimonio Mundial según la [UNESCO](https://whc.unesco.org/en/list/400/), así que conviene empezar por una caminata y dejar el crucero para la noche.",
+    "entrada": "Budapest tiene tantas opciones que elegir el primer tour paraliza. Aquí ordenamos los tipos de recorrido, lo que cuestan de forma aproximada y cómo moverte entre uno y otro. Es parte de la guía [Viajar a Europa desde México](/blog/europa); si ya tienes fechas, mira los [tours en Europa](/tours?search=Europa) o la [página de Budapest](/destinos/hu/budapest).",
+    "sections": [
+      {
+        "h2": "¿Qué tipos de tour guiado hay en Budapest?",
+        "answer": "El catálogo de Travel Puzzle muestra [47 tours y experiencias en Budapest](/destinos/hu/budapest), agrupados en caminatas, visitas guiadas, tours en barco o bicicleta, actividades, boletos y audioguías.",
+        "body": [
+          "Las caminatas son el punto de partida más común: la [caminata sobre la historia comunista](/destinos/hu/budapest) dura 2 h 30 min y la del [corazón de Pest y el barrio judío](/destinos/hu/budapest) también. Si prefieres ir a tu ritmo, hay opciones autoguiadas con una app, que aparecen en la misma [página de la ciudad](/destinos/hu/budapest)."
+        ]
+      },
+      {
+        "h2": "¿Cuánto cuestan los tours en Budapest?",
+        "answer": "Según el catálogo, desde aprox. [MXN $209 · EUR €10](/destinos/hu/budapest) una caminata de 2 h 30 min y hasta aprox. [MXN $1,647 · EUR €79](/destinos/hu/budapest) un crucero con cena de 1 h 30 min.",
+        "body": [
+          "En medio quedan el [crucero nocturno por el Danubio](/destinos/hu/budapest), desde aprox. MXN $376 · EUR €18 por 1 h 15 min, y el recorrido [en bicicleta](/destinos/hu/budapest), desde aprox. MXN $605 · EUR €29 por 2 h 30 min. Los precios son aproximados y en euros, como en cada ficha; confirma el monto final en la ficha antes de elegir."
+        ]
+      },
+      {
+        "h2": "¿Qué conviene ver primero en el centro histórico?",
+        "answer": "El conjunto formado por las orillas del Danubio, el barrio del Castillo de Buda y la Avenida Andrássy está inscrito como Patrimonio Mundial, según la [UNESCO](https://whc.unesco.org/en/list/400/).",
+        "body": [
+          "La misma [ficha de la UNESCO](https://whc.unesco.org/en/list/400/) explica que el sitio conserva restos de monumentos de distintas épocas, como la ciudad romana de Aquincum y el castillo gótico de Buda. Para ver parte de ese conjunto a pie, la caminata [de la avenida Andrassy a la Plaza de los Héroes](/destinos/hu/budapest) dura 2 h 30 min."
+        ]
+      },
+      {
+        "h2": "¿Cómo me muevo entre un tour y otro?",
+        "answer": "La [travelcard de 24 horas de BKK](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/) permite viajes ilimitados durante 24 horas dentro de los límites administrativos de Budapest.",
+        "body": [
+          "El [listado de tarifas de BKK](https://bkk.hu/en/tickets-and-passes/prices/travelcards/) la muestra en 2,750 forintos; la [página del producto](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/) dice que ese precio rige desde el 1 de junio de 2025. Cubre casi todos los servicios de BKK, pero no el autobús 100E del aeropuerto, según la [misma página](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/). Revisa las tarifas vigentes antes de viajar."
+        ]
+      },
+      {
+        "h2": "¿Cómo combino los tours si solo tengo un par de días?",
+        "answer": "Una caminata por la mañana y un crucero nocturno de [1 h 15 min](/destinos/hu/budapest) caben en un mismo día, y con la [travelcard de 24 horas de BKK](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/) te mueves entre ambos sin pagar cada viaje.",
+        "body": [
+          "Si te quedas más tiempo, suma el [recorrido en bicicleta](/destinos/hu/budapest) de 2 h 30 min o una caminata temática. Si ya leíste cómo funcionan los recorridos en otra ciudad europea, la guía de [tours guiados en Lisboa](/blog/europa/tours-guiados-en-lisboa) sigue la misma lógica."
+        ]
+      }
+    ],
+    "datos": [
+      {
+        "text": "La travelcard de 24 horas de BKK cuesta 2,750 forintos y permite viajes ilimitados dentro de Budapest.",
+        "source": {
+          "label": "BKK, Budapest",
+          "url": "https://bkk.hu/en/tickets-and-passes/prices/travelcards/"
+        },
+        "checkedAt": "2026-11-23"
+      },
+      {
+        "text": "Budapest, con las orillas del Danubio, el barrio del Castillo de Buda y la Avenida Andrássy, es Patrimonio Mundial de la UNESCO.",
+        "source": {
+          "label": "UNESCO, Centro del Patrimonio Mundial",
+          "url": "https://whc.unesco.org/en/list/400/"
+        },
+        "checkedAt": "2026-11-23"
+      },
+      {
+        "text": "En el catálogo de Travel Puzzle, una caminata guiada de 2 h 30 min por Budapest arranca en aprox. MXN $209 · EUR €10.",
+        "source": {
+          "label": "Catálogo de Travel Puzzle",
+          "url": "https://travelpuzzle.com.mx/destinos/hu/budapest"
+        },
+        "checkedAt": "2026-11-23"
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 23 de noviembre de 2026) y del catálogo del sitio. La página de la UNESCO no muestra fecha de publicación.",
+    "visual": {
+      "kind": "tabla",
+      "caption": "Ejemplos del catálogo de Budapest con duración y precio aproximado. Fuente: catálogo de Travel Puzzle.",
+      "head": [
+        "Tipo",
+        "Ejemplo",
+        "Duración",
+        "Precio aprox."
+      ],
+      "rows": [
+        [
+          "Caminata",
+          "La historia comunista desde la perspectiva de un guía local",
+          "2 h 30 min",
+          "MXN $209 · EUR €10"
+        ],
+        [
+          "Crucero nocturno",
+          "Crucero Nocturno por el Danubio de Budapest",
+          "1 h 15 min",
+          "MXN $376 · EUR €18"
+        ],
+        [
+          "Bicicleta",
+          "Budapest en bicicleta",
+          "2 h 30 min",
+          "MXN $605 · EUR €29"
+        ],
+        [
+          "Crucero con cena",
+          "Crucero con cena por el Danubio en Budapest, con espectáculo folclórico y música en directo",
+          "1 h 30 min",
+          "MXN $1,647 · EUR €79"
+        ]
+      ],
+      "source": {
+        "label": "Catálogo de Travel Puzzle",
+        "url": "https://travelpuzzle.com.mx/destinos/hu/budapest"
+      }
+    },
+    "cta": {
+      "kind": "comercial",
+      "label": "Ver tours en Europa"
+    },
+    "cover": {
+      "src": "/blog/img/tours-guiados-en-budapest/portada-budapest",
+      "alt": "El Parlamento de Hungría junto al Danubio bajo un cielo rosado al atardecer",
+      "credit": "Foto: Krisztian Tabori / Unsplash",
+      "license": {
+        "name": "Unsplash License",
+        "url": "https://unsplash.com/license"
+      },
+      "origen": {
+        "banco": "unsplash",
+        "id": "EyDPhY_idpQ",
+        "pagina": "https://unsplash.com/photos/hungarian-parliament-building-in-budapest-EyDPhY_idpQ",
+        "autor": "Krisztian Tabori",
+        "descarga": "https://images.unsplash.com/photo-1790848947579-b7f050545ddf"
+      }
+    },
+    "imagenes": [
+      {
+        "formato": "columna",
+        "despues": 1,
+        "pie": "Budapest de noche, vista desde el Danubio, es una de las escenas que recorren los cruceros nocturnos.",
+        "fotos": [
+          {
+            "src": "/blog/img/tours-guiados-en-budapest/parlamento-de-noche",
+            "alt": "El Parlamento y el Puente de las Cadenas iluminados de noche en Budapest",
+            "credit": "Foto: Albert Canite / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "6QKZHOZeryk",
+              "pagina": "https://unsplash.com/photos/budapest-parliament-and-chain-bridge-shine-at-night-6QKZHOZeryk",
+              "autor": "Albert Canite",
+              "descarga": "https://images.unsplash.com/photo-1751829972654-414bde07031b"
+            }
+          }
+        ]
+      },
+      {
+        "formato": "columna",
+        "despues": 2,
+        "pie": "El Bastión de los Pescadores, en el barrio del Castillo de Buda.",
+        "fotos": [
+          {
+            "src": "/blog/img/tours-guiados-en-budapest/bastion-de-los-pescadores",
+            "alt": "Terrazas y torres blancas del Bastión de los Pescadores en Budapest",
+            "credit": "Foto: Antoine Fabre / Unsplash",
+            "license": {
+              "name": "Unsplash License",
+              "url": "https://unsplash.com/license"
+            },
+            "origen": {
+              "banco": "unsplash",
+              "id": "8-bDW2ccMl0",
+              "pagina": "https://unsplash.com/photos/white-and-brown-cathedral-8-bDW2ccMl0",
+              "autor": "Antoine Fabre",
+              "descarga": "https://images.unsplash.com/photo-1551125175-d4f8e3d06982"
+            }
+          }
+        ]
+      }
+    ],
+    "en": {
+      "targetTerm": "guided tours in budapest",
+      "title": "Which guided tours in Budapest are worth booking on your first trip?",
+      "summary": "Walks, cruises and bike rides in Budapest: tour types, approximate catalog prices and how to get around, with official sources.",
+      "enBreve": "For a first trip to Budapest, the Travel Puzzle catalog lists [47 tours and experiences](/destinos/hu/budapest): walks, Danube cruises, guided visits and audio guides. Approximate prices start at [MXN $209 · EUR €10](/destinos/hu/budapest) for a 2 h 30 min walk. The historic center is a World Heritage site according to [UNESCO](https://whc.unesco.org/en/list/400/), so it makes sense to start with a walk and leave the cruise for the evening.",
+      "entrada": "Budapest has so many options that picking a first tour can be paralyzing. Here we sort the tour types, roughly what they cost and how to move between them. It's part of the guide [Traveling to Europe from Mexico](/blog/europa); once you have dates, see the [tours in Europe](/tours?search=Europa) or the [Budapest page](/destinos/hu/budapest).",
+      "sections": [
+        {
+          "h2": "What types of guided tours are there in Budapest?",
+          "answer": "The Travel Puzzle catalog shows [47 tours and experiences in Budapest](/destinos/hu/budapest), grouped into walks, guided visits, boat or bike tours, activities, tickets and audio guides.",
+          "body": [
+            "Walks are the most common starting point: the [walk about communist history](/destinos/hu/budapest) lasts 2 h 30 min and so does the one on the [heart of Pest and the Jewish quarter](/destinos/hu/budapest). If you prefer your own pace, there are self-guided options with an app, listed on the same [city page](/destinos/hu/budapest)."
+          ]
+        },
+        {
+          "h2": "How much do tours in Budapest cost?",
+          "answer": "According to the catalog, from approx. [MXN $209 · EUR €10](/destinos/hu/budapest) for a 2 h 30 min walk up to approx. [MXN $1,647 · EUR €79](/destinos/hu/budapest) for a 1 h 30 min dinner cruise.",
+          "body": [
+            "In between are the [night cruise on the Danube](/destinos/hu/budapest), from approx. MXN $376 · EUR €18 for 1 h 15 min, and the [bike tour](/destinos/hu/budapest), from approx. MXN $605 · EUR €29 for 2 h 30 min. Prices are approximate and in euros, as on each listing; confirm the final amount on the listing before choosing."
+          ]
+        },
+        {
+          "h2": "What should I see first in the historic center?",
+          "answer": "The area made up of the banks of the Danube, the Buda Castle Quarter and Andrássy Avenue is a World Heritage site, according to [UNESCO](https://whc.unesco.org/en/list/400/).",
+          "body": [
+            "The same [UNESCO page](https://whc.unesco.org/en/list/400/) explains that the site keeps remains of monuments from different periods, such as the Roman city of Aquincum and the Gothic castle of Buda. To see part of that area on foot, the walk [from Andrássy Avenue to Heroes' Square](/destinos/hu/budapest) lasts 2 h 30 min."
+          ]
+        },
+        {
+          "h2": "How do I get around between tours?",
+          "answer": "The [BKK 24-hour travelcard](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/) allows unlimited trips for 24 hours within the administrative boundaries of Budapest.",
+          "body": [
+            "The [BKK fare list](https://bkk.hu/en/tickets-and-passes/prices/travelcards/) shows it at 2,750 forints; the [product page](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/) says that price applies since 1 June 2025. It covers almost all BKK services but not the 100E airport bus, according to the [same page](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/). Check current fares before you travel."
+          ]
+        },
+        {
+          "h2": "How do I combine tours if I only have a couple of days?",
+          "answer": "A morning walk and a [1 h 15 min](/destinos/hu/budapest) night cruise fit in the same day, and with the [BKK 24-hour travelcard](https://bkk.hu/en/tickets-and-passes/prices/24-hour-budapest-travelcard/) you can get between them without paying for each ride.",
+          "body": [
+            "If you stay longer, add the [bike tour](/destinos/hu/budapest) of 2 h 30 min or a themed walk. If you've already read how tours work in another European city, the guide to [guided tours in Lisbon](/blog/europa/tours-guiados-en-lisboa) follows the same logic."
+          ]
+        }
+      ],
+      "datos": [
+        {
+          "text": "The BKK 24-hour travelcard costs 2,750 forints and allows unlimited trips within Budapest."
+        },
+        {
+          "text": "Budapest, with the banks of the Danube, the Buda Castle Quarter and Andrássy Avenue, is a UNESCO World Heritage site."
+        },
+        {
+          "text": "In the Travel Puzzle catalog, a 2 h 30 min guided walk in Budapest starts at approx. MXN $209 · EUR €10."
+        }
+      ],
+      "comoLoSabemos": "This was written by the Travel Puzzle editorial team with AI support, based on the linked public sources (consulted on 23 November 2026) and the site catalog. The UNESCO page shows no publication date.",
+      "visual": {
+        "caption": "Catalog examples for Budapest with duration and approximate price. Source: Travel Puzzle catalog.",
+        "head": [
+          "Type",
+          "Example",
+          "Duration",
+          "Approx. price"
+        ],
+        "rows": [
+          [
+            "Walk",
+            "La historia comunista desde la perspectiva de un guía local",
+            "2 h 30 min",
+            "MXN $209 · EUR €10"
+          ],
+          [
+            "Night cruise",
+            "Crucero Nocturno por el Danubio de Budapest",
+            "1 h 15 min",
+            "MXN $376 · EUR €18"
+          ],
+          [
+            "Bicycle",
+            "Budapest en bicicleta",
+            "2 h 30 min",
+            "MXN $605 · EUR €29"
+          ],
+          [
+            "Dinner cruise",
+            "Crucero con cena por el Danubio en Budapest, con espectáculo folclórico y música en directo",
+            "1 h 30 min",
+            "MXN $1,647 · EUR €79"
+          ]
+        ]
+      },
+      "cta": {
+        "label": "See tours in Europe"
+      },
+      "cover": {
+        "alt": "The Hungarian Parliament next to the Danube under a pink sky at sunset"
+      },
+      "imagenes": [
+        {
+          "pie": "Budapest at night, seen from the Danube, is one of the scenes on night cruises.",
+          "alts": [
+            "The Parliament and the Chain Bridge lit up at night in Budapest"
+          ]
+        },
+        {
+          "pie": "The Fisherman's Bastion, in the Buda Castle Quarter.",
+          "alts": [
+            "White terraces and towers of the Fisherman's Bastion in Budapest"
+          ]
+        }
+      ]
+    }
   }
 ]
