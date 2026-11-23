@@ -1,0 +1,133 @@
+# REQ-10866 (frente 4, plan REQ-3454 G1–G5 = A): escribe en D1 el calendario con precio por día de los viajes de UN proveedor
+# de PDF ("Trip"."availability": vigencia, recargos por periodo con precio público, salidas exactas, días por confirmar),
+# partiendo de lo que cada viaje ya tiene en D1. Archivo por proveedor en imports/calendario/ (solo precios públicos).
+# Solo a mano. Por omisión es ENSAYO: lee D1, arma el SQL y el resumen; no escribe.
+# Con escribir=true y la frase de confirmación exacta: sin deploy ni importación en curso (REQ-307) → bookmark de Time Travel →
+# respaldo (artefacto) → UPDATE por id y agencia → verificación en D1 → humo en producción. Si algo falla después de escribir,
+# aplica regreso.sql (solo esas filas, con el texto exacto que tenían). Lo que se ve depende de TRIP_CALENDAR_ENABLED (REQ-10863).
+name: "Calendario de viajes"
+on:
+  workflow_dispatch:
+    inputs:
+      archivo:
+        description: "Archivo en imports/calendario/ (p. ej. exoticescapes-2027.json)"
+        required: true
+      esperados:
+        description: "Cuántas filas cambian según el ensayo (si no coincide, no escribe)"
+        required: true
+        default: "0"
+      escribir:
+        description: "Escribir en producción (datos de viajes; autorización global REQ-10743). Sin marcar = solo ensayo"
+        type: boolean
+        default: false
+      confirmar:
+        description: "Para escribir, teclea: CALENDARIO <esperados>  (p. ej. CALENDARIO 14)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  DB: travel-puzzle
+  BASE: https://travelpuzzle.com.mx
+  ARCHIVO: imports/calendario/${{ inputs.archivo }}
+  ESPERADOS: ${{ inputs.esperados }}
+jobs:
+  calendario:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-10866 y REQ-3454
+        run: npx vitest run src/trips/lib/calendario-carga.test.ts src/trips/lib/day-price.test.ts
+      - name: Confirmación
+        if: inputs.escribir
+        env:
+          CONFIRMAR: ${{ inputs.confirmar }}
+        run: |
+          [[ "$ESPERADOS" =~ ^[0-9]+$ ]] || { echo "::error::esperados no es un número."; exit 1; }
+          [ "$CONFIRMAR" = "CALENDARIO $ESPERADOS" ] || { echo "::error::La confirmación no coincide con «CALENDARIO $ESPERADOS»: no se escribe."; exit 1; }
+      - name: Leer las filas (solo lectura)
+        run: |
+          set -euo pipefail
+          [ -f "$ARCHIVO" ] || { echo "::error::No existe $ARCHIVO"; exit 1; }
+          mkdir -p cal
+          ids=$(npx tsx src/scripts/calendario-viajes.ts ids "$ARCHIVO")
+          agencia=$(npx tsx src/scripts/calendario-viajes.ts agencia "$ARCHIVO")
+          echo "AGENCIA=$agencia" >> "$GITHUB_ENV"
+          npx wrangler d1 execute "$DB" --remote --json --command "SELECT \"id\", \"code\", \"status\", \"options\", \"availability\", \"updatedAt\" FROM \"Trip\" WHERE \"agencyId\" = '$agencia' AND \"id\" IN ($ids) ORDER BY \"id\"" > cal/filas.json
+      - name: Plan (ensayo)
+        run: |
+          set -euo pipefail
+          npx tsx src/scripts/calendario-viajes.ts preparar "$ARCHIVO" cal/filas.json cal | tee -a "$GITHUB_STEP_SUMMARY"
+          grep -vE "^(UPDATE \"Trip\" SET \"availability\" = '[^']*' WHERE \"id\" = '[a-z0-9-]+' AND \"agencyId\" = '[a-z0-9-]+';|)$" cal/calendario.sql && { echo "::error::El SQL trae líneas no permitidas."; exit 1; } || true
+          grep -iE "net|neto|margen" cal/calendario.sql && { echo "::error::El SQL menciona netos o márgenes: no se escribe."; exit 1; } || true
+          n=$(jq '.cambios | length' cal/plan.json)
+          echo "Filas que cambian: $n (esperadas: $ESPERADOS)" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "${{ inputs.escribir }}" = "true" ] && [ "$n" != "$ESPERADOS" ]; then echo "::error::Cambian $n filas y se esperaban $ESPERADOS: no se escribe."; exit 1; fi
+      - name: Respaldo (artefacto del job)
+        uses: actions/upload-artifact@v4
+        with:
+          name: respaldo-calendario-${{ github.run_id }}
+          path: cal/
+          retention-days: 90
+      - name: Sin publicación ni importación en curso (REQ-307)
+        if: inputs.escribir
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for wfile in deploy-cloudflare.yml importar-viajes.yml; do
+            for st in in_progress queued; do
+              c=$(gh api "repos/${{ github.repository }}/actions/workflows/$wfile/runs?status=$st&per_page=1" --jq '.total_count')
+              n=$((n + c))
+            done
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) o importación(es) en curso o en fila: no se escribe (REQ-307)."; exit 1; fi
+      - name: Bookmark de Time Travel
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          npx wrangler d1 time-travel info "$DB" --json > cal/time-travel.json
+          bookmark=$(jq -r '.bookmark' cal/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "Instante $(date -u +%Y-%m-%dT%H:%M:%SZ) · bookmark \`$bookmark\` (regreso total: wrangler d1 time-travel restore $DB --bookmark=$bookmark)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Escribir (UPDATE por id y agencia)
+        id: escribir
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          [ -s cal/calendario.sql ] || { echo "::error::No hay filas que cambiar: no se escribe."; exit 1; }
+          npx wrangler d1 execute "$DB" --remote --file cal/calendario.sql > /dev/null
+          echo "escrito=true" >> "$GITHUB_OUTPUT"
+      - name: Verificar en D1
+        if: inputs.escribir
+        run: |
+          set -euo pipefail
+          ids=$(npx tsx src/scripts/calendario-viajes.ts ids "$ARCHIVO")
+          npx wrangler d1 execute "$DB" --remote --json --command "SELECT \"id\", \"status\", \"availability\" FROM \"Trip\" WHERE \"agencyId\" = '$AGENCIA' AND \"id\" IN ($ids) ORDER BY \"id\"" > cal/despues.json
+          antes=$(jq -c '[.[0].results[] | {id, status}] | sort_by(.id)' cal/filas.json)
+          despues=$(jq -c '[.[0].results[] | {id, status}] | sort_by(.id)' cal/despues.json)
+          [ "$antes" = "$despues" ] || { echo "::error::Cambió el estado o el número de viajes"; exit 1; }
+          npx tsx src/scripts/calendario-viajes.ts verificar cal/despues.json cal/plan.json | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Prueba de humo en producción
+        if: inputs.escribir
+        run: npx playwright install --with-deps chromium && npx tsx src/scripts/smoke.ts "$BASE"
+      - name: Regreso (solo esas filas) si algo falló después de escribir
+        if: failure() && steps.escribir.outputs.escrito == 'true'
+        run: |
+          npx wrangler d1 execute "$DB" --remote --file cal/regreso.sql > /dev/null
+          echo "::error::Se aplicó regreso.sql: las filas volvieron a su valor del respaldo." | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Respaldo final (con lo escrito y verificado)
+        if: always() && inputs.escribir
+        uses: actions/upload-artifact@v4
+        with:
+          name: respaldo-calendario-${{ github.run_id }}-final
+          path: cal/
+          retention-days: 90
