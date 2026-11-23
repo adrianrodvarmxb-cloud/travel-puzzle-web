@@ -6,7 +6,15 @@ import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 type Fila = { id: string; tipo: string; estado: string; detalle: string; texto: string; bloqueadoPor: string[] };
-const CERRADO = /^(CUMPLIDO|REEMPLAZADO|DECIDIDO|CANCELADO|DESCARTADO)\b(?![^|]*\b(PENDIENTE|falta|faltan)\b)/i;
+const CERRADO = /^(CUMPLIDO|CERRADO|REEMPLAZADO|DECIDIDO|CANCELADO|DESCARTADO)\b(?![^|]*\b(PENDIENTE|falta|faltan)\b)/i;
+
+/**
+ * REQ-10742: el estado de una fila ya está cerrado (CERRADO cuenta igual que CUMPLIDO) y no dice que falte algo.
+ * La nota «· Qué falta (inventario …)» que agregan los lotes del frente 5 no cuenta: se juzga el estado antes de ella.
+ */
+export function estaCerrado(estado: string): boolean {
+  return CERRADO.test(estado.split(/\s·\s*Qué falta \(inventario/)[0]);
+}
 
 /** Qué detiene una fila, por las palabras de su estado. El orden importa: la primera que aplica gana. */
 export function motivo(estado: string, tipo = "", bloqueoAbierto: string[] = []): string {
@@ -43,9 +51,9 @@ function filas(md: string): Fila[] {
 
 if (process.argv[1]?.endsWith("dependencias-detenidas.ts")) {
   const req = filas(readFileSync("docs/requisitos.md", "utf8"));
-  const abiertas = req.filter((f) => !CERRADO.test(f.estado));
+  const abiertas = req.filter((f) => !estaCerrado(f.estado));
   const grupos = new Map<string, Fila[]>();
-  const cerradas = new Set(req.filter((f) => CERRADO.test(f.estado)).map((f) => f.id));
+  const cerradas = new Set(req.filter((f) => estaCerrado(f.estado)).map((f) => f.id));
   const abiertoDe = (f: Fila) => f.bloqueadoPor.filter((id) => id !== f.id && !cerradas.has(id));
   for (const f of abiertas) { const m = motivo(f.estado, f.tipo, abiertoDe(f)); grupos.set(m, [...(grupos.get(m) ?? []), f]); }
 
