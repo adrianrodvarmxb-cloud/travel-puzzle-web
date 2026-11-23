@@ -1,4 +1,4 @@
-import { clientErrorPayload } from '@/ops/lib/clientError';
+import { clientErrorPayload } from '@/ops/lib/clientErrorPayload';
 
 /**
  * REQ-221 — manda un error del navegador a /api/client-error (queda en los logs del Worker).

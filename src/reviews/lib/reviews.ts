@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { mentionsPlatform } from "./platform-mention";
+import { languageCode } from "./language";
 
 /**
  * Reseñas reales de Freetour (GET /tours/{id}/reviews).
@@ -61,13 +62,8 @@ export function isCacheFresh(fetchedAt: Date | null, now: Date, days = REVIEW_CA
   return !!fetchedAt && now.getTime() - fetchedAt.getTime() < days * 24 * 60 * 60 * 1000;
 }
 
-const LANGUAGE_CODES: Record<string, string> = {
-  English: "en", Spanish: "es", Portuguese: "pt", German: "de", French: "fr", Italian: "it",
-};
-
-export function languageCode(name: string): string | null {
-  return LANGUAGE_CODES[name] ?? null;
-}
+// Vive en `language.ts` (sin zod, REQ-10865); se re-exporta aquí para no cambiar a quien ya lo usa.
+export { languageCode } from "./language";
 
 /**
  * Elige qué reseñas mostrar: con comentario, de 4 estrellas o más,

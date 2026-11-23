@@ -1,5 +1,6 @@
 /** Prueba social a partir de reseñas reales: etiqueta "Favorito de los viajeros" y frases destacadas. */
-import { languageCode, type Review } from "./reviews";
+import type { Review } from "./reviews";
+import { languageCode } from "./language";
 import { mentionsPlatform } from "./platform-mention";
 
 export type TourReview = Review & { tourExternalId: number };

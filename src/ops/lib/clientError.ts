@@ -50,9 +50,5 @@ export function handleClientErrorReport(raw: string, userAgent: string | null, l
   return 204;
 }
 
-/** Cuerpo del reporte a partir de lo que se haya lanzado (Error, texto, lo que sea). Nunca lanza. */
-// REQ-221
-export function clientErrorPayload(error: unknown, source: string, path: string, digest = ""): string {
-  const e = error instanceof Error ? error : new Error(String(error));
-  return JSON.stringify({ message: e.message || "sin mensaje", stack: e.stack ?? "", path, source, digest });
-}
+/** REQ-221: el cuerpo del reporte vive en `clientErrorPayload.ts` (sin zod, REQ-10865); se re-exporta aquí. */
+export { clientErrorPayload } from "./clientErrorPayload";

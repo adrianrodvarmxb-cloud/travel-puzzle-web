@@ -132,5 +132,5 @@ export const tripCardTour = (t: MapTrip): CardItem => ({
   id: `trip:${t.id}`, href: tripPath(t), titles: { es: t.title }, image: t.image, rating: null, reviews: 0, isFree: false, price: t.priceFrom, currency: t.currency,
 });
 
-// REQ-1575
-export const cardHref = (t: { id: string; href?: string }) => t.href ?? `/tours/${t.id}`;
+// REQ-1575: vive en `card-href.ts` (sin catálogo ni zod, REQ-10865); se re-exporta aquí.
+export { cardHref } from "./card-href";
