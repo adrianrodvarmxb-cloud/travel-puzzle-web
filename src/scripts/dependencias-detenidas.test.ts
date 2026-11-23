@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { motivo } from "./dependencias-detenidas";
+import { estaCerrado, motivo } from "./dependencias-detenidas";
 
 describe("REQ-10742: qué detiene a cada folio", () => {
   it("REQ-10742: un folio que depende de otro sin cerrar se clasifica por esa dependencia antes que por su texto", () => {
@@ -13,5 +13,12 @@ describe("REQ-10742: qué detiene a cada folio", () => {
     expect(motivo("PENDIENTE", "CÓDIGO")).toBe("Sin iniciar (el estado no dice qué falta)");
     expect(motivo("EN CURSO", "CÓDIGO")).toBe("A medias (el estado no dice qué falta)");
     expect(motivo("PENDIENTE", "TAREA-PO")).toBe("Tarea a mano del PO");
+  });
+  it("REQ-10742: CERRADO cuenta como cerrado igual que CUMPLIDO; un cerrado que aún dice «falta» sigue abierto", () => {
+    expect(estaCerrado("CERRADO (sin cambio de código; evidencia en la fila)")).toBe(true);
+    expect(estaCerrado("CUMPLIDO")).toBe(true);
+    expect(estaCerrado("CERRADO (falta la firma del PO)")).toBe(false);
+    expect(estaCerrado("EN CURSO")).toBe(false);
+    expect(estaCerrado("CERRADO (run verde) · Qué falta (inventario frente 5, 22-11-2026, 4.º lote): nada del folio")).toBe(true);
   });
 });
