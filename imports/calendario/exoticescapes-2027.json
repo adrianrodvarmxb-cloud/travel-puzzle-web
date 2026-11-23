@@ -1,0 +1,490 @@
+{
+ "_nota": "REQ-10867 (frente 4, plan REQ-3454 G5, tanda 1). Solo precios PÚBLICOS por persona en USD, los mismos que ya dice «Información importante» de cada viaje (imports/exoticescapes-2027.json). Base = precio de la opción en D1 (temporada abril–septiembre 2027). Las cenas de gala de Navidad y Año Nuevo se confirman al reservar y no entran al calendario. DIW26 (borrador, salida pasada) no se toca.",
+ "agency": {
+  "id": "ag-exe",
+  "initials": "EXE"
+ },
+ "trips": [
+  {
+   "ref": "TO7",
+   "validFrom": "2027-04-01",
+   "validTo": "2028-03-30",
+   "base": {
+    "a-ad": 594,
+    "a-pc": 738,
+    "b-ad": 630,
+    "b-pc": 780
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-16",
+       "to": "2028-01-01"
+      }
+     ],
+     "prices": {
+      "a-ad": 672,
+      "a-pc": 816,
+      "b-ad": 732,
+      "b-pc": 888
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-16",
+     "to": "2028-01-01",
+     "prices": {
+      "a-ad": 702,
+      "a-pc": 822,
+      "b-ad": 744,
+      "b-pc": 924
+     }
+    }
+   ]
+  },
+  {
+   "ref": "TOB9",
+   "validFrom": "2027-04-01",
+   "validTo": "2028-03-30",
+   "base": {
+    "a-ad": 1044,
+    "a-pc": 1200,
+    "b-ad": 1098,
+    "b-pc": 1266
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-16",
+       "to": "2028-01-01"
+      }
+     ],
+     "prices": {
+      "a-ad": 1170,
+      "a-pc": 1350,
+      "b-ad": 1416,
+      "b-pc": 1614
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-16",
+     "to": "2028-01-01",
+     "prices": {
+      "a-ad": 1188,
+      "a-pc": 1368,
+      "b-ad": 1434,
+      "b-pc": 1632
+     }
+    }
+   ]
+  },
+  {
+   "ref": "TOK10",
+   "validFrom": "2027-04-01",
+   "validTo": "2028-03-30",
+   "base": {
+    "a-ad": 1128,
+    "a-pc": 1428,
+    "b-ad": 1236,
+    "b-pc": 1542
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-16",
+       "to": "2028-01-01"
+      }
+     ],
+     "prices": {
+      "a-ad": 1206,
+      "a-pc": 1506,
+      "b-ad": 1338,
+      "b-pc": 1650
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-16",
+     "to": "2028-01-01",
+     "prices": {
+      "a-ad": 1236,
+      "a-pc": 1512,
+      "b-ad": 1350,
+      "b-pc": 1686
+     }
+    }
+   ]
+  },
+  {
+   "ref": "NOR9",
+   "validFrom": "2027-04-01",
+   "validTo": "2028-03-30",
+   "base": {
+    "a-ad": 1176,
+    "a-pc": 1344,
+    "b-ad": 1296,
+    "b-pc": 1452
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-16",
+       "to": "2028-01-01"
+      }
+     ],
+     "prices": {
+      "a-ad": 1272,
+      "a-pc": 1434,
+      "b-ad": 1374,
+      "b-pc": 1548
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-16",
+     "to": "2028-01-01",
+     "prices": {
+      "a-ad": 1296,
+      "a-pc": 1446,
+      "b-ad": 1392,
+      "b-pc": 1572
+     }
+    }
+   ]
+  },
+  {
+   "ref": "RAJ10",
+   "validFrom": "2027-04-05",
+   "validTo": "2028-03-27",
+   "base": {
+    "a-ad": 1044,
+    "a-pc": 1242,
+    "b-ad": 1164,
+    "b-pc": 1278
+   },
+   "periods": [
+    {
+     "name": "27 de septiembre de 2027 a marzo de 2028",
+     "from": "2027-09-21",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-20",
+       "to": "2028-01-03"
+      }
+     ],
+     "prices": {
+      "a-ad": 1146,
+      "a-pc": 1356,
+      "b-ad": 1332,
+      "b-pc": 1560
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-20",
+     "to": "2028-01-03",
+     "prices": {
+      "a-ad": 1170,
+      "a-pc": 1380,
+      "b-ad": 1356,
+      "b-pc": 1584
+     }
+    }
+   ]
+  },
+  {
+   "ref": "RJB12",
+   "validFrom": "2027-04-05",
+   "validTo": "2028-03-27",
+   "base": {
+    "a-ad": 1560,
+    "a-pc": 1728,
+    "b-ad": 1866,
+    "b-pc": 2016
+   },
+   "periods": [
+    {
+     "name": "27 de septiembre de 2027 a marzo de 2028",
+     "from": "2027-09-21",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-20",
+       "to": "2028-01-03"
+      }
+     ],
+     "prices": {
+      "a-ad": 1716,
+      "a-pc": 1860,
+      "b-ad": 2112,
+      "b-pc": 2304
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-20",
+     "to": "2028-01-03",
+     "prices": {
+      "a-ad": 1770,
+      "a-pc": 1920,
+      "b-ad": 2178,
+      "b-pc": 2370
+     }
+    }
+   ]
+  },
+  {
+   "ref": "RKB12",
+   "validFrom": "2027-04-05",
+   "validTo": "2028-03-27",
+   "base": {
+    "a-ad": 1518,
+    "a-pc": 1680,
+    "b-ad": 1818,
+    "b-pc": 1992
+   },
+   "periods": [
+    {
+     "name": "27 de septiembre de 2027 a marzo de 2028",
+     "from": "2027-09-21",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-20",
+       "to": "2028-01-03"
+      }
+     ],
+     "prices": {
+      "a-ad": 1686,
+      "a-pc": 1806,
+      "b-ad": 2046,
+      "b-pc": 2220
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-20",
+     "to": "2028-01-03",
+     "prices": {
+      "a-ad": 1734,
+      "a-pc": 1836,
+      "b-ad": 2094,
+      "b-pc": 2250
+     }
+    }
+   ]
+  },
+  {
+   "ref": "RCE12",
+   "validFrom": "2027-04-03",
+   "validTo": "2028-03-25",
+   "base": {
+    "a-ad": 1068,
+    "a-pc": 1284,
+    "b-ad": 1164,
+    "b-pc": 1398
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "except": [
+      {
+       "from": "2027-12-18",
+       "to": "2028-01-01"
+      }
+     ],
+     "prices": {
+      "a-ad": 1188,
+      "a-pc": 1416,
+      "b-ad": 1350,
+      "b-pc": 1518
+     }
+    },
+    {
+     "name": "Navidad y Año Nuevo",
+     "from": "2027-12-18",
+     "to": "2028-01-01",
+     "prices": {
+      "a-ad": 1212,
+      "a-pc": 1440,
+      "b-ad": 1374,
+      "b-pc": 1542
+     }
+    }
+   ]
+  },
+  {
+   "ref": "INS8",
+   "validFrom": "2027-04-05",
+   "validTo": "2028-03-27",
+   "base": {
+    "a-ad": 775,
+    "a-pc": 950,
+    "b-ad": 888,
+    "b-pc": 1063
+   },
+   "periods": [
+    {
+     "name": "27 de septiembre de 2027 a marzo de 2028",
+     "from": "2027-09-21",
+     "to": "2028-03-31",
+     "prices": {
+      "a-ad": 850,
+      "a-pc": 1044,
+      "b-ad": 938,
+      "b-pc": 1132
+     }
+    }
+   ]
+  },
+  {
+   "ref": "SRI8",
+   "validFrom": "2026-12-01",
+   "validTo": "2028-03-31",
+   "base": {
+    "doble": 1212,
+    "indiv": 1752
+   },
+   "surcharges": [
+    {
+     "name": "Temporada alta",
+     "from": "2026-12-20",
+     "to": "2027-01-10",
+     "amount": 234
+    }
+   ],
+   "quoteRanges": [
+    {
+     "from": "2027-05-01",
+     "to": "2028-03-31"
+    }
+   ]
+  },
+  {
+   "ref": "MUJ8",
+   "base": {
+    "a": 807,
+    "b": 932,
+    "a-ben": 1482,
+    "b-ben": 1607
+   },
+   "departures": [
+    "2027-04-05",
+    "2027-04-19",
+    "2027-05-03",
+    "2027-05-17",
+    "2027-06-07",
+    "2027-06-21",
+    "2027-07-05",
+    "2027-07-19",
+    "2027-08-02",
+    "2027-08-16",
+    "2027-09-06",
+    "2027-09-20",
+    "2027-10-04",
+    "2027-10-18",
+    "2027-11-01",
+    "2027-11-15",
+    "2027-12-06",
+    "2027-12-20",
+    "2028-01-03",
+    "2028-01-17",
+    "2028-02-07",
+    "2028-02-21",
+    "2028-03-06",
+    "2028-03-20"
+   ],
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "prices": {
+      "a": 869,
+      "b": 1082,
+      "a-ben": 1557,
+      "b-ben": 1769
+     }
+    }
+   ]
+  },
+  {
+   "ref": "HOLI27",
+   "base": {
+    "doble": 850,
+    "indiv": 1275
+   },
+   "departures": [
+    "2027-03-17"
+   ]
+  },
+  {
+   "ref": "AMR3",
+   "validFrom": "2027-04-01",
+   "validTo": "2028-03-31",
+   "base": {
+    "h4": 288,
+    "h4-pc": 450,
+    "h5": 312,
+    "h5-pc": 480
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "prices": {
+      "h4": 312,
+      "h4-pc": 480,
+      "h5": 324,
+      "h5-pc": 498
+     }
+    }
+   ]
+  },
+  {
+   "ref": "MUM3",
+   "validFrom": "2027-04-01",
+   "validTo": "2028-03-31",
+   "base": {
+    "h4": 270,
+    "h4-pc": 450,
+    "h5": 288,
+    "h5-pc": 480
+   },
+   "periods": [
+    {
+     "name": "Octubre 2027 a marzo 2028",
+     "from": "2027-10-01",
+     "to": "2028-03-31",
+     "prices": {
+      "h4": 282,
+      "h4-pc": 474,
+      "h5": 324,
+      "h5-pc": 528
+     }
+    }
+   ]
+  }
+ ]
+}
