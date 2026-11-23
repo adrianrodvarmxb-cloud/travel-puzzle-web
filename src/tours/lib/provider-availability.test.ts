@@ -127,3 +127,19 @@ describe("REQ-3471: el candado del calendario", () => {
     expect(json).toContain("120");
   });
 });
+
+describe("REQ-10863: buildCalendar acepta una disponibilidad distinta por mes (viajes de PDF)", () => {
+  it("REQ-10863: con una función por mes, cada mes se arma con la suya y el resultado tiene la misma forma", () => {
+    const porMes = (month: string) =>
+      month === "2026-12"
+        ? { rules: [{ option: null, from: "2026-12-10", to: "2026-12-10", adult: 50, currency: "USD" }], blackouts: [] }
+        : { rules: [], blackouts: [] };
+    const cal = buildCalendar(porMes, { today: "2026-11-12", months: 2, currency: "USD" })!;
+    expect(cal.months.map((m) => m.month)).toEqual(["2026-11", "2026-12"]);
+    expect(cal.start).toBe(1);
+    expect(cal.months[1].days.find((d) => d.date === "2026-12-10")).toMatchObject({ bookable: true, from: 50 });
+    expect(cal.months[0].days.every((d) => !d.bookable)).toBe(true);
+    // La forma de siempre (una sola disponibilidad) sigue igual.
+    expect(buildCalendar(porMes("2026-12"), { today: "2026-11-12", months: 2, currency: "USD" })!.start).toBe(1);
+  });
+});

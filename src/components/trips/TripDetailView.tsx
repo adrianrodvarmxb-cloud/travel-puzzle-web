@@ -16,6 +16,9 @@ import { TripGuarantees } from '@/components/trips/TripGuarantees';
 import { guaranteeItems, onlinePaymentsFromEnv } from '@/trips/lib/guarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
 import { TripRequestForm } from '@/components/trips/TripRequestForm';
+import { ProviderDateCalendar } from '@/components/tours/one/ProviderDateCalendar';
+import { calendarView } from '@/tours/lib/calendar-view';
+import { isTripCalendarEnabled, tripCalendar } from '@/trips/lib/trip-calendar'; // REQ-10863
 import { BigBusBuyBox } from '@/components/trips/BigBusBuyBox';
 import { bigBusRefForTrip } from '@/octo/lib/public-view';
 import { bigBusOctoConfig } from '@/octo/lib/config';
@@ -97,6 +100,11 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     const languageNames = trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l) ?? l);
     const agencyId = (trip as { agencyId?: string | null }).agencyId ?? null;
     const operator = data.agencyName?.trim() || (agencyId ? null : OWN_PROVIDER);
+    // REQ-10863 (plan REQ-3454, G1–G5 = A): calendario con precio por día del viaje, tras TRIP_CALENDAR_ENABLED. Apagada, o sin
+    // un solo día que salga en la ventana, queda en null y la ficha se ve como hoy (nunca un calendario vacío ni un neto).
+    const calendario = isTripCalendarEnabled(env.TRIP_CALENDAR_ENABLED)
+        ? (() => { const cal = tripCalendar({ availability: trip.availability, options: trip.options, currency: trip.currency, minNoticeHours: trip.minNoticeHours }, { today: new Date().toISOString().slice(0, 10), months: 6 }); return cal ? calendarView(cal, lang) : null; })()
+        : null;
     // REQ-3423
     const bigBusRef = bigBusOctoConfig(process.env as Record<string, string | undefined>) ? bigBusRefForTrip(trip.id, Object.keys(bigBusCities).filter((k) => !k.startsWith('_'))) : null;
     const ficha = {
@@ -188,6 +196,14 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
                         </div>
                         <aside className="space-y-5">
                             <TripPriceBox price={card.price} c={c} whatsappUrl={wa} policy={SHOW_POLICY_ON_PAGE ? policy : undefined} />
+                            {/* REQ-10863: fechas y precios por día (tras TRIP_CALENDAR_ENABLED). Si falla el pintado, la sección se oculta y la ficha sigue. */}
+                            {calendario && (
+                                <SectionBoundary name="calendario-viaje">
+                                    <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5" data-calendario-viaje="true">
+                                        <ProviderDateCalendar view={calendario} />
+                                    </div>
+                                </SectionBoundary>
+                            )}
                             {relatedTours.length > 0 && (
                                 <SectionBoundary name="franja-tours">
                                     <CrossSellStrip eyebrow={cs.toursEyebrow(L('cities.0', tourCity ?? ''))} question={cs.toursQuestion} from={cs.from} freeLabel="Free tour" items={relatedTours.slice(0, 2)} />

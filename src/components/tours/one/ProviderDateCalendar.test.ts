@@ -70,3 +70,16 @@ describe("REQ-3470 / REQ-3471: la ficha sin calendario queda como hoy", () => {
     expect(html).toContain("USD 99");
   });
 });
+
+describe("REQ-10863: el día «por confirmar» se pinta ofrecido y con su etiqueta, sin inventar precio", () => {
+  it("REQ-10863: la celda dice «Por confirmar» en lugar de un precio", () => {
+    const porConfirmar = calendarView(
+      { months: [{ month: "2027-01", days: [{ date: "2027-01-04", bookable: true, from: null, currency: "USD", quote: true }] }], currency: "USD", start: 0 },
+      "es",
+    );
+    const html = renderToStaticMarkup(createElement(ProviderDateCalendar, { view: porConfirmar }));
+    expect(html).toContain('data-ofrecido="true"');
+    expect(html).toContain("Por confirmar");
+    expect(html).not.toContain("USD");
+  });
+});
