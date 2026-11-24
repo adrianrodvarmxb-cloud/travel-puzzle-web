@@ -22,4 +22,9 @@ describe("datos clave de la ficha única", () => {
     ]);
     expect(keyFactsRows({ durationMinutes: null, schedule: " ", languages: [], season: null, difficulty: null, ages: null }, "de")).toEqual([]);
   });
+
+  it("REQ-10870: si el proveedor da la duración en sus palabras (`durationText`, p. ej. «24–48 h» de Big Bus), la fila la usa tal cual; vacía, se calcula de los minutos", () => {
+    expect(keyFactsRows({ durationMinutes: null, durationText: "24–48 h", schedule: null, languages: [], season: null, difficulty: null, ages: null }, "es")).toEqual([{ id: "duracion", label: "Duración", value: "24–48 h" }]);
+    expect(keyFactsRows({ durationMinutes: 1440, durationText: " ", schedule: null, languages: [], season: null, difficulty: null, ages: null }, "es")[0]?.value).toBe("1 día");
+  });
 });

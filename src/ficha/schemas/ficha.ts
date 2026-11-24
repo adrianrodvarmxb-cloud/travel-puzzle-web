@@ -26,6 +26,7 @@ export const fichaSchema = z.object({
   taxonomy: z.object({ tipo: term.nullable(), temas: z.array(term), atributos: z.array(term) }),
   facts: z.object({
     durationMinutes: z.number().int().positive().nullable(),
+    durationText: z.string().nullable().optional(), // REQ-10870
     schedule: z.string().nullable(),
     languages: z.array(z.string().min(2).max(5)),
     season: z.string().nullable(),
