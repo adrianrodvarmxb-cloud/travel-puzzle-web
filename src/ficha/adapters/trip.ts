@@ -40,6 +40,8 @@ export interface TripInput {
   format: string;
   map: FichaMapView | null;
   agencyName: string | null;
+  /** REQ-10870: duración en las palabras del proveedor, ya en el idioma (la misma del marcado); opcional. */
+  durationText?: string | null;
 }
 
 const strs = (v: unknown): string[] => (Array.isArray(v) ? v.map((x) => htmlToText(String(x ?? ""))).filter(Boolean) : []);
@@ -84,6 +86,7 @@ export function tripToFicha(i: TripInput): FichaModel {
     taxonomy: i.taxonomy,
     facts: {
       durationMinutes: r.durationDays && r.durationDays > 0 ? r.durationDays * 24 * 60 : null,
+      durationText: i.durationText ?? null, // REQ-10870
       schedule: null,
       languages: strs(r.languages).map((l) => l.toLowerCase()),
       season: null,

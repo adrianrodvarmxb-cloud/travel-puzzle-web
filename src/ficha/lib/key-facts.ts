@@ -28,7 +28,8 @@ export function keyFactsRows(f: FichaKeyFacts, lang: FichaLang): KeyFactRow[] {
   const c = COPY[lang] ?? COPY.es;
   const langs = [...new Set(f.languages.map((l) => l.trim().toLowerCase()).filter(Boolean))].map((l) => guideLanguageName(l, lang));
   const values: Record<KeyFactId, string | null> = {
-    duracion: f.durationMinutes ? cardDuration({ minutes: f.durationMinutes }, lang) : null,
+    // REQ-10870: el texto del proveedor manda (es el mismo que lleva el marcado); si no, de los minutos.
+    duracion: clean(f.durationText) ?? (f.durationMinutes ? cardDuration({ minutes: f.durationMinutes }, lang) : null),
     horarios: clean(f.schedule),
     idiomas: langs.length ? langs.join(", ") : null,
     temporada: clean(f.season),

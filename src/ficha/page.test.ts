@@ -104,3 +104,64 @@ describe("REQ-10859: tour de Tangol → plantilla única", () => {
     expect(sin?.page.order).not.toContain("otras-experiencias");
   });
 });
+
+// REQ-10870: la página de un viaje (agencia o Big Bus) con la plantilla nueva, tras FICHA_UNICA_TRIP_ENABLED.
+import tripFixture from "../../tests/fixtures/trips/tas-mys-01-malasia-esencial.json";
+import { loadTripFichaPage, tripUsesFichaUnica } from "./page";
+import type { TripFichaDeps } from "./source";
+import type { StoredTrip } from "@/trips/manage";
+
+const tripDeps = (over: Partial<TripFichaDeps> = {}): TripFichaDeps => ({
+  tripBySlug: async (slug) => (slug === tripFixture.slug ? { trip: tripFixture as unknown as StoredTrip, translations: null, agencyName: tripFixture.agencyName } : null),
+  env: { ...env, SITE_URL: "https://travelpuzzle.com.mx" },
+  now: () => new Date("2026-11-24T09:00:00Z"),
+  ...over,
+});
+
+describe("REQ-10870: viaje de agencia o Big Bus → plantilla única", () => {
+  it("REQ-10870: arma la página desde la fila real: ruta de /viajes, bloques por dato, formulario de cotización en el panel y precio «desde» sin neto", async () => {
+    const p = await loadTripFichaPage(tripDeps(), tripFixture.slug, "es", extras);
+    expect(p).not.toBeNull();
+    if (!p) return;
+    expect(p.path).toBe(`/viajes/malasia/${tripFixture.slug}`);
+    expect(p.agencyId).toBe(tripFixture.agencyId);
+    expect(p.page.order.slice(0, 3)).toEqual(["migas", "galeria", "titulo"]);
+    expect(p.page.order).toContain("itinerario");
+    expect(p.page.order).toContain("opciones");
+    expect(p.page.order).toContain("mila");
+    expect(p.page.plan.control).toBe("request-form"); // viaje a cotizar: formulario, nunca el calendario de FREETOUR (INC-020)
+    expect(p.page.panel.price?.text).toMatch(/USD/);
+    const html = renderToStaticMarkup(createElement(FichaView, {
+      order: p.page.order, views: p.page.views,
+      panel: createElement(FichaPanel, { panel: p.page.panel, lang: p.ficha.lang, controls: {} }), enrichment: true,
+    }));
+    expect(html).toContain('data-enriquecimiento="true"');
+    expect(html).toContain("Malasia Esencial");
+    expect(html).toContain('data-panel="reserva"');
+    expect(html).toContain('data-control="advisor"'); // sin control registrado, cae al asesor (INC-020)
+    expect(html).not.toContain("N/D");
+    expect(html).not.toMatch(/neto|margen/i);
+  });
+
+  it("REQ-10870: un viaje de compra directa (Big Bus) pide la caja de compra solo con BIGBUS_OCTO_ENABLED; apagada, el asesor", async () => {
+    const buy = { ...(tripFixture as unknown as StoredTrip), purchaseMode: "buy" } as StoredTrip;
+    const src = async () => ({ trip: buy, translations: null, agencyName: null });
+    const off = await loadTripFichaPage(tripDeps({ tripBySlug: src }), tripFixture.slug, "es", extras);
+    expect(off?.page.plan).toMatchObject({ control: "advisor", fellBackToAdvisor: true });
+    const on = await loadTripFichaPage(tripDeps({ tripBySlug: src, env: { ...env, SITE_URL: "https://travelpuzzle.com.mx", BIGBUS_OCTO_ENABLED: "true" } }), tripFixture.slug, "es", extras);
+    expect(on?.page.plan).toMatchObject({ control: "purchase-box", fellBackToAdvisor: false });
+  });
+
+  it("REQ-10870: sin viaje (slug inexistente o apagado) devuelve null y la página pinta la plantilla de hoy", async () => {
+    expect(await loadTripFichaPage(tripDeps(), "no-existe", "es", extras)).toBeNull();
+  });
+
+  it("REQ-10870: la plantilla nueva en viajes solo con FICHA_UNICA_TRIP_ENABLED: «preview» en versiones sin tráfico; la bandera de Tangol no la enciende", () => {
+    const prev = "pr-741-travel-puzzle-web.x.workers.dev";
+    expect(tripUsesFichaUnica({ FICHA_UNICA_TRIP_ENABLED: "preview" }, prev)).toBe(true);
+    expect(tripUsesFichaUnica({ FICHA_UNICA_TRIP_ENABLED: "preview" }, "www.travelpuzzle.com.mx")).toBe(false);
+    expect(tripUsesFichaUnica({ FICHA_UNICA_TRIP_ENABLED: "true" }, "www.travelpuzzle.com.mx")).toBe(true);
+    expect(tripUsesFichaUnica({ FICHA_UNICA_TANGOL_ENABLED: "true" }, prev)).toBe(false);
+    expect(tripUsesFichaUnica({}, prev)).toBe(false);
+  });
+});

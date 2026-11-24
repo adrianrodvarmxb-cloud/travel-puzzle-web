@@ -18,6 +18,7 @@ import { fichaPageViews, transportCardsFrom, type FichaPageViews, type PageViewF
 import { leerPrefill, type Query } from "./lib/prefill";
 import type { OthersResult } from "./others";
 import { loadTourFicha, type TourFichaDeps } from "./source-tour";
+import { loadTripFicha, type TripFichaDeps } from "./source";
 
 export type Env = Record<string, string | undefined>;
 
@@ -77,4 +78,42 @@ export async function loadTourFichaPage(deps: TourFichaDeps, slug: string, lang:
     others: x.others ?? { paid: [], free: [], includePaid: true }, // REQ-10862
   });
   return { ficha: f, path, page };
+}
+
+/**
+ * REQ-10870 · Ola 7, plan §7: «encendido en viajes y Big Bus». La ficha de un viaje de agencia o de Big Bus (tabla
+ * `Trip`) con la plantilla única, tras `FICHA_UNICA_TRIP_ENABLED` ("preview" solo en versiones sin tráfico). Misma
+ * orquestación que el tour: el modelo sale de `loadTripFicha` (REQ-10836: visibilidad, esquema, mínimo de calidad),
+ * las banderas se resuelven una vez y `fichaPageViews` arma bloques y panel. El control del panel lo decide el
+ * modelo (`purchaseMode` buy → caja de compra solo con BIGBUS_OCTO_ENABLED; el resto, formulario de cotización), nunca
+ * el proveedor (INC-020). Si el modelo no se arma, null y la página pinta la plantilla de hoy (`TripDetailView`).
+ */
+// REQ-10870
+export function tripUsesFichaUnica(env: Env, host: string | null | undefined): boolean {
+  return fichaUnicaOn(env, "trip", host);
+}
+
+export interface TripFichaPage extends TourFichaPage {
+  /** Agencia dueña del viaje (null = propio). */
+  agencyId: string | null;
+}
+
+// REQ-10870
+export async function loadTripFichaPage(deps: TripFichaDeps, slug: string, lang: FichaLang, x: TourFichaPageExtras): Promise<TripFichaPage | null> {
+  const { load, path, agencyId } = await loadTripFicha(deps, slug, lang);
+  if (!load.ok || !path) return null;
+  const f = load.ficha;
+  const page = fichaPageViews({
+    f,
+    prefill: leerPrefill(x.query, f),
+    whatsapp: deps.env.WHATSAPP_NUMBER?.trim() || null,
+    visitorCountry: x.visitorCountry,
+    fx: fxTableFromMxn(x.fx),
+    flags: pageFlags(deps.env),
+    reviews: x.reviews,
+    transport: transportCardsFrom(x.transport ?? []),
+    kiwitaxi: x.kiwitaxi ?? null,
+    others: x.others ?? { paid: [], free: [], includePaid: true },
+  });
+  return { ficha: f, path, page, agencyId };
 }

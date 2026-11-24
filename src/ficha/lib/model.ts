@@ -38,6 +38,8 @@ export interface FichaTaxonomy { tipo: FichaTerm | null; temas: FichaTerm[]; atr
 
 export interface FichaKeyFacts {
   durationMinutes: number | null;
+  /** REQ-10870: la duración en las palabras del proveedor, ya en el idioma («24–48 h» de Big Bus); si viene, manda sobre los minutos. */
+  durationText?: string | null;
   /** Texto corto de horarios («09:00 y 07:15»), ya en el idioma. */
   schedule: string | null;
   /** Códigos ISO de idioma del guía. */

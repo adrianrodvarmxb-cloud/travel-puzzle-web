@@ -24,6 +24,8 @@ import { fichaMapView, type GeoFlagsEnv } from "@/map/lib/city-pin";
 import { firstPoint } from "@/map/lib/coords";
 import { isDayTripTrip } from "@/home/lib/experience-format";
 import { slugify } from "@/destinations/lib/slug";
+import { durationLabel } from "@/trips/lib/trip-facts";
+import { tripCopy } from "@/trips/lib/copy";
 
 export const TRIP_TAXONOMY_PROVIDER = "propios";
 
@@ -74,6 +76,8 @@ export function tripFichaInput(s: TripFichaSource, o: TripFichaOptions): TripInp
     format,
     map: fichaMapView(firstPoint(t.meetingPoints), null, o.env),
     agencyName: s.agencyName,
+    // REQ-10870: la misma duración que lleva el marcado de la ficha (`durationLabel`, REQ-576): paridad entre lo que se ve y lo que leen los bots.
+    durationText: durationLabel(t, tripCopy(o.lang)),
   };
 }
 

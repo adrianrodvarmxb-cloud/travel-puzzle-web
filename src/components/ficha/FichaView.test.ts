@@ -58,6 +58,16 @@ describe("FichaView: la plantilla solo compone (ola 7)", () => {
     expect(r(createElement(FichaView, { order: [], views: {} }))).not.toContain("data-panel-columna");
   });
 
+  it("REQ-10870: sin barra fija de celular (viajes), `panelOnMobile` muestra el mismo panel debajo del contenido en celular; sin la prop, como hoy", () => {
+    const f = fichaEjemplo();
+    const base = { order: blocksFor(f, ctx), views: views(f), panel: createElement("aside", { "data-panel": "reserva" }) };
+    const movil = r(createElement(FichaView, { ...base, panelOnMobile: true }));
+    expect(movil).toMatch(/data-panel-columna[^>]*class="mt-8 lg:mt-0"><div class="lg:sticky lg:top-8"><aside data-panel="reserva">/);
+    expect(movil.indexOf("data-panel-columna")).toBeGreaterThan(pos(movil, "garantias"));
+    expect((movil.match(/data-panel="reserva"/g) ?? []).length).toBe(1); // un solo panel en el DOM: sin ids ni formularios repetidos
+    expect(r(createElement(FichaView, base))).toMatch(/data-panel-columna[^>]*class="hidden lg:block"/);
+  });
+
   it("REQ-10857: hay un componente para cada uno de los 21 bloques del plan", () => {
     expect(BLOCK_ORDER).toHaveLength(21);
   });

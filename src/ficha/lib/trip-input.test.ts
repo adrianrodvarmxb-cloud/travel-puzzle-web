@@ -40,4 +40,13 @@ describe("REQ-10835: viaje guardado → entrada del adaptador → modelo", () =>
     expect(f).toMatchObject({ provider: "propios", code: fixture.code, slug: fixture.slug, section: "experiencias" });
     expect(JSON.stringify(f)).not.toMatch(/@|\+\d{2} ?\d{2}/);
   });
+
+  it("REQ-10870: la duración del modelo es la misma que dice el marcado de la ficha (`durationLabel`): «7 días» aquí; en un transporte con validez por opción, «24–48 h»", () => {
+    const f = tripFichaModel(source(), { lang: "es", env, siteUrl });
+    expect(f.facts.durationText).toBe("7 días");
+    const bus = { ...(fixture as unknown as StoredTrip), kind: "transporte", durationDays: null, options: [{ ...fixture.options[0], name: "Pase 24 horas" }, { ...fixture.options[1], name: "Pase 48 horas" }] } as unknown as StoredTrip;
+    const b = tripFichaModel({ trip: bus, translations: null, agencyName: null }, { lang: "es", env, siteUrl });
+    expect(b.facts.durationText).toBe("24–48 h");
+    expect(checkFicha(b).ok).toBe(true);
+  });
 });
