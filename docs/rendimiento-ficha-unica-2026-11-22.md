@@ -42,3 +42,9 @@ Sin comprimir: móvil 1,631 → 1,600 KB (−31 KB), escritorio 2,130 → 2,100 
 
 - REQ-1562 (TBT < 200 ms móvil) y REQ-1560 (LCP < 2.5 s) siguen NO CUMPLIDO; REQ-1563 baja de peso en las dos páginas.
 - Siguiente: revisar qué scripts carga el arranque de la ficha y de `/tours` (Lighthouse `bootup-time` y `unused-javascript`) y atacarlos uno por PR.
+
+## 24-11-2026 · REQ-10871: el barril del inicio fuera de las demás páginas
+- Qué cambió: 17 páginas y vistas que solo usan el pie (`SiteFooter`), la burbuja (`WhatsAppBubble`) o `ExpertCta` los importaban desde el barril `@/components/home/v2`, que reexporta los 12 componentes de cliente del inicio; Next metía los 12 en el JS de cada una de esas páginas. Ahora cada una importa desde el archivo del componente. Sin cambio visible.
+- Primera carga (informe de `next build`, gzip): ficha `/destinos/[pais]/[ciudad]/[slug]` 207 → 199 KB, `/tours` 194 → 187, `/viajes/[destino]/[slug]` 173 → 161, `/destinos` 160 → 148, `/destinos/[pais]/[ciudad]` 156 → 149, `/blog` 155 → 143, legales 155 → 143. El inicio `/` no cambia (160 KB).
+- Línea base del día (Lighthouse 12.2.1 móvil, preview `pr-741` = main, ficha de El Calafate con la plantilla única, 3 corridas): TBT 297 / 524 / 111 ms (mediana 297), LCP mediana 4.83 s, 685 KB. El TBT varía mucho entre corridas desde el contenedor; la medición en producción va después del merge.
+- `/tours` en escritorio (REQ-1563, < 1.5 MB): hoy 2.51 MB; 1.35 MB son las teselas y tipografías del mapa (openfreemap) y 289 KB su librería, que arrancan porque el mapa está en la primera pantalla. Bajarlo cambia lo que ve el visitante (decisión del PO, sin construir).

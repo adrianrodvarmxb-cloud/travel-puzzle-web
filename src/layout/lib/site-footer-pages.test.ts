@@ -5,7 +5,8 @@ import { readFileSync } from "node:fs";
 // fichas de tour (FREETOUR) no traían el pie del home. Estas páginas deben montar el SiteFooter con los datos del sitio.
 const mountsSiteFooter = (p: string) => {
   const src = readFileSync(p, "utf8");
-  expect(src, p).toMatch(/import \{[^}]*\bSiteFooter\b[^}]*\} from '@\/components\/home\/v2'/);
+  // REQ-10871: el mismo pie del home, importado desde su archivo (no desde el barril del inicio).
+  expect(src, p).toMatch(/import \{[^}]*\bSiteFooter\b[^}]*\} from '@\/components\/home\/v2\/SiteFooter'/);
   expect(src, p).toMatch(/import \{ siteFooterFromEnv \} from '@\/layout\/lib\/site-footer'/);
   expect(src, p).toMatch(/<SiteFooter \{\.\.\.siteFooterFromEnv\(/);
 };
