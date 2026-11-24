@@ -64,6 +64,8 @@ export interface FichaViewProps {
     mobileAdd?: React.ReactNode;
     /** Barra fija de celular de hoy, sin cambios (decisión 25). */
     mobileBar?: React.ReactNode;
+    /** REQ-10870: fichas sin barra fija de celular (viajes): el mismo panel, una sola vez en el DOM, debajo del contenido en celular. */
+    panelOnMobile?: boolean;
     /** REQ-588 / REQ-834: el proveedor tiene enriquecimiento indexable (`data-enriquecimiento`, lo lee el contrato de ficha del humo). */
     enrichment?: boolean;
 }
@@ -79,7 +81,7 @@ function Block({ id, props }: { id: BlockId; props: object }) {
  * No decide qué bloque sale (eso es `blocksFor`), no arma vistas (eso es `src/ficha/lib/`), no lee base, banderas ni
  * proveedor (DIP): recibe el orden, las props de cada bloque y el panel ya compuesto (OCP). Un id sin props se salta.
  */
-export function FichaView({ order, views, panel, mobileAdd, mobileBar, enrichment }: FichaViewProps) {
+export function FichaView({ order, views, panel, mobileAdd, mobileBar, enrichment, panelOnMobile }: FichaViewProps) {
     const render = (id: BlockId) => {
         const props = views[id];
         return props ? <Block key={id} id={id} props={props} /> : null;
@@ -98,7 +100,9 @@ export function FichaView({ order, views, panel, mobileAdd, mobileBar, enrichmen
                         </div>
                     ))}
                 </div>
-                {panel && <div data-panel-columna className="hidden lg:block"><div className="sticky top-8">{panel}</div></div>}
+                {panel && (panelOnMobile
+                    ? <div data-panel-columna className="mt-8 lg:mt-0"><div className="lg:sticky lg:top-8">{panel}</div></div>
+                    : <div data-panel-columna className="hidden lg:block"><div className="sticky top-8">{panel}</div></div>)}
             </div>
             {mobileBar && <div className="lg:hidden">{mobileBar}</div>}
         </article>

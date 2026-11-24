@@ -120,6 +120,7 @@ export async function TripFichaUnica({ data, path, query }: { data: TripData; pa
                     views={views}
                     enrichment={true}
                     panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={controls} />}
+                    panelOnMobile // la ficha de viajes no tiene barra fija de celular: el panel va debajo del contenido, como hoy
                 />
             </div>
             <SiteFooter contact={{ whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials }} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
