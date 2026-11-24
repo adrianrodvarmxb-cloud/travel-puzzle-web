@@ -6978,5 +6978,90 @@
     "publishedAt": "2026-11-23",
     "author": "editorial",
     "origen": "agente-diario"
+  },
+  {
+    "pais": "ar",
+    "ciudad": "la-rioja",
+    "nombre": "La Rioja",
+    "targetTerm": "guia de viaje a la rioja argentina",
+    "titulo": "Guía de La Rioja: Talampaya, Ischigualasto y cómo organizar el viaje",
+    "publishedAt": "2026-11-24",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Talampaya es el parque que más conviene visitar en La Rioja: sus paredones rojizos llegan a 150 metros de altura y el ingreso es obligatorio con guía habilitado. Según el [folleto oficial de visitantes](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf), en invierno el horario es de 8:30 a 18:30 y en verano de 8:00 a 19:30. Dentro del parque no hay señal de celular ni de internet, así que conviene llegar preparado con boletos y mapas descargados.",
+    "sections": [
+      {
+        "h2": "¿Qué se ve en el Parque Nacional Talampaya?",
+        "answer": "Un cañón de rocas rojizas con paredones de hasta 150 metros, formado hace unos 250 millones de años, según [La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/).",
+        "body": [
+          "El atractivo principal es el cañón del Talampaya, junto al cauce seco del río que le da nombre al parque. Las formaciones tienen nombres propios, como El Monje, El Pesebre, El Tótem y la Ciudad Perdida, y la fauna incluye guanacos, cóndores y pumas, de acuerdo con la misma [nota de La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/).",
+          "El parque se creó como nacional por la Ley 24.846 del 10 de julio de 1997. La UNESCO lo declaró, junto con el Parque Provincial Ischigualasto, Sitio de Patrimonio Mundial en el año 2000, según el [folleto oficial](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)."
+        ]
+      },
+      {
+        "h2": "¿Cuáles son los horarios y cómo se entra?",
+        "answer": "El folleto oficial indica de 8:30 a 18:30 en invierno y de 8:00 a 19:30 en verano, y el ingreso es obligatorio con guía habilitado ([folleto oficial](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)).",
+        "body": [
+          "Estas cifras vienen de un folleto de 2019, así que conviene confirmarlas con el operador antes de salir. El boleto se compra solo si vas a hacer una excursión, y también se vende en línea, según el mismo [folleto](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf).",
+          "No se permite entrar con vehículo particular a los circuitos de excursiones, y el parque está atravesado por la Ruta Nacional 76 ([folleto oficial](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)). La Nación indica además que el máximo de ingreso permitido por día es de 1,300 visitantes ([La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/))."
+        ]
+      },
+      {
+        "h2": "¿Qué tan lejos queda de la ciudad de La Rioja?",
+        "answer": "Según el folleto oficial, la terminal de ómnibus de La Rioja queda a 220 kilómetros del Cañón del Talampaya ([folleto oficial](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)).",
+        "body": [
+          "Es un trayecto que conviene planear como día completo, ida y vuelta. Calcula el tiempo desde tu hotel antes de salir, porque la hora de inicio y de regreso del circuito depende del horario de cada operador."
+        ]
+      },
+      {
+        "h2": "¿Cómo combinar Talampaya con Ischigualasto?",
+        "answer": "Según el [folleto oficial](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf), la UNESCO declaró a ambos parques un solo sitio de patrimonio mundial en el año 2000.",
+        "body": [
+          "La Nación describe Ischigualasto, el Valle de la Luna sanjuanino, como un parque con el que Talampaya limita y con el que comparte la cuenca geográfica del Triásico ([La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/)). Como las distancias son largas, lo más práctico es dedicar un día a cada parque o contratar un circuito que los una.",
+          "En la [página de La Rioja](/destinos/ar/la-rioja) están las experiencias de la provincia que puedes reservar con Travel Puzzle. Si prefieres que armemos el recorrido completo, escríbenos y lo ajustamos a tus fechas."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 24 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "La Rioja",
+      "targetTerm": "la rioja argentina travel guide",
+      "titulo": "La Rioja guide: Talampaya, Ischigualasto and how to plan the trip",
+      "enBreve": "Talampaya is the park to prioritize in La Rioja: its reddish walls reach 150 meters high, and entry requires a licensed guide. According to the [official visitor brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf), in winter hours run from 8:30 to 18:30 and in summer from 8:00 to 19:30. There is no cell or internet signal inside the park, so arrive with tickets and maps saved.",
+      "sections": [
+        {
+          "h2": "What can you see in Talampaya National Park?",
+          "answer": "A canyon of reddish rock with walls up to 150 meters high, formed about 250 million years ago, according to [La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/).",
+          "body": [
+            "The main attraction is the Talampaya canyon, next to the dry riverbed that gives the park its name. Its rock formations have their own names, such as El Monje, El Pesebre, El Tótem and the Ciudad Perdida, and the wildlife includes guanacos, condors and pumas, according to the same [La Nación article](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/).",
+            "The park was created as a national park under Law 24.846 of July 10, 1997. UNESCO declared it, together with the Ischigualasto Provincial Park, a World Heritage Site in 2000, according to the [official brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)."
+          ]
+        },
+        {
+          "h2": "What are the opening hours and how do you get in?",
+          "answer": "The official brochure lists 8:30 to 18:30 in winter and 8:00 to 19:30 in summer, and entry requires a licensed guide ([official brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)).",
+          "body": [
+            "These figures come from a 2019 brochure, so confirm them with your operator before leaving. Tickets are only needed if you join an excursion, and they can also be bought online, according to the same [brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf).",
+            "Private vehicles are not allowed on the excursion circuits, and the park is crossed by National Route 76 ([official brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)). La Nación also reports that the daily maximum is 1,300 visitors ([La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/))."
+          ]
+        },
+        {
+          "h2": "How far is it from the city of La Rioja?",
+          "answer": "According to the official brochure, La Rioja's bus terminal is 220 kilometers from the Talampaya canyon ([official brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf)).",
+          "body": [
+            "Plan it as a full day, there and back. Work out the travel time from your hotel before you leave, because the start and return times of the circuit depend on each operator's schedule."
+          ]
+        },
+        {
+          "h2": "How can you combine Talampaya with Ischigualasto?",
+          "answer": "According to the [official brochure](https://argentina.gob.ar/sites/default/files/talampaya_informacion_para_el_visitante_2019.pdf), UNESCO declared both parks a single World Heritage Site in 2000.",
+          "body": [
+            "La Nación describes Ischigualasto, the San Juan Valley of the Moon, as a park that Talampaya borders and with which it shares the Triassic geographic basin ([La Nación](https://www.lanacion.com.ar/sociedad/talampaya-el-parque-nacional-de-la-rioja-que-sorprende-a-los-turistas-con-su-belleza-nid2155872/)). Because the distances are long, the practical choice is one day per park or a circuit that links both.",
+            "On the [La Rioja page](/destinos/ar/la-rioja) you'll find the province's experiences you can book with Travel Puzzle. If you'd like us to plan the full route, write to us and we'll adjust it to your dates."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 24 November 2026) and the site's catalog."
+    }
   }
 ]
