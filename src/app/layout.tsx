@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
+// REQ-10869: el servidor elige el diccionario; el navegador solo recibe el del idioma de la URL.
+import { translations } from "@/lib/translations";
 import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
@@ -125,7 +127,7 @@ export default async function RootLayout({
         {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}
         <ClientErrorListener />
         <SessionProvider>
-          <AppProviders language={route?.lang} locked={route?.locked ?? false}>
+          <AppProviders language={route?.lang} locked={route?.locked ?? false} dictionary={route?.locked && route.lang !== "es" ? translations[route.lang] : undefined}>
             <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear(), guideLinks: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) ? footerGuideLinksByLang() : undefined }}>
               {children}
             </FeatureFlagsProvider>

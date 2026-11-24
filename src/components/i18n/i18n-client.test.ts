@@ -4,6 +4,9 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { LanguageProvider, useLanguage } from "@/lib/language-context";
 import LocalizedLink from "./LocalizedLink";
 import { LanguageSuggestion } from "./LanguageSuggestion";
+import { AppProviders } from "@/components/providers/AppProviders";
+import { translations } from "@/lib/translations";
+import { readFileSync } from "node:fs";
 
 function Probe() {
   const { language, t } = useLanguage();
@@ -19,9 +22,17 @@ const render = (props: Record<string, unknown>, ...children: unknown[]) => rende
 
 describe("cliente con idioma en la URL", () => {
   it("REQ-654: con locked, el primer render usa el idioma del servidor (SSR = cliente)", () => {
-    const html = render({ initialLanguage: "en", locked: true }, h(Probe));
+    // REQ-10869: el diccionario del idioma de la URL llega del servidor (el layout lo pasa); el cliente no baja los 6.
+    const html = render({ initialLanguage: "en", locked: true, initialDictionary: translations.en }, h(Probe));
     expect(html).toContain('data-lang="en"');
     expect(html).toContain(">Home<");
+  });
+
+  it("REQ-10869: AppProviders pasa el diccionario del servidor y el layout lo manda con el idioma de la URL", () => {
+    const html = renderToStaticMarkup(h(AppProviders, { language: "en", locked: true, dictionary: translations.en } as never, h(Probe)));
+    expect(html).toContain(">Home<");
+    const layout = readFileSync("src/app/layout.tsx", "utf8");
+    expect(layout).toMatch(/dictionary=\{route\?\.locked && route\.lang !== "es" \? translations\[route\.lang\] : undefined\}/);
   });
 
   it("REQ-650: sin locked, español como hoy aunque llegue initialLanguage", () => {
