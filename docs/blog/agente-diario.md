@@ -49,6 +49,12 @@ Te devuelve `hoy`, `toca` (`pago`, `free` o `ninguno`), `motivo`, `clusterSugeri
    - las duraciones;
    - el precio en el formato de la ficha («desde aprox. MXN … · EUR …»).
    **Nunca copies descripciones de las fichas** (regla C2: el texto es propio; el validador rechaza 12 palabras seguidas iguales). Si el catálogo no tiene experiencias del clúster, toma el siguiente de `siguientesPendientes` del mismo tipo.
+   - **Si la página del catálogo no se puede leer** (p. ej. la herramienta web responde `PROVENANCE_REQUIRED` o bloquea travelpuzzle.com.mx), **no abandones el día**. Respaldo, en este orden:
+     1. Consulta la base de producción **solo con SELECT** (herramienta D1 de Cloudflare, base `travel-puzzle`): ciudad por `City.slug` (y su `id`), fichas activas en `Tour` (`isActive=1`, `syncStatus='active'`) con `duration`, `priceValue`, `priceCurrency`, `slug`, y el título en español en `TourTranslation.title` (`language='es'`). Toma solo títulos, tipo (`ExperienceTaxonomy`, ejes `formato` y `tema`), duración y precio; **nunca** `description`/`brief` ni el campo `url` (C2/C5). Nunca escribas en la base.
+     2. El precio en MXN sale del precio en EUR por el tipo de cambio de la ficha (el de las entradas anteriores, ≈ 20.52 el 16 nov 2026): redondea y marca «aprox.». Si dudas del tipo de cambio, deja el precio solo en EUR.
+     3. Si ninguna vía lee el catálogo, no inventes: **NO PUBLICAR** y notifica al dueño con el motivo exacto.
+   - Para fuentes externas que la herramienta web no abre, usa otra fuente primaria; no cites lo que no leíste.
+   - Fotos: confirma autor y qué muestra en la página del banco; no uses una foto cuya descripción no mencione el lugar.
 
 ## Paso 3 — Escribe la entrada (método de referentes, plantilla del agente)
 Un solo punto clave por artículo. Respuesta primero (lo que más citan los buscadores y las IA sale del primer 30 % de la página). Español de México, cálido y claro, frases cortas, mostrar en vez de adjetivar.
@@ -59,11 +65,11 @@ Archivo JSON con estos campos (el esquema está en `src/blog/lib/schema.ts`):
 | `slug` | minúsculas y guiones, único |
 | `pillar` | el del clúster o el del tema trending (pilar activo) |
 | `targetTerm` | un término por artículo; nunca repetido ni casi igual a otro |
-| `title` (bloque 1) | pregunta real del viajero, específica (país, año), ≤120 caracteres |
+| `title` (bloque 1) | pregunta real del viajero, específica (país), ≤120 caracteres; sin año salvo que un `dato` con fuente lo contenga (el validador de redes rechaza una cifra como «2026» sin fuente) |
 | `summary` | ≤155 caracteres, coherente con el texto |
 | `draft` | `false` |
 | `publishedAt` | `hoy` del paso 1. **Sin** `updatedAt` |
-| `author` / `origen` | `"editorial"` / `"agente-diario"` |
+| `author` / `origen` | `"claudia"` en entradas de viajes (el validador lo exige) / `"agente-diario"` |
 | `mix` | `toca` del paso 1 |
 | `tema` | `{ "tipo": "trending", "fuentes": [{ "label", "url", "fecha" }] }` o `{ "tipo": "calendario", "clusterId": "EU-01", "fuentes": [] }` |
 | `enBreve` (bloque 3) | **40 a 80 palabras**: respuesta, condición clave y matiz |
