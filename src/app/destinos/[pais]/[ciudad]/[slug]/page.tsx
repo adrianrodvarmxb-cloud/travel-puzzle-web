@@ -109,7 +109,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         // tráfico) la ficha del viaje se pinta con la plantilla única; si el modelo no se arma, sigue la de hoy. Apagar la
         // bandera devuelve la plantilla de hoy.
         if (tripUsesFichaUnica(process.env as Record<string, string | undefined>, (await headers()).get('host'))) {
-            const unica = await TripFichaUnica({ data, path: tour.href, query: (await searchParams) ?? {} });
+            // REQ-10872: la ciudad de la URL es la del catálogo (la de inicio, REQ-1349): el bloque 20 la usa sin otra consulta.
+            const unica = await TripFichaUnica({ data, path: tour.href, query: (await searchParams) ?? {}, cityId: city.id });
             if (unica) return <>{/* REQ-576: migas de /destinos en el marcado; la plantilla única trae las suyas en el bloque 1. */}<JsonLd data={model.jsonLd.slice(1)} />{unica}</>;
         }
         return (
