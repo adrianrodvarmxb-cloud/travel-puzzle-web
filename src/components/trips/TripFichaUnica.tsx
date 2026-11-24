@@ -8,8 +8,11 @@
  * - los controles del panel llegan registrados (OCP, INC-020): «request-form» = calendario con precio por día
  *   (REQ-10863, tras TRIP_CALENDAR_ENABLED) + formulario de cotización de hoy; «purchase-box» = caja de Big Bus
  *   (REQ-3423) solo si el viaje tiene ciudad OCTO; sin control registrado, el asesor;
- * - bloque 19 con la franja de transporte de hoy (REQ-10752) y Kiwitaxi (REQ-10753); bloque 20 sin datos todavía
- *   (no sale). Nunca pinta neto ni margen: todo viene del modelo público.
+ * - bloque 19 con la franja de transporte de hoy (REQ-10752) y Kiwitaxi (REQ-10753);
+ * - bloque 20 «Otras experiencias en la ciudad» con datos reales (REQ-10862) en la ciudad del catálogo del viaje
+ *   (REQ-10872): la ruta de /destinos la pasa en `cityId`; la de /viajes no la tiene y se resuelve por nombre con la misma
+ *   regla que /destinos y el mapa (`loadTripCityId`). Sin ciudad del catálogo o si la base falla, el bloque no sale.
+ * Nunca pinta neto ni margen: todo viene del modelo público.
  */
 import type React from 'react';
 import { headers } from 'next/headers';
@@ -46,12 +49,23 @@ import { transportForPlace } from '@/trips/cross-sell';
 import { crossSellDeps } from '@/trips/cross-sell-deps';
 import { nearbyUnifiedEnabled } from '@/geo/lib/near';
 import { transferCard, transferCardEnabled } from '@/trips/lib/transfer-card';
+import { loadOtherExperiences, otherExperiencesDeps } from '@/ficha/others'; // REQ-10862
+import { loadTripCityId, tripCityDeps } from '@/ficha/trip-city'; // REQ-10872
+import { paidInRecommendations } from '@/booking/lib/flags'; // REQ-014
 
 export type TripQuery = Record<string, string | string[] | undefined>;
 
+export interface TripFichaUnicaProps {
+    data: TripData;
+    path: string;
+    query: TripQuery;
+    /** REQ-10872: ciudad del catálogo ya conocida por la ruta (/destinos); sin ella se resuelve por nombre. */
+    cityId?: number | null;
+}
+
 /** La ficha con la plantilla única, o null para que la ruta pinte la de hoy. */
 // REQ-10870
-export async function TripFichaUnica({ data, path, query }: { data: TripData; path: string; query: TripQuery }): Promise<React.ReactElement | null> {
+export async function TripFichaUnica({ data, path, query, cityId }: TripFichaUnicaProps): Promise<React.ReactElement | null> {
     const { trip, translations: tr, fx } = data;
     const lang = await getRouteLanguage();
     const fichaLang = (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(lang) ? lang : 'es') as FichaLang;
@@ -67,10 +81,18 @@ export async function TripFichaUnica({ data, path, query }: { data: TripData; pa
         .catch((e) => { console.error('[viajes] venta cruzada:', (e as Error).message); return []; });
     // REQ-10753: tarjeta de Kiwitaxi (nunca en FREETOUR; aquí el viaje es propio o de agencia).
     const kiwitaxi = transferCard({ cityName: place.city, tourId: trip.id, provider: 'propios', lang, enabled: transferCardEnabled(env) });
+    // REQ-10872: la ciudad del catálogo del viaje (la de la ruta de /destinos, o por nombre con la regla de /destinos y el mapa).
+    const catalogCityId = cityId ?? await loadTripCityId(await tripCityDeps(), trip)
+        .catch((e) => { console.error('[viajes] ciudad del viaje:', (e as Error).message); return null; });
+    // REQ-10862: «Otras experiencias en la ciudad» (bloque 20) desde la base; sin ciudad o si falla, el bloque no sale y la ficha sigue (regla 7).
+    const others = catalogCityId === null || catalogCityId === undefined
+        ? null
+        : await loadOtherExperiences(await otherExperiencesDeps(), { cityId: catalogCityId, excludeId: trip.id, lang: fichaLang, includePaid: paidInRecommendations(env), rates: fx })
+            .catch((e) => { console.error('[viajes] otras experiencias:', (e as Error).message); return null; });
     const unica = await loadTripFichaPage(
         { tripBySlug: async () => ({ trip, translations: tr, agencyName: data.agencyName }), env, now: () => new Date(), log: (e) => console.warn(`[ficha] viaje descartado (${e.kind}):`, e.reason) },
         trip.slug, fichaLang,
-        { query, reviews: { items: [], total: 0 }, fx, visitorCountry: h.get('cf-ipcountry'), transport, kiwitaxi },
+        { query, reviews: { items: [], total: 0 }, fx, visitorCountry: h.get('cf-ipcountry'), transport, kiwitaxi, others },
     ).catch((e) => { console.error('[viajes] ficha única:', (e as Error).message); return null; });
     if (!unica) return null;
 

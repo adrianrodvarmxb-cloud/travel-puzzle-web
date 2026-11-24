@@ -152,6 +152,25 @@ describe("REQ-10870: viaje de agencia o Big Bus → plantilla única", () => {
     expect(on?.page.plan).toMatchObject({ control: "purchase-box", fellBackToAdvisor: false });
   });
 
+  it("REQ-10872: las experiencias de la ciudad del viaje alimentan «Otras experiencias» en /viajes con la misma regla que el tour; sin ellas el bloque no sale", async () => {
+    const card = (id: string, provider: string, priceText: string) => ({ id, title: `Tour ${id}`, href: `/destinos/my/kuala-lumpur/${id}`, provider, imageUrl: `https://img/${id}.jpg`, priceText });
+    const con = await loadTripFichaPage(tripDeps(), tripFixture.slug, "es", {
+      ...extras,
+      others: { paid: [card("p1", "tangol", "Desde USD $45"), card("p2", "tangol", "Desde USD $60"), card("p3", "tangol", "Desde USD $70")], free: [card("f1", "freetour", "Gratis")], includePaid: true },
+    });
+    expect(con?.page.order).toContain("otras-experiencias");
+    expect((con?.page.views["otras-experiencias"]?.view?.items ?? []).map((c) => c.id)).toEqual(["p1", "p2", "f1"]);
+    const html = renderToStaticMarkup(createElement(FichaView, {
+      order: con!.page.order, views: con!.page.views,
+      panel: createElement(FichaPanel, { panel: con!.page.panel, lang: con!.ficha.lang, controls: {} }), enrichment: true,
+    }));
+    expect(html).toContain('data-bloque="otras-experiencias"');
+    expect(html).toContain('href="/destinos/my/kuala-lumpur/f1"');
+    expect(html).not.toMatch(/neto|margen/i);
+    const sin = await loadTripFichaPage(tripDeps(), tripFixture.slug, "es", extras);
+    expect(sin?.page.order).not.toContain("otras-experiencias");
+  });
+
   it("REQ-10870: sin viaje (slug inexistente o apagado) devuelve null y la página pinta la plantilla de hoy", async () => {
     expect(await loadTripFichaPage(tripDeps(), "no-existe", "es", extras)).toBeNull();
   });
