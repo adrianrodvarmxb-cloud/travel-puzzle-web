@@ -4,6 +4,9 @@ import { loadTripBySlug } from '@/trips/public-load';
 import { tripPath } from '@/trips/lib/public';
 import { TripDetailView, tripMetadata } from '@/components/trips/TripDetailView';
 import { leerPrellenado } from '@/agente/lib/catalogo';
+import { headers } from 'next/headers';
+import { tripUsesFichaUnica } from '@/ficha/page'; // REQ-10870
+import { TripFichaUnica } from '@/components/trips/TripFichaUnica'; // REQ-10870
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +30,13 @@ export default async function TripPage({ params, searchParams }: Props) {
     const path = tripPath(data.trip);
     if (path !== `/viajes/${destino}/${slug}`) permanentRedirect(path);
     // REQ-150: la liga del agente de WhatsApp llega con fecha y personas; solo se usan valores válidos.
-    const prellenado = leerPrellenado((await searchParams) ?? {});
+    const query = (await searchParams) ?? {};
+    // REQ-10870 (ola 7): plantilla única tras FICHA_UNICA_TRIP_ENABLED ("preview" solo en versiones sin tráfico); si el
+    // modelo no se arma, la ficha de hoy. Apagar la bandera devuelve la plantilla de hoy.
+    if (tripUsesFichaUnica(process.env as Record<string, string | undefined>, (await headers()).get('host'))) {
+        const unica = await TripFichaUnica({ data, path, query });
+        if (unica) return unica;
+    }
+    const prellenado = leerPrellenado(query);
     return <TripDetailView data={data} path={path} prellenado={prellenado} />;
 }

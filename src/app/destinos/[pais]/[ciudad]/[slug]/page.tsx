@@ -35,7 +35,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { FichaPanel } from '@/components/ficha/FichaPanel';
 import { FichaMeetingMap } from '@/components/ficha/blocks/FichaMeetingMap'; // REQ-10860
 import { TourMobileBar } from '@/components/tours/one/TourMobileBar';
-import { loadTourFichaPage, tourUsesFichaUnica } from '@/ficha/page';
+import { loadTourFichaPage, tourUsesFichaUnica, tripUsesFichaUnica } from '@/ficha/page';
+import { TripFichaUnica } from '@/components/trips/TripFichaUnica'; // REQ-10870
 import { tourFichaDeps } from '@/ficha/source-tour';
 import { loadOtherExperiences, otherExperiencesDeps } from '@/ficha/others'; // REQ-10862
 import { paidInRecommendations } from '@/booking/lib/flags'; // REQ-014
@@ -104,6 +105,13 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
     if (tour.kind === 'own') {
         const data = await loadTripBySlug((await params).slug);
         if (!data) notFound();
+        // REQ-10870 (ola 7, plan §7: viajes y Big Bus): con FICHA_UNICA_TRIP_ENABLED ("true", o "preview" solo en versiones sin
+        // tráfico) la ficha del viaje se pinta con la plantilla única; si el modelo no se arma, sigue la de hoy. Apagar la
+        // bandera devuelve la plantilla de hoy.
+        if (tripUsesFichaUnica(process.env as Record<string, string | undefined>, (await headers()).get('host'))) {
+            const unica = await TripFichaUnica({ data, path: tour.href, query: (await searchParams) ?? {} });
+            if (unica) return <>{/* REQ-576: migas de /destinos en el marcado; la plantilla única trae las suyas en el bloque 1. */}<JsonLd data={model.jsonLd.slice(1)} />{unica}</>;
+        }
         return (
             <>
                 {/* REQ-576: el nodo Product+TouristTrip del viaje lo pinta TripDetailView (también en /viajes); aquí van las migas. */}
