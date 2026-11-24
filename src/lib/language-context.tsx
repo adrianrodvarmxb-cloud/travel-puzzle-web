@@ -1,10 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { SupportedLanguage } from '@/types';
 import { inScope, splitLocale } from '@/i18n/lib/path';
-import { translations } from './translations';
+import { isLocale } from '@/i18n/lib/locales';
+import { translate, initialDictionaries, withDictionary, type Dictionaries, type Dictionary } from '@/i18n/lib/dictionary';
+import { loadDictionary, esDictionary } from '@/i18n/load-dictionary';
 import { LoadingPage } from '@/components/layout/LoadingPage';
 
 
@@ -27,6 +29,8 @@ interface LanguageProviderProps {
   initialLanguage?: SupportedLanguage;
   /** REQ-654: con LOCALE_URLS_ENABLED y ruta en alcance, el idioma no cambia por localStorage ni por el navegador. */
   locked?: boolean;
+  /** REQ-10869: diccionario del idioma que pintó el servidor (solo si no es español), para que el cliente hidrate igual sin descargar los 6. */
+  initialDictionary?: Dictionary;
 }
 
 /** El servidor lee el idioma de esta cookie (reseñas y catálogo en el idioma elegido). */
@@ -40,12 +44,33 @@ function writeLanguageCookie(lang: SupportedLanguage) {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children, onReady, initialLanguage, locked = false }: LanguageProviderProps) {
+export function LanguageProvider({ children, onReady, initialLanguage, locked = false, initialDictionary }: LanguageProviderProps) {
   // Español mientras se detecta el idioma (igual que el servidor); luego: el elegido o el del navegador.
   // REQ-654: con `locked`, el primer render usa el idioma que pintó el servidor (INC-001: SSR = cliente).
   const [language, setLanguageState] = useState<SupportedLanguage>(initialLanguage ?? 'es');
   const [isInitialized, setIsInitialized] = useState(false);
   const pathname = usePathname();
+  // REQ-10869: diccionarios ya descargados (español siempre; los demás bajo demanda).
+  const [dicts, setDicts] = useState<Dictionaries>(() => initialDictionaries(esDictionary, initialLanguage, initialDictionary));
+  const dictsRef = useRef(dicts);
+  dictsRef.current = dicts;
+
+  /** REQ-10869: cambia al idioma cuando su diccionario ya está; mientras baja, se queda el anterior. Si falla la descarga, no cambia. */
+  const applyLanguage = (lang: SupportedLanguage): Promise<boolean> => {
+    if (dictsRef.current[lang]) {
+      setLanguageState(lang);
+      return Promise.resolve(true);
+    }
+    return loadDictionary(lang).then(
+      (dict) => {
+        dictsRef.current = withDictionary(dictsRef.current, lang, dict);
+        setDicts(dictsRef.current);
+        setLanguageState(lang);
+        return true;
+      },
+      () => false,
+    );
+  };
 
   // Translation function with overloads
   // Function overloads - declare multiple ways to call the function
@@ -53,10 +78,7 @@ export function LanguageProvider({ children, onReady, initialLanguage, locked = 
   function t(key: string, fallback: string): string;
   // Implementation signature - must be compatible with all overloads
   function t(key: string, fallback?: string): string {
-    if (fallback !== undefined) {
-      return translations[language]?.[key] || fallback;
-    }
-    return translations[language]?.[key] || key;
+    return translate(dicts, language, key, fallback);
   }
 
   // REQ-654: navegación del cliente entre idiomas (el layout raíz no se vuelve a pintar): el idioma sigue a la URL.
@@ -64,7 +86,8 @@ export function LanguageProvider({ children, onReady, initialLanguage, locked = 
   useEffect(() => {
     if (!locked) return;
     const { lang, rest } = splitLocale(window.location.pathname);
-    if (inScope(rest)) setLanguageState(lang);
+    if (inScope(rest)) void applyLanguage(lang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locked, pathname]);
 
   // REQ-654: la cookie recuerda el último idioma de URL para las páginas sin versión por idioma (reserva, eventos, D7).
@@ -84,36 +107,35 @@ export function LanguageProvider({ children, onReady, initialLanguage, locked = 
     }
     // Check localStorage first
     const savedLanguage = localStorage.getItem('preferredLanguage') as SupportedLanguage;
-    if (savedLanguage && translations[savedLanguage]) {
-      // eslint-disable-next-line
-      setLanguageState(savedLanguage);
-      writeLanguageCookie(savedLanguage);
-      // Small delay to ensure content is ready
+    const ready = () =>
       setTimeout(() => {
         setIsInitialized(true);
         onReady?.();
       }, 100);
+    if (isLocale(savedLanguage)) {
+      writeLanguageCookie(savedLanguage);
+      // REQ-10869: la pantalla de carga sigue hasta que baja el diccionario (o falla: queda español).
+      void applyLanguage(savedLanguage).then(ready);
       return;
     }
 
     // Gate 1 (B): cada visitante en el idioma de su navegador; si no lo tenemos, español.
     const browserLang = navigator.language.split('-')[0] as SupportedLanguage;
-    if (translations[browserLang]) {
-      setLanguageState(browserLang);
+    if (isLocale(browserLang)) {
       localStorage.setItem('preferredLanguage', browserLang);
       writeLanguageCookie(browserLang);
+      void applyLanguage(browserLang).then(ready);
+      return;
     }
 
     // Mark as initialized after language detection
-    setTimeout(() => {
-      setIsInitialized(true);
-      onReady?.();
-    }, 100);
+    ready();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onReady, locked]);
 
   // Save language preference to localStorage (REQ-656: con `locked`, el selector además navega a la URL del idioma)
   const setLanguage = (lang: SupportedLanguage) => {
-    setLanguageState(lang);
+    void applyLanguage(lang);
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferredLanguage', lang);
       writeLanguageCookie(lang);
