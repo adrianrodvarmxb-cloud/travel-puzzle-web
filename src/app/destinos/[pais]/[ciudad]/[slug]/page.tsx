@@ -5,7 +5,7 @@ import { taxonomyBlockEnabled } from '@/taxonomy/lib/block';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
-import { SiteFooter } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import { JsonLd } from '@/components/destinations/JsonLd';

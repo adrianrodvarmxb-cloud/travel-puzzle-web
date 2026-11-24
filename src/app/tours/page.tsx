@@ -1,5 +1,5 @@
 import { ToursPageClient } from '@/components/tours/ToursPageClient';
-import { SiteFooter } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { fetchTours, fetchCountries, fetchToursMetadata } from '@/actions/tours';
 import { getRouteLanguage } from '@/i18n/server';

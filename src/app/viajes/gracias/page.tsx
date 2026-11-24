@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from '@/components/i18n/LocalizedLink';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
-import { SiteFooter } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { isHelpVisible } from '@/help/lib/faq';
 import { tripCopy } from '@/trips/lib/copy';

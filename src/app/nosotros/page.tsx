@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout';
-import { ExpertCta, SiteFooter, WhatsAppBubble } from '@/components/home/v2';
+import { ExpertCta } from '@/components/home/v2/ExpertCta';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import { WhatsAppBubble } from '@/components/home/v2/WhatsAppBubble';
 import { PageHeader } from '@/components/site/PageHeader';
 import { AboutSections } from '@/components/about/AboutSections';
 import { JsonLd } from '@/components/destinations/JsonLd';

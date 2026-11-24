@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/layout';
-import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import { WhatsAppBubble } from '@/components/home/v2/WhatsAppBubble';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { toBlocks } from '@/legal/lib/blocks';
 import { isHelpVisible } from '@/help/lib/faq';

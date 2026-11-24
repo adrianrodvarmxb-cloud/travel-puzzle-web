@@ -14,7 +14,7 @@
 import type React from 'react';
 import { headers } from 'next/headers';
 import { Navbar } from '@/components/layout';
-import { SiteFooter } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { FichaView, type FichaBlockViews } from '@/components/ficha/FichaView';
