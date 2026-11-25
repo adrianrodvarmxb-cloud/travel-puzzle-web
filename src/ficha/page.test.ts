@@ -62,6 +62,17 @@ describe("REQ-10859: tour de Tangol → plantilla única", () => {
     expect(pageFlags({ BIGBUS_OCTO_ENABLED: "live", STRIPE_HOLD_ENABLED: "true" })).toMatchObject({ directPurchase: true, cardHold: true });
   });
 
+  it("REQ-10874: el HTML en caché no depende del visitante: aun con país MX el panel va en la moneda del proveedor; con LOCAL_CURRENCY_ENABLED lleva la ruta del precio local", async () => {
+    const neutro = await loadTourFichaPage(deps(), fixture.slug, "es", extras); // extras trae visitorCountry: "MX" y tasas
+    expect(neutro!.page.panel.price?.text).toBe("USD $98 por persona · se cobra en USD");
+    expect(neutro!.page.panel.price?.localUrl).toBeNull();
+    const local = await loadTourFichaPage(deps({ env: { ...env, LOCAL_CURRENCY_ENABLED: "true" } }), fixture.slug, "es", extras);
+    expect(local!.page.panel.price?.text).toBe("USD $98 por persona · se cobra en USD");
+    expect(local!.page.panel.price?.localUrl).toBe("/api/precio-local?amount=98&currency=USD&per=person&lang=es");
+    expect(pageFlags({ LOCAL_CURRENCY_ENABLED: "true" }).localCurrency).toBe(true);
+    expect(pageFlags({}).localCurrency).toBe(false);
+  });
+
   it("REQ-10859: la plantilla nueva solo con la bandera de Tangol: «preview» en versiones sin tráfico, nunca para otro proveedor", () => {
     const prev = "pr-717-travel-puzzle-web.x.workers.dev";
     expect(tourUsesFichaUnica({ FICHA_UNICA_TANGOL_ENABLED: "preview" }, "tangol", prev)).toBe(true);

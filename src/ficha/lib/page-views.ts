@@ -43,6 +43,8 @@ export interface PageViewFlags extends PanelFlags, Pick<BlockContext, "milaEnabl
   cardHold: boolean;
   /** Garantías de FREETOUR solo con su revisión de cumplimiento (REQ-10804). */
   freetourGuarantees?: boolean;
+  /** REQ-10874: LOCAL_CURRENCY_ENABLED; encendida, el panel lleva la ruta para pedir el precio en la moneda del visitante. */
+  localCurrency?: boolean;
 }
 
 export interface PageViewsInput {
@@ -50,7 +52,11 @@ export interface PageViewsInput {
   prefill: FichaPrefill;
   /** Número de WhatsApp de Travel Puzzle; null = sin Mila ni asesor. */
   whatsapp: string | null;
-  /** País del visitante (lo lee el borde, fuera del HTML en caché) y tipos de cambio (decisión 32). */
+  /**
+   * País del visitante y tipos de cambio (decisión 32). REQ-10874: el HTML de la ficha lo guarda el borde (REQ-3318), así
+   * que la página debe pasar `visitorCountry: null` (precio en la moneda del proveedor, igual para todos) y el navegador
+   * pide su precio local a `/api/precio-local`; un país aquí solo tiene sentido en salidas que no se guardan (correo, Mila).
+   */
   visitorCountry: string | null;
   fx: FxTable | null;
   flags: PageViewFlags;
@@ -161,6 +167,7 @@ export function fichaPageViews(i: PageViewsInput): FichaPageViews {
   const plan = panelPlan(f, flags);
   const panel = panelView(f, plan, {
     visitorCountry: i.visitorCountry, fx: i.fx, whatsapp: i.whatsapp, prefill: i.prefill, milaEnabled: flags.milaEnabled, cartEnabled: flags.cartEnabled,
+    localCurrency: flags.localCurrency === true, // REQ-10874
   });
   return { order, views, plan, panel, faq };
 }

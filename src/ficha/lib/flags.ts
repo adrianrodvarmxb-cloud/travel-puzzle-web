@@ -48,3 +48,13 @@ export function fichaUnicaProviderFor(table: "tour" | "trip", providerId: string
   if (p === "freetour") return "freetour";
   return null;
 }
+
+/**
+ * REQ-10874 · Ola 9: `LOCAL_CURRENCY_ENABLED` ("true" / cualquier otra cosa = apagada). Encendida, la ficha pide el precio
+ * en la moneda del visitante a `/api/precio-local` (fuera del HTML en caché); apagada, el panel muestra la moneda del
+ * proveedor con la moneda del cargo (regreso del plan §7: «vuelve la moneda del proveedor»).
+ */
+// REQ-10874
+export function localCurrencyOn(env: Record<string, string | undefined>): boolean {
+  return (env.LOCAL_CURRENCY_ENABLED ?? "").trim().toLowerCase() === "true";
+}

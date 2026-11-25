@@ -71,4 +71,13 @@ describe("Panel de reserva de la ficha única (vista pura)", () => {
     expect(view(ficha(), off, ctx({ milaEnabled: false })).advisor!.kind).toBe("asesor");
     expect(v.advisor!.title).toBe("Apártalo con un asesor");
   });
+
+  it("REQ-10874: con LOCAL_CURRENCY_ENABLED el precio lleva la ruta de /api/precio-local (sin país en el HTML); apagada o gratis, no", () => {
+    const v = view(ficha(), off, ctx({ localCurrency: true }));
+    expect(v.price!.text).toBe("USD $98 por persona · se cobra en USD");
+    expect(v.price!.localUrl).toBe("/api/precio-local?amount=98&currency=USD&per=person&lang=es");
+    expect(view(ficha(), off, ctx({ localCurrency: false })).price!.localUrl).toBeNull();
+    expect(view(ficha(), off).price!.localUrl).toBeNull();
+    expect(view(ficha({ price: { amount: 0, currency: "EUR", per: "person" } }), off, ctx({ localCurrency: true })).price!.localUrl).toBeNull();
+  });
 });

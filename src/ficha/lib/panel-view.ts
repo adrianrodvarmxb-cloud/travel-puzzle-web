@@ -18,7 +18,7 @@ import { paidPolicy } from "@/tours/lib/paid-policy";
 import { FREETOUR_PROVIDER } from "./blocks";
 import { cancellationSummary } from "./cancellation";
 import { milaCta } from "./closing-view";
-import { localPrice, type FxTable } from "./local-price";
+import { localPrice, localPriceUrl, type FxTable } from "./local-price";
 import type { FichaLang, FichaModel } from "./model";
 import type { PanelPlan } from "./panel-plan";
 import { advisorConfirmation } from "./payment-copy";
@@ -36,9 +36,12 @@ export interface PanelContext {
   milaEnabled: boolean;
   /** Carrito encendido (bandera resuelta por el servidor). */
   cartEnabled: boolean;
+  /** REQ-10874: LOCAL_CURRENCY_ENABLED resuelta por el servidor; encendida, el navegador pide su precio a `/api/precio-local`. */
+  localCurrency?: boolean;
 }
 
-export interface PriceView { text: string }
+/** `text`: lo que va en el HTML (igual para todos). `localUrl` (REQ-10874): ruta para pedir el precio en la moneda del visitante; null = no se pide. */
+export interface PriceView { text: string; localUrl?: string | null }
 export interface PaymentNoteView { key: PanelPlan["paymentNote"]; text: string }
 export interface AddToTripView { label: string; quote: boolean; note: string | null; ref: string }
 export interface AdvisorLinkView { kind: "mila" | "asesor"; title: string; cta: string; href: string }
@@ -104,7 +107,12 @@ export function advisorLinkView(f: FichaModel, c: Pick<PanelContext, "whatsapp" 
 export function panelView(f: FichaModel, plan: PanelPlan, c: PanelContext): PanelView {
   return {
     plan,
-    price: f.price ? { text: localPrice(f.price, { visitorCountry: c.visitorCountry, fx: c.fx, lang: f.lang }).text } : null,
+    price: f.price
+      ? {
+          text: localPrice(f.price, { visitorCountry: c.visitorCountry, fx: c.fx, lang: f.lang }).text,
+          localUrl: c.localCurrency && f.price.amount > 0 ? localPriceUrl(f.price, f.lang) : null, // REQ-10874
+        }
+      : null,
     cancellation: cancellationSummary(f.cancellation?.hours, f.lang),
     payment: ((t) => (t ? { key: plan.paymentNote, text: t } : null))(paymentNoteText(plan, f)),
     addToTrip: addToTripView(f, plan, c.cartEnabled),
