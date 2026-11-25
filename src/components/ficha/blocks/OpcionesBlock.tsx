@@ -1,9 +1,11 @@
 import type { OptionCard } from '@/ficha/lib/practical-view';
+import { LocalPrice } from '../panel/LocalPrice';
 
 /**
  * REQ-10830 · Bloque 12 «Opciones y precios» de la ficha única: una tarjeta por opción con su precio final y si lleva
  * traslado. Recibe solo las tarjetas ya armadas y su título (ISP); con una sola opción no llegan tarjetas y no pinta
- * nada. Los adicionales del proveedor se suman en la ola 12 (REQ-10636). Sin hooks (DIP).
+ * nada. Los adicionales del proveedor se suman en la ola 12 (REQ-10636). Sin hooks (DIP). REQ-10879: con `localUrl`
+ * el precio de la opción lo actualiza `LocalPrice` en el navegador con la moneda del visitante, como el panel.
  */
 export function OpcionesBlock({ cards, heading }: { cards: OptionCard[]; heading: string }) {
     if (cards.length === 0) return null;
@@ -17,7 +19,11 @@ export function OpcionesBlock({ cards, heading }: { cards: OptionCard[]; heading
                         {(c.transfer || c.startTime) && (
                             <p className="mt-1 text-sm text-white/70">{[c.transfer, c.startTime].filter(Boolean).join(' · ')}</p>
                         )}
-                        {c.priceLabel && <p className="mt-2 font-data text-[#EAF54F]">{c.priceLabel}</p>}
+                        {c.priceLabel && (
+                            <p className="mt-2 font-data text-[#EAF54F]">
+                                {c.localUrl ? <LocalPrice text={c.priceLabel} localUrl={c.localUrl} /> : c.priceLabel}
+                            </p>
+                        )}
                     </li>
                 ))}
             </ul>

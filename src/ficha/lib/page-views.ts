@@ -131,7 +131,7 @@ export function fichaViews(i: Omit<PageViewsInput, "visitorCountry" | "fx">): Fi
       view: meetingView(f.meeting),
       text: { heading: practicalText("puntoDeEncuentro", lang), directions: practicalText("comoLlegar", lang), zone: practicalText("zona", lang), zoneNote: practicalText("zonaNota", lang) },
     },
-    opciones: { cards: optionCards(f.options, lang), heading: practicalText("opciones", lang) },
+    opciones: { cards: optionCards(f.options, lang, { localCurrency: !!flags.localCurrency }), heading: practicalText("opciones", lang) }, // REQ-10879
     "antes-de-ir": {
       view: beforeYouGoView(f.whatToBring, f.requirements),
       text: { heading: conditionsText("antesDeIr", lang), bring: conditionsText("queLlevar", lang), requirements: conditionsText("requisitos", lang) },
