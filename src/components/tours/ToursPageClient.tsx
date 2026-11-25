@@ -43,10 +43,12 @@ import type { TourFilters as UITourFilters } from '@/lib/utils/tour-search';
 import type { PaginationParams, PaginatedResponse } from '@/lib/db/pagination';
 import type { TourWithRelations } from '@/lib/db/repositories/tour-repository';
 import type { CountryWithTranslations } from '@/types';
+import type { SlimTourRow, ToursPagePayload } from '@/tours/lib/page-payload';
 import { SupportedLanguage } from '@/types';
 
 interface ToursPageClientProps {
-    initialToursData: PaginatedResponse<TourWithRelations>;
+    /** REQ-10873: carga recortada (`slimToursPage`): solo lo que pintan la tarjeta y el pin. */
+    initialToursData: ToursPagePayload<SlimTourRow> | null;
     initialCountriesData: CountryWithTranslations[];
     initialMetadata: {
         lastUpdated: string | null;
