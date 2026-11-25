@@ -5,6 +5,7 @@ import {
   ownCityPath,
   planTangolBatch,
   planTangolStep,
+  TANGOL_DAILY_START_HOUR,
   tangolCountryCodes,
   tangolDestinationOrder,
 } from "./sync-plan";
@@ -103,6 +104,18 @@ describe("REQ-3463: la corrida va por lotes y se retoma", () => {
     const ayer = new Date("2026-11-11T18:00:00Z");
     const state = { status: "in_progress", nextPage: 50, totalPages: 184, runStartedAt: ayer };
     expect(planTangolStep(state, { total: 184, now, batch: 5 })).toEqual({ action: "start", from: 1, to: 5 });
+  });
+
+  it("REQ-10878: la corrida diaria de Tangol arranca desde la 1:00 de CDMX (G-D1 «1:00 a. m.»), antes de la hora de FREETOUR", () => {
+    expect(TANGOL_DAILY_START_HOUR).toBe(1);
+    const ayer = new Date("2026-11-11T18:00:00Z");
+    const state = { status: "completed", nextPage: 185, totalPages: 184, runStartedAt: ayer };
+    const unaAm = new Date("2026-11-12T07:02:00Z"); // 1:02 CDMX
+    expect(planTangolStep(state, { total: 184, now: unaAm, batch: 5, startHour: TANGOL_DAILY_START_HOUR })).toEqual({ action: "start", from: 1, to: 5 });
+    // Con la hora de FREETOUR (3:00) a la 1:02 todavía no arranca.
+    expect(planTangolStep(state, { total: 184, now: unaAm, batch: 5 })).toEqual({ action: "idle" });
+    // Antes de la 1:00 tampoco.
+    expect(planTangolStep(state, { total: 184, now: new Date("2026-11-12T06:30:00Z"), startHour: TANGOL_DAILY_START_HOUR })).toEqual({ action: "idle" });
   });
 
   it("REQ-3463: sin destinos no hay nada que hacer (nunca se escribe por una lista vacía)", () => {

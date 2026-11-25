@@ -29,6 +29,7 @@ import { avisarTipoNuevo, avisoTipoNuevoDeps } from "../taxonomy/aviso-tipo-nuev
 import { sendEmail } from "../notifications/resend";
 import { avisarPO, canalesAvisoPODesdeEntorno } from "../notifications/aviso-po";
 import { planCierreTangol, type TourPresenciaRow } from "../tangol/lib/cierre";
+import { TANGOL_DAILY_START_HOUR } from "../tangol/lib/sync-plan";
 import { presenceStatements } from "../catalog/lib/sql";
 import { renderSqlFile } from "../lib/d1/sql-file";
 import { TANGOL_PROVIDER_ID } from "../tangol/lib/tour-rows";
@@ -134,6 +135,7 @@ function agencyTrips(): AgencyTripPlace[] {
     ensayo: !escribir,
     reiniciar,
     ratesCurrency,
+    startHour: TANGOL_DAILY_START_HOUR, // REQ-10878 (G-D1): la corrida del día puede arrancar desde la 1:00 de CDMX
     ...(lote !== undefined && Number.isFinite(lote) && lote > 0 ? { batch: lote } : {}),
   });
 

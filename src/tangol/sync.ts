@@ -79,6 +79,8 @@ export interface TangolSyncDeps {
   /** Por omisión SÍ: cuenta y reporta lo que haría, sin escribir nada. */
   ensayo?: boolean;
   batch?: number;
+  /** REQ-10878 (G-D1): hora de CDMX desde la que puede arrancar la corrida del día; por omisión la de FREETOUR (3). El script pasa `TANGOL_DAILY_START_HOUR` (1). */
+  startHour?: number;
   /** REQ-10518: ignora el avance guardado y arranca desde el destino 1 (p. ej. para refrescar todo el catálogo tras un cambio del sync). */
   reiniciar?: boolean;
   /** Códigos de idioma y moneda de Tangol (sin confirmar, REQ-1546: entran por parámetro). */
@@ -174,7 +176,7 @@ export async function runTangolSyncStep(deps: TangolSyncDeps): Promise<TangolSyn
   }
 
   // 2. Lote de este paso.
-  const step = planTangolStep(reiniciar ? null : state, { total: orden.length, now, batch }); // REQ-10518
+  const step = planTangolStep(reiniciar ? null : state, { total: orden.length, now, batch, ...(deps.startHour !== undefined ? { startHour: deps.startHour } : {}) }); // REQ-10518, REQ-10878
   if (step.action === "idle") return { ...base, action: "idle" };
   if (step.action === "finish") {
     if (!ensayo) await repo.saveState({ status: "completed", lastSyncAt: now });

@@ -90,10 +90,11 @@ describe("REQ-10730 aviso al PO por correo y WhatsApp", () => {
 
   it("REQ-10731: la bandera está encendida en el workflow del sync y recibe la llave de correo y los destinatarios como secretos", () => {
     const wf = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
-    expect(wf.match(/AVISO_TIPO_NUEVO_ENABLED: "true"/g)).toHaveLength(2);
+    // Ensayo y plan de escritura del job a mano, y el ciclo del job diario (REQ-10878).
+    expect(wf.match(/AVISO_TIPO_NUEVO_ENABLED: "true"/g)).toHaveLength(3);
     expect(wf).not.toContain('AVISO_TIPO_NUEVO_ENABLED: "false"');
-    expect(wf.match(/RESEND_API_KEY: \$\{\{ secrets\.RESEND_API_KEY \}\}/g)).toHaveLength(2);
-    expect(wf.match(/AVISO_PO_EMAIL: \$\{\{ secrets\.AVISO_PO_EMAIL \}\}/g)).toHaveLength(2);
+    expect(wf.match(/RESEND_API_KEY: \$\{\{ secrets\.RESEND_API_KEY \}\}/g)).toHaveLength(3);
+    expect(wf.match(/AVISO_PO_EMAIL: \$\{\{ secrets\.AVISO_PO_EMAIL \}\}/g)).toHaveLength(3);
     expect(wf).not.toMatch(/AVISO_PO_EMAIL: .*@/); // los correos nunca van escritos en el repo
   });
 });

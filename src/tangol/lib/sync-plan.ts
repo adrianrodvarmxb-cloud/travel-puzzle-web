@@ -87,10 +87,13 @@ export function tangolDestinationOrder(destinos: readonly TangolDestination[]): 
  * REQ-3463: qué hace esta ejecución. Misma forma que Freetour (`planSyncStep`): una corrida al día
  * a partir de las 3:00 de CDMX, por lotes, y al terminar se queda quieta.
  */
-// REQ-3463
+/** REQ-10878 (G-D1, REQ-10673 «1:00 a. m.»): hora de CDMX desde la que arranca la corrida diaria de Tangol, dos horas antes de la de FREETOUR. */
+export const TANGOL_DAILY_START_HOUR = 1;
+
+// REQ-3463, REQ-10878 (`startHour`)
 export function planTangolStep(
   state: TangolSyncState | null,
-  { total, now, batch = DESTINATIONS_PER_STEP }: { total: number; now: Date; batch?: number },
+  { total, now, batch = DESTINATIONS_PER_STEP, startHour = DAILY_START_HOUR }: { total: number; now: Date; batch?: number; startHour?: number },
 ): TangolStep {
   const tamano = Math.max(1, Math.floor(batch));
   const lote = (from: number): { from: number; to: number } => ({ from, to: Math.min(from + tamano - 1, total) });
@@ -99,7 +102,7 @@ export function planTangolStep(
   if (!state || !state.runStartedAt) return { action: "start", ...lote(1) };
 
   const mismoDia = mexicoDay(state.runStartedAt) === mexicoDay(now);
-  if (!mismoDia && mexicoHour(now) >= DAILY_START_HOUR) return { action: "start", ...lote(1) };
+  if (!mismoDia && mexicoHour(now) >= startHour) return { action: "start", ...lote(1) };
   if (state.status === "completed") return { action: "idle" };
   if (state.nextPage > total) return { action: "finish" };
   return { action: "continue", ...lote(Math.max(1, state.nextPage)) };
