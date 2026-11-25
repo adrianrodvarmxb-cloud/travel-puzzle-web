@@ -54,4 +54,27 @@ describe("presenceTransitions", () => {
     ]);
     expect(updates).toEqual([]);
   });
+
+  it("REQ-10877: el umbral de corridas se puede fijar por proveedor (Tangol, G-D2: oculto tras dos corridas sin verlo); FREETOUR sigue en 3", () => {
+    let s: Presence = { syncStatus: "active", missingRuns: 0 };
+    s = nextPresence(s, false, 2);
+    expect(s).toEqual({ syncStatus: "missing", missingRuns: 1 });
+    s = nextPresence(s, false, 2);
+    expect(s).toEqual({ syncStatus: "removed", missingRuns: 2 });
+    const { updates, counts } = presenceTransitions([
+      { externalId: 1, syncStatus: "active", missingRuns: 0, isActive: true, seen: false },
+      { externalId: 2, syncStatus: "missing", missingRuns: 1, isActive: true, seen: false },
+      { externalId: 3, syncStatus: "missing", missingRuns: 1, isActive: true, seen: true },
+    ], { removeAfter: 2 });
+    expect(updates).toEqual([
+      { externalId: 1, syncStatus: "missing", missingRuns: 1, isActive: true },
+      { externalId: 2, syncStatus: "removed", missingRuns: 2, isActive: false },
+      { externalId: 3, syncStatus: "active", missingRuns: 0, isActive: true },
+    ]);
+    expect(counts).toEqual({ missing: 1, removed: 1, reactivated: 1 });
+    // Sin opción, el umbral sigue siendo el de FREETOUR (3): con una corrida faltante no se oculta.
+    expect(presenceTransitions([{ externalId: 2, syncStatus: "missing", missingRuns: 1, isActive: true, seen: false }]).updates).toEqual([
+      { externalId: 2, syncStatus: "missing", missingRuns: 2, isActive: true },
+    ]);
+  });
 });

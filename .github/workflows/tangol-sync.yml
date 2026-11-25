@@ -97,6 +97,9 @@ jobs:
           # REQ-3519: lo que ya está en la copia exacta de Tangol (para no reescribir lo que no cambió).
           npx wrangler d1 execute travel-puzzle --remote --json \
             --command 'SELECT "externalId", "rawHash", "lastSeenAt" FROM "ProviderRecord" WHERE "provider" = '"'"'tangol'"'"'' > tmp/tangol-export/provider-record.json
+          # REQ-10876 / REQ-10877 (D1): presencia de los tours de Tangol para el cierre (tope del 80 % y ocultar tras dos corridas).
+          npx wrangler d1 execute travel-puzzle --remote --json \
+            --command 'SELECT "externalId", "syncStatus", "missingRuns", "isActive", "lastSeenAt" FROM "Tour" WHERE "providerId" = '"'"'tangol'"'"'' > tmp/tangol-export/tangol-tours.json
 
       - name: Ensayo (cuenta y reporta; no escribe)
         if: ${{ !inputs.escribir }}

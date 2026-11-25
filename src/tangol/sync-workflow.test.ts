@@ -120,3 +120,21 @@ describe("REQ-10509: paso de slugs faltantes en el sync de Tangol", () => {
     for (const p of corren) expect(p).toMatch(/TANGOL_RATES_CURRENCY: \$\{\{ inputs\.moneda \|\| 'USD' \}\}/);
   });
 });
+
+// REQ-10876 / REQ-10877 (plan de actualización diaria, D1): el cierre de la corrida necesita la presencia de los tours de
+// Tangol exportada en solo lectura, y el script la conecta al tope del 80 % y a «ocultar tras dos corridas» (G-D2).
+describe("REQ-10877: el sync de Tangol exporta la presencia y el script cierra la corrida con tope y presencia", () => {
+  const y = readFileSync(".github/workflows/tangol-sync.yml", "utf8");
+  const script = readFileSync("src/scripts/tangol-sync.ts", "utf8");
+  it("REQ-10877: el export de solo lectura trae externalId, syncStatus, missingRuns, isActive y lastSeenAt de los tours de Tangol", () => {
+    const exportar = y.split(/\n {6}- /).find((p) => p.startsWith("name: Export de D1")) ?? "";
+    expect(exportar).toMatch(/SELECT "externalId", "syncStatus", "missingRuns", "isActive", "lastSeenAt" FROM "Tour" WHERE "providerId" = '"'"'tangol'"'"'[\s\S]*tangol-tours\.json/);
+  });
+  it("REQ-10876: el script evalúa el tope al cerrar, avisa al PO y solo con --escribir agrega la presencia al SQL", () => {
+    expect(script).toMatch(/report\.action === "finish"/);
+    expect(script).toMatch(/planCierreTangol\(/);
+    expect(script).toMatch(/avisarPO\(cierre\.aviso/);
+    expect(script).toMatch(/if \(escribir && cierre\.updates\.length > 0\)/);
+    expect(script).toMatch(/presenceStatements\(cierre\.updates, TANGOL_PROVIDER_ID\)/);
+  });
+});
