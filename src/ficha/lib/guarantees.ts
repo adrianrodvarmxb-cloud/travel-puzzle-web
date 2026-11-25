@@ -22,6 +22,7 @@
  *   el enlace va a la página completa.
  */
 import { LEGAL_PATHS } from "@/legal/lib/labels";
+import { NO_SHOW_G } from "@/legal/lib/no-show";
 import { TRIP_PROVIDER } from "../adapters/trip";
 import { FREETOUR_PROVIDER } from "./blocks";
 import type { FichaLang, FichaModel } from "./model";
@@ -65,20 +66,32 @@ export function guaranteesFor(f: Pick<FichaModel, "provider" | "section" | "taxo
   return out;
 }
 
+/**
+ * Cláusula de no-show §G (dictamen punto 12) en la ficha: solo en tours con costo cobrados por Travel Puzzle (los
+ * que llevan la garantía §L «tour con costo»). Free tour, circuitos de agencia (su contrato), boletos, traslados y lo
+ * que cobra un tercero no la llevan. null si no aplica.
+ */
+// REQ-10796
+export function noShowFor(f: Pick<FichaModel, "provider" | "section" | "taxonomy" | "price" | "booking">): string | null {
+  return guaranteesFor(f).some((g) => g.id === "tour-con-costo") ? NO_SHOW_G : null;
+}
+
 const COPY = {
-  es: { heading: "Garantías", terms: "Consulta los Términos y condiciones de este servicio" },
-  en: { heading: "Guarantees", terms: "See the Terms and conditions for this service" },
+  es: { heading: "Garantías", terms: "Consulta los Términos y condiciones de este servicio", noShow: "Inasistencia (no-show) y puntualidad" },
+  en: { heading: "Guarantees", terms: "See the Terms and conditions for this service", noShow: "No-show and punctuality" },
 };
 
-export interface GuaranteesBlockView { heading: string; items: FichaGuarantee[]; termsHref: string; termsLabel: string }
+export interface GuaranteesNoShowView { heading: string; text: string }
+export interface GuaranteesBlockView { heading: string; items: FichaGuarantee[]; noShow?: GuaranteesNoShowView | null; termsHref: string; termsLabel: string }
 
 /** Bloque 21: garantías específicas (si hay) y, siempre, el enlace a T&C (con el ancla del proveedor si existe). */
-// REQ-10848 REQ-10804
+// REQ-10848 REQ-10804 REQ-10796
 export function guaranteesBlockView(
   f: Pick<FichaModel, "provider" | "section" | "taxonomy" | "price" | "booking" | "lang">,
   opts: { freetourGuarantees?: boolean; providerAnchor?: string | null } = {},
 ): GuaranteesBlockView {
   const c = (f.lang as FichaLang) === "es" ? COPY.es : COPY.en;
   const anchor = (opts.providerAnchor ?? "").replace(/[^a-z0-9-]/gi, "");
-  return { heading: c.heading, items: guaranteesFor(f, opts), termsHref: anchor ? `${LEGAL_PATHS.terms}#${anchor}` : LEGAL_PATHS.terms, termsLabel: c.terms };
+  const noShow = noShowFor(f);
+  return { heading: c.heading, items: guaranteesFor(f, opts), noShow: noShow ? { heading: c.noShow, text: noShow } : null, termsHref: anchor ? `${LEGAL_PATHS.terms}#${anchor}` : LEGAL_PATHS.terms, termsLabel: c.terms };
 }
