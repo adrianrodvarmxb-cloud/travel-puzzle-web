@@ -18,6 +18,7 @@ import { taxonomyFiltersEnabled, toursRobots } from '@/taxonomy/lib/filters';
 import { formatDefs } from '@/taxonomy/lib/format-defs';
 import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
 import { catalogName, catalogTitle } from '@/tours/lib/catalog-name';
+import { slimToursPage, slimCountries } from '@/tours/lib/page-payload';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { toursItemList } from '@/seo/lib/listing-ld';
 import { canonicalHrefs } from '@/seo/lib/itemlist';
@@ -132,8 +133,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
     <>
     {list && <JsonLd data={[list]} />}
     <ToursPageClient
-      initialToursData={toursData}
-      initialCountriesData={countriesData}
+      // REQ-10873: al navegador solo lo que pintan la tarjeta y el pin (el JSON-LD de arriba usa las filas completas).
+      initialToursData={slimToursPage(toursData, language)}
+      initialCountriesData={slimCountries(countriesData, language)}
       initialMetadata={{
         ...metadata,
         lastUpdatedFormatted: formattedLastUpdated,
