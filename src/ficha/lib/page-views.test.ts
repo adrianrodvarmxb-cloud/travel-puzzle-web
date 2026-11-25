@@ -25,6 +25,22 @@ describe("page-views: las props de los 21 bloques y el panel desde el modelo (ol
     expect(v.garantias?.view.termsHref).toMatch(/^\/terminos/);
   });
 
+  it("REQ-10879: el bloque 12 lleva la ruta del precio local por opción solo con LOCAL_CURRENCY_ENABLED; el HTML sigue en la moneda del proveedor", () => {
+    const f = fichaEjemplo();
+    f.options = [
+      { id: "con", name: "Con traslado", price: { amount: 120, currency: "USD", per: "person" }, transferIncluded: true, startTime: null },
+      { id: "sin", name: "Sin traslado", price: { amount: 98, currency: "USD", per: "person" }, transferIncluded: false, startTime: null },
+    ];
+    const off = fichaViews(input({ f }));
+    expect(off.opciones?.cards.map((c) => c.localUrl)).toEqual([null, null]);
+    const on = fichaViews(input({ f, flags: { ...flags, localCurrency: true } }));
+    expect(on.opciones?.cards.map((c) => c.priceLabel)).toEqual(["USD $120 por persona", "USD $98 por persona"]);
+    expect(on.opciones?.cards.map((c) => c.localUrl)).toEqual([
+      "/api/precio-local?amount=120&currency=USD&per=person&lang=es",
+      "/api/precio-local?amount=98&currency=USD&per=person&lang=es",
+    ]);
+  });
+
   it("REQ-10858: las props que arma son exactamente las que reciben los componentes (se amarra en tipos)", () => {
     const v: FichaBlockViews = fichaViews(input());
     const w: FichaViews = v as FichaBlockViews;

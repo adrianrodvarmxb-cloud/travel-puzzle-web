@@ -31,11 +31,26 @@ describe("Ficha única, bloques 10–12 (lógica)", () => {
       opt("c"),
     ], "es");
     expect(cards).toHaveLength(3);
-    expect(cards[0]).toEqual({ id: "a", name: "Opción a", priceLabel: "MXN $1,782 por persona", transfer: "Con traslado", startTime: "09:00" });
+    expect(cards[0]).toEqual({ id: "a", name: "Opción a", priceLabel: "MXN $1,782 por persona", localUrl: null, transfer: "Con traslado", startTime: "09:00" });
     expect(cards[1].priceLabel).toBeNull();
     expect(cards[1].transfer).toBe("Sin traslado");
     expect(cards[2].transfer).toBeNull();
     expect(JSON.stringify(cards)).not.toMatch(/N\/D/);
+  });
+
+  it("REQ-10879: con la moneda del visitante encendida cada opción con precio lleva su ruta de precio local; el texto del servidor sigue en la moneda del proveedor", () => {
+    const opts = [
+      opt("a", { price: { amount: 120, currency: "USD", per: "person" } }),
+      opt("b", { price: { amount: 0, currency: "USD", per: "person" } }),
+      opt("c", { price: { amount: 85, currency: "EUR", per: "group" } }),
+    ];
+    const on = optionCards(opts, "en", { localCurrency: true });
+    expect(on[0].priceLabel).toBe("USD $120 per person");
+    expect(on[0].localUrl).toBe("/api/precio-local?amount=120&currency=USD&per=person&lang=en");
+    expect(on[1].localUrl).toBeNull(); // sin precio no hay nada que convertir
+    expect(on[2].localUrl).toBe("/api/precio-local?amount=85&currency=EUR&per=group&lang=en");
+    expect(optionCards(opts, "en", { localCurrency: false }).every((c) => c.localUrl === null)).toBe(true);
+    expect(optionCards(opts, "en").every((c) => c.localUrl === null)).toBe(true);
   });
 
   it("REQ-10828 REQ-10829 REQ-10830: textos en cada idioma, español por defecto", () => {

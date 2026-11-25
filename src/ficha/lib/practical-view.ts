@@ -5,7 +5,7 @@
  * Los adicionales del proveedor llegan en la ola 12 (REQ-10636). Sin dato, el bloque no sale; nunca «N/D». Puro.
  */
 import type { FichaLang, FichaMeeting, FichaOption } from "./model";
-import { formatAmount } from "./local-price";
+import { formatAmount, localPriceUrl } from "./local-price";
 
 const clean = (items: string[]) => [...new Set(items.map((s) => s.trim()).filter(Boolean))];
 
@@ -44,7 +44,16 @@ export function meetingView(m: FichaMeeting): MeetingView | null {
   return title ? { kind: "text", title } : null;
 }
 
-export interface OptionCard { id: string; name: string; priceLabel: string | null; transfer: string | null; startTime: string | null }
+export interface OptionCard {
+  id: string;
+  name: string;
+  /** Precio en la moneda del proveedor, igual para todos (el HTML va en caché, REQ-3318). */
+  priceLabel: string | null;
+  /** REQ-10879: ruta para que el navegador pida el precio en la moneda del visitante; null = no se pide. */
+  localUrl: string | null;
+  transfer: string | null;
+  startTime: string | null;
+}
 
 interface OptionCopy { per: Record<"person" | "group" | "total", string>; withTransfer: string; withoutTransfer: string }
 const OPTION_COPY: Record<FichaLang, OptionCopy> = {
@@ -59,9 +68,12 @@ const OPTION_COPY: Record<FichaLang, OptionCopy> = {
 /**
  * Bloque 12: una tarjeta por opción con su precio final (el del modelo, que solo trae precios públicos; nunca el neto),
  * «Con / Sin traslado» solo si el proveedor lo dice. Con una opción o ninguna, lista vacía: el bloque no sale.
+ * REQ-10879 (ola 9, decisión 32): el texto va en la moneda del proveedor (igual para todos) y, con `localCurrency`,
+ * cada opción con precio lleva `localUrl` para que el navegador pida su precio local a `/api/precio-local`, como el
+ * panel (REQ-10874); sin precio no hay nada que convertir.
  */
-// REQ-10830
-export function optionCards(options: FichaOption[], lang: FichaLang): OptionCard[] {
+// REQ-10830 REQ-10879
+export function optionCards(options: FichaOption[], lang: FichaLang, opts: { localCurrency?: boolean } = {}): OptionCard[] {
   if (options.length <= 1) return [];
   const c = OPTION_COPY[lang] ?? OPTION_COPY.es;
   return options
@@ -70,6 +82,7 @@ export function optionCards(options: FichaOption[], lang: FichaLang): OptionCard
       id: o.id,
       name: o.name.trim(),
       priceLabel: o.price && o.price.amount > 0 ? `${formatAmount(o.price.amount, o.price.currency, lang)} ${c.per[o.price.per]}` : null,
+      localUrl: opts.localCurrency && o.price && o.price.amount > 0 ? localPriceUrl(o.price, lang) : null, // REQ-10879
       transfer: o.transferIncluded === null ? null : o.transferIncluded ? c.withTransfer : c.withoutTransfer,
       startTime: o.startTime?.trim() || null,
     }));

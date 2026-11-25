@@ -47,5 +47,21 @@ describe("Bloques 10, 11 y 12 de la ficha única", () => {
     expect(out.match(/data-opcion=/g)).toHaveLength(2);
     expect(out).toContain("USD $120 por persona");
     expect(out).toContain("Con traslado · 08:00");
+    expect(out).not.toContain("data-precio-local");
+  });
+
+  it("REQ-10879: con `localUrl` el precio de cada opción se pinta con el texto del servidor y marcado para que el navegador pida el local", () => {
+    const out = r(createElement(OpcionesBlock, {
+      cards: optionCards([
+        { id: "con", name: "Con traslado", price: { amount: 120, currency: "USD", per: "person" }, transferIncluded: true, startTime: null },
+        { id: "sin", name: "Sin traslado", price: { amount: 98, currency: "USD", per: "person" }, transferIncluded: false, startTime: null },
+        { id: "libre", name: "Solo guía", price: null, transferIncluded: null, startTime: null },
+      ], "es", { localCurrency: true }),
+      heading: practicalText("opciones", "es"),
+    }));
+    expect(out.match(/data-precio-local="servidor"/g)).toHaveLength(2);
+    expect(out).toContain("USD $120 por persona");
+    expect(out).toContain("USD $98 por persona");
+    expect(out).not.toContain("N/D");
   });
 });
