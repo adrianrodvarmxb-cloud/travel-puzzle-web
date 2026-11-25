@@ -2,7 +2,7 @@
 
 **NO ENVIAR desde aquí.** Lo envían Claudia o Adri. Al recibir respuesta, registrarla con fecha y texto literal en `docs/freetour/autorizaciones.md` y actualizar la skill `cumplimiento-freetour`.
 
-- **Para:** Ignacio Merino <i.merino@freetour.com>
+- **Para:** Ignacio Merino <imerino@freetour.com>
 - **CC:** support@freetour.com
 - **Asunto:** Travel Puzzle × FREETOUR.com: preguntas de uso de contenido y promoción (partner API, Modo 2)
 

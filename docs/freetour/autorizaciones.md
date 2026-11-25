@@ -6,7 +6,7 @@ Este registro es la fuente número 2 de la skill `cumplimiento-freetour`. Lo que
 
 | Fecha | Quién (correo) | Pregunta o tema | Respuesta literal (extracto) | Qué habilita | Bandera o REQ |
 |---|---|---|---|---|---|
-| 2024-07-05 | Ignacio Merino (i.merino@freetour.com) | Redes sociales | Se puede decir que hay free tours y anunciar la alianza etiquetando a FREETOUR | Publicaciones en redes sobre la alianza | — |
+| 2024-07-05 | Ignacio Merino (imerino@freetour.com) | Redes sociales | Se puede decir que hay free tours y anunciar la alianza etiquetando a FREETOUR | Publicaciones en redes sobre la alianza | — |
 | 2025-04-09 | Ignacio Merino | Partners con varias ofertas | Da como referencia a partners que mezclan ofertas (Hellotickets, planificadores con IA) | Mostrar otros proveedores en el sitio y el carrito | Cumplimiento I |
 | 2026-11-04 | Soporte FREETOUR | Correos de FREETOUR a clientes de Modo 2 | Se desactivan los correos propios de FREETOUR | Travel Puzzle envía todos los correos | REQ-080 (validar en cada release) |
 
