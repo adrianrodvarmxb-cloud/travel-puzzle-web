@@ -24,7 +24,7 @@ export function siguientePasoDiario(i: { accion: AccionPaso; paso: number; ahora
   if (i.paso >= TOPE_PASOS_DIARIO) return { seguir: false, motivo: `tope de ${TOPE_PASOS_DIARIO} pasos: se revisa el workflow` };
   const minutos = i.ahora.getUTCHours() * 60 + i.ahora.getUTCMinutes();
   if (minutos >= TOPE_HORA_UTC.hora * 60 + TOPE_HORA_UTC.minuto) {
-    return { seguir: false, motivo: `tope de hora (${TOPE_HORA_UTC.hora}:${String(TOPE_HORA_UTC.minuto).padStart(2, "0")} UTC): la corrida arranca de nuevo mañana sin pisar el sync de FREETOUR` };
+    return { seguir: false, motivo: `tope de hora (${TOPE_HORA_UTC.hora}:${String(TOPE_HORA_UTC.minuto).padStart(2, "0")} UTC): la corrida arranca de nuevo mañana sin pisar el sync de las 3:00 CDMX` };
   }
   return { seguir: true, motivo: "lote escrito; sigue el siguiente" };
 }

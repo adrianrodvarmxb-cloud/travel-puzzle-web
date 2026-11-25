@@ -20,7 +20,7 @@ describe("REQ-10878: ciclo diario de Tangol (G-D1 a la 1:00 de CDMX; se repite h
   it("REQ-10878: no pisa la hora del sync de FREETOUR (3:00 CDMX = 9:00 UTC): a partir de las 8:45 UTC no arranca otro lote", () => {
     expect(TOPE_HORA_UTC).toEqual({ hora: 8, minuto: 45 });
     expect(siguientePasoDiario({ accion: "continue", paso: 9, ahora: new Date("2026-11-26T08:44:59Z"), inicio })).toMatchObject({ seguir: true });
-    expect(siguientePasoDiario({ accion: "continue", paso: 9, ahora: new Date("2026-11-26T08:45:00Z"), inicio })).toEqual({ seguir: false, motivo: "tope de hora (8:45 UTC): la corrida arranca de nuevo mañana sin pisar el sync de FREETOUR" });
+    expect(siguientePasoDiario({ accion: "continue", paso: 9, ahora: new Date("2026-11-26T08:45:00Z"), inicio })).toEqual({ seguir: false, motivo: "tope de hora (8:45 UTC): la corrida arranca de nuevo mañana sin pisar el sync de las 3:00 CDMX" });
   });
 
   it("REQ-10878: tope de pasos por corrida como red de seguridad", () => {
