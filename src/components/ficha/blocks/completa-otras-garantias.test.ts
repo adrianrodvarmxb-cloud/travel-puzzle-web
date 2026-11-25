@@ -5,7 +5,9 @@ import { CompletaTuViajeBlock } from "./CompletaTuViajeBlock";
 import { OtrasExperienciasBlock } from "./OtrasExperienciasBlock";
 import { GarantiasBlock } from "./GarantiasBlock";
 import { completeTripBlockView, otherExperiencesBlockView, type OtherCard, type TransportCard } from "@/ficha/lib/cross-sell-view";
-import { GUARANTEE_1711, GUARANTEE_L, guaranteesBlockView, guaranteesFor } from "@/ficha/lib/guarantees";
+import { GUARANTEE_1711, GUARANTEE_L, guaranteesBlockView, guaranteesFor, noShowFor } from "@/ficha/lib/guarantees";
+import { NO_SHOW_G } from "@/legal/lib/no-show";
+import { TERMINOS } from "@/legal/lib/terminos";
 import type { TransferCardView } from "@/trips/lib/transfer-card";
 import { fichaEjemplo } from "@/ficha/lib/fixtures";
 
@@ -85,5 +87,26 @@ describe("Bloques 19, 20 y 21 de la ficha única", () => {
     expect(sin).toContain('href="/terminos"');
     expect(guaranteesBlockView(f, { providerAnchor: "tangol\"><script>" }).termsHref).toBe("/terminos#tangolscript");
     expect(guaranteesBlockView({ ...f, lang: "en" }).termsLabel).toBe("See the Terms and conditions for this service");
+  });
+
+  it("REQ-10796: §G literal en la ficha de tour con costo, igual que en /terminos; free tour y lo que no cobra Travel Puzzle no la llevan", () => {
+    expect(TERMINOS).toContain(`## Inasistencia (no-show) y puntualidad\n${NO_SHOW_G}`);
+    expect(noShowFor(f)).toBe(NO_SHOW_G);
+    expect(noShowFor({ ...f, taxonomy: { ...f.taxonomy, tipo: { slug: "tour", label: "Tour" } } })).toBe(NO_SHOW_G);
+    expect(noShowFor({ ...f, price: null })).toBeNull();
+    expect(noShowFor({ ...f, provider: "freetour", price: null, booking: { ...f.booking, chargedBy: "none" as const } })).toBeNull();
+    expect(noShowFor({ ...f, provider: "freetour" })).toBeNull();
+    expect(noShowFor({ ...f, booking: { ...f.booking, chargedBy: "provider" } })).toBeNull();
+    expect(noShowFor({ ...f, section: "traslados" })).toBeNull();
+    expect(noShowFor({ ...f, provider: "propios" })).toBeNull();
+    expect(noShowFor({ ...f, taxonomy: { ...f.taxonomy, tipo: { slug: "entradas", label: "Entradas" } } })).toBeNull();
+    const out = r(createElement(GarantiasBlock, { view: guaranteesBlockView(f) }));
+    expect(out).toContain('data-no-show');
+    expect(out).toContain("Inasistencia (no-show) y puntualidad");
+    expect(out).toContain(NO_SHOW_G);
+    const en = r(createElement(GarantiasBlock, { view: guaranteesBlockView({ ...f, lang: "en" }) }));
+    expect(en).toContain(NO_SHOW_G);
+    expect(en).toContain("No-show and punctuality");
+    expect(r(createElement(GarantiasBlock, { view: guaranteesBlockView({ ...f, price: null }) }))).not.toContain("data-no-show");
   });
 });
