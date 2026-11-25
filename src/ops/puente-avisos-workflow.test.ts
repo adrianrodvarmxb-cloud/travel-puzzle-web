@@ -15,10 +15,10 @@ describe("REQ-10758 / REQ-1663: puente de avisos del lado del sitio", () => {
     expect(armarSecretos({ env: { MILA_AVISOS_SECRET: "x" }, existentes: ["CRON_SECRET", "AUTH_SECRET"], generar: () => "g" }).secretos).toEqual({ MILA_AVISOS_SECRET: "x" });
     expect(deploy).toMatch(/MILA_AVISOS_SECRET: \$\{\{ secrets\.MILA_AVISOS_SECRET \}\}/);
   });
-  it("REQ-10758: MILA_AVISOS_URL apunta al puente de Mila y el aviso por tipo nuevo lo lleva en los dos pasos de tangol-sync", () => {
+  it("REQ-10758: MILA_AVISOS_URL apunta al puente de Mila y el aviso por tipo nuevo lo lleva en los dos pasos de tangol-sync a mano y en el ciclo diario (REQ-10878)", () => {
     expect(wrangler).toMatch(/"MILA_AVISOS_URL": "https:\/\/mila-zoefel\.adrianrodvarmxb\.workers\.dev\/api\/avisos"/);
-    expect(tangol.match(/MILA_AVISOS_URL: https:\/\/mila-zoefel\.adrianrodvarmxb\.workers\.dev\/api\/avisos/g)).toHaveLength(2);
-    expect(tangol.match(/MILA_AVISOS_SECRET: \$\{\{ secrets\.MILA_AVISOS_SECRET \}\}/g)).toHaveLength(2);
+    expect(tangol.match(/MILA_AVISOS_URL: https:\/\/mila-zoefel\.adrianrodvarmxb\.workers\.dev\/api\/avisos/g)).toHaveLength(3);
+    expect(tangol.match(/MILA_AVISOS_SECRET: \$\{\{ secrets\.MILA_AVISOS_SECRET \}\}/g)).toHaveLength(3);
   });
   it("REQ-1663: el sitio tiene URL y secreto para pedirle a Mila el aviso por WhatsApp (contrato de deps.ts)", () => {
     expect(readFileSync("src/proveedores/deps.ts", "utf8")).toMatch(/env\.MILA_AVISOS_URL/);
