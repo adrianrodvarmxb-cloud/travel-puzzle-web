@@ -51,6 +51,18 @@ describe("REQ-10823: precio en la moneda del visitante y moneda del cargo (decis
     });
   });
 
+  it("REQ-10874: moneda del visitante sin tasa → se muestra en USD aproximado (REQ-10767: «lo que no esté en ninguna se muestra en USD»)", () => {
+    const eur = { amount: 100, currency: "EUR", per: "person" as const };
+    const br = localPrice(eur, { visitorCountry: "BR", fx, lang: "es" }); // BRL no está en la tabla
+    expect(br.shown).toEqual({ amount: 110, currency: "USD", approx: true });
+    expect(br.text).toBe("USD $110 aprox. por persona · se cobra en EUR €100");
+    // Sin tasa para USD tampoco: moneda del proveedor.
+    const sinUsd = localPrice(eur, { visitorCountry: "BR", fx: { base: "EUR", date: "2026-11-20", rates: { MXN: 20 } }, lang: "es" });
+    expect(sinUsd.shown).toEqual({ amount: 100, currency: "EUR", approx: false });
+    // Sin país no se cambia nada: moneda del proveedor (el HTML en caché es igual para todos).
+    expect(localPrice(eur, { visitorCountry: null, fx, lang: "es" }).shown.currency).toBe("EUR");
+  });
+
   it("REQ-10823: formato sin Intl, con miles y hasta dos decimales", () => {
     expect(formatAmount(1782, "MXN", "es")).toBe("MXN $1,782");
     expect(formatAmount(12.5, "EUR", "en")).toBe("EUR €12.50");

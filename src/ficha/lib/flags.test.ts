@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fichaUnicaMode, fichaUnicaOn, fichaUnicaProviderFor, isPreviewHost } from "./flags";
+import { fichaUnicaMode, fichaUnicaOn, fichaUnicaProviderFor, isPreviewHost, localCurrencyOn } from "./flags";
 import { convert, fxTableFromMxn } from "./local-price";
 
 describe("flags: FICHA_UNICA_*_ENABLED con modo preview (ola 7)", () => {
@@ -41,5 +41,13 @@ describe("flags: FICHA_UNICA_*_ENABLED con modo preview (ola 7)", () => {
     expect(convert(2200, "MXN", "EUR", t)).toBe(100);
     expect(fxTableFromMxn(null)).toBeNull();
     expect(convert(1, "USD", "MXN", fxTableFromMxn({ USD: 0, EUR: 22, date: "x" }))).toBeNull();
+  });
+
+  it("REQ-10874: LOCAL_CURRENCY_ENABLED solo enciende con «true»; apagada, el panel muestra la moneda del proveedor", () => {
+    expect(localCurrencyOn({ LOCAL_CURRENCY_ENABLED: "true" })).toBe(true);
+    expect(localCurrencyOn({ LOCAL_CURRENCY_ENABLED: " TRUE " })).toBe(true);
+    expect(localCurrencyOn({ LOCAL_CURRENCY_ENABLED: "preview" })).toBe(false);
+    expect(localCurrencyOn({ LOCAL_CURRENCY_ENABLED: "false" })).toBe(false);
+    expect(localCurrencyOn({})).toBe(false);
   });
 });

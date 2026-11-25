@@ -10,7 +10,7 @@
  * y llegan en `others`. Si el modelo no se arma, devuelve null y la página pinta la plantilla de hoy.
  */
 import type { FxRates } from "@/trips/lib/money";
-import { fichaUnicaOn, fichaUnicaProviderFor } from "./lib/flags";
+import { fichaUnicaOn, fichaUnicaProviderFor, localCurrencyOn } from "./lib/flags";
 import { fxTableFromMxn } from "./lib/local-price";
 import type { FichaLang, FichaModel } from "./lib/model";
 import type { TransferCardView } from "@/trips/lib/transfer-card";
@@ -35,6 +35,7 @@ export function pageFlags(env: Env): PageViewFlags {
     cartEnabled: on("CART_ADD_ENABLED"),
     cardHold: on("STRIPE_HOLD_ENABLED"),
     freetourGuarantees: false,
+    localCurrency: localCurrencyOn(env), // REQ-10874
   };
 }
 
@@ -49,7 +50,11 @@ export interface TourFichaPageExtras {
   query: Query;
   reviews: PageViewsInput["reviews"];
   fx: FxRates | null;
-  /** País del visitante (cabecera del borde), fuera del HTML en caché. */
+  /**
+   * País del visitante (cabecera del borde). REQ-10874: ya NO entra al HTML (el borde lo guarda 5 minutos para todos,
+   * REQ-3318): el panel se pinta en la moneda del proveedor y el navegador pide su precio local a `/api/precio-local`
+   * tras LOCAL_CURRENCY_ENABLED. Se conserva el campo (no se borra código) por si una salida sin caché lo necesita.
+   */
   visitorCountry: string | null;
   /** REQ-10860: franja de transporte de hoy (`transportForPlace`) y tarjeta de Kiwitaxi (`transferCard`), si llegan. */
   transport?: ReadonlyArray<{ id: string; path: string; title: string; image: string | null }>;
@@ -69,7 +74,7 @@ export async function loadTourFichaPage(deps: TourFichaDeps, slug: string, lang:
     f,
     prefill: leerPrefill(x.query, f),
     whatsapp: deps.env.WHATSAPP_NUMBER?.trim() || null,
-    visitorCountry: x.visitorCountry,
+    visitorCountry: null, // REQ-10874: el HTML en caché es igual para todos; el precio local se pide aparte
     fx: fxTableFromMxn(x.fx),
     flags: pageFlags(deps.env),
     reviews: x.reviews,
@@ -107,7 +112,7 @@ export async function loadTripFichaPage(deps: TripFichaDeps, slug: string, lang:
     f,
     prefill: leerPrefill(x.query, f),
     whatsapp: deps.env.WHATSAPP_NUMBER?.trim() || null,
-    visitorCountry: x.visitorCountry,
+    visitorCountry: null, // REQ-10874: el HTML en caché es igual para todos; el precio local se pide aparte
     fx: fxTableFromMxn(x.fx),
     flags: pageFlags(deps.env),
     reviews: x.reviews,

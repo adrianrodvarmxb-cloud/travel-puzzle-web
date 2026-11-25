@@ -47,7 +47,8 @@ export function convert(amount: number, from: string, to: string, fx: FxTable | 
   const rate = (c: string): number | null => (c === fx.base ? 1 : Number.isFinite(fx.rates[c]) && fx.rates[c] > 0 ? fx.rates[c] : null);
   const rf = rate(from), rt = rate(to);
   if (rf === null || rt === null) return null;
-  return Math.ceil((amount / rf) * rt);
+  // REQ-10874: sin ruido de coma flotante (100 × 1.1 = 110.00000000000001 no debe subir a 111).
+  return Math.ceil(Number(((amount / rf) * rt).toFixed(6)));
 }
 
 const SYMBOL: Record<string, string> = { MXN: "$", USD: "$", ARS: "$", CLP: "$", COP: "$", UYU: "$", CAD: "$", AUD: "$", NZD: "$", SGD: "$", EUR: "€", GBP: "£", JPY: "¥", CNY: "¥", INR: "₹", KRW: "₩", BRL: "", CHF: "" };
@@ -80,14 +81,17 @@ export function localPrice(price: FichaPrice, ctx: { visitorCountry: string | nu
   if (price.amount <= 0) return { shown: { amount: 0, currency: price.currency, approx: false }, charge: null, text: c.free };
   const target = visitorCurrency(ctx.visitorCountry);
   const charge = { amount: price.amount, currency: price.currency };
-  if (target && target !== price.currency) {
-    const converted = convert(price.amount, price.currency, target, ctx.fx);
+  // REQ-10874 / REQ-10767: la moneda del visitante; si no hay tasa para ella, USD; si tampoco, la del proveedor.
+  const candidates = target ? [target, "USD"] : [];
+  for (const cur of candidates) {
+    if (cur === price.currency) break;
+    const converted = convert(price.amount, price.currency, cur, ctx.fx);
     if (converted !== null) {
       const shownAmount = Math.ceil(converted);
       return {
-        shown: { amount: shownAmount, currency: target, approx: true },
+        shown: { amount: shownAmount, currency: cur, approx: true },
         charge,
-        text: `${formatAmount(shownAmount, target, ctx.lang)} ${c.approx} ${c.per[price.per]} · ${c.charged} ${formatAmount(price.amount, price.currency, ctx.lang)}`,
+        text: `${formatAmount(shownAmount, cur, ctx.lang)} ${c.approx} ${c.per[price.per]} · ${c.charged} ${formatAmount(price.amount, price.currency, ctx.lang)}`,
       };
     }
   }
@@ -96,6 +100,13 @@ export function localPrice(price: FichaPrice, ctx: { visitorCountry: string | nu
     charge,
     text: `${formatAmount(price.amount, price.currency, ctx.lang)} ${c.per[price.per]} · ${c.charged} ${price.currency}`,
   };
+}
+
+/** REQ-10874: ruta que la ficha le da al navegador para pedir su precio local (sin país: lo lee el borde en la ruta). */
+// REQ-10874
+export function localPriceUrl(price: FichaPrice, lang: FichaLang): string {
+  const p = new URLSearchParams({ amount: String(price.amount), currency: price.currency, per: price.per, lang });
+  return `/api/precio-local?${p.toString()}`;
 }
 
 /** Tabla de la ficha desde las tasas de Banxico (MXN por USD y por EUR): base MXN y cada moneda «por un peso». */

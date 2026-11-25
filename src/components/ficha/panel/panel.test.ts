@@ -75,4 +75,14 @@ describe("Panel de reserva de la ficha única (componentes)", () => {
     expect(ft).not.toContain("Apártalo");
     expect(r(createElement(AdvisorLink, { view: null }))).toBe("");
   });
+
+  it("REQ-10874: con `localUrl` el precio se pinta con el texto del servidor y marcado para que el navegador pida el local; sin ella, texto plano", () => {
+    const v = panelView(fichaEjemplo(), panelPlan(fichaEjemplo(), off), { ...ctx, localCurrency: true });
+    const out = r(createElement(PricePanel, { price: v.price, cancellation: null }));
+    expect(out).toContain("se cobra en USD");
+    expect(out).toContain('data-precio-local="servidor"');
+    const plano = r(createElement(PricePanel, { price: build(fichaEjemplo(), off).price, cancellation: null }));
+    expect(plano).toContain("se cobra en USD");
+    expect(plano).not.toContain("data-precio-local");
+  });
 });
