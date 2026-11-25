@@ -119,7 +119,7 @@
     // ficha lo guarda el borde 5 min para todos (REQ-3318), así que el panel se pinta en la moneda del proveedor y, con
     // esta bandera en "true", el navegador pide su precio a `/api/precio-local` (país por `cf-ipcountry`, Banxico +
     // Frankfurter/BCE). Solo lo lee la plantilla única (FICHA_UNICA_*). Regreso: "false" (vuelve la moneda del proveedor; no toca datos).
-    "LOCAL_CURRENCY_ENABLED": "false",
+    "LOCAL_CURRENCY_ENABLED": "true", // encendida 25-11-2026 (constructora Fable, REQ-10875): humo en preview con la bandera encendida; solo la lee la plantilla única (preview)
     // Bloque 17 «Mila» y ayuda del panel con Mila (decisiones 40/42, REQ-10840/REQ-10856): solo lo lee la plantilla única; nunca en FREETOUR.
     "FICHA_MILA_ENABLED": "true",
     // Botón «Agregar a mi viaje» (decisión 23): lo lee la plantilla única; "true" solo con el carrito en servidor (ola 10, REQ-10602).
