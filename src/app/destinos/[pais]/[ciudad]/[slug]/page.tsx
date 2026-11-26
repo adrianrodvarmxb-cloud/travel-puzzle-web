@@ -40,6 +40,7 @@ import { TripFichaUnica } from '@/components/trips/TripFichaUnica'; // REQ-10870
 import { tourFichaDeps } from '@/ficha/source-tour';
 import { loadOtherExperiences, otherExperiencesDeps } from '@/ficha/others'; // REQ-10862
 import { paidInRecommendations } from '@/booking/lib/flags'; // REQ-014
+import { localCurrencyOn } from '@/ficha/lib/flags'; // REQ-10893
 import type { FichaLang } from '@/ficha/lib/model';
 
 export const dynamic = 'force-dynamic';
@@ -151,7 +152,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         if (tourUsesFichaUnica(envUnica, row?.providerId, h.get('host'))) {
             const fichaLang = (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(language) ? language : 'es') as FichaLang;
             // REQ-10862: «Otras experiencias en la ciudad» (bloque 20) desde la base; si falla, el bloque no sale y la ficha sigue (regla 7).
-            const others = await loadOtherExperiences(await otherExperiencesDeps(), { cityId: city.id, excludeId: tour.id, lang: fichaLang, includePaid: paidInRecommendations(envUnica), rates })
+            const others = await loadOtherExperiences(await otherExperiencesDeps(), { cityId: city.id, excludeId: tour.id, lang: fichaLang, includePaid: paidInRecommendations(envUnica), rates, localCurrency: localCurrencyOn(envUnica) }) // REQ-10893
                 .catch((e) => { console.error('[destinos] otras experiencias:', (e as Error).message); return null; });
             const unica = await loadTourFichaPage(await tourFichaDeps(), (await params).slug, fichaLang, {
                 query: (await searchParams) ?? {},

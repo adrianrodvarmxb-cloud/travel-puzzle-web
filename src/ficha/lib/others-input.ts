@@ -13,6 +13,7 @@ import { scrubName } from "@/tours/lib/provider-text";
 import type { FxRates } from "@/trips/lib/money";
 import type { OtherCard } from "./cross-sell-view";
 import type { FichaLang } from "./model";
+import { localPriceUrl } from "./local-price";
 
 /** Lo mínimo de una fila de `Tour` (con ciudad y país) para armar una tarjeta. */
 export interface OtherTourRow {
@@ -28,7 +29,11 @@ export interface OtherTourRow {
   country: { iso2: string | null };
 }
 
-export interface OtherCardsOptions { lang: FichaLang; excludeId: string; rates: FxRates | null }
+export interface OtherCardsOptions {
+  lang: FichaLang; excludeId: string; rates: FxRates | null;
+  /** REQ-10893: con `LOCAL_CURRENCY_ENABLED`, cada tarjeta con precio lleva `localUrl` (misma regla que el panel y el bloque 12, REQ-10879). */
+  localCurrency?: boolean;
+}
 export interface OtherCards { paid: OtherCard[]; free: OtherCard[] }
 
 const COPY = { es: { from: "Desde", free: "Gratis" }, en: { from: "From", free: "Free" } };
@@ -48,6 +53,19 @@ export function otherPriceText(price: number, currency: string | null, rates: Fx
   if (label) return `${c.from} ${label.main}`;
   const n = Number.isInteger(price) ? String(price) : price.toFixed(2);
   return `${c.from} ${cur ? `${cur} ${n}` : n}`;
+}
+
+/**
+ * REQ-10893 (revisión visual del PO, 26-11-2026: «Desde EUR €38» en una ficha en USD). El HTML sigue en la moneda del
+ * proveedor de cada tarjeta (REQ-3318, igual para todos); con la moneda local encendida, la tarjeta lleva la ruta para
+ * que el navegador pida «Desde» en la moneda del visitante, como el panel y el bloque 12 (REQ-10879). Sin precio o sin
+ * moneda válida, null.
+ */
+// REQ-10893
+export function otherLocalUrl(price: number, currency: string | null, o: Pick<OtherCardsOptions, "lang" | "localCurrency">): string | null {
+  const cur = (currency ?? "").trim().toUpperCase();
+  if (!o.localCurrency || !(price > 0) || !/^[A-Z]{3}$/.test(cur)) return null;
+  return localPriceUrl({ amount: price, currency: cur, per: "person" }, o.lang);
 }
 
 /** Filas de la ciudad → tarjetas de pago y gratis, en el orden en que llegan. */
@@ -70,6 +88,7 @@ export function otherCardsFrom(rows: ReadonlyArray<OtherTourRow>, o: OtherCardsO
       provider: (r.providerId ?? "").trim().toLowerCase() || null,
       imageUrl: image,
       priceText: otherPriceText(price, r.priceCurrency, o.rates, o.lang),
+      localUrl: otherLocalUrl(price, r.priceCurrency, o), // REQ-10893
     };
     (price > 0 ? out.paid : out.free).push(card);
   }

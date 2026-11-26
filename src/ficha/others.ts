@@ -27,6 +27,8 @@ export interface OthersQuery {
   /** `paidInRecommendations(env)`: solo con PAID_TOURS_ENABLED y PAID_TOURS_IN_RECOMMENDATIONS encendidas. */
   includePaid: boolean;
   rates: FxRates | null;
+  /** REQ-10893: `localCurrencyOn(env)`; con ella, cada tarjeta con precio lleva `localUrl`. */
+  localCurrency?: boolean;
 }
 
 export interface OthersResult { paid: OtherCard[]; free: OtherCard[]; includePaid: boolean }
@@ -38,8 +40,9 @@ export async function loadOtherExperiences(deps: OthersDeps, q: OthersQuery): Pr
     q.includePaid ? deps.toursInCity({ ...base, paid: true }) : Promise.resolve([] as OtherTourRow[]),
     deps.toursInCity({ ...base, paid: false }),
   ]);
-  const paid = otherCardsFrom(paidRows, { lang: q.lang, excludeId: q.excludeId, rates: q.rates }).paid;
-  const free = otherCardsFrom(freeRows, { lang: q.lang, excludeId: q.excludeId, rates: q.rates }).free;
+  const opts = { lang: q.lang, excludeId: q.excludeId, rates: q.rates, localCurrency: q.localCurrency === true }; // REQ-10893
+  const paid = otherCardsFrom(paidRows, opts).paid;
+  const free = otherCardsFrom(freeRows, opts).free;
   return { paid, free, includePaid: q.includePaid };
 }
 
