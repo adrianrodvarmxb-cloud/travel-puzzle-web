@@ -7,6 +7,7 @@
  */
 import type { FichaCancellation, FichaLang } from "./model";
 import { cancellationSummary } from "./cancellation";
+import { withoutOperatorNotes } from "./operator";
 
 const clean = (items: string[]) => [...new Set(items.map((s) => s.trim()).filter(Boolean))];
 
@@ -49,7 +50,8 @@ export function withoutRequestNotes(notes: readonly string[]): string[] {
 }
 
 export function importantInfoView(notes: string[], operator: string | null, lang: FichaLang): ImportantInfoView | null {
-  const n = clean(withoutRequestNotes(notes)); // REQ-10902: el plazo de confirmación solo en «Cómo funciona tu reserva»
+  // REQ-10895: el operador solo en la línea discreta; REQ-10902: el plazo de confirmación solo en «Cómo funciona tu reserva»
+  const n = clean(withoutRequestNotes(withoutOperatorNotes(notes)));
   const op = operator?.trim() || null;
   if (!n.length && !op) return null;
   return { notes: n, operatorLine: op ? `${OPERATES[lang] ?? OPERATES.es}: ${op}` : null };
