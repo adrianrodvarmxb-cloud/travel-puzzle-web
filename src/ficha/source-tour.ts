@@ -12,15 +12,18 @@
 import { loadFicha, loadFlags, type LoadResult } from "./load";
 import { tourFichaModel, tourFichaPath, type TourRowWithRelations } from "./lib/tour-input";
 import type { FichaLang } from "./lib/model";
+import type { TourOptionRecord } from "./lib/option-records";
 
 export interface TourFichaDeps {
   /** Fila de `Tour` publicada (con traducciones, ciudad y país), o null. */
   tourBySlug(slug: string): Promise<TourRowWithRelations | null>;
   /** Columnas 0031/0032 del tour, o null si no están. */
   practicalRow(tourId: string): Promise<Record<string, unknown> | null>;
+  /** REQ-10944: filas de `TourOption` (0036); opcional, [] si la tabla no está. */
+  optionRows?(tourId: string): Promise<readonly TourOptionRecord[]>;
   env: Record<string, string | undefined>;
   now: () => Date;
-  log?: (event: { kind: "invalid" | "hidden" | "practical"; reason: string }) => void;
+  log?: (event: { kind: "invalid" | "hidden" | "practical" | "options"; reason: string }) => void;
 }
 
 export interface TourFichaLoaded {
@@ -45,7 +48,15 @@ export async function loadTourFicha(deps: TourFichaDeps, slug: string, lang: Fic
     } catch (e) {
       deps.log?.({ kind: "practical", reason: (e as Error).message });
     }
-    const model = tourFichaModel({ tour: t, practical }, { lang, env: deps.env });
+    let options: readonly TourOptionRecord[] = [];
+    if (deps.optionRows) {
+      try {
+        options = await deps.optionRows(t.id);
+      } catch (e) {
+        deps.log?.({ kind: "options", reason: (e as Error).message });
+      }
+    }
+    const model = tourFichaModel({ tour: t, practical, options }, { lang, env: deps.env });
     if (model) path = tourFichaPath(t);
     return model;
   };
@@ -59,6 +70,7 @@ export async function tourFichaDeps(): Promise<TourFichaDeps> {
   const { getPrisma, getD1 } = await import("@/lib/prisma");
   const { scrubTourRow } = await import("@/tours/lib/provider-text");
   const { loadPracticalRow } = await import("@/tours/practical-load");
+  const { loadTourOptions } = await import("@/tours/options-load");
   const env = process.env as Record<string, string | undefined>;
   return {
     tourBySlug: async (slug) => {
@@ -75,6 +87,7 @@ export async function tourFichaDeps(): Promise<TourFichaDeps> {
       return JSON.parse(JSON.stringify(scrubTourRow(row), (_k, v) => (v && typeof v === "object" && "toNumber" in v ? (v as { toNumber(): number }).toNumber() : v))) as TourRowWithRelations;
     },
     practicalRow: (tourId) => loadPracticalRow(getD1() as never, tourId, env),
+    optionRows: (tourId) => loadTourOptions(getD1() as never, tourId), // REQ-10944
     env,
     now: () => new Date(),
     log: (e) => console.warn(`[ficha] tour (${e.kind}):`, e.reason),

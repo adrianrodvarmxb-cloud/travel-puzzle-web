@@ -6,6 +6,7 @@
  * dificultad 1–5 (12), marca blanca (REQ-10540: sin teléfonos ni correos), nada inventado (dato ausente → null/[]).
  */
 import type { FichaLang, FichaModel, FichaOption } from "../lib/model";
+import { optionsWithRecords, type TourOptionRecord } from "../lib/option-records";
 import type { TaxonomyBlock } from "@/taxonomy/lib/block";
 import type { FichaMapView } from "@/map/lib/city-pin";
 import { publicRating } from "../lib/rating-visibility";
@@ -37,6 +38,8 @@ export interface TangolInput {
   lang: FichaLang;
   taxonomy: TaxonomyBlock;
   map: FichaMapView | null;
+  /** REQ-10944 (ola 12, PR 2): filas de `TourOption` con tarifa pública y traslado; opcional, sin ellas las opciones van como hoy. */
+  optionRecords?: readonly TourOptionRecord[];
 }
 
 const strs = (v: unknown): string[] => (Array.isArray(v) ? v.map((x) => htmlToText(String(x ?? ""))).filter(Boolean) : []);
@@ -50,9 +53,11 @@ export function tangolToFicha(i: TangolInput): FichaModel {
   const r = i.row;
   const { rating, reviews } = publicRating(r.providerId, num(r.rating), r.reviewsNumber ?? 0);
   const opts = rules(r.availabilityRules);
-  const options: FichaOption[] = opts
+  const sinPrecio: FichaOption[] = opts
     .filter((o) => typeof o.code === "string" || typeof o.code === "number")
     .map((o) => ({ id: String(o.code), name: typeof o.startTime === "string" ? `${i.translation.title} · ${o.startTime}` : i.translation.title, price: null, transferIncluded: null, startTime: typeof o.startTime === "string" ? o.startTime : null }));
+  // REQ-10944: precio público y traslado de cada opción desde `TourOption`; sin filas, igual que antes.
+  const options: FichaOption[] = i.optionRecords?.length ? optionsWithRecords(sinPrecio, i.optionRecords, htmlToText(i.translation.title)) : sinPrecio;
   const starts = [...new Set(options.map((o) => o.startTime).filter((s): s is string => !!s))];
   const lead = opts.map((o) => num(o.hoursBooking)).filter((n): n is number => n !== null && n > 0);
   const cancel = singleCancellation({ structuredHours: opts.map((o) => num(o.hoursCancelation)), text: r.cancellationPolicy });
@@ -88,7 +93,7 @@ export function tangolToFicha(i: TangolInput): FichaModel {
       : { kind: "none", title: meetingTitle },
     price: price !== null && price > 0 && r.priceCurrency ? { amount: price, currency: r.priceCurrency, per: "person" } : null,
     options: options.length > 1 ? options : [],
-    // REQ-10881 (ola 12): el traslado como adicional, solo cuando las opciones traen precio y dato de traslado (hoy no: []).
+    // REQ-10881 (ola 12): el traslado como adicional, solo cuando las opciones traen precio y dato de traslado (REQ-10944: desde `TourOption`).
     addons: [transferAddonFromOptions(options, i.lang)].filter((a): a is NonNullable<typeof a> => a !== null),
     whatToBring: htmlToLines(r.whatToBring),
     requirements: htmlToLines(r.physicalRequirements),

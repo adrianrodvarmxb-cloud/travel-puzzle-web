@@ -12,6 +12,7 @@
  * Puro: sin Prisma, sin `fetch`, sin `process.env` (banderas y clasificador llegan por parámetro).
  */
 import { tangolToFicha, TANGOL, type TangolInput, type TangolRow } from "../adapters/tangol";
+import type { TourOptionRecord } from "./option-records";
 import type { FichaLang, FichaModel } from "./model";
 import { taxonomyBlock, taxonomyBlockEnabled } from "@/taxonomy/lib/block";
 import { catalogClassifier, type CatalogClassifier } from "@/taxonomy/lib/publish";
@@ -41,6 +42,8 @@ export interface TourFichaSource {
   tour: TourRowWithRelations;
   /** Columnas 0031/0032 leídas por SQL (`PRACTICAL_COLUMNS`); null si la base falló o la migración no está. */
   practical: Record<string, unknown> | null;
+  /** REQ-10944: filas de `TourOption` (0036) leídas por SQL; sin ellas (o sin la migración) las opciones van sin precio. */
+  options?: readonly TourOptionRecord[] | null;
 }
 
 export interface TourFichaOptions {
@@ -53,8 +56,8 @@ export interface TourFichaOptions {
 
 /** Junta la fila con la fila práctica (la práctica manda en lo que trae). */
 // REQ-10843
-export function tourFichaSource(tour: TourRowWithRelations, practical: Record<string, unknown> | null): TourFichaSource {
-  return { tour, practical };
+export function tourFichaSource(tour: TourRowWithRelations, practical: Record<string, unknown> | null, options: readonly TourOptionRecord[] | null = null): TourFichaSource {
+  return { tour, practical, options };
 }
 
 /** Ruta pública de la ficha, la misma de las tarjetas (`tourPath`); null si falta el slug del tour o de la ciudad. */
@@ -108,6 +111,7 @@ export function tourFichaInput(s: TourFichaSource, o: TourFichaOptions): TangolI
     lang: o.lang,
     taxonomy: taxonomyBlock({ formato: cls.formato, temas: (cls.temas ?? []) as Parameters<typeof taxonomyBlock>[0]["temas"], atributos: cls.atributos ?? [] }, { proveedor: providerId, lang: o.lang, decision11: taxonomyBlockEnabled(o.env) }),
     map: fichaMapView(parseCoords(t.meetingPoint?.coordinates ?? null), { lat: t.city.lat ?? null, lng: t.city.lng ?? null }, o.env),
+    optionRecords: s.options ?? [], // REQ-10944
   };
 }
 
