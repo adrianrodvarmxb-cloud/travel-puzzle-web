@@ -114,3 +114,20 @@ describe("REQ-3503 formato base de cada familia de Tangol (trato de freetour.jso
     expect(r.formato).not.toBe("por-revisar");
   });
 });
+
+// REQ-3428 (RETRO, caracterización 25-11-2026): «traslados de Tangol en el carrusel de complementos». Sin cambiar lógica:
+// la llegada y la salida (TRASLADO|IN, OUT e IN/OUT) van al carrito `transfer`, el de los complementos del carrito.
+describe("REQ-3428 traslados de Tangol como complemento del carrito", () => {
+  const llegadaSalida = validos.filter((t) => t.typeCode === "TRASLADO" && ["IN", "OUT", "IN/OUT"].includes(t.subTypeCode));
+  it("REQ-3428: la tabla real trae los tres tipos y el mapeo los anota con el carrito `transfer`", () => {
+    expect(llegadaSalida.map((t) => t.subTypeCode).sort()).toEqual(["IN", "IN/OUT", "OUT"]);
+    for (const t of llegadaSalida) expect(catDe(CODIGOS_TANGOL[claveTangol(t)])?.nota ?? "").toMatch(/carrito `transfer`/);
+  });
+  it.each(llegadaSalida.flatMap((t) => t.ejemplos.filter((e) => !esTrayectoEntreCiudades(e)).map((e) => [claveTangol(t), e] as const)))(
+    "REQ-3428: %s «%s» → carrito transfer",
+    (clave, titulo) => {
+      const r = classify({ proveedor: "tangol", categoriaId: CODIGOS_TANGOL[clave], precio: 50, durationMinutes: 60, titulo }, D, M);
+      expect(cartTypeFor(r.formato)).toBe("transfer");
+    },
+  );
+});
