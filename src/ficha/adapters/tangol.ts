@@ -64,6 +64,7 @@ export function tangolToFicha(i: TangolInput): FichaModel {
 
   return {
     id: r.id, provider: TANGOL, externalRef: String(r.externalId), code: null, slug: r.slug, lang: i.lang, section: "experiencias",
+    providerId: r.providerId ?? TANGOL, // REQ-10889
     country: i.country, city: i.city,
     gallery: (gallery.length ? gallery : r.titleImageURL ? [r.titleImageURL] : []).map((url) => ({ url, alt: null })),
     title: htmlToText(i.translation.title),

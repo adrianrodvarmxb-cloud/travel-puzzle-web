@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addonsOn, fichaUnicaMode, fichaUnicaOn, fichaUnicaProviderFor, isPreviewHost, localCurrencyOn } from "./flags";
+import { addonsOn, providerGuaranteesOn, fichaUnicaMode, fichaUnicaOn, fichaUnicaProviderFor, isPreviewHost, localCurrencyOn } from "./flags";
 import { convert, fxTableFromMxn } from "./local-price";
 
 describe("flags: FICHA_UNICA_*_ENABLED con modo preview (ola 7)", () => {
@@ -59,5 +59,13 @@ describe("flags: FICHA_ADDONS_ENABLED (ola 12)", () => {
     expect(addonsOn({ FICHA_ADDONS_ENABLED: "preview" })).toBe(false);
     expect(addonsOn({ FICHA_ADDONS_ENABLED: "false" })).toBe(false);
     expect(addonsOn({})).toBe(false);
+  });
+});
+
+describe("flags: FICHA_PROVIDER_GUARANTEES_ENABLED (REQ-10889)", () => {
+  it("REQ-10889: solo «true» enciende las garantías por proveedor; apagada por omisión", () => {
+    expect(providerGuaranteesOn({ FICHA_PROVIDER_GUARANTEES_ENABLED: "true" })).toBe(true);
+    expect(providerGuaranteesOn({ FICHA_PROVIDER_GUARANTEES_ENABLED: "preview" })).toBe(false);
+    expect(providerGuaranteesOn({})).toBe(false);
   });
 });

@@ -125,6 +125,10 @@
     // opciones de Tangol aún no traen tarifa pública ni dato de traslado (eso lo guarda el sync en el PR 2 de la ola).
     // Regreso: "false" (no toca datos).
     "FICHA_ADDONS_ENABLED": "false",
+    // REQ-10889 (26-11-2026, constructora Fable; decisión del PO REQ-10888 «Solo las del proveedor»): el bloque 21 de un viaje
+    // de agencia muestra solo las garantías del proveedor (de su expediente) en vez del §L «circuito» con PROFECO. Entra
+    // apagada: el texto pasa por el abogado antes de encender. Regreso: "false" (no toca datos).
+    "FICHA_PROVIDER_GUARANTEES_ENABLED": "false",
     // Bloque 17 «Mila» y ayuda del panel con Mila (decisiones 40/42, REQ-10840/REQ-10856): solo lo lee la plantilla única; nunca en FREETOUR.
     "FICHA_MILA_ENABLED": "true",
     // Botón «Agregar a mi viaje» (decisión 23): lo lee la plantilla única; "true" solo con el carrito en servidor (ola 10, REQ-10602).

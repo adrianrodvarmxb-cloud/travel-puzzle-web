@@ -48,6 +48,8 @@ export interface PageViewFlags extends PanelFlags, Pick<BlockContext, "milaEnabl
   localCurrency?: boolean;
   /** REQ-10882: FICHA_ADDONS_ENABLED; encendida, el bloque 12 lleva los adicionales visibles del proveedor (REQ-10881). */
   addons?: boolean;
+  /** REQ-10889: FICHA_PROVIDER_GUARANTEES_ENABLED; encendida, el bloque 21 de un viaje de agencia muestra solo las garantías del proveedor. */
+  providerGuarantees?: boolean;
 }
 
 export interface PageViewsInput {
@@ -155,7 +157,7 @@ export function fichaViews(i: Omit<PageViewsInput, "visitorCountry" | "fx">): Fi
     resenas: { view: reviewsBlockView(f, i.reviews.items, i.reviews.total), language: lang },
     "completa-tu-viaje": { view: completeTripBlockView(f, i.transport, i.kiwitaxi) },
     "otras-experiencias": { view: otherExperiencesBlockView(f, i.others.paid, i.others.free, { includePaid: i.others.includePaid }) },
-    garantias: { view: guaranteesBlockView(f, { freetourGuarantees: flags.freetourGuarantees, providerAnchor: i.providerAnchor ?? null }) },
+    garantias: { view: guaranteesBlockView(f, { freetourGuarantees: flags.freetourGuarantees, providerGuarantees: flags.providerGuarantees, providerAnchor: i.providerAnchor ?? null }) }, // REQ-10889
   };
 }
 

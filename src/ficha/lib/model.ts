@@ -114,6 +114,8 @@ export interface FichaModel {
   provider: string;
   /** Identificador del proveedor (externalId de Tour o ref del viaje). */
   externalRef: string;
+  /** REQ-10889: id del proveedor u operador para los datos por proveedor (`providerId` de Tour o `agencyId` del viaje); opcional. */
+  providerId?: string | null;
   /** Código Travel Puzzle cuando existe (viajes); null en tours. */
   code: string | null;
   slug: string | null;

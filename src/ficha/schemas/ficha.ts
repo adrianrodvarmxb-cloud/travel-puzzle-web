@@ -46,6 +46,7 @@ export const fichaSchema = z.object({
   ]),
   price: price.nullable(),
   options: z.array(z.object({ id: z.string().min(1), name: z.string().min(1), price: price.nullable(), transferIncluded: z.boolean().nullable(), startTime: z.string().nullable() })),
+  providerId: z.string().nullable().optional(), // REQ-10889
   // REQ-10881 (ola 12): adicionales a precio final; opcional.
   addons: z
     .array(
