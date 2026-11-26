@@ -7571,5 +7571,92 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 26 November 2026) and the site's catalog."
     }
+  },
+  {
+    "pais": "cl",
+    "ciudad": "iquique",
+    "nombre": "Iquique",
+    "targetTerm": "guia de viaje de iquique",
+    "titulo": "Guía de Iquique: salitreras, playas y el desierto del norte",
+    "publishedAt": "2026-11-26",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Iquique combina playa, desierto y patrimonio minero en pocos kilómetros. Las oficinas salitreras Humberstone y Santa Laura son Patrimonio de la Humanidad y quedan a unos cuarenta y cinco kilómetros, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras). Para el mar, la guía recomienda Playa Cavancha.",
+    "sections": [
+      {
+        "h2": "¿Qué visitar en las salitreras de Humberstone y Santa Laura?",
+        "answer": "Son dos antiguas oficinas del salitre, declaradas Patrimonio de la Humanidad por la UNESCO, a unos cuarenta y cinco kilómetros al este de la ciudad, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+        "body": [
+          "Están en la Pampa del Tamarugal. [Chile Travel](https://chile.travel/en/itineraries/recorre-iquique-y-las-antiguas-salitreras-en-el-desierto/) presenta el recorrido como una mezcla de historia minera y paisaje desértico, y sugiere salir temprano para aprovechar la luz y el calor más suave.",
+          "Lleva agua y gorra. El trayecto desde la ciudad se hace por carretera, y los tiempos de manejo que dan las fuentes varían, así que conviene confirmar con el operador antes de salir."
+        ]
+      },
+      {
+        "h2": "¿Dónde están las playas más recomendadas para bañarse?",
+        "answer": "Playa Cavancha es la opción para nadar, mientras que Playa Brava no es apta para el baño por sus corrientes, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+        "body": [
+          "Huayquique es la playa para surf, en el sector sur. La misma [guía de Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras) recomienda revisar las condiciones del mar antes de entrar.",
+          "Si buscas un plan distinto, [Chile Travel](https://chile.travel/blog/visita-iquique-playa-patrimonio-y-aventuras-en-el-norte-de-chile/) menciona el parapente desde los cerros, con aterrizaje en Playa Brava."
+        ]
+      },
+      {
+        "h2": "¿Qué hacer en la ciudad y cerca de ella?",
+        "answer": "El paseo Baquedano tiene casas de pino oregón y la boya de la corbeta Esmeralda, según [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+        "body": [
+          "La Zofri es una zona franca libre de impuestos, con tecnología, perfumes y licores, según la misma [guía de Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+          "Para salir de la ciudad, [Chile Travel](https://chile.travel/blog/visita-iquique-playa-patrimonio-y-aventuras-en-el-norte-de-chile/) menciona el oasis de Pica, a una hora y cuarenta minutos, con sus termas. Es un buen complemento de un día en el desierto."
+        ]
+      },
+      {
+        "h2": "¿Cómo organizar dos días en Iquique?",
+        "answer": "Una opción sencilla es dedicar la mañana a las salitreras y la tarde a la costa, usando las referencias de [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+        "body": [
+          "Las salitreras quedan a unos cuarenta y cinco kilómetros de la ciudad, así que el traslado ocupa buena parte del día. Por eso conviene volver al centro antes de la noche y dejar la playa para la tarde, cuando el sol baja.",
+          "Para el segundo día, [Chile Travel](https://chile.travel/en/itineraries/recorre-iquique-y-las-antiguas-salitreras-en-el-desierto/) propone combinar la pampa con la costa, y es un buen orden si llegas por avión, porque el aeropuerto queda al sur de la ciudad."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 26 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Iquique",
+      "targetTerm": "iquique travel guide",
+      "titulo": "Iquique guide: saltpeter towns, beaches and the northern desert",
+      "enBreve": "Iquique combines beach, desert and mining heritage within a few kilometers. The Humberstone and Santa Laura saltpeter offices are World Heritage Sites about forty-five kilometers away, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras). For swimming, the guide recommends Playa Cavancha. Plan the saltpeter towns for the morning, since the trip there takes a good part of the day.",
+      "sections": [
+        {
+          "h2": "What to see at Humberstone and Santa Laura?",
+          "answer": "They are two former saltpeter offices, listed as UNESCO World Heritage Sites, about forty-five kilometers east of the city, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+          "body": [
+            "They sit in the Tamarugal Pampa. [Chile Travel](https://chile.travel/en/itineraries/recorre-iquique-y-las-antiguas-salitreras-en-el-desierto/) presents the visit as a mix of mining history and desert scenery, and suggests leaving early to enjoy softer light and heat.",
+            "Bring water and a hat. The trip is by road, and the driving times given by sources vary, so confirm with your operator before leaving."
+          ]
+        },
+        {
+          "h2": "Which beaches are good for swimming?",
+          "answer": "Playa Cavancha is the place for a swim, while Playa Brava is not suitable for bathing because of its currents, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+          "body": [
+            "Huayquique is the surf beach in the southern sector. The same [Calendario Chile guide](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras) suggests checking sea conditions before going in.",
+            "For a different plan, [Chile Travel](https://chile.travel/blog/visita-iquique-playa-patrimonio-y-aventuras-en-el-norte-de-chile/) mentions paragliding from the hills, landing on Playa Brava."
+          ]
+        },
+        {
+          "h2": "What to do in the city and nearby?",
+          "answer": "Paseo Baquedano has pine-wood houses and the buoy marking where the corvette Esmeralda sank, according to [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+          "body": [
+            "The Zofri is a duty-free zone with technology, perfume and liquor shops, according to the same [Calendario Chile guide](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+            "For a trip out of town, [Chile Travel](https://chile.travel/blog/visita-iquique-playa-patrimonio-y-aventuras-en-el-norte-de-chile/) mentions the Pica oasis, about one hour and forty minutes away, with its hot springs. It makes a good complement to a day in the desert."
+          ]
+        },
+        {
+          "h2": "How do you plan two days in Iquique?",
+          "answer": "A simple option is to spend the morning at the saltpeter towns and the afternoon on the coast, using the references from [Calendario Chile](https://www.calendariochile.com/turismo/que-hacer-en-iquique-en-2026-guia-de-playas-compras-en-la-zofri-y-recorridos-por-las-salitreras).",
+          "body": [
+            "The saltpeter towns are about forty-five kilometers from the city, so the transfer takes a good part of the day. It helps to return to the centre before night and leave the beach for the afternoon, when the sun is lower.",
+            "For the second day, [Chile Travel](https://chile.travel/en/itineraries/recorre-iquique-y-las-antiguas-salitreras-en-el-desierto/) suggests combining the pampa with the coast, a good order if you arrive by plane, since the airport lies south of the city."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 26 November 2026) and the site's catalog."
+    }
   }
 ]
