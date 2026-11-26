@@ -49,3 +49,14 @@ Sin comprimir: móvil 1,631 → 1,600 KB (−31 KB), escritorio 2,130 → 2,100 
 - Línea base del día (Lighthouse 12.2.1 móvil, preview `pr-741` = main, ficha de El Calafate con la plantilla única, 3 corridas): TBT 297 / 524 / 111 ms (mediana 297), LCP mediana 4.83 s, 685 KB. El TBT varía mucho entre corridas desde el contenedor; la medición en producción va después del merge.
 - `/tours` en escritorio (REQ-1563, < 1.5 MB): hoy 2.51 MB; 1.35 MB son las teselas y tipografías del mapa (openfreemap) y 289 KB su librería, que arrancan porque el mapa está en la primera pantalla. Bajarlo cambia lo que ve el visitante (decisión del PO, sin construir).
 - Producción después del deploy 45423673238 (`4e3c7b9`), Lighthouse 12.2.1 móvil, mediana de 3: ficha de El Calafate JS 229 KB, TBT 696 ms (corridas 696/866/661), LCP 4.54 s; `/tours` JS 233 KB, TBT 462 ms (401/465/462), LCP 6.39 s. Baja el peso; el TBT no cambia de forma medible desde el contenedor. REQ-10871 CUMPLIDO; REQ-1562 sigue NO CUMPLIDO.
+
+## 26-11-2026 · REQ-10884: el contexto del idioma sin repintados (#763)
+- Qué cambió: el valor de `useLanguage()` conserva su identidad (`useMemo`/`useCallback`) y «ya detectado» va en `useLanguageReady()`; los ~62 consumidores ya no se repintan ~100 ms después de hidratar ni cuando se repinta `AppProviders`. Sin cambio visible.
+- Lighthouse 12.2.1 móvil desde el contenedor, 5 corridas por lado, `pr-762` (= main) → `pr-763`:
+
+| Página | TBT mediana | Corridas TBT | Arranque JS (mediana) |
+|---|---|---|---|
+| Ficha de El Calafate | 373 → 430 ms | 265–729 → 265–543 | 856 → 1,033 ms |
+| `/tours` | 517 → 495 ms | 381–817 → 378–659 | 1,884 → 1,666 ms |
+
+- La diferencia queda dentro del ruido. REQ-1562 sigue NO CUMPLIDO. Lo siguiente con más peso: el `QueryClient` que se vuelve a crear cuando el idioma está listo (`QueryProvider`, `isReady`) y la pantalla de carga de pantalla completa (decisión del PO).

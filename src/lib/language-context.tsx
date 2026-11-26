@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, useCallback, useMemo, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { SupportedLanguage } from '@/types';
 import { inScope, splitLocale } from '@/i18n/lib/path';
@@ -17,7 +17,11 @@ interface LanguageContextType {
     (key: string): string;
     (key: string, fallback: string): string;
   };
-  isInitialized: boolean;
+  /**
+   * @deprecated REQ-10884: ya no viaja en este contexto (repintaba a todos los consumidores al terminar la
+   * detección); usa `useLanguageReady()`. Se deja opcional para no romper los tipos existentes.
+   */
+  isInitialized?: boolean;
   /** REQ-654/REQ-655 (Gate 3): true = el idioma sale de la URL; los enlaces llevan su prefijo. */
   locked: boolean;
 }
@@ -43,6 +47,8 @@ function writeLanguageCookie(lang: SupportedLanguage) {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+/** REQ-10884: «ya se detectó el idioma» va aparte, para que su cambio no repinte a los consumidores de useLanguage(). */
+const LanguageReadyContext = createContext(false);
 
 export function LanguageProvider({ children, onReady, initialLanguage, locked = false, initialDictionary }: LanguageProviderProps) {
   // Español mientras se detecta el idioma (igual que el servidor); luego: el elegido o el del navegador.
@@ -56,7 +62,8 @@ export function LanguageProvider({ children, onReady, initialLanguage, locked = 
   dictsRef.current = dicts;
 
   /** REQ-10869: cambia al idioma cuando su diccionario ya está; mientras baja, se queda el anterior. Si falla la descarga, no cambia. */
-  const applyLanguage = (lang: SupportedLanguage): Promise<boolean> => {
+  // REQ-10884: estable (solo usa refs y setState), para que setLanguage no cambie de identidad.
+  const applyLanguage = useCallback((lang: SupportedLanguage): Promise<boolean> => {
     if (dictsRef.current[lang]) {
       setLanguageState(lang);
       return Promise.resolve(true);
@@ -70,16 +77,13 @@ export function LanguageProvider({ children, onReady, initialLanguage, locked = 
       },
       () => false,
     );
-  };
+  }, []);
 
-  // Translation function with overloads
-  // Function overloads - declare multiple ways to call the function
-  function t(key: string): string;
-  function t(key: string, fallback: string): string;
-  // Implementation signature - must be compatible with all overloads
-  function t(key: string, fallback?: string): string {
-    return translate(dicts, language, key, fallback);
-  }
+  // REQ-10884: t solo cambia cuando cambia el idioma o llega un diccionario (mismo resultado que antes).
+  const t = useCallback(
+    (key: string, fallback?: string): string => translate(dicts, language, key, fallback),
+    [dicts, language],
+  ) as LanguageContextType['t'];
 
   // REQ-654: navegación del cliente entre idiomas (el layout raíz no se vuelve a pintar): el idioma sigue a la URL.
   // Se lee window.location (no usePathname, que con el rewrite puede traer la ruta sin prefijo) y solo después de montar.
@@ -134,18 +138,23 @@ export function LanguageProvider({ children, onReady, initialLanguage, locked = 
   }, [onReady, locked]);
 
   // Save language preference to localStorage (REQ-656: con `locked`, el selector además navega a la URL del idioma)
-  const setLanguage = (lang: SupportedLanguage) => {
+  const setLanguage = useCallback((lang: SupportedLanguage) => {
     void applyLanguage(lang);
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferredLanguage', lang);
       writeLanguageCookie(lang);
     }
-  };
+  }, [applyLanguage]);
+
+  // REQ-10884 (ola 15, REQ-1562): el valor no cambia de identidad si no cambia el idioma, el diccionario o `locked`.
+  const value = useMemo<LanguageContextType>(() => ({ language, setLanguage, t, locked }), [language, setLanguage, t, locked]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, isInitialized, locked }}>
-      <LoadingPage isLoading={!isInitialized} />
-      {children}
+    <LanguageContext.Provider value={value}>
+      <LanguageReadyContext.Provider value={isInitialized}>
+        <LoadingPage isLoading={!isInitialized} />
+        {children}
+      </LanguageReadyContext.Provider>
     </LanguageContext.Provider>
   );
 }
@@ -158,6 +167,11 @@ export function useLanguage() {
   return context;
 }
 
+
+/** REQ-10884: true cuando ya se detectó el idioma del visitante (antes `useLanguage().isInitialized`). */
+export function useLanguageReady(): boolean {
+  return useContext(LanguageReadyContext);
+}
 
 /** REQ-655: para enlaces que también se pintan fuera del provider (tests, correos): null si no hay provider. */
 export function useOptionalLanguage(): LanguageContextType | null {
