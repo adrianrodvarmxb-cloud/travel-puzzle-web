@@ -13,6 +13,7 @@ import type { FichaMapView } from "@/map/lib/city-pin";
 import { operatorLine } from "../lib/operator";
 import { policySummary, type CancellationPolicy } from "@/trips/lib/cancel-policy";
 import { htmlToLines, htmlToText, sanitizeHtml } from "../lib/text";
+import { infoDepartureTime } from "@/trips/lib/trip-facts";
 
 export const TRIP_PROVIDER = "propios";
 /** Formatos de taxonomía que viven en la sección Traslados (decisión 1). */
@@ -24,6 +25,8 @@ export interface TripRow {
   meetingPoints: unknown; hotelPickup: boolean | number; itinerary: unknown; includes: unknown; excludes: unknown;
   highlights: unknown; importantInfo: string; whatToBring: string; accessibility: string; difficultyLevel: number | null;
   languages: unknown; options: unknown; minNoticeHours: number; cancellation: unknown; endPoint: string;
+  /** REQ-10898: mínimo de personas (dato del proveedor); opcional. */
+  minPax?: number | null;
 }
 
 export interface TripInput {
@@ -87,11 +90,12 @@ export function tripToFicha(i: TripInput): FichaModel {
     facts: {
       durationMinutes: r.durationDays && r.durationDays > 0 ? r.durationDays * 24 * 60 : null,
       durationText: i.durationText ?? null, // REQ-10870
-      schedule: null,
+      schedule: infoDepartureTime(r.importantInfo), // REQ-10898
       languages: strs(r.languages).map((l) => l.toLowerCase()),
       season: null,
       difficulty: level(r.difficultyLevel),
       ages: ages ? { childFrom: ages.childAgeMin as number, childTo: ages.childAgeMax as number } : null,
+      minPax: typeof r.minPax === "number" && r.minPax > 0 ? r.minPax : null, // REQ-10898
     },
     brief: htmlToText(i.texts.summary) || null,
     highlights: strs(r.highlights),

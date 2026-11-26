@@ -32,6 +32,7 @@ export const fichaSchema = z.object({
     season: z.string().nullable(),
     difficulty: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).nullable(),
     ages: z.object({ childFrom: z.number().int().nonnegative(), childTo: z.number().int().nonnegative() }).nullable(),
+    minPax: z.number().int().positive().nullable().optional(), // REQ-10898
   }),
   brief: z.string().nullable(),
   highlights: z.array(z.string().min(1)),
