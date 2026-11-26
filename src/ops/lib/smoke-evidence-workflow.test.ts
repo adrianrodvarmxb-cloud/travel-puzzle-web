@@ -41,3 +41,18 @@ describe("REQ-500 (INC-007): la evidencia de la prueba de humo queda como artefa
     expect(paso(deploy, "Regresar a la versión anterior si falló").run).toMatch(/exit 1/);
   });
 });
+
+describe("REQ-10943 (INC-029, opción A del PO, 26-11-2026): el humo del PR calienta «/» y «/en» del preview antes del contrato de idioma", () => {
+  it("REQ-10943: el paso va después de subir el preview y antes de la prueba de humo, no decide el resultado y pide «/» y «/en» como bot", () => {
+    const subir = pr.findIndex((s) => s.name === "Subir versión (sin tráfico)");
+    const calentar = pr.findIndex((s) => s.name === "Calentar el preview (INC-029)");
+    const humo = pr.findIndex((s) => s.name === "Prueba de humo");
+    expect(subir).toBeGreaterThan(-1);
+    expect(calentar).toBeGreaterThan(subir);
+    expect(humo).toBeGreaterThan(calentar);
+    expect(pr[calentar]["continue-on-error"]).toBe(true);
+    expect(pr[calentar].run).toMatch(/for p in \/ \/en; do/);
+    expect(pr[calentar].run).toMatch(/bingbot/);
+    expect(pr[calentar].run).toMatch(/steps\.version\.outputs\.url/);
+  });
+});

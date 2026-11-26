@@ -88,11 +88,13 @@ function agencyTrips(): AgencyTripPlace[] {
 
 (async () => {
   const estadoPrevio = toSyncState(readExportRows(json("sync.json")));
+  // REQ-10944: `TourOption` (0036) se escribe solo con TANGOL_OPTIONS_TABLE_ON=true, después de que el PO aplique la migración.
+  const optionsTable = (process.env.TANGOL_OPTIONS_TABLE_ON ?? "").trim() === "true";
   const repo = createTangolSqlRepo({
     countries: toExistingCountries(readExportRows(json("countries.json"))),
     cities: toExistingCities(readExportRows(json("cities.json"))),
     state: estadoPrevio,
-  });
+  }, undefined, { optionsTable });
 
   // REQ-3519: copia exacta (solo con --escribir y --copia). Los objetos van a <copia>/objetos (fuera del
   // artefacto público: llevan el neto) y el índice a <copia>/provider-record.sql; el workflow los aplica después.
