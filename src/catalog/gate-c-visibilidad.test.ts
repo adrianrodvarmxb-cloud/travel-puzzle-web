@@ -46,6 +46,7 @@ describe("gate C: con TANGOL_ENABLED apagada no sale nada de Tangol", () => {
     const exentos = [
       "src/catalog/", "src/scripts/", "src/lib/db/sync/",   // escriben o sincronizan: ven todo a propósito
       "src/tangol/diario.ts",                                // REQ-10878: export de solo lectura del sync diario de Tangol (ve todo a propósito)
+      "src/tangol/lib/option-sql.ts",                        // REQ-10944: sentencias del sync (resuelven el id del tour por proveedor y número para escribir TourOption)
       "src/search/lib/fts-query.ts", "src/search/lib/fts-stem.ts", // construyen el índice FTS (debe tener todo; el filtro va al servir)
       "src/departures/repository.ts",                        // trabajo interno de salidas (no es una vista pública)
       "src/notifications/lib/", "src/booking/",              // correos y fichas de una reserva ya hecha
