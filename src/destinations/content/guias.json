@@ -7484,5 +7484,92 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 25 November 2026) and the site's catalog."
     }
+  },
+  {
+    "pais": "cl",
+    "ciudad": "arica",
+    "nombre": "Arica",
+    "targetTerm": "guia de viaje de arica",
+    "titulo": "Guía de Arica: Morro, momias Chinchorro y cuevas de Anzota",
+    "publishedAt": "2026-11-26",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Arica se recorre bien en uno o dos días: el Morro de Arica como primera vista, el Museo Arqueológico San Miguel de Azapa para entender a la cultura Chinchorro y la costa de las cuevas de Anzota para cerrar el día. Según [Chile Travel](https://chile.travel/en/blog/things-to-do-in-arica-2/), la ciudad también es puerta de acceso al Parque Nacional Lauca.",
+    "sections": [
+      {
+        "h2": "¿Qué ver en el Morro de Arica?",
+        "answer": "Es un cerro sobre la ciudad con un museo histórico y de armas en la cima y el Monumento al Soldado Desconocido, según [Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/).",
+        "body": [
+          "Se puede subir a pie. [Wikivoyage](https://en.wikivoyage.org/wiki/Arica) describe un sendero que sale desde el sur de la calle Colón y toma unos diez minutos de subida. Conviene ir temprano o al atardecer, cuando la temperatura es más agradable y la vista del puerto es más clara.",
+          "Desde la cima se entiende bien cómo está dispuesta la ciudad entre el mar y los cerros. Es una parada corta que cabe en cualquier mañana antes de ir a los museos."
+        ]
+      },
+      {
+        "h2": "¿Qué hay en el Museo Arqueológico San Miguel de Azapa?",
+        "answer": "Es el museo más importante para entender la cultura Chinchorro y exhibe momias de esa cultura, según [Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/).",
+        "body": [
+          "Su recorrido cubre unos diez mil años de historia regional, con piezas de Caleta Camarones y etapas de Tiwanaku e Inca, de acuerdo con la misma [ruta de Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/). Va bien reservar una mañana completa, porque el lugar pide calma y lectura de cédulas.",
+          "[Wikivoyage](https://en.wikivoyage.org/wiki/Arica) menciona que el museo reúne más de veinte mil piezas. Si viajas con niños, pregunta por las visitas guiadas en la recepción."
+        ]
+      },
+      {
+        "h2": "¿Qué son las momias Chinchorro y por qué importan?",
+        "answer": "La cultura Chinchorro practicó la momificación artificial, y el sitio forma parte del Patrimonio Mundial de la UNESCO, según [Wikivoyage](https://en.wikivoyage.org/wiki/Arica).",
+        "body": [
+          "[Wikivoyage](https://en.wikivoyage.org/wiki/Arica) incluye en ese sitio el Morro, el museo de sitio Colón 10 y la desembocadura del río Camarones, unos cien kilómetros al sur de la ciudad. Ver estos lugares juntos da una idea clara de cómo esta población vivió junto a la costa del desierto.",
+          "Para planear mejor el viaje, revisa [Chile Travel](https://chile.travel/en/blog/things-to-do-in-arica-2/) antes de salir: ahí se explican las rutas y los tiempos de traslado desde el centro."
+        ]
+      },
+      {
+        "h2": "¿Cómo llegar a las cuevas de Anzota?",
+        "answer": "Es un sendero costero de unos dos kilómetros con escaleras y miradores, con entrada gratuita, según la [ruta de Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/).",
+        "body": [
+          "El acceso exige casco en la entrada, según la misma [ruta de Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/). Lleva agua, calzado cómodo y considera que el regreso es cuesta arriba.",
+          "Las cuevas son un buen cierre de día, con la luz baja sobre el Pacífico. Revisa la tabla de horarios del lugar antes de salir, porque cambian según la temporada."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 26 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Arica",
+      "targetTerm": "arica travel guide",
+      "titulo": "Arica guide: Morro, Chinchorro mummies and the Anzota caves",
+      "enBreve": "Arica is most suitable to explore in one or two days: the Morro de Arica for the first view, the San Miguel de Azapa Archaeological Museum to understand the Chinchorro culture, and the Anzota caves coast to close the day. According to [Chile Travel](https://chile.travel/en/blog/things-to-do-in-arica-2/), the city is also a gateway to Lauca National Park.",
+      "sections": [
+        {
+          "h2": "What to see on the Morro de Arica?",
+          "answer": "It is a hill above the city with a historical and weapons museum at the top and the Unknown Soldier monument, according to [Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/).",
+          "body": [
+            "You can walk up. [Wikivoyage](https://en.wikivoyage.org/wiki/Arica) describes a path from the south end of Colón street that takes about ten minutes to climb. Going early or near sunset makes the walk more comfortable and the view of the port clearer.",
+            "From the top you can see how the city sits between the sea and the hills. It is a short stop that fits any morning before the museums."
+          ]
+        },
+        {
+          "h2": "What is inside the San Miguel de Azapa Archaeological Museum?",
+          "answer": "It is the most important museum for understanding the Chinchorro culture, and it displays mummies from that culture, according to [Chile Travel](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/).",
+          "body": [
+            "Its route covers about ten thousand years of regional history, with pieces from Caleta Camarones and stages of Tiwanaku and Inca, according to the same [Chile Travel route](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/). Plan a full morning, because the museum rewards slow reading of its labels.",
+            "[Wikivoyage](https://en.wikivoyage.org/wiki/Arica) notes that the museum holds more than twenty thousand pieces. If you travel with children, ask at the front desk about guided visits."
+          ]
+        },
+        {
+          "h2": "What are the Chinchorro mummies and why do they matter?",
+          "answer": "The Chinchorro culture practiced artificial mummification, and the site is part of the UNESCO World Heritage list, according to [Wikivoyage](https://en.wikivoyage.org/wiki/Arica).",
+          "body": [
+            "[Wikivoyage](https://en.wikivoyage.org/wiki/Arica) includes in that site the Morro, the Colón 10 site museum and the mouth of the Camarones river, about one hundred kilometers south of the city. Seeing these places together gives a clear picture of how this population lived along the desert coast.",
+            "Before you go, read [Chile Travel](https://chile.travel/en/blog/things-to-do-in-arica-2/): it explains the routes and transfer times from the centre."
+          ]
+        },
+        {
+          "h2": "How do you reach the Anzota caves?",
+          "answer": "It is a coastal path of about two kilometers with stairs and viewpoints, with free entry, according to the [Chile Travel route](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/).",
+          "body": [
+            "Access requires a helmet at the entrance, according to the same [Chile Travel route](https://chile.travel/en/itineraries/route-through-the-azapa-museum-morro-and-the-beautiful-anzota-caves/). Bring water, comfortable shoes and remember that the return is uphill.",
+            "The caves make a good end to the day, with low light over the Pacific. Check the site's opening hours before you leave, since they change with the season."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 26 November 2026) and the site's catalog."
+    }
   }
 ]
