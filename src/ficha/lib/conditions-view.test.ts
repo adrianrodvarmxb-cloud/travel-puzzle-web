@@ -33,3 +33,24 @@ describe("Ficha única, bloques 13–15 (lógica)", () => {
     expect(conditionsText("condiciones", "xx" as never)).toBe("Condiciones");
   });
 });
+
+describe("REQ-10895: el operador se dice una sola vez (decisión 38)", () => {
+  it("REQ-10895: las notas «Operador local: …» / «Operado por …» / «Local operator: …» se quitan del bloque 15 y queda la línea discreta", () => {
+    const notas = [
+      "Salida diaria a las 08:45 desde el mostrador de tours del hotel Paradox Singapore; se confirma con un mínimo de 4 personas.",
+      "Operador local: Turismo Asiático, división de The Malayan Safari & Expedition Company SDN BHD (licencia KPL No. 4824, Malasia).",
+      "Operado por Turismo Asiático.",
+      "Local operator: Turismo Asiático.",
+      "Operated by Turismo Asiático.",
+      "Precio por persona en USD, en grupo con guía de habla inglesa.",
+    ];
+    const v = importantInfoView(notas, "Turismo Asiático", "es");
+    expect(v?.notes).toEqual([notas[0], notas[5]]);
+    expect(v?.operatorLine).toBe("Opera en destino: Turismo Asiático");
+    expect(JSON.stringify(v)).not.toMatch(/Operador local|Operado por|Local operator|Operated by/);
+    // Una nota que solo menciona al operador en medio del texto no se toca.
+    expect(importantInfoView(["El operador local confirma en 48 h."], null, "es")?.notes).toEqual(["El operador local confirma en 48 h."]);
+    // Solo notas de operador y sin línea discreta: el bloque no sale.
+    expect(importantInfoView(["Operador local: X"], null, "es")).toBeNull();
+  });
+});
