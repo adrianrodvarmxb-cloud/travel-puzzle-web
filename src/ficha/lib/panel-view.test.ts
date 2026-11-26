@@ -81,3 +81,12 @@ describe("Panel de reserva de la ficha única (vista pura)", () => {
     expect(view(ficha({ price: { amount: 0, currency: "EUR", per: "person" } }), off, ctx({ localCurrency: true })).price!.localUrl).toBeNull();
   });
 });
+
+describe("REQ-10897: cancelación junto al precio", () => {
+  it("REQ-10897: con horas, el resumen; sin horas pero con texto real («No reembolsable»), ese texto; sin dato, nada (nunca «none»)", () => {
+    expect(view(ficha({ cancellation: { hours: 48, text: null } }), off).cancellation).toContain("48");
+    expect(view(ficha({ cancellation: { hours: null, text: "No reembolsable" } }), off).cancellation).toBe("No reembolsable");
+    expect(view(ficha({ cancellation: { hours: null, text: "  " } }), off).cancellation).toBeNull();
+    expect(view(ficha({ cancellation: null }), off).cancellation).toBeNull();
+  });
+});

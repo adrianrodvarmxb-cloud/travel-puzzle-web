@@ -113,7 +113,8 @@ export function panelView(f: FichaModel, plan: PanelPlan, c: PanelContext): Pane
           localUrl: c.localCurrency && f.price.amount > 0 ? localPriceUrl(f.price, f.lang) : null, // REQ-10874
         }
       : null,
-    cancellation: cancellationSummary(f.cancellation?.hours, f.lang),
+    // REQ-10897: resumen corto de la política real junto al precio: horas resumidas o, si no, el texto real del producto; sin dato, null.
+    cancellation: cancellationSummary(f.cancellation?.hours, f.lang) ?? (f.cancellation?.text?.trim() || null),
     payment: ((t) => (t ? { key: plan.paymentNote, text: t } : null))(paymentNoteText(plan, f)),
     addToTrip: addToTripView(f, plan, c.cartEnabled),
     advisor: advisorLinkView(f, c),
