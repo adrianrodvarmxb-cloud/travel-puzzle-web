@@ -79,6 +79,7 @@ export function tripToFicha(i: TripInput): FichaModel {
 
   return {
     id: r.id, provider: TRIP_PROVIDER, externalRef: r.code, code: r.code, slug: r.slug, lang: i.lang, section,
+    providerId: r.agencyId ?? null, // REQ-10889
     country: i.country, city: i.city,
     gallery: i.gallery.filter((g) => /^https?:\/\//.test(g.url)),
     title: htmlToText(i.texts.title),

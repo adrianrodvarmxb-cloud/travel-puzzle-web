@@ -18,6 +18,7 @@
  * - Lo que cobra un tercero (FREETOUR de pago, afiliados) o un traslado: sin garantía específica; nunca «te
  *   reembolsamos lo pagado a Travel Puzzle» si no se pagó a Travel Puzzle. El §L de afiliado va en la tarjeta de
  *   Kiwitaxi del bloque 19 (`cross-sell-view.ts`).
+ * - REQ-10889: con `providerGuarantees`, los viajes de agencia muestran solo las garantías de su proveedor (REQ-10888).
  * - Siempre: enlace a /terminos. El ancla del apartado de cada proveedor se pasa cuando exista (REQ-3345); sin ella,
  *   el enlace va a la página completa.
  */
@@ -26,6 +27,7 @@ import { NO_SHOW_G } from "@/legal/lib/no-show";
 import { TRIP_PROVIDER } from "../adapters/trip";
 import { FREETOUR_PROVIDER } from "./blocks";
 import type { FichaLang, FichaModel } from "./model";
+import { providerGuaranteesFor, type ProviderGuarantee } from "./provider-guarantees";
 
 /** §L del dictamen (19-11-2026, punto 20), literal. No se edita sin la firma del abogado. */
 // REQ-10804
@@ -43,14 +45,17 @@ export const GUARANTEE_1711 = {
   excursion: "Punto de encuentro y hora confirmados por correo 48 h antes y el mismo día. Si necesitas algo antes, nos escribes por WhatsApp.",
 } as const;
 
-export type GuaranteeId = "tour-con-costo" | "boletos" | "circuito" | "free-tour" | "excursion";
+export type GuaranteeId = "tour-con-costo" | "boletos" | "circuito" | "free-tour" | "excursion" | ProviderGuarantee["id"];
 export interface FichaGuarantee { id: GuaranteeId; text: string }
 
 const EXCURSION_TIPOS = new Set(["excursion-dia", "excursion-de-un-dia", "visita-guiada"]);
 
 /** Garantías específicas de la ficha, en orden; [] si no tiene. */
 // REQ-10804
-export function guaranteesFor(f: Pick<FichaModel, "provider" | "section" | "taxonomy" | "price" | "booking">, opts: { freetourGuarantees?: boolean } = {}): FichaGuarantee[] {
+export function guaranteesFor(
+  f: Pick<FichaModel, "provider" | "section" | "taxonomy" | "price" | "booking"> & Partial<Pick<FichaModel, "providerId" | "lang">>,
+  opts: { freetourGuarantees?: boolean; providerGuarantees?: boolean } = {},
+): FichaGuarantee[] {
   const tipo = f.taxonomy.tipo?.slug ?? "";
   if (f.provider === FREETOUR_PROVIDER) {
     return opts.freetourGuarantees === true && f.price === null && f.booking.chargedBy === "none"
@@ -58,7 +63,12 @@ export function guaranteesFor(f: Pick<FichaModel, "provider" | "section" | "taxo
       : [];
   }
   if (f.section === "traslados" || f.booking.chargedBy !== "travelpuzzle") return [];
-  if (f.provider === TRIP_PROVIDER || tipo === "circuito") return [{ id: "circuito", text: GUARANTEE_L.circuito }];
+  if (f.provider === TRIP_PROVIDER || tipo === "circuito") {
+    // REQ-10889 (REQ-10888, «Solo las del proveedor»): en viajes de agencia, con la bandera, ya no sale el §L «circuito»
+    // ni PROFECO; solo lo que consta del proveedor. Sin dato, nada (el bloque lleva solo el enlace a /terminos).
+    if (opts.providerGuarantees === true) return providerGuaranteesFor({ providerId: f.providerId ?? null, lang: f.lang ?? "es" });
+    return [{ id: "circuito", text: GUARANTEE_L.circuito }];
+  }
   if (tipo === "entradas") return [{ id: "boletos", text: GUARANTEE_L.boletos }];
   if (!f.price) return [];
   const out: FichaGuarantee[] = [{ id: "tour-con-costo", text: GUARANTEE_L.tourConCosto }];
@@ -87,8 +97,8 @@ export interface GuaranteesBlockView { heading: string; items: FichaGuarantee[];
 /** Bloque 21: garantías específicas (si hay) y, siempre, el enlace a T&C (con el ancla del proveedor si existe). */
 // REQ-10848 REQ-10804 REQ-10796
 export function guaranteesBlockView(
-  f: Pick<FichaModel, "provider" | "section" | "taxonomy" | "price" | "booking" | "lang">,
-  opts: { freetourGuarantees?: boolean; providerAnchor?: string | null } = {},
+  f: Pick<FichaModel, "provider" | "section" | "taxonomy" | "price" | "booking" | "lang"> & Partial<Pick<FichaModel, "providerId">>,
+  opts: { freetourGuarantees?: boolean; providerGuarantees?: boolean; providerAnchor?: string | null } = {},
 ): GuaranteesBlockView {
   const c = (f.lang as FichaLang) === "es" ? COPY.es : COPY.en;
   const anchor = (opts.providerAnchor ?? "").replace(/[^a-z0-9-]/gi, "");

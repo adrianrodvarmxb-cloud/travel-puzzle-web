@@ -10,7 +10,7 @@
  * y llegan en `others`. Si el modelo no se arma, devuelve null y la página pinta la plantilla de hoy.
  */
 import type { FxRates } from "@/trips/lib/money";
-import { addonsOn, fichaUnicaOn, fichaUnicaProviderFor, localCurrencyOn } from "./lib/flags";
+import { addonsOn, fichaUnicaOn, fichaUnicaProviderFor, localCurrencyOn, providerGuaranteesOn } from "./lib/flags";
 import { fxTableFromMxn } from "./lib/local-price";
 import type { FichaLang, FichaModel } from "./lib/model";
 import type { TransferCardView } from "@/trips/lib/transfer-card";
@@ -37,6 +37,7 @@ export function pageFlags(env: Env): PageViewFlags {
     freetourGuarantees: false,
     localCurrency: localCurrencyOn(env), // REQ-10874
     addons: addonsOn(env), // REQ-10882
+    providerGuarantees: providerGuaranteesOn(env), // REQ-10889
   };
 }
 

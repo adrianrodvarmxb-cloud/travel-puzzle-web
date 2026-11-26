@@ -68,3 +68,13 @@ export function localCurrencyOn(env: Record<string, string | undefined>): boolea
 export function addonsOn(env: Record<string, string | undefined>): boolean {
   return (env.FICHA_ADDONS_ENABLED ?? "").trim().toLowerCase() === "true";
 }
+
+/**
+ * REQ-10889 · `FICHA_PROVIDER_GUARANTEES_ENABLED` ("true" / cualquier otra cosa = apagada). Encendida, el bloque 21 de
+ * un viaje de agencia muestra solo las garantías del proveedor (REQ-10888, «Solo las del proveedor») en vez del §L
+ * «circuito»; apagada, el bloque es el de hoy (REQ-10804). Regreso: "false" (no toca datos).
+ */
+// REQ-10889
+export function providerGuaranteesOn(env: Record<string, string | undefined>): boolean {
+  return (env.FICHA_PROVIDER_GUARANTEES_ENABLED ?? "").trim().toLowerCase() === "true";
+}
