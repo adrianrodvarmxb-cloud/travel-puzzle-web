@@ -37,8 +37,21 @@ export interface ImportantInfoView { notes: string[]; operatorLine: string | nul
 
 /** Bloque 15: notas del proveedor y «Opera en destino: X» (el modelo ya trae `operator` null cuando no se muestra). */
 // REQ-10833
+/**
+ * REQ-10902 (comparativo con referentes, punto 7): «máximo 48 horas hábiles / no cobramos nada» salía tres veces. La
+ * versión completa vive en «Cómo funciona tu reserva» (bloque 14); bajo el formulario queda la línea corta del panel; la
+ * nota del proveedor que repite el plazo («Reserva bajo solicitud: …») se quita del bloque 15. Pura.
+ */
+const REQUEST_NOTE = /^\s*(reserva bajo solicitud|booking on request|on-request booking)\b/i;
+
+// REQ-10902
+export function withoutRequestNotes(notes: readonly string[]): string[] {
+  return notes.filter((n) => !REQUEST_NOTE.test(n));
+}
+
 export function importantInfoView(notes: string[], operator: string | null, lang: FichaLang): ImportantInfoView | null {
-  const n = clean(withoutOperatorNotes(notes)); // REQ-10895: el operador solo en la línea discreta
+  // REQ-10895: el operador solo en la línea discreta; REQ-10902: el plazo de confirmación solo en «Cómo funciona tu reserva»
+  const n = clean(withoutRequestNotes(withoutOperatorNotes(notes)));
   const op = operator?.trim() || null;
   if (!n.length && !op) return null;
   return { notes: n, operatorLine: op ? `${OPERATES[lang] ?? OPERATES.es}: ${op}` : null };
