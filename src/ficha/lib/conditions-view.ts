@@ -7,6 +7,7 @@
  */
 import type { FichaCancellation, FichaLang } from "./model";
 import { cancellationSummary } from "./cancellation";
+import { withoutOperatorNotes } from "./operator";
 
 const clean = (items: string[]) => [...new Set(items.map((s) => s.trim()).filter(Boolean))];
 
@@ -37,7 +38,7 @@ export interface ImportantInfoView { notes: string[]; operatorLine: string | nul
 /** Bloque 15: notas del proveedor y «Opera en destino: X» (el modelo ya trae `operator` null cuando no se muestra). */
 // REQ-10833
 export function importantInfoView(notes: string[], operator: string | null, lang: FichaLang): ImportantInfoView | null {
-  const n = clean(notes);
+  const n = clean(withoutOperatorNotes(notes)); // REQ-10895: el operador solo en la línea discreta
   const op = operator?.trim() || null;
   if (!n.length && !op) return null;
   return { notes: n, operatorLine: op ? `${OPERATES[lang] ?? OPERATES.es}: ${op}` : null };
