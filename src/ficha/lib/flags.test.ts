@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fichaUnicaMode, fichaUnicaOn, fichaUnicaProviderFor, isPreviewHost, localCurrencyOn } from "./flags";
+import { addonsOn, fichaUnicaMode, fichaUnicaOn, fichaUnicaProviderFor, isPreviewHost, localCurrencyOn } from "./flags";
 import { convert, fxTableFromMxn } from "./local-price";
 
 describe("flags: FICHA_UNICA_*_ENABLED con modo preview (ola 7)", () => {
@@ -49,5 +49,15 @@ describe("flags: FICHA_UNICA_*_ENABLED con modo preview (ola 7)", () => {
     expect(localCurrencyOn({ LOCAL_CURRENCY_ENABLED: "preview" })).toBe(false);
     expect(localCurrencyOn({ LOCAL_CURRENCY_ENABLED: "false" })).toBe(false);
     expect(localCurrencyOn({})).toBe(false);
+  });
+});
+
+describe("flags: FICHA_ADDONS_ENABLED (ola 12)", () => {
+  it("REQ-10882: solo «true» enciende los adicionales; apagada por omisión", () => {
+    expect(addonsOn({ FICHA_ADDONS_ENABLED: "true" })).toBe(true);
+    expect(addonsOn({ FICHA_ADDONS_ENABLED: " TRUE " })).toBe(true);
+    expect(addonsOn({ FICHA_ADDONS_ENABLED: "preview" })).toBe(false);
+    expect(addonsOn({ FICHA_ADDONS_ENABLED: "false" })).toBe(false);
+    expect(addonsOn({})).toBe(false);
   });
 });

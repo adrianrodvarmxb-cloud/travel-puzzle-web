@@ -11,6 +11,7 @@ import type { FichaMapView } from "@/map/lib/city-pin";
 import { publicRating } from "../lib/rating-visibility";
 import { operatorLine } from "../lib/operator";
 import { singleCancellation } from "../lib/cancellation";
+import { transferAddonFromOptions } from "../lib/addons";
 import { isTravelerFavorite } from "@/tours/lib/favorite";
 import { dificultadDesdeTexto } from "@/taxonomy/lib/difficulty";
 import { htmlToLines, htmlToText, sanitizeHtml } from "../lib/text";
@@ -87,6 +88,8 @@ export function tangolToFicha(i: TangolInput): FichaModel {
       : { kind: "none", title: meetingTitle },
     price: price !== null && price > 0 && r.priceCurrency ? { amount: price, currency: r.priceCurrency, per: "person" } : null,
     options: options.length > 1 ? options : [],
+    // REQ-10881 (ola 12): el traslado como adicional, solo cuando las opciones traen precio y dato de traslado (hoy no: []).
+    addons: [transferAddonFromOptions(options, i.lang)].filter((a): a is NonNullable<typeof a> => a !== null),
     whatToBring: htmlToLines(r.whatToBring),
     requirements: htmlToLines(r.physicalRequirements),
     cancellation: cancel.hours === null && !cancel.text ? null : cancel,
