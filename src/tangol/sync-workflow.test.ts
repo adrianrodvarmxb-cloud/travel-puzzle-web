@@ -171,3 +171,12 @@ describe("REQ-10877: el sync de Tangol exporta la presencia y el script cierra l
     expect(script).toMatch(/presenceStatements\(cierre\.updates, TANGOL_PROVIDER_ID\)/);
   });
 });
+
+describe("REQ-10944: TourOption (0036) solo con TANGOL_OPTIONS_TABLE_ON", () => {
+  it("REQ-10944: los tres pasos que corren el sync pasan TANGOL_OPTIONS_TABLE_ON desde el var del repo, apagado por omisión", () => {
+    const pasos = wf.match(/TANGOL_OPTIONS_TABLE_ON: \$\{\{ vars\.TANGOL_OPTIONS_TABLE_ON \|\| 'false' \}\}/g) ?? [];
+    expect(pasos).toHaveLength(3);
+    expect(jobManual.match(/TANGOL_OPTIONS_TABLE_ON: /g)).toHaveLength(2);
+    expect(jobDiario.match(/TANGOL_OPTIONS_TABLE_ON: /g)).toHaveLength(1);
+  });
+});

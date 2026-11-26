@@ -16,6 +16,7 @@ import type { ExistingCountry } from "@/catalog/lib/provider-countries";
 import type { ExistingCity } from "./lib/cities";
 import { TANGOL_PROVIDER_ID } from "./lib/tour-rows";
 import { tangolExtraStatementsAcotadas } from "./lib/extra-sql";
+import { tourOptionStatements } from "./lib/option-sql";
 import { cityTranslations, type TangolSyncRepo } from "./sync";
 import type { TangolSyncState } from "./lib/sync-plan";
 
@@ -38,7 +39,16 @@ export interface SqlRepo extends TangolSyncRepo {
  * que el SQL de una misma entrada sea reproducible en las pruebas.
  */
 // REQ-3464
-export function createTangolSqlRepo(data: TangolExport, newId: () => string = () => crypto.randomUUID()): SqlRepo {
+export interface TangolRepoOptions {
+  /**
+   * REQ-10944: escribir también `TourOption` (migración 0036). Apagado por omisión: hasta que el PO aplique la 0036 en
+   * producción la tabla no existe y la sentencia tumbaría el archivo .sql del sync entero. Lo enciende
+   * `TANGOL_OPTIONS_TABLE_ON=true` (var del workflow), después de la migración.
+   */
+  optionsTable?: boolean;
+}
+
+export function createTangolSqlRepo(data: TangolExport, newId: () => string = () => crypto.randomUUID(), opts: TangolRepoOptions = {}): SqlRepo {
   const stmts: Stmt[] = [];
 
   return {
@@ -92,6 +102,8 @@ export function createTangolSqlRepo(data: TangolExport, newId: () => string = ()
       const extra = tangolExtraStatementsAcotadas(rows.map((r) => r.tour));
       if (extra.recortados.length) console.warn(`[tangol] availabilityRules recortadas a NULL por tamaño en ${extra.recortados.length} tour(s): ${extra.recortados.join(", ")}`);
       stmts.push(...extra.stmts);
+      // REQ-10944: opciones con tarifa pública y traslado en `TourOption`, solo con la tabla encendida (ver TangolRepoOptions).
+      if (opts.optionsTable) stmts.push(...tourOptionStatements(rows.map((r) => ({ providerId: r.tour.providerId, externalId: r.tour.externalId, options: r.tour.options ?? [] })), new Date()));
     },
 
     statements() {

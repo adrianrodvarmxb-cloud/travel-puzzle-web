@@ -11,6 +11,7 @@ const fila = (externalId: number, over: Partial<TangolTourRow> = {}): TangolTour
   availabilityRules: { options: [{ code: "REG", startTime: "09:00", operationDays: [1, 3, 5], operationDaysRaw: "L, X, V", hoursBooking: 48, hoursCancelation: 24 }], validity: [], blackouts: [] },
   endPoint: "Plaza de Mayo", whatToBring: "Agua", physicalRequirements: "Caminar 2 km", difficulty: "Baja", providerNotes: "Sale con lluvia.",
   childAgeFrom: 3, childAgeTo: 11, infantAgeFrom: 0, infantAgeTo: 2,
+  options: [], // REQ-10944
   ...over,
 });
 

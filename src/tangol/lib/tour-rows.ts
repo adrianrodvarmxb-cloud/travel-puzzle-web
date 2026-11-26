@@ -3,6 +3,7 @@ import { LANGUAGES } from "@/catalog/lib/tour-rows";
 import { durationMinutes } from "@/tours/lib/duration";
 import type { TangolRate, TangolTour } from "./schemas";
 import { availabilityRules, publicPrice, type AvailabilityRules, type RatesSummary } from "./rates";
+import { tourOptionRows, type TourOptionRow } from "./option-rows";
 import { parseTourDetails } from "./details";
 import { scrubProviderName } from "./text";
 import { findProviderErrorValue } from "./data-hygiene";
@@ -70,6 +71,8 @@ export interface TangolTourRow extends TourRow {
   childAgeTo: number | null;
   infantAgeFrom: number | null;
   infantAgeTo: number | null;
+  /** REQ-10944 (ola 12, PR 2): filas de `TourOption` (0036); no es columna de `Tour`, las escribe `tourOptionStatements` solo con la tabla encendida. */
+  options: TourOptionRow[];
 }
 
 export type DiscardReason =
@@ -207,6 +210,8 @@ export function toTangolTourRow(tour: TangolTour, deps: TangolRowDeps): Converte
     childAgeTo: details.childAges?.to ?? null,
     infantAgeFrom: details.infantAges?.from ?? null,
     infantAgeTo: details.infantAges?.to ?? null,
+    // REQ-10944: una fila por opción con su tarifa pública y su traslado (la moneda del tour cubre a la tarifa sin moneda).
+    options: tourOptionRows(summary, currency),
   };
 
   const translations: TranslationRow[] = [

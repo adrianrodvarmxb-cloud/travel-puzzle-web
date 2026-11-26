@@ -60,3 +60,26 @@ describe("REQ-10844: tour de Tangol → modelo validado", () => {
     expect(practicalRow).not.toHaveBeenCalled();
   });
 });
+
+describe("REQ-10944: opciones con precio público desde TourOption (0036)", () => {
+  it("REQ-10944: con optionRows, cada opción trae su precio y traslado y el traslado sale como adicional; si la lectura falla, la ficha sigue sin precios y lo registra", async () => {
+    const t = row();
+    const conReglas = { ...t, availabilityRules: { options: [{ code: "CT", startTime: "08:00" }, { code: "ST", startTime: "08:30" }] } } as unknown as TourRowWithRelations;
+    const optionRows = vi.fn(async () => [
+      { code: "CT", description: "Con traslado", startTime: "08:00", currency: "USD", rackAdult: 52, transferIncluded: true },
+      { code: "ST", description: "Sin traslado", startTime: "08:30", currency: "USD", rackAdult: 40, transferIncluded: false },
+    ]);
+    const r = await loadTourFicha(deps({ tourBySlug: async () => conReglas, optionRows }), fixture.slug, "es");
+    expect(r.load.ok).toBe(true);
+    if (!r.load.ok) return;
+    expect(optionRows).toHaveBeenCalledWith(t.id);
+    expect(r.load.ficha.options.map((o) => [o.id, o.price?.amount ?? null, o.transferIncluded])).toEqual([["CT", 52, true], ["ST", 40, false]]);
+    expect(r.load.ficha.addons?.[0]).toMatchObject({ kind: "transfer", price: { amount: 12, currency: "USD" } });
+    const log = vi.fn();
+    const r2 = await loadTourFicha(deps({ tourBySlug: async () => conReglas, optionRows: async () => { throw new Error("D1_ERROR"); }, log }), fixture.slug, "es");
+    expect(r2.load.ok).toBe(true);
+    if (!r2.load.ok) return;
+    expect(r2.load.ficha.options.every((o) => o.price === null)).toBe(true);
+    expect(log).toHaveBeenCalledWith(expect.objectContaining({ kind: "options" }));
+  });
+});
