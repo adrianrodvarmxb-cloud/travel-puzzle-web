@@ -1,5 +1,7 @@
 # STATUS — travel-puzzle-web
 
+Actualizado: 27 nov 2026, 00:40 UTC (26 nov, 18:40 CDMX): constructora (Fable). **INC-029 corregido (REQ-10943, opción A del PO):** el humo del PR calienta «/» y «/en» del preview antes del contrato de idioma; un 503 real sigue contando. Matriz: | REQ-10943 | INC-029, calentar el preview | NUEVO | `.github/workflows/prueba-humo.yml` | `src/ops/lib/smoke-evidence-workflow.test.ts` (+1) | CUMPLIDO en código |
+
 Actualizado: 27 nov 2026, 00:20 UTC (26 nov, 18:20 CDMX): constructora (Fable). **Decisiones del PO del 26 nov registradas:** ola 12 PR 2 = opción A, tabla nueva `TourOption` con migración en su propio PR y OK explícito para aplicarla (REQ-10944); calendario G5 de Fantástica China con el margen firmado fuera del repo y solo precios públicos (REQ-10945; el tarifario vive en el Proyecto «Travel Puzzle», por armar en una sesión con él a la mano). INC-028 = opción A (REQ-10868, PR #783).
 
 Actualizado: 26 nov 2026, 23:45 UTC (17:45 CDMX): constructora (Fable). **INC-029 (REQ-10943):** el humo de los PR #767 y #768 falló por «contrato de idioma /en: estado 503» en la primera petición al preview recién subido (cold start; `/en` 200 en 9.5 s en frío desde la nube); al relanzar pasa. Contenido con un relanzamiento por PR; corrección como gate del PO (calentar `/en` antes del contrato, recomendada).
