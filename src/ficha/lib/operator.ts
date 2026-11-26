@@ -39,3 +39,15 @@ export function underTitleOperator(providerId: string | null | undefined, operat
 export function operatorInBrief(providerId: string | null | undefined): boolean {
   return keeps(providerId);
 }
+
+/**
+ * REQ-10895 (revisión visual del PO, 26-11-2026): el operador se dice una sola vez, en la línea discreta «Opera en
+ * destino» (decisión 38). Las notas del proveedor que lo repiten («Operador local: …», «Operado por …», «Local
+ * operator: …», «Operated by …») se quitan del bloque 15. Pura.
+ */
+const OPERATOR_NOTE = /^\s*(operador\s+local|operado\s+por|opera\s+en\s+destino|local\s+operator|operated\s+by)\b/i;
+
+// REQ-10895
+export function withoutOperatorNotes(notes: readonly string[]): string[] {
+  return notes.filter((n) => !OPERATOR_NOTE.test(n));
+}
