@@ -22,6 +22,8 @@ const fila = (externalId: number, providerId: string) => ({
     // REQ-10537 / REQ-10538: columnas de la 0032.
     endPoint: "Plaza de Mayo", whatToBring: "Agua", physicalRequirements: null, difficulty: "Baja", providerNotes: null,
     childAgeFrom: 3, childAgeTo: 11, infantAgeFrom: null, infantAgeTo: null,
+    // REQ-10944: opciones con tarifa pública y traslado (TourOption, 0036).
+    options: [{ code: "CT", description: "Con traslado", startTime: "08:00", currency: "USD", rackAdult: 52, transferIncluded: true, hoursBooking: 24, hoursCancelation: 48 }],
   },
   translations: [{ language: "es" as const, title: `Tour ${externalId}`, brief: null, description: null, url: "/destinos/ar/buenos-aires" }],
 });
@@ -133,5 +135,28 @@ describe("REQ-3464: lectura del export de D1", () => {
       totalPages: 184,
       runStartedAt: new Date("2026-11-12 09:00:00"),
     });
+  });
+});
+
+describe("REQ-10944: TourOption (0036) solo con la tabla encendida", () => {
+  it("REQ-10944: por omisión el SQL del sync no toca TourOption (la 0036 aún no está aplicada en producción)", async () => {
+    const repo = createTangolSqlRepo(vacio, newId);
+    await repo.upsertTours([fila(1234, "tangol")]);
+    expect(repo.sql()).not.toContain("TourOption");
+  });
+
+  it("REQ-10944: con optionsTable, después del UPDATE de las columnas 0031/0032 van el DELETE y el INSERT de TourOption por (proveedor, número)", async () => {
+    const repo = createTangolSqlRepo(vacio, newId, { optionsTable: true });
+    await repo.upsertTours([fila(1234, "tangol")]);
+    const stmts = repo.statements();
+    const update = stmts.findIndex((s) => s.sql.startsWith('UPDATE "Tour" SET "excludes"'));
+    const del = stmts.findIndex((s) => s.sql.startsWith('DELETE FROM "TourOption"'));
+    const ins = stmts.findIndex((s) => s.sql.startsWith('INSERT INTO "TourOption"'));
+    expect(update).toBeGreaterThanOrEqual(0);
+    expect(del).toBeGreaterThan(update);
+    expect(ins).toBeGreaterThan(del);
+    expect(stmts[ins].params.slice(0, 9)).toEqual(["CT", "CT", "Con traslado", "08:00", "USD", 52, 1, 24, 48]);
+    expect(stmts[ins].params.slice(-2)).toEqual(["tangol", 1234]);
+    expect(repo.sql()).not.toMatch(/net|utilidad|comision/i);
   });
 });

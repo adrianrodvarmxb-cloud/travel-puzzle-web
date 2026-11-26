@@ -119,6 +119,8 @@ jobs:
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
+          # REQ-10944: TourOption (0036) solo cuando el PO aplicó la migración y encendió el var del repo.
+          TANGOL_OPTIONS_TABLE_ON: ${{ vars.TANGOL_OPTIONS_TABLE_ON || 'false' }}
           # REQ-10731: aviso al PO por tipo nuevo (REQ-10730), encendido el 16-11-2026 solo por correo (REQ-10744: varios destinatarios).
           # REQ-10758: también por WhatsApp al PO por el puente de Mila (REQ-035/REQ-045), solo a los números permitidos allá.
           AVISO_TIPO_NUEVO_ENABLED: "true"
@@ -136,6 +138,8 @@ jobs:
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: ${{ inputs.moneda || 'USD' }}
+          # REQ-10944: TourOption (0036) solo cuando el PO aplicó la migración y encendió el var del repo.
+          TANGOL_OPTIONS_TABLE_ON: ${{ vars.TANGOL_OPTIONS_TABLE_ON || 'false' }}
           # REQ-10731: aviso al PO por tipo nuevo (REQ-10730), encendido el 16-11-2026 solo por correo (REQ-10744: varios destinatarios).
           # REQ-10758: también por WhatsApp al PO por el puente de Mila (REQ-035/REQ-045), solo a los números permitidos allá.
           AVISO_TIPO_NUEVO_ENABLED: "true"
@@ -272,6 +276,7 @@ jobs:
           GATEWAY_URL: ${{ steps.pasarela.outputs.url }}
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           TANGOL_RATES_CURRENCY: "USD"
+          TANGOL_OPTIONS_TABLE_ON: ${{ vars.TANGOL_OPTIONS_TABLE_ON || 'false' }} # REQ-10944
           # REQ-10731 / REQ-10758: aviso de tipo nuevo; REQ-10876: aviso del tope por los mismos canales.
           AVISO_TIPO_NUEVO_ENABLED: "true"
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
