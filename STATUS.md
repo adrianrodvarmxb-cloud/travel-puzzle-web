@@ -1,5 +1,7 @@
 # STATUS — travel-puzzle-web
 
+Actualizado: 26 nov 2026, 02:50 UTC (25 nov, 20:50 CDMX): constructora (Opus). **Folios citados sin fila, registro RETRO:** 11 filas nuevas en `docs/requisitos.md` (REQ-270, 617, 770, 773, 1500, 1512, 1588, 1589, 1590, 3428, 3457), con el origen del registro de folios o de la cita en código y gates; 7 CUMPLIDO con su prueba verde en la sesión (REQ-3428 con 8 pruebas de caracterización nuevas, sin cambiar lógica), 2 REEMPLAZADO (folios de prueba de REQ-1587) y 2 SIN VERIFICAR (REQ-1590 acuerdos en el Proyecto; REQ-3457 plan en #447). REQ-185 y REQ-186 siguen sin fila a propósito (REQ-227). Inventario del frente 5 regenerado: las 26 filas de «Sin iniciar» y «A medias» ya tienen su «qué falta» y «Sin clasificar» quedó en cero; 9 solo esperan el cierre de la auditoría.
+
 Actualizado: 25 nov 2026, 22:35 UTC (16:35 CDMX): constructora (Fable). **Ola 9 «Moneda del visitante» CERRADA (REQ-10880):** #758 (REQ-10879, bloque 12) fusionado y deploy 45701415824 verde con humo antes de publicar y humo de producción; con #750 y #751 quedan los tres folios de la ola publicados (`npx vitest run -t "REQ-1087[459]"`: 24 pruebas verdes en 13 archivos). El HTML de la ficha única va en la moneda del proveedor, igual para todos; el panel y el bloque 12 piden en el navegador el precio en la moneda del visitante a `/api/precio-local` (200 en producción, `private, no-store`); ningún otro bloque pinta precios. El humo gana la ficha «Colombia esencial» (4 opciones con precio, es y en). Sigue fuera de la ola el "true" de `FICHA_UNICA_TANGOL_ENABLED` / `FICHA_UNICA_TRIP_ENABLED` (firma del PO).
 
 Actualizado: 25 nov 2026, 21:10 UTC (15:10 CDMX): constructora (Fable). **Ola 9 (ficha única), «Moneda del visitante», PR 2 (REQ-10879):** el bloque 12 «Opciones y precios» ya pide en el navegador, por la misma ruta `/api/precio-local` del panel (REQ-10874), el precio de cada opción en la moneda del visitante con la moneda del cargo; el HTML sigue en la moneda del proveedor, igual para todos. Solo con `LOCAL_CURRENCY_ENABLED` (ya en "true") y solo en la plantilla única, que sigue en preview. Revisión ligera de la corrida de las 14:38: `folio.ts revisar` sin choques, `requisitos-unicos` 3/3, `npx tsc --noEmit` limpio.
@@ -24,6 +26,22 @@ Actualizado: 23 nov 2026, 21:10 UTC (15:10 CDMX): constructora (Fable). **Frente
 Actualizado: 23 nov 2026, 16:30 UTC (10:30 CDMX): constructora (Opus). Ola 15: REQ-1564 CUMPLIDO (#731, Playwright de imágenes fuera de pantalla en el humo de cada PR) y REQ-10865 (zod y el diccionario de la taxonomía fuera del JS del navegador: primera carga de la ficha 270 → 219 KB, /tours 255 → 205, / 200 → 172).
 
 Actualizado: 23 nov 2026, 09:40 UTC (03:40 CDMX): constructora (Fable). **Frente 4 (#444), calendario con precio por día en la ficha de viajes (REQ-10863):** `src/trips/lib/trip-calendar.ts` une `fromTripAvailability` (REQ-10650) con `buildCalendar` (REQ-3468), y la ficha de un viaje (`TripDetailView`) pinta el mismo `ProviderDateCalendar` que la de tours tras `TRIP_CALENDAR_ENABLED` (en "false"): precio final por día (temporada + recargos), días sin salida deshabilitados, «Por confirmar» en los días sin precio publicado (G3), sin llamadas externas. Siguen: encendido con humo en preview (PR de una línea) y la carga de datos por tandas (G5).
+
+## Folios citados sin fila: registro RETRO (25 nov 2026) — matriz de trazabilidad
+
+| ID | Requisito | Origen | Archivo(s) | Test | Estado |
+|---|---|---|---|---|---|
+| REQ-270 | Carruseles del home con la taxonomía | RETRO | `src/home/lib/rank-row.ts` | `src/home/lib/rank-row-taxonomia.test.ts` | CUMPLIDO |
+| REQ-617 | `TAXONOMY_FILTERS_ENABLED` en "true" (gate 6) | RETRO | `wrangler.jsonc` | `src/taxonomy/lib/filters.test.ts` | CUMPLIDO |
+| REQ-770 | Workflow del bucket privado de la copia exacta | RETRO | `.github/workflows/r2-bucket-crudo.yml` | `src/ops/r2-bucket-crudo-workflow.test.ts` | CUMPLIDO |
+| REQ-773 | 0023 en `migrations/`, después de 0017 y 0022 | RETRO | `migrations/0023_taxonomia_linaje.sql` | `src/taxonomy/migration-0023.test.ts` | CUMPLIDO |
+| REQ-1500 | «Reservar» no sale a FREETOUR | RETRO | `src/components/tours/one/TourSidebar.tsx` | `TourSidebar.test.ts` | CUMPLIDO |
+| REQ-1512 | Fotos de banco no repetidas en el blog | RETRO | `src/blog/lib/images.ts`, `diario.ts` | `src/blog/lib/images.test.ts` | CUMPLIDO |
+| REQ-1588 | Folio de prueba de REQ-1587 | RETRO | `.github/workflows/prueba-humo.yml` | `src/ops/lib/folios.test.ts` (dato) | REEMPLAZADO |
+| REQ-1589 | Folio de prueba de REQ-1587 | RETRO | — | `src/ops/lib/folios.test.ts` (dato) | REEMPLAZADO |
+| REQ-1590 | Marca Travel Puzzle en los acuerdos | RETRO | Proyecto de Claude `legal/` | — | SIN VERIFICAR |
+| REQ-3428 | Traslados de Tangol como complemento del carrito | RETRO | `src/taxonomy/data/mapping/tangol.json` | `tangol-tipos.test.ts` (caracterización nueva) | CUMPLIDO |
+| REQ-3457 | Plan: Mila toma los seguimientos de los proveedores | RETRO | PR #447 | piezas en sus folios | SIN VERIFICAR |
 
 ## Frente 4 · Calendario con precio por día para proveedores de PDF (#444, plan #446) — matriz de trazabilidad
 | ID | Requisito | Origen | Archivo(s) | Test | Estado |
