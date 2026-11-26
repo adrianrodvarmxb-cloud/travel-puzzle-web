@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { beforeYouGoView, conditionsText, conditionsView, importantInfoView } from "./conditions-view";
+import { beforeYouGoView, conditionsText, conditionsView, importantInfoView, withoutRequestNotes } from "./conditions-view";
 import { bookingSteps } from "@/trips/lib/booking-steps";
 
 describe("Ficha única, bloques 13–15 (lógica)", () => {
@@ -31,5 +31,23 @@ describe("Ficha única, bloques 13–15 (lógica)", () => {
     expect(conditionsText("antesDeIr", "es")).toBe("Antes de ir");
     expect(conditionsText("informacion", "en")).toBe("Important information");
     expect(conditionsText("condiciones", "xx" as never)).toBe("Condiciones");
+  });
+});
+
+describe("REQ-10902: el plazo de confirmación se dice completo una sola vez", () => {
+  it("REQ-10902: la nota «Reserva bajo solicitud: … 48 horas hábiles; no cobramos nada…» del proveedor se quita del bloque 15; las demás notas quedan", () => {
+    const notas = [
+      "Salida diaria a las 08:45 desde el mostrador de tours del hotel Paradox Singapore; se confirma con un mínimo de 4 personas.",
+      "Reserva bajo solicitud: el operador confirma disponibilidad en un máximo de 48 horas hábiles; no cobramos nada antes de esa confirmación.",
+      "Reserva bajo solicitud: confirmamos disponibilidad con Extime Travel antes de cualquier cobro.",
+      "Precio por persona en USD, en grupo con guía de habla inglesa.",
+    ];
+    expect(withoutRequestNotes(notas)).toEqual([notas[0], notas[3]]);
+    const v = importantInfoView(notas, null, "es");
+    expect(v?.notes).toEqual([notas[0], notas[3]]);
+    expect(JSON.stringify(v)).not.toMatch(/48 horas|cobramos/);
+    expect(importantInfoView(["Reserva bajo solicitud: confirmamos con el operador."], null, "es")).toBeNull();
+    // Una nota que menciona la solicitud en medio del texto no se toca.
+    expect(withoutRequestNotes(["Las extensiones se venden bajo solicitud con el circuito."])).toEqual(["Las extensiones se venden bajo solicitud con el circuito."]);
   });
 });
