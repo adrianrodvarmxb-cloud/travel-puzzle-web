@@ -31,6 +31,7 @@ import type { FichaModel } from "./model";
 import { panelPlan, type PanelFlags, type PanelPlan } from "./panel-plan";
 import { panelView, type PanelView } from "./panel-view";
 import { includesView, meetingView, optionCards, practicalText, type IncludesView, type MeetingView, type OptionCard } from "./practical-view";
+import { addonCards, type AddonCard } from "./addons";
 import type { FichaPrefill } from "./prefill";
 import { taxonomyChips, type TaxonomyChip } from "./taxonomy-view";
 import { titleView, type TitleView } from "./title";
@@ -45,6 +46,8 @@ export interface PageViewFlags extends PanelFlags, Pick<BlockContext, "milaEnabl
   freetourGuarantees?: boolean;
   /** REQ-10874: LOCAL_CURRENCY_ENABLED; encendida, el panel lleva la ruta para pedir el precio en la moneda del visitante. */
   localCurrency?: boolean;
+  /** REQ-10882: FICHA_ADDONS_ENABLED; encendida, el bloque 12 lleva los adicionales visibles del proveedor (REQ-10881). */
+  addons?: boolean;
 }
 
 export interface PageViewsInput {
@@ -67,6 +70,8 @@ export interface PageViewsInput {
   others: { paid: OtherCard[]; free: OtherCard[]; includePaid: boolean };
   /** Ancla del apartado del proveedor en T&C (ola 14); null = enlace general. */
   providerAnchor?: string | null;
+  /** REQ-10881: «hoy» en ISO (AAAA-MM-DD) para no mostrar adicionales de temporada ya vencida; sin él no se juzga. Lo da el borde, nunca `Date.now()` al pintar (INC-001). */
+  today?: string;
 }
 
 /** Props de cada bloque (mismas que reciben los componentes de `src/components/ficha/blocks/`; la prueba lo amarra). */
@@ -82,7 +87,7 @@ export interface FichaViews {
   itinerario?: { days: ItineraryDayView[]; heading: string };
   incluye?: { view: IncludesView; headings: { incluye: string; noIncluye: string } };
   "punto-de-encuentro"?: { view: MeetingView | null; text: { heading: string; directions: string; zone: string; zoneNote: string } };
-  opciones?: { cards: OptionCard[]; heading: string };
+  opciones?: { cards: OptionCard[]; heading: string; addons?: AddonCard[] };
   "antes-de-ir"?: { view: BeforeYouGoView | null; text: { heading: string; bring: string; requirements: string } };
   condiciones?: { view: ConditionsView; text: { heading: string; cancellation: string } };
   "informacion-importante"?: { view: ImportantInfoView | null; heading: string };
@@ -131,7 +136,11 @@ export function fichaViews(i: Omit<PageViewsInput, "visitorCountry" | "fx">): Fi
       view: meetingView(f.meeting),
       text: { heading: practicalText("puntoDeEncuentro", lang), directions: practicalText("comoLlegar", lang), zone: practicalText("zona", lang), zoneNote: practicalText("zonaNota", lang) },
     },
-    opciones: { cards: optionCards(f.options, lang, { localCurrency: !!flags.localCurrency }), heading: practicalText("opciones", lang) }, // REQ-10879
+    opciones: {
+      cards: optionCards(f.options, lang, { localCurrency: !!flags.localCurrency }), // REQ-10879
+      heading: practicalText("opciones", lang),
+      addons: flags.addons ? addonCards(f.addons ?? [], lang, { localCurrency: !!flags.localCurrency, today: i.today }) : [], // REQ-10881, REQ-10882
+    },
     "antes-de-ir": {
       view: beforeYouGoView(f.whatToBring, f.requirements),
       text: { heading: conditionsText("antesDeIr", lang), bring: conditionsText("queLlevar", lang), requirements: conditionsText("requisitos", lang) },

@@ -67,6 +67,33 @@ export interface FichaOption {
   startTime: string | null;
 }
 
+/** REQ-10881 (ola 12): tipo de adicional del proveedor (plan §8 bis). */
+export type FichaAddonKind =
+  | "transfer"
+  | "single-room"
+  | "half-board"
+  | "full-board"
+  | "internal-flight"
+  | "extension"
+  | "extra-night"
+  | "optional"
+  | "date-surcharge"
+  | "other";
+
+/** REQ-10881 (ola 12): adicional a precio FINAL público; sin neto ni margen (eso nunca entra al modelo). */
+export interface FichaAddon {
+  id: string;
+  kind: FichaAddonKind;
+  /** Nombre ya en el idioma de la ficha. */
+  name: string;
+  /** Precio final con su moneda; null = sin precio confirmado (no se muestra). */
+  price: FichaPrice | null;
+  /** Temporada (AAAA-MM-DD); null = todo el año. Sin las dos fechas claras no se publica. */
+  season: { from: string; to: string } | null;
+  /** Nota al cliente (en vuelos internos, la cláusula de deslinde; obligatoria para que salga). */
+  note: string | null;
+}
+
 export interface FichaCancellation {
   /** Horas de anticipación para cancelar sin cargo; null si no se conocen. Una sola por ficha (decisión 34). */
   hours: number | null;
@@ -118,9 +145,11 @@ export interface FichaModel {
   excludes: string[];
   // 11 Punto de encuentro
   meeting: FichaMeeting;
-  // 12 Opciones y precios (adicionales llegan en REQ-10636, ola 12)
+  // 12 Opciones y precios
   price: FichaPrice | null;
   options: FichaOption[];
+  /** REQ-10881 (ola 12, REQ-10636): adicionales del proveedor a precio final; opcional para no romper a quien arma el modelo. */
+  addons?: FichaAddon[];
   // 13 Antes de ir
   whatToBring: string[];
   requirements: string[];

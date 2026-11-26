@@ -46,6 +46,19 @@ export const fichaSchema = z.object({
   ]),
   price: price.nullable(),
   options: z.array(z.object({ id: z.string().min(1), name: z.string().min(1), price: price.nullable(), transferIncluded: z.boolean().nullable(), startTime: z.string().nullable() })),
+  // REQ-10881 (ola 12): adicionales a precio final; opcional.
+  addons: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        kind: z.enum(["transfer", "single-room", "half-board", "full-board", "internal-flight", "extension", "extra-night", "optional", "date-surcharge", "other"]),
+        name: z.string().min(1),
+        price: price.nullable(),
+        season: z.object({ from: z.string(), to: z.string() }).nullable(),
+        note: z.string().nullable(),
+      }),
+    )
+    .optional(),
   whatToBring: z.array(z.string().min(1)),
   requirements: z.array(z.string().min(1)),
   cancellation: z.object({ hours: z.number().positive().nullable(), text: z.string().nullable() }).nullable(),

@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { IncluyeBlock } from "./IncluyeBlock";
 import { PuntoEncuentroBlock } from "./PuntoEncuentroBlock";
 import { OpcionesBlock } from "./OpcionesBlock";
+import { addonCards } from "@/ficha/lib/addons";
 import { includesView, meetingView, optionCards, practicalText } from "@/ficha/lib/practical-view";
 import { fichaEjemplo } from "@/ficha/lib/fixtures";
 
@@ -48,6 +49,23 @@ describe("Bloques 10, 11 y 12 de la ficha única", () => {
     expect(out).toContain("USD $120 por persona");
     expect(out).toContain("Con traslado · 08:00");
     expect(out).not.toContain("data-precio-local");
+  });
+
+  it("REQ-10881: los adicionales se pintan aparte (`data-adicional`) con precio final; sin adicionales ni opciones, nada", () => {
+    expect(r(createElement(OpcionesBlock, { cards: [], heading: "x", addons: [] }))).toBe("");
+    const out = r(createElement(OpcionesBlock, {
+      cards: [],
+      heading: practicalText("opciones", "es"),
+      addons: addonCards([
+        { id: "ind", kind: "single-room", name: "Habitación individual", price: { amount: 250, currency: "USD", per: "person" }, season: null, note: null },
+        { id: "q", kind: "optional", name: "A cotizar", price: null, season: null, note: null },
+      ], "es", { localCurrency: true }),
+    }));
+    expect(out.match(/data-adicional=/g)).toHaveLength(1);
+    expect(out).toContain("Habitación individual");
+    expect(out).toContain("USD $250 por persona");
+    expect(out).toContain("data-precio-local");
+    expect(out).not.toContain("A cotizar");
   });
 
   it("REQ-10879: con `localUrl` el precio de cada opción se pinta con el texto del servidor y marcado para que el navegador pida el local", () => {

@@ -41,6 +41,20 @@ describe("page-views: las props de los 21 bloques y el panel desde el modelo (ol
     ]);
   });
 
+  it("REQ-10882: los adicionales del bloque 12 solo salen con FICHA_ADDONS_ENABLED; apagada, el bloque queda como hoy", () => {
+    const f = fichaEjemplo();
+    f.addons = [
+      { id: "ind", kind: "single-room", name: "Habitación individual", price: { amount: 250, currency: "USD", per: "person" }, season: null, note: null },
+      { id: "q", kind: "optional", name: "A cotizar", price: null, season: null, note: null },
+      { id: "vieja", kind: "date-surcharge", name: "Temporada pasada", price: { amount: 40, currency: "USD", per: "person" }, season: { from: "2025-12-15", to: "2026-01-10" }, note: null },
+    ];
+    const off = fichaViews(input({ f }));
+    expect(off.opciones?.addons).toEqual([]);
+    const on = fichaViews(input({ f, flags: { ...flags, addons: true, localCurrency: true }, today: "2026-11-26" }));
+    expect(on.opciones?.addons?.map((a) => [a.id, a.priceLabel, a.localUrl])).toEqual([["ind", "USD $250 por persona", "/api/precio-local?amount=250&currency=USD&per=person&lang=es"]]);
+    expect(JSON.stringify(on.opciones)).not.toMatch(/net|markup|commission/i);
+  });
+
   it("REQ-10858: las props que arma son exactamente las que reciben los componentes (se amarra en tipos)", () => {
     const v: FichaBlockViews = fichaViews(input());
     const w: FichaViews = v as FichaBlockViews;

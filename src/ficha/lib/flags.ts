@@ -58,3 +58,13 @@ export function fichaUnicaProviderFor(table: "tour" | "trip", providerId: string
 export function localCurrencyOn(env: Record<string, string | undefined>): boolean {
   return (env.LOCAL_CURRENCY_ENABLED ?? "").trim().toLowerCase() === "true";
 }
+
+/**
+ * REQ-10882 · Ola 12: `FICHA_ADDONS_ENABLED` ("true" / cualquier otra cosa = apagada; plan §7). Encendida, el bloque 12
+ * «Opciones y precios» muestra los adicionales visibles del proveedor (REQ-10881); apagada, el bloque queda como hoy.
+ * Regreso: "false" (no toca datos).
+ */
+// REQ-10882
+export function addonsOn(env: Record<string, string | undefined>): boolean {
+  return (env.FICHA_ADDONS_ENABLED ?? "").trim().toLowerCase() === "true";
+}
