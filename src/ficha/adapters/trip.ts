@@ -11,7 +11,8 @@ import type { FichaLang, FichaModel, FichaOption, FichaSection } from "../lib/mo
 import type { TaxonomyBlock } from "@/taxonomy/lib/block";
 import type { FichaMapView } from "@/map/lib/city-pin";
 import { operatorLine } from "../lib/operator";
-import { policySummary, type CancellationPolicy } from "@/trips/lib/cancel-policy";
+import { policySummary, policyText, type CancellationPolicy } from "@/trips/lib/cancel-policy";
+import { tripCopy } from "@/trips/lib/copy";
 import { htmlToLines, htmlToText, sanitizeHtml } from "../lib/text";
 import { infoDepartureTime } from "@/trips/lib/trip-facts";
 
@@ -54,12 +55,14 @@ interface RawOption { id?: unknown; name?: unknown; adult?: unknown; childAgeMin
 interface RawDay { title?: unknown; text?: unknown }
 interface RawMeeting { name?: unknown; instructions?: unknown }
 
-function cancellation(v: unknown): FichaModel["cancellation"] {
+// REQ-10890: «partial» y «none» salen con su texto real en el idioma de la ficha (`tripCopy`), nunca la clave interna
+// («Cancelación: none» en SIN-01, revisión visual del PO del 26-11-2026); sin política, null y la línea no se muestra.
+function cancellation(v: unknown, lang: FichaLang): FichaModel["cancellation"] {
   const p = v as Partial<CancellationPolicy> | null;
   if (!p || typeof p !== "object" || !p.type) return null;
   const s = policySummary({ type: p.type, tiers: Array.isArray(p.tiers) ? p.tiers : [] });
   if (s.kind === "free") return { hours: "hours" in s ? s.hours : s.days * 24, text: null };
-  return { hours: null, text: s.kind === "partial" ? "partial" : "none" };
+  return { hours: null, text: policyText(s, tripCopy(lang)) };
 }
 
 // REQ-10779
@@ -110,7 +113,7 @@ export function tripToFicha(i: TripInput): FichaModel {
     options: options.length > 1 ? options : [],
     whatToBring: htmlToLines(r.whatToBring),
     requirements: htmlToLines(r.accessibility),
-    cancellation: cancellation(r.cancellation),
+    cancellation: cancellation(r.cancellation, i.lang), // REQ-10890
     notes: [...htmlToLines(r.importantInfo), ...(r.priceNote ? [htmlToText(r.priceNote)] : []), ...(r.endPoint ? [htmlToText(r.endPoint)] : [])],
     operator: operatorLine(r.agencyId ?? TRIP_PROVIDER, i.agencyName),
     booking: { mode: r.purchaseMode === "buy" ? "purchase" : "request", chargedBy: "travelpuzzle", leadHours: r.minNoticeHours > 0 ? r.minNoticeHours : null },
