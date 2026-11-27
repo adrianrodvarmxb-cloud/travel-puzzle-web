@@ -16,6 +16,7 @@ import { fichaContractFailures, isFichaPath } from "../seo/lib/ficha-contract";
 import { blogSmokePaths } from "../blog/lib/seo";
 import { loadPosts } from "../blog/load";
 import { guideSmokePaths } from "../destinations/lib/guia";
+import { HTML_TIMEOUT_MS, RESOURCE_WAIT_MS } from "../ops/lib/calentado";
 import { loadGuides } from "../destinations/guias";
 
 /** REQ-500: carpeta de evidencia (el workflow la sube como artefacto). */
@@ -195,7 +196,12 @@ async function loadPage(ctx: BrowserContext, path: string): Promise<Loaded> {
     consoleErrors.push(m.text());
     if (isHydrationError(m.text())) pageErrors.push(m.text());
   });
-  const res = await page.goto(`${base}${path}${path.includes("?") ? "&" : "?"}smoke=${Date.now()}`, { waitUntil: "networkidle", timeout: 90_000 }).catch(() => null);
+  // REQ-10868 (INC-028, corrección A): el HTML se mide aparte (domcontentloaded, 90 s) y los recursos se esperan poco y
+  // con tope propio (networkidle, RESOURCE_WAIT_MS): un mapa o una fuente lentos ya no cuentan como «sin respuesta».
+  // Un 5xx o una página en blanco siguen tumbando el deploy (status y pantalla de error, abajo).
+  const res = await page.goto(`${base}${path}${path.includes("?") ? "&" : "?"}smoke=${Date.now()}`, { waitUntil: "domcontentloaded", timeout: HTML_TIMEOUT_MS }).catch(() => null);
+  const quiet = await page.waitForLoadState("networkidle", { timeout: RESOURCE_WAIT_MS }).then(() => true).catch(() => false);
+  if (res && !quiet) console.log(`recursos lentos (sin networkidle en ${RESOURCE_WAIT_MS / 1000} s): ${path}`);
   await page.waitForTimeout(1500);
   const appError = isErrorScreen(await page.evaluate(() => document.body?.innerText ?? "").catch(() => ""));
   const raw = res ? await res.text().catch(() => null) : null;

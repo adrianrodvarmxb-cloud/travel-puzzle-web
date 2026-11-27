@@ -94,9 +94,25 @@ describe("REQ-10813: SQL de carga con punto de regreso; simula por defecto", () 
 });
 
 describe("REQ-10850: ninguna pregunta a un proveedor sin revisión completa", () => {
-  it("REQ-10850: Inca World no tiene revisión completa (su tarifario no se pudo abrir) y no se puede cargar", () => {
-    expect(REVISIONES["inca-world-peru"]).toBeNull();
-    expect(validarCarga({ "inca-world-peru": PREGUNTAS_INICIALES["inca-world-peru"] }, DIRECTORIO_APROBADO, {})).toContain("inca-world-peru: sin revisión completa de hilos, adjuntos, contrato y expediente (REQ-10850)");
+  it("REQ-10850: Inca World tiene revisión parcial (4 hilos, 4 programas PDF, constancia, anexo y expediente) pero su tarifario de 23 MB sigue sin leerse: no se puede cargar", () => {
+    const r = REVISIONES["inca-world-peru"];
+    expect(r).not.toBeNull();
+    expect(r?.hilos).toBe(4);
+    expect(r?.adjuntos).toBe(false);
+    expect(r?.contrato).toBe(true);
+    expect(r?.expediente).toBe("proveedores/inca-world-peru-expediente-2026-11-26.md");
+    expect(motivoSinRevision("inca-world-peru", r)).toBe("inca-world-peru: revisión incompleta (falta adjuntos) (REQ-10850)");
+    expect(validarCarga({ "inca-world-peru": PREGUNTAS_INICIALES["inca-world-peru"] }, DIRECTORIO_APROBADO, {})).toContain("inca-world-peru: revisión incompleta (falta adjuntos) (REQ-10850)");
+  });
+
+  it("REQ-10850: a Inca World se le quitan las 3 preguntas que César contestó el 5 y el 9 de nov (cancelación, tarifas y contacto/fotos); quedan calendario y alta sin datos legales", () => {
+    expect(preguntasPorCargar("inca-world-peru").map((p) => p.id)).toEqual(["inca-world-peru:03", "inca-world-peru:05"]);
+    const q5 = PREGUNTAS_INICIALES["inca-world-peru"].find((p) => p.id === "inca-world-peru:05");
+    expect(q5?.es).not.toMatch(/datos legales/i);
+    expect(q5?.en).not.toMatch(/legal details/i);
+    const q3 = PREGUNTAS_INICIALES["inca-world-peru"].find((p) => p.id === "inca-world-peru:03");
+    expect(q3?.es).toMatch(/Ruta del Sur/);
+    expect(q3?.en).toMatch(/Ruta del Sur/);
   });
 
   it("REQ-10850: lo ya contestado no se carga; Fantástica China queda sin preguntas y las quitadas cuadran con las contestadas", () => {
@@ -105,7 +121,10 @@ describe("REQ-10850: ninguna pregunta a un proveedor sin revisión completa", ()
     for (const id of PUBLICADOS_G5) {
       const r = REVISIONES[id];
       if (!r) continue;
-      expect(motivoSinRevision(id, r)).toBeNull();
+      // Inca World es la única parcial (falta su tarifario); las demás tienen que estar completas.
+      if (id === "inca-world-peru") expect(motivoSinRevision(id, r)).toMatch(/falta adjuntos\)/);
+      else expect(motivoSinRevision(id, r)).toBeNull();
+      expect(Object.keys(r.quitadas).length).toBe(r.contestadas);
       for (const q of Object.keys(r.quitadas)) expect(PREGUNTAS_INICIALES[id].some((p) => p.id === q)).toBe(true);
     }
   });
