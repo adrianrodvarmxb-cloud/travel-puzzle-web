@@ -41,3 +41,37 @@ describe("REQ-500 (INC-007): la evidencia de la prueba de humo queda como artefa
     expect(paso(deploy, "Regresar a la versión anterior si falló").run).toMatch(/exit 1/);
   });
 });
+
+describe("REQ-10943 (INC-029, opción A del PO, 26-11-2026): el humo del PR calienta «/» y «/en» del preview antes del contrato de idioma", () => {
+  it("REQ-10943: el paso va después de subir el preview y antes de la prueba de humo, no decide el resultado y pide «/» y «/en» como bot", () => {
+    const subir = pr.findIndex((s) => s.name === "Subir versión (sin tráfico)");
+    const calentar = pr.findIndex((s) => s.name === "Calentar el preview (INC-029)");
+    const humo = pr.findIndex((s) => s.name === "Prueba de humo");
+    expect(subir).toBeGreaterThan(-1);
+    expect(calentar).toBeGreaterThan(subir);
+    expect(humo).toBeGreaterThan(calentar);
+    expect(pr[calentar]["continue-on-error"]).toBe(true);
+    expect(pr[calentar].run).toMatch(/for p in \/ \/en; do/);
+    expect(pr[calentar].run).toMatch(/bingbot/);
+    expect(pr[calentar].run).toMatch(/steps\.version\.outputs\.url/);
+  });
+});
+
+describe("REQ-10947 (INC-029 en el deploy, 27-11-2026): el deploy calienta «/» y «/en» de la versión subida antes del humo que decide publicar", () => {
+  it("REQ-10947: el paso va después de subir la versión y antes de «Prueba de humo (antes de publicar)», no decide el resultado y pide «/» y «/en» como bot", () => {
+    const subir = deploy.findIndex((s) => s.name === "Subir versión (sin tráfico)");
+    const calentar = deploy.findIndex((s) => s.name === "Calentar la versión subida (INC-029)");
+    const humo = deploy.findIndex((s) => s.name === "Prueba de humo (antes de publicar)");
+    expect(subir).toBeGreaterThan(-1);
+    expect(calentar).toBeGreaterThan(subir);
+    expect(humo).toBeGreaterThan(calentar);
+    expect(deploy[calentar]["continue-on-error"]).toBe(true);
+    expect(deploy[calentar].run).toMatch(/for p in \/ \/en; do/);
+    expect(deploy[calentar].run).toMatch(/bingbot/);
+    expect(deploy[calentar].run).toMatch(/steps\.version\.outputs\.url/);
+  });
+
+  it("REQ-10947: el humo antes de publicar sigue bloqueando (REQ-1579: un 503 real sigue contando)", () => {
+    expect(paso(deploy, "Prueba de humo (antes de publicar)")["continue-on-error"]).toBeUndefined();
+  });
+});
