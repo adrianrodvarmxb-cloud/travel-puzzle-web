@@ -49,6 +49,8 @@ export interface FichaKeyFacts {
   difficulty: 1 | 2 | 3 | 4 | 5 | null;
   /** Edades de niño e infante tal como las da el proveedor. */
   ages: { childFrom: number; childTo: number } | null;
+  /** REQ-10898: mínimo de personas para que el servicio se confirme (dato del proveedor); null = no lo dice. */
+  minPax?: number | null;
 }
 
 export type FichaMeeting =
