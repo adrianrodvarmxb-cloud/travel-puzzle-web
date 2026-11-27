@@ -121,3 +121,17 @@ export function buildReleasedTeamEmail(i: PayMailInput, adminUrl: string, reason
   const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · liberada`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
   return { subject, html, text };
 }
+
+// REQ-3484
+export function buildHoldNoticeTeamEmail(i: PayMailInput, adminUrl: string, daysLeft: number) {
+  const dias = daysLeft === 1 ? "1 día" : `${daysLeft} días`;
+  const subject = `Retención por vencer ${i.ref} · quedan ${dias}`;
+  const text = [
+    `Folio: ${i.ref}`, `Viaje: ${i.tripTitle}`, `Monto retenido: ${formatMXN(i.centavos)}`, "",
+    `Quedan ${dias} para confirmar con el proveedor y cobrar. Si no se cobra, la retención se libera sola y la reserva se cierra.`, "",
+    `Panel: ${adminUrl}`,
+  ].join("\n");
+  const body = `<tr><td style="padding:26px"><h1 style="margin:0 0 10px;font-size:22px;color:${UI.N9}">${esc(subject)}</h1><pre style="font-family:inherit;font-size:14px;line-height:1.6;color:${UI.N9};white-space:pre-wrap;margin:0">${esc(text)}</pre></td></tr>`;
+  const html = renderShell({ lang: "es", subject, preheader: `${i.ref} · quedan ${dias}`, logoUrl: i.logoUrl, labels: { ...LABELS, footer: "Aviso interno · Travel Puzzle" }, body });
+  return { subject, html, text };
+}
