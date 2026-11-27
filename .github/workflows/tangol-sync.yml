@@ -22,11 +22,18 @@
 #  - Antes de escribir se anota el punto de regreso de D1 (Time Travel) y se deja en el resumen.
 name: Tangol sync de tours
 on:
-  # REQ-10878: 7:00 UTC = 1:00 CDMX (G-D1). El job `diario` solo corre con TANGOL_SYNC_DIARIO_ENABLED == 'true'.
+  # REQ-10878: 7:17 UTC = 1:17 CDMX (G-D1). El job `diario` corre solo con TANGOL_SYNC_DIARIO_ENABLED == 'true'.
+  # REQ-10954 (27-11-2026): con «0 7» GitHub disparó una sola corrida programada (26-11 a las 17:27 UTC, 10 h tarde) y
+  # ninguna el 27: los crons en punto se retrasan o se descartan en horas cargadas. Minuto no en punto y, además, el
+  # job `diario` se puede lanzar a mano con la casilla `diario` (misma corrida, mismos candados y bookmark).
   schedule:
-    - cron: "0 7 * * *"
+    - cron: "17 7 * * *"
   workflow_dispatch:
     inputs:
+      diario:
+        description: "Lanzar la corrida DIARIA a mano (REQ-10954): escribe en producción igual que la programada, con bookmark de Time Travel; el job a mano no corre"
+        type: boolean
+        default: false
       escribir:
         description: "Escribir en producción (Country, City, Tour) — candado del PO"
         type: boolean
@@ -51,7 +58,7 @@ env:
   CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
 jobs:
   sync:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && !inputs.diario
     runs-on: ubuntu-latest
     # REQ-3536 (INC-015 / carga real): con 60 destinos el plan tarda ~19 min y la copia a R2 (2,756 objetos) ~15; 30 min cortaba la
     # corrida 43466215988 antes de escribir. El job no toca D1 hasta el paso «Escribir en D1», así que un corte largo no deja nada a medias.
@@ -213,7 +220,7 @@ jobs:
   # TANGOL_SYNC_DIARIO_ENABLED = 'true' (Settings → Secrets and variables → Actions → Variables). Regreso: borrar la
   # variable o ponerla en 'false'; los datos se regresan con el bookmark de Time Travel del resumen.
   diario:
-    if: github.event_name == 'schedule' && vars.TANGOL_SYNC_DIARIO_ENABLED == 'true'
+    if: (github.event_name == 'schedule' && vars.TANGOL_SYNC_DIARIO_ENABLED == 'true') || (github.event_name == 'workflow_dispatch' && inputs.diario)
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
