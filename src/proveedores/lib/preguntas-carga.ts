@@ -111,14 +111,14 @@ export const PREGUNTAS_INICIALES: Record<PublicadoG5, Pregunta[]> = {
       "Vigencia del tarifario, si el precio base es por persona en habitación doble, y los productos que aparecen sin tarifa.",
       "Validity of the rate sheet, whether the base price is per person in a double room, and the products that appear without a rate."),
     p("inca-world-peru", 3, "calendario", "2026-11-19",
-      "La anticipación mínima para reservar por producto (vemos 10 y 60 días según el caso) y la duración corregida de «Descubriendo el Perú».",
-      "Minimum booking lead time per product (we see 10 and 60 days depending on the case) and the corrected duration of «Descubriendo el Perú»."),
+      "La anticipación mínima para reservar por producto (vemos 10 y 60 días según el caso), la duración corregida de «Descubriendo el Perú» (que quedaron de enviarnos el 5 de noviembre) y la de «Siguiendo la Ruta del Sur»: el itinerario del PDF termina el día 8 con 7 noches de hotel, pero la portada dice 9 días / 8 noches.",
+      "Minimum booking lead time per product (we see 10 and 60 days depending on the case), the corrected duration of «Descubriendo el Perú» (which you offered to send on 5 November) and that of «Siguiendo la Ruta del Sur»: the PDF itinerary ends on day 8 with 7 hotel nights, but the cover says 9 days / 8 nights."),
     p("inca-world-peru", 4, "pago", "2026-11-19",
       "El contacto operativo de reservas (además del teléfono 24/7 que ya tenemos) y las fotos oficiales que nos ofrecieron el 9 de noviembre.",
       "The operational booking contact (besides the 24/7 phone we already have) and the official photos offered on 9 November.", "REQ-1524"),
     p("inca-world-peru", 5, "alta", "2026-11-19",
-      "Los datos legales de Reservas CPM S.A.C., la forma y el plazo de pago, y si tienen API, portal o listado en Excel.",
-      "The legal details of Reservas CPM S.A.C., payment method and terms, and whether you have an API, portal or Excel listing.", "REQ-10574"),
+      "La forma y el plazo de pago de cada reserva, y si tienen API, portal o listado en Excel.",
+      "Payment method and terms for each booking, and whether you have an API, portal or Excel listing.", "REQ-10574"),
   ],
   "turismo-asiatico": [
     p("turismo-asiatico", 1, "tarifas", "2026-11-19",
@@ -241,8 +241,21 @@ export const REVISIONES: Record<PublicadoG5, RevisionCompleta | null> = {
       "fantastica-china:05": "Fotos autorizadas con crédito el 4 nov 2026; razón social dada por Zhou Fan el 17 y 19 nov; los datos legales completos llegan con la firma del acuerdo (Anexo 2), ya pedida",
     },
   },
-  // Sin revisión completa: su tarifario B2B 2026-2027 (PDF de 23 MB del 4 nov) no se pudo abrir desde aquí; falta leerlo antes de cargar.
-  "inca-world-peru": null,
+  // 26-11-2026, revisión PARCIAL (sigue bloqueada por `adjuntos: false`): los 4 hilos con centralincaworldtravel@ (3 de
+  // presentación de 2024-2025 sin respuesta y el hilo «Seguimiento a nuestra reunión» con 8 correos, 24 jul 2024 y 3 a 9 nov 2026),
+  // sin correos de incaworldperu@/incaworldtravel@ ni del dominio; leídos los 4 programas PDF compartidos por Drive (Descubriendo
+  // el Perú 9D, Maravilla del Perú 12D/11N, Misterios 11D/10N y Ruta del Sur) y la constancia GERCETUR (datos legales); anexo
+  // `legal/anexo-acuerdo-inca-world-peru-2026-11.md` revisado (acuerdo NO enviado: ningún correo lo lleva). Lo que falta leer es el
+  // tarifario B2B 2026-2027 (PDF de 23 MB del 4 nov): Gmail no lo entrega por API arriba de 12 MB y no está en Drive; César dice
+  // que sus condiciones de reserva, pago, modificación y cancelación van ahí. Hasta leerlo, no se carga nada (REQ-10850).
+  "inca-world-peru": {
+    fecha: "2026-11-26", hilos: 4, adjuntos: false, contrato: true, expediente: "proveedores/inca-world-peru-expediente-2026-11-26.md", contestadas: 3,
+    quitadas: {
+      "inca-world-peru:01": "Correo de César Pilares del 5 nov 2026, punto 4: no hay penalidad fija de 61 a 31 días; entradas a Machu Picchu y otros ingresos no reembolsables una vez comprados, boletos de tren según el operador ferroviario, los demás servicios según los proveedores y los gastos incurridos, hoteles con política especial se informan al confirmar",
+      "inca-world-peru:02": "Correo de César Pilares del 5 nov 2026, puntos 1, 2 y 6: vigencia 1 ene a 31 dic 2027; precio por persona en doble desde 2 pasajeros, hotel 3 estrellas, sencilla al mismo valor que la doble; los productos sin tarifa (MP-04 a MP-06, CUS-TR11/TR12, ICA-01, PROG-TRK-05 y suplementos) se cotizan caso por caso",
+      "inca-world-peru:04": "Correo de César Pilares del 5 nov 2026, punto 7 (reservas: centralincaworldtravel@gmail.com; emergencias 24/7 el teléfono que ya tenemos) y del 9 nov 2026 (fotos oficiales por tour y por destino enviadas en «inca world peru.rar» por Drive; REQ-1524)",
+    },
+  },
   // 21-11-2026: hilo único «COTIZACION» (2024 y 4 a 6 nov 2026), T&C 2026 y tarifarios 2027 de Kuala Lumpur y Singapur leídos; sin acuerdo enviado.
   "turismo-asiatico": {
     fecha: "2026-11-21", hilos: 1, adjuntos: true, contrato: true, expediente: "proveedores/turismo-asiatico-expediente-2026-11-18.md", contestadas: 2,

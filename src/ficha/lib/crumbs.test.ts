@@ -28,3 +28,18 @@ describe("fichaCrumbs", () => {
     expect(JSON.stringify(sinPais)).not.toContain("N/D");
   });
 });
+
+describe("REQ-10894: ciudad con el mismo nombre que su país", () => {
+  it("REQ-10894: Singapur › Singapur se queda en una sola miga (la de la ciudad, con su ruta); nunca dos seguidas iguales", () => {
+    const sg = fichaCrumbs({ country: { code: "SG", name: "Singapur" }, city: { slug: "singapur", name: "Singapur" }, title: "Singapur: city tour compartido en inglés", lang: "es" });
+    expect(sg.map((c) => c.name)).toEqual(["Inicio", "Destinos", "Singapur", "Singapur: city tour compartido en inglés"]);
+    expect(sg[2].href).toBe("/destinos/sg/singapur");
+    expect(sg[3].href).toBe("/destinos/sg/singapur#ficha");
+    for (let i = 1; i < sg.length; i++) expect(sg[i].name).not.toBe(sg[i - 1].name);
+    // Con acentos o mayúsculas distintas también es la misma: «Mexico» y «México».
+    const mx = fichaCrumbs({ country: { code: "MX", name: "México" }, city: { slug: "mexico", name: "Mexico" }, title: "Tour", lang: "es" });
+    expect(mx.map((c) => c.name)).toEqual(["Inicio", "Destinos", "Mexico", "Tour"]);
+    // País y ciudad distintos: como siempre.
+    expect(fichaCrumbs(base).map((c) => c.name)).toEqual(["Inicio", "Destinos", "Argentina", "El Calafate", "Glaciar Perito Moreno"]);
+  });
+});
