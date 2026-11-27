@@ -115,6 +115,12 @@
     "FICHA_UNICA_TANGOL_ENABLED": "preview", // 22-11-2026 (constructora, REQ-10859): humo del PR con la plantilla montada en preview; producción sin cambio
     "FICHA_UNICA_FREETOUR_ENABLED": "false",
     "FICHA_UNICA_TRIP_ENABLED": "preview", // 24-11-2026 (constructora Fable, REQ-10870): viajes de agencia y Big Bus con la plantilla única en preview; producción sin cambio
+    // Ficha única, ola 8 «Paso de reserva único» (plan §7; decisión 7 = B REQ-10586; REQ-10635; firmas REQ-10766 y REQ-10775;
+    // código REQ-10952). "false" = el flujo de hoy, control por control; "preview" = el flujo único solo en versiones sin
+    // tráfico; "true" = en producción. Todo lo que no es de FREETOUR sigue los pasos de FREETOUR y cobra con nuestro Stripe;
+    // FREETOUR no cambia. El encendido toca cobros: se le pide al PO aparte, uno por uno, con una compra de prueba en Stripe
+    // (REQ-10766). Regreso: "false" (no toca datos).
+    "BOOKING_FLOW_UNICO_ENABLED": "false", // 27-11-2026 (constructora Fable, REQ-10952): PR 1, decisión pura `src/booking/lib/flow.ts`; nada montado
     // Ficha única, ola 9 «Moneda del visitante» (plan §7; decisión 32 REQ-10610; fuente REQ-10767; REQ-10874). El HTML de la
     // ficha lo guarda el borde 5 min para todos (REQ-3318), así que el panel se pinta en la moneda del proveedor y, con
     // esta bandera en "true", el navegador pide su precio a `/api/precio-local` (país por `cf-ipcountry`, Banxico +
