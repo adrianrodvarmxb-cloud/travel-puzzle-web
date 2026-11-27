@@ -25,4 +25,10 @@ describe("REQ-10742: qué detiene a cada folio", () => {
     expect(estaCerrado('CUMPLIDO (1 prueba verde; la sección está en `status: "pendiente"` en es y en)')).toBe(true);
     expect(estaCerrado("CUMPLIDO (falta la corrida)")).toBe(false);
   });
+  it("REQ-10742: la historia que el cierre deja después de «Antes:» no reabre una fila CUMPLIDO", () => {
+    expect(estaCerrado("CUMPLIDO (auditoría 26-11-2026, 9 pruebas verdes). Antes: PENDIENTE · Qué falta (inventario frente 5, 20-11-2026): falta que la auditoría lo cierre")).toBe(true);
+    expect(estaCerrado("CUMPLIDO (auditoría: 1 prueba verde). Antes: PENDIENTE")).toBe(true);
+    expect(estaCerrado("CUMPLIDO (falta la corrida). Antes: PENDIENTE")).toBe(false);
+    expect(estaCerrado("PENDIENTE. Antes: CUMPLIDO")).toBe(false);
+  });
 });

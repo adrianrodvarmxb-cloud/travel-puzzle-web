@@ -60,3 +60,19 @@ export function isAudioGuided(trip: LangInput): boolean {
 export function languagesLabel(trip: LangInput, c: TripCopy): string {
   return isAudioGuided(trip) ? c.audioGuide : c.languages;
 }
+
+/**
+ * REQ-10898: hora de salida desde la información importante, solo cuando la línea empieza por «Salida (diaria) a las
+ * HH:MM», «Recogida en tu hotel a las HH:MM», «Empieza a las HH:MM» o «Preséntate a las HH:MM». Una hora en medio de un
+ * texto («llegada hacia las 18:00») no cuenta: nunca se adivina. null sin dato.
+ */
+const DEPARTURE = /^\s*(?:salidas?(?:\s+diarias?)?|recogida en tu hotel|empieza|inicio|pres[eé]ntate)(?:\s+\S+){0,2}?\s+a las\s+(\d{1,2})[:.](\d{2})\b/im;
+
+// REQ-10898
+export function infoDepartureTime(info: string | null | undefined): string | null {
+  const m = (info ?? "").match(DEPARTURE);
+  if (!m) return null;
+  const h = Number(m[1]), min = Number(m[2]);
+  if (h > 23 || min > 59) return null;
+  return `${String(h).padStart(2, "0")}:${m[2]}`;
+}
