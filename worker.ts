@@ -78,6 +78,13 @@ export default {
       ctx.waitUntil(handler.fetch(proveedores, env, ctx).then(async (res: Response) => console.log(`[cron] proveedores → ${res.status} ${await res.text()}`)));
     }
 
+    // REQ-3484: cada hora (minuto 30), aviso del día 5 y liberación de retenciones de tarjeta vencidas.
+    // La ruta no hace nada mientras STRIPE_HOLD_ENABLED no sea "true".
+    if (ahora.getUTCMinutes() === 30) {
+      const retenciones = new Request("https://internal/api/cron/retenciones", { headers: { authorization: `Bearer ${env.CRON_SECRET}` } });
+      ctx.waitUntil(handler.fetch(retenciones, env, ctx).then(async (res: Response) => console.log(`[cron] retenciones → ${res.status} ${await res.text()}`)));
+    }
+
     // REQ-3416: una vez al día (12:20 UTC), catálogo de Big Bus por Ventrata OCTO. La ruta no hace nada mientras
     // BIGBUS_OCTO_ENABLED no sea "true".
     if (now.getUTCHours() === 12 && now.getUTCMinutes() === 20) {

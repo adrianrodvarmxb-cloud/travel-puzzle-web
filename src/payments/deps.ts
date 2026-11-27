@@ -9,6 +9,7 @@ import { verifyStripeSignature } from "./lib/webhook";
 import { createPaymentLink, type LinkDeps, type WebhookDeps, type PayRequest } from "./service";
 import type { HoldDeps } from "./hold";
 import type { SettleDeps } from "./settle";
+import type { SweepDeps } from "./hold-sweep";
 import { purchaseHooksFromEnv } from "@/octo/deps";
 
 const env = () => process.env as Record<string, string | undefined>;
@@ -159,5 +160,39 @@ export function settleDeps(): SettleDeps {
     setRequestStatus,
     sendCustomer: m.send,
     sendTeam: m.team,
+  };
+}
+
+/**
+ * REQ-3484: barrido de retenciones (aviso del día 5 y liberación al vencer).
+ * La marca de «aviso enviado» reutiliza la tabla de marcas de correos (refNumber = id del pago, kind = hold_day5):
+ * evita una migración; no choca con las reservas de FREETOUR porque los ids de pago son distintos.
+ */
+export function sweepDeps(): SweepDeps {
+  const base = settleDeps();
+  const prisma = getPrisma();
+  const KIND = "hold_day5";
+  return {
+    enabled: base.enabled, now: base.now, siteUrl: base.siteUrl, logoUrl: base.logoUrl,
+    async listHeld() {
+      const rows = await prisma.payment.findMany({
+        where: { status: "held" }, take: 200, orderBy: { updatedAt: "asc" },
+        select: { id: true, paymentIntent: true, amountCentavos: true, kind: true, updatedAt: true, requestId: true },
+      });
+      const out = [];
+      for (const p of rows) {
+        const r = await prisma.tripRequest.findUnique({ where: { id: p.requestId }, select: { id: true, ref: true, tripTitle: true, email: true, firstName: true } });
+        if (r) out.push({ payment: { id: p.id, paymentIntent: p.paymentIntent, amountCentavos: p.amountCentavos, kind: p.kind as PaymentKind }, request: r, heldAt: p.updatedAt });
+      }
+      return out;
+    },
+    async wasNoticed(id) {
+      return (await prisma.freetourBookingEmail.findUnique({ where: { refNumber_kind: { refNumber: id, kind: KIND } }, select: { kind: true } })) !== null;
+    },
+    async markNoticed(id) {
+      await prisma.freetourBookingEmail.upsert({ where: { refNumber_kind: { refNumber: id, kind: KIND } }, create: { refNumber: id, kind: KIND }, update: {} });
+    },
+    cancel: base.cancel, markReleased: base.markReleased, setRequestStatus: base.setRequestStatus,
+    sendCustomer: base.sendCustomer, sendTeam: base.sendTeam,
   };
 }
