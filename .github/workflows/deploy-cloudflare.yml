@@ -216,6 +216,8 @@ jobs:
               sleep 15
             done
           done
+          # REQ-10868 (INC-028, corrección A): además, todas las páginas fijas del humo más las guías publicadas hoy.
+          npx tsx src/scripts/calentar-paginas.ts https://travelpuzzle.com.mx
           # REQ-10842 (INC-027): un 200 no basta; /tours y /en/tours deben traer ≥ 2 fichas de viaje antes del humo.
           npx tsx src/scripts/calentar-tours.ts https://travelpuzzle.com.mx
 
