@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { durationLabel, infoDepartureTime, isAudioGuided, languagesLabel } from "./trip-facts";
+import { durationLabel, infoDepartureTime, infoHalfDay, isAudioGuided, languagesLabel } from "./trip-facts";
 import { tripCopy } from "./copy";
 
 const es = tripCopy("es");
@@ -68,6 +68,21 @@ describe("Texto corto de Big Bus", () => {
       const parts = m[1].split(/, | o /).map((s) => s.trim());
       expect(new Set(parts).size, `${t.ref}: ${m[1]}`).toBe(parts.length);
     }
+  });
+});
+
+describe("REQ-10891: «Duración: medio día.» en el import", () => {
+  it("REQ-10891: un viaje de un día con «Duración: medio día.» dice «Medio día» (y su traducción), no «1 día»; con horas, las horas mandan", () => {
+    const base = { kind: "tour", durationDays: 1, options: [] as { name: string }[] };
+    expect(infoHalfDay("Duración: medio día.\nSalida 09:00.")).toBe(true);
+    expect(infoHalfDay("Duración: 3 h 30 min.")).toBe(false);
+    expect(infoHalfDay("Salida a medio día.")).toBe(false);
+    expect(durationLabel({ ...base, importantInfo: "Duración: medio día." }, tripCopy("es"))).toBe("Medio día");
+    expect(durationLabel({ ...base, importantInfo: "Duración: medio día." }, tripCopy("en"))).toBe("Half day");
+    expect(durationLabel({ ...base, importantInfo: "Duración: medio día." }, tripCopy("pt"))).toBe("Meio dia");
+    expect(durationLabel({ ...base, importantInfo: "Duración: 3 h 30 min." }, tripCopy("es"))).toBe("3 h 30 min");
+    expect(durationLabel({ ...base, importantInfo: "Salida 09:00." }, tripCopy("es"))).toBe("1 día");
+    expect(durationLabel({ ...base, durationDays: 3, importantInfo: "Duración: medio día." }, tripCopy("es"))).toBe("3 días");
   });
 });
 

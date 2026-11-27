@@ -19,6 +19,12 @@ export function infoDurationMinutes(info: string | null | undefined): number | n
 }
 const hoursText = (min: number) => (min % 60 ? `${Math.floor(min / 60)} h ${min % 60} min` : `${min / 60} h`);
 
+// REQ-10891: «Duración: medio día.» (sin horas) también es un dato del proveedor: la ficha dice «Medio día», no «1 día».
+export function infoHalfDay(info: string | null | undefined): boolean {
+  const line = (info ?? "").match(INFO_DURATION)?.[1] ?? "";
+  return /\b(medio\s+d[ií]a|half[- ]day)\b/i.test(line) && !HOURS.test(line);
+}
+
 const VALIDITY = /(\d+)\s*(horas?|h\b|días?|dias?)/i;
 
 // REQ-145: en transporte (boletos con vigencia), el encabezado muestra el rango de las opciones («24–48 h», «1–2 días»).
@@ -26,8 +32,11 @@ const VALIDITY = /(\d+)\s*(horas?|h\b|días?|dias?)/i;
 export function durationLabel(trip: DurationInput, c: TripCopy): string | null {
   const fallback = trip.durationDays ? c.days(trip.durationDays) : null;
   if (trip.kind !== "transporte") {
-    const min = trip.durationDays === null || trip.durationDays <= 1 ? infoDurationMinutes(trip.importantInfo) : null;
-    return min ? hoursText(min) : fallback;
+    const oneDay = trip.durationDays === null || trip.durationDays <= 1;
+    const min = oneDay ? infoDurationMinutes(trip.importantInfo) : null;
+    if (min) return hoursText(min);
+    if (oneDay && infoHalfDay(trip.importantInfo)) return c.halfDay; // REQ-10891
+    return fallback;
   }
   const parsed = trip.options.map((o) => o.name.match(VALIDITY)).filter((m): m is RegExpMatchArray => m !== null)
     .map((m) => ({ n: Number(m[1]), hours: /^h/i.test(m[2]) }));

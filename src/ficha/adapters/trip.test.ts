@@ -34,7 +34,7 @@ describe("REQ-10779: viaje de agencia → modelo de la ficha", () => {
     expect(f.notes[0]).toMatch(/^Salidas regulares/);
   });
   it("REQ-10779: una sola cancelación (decisión 34): sin tramo con reembolso íntegro queda «parcial»; estándar = 24 h; con 100 % a N días, N×24 h", () => {
-    expect(tripToFicha(base()).cancellation).toEqual({ hours: null, text: "partial" });
+    expect(tripToFicha(base()).cancellation).toEqual({ hours: null, text: "Reembolso parcial según anticipación" }); // REQ-10890
     expect(tripToFicha({ ...base(), row: { ...base().row, cancellation: { type: "standard", tiers: [] } } }).cancellation).toEqual({ hours: 24, text: null });
     expect(tripToFicha({ ...base(), row: { ...base().row, cancellation: { type: "custom", tiers: [{ daysBefore: 10, refundPct: 100 }, { daysBefore: 0, refundPct: 0 }] } } }).cancellation).toEqual({ hours: 240, text: null });
     expect(tripToFicha({ ...base(), row: { ...base().row, cancellation: null } }).cancellation).toBeNull();
@@ -53,6 +53,17 @@ describe("REQ-10779: viaje de agencia → modelo de la ficha", () => {
     expect(f.price).toBeNull();
     expect(f.facts.difficulty).toBeNull();
     expect(checkFicha(f).ok).toBe(true);
+  });
+});
+
+describe("REQ-10890: la cancelación de un viaje sale con su texto real, nunca la clave interna", () => {
+  it("REQ-10890: «none» → «No reembolsable» (es) / «Non-refundable» (en); «partial» → texto de reembolso parcial; sin política, null", () => {
+    const none = { ...base(), row: { ...base().row, cancellation: { type: "none", tiers: [] } } };
+    expect(tripToFicha(none).cancellation).toEqual({ hours: null, text: "No reembolsable" });
+    expect(tripToFicha({ ...none, lang: "en" }).cancellation).toEqual({ hours: null, text: "Non-refundable" });
+    expect(tripToFicha({ ...base(), lang: "en" }).cancellation).toEqual({ hours: null, text: "Partial refund depending on notice" });
+    expect(tripToFicha({ ...base(), row: { ...base().row, cancellation: null } }).cancellation).toBeNull();
+    for (const f of [tripToFicha(none), tripToFicha(base())]) expect(f.cancellation?.text).not.toMatch(/^(none|partial)$/);
   });
 });
 
