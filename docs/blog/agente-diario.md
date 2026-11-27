@@ -24,6 +24,12 @@ npx tsx src/scripts/blog-tema.ts
 Te devuelve `hoy`, `toca` (`pago`, `free` o `ninguno`), `motivo`, `clusterSugerido` (siguiente ID pendiente del calendario), `pilaresActivos` (con su página comercial), `siguientesPendientes` y `terminosUsados`.
 - Si `toca` es `ninguno`: **termina aquí** y reporta el motivo. No escribas ni envíes nada. Un ejemplo: los días de free tour mientras la autorización B1 no exista.
 - La mezcla es 80/20 (de cada 10 días, 8 de experiencias de pago y 2 de free tours). Ya viene calculada: respeta `toca`.
+- REQ-10725 (PO, 15 nov 2026): mientras `FREE_TOUR_POSTS_B1` siga en `false`, los días que tocarían free tour se escriben de **pago** (siguiente pendiente de pago del calendario) y el tope 8/10 no aplica: se publica todos los días. Con B1 autorizado vuelve el 80/20.
+- REQ-10784 (PO, 17 nov 2026; rige desde el 18 nov 2026): **enfoque del blog = experiencias de pago.** Orden de prioridad al elegir tema, de cada 10 entradas: **7** de experiencias de pago de Tangol y de los demás proveedores de pago (Fantástica China, Inca World, etc.); **2** de experiencias de pago de FREETOUR; **1** de free tour.
+  - Dentro de `toca: pago`, prefiere el clúster o tema cuyo catálogo tenga experiencias de pago de Tangol u otro proveedor de pago distinto de FREETOUR; cuenta mentalmente las últimas 10 entradas de `terminosUsados` para no pasarte de 2 de FREETOUR de pago. Si la ciudad solo tiene FREETOUR de pago, cuenta como FREETOUR de pago.
+  - La preferencia se nota solo al elegir el tema: **no** nombres a Tangol ni a ningún proveedor en el texto (vocabulario prohibido vigente).
+  - Mientras `FREE_TOUR_POSTS_B1` siga en `false`, la cuota de free tour (1 de 10) se escribe de pago, como indica REQ-10725. Con B1 autorizado, el free tour vuelve a su 1 de 10.
+  - El conteo por proveedor lo hace el agente (el script `blog-tema.ts` aún no lo calcula; queda como código pendiente de REQ-10784).
 
 ## Paso 2 — Elige el tema (deep-research ligero: 2 o 3 búsquedas)
 1. **Trending primero.** Busca noticias del sector o de un destino de un pilar activo, publicadas en los **últimos 14 días**:

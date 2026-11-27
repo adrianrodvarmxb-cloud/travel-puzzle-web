@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout';
-import { SiteFooter } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { contactFromEnv } from '@/booking/tour-summary';
 import { whatsappUrl } from '@/notifications/lib/email-layout';

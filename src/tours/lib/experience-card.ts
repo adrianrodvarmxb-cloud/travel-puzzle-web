@@ -15,6 +15,7 @@
 import { FORMATOS_FILTRO, formatoCardLabel, type FormatoFiltro } from "@/taxonomy/lib/filters";
 import { formatCount, formatRating } from "@/home/lib/format";
 import { isTravelerFavorite } from "./favorite";
+import { showsProviderRating, withHiddenRating } from "@/ficha/lib/rating-visibility";
 import { durationMinutes as parseDuration } from "./duration";
 import { mentionsPlatform } from "@/reviews/lib/platform-mention";
 
@@ -133,6 +134,10 @@ export interface CardInput {
   formato: string | null | undefined;
   rating: number | string | null | undefined;
   reviews: number | null | undefined;
+  /** REQ-10652: proveedor de la fila (Tour.providerId); con él, la nota de Tangol no se pinta. Opcional: sin dato, como hoy. */
+  providerId?: string | null;
+  /** REQ-10652: la misma regla cuando la fuente no manda el providerId (inicio, REQ-10517) sino la marca de nota oculta. */
+  ratingHidden?: boolean;
   provider: string | null;
   price: CardPrice | null;
 }
@@ -140,9 +145,12 @@ export interface CardInput {
 // REQ-520 REQ-521 REQ-522 REQ-523 REQ-524
 export function experienceCard(i: CardInput, lang: string): ExperienceCardModel {
   const c = CARD_COPY[cardLang(lang)];
-  const reviews = Number(i.reviews ?? 0);
-  const value = formatRating(i.rating ?? null);
-  const favorite = isTravelerFavorite({ rating: i.rating === undefined ? null : (i.rating as number | string | null), reviews });
+  // REQ-10652 (decisión 18): la nota de un proveedor oculto (Tangol) no llega a la tarjeta.
+  const raw = i.rating === undefined ? null : (i.rating as number | string | null);
+  const shown = withHiddenRating(i.ratingHidden || !showsProviderRating(i.providerId), raw, i.reviews);
+  const reviews = shown.reviews;
+  const value = formatRating(shown.rating);
+  const favorite = isTravelerFavorite({ rating: shown.rating, reviews });
   return {
     key: i.key,
     href: i.href,

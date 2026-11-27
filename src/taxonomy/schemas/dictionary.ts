@@ -133,9 +133,9 @@ const zCategoria = z.object({
   /** Formato base: el que gana si ninguna regla de menor precedencia se cumple antes. */
   formato: z.enum(FORMATO_O_ESTADO),
   temas: z.array(z.enum(TEMAS)).max(3),
-  atributos: z.array(z.string().regex(/^(nocturno|medio:(bici|barco|vehiculo|a-pie))$/)),
+  atributos: z.array(z.string().regex(new RegExp(`^(nocturno|medio:(${MEDIOS.join("|")}))$`)) /* REQ-10703: los medios salen de MEDIOS (tren incluido) */),
   /** Reglas por palabra que esta categoría permite (FREETOUR 13/14: traslado y entradas; 5: clase o taller). */
-  reglasPorPalabra: z.array(z.enum(["traslado", "entradas", "experiencia-unica", "en-linea"])), // REQ-1262: «en-linea» solo en la cat. 8
+  reglasPorPalabra: z.array(z.enum(["traslado", "entradas", "experiencia-unica", "en-linea", "senderismo-guiado", "trayecto-entre-ciudades", "alquiler"])), // REQ-10699: «alquiler» (G-R2) donde el proveedor mezcla rentas de equipo con actividades (Tangol 9000003) // REQ-10708: «trayecto-entre-ciudades» solo en categorías de base traslado // REQ-1262: «en-linea» solo en la cat. 8; REQ-10662: «senderismo-guiado» (decisión 9) solo en Tangol 9000003
   estado: z.enum(["activo", "tras_bandera", "oculto", "historico"]),
   /** El formato base gana de inmediato (viajes propios con kind explícito). */
   fijo: z.boolean().optional(),

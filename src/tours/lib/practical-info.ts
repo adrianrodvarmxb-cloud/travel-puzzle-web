@@ -16,6 +16,8 @@ import { z } from "zod";
 import { guideLanguagesLabel } from "@/seo/lib/ficha-ld";
 import { indexableEnrichment } from "@/seo/lib/enrichment";
 import { operatorLine } from "@/ficha/lib/operator";
+import { plainLines, plainTitle } from "./meeting-text";
+import { singleCancellation } from "@/ficha/lib/cancellation";
 
 export interface PracticalFact { key: string; label: string; value: string; clientOnly: boolean }
 export interface ConditionsView {
@@ -124,6 +126,12 @@ export function freeCancellation(rules: unknown): ConditionsView["freeCancellati
   return { hours: Math.min(...hours), varies: new Set(hours).size > 1 };
 }
 
+/** REQ-10655: todos los plazos de cancelación sin cargo de las opciones, sin elegir (elige `singleCancellation`). */
+// REQ-10655
+export function cancellationHours(rules: unknown): number[] {
+  return options(rules).map((o) => o.hoursCancelation).filter((h): h is number => typeof h === "number" && Number.isFinite(h) && h > 0);
+}
+
 /** REQ-10538: horarios de salida distintos en HH:MM, ordenados; lo que no es una hora válida se ignora. */
 // REQ-10538
 export function departureTimes(rules: unknown): string[] {
@@ -162,7 +170,9 @@ export function practicalInfo(raw: unknown, { lang, tr }: { lang: string; tr: (k
     const v = row[field];
     if (v === null || v === undefined) return null;
     if (typeof v !== "string") { bad(field); return null; }
-    return short ? whiteLabelShort(v) : whiteLabelText(v);
+    // REQ-10783: el HTML del proveedor (Tangol) se convierte a texto antes de la marca blanca.
+    const plain = short ? plainTitle(v) : plainLines(v);
+    return short ? whiteLabelShort(plain) : whiteLabelText(plain);
   };
 
   // REQ-10536
@@ -177,8 +187,10 @@ export function practicalInfo(raw: unknown, { lang, tr }: { lang: string; tr: (k
     rules = json(row.availabilityRules);
     if (!rulesSchema.safeParse(rules).success) { bad("availabilityRules"); rules = null; }
   }
-  const cancellationPolicy = text("cancellationPolicy");
-  const free = freeCancellation(rules);
+  // REQ-10655: una sola política por ficha; entre el dato y el texto del proveedor, el plazo más estricto.
+  const una = singleCancellation({ structuredHours: cancellationHours(rules), text: text("cancellationPolicy") });
+  const cancellationPolicy = una.text;
+  const free = una.hours === null ? null : { hours: una.hours, varies: false };
   const conditions = excludes.length || cancellationPolicy || free ? { excludes, cancellationPolicy, freeCancellation: free } : null;
 
   // REQ-10537

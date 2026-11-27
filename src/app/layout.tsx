@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
+// REQ-10869: el servidor elige el diccionario; el navegador solo recibe el del idioma de la URL.
+import { translations } from "@/lib/translations";
 import { SITE_META } from "@/seo/lib/meta";
 import { AffiliateDrive } from "@/components/affiliates/AffiliateDrive";
 import { driveConfig } from "@/affiliates/lib/drive";
@@ -19,6 +21,9 @@ import { ClientErrorListener } from "@/components/common/ClientErrorListener";
 import { localeUrlsEnabled } from "@/i18n/lib/flags";
 import { htmlLang } from "@/i18n/lib/locales";
 import { routeLanguageState } from "@/i18n/server";
+import { CookiesBanner } from "@/components/legal/CookiesBanner";
+import { isCookiesPolicyEnabled } from "@/legal/lib/cookies";
+import { SectionBoundary } from "@/components/common/SectionBoundary";
 
 // REQ-1560: fuentes auto-hospedadas (antes @import de Google Fonts que bloqueaba el render).
 // REQ-1616 (INC-012): los archivos viven en src/app/fonts (OFL, de Fontsource) para que el build
@@ -122,11 +127,13 @@ export default async function RootLayout({
         {/* REQ-221: errores del navegador a los logs del Worker (client-error) */}
         <ClientErrorListener />
         <SessionProvider>
-          <AppProviders language={route?.lang} locked={route?.locked ?? false}>
+          <AppProviders language={route?.lang} locked={route?.locked ?? false} dictionary={route?.locked && route.lang !== "es" ? translations[route.lang] : undefined}>
             <FeatureFlagsProvider flags={{ transfers: isTransfersVisible(process.env.TRANSFERS_ENABLED), ownTrips: visibilityFromEnv(process.env as Record<string, string | undefined>).own, primeraPieza: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED), dayTrips: isHomeCarouselsEnabled(process.env.CARRUSELES_HOME_ENABLED), pages, year: new Date().getFullYear(), guideLinks: isPrimeraPiezaEnabled(process.env.PRIMERA_PIEZA_ENABLED) ? footerGuideLinksByLang() : undefined }}>
               {children}
             </FeatureFlagsProvider>
             {drive.enabled && <AffiliateDrive config={drive} />}
+            {/* REQ-10788: banner informativo de cookies (§B del dictamen) tras COOKIES_POLICY_ENABLED; si falla, se oculta solo. */}
+            <SectionBoundary name="cookies-banner"><CookiesBanner enabled={isCookiesPolicyEnabled(env.COOKIES_POLICY_ENABLED)} /></SectionBoundary>
           </AppProviders>
         </SessionProvider>
       </body>

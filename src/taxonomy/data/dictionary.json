@@ -130,18 +130,26 @@
       "eje": "formato",
       "termino_es": "Renta",
       "termino_en": "Rentals",
-      "definicion_es": "Renta de bici, moto o auto.",
+      "definicion_es": "Renta de bici, moto, auto o equipo (ski, snowboard).",
       "sinonimos": [
         "renta",
         "alquiler",
         "rent a car",
         "bike rental"
       ],
-      "estado": "tras_bandera",
+      "estado": "activo",
       "precedencia": 3,
       "seccion": "traslados",
       "guiaEnPersona": false,
-      "nota": "0 tours hoy. Término mexicano «renta» (pedido del PO, punto 4)."
+      "palabras": [
+        "alquiler",
+        "alquileres",
+        "rental",
+        "rentals",
+        "renta de",
+        "rent a"
+      ],
+      "nota": "Término mexicano «renta» (pedido del PO, punto 4). REQ-10699 (G-R2 firmado por el PO, 15-11-2026): activo; la palabra del título («alquiler», «rental») vale donde el mapeo permite la regla «alquiler» (Tangol 9000003: equipo de ski y snowboard). Vive en la sección Traslados (REQ-261), no en /tours."
     },
     {
       "slug": "entradas",
@@ -416,10 +424,12 @@
     {
       "slug": "experiencia-unica",
       "eje": "formato",
-      "termino_es": "Momentos de autor",
-      "termino_en": "Signature moments",
+      "termino_es": "Actividades",
+      "termino_en": "Activities",
       "definicion_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
       "sinonimos": [
+        "actividades",
+        "activities",
         "momentos de autor",
         "signature moments",
         "experiencia única",
@@ -437,10 +447,10 @@
       "definicion_en": "Something to do, not just to see: workshops, classes, shows, adventure or nightlife.",
       "termino_en_estado": "firmado",
       "nombres": {
-        "pt": "Momentos de autor",
-        "de": "Signature-Momente",
-        "fr": "Moments signature",
-        "it": "Momenti d'autore"
+        "pt": "Atividades",
+        "de": "Aktivitäten",
+        "fr": "Activités",
+        "it": "Attività"
       },
       "apoyo_es": "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.",
       "apoyo_estado": "firmado",
@@ -564,8 +574,8 @@
           "navegacion"
         ]
       },
-      "etiqueta_corta_es": "Momentos de autor",
-      "etiqueta_corta_en": "Signature moments",
+      "etiqueta_corta_es": "Actividades",
+      "etiqueta_corta_en": "Activities",
       "orden_chip": 6
     },
     {
@@ -1252,6 +1262,55 @@
       ]
     },
     {
+      "slug": "campo-vida-rural",
+      "eje": "tema",
+      "termino_es": "Campo y vida rural",
+      "termino_en": "Countryside & rural life",
+      "definicion_es": "Estancias, granjas, fincas y tradiciones del campo.",
+      "sinonimos": [
+        "estancia",
+        "día de campo",
+        "granja",
+        "finca",
+        "hacienda",
+        "rancho",
+        "gaucho",
+        "agroturismo",
+        "vida rural",
+        "farm stay",
+        "countryside"
+      ],
+      "estado": "activo",
+      "prioridad": 14,
+      "chip": true,
+      "palabras": [
+        "estancia*",
+        "granja*",
+        "finca*",
+        "hacienda*",
+        "rancho",
+        "ranch",
+        "gaucho*",
+        "dia de campo",
+        "de campo",
+        "campestre*",
+        "rural*",
+        "farm",
+        "farms",
+        "farmstay",
+        "countryside",
+        "agroturismo",
+        "agrotourism"
+      ],
+      "excluir": [
+        "granja de san ildefonso",
+        "palacio de la granja",
+        "la granja de san",
+        "palacio real de la granja"
+      ],
+      "nota": "REQ-10701 (ficha única, ola 3, G-R3 firmado por el PO «B: crear «Campo y vida rural»», 15-11-2026). Tangol 9000007 (Día de estancia) lo lleva por categoría; cualquier proveedor por la palabra del título (REQ-10709). «La Granja» de San Ildefonso (palacio) se excluye."
+    },
+    {
       "slug": "privado",
       "eje": "atributo",
       "termino_es": "Privado",
@@ -1314,6 +1373,18 @@
           ]
         },
         {
+          "slug": "tren",
+          "termino_es": "En tren",
+          "termino_en": "By train",
+          "palabras": [
+            "tren",
+            "train",
+            "ferrocarril",
+            "railway",
+            "rail"
+          ]
+        },
+        {
           "slug": "vehiculo",
           "termino_es": "En vehículo",
           "termino_en": "By vehicle",
@@ -1332,8 +1403,6 @@
             "moto*",
             "teleferico",
             "cable car",
-            "tren",
-            "train",
             "carrito",
             "carriage",
             "carruaje",
@@ -1354,7 +1423,7 @@
           ]
         }
       ],
-      "nota": "Un solo valor. Gana la palabra del título (bici, barco, vehículo, a pie); sin palabra, el de la categoría."
+      "nota": "Un solo valor. Gana la palabra del título (bici, barco, tren, vehículo, a pie); sin palabra, el de la categoría. REQ-10703 (G-R5 firmado «B», 15-11-2026): «En tren» para Tangol y cualquier proveedor."
     },
     {
       "slug": "idioma-es",
@@ -1394,6 +1463,16 @@
       "definicion_es": "El precio incluye el vuelo.",
       "sinonimos": [],
       "estado": "activo"
+    },
+    {
+      "slug": "con-traslado",
+      "eje": "atributo",
+      "termino_es": "Con traslado",
+      "termino_en": "With transfer",
+      "definicion_es": "El producto incluye el traslado desde y hacia el hotel o el punto acordado.",
+      "sinonimos": [],
+      "estado": "tras_bandera",
+      "nota": "REQ-10659 (decisión 11 de la ficha única, PO 14-11-2026): solo por dato del producto (opción con traslado o «incluye» del proveedor); nunca por palabra del título. Se enciende con TAXONOMY_BLOCK_ENABLED."
     },
     {
       "slug": "entrada-incluida",
@@ -1713,7 +1792,7 @@
           "definicion_es": "Trekking de varios días o gran altitud; requiere buena condición."
         }
       ],
-      "nota": "Escala propuesta en plan §7.2 G-T8 (por firmar). Sin dato no se muestra."
+      "nota": "Escala firmada por el PO (plan §7.2, G-T8 = A: fácil→2, moderada→3, exigente→4; docs/gates-taxonomia-2026-11.md). Sin dato no se muestra."
     },
     {
       "slug": "dur-dias",

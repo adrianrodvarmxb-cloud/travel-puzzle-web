@@ -20,7 +20,7 @@ describe("REQ-531: nombres cortos solo en la etiqueta de la foto de la tarjeta (
       "visita-guiada": { es: "Visita guiada", en: "Guided visit" }, // REQ-1250
       tour: { es: "Tour", en: "Tour" }, // REQ-1250 reemplaza «Tour → Visita guiada»
       "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
-      "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
+      "experiencia-unica": { es: "Actividades", en: "Activities" },
       entradas: { es: "Boletos", en: "Tickets" },
       autoguiado: { es: "Autoguiado", en: "Self-guided" },
       circuito: { es: "Circuito", en: "Multi-day tour" },

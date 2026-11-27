@@ -1,9 +1,11 @@
 import { sellerFor } from "@/ficha/lib/operator";
+import { publicRating } from "@/ficha/lib/rating-visibility"; // REQ-10652
 import { taxonomyLabelsEnabled } from '@/taxonomy/lib/copy';
+import { taxonomyBlockEnabled } from '@/taxonomy/lib/block';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, unstable_rethrow } from 'next/navigation';
 import { TourDetailClient } from '@/components/tours/one';
-import { SiteFooter } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
 import { siteFooterFromEnv } from '@/layout/lib/site-footer';
 import { Breadcrumbs } from '@/components/destinations/Breadcrumbs';
 import { JsonLd } from '@/components/destinations/JsonLd';
@@ -25,6 +27,21 @@ import { loadProviderAvailability } from '@/tours/availability';
 import { availabilityDeps } from '@/tours/availability-deps';
 import { isProviderCalendarEnabled } from '@/tours/lib/provider-availability';
 import { calendarView } from '@/tours/lib/calendar-view';
+import { loadFichaMap } from '@/map/ficha-map'; // REQ-10736
+import { getPrisma } from '@/lib/prisma';
+import { headers } from 'next/headers';
+import { FichaView, type FichaBlockViews } from '@/components/ficha/FichaView'; // REQ-10859
+import { Navbar } from '@/components/layout/Navbar';
+import { FichaPanel } from '@/components/ficha/FichaPanel';
+import { FichaMeetingMap } from '@/components/ficha/blocks/FichaMeetingMap'; // REQ-10860
+import { TourMobileBar } from '@/components/tours/one/TourMobileBar';
+import { loadTourFichaPage, tourUsesFichaUnica, tripUsesFichaUnica } from '@/ficha/page';
+import { TripFichaUnica } from '@/components/trips/TripFichaUnica'; // REQ-10870
+import { tourFichaDeps } from '@/ficha/source-tour';
+import { loadOtherExperiences, otherExperiencesDeps } from '@/ficha/others'; // REQ-10862
+import { paidInRecommendations } from '@/booking/lib/flags'; // REQ-014
+import { localCurrencyOn } from '@/ficha/lib/flags'; // REQ-10893
+import type { FichaLang } from '@/ficha/lib/model';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ pais: string; ciudad: string; slug: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
@@ -82,11 +99,21 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
     const { country, city, tour } = r;
     // T5 (REQ-415, REQ-416, G-T9): etiqueta de formato y copy por formato, tras TAXONOMY_LABELS_ENABLED.
     const labels = taxonomyLabelsEnabled(process.env as Record<string, string | undefined>);
-    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang, labels }); // REQ-667
+    // REQ-10686: bloque único de taxonomía (chips y marcado), tras TAXONOMY_BLOCK_ENABLED.
+    const block = taxonomyBlockEnabled(process.env as Record<string, string | undefined>);
+    const model = tourPage({ country, city, tour, siteUrl: siteUrl(), lang, labels, block }); // REQ-667
 
     if (tour.kind === 'own') {
         const data = await loadTripBySlug((await params).slug);
         if (!data) notFound();
+        // REQ-10870 (ola 7, plan §7: viajes y Big Bus): con FICHA_UNICA_TRIP_ENABLED ("true", o "preview" solo en versiones sin
+        // tráfico) la ficha del viaje se pinta con la plantilla única; si el modelo no se arma, sigue la de hoy. Apagar la
+        // bandera devuelve la plantilla de hoy.
+        if (tripUsesFichaUnica(process.env as Record<string, string | undefined>, (await headers()).get('host'))) {
+            // REQ-10872: la ciudad de la URL es la del catálogo (la de inicio, REQ-1349): el bloque 20 la usa sin otra consulta.
+            const unica = await TripFichaUnica({ data, path: tour.href, query: (await searchParams) ?? {}, cityId: city.id });
+            if (unica) return <>{/* REQ-576: migas de /destinos en el marcado; la plantilla única trae las suyas en el bloque 1. */}<JsonLd data={model.jsonLd.slice(1)} />{unica}</>;
+        }
         return (
             <>
                 {/* REQ-576: el nodo Product+TouristTrip del viaje lo pinta TripDetailView (también en /viajes); aquí van las migas. */}
@@ -105,8 +132,8 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         const mp = props.initialTour?.meetingPoint as { title?: string; coordinates?: string } | undefined;
         const [lat, lng] = (mp?.coordinates ?? '').split(',').map((x) => Number(x.trim()));
         const full = tourPage({
-            country, city, tour, siteUrl: siteUrl(), lang, labels, today: new Date().toISOString().slice(0, 10),
-            detail: { providerId: row?.providerId, guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
+            country, city, tour, siteUrl: siteUrl(), lang, labels, block, today: new Date().toISOString().slice(0, 10),
+            detail: { providerId: row?.providerId, cancellationHours: props.practical?.conditions?.freeCancellation?.hours ?? null, /* REQ-10655 */ guideLanguages: row?.guideLanguages, departureDates: row?.departureDates, departuresSyncedAt: row?.departuresSyncedAt ?? null, categoryId: row?.categoryId, durationMinutes: row?.durationMinutes ?? null, images: props.initialTour?.images ?? null, /* REQ-820 */
                 meetingPoint: mp ? { title: mp.title, lat: Number.isFinite(lat) && Number.isFinite(lng) ? lat : null, lng: Number.isFinite(lat) && Number.isFinite(lng) ? lng : null } : null },
         });
         // REQ-578: el idioma del guía en el idioma de la página, calculado aquí (sin Intl en el cliente, INC-001).
@@ -115,6 +142,53 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
         // REQ-10651: la casilla Proveedor y la tarjeta lateral dicen la marca que vende; el operador va en «Opera en destino».
         const shownTour = props.initialTour ? { ...props.initialTour, provider: sellerFor(row?.providerId, props.initialTour.provider) ?? props.initialTour.provider } : props.initialTour;
         const guideClientOnly = !full.enrichment ? { label: filtersCopy(language).language, codes: row?.guideLanguages ?? null } : null;
+        // REQ-10859 (ola 7, plan §7: Tangol primero): con FICHA_UNICA_TANGOL_ENABLED ("true", o "preview" solo en versiones
+        // sin tráfico) la ficha se pinta con la plantilla única de 21 bloques desde el modelo común; el JSON-LD es el mismo.
+        // Si el modelo no se arma, sigue la plantilla de hoy. Apagar la bandera devuelve la plantilla de hoy.
+        const envUnica = process.env as Record<string, string | undefined>;
+        // REQ-1101 (D07): el mismo pie del home, una sola vez por ficha, en cualquiera de las dos plantillas.
+        const footer = <SiteFooter {...siteFooterFromEnv(envUnica)} />;
+        const h = await headers();
+        if (tourUsesFichaUnica(envUnica, row?.providerId, h.get('host'))) {
+            const fichaLang = (['es', 'en', 'pt', 'fr', 'de', 'it'].includes(language) ? language : 'es') as FichaLang;
+            // REQ-10862: «Otras experiencias en la ciudad» (bloque 20) desde la base; si falla, el bloque no sale y la ficha sigue (regla 7).
+            const others = await loadOtherExperiences(await otherExperiencesDeps(), { cityId: city.id, excludeId: tour.id, lang: fichaLang, includePaid: paidInRecommendations(envUnica), rates, localCurrency: localCurrencyOn(envUnica) }) // REQ-10893
+                .catch((e) => { console.error('[destinos] otras experiencias:', (e as Error).message); return null; });
+            const unica = await loadTourFichaPage(await tourFichaDeps(), (await params).slug, fichaLang, {
+                query: (await searchParams) ?? {},
+                reviews: { items: props.reviews ?? [], total: props.reviewsTotal ?? 0 },
+                fx: rates,
+                visitorCountry: h.get('cf-ipcountry'),
+                transport: props.crossSell?.items ?? [], // REQ-10860: la franja de hoy (`transportForPlace`) alimenta el bloque 19
+                kiwitaxi: props.transfer ?? null,
+                others, // REQ-10862
+            }).catch((e) => { console.error('[destinos] ficha única:', (e as Error).message); return null; });
+            if (unica) {
+                // REQ-10860: el mapa del punto de encuentro (mismo mapa de cliente de hoy) va como children del bloque 11.
+                const punto = unica.page.views['punto-de-encuentro'];
+                const views: FichaBlockViews = punto
+                    ? { ...unica.page.views, 'punto-de-encuentro': { ...punto, children: <FichaMeetingMap view={punto.view} label={punto.text.heading} /> } }
+                    : unica.page.views;
+                // Mismo marco que la ficha de hoy: barra de navegación y fondo oscuro (`tp-dark`), pie una sola vez.
+                return (
+                    <div className="min-h-screen bg-background">
+                        <JsonLd data={full.jsonLd} />
+                        <Navbar />
+                        <div className="tp-dark pt-8">
+                            <FichaView
+                                order={unica.page.order}
+                                views={views}
+                                enrichment={full.enrichment}
+                                panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={{}} />}
+                                // REQ-10860 (decisión 25): la barra fija de celular de hoy, sin cambios; Tangol se aparta con el asesor (REQ-10573).
+                                mobileBar={shownTour ? <TourMobileBar tour={shownTour} priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null} mode="advisor" whatsapp={props.whatsapp} /> : undefined}
+                            />
+                        </div>
+                        {footer}
+                    </div>
+                );
+            }
+        }
         // REQ-3468…REQ-3471: fechas y precios por día del proveedor, tras PROVIDER_CALENDAR_ENABLED.
         // Si la bandera está apagada, si el proveedor no da tarifas o si la llamada falla, queda en null y
         // la ficha se ve como hoy, con su precio «desde» (nunca un calendario vacío ni un precio inventado).
@@ -131,21 +205,24 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                 availabilityDeps(env, new Date().toISOString().slice(0, 10)),
             ).catch((e) => { console.error('[destinos] disponibilidad:', (e as Error).message); return null; })
             : null;
+        // REQ-10736 (decisión 28): sin punto exacto y con ZONE_MAP_ENABLED, «Zona aproximada» en el centro de la ciudad (City.lat/lng).
+        const fichaMap = await loadFichaMap({ prisma: getPrisma(), cityId: city.id, coords: mp?.coordinates, env }).catch(() => null);
         return (
             <>
                 <JsonLd data={full.jsonLd} />
                 <TourDetailClient
                     {...props}
+                    fichaMap={fichaMap}
                     initialTour={shownTour}
                     priceLabel={props.initialTour ? tourPriceLabel(props.initialTour.price, props.initialTour.currency, rates, language) : null}
                     providerCalendar={calendario ? calendarView(calendario, language) : null}
                     primeraPieza={{
                         crumbs: model.crumbs,
                         badge: model.badge,
-                        notice: model.notice,
+                        notice: full.notice, // REQ-10655 (INC-023): el modelo completo conoce el plazo del proveedor
                         operatedBy: model.operatedBy,
                         isFreeTour: tour.isFreeTour,
-                        favorite: isTravelerFavorite({ rating: tour.rating, reviews: tour.reviews }),
+                        favorite: isTravelerFavorite(publicRating(row?.providerId ?? tour.providerId, tour.rating, tour.reviews)), // REQ-10652
                         rates,
                         labels: model.labels,
                         facts: { duration: full.facts.duration, extra: guide.length ? [{ label: filtersCopy(language).language, value: guide.join(', ') }] : [], clientOnly: guideClientOnly },
@@ -155,7 +232,7 @@ export default async function DestinationTourPage({ params, searchParams }: Prop
                     }}
                 />
                 {/* REQ-1101 (D07): el mismo pie del home que el resto del sitio (la ficha de viaje ya lo trae en TripDetailView). */}
-                <SiteFooter {...siteFooterFromEnv(process.env as Record<string, string | undefined>)} />
+                {footer}
             </>
         );
     } catch (error) {

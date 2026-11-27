@@ -98,6 +98,7 @@ jobs:
           GATEWAY_SECRET: ${{ secrets.GATEWAY_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+          MILA_AVISOS_SECRET: ${{ secrets.MILA_AVISOS_SECRET }} # REQ-10758: puente de avisos (Mila)
         run: npx tsx src/scripts/worker-secrets.ts "$SECRETOS_FILE"
 
       # REQ-003 (INC-001): ningún deploy llega a producción si la prueba de humo falla.
@@ -133,6 +134,22 @@ jobs:
 
       - name: Navegador para la prueba de humo
         run: npx playwright install --with-deps chromium
+
+      # REQ-10947 (INC-029 en el deploy, 27-11-2026): la primera petición a «/en» de la versión recién subida devolvía 500/503
+      # (arranque en frío) y tumbaba el contrato de idioma del humo que decide publicar (runs 45878292218, 45881533461 y
+      # 45934201603 del 26-11). Se calientan «/» y «/en» antes, como en el humo del PR (REQ-10943); este paso no decide nada:
+      # un 503 real en el contrato sigue contando a la primera (REQ-1579) y el humo sigue bloqueando la publicación.
+      - name: Calentar la versión subida (INC-029)
+        continue-on-error: true
+        run: |
+          for p in / /en; do
+            for intento in 1 2 3; do
+              r=$(curl -s -o /dev/null -A "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)" -w "%{http_code} %{time_total}" --max-time 60 "${{ steps.version.outputs.url }}$p" || echo "000 60")
+              echo "calentar versión $p intento $intento: $r"
+              case "${r%% *}" in 2*|3*) break ;; esac
+              sleep 10
+            done
+          done
 
       # 2) Prueba de humo contra esa versión: 390 y 1366 px, sin excepciones ni "Application error".
       # REQ-500 (INC-007): si una página falla, guarda HTML crudo, DOM, errores y captura, y la recarga una vez.
@@ -199,6 +216,10 @@ jobs:
               sleep 15
             done
           done
+          # REQ-10868 (INC-028, corrección A): además, todas las páginas fijas del humo más las guías publicadas hoy.
+          npx tsx src/scripts/calentar-paginas.ts https://travelpuzzle.com.mx
+          # REQ-10842 (INC-027): un 200 no basta; /tours y /en/tours deben traer ≥ 2 fichas de viaje antes del humo.
+          npx tsx src/scripts/calentar-tours.ts https://travelpuzzle.com.mx
 
       # 4) Prueba de humo en producción; si falla, se regresa a la versión anterior y el job queda en rojo.
       - name: Prueba de humo (producción)

@@ -3,7 +3,7 @@
 // `secret put` se niega si la última versión subida no es la desplegada (p. ej. la de un PR en prueba de humo).
 
 /** Credenciales que vienen de los secretos de GitHub: se envían siempre que tengan valor. */
-export const SECRETOS_DE_GITHUB = ["FREETOUR_EMAIL", "FREETOUR_PASSWORD", "GATEWAY_SECRET", "RESEND_API_KEY", "BANXICO_TOKEN"] as const;
+export const SECRETOS_DE_GITHUB = ["FREETOUR_EMAIL", "FREETOUR_PASSWORD", "GATEWAY_SECRET", "RESEND_API_KEY", "BANXICO_TOKEN", "MILA_AVISOS_SECRET" /* REQ-10758: puente de avisos a WhatsApp (Mila) */] as const;
 /** Claves internas: se generan una sola vez y después se conservan (la versión las hereda). */
 export const CLAVES_INTERNAS = ["CRON_SECRET", "AUTH_SECRET"] as const;
 

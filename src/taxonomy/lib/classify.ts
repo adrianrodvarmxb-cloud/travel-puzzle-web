@@ -5,6 +5,7 @@
  */
 import type { Dictionary, Mapping } from "../schemas/dictionary";
 import { classifyAtributos } from "./attributes";
+import { esDecision9, temasDecision9 } from "./aventura-senderismo";
 import { classifyFormato, findCategoria, formatoTerm } from "./format";
 import { DEFAULT_GATES, type Gates } from "./gates";
 import { classifyTemas } from "./themes";
@@ -16,7 +17,8 @@ export function classify(
   const mapping = mappings[input.proveedor];
   const cat = findCategoria(mapping, input.categoriaId);
   const f = classifyFormato(input, dict, mapping, gates);
-  const temas = classifyTemas(input, f.valor, dict, mapping, cat);
+  // REQ-10662: lo que cambió por la decisión 9 lleva Aventura y Montaña y senderismo al frente.
+  const temas = esDecision9(f.regla) ? temasDecision9(classifyTemas(input, f.valor, dict, mapping, cat), f.regla) : classifyTemas(input, f.valor, dict, mapping, cat);
   const { atributos, avisos } = classifyAtributos(input, f.valor, dict, mapping, cat, gates);
   if (f.valor === "por-revisar") avisos.push(`por-revisar: ${input.proveedor}:${input.categoriaId ?? "sin categoría"}`);
   return {

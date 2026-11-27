@@ -14,12 +14,12 @@ export interface Presence {
   missingRuns: number;
 }
 
-// REQ-074
-export function nextPresence(current: Presence, seen: boolean): Presence {
+// REQ-074, REQ-10877 (`removeAfter`: corridas seguidas sin el tour para ocultarlo; Tangol usa 2 por el gate G-D2)
+export function nextPresence(current: Presence, seen: boolean, removeAfter: number = REMOVE_AFTER_RUNS): Presence {
   if (seen) return { syncStatus: "active", missingRuns: 0 };
   if (current.syncStatus === "removed") return current;
   const missingRuns = current.missingRuns + 1;
-  return { syncStatus: missingRuns >= REMOVE_AFTER_RUNS ? "removed" : "missing", missingRuns };
+  return { syncStatus: missingRuns >= removeAfter ? "removed" : "missing", missingRuns };
 }
 
 export interface PresenceInput {
@@ -37,17 +37,18 @@ export interface PresenceUpdate extends Presence {
 }
 
 /** Transiciones de todo el catálogo al cerrar la corrida: solo las filas que cambian. */
-// REQ-074
-export function presenceTransitions(rows: PresenceInput[]): {
+// REQ-074, REQ-10877
+export function presenceTransitions(rows: PresenceInput[], opts: { removeAfter?: number } = {}): {
   updates: PresenceUpdate[];
   counts: { missing: number; removed: number; reactivated: number };
 } {
+  const removeAfter = Math.max(1, Math.floor(opts.removeAfter ?? REMOVE_AFTER_RUNS));
   const updates: PresenceUpdate[] = [];
   const counts = { missing: 0, removed: 0, reactivated: 0 };
   for (const row of rows) {
     const status: SyncStatus = !row.isActive ? "removed" : row.syncStatus === "missing" || row.syncStatus === "removed" ? row.syncStatus : "active";
-    const current: Presence = { syncStatus: status, missingRuns: status === "removed" ? Math.max(row.missingRuns, REMOVE_AFTER_RUNS) : row.missingRuns };
-    const next = nextPresence(current, row.seen);
+    const current: Presence = { syncStatus: status, missingRuns: status === "removed" ? Math.max(row.missingRuns, removeAfter) : row.missingRuns };
+    const next = nextPresence(current, row.seen, removeAfter);
     const isActive = next.syncStatus !== "removed";
     if (next.syncStatus === "missing") counts.missing++;
     if (next.syncStatus === "removed" && status !== "removed") counts.removed++;

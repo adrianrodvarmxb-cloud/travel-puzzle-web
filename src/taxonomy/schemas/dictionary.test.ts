@@ -21,11 +21,11 @@ describe("REQ-401 diccionario versionado (JSON + Zod)", () => {
     }
     expect([...ESTADOS_TERMINO]).toEqual(["activo", "muestra", "tras_bandera", "oculto", "descartado"]);
   });
-  it("REQ-401 14 formatos (REQ-1250: + visita-guiada) + fuera y por-revisar, 13 temas, slugs únicos por eje", () => {
+  it("REQ-401 14 formatos (REQ-1250: + visita-guiada) + fuera y por-revisar, 14 temas (REQ-10701), slugs únicos por eje", () => {
     expect(formatos.map((f) => f.slug).sort()).toEqual([...FORMATOS, "fuera", "por-revisar"].sort());
     expect(FORMATOS).toHaveLength(16); // REQ-1250; REQ-1262/1263: en-linea y esenciales-viaje
     expect(temas.map((t) => t.slug).sort()).toEqual([...TEMAS].sort());
-    expect(TEMAS).toHaveLength(13);
+    expect(TEMAS).toHaveLength(14); // REQ-10701
     const keys = D.terminos.map((t) => `${t.eje}:${t.slug}`);
     expect(new Set(keys).size).toBe(keys.length);
   });
@@ -60,7 +60,7 @@ describe("REQ-403 los 26 términos de 2024 solo son sinónimos", () => {
     const n = (s: string) => norm(s).trim();
     const temaPorNombre = new Map<string, string>(temas.flatMap((t) => [[n(t.termino_es), t.slug], [n(t.slug), t.slug]]));
     for (const l of de2024) { const s = temaPorNombre.get(n(l.termino)); if (s) expect(l.sinonimo_de).toContain(s); }
-    expect(temas).toHaveLength(13);
+    expect(temas).toHaveLength(14); // REQ-10701
   });
   it("REQ-403 «Hikes» es senderismo, no el formato caminata (G2)", () => {
     expect(D.legado.find((l) => l.termino.startsWith("Hikes"))?.sinonimo_de).toEqual(["montana-senderismo"]);
@@ -84,13 +84,14 @@ describe("REQ-411 urbano es base, no chip; temas en muestra hasta la firma", () 
 describe("REQ-230 «Momentos de autor»", () => {
   const e = formatos.find((f) => f.slug === "experiencia-unica")!;
   it("REQ-230 el slug no cambia y el nombre en español es «Momentos de autor»", () => {
-    expect(e.termino_es).toBe("Momentos de autor");
+    // REQ-10700 (PO 15-11-2026): «Momentos de autor» pasa a «Actividades» / «Activities»; reemplaza el nombre firmado el 6-11.
+    expect(e.termino_es).toBe("Actividades");
     expect(e.sinonimos).toEqual(expect.arrayContaining(["momentos de autor", "signature moments", "experiencia única"]));
   });
   it("REQ-230 «Signature moments» y pt/de/fr/it de §7.3 firmados; el apoyo es la definición de §7.3, sin «expertos locales» (PO 6-11)", () => {
-    expect(e).toMatchObject({ termino_en: "Signature moments", termino_en_estado: "firmado", apoyo_es: "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.", apoyo_estado: "firmado" });
+    expect(e).toMatchObject({ termino_en: "Activities", termino_en_estado: "firmado", apoyo_es: "Algo para hacer, no solo para ver: talleres, clases, espectáculos, aventura o vida nocturna.", apoyo_estado: "firmado" });
     expect(`${e.apoyo_es} ${e.definicion_es}`).not.toMatch(/expert/i);
-    expect(e.nombres).toEqual({ pt: "Momentos de autor", de: "Signature-Momente", fr: "Moments signature", it: "Momenti d'autore" });
+    expect(e.nombres).toEqual({ pt: "Atividades", de: "Aktivitäten", fr: "Activités", it: "Attività" });
   });
   it("REQ-230 ningún término visible se llama «Experiencia única»", () => {
     for (const t of D.terminos) expect(t.termino_es).not.toMatch(/experiencia única/i);

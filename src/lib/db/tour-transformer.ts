@@ -1,6 +1,14 @@
 import { sellerFor } from "@/ficha/lib/operator";
+import { publicRating } from "@/ficha/lib/rating-visibility";
 import { Tour, MeetingPoint, CountryWithTranslations, CityWithTranslations, TourAPI, SupportedLanguage } from '@/types';
 import type { TourWithRelations } from './repositories/tour-repository';
+import { plainTitle } from '@/tours/lib/meeting-text';
+
+// REQ-10652: nota y conteo que llegan a la pantalla, según el proveedor de la fila.
+function publicRatingOf(dbTour: { providerId?: string | null; rating: unknown; reviewsNumber: number }): { rating: number | null; reviewsNumber: number } {
+  const r = publicRating(dbTour.providerId, dbTour.rating ? Number(dbTour.rating) : null, dbTour.reviewsNumber);
+  return { rating: r.rating, reviewsNumber: r.reviews };
+}
 
 /**
  * Transform a database tour with relations to the UI Tour format
@@ -27,9 +35,9 @@ export function transformDBTourToUITour(dbTour: TourWithRelations, language: str
   // Parse meeting point
   const meetingPoint = dbTour.meetingPoint as unknown as MeetingPoint;
 
-  // Parse includes
+  // Parse includes. REQ-10783: Tangol manda «&nbsp;» y etiquetas en los renglones; a texto plano.
   const includes = Array.isArray(dbTour.includes)
-    ? (dbTour.includes as string[])
+    ? (dbTour.includes as unknown[]).map((x) => (typeof x === 'string' ? plainTitle(x) ?? '' : '')).filter(Boolean)
     : [];
 
   return {
@@ -49,8 +57,8 @@ export function transformDBTourToUITour(dbTour: TourWithRelations, language: str
     duration: dbTour.duration,
     meetingPoint,
     includes,
-    rating: dbTour.rating ? Number(dbTour.rating) : null,
-    reviewsNumber: dbTour.reviewsNumber,
+    // REQ-10652 (decisión 18): la nota de Tangol no sale al visitante; el dato sigue en la base para ordenar.
+    ...publicRatingOf(dbTour),
     bookingURL: translation?.url || '',
     isActive: dbTour.isActive,
     createdAt: dbTour.createdAt,

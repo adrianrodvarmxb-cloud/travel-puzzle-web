@@ -25,6 +25,14 @@ import { agencyTripsFromImport, type AgencyTripPlace } from "../tangol/lib/catal
 import { DEFAULT_RATES_CURRENCY, runTangolSyncStep } from "../tangol/sync";
 import { formatTourCountCheck, formatTourCountDetail } from "../tangol/lib/tour-count";
 import { formatCurrencyReport } from "../tangol/lib/currency-report";
+import { avisarTipoNuevo, avisoTipoNuevoDeps } from "../taxonomy/aviso-tipo-nuevo";
+import { sendEmail } from "../notifications/resend";
+import { avisarPO, canalesAvisoPODesdeEntorno } from "../notifications/aviso-po";
+import { planCierreTangol, type TourPresenciaRow } from "../tangol/lib/cierre";
+import { TANGOL_DAILY_START_HOUR } from "../tangol/lib/sync-plan";
+import { presenceStatements } from "../catalog/lib/sql";
+import { renderSqlFile } from "../lib/d1/sql-file";
+import { TANGOL_PROVIDER_ID } from "../tangol/lib/tour-rows";
 import {
   createTangolSqlRepo,
   readExportRows,
@@ -79,10 +87,11 @@ function agencyTrips(): AgencyTripPlace[] {
 }
 
 (async () => {
+  const estadoPrevio = toSyncState(readExportRows(json("sync.json")));
   const repo = createTangolSqlRepo({
     countries: toExistingCountries(readExportRows(json("countries.json"))),
     cities: toExistingCities(readExportRows(json("cities.json"))),
-    state: toSyncState(readExportRows(json("sync.json"))),
+    state: estadoPrevio,
   });
 
   // REQ-3519: copia exacta (solo con --escribir y --copia). Los objetos van a <copia>/objetos (fuera del
@@ -126,6 +135,7 @@ function agencyTrips(): AgencyTripPlace[] {
     ensayo: !escribir,
     reiniciar,
     ratesCurrency,
+    startHour: TANGOL_DAILY_START_HOUR, // REQ-10878 (G-D1): la corrida del día puede arrancar desde la 1:00 de CDMX
     ...(lote !== undefined && Number.isFinite(lote) && lote > 0 ? { batch: lote } : {}),
   });
 
@@ -150,12 +160,39 @@ function agencyTrips(): AgencyTripPlace[] {
   console.log(`Países nuevos:${report.paisesNuevos.map((p) => p.iso2).join(", ") || "ninguno"}`);
   for (const p of report.ciudadesPendientes) console.log(`Pendiente: destino ${p.externalId} «${p.name}» (${p.countryCode}) — ${p.reason}`);
   for (const e of report.errores) console.log(`Error contenido: ${e.donde} — ${e.error}`);
+  // REQ-10730 (regla REQ-10698): tipos nuevos que no encajan en la taxonomía: siempre en el resumen; correo y WhatsApp al PO tras AVISO_TIPO_NUEVO_ENABLED (REQ-10731).
+  for (const t of report.tiposNuevos) console.log(`::warning::Tipo nuevo de Tangol sin mapear: ${t.clave} · ${t.tours} tour(s) (p. ej. ${t.ejemplos.join("; ")})`);
+  const aviso = await avisarTipoNuevo(report.tiposNuevos, avisoTipoNuevoDeps(process.env, { fetch, sendEmail, log: console.log }));
+  if (aviso.tipos > 0) console.log(`Aviso al PO: canales ${aviso.canales.join(", ") || "ninguno"}${aviso.omitidos.length ? ` · omitidos: ${aviso.omitidos.join(", ")}` : ""}${aviso.errores.length ? ` · errores: ${aviso.errores.join(" | ")}` : ""}`);
+
+  // REQ-10876 / REQ-10877 (plan de actualización diaria, D1): al cerrar la corrida («finish»), tope del 80 % y presencia
+  // (ocultar tras dos corridas sin ver el tour, G-D2). Necesita las filas de presencia que el workflow exporta en solo
+  // lectura (tangol-tours.json); sin ellas no se oculta nada y se dice. En ensayo solo se cuenta.
+  let cierreSql = "";
+  if (report.action === "finish") {
+    const archivoTours = join(entrada, "tangol-tours.json");
+    if (!existsSync(archivoTours)) {
+      console.log("::warning::Cierre: sin tangol-tours.json en el export; no se evalúa el tope ni se oculta nada.");
+    } else {
+      const cierre = planCierreTangol({ tours: readExportRows<TourPresenciaRow>(json("tangol-tours.json")), runStartedAt: estadoPrevio?.runStartedAt ?? null });
+      console.log(`Cierre (tope 80 %, G-D2): ${cierre.resumen}`);
+      if (cierre.aviso) {
+        console.log(`::warning::${cierre.aviso.asunto}`);
+        const r = await avisarPO(cierre.aviso, canalesAvisoPODesdeEntorno(process.env, { fetch, sendEmail, log: console.log }));
+        console.log(`Aviso del tope al PO: canales ${r.canales.join(", ") || "ninguno"}${r.omitidos.length ? ` · omitidos: ${r.omitidos.join(", ")}` : ""}${r.errores.length ? ` · errores: ${r.errores.join(" | ")}` : ""}`);
+      }
+      if (escribir && cierre.updates.length > 0) {
+        cierreSql = renderSqlFile(presenceStatements(cierre.updates, TANGOL_PROVIDER_ID), `Tangol REQ-10877: presencia al cierre · ${cierre.counts.missing} faltante(s), ${cierre.counts.removed} oculto(s), ${cierre.counts.reactivated} de vuelta`);
+      }
+      writeFileSync(join(salida, "cierre.json"), JSON.stringify({ decision: cierre.decision, conteo: cierre.conteo, counts: cierre.counts, aviso: cierre.aviso?.asunto ?? null }, null, 2));
+    }
+  }
 
   if (escribir) {
     const stmts = repo.statements();
     const cabecera = `Tangol REQ-3463: ${stmts.length} sentencias · destinos ${report.lote?.from ?? "-"}-${report.lote?.to ?? "-"} de ${report.totalDestinos} · generado ${new Date().toISOString()}`;
-    writeFileSync(join(salida, "tangol.sql"), repo.sql(cabecera));
-    console.log(`SQL generado: ${stmts.length} sentencias en ${join(salida, "tangol.sql")} (NO aplicado).`);
+    writeFileSync(join(salida, "tangol.sql"), repo.sql(cabecera) + cierreSql);
+    console.log(`SQL generado: ${stmts.length} sentencias en ${join(salida, "tangol.sql")} (NO aplicado).${cierreSql ? " Incluye la presencia del cierre (REQ-10877)." : ""}`);
   }
 
   if (archivo && copia) {

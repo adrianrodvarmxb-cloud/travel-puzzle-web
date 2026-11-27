@@ -92,6 +92,20 @@ jobs:
           url=$(grep -oE "https://[a-z0-9-]+-travel-puzzle-web\.[a-z0-9-]+\.workers\.dev" upload.log | tail -1)
           if [ -z "$url" ]; then echo "::error::No se obtuvo la URL de preview."; exit 1; fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
+      # REQ-10943 (INC-029, opción A del PO, 26-11-2026): la primera petición a «/en» del preview recién subido devolvía 503
+      # (arranque en frío) y tumbaba el contrato de idioma. Se calientan «/» y «/en» antes; este paso no decide nada:
+      # un 503 real en el contrato sigue contando a la primera (REQ-1579).
+      - name: Calentar el preview (INC-029)
+        continue-on-error: true
+        run: |
+          for p in / /en; do
+            for intento in 1 2 3; do
+              r=$(curl -s -o /dev/null -A "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)" -w "%{http_code} %{time_total}" --max-time 60 "${{ steps.version.outputs.url }}$p" || echo "000 60")
+              echo "calentar preview $p intento $intento: $r"
+              case "${r%% *}" in 2*|3*) break ;; esac
+              sleep 10
+            done
+          done
       - name: Navegador
         run: npx playwright install --with-deps chromium
       # REQ-500 (INC-007): si una página falla, guarda HTML crudo, DOM, errores y captura, y la recarga una vez.
@@ -99,6 +113,9 @@ jobs:
         env:
           SMOKE_EVIDENCE_DIR: smoke-evidencia/pr
         run: npx tsx src/scripts/smoke.ts "${{ steps.version.outputs.url }}"
+      # REQ-1564: la carga inicial (sin scroll) a 390 y 1366 px no descarga imágenes fuera de la pantalla.
+      - name: Imágenes fuera de pantalla (REQ-1564)
+        run: npx tsx src/scripts/offscreen-images.ts "${{ steps.version.outputs.url }}" / /tours /viajes/reino-unido/bus-turistico-hop-on-hop-off-en-londres-bbt-gb-m01-010 /destinos/mx/ciudad-de-mexico /destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno
       - name: Evidencia de la prueba de humo
         if: always()
         uses: actions/upload-artifact@v4

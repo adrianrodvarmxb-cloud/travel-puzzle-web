@@ -39,8 +39,9 @@ describe("REQ-10536: bloque Condiciones (no incluye, cancelación, horas para ca
     const v = practicalInfo(fila(), opts);
     expect(v.conditions).toEqual({
       excludes: ["Propinas", "Comidas"],
-      cancellationPolicy: "Cancelación sin cargo hasta 24 h antes.",
-      freeCancellation: { hours: 24, varies: true },
+      // REQ-10655 (reemplaza esta parte de REQ-10536): una sola política; entre 24 h del texto y las opciones, la más estricta.
+      cancellationPolicy: null,
+      freeCancellation: { hours: 48, varies: false },
     });
   });
 
@@ -70,7 +71,7 @@ describe("REQ-10536: bloque Condiciones (no incluye, cancelación, horas para ca
   it("REQ-10536: un JSON roto o con otra forma se descarta y se registra; la ficha sigue", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const v = practicalInfo(fila({ excludes: "{no es json", availabilityRules: '{"options":5}' }), opts);
-    expect(v.conditions).toEqual({ excludes: [], cancellationPolicy: "Cancelación sin cargo hasta 24 h antes.", freeCancellation: null });
+    expect(v.conditions).toEqual({ excludes: [], cancellationPolicy: null, freeCancellation: { hours: 24, varies: false } }); // REQ-10655: el plazo sale del texto
     expect(v.discarded).toBe(2);
     expect(warn).toHaveBeenCalled();
   });
@@ -196,8 +197,22 @@ describe("REQ-10540: marca blanca en los textos nuevos (URLs, dominios, teléfon
     const todo = JSON.stringify(v);
     expect(todo).not.toMatch(/https?:|www\.|\.com|@|\d{4}[\s-]?\d{4}/i);
     expect(v.conditions?.excludes).toEqual(["Propinas"]);
-    expect(v.conditions?.cancellationPolicy).toBe("Hasta 24 h sin cargo.");
+    // REQ-10655: el texto «Hasta 24 h sin cargo.» ya no se repite; queda como plazo único.
+    expect(v.conditions?.cancellationPolicy).toBeNull();
+    expect(v.conditions?.freeCancellation).toEqual({ hours: 48, varies: false });
     expect(fact(v, "punto-termino")).toBeUndefined();
     expect(v.beforeYouGo?.items).toEqual([{ key: "whatToBring", text: "Agua." }, { key: "providerNotes", text: "Sale con lluvia." }]);
+  });
+});
+
+describe("REQ-10783: HTML del proveedor", () => {
+  it("REQ-10783: qué llevar, requisitos, dificultad y notas en HTML (Tangol) salen como texto, renglón por renglón", () => {
+    const v = practicalInfo({ ...vacia, providerId: "tangol", whatToBring: "<p>Cámara de fotos.</p><p>&nbsp;Ropa de abrigo.</p>", difficulty: "<p>Bajo.</p>", providerNotes: "<p>*El pick up se realiza solo desde hoteles del centro.</p>" }, opts);
+    expect(v.beforeYouGo?.items).toEqual(expect.arrayContaining([
+      { key: "whatToBring", text: "Cámara de fotos.\nRopa de abrigo." },
+      { key: "difficulty", text: "Bajo." },
+      { key: "providerNotes", text: "*El pick up se realiza solo desde hoteles del centro." },
+    ]));
+    expect(JSON.stringify(v)).not.toMatch(/<p>|&nbsp;/);
   });
 });

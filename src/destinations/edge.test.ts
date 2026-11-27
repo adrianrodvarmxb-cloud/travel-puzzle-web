@@ -113,7 +113,10 @@ describe("REQ-102: sitemap por país", () => {
 });
 
 describe("blindaje: si D1 falla, el middleware no rompe la página", () => {
-  it("REQ-092: error de la base = seguir sin redirigir", async () => {
-    expect(await go("/tours/ck1", repo({ tourPlaceById: async () => { throw new Error("D1 DB is overloaded"); } }))).toBeNull();
+  // REQ-3540 (INC-015) cambia el contrato de REQ-092: el error ya NO se traga aquí. Sale tipado y lo
+  // resuelve la raíz (middleware.ts), que reintenta y solo en las URL viejas responde 503 en vez de 200.
+  // El blindaje sigue: las páginas reales siguen sirviéndose. Prueba en fallo-de-base-edge.test.ts.
+  it("REQ-092 (reemplazado por REQ-3540): el error de la base ya no se convierte en «no hay nada que redirigir»", async () => {
+    await expect(go("/tours/ck1", repo({ tourPlaceById: async () => { throw new Error("D1 DB is overloaded"); } }))).rejects.toThrow(/D1 DB is overloaded/);
   });
 });

@@ -14,6 +14,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type React from 'react';
 import { SectionBoundary } from '@/components/common/SectionBoundary';
 import { CrossSellStrip } from '@/components/trips/CrossSellStrip';
+import { TransferCard } from '@/components/trips/TransferCard';
+import type { TransferCardView } from '@/trips/lib/transfer-card';
 import { CompleteTripSheet } from '@/components/trips/CompleteTripSheet';
 import type { CrossItem } from '@/trips/cross-sell';
 import { advisorTextWithExtras, crossSellCopy, shouldOfferSheet } from '@/trips/lib/cross-sell-copy';
@@ -29,6 +31,7 @@ import { TourConditions } from './TourConditions';
 import { TourBeforeYouGo } from './TourBeforeYouGo';
 import type { PracticalView } from '@/tours/lib/practical-info';
 import { TourMeetingPoint } from './TourMeetingPoint';
+import type { FichaMapView } from '@/map/lib/city-pin';
 import { TourSidebar } from './TourSidebar';
 import { TourMobileBar } from './TourMobileBar';
 import { sidebarPlan } from '@/tours/lib/sidebar-plan'; // REQ-10573
@@ -56,6 +59,8 @@ interface TourDetailClientProps {
     whatsapp?: string;
     /** REQ-005/006: transporte de la misma ciudad (o país), calculado en el servidor. */
     crossSell?: { city: string; items: CrossItem[] } | null;
+    /** REQ-10753: tarjeta de traslado (Kiwitaxi) bajo la franja; null = no aplica (FREETOUR o bandera apagada). */
+    transfer?: TransferCardView | null;
     /** REQ-094…098: ficha bajo /destinos (PRIMERA_PIEZA_ENABLED). Sin esto la ficha queda igual que hoy. */
     primeraPieza?: PrimeraPiezaView | null;
     /** REQ-170: precio en EUR con MXN aproximado, calculado en el servidor (solo con PRIMERA_PIEZA_ENABLED). */
@@ -64,6 +69,8 @@ interface TourDetailClientProps {
     providerCalendar?: CalendarViewModel | null;
     /** REQ-10536…10539: Condiciones, Antes de ir y detalles prácticos, armados y validados en el servidor. */
     practical?: PracticalView | null;
+    /** REQ-10736: qué pinta el mapa del punto de encuentro (exacto o «Zona aproximada»), decidido en el servidor. Sin esto, como hoy. */
+    fichaMap?: FichaMapView | null;
 }
 
 export function TourDetailClient({
@@ -77,10 +84,12 @@ export function TourDetailClient({
     paidEnabled = false,
     whatsapp,
     crossSell = null,
+    transfer = null,
     primeraPieza = null,
     priceLabel = null,
     providerCalendar = null,
     practical = null,
+    fichaMap,
 }: TourDetailClientProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
@@ -207,7 +216,7 @@ export function TourDetailClient({
                         )}
 
                         {/* Meeting Point */}
-                        {tour.meetingPoint && <TourMeetingPoint meetingPoint={tour.meetingPoint} />}
+                        {tour.meetingPoint && <TourMeetingPoint meetingPoint={tour.meetingPoint} fichaMap={fichaMap} />}
 
                         {/* Reseñas reales */}
                         <TourReviews reviews={reviews} total={reviewsTotal} />
@@ -226,9 +235,10 @@ export function TourDetailClient({
                             paidPolicy={plan.freetourPaidPolicy ? paidPolicyConfirmed(null, language) : null}
                             tipGuide={tipGuide((initialTourData as { country?: { code?: string } } | null)?.country?.code, language)}
                             onAdvisorClick={onAdvisorClick}
-                            below={crossSell && csItems.length > 0 ? (
+                            below={(crossSell && csItems.length > 0) || transfer ? (
                                 <SectionBoundary name="franja-transporte">
-                                    <CrossSellStrip eyebrow={csCopy.stripEyebrow(crossSell.city)} question={csCopy.stripQuestion} from={csCopy.from} items={csItems.slice(0, 1)} />
+                                    {crossSell && csItems.length > 0 && <CrossSellStrip eyebrow={csCopy.stripEyebrow(crossSell.city)} question={csCopy.stripQuestion} from={csCopy.from} items={csItems.slice(0, 1)} />}
+                                    <TransferCard card={transfer} />
                                 </SectionBoundary>
                             ) : null}
                         />

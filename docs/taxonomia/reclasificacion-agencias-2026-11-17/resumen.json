@@ -1,0 +1,67 @@
+{
+  "bigbus": {
+    "viajes": 29,
+    "cambian": 0,
+    "igual": 29,
+    "dudas": 1,
+    "movimientos": {}
+  },
+  "destinocolombia": {
+    "viajes": 10,
+    "cambian": 0,
+    "igual": 10,
+    "dudas": 0,
+    "movimientos": {}
+  },
+  "exoticescapes": {
+    "viajes": 15,
+    "cambian": 0,
+    "igual": 15,
+    "dudas": 15,
+    "movimientos": {}
+  },
+  "extime": {
+    "viajes": 179,
+    "cambian": 42,
+    "igual": 137,
+    "dudas": 0,
+    "movimientos": {
+      "visita-guiada → excursion-dia": 17,
+      "tour → entradas": 4,
+      "experiencia-unica → tour": 10,
+      "experiencia-unica → visita-guiada": 3,
+      "caminata → visita-guiada": 1,
+      "transporte → excursion-dia": 4,
+      "tour → excursion-dia": 2,
+      "autoguiado → entradas": 1
+    }
+  },
+  "fantasticachina": {
+    "viajes": 51,
+    "cambian": 1,
+    "igual": 50,
+    "dudas": 0,
+    "movimientos": {
+      "excursion-dia → circuito": 1
+    }
+  },
+  "incaworld": {
+    "viajes": 76,
+    "cambian": 6,
+    "igual": 70,
+    "dudas": 0,
+    "movimientos": {
+      "experiencia-unica → visita-guiada": 1,
+      "a-la-medida → circuito": 2,
+      "visita-guiada → circuito": 1,
+      "a-la-medida → tour": 2
+    }
+  },
+  "turismoasiatico": {
+    "viajes": 11,
+    "cambian": 0,
+    "igual": 11,
+    "dudas": 11,
+    "movimientos": {}
+  }
+}

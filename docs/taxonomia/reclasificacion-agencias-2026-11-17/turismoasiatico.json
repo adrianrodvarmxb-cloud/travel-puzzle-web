@@ -1,0 +1,182 @@
+[
+  {
+    "id": "MYS-01",
+    "titulo": "Malasia Esencial: Kuala Lumpur, Penang y selva de Belum",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "urbano"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "BOR-01",
+    "titulo": "Lo mejor de Borneo: orangutanes y río Kinabatangan",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "playa-mar",
+      "urbano"
+    ],
+    "temasDespues": [
+      "playa-mar",
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SGP-PRE",
+    "titulo": "Singapur y Melaka: preextensión de 4 días",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SIN-01",
+    "titulo": "Singapur: city tour compartido en inglés",
+    "kind": "tour",
+    "original": null,
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "urbano"
+    ],
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SIN-02",
+    "titulo": "Singapur esencial: tour privado en español",
+    "kind": "tour",
+    "original": null,
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "urbano"
+    ],
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SIN-03",
+    "titulo": "Singapur y Gardens by the Bay: privado en español",
+    "kind": "tour",
+    "original": null,
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "urbano"
+    ],
+    "temasDespues": [
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SIN-04",
+    "titulo": "Gardens by the Bay y Katong: privado en español",
+    "kind": "tour",
+    "original": null,
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SIN-05",
+    "titulo": "Singapur peranakan: tour cultural privado en español",
+    "kind": "tour",
+    "original": null,
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "gastronomia",
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "gastronomia",
+      "naturaleza"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "KUL-01",
+    "titulo": "Kuala Lumpur: medio día privado en español",
+    "kind": "tour",
+    "original": null,
+    "antes": "visita-guiada",
+    "despues": "visita-guiada",
+    "cambia": false,
+    "temasAntes": [
+      "gastronomia"
+    ],
+    "temasDespues": [
+      "gastronomia"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "KUL-02",
+    "titulo": "Kuala Lumpur y Batu Caves: día completo privado",
+    "kind": "tour",
+    "original": null,
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "gastronomia"
+    ],
+    "temasDespues": [
+      "gastronomia"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "KUL-03",
+    "titulo": "Melaka desde Kuala Lumpur: día completo privado",
+    "kind": "tour",
+    "original": null,
+    "antes": "excursion-dia",
+    "despues": "excursion-dia",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  }
+]

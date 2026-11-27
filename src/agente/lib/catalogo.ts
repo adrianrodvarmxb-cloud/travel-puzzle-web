@@ -3,6 +3,8 @@
 // de docs/freetour), G2 C (busca cuando el mensaje trae destino/fecha/tipo; revisa en vivo antes de dar la liga) y
 // G3 C (liga a la ficha con fecha y personas ya puestas; se reserva y paga en el sitio).
 
+import { tourPath } from "@/destinations/lib/routes";
+
 /** REQ-148: proveedor bloqueado. Un bot no vende tours de FREETOUR sin su autorización escrita (B3). */
 export const FREETOUR = "freetour";
 const MOTIVO_FREETOUR = "Bloqueado: FREETOUR no permite que un bot venda sus tours sin autorización escrita (pregunta 8 de docs/freetour/autorizaciones.md).";
@@ -10,17 +12,66 @@ const MOTIVO_FREETOUR = "Bloqueado: FREETOUR no permite que un bot venda sus tou
 export interface ViajeAgente {
   slug: string; path: string; title: string; summary: string; places: string; cities: string[]; kind: string;
   agencyId: string | null; price: string | null; durationDays: number | null; dates: string[];
+  /** REQ-10849: id del proveedor de un tour con adaptador (`tangol`); los viajes no lo traen (propios o agencia). */
+  proveedor?: string;
 }
 export interface Proveedor { id: string; nombre: string; bloqueado: boolean; motivo?: string }
 
-// REQ-148
-export const proveedorDe = (v: Pick<ViajeAgente, "agencyId">): string => (v.agencyId ? `agencia:${v.agencyId}` : "propios");
+// REQ-148, REQ-10849
+export const proveedorDe = (v: Pick<ViajeAgente, "agencyId" | "proveedor">): string => v.proveedor ?? (v.agencyId ? `agencia:${v.agencyId}` : "propios");
 
-// REQ-148
-export function listaProveedores(agencias: { id: string; name: string }[]): Proveedor[] {
+/** REQ-10849: fila ligera del índice de tours (una consulta SQL, sin neto: `priceValue` es la tarifa pública, REQ-1543). */
+export interface TourIndiceRow {
+  id: string; slug: string | null; providerId: string; title: string; brief: string | null;
+  priceValue: number; priceCurrency: string; durationMinutes: number | null; departureDates: unknown;
+  citySlug: string | null; cityTranslations: unknown; countryIso2: string | null; countryTranslations: unknown;
+}
+
+const etiqueta = (translations: unknown, lang: string): string | null => {
+  const t = (typeof translations === "string" ? (() => { try { return JSON.parse(translations); } catch { return {}; } })() : translations ?? {}) as Record<string, string | undefined>;
+  return t[lang] ?? t.es ?? t.en ?? null;
+};
+const sinHtml = (html: string | null | undefined): string => (html ?? "").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+const fechas = (raw: unknown): string[] => {
+  const arr = typeof raw === "string" ? (() => { try { return JSON.parse(raw); } catch { return []; } })() : raw;
+  return Array.isArray(arr) ? arr.filter((d): d is string => typeof d === "string" && /^\d{4}-\d{2}-\d{2}/.test(d)).map((d) => d.slice(0, 10)) : [];
+};
+const precioPublico = (amount: number, currency: string, lang: string): string | null => {
+  if (!(amount > 0)) return null;
+  const n = new Intl.NumberFormat(lang === "en" ? "en-US" : "es-MX", { maximumFractionDigits: 2 }).format(amount);
+  return lang === "en" ? `${currency} ${n} per person` : `${currency} ${n} por persona`;
+};
+
+/**
+ * REQ-10849 (decisión 40): un tour del índice entra a `buscarViajes` como un `ViajeAgente` más, con la ruta pública de
+ * su ficha (`/destinos/<iso2>/<ciudad>/<slug>`) y su proveedor; FREETOUR nunca (decisión 42). Sin slug, ciudad o país → null.
+ */
+export function aTourAgente(r: TourIndiceRow, lang: string): ViajeAgente | null {
+  const providerId = (r.providerId ?? "").trim().toLowerCase();
+  const iso2 = (r.countryIso2 ?? "").trim().toLowerCase();
+  if (!providerId || providerId === FREETOUR || !r.slug || !r.citySlug || !iso2) return null;
+  let path: string;
+  try { path = tourPath(iso2, r.citySlug, r.slug); } catch { return null; }
+  const city = etiqueta(r.cityTranslations, lang);
+  const country = etiqueta(r.countryTranslations, lang);
+  return {
+    slug: r.slug, path, title: sinHtml(r.title), summary: sinHtml(r.brief),
+    places: country ?? "", cities: city ? [city] : [], kind: "tour", agencyId: null, proveedor: providerId,
+    price: precioPublico(Number(r.priceValue), r.priceCurrency, lang),
+    durationDays: r.durationMinutes ? Math.max(1, Math.ceil(r.durationMinutes / 1440)) : null,
+    dates: fechas(r.departureDates),
+  };
+}
+
+/** REQ-10845 (decisión 40): proveedor de tours con adaptador en el modelo común; sale solo si el sitio lo tiene encendido. */
+export const TANGOL_PROVEEDOR: Proveedor = { id: "tangol", nombre: "Tangol (tours y excursiones en Sudamérica)", bloqueado: false };
+
+// REQ-148, REQ-10845
+export function listaProveedores(agencias: { id: string; name: string }[], tours: { tangol?: boolean } = {}): Proveedor[] {
   return [
     { id: "propios", nombre: "Viajes propios de Travel Puzzle", bloqueado: false },
     ...agencias.map((a) => ({ id: `agencia:${a.id}`, nombre: a.name, bloqueado: false })),
+    ...(tours.tangol ? [TANGOL_PROVEEDOR] : []),
     { id: FREETOUR, nombre: "FREETOUR.com", bloqueado: true, motivo: MOTIVO_FREETOUR },
   ];
 }

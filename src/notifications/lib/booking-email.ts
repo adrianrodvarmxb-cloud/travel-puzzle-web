@@ -95,7 +95,7 @@ const T = {
     when: "Cuándo", who: "Quiénes", lang: "Idioma",
     reviewsTitle: "Lo que dicen otros viajeros de este tour",
     tipsTitle: "Antes de tu tour",
-    tips: (free: boolean) => ["Llega 10 minutos antes al punto de encuentro.", "Guarda este correo: aquí está tu número de reserva y tu enlace.", ...(free ? ["Es un free tour: al final, deja a tu guía la propina que consideres justa, en efectivo. Lleva billetes chicos o cambio."] : [])],
+    tips: (free: boolean) => ["Llega 10 minutos antes al punto de encuentro.", "Guarda este correo: aquí está tu número de reserva y tu enlace.", "Antes del tour (48 h y el mismo día) te recordamos por correo el punto de encuentro y la hora; si necesitas algo antes, escríbenos por WhatsApp.", /* REQ-10760 */ ...(free ? ["Es un free tour: al final, deja a tu guía la propina que consideres justa, en efectivo. Lleva billetes chicos o cambio."] : [])],
     slogan: "Te armamos tu viaje",
     manageNote: "Si no puedes asistir, cancela desde este enlace para liberar el lugar. Guárdalo: es privado.",
     // REQ-182: solo complementos (traslado, eSIM, transporte); nunca promueve tours (regla B3).
@@ -145,7 +145,7 @@ const T = {
     when: "When", who: "Who", lang: "Language",
     reviewsTitle: "What other travelers say about this tour",
     tipsTitle: "Before your tour",
-    tips: (free: boolean) => ["Arrive 10 minutes early at the meeting point.", "Keep this email: it has your booking number and private link.", ...(free ? ["It's a free tour: at the end, give your guide what you think is fair, in cash. Bring small bills or change."] : [])],
+    tips: (free: boolean) => ["Arrive 10 minutes early at the meeting point.", "Keep this email: it has your booking number and private link.", "Before your tour (48 h ahead and on the day) we'll email you the meeting point and time again; if you need anything sooner, message us on WhatsApp.", /* REQ-10760 */ ...(free ? ["It's a free tour: at the end, give your guide what you think is fair, in cash. Bring small bills or change."] : [])],
     slogan: "Te armamos tu viaje",
     manageNote: "If you can't make it, please cancel from this link to free up the spot. Keep it safe: it's private.",
     tripTitle: "Build the rest of your trip",

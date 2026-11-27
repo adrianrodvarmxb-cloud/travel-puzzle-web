@@ -1,0 +1,216 @@
+[
+  {
+    "id": "TO7",
+    "titulo": "Triángulo de Oro: Delhi, Jaipur y Agra",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "TOB9",
+    "titulo": "Triángulo de Oro y Benarés",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "TOK10",
+    "titulo": "Triángulo de Oro y Kathmandú",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "NOR9",
+    "titulo": "Norte de la India: Triángulo de Oro, Khajuraho y Benarés",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "RAJ10",
+    "titulo": "Rajasthan: Delhi, Udaipur, Jodhpur, Jaipur y Agra",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "urbano"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "urbano"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "RJB12",
+    "titulo": "Rajasthan y Benarés",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "RKB12",
+    "titulo": "Rajasthan, Khajuraho y Benarés",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "RCE12",
+    "titulo": "Rajasthan con encanto: palacios, desierto y lagos",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "SRI8",
+    "titulo": "Sri Lanka: Sigiriya, Kandy, té de Ceilán y Galle",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza"
+    ],
+    "temasDespues": [
+      "naturaleza"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "MUJ8",
+    "titulo": "La India entre mujeres",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "gastronomia",
+      "bienestar"
+    ],
+    "temasDespues": [
+      "gastronomia",
+      "bienestar"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "INS8",
+    "titulo": "La India más instagrameable",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "cultural"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "cultural"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "HOLI27",
+    "titulo": "Happy Holi 2027: el festival de los colores en Jaipur",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "DIW26",
+    "titulo": "Diwali 2026: el festival de las luces en Jaipur",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "AMR3",
+    "titulo": "Extensión Amritsar: Templo Dorado y frontera de Wagah",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "religioso"
+    ],
+    "temasDespues": [
+      "religioso"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  },
+  {
+    "id": "MUM3",
+    "titulo": "Extensión Mumbai: Puerta de la India y cuevas de Elefanta",
+    "kind": "circuito",
+    "original": null,
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "noche-espectaculos"
+    ],
+    "temasDespues": [
+      "noche-espectaculos"
+    ],
+    "duda": "sin denominación original del proveedor: se queda como hoy"
+  }
+]

@@ -23,7 +23,7 @@ export const FORMATO_LABEL: Record<FormatoFiltro, { es: string; en: string }> = 
   "visita-guiada": { es: "Visita guiada", en: "Guided visit" },
   tour: { es: "Tour", en: "Tour" },
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
-  "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
+  "experiencia-unica": { es: "Actividades", en: "Activities" },
   entradas: { es: "Boletos y entradas", en: "Tickets & passes" },
   autoguiado: { es: "Autoguiado (audioguía)", en: "Self-guided / audio guide" },
   circuito: { es: "Circuito (varios días)", en: "Multi-day tour" },
@@ -43,7 +43,7 @@ export const FORMATO_CARD_LABEL: Record<FormatoFiltro, { es: string; en: string 
   "visita-guiada": { es: "Visita guiada", en: "Guided visit" }, // REQ-1250
   tour: { es: "Tour", en: "Tour" }, // REQ-1250 reemplaza «Tour → Visita guiada» de REQ-531/D15
   "excursion-dia": { es: "Excursión de un día", en: "Day trip" },
-  "experiencia-unica": { es: "Momentos de autor", en: "Signature moments" },
+  "experiencia-unica": { es: "Actividades", en: "Activities" },
   entradas: { es: "Boletos", en: "Tickets" },
   autoguiado: { es: "Autoguiado", en: "Self-guided" },
   circuito: { es: "Circuito", en: "Multi-day tour" },
@@ -111,6 +111,7 @@ export function formatoOptions(counts: Partial<Record<string, number>> | null | 
 export const TEMAS_FILTRO = [
   "gastronomia", "naturaleza", "montana-senderismo", "aventura", "playa-mar", "cultural", "religioso",
   "noche-espectaculos", "bienestar", "talleres-aprendizaje", "deportivo", "parques-ocio",
+  "campo-vida-rural", // REQ-10701 (G-R3, PO 15-11-2026): «Campo y vida rural»
 ] as const;
 export type TemaFiltro = (typeof TEMAS_FILTRO)[number];
 export const TEMA_LABEL: Record<TemaFiltro, { es: string; en: string }> = {
@@ -126,13 +127,14 @@ export const TEMA_LABEL: Record<TemaFiltro, { es: string; en: string }> = {
   "talleres-aprendizaje": { es: "Talleres y aprendizaje", en: "Classes & workshops" },
   deportivo: { es: "Deportes", en: "Sports" },
   "parques-ocio": { es: "Parques y ocio", en: "Theme parks & leisure" },
+  "campo-vida-rural": { es: "Campo y vida rural", en: "Countryside & rural life" }, // REQ-10701
 };
 
 /**
- * REQ-1422 (firma del PO 8-11): atributos del filtro: Cómo te mueves (a pie, bici, vehículo, barco), Nocturno,
+ * REQ-1422 (firma del PO 8-11): atributos del filtro: Cómo te mueves (a pie, bici, vehículo, barco y, por REQ-10703, tren), Nocturno,
  * Entrada incluida, Día completo, En español y Con vuelo. En la URL van sin el prefijo «medio:» (?atrib=a-pie).
  */
-export const MEDIOS_FILTRO = ["a-pie", "bici", "vehiculo", "barco"] as const;
+export const MEDIOS_FILTRO = ["a-pie", "bici", "vehiculo", "tren", "barco"] as const; // REQ-10703: «tren» (G-R5)
 export const EXTRAS_FILTRO = ["nocturno", "entrada-incluida", "dia-completo", "idioma-es", "vuelo-incluido"] as const;
 export const ATRIBUTOS_FILTRO = [...MEDIOS_FILTRO, ...EXTRAS_FILTRO] as const;
 export type AtributoFiltro = (typeof ATRIBUTOS_FILTRO)[number];
@@ -140,6 +142,7 @@ export const ATRIBUTO_LABEL: Record<AtributoFiltro, { es: string; en: string }> 
   "a-pie": { es: "A pie", en: "On foot" },
   bici: { es: "En bici", en: "By bike" },
   vehiculo: { es: "En vehículo", en: "By vehicle" },
+  tren: { es: "En tren", en: "By train" }, // REQ-10703
   barco: { es: "En barco", en: "By boat" },
   nocturno: { es: "Nocturno", en: "At night" },
   "entrada-incluida": { es: "Entrada incluida", en: "Admission included" },

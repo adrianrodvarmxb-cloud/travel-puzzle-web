@@ -1,6 +1,7 @@
 import type { OctoApi } from "./api";
 import { buildCatalogPlan, type CatalogPlan, type CityKeywords } from "./lib/catalog";
 import { archiveRawItems, type ArchiveReport, type RawArchive } from "@/ingest/raw-archive";
+import { bigBusRawItems } from "./lib/raw-items";
 
 /** Dónde vive el plan del catálogo (R2 privado). La ficha lo lee para saber qué se compra directo. */
 export interface PlanStore {
@@ -13,6 +14,8 @@ export interface CatalogSyncDeps {
   api: Pick<OctoApi, "getProducts"> | null;
   store: PlanStore;
   archive?: RawArchive;
+  /** REQ-10763: `Trip.id` de una ciudad del import de Big Bus; con él, la copia OCTO se liga al viaje en ProviderRecord. */
+  tripIdFor?: (cityRef: string) => string;
   cityRefs: string[];
   map: CityKeywords;
   now: Date;
@@ -51,10 +54,14 @@ export async function runBigBusCatalogSync(d: CatalogSyncDeps): Promise<CatalogS
     return { status: "error", message: (e as Error).message };
   }
 
+  // REQ-10763 (REQ-10761): la respuesta OCTO es el documento original de Big Bus; con `tripIdFor`, cada producto queda
+  // ligado al viaje de su ciudad en ProviderRecord. Sin `tripIdFor` (uso anterior), se archiva como antes, sin liga.
   const archive = d.archive
     ? await archiveRawItems(d.archive, {
         provider: OCTO_PROVIDER,
-        items: res.raw.map((body) => ({ externalId: (body as { id?: unknown })?.id ? String((body as { id: unknown }).id) : null, body })),
+        items: d.tripIdFor
+          ? bigBusRawItems({ raw: res.raw, parsed: res.items, map: d.map, tripIdFor: d.tripIdFor })
+          : res.raw.map((body) => ({ externalId: (body as { id?: unknown })?.id ? String((body as { id: unknown }).id) : null, body })),
         runId: d.runId,
         now: d.now,
       })

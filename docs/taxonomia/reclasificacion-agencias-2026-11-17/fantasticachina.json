@@ -1,0 +1,866 @@
+[
+  {
+    "id": "FCH-R1",
+    "titulo": "China: Tour regular básico 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R2",
+    "titulo": "China: Beijing-Xi'an-Shanghai 8 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R3",
+    "titulo": "China: Beijing-Xi'an-Shanghai-Guilin 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R4",
+    "titulo": "China: Beijing Solo 4 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R5",
+    "titulo": "China: Beijing-Xi'an-Guilin-Shanghai 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R6",
+    "titulo": "China: Beijing-Xi'an-Guilin-Hangzhou-Suzhou-Shanghai 13 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R7",
+    "titulo": "Crucero del Río Yangtze (12 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "playa-mar"
+    ],
+    "temasDespues": [
+      "playa-mar"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R7X",
+    "titulo": "Crucero por el Río Yangtze con Oso Panda (12 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "playa-mar"
+    ],
+    "temasDespues": [
+      "playa-mar"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R8",
+    "titulo": "China: Beijing-Shanghai 6 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R9",
+    "titulo": "China: Beijing-Xi'an-Hangzhou-Suzhou-Shanghai 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R10",
+    "titulo": "China: Beijing-Luoyang-Xi'an-Hangzhou-Suzhou y más, 11 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R11",
+    "titulo": "China: Beijing-Xi'an-Kunming-Dali-Lijiang-Shanghai 13 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R12",
+    "titulo": "Ruta de la Seda (13 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R13",
+    "titulo": "China: Beijing-Datong-Monte Wutai-Pingyao-Xi'an y más, 11…",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R14",
+    "titulo": "China: Beijing-Xi'an-Lhasa-Shanghai 11 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R15",
+    "titulo": "China: Beijing-Xi'an-Lhasa-Gyantse-Shigatse-Lhasa y más, …",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R16",
+    "titulo": "China: Beijing-Luoyang-Xi'an-Guilin-Hangzhou-Suzhou y más…",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R17",
+    "titulo": "Extensión a Lhasa (4 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R18",
+    "titulo": "Extensión a Hongkong (3 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R19",
+    "titulo": "Extensión a Shenzhen (3 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R20",
+    "titulo": "Extensión a Yunnan (4 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "naturaleza",
+      "montana-senderismo"
+    ],
+    "temasDespues": [
+      "naturaleza",
+      "montana-senderismo"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R21",
+    "titulo": "Extensión a Huangshan (4 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R22",
+    "titulo": "Extensión a Zhangjiajie (4 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R23",
+    "titulo": "Excursión de un día a Macao",
+    "kind": "tour",
+    "original": "TOUR REGULAR",
+    "antes": "excursion-dia",
+    "despues": "circuito",
+    "cambia": true,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R24",
+    "titulo": "China: Beijing-Pingyao-Xi'an-Guilin-Hangzhou-Suzhou y más…",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R25",
+    "titulo": "Mundo de Avatar con Guilin (12 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R26A",
+    "titulo": "China: Beijing-Xi'an-Chengdu-Shanghai 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R26B",
+    "titulo": "China: Beijing-Xi'an-Chengdu-Hangzhou-Suzhou y más, 13 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R27",
+    "titulo": "China: Beijing-Xi'an-Chengdu-Monte Emei-Hangzhou y más, 1…",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R28",
+    "titulo": "China: Beijing-Xi'an-Kaili-Rongjiang-Zhaoxing y más, 13 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R29",
+    "titulo": "China: Shanghai Solo 4 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-R30",
+    "titulo": "China: Beijing-Xining-Lhasa-Shanghai 11 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R31",
+    "titulo": "China: Beijing-Hangzhou-Suzhou-Shanghai 9 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R32",
+    "titulo": "China: Beijing-Xi'an-Zhangjiajie-Shanghai 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R33",
+    "titulo": "Paraíso de la Tierra con Mundo de Avatar (16 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R34",
+    "titulo": "Mundo de Avatar con Fenghuang (12 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R35",
+    "titulo": "China: Beijing-Xi'an-Chengdu-Chongqing-Shanghai 12 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R36",
+    "titulo": "China: Beijing-Xi'an-Chengdu-Zhangjiajie-Shanghai 12 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R37",
+    "titulo": "China: Beijing-Xi'an-Chengdu-Guilin-Shanghai 12 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R38",
+    "titulo": "China: Beijing-Xi'an-Chongqing-Shanghai 10 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R39",
+    "titulo": "China: Beijing-Xi'an-Chongqing-Zhangjiajie-Shanghai 12 días",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-R40",
+    "titulo": "GRAN TOUR : CHINA EN SU TOTALIDAD (22 días)",
+    "kind": "circuito",
+    "original": "TOUR REGULAR",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L01",
+    "titulo": "China Gran Lujo: Beijing-Xi'an-Shanghai 8 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L02",
+    "titulo": "China Gran Lujo: Shanghai-Xi'an-Beijing 8 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural"
+    ],
+    "temasDespues": [
+      "cultural"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L03",
+    "titulo": "China Gran Lujo: Beijing-Shanghai 6 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L04",
+    "titulo": "China Gran Lujo: Shanghai-Beijing 6 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L05",
+    "titulo": "China Gran Lujo: Beijing Solo 4 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L06",
+    "titulo": "China Gran Lujo: Shanghai Solo 4 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [],
+    "temasDespues": [],
+    "duda": null
+  },
+  {
+    "id": "FCH-L07",
+    "titulo": "China Gran Lujo: Beijing-Xi'an-Guilin-Shanghai 10 días",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L08",
+    "titulo": "China Gran Lujo: Beijing-Xi'an-Hangzhou-Suzhou y más, 10 día",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  },
+  {
+    "id": "FCH-L09",
+    "titulo": "China Gran Lujo: Beijing-Xi'an-Guilin-Hangzhou y más, 13 día",
+    "kind": "circuito",
+    "original": "TOUR GRAN LUJO",
+    "antes": "circuito",
+    "despues": "circuito",
+    "cambia": false,
+    "temasAntes": [
+      "cultural",
+      "urbano"
+    ],
+    "temasDespues": [
+      "cultural",
+      "urbano"
+    ],
+    "duda": null
+  }
+]

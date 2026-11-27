@@ -8,7 +8,8 @@ import { DEFAULT_DICTIONARY } from '@/taxonomy/data';
 import type { Metadata } from 'next';
 import type React from 'react';
 import { Navbar } from '@/components/layout';
-import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import { WhatsAppBubble } from '@/components/home/v2/WhatsAppBubble';
 import { TripGallery } from '@/components/trips/TripGallery';
 import { TripSection, TripList } from '@/components/trips/TripSection';
 import { TripPriceBox } from '@/components/trips/TripPriceBox';
@@ -16,15 +17,18 @@ import { TripGuarantees } from '@/components/trips/TripGuarantees';
 import { guaranteeItems, onlinePaymentsFromEnv } from '@/trips/lib/guarantees';
 import { TripMeetingPoints } from '@/components/trips/TripMeetingPoints';
 import { TripRequestForm } from '@/components/trips/TripRequestForm';
+import { ProviderDateCalendar } from '@/components/tours/one/ProviderDateCalendar';
+import { calendarView } from '@/tours/lib/calendar-view';
+import { isTripCalendarEnabled, tripCalendar } from '@/trips/lib/trip-calendar'; // REQ-10863
 import { BigBusBuyBox } from '@/components/trips/BigBusBuyBox';
 import { bigBusRefForTrip } from '@/octo/lib/public-view';
 import { bigBusOctoConfig } from '@/octo/lib/config';
 import bigBusCities from '@/octo/data/bigbus-ciudades.json';
 import { policySummary, policyText } from '@/trips/lib/cancel-policy';
 import { bookingSteps, isCardHoldEnabled } from '@/trips/lib/booking-steps';
-import { loadTripBySlug, toCard } from '@/trips/public-load';
+import { loadTripBySlug } from '@/trips/public-load';
 import { tripCopy } from '@/trips/lib/copy';
-import { durationLabel, isAudioGuided, languagesLabel } from '@/trips/lib/trip-facts';
+import { languagesLabel } from '@/trips/lib/trip-facts';
 import { tripPath } from '@/trips/lib/public';
 import { countryName } from '@/trips/lib/geo';
 import { imageUrl } from '@/trips/lib/image';
@@ -40,11 +44,8 @@ import { crossSellDeps } from '@/trips/cross-sell-deps';
 import { crossSellCopy } from '@/trips/lib/cross-sell-copy';
 import { JsonLd } from '@/components/destinations/JsonLd';
 import { TripHeader } from '@/components/trips/TripHeader';
-import { enBreve, fichaJsonLd } from '@/seo/lib/ficha-ld';
-import { tripFichaInput } from '@/seo/lib/trip-ficha';
-import { OWN_PROVIDER } from '@/trips/public-load';
-import { canonicalUrl } from '@/seo/lib/hub';
-import { SITE_URL_DEFAULT } from '@/destinations/load';
+import { fichaJsonLd } from '@/seo/lib/ficha-ld';
+import { tripFichaLd } from '@/trips/ficha-ld'; // REQ-10870
 
 export type TripData = NonNullable<Awaited<ReturnType<typeof loadTripBySlug>>>;
 
@@ -66,9 +67,6 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     const lang = await getRouteLanguage();
     const c = tripCopy(lang);
     const L = (key: string, es: string) => localized(tr, lang, key, es);
-    const duration = durationLabel(trip, c);
-    const isAudio = isAudioGuided(trip);
-    const card = toCard({ ...trip, translations: tr }, lang, fx);
     const env = process.env as Record<string, string | undefined>;
     const facts = taxonomyCircuitsEnabled(env as Record<string, string | undefined>) ? circuitFacts({ kind: trip.kind, difficulty: trip.difficulty, difficultyLevel: trip.difficultyLevel ?? null, durationDays: trip.durationDays, options: trip.options }, DEFAULT_DICTIONARY, lang) : null;
     const contact = contactFromEnv(env);
@@ -90,25 +88,17 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
     // REQ-059: "Cómo funciona tu reserva" solo promete lo que existe (retención en tarjeta tras STRIPE_HOLD_ENABLED).
     const steps = bookingSteps(lang, { cardHold: isCardHoldEnabled(env.STRIPE_HOLD_ENABLED) });
     const cancel = trip.cancellation.type === 'standard' ? [c.cancelStandard] : trip.cancellation.type === 'none' ? [c.cancelNone] : trip.cancellation.tiers.map((t) => c.cancelTier(t.daysBefore, t.refundPct));
-    // REQ-576/577/581: marcado Product+TouristTrip, «En breve», tipo y etiquetas, con los mismos textos que se ven aquí.
-    // Idiomas: los mismos nombres de la lista visible (Intl en el servidor, como hoy). La cancelación no entra mientras
-    // REQ-060 la oculte de la página (SHOW_POLICY_ON_PAGE): el marcado y «En breve» solo dicen lo visible.
-    const languageNames = trip.languages.map((l) => new Intl.DisplayNames([lang], { type: 'language' }).of(l) ?? l);
-    const agencyId = (trip as { agencyId?: string | null }).agencyId ?? null;
-    const operator = data.agencyName?.trim() || (agencyId ? null : OWN_PROVIDER);
+    // REQ-10870: marcado Product+TouristTrip, «En breve», tarjeta, duración, idiomas y operador salen de `tripFichaLd`,
+    // el mismo cálculo que usa la plantilla única (REQ-576/577/581 sin cambios; la cancelación no entra mientras REQ-060 la oculte).
+    const ld = tripFichaLd({ data, path, lang, env, cancellation: SHOW_POLICY_ON_PAGE ? policy.text : null });
+    const { ficha, breve, card, duration, isAudio, languageNames } = ld;
+    // REQ-10863 (plan REQ-3454, G1–G5 = A): calendario con precio por día del viaje, tras TRIP_CALENDAR_ENABLED. Apagada, o sin
+    // un solo día que salga en la ventana, queda en null y la ficha se ve como hoy (nunca un calendario vacío ni un neto).
+    const calendario = isTripCalendarEnabled(env.TRIP_CALENDAR_ENABLED)
+        ? (() => { const cal = tripCalendar({ availability: trip.availability, options: trip.options, currency: trip.currency, minNoticeHours: trip.minNoticeHours }, { today: new Date().toISOString().slice(0, 10), months: 6 }); return cal ? calendarView(cal, lang) : null; })()
+        : null;
     // REQ-3423
     const bigBusRef = bigBusOctoConfig(process.env as Record<string, string | undefined>) ? bigBusRefForTrip(trip.id, Object.keys(bigBusCities).filter((k) => !k.startsWith('_'))) : null;
-    const ficha = {
-        ...tripFichaInput({
-            trip: { ...trip, agencyId }, lang, url: canonicalUrl(process.env.SITE_URL || SITE_URL_DEFAULT, path), title: card.title, summary: card.summary || null,
-            operator, duration, languageNames, languagesTitle: isAudio ? (lang === 'es' ? 'Audioguía' : 'Audio guide') : null, priceText: card.price ? `${c.from} ${card.price.main}${card.price.original ? ` · ${card.price.original}` : ''}` : null,
-            places: [trip.cities.join(', '), trip.countries.map((x) => countryName(x, lang)).join(', ')].filter(Boolean).join(' · ') || null,
-            includes: trip.includes.map((x, i) => L(`includes.${i}`, x)), formato: card.formato ?? null,
-        }),
-        images: trip.images.map((im) => imageUrl(im.key)),
-        cancellation: SHOW_POLICY_ON_PAGE ? policy.text : null,
-    };
-    const breve = enBreve(ficha);
 
     return (
         <div className="min-h-screen bg-background">
@@ -185,6 +175,14 @@ export async function TripDetailView({ data, path, breadcrumbs, prellenado }: { 
                         </div>
                         <aside className="space-y-5">
                             <TripPriceBox price={card.price} c={c} whatsappUrl={wa} policy={SHOW_POLICY_ON_PAGE ? policy : undefined} />
+                            {/* REQ-10863: fechas y precios por día (tras TRIP_CALENDAR_ENABLED). Si falla el pintado, la sección se oculta y la ficha sigue. */}
+                            {calendario && (
+                                <SectionBoundary name="calendario-viaje">
+                                    <div className="rounded-2xl border border-white/10 bg-[#121D45] p-5" data-calendario-viaje="true">
+                                        <ProviderDateCalendar view={calendario} />
+                                    </div>
+                                </SectionBoundary>
+                            )}
                             {relatedTours.length > 0 && (
                                 <SectionBoundary name="franja-tours">
                                     <CrossSellStrip eyebrow={cs.toursEyebrow(L('cities.0', tourCity ?? ''))} question={cs.toursQuestion} from={cs.from} freeLabel="Free tour" items={relatedTours.slice(0, 2)} />

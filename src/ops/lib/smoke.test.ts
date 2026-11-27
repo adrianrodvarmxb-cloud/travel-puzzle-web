@@ -47,6 +47,12 @@ describe("withOptionalPages", () => {
     expect(cfg.optional).toEqual(expect.arrayContaining(["/ayuda", "/admin/entrar"]));
     expect(cfg.fixed).not.toContain("/ayuda");
   });
+  it("REQ-10880: el humo cubre una ficha de viaje con varias opciones con precio (bloque 12 con precio local, ola 9), en español e inglés", () => {
+    const cfg = JSON.parse(readFileSync("tests/smoke/pages.json", "utf8")) as { fixed: string[] };
+    const ficha = "/destinos/co/bogota/colombia-esencial-bogota-medellin-y-cartagena-8-dias-dco-co-c08-001";
+    expect(cfg.fixed).toContain(ficha);
+    expect(cfg.fixed).toContain(`/en${ficha}`);
+  });
 });
 
 describe("isErrorScreen", () => {

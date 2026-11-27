@@ -3,6 +3,7 @@ import { DEFAULT_DICTIONARY as D, DEFAULT_MAPPINGS as M } from "../index";
 import { classify } from "../../lib/classify";
 import { cartTypeFor } from "../../lib/cart-type";
 import { reporteCobertura } from "../../lib/cobertura";
+import { esTrayectoEntreCiudades } from "../../lib/trayecto";
 import { CATEGORIA_TANGOL_SIN_TIPO, CODIGOS_TANGOL, categoriaIdDeTangol, claveTangol } from "@/tangol/lib/taxonomia";
 import tabla from "../../../../tests/fixtures/tangol-tipos-2026-11-12.json";
 
@@ -80,7 +81,10 @@ describe("REQ-3503 los traslados de Tangol van a la sección de traslados", () =
   it.each(traslados.flatMap((t) => t.ejemplos.map((e) => [claveTangol(t), e] as const)))("REQ-3503: %s «%s» → traslados", (clave, titulo) => {
     const r = classify({ proveedor: "tangol", categoriaId: CODIGOS_TANGOL[clave], precio: 50, durationMinutes: 60, titulo }, D, M);
     expect(r.seccion).toBe("traslados");
-    expect(cartTypeFor(r.formato)).toBe(clave === "PASES|TKTBUS" ? "transport" : "transfer");
+    // REQ-10708 (PO 15-11-2026, cambio de alcance de REQ-3503): el trayecto entre ciudades va al carrito `transport`, como
+    // el boleto de bus; la llegada o salida de aeropuerto, terminal, muelle u oficina sigue en `transfer`. Los casos, uno
+    // por uno, están en src/taxonomy/lib/trayecto.test.ts.
+    expect(cartTypeFor(r.formato)).toBe(clave === "PASES|TKTBUS" || esTrayectoEntreCiudades(titulo) ? "transport" : "transfer");
   });
 });
 
@@ -109,4 +113,21 @@ describe("REQ-3503 formato base de cada familia de Tangol (trato de freetour.jso
     expect(r.formato).not.toBe("excursion-dia");
     expect(r.formato).not.toBe("por-revisar");
   });
+});
+
+// REQ-3428 (RETRO, caracterización 25-11-2026): «traslados de Tangol en el carrusel de complementos». Sin cambiar lógica:
+// la llegada y la salida (TRASLADO|IN, OUT e IN/OUT) van al carrito `transfer`, el de los complementos del carrito.
+describe("REQ-3428 traslados de Tangol como complemento del carrito", () => {
+  const llegadaSalida = validos.filter((t) => t.typeCode === "TRASLADO" && ["IN", "OUT", "IN/OUT"].includes(t.subTypeCode));
+  it("REQ-3428: la tabla real trae los tres tipos y el mapeo los anota con el carrito `transfer`", () => {
+    expect(llegadaSalida.map((t) => t.subTypeCode).sort()).toEqual(["IN", "IN/OUT", "OUT"]);
+    for (const t of llegadaSalida) expect(catDe(CODIGOS_TANGOL[claveTangol(t)])?.nota ?? "").toMatch(/carrito `transfer`/);
+  });
+  it.each(llegadaSalida.flatMap((t) => t.ejemplos.filter((e) => !esTrayectoEntreCiudades(e)).map((e) => [claveTangol(t), e] as const)))(
+    "REQ-3428: %s «%s» → carrito transfer",
+    (clave, titulo) => {
+      const r = classify({ proveedor: "tangol", categoriaId: CODIGOS_TANGOL[clave], precio: 50, durationMinutes: 60, titulo }, D, M);
+      expect(cartTypeFor(r.formato)).toBe("transfer");
+    },
+  );
 });

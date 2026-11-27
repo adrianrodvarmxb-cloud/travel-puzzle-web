@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { catalogSyncDeps } from '@/octo/deps';
+import { catalogSyncDeps } from '@/octo/sync-deps';
 import { runBigBusCatalogSync } from '@/octo/catalog-sync';
 
 export const dynamic = 'force-dynamic';

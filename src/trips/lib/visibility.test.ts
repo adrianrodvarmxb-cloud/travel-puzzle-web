@@ -35,3 +35,17 @@ describe("visibilityFromEnv", () => {
     expect(visibilityFromEnv({})).toEqual({ own: false, transport: false });
   });
 });
+
+describe("REQ-008: la venta cruzada respeta TRANSPORT_ENABLED y va aislada", () => {
+  it("REQ-008: con TRANSPORT_ENABLED apagada ningún transporte es visible para la franja ni la ventana", () => {
+    const f = visibilityFromEnv({ OWN_TOURS_ENABLED: "true", TRANSPORT_ENABLED: "false" });
+    expect(isKindVisible("transporte", f)).toBe(false);
+    expect(visibilityFromEnv({ TRANSPORT_ENABLED: "true" }).transport).toBe(true);
+    expect(visibilityFromEnv({ TRANSPORT_ENABLED: "TRUE" }).transport).toBe(false); // solo el texto exacto "true"
+  });
+  it("REQ-008: la franja de tours de la ficha de un transporte va dentro de un SectionBoundary (si falla, la ficha sigue)", async () => {
+    const { readFileSync } = await import("node:fs");
+    const src = readFileSync(new URL("../../components/trips/TripDetailView.tsx", import.meta.url), "utf8");
+    expect(src).toMatch(/<SectionBoundary name="franja-tours">/);
+  });
+});

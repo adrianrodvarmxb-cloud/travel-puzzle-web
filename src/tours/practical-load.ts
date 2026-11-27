@@ -49,3 +49,24 @@ export async function loadPracticalInfo(db: D1, tourId: string, lang: string, en
   const row = rows[0];
   return row ? practicalInfo(row, { lang, tr: translator(lang) }) : null;
 }
+
+/**
+ * REQ-10844: la misma lectura (0031 + 0032, con el regreso a solo 0031 si la 0032 no está) pero cruda, para armar el
+ * modelo común de la ficha (`ficha/lib/tour-input.ts`) sin pasar por la vista. null si la base falla o no hay fila.
+ */
+// REQ-10844
+export async function loadPracticalRow(db: D1, tourId: string, env: ProviderVisibilityEnv): Promise<Record<string, unknown> | null> {
+  let rows: Record<string, unknown>[];
+  try {
+    rows = (await db.prepare(select(PRACTICAL_COLUMNS, env)).bind(tourId).all()).results;
+  } catch (e) {
+    if (!/no such column/i.test((e as Error).message)) { console.error("[ficha] fila práctica:", (e as Error).message); return null; }
+    try {
+      rows = (await db.prepare(select(BASE_COLUMNS, env)).bind(tourId).all()).results;
+    } catch (e2) {
+      console.error("[ficha] fila práctica (0031):", (e2 as Error).message);
+      return null;
+    }
+  }
+  return rows[0] ?? null;
+}

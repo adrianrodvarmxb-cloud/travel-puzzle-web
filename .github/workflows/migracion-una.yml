@@ -1,0 +1,123 @@
+# REQ-10746 (REQ-10742, caso 7): aplica UNA sola migración de D1 en producción, la más baja pendiente, con punto de
+# regreso. `deploy-cloudflare.yml` (migraciones=true) aplica todas las pendientes de golpe y por eso no sirve cuando
+# hay dos (INC-025: la 0033 bloqueaba la 0035). Solo se dispara a mano. Siempre: anota el bookmark de Time Travel y
+# lista las pendientes. Sin `archivo`, no escribe nada. Con `archivo`: comprueba que sea la más baja pendiente, ejecuta
+# su SQL con `wrangler d1 execute --file`, la registra en `d1_migrations` (igual que `migrations apply`) y comprueba
+# que ya no esté pendiente; luego humo de producción. Si algo falla DESPUÉS de haber escrito (marca escribio=1),
+# restaura D1 al bookmark anotado y el job queda en rojo (regla de INC-025, REQ-10745).
+# restaurar_bookmark: solo regreso manual. Dentro del autopilot (REQ-10743): se avisa al PO con la evidencia.
+# No corre si hay una publicación de main en curso o en fila.
+name: "D1: aplicar una sola migración"
+on:
+  workflow_dispatch:
+    inputs:
+      archivo:
+        description: "Migración a aplicar (p. ej. 0033_proveedor_preguntas.sql). Vacío = solo listar, no se aplica nada"
+        type: string
+        default: ""
+      restaurar_bookmark:
+        description: "Solo regreso: bookmark de Time Travel al que restaurar D1 (vacío = no restaurar)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+  actions: read
+concurrency: { group: datos-produccion, cancel-in-progress: false }
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: 8f59d128de3553d7b9b929aaa9be920f
+  DB: travel-puzzle
+jobs:
+  migracion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Pruebas REQ-10746
+        run: npx vitest run src/ops/lib/migracion-una.test.ts src/ops/migracion-una-workflow.test.ts
+      - name: Sin publicación de main en curso
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=0
+          for st in in_progress queued; do
+            c=$(gh api "repos/${{ github.repository }}/actions/workflows/deploy-cloudflare.yml/runs?status=$st&per_page=1" --jq '.total_count')
+            n=$((n + c))
+          done
+          if [ "$n" -ne 0 ]; then echo "::error::Hay $n publicación(es) de main en curso o en fila: no se toca la base."; exit 1; fi
+          echo "Sin publicación en curso."
+
+      - name: Restaurar D1 (solo con restaurar_bookmark)
+        if: inputs.restaurar_bookmark != ''
+        env:
+          BOOKMARK: ${{ inputs.restaurar_bookmark }}
+        run: |
+          [[ "$BOOKMARK" =~ ^[0-9a-f-]+$ ]] || { echo "::error::Bookmark con formato inesperado."; exit 1; }
+          yes | npx wrangler d1 time-travel restore "$DB" --bookmark="$BOOKMARK"
+          echo "D1 restaurada al bookmark $BOOKMARK." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Instante para Time Travel (punto de regreso)
+        id: tt
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          mkdir -p migracion
+          date -u +%Y-%m-%dT%H:%M:%SZ > migracion/instante.txt
+          npx wrangler d1 time-travel info "$DB" --json > migracion/time-travel.json
+          bookmark=$(jq -r '.bookmark' migracion/time-travel.json)
+          [ -n "$bookmark" ] && [ "$bookmark" != "null" ] || { echo "::error::Sin bookmark de Time Travel: no se escribe."; exit 1; }
+          echo "bookmark=$bookmark" >> "$GITHUB_OUTPUT"
+          echo "Instante: $(cat migracion/instante.txt) · bookmark: \`$bookmark\`" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Migraciones pendientes (solo lectura)
+        if: inputs.restaurar_bookmark == ''
+        run: |
+          set -euo pipefail
+          npx wrangler d1 migrations list "$DB" --remote | tee migracion/pendientes.txt
+          { echo "### Pendientes antes"; echo '```'; cat migracion/pendientes.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: ¿Es la más baja pendiente? (regla pura, REQ-10746)
+        id: elegir
+        if: inputs.archivo != '' && inputs.restaurar_bookmark == ''
+        env:
+          ARCHIVO: ${{ inputs.archivo }}
+        run: |
+          set -euo pipefail
+          [ -f "migrations/$ARCHIVO" ] || { echo "::error::migrations/$ARCHIVO no existe en el repo."; exit 1; }
+          decision=$(npx tsx src/scripts/migracion-una.ts elegir migracion/pendientes.txt "$ARCHIVO")
+          echo "decision=$decision" >> "$GITHUB_OUTPUT"
+          echo "Decisión para $ARCHIVO: $decision" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Aplicar la migración pedida (solo con archivo)
+        id: migrar
+        if: inputs.archivo != '' && inputs.restaurar_bookmark == '' && steps.elegir.outputs.decision == 'aplicar'
+        env:
+          ARCHIVO: ${{ inputs.archivo }}
+        run: |
+          set -euo pipefail
+          # REQ-10745 (INC-025): la marca va justo antes de tocar la base; el regreso automático solo corre con ella.
+          echo "escribio=1" >> "$GITHUB_OUTPUT"
+          npx wrangler d1 execute "$DB" --remote --file "migrations/$ARCHIVO" | tee -a "$GITHUB_STEP_SUMMARY"
+          npx wrangler d1 execute "$DB" --remote --command "$(npx tsx src/scripts/migracion-una.ts marcar "$ARCHIVO")"
+          npx wrangler d1 migrations list "$DB" --remote | tee migracion/pendientes-despues.txt
+          if grep -q "$ARCHIVO" migracion/pendientes-despues.txt; then echo "::error::$ARCHIVO sigue pendiente tras aplicarla."; exit 1; fi
+          { echo "### Pendientes después"; echo '```'; cat migracion/pendientes-despues.txt; echo '```'; echo "Migración $ARCHIVO aplicada y registrada en d1_migrations."; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Navegador
+        if: steps.migrar.outputs.escribio == '1'
+        run: npx playwright install --with-deps chromium
+      - name: Prueba de humo (producción)
+        if: steps.migrar.outputs.escribio == '1'
+        run: npx tsx src/scripts/smoke.ts https://travelpuzzle.com.mx
+      - name: Restaurar D1 al instante anotado si algo falló después de escribir
+        # REQ-10745 (INC-025): solo si un paso de verdad tocó la base.
+        if: failure() && inputs.restaurar_bookmark == '' && steps.tt.outputs.bookmark != '' && steps.migrar.outputs.escribio == '1'
+        env:
+          BOOKMARK: ${{ steps.tt.outputs.bookmark }}
+        run: |
+          yes | npx wrangler d1 time-travel restore "$DB" --bookmark="$BOOKMARK"
+          echo "::error::Algo falló después de escribir: D1 restaurada al bookmark $BOOKMARK. Avisar al PO."
+          echo "RESTAURADA al bookmark $BOOKMARK" >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: migracion-una, path: migracion, retention-days: 90 }

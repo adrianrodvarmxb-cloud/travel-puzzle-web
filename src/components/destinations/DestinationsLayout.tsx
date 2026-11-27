@@ -1,7 +1,8 @@
 import Link from '@/components/i18n/LocalizedLink';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/components/layout';
-import { SiteFooter, WhatsAppBubble } from '@/components/home/v2';
+import { SiteFooter } from '@/components/home/v2/SiteFooter';
+import { WhatsAppBubble } from '@/components/home/v2/WhatsAppBubble';
 import { contactFromEnv } from '@/booking/tour-summary';
 import type { Crumb, Featured } from '@/destinations/lib/page-model';
 import { Breadcrumbs } from './Breadcrumbs';

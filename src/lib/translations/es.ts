@@ -250,6 +250,8 @@ export const es = {
   "reviews.seeTour": "Ver experiencia",
   "tours.backToTours": "Volver a todas las experiencias",
   "tours.directions": "Cómo llegar",
+  "tours.approxZone": "Zona aproximada", // REQ-10736
+  "tours.approxZoneNote": "el punto exacto se confirma al reservar.", // REQ-10736
   "tours.headline": "Experiencias",
   "tours.eyebrow": "{count} EXPERIENCIAS DISPONIBLES",
   "tours.sort.label": "Ordenar por",

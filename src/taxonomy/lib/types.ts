@@ -19,6 +19,7 @@ export type FormatoOEstado = Formato | (typeof ESTADOS_FORMATO)[number];
 export const TEMAS = [
   "gastronomia", "naturaleza", "montana-senderismo", "aventura", "playa-mar", "cultural", "religioso", "urbano",
   "noche-espectaculos", "bienestar", "talleres-aprendizaje", "deportivo", "parques-ocio",
+  "campo-vida-rural", // REQ-10701 (G-R3, PO 15-11-2026)
 ] as const;
 export type Tema = (typeof TEMAS)[number];
 export const MAX_TEMAS = 3;
@@ -31,7 +32,7 @@ export type EstadoTermino = (typeof ESTADOS_TERMINO)[number];
 export const SECCIONES = ["experiencias", "traslados", "ninguna"] as const;
 export type Seccion = (typeof SECCIONES)[number];
 
-export const MEDIOS = ["bici", "barco", "vehiculo", "a-pie"] as const;
+export const MEDIOS = ["bici", "barco", "tren", "vehiculo", "a-pie"] as const; // REQ-10703: «tren» (G-R5)
 export type Medio = (typeof MEDIOS)[number];
 
 /** Lo que sabe el clasificador de un producto. Todo opcional salvo proveedor, categoría y título. */
@@ -56,6 +57,10 @@ export interface ClassifyInput {
   /** Modos de las opciones del viaje propio. */
   modos?: ("group" | "private")[];
   vueloIncluido?: boolean;
+  /** REQ-10659 (decisión 11): el producto trae traslado (opción o «incluye» del proveedor). Nunca se infiere del título. */
+  conTraslado?: boolean;
+  /** REQ-10659 (decisión 11): cancelación gratuita según el dato del proveedor (plazo real), nunca por palabra. */
+  cancelacionGratis?: boolean;
   /** Solo reseñas reales (REQ-100). */
   calificacion?: number | null;
   resenas?: number | null;

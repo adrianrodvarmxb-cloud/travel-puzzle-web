@@ -7,6 +7,8 @@ import type { Categoria, Dictionary, Mapping, TerminoFormato } from "../schemas/
 import { CIRCUITO_MIN_MINUTOS, EXCURSION_MIN_MINUTOS, type Gates } from "./gates";
 import { matches, namesCity, norm } from "./text";
 import { combinado } from "./combined";
+import { veredictoDecision9 } from "./aventura-senderismo";
+import { esTrayectoEntreCiudades } from "./trayecto";
 import type { ClassifyInput, Decision, FormatoOEstado } from "./types";
 
 /** Formatos cuyo formato base gana antes que Free tour (precedencia 0–5). */
@@ -43,6 +45,11 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   const palabrasPermitidas = gates.palabrasAntesDeFree || !free;
 
   // 1 traslado
+  // REQ-10708 (PO 15-11-2026; reemplaza REQ-10704): en una base traslado que lo permite, el trayecto entre ciudades
+  // («Potosí - Uyuni en bus») es Transporte; llegar o salir de aeropuerto, terminal, muelle u oficina sigue como Traslado.
+  if (b === "traslado" && cat.reglasPorPalabra.includes("trayecto-entre-ciudades") && esTrayectoEntreCiudades(input.titulo)) {
+    return { valor: "transporte", regla: `#2 trayecto entre ciudades (${id})` };
+  }
   if (b === "traslado") return { valor: "traslado", regla: `#1 base ${id}` };
   if (palabrasPermitidas && cat.reglasPorPalabra.includes("traslado") && kw("traslado", todo) && !matches(formatoTerm(dict, "traslado").palabrasNoEnTitulo, titulo)) {
     return { valor: "traslado", regla: `#1 palabra traslado en ${id}` };
@@ -52,6 +59,9 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   if (palabrasPermitidas && kw("transporte", titulo)) return { valor: "transporte", regla: "#2 palabra hop-on en el título" };
   // 3 alquiler
   if (b === "alquiler") return { valor: "alquiler", regla: `#3 base ${id}` };
+  // REQ-10699 (G-R2 firmado por el PO, 15-11-2026): donde la categoría lo permite (Tangol 9000003 mezcla rentas de equipo
+  // con actividades), «alquiler» o «rental» en el título es Renta, para cualquier proveedor (REQ-10709).
+  if (palabrasPermitidas && cat.reglasPorPalabra.includes("alquiler") && kw("alquiler", titulo)) return { valor: "alquiler", regla: `#3 palabra alquiler en ${id}` };
   // 4 entradas
   // REQ-540 (PO 6-11 21:14): boletos solo SIN guía. Con guía en el título o el resumen es visita guiada (la entrada va
   // como atributo «entrada-incluida»); una base «entradas» con guía se trata como «tour» en el resto de las reglas.
@@ -72,6 +82,12 @@ export function classifyFormato(input: ClassifyInput, dict: Dictionary, mapping:
   const dias = input.durationDays ?? null;
   if ((min !== null && min >= CIRCUITO_MIN_MINUTOS) || (dias !== null && dias >= 2) || kw("circuito", titulo)) {
     return { valor: "circuito", regla: min !== null && min >= CIRCUITO_MIN_MINUTOS ? "#7 ≥1440 min" : dias !== null && dias >= 2 ? "#7 2+ días" : "#7 «N días» en el título" };
+  }
+  // REQ-10662 (decisión 9, REQ-10588; lista firmada REQ-10661): en las categorías de aventura que lo permiten, la caminata
+  // con guía o el lugar de montaña sin otra actividad es Excursión de un día (los temas los pone classify). Regreso: gate B.
+  if (gates.senderismo === "A" && cat.reglasPorPalabra.includes("senderismo-guiado")) {
+    const v = veredictoDecision9(input.titulo, min);
+    if (v.veredicto === "cambia") return { valor: "excursion-dia", regla: `#8 decisión 9: ${v.regla} (${id})` };
   }
   // 8 excursión de un día (gate G-T7)
   // REQ-534: la base «excursión» (FREETOUR cat. 4) exige ≥ 6 h cuando se conoce la duración (la regla práctica del PO:
@@ -151,7 +167,7 @@ function recorridoGuiado(dict: Dictionary, cat: Categoria, titulo: string, resum
     enOtroMedio(dict, t) ? "tour" : matches(medioPalabras(dict, "a-pie"), t) ? "caminata" : matches(sitio, t) ? "visita-guiada" : null;
   const enTitulo = señal(titulo);
   if (enTitulo) return { valor: enTitulo, regla: `#11 ${nombre(enTitulo)} en el título; ${motivo}` };
-  if (cat.atributos.some((a) => /^medio:(barco|bici|vehiculo)$/.test(a))) return { valor: "tour", regla: `#11 la categoría dice el medio de transporte; ${motivo}` };
+  if (cat.atributos.some((a) => /^medio:(barco|bici|tren|vehiculo)$/.test(a))) return { valor: "tour", regla: `#11 la categoría dice el medio de transporte; ${motivo}` }; // REQ-10703: tren
   if (cat.formato === "visita-guiada" || base === "visita-guiada" && cat.formato === "entradas") return { valor: "visita-guiada", regla: `#11 la categoría es sitio o museo; ${motivo}` };
   const enResumen = resumen ? señal(resumen) : null;
   if (enResumen) return { valor: enResumen, regla: `#11 ${nombre(enResumen)} en el resumen; ${motivo}` };
@@ -161,15 +177,15 @@ function recorridoGuiado(dict: Dictionary, cat: Categoria, titulo: string, resum
 
 const nombre = (f: FormatoOEstado) => (f === "tour" ? "transporte" : f === "caminata" ? "a pie" : "sitio o museo");
 
-/** Palabras de un valor del atributo «medio» (bici, barco, vehiculo, a-pie) del diccionario. */
+/** Palabras de un valor del atributo «medio» (bici, barco, tren, vehiculo, a-pie) del diccionario. */
 function medioPalabras(dict: Dictionary, valor: string): string[] {
   const medio = dict.terminos.find((t) => t.eje === "atributo" && t.slug === "medio") as { valores?: { slug: string; palabras?: string[] }[] } | undefined;
   return medio?.valores?.find((v) => v.slug === valor)?.palabras ?? [];
 }
 
-/** REQ-532: ¿el título dice barco, bici o vehículo? */
+/** REQ-532: ¿el título dice barco, bici, tren (REQ-10703) o vehículo? */
 function enOtroMedio(dict: Dictionary, titulo: string): boolean {
-  return ["barco", "bici", "vehiculo"].some((m) => matches(medioPalabras(dict, m), titulo));
+  return ["barco", "bici", "tren", "vehiculo"].some((m) => matches(medioPalabras(dict, m), titulo));
 }
 
 /** Gate G2: qué cuenta como «Caminata» al filtrar (T4). El formato del producto no cambia. */

@@ -6,6 +6,7 @@
     "/viajes/reino-unido/bus-turistico-hop-on-hop-off-en-londres-bbt-gb-m01-010",
     "/terminos",
     "/privacidad",
+    "/cookies",
     "/robots.txt",
     "/la-primera-pieza",
     "/destinos",
@@ -25,7 +26,11 @@
     "/destinos/ar/el-calafate",
     "/destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno",
     "/en/destinos/ar/el-calafate/minitrekking-glaciar-perito-moreno",
-    "/destinos/co/medellin/tour-comuna-trece-con-guias-locales-reales"
+    "/destinos/co/medellin/tour-comuna-trece-con-guias-locales-reales",
+    "/destinos/my/kuala-lumpur/malasia-esencial-kuala-lumpur-penang-y-selva-de-belum-tas-my-c07-001",
+    "/en/destinos/my/kuala-lumpur/malasia-esencial-kuala-lumpur-penang-y-selva-de-belum-tas-my-c07-001",
+    "/destinos/co/bogota/colombia-esencial-bogota-medellin-y-cartagena-8-dias-dco-co-c08-001",
+    "/en/destinos/co/bogota/colombia-esencial-bogota-medellin-y-cartagena-8-dias-dco-co-c08-001"
   ],
   "discover": [
     {

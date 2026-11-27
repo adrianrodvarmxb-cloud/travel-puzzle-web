@@ -12,7 +12,7 @@ import { idFor } from "@/trips/lib/bulk-import";
 import { createOctoApi } from "./api";
 import { bigBusOctoConfig } from "./lib/config";
 import type { CatalogPlan, CityKeywords } from "./lib/catalog";
-import type { PlanStore, CatalogSyncDeps } from "./catalog-sync";
+import type { PlanStore } from "./catalog-sync";
 import type { OctoBookingRow, PurchaseDeps, RequestInfo } from "./purchase";
 import cityKeywords from "./data/bigbus-ciudades.json";
 import bigbusImport from "../../imports/bigbus-2026.json";
@@ -20,7 +20,7 @@ import bigbusImport from "../../imports/bigbus-2026.json";
 const env = () => process.env as Record<string, string | undefined>;
 
 /** Iniciales de la agencia Big Bus en el gestor (imports/bigbus-2026.json → "BBT"). */
-const AGENCY_INITIALS = (bigbusImport as { agency: { initials: string } }).agency.initials;
+export const AGENCY_INITIALS = (bigbusImport as { agency: { initials: string } }).agency.initials;
 export const BIGBUS_CITY_REFS = (bigbusImport as { trips: { ref: string }[] }).trips.map((t) => t.ref);
 export const BIGBUS_CITY_KEYWORDS = cityKeywords as unknown as CityKeywords;
 
@@ -62,19 +62,6 @@ export function planStoreFromEnv(): PlanStore {
   };
 }
 
-export function catalogSyncDeps(now: Date): CatalogSyncDeps {
-  return {
-    api: octoApiFromEnv(),
-    store: planStoreFromEnv(),
-    // REQ-3433: la copia exacta al archivo privado espera la decisión del PO sobre REQ-747 (hoy solo sync-tours
-    // puede tocar ese bucket). La sincronización ya la soporta (`archive`); aquí queda sin conectar.
-    archive: undefined,
-    cityRefs: BIGBUS_CITY_REFS,
-    map: BIGBUS_CITY_KEYWORDS,
-    now,
-    runId: `bigbus-octo-${now.toISOString()}`,
-  };
-}
 
 const COLS = ["id", "requestId", "paymentId", "uuid", "productId", "optionId", "availabilityId", "status", "supplierReference", "delivery", "expiresAt"] as const;
 

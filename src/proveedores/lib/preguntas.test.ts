@@ -90,3 +90,51 @@ describe("preguntas por proveedor (REQ-10648)", () => {
     expect(buenas).toEqual([jordan[0]]);
   });
 });
+
+// REQ-10811 (plan REQ-3457 §2 y G3-A, PO 12 nov 2026): Mila lee la respuesta y PROPONE qué preguntas parecen contestadas; nadie las cierra solo.
+import { proponerCierres, textoPropuestaCierre } from "./preguntas";
+
+describe("propuesta de cierre tras una respuesta (REQ-10811, G3-A)", () => {
+  it("REQ-10811: una respuesta que habla de una pregunta la propone como contestada; las demás siguen abiertas", () => {
+    const r = proponerCierres(jordan, "Hola Mila, el precio de niños es 50 % de 2 a 11 años. La cena de gala del 31 de diciembre es opcional y se cobra aparte.");
+    expect(r.contestadas.map((q) => q.id).sort()).toEqual(["gala", "ninos"]);
+    expect(r.abiertas.map((q) => q.id)).toEqual(["eid", "factura", "cambio", "legal"]);
+  });
+
+  it("REQ-10811 (G3-A): un «sí» suelto, un texto vacío o un adjunto sin texto no cierran nada", () => {
+    expect(proponerCierres(jordan, "Sí").contestadas).toEqual([]);
+    expect(proponerCierres(jordan, "").contestadas).toEqual([]);
+    expect(proponerCierres(jordan, "Adjunto el PDF. Saludos.").contestadas).toEqual([]);
+    expect(proponerCierres(jordan, "Sí").abiertas).toHaveLength(6);
+  });
+
+  it("REQ-10811: lee la respuesta en inglés contra el texto en inglés de la pregunta, y las cerradas no se proponen", () => {
+    const r = proponerCierres(jordan, "The Eid dates are for 2027. Invoice term is 30 days and the currency is USD.");
+    expect(r.contestadas.map((q) => q.id).sort()).toEqual(["eid", "factura"]);
+    expect(r.contestadas.map((q) => q.id)).not.toContain("vieja");
+  });
+
+  it("REQ-10811: proponer no cambia las preguntas (nada queda cerrado)", () => {
+    const antes = JSON.stringify(jordan);
+    proponerCierres(jordan, "Child price and ages: 50 %.");
+    expect(JSON.stringify(jordan)).toBe(antes);
+    expect(abiertas(jordan)).toHaveLength(6);
+  });
+
+  it("REQ-10811: el aviso al PO va en español, nombra al proveedor, lista lo que parece contestado y lo abierto, y dice que nadie cierra solo", () => {
+    const t = textoPropuestaCierre({ proveedor: "Jordan Experience", asunto: "Re: Travel Puzzle", propuesta: proponerCierres(jordan, "Child price and ages: 50 % from 2 to 11.") });
+    expect(t).toContain("Jordan Experience");
+    expect(t).toContain("Parecen contestadas");
+    expect(t).toContain("Precio y edades de niños");
+    expect(t).toContain("Siguen abiertas");
+    expect(t).toContain("Año de las fechas del Eid");
+    expect(t).toMatch(/nadie las cierra sol[oa]|no se cierra sola/i);
+    expect(t).not.toContain("Child price");
+  });
+
+  it("REQ-10811: sin nada que parezca contestado, el aviso lo dice y conserva la lista abierta", () => {
+    const t = textoPropuestaCierre({ proveedor: "Jordan Experience", asunto: "Re: hola", propuesta: proponerCierres(jordan, "Gracias, lo reviso.") });
+    expect(t).toContain("Ninguna parece contestada");
+    expect(t).toContain("Siguen abiertas");
+  });
+});

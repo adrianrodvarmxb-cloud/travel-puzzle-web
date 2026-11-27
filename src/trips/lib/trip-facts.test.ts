@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { durationLabel, isAudioGuided, languagesLabel } from "./trip-facts";
+import { durationLabel, infoDepartureTime, infoHalfDay, isAudioGuided, languagesLabel } from "./trip-facts";
 import { tripCopy } from "./copy";
 
 const es = tripCopy("es");
@@ -68,5 +68,33 @@ describe("Texto corto de Big Bus", () => {
       const parts = m[1].split(/, | o /).map((s) => s.trim());
       expect(new Set(parts).size, `${t.ref}: ${m[1]}`).toBe(parts.length);
     }
+  });
+});
+
+describe("REQ-10891: «Duración: medio día.» en el import", () => {
+  it("REQ-10891: un viaje de un día con «Duración: medio día.» dice «Medio día» (y su traducción), no «1 día»; con horas, las horas mandan", () => {
+    const base = { kind: "tour", durationDays: 1, options: [] as { name: string }[] };
+    expect(infoHalfDay("Duración: medio día.\nSalida 09:00.")).toBe(true);
+    expect(infoHalfDay("Duración: 3 h 30 min.")).toBe(false);
+    expect(infoHalfDay("Salida a medio día.")).toBe(false);
+    expect(durationLabel({ ...base, importantInfo: "Duración: medio día." }, tripCopy("es"))).toBe("Medio día");
+    expect(durationLabel({ ...base, importantInfo: "Duración: medio día." }, tripCopy("en"))).toBe("Half day");
+    expect(durationLabel({ ...base, importantInfo: "Duración: medio día." }, tripCopy("pt"))).toBe("Meio dia");
+    expect(durationLabel({ ...base, importantInfo: "Duración: 3 h 30 min." }, tripCopy("es"))).toBe("3 h 30 min");
+    expect(durationLabel({ ...base, importantInfo: "Salida 09:00." }, tripCopy("es"))).toBe("1 día");
+    expect(durationLabel({ ...base, durationDays: 3, importantInfo: "Duración: medio día." }, tripCopy("es"))).toBe("3 días");
+  });
+});
+
+describe("REQ-10898: hora de salida desde la información importante", () => {
+  it("REQ-10898: «Salida diaria a las 08:45 …», «Recogida en tu hotel a las 09:00», «Empieza a las 9:00» dan la hora; una hora en medio del texto no cuenta", () => {
+    expect(infoDepartureTime("Duración: 3 h 30 min.\nSalida diaria a las 08:45 desde el mostrador de tours del hotel Paradox Singapore; se confirma con un mínimo de 4 personas.")).toBe("08:45");
+    expect(infoDepartureTime("Recogida en tu hotel a las 09:00 y regreso a las 17:00.")).toBe("09:00");
+    expect(infoDepartureTime("Empieza a las 9:00 y regresa al hotel a las 13:00.")).toBe("09:00");
+    expect(infoDepartureTime("Preséntate a las 08:45 en el mostrador.")).toBe("08:45");
+    expect(infoDepartureTime("Viaja unas 2 horas a Kuala Lumpur (llegada hacia las 18:00).")).toBeNull();
+    expect(infoDepartureTime("Salida en avión con destino a Shanghai.")).toBeNull();
+    expect(infoDepartureTime("Salida a las 25:00.")).toBeNull();
+    expect(infoDepartureTime(null)).toBeNull();
   });
 });

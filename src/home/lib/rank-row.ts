@@ -3,6 +3,8 @@
  * Una fila mala se descarta y se cuenta; nunca tumba el carrusel. Puro.
  */
 import { z } from "zod";
+import { formatoFirmado } from "@/taxonomy/lib/formato-firmado"; // REQ-10756
+import type { ExperienceFormat } from "./experience-format";
 import { freetourFormat, isDayTripTour, tripFormat, isDayTripTrip } from "./experience-format";
 import { DEFAULT_RANK_PROVIDER, type RankCandidate } from "./carousels";
 import { titlesMentionBrand } from "./brand";
@@ -98,6 +100,6 @@ export function tripCandidate(t: TripLike): TripCandidate {
   return {
     source: "trip", id: t.id, key: `trip:${t.id}`, providerId: t.agencyId?.trim() || OWN_TRIPS_PROVIDER, // REQ-10516
     city: normKey(t.cities[0] ?? t.countries[0] ?? t.id), country: (t.countries[0] ?? "").toUpperCase(),
-    format: dayTrip ? "excursion-dia" : tripFormat(input), rating: null, reviews: 0, hasReviewSystem: false, dayTrip,
+    format: dayTrip ? "excursion-dia" : (formatoFirmado(t.id) as ExperienceFormat | null) ?? tripFormat(input), rating: null, reviews: 0, hasReviewSystem: false, dayTrip, // REQ-10756
   };
 }

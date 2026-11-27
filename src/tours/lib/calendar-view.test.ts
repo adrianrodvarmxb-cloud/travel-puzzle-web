@@ -58,3 +58,25 @@ describe("REQ-3469: la vista del calendario", () => {
     expect(src).not.toMatch(/Intl\.|toLocale[A-Za-z]*\(|Date\.now\(|new Date\(/);
   });
 });
+
+describe("REQ-10863: un día «por confirmar» (G3) se ve ofrecido, sin precio y con su etiqueta", () => {
+  it("REQ-10863: la celda lleva quote y la vista trae el texto en el idioma de la página", () => {
+    const porConfirmar = {
+      months: [{ month: "2026-12", days: [
+        { date: "2026-12-01", bookable: true, from: 100, currency: "USD" },
+        { date: "2026-12-02", bookable: true, from: null, currency: "USD", quote: true as const },
+        { date: "2026-12-03", bookable: false, from: null, currency: null },
+      ] }],
+      currency: "USD",
+      start: 0,
+    };
+    const es = calendarView(porConfirmar, "es");
+    const celda = (n: number) => es.months[0].cells.find((c) => c !== null && c.day === n)!;
+    expect(celda(1)).toMatchObject({ bookable: true, price: "USD 100" });
+    expect(celda(1)).not.toHaveProperty("quote");
+    expect(celda(2)).toMatchObject({ bookable: true, price: null, quote: true });
+    expect(celda(3)).not.toHaveProperty("quote");
+    expect(es.copy.quote).toBe("Por confirmar");
+    expect(calendarView(porConfirmar, "en").copy.quote).toBe("Price on request");
+  });
+});

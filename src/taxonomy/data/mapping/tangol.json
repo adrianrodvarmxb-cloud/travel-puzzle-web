@@ -45,9 +45,12 @@
         "aventura"
       ],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "senderismo-guiado",
+        "alquiler"
+      ],
       "estado": "activo",
-      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Momentos de autor con tema aventura. PENDIENTE PO: el alquiler de equipo de ski y snowboard queda como aventura y no como `alquiler` (tras bandera en el diccionario)."
+      "nota": "Tangol EXCURSION|AVENTURA. 406 tours (Circuito Chico en mountain bike, alquiler de equipo de ski y de snowboard). Trato de FREETOUR 16 «Tours de aventura»: Actividades con tema aventura. FIRMADO PO (REQ-10699, G-R2 «3 … Encender «Alquiler» y moverlos», 15-11-2026): el alquiler de equipo de ski y snowboard pasa a Renta por la palabra del título (regla «alquiler»). PENDIENTE PO (resuelto con G-R2): el alquiler de equipo de ski y snowboard quedaba como aventura y no como `alquiler` (tras bandera en el diccionario). REQ-10662 (decisión 9, REQ-10588; lista firmada REQ-10661, 15-11-2026): la caminata con guía y el lugar de montaña sin otra actividad pasan a excursion-dia con aventura y montana-senderismo; el resto se queda."
     },
     {
       "id": "9000004",
@@ -100,6 +103,7 @@
       "nombre_en": "Ranch day",
       "formato": "excursion-dia",
       "temas": [
+        "campo-vida-rural",
         "naturaleza"
       ],
       "atributos": [],
@@ -108,7 +112,7 @@
       ],
       "estado": "activo",
       "porDefecto": "visita-guiada",
-      "nota": "Tangol EXCURSION|ESTANCIAS. 13 tours (día de estancia en Peuma Hue, cabalgata en estancia, El Galpón del Glaciar). Salida de día al campo: base excursión, tema naturaleza. PENDIENTE PO: el diccionario no tiene tema «rural / campo / estancia»; se usa naturaleza, el más cercano."
+      "nota": "Tangol EXCURSION|ESTANCIAS. 13 tours (día de estancia en Peuma Hue, cabalgata en estancia, El Galpón del Glaciar). Salida de día al campo: base excursión. FIRMADO PO (REQ-10701, G-R3 «B: crear «Campo y vida rural»», 15-11-2026): tema «Campo y vida rural» por categoría, Naturaleza se conserva. PENDIENTE PO (resuelto con G-R3): el diccionario no tenía tema «rural / campo / estancia»; se usaba naturaleza, el más cercano."
     },
     {
       "id": "9000008",
@@ -134,11 +138,11 @@
       "formato": "tour",
       "temas": [],
       "atributos": [
-        "medio:vehiculo"
+        "medio:tren"
       ],
       "reglasPorPalabra": [],
       "estado": "activo",
-      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
+      "nota": "Tangol EXCURSION|EN TREN. 6 tours (Tren a las Nubes, Tren Solar de la Quebrada). Tour con medio de transporte; con 6 h o más y salida de la ciudad en el título, Excursión de un día (G-T7). FIRMADO PO (REQ-10703, G-R5 «B: crear «En tren» ya», 15-11-2026): medio «tren» en el diccionario, también para otros proveedores. PENDIENTE PO: el atributo medio no tiene «tren»; se usa vehículo, el más cercano."
     },
     {
       "id": "9000010",
@@ -160,7 +164,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|IN. 160 tours (aeropuerto o terminal → hotel). Trato de FREETOUR 29 «Traslados»: sección traslados, carrito `transfer` (complemento, REQ-3428)."
     },
@@ -171,7 +177,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|OUT. 93 tours (hotel → aeropuerto o terminal). Trato de FREETOUR 29: sección traslados, carrito `transfer` (REQ-3428)."
     },
@@ -182,7 +190,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|IN/OUT. 45 tours (aeropuerto–hotel–aeropuerto, centro–Cerro Catedral ida y vuelta, ida y vuelta al Glaciar Perito Moreno). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
     },
@@ -193,9 +203,11 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
-      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
+      "nota": "Tangol TRASLADO|TRF. 21 tours (aeropuerto–hotel y también «Ruta 40 de sur a norte: de El Calafate a Bariloche»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). FIRMADO PO (REQ-10708, 15-11-2026; reemplaza la firma por categoría REQ-10704): por trayecto real, el viaje entre ciudades es Transporte (carrito `transport`) y la llegada o salida de aeropuerto, terminal, muelle u oficina sigue como Traslado. PENDIENTE PO: las rutas largas en bus entre ciudades podrían ser Transporte (`transport`); las dos van a la sección traslados."
     },
     {
       "id": "9000015",
@@ -204,9 +216,11 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
-      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
+      "nota": "Tangol TRASLADO|TRF IN. 20 tours (Ruta 40 de norte a sur en bus, Potosí–Uyuni en bus). Trato de FREETOUR 29: carrito `transfer` (REQ-3428). FIRMADO PO (REQ-10708, 15-11-2026; reemplaza la firma por categoría REQ-10704): por trayecto real, el viaje entre ciudades es Transporte (carrito `transport`) y la llegada o salida de aeropuerto, terminal, muelle u oficina sigue como Traslado. PENDIENTE PO: son trayectos en bus entre ciudades: Traslado o Transporte (`transport`)."
     },
     {
       "id": "9000016",
@@ -215,7 +229,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|TRFOUTBUS. 14 tours (hotel → terminal de buses). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
     },
@@ -226,7 +242,9 @@
       "formato": "traslado",
       "temas": [],
       "atributos": [],
-      "reglasPorPalabra": [],
+      "reglasPorPalabra": [
+        "trayecto-entre-ciudades"
+      ],
       "estado": "activo",
       "nota": "Tangol TRASLADO|TRFINBUS. 13 tours (terminal de bus → hotel; también «Bus de línea regular Puerto Natales–El Calafate»). Trato de FREETOUR 29: carrito `transfer` (REQ-3428)."
     },
@@ -421,8 +439,8 @@
       "temas": [],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "tras_bandera",
-      "nota": "Tangol ALQUILERES|ALQUILER POR HORA. 1 tour (alquiler de scooter). Trato de FREETOUR 26 «Alquileres»: formato alquiler (tras bandera en el diccionario), sección traslados, carrito `car_rental`."
+      "estado": "activo",
+      "nota": "Tangol ALQUILERES|ALQUILER POR HORA. 1 tour (alquiler de scooter). Trato de FREETOUR 26 «Alquileres»: formato alquiler (activo desde REQ-10699, 15-11-2026), sección traslados, carrito `car_rental`."
     },
     {
       "id": "9000033",
@@ -432,8 +450,8 @@
       "temas": [],
       "atributos": [],
       "reglasPorPalabra": [],
-      "estado": "tras_bandera",
-      "nota": "Tangol ALQUILERES|ALQUILERDEAUTO. 1 tour (alquiler de buggy playero). Trato de FREETOUR 26: formato alquiler (tras bandera), carrito `car_rental`."
+      "estado": "activo",
+      "nota": "Tangol ALQUILERES|ALQUILERDEAUTO. 1 tour (alquiler de buggy playero). Trato de FREETOUR 26: formato alquiler (activo desde REQ-10699, 15-11-2026), carrito `car_rental`."
     },
     {
       "id": "9000034",

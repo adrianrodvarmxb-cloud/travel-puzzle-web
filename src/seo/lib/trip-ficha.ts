@@ -27,6 +27,8 @@ export function tripFichaInput(o: {
   /** Lo que la página muestra, ya en el idioma de la página. */
   title: string; summary: string | null; operator: string | null; duration: string | null; languageNames: string[]; languagesTitle?: string | null;
   priceText: string | null; places: string | null; includes: string[]; formato?: string | null;
+  /** REQ-10728: etiquetas «incluido» con cantidad (ya en el idioma de la página), tras INCLUIDO_ETIQUETAS_ENABLED. */
+  incluido?: string[];
 }): FichaInput {
   const { trip, lang } = o;
   const facets = fichaFacets({
@@ -42,7 +44,7 @@ export function tripFichaInput(o: {
     operator: o.operator, free: false, price: trip.priceFrom, currency: trip.currency,
     duration: o.duration, languages: o.languageNames, languagesTitle: o.languagesTitle ?? null, place: o.places,
     meetingPoint: mp ? { name: mp.name, address: mp.address || null, lat: mp.lat, lng: mp.lng } : null,
-    priceText: o.priceText, description: o.summary, tipo, etiquetas: facets.etiquetas, includes: o.includes,
+    priceText: o.priceText, description: o.summary, tipo, etiquetas: [...facets.etiquetas, ...(o.incluido ?? [])], includes: o.includes,
     itinerary: trip.cities, // REQ-1349
   };
 }

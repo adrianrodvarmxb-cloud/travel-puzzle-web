@@ -10,7 +10,8 @@ export async function GET(req: NextRequest) {
     const no = puerta(req); if (no) return no;
     try {
         const deps = await catalogoDeps();
-        return NextResponse.json({ proveedores: listaProveedores(await deps.agencias()) }, sinCache);
+        // REQ-10845 (decisión 40): Tangol se ofrece solo con TANGOL_ENABLED (la misma bandera que lo muestra al público).
+        return NextResponse.json({ proveedores: listaProveedores(await deps.agencias(), { tangol: process.env.TANGOL_ENABLED === 'true' }) }, sinCache);
     } catch (e) {
         console.error('[agente] proveedores:', (e as Error).message);
         return NextResponse.json({ error: 'unavailable' }, { status: 503 });

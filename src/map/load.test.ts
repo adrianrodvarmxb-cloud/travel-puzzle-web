@@ -73,3 +73,47 @@ describe("datos del mapa", () => {
     expect(out.find((c) => c.cityId === 7)?.tours).toBe(1 + rows.length); // 1 tour + 4 viajes de tipos distintos, sin transporte
   });
 });
+
+// Ficha única, ola 4 (decisión 27): una ciudad con tours pero sin ningún punto de encuentro usa sus coordenadas (City.lat/lng,
+// migración 0035) como pin del mapa, solo con CITY_PIN_FALLBACK_ENABLED; apagada, el mapa es el de siempre.
+describe("REQ-10735 / REQ-10737: pin de respaldo por coordenadas de ciudad en el mapa", () => {
+  const prismaSinPunto = () => ({
+    $queryRaw: async () => [{ cityId: 7, c: "45.43,12.33" }, { cityId: 9, c: null }, { cityId: 9, c: "" }, { cityId: 11, c: null }],
+    city: {
+      findMany: async () => [
+        { id: 7, countryId: 75, translations: { es: "Venecia" }, lat: 45.44, lng: 12.32 },
+        { id: 9, countryId: 75, translations: { es: "Bérgamo" }, lat: 45.6983, lng: 9.677 },
+        { id: 11, countryId: 75, translations: { es: "Sin coordenadas" }, lat: null, lng: null },
+      ],
+    },
+  }) as unknown as PrismaClient;
+
+  it("REQ-10735: con la bandera encendida, la ciudad sin puntos sale en sus coordenadas; sin coordenadas sigue fuera; con puntos no cambia", async () => {
+    const out = await loadMapCities({ prisma: prismaSinPunto(), vis: { own: false, transport: false }, env: { CITY_PIN_FALLBACK_ENABLED: "true" } });
+    expect(out).toEqual([
+      { cityId: 7, countryId: 75, names: { es: "Venecia" }, lat: 45.43, lng: 12.33, tours: 1 },
+      { cityId: 9, countryId: 75, names: { es: "Bérgamo" }, lat: 45.6983, lng: 9.677, tours: 2 },
+    ]);
+  });
+
+  it("REQ-10737: con la bandera apagada, solo las ciudades con punto de encuentro (como hoy)", async () => {
+    const out = await loadMapCities({ prisma: prismaSinPunto(), vis: { own: false, transport: false }, env: { CITY_PIN_FALLBACK_ENABLED: "false" } });
+    expect(out.map((c) => c.cityId)).toEqual([7]);
+  });
+
+  it("REQ-10735: un viaje sin punto de encuentro en una ciudad del catálogo también usa las coordenadas de la ciudad (solo con la bandera)", async () => {
+    const trips = [{ id: "a", slug: "bergamo-alta", kind: "tour", titleEs: "Bérgamo Alta", images: [], priceFrom: 40, currency: "EUR", countries: ["IT"], cities: ["Bérgamo"], meetingPoints: [] }];
+    const prisma = (lat: number | null) => ({
+      $queryRaw: async () => [],
+      trip: { findMany: async () => trips },
+      city: {
+        findMany: async (q: { where: { country?: unknown } }) =>
+          q.where.country ? [{ id: 9, translations: { es: "Bérgamo" }, country: { iso2: "IT" } }] : [{ id: 9, countryId: 75, translations: { es: "Bérgamo" }, lat, lng: 9.677 }],
+      },
+    }) as unknown as PrismaClient;
+    const on = await loadMapCities({ prisma: prisma(45.6983), vis, env: { CITY_PIN_FALLBACK_ENABLED: "true" } });
+    expect(on).toEqual([{ cityId: 9, countryId: 75, names: { es: "Bérgamo" }, lat: 45.6983, lng: 9.677, tours: 1 }]);
+    expect(await loadMapCities({ prisma: prisma(null), vis, env: { CITY_PIN_FALLBACK_ENABLED: "true" } })).toEqual([]);
+    expect(await loadMapCities({ prisma: prisma(45.6983), vis, env: { CITY_PIN_FALLBACK_ENABLED: "false" } })).toEqual([]);
+  });
+});

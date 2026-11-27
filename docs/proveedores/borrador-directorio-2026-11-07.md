@@ -54,3 +54,4 @@ Fuente: búsqueda en el correo de Travel Puzzle (solo lectura), hilos del 3 al 1
 - Angela Ballén sigue con Jordan Experience (hilo del 9 nov con sales4@) y Mondial Trails (6 nov), además de Exotic Escapes (acuerdo enviado el 11 nov; respondió el 12 nov que lo pasa a sus jefes).
 - Tangol: API con swagger; la whitelist va por la pasarela de cPanel (REQ-1545, REQ-1550). El 12 nov Hernán mandó los datos de la parte B del acuerdo: lo sigue la revisión cada 6 h, no Mila.
 - Extime Travel: el portal B2B cambia a pro.extimetravel.com antes del 17 nov 2026; Claudia respondió el 11 nov en el hilo del programa 2027.
+- Tangol se publica el 12 nov 2026 (PO: «hoy se carga también a Tangol»): en la carga de REQ-1656 entra como publicado, con canal API.
