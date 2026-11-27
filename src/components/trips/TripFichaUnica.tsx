@@ -15,6 +15,8 @@
  * Nunca pinta neto ni margen: todo viene del modelo público.
  */
 import type React from 'react';
+import { MobileBar } from '@/components/ficha/panel/MobileBar';
+import { mobileBarView } from '@/ficha/lib/mobile-bar';
 import { headers } from 'next/headers';
 import { Navbar } from '@/components/layout';
 import { SiteFooter } from '@/components/home/v2/SiteFooter';
@@ -142,7 +144,8 @@ export async function TripFichaUnica({ data, path, query, cityId }: TripFichaUni
                     views={views}
                     enrichment={true}
                     panel={<FichaPanel panel={unica.page.panel} lang={unica.ficha.lang} controls={controls} />}
-                    panelOnMobile // la ficha de viajes no tiene barra fija de celular: el panel va debajo del contenido, como hoy
+                    panelOnMobile // el panel va debajo del contenido en celular; la barra fija (REQ-10910) lleva a él
+                    mobileBar={<MobileBar view={mobileBarView(unica.page.panel, unica.ficha.lang)} />}
                 />
             </div>
             <SiteFooter contact={{ whatsapp: contact.whatsapp, email: env.EMAIL_REPLY_TO, socials: contact.socials }} helpEnabled={isHelpVisible(env.BOOKINGS_ENABLED)} />
