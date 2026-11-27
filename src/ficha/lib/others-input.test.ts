@@ -1,6 +1,6 @@
 // REQ-10862: filas de `Tour` de la misma ciudad → tarjetas de pago y gratis del bloque 20. npx vitest run src/ficha/lib/others-input.test.ts
 import { describe, expect, it } from "vitest";
-import { otherCardsFrom, type OtherTourRow } from "./others-input";
+import { otherLocalUrl, otherCardsFrom, type OtherTourRow } from "./others-input";
 
 const row = (over: Partial<OtherTourRow> = {}): OtherTourRow => ({
   id: "t-1",
@@ -56,5 +56,22 @@ describe("REQ-10862: tarjetas de «Otras experiencias en la ciudad» desde las f
     ], { lang: "es", excludeId: "x", rates: null });
     expect(r.free.map((c) => c.id)).toEqual(["a", "b"]);
     expect(r.free[0].title).not.toMatch(/freetour\.com/i);
+  });
+});
+
+describe("REQ-10893: «Desde» en la moneda del visitante en las tarjetas de otras experiencias", () => {
+  it("REQ-10893: con la moneda local, cada tarjeta con precio lleva localUrl y el HTML sigue en la moneda del proveedor; gratis o apagada, sin ruta", () => {
+    const filas = [row(), row({ id: "t-2", slug: "free-walk", providerId: "freetour", priceValue: 0, priceCurrency: "EUR" }), row({ id: "t-3", slug: "eur-tour", providerId: "freetour", priceValue: 38, priceCurrency: "EUR" })];
+    const on = otherCardsFrom(filas, { lang: "es", excludeId: "x", rates, localCurrency: true });
+    expect(on.paid.map((c) => [c.priceText, c.localUrl])).toEqual([
+      ["Desde USD $45", "/api/precio-local?amount=45&currency=USD&per=person&lang=es"],
+      ["Desde EUR €38", "/api/precio-local?amount=38&currency=EUR&per=person&lang=es"],
+    ]);
+    expect(on.free[0].localUrl).toBeNull();
+    const off = otherCardsFrom(filas, { lang: "es", excludeId: "x", rates });
+    expect(off.paid.map((c) => c.localUrl)).toEqual([null, null]);
+    expect(otherLocalUrl(38, "eur", { lang: "en", localCurrency: true })).toBe("/api/precio-local?amount=38&currency=EUR&per=person&lang=en");
+    expect(otherLocalUrl(38, "", { lang: "es", localCurrency: true })).toBeNull();
+    expect(otherLocalUrl(38, "€", { lang: "es", localCurrency: true })).toBeNull();
   });
 });

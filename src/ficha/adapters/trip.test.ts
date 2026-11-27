@@ -66,3 +66,15 @@ describe("REQ-10890: la cancelación de un viaje sale con su texto real, nunca l
     for (const f of [tripToFicha(none), tripToFicha(base())]) expect(f.cancellation?.text).not.toMatch(/^(none|partial)$/);
   });
 });
+
+describe("REQ-10898: hora de salida y mínimo de personas del viaje llegan a los datos clave", () => {
+  it("REQ-10898: la hora sale de «Salida … a las HH:MM» de la información importante y el mínimo de `minPax`; sin dato, null", () => {
+    const row = { ...base().row, importantInfo: "Salida diaria a las 08:45 desde el mostrador de tours; se confirma con un mínimo de 4 personas.", minPax: 4 };
+    const f = tripToFicha({ ...base(), row });
+    expect(f.facts.schedule).toBe("08:45");
+    expect(f.facts.minPax).toBe(4);
+    const sin = tripToFicha({ ...base(), row: { ...base().row, importantInfo: "Lleva pasaporte.", minPax: null } });
+    expect(sin.facts.schedule).toBeNull();
+    expect(sin.facts.minPax).toBeNull();
+  });
+});

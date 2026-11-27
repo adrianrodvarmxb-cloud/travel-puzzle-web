@@ -28,3 +28,16 @@ describe("datos clave de la ficha única", () => {
     expect(keyFactsRows({ durationMinutes: 1440, durationText: " ", schedule: null, languages: [], season: null, difficulty: null, ages: null }, "es")[0]?.value).toBe("1 día");
   });
 });
+
+describe("REQ-10898: hora de salida y mínimo de personas en los datos clave", () => {
+  it("REQ-10898: con dato salen las casillas «Hora de salida» y «Mínimo de personas»; sin dato, ninguna casilla vacía", () => {
+    const f = { ...fichaEjemplo().facts, schedule: "08:45", minPax: 4 };
+    const rows = keyFactsRows(f, "es");
+    expect(rows.map((r) => r.id)).toEqual(["duracion", "horarios", "idiomas", "minimo", "dificultad", "edades"]);
+    expect(rows.find((r) => r.id === "horarios")).toEqual({ id: "horarios", label: "Hora de salida", value: "08:45" });
+    expect(rows.find((r) => r.id === "minimo")).toEqual({ id: "minimo", label: "Mínimo de personas", value: "4 personas" });
+    expect(keyFactsRows({ ...f, minPax: 1 }, "en").find((r) => r.id === "minimo")).toEqual({ id: "minimo", label: "Minimum group", value: "1 person" });
+    expect(keyFactsRows({ ...f, schedule: null, minPax: null }, "es").map((r) => r.id)).toEqual(["duracion", "idiomas", "dificultad", "edades"]);
+    expect(keyFactsRows({ ...f, minPax: 0 }, "es").some((r) => r.id === "minimo")).toBe(false);
+  });
+});

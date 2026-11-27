@@ -10,6 +10,8 @@ import { hubCopy } from "@/destinations/lib/hub-copy";
 export interface FichaCrumb { name: string; href: string }
 export interface CrumbsInput { country: FichaCountry; city: FichaPlace; title: string; lang: FichaLang }
 
+const same = (a: string, b: string) => a.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === b.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
 const safe = (f: () => string): string | null => {
   try {
     return f();
@@ -27,7 +29,9 @@ export function fichaCrumbs({ country, city, title, lang }: CrumbsInput): FichaC
   if (countryHref) {
     out.push({ name: country.name, href: countryHref });
     const cityHref = city.slug && city.name.trim() ? safe(() => cityPath(pais, city.slug)) : null;
-    if (cityHref) out.push({ name: city.name, href: cityHref });
+    // REQ-10894: ciudad-estado (Singapur › Singapur): una sola miga, la de la ciudad con su ruta; nunca dos iguales seguidas.
+    if (cityHref && same(city.name, country.name)) out[out.length - 1] = { name: city.name, href: cityHref };
+    else if (cityHref) out.push({ name: city.name, href: cityHref });
   }
   // La última miga es la ficha (sin enlace al pintarse); su href es el de la ciudad o el último válido.
   if (title.trim()) out.push({ name: title, href: `${out[out.length - 1].href}#ficha` });

@@ -8,10 +8,11 @@ import { LocalPrice } from './LocalPrice';
  * texto de pago, «Agregar a mi viaje» y la ayuda llegan como `children` (OCP). Recibe solo su porción (ISP); no lee
  * base, banderas ni proveedor (DIP). Sin precio no pinta la fila; nunca «N/D». REQ-10874: con `price.localUrl` el
  * texto lo actualiza `LocalPrice` en el navegador con la moneda del visitante (el HTML en caché es igual para todos).
+ * REQ-10910: lleva el ancla `#reserva` a la que salta la barra fija de celular.
  */
 export function PricePanel({ price, cancellation, children }: { price: PriceView | null; cancellation: string | null; children?: React.ReactNode }) {
     return (
-        <aside data-panel="reserva" className="rounded-xl border border-white/10 bg-white/5 p-6">
+        <aside id="reserva" data-panel="reserva" className="scroll-mt-20 rounded-xl border border-white/10 bg-white/5 p-6">
             {price && (
                 <p data-precio className="font-display text-2xl font-bold text-white">
                     {price.localUrl ? <LocalPrice text={price.text} localUrl={price.localUrl} /> : price.text}
