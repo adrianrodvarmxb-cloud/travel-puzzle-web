@@ -13,15 +13,20 @@ const jobDiario = wf.slice(wf.indexOf("\n  diario:"));
  * en 'true'. El job a mano conserva los candados de REQ-3464: ensayo por omisión y escritura solo con la casilla.
  */
 describe("REQ-10878: workflow «Tangol sync de tours»: job a mano con sus candados y job diario tras la variable", () => {
-  it("REQ-10878: el horario es diario a las 7:00 UTC (1:00 CDMX, G-D1) y no hay disparo por push", () => {
-    expect(wf).toMatch(/\non:\n[\s\S]*?\n {2}schedule:\n {4}- cron: "0 7 \* \* \*"/);
+  it("REQ-10878 / REQ-10954: el horario es diario a las 7:17 UTC (1:17 CDMX, G-D1; minuto no en punto para que GitHub no lo retrase) y no hay disparo por push", () => {
+    // REQ-10954 (27-11-2026): con «0 7» GitHub disparó una sola corrida (26-11, 10 h tarde) y ninguna el 27.
+    expect(wf).toMatch(/\non:\n[\s\S]*?\n {2}schedule:\n {4}- cron: "17 7 \* \* \*"/);
     expect(wf).toMatch(/\n {2}workflow_dispatch:/);
     expect(wf).not.toMatch(/\n {2}push:/);
   });
 
-  it("REQ-10878: el job diario solo corre con schedule y TANGOL_SYNC_DIARIO_ENABLED == 'true'; el job a mano solo con workflow_dispatch", () => {
-    expect(jobDiario).toMatch(/\n {2}diario:\n {4}if: github\.event_name == 'schedule' && vars\.TANGOL_SYNC_DIARIO_ENABLED == 'true'/);
-    expect(jobManual).toMatch(/\n {2}sync:\n {4}if: github\.event_name == 'workflow_dispatch'/);
+  it("REQ-10878 / REQ-10954: el job diario corre con schedule y TANGOL_SYNC_DIARIO_ENABLED == 'true' o a mano con la casilla «diario»; el job a mano solo con workflow_dispatch sin esa casilla", () => {
+    expect(jobDiario).toMatch(/\n {2}diario:\n {4}if: \(github\.event_name == 'schedule' && vars\.TANGOL_SYNC_DIARIO_ENABLED == 'true'\) \|\| \(github\.event_name == 'workflow_dispatch' && inputs\.diario\)/);
+    expect(jobManual).toMatch(/\n {2}sync:\n {4}if: github\.event_name == 'workflow_dispatch' && !inputs\.diario/);
+  });
+
+  it("REQ-10954: la casilla «diario» existe en workflow_dispatch, es booleana y apagada por omisión", () => {
+    expect(wf).toMatch(/\n {6}diario:\n {8}description: "[^"]*REQ-10954[^"]*"\n {8}type: boolean\n {8}default: false/);
   });
 
   it("REQ-10878: el job diario hace bookmark de Time Travel antes de escribir, repite los lotes con el ciclo, pone slugs y termina con humo en producción; espera si hay un deploy", () => {
