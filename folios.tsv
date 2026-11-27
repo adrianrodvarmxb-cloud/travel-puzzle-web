@@ -9358,3 +9358,4 @@ REQ-10943	docs/revision-visual-ficha-2026-11-26	2026-11-26 19:13
 REQ-10944	feat/req-10868-humo-html-y-calentado	2026-11-26 19:35	
 REQ-10945	feat/req-10868-humo-html-y-calentado	2026-11-26 19:35	
 REQ-10946	perf/req-ola15-queryclient-unico	2026-11-27 02:40	
+REQ-10947	ops/req-inc-029-deploy-calentar	2026-11-27 08:43	INC-029 en el deploy: calentar la versión subida antes del humo
