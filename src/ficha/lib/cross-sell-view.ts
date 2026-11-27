@@ -42,7 +42,11 @@ export function completeTripBlockView(f: Pick<FichaModel, "id" | "provider" | "l
 }
 
 /** Tarjeta de otra experiencia de la ciudad. `paid`: con precio (va en el 60 %). */
-export interface OtherCard { id: string; title: string; href: string; provider: string | null; imageUrl?: string | null; priceText?: string | null }
+export interface OtherCard {
+  id: string; title: string; href: string; provider: string | null; imageUrl?: string | null; priceText?: string | null;
+  /** REQ-10893: ruta de `/api/precio-local` para que el navegador pinte «Desde» en la moneda del visitante; null = no se pide. */
+  localUrl?: string | null;
+}
 
 export const OTHERS_MAX = 3;
 /** Tope por proveedor en la primera vuelta (con 3 tarjetas, a lo más 2 del mismo proveedor). */
