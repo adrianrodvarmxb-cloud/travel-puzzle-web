@@ -8148,5 +8148,229 @@
       ],
       "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 27 November 2026) and the site's catalog."
     }
+  },
+  {
+    "pais": "ar",
+    "ciudad": "tucuman",
+    "nombre": "Tucumán",
+    "targetTerm": "guia de viaje de tucuman para mexicanos",
+    "titulo": "Guía de Tucumán: Casa Histórica, valles y qué hacer en San Miguel",
+    "publishedAt": "2026-11-27",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "San Miguel de Tucumán es la ciudad donde, según el [Gobierno argentino](https://www.argentina.gob.ar/node/412295), el congreso proclamó la independencia el 9 de julio de 1816, en la Casa Histórica. Desde la capital se llega a las Yungas y a Tafí del Valle, que según la [promoción turística nacional](https://www.argentina.travel/norte/tucuman) puede conocerse en un día. El [ente de turismo provincial](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman) reúne museos y plazas en el centro.",
+    "sections": [
+      {
+        "h2": "¿Por qué es importante la Casa Histórica de Tucumán?",
+        "answer": "Fue la casa donde el congreso proclamó la independencia de las Provincias Unidas del Río de la Plata el 9 de julio de 1816, según el [Gobierno de Argentina](https://www.argentina.gob.ar/node/412295).",
+        "body": [
+          "La propiedad perteneció a Francisca Bazán, quien la cedió en 1815 como sede del congreso, según el [mismo documento oficial](https://www.argentina.gob.ar/node/412295). Está en Congreso de Tucumán 141 y es Monumento Histórico Nacional desde el decreto de 1941.",
+          "Lo que se visita hoy es una reconstrucción: la fuente oficial cuenta que el edificio fue demolido en 1904 y reconstruido en 1943 con base en una fotografía y un plano de 1870, según el [Gobierno argentino](https://www.argentina.gob.ar/node/412295). Los horarios y tarifas no figuran en esa ficha, así que conviene confirmarlos antes de ir en el sitio oficial del museo."
+        ]
+      },
+      {
+        "h2": "¿Qué más se puede ver en el centro de San Miguel de Tucumán?",
+        "answer": "El [ente de turismo de Tucumán](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman) lista varios museos y espacios a corta distancia en el centro histórico.",
+        "body": [
+          "Entre ellos están la Plaza Independencia, la Catedral, el Museo Histórico Provincial, el Museo de Arte Sacro, la Casa Padilla (con entrada gratuita, según la [misma página](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman)) y el Museo Casa Natal de Mercedes Sosa.",
+          "La misma fuente menciona el espectáculo de Luces y Sonidos de la Independencia, que corre de jueves a domingo por la noche, con boletos mediante código QR, según el [ente provincial](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman). Verifica fechas antes de planear tu noche."
+        ],
+        "list": [
+          "Plaza Independencia y Catedral",
+          "Casa Padilla, museo de artes decorativas",
+          "Casa Natal de Mercedes Sosa",
+          "Parque 9 de Julio ([ente de turismo](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman))"
+        ]
+      },
+      {
+        "h2": "¿Vale la pena salir de la ciudad hacia Tafí del Valle y las Yungas?",
+        "answer": "Sí, si tienes un día extra: la [promoción turística argentina](https://www.argentina.travel/norte/tucuman) describe Tafí del Valle como un valle entre montañas que puede conocerse en una jornada, aunque recomienda más tiempo.",
+        "body": [
+          "Esa fuente menciona caminatas, el paso Abra del Infiernillo, la reserva El Mollar con sus lagos y el parque arqueológico Los Menhires, según [Argentina.travel](https://www.argentina.travel/norte/tucuman). También cita la Ciudad Sagrada de los Quilmes, en Amaicha del Valle, sin dar más detalle en esa página.",
+          "Del lado de las Yungas, la misma página señala el Parque Nacional Aconquija y el camino de montaña a Villa Nougués, según [Argentina.travel](https://www.argentina.travel/norte/tucuman). Si no manejas, lo práctico es ir con una excursión organizada."
+        ]
+      },
+      {
+        "h2": "¿Cuándo conviene viajar a Tucumán?",
+        "answer": "La [promoción turística nacional](https://www.argentina.travel/norte/tucuman) indica que cualquier época sirve: el clima es subtropical con estación seca y una temperatura media anual de 25 °C.",
+        "body": [
+          "Según esa fuente, las temporadas de lluvia son cálidas y húmedas, mientras que la estación seca es más fresca y de cielos despejados, y el clima cambia con la altura, por lo que en los valles puede sentirse distinto que en la capital, según [Argentina.travel](https://www.argentina.travel/norte/tucuman).",
+          "Si quieres ver la Feria de Simoca, la misma página indica que abre los sábados de 8:00 a 16:00 y destaca platillos regionales como el pastel de novia y los rosquetes, según [Argentina.travel](https://www.argentina.travel/norte/tucuman)."
+        ]
+      },
+      {
+        "h2": "¿Dónde ver las experiencias disponibles en Tucumán?",
+        "answer": "En la [página de Tucumán de Travel Puzzle](/destinos/ar/tucuman) están las experiencias del destino, como recorridos por la ciudad y excursiones a los valles.",
+        "body": [
+          "Ahí puedes comparar opciones de tour por la ciudad, excursiones a Tafí del Valle y otras salidas, y un asesor te apoya por WhatsApp si necesitas armar el resto del viaje."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 27 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Tucumán",
+      "targetTerm": "tucuman travel guide for mexicans",
+      "titulo": "Tucumán guide: Historic House, valleys and what to do in San Miguel",
+      "enBreve": "San Miguel de Tucumán is where, according to the [Argentine government](https://www.argentina.gob.ar/node/412295), congress proclaimed independence on 9 July 1816, at the Casa Histórica. From the capital you can reach the Yungas forest and Tafí del Valle, which the [national tourism promotion site](https://www.argentina.travel/norte/tucuman) says can be seen in a day. The [provincial tourism body](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman) lists museums and squares downtown.",
+      "sections": [
+        {
+          "h2": "Why is the Casa Histórica in Tucumán important?",
+          "answer": "It is the house where congress proclaimed the independence of the United Provinces of the Río de la Plata on 9 July 1816, according to the [Argentine government](https://www.argentina.gob.ar/node/412295).",
+          "body": [
+            "The property belonged to Francisca Bazán, who offered it in 1815 as the seat of congress, according to the [same official document](https://www.argentina.gob.ar/node/412295). It stands at Congreso de Tucumán 141 and has been a National Historic Monument since a 1941 decree.",
+            "What you visit today is a reconstruction: the official source says the building was demolished in 1904 and rebuilt in 1943 from a photograph and an 1870 plan, per the [Argentine government](https://www.argentina.gob.ar/node/412295). Hours and fees are not on that page, so check them on the museum's official site before going."
+          ]
+        },
+        {
+          "h2": "What else is there to see downtown in San Miguel de Tucumán?",
+          "answer": "The [Tucumán tourism body](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman) lists several museums and sites within a short distance in the historic center.",
+          "body": [
+            "They include Independence Square, the Cathedral, the Provincial Historical Museum, the Museum of Sacred Art, Casa Padilla (free admission, per the [same page](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman)) and the Mercedes Sosa Birthplace Museum.",
+            "The same source mentions the Lights and Sounds of Independence show, held Thursday to Sunday evenings, with tickets via QR code, according to the [provincial body](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman). Check dates before planning your evening."
+          ],
+          "list": [
+            "Independence Square and Cathedral",
+            "Casa Padilla, decorative arts museum",
+            "Mercedes Sosa Birthplace Museum",
+            "9 de Julio Park ([tourism board](https://www.tucumanturismo.gob.ar/subsecciones/lista/134/san-miguel-de-tucuman))"
+          ]
+        },
+        {
+          "h2": "Is it worth leaving the city for Tafí del Valle and the Yungas?",
+          "answer": "Yes, if you have an extra day: the [Argentine tourism promotion site](https://www.argentina.travel/norte/tucuman) describes Tafí del Valle as a mountain valley that can be seen in one day, though it suggests more time.",
+          "body": [
+            "That source mentions hiking, the Abra del Infiernillo pass, the El Mollar reserve with its lakes and the Los Menhires archaeological reserve, per [Argentina.travel](https://www.argentina.travel/norte/tucuman). It also lists the Sacred City of Quilmes, in Amaicha del Valle, without further detail on that page.",
+            "On the Yungas side, the same page points to Aconquija National Park and the mountain road to Villa Nougués, per [Argentina.travel](https://www.argentina.travel/norte/tucuman). If you don't drive, an organized excursion is the practical choice."
+          ]
+        },
+        {
+          "h2": "When should I travel to Tucumán?",
+          "answer": "The [national tourism promotion site](https://www.argentina.travel/norte/tucuman) says any season works: the climate is subtropical with a dry season and an average annual temperature of 25 °C.",
+          "body": [
+            "According to that source, rainy seasons are hot and humid while the dry season is cooler with clear skies, and the climate changes with altitude, so the valleys can feel different from the capital, per [Argentina.travel](https://www.argentina.travel/norte/tucuman).",
+            "If you want to see the Simoca Fair, the same page says it opens Saturdays from 8:00 to 16:00 and highlights regional dishes such as pastel de novia and rosquetes, per [Argentina.travel](https://www.argentina.travel/norte/tucuman)."
+          ]
+        },
+        {
+          "h2": "Where can I see the experiences available in Tucumán?",
+          "answer": "On the [Travel Puzzle Tucumán page](/destinos/ar/tucuman) you will find the destination's experiences, such as city tours and excursions to the valleys.",
+          "body": [
+            "There you can compare city tour options, excursions to Tafí del Valle and other outings, and an advisor can help you on WhatsApp if you need to plan the rest of your trip."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 27 November 2026) and the site's catalog."
+    }
+  },
+  {
+    "pais": "br",
+    "ciudad": "ilha-grande",
+    "nombre": "Ilha Grande",
+    "targetTerm": "guia de viaje de ilha grande para mexicanos",
+    "titulo": "Guía de Ilha Grande: cómo llegar, parque estatal y senderos",
+    "publishedAt": "2026-11-27",
+    "author": "editorial",
+    "origen": "agente-diario",
+    "enBreve": "Ilha Grande, en Angra dos Reis (Río de Janeiro), se alcanza solo en barco; según una [guía de transporte consultada en noviembre de 2026](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html), la travesía va de unos 15 minutos en lancha rápida a entre 1 h 10 y 1 h 30 en barca regular. Gran parte de la isla es el parque estatal del [INEA](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf), de unas 12.052 ha. Planea senderos con guía y confirma horarios antes de viajar.",
+    "sections": [
+      {
+        "h2": "¿Cómo se llega a Ilha Grande desde Río de Janeiro?",
+        "answer": "Solo se llega por mar: una [guía de transporte actualizada en noviembre de 2026](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html) indica salidas desde Mangaratiba, Conceição de Jacareí y Angra dos Reis hacia Vila do Abraão.",
+        "body": [
+          "Según esa misma [guía](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html), desde Mangaratiba la barca regular tarda entre 1 h 10 y 1 h 30, con salida a las 8:00 y regreso a las 17:30. Desde Conceição de Jacareí la lancha rápida cruza en unos 15 minutos, con salidas cada hora entre las 8:00 y las 18:00, mientras que la escuna tarda cerca de 50 minutos.",
+          "Desde Angra dos Reis, la [misma guía](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html) señala barca a las 15:30 entre semana (13:30 en fines de semana y festivos) y regreso a las 10:00, además de lancha rápida de 20 a 30 minutos. Los precios que cita van de unos R$ 20,50 en barca a R$ 60 o R$ 70 por tramo en lancha rápida; son valores orientativos de una fuente privada, así que confirma horarios y tarifas con la empresa antes de salir."
+        ],
+        "list": [
+          "Mangaratiba: barca de 1 h 10 a 1 h 30 ([guía de transporte](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html))",
+          "Conceição de Jacareí: lancha rápida de unos 15 minutos ([guía de transporte](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html))",
+          "Angra dos Reis: barca o lancha rápida de 20 a 30 minutos ([guía de transporte](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html))"
+        ]
+      },
+      {
+        "h2": "¿Qué es el Parque Estadual da Ilha Grande?",
+        "answer": "Es una unidad de conservación del estado de Río de Janeiro administrada por el [INEA](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf), creada por decreto en 1971 y fijada hoy en unas 12.052 ha.",
+        "body": [
+          "El plan de manejo del parque, publicado por el [INEA](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf), explica que el decreto estadual 15.273 del 28 de junio de 1971 lo creó con unas 15.000 ha. Después su superficie se redujo en 1973 y 1978 y volvió a ampliarse a 12.052 ha en 2007 con el decreto 40.602.",
+          "El mismo [documento](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf) describe Vila do Abraão como el principal núcleo poblado y puerta de entrada a la isla. También menciona Lopes Mendes, Dois Rios y las playas del sur y del este como áreas pensadas históricamente para el uso turístico. Es un texto técnico de 2019 en su publicación web: úsalo como contexto, no como norma vigente de visita."
+        ]
+      },
+      {
+        "h2": "¿Hace falta guía o permiso para los senderos?",
+        "answer": "Para los senderos más exigentes conviene ir con guía; una [nota de 2020](https://www.tupi.fm/?p=420564) sobre la reapertura del Pico do Papagaio lo recomendaba con insistencia y pedía agendar la visita en fines de semana y festivos.",
+        "body": [
+          "Esa [nota periodística](https://www.tupi.fm/?p=420564), publicada el 15 de agosto de 2020, describe el sendero al Pico do Papagaio como el más exigente de la isla: unos 5,5 km y cerca de 6 horas, con buena condición física, salida antes del mediodía y agua y comida suficientes. Las medidas sanitarias de aquel momento (mascarilla, grupos de hasta 10 personas) ya no tienen por qué seguir vigentes.",
+          "Además, un [edital del INEA de 2023](https://www.inea.rj.gov.br/wp-content/uploads/2023/10/SEI_61424335_Edital_de_Selecao_4.pdf) abrió un curso gratuito de 150 horas para formar a 20 conductores de visitantes de las comunidades de la isla, lo que muestra que el parque cuenta con guías locales formados. Antes de ir, revisa en el sitio del INEA las reglas actuales de cada sendero."
+        ]
+      },
+      {
+        "h2": "¿Se cobra entrada a la isla?",
+        "answer": "En 2016 se anunció un proyecto de cobro de entrada y acceso limitado, según [PANROTAS](https://www.panrotas.com.br/noticia-turismo/destinos/2016/06/ilha-grande-rj-tera-entrada-paga-e-acesso-limitado_126783.html), pero esa nota es antigua y no confirma que esté en vigor.",
+        "body": [
+          "La [nota de PANROTAS](https://www.panrotas.com.br/noticia-turismo/destinos/2016/06/ilha-grande-rj-tera-entrada-paga-e-acesso-limitado_126783.html) del 21 de junio de 2016 hablaba de una asociación público-privada, con tarifas previstas de R$ 15 por día o entre R$ 40 y R$ 80 por semana, y de una capacidad de carga estimada de hasta 12.800 personas. Eran planes de entonces; no los tomes como precios actuales.",
+          "Antes de viajar, pregunta en tu alojamiento o en la oficina de turismo local si hay tasas o cupos vigentes."
+        ]
+      },
+      {
+        "h2": "¿Dónde ver las experiencias disponibles en Ilha Grande?",
+        "answer": "En la [página de Ilha Grande de Travel Puzzle](/destinos/br/ilha-grande) puedes revisar las experiencias disponibles en el destino.",
+        "body": [
+          "Si ya tienes claro cómo llegar y qué senderos te interesan, entra a la [página del destino](/destinos/br/ilha-grande) para comparar las experiencias que hay en la isla y elegir según tus fechas y tu ritmo."
+        ]
+      }
+    ],
+    "comoLoSabemos": "Lo redactó el Equipo editorial de Travel Puzzle con apoyo de IA, a partir de las fuentes públicas enlazadas (consultadas el 27 de noviembre de 2026) y del catálogo del sitio.",
+    "en": {
+      "nombre": "Ilha Grande",
+      "targetTerm": "ilha grande travel guide for mexicans",
+      "titulo": "Ilha Grande guide: how to get there, the state park and trails",
+      "enBreve": "Ilha Grande, in Angra dos Reis (Rio de Janeiro), is reached only by boat; according to a [transport guide checked in November 2026](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html), the crossing takes from about 15 minutes by fast boat to 1 h 10 to 1 h 30 by regular ferry. Much of the island is a state park run by [INEA](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf), about 12,052 ha. Plan guided trails and confirm schedules before you travel.",
+      "sections": [
+        {
+          "h2": "How do you get to Ilha Grande from Rio de Janeiro?",
+          "answer": "Only by sea: a [transport guide updated in November 2026](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html) lists departures from Mangaratiba, Conceição de Jacareí and Angra dos Reis to Vila do Abraão.",
+          "body": [
+            "According to that [guide](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html), from Mangaratiba the regular ferry takes 1 h 10 to 1 h 30, leaving at 8:00 and returning at 17:30. From Conceição de Jacareí the fast boat crosses in about 15 minutes, hourly between 8:00 and 18:00, while the schooner takes about 50 minutes.",
+            "From Angra dos Reis, the [same guide](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html) lists a ferry at 15:30 on weekdays (13:30 on weekends and holidays) returning at 10:00, plus a fast boat of 20 to 30 minutes. The prices it quotes range from about R$ 20.50 by ferry to R$ 60 or R$ 70 per leg by fast boat; they are indicative figures from a private source, so confirm schedules and fares with the operator before you go."
+          ],
+          "list": [
+            "Mangaratiba: ferry of 1 h 10 to 1 h 30 ([transport guide](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html))",
+            "Conceição de Jacareí: fast boat of about 15 minutes ([transport guide](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html))",
+            "Angra dos Reis: ferry or fast boat of 20 to 30 minutes ([transport guide](https://guia.melhoresdestinos.com.br/como-chegar-ilha-grande.html))"
+          ]
+        },
+        {
+          "h2": "What is Ilha Grande State Park?",
+          "answer": "It is a conservation area of the state of Rio de Janeiro managed by [INEA](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf), created by decree in 1971 and now set at about 12,052 ha.",
+          "body": [
+            "The park's management plan, published by [INEA](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf), explains that state decree 15,273 of 28 June 1971 created it with about 15,000 ha. Its area was later reduced in 1973 and 1978 and expanded again to 12,052 ha in 2007 by decree 40,602.",
+            "The same [document](https://www.inea.rj.gov.br/wp-content/uploads/2019/01/PEIG-PM-ANEXOS.pdf) describes Vila do Abraão as the main settlement and gateway to the island. It also mentions Lopes Mendes, Dois Rios and the southern and eastern beaches as areas historically earmarked for tourism use. It is a technical text posted online in 2019: use it as background, not as current visiting rules."
+          ]
+        },
+        {
+          "h2": "Do you need a guide or a permit for the trails?",
+          "answer": "For the toughest trails a guide is advisable; a [2020 news item](https://www.tupi.fm/?p=420564) on the reopening of Pico do Papagaio strongly recommended one and asked for advance booking on weekends and holidays.",
+          "body": [
+            "That [news report](https://www.tupi.fm/?p=420564), published on 15 August 2020, describes the Pico do Papagaio trail as the island's most demanding: about 5.5 km and around 6 hours, requiring good fitness, an early start before noon and enough water and food. The health measures of that time (masks, groups of up to 10) need not still apply.",
+            "Separately, a [2023 INEA call](https://www.inea.rj.gov.br/wp-content/uploads/2023/10/SEI_61424335_Edital_de_Selecao_4.pdf) opened a free 150-hour course to train 20 visitor guides from the island's communities, which shows the park has locally trained guides. Before you go, check INEA's website for the current rules on each trail."
+          ]
+        },
+        {
+          "h2": "Is there an entrance fee for the island?",
+          "answer": "In 2016 a plan for an entrance fee and limited access was announced, according to [PANROTAS](https://www.panrotas.com.br/noticia-turismo/destinos/2016/06/ilha-grande-rj-tera-entrada-paga-e-acesso-limitado_126783.html), but that report is old and does not confirm it is in force.",
+          "body": [
+            "The [PANROTAS report](https://www.panrotas.com.br/noticia-turismo/destinos/2016/06/ilha-grande-rj-tera-entrada-paga-e-acesso-limitado_126783.html) of 21 June 2016 described a public-private partnership, with planned fees of R$ 15 per day or R$ 40 to R$ 80 per week, and an estimated carrying capacity of up to 12,800 people. These were plans at the time; do not treat them as current prices.",
+            "Before you travel, ask your lodging or the local tourist office whether any fees or quotas apply now."
+          ]
+        },
+        {
+          "h2": "Where can you see the experiences available in Ilha Grande?",
+          "answer": "On the [Travel Puzzle Ilha Grande page](/destinos/br/ilha-grande) you can review the experiences available at the destination.",
+          "body": [
+            "Once you know how to get there and which trails interest you, visit the [destination page](/destinos/br/ilha-grande) to compare the experiences on the island and choose according to your dates and pace."
+          ]
+        }
+      ],
+      "comoLoSabemos": "Written by the Travel Puzzle editorial team with help from AI, based on the public sources linked (checked on 27 November 2026) and the site's catalog."
+    }
   }
 ]
