@@ -88,7 +88,7 @@ describe("REQ-10878: ciclo diario de Tangol (D2)", () => {
     const { deps } = entorno(["start", "continue", "continue"], { reloj });
     const r = await correrCicloDiario(deps);
     expect(r.pasos).toHaveLength(2);
-    expect(r.motivoFin).toMatch(/ventana de FREETOUR/);
+    expect(r.motivoFin).toMatch(/ventana del sync de las 3:00 CDMX/);
     expect(r.ok).toBe(true);
   });
 

@@ -46,7 +46,7 @@ export function siguientePasoDiario(i: { accion: AccionPaso; paso: number; ahora
   if (i.accion === "idle") return { seguir: false, motivo: "nada que hacer (idle)" };
   if (i.paso >= TOPE_PASOS_DIARIO) return { seguir: false, motivo: `tope de ${TOPE_PASOS_DIARIO} pasos: se revisa el workflow` };
   if (enVentanaFreetour(i.ahora)) {
-    return { seguir: false, motivo: `ventana de FREETOUR (${hhmm(VENTANA_FREETOUR_UTC.desde)}–${hhmm(VENTANA_FREETOUR_UTC.hasta)} UTC): ${SIGUE_LUEGO}` };
+    return { seguir: false, motivo: `ventana del sync de las 3:00 CDMX (${hhmm(VENTANA_FREETOUR_UTC.desde)}–${hhmm(VENTANA_FREETOUR_UTC.hasta)} UTC): ${SIGUE_LUEGO}` };
   }
   const transcurrido = (i.ahora.getTime() - i.inicio.getTime()) / 60_000;
   if (transcurrido >= PRESUPUESTO_MINUTOS_CORRIDA) {

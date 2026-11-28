@@ -21,7 +21,7 @@ describe("REQ-10878: ciclo diario de Tangol (G-D1 a la 1:00 de CDMX; se repite h
     expect(TOPE_HORA_UTC).toEqual({ hora: 8, minuto: 45 });
     const inicio730 = new Date("2026-11-26T07:30:00Z"); // dentro del presupuesto de 90 min (REQ-10957)
     expect(siguientePasoDiario({ accion: "continue", paso: 9, ahora: new Date("2026-11-26T08:44:59Z"), inicio: inicio730 })).toMatchObject({ seguir: true });
-    expect(siguientePasoDiario({ accion: "continue", paso: 9, ahora: new Date("2026-11-26T08:45:00Z"), inicio: inicio730 })).toEqual({ seguir: false, motivo: "ventana de FREETOUR (8:45–12:15 UTC): no se arranca otro lote; la corrida sigue en la próxima (programada o a mano)" });
+    expect(siguientePasoDiario({ accion: "continue", paso: 9, ahora: new Date("2026-11-26T08:45:00Z"), inicio: inicio730 })).toEqual({ seguir: false, motivo: "ventana del sync de las 3:00 CDMX (8:45–12:15 UTC): no se arranca otro lote; la corrida sigue en la próxima (programada o a mano)" });
   });
 
   it("REQ-10957: la pausa por FREETOUR es una ventana (8:45–12:15 UTC), no un tope abierto: una corrida que GitHub dispare tarde (p. ej. 17:17 UTC) sigue lote tras lote", () => {
@@ -29,7 +29,7 @@ describe("REQ-10878: ciclo diario de Tangol (G-D1 a la 1:00 de CDMX; se repite h
     const tarde = new Date("2026-11-28T17:17:00Z");
     expect(siguientePasoDiario({ accion: "start", paso: 1, ahora: new Date("2026-11-28T17:27:00Z"), inicio: tarde })).toMatchObject({ seguir: true });
     expect(siguientePasoDiario({ accion: "continue", paso: 5, ahora: new Date("2026-11-28T18:10:00Z"), inicio: tarde })).toMatchObject({ seguir: true });
-    expect(siguientePasoDiario({ accion: "continue", paso: 3, ahora: new Date("2026-11-28T12:14:59Z"), inicio: new Date("2026-11-28T12:00:00Z") })).toMatchObject({ seguir: false, motivo: expect.stringMatching(/ventana de FREETOUR/) });
+    expect(siguientePasoDiario({ accion: "continue", paso: 3, ahora: new Date("2026-11-28T12:14:59Z"), inicio: new Date("2026-11-28T12:00:00Z") })).toMatchObject({ seguir: false, motivo: expect.stringMatching(/ventana del sync de las 3:00 CDMX/) });
     expect(siguientePasoDiario({ accion: "continue", paso: 3, ahora: new Date("2026-11-28T12:15:00Z"), inicio: new Date("2026-11-28T12:00:00Z") })).toMatchObject({ seguir: true });
     // Antes de la ventana, como siempre.
     expect(siguientePasoDiario({ accion: "continue", paso: 3, ahora: new Date("2026-11-28T07:40:00Z"), inicio: new Date("2026-11-28T07:17:00Z") })).toMatchObject({ seguir: true });
