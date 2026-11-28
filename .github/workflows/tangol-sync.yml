@@ -6,9 +6,10 @@
 #    REQ-3464 en lo del horario): corre solo con `schedule` SOLO si la variable de GitHub TANGOL_SYNC_DIARIO_ENABLED
 #    es 'true' (la carga el PO en Settings → Variables; «Ya lo avisamos, encender», PO 25-11-2026). Repite los pasos
 #    por lotes hasta cerrar la corrida (src/scripts/tangol-sync-diario.ts): export → plan con escritura → copia a R2 →
-#    SQL en D1; antes, bookmark de Time Travel; después, slugs y humo en producción. No arranca otro lote desde las
-#    8:45 UTC para no pisar el sync de FREETOUR (3:00 CDMX) y espera si hay un deploy en curso. Mismo candado de
-#    concurrencia `datos-produccion` que el resto de los workflows de datos.
+#    SQL en D1; antes, bookmark de Time Travel; después, slugs y humo en producción. No arranca otro lote dentro de la
+#    ventana del sync de FREETOUR (8:45–12:15 UTC; REQ-10957: antes era un tope abierto desde las 8:45 y las corridas
+#    que GitHub dispara ~10 h tarde escribían un solo lote) ni pasados 90 min desde el inicio (el job tiene 120), y
+#    espera si hay un deploy en curso. Mismo candado de concurrencia `datos-produccion` que el resto de los workflows de datos.
 #
 # Candados y avisos (hay que leerlos antes de marcar la casilla):
 #  - La migración 0026 (quita "Tour_externalId_key") puede NO estar aplicada. Si no lo está, el primer
