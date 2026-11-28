@@ -83,12 +83,31 @@ describe("REQ-10878: ciclo diario de Tangol (D2)", () => {
     expect(e2.llamadas.some((l) => l.includes("provider-record.sql"))).toBe(false);
   });
 
-  it("REQ-10878: desde las 8:45 UTC no arranca otro lote aunque el sync pida continuar", async () => {
+  it("REQ-10878: desde las 8:45 UTC no arranca otro lote aunque el sync pida continuar (REQ-10957: ventana de FREETOUR)", async () => {
     const reloj = [new Date("2026-11-26T07:00:00Z"), new Date("2026-11-26T07:30:00Z"), new Date("2026-11-26T08:46:00Z")];
     const { deps } = entorno(["start", "continue", "continue"], { reloj });
     const r = await correrCicloDiario(deps);
     expect(r.pasos).toHaveLength(2);
-    expect(r.motivoFin).toMatch(/tope de hora/);
+    expect(r.motivoFin).toMatch(/ventana del sync de las 3:00 CDMX/);
+    expect(r.ok).toBe(true);
+  });
+
+  it("REQ-10957: una corrida que arranca tarde (17:17 UTC, fuera de la ventana) encadena los lotes hasta finish", async () => {
+    const reloj = [new Date("2026-11-28T17:17:00Z"), new Date("2026-11-28T17:27:00Z"), new Date("2026-11-28T17:37:00Z"), new Date("2026-11-28T17:47:00Z")];
+    const { deps } = entorno(["start", "continue", "finish"], { reloj });
+    const r = await correrCicloDiario(deps);
+    expect(r.pasos).toHaveLength(3);
+    expect(r.pasos.every((p) => p.sqlAplicado)).toBe(true);
+    expect(r.motivoFin).toBe("corrida cerrada (finish)");
+    expect(r.ok).toBe(true);
+  });
+
+  it("REQ-10957: agotado el presupuesto de 90 min no arranca otro lote y la corrida termina en verde con `continue`", async () => {
+    const reloj = [new Date("2026-11-28T17:17:00Z"), new Date("2026-11-28T17:27:00Z"), new Date("2026-11-28T18:50:00Z")];
+    const { deps } = entorno(["start", "continue", "continue"], { reloj });
+    const r = await correrCicloDiario(deps);
+    expect(r.pasos).toHaveLength(2);
+    expect(r.motivoFin).toMatch(/presupuesto de la corrida/);
     expect(r.ok).toBe(true);
   });
 });
