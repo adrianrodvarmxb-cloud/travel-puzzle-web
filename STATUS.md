@@ -1014,7 +1014,7 @@ Código tras `SYNC_GUARD_ENABLED="false"`; con la bandera apagada el sync de hoy
 | REQ-073 | content_hash sin calificación; doble corrida = 0 escrituras | `src/catalog/lib/content-hash.ts`, `src/catalog/lib/sql.ts` | `content-hash.test.ts`, `sql.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
 | REQ-074 | active → missing → removed tras 3 corridas; reaparece = active | `src/catalog/lib/presence.ts`, `src/catalog/lib/sql.ts` | `presence.test.ts`, `guarded-sync.test.ts` | CUMPLIDO (tras bandera) |
 | REQ-075 | updatedSince en /events y utcDate | — | — | PENDIENTE (ver nota) |
-| REQ-076 | Precio y lugares en vivo antes de reservar | — | — | PENDIENTE (fuera de la Ola 1 de código) |
+| REQ-076 | Precio y lugares en vivo antes de reservar | RETRO | `src/booking/service.ts` (`placeBooking`, `// REQ-076`) | `src/booking/service.test.ts` «REQ-076: …» | CUMPLIDO (27-11-2026, prueba de caracterización en verde; mutación con el precio de la caché la pone en rojo) |
 | REQ-077 | 429/Retry-After, login sin bucle, error 63 ≥ 10 min | `src/catalog/lib/retry.ts`, `src/freetour/api.ts` | `retry.test.ts`, `api.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta conectar el error 63 a un cron de estado de pago) |
 | REQ-078 | Log por corrida y alerta de 26 h | `src/catalog/lib/guard-plan.ts` (`syncHealth`), `SyncRun`, `api/cron/sync-tours/route.ts` | `guard-plan.test.ts`, `guarded-sync.test.ts` | EN CURSO (falta canal de aviso al PO y el registro de reservas de prueba) |
 Notas:

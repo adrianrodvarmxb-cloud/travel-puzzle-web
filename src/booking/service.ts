@@ -52,7 +52,7 @@ interface Deps {
   adultContactRequired?: boolean;
 }
 
-/** Reserva un free tour en Freetour a través de la pasarela. */
+/** Reserva un free tour en Freetour a través de la pasarela. REQ-076: consulta el evento en vivo antes de reservar. */
 export async function placeBooking(input: BookingRequest, { gateway, getEvent, enabled, paidEnabled = false, hasActiveBooking, adultContactRequired = false }: Deps): Promise<{ booking: Booking; price: number; fullPrice: number; isPaid: boolean }> {
   if (!enabled) throw new BookingRejected("bookings_disabled", "Las reservas en línea abren muy pronto.");
 
@@ -69,7 +69,7 @@ export async function placeBooking(input: BookingRequest, { gateway, getEvent, e
   const overlap = hasActiveBooking ? await hasActiveBooking(req.eventId, req.customer.email.trim().toLowerCase()).catch(() => false) : false;
   if (overlap) throw new BookingRejected("already_booked", "Ya tienes una reserva para este horario. Revisa tu correo.");
 
-  // El precio y la disponibilidad salen de Freetour, nunca del navegador.
+  // REQ-076: el precio y la disponibilidad salen del GET /events/{id} en vivo (Freetour), nunca de la caché ni del navegador.
   const event = await getEvent(req.eventId).catch(() => null);
   if (!event) throw new BookingRejected("no_availability", "Este horario ya no está disponible. Elige otro.");
   const check = checkEvent(event, { adults: req.adults, children: req.children, hasPhone: !!phone });
